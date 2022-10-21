@@ -22,9 +22,8 @@ Resource    ../keys.robot
 DTS001.001 Booting DTS from USB works correctly
     [Documentation]    Check whether the DUT can boot DTS from USB
     Power On
-    Enter Boot Menu
-    Select USB
-    Read Until DTS
+    Boot from    ${usb_with_dts}
+    Read From Terminal Until    Enter an option:
 
 DTS002.001 DTS option Creating Dasharo HCL report works correctly
     [Documentation]    Check whether the Dasharo HCL report option in DTS menu
@@ -74,6 +73,7 @@ DTS006.001 Flash device from DTS shell by using flashrom works correctly
     Select USB
     Read Until Enter an option
     Write 9
+    Read Until bash-5.1#
     Execute command wget binary
     Execute command flashrom
     Reboot
@@ -81,8 +81,9 @@ DTS006.001 Flash device from DTS shell by using flashrom works correctly
     Select USB
     Read Until Enter an option
     Write 9
+    Read Until bash-5.1#
     Execute command dmidecode
-    Shoul contain version
+    Should contain version
 
 DTS007.001 Update device firmware from DTS Shell by using fwupd works correctly
     [Documentation]    Check whether the DUT firmware can be updated by using
@@ -91,6 +92,20 @@ DTS007.001 Update device firmware from DTS Shell by using fwupd works correctly
     Enter Boot Menu
     Select USB
     Read Until Enter an option
+    Write 9
+    Read Until bash-5.1#
+    Execute command fwupdmgr refresh
+    Should contatin Successfully
+    Execute command fwupdmgr update
+    Should contatin Successfully installed firmware
+    Reboot
+    Enter Boot Menu
+    Select USB
+    Read Until Enter an option
+    Write 9
+    Read Until bash-5.1#
+    Execute command dmidecode or fwupdmgr get-results
+    Should contain version
 
 DTS008.001 Flash device EC firmware by using DTS built-in script works correctly
     [Documentation]    Check whether the DUT EC firmware can be flashed by using
@@ -99,6 +114,20 @@ DTS008.001 Flash device EC firmware by using DTS built-in script works correctly
     Enter Boot Menu
     Select USB
     Read Until Enter an option
+    Write 6
+    Read Until EC tranistion
+    Write 1
+    Should Contain 2 Times Verified
+    Read Intil shut down
+    Sleep 10s
+    Power On
+    Enter Boot Menu
+    Select USB
+    Read Until Enter an option
+    Write 9
+    Read Until bash-5.1#
+    Execute command system76_ectool info
+    Should contain version
 
 DTS009.001 Update device EC firmware by using DTS works correctly
     [Documentation]    Check whether the DUT EC firmware can be updated by using
@@ -107,3 +136,20 @@ DTS009.001 Update device EC firmware by using DTS works correctly
     Enter Boot Menu
     Select USB
     Read Until Enter an option
+    Write 9
+    Read Until bash-5.1#
+    Execute command system76_ectool info
+    output1 = version
+    Execute command wget binary
+    Execute command system76_ectool flash ec_file.rom
+    Read Intil shut down
+    Sleep 10s
+    Power On
+    Enter Boot Menu
+    Select USB
+    Read Until Enter an option
+    Write 9
+    Read Until bash-5.1#
+    Execute command system76_ectool info
+    output2 = version
+    output1 != output2
