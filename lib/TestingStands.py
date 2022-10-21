@@ -2,7 +2,7 @@
 REMOTE TESTING ENVIRONMENT CONFIGS
 """
 rte_1 = {
-    'device_name':          'RTE',
+    'device_type':          'RTE',
     'rte_ip':               '192.168.4.233',
     'cpuid':                '02c0014266f49b55',
     'pcb_rev':              '1.1.0'
@@ -13,7 +13,7 @@ rte_1 = {
 DEVICES UNDER TEST CONFIGS
 """
 device_1 = {
-    'device_name':          'MSI PRO Z690-A DDR5',
+    'device_type':          'Device Under Test',
     'platform_ip':          'not set',
     'platform':             'pro-z690-a-ddr5',
     'vendor':               'MSI Co., Ltd'
@@ -100,4 +100,14 @@ class TestingStands(object):
                 if device['device_name'] == 'RTE':
                     if device['rte_ip'] == stand_ip:
                         return device['cpuid']
-        
+
+    def check_provided_ip(self, stand_ip):
+        for config in configs:
+            for device in config:
+                if device['device_name'] == 'RTE':
+                    if device['rte_ip'] == stand_ip:
+                        return True
+                elif device['device_name'] == 'Device Under Test':
+                    if device['platform_ip'] == stand_ip:
+                        return True
+        return False
