@@ -34,6 +34,12 @@ else
     echo "SENDING LOGS TO THE CLOUD set to \"$CLOUD\". Logs will be automatically sent"
 fi
 
+if [ $SNIPEIT = "0" ]; then
+    echo "SNIPEIT set to \"$SNIPEIT\". The platform will NOT be automatically marked as check-out in the reservation system"
+else
+    echo "SNIPEIT set to \"$SNIPEIT\". The platform will be automatically marked as check-out in the reservation system"
+fi
+
 if [ ! $(command -v robot) ]; then
     echo "ERROR: robot command doesn't exist. Please load virtualenv with robot"
     echo "framework installed"
