@@ -6,15 +6,14 @@ Library     OperatingSystem
 Library     String
 Library     RequestsLibrary
 Library     Collections
+Library     ../../lib/TestingStands.py
 
 Suite Setup       Run Keyword    Prepare Test Suite
 Suite Teardown    Run Keyword    Log Out And Close Connection
 
-Resource    ../lib/sonoffctrl.robot
-Resource    ../rtectrl-rest-api/rtectrl.robot
-Resource    ../snipeit-rest-api/snipeit-api.robot
-Resource    ../variables.robot
 Resource    ../keywords.robot
-Resource    ../keys.robot
 
 *** Test Cases ***
+
+TEST CASE 1
+    ${cpuid}=    Get Rte Cpuid    192.168.4.2331
