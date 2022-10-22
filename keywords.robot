@@ -90,3 +90,129 @@ Log Out And Close Connection
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
     IF    '${snipeit}'=='yes'    SnipeIt Checkin    ${rte_ip}
+
+Read From Terminal
+    [Documentation]    Universal keyword to read the console output regardless 
+    ...                of the used method of connection to the DUT 
+    ...                (Telnet or SSH).
+    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read
+    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Read
+    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Read
+    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read
+    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    [Return]    ${output}
+
+Read From Terminal Until
+    [Documentation]    Universal keyword to read the console output until the 
+    ...                defined text occurs regardless of the used method of
+    ...                connection to the DUT (Telnet or SSH).
+    [Arguments]    ${expected}
+    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read Until    ${expected}
+    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Read Until    ${expected}
+    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Read Until    ${expected}
+    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read Until    ${expected}
+    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    [Return]    ${output}
+
+Write Into Terminal
+    [Documentation]    Universal keyword to write text to console regardless of 
+    ...                the used method of connection to the DUT (Telnet, PiKVM or SSH).
+    [Arguments]    ${text}
+    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Write    ${text}
+    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Write    ${text}
+    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Write    ${text}
+    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Write PiKVM    ${text}
+    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+
+Write Bare Into Terminal
+    [Documentation]    Universal keyword to write bare text (without new line 
+    ...                mark) to console regardless of the used method of
+    ...                connection to the DUT (Telnet, PiKVM or SSH).
+    [Arguments]    ${text}
+    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Write Bare    ${text}
+    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Write Bare    ${text}
+    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Write Bare    ${text}
+    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Write Bare PiKVM    ${text}
+    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+
+Execute Command In Terminal
+    [Documentation]    Universal keyword to execute command regardless of the 
+    ...                used method of connection to the DUT (Telnet or SSH).
+    [Arguments]    ${command}
+    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Execute Command    ${command}    strip_prompt=True
+    ...    ELSE    SSHLibrary.Execute Command    ${command}
+    [Return]    ${output}
+
+Boot from
+    [Documentation]    Keyword choose provided option in boot menu.
+    [Arguments]    ${option}
+    IF    '${payload}' == 'tianocore'      Enter Boot Menu Tianocore
+    ...    ELSE    FAIL    ${payload} - payload isn't supported
+    Enter submenu in Tianocore    ${option}
+
+Enter Boot Menu Tianocore
+    [Documentation]    Enter boot menu tianocore edk2.
+    Read From Terminal Until    ${tianocore_string}
+    IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    ${boot_menu_key}
+    ...    ELSE     Write Bare Into Terminal    ${boot_menu_key}
+
+Enter submenu in Tianocore
+    [Documentation]    Enter chosen option. Generic keyword.
+    [Arguments]    ${option}    ${checkpoint}=ESC to exit    ${description_lines}=1
+    ${rel_pos}=    Get relative menu position    ${option}    ${checkpoint}    ${description_lines}
+    IF    '${dut_connection_method}' == 'pikvm'    Press key n times and enter    ${rel_pos}    ArrowDown
+    ...    ELSE    Press key n times and enter    ${rel_pos}    ${ARROW_DOWN}
+
+Get relative menu position
+    [Documentation]    Evaluate and return relative menu entry position
+    ...                described in the argument.
+    [Arguments]    ${entry}    ${checkpoint}    ${bias}
+    ${output}=    Read From Terminal Until    ${checkpoint}
+    ${output}=    Strip String    ${output}
+    ${reference}=    Get Menu Reference Tianocore    ${output}    ${bias}
+    @{lines}=    Split To Lines    ${output}
+    ${iterations}=    Set Variable    0
+    FOR    ${line}    IN    @{lines}
+        IF    '${reference}' in '${line}\\n'
+            ${start}=    Set Variable    ${iterations}
+            BREAK
+        END
+        ${iterations}=    Evaluate    ${iterations} + 1
+    END
+    ${iterations}=    Set Variable    0
+    FOR    ${line}    IN    @{lines}
+        IF    '${entry}' in '${line}\\n'
+            ${end}=    Set Variable    ${iterations}
+        END
+        ${iterations}=    Evaluate    ${iterations} + 1
+    END
+    ${rel_pos}=    Evaluate    ${end} - ${start}
+    [Return]    ${rel_pos}
+
+Get Menu Reference Tianocore
+    [Documentation]    Get first entry from Tianocore Boot Manager menu.
+    [Arguments]    ${raw_menu}    ${bias}
+    ${lines}=    Get Lines Matching Pattern    ${raw_menu}    *[qwertyuiopasdfghjklzxcvbnm]*
+    ${lines}=    Split To Lines    ${lines}
+    ${bias}=    Convert To Integer    ${bias}
+    ${first_entry}=    Get From List    ${lines}    ${bias}
+    ${first_entry}=    Strip String    ${first_entry}    characters=1234567890()
+    ${first_entry}=    Strip String    ${first_entry}
+    [Return]    ${first_entry}
+
+Press key n times and enter
+    [Documentation]    Enter specified in the first argument times the specified
+    ...                in the second argument key and then press Enter.
+    [Arguments]    ${n}    ${key}
+    Press key n times    ${n}    ${key}
+    IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    Enter
+    ...    ELSE    Write Bare Into Terminal    ${ENTER}
+
+Check DTS Menu Appears
+    [Documentation]    Check whatever the DTS menu will appear.
+    ${output}=    Read From Terminal Until    Enter an option:
+
+Enter Shell In DTS
+    [Documentation]    Enter Shell in DTS using the appropriate option.
+    Wirte Into Terminal    9
+    Read From Terminal Until     bash-5.1#
