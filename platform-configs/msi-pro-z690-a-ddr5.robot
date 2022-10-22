@@ -2,7 +2,7 @@
 
 # Basic communication variables
 
-${dut_connection_method}                Telnet
+${dut_connection_method}                pikvm
 ${payload}                              tianocore
 ${rte_s2n_port}                         13541
 ${flash_size}                           ${32*1024*1024}
@@ -28,7 +28,12 @@ Power On
     ...                into Power On state using RTE OC buffers. Implementation
     ...                must be compatible with the theory of operation of a
     ...                specific platform.
-    No operation
+    Return From Keyword If    '${dut_connection_method}' == 'SSH'
+    Sleep    2s
+    RteCtrl Power Off
+    Sleep    5s
+    Telnet.Read
+    RteCtrl Power On
 
 Read firmware with internal programmer
     [Documentation]    Keyword reads firmware based on the internal programmer
