@@ -117,3 +117,17 @@ class TestingStands(object):
                     if device['platform_ip'] == stand_ip:
                         return True
         return False
+
+    def get_power_control_method(self, stand_ip):
+        for config in configs:
+            if config[0]['device_type'] == 'RTE':
+                if config[0]['rte_ip'] == stand_ip:
+                    for device in config:
+                        if ['device_type'] == 'Sonoff':
+                            return 'sonoff'
+                    return 'rte'
+            elif config[0]['device_type']== 'Device Under Test':
+                if config[0]['platform_ip'] == stand_ip:
+                    for device in config:
+                        if ['device_type'] == 'Sonoff':
+                            return 'sonoff'
