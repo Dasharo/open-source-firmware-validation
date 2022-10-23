@@ -47,8 +47,10 @@ Get Power Supply State
     ${pc}=    Check Power Control Method    ${stand_ip}
     IF    '${pc}'=='sonoff'
         ${state}=    Get Sonoff State
-    ELSE
+    ELSE IF    '${pc}'=='rte'
         ${state}=    Get Relay State
+    ELSE
+        FAIL    Unknown connection method for stand ip: ${stand_ip}
     END
     [Return]    ${state}
 
@@ -56,8 +58,10 @@ Turn On Power Supply
     ${pc}=    Check Power Control Method    ${stand_ip}
     IF    'sonoff' == '${pc}'
         Sonoff Power On Platform
-    ELSE
+    ELSE IF    '${pc}'=='rte'
         RteCtrl Relay
+    ELSE
+        FAIL    Unknown connection method for stand ip: ${stand_ip}
     END
 
 Serial setup
