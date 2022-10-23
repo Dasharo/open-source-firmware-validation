@@ -8,6 +8,10 @@ ${rte_s2n_port}                         13541
 ${flash_size}                           ${32*1024*1024}
 ${tianocore_string}                     to boot directly
 ${boot_menu_key}                        F11
+${usb_with_dts}                         USB SanDisk 3.2Gen1
+${binary_location}                      msi_ms7d25/v1.0.0/binary_name.rom
+${flashrom_variables}                   --ifd -i bios
+${version}                              v1.0.0
 
 # Regression test flags
 # Default flashing method
