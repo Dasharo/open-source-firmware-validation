@@ -1,6 +1,7 @@
 git+https://github.com/3mdeb/robotframework
 robotframework-sshlibrary==3.5.1
 robotframework-requests==0.7.1
+robotframework-tidy==3.3.1
 git+https://github.com/3mdeb/pyte@ignore_param_errors
 dbbot-sqlalchemy==0.2
 gspread==3.1.0
