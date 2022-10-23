@@ -42,10 +42,23 @@ Get DUT To Start State
     ${result}=    Get Power Supply State
     IF    '${result}'=='low'    Turn On Power Supply
 
+Get Power Supply State
+    [Documentation]    Returns the power supply state.
+    ${pc}=    Check Power Control Method    ${stand_ip}
+    IF    '${pc}'=='sonoff'
+        ${state}=    Get Sonoff State
+    ELSE
+        ${state}=    Get Relay State
+    END
+    [Return]    ${state}
+
 Turn On Power Supply
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    ${state}=    IF    'sonoff' == '${pc}'    Sonoff Power On Platform
-    ...          ELSE    RteCtrl Relay
+    ${pc}=    Check Power Control Method    ${stand_ip}
+    IF    'sonoff' == '${pc}'
+        Sonoff Power On Platform
+    ELSE
+        RteCtrl Relay
+    END
 
 Serial setup
     [Documentation]    Setup serial communication via telnet. Takes host and
