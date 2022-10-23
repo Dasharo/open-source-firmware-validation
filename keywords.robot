@@ -212,6 +212,15 @@ Check DTS Menu Appears
     [Documentation]    Check whatever the DTS menu will appear.
     ${output}=    Read From Terminal Until    Enter an option:
 
+Check HCL Report Creation
+    [Documentation]    Check whatever the HCL report was generated correctly.
+    Read From Terminal Until    [N/y]
+    Wirte Into Terminal    y
+    ${output}=    Read From Terminal Until    Thank you for supporting Dasharo!
+    Should Contain    ${output}    Done! Logs saved
+    Should Contain    ${output}    exited without errors
+    Should Contain    ${output}    send completed
+
 Enter Shell In DTS
     [Documentation]    Enter Shell in DTS using the appropriate option.
     Wirte Into Terminal    9
