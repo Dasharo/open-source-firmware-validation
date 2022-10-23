@@ -102,13 +102,18 @@ class TestingStands(object):
                     if device['rte_ip'] == stand_ip:
                         return device['cpuid']
 
-    def check_provided_ip(self, stand_ip):
+    def check_rte_provided_ip(self, stand_ip):
         for config in configs:
             for device in config:
                 if device['device_name'] == 'RTE':
                     if device['rte_ip'] == stand_ip:
                         return True
-                elif device['device_name'] == 'Device Under Test':
+        return False
+
+    def check_platform_provided_ip(self, stand_ip):
+        for config in configs:
+            for device in config:
+                if device['device_name'] == 'Device Under Test':
                     if device['platform_ip'] == stand_ip:
                         return True
         return False
