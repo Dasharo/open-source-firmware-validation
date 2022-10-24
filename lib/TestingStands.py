@@ -3,8 +3,8 @@ REMOTE TESTING ENVIRONMENT CONFIGS
 """
 rte_1 = {
     'device_type':          'RTE',
-    'rte_ip':               '192.168.4.233',
-    'cpuid':                '02c0014266f49b55',
+    'rte_ip':               '192.168.4.39',
+    'cpuid':                '02c000424753a7fb',
     'pcb_rev':              '1.1.0'
 }
 
@@ -26,7 +26,7 @@ POWER CONTROL DEVICES CONFIGS
 sonoff_1 = {
     'device_type':          'Sonoff',
     'device_name':          'Sonoff S20 EU type E ',
-    'sonoff_ip':            '192.168.4.43'
+    'sonoff_ip':            '192.168.4.147'
 }
 
 """
@@ -98,14 +98,14 @@ class TestingStands(object):
     def get_rte_cpuid(self, stand_ip):
         for config in configs:
             for device in config:
-                if device['device_name'] == 'RTE':
+                if device['device_type'] == 'RTE':
                     if device['rte_ip'] == stand_ip:
                         return device['cpuid']
 
     def check_rte_provided_ip(self, stand_ip):
         for config in configs:
             for device in config:
-                if device['device_name'] == 'RTE':
+                if device['device_type'] == 'RTE':
                     if device['rte_ip'] == stand_ip:
                         return True
         return False
@@ -113,7 +113,7 @@ class TestingStands(object):
     def check_platform_provided_ip(self, stand_ip):
         for config in configs:
             for device in config:
-                if device['device_name'] == 'Device Under Test':
+                if device['device_type'] == 'Device Under Test':
                     if device['platform_ip'] == stand_ip:
                         return True
         return False

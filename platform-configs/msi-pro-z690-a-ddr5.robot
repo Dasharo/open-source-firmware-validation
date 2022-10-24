@@ -2,16 +2,31 @@
 
 # Basic communication variables
 
-${dut_connection_method}                Telnet
+${dut_connection_method}                pikvm
 ${payload}                              tianocore
 ${rte_s2n_port}                         13541
 ${flash_size}                           ${32*1024*1024}
 ${tianocore_string}                     to boot directly
 ${boot_menu_key}                        F11
+${usb_with_dts}                         USB SanDisk 3.2Gen1
+${binary_location}                      msi_ms7d25/v1.0.0/binary_name.rom
+${flashrom_variables}                   --ifd -i bios
+${version}                              v1.0.0
+${pikvm_ip}                             192.168.4.65
+${USERNAME}                             root
+${PASSWORD}                             meta-rte
+${http_port}                            8000
 
 # Regression test flags
-# Default flashing method
 
+${tests_in_firmware_support}            ${True}
+
+${DTS_common_option}                    ${True}
+${DTS_firmware_flashing}                ${False}
+${DTS_fwupd_update}                     ${False}
+${DTS_ec_flashing}                      ${False}
+
+# Default flashing method
 
 # Test module: Dasharo Compatibility
 
