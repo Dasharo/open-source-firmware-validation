@@ -1,7 +1,8 @@
 import os
+import sys
 import xml.etree.ElementTree as ET
 
-platform = "MSI-PRO-Z690-A-DDR5"
+platform = sys.argv[1]
 
 with open('test_cases_statuses_daily.csv', 'w') as csv_file:
     csv_file.write("Test case,Result\n")
