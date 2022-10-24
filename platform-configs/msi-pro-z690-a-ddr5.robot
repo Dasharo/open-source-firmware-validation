@@ -7,11 +7,7 @@ ${rte_s2n_port}                         13541
 ${flash_size}                           ${32*1024*1024}
 ${tianocore_string}                     to boot directly
 ${boot_menu_key}                        F11
-${usb_with_dts}                         USB SanDisk 3.2Gen1
-${binary_location}                      msi_ms7d25/v1.0.0/binary_name.rom
-${flashrom_variables}                   --ifd -i bios
-${version}                              v1.0.0
-${pikvm_ip}                             192.168.4.65
+${setup_menu_key}                       ESC
 ${USERNAME}                             root
 ${PASSWORD}                             meta-rte
 ${http_port}                            8000
@@ -89,6 +85,9 @@ Flash firmware with external programmer
     [Documentation]    Keyword flashes firmware to the DUT based on the
     ...                external programmer. Implementation must be compatible
     ...                with the theory of operation of a specific platform.
+    [Arguments]    ${fw_file}
+    Put file    ${fw_file}
+    Sleep    2s
     Sonoff Power Cycle Off
     FOR    ${internation}    IN RANGE    0    5
         RteCtrl Power off
