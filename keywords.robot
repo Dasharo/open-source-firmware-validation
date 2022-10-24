@@ -9,11 +9,15 @@ Prepare Test Suite
     IF    '${dut_connection_method}' == 'SSH'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
     ELSE IF    '${dut_connection_method}' == 'Telnet'
+        Set Global Variable    ${rte_ip}    ${stand_ip}
         Open Connection And Log In
         Get DUT To Start State
     ELSE IF    '${dut_connection_method}' == 'open-bmc'
         No Operation
     ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Set Global Variable    ${rte_ip}    ${stand_ip}
+        ${pikvm_address}=    Get Pikvm Ip    ${stand_ip}
+        Set Global Variable    ${pikvm_ip}    ${pikvm_address}
         Open Connection And Log In
         Get DUT To Start State
     ELSE
@@ -82,7 +86,7 @@ Serial setup
     Set Timeout    30
 
 Check Stand Address Correctness
-    [Documentation]    Keyword cgecks the correctness of the provided stand ip
+    [Documentation]    Keyword checks the correctness of the provided stand ip
     ...    address, no matter if the testing stand contains RTE or not. If the
     ...    address is not found in the list, fails the test.
     IF    '${dut_connection_method}' == 'SSH'
@@ -190,21 +194,30 @@ Execute Command In Terminal
     END
     [Return]    ${output}
 
-
-
-
-Boot from
-    [Documentation]    Keyword choose provided option in boot menu.
-    [Arguments]    ${option}
-    IF    '${payload}' == 'tianocore'      Enter Boot Menu Tianocore
-    ...    ELSE    FAIL    ${payload} - payload isn't supported
-    Enter submenu in Tianocore    ${option}
+Boot Dasharo Tools Suite
+    [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
+    ...    boot method (from USB or from iPXE) as parameter.
+    [Arguments]    ${DTS_booting_method}
+    Enter Boot Menu Tianocore
+    IF    '${DTS_booting_method}'=='USB'
+        Enter submenu in Tianocore    USB SanDisk 3.2Gen1
+    ELSE IF    '${DTS_booting_method}'=='USB'
+        No Operation
+    ELSE
+        FAIL    Unknown or improper connection method: ${DTS_booting_method}
+    END
+    Read From Terminal Until    ${DTS_string}
 
 Enter Boot Menu Tianocore
     [Documentation]    Enter boot menu tianocore edk2.
     Read From Terminal Until    ${tianocore_string}
-    IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    ${boot_menu_key}
-    ...    ELSE     Write Bare Into Terminal    ${boot_menu_key}
+    IF    '${dut_connection_method}' == 'pikvm'
+        Single Key PiKVM    ${boot_menu_key}
+    ELSE IF    '${dut_connection_method}' == 'Telnet'
+        Write Bare Into Terminal    ${boot_menu_key}
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
 
 Enter submenu in Tianocore
     [Documentation]    Enter chosen option. Generic keyword.
