@@ -16,9 +16,6 @@ Resource    ../pikvm-rest-api/pikvm_comm.robot
 
 *** Test Cases ***
 
-TEST CASE 1
-    ${cpuid}=    Get Rte Cpuid    192.168.4.233
-
 DTS001.001 Booting DTS from USB works correctly
     [Documentation]    Check whether the DUT can boot DTS from USB
     Skip If    not ${tests_in_firmware_support}    DTS001.001 not supported
@@ -137,3 +134,4 @@ DTS009.001 Update device EC firmware by using DTS works correctly
     Enter Shell In DTS
     ${output2}=    Execute Command In Terminal    system76_ectool info
     Should Not Be Equal    ${output1}    ${output2}
+    ${cpuid}=    Get Rte Cpuid    192.168.4.2331

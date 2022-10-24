@@ -24,7 +24,8 @@ device_1 = {
 POWER CONTROL DEVICES CONFIGS
 """
 sonoff_1 = {
-    'device_name':          'SONOFF',
+    'device_type':          'Sonoff',
+    'device_name':          'Sonoff S20 EU type E ',
     'sonoff_ip':            '192.168.4.43'
 }
 
@@ -33,23 +34,25 @@ sonoff_1 = {
 MINOR HARDWARE CONFIGS - USB STICKS
 """
 usb_1 = {
-    'device_name':          'Kingston DataTraveler 3.1Gen1 16 GB',
-    'vendor':               'Kingston',
+    'device_type':          'USB stick',
+    'device_name':          'SanDisk Ultra  Flair USB 3.0 16 GB',
+    'vendor':               'SanDisk',
     'volume':               '16 GB',
-    'protocol':             '3.1',
+    'interface':            'USB 3.0',
     'recognized_name':      '',
     'recognized_model':     ''
 }
 
 """
 -------------------------------------------------------------------------------
-MINOR HARDWARE CONFIGS - NVME DISKS
+MINOR HARDWARE CONFIGS - SSD DISKS
 """
-nvme_1 = {
+ssd_1 = {
+    'device_type':          'SSD disk',
     'device_name':          'Intel 670p 512 GB M26472-201 NVME',
     'vendor':               'Intel',
     'volume':               '512 GB',
-    'interface':            'PCIe x4',
+    'interface':            'NVME',
     'recognized_name':      '',
     'recognized_model':     ''
 }
@@ -59,8 +62,8 @@ nvme_1 = {
 MINOR HARDWARE CONFIGS - SD CARDS
 """
 sd_card_1 = {
-    'device_name':          'kingston...',
-    'vendor':               'SanDisk',
+    'device_name':          '',
+    'vendor':               '',
     'volume':               '16 GB',
     'interface':            'SDCARD',
     'recognized_name':      '',
@@ -72,17 +75,15 @@ sd_card_1 = {
 MINOR HARDWARE CONFIGS - TPM MODULES
 """
 tpm_1 = {
-    'firmware_name':        'kingston...',
-    "os_name": "kingston...",
-    "model_name": "?",
-    "size": "500GB"
+    'device_name':          '',
+    'vendor':               '',
 }
 
 """
 -------------------------------------------------------------------------------
 TEST STANDS CONFIGURATIONS
 """
-config_1 = [rte_1, device_1, sonoff_1]
+config_1 = [rte_1, device_1, sonoff_1, usb_1, ssd_1]
 
 configs = [config_1]
 
@@ -101,13 +102,32 @@ class TestingStands(object):
                     if device['rte_ip'] == stand_ip:
                         return device['cpuid']
 
-    def check_provided_ip(self, stand_ip):
+    def check_rte_provided_ip(self, stand_ip):
         for config in configs:
             for device in config:
                 if device['device_name'] == 'RTE':
                     if device['rte_ip'] == stand_ip:
                         return True
-                elif device['device_name'] == 'Device Under Test':
+        return False
+
+    def check_platform_provided_ip(self, stand_ip):
+        for config in configs:
+            for device in config:
+                if device['device_name'] == 'Device Under Test':
                     if device['platform_ip'] == stand_ip:
                         return True
         return False
+
+    def get_power_control_method(self, stand_ip):
+        for config in configs:
+            if config[0]['device_type'] == 'RTE':
+                if config[0]['rte_ip'] == stand_ip:
+                    for device in config:
+                        if ['device_type'] == 'Sonoff':
+                            return 'sonoff'
+                    return 'rte'
+            elif config[0]['device_type']== 'Device Under Test':
+                if config[0]['platform_ip'] == stand_ip:
+                    for device in config:
+                        if ['device_type'] == 'Sonoff':
+                            return 'sonoff'

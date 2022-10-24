@@ -1,9 +1,9 @@
 [submodule "rtectrl-rest-api"]
 	path = rtectrl-rest-api
-	url = git@gitlab.com:3mdeb/rte/rtectrl-rest-api.git
+	url = git@github.com:3mdeb/rtectrl-rest-api.git
 [submodule "snipeit-rest-api"]
 	path = snipeit-rest-api
-	url = git@gitlab.com:3mdeb/rte/snipeit-rest-api.git
+	url = git@github.com:3mdeb/snipeit-rest-api.git
 [submodule "pikvm-rest-api"]
 	path = pikvm-rest-api
-	url = git@gitlab.com:3mdeb/rte/pikvm-rest-api.git
+	url = git@github.com:3mdeb/pikvm-rest-api.git
