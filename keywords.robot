@@ -43,18 +43,23 @@ Get DUT To Start State
 
 Get Power Supply State
     [Documentation]    Returns the power supply state.
-    ${pc}=    Check Power Control Method    ${stand_ip}
+    ${pc}=    Get Power Control Method    ${stand_ip}
     IF    '${pc}'=='sonoff'
         ${state}=    Get Sonoff State
     ELSE IF    '${pc}'=='rte'
-        ${state}=    Get Relay State
+        ${state}=    Get RTE Relay State
     ELSE
         FAIL    Unknown connection method for stand ip: ${stand_ip}
     END
     RETURN    ${state}
 
+Get RTE Relay State
+    [Documentation]    Returns the RTE relay state through REST API.
+    ${state}=    RteCtrl Get GPIO State    0
+    [Return]    ${state}
+
 Turn On Power Supply
-    ${pc}=    Check Power Control Method    ${stand_ip}
+    ${pc}=    Get Power Control Method    ${stand_ip}
     IF    'sonoff' == '${pc}'
         Sonoff Power On Platform
     ELSE IF    '${pc}'=='rte'
@@ -80,9 +85,11 @@ Check Stand Address Correctness
     [Documentation]    Check the correctness of the provided ip address, if the
     ...    address is not found in the RTE list, fail the test.
     IF    '${dut_connection_method}' == 'SSH'
-        ${is_address_correct}=    Check Platform Provided ip
+        ${is_address_correct}=    Check Platform Provided ip    ${stand_ip}
     ELSE IF    '${dut_connection_method}' == 'Telnet'
-        ${is_address_correct}=    Check RTE Provided ip
+        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
     ELSE
         FAIL    Unknown connection method for config: ${config}
     END
@@ -213,6 +220,15 @@ Press key n times and enter
     IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    Enter
     ...    ELSE    Write Bare Into Terminal    ${ENTER}
 
+Press key n times
+    [Documentation]    Enter specified in the first argument times the specified
+    ...                in the second argument key.
+    [Arguments]    ${n}   ${key}
+    FOR    ${INDEX}    IN RANGE    0    ${n}
+        IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    ${key}
+        ...    ELSE    Write Bare Into Terminal    ${key}
+    END
+
 Check DTS Menu Appears
     [Documentation]    Check whatever the DTS menu will appear.
     ${output}=    Read From Terminal Until    Enter an option:
@@ -220,7 +236,7 @@ Check DTS Menu Appears
 Check HCL Report Creation
     [Documentation]    Check whatever the HCL report was generated correctly.
     Read From Terminal Until    [N/y]
-    Wirte Into Terminal    y
+    Write Into Terminal    y
     ${output}=    Read From Terminal Until    Thank you for supporting Dasharo!
     Should Contain    ${output}    Done! Logs saved
     Should Contain    ${output}    exited without errors
@@ -228,14 +244,52 @@ Check HCL Report Creation
 
 Enter Shell In DTS
     [Documentation]    Enter Shell in DTS using the appropriate option.
-    Wirte Into Terminal    9
+    Write Into Terminal    9
     Read From Terminal Until     bash-5.1#
 
 Run EC Transition
     [Documentation]    Proceed full EC transiotion in DTS.
-    Wirte Into Terminal    6
+    Write Into Terminal    6
     Read From Trminal Until     Enter an option:
-    Wirte Into Terminal    1
+    Write Into Terminal    1
     ${output}=    Read From Terminal Until    shut down
     Should Contain X Times    ${output}    VERIFIED    2
     Sleep    10s
+
+Check Power Off In DTS
+    [Documentation]    Check whatever the DUT will turns off after choosing
+    ...                Power Off option in DTS menu.
+    Sleep    5s
+    ${output}=    Read From Terminal
+    Should Be Empty    ${output}
+
+Flash firmware in DTS
+    [Documentation]    Flash firmware using flashrom in DTS.
+    Execute Command In Terminal    wget -0 /tmp/coreboot.rom https://3mdeb.com/open-source-firmware/Dasahro/${binary_location}
+    ${output}=    Execute Command In Terminal    flashrom -p internal -w /tmp/coreboot ${flashrom_variables}
+    Should Contain    ${output}    VERIFIED
+
+Flash EC Firmware In DTS
+    [Documentation]    Flash EC firmware using system76_ectool in DTS.
+    Execute Command In Terminal    wget -0 /tmp/ec.rom https://3mdeb.com/open-source-firmware/Dasahro/${ec_binary_location}
+    Write Into Terminal    system76_ectool flash ec.rom
+    ${output}=    Read From Terminal Until    shut off
+    Should Contain    ${output}    Successfully programmed SPI ROM
+    Sleep    10s
+
+Check Firmware Version
+    [Documentation]    Check whatever the firmware has the correct version.
+    ${output}=    Execute Command In Terminal    dmidecode -t 0
+    Should contain    ${output}    ${version}
+
+Check EC Firmware Version
+    [Documentation]    Check whatever the EC firmware has the correct version.
+    ${output}=    Execute Command In Terminal    system76_ectool info
+    Should contain    ${output}    ${ec_version}
+
+Fwupd Update
+    [Documentation]    Check whatever the firmware can be updated by fwupd.
+    ${output}=    Execute Command In Terminal    fwupdmgr refresh
+    Should Contatin    ${output}    Successfully
+    ${output}=    Execute Command In Terminal    fwupdmgr update
+    Should Contatin    ${output}    Successfully installed firmware
