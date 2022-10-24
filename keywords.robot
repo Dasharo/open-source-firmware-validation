@@ -225,3 +225,12 @@ Enter Shell In DTS
     [Documentation]    Enter Shell in DTS using the appropriate option.
     Wirte Into Terminal    9
     Read From Terminal Until     bash-5.1#
+
+Run EC Transition
+    [Documentation]    Proceed full EC transiotion in DTS.
+    Wirte Into Terminal    6
+    Read From Trminal Until     Enter an option:
+    Wirte Into Terminal    1
+    ${output}=    Read From Terminal Until    shut down
+    Should Contain X Times    ${output}    VERIFIED    2
+    Sleep    10s
