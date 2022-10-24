@@ -74,7 +74,7 @@ Turn On Power Supply
 
 Serial setup
     [Documentation]    Keyword setups serial connection between DUT and RTE via
-    ...    telnet. Takes host and ser2net port as an arguments.
+    ...    telnet. Takes host and ser2net port as arguments.
     [Arguments]    ${host}    ${s2n_port}
     Telnet.Open Connection
     ...    ${host}
@@ -107,6 +107,49 @@ Log Out And Close Connection
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
     IF    '${snipeit}'=='yes'    SnipeIt Checkin    ${stand_ip}
+
+Flash firmware
+    [Documentation]    Flash flashes platform with selected firmware by using
+    ...    default flashing method. Takes firmware file (${fw_file})
+    ...    as an argument. Keyword fails if file size doesn't match target
+    ...    chip size.
+    [Arguments]    ${fw_file}
+    ${file_size}=    Run    ls -l ${fw_file} | awk '{print $5}'
+    IF    '${file_size}'!='${flash_size}'     FAIL    Image size doesn't match the flash chip's size!
+    IF    '${default_flashing_method}'=='external programmer'
+        Flash firmware with external programmer    ${fw_file}
+    ELSE
+        FAIL    Unsupported flashing method: ${default_flashing_method}
+    END
+
+Get firmware version from binary
+    [Documentation]    Return firmware version from binary file sent via SSH to
+    ...                RTE system. Takes binary file path as an argument.
+    [Arguments]    ${binary_path}
+    ${coreboot_version1}=    SSHLibrary.Execute Command    strings ${binary_path}|grep COREBOOT_ORIGIN_GIT_TAG|cut -d" " -f 3|tr -d '"'
+    ${coreboot_version2}=    SSHLibrary.Execute Command    strings ${binary_path}|grep CONFIG_LOCALVERSION|cut -d"=" -f 2|tr -d '"'
+    ${coreboot_version3}=    SSHLibrary.Execute Command    strings ${binary_path}|grep -w COREBOOT_VERSION|cut -d" " -f 3|tr -d '"'
+    ${version_length1}=    Get Length    ${coreboot_version1}
+    ${coreboot_version}=    Set Variable If    ${version_length1} == 0    ${coreboot_version2}    ${coreboot_version1}
+    ${version_length}=    Get Length    ${coreboot_version}
+    ${coreboot_version}=    Set Variable If    ${version_length} == 0    ${coreboot_version3}    ${coreboot_version}
+    [Return]    ${coreboot_version}
+
+Get firmware version
+    [Documentation]    Return firmware version via method supported by the 
+    ...                platform.
+    IF    '${flash_verify_method}'=='iPXE-boot'
+        No Operation
+    ELSE IF    '${flash_verify_method}'=='tianocore-shell'
+        Enter Setup Menu Tianocore
+    ELSE
+        FAIL    Unsupported flash verify method: ${flash_verify_method}
+    
+    ...    Boot Debian from iPXE    ${pxe_ip}     ${http_port}    ${filename}    ${debian_stable_ver}
+    ...    ELSE IF    
+    ...                Tianocore One Time Boot    ${FLASH_VERIFY_OPTION}
+    ...    ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
+    ...                No Operation
 
 Read From Terminal
     [Documentation]    Universal keyword to read the console output regardless
@@ -211,13 +254,12 @@ Boot Dasharo Tools Suite
 Enter Boot Menu Tianocore
     [Documentation]    Enter boot menu tianocore edk2.
     Read From Terminal Until    ${tianocore_string}
-    IF    '${dut_connection_method}' == 'pikvm'
-        Single Key PiKVM    ${boot_menu_key}
-    ELSE IF    '${dut_connection_method}' == 'Telnet'
-        Write Bare Into Terminal    ${boot_menu_key}
-    ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
-    END
+    Write Bare Into Terminal    ${boot_menu_key}
+
+Enter Setup Menu Tianocore
+    [Documentation]    Enter Setup Menu with key specified in platform-configs.
+    Read From Terminal Until    ${tianocore_string}
+    Write Bare Into Terminal    ${setup_menu_key}
 
 Enter submenu in Tianocore
     [Documentation]    Enter chosen option. Generic keyword.
