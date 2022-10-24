@@ -1,10 +1,9 @@
 *** Keywords ***
 Prepare Test Suite
     [Documentation]    Keyword prepares Test Suite by importing specific
-    ...    platform configuration keywords and variables and
-    ...    preparing connection with the DUT based on used
-    ...    transmission protocol. Keyword used in all [Suite Setup]
-    ...    sections.
+    ...    platform configuration keywords and variables and preparing
+    ...    connection with the DUT based on used transmission protocol.
+    ...    Keyword used in all [Suite Setup] sections.
     Import Resource    ${CURDIR}/platform-configs/${config}.robot
     Check Stand Address Correctness
     IF    '${dut_connection_method}' == 'SSH'
@@ -42,7 +41,7 @@ Get DUT To Start State
     IF    '${result}'=='low'    Turn On Power Supply
 
 Get Power Supply State
-    [Documentation]    Returns the power supply state.
+    [Documentation]    Keyword returns the power supply state.
     ${pc}=    Get Power Control Method    ${stand_ip}
     IF    '${pc}'=='sonoff'
         ${state}=    Get Sonoff State
@@ -54,11 +53,12 @@ Get Power Supply State
     RETURN    ${state}
 
 Get RTE Relay State
-    [Documentation]    Returns the RTE relay state through REST API.
+    [Documentation]    Keyword returns the RTE relay state through REST API.
     ${state}=    RteCtrl Get GPIO State    0
     [Return]    ${state}
 
 Turn On Power Supply
+    [Documentation]    Keyword turns on the power supply connected to the DUT.
     ${pc}=    Get Power Control Method    ${stand_ip}
     IF    'sonoff' == '${pc}'
         Sonoff Power On Platform
@@ -69,8 +69,8 @@ Turn On Power Supply
     END
 
 Serial setup
-    [Documentation]    Setup serial communication via telnet. Takes host and
-    ...    ser2net port as an arguments.
+    [Documentation]    Keyword setups serial connection between DUT and RTE via
+    ...    telnet. Takes host and ser2net port as an arguments.
     [Arguments]    ${host}    ${s2n_port}
     Telnet.Open Connection
     ...    ${host}
@@ -82,8 +82,9 @@ Serial setup
     Set Timeout    30
 
 Check Stand Address Correctness
-    [Documentation]    Check the correctness of the provided ip address, if the
-    ...    address is not found in the RTE list, fail the test.
+    [Documentation]    Keyword cgecks the correctness of the provided stand ip
+    ...    address, no matter if the testing stand contains RTE or not. If the
+    ...    address is not found in the list, fails the test.
     IF    '${dut_connection_method}' == 'SSH'
         ${is_address_correct}=    Check Platform Provided ip    ${stand_ip}
     ELSE IF    '${dut_connection_method}' == 'Telnet'
@@ -104,14 +105,20 @@ Log Out And Close Connection
     IF    '${snipeit}'=='yes'    SnipeIt Checkin    ${stand_ip}
 
 Read From Terminal
-    [Documentation]    Universal keyword to read the console output regardless 
-    ...                of the used method of connection to the DUT 
+    [Documentation]    Universal keyword to read the console output regardless
+    ...                of the used method of connection to the DUT
     ...                (Telnet or SSH).
-    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Read
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Read
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Read
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Read
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=     SSHLibrary.Read
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${output}=    Telnet.Read
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
     [Return]    ${output}
 
 Read From Terminal Until
@@ -119,41 +126,72 @@ Read From Terminal Until
     ...                defined text occurs regardless of the used method of
     ...                connection to the DUT (Telnet or SSH).
     [Arguments]    ${expected}
-    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read Until    ${expected}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Read Until    ${expected}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Read Until    ${expected}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read Until    ${expected}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Read Until    ${expected}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Read Until    ${expected}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=     SSHLibrary.Read Until    ${expected}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${output}=    Telnet.Read Until    ${expected}
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
     [Return]    ${output}
 
 Write Into Terminal
     [Documentation]    Universal keyword to write text to console regardless of 
     ...                the used method of connection to the DUT (Telnet, PiKVM or SSH).
     [Arguments]    ${text}
-    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Write    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Write    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Write    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Write PiKVM    ${text}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Write    ${text}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Write    ${text}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Write    ${text}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Write PiKVM    ${text}
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
 
 Write Bare Into Terminal
     [Documentation]    Universal keyword to write bare text (without new line 
     ...                mark) to console regardless of the used method of
     ...                connection to the DUT (Telnet, PiKVM or SSH).
     [Arguments]    ${text}
-    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Write Bare    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Write Bare    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Write Bare    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Write Bare PiKVM    ${text}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Write Bare    ${text}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Write Bare    ${text}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Write Bare    ${text}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Write Bare PiKVM    ${text}
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
 
 Execute Command In Terminal
     [Documentation]    Universal keyword to execute command regardless of the 
     ...                used method of connection to the DUT (Telnet or SSH).
     [Arguments]    ${command}
-    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Execute Command    ${command}    strip_prompt=True
-    ...    ELSE    SSHLibrary.Execute Command    ${command}
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Execute Command    ${command}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=    SSHLibrary.Execute Command    ${command}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Write PiKVM    ${command}
+        ${output}=    Telnet.Read Until Prompt
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
     [Return]    ${output}
+
+
+
 
 Boot from
     [Documentation]    Keyword choose provided option in boot menu.
