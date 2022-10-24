@@ -1,7 +1,6 @@
 *** Variables ***
 
 # Basic communication variables
-
 ${dut_connection_method}                pikvm
 ${payload}                              tianocore
 ${rte_s2n_port}                         13541
@@ -17,18 +16,20 @@ ${USERNAME}                             root
 ${PASSWORD}                             meta-rte
 ${http_port}                            8000
 
-# Regression test flags
-
+# Regression flags
+# Supported testing areas (firmware/OS)
 ${tests_in_firmware_support}            ${True}
-
-${DTS_common_option}                    ${True}
-${DTS_firmware_flashing}                ${False}
-${DTS_fwupd_update}                     ${False}
-${DTS_ec_flashing}                      ${False}
+${tests_in_ubuntu_support}              ${False}
+${tests_in_ubuntu_support}              ${False}
 
 # Default flashing method
+${default_flashing_method}              external programmer
 
 # Test module: Dasharo Compatibility
+${DTS_support}                          ${True}
+${DTS_firmware_flashing_support}        ${False}
+${DTS_fwupd_firmware_update_support}    ${False}
+${DTS_ec_flashing_support}              ${False}
 
 # Test module: Dasharo Security
 
