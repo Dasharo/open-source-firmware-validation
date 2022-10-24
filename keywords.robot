@@ -21,7 +21,7 @@ Prepare Test Suite
         Open Connection And Log In
         Get DUT To Start State
     ELSE
-        FAIL    Unknown connection method for config: ${config}
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
 
 Open Connection And Log In
@@ -96,7 +96,7 @@ Check Stand Address Correctness
     ELSE IF    '${dut_connection_method}' == 'pikvm'
         ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
     ELSE
-        FAIL    Unknown connection method for config: ${config}
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
     IF    ${is_address_correct}    RETURN
     FAIL    stand_ip:${stand_ip} not found in the hardware configuration.
@@ -121,7 +121,7 @@ Read From Terminal
     ELSE IF    '${dut_connection_method}' == 'pikvm'
         ${output}=    Telnet.Read
     ELSE
-        FAIL    Unknown connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
     [Return]    ${output}
 
@@ -139,7 +139,7 @@ Read From Terminal Until
     ELSE IF    '${dut_connection_method}' == 'pikvm'
         ${output}=    Telnet.Read Until    ${expected}
     ELSE
-        FAIL    Unknown connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
     [Return]    ${output}
 
@@ -156,7 +156,7 @@ Write Into Terminal
     ELSE IF    '${dut_connection_method}' == 'pikvm'
         Write PiKVM    ${text}
     ELSE
-        FAIL    Unknown connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
 
 Write Bare Into Terminal
@@ -173,7 +173,7 @@ Write Bare Into Terminal
     ELSE IF    '${dut_connection_method}' == 'pikvm'
         Write Bare PiKVM    ${text}
     ELSE
-        FAIL    Unknown connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
 
 Execute Command In Terminal
@@ -190,7 +190,7 @@ Execute Command In Terminal
         Write PiKVM    ${command}
         ${output}=    Telnet.Read Until Prompt
     ELSE
-        FAIL    Unknown connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
     [Return]    ${output}
 

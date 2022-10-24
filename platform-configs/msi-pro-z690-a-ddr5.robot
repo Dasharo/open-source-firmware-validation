@@ -16,6 +16,9 @@ ${USERNAME}                             root
 ${PASSWORD}                             meta-rte
 ${http_port}                            8000
 
+${DTS_booting_default_method}           USB
+${DTS_string}                           Dasharo Tools Suite
+
 # Regression flags
 # Supported testing areas (firmware/OS)
 ${tests_in_firmware_support}            ${True}
