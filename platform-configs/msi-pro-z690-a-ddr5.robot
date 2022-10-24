@@ -14,6 +14,9 @@ ${flashrom_variables}                   --ifd -i bios
 ${version}                              v1.0.0
 
 # Regression test flags
+
+${tests_in_firmware_support}            ${True}
+
 # Default flashing method
 
 
