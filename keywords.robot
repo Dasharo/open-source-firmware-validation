@@ -6,22 +6,40 @@ Prepare Test Suite
     ...    Keyword used in all [Suite Setup] sections.
     Import Resource    ${CURDIR}/platform-configs/${config}.robot
     Check Stand Address Correctness
+    Prepare Devices For Power Control
     IF    '${dut_connection_method}' == 'SSH'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
     ELSE IF    '${dut_connection_method}' == 'Telnet'
-        Set Global Variable    ${rte_ip}    ${stand_ip}
         Open Connection And Log In
         Get DUT To Start State
     ELSE IF    '${dut_connection_method}' == 'open-bmc'
         No Operation
     ELSE IF    '${dut_connection_method}' == 'pikvm'
-        Set Global Variable    ${rte_ip}    ${stand_ip}
         ${pikvm_address}=    Get Pikvm Ip    ${stand_ip}
         Set Global Variable    ${pikvm_ip}    ${pikvm_address}
         Open Connection And Log In
         Get DUT To Start State
     ELSE
         FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
+
+Prepare Devices For Power Control
+    [Documentation]    Keyword prepares devices for power control on the stand.
+    ...    Depends on stand configuration, keyword starts RTE REST API and/or
+    ...    Sonoff REST API sessions and sets global variable ${power _control}
+    ...    used during preparing DUT to start state
+    ${rte_presence}=    Check RTE Presence on Stand    ${stand_ip}
+    ${sonoff_presence}=    Check Sonoff Presence on Stand    ${stand_ip}
+    IF    ${rte_presence}
+        Set Global Variable    ${rte_ip}    ${stand_ip}
+        Set Global Variable    ${pc}    rte
+        REST API Setup    RteCtrl
+    END
+    IF    ${sonoff_presence}
+        ${sonoff_ip}=    Get Sonoff Ip    ${stand_ip}
+        Set Global Variable    ${pc}    sonoff
+        Set Global Variable    ${sonoff_session_handler}    SonoffCtrl
+        Sonoff API Setup    ${sonoff_session_handler}    ${sonoff_ip}
     END
 
 Open Connection And Log In
@@ -31,8 +49,7 @@ Open Connection And Log In
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     SSHLibrary.Open Connection    ${stand_ip}    prompt=~#
     SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    REST API Setup    RteCtrl
-    Serial setup    ${stand_ip}    ${rte_s2n_port}
+    Serial setup    ${rte_ip}    ${rte_s2n_port}
     IF    '${snipeit}'=='no'    RETURN
     SnipeIt API Setup    SnipeItApi
     SnipeIt Checkout    ${stand_ip}
@@ -40,19 +57,18 @@ Open Connection And Log In
 Get DUT To Start State
     [Documentation]    Keyword clears telnet buffer and get Device Under Test
     ...    to start state (RTE Relay On).
-    Telnet.Read
+    Read From Terminal
     ${result}=    Get Power Supply State
     IF    '${result}'=='low'    Turn On Power Supply
 
 Get Power Supply State
     [Documentation]    Keyword returns the power supply state.
-    ${pc}=    Get Power Control Method    ${stand_ip}
     IF    '${pc}'=='sonoff'
-        ${state}=    Get Sonoff State
+        ${state}=    Get Sonoff State    ${sonoff_session_handler}
     ELSE IF    '${pc}'=='rte'
         ${state}=    Get RTE Relay State
     ELSE
-        FAIL    Unknown connection method for stand ip: ${stand_ip}
+        FAIL    Unknown power control method for stand: ${stand_ip}
     END
     RETURN    ${state}
 
@@ -63,13 +79,12 @@ Get RTE Relay State
 
 Turn On Power Supply
     [Documentation]    Keyword turns on the power supply connected to the DUT.
-    ${pc}=    Get Power Control Method    ${stand_ip}
     IF    'sonoff' == '${pc}'
-        Sonoff Power On Platform
+        Sonoff Power On    ${sonoff_session_handler}
     ELSE IF    '${pc}'=='rte'
         RteCtrl Relay
     ELSE
-        FAIL    Unknown connection method for stand ip: ${stand_ip}
+        FAIL    Unknown power control method for stand: ${stand_ip}
     END
 
 Serial setup
