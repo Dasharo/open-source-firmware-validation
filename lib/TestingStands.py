@@ -176,19 +176,40 @@ class TestingStands(object):
                         return True
         return False
 
-    def get_power_control_method(self, stand_ip):
+    def check_rte_presence_on_stand(self, stand_ip):
+        for config in configs:
+            if config[0]['device_type'] == 'RTE':
+                if config[0]['device_ip'] == stand_ip:
+                    return    True
+        return False
+
+    def check_sonoff_presence_on_stand(self, stand_ip):
         for config in configs:
             if config[0]['device_type'] == 'RTE':
                 if config[0]['device_ip'] == stand_ip:
                     for device in config:
-                        if ['device_type'] == 'Sonoff':
-                            return 'sonoff'
-                    return 'rte'
+                        if device['device_type'] == 'Sonoff':
+                            return True
+                    return False
             elif config[0]['device_type']== 'Device Under Test':
                 if config[0]['device_ip'] == stand_ip:
                     for device in config:
-                        if ['device_type'] == 'Sonoff':
-                            return 'sonoff'
+                        if device['device_type'] == 'Sonoff':
+                            return True
+
+    def get_sonoff_ip(self, stand_ip):
+        for config in configs:
+            if config[0]['device_type'] == 'RTE':
+                if config[0]['device_ip'] == stand_ip:
+                    for device in config:
+                        if device['device_type'] == 'Sonoff':
+                            return device['device_ip']
+                    return '0'
+            elif config[0]['device_type']== 'Device Under Test':
+                if config[0]['device_ip'] == stand_ip:
+                    for device in config:
+                        if device['device_type'] == 'Sonoff':
+                            return device['device_ip']
 
     def get_pikvm_ip(self, stand_ip):
         for config in configs:
