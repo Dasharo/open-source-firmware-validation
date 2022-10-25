@@ -14,6 +14,7 @@ Suite Teardown    Run Keyword    Log Out And Close Connection
 Resource    ../keywords.robot
 Resource    ../rtectrl-rest-api/rtectrl.robot
 Resource    ../pikvm-rest-api/pikvm_comm.robot
+Resource    ../sonoff-rest-api/sonoff-api.robot
 
 *** Test Cases ***
 
