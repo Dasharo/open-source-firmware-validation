@@ -1,19 +1,19 @@
 *** Settings ***
 Library     SSHLibrary    timeout=90 seconds
-Library     Telnet    timeout=20 seconds
+Library     Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library     Process
 Library     OperatingSystem
 Library     String
 Library     RequestsLibrary
 Library     Collections
+Library     ../../lib/TestingStands.py
 
 Suite Setup       Prepare platform    ${fw_file}
 
-Resource    ../lib/sonoffctrl.robot
-Resource    ../rtectrl-rest-api/rtectrl.robot
-Resource    ../snipeit-rest-api/snipeit-api.robot
-Resource    ../variables.robot
 Resource    ../keywords.robot
+Resource    ../rtectrl-rest-api/rtectrl.robot
+Resource    ../pikvm-rest-api/pikvm_comm.robot
+Resource    ../sonoff-rest-api/sonoff-api.robot
 
 *** Keywords ***
 
