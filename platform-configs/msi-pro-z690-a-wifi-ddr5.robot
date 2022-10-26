@@ -33,6 +33,7 @@ Power On
     Sleep    5s
     Telnet.Read
     RteCtrl Power On
+    Sleep    5s
 
 Read firmware with internal programmer
     [Documentation]    Keyword reads firmware based on the internal programmer
@@ -43,7 +44,7 @@ Read firmware with external programmer
     [Documentation]    Keyword reads firmware based on external programmer.
     ...                Implementation must be compatible with the theory of
     ...                operation of a specific platform.
-    Sonoff Power Cycle Off
+    Power Cycle Off
     FOR    ${internation}    IN RANGE    0    5
         RteCtrl Power off
         Sleep    2s
@@ -58,7 +59,7 @@ Read firmware with external programmer
     RteCtrl Set OC GPIO    1    high-z
     RteCtrl Set OC GPIO    3    high-z
     Sleep    2s
-    Sonoff Power Cycle On
+    Power Cycle On
 
 Flash firmware with internal programmer
     [Documentation]    Keyword flashes firmware to the DUT based on the
@@ -70,7 +71,10 @@ Flash firmware with external programmer
     [Documentation]    Keyword flashes firmware to the DUT based on the
     ...                external programmer. Implementation must be compatible
     ...                with the theory of operation of a specific platform.
-    Sonoff Power Cycle Off
+    [Arguments]    ${fw_file}
+    Put file    ${fw_file}   /tmp/coreboot.rom
+    Sleep    2s
+    Power Cycle Off
     FOR    ${internation}    IN RANGE    0    5
         RteCtrl Power off
         Sleep    2s
@@ -82,11 +86,12 @@ Flash firmware with external programmer
     RteCtrl Set OC GPIO    1    low
     Sleep    10s
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 --layout msi_z690a.layout -i bios -w /tmp/coreboot.rom 2>&1    return_rc=True
+    RteCtrl Set OC GPIO    1    high-z
+    Sleep    2s
+    RteCtrl Set OC GPIO    3    high-z
+    Sleep    2s
+    Power Cycle On
     IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n
     Return From Keyword If    ${rc} == 3
     Return From Keyword If    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
     Should Contain    ${flash_result}     VERIFIED
-    RteCtrl Set OC GPIO    1    high-z
-    RteCtrl Set OC GPIO    3    high-z
-    Sleep    2s
-    Sonoff Power Cycle On
