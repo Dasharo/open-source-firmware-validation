@@ -87,6 +87,44 @@ Turn On Power Supply
         FAIL    Unknown power control method for stand: ${stand_ip}
     END
 
+Power Cycle On
+    [Documentation]    Clears telnet buffer and perform full power cycle with
+    ...                RTE relay set to ON.
+    IF    'sonoff' == '${pc}'
+        Telnet.Read
+        Sonoff Power Off    ${sonoff_session_handler}
+        Sleep    1s
+        Sonoff Power On    ${sonoff_session_handler}
+        Sleep    15s
+        Power On
+    ELSE IF    '${pc}'=='rte'
+        Telnet.Read
+        ${result}=    RteCtrl Relay
+        IF   ${result} == 0    Run Keywords
+        ...    Sleep    4s
+        ...    AND    Telnet.Read
+        ...    AND    RteCtrl Relay
+    ELSE
+        FAIL    Unknown power control method for stand: ${stand_ip}
+    END
+
+Power Cycle Off
+    [Documentation]    Power cycle off power supply using the supported
+    ...                method.
+    Telnet.Close All Connections
+    IF    'sonoff' == '${pc}'
+        Sonoff Power On    ${sonoff_session_handler}
+        Sleep    1s
+        Sonoff Power Off    ${sonoff_session_handler}
+    ELSE IF    '${pc}'=='rte'
+        Sleep    1s
+        ${result}=    Get RTE Relay State
+        IF   '${result}' == 'high'    RteCtrl Relay
+    ELSE
+        FAIL    Unknown power control method for stand: ${stand_ip}
+    END
+    Serial setup    ${rte_ip}    ${rte_s2n_port}
+
 Serial setup
     [Documentation]    Keyword setups serial connection between DUT and RTE via
     ...    telnet. Takes host and ser2net port as arguments.
@@ -98,7 +136,7 @@ Serial setup
     ...    terminal_emulation=yes
     ...    terminal_type=vt100
     ...    window_size=80x24
-    Set Timeout    30
+    Set Timeout    60s
 
 Check Stand Address Correctness
     [Documentation]    Keyword checks the correctness of the provided stand ip
@@ -153,18 +191,16 @@ Get firmware version from binary
 Get firmware version
     [Documentation]    Return firmware version via method supported by the 
     ...                platform.
+    Set DUT Response Timeout    120s
     IF    '${flash_verify_method}'=='iPXE-boot'
         No Operation
     ELSE IF    '${flash_verify_method}'=='tianocore-shell'
         Enter Setup Menu Tianocore
+        Read From Terminal Until    Reset
     ELSE
         FAIL    Unsupported flash verify method: ${flash_verify_method}
-    
-    ...    Boot Debian from iPXE    ${pxe_ip}     ${http_port}    ${filename}    ${debian_stable_ver}
-    ...    ELSE IF    
-    ...                Tianocore One Time Boot    ${FLASH_VERIFY_OPTION}
-    ...    ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
-    ...                No Operation
+    END
+    Set DUT Response Timeout    30s
 
 Read From Terminal
     [Documentation]    Universal keyword to read the console output regardless
@@ -200,6 +236,75 @@ Read From Terminal Until
         FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
     [Return]    ${output}
+
+Read From Terminal Until Prompt
+    [Documentation]    Universal keyword to read the console output until the 
+    ...                defined prompt occurs regardless of the used method of
+    ...                connection to the DUT (Telnet or SSH).
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Read Until Prompt    strip_prompt=${True}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Read Until Prompt    strip_prompt=${True}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=     SSHLibrary.Read Until Prompt    strip_prompt=${True}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${output}=    Telnet.Read Until Prompt    strip_prompt=${True}
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
+    [Return]    ${output}
+
+Read From Terminal Until Regexp
+    [Documentation]    Universal keyword to read the console output until the 
+    ...                defined regexp occurs regardless of the used method of
+    ...                connection to the DUT (Telnet or SSH).
+    [Arguments]    ${regexp}
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Read Until Regexp    ${regexp}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=     SSHLibrary.Read Until Regexp    ${regexp}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${output}=    Telnet.Read Until Regexp    ${regexp}
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
+    [Return]    ${output}
+
+Set Prompt For Terminal
+    [Documentation]    Universal keyword to set the prompt (used in Read Until 
+    ...                prompt keyword) regardless of the used method of 
+    ...                connection to the DUT (Telnet or SSH).
+    [Arguments]    ${prompt}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Set Prompt    ${prompt}    prompt_is_regexp=False
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Set Client Configuration    prompt=${prompt}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Set Client Configuration    prompt=${prompt}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Telnet.Set Prompt    ${prompt}
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
+
+Set DUT Response Timeout
+    [Documentation]    Universal keyword to set the timeout (used for operations  
+    ...                that expect some output to appear) regardless of the 
+    ...                used method of connection to the DUT (Telnet or SSH).
+    [Arguments]    ${timeout}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Set Timeout    ${timeout}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Set Client Configuration    timeout=${timeout}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Set Client Configuration    timeout=${timeout}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Telnet.Set Timeout    ${timeout}
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
 
 Write Into Terminal
     [Documentation]    Universal keyword to write text to console regardless of 
