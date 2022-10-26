@@ -7,7 +7,7 @@ ${rte_s2n_port}                         13541
 ${flash_size}                           ${32*1024*1024}
 ${tianocore_string}                     to boot directly
 ${boot_menu_key}                        F11
-${setup_menu_key}                       F11
+${setup_menu_key}                       Delete
 ${USERNAME}                             root
 ${PASSWORD}                             meta-rte
 ${http_port}                            8000
