@@ -374,7 +374,8 @@ Boot Dasharo Tools Suite
 Enter Boot Menu Tianocore
     [Documentation]    Enter boot menu tianocore edk2.
     Read From Terminal Until    ${tianocore_string}
-    Write Bare Into Terminal    ${boot_menu_key}
+    IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    ${boot_menu_key}
+    ...    ELSE    Write Bare Into Terminal    ${boot_menu_key}
 
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
