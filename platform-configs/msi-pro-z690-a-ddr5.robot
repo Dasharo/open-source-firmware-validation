@@ -14,7 +14,7 @@ ${http_port}                            8000
 ${flash_verify_method}                  tianocore-shell
 
 ${DTS_booting_default_method}           USB
-${DTS_string}                           Dasharo Tools Suite
+${DTS_string}                           Enter an option:
 
 # Regression flags
 # Supported testing areas (firmware/OS)
@@ -46,7 +46,7 @@ Power On
     ...                specific platform.
     Sleep    2s
     RteCtrl Power Off
-    Sleep    5s
+    Sleep    10s
     Telnet.Read
     RteCtrl Power On
 
