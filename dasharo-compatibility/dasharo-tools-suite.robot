@@ -61,7 +61,6 @@ DTS005.001 DTS drop-to-shell option works correctly
     Skip If    not ${DTS_support}    DTS005.001 not supported
     Power On
     Boot Dasharo Tools Suite    ${DTS_booting_default_method}
-    Boot from    ${usb_with_dts}
     Enter Shell In DTS
 
 DTS006.001 Flash device from DTS shell by using flashrom works correctly
