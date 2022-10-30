@@ -1,0 +1,15 @@
+robot-venv
+robotframework
+minicom.cap
+*.xml
+*.html
+*.log
+*.rom
+*.tar.gz
+*.md5
+*.js
+*.pyc
+credentials.py
+downstream_job_parameters.txt
+openbmc-test-automation/
+__pycache__*
