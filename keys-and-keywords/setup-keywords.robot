@@ -45,7 +45,8 @@ Prepare Devices For Power Control
     IF    ${rte_presence}
         Set Global Variable    ${rte_ip}    ${stand_ip}
         Set Global Variable    ${pc}    rte
-        REST API Setup    RteCtrl
+        Set Global Variable    ${rte_session_handler}    RteCtrl
+        RTE REST API Setup    ${rte_session_handler}    ${rte_ip}    ${http_port}
     END
     IF    ${sonoff_presence}
         ${sonoff_ip}=    Get Sonoff Ip    ${stand_ip}
@@ -86,7 +87,7 @@ Get Power Supply State
 Get RTE Relay State
     [Documentation]    Keyword allows to obtain the RTE relay state through
     ...    REST API.
-    ${state}=    RteCtrl Get GPIO State    0
+    ${state}=    RteCtrl Get GPIO State    ${rte_session_handler}    0
     RETURN    ${state}
 
 Turn On Power Supply
@@ -95,7 +96,7 @@ Turn On Power Supply
     IF    'sonoff' == '${pc}'
         Sonoff Power On    ${sonoff_session_handler}
     ELSE IF    '${pc}'=='rte'
-        RteCtrl Relay
+        RteCtrl Relay    ${rte_session_handler}
     ELSE
         FAIL    Unknown power control method for stand: ${stand_ip}
     END
@@ -112,9 +113,9 @@ Power Cycle On
         Power On
     ELSE IF    '${pc}'=='rte'
         Telnet.Read
-        ${result}=    RteCtrl Relay
+        ${result}=    RteCtrl Relay    ${rte_session_handler}
         IF    ${result} == 0
-            Run Keywords    Sleep    4s    AND    Telnet.Read    AND    RteCtrl Relay
+            Run Keywords    Sleep    4s    AND    Telnet.Read    AND    RteCtrl Relay    ${rte_session_handler}
         END
     ELSE
         FAIL    Unknown power control method for stand: ${stand_ip}
@@ -131,7 +132,7 @@ Power Cycle Off
     ELSE IF    '${pc}'=='rte'
         Sleep    1s
         ${result}=    Get RTE Relay State
-        IF    '${result}' == 'high'    RteCtrl Relay
+        IF    '${result}' == 'high'    RteCtrl Relay    ${rte_session_handler}
     ELSE
         FAIL    Unknown power control method for stand: ${stand_ip}
     END
