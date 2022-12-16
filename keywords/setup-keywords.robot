@@ -1,39 +1,37 @@
 *** Keywords ***
 Prepare Test Suite
-    [Documentation]    Keyword allows to prepare Test Suite by importing
-    ...    specific platform configuration keywords and variables and preparing
-    ...    connection with the DUT based on used transmission protocol.
-    ...    Keyword used in all [Suite Setup] sections.
-    Import Needed Resources
+    [Documentation]    Keyword allows to prepare Test Suite by doing the
+    ...    following actions:
+    ...    1. Import specific platform configuration resources (variables,
+    ...    keywords and keys).
+    ...    2. Check stand address correctness to avoid problems with
+    ...    hardware components.
+    ...    3. Prepare devices for power control on the stand.
+    ...    4. Prepare Device Under Test to testing procedure by setting
+    ...    transmission parameters and getting platform to the start state.
+    Import Resource    ${CURDIR}/../platform-configs/${config}.robot
+    Import Needed Keywords
+    Import Needed Keys
     Check Stand Address Correctness
     Prepare Devices For Power Control
-    IF    '${dut_connection_method}' == 'SSH'
-        SSHLibrary.Set Default Configuration    timeout=60 seconds
-    ELSE IF    '${dut_connection_method}' == 'Telnet'
-        Open Connection And Log In
-        Get DUT To Start State
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
-        No Operation
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
-        ${pikvm_address}=    Get Pikvm Ip    ${stand_ip}
-        Set Global Variable    ${pikvm_ip}    ${pikvm_address}
-        Open Connection And Log In
-        Get DUT To Start State
-    ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
-    END
+    Prepare Device Under Test
 
-Import Needed Resources
+Import Needed Keywords
     [Documentation]    Keyword allows to prepare test suite by importing
-    ...    specific resources dedicated for the testing stand and tested
-    ...    platform.
-    Import Resource    ${CURDIR}/../platform-configs/${config}.robot
+    ...    specific keywords dedicated for the tested platform. Which keywors
+    ...    are imported, depends on DUT payload and which OS are supported by
+    ...    the platform.
     IF    ${tests_in_firmware_support}
         Import Resource    ${CURDIR}/firmware-keywords.robot
     END
     IF    ${tests_in_ubuntu_support}
         Import Resource    ${CURDIR}/ubuntu-keywords.robot
     END
+
+Import Needed Keys
+    [Documentation]    Keyword allows to prepare test suite by importing
+    ...    specific keys dedicated for the tested platform. Which keys are
+    ...    imported, depends on DUT connection method.
     IF    '${dut_connection_method}' == 'SSH'
         Import Resource    ${CURDIR}/../keys/terminal-keys.robot
     ELSE IF    '${dut_connection_method}' == 'Telnet'
@@ -45,6 +43,22 @@ Import Needed Resources
     ELSE
         FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
+
+Check Stand Address Correctness
+    [Documentation]    Keyword allows to check the correctness of the provided
+    ...    stand ip address, no matter if the testing stand contains RTE or not.
+    ...    If the address is not found in the list, fails the test.
+    IF    '${dut_connection_method}' == 'SSH'
+        ${is_address_correct}=    Check Platform Provided ip    ${stand_ip}
+    ELSE IF    '${dut_connection_method}' == 'Telnet'
+        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
+    IF    ${is_address_correct}    RETURN
+    FAIL    stand_ip:${stand_ip} not found in the hardware configuration.
 
 Prepare Devices For Power Control
     [Documentation]    Keyword allows to prepare devices for power control on
@@ -64,6 +78,27 @@ Prepare Devices For Power Control
         Set Global Variable    ${pc}    sonoff
         Set Global Variable    ${sonoff_session_handler}    SonoffCtrl
         Sonoff API Setup    ${sonoff_session_handler}    ${sonoff_ip}
+    END
+
+Prepare Device Under Test
+    [Documentation]    Keyword allows to prepare Test Suite by importing
+    ...    specific platform configuration keywords and variables and preparing
+    ...    connection with the DUT based on used transmission protocol.
+    ...    Keyword used in all [Suite Setup] sections.
+    IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Set Default Configuration    timeout=60 seconds
+    ELSE IF    '${dut_connection_method}' == 'Telnet'
+        Open Connection And Log In
+        Get DUT To Start State
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        No Operation
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${pikvm_address}=    Get Pikvm Ip    ${stand_ip}
+        Set Global Variable    ${pikvm_ip}    ${pikvm_address}
+        Open Connection And Log In
+        Get DUT To Start State
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
 
 Open Connection And Log In
@@ -115,7 +150,7 @@ Turn On Power Supply
 Power Cycle On
     [Documentation]    Keyword allows to perform the DUT full power on cycle -
     ...    clears Terminal and sets Device Under Test to start state.
-    IF    'sonoff' == '${pc}'
+    IF     '${pc}'=='sonoff'
         Telnet.Read
         Sonoff Power Off    ${sonoff_session_handler}
         Sleep    1s
@@ -136,7 +171,7 @@ Power Cycle Off
     [Documentation]    Keyword allows to perform the DUT full power on cycle -
     ...    closes serial connection and sets Device Under Test to off state.
     Telnet.Close All Connections
-    IF    'sonoff' == '${pc}'
+    IF    '${pc}'=='sonoff'
         Sonoff Power On    ${sonoff_session_handler}
         Sleep    1s
         Sonoff Power Off    ${sonoff_session_handler}
@@ -161,22 +196,6 @@ Serial setup
     ...    terminal_type=vt100
     ...    window_size=80x24
     Set Timeout    60s
-
-Check Stand Address Correctness
-    [Documentation]    Keyword allows to check the correctness of the provided
-    ...    stand ip address, no matter if the testing stand contains RTE or not.
-    ...    If the address is not found in the list, fails the test.
-    IF    '${dut_connection_method}' == 'SSH'
-        ${is_address_correct}=    Check Platform Provided ip    ${stand_ip}
-    ELSE IF    '${dut_connection_method}' == 'Telnet'
-        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
-        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
-    ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
-    END
-    IF    ${is_address_correct}    RETURN
-    FAIL    stand_ip:${stand_ip} not found in the hardware configuration.
 
 Log Out And Close Connection
     [Documentation]    Keyword allows to close all opened SSH, serial
