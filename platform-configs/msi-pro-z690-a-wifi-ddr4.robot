@@ -5,7 +5,7 @@ ${payload}                                  tianocore
 ${rte_s2n_port}                             13541
 ${flash_size}                               ${32*1024*1024}
 ${tianocore_string}                         to boot directly
-${boot_menu_key}                            F11
+${boot_menu_key}                            ${F11}
 ${setup_menu_key}                           Delete
 ${USERNAME}                                 root
 ${PASSWORD}                                 meta-rte
@@ -43,6 +43,11 @@ ${DTS_support}                              ${True}
 ${DTS_firmware_flashing_support}            ${False}
 ${DTS_fwupd_firmware_update_support}        ${False}
 ${DTS_ec_flashing_support}                  ${False}
+# Test suite: UEFI Shell
+${uefi_shell_support}                       ${True}
+# Test suite: CPU status
+${cpu_tests_support}                        ${False}
+
 
 # Test module: Dasharo Security
 
