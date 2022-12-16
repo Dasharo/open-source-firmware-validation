@@ -7,8 +7,7 @@ Library             String
 Library             RequestsLibrary
 Library             Collections
 Library             ../../lib/TestingStands.py
-Resource            ../keys-and-keywords/setup-keywords.robot
-Resource            ../keys-and-keywords/keys.robot
+Resource            ../keywords/setup-keywords.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot
