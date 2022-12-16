@@ -23,7 +23,8 @@ DTS001.001 Booting DTS from USB works correctly
     Skip If    not ${tests_in_firmware_support}    DTS001.001 not supported
     Skip If    not ${DTS_support}    DTS001.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
 
 DTS002.001 DTS option Creating Dasharo HCL report works correctly
     [Documentation]    This test aims to verify that the option Dasharo HCL
@@ -31,7 +32,8 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Skip If    not ${tests_in_firmware_support}    DTS002.001 not supported
     Skip If    not ${DTS_support}    DTS002.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Write Into Terminal    1
     Check HCL Report Creation
 
@@ -41,7 +43,8 @@ DTS003.001 DTS option power-off DUT works correctly
     Skip If    not ${tests_in_firmware_support}    DTS003.001 not supported
     Skip If    not ${DTS_support}    DTS003.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Write Into Terminal    10
     Check Power Off In DTS
 
@@ -51,7 +54,8 @@ DTS004.001 DTS option reboot DUT works correctly
     Skip If    not ${tests_in_firmware_support}    DTS004.001 not supported
     Skip If    not ${DTS_support}    DTS004.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Write Into Terminal    11
     Read From Terminal Until    ${tianocore_string}
 
@@ -61,7 +65,8 @@ DTS005.001 DTS drop-to-shell option works correctly
     Skip If    not ${tests_in_firmware_support}    DTS005.001 not supported
     Skip If    not ${DTS_support}    DTS005.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
 
 DTS006.001 Flash device from DTS shell by using flashrom works correctly
@@ -70,11 +75,13 @@ DTS006.001 Flash device from DTS shell by using flashrom works correctly
     Skip If    not ${tests_in_firmware_support}    DTS006.001 not supported
     Skip If    not ${DTS_firmware_flashing_support}    DTS006.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
     Flash firmware in DTS
     Write Into Terminal    reboot
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
     Check Firmware Version
 
@@ -84,11 +91,13 @@ DTS007.001 Update device firmware from DTS Shell by using fwupd works correctly
     Skip If    not ${tests_in_firmware_support}    DTS007.001 not supported
     Skip If    not ${DTS_fwupd_firmware_update_support}    DTS007.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
     Fwupd Update
     Execute command In Terminal    reboot
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
     Check Firmware Version
 
@@ -99,10 +108,12 @@ DTS008.001 Flash device EC firmware by using DTS built-in script works correctly
     Skip If    not ${tests_in_firmware_support}    DTS008.001 not supported
     Skip If    not ${DTS_ec_flashing_support}    DTS008.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Run EC Transition
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
     Check EC Firmware Version
 
@@ -113,10 +124,12 @@ DTS009.001 Update device EC firmware by using DTS works correctly
     Skip If    not ${tests_in_firmware_support}    DTS009.001 not supported
     Skip If    not ${DTS_ec_flashing_support}    DTS009.001 not supported
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
     Flash EC Firmware
     Power On
-    Boot Dasharo Tools Suite    ${DTS_booting_default_method}
+    Enter Boot Menu Tianocore
+    Boot Dasharo Tools Suite
     Enter Shell In DTS
     Check EC Firmware Version
