@@ -27,12 +27,23 @@ Import Needed Resources
     [Documentation]    Keyword allows to prepare test suite by importing
     ...    specific resources dedicated for the testing stand and tested
     ...    platform.
-    Import Resource    ${CURDIR}/platform-configs/${config}.robot
+    Import Resource    ${CURDIR}/../platform-configs/${config}.robot
     IF    ${tests_in_firmware_support}
         Import Resource    ${CURDIR}/firmware-keywords.robot
     END
     IF    ${tests_in_ubuntu_support}
-        Import Resource    ${CURDIR}/keys-and-keywords/ubuntu-keywords.robot
+        Import Resource    ${CURDIR}/ubuntu-keywords.robot
+    END
+    IF    '${dut_connection_method}' == 'SSH'
+        Import Resource    ${CURDIR}/../keys/terminal-keys.robot
+    ELSE IF    '${dut_connection_method}' == 'Telnet'
+        Import Resource    ${CURDIR}/../keys/terminal-keys.robot
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        Import Resource    ${CURDIR}/../keys/terminal-keys.robot
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Import Resource    ${CURDIR}/../keys/pikvm-keys.robot
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
     END
 
 Prepare Devices For Power Control
@@ -377,13 +388,30 @@ Execute Command In Terminal
     END
     RETURN    ${output}
 
-Boot Operating System
-    [Documentation]    Keyword allows to boot the system to perform test on OS
-    ...    level. How system will be started depends on: connection method and
-    ...    platform type.
-    [Arguments]    ${operating_system}
-    Enter Boot Menu Tianocore
-    Enter submenu in Tianocore    ${operating_system}
+Press key n times and enter
+    [Documentation]    Keyword allows to write into terminal certain key
+    ...    certain number of times and then press Enter key. As the arguments
+    ...    takes requested number of entering the key and requested key.
+    [Arguments]    ${n}    ${key}
+    Press key n times    ${n}    ${key}
+    IF    '${dut_connection_method}' == 'pikvm'
+        Single Key PiKVM    Enter
+    ELSE
+        Write Bare Into Terminal    ${key}
+    END
+
+Press key n times
+    [Documentation]    Keyword allows to write into terminal certain key
+    ...    certain number of times. As the arguments takes requested number
+    ...    of entering the key and requested key.
+    [Arguments]    ${n}    ${key}
+    FOR    ${INDEX}    IN RANGE    0    ${n}
+        IF    '${dut_connection_method}' == 'pikvm'
+            Single Key PiKVM    ${key}
+        ELSE
+            Write Bare Into Terminal    ${key}
+        END
+    END
 
 Login to System with Root Privileges
     [Documentation]    Keyword allows to login to system with root privileges
