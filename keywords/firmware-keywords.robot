@@ -35,6 +35,31 @@ Enter UEFI Shell Tianocore
     ${system_index}=    Get Index From List    ${menu_construction}    UEFI Shell
     Press key n times and enter    ${system_index}    ${ARROW_DOWN}
 
+Boot Dasharo Tools Suite
+    [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
+    ...    boot method (from USB or from iPXE) as parameter.
+    [Arguments]    ${DTS_booting_method}=${DTS_booting_default_method}
+    IF    '${DTS_booting_method}'=='USB'
+        Boot Dasharo Tools Suite from USB
+    ELSE IF    '${DTS_booting_method}'=='iPXE'
+        Boot Dasharo Tools Suite from iPXE
+    ELSE
+        FAIL    Unknown or improper connection method: ${DTS_booting_method}
+    END
+    Read From Terminal Until    ${DTS_string}
+
+Boot Dasharo Tools Suite from USB
+    [Documentation]    Keyword allows to boot Dasharo Tools Suite from USB.
+    ...    Takes the boot method (from USB or from iPXE) as parameter.
+    Set Local Variable    ${is_usb_dts_available}    ${False}
+    ${menu_construction}=    Get edk2 Menu Construction
+    ${is_usb_dts_available}=    Evaluate    "USB SanDisk 3.2Gen1" in """${menu_construction}"""
+    IF    not ${is_usb_dts_available}
+        FAIL    Test case marked as Failed\nBoot menu does not contain position for entering USB with DTS
+    END
+    ${system_index}=    Get Index From List    ${menu_construction}    USB SanDisk 3.2Gen1
+    Press key n times and enter    ${system_index}    ${ARROW_DOWN}
+
 Get edk2 Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
     ...    Getting boot menu contruction is carried out in the following basis:
@@ -59,20 +84,6 @@ Get edk2 Menu Construction
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:-3]
     RETURN    ${menu_construction}
-
-Boot Dasharo Tools Suite
-    [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
-    ...    boot method (from USB or from iPXE) as parameter.
-    [Arguments]    ${DTS_booting_method}
-    Enter Boot Menu Tianocore
-    IF    '${DTS_booting_method}'=='USB'
-        Enter submenu in Tianocore    USB SanDisk 3.2Gen1
-    ELSE IF    '${DTS_booting_method}'=='USB'
-        No Operation
-    ELSE
-        FAIL    Unknown or improper connection method: ${DTS_booting_method}
-    END
-    Read From Terminal Until    ${DTS_string}
 
 Check DTS Menu Appears
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite menu
