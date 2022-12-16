@@ -6,13 +6,13 @@ ${rte_s2n_port}                             13541
 ${flash_size}                               ${32*1024*1024}
 ${tianocore_string}                         to boot directly
 ${boot_menu_key}                            ${F11}
-${setup_menu_key}                           Delete
+${setup_menu_key}                           ${DELETE}
 ${USERNAME}                                 root
 ${PASSWORD}                                 meta-rte
 ${http_port}                                8000
 ${flash_verify_method}                      tianocore-setup-menu
 ${DTS_booting_default_method}               USB
-${DTS_string}                               Enter an option:
+${DTS_string}                               Dasharo Tools Suite
 
 # Login to OS parameters
 ${username_ubuntu}                          user
