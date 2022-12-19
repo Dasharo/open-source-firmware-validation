@@ -34,6 +34,7 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Power On
     Enter Boot Menu Tianocore
     Boot Dasharo Tools Suite
+    Read From Terminal Until    Enter an option:
     Write Into Terminal    1
     Check HCL Report Creation
 
