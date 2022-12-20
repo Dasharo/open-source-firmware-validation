@@ -17,14 +17,14 @@ Suite Teardown      Run Keyword    Log Out And Close Connection
 
 
 *** Test Cases ***
-DTS001.001 Booting DTS from USB works correctly
-    [Documentation]    This test aims to verify that DTS is properly booting
-    ...    from USB.
-    Skip If    not ${tests_in_firmware_support}    DTS001.001 not supported
-    Skip If    not ${DTS_support}    DTS001.001 not supported
-    Power On
-    Enter Boot Menu Tianocore
-    Boot Dasharo Tools Suite
+# DTS001.001 Booting DTS from USB works correctly
+#     [Documentation]    This test aims to verify that DTS is properly booting
+#     ...    from USB.
+#     Skip If    not ${tests_in_firmware_support}    DTS001.001 not supported
+#     Skip If    not ${DTS_support}    DTS001.001 not supported
+#     Power On
+#     Enter Boot Menu Tianocore
+#     Boot Dasharo Tools Suite
 
 DTS002.001 DTS option Creating Dasharo HCL report works correctly
     [Documentation]    This test aims to verify that the option Dasharo HCL
@@ -34,9 +34,7 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Power On
     Enter Boot Menu Tianocore
     Boot Dasharo Tools Suite
-    Read From Terminal Until    Enter an option:
-    Write Into Terminal    1
-    Check HCL Report Creation
+    Create HCL report
 
 DTS003.001 DTS option power-off DUT works correctly
     [Documentation]    This test aims to verify that the option Power off
@@ -46,8 +44,7 @@ DTS003.001 DTS option power-off DUT works correctly
     Power On
     Enter Boot Menu Tianocore
     Boot Dasharo Tools Suite
-    Write Into Terminal    10
-    Check Power Off In DTS
+    Check DTS option Power Off
 
 DTS004.001 DTS option reboot DUT works correctly
     [Documentation]    This test aims to verify that the option Reboot system
@@ -57,8 +54,7 @@ DTS004.001 DTS option reboot DUT works correctly
     Power On
     Enter Boot Menu Tianocore
     Boot Dasharo Tools Suite
-    Write Into Terminal    11
-    Read From Terminal Until    ${tianocore_string}
+    Check DTS option Reboot
 
 DTS005.001 DTS drop-to-shell option works correctly
     [Documentation]    This test aims to verify that the option Shell in the
