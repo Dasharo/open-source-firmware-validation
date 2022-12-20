@@ -85,15 +85,12 @@ Get edk2 Menu Construction
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:-3]
     RETURN    ${menu_construction}
 
-Check DTS Menu Appears
-    [Documentation]    Keyword allows to check if the Dasharo Tools Suite menu
-    ...    has appeared in the Terminal.
-    ${output}=    Read From Terminal Until    Enter an option:
-
-Check HCL Report Creation
-    [Documentation]    Keyword allows to check if the Dasharo Tools Suite
-    ...    option for creating HCL report works correctly.
-    Read From Terminal Until    [N/y]
+Create HCL report
+    [Documentation]    Keyword allows to create Dasharo Tools Suite HCL report
+    Set DUT Response Timeout    180s
+    Read From Terminal Until    Enter an option:
+    Write Into Terminal    1
+    Read From Terminal Until    N/y
     Write Into Terminal    y
     ${output}=    Read From Terminal Until    Thank you for supporting Dasharo!
     Should Contain    ${output}    Done! Logs saved
@@ -106,6 +103,22 @@ Enter Shell In DTS
     Write Into Terminal    9
     Read From Terminal Until    bash-5.1#
 
+Check DTS option Power Off
+    [Documentation]    Keyword allows to check if the Dasharo Tools Suite
+    ...    option for power off the DUT works correctly..
+    Read From Trminal Until    Enter an option:
+    Write Into Terminal    10
+    Sleep    5s
+    RteCtrl Power On    ${rte_session_handler}
+    Read From Terminal Until    ${tianocore_string}
+
+Check DTS option Reboot
+    [Documentation]    Keyword allows to check if the Dasharo Tools Suite
+    ...    option for power off the DUT works correctly..
+    Read From Trminal Until    Enter an option:
+    Write Into Terminal    11
+    Read From Terminal Until    ${tianocore_string}
+
 Run EC Transition
     [Documentation]    Keyword allows to run EC Transition procedure in the
     ...    Dasharo Tools Suite.
@@ -115,13 +128,6 @@ Run EC Transition
     ${output}=    Read From Terminal Until    shut down
     Should Contain X Times    ${output}    VERIFIED    2
     Sleep    10s
-
-Check Power Off In DTS
-    [Documentation]    Keyword allows to check if the Dasharo Tools Suite
-    ...    option for power off the DUT works correctly..
-    Sleep    5s
-    ${output}=    Read From Terminal
-    Should Be Empty    ${output}
 
 Flash firmware in DTS
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
