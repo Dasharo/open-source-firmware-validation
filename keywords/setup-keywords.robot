@@ -479,3 +479,30 @@ Switch to root user
     Write Into Terminal    ${device_ubuntu_password}
     Set Prompt For Terminal    ${device_ubuntu_root_prompt}
     Read From Terminal Until Prompt
+
+Get SMBIOS compare data
+    [Documentation]    Keyword allows to get all necessary SMBIOS data for
+    ...    comparison with data retrieved from UEFI Shell or Operating Systems.
+    ...    SMBIOS parameters `firmware_version`, `product_name`, `release_date`
+    ...    and `firmware_manufacturer` are obtained from the firmware file;
+    ...    values of the rest of the parameters are obtained from
+    ...    platform-dedicated variables.
+    Variable Should Exist    ${fw_file}
+    ${firmware_name}=    Run    strings ${fw_file} | grep -w COREBOOT_VERSION | cut -d" " -f 3 |tr -d '"'
+    ${firmware_name}=    Fetch From Left    ${firmware_name}    \n
+    @{firmware_name_elements}=    Split String    ${firmware_name}    _
+    ${product_name}=    Convert To Upper Case    ${firmware_name_elements[1]}
+    ${manufacturer}=    Run    strings ${fw_file} | grep -w MAINBOARD_VENDOR | cut -d" " -f 2- | tr -d '"'
+    ${manufacturer}=    Fetch From Left    ${manufacturer}    \n
+    ${release_date}=    Run    strings ${fw_file} | grep -w COREBOOT_DMI_DATE | cut -d " " -f 3- |tr -d '"'
+    ${release_date}=    Fetch From Left    ${release_date}    \n
+    &{smbios_data}=    Create Dictionary
+    ...    serial_number=value
+    ...    firmware_version=${firmware_name_elements[2]}
+    ...    product_name=${product_name}
+    ...    release_date=${release_date}
+    ...    firmware_manufacturer=${manufacturer}
+    ...    firmware_vendor=3mdeb
+    ...    firmware_family=family
+    ...    firmware_type=type
+    RETURN    ${smbios_data}
