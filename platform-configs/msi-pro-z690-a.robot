@@ -1,18 +1,24 @@
 *** Variables ***
+# SMBIOS components
+${smbios_version_field_component}           Dasharo (coreboot+UEFI)
+${smbios_firmware_vendor}                   3mdeb
+${smbios_platform_family}                   Default string
+${smbios_platform_type}                     Desktop
+
 # Basic communication variables
 ${dut_connection_method}                    pikvm
 ${payload}                                  tianocore
 ${rte_s2n_port}                             13541
 ${flash_size}                               ${32*1024*1024}
 ${tianocore_string}                         to boot directly
-${boot_menu_key}                            F11
-${setup_menu_key}                           Delete
+${boot_menu_key}                            ${F11}
+${setup_menu_key}                           ${DELETE}
 ${USERNAME}                                 root
 ${PASSWORD}                                 meta-rte
 ${http_port}                                8000
 ${flash_verify_method}                      tianocore-setup-menu
 ${DTS_booting_default_method}               USB
-${DTS_string}                               Enter an option:
+${DTS_string}                               Dasharo Tools Suite
 
 # Login to OS parameters
 ${username_ubuntu}                          user
@@ -58,10 +64,10 @@ Power On
     ...    Implementation must be compatible with the theory of operation of a
     ...    specific platform.
     Sleep    2s
-    RteCtrl Power Off
+    RteCtrl Power Off    ${rte_session_handler}
     Sleep    10s
     Telnet.Read
-    RteCtrl Power On
+    RteCtrl Power On    ${rte_session_handler}
 
 Read firmware with internal programmer
     [Documentation]    Keyword allows to read the firmware based on the internal
@@ -74,18 +80,18 @@ Read firmware with external programmer
     ...    operation of a specific platform.
     Power Cycle Off
     FOR    ${internation}    IN RANGE    0    5
-        RteCtrl Power off
+        RteCtrl Power Off    ${rte_session_handler}
         Sleep    2s
     END
-    RteCtrl Set OC GPIO    2    high-z
+    RteCtrl Set OC GPIO    ${rte_session_handler}    2    high-z
     Sleep    2s
-    RteCtrl Set OC GPIO    3    low
+    RteCtrl Set OC GPIO    ${rte_session_handler}    3    low
     Sleep    2s
-    RteCtrl Set OC GPIO    1    low
+    RteCtrl Set OC GPIO    ${rte_session_handler}    1    low
     Sleep    10s
     SSHLibrary.Execute Command    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -r /tmp/coreboot.rom 2>&1
-    RteCtrl Set OC GPIO    1    high-z
-    RteCtrl Set OC GPIO    3    high-z
+    RteCtrl Set OC GPIO    ${rte_session_handler}    1    high-z
+    RteCtrl Set OC GPIO    ${rte_session_handler}    3    high-z
     Sleep    2s
     Power Cycle On
 
@@ -104,21 +110,21 @@ Flash firmware with external programmer
     Sleep    2s
     Power Cycle Off
     FOR    ${internation}    IN RANGE    0    5
-        RteCtrl Power off
+        RteCtrl Power Off    ${rte_session_handler}
         Sleep    2s
     END
-    RteCtrl Set OC GPIO    2    high-z
+    RteCtrl Set OC GPIO    ${rte_session_handler}    2    high-z
     Sleep    2s
-    RteCtrl Set OC GPIO    3    low
+    RteCtrl Set OC GPIO    ${rte_session_handler}    3    low
     Sleep    2s
-    RteCtrl Set OC GPIO    1    low
+    RteCtrl Set OC GPIO    ${rte_session_handler}    1    low
     Sleep    10s
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
     ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 --layout msi_z690a.layout -i bios -w /tmp/coreboot.rom 2>&1
     ...    return_rc=True
-    RteCtrl Set OC GPIO    1    high-z
+    RteCtrl Set OC GPIO    ${rte_session_handler}    1    high-z
     Sleep    2s
-    RteCtrl Set OC GPIO    3    high-z
+    RteCtrl Set OC GPIO    ${rte_session_handler}    3    high-z
     Sleep    2s
     Power Cycle On
     IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n

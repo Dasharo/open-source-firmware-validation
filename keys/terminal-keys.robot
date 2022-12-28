@@ -21,7 +21,6 @@ ${CTRL_D}           \x04
 ${ESC}              \x1b
 ${ENTER}            \x0d
 ${BACKSPACE}        \x08
-${SPACE}            \x20
 ${q}                \x71
 ${~}                \x7e
 ${.}                \x2e

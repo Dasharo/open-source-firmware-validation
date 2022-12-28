@@ -1,12 +1,90 @@
 *** Keywords ***
 Prepare Test Suite
+    [Documentation]    Keyword allows to prepare Test Suite by doing the
+    ...    following actions:
+    ...    1. Import specific platform configuration resources (variables,
+    ...    keywords and keys).
+    ...    2. Check stand address correctness to avoid problems with
+    ...    hardware components.
+    ...    3. Prepare devices for power control on the stand.
+    ...    4. Prepare Device Under Test to testing procedure by setting
+    ...    transmission parameters and getting platform to the start state.
+    Import Resource    ${CURDIR}/../platform-configs/${config}.robot
+    Import Needed Keywords
+    Import Needed Keys
+    Check Stand Address Correctness
+    Prepare Devices For Power Control
+    Prepare Device Under Test
+
+Import Needed Keywords
+    [Documentation]    Keyword allows to prepare test suite by importing
+    ...    specific keywords dedicated for the tested platform. Which keywors
+    ...    are imported, depends on DUT payload and which OS are supported by
+    ...    the platform.
+    IF    ${tests_in_firmware_support}
+        Import Resource    ${CURDIR}/firmware-keywords.robot
+    END
+    IF    ${tests_in_ubuntu_support}
+        Import Resource    ${CURDIR}/ubuntu-keywords.robot
+    END
+
+Import Needed Keys
+    [Documentation]    Keyword allows to prepare test suite by importing
+    ...    specific keys dedicated for the tested platform. Which keys are
+    ...    imported, depends on DUT connection method.
+    IF    '${dut_connection_method}' == 'SSH'
+        Import Resource    ${CURDIR}/../keys/terminal-keys.robot
+    ELSE IF    '${dut_connection_method}' == 'Telnet'
+        Import Resource    ${CURDIR}/../keys/terminal-keys.robot
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        Import Resource    ${CURDIR}/../keys/terminal-keys.robot
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Import Resource    ${CURDIR}/../keys/pikvm-keys.robot
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
+
+Check Stand Address Correctness
+    [Documentation]    Keyword allows to check the correctness of the provided
+    ...    stand ip address, no matter if the testing stand contains RTE or not.
+    ...    If the address is not found in the list, fails the test.
+    IF    '${dut_connection_method}' == 'SSH'
+        ${is_address_correct}=    Check Platform Provided ip    ${stand_ip}
+    ELSE IF    '${dut_connection_method}' == 'Telnet'
+        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
+    ELSE
+        FAIL    Unknown or improper connection method: ${dut_connection_method}
+    END
+    IF    ${is_address_correct}    RETURN
+    FAIL    stand_ip:${stand_ip} not found in the hardware configuration.
+
+Prepare Devices For Power Control
+    [Documentation]    Keyword allows to prepare devices for power control on
+    ...    the stand. Depends on stand configuration, keyword starts
+    ...    RTE REST API and/or Sonoff REST API sessions and sets global variable
+    ...    ${power _control} used during preparing DUT to start state
+    ${rte_presence}=    Check RTE Presence on Stand    ${stand_ip}
+    ${sonoff_presence}=    Check Sonoff Presence on Stand    ${stand_ip}
+    IF    ${rte_presence}
+        Set Global Variable    ${rte_ip}    ${stand_ip}
+        Set Global Variable    ${pc}    rte
+        Set Global Variable    ${rte_session_handler}    RteCtrl
+        RTE REST API Setup    ${rte_session_handler}    ${rte_ip}    ${http_port}
+    END
+    IF    ${sonoff_presence}
+        ${sonoff_ip}=    Get Sonoff Ip    ${stand_ip}
+        Set Global Variable    ${pc}    sonoff
+        Set Global Variable    ${sonoff_session_handler}    SonoffCtrl
+        Sonoff API Setup    ${sonoff_session_handler}    ${sonoff_ip}
+    END
+
+Prepare Device Under Test
     [Documentation]    Keyword allows to prepare Test Suite by importing
     ...    specific platform configuration keywords and variables and preparing
     ...    connection with the DUT based on used transmission protocol.
     ...    Keyword used in all [Suite Setup] sections.
-    Import Needed Resources
-    Check Stand Address Correctness
-    Prepare Devices For Power Control
     IF    '${dut_connection_method}' == 'SSH'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
     ELSE IF    '${dut_connection_method}' == 'Telnet'
@@ -21,37 +99,6 @@ Prepare Test Suite
         Get DUT To Start State
     ELSE
         FAIL    Unknown or improper connection method: ${dut_connection_method}
-    END
-
-Import Needed Resources
-    [Documentation]    Keyword allows to prepare test suite by importing
-    ...    specific resources dedicated for the testing stand and tested
-    ...    platform.
-    Import Resource    ${CURDIR}/platform-configs/${config}.robot
-    IF    ${tests_in_firmware_support}
-        Import Resource    ${CURDIR}/firmware-keywords.robot
-    END
-    IF    ${tests_in_ubuntu_support}
-        Import Resource    ${CURDIR}/keys-and-keywords/ubuntu-keywords.robot
-    END
-
-Prepare Devices For Power Control
-    [Documentation]    Keyword allows to prepare devices for power control on
-    ...    the stand. Depends on stand configuration, keyword starts
-    ...    RTE REST API and/or Sonoff REST API sessions and sets global variable
-    ...    ${power _control} used during preparing DUT to start state
-    ${rte_presence}=    Check RTE Presence on Stand    ${stand_ip}
-    ${sonoff_presence}=    Check Sonoff Presence on Stand    ${stand_ip}
-    IF    ${rte_presence}
-        Set Global Variable    ${rte_ip}    ${stand_ip}
-        Set Global Variable    ${pc}    rte
-        REST API Setup    RteCtrl
-    END
-    IF    ${sonoff_presence}
-        ${sonoff_ip}=    Get Sonoff Ip    ${stand_ip}
-        Set Global Variable    ${pc}    sonoff
-        Set Global Variable    ${sonoff_session_handler}    SonoffCtrl
-        Sonoff API Setup    ${sonoff_session_handler}    ${sonoff_ip}
     END
 
 Open Connection And Log In
@@ -86,7 +133,7 @@ Get Power Supply State
 Get RTE Relay State
     [Documentation]    Keyword allows to obtain the RTE relay state through
     ...    REST API.
-    ${state}=    RteCtrl Get GPIO State    0
+    ${state}=    RteCtrl Get GPIO State    ${rte_session_handler}    0
     RETURN    ${state}
 
 Turn On Power Supply
@@ -95,7 +142,7 @@ Turn On Power Supply
     IF    'sonoff' == '${pc}'
         Sonoff Power On    ${sonoff_session_handler}
     ELSE IF    '${pc}'=='rte'
-        RteCtrl Relay
+        RteCtrl Relay    ${rte_session_handler}
     ELSE
         FAIL    Unknown power control method for stand: ${stand_ip}
     END
@@ -103,7 +150,7 @@ Turn On Power Supply
 Power Cycle On
     [Documentation]    Keyword allows to perform the DUT full power on cycle -
     ...    clears Terminal and sets Device Under Test to start state.
-    IF    'sonoff' == '${pc}'
+    IF     '${pc}'=='sonoff'
         Telnet.Read
         Sonoff Power Off    ${sonoff_session_handler}
         Sleep    1s
@@ -112,9 +159,9 @@ Power Cycle On
         Power On
     ELSE IF    '${pc}'=='rte'
         Telnet.Read
-        ${result}=    RteCtrl Relay
+        ${result}=    RteCtrl Relay    ${rte_session_handler}
         IF    ${result} == 0
-            Run Keywords    Sleep    4s    AND    Telnet.Read    AND    RteCtrl Relay
+            Run Keywords    Sleep    4s    AND    Telnet.Read    AND    RteCtrl Relay    ${rte_session_handler}
         END
     ELSE
         FAIL    Unknown power control method for stand: ${stand_ip}
@@ -124,14 +171,14 @@ Power Cycle Off
     [Documentation]    Keyword allows to perform the DUT full power on cycle -
     ...    closes serial connection and sets Device Under Test to off state.
     Telnet.Close All Connections
-    IF    'sonoff' == '${pc}'
+    IF    '${pc}'=='sonoff'
         Sonoff Power On    ${sonoff_session_handler}
         Sleep    1s
         Sonoff Power Off    ${sonoff_session_handler}
     ELSE IF    '${pc}'=='rte'
         Sleep    1s
         ${result}=    Get RTE Relay State
-        IF    '${result}' == 'high'    RteCtrl Relay
+        IF    '${result}' == 'high'    RteCtrl Relay    ${rte_session_handler}
     ELSE
         FAIL    Unknown power control method for stand: ${stand_ip}
     END
@@ -149,22 +196,6 @@ Serial setup
     ...    terminal_type=vt100
     ...    window_size=80x24
     Set Timeout    60s
-
-Check Stand Address Correctness
-    [Documentation]    Keyword allows to check the correctness of the provided
-    ...    stand ip address, no matter if the testing stand contains RTE or not.
-    ...    If the address is not found in the list, fails the test.
-    IF    '${dut_connection_method}' == 'SSH'
-        ${is_address_correct}=    Check Platform Provided ip    ${stand_ip}
-    ELSE IF    '${dut_connection_method}' == 'Telnet'
-        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
-        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
-    ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
-    END
-    IF    ${is_address_correct}    RETURN
-    FAIL    stand_ip:${stand_ip} not found in the hardware configuration.
 
 Log Out And Close Connection
     [Documentation]    Keyword allows to close all opened SSH, serial
@@ -376,13 +407,30 @@ Execute Command In Terminal
     END
     RETURN    ${output}
 
-Boot Operating System
-    [Documentation]    Keyword allows to boot the system to perform test on OS
-    ...    level. How system will be started depends on: connection method and
-    ...    platform type.
-    [Arguments]    ${operating_system}
-    Enter Boot Menu Tianocore
-    Enter submenu in Tianocore    ${operating_system}
+Press key n times and enter
+    [Documentation]    Keyword allows to write into terminal certain key
+    ...    certain number of times and then press Enter key. As the arguments
+    ...    takes requested number of entering the key and requested key.
+    [Arguments]    ${n}    ${key}
+    Press key n times    ${n}    ${key}
+    IF    '${dut_connection_method}' == 'pikvm'
+        Single Key PiKVM    Enter
+    ELSE
+        Write Bare Into Terminal    ${key}
+    END
+
+Press key n times
+    [Documentation]    Keyword allows to write into terminal certain key
+    ...    certain number of times. As the arguments takes requested number
+    ...    of entering the key and requested key.
+    [Arguments]    ${n}    ${key}
+    FOR    ${INDEX}    IN RANGE    0    ${n}
+        IF    '${dut_connection_method}' == 'pikvm'
+            Single Key PiKVM    ${key}
+        ELSE
+            Write Bare Into Terminal    ${key}
+        END
+    END
 
 Login to System with Root Privileges
     [Documentation]    Keyword allows to login to system with root privileges
@@ -431,3 +479,31 @@ Switch to root user
     Write Into Terminal    ${device_ubuntu_password}
     Set Prompt For Terminal    ${device_ubuntu_root_prompt}
     Read From Terminal Until Prompt
+
+Get SMBIOS compare data
+    [Documentation]    Keyword allows to get all necessary SMBIOS data for
+    ...    comparison with data retrieved from UEFI Shell or Operating Systems.
+    ...    SMBIOS parameters `firmware_version`, `product_name`, `release_date`
+    ...    and `firmware_manufacturer` are obtained from the firmware file;
+    ...    values of the rest of the parameters are obtained from
+    ...    platform-dedicated variables.
+    Variable Should Exist    ${fw_file}
+    ${firmware_name}=    Run    strings ${fw_file} | grep -w COREBOOT_VERSION | cut -d" " -f 3 |tr -d '"'
+    ${firmware_name}=    Fetch From Left    ${firmware_name}    \n
+    @{firmware_name_elements}=    Split String    ${firmware_name}    _
+    ${firmware_version}=    Catenate    ${smbios_version_field_component}    ${firmware_name_elements[2]}
+    ${product_name}=    Convert To Upper Case    ${firmware_name_elements[1]}
+    ${manufacturer}=    Run    strings ${fw_file} | grep -w MAINBOARD_VENDOR | cut -d" " -f 2- | tr -d '"'
+    ${manufacturer}=    Fetch From Left    ${manufacturer}    \n
+    ${release_date}=    Run    strings ${fw_file} | grep -w COREBOOT_DMI_DATE | cut -d " " -f 3- |tr -d '"'
+    ${release_date}=    Fetch From Left    ${release_date}    \n
+    &{smbios_data}=    Create Dictionary
+    ...    serial_number=value
+    ...    firmware_version=${firmware_version}
+    ...    product_name=${product_name}
+    ...    release_date=${release_date}
+    ...    firmware_manufacturer=${manufacturer}
+    ...    firmware_vendor=${smbios_firmware_vendor}
+    ...    firmware_family=${smbios_platform_family}
+    ...    firmware_type=${smbios_platform_type}
+    RETURN    ${smbios_data}
