@@ -491,6 +491,7 @@ Get SMBIOS compare data
     ${firmware_name}=    Run    strings ${fw_file} | grep -w COREBOOT_VERSION | cut -d" " -f 3 |tr -d '"'
     ${firmware_name}=    Fetch From Left    ${firmware_name}    \n
     @{firmware_name_elements}=    Split String    ${firmware_name}    _
+    ${firmware_version}=    Catenate    ${smbios_version_field_component}    ${firmware_name_elements[2]}
     ${product_name}=    Convert To Upper Case    ${firmware_name_elements[1]}
     ${manufacturer}=    Run    strings ${fw_file} | grep -w MAINBOARD_VENDOR | cut -d" " -f 2- | tr -d '"'
     ${manufacturer}=    Fetch From Left    ${manufacturer}    \n
@@ -498,11 +499,11 @@ Get SMBIOS compare data
     ${release_date}=    Fetch From Left    ${release_date}    \n
     &{smbios_data}=    Create Dictionary
     ...    serial_number=value
-    ...    firmware_version=${firmware_name_elements[2]}
+    ...    firmware_version=${firmware_version}
     ...    product_name=${product_name}
     ...    release_date=${release_date}
     ...    firmware_manufacturer=${manufacturer}
-    ...    firmware_vendor=3mdeb
-    ...    firmware_family=family
-    ...    firmware_type=type
+    ...    firmware_vendor=${smbios_firmware_vendor}
+    ...    firmware_family=${smbios_platform_family}
+    ...    firmware_type=${smbios_platform_type}
     RETURN    ${smbios_data}
