@@ -1,4 +1,10 @@
 *** Variables ***
+# SMBIOS components
+${smbios_version_field_component}           Dasharo (coreboot+UEFI)
+${smbios_firmware_vendor}                   3mdeb
+${smbios_platform_family}                   Default string
+${smbios_platform_type}                     Desktop
+
 # Basic communication variables
 ${dut_connection_method}                    pikvm
 ${payload}                                  tianocore
