@@ -76,7 +76,7 @@ Get SMBIOS data
     ${firmware_type}=    Execute Linux command    dmidecode -t chassis | grep 'Type' | cat
     ${firmware_type}=    Fetch From Right    ${firmware_type}    Type:${SPACE * 1}
     ${firmware_type}=    Fetch From Left    ${firmware_type}    \r
-    &{dmidecode_data}=    Create Dictionary
+    &{smbios_data}=    Create Dictionary
     ...    serial_number=${serial_number}
     ...    firmware_version=${firmware_version}
     ...    product_name=${product_name}
@@ -85,3 +85,4 @@ Get SMBIOS data
     ...    firmware_vendor=${vendor}
     ...    firmware_family=${firmware_family}
     ...    firmware_type=${firmware_type}
+    RETURN    ${smbios_data}
