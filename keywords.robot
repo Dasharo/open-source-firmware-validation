@@ -15,6 +15,7 @@ Resource        lib/flash.robot
 Resource        lib/self-tests.robot
 Resource        lib/sleep-lib.robot
 Resource        lib/CPU-performance-lib.robot
+Resource        lib/framework.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
