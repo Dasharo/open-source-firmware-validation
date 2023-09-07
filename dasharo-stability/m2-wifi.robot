@@ -99,6 +99,7 @@ SMW0004.001 Wi-fi connection after suspension (Ubuntu 22.04)
     Skip If    not ${M2_WIFI_SUPPORT}    SUD004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
