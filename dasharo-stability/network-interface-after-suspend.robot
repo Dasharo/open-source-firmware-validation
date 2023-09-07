@@ -31,10 +31,10 @@ NET001.001 NET controller after suspend (Ubuntu 22.04)
     Skip If    not ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}    NET001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Detect Or Install FWTS
-    Execute Command In Terminal    fwts s3 --s3-sleep-delay=10
+    Perform Suspend Test Using FWTS
     ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
     Should Contain    ${network_status}    UP
 
@@ -44,12 +44,12 @@ NET003.001 Net controller after reboot (Ubuntu 22.04)
     Skip If    not ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}    NET001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Detect Or Install FWTS
     FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Write Into Terminal    reboot
-        Sleep    60s
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
