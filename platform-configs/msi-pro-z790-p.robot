@@ -26,7 +26,6 @@ ${POWER_CTRL}=                                      sonoff
 ${FLASH_VERIFY_METHOD}=                             none
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
 ${WIFI_CARD}=                                       ${EMPTY}
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 # ${ecc_string}    Single-bit ECC
@@ -64,11 +63,13 @@ ${DMIDECODE_FAMILY}=                                N/A
 ${DMIDECODE_TYPE}=                                  Desktop
 
 ${DEVICE_USB_KEYBOARD}=                             ${EMPTY}
-${DEVICE_NVME_DISK}=                                ${EMPTY}
+${DEVICE_NVME_DISK}=                                Non-Volatile memory controller
 ${DEVICE_AUDIO1}=                                   ${EMPTY}
 ${DEVICE_AUDIO2}=                                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
+${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${USB_MODEL}=                                       Kingston
+${USB_DEVICE}=                                      Multifunction Composite Gadget
 ${SD_CARD_VENDOR}=                                  Mass
 ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
@@ -210,9 +211,10 @@ ${WINDOWS_BOOTING}=                                 ${FALSE}
 
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
-${NVME_DETECTION_SUPPORT}=                          ${FALSE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
-${TPM_DETECT_SUPPORT}=                              ${FALSE}
+${NVME_DETECTION_SUPPORT}=                          ${TRUE}
+${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
+${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
 # Supported OS installation variants
 ${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
