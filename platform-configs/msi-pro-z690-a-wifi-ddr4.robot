@@ -75,11 +75,12 @@ ${DEVICE_NVME_DISK}=                                Non-Volatile memory controll
 ${DEVICE_AUDIO1}=                                   ALC897
 ${DEVICE_AUDIO2}=                                   Alderlake HDMI
 ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${USB_MODEL}=                                       Kingston
 ${SD_CARD_VENDOR}=                                  Mass
 ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
+
+${USB_DEVICE}=                                      Multifunction Composite Gadget
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -201,9 +202,10 @@ ${WINDOWS_BOOTING}=                                 ${FALSE}
 
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
-${NVME_DETECTION_SUPPORT}=                          ${FALSE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
-${TPM_DETECT_SUPPORT}=                              ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
+${NVME_DETECTION_SUPPORT}=                          ${TRUE}
+${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
+${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
 # Supported OS installation variants
 ${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
