@@ -70,13 +70,14 @@ SUD003.001 USB devices detection after reboot (Ubuntu 22.04)
     Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD003.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Write Into Terminal    reboot
-        Sleep    60s
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    usb
@@ -89,13 +90,13 @@ SUD004.001 USB devices detection after suspension (Ubuntu 22.04)
     Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
-    Detect Or Install FWTS
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
-        Execute Command In Terminal    fwts s3 --s3-sleep-delay=10
+        Perform Suspend Test Using FWTS
         ${out}=    List Devices In Linux    usb
         Should Contain    ${out}    ${USB_DEVICE}
     END
