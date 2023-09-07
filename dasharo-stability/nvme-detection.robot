@@ -32,7 +32,7 @@ Suite Teardown      Run Keyword
 #    Switch to root user
 #    ${out}=    List devices in Linux    pci
 #    Should Contain    ${out}    ${device_nvme_disk}
-#    FOR    ${INDEX}    IN RANGE    0    ${nvme_detection_iterations}
+#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_coldboot_iterations}
 #    Power Cycle On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -53,7 +53,7 @@ Suite Teardown      Run Keyword
 #    Switch to root user
 #    ${out}=    List devices in Linux    pci
 #    Should Contain    ${out}    ${device_nvme_disk}
-#    FOR    ${INDEX}    IN RANGE    0    ${nvme_detection_iterations}
+#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_warmboot_iterations}
 #    Power On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -73,7 +73,7 @@ SNV003.001 NVMe detection after reboot (Ubuntu 22.04)
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
-    FOR    ${index}    IN RANGE    0    ${NVME_DETECTION_ITERATIONS}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Write Into Terminal    reboot
         Sleep    60s
         Login To Linux
@@ -93,7 +93,7 @@ SNV004.001 NVMe detection after suspension (Ubuntu 22.04)
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     Detect Or Install FWTS
-    FOR    ${index}    IN RANGE    0    ${NVME_DETECTION_ITERATIONS}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         Perform Suspend Test Using FWTS
         ${out}=    List Devices In Linux    pci
         Should Contain    ${out}    ${DEVICE_NVME_DISK}

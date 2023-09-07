@@ -47,7 +47,7 @@ NET003.001 Net controller after reboot (Ubuntu 22.04)
     Login To Linux
     Switch To Root User
     Detect Or Install FWTS
-    FOR    ${ind}    IN RANGE    ${NETWORK_DETECTION_REBOOT_ITERATIONS}
+    FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Write Into Terminal    reboot
         Sleep    60s
         Login To Linux

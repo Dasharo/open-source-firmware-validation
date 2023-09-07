@@ -274,14 +274,13 @@ ${FREEBSD_BOOTING_ITERATIONS}=                      5
 ${WINDOWS_BOOTING_ITERATIONS}=                      5
 # Maximum fails during performing booting OS tests
 ${ALLOWED_BOOTING_FAILS}=                           0
-# Number of docking station detection iterations after reboot
-${DOCKING_STATION_REBOOT_ITERATIONS}=               2
-# Number of docking station detection iterations after warmboot
-${DOCKING_STATION_WARMBOOT_ITERATIONS}=             2
-# Number of docking station detection iterations after coldboot
-${DOCKING_STATION_COLDBOOT_ITERATIONS}=             2
 # Maximum fails during performing docking station detect tests
 ${ALLOWED_DOCKING_STATION_DETECT_FAILS}=            0
+# Number of iterations in stability detection tests
+${STABILITY_DETECTION_COLDBOOT_ITERATIONS}=         2
+${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
+${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
+${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 
 
 *** Keywords ***

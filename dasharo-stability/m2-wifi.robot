@@ -34,7 +34,7 @@ Suite Teardown      Run Keyword
 #    Should Match    ${out}    *${wifi_card_ubuntu}*
 #    Scan for Wi-Fi in Linux
 #    Detect or install FWTS
-#    FOR    ${INDEX}    IN RANGE    0    ${m2_wifi_iterations}
+#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
 #    Power Cycle On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -58,7 +58,7 @@ Suite Teardown      Run Keyword
 #    Should Match    ${out}    *${wifi_card_ubuntu}*
 #    Scan for Wi-Fi in Linux
 #    Detect or install FWTS
-#    FOR    ${INDEX}    IN RANGE    0    ${m2_wifi_iterations}
+#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
 #    Power On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -82,7 +82,7 @@ Suite Teardown      Run Keyword
 #    Should Match    ${out}    *${wifi_card_ubuntu}*
 #    Scan for Wi-Fi in Linux
 #    Detect or install FWTS
-#    FOR    ${INDEX}    IN RANGE    0    ${m2_wifi_iterations}
+#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
 #    Write Into Terminal    reboot
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -105,7 +105,7 @@ SMW0004.001 Wi-fi connection after suspension (Ubuntu 22.04)
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux
     Detect Or Install FWTS
-    FOR    ${index}    IN RANGE    0    ${M2_WIFI_ITERATIONS}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Suspend Test Using FWTS
         ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
         Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
