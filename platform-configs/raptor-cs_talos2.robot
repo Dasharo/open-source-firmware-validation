@@ -39,6 +39,7 @@ ${USB_LIVE}=                                        USB: sda2
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
+${TESTS_IN_HEADS_SUPPORT}=                          ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
