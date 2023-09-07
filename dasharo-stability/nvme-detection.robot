@@ -69,13 +69,14 @@ SNV003.001 NVMe detection after reboot (Ubuntu 22.04)
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Write Into Terminal    reboot
-        Sleep    60s
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    pci
@@ -88,11 +89,10 @@ SNV004.001 NVMe detection after suspension (Ubuntu 22.04)
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.001 not supported
     Power On
-    Login To Linux
+    Boot System Or From Connected Disk    ubuntu Login to Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
-    Detect Or Install FWTS
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         Perform Suspend Test Using FWTS
         ${out}=    List Devices In Linux    pci
