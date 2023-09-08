@@ -33,7 +33,7 @@ TDN001.001 Ethernet connection (Ubuntu 22.04)
     Power On
     Login To Linux
     Switch To Root User
-    Check Internet Connection On Ubuntu
+    Check Internet Connection On Linux
     Exit From Root User
 
 TDN001.002 Ethernet connection (Windows 11)
