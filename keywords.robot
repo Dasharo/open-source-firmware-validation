@@ -1332,8 +1332,8 @@ List Devices In Linux
 Detect Docking Station In Linux
     [Documentation]    Keyword check the docking station is detected correctly.
     ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
-    Should Contain    ${out}    Prolific Technology, Inc. USB SD Card Reader
+    Should Contain    ${out}    ASIX Electronics Corp. AX88179 Gigabit Ethernet
+    Should Contain    ${out}    Realtek Semiconductor Corp. USB3.0 Card Reader
     Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
 
 Check If Files Are Identical In Linux
