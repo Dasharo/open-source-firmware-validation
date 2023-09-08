@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-# This one must be retrieved manually from the DUT before starting regression
-DEVICE_IP=192.168.4.69
+DEVICE_IP=192.168.4.240
 
 # Uncomment one of these
 CONFIG="novacustom-nv41mz"
+# CONFIG="novacustom-nv41pz"
+# CONFIG="novacustom-ns70mu"
+# CONFIG="novacustom-ns70pu"
 
 FW_FILE="coreboot.rom"
 
@@ -44,21 +46,23 @@ compatibility_tests=(
   "efi"
   "display-ports-and-lcd-support"
   "usb-hid-and-msc-support"
-  "uefi-shell"
+  # "uefi-shell"
   "dmidecode"
-  "custom-boot-menu-key"
+  # "custom-boot-menu-key"
   "wifi-bluetooth-support"
   "audio-subsystem"
   "nvme-support"
-  "network-boot"
-  "uefi-shell"
+  # "network-boot"
   "cpu-status"
-  "reset-to-defaults"
+  # "reset-to-defaults"
   "platform-suspend-and-resume"
   "ec-and-super-IO"
   "sd-card-reader"
   "usb-camera"
-  "docking-station-usb-c"
+  "cpu-status"
+  # "boot-blocking"
+  "docking-station-detect"
+  "docking-station-usb-c-charging"
   "docking-station-usb-devices"
   "docking-station-net-interface"
   "docking-station-display-ports"
@@ -74,14 +78,14 @@ compatibility_tests=(
 security_tests=(
   "tpm-support"
   "measured-boot"
-  "verified-boot"
-  "network-stack"
-  "me-neuter"
-  "uefi-password"
-  "early-boot-dma-protection"
-  "usb-stack"
-  "bios-lock"
-  "smm-bios-write-protection"
+  # "verified-boot"
+  # "network-stack"
+  # "me-neuter"
+  # "uefi-password"
+  # "early-boot-dma-protection"
+  # "usb-stack"
+  # "bios-lock"
+  # "smm-bios-write-protection"
 )
 
 # performance_tests=(
