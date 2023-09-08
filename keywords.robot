@@ -1324,12 +1324,12 @@ Check If Files Are Identical In Linux
     ...    using sha256sum in Linux OS. Returns True if both files
     ...    have an identical content.
     [Arguments]    ${file1}    ${file2}
-    ${out1}=    Execute Linux Command    sha256sum ${file1}
-    ${out2}=    Execute Linux Command    sha256sum ${file2}
+    ${out1}=    Execute Command In Terminal    sha256sum ${file1}
+    ${out2}=    Execute Command In Terminal    sha256sum ${file2}
     ${splitted1}=    Split String    ${out1}
-    ${sha256sum1}=    Get From List    ${splitted1}    1
+    ${sha256sum1}=    Get From List    ${splitted1}    0
     ${splitted2}=    Split String    ${out2}
-    ${sha256sum2}=    Get From List    ${splitted2}    1
+    ${sha256sum2}=    Get From List    ${splitted2}    0
     ${status}=    Run Keyword And Return Status
     ...    Should Be Equal    ${sha256sum1}    ${sha256sum2}
     RETURN    ${status}
