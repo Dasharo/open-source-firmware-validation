@@ -85,7 +85,7 @@ DUD002.001 Docking station detection after warmboot (Ubuntu 22.04)
     Log To Console    \nAll iterations passed.
 
 DUD003.001 Docking station detection after reboot (Ubuntu 22.04)
-    [Documentation]    Check whether he DUT properly detects the docking station
+    [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    DUD003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DUD003.001 not supported
@@ -113,4 +113,29 @@ DUD003.001 Docking station detection after reboot (Ubuntu 22.04)
     IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
         FAIL    \n ${failed_detection} iterations failed.
     END
+    Log To Console    \nAll iterations passed.
+
+DUD004.001 Docking station detection after suspend (Ubuntu 22.04)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    DUD004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DUD004.001 not supported
+    Power On
+    Login To Linux
+    Switch To Root User
+    Detect Or Install FWTS
+    Detect Docking Station In Linux
+    Set Global Variable    ${FAILED_DETECTION}    0
+    FOR    ${iteration}    IN RANGE    0    $${STABILITY_DETECTION_SUSPEND_ITERATIONS}
+        Write Into Terminal    fwts s3
+        TRY
+            Sleep    30s
+            Login To Linux
+            Switch To Root User
+            Detect Docking Station In Linux
+        EXCEPT    message
+            Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
+        END
+    END
+    IF    '${FAILED_DETECTION}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'    FAIL    \n ${FAILED_DETECTION} iterations failed.
     Log To Console    \nAll iterations passed.
