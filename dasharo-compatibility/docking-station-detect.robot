@@ -126,12 +126,9 @@ DUD004.001 Docking station detection after suspend (Ubuntu 22.04)
     Detect Or Install FWTS
     Detect Docking Station In Linux
     Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    $${STABILITY_DETECTION_SUSPEND_ITERATIONS}
-        Write Into Terminal    fwts s3
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
+        Perform Suspend Test Using FWTS
         TRY
-            Sleep    30s
-            Login To Linux
-            Switch To Root User
             Detect Docking Station In Linux
         EXCEPT    message
             Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
