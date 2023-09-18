@@ -239,7 +239,7 @@ ECR019.001 Buttons (button: power) in OS (Ubuntu 20.04)
     Exit from root user
 
 ECR020.001 Charging until 98% level in OS (Ubuntu 22.04)
-    [Documentation]    Check wheter the DUT stops charging the battery when the
+    [Documentation]    Check whether the DUT stops charging the battery when the
     ...    98% threshold is reached.
     IF    not ${ec_and_super_io_support}    SKIP    ECR020.001 not supported
     IF    not ${tests_in_ubuntu_support}    SKIP    ECR020.001 not supported

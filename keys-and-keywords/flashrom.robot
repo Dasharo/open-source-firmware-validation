@@ -28,7 +28,7 @@ Flash BIOS region via Internal Programmer
     [Arguments]    ${fw_file_path}
     ${out_flashrom_probe}=    Execute Command In Terminal    flashrom -p internal
     ${read_only}=    Run Keyword And Return Status    Should Contain    ${out_flashrom_probe}    read-only
-    # TODO: automatically check and seck locs - reuse keywords from this suite, but it does noe exist it seems
+    # TODO: automatically check and seck locs - reuse keywords from this suite, but it does not exist it seems
     IF    ${read_only}
         Fail    Make sure that SPI locks are disabled prior flashing internally
     END

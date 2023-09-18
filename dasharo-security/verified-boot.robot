@@ -151,7 +151,7 @@ Resign existing firmware image with generated keys
 Prepare Tools, Keys and Binaries
     Power On
     # TODO: store the disk boot entry in platform config, or figure out how
-    # to handle UEFI boot entires in a reliable manner
+    # to handle UEFI boot entries in a reliable manner
     Boot system or from connected disk    ubuntu
     Login to Linux
     Switch to root user

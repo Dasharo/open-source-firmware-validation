@@ -18,7 +18,7 @@ Enter Setup Menu Tianocore
     END
 
 Enter submenu in Tianocore
-    [Documentation]    Keyword allwos to enter into any Tianocore submenu.
+    [Documentation]    Keyword allows to enter into any Tianocore submenu.
     [Arguments]    ${option}    ${checkpoint}=ESC to exit    ${description_lines}=1
     ${rel_pos}=    Get relative menu position    ${option}    ${checkpoint}    ${description_lines}
     IF    '${dut_connection_method}' == 'pikvm'

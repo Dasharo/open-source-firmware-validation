@@ -207,7 +207,7 @@ ${nvme_detection_support}                           ${False}
 ${usb_type-a_devices_detection_support}             ${False}
 ${tpm_detect_support}                               ${False}
 
-# Supported OS intallation variants
+# Supported OS installation variants
 ${install_debian_usb_support}                       ${False}
 ${install_ubuntu_usb_support}                       ${False}
 
@@ -240,13 +240,13 @@ ${fan_control_measure_interval}                     3
 ${custom_fan_curve_test_duration}                   30
 # Interval between the following readings in custom fan curve tests
 ${custom_fan_curve_measure_interval}                1
-# Maxium fails during during performing test suite usb-boot.robot
+# Maximum fails during during performing test suite usb-boot.robot
 ${allowed_fails_usb_boot}                           0
-# Maxium fails during during performing test suite usb-detect.robot
+# Maximum fails during during performing test suite usb-detect.robot
 ${allowed_fails_usb_detect}                         0
 # Number of suspend and resume cycles performed during suspend test
 ${suspend_iterations_number}                        15
-# Maxium number of fails during performing suspend and resume cycles
+# Maximum number of fails during performing suspend and resume cycles
 ${suspend_allowed_fails}                            0
 # Number of Ubuntu booting iterations
 ${ubuntu_booting_iterations}                        5
@@ -308,7 +308,7 @@ Flash MSI-PRO-Z690-A-WiFi-DDR4
     ...    platform.
     Sonoff Power Cycle Off
     Put file    ${fw_file}    /tmp/coreboot.rom
-    FOR    ${internation}    IN RANGE    0    5
+    FOR    ${iterations}    IN RANGE    0    5
         RteCtrl Power Off    ${6}
         Sleep    2s
     END

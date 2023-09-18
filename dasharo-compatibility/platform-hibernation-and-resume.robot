@@ -30,7 +30,7 @@ Suite Teardown      Log Out And Close Connection
 
 # Expected result:
 #    1. The DUT should power back on
-#    2. All previously opened windows shoul remain open
+#    2. All previously opened windows should remain open
 
 HIB001.001 Cyclic platform hibernation and resume (Ubuntu 22.04)
     [Documentation]    This test aims to verify that the DUT platform hibernation

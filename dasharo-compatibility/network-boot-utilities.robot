@@ -37,7 +37,7 @@ NBT001.001 Netboot is available
     Read From Terminal Until    Please Select an Option
 
 NBT002.001 OS selection & utilities is available
-    [Documentation]    Check whether wether selection & utilities is available,
+    [Documentation]    Check whether whether selection & utilities is available,
     ...    and if after selection proper menu apperas.
     Skip If    not ${netboot_utilities_support}    NBT002.001 not supported
     Skip If    not ${tests_in_firmware_support}    NBT002.001 not supported
@@ -77,7 +77,7 @@ NBT004.001 iPXE shell is available
 
 NBT005.001 iPXE shell works correctly
     [Documentation]    Check whether iPXE shell works correctly by configuring
-    ...    network interface and booting to selected adress.
+    ...    network interface and booting to selected address.
     Skip If    not ${netboot_utilities_support}    NBT005.001 not supported
     Skip If    not ${tests_in_firmware_support}    NBT005.001 not supported
     Power On

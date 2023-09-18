@@ -174,7 +174,7 @@ ${nvme_detection_support}                           ${False}
 ${usb_type-a_devices_detection_support}             ${False}
 ${tpm_detect_support}                               ${True}
 
-# Supported OS intallation variants
+# Supported OS installation variants
 ${install_debian_usb_support}                       ${False}
 ${install_ubuntu_usb_support}                       ${False}
 
@@ -207,9 +207,9 @@ ${fan_control_measure_interval}                     3
 ${custom_fan_curve_test_duration}                   30
 # Interval between the following readings in custom fan curve tests
 ${custom_fan_curve_measure_interval}                1
-# Maxium fails during during performing test suite usb-boot.robot
+# Maximum fails during during performing test suite usb-boot.robot
 ${allowed_fails_usb_boot}                           0
-# Maxium fails during during performing test suite usb-detect.robot
+# Maximum fails during during performing test suite usb-detect.robot
 ${allowed_fails_usb_detect}                         0
 # Number of Ubuntu booting iterations
 ${ubuntu_booting_iterations}                        5
@@ -359,7 +359,7 @@ Turn Off Host With Obmcutil
 
 Reset mboxd
     [Documentation]    Keyword allows to reset mboxd service. This operation
-    ...    is neccessary to erase temporarily mounted images.
+    ...    is necessary to erase temporarily mounted images.
     Write Into Terminal    systemctl stop mboxd
     Read From Terminal Until    ${open_bmc_root_prompt}
     Write Into Terminal    systemctl start mboxd

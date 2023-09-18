@@ -5,7 +5,7 @@
 # should be changed in the variables.robot file
 RTE_IP=192.168.10.199
 
-# This one must be retreived manually from the DUT before starting regression
+# This one must be retrieved manually from the DUT before starting regression
 DEVICE_IP=192.168.10.152
 
 # Uncomment one of these

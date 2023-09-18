@@ -87,7 +87,7 @@ WLE003.001 Bluetooth scanning (Ubuntu 20.04)
     Exit from root user
 
 # TBD - Run scanning bluetooth via powershell and list aviailable devices
-# test case bellow just check connected bluetooth devices
+# test case below just check connected bluetooth devices
 # WLE003.002 Bluetooth scanning (Windows 11)
 #    [Documentation]    Check whether the Bluetooth functionality of card is
 #    ...    initialized correctly and can be used from within the

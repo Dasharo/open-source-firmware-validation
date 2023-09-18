@@ -24,7 +24,7 @@ Suite Teardown      Run Keyword    Log Out And Close Connection
 
 *** Test Cases ***
  SBO001.001 Check Secure Boot default state (firmware)
-    [Documentation]    This test aims to verfiy that Secure Boot state after
+    [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
     ...    correct.
     Skip If    not ${secure_boot_support}    SBO001.001 not supported
@@ -107,7 +107,7 @@ Check if Attempt Secure Boot can be Selected
     RETURN    ${can_be_selected}
 
 Reset Secure Boot Keys For The First Time
-    [Documentation]    This test aims to verfiy that Secure Boot state after
+    [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
     ...    correct.
     Skip If    not ${secure_boot_support}    SBO001.001 not supported

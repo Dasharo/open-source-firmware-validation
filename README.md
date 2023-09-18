@@ -5,8 +5,8 @@
 **!!! WARNING !!!**
 This repository is in the process of migration and multiple major reworks. If
 you do not know what you are doing, consider not using it until at least
-`v0.5.0` is relased. When this is scheduled, link to such a milestone will
-apear here.
+`v0.5.0` is released. When this is scheduled, link to such a milestone will
+appear here.
 **!!! WARNING !!!**
 
 ![regression-architecture](https://cloud.3mdeb.com/index.php/s/KkERgGoniBtjfC4/preview)
@@ -51,7 +51,7 @@ and running tests have been implemented.
 
 ## Getting started
 
-### Initalizing environment
+### Initializing environment
 
 * Clone repository and setup virtualenv:
 
@@ -65,13 +65,13 @@ source venv/bin/activate
 
 * Install modules (in case of Raptor Talos II platform):
 
-```
+```bash
 pip install -U -r requirements-openbmc.txt
 ```
 
 * Install modules (in case of other platforms):
 
-```
+```bash
 pip install -r requirements.txt
 ```
 

@@ -425,7 +425,7 @@ Login to System
 
 Switch to root user
     [Documentation]    Keyword allows to switch to the root environment to
-    ...    perform in the OS tasks reserved for user with high priveleges.
+    ...    perform in the OS tasks reserved for user with high privileges.
     Write Into Terminal    sudo su
     Read From Terminal Until    [sudo] password for ${device_ubuntu_username}:
     Write Into Terminal    ${device_ubuntu_password}

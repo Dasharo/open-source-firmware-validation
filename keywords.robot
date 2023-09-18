@@ -1,32 +1,35 @@
 *** Settings ***
+Library         keywords.py
+Library         osfv-scripts/snipeit/snipeit_robot.py
+Library         Collections
+Variables       platform-configs/fan-curve-config.yaml
+Resource        pikvm-rest-api/pikvm_comm.robot
+Resource        keys-and-keywords/flashrom.robot
+Resource        pikvm-rest-api/pikvm_comm.robot
 
-Library    keywords.py
-Library    osfv-scripts/snipeit/snipeit_robot.py
-Library    Collections
-
-Variables    platform-configs/fan-curve-config.yaml
-
-Resource    pikvm-rest-api/pikvm_comm.robot
-Resource     keys-and-keywords/flashrom.robot
-Resource    pikvm-rest-api/pikvm_comm.robot
 
 *** Keywords ***
 # TODO: split this file into some manageable modules
 
-
 Serial setup
     [Documentation]    Setup serial communication via telnet. Takes host and
-    ...                ser2net port as an arguments.
+    ...    ser2net port as an arguments.
     [Arguments]    ${host}    ${s2n_port}
     # provide ser2net port where serial was redirected
-    Telnet.Open Connection    ${host}    port=${s2n_port}    newline=LF    terminal_emulation=True    terminal_type=vt100    window_size=400x100
+    Telnet.Open Connection
+    ...    ${host}
+    ...    port=${s2n_port}
+    ...    newline=LF
+    ...    terminal_emulation=True
+    ...    terminal_type=vt100
+    ...    window_size=400x100
     # remove encoding setup for terminal emulator pyte
     # Telnet.Set Encoding    errors=ignore
     Telnet.Set Timeout    180s
 
 iPXE dhcp
     [Documentation]    Request IP address in iPXE shell. Takes network port
-    ...                number as an argument. Default: request IP for all ports.
+    ...    number as an argument. Default: request IP for all ports.
     [Arguments]    ${net_port}=${null}
     Write Bare Into Terminal    \n
     # make sure we are inside iPXE shell
@@ -40,7 +43,7 @@ iPXE DTS
 
 Check iPXE appears only once
     [Documentation]    Check the iPXE oprion appears only once in the boot
-    ...                option list.
+    ...    option list.
     ${menu_construction}=    Get Boot Menu Construction
     TRY
         Should Contain X Times    ${menu_construction}    ${ipxe_boot_entry}    1
@@ -70,7 +73,8 @@ Replace logo in firmware
     # Remove the existing logo from the firmware image
     ${out}=    Execute Linux command    cbfstool /tmp/firmware.rom remove -r BOOTSPLASH -n logo.bmp
     # Add your desired bootlogo to the firmware image
-    ${out}=    Execute Linux command    cbfstool /tmp/firmware.rom add -f ${logo_file} -r BOOTSPLASH -n logo.bmp -t raw -c lzma
+    ${out}=    Execute Linux command
+    ...    cbfstool /tmp/firmware.rom add -f ${logo_file} -r BOOTSPLASH -n logo.bmp -t raw -c lzma
     Should Not Contain    ${out}    Image is missing 'BOOTSPLASH' region
     Write BOOTSPLASH region internally    /tmp/firmware.rom
 
@@ -88,7 +92,7 @@ Write BOOTSPLASH region internally
 
 Login to Linux
     [Documentation]    Universal login to one of the supported linux systems:
-    ...                Ubuntu or Debian.
+    ...    Ubuntu or Debian.
     IF    '${dut_connection_method}' == 'pikvm'
         Read From Terminal Until    login:
         Set Global Variable    ${dut_connection_method}    SSH
@@ -104,7 +108,7 @@ Login to Linux
 Login to Linux via OBMC
     [Documentation]    Login to Linux via OBMC
     [Arguments]    ${username}    ${password}    ${timeout}=180
-    Set DUT Response Timeout  300s
+    Set DUT Response Timeout    300s
     Read From Terminal Until    debian login:
     Write Into Terminal    ${username}
     Read From Terminal Until    Password:
@@ -123,14 +127,14 @@ Login to Windows
 
 Serial root login Linux
     [Documentation]    Universal telnet login to one of supported linux systems:
-    ...                Ubuntu, Voyage, Xen or Debian.
+    ...    Ubuntu, Voyage, Xen or Debian.
     [Arguments]    ${password}
     Telnet.Set Timeout    300
     Telnet.Set Prompt    \~#
     ${output}=    Telnet.Read Until    login:
-    ${status1}=    Evaluate   "voyage" in """${output}"""
-    ${status2}=    Evaluate   "debian login" in """${output}"""
-    ${status3}=    Evaluate   "ubuntu login" in """${output}"""
+    ${status1}=    Evaluate    "voyage" in """${output}"""
+    ${status2}=    Evaluate    "debian login" in """${output}"""
+    ${status3}=    Evaluate    "ubuntu login" in """${output}"""
     ${passwd}=    Set Variable If    ${status1}    voyage
     ...    ${status2}    debian
     ...    ${status3}    ubuntu
@@ -141,17 +145,22 @@ Serial root login Linux
 Serial user login Linux
     [Documentation]    Universal telnet login to Linux system
     [Arguments]    ${password}
-    Telnet.Set Prompt   :~$
+    Telnet.Set Prompt    :~$
     Telnet.Set Timeout    300
     Telnet.Login    user    ${password}
 
 # To Do: unify with keyword: Serial root login Linux
+
 Login to Linux over serial console
     [Documentation]    Login to Linux over serial console, using provided
-    ...                arguments as username and password respectively. The
-    ...                optional timeout parameter can be used to specify how
-    ...                long we want to wait for the login prompt.
-    [Arguments]    ${username}    ${password}    ${device_ubuntu_user_prompt}=${device_ubuntu_user_prompt}    ${timeout}=180
+    ...    arguments as username and password respectively. The
+    ...    optional timeout parameter can be used to specify how
+    ...    long we want to wait for the login prompt.
+    [Arguments]
+    ...    ${username}
+    ...    ${password}
+    ...    ${device_ubuntu_user_prompt}=${device_ubuntu_user_prompt}
+    ...    ${timeout}=180
     Set DUT Response Timeout    ${timeout} seconds
     Telnet.Read Until    login:
     Telnet.Write    ${username}
@@ -162,25 +171,42 @@ Login to Linux over serial console
 
 Login to Linux via SSH
     [Documentation]    Login to Linux via SSH by using provided arguments as
-    ...                username and password respectively. The optional timeout
-    ...                parameter can be used to specify how long we want to
-    ...                wait for the login prompt.
+    ...    username and password respectively. The optional timeout
+    ...    parameter can be used to specify how long we want to
+    ...    wait for the login prompt.
     [Arguments]    ${username}    ${password}    ${timeout}=180    ${prompt}=${device_ubuntu_user_prompt}
     # We need this when switching from PiKVM to SSH
     Remap keys variables from PiKVM
     SSHLibrary.Open Connection    ${device_ip}    prompt=${prompt}
-    SSHLibrary.Set Client Configuration    timeout=${timeout}    term_type=vt100    width=400    height=100    escape_ansi=True    newline=LF
+    SSHLibrary.Set Client Configuration
+    ...    timeout=${timeout}
+    ...    term_type=vt100
+    ...    width=400
+    ...    height=100
+    ...    escape_ansi=True
+    ...    newline=LF
     Wait Until Keyword Succeeds    12x    10s    SSHLibrary.Login    ${username}    ${password}
 
 Login to Windows via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
-    ...                username and password respectively. The optional timeout
-    ...                parameter can be used to specify how long we want to
-    ...                wait for the login prompt.
+    ...    username and password respectively. The optional timeout
+    ...    parameter can be used to specify how long we want to
+    ...    wait for the login prompt.
     [Arguments]    ${username}    ${password}    ${timeout}=180
     SSHLibrary.Open Connection    ${device_ip}    prompt=${device_windows_user_prompt}
-    SSHLibrary.Set Client Configuration    timeout=${timeout}    term_type=vt100    width=400    height=100    escape_ansi=True    newline=CRLF
-    Wait Until Keyword Succeeds    12x    10s    SSHLibrary.Login    ${device_windows_username}    ${device_windows_password}
+    SSHLibrary.Set Client Configuration
+    ...    timeout=${timeout}
+    ...    term_type=vt100
+    ...    width=400
+    ...    height=100
+    ...    escape_ansi=True
+    ...    newline=CRLF
+    Wait Until Keyword Succeeds
+    ...    12x
+    ...    10s
+    ...    SSHLibrary.Login
+    ...    ${device_windows_username}
+    ...    ${device_windows_password}
 
 Login to Linux via SSH without password
     [Documentation]    Login to Linux via SSH without password
@@ -220,29 +246,29 @@ Exit from root user
 
 Open Connection And Log In
     [Documentation]    Open SSH connection and login to session. Setup RteCtrl
-    ...                REST API, serial connection and checkout used asset in
-    ...                SnipeIt
+    ...    REST API, serial connection and checkout used asset in
+    ...    SnipeIt
     Check provided ip
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     SSHLibrary.Open Connection    ${rte_ip}    prompt=~#
     SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
     RTE REST API Setup    ${rte_ip}    ${http_port}
-    IF     'sonoff' == '${power_ctrl}'
+    IF    'sonoff' == '${power_ctrl}'
         ${sonoff_ip}=    Get current RTE param    sonoff_ip
         Sonoff API Setup    ${sonoff_ip}
     END
     Serial setup    ${rte_ip}    ${rte_s2n_port}
-    Return From Keyword If    '${snipeit}'=='no'
+    IF    '${snipeit}'=='no'    RETURN
     SnipeIt Checkout    ${rte_ip}
 
 Check provided ip
     [Documentation]    Check the correctness of the provided ip address, if the
-    ...                address is not found in the RTE list, fail the test.
-    ${index} =    Set Variable    ${0}
+    ...    address is not found in the RTE list, fail the test.
+    ${index}=    Set Variable    ${0}
     FOR    ${item}    IN    @{RTE_LIST}
         ${result}=    Evaluate    ${item}.get("ip")
-        Return From Keyword If   '${result}'=='${rte_ip}'
-        ${index} =    Set Variable    ${index + 1}
+        IF    '${result}'=='${rte_ip}'    RETURN
+        ${index}=    Set Variable    ${index + 1}
     END
     Fail    rte_ip:${rte_ip} not found in the hardware configuration.
 
@@ -259,46 +285,49 @@ Establish Host Connection
 
 Log Out And Close Connection
     [Documentation]    Close all opened SSH, serial connections and checkin used
-    ...                asset in SnipeIt.
+    ...    asset in SnipeIt.
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
-    Return From Keyword If    '${platform}'=='raptor-cs_talos2'
+    IF    '${platform}'=='raptor-cs_talos2'    RETURN
     IF    '${snipeit}'=='yes'    SnipeIt Checkin    ${rte_ip}
 
 Enter Petitboot And Return Menu
     [Documentation]    Keyword allows to enter the petitboot menu and returns
-    ...                it contents
-    Set DUT Response Timeout  500s
+    ...    it contents
+    Set DUT Response Timeout    500s
     Write Into Terminal    obmc-console-client
     Read From Terminal Until    Petitboot
     Sleep    1s
     Write Bare Into Terminal    ${ARROW_UP}
-    Set DUT Response Timeout  20s
+    Set DUT Response Timeout    20s
     Sleep    2s
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
-    [Return]    ${menu}
+    RETURN    ${menu}
 
 Enter Tianocore And Return Menu
     [Documentation]    Enter SeaBIOS and returns boot entry menu.
     Enter Boot Menu Tianocore
     ${menu}=    Read From Terminal Until    ESC to exit
-    [Return]    ${menu}
+    RETURN    ${menu}
 
 Enter Boot Menu
     [Documentation]    Enter Boot Menu with key specified in platform-configs.
-    IF    '${payload}' == 'seabios'      Enter SeaBIOS
-    ...    ELSE IF    '${payload}' == 'tianocore'    Enter Boot Menu Tianocore
+    IF    '${payload}' == 'seabios'
+        Enter SeaBIOS
+    ELSE IF    '${payload}' == 'tianocore'
+        Enter Boot Menu Tianocore
+    END
 
 Enter Device Manager Submenu
     [Documentation]    Enter to the Device Manager submenu which should be
-    ...                located in the Setup Menu.
+    ...    located in the Setup Menu.
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    Device Manager
     Press key n times and enter    ${index}    ${ARROW_DOWN}
 
 Enter Secure Boot Configuration Submenu
     [Documentation]    Enter to the Secure Boot Configuration submenu which
-    ...                should be located in the Setup Menu.
+    ...    should be located in the Setup Menu.
 
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
@@ -306,31 +335,30 @@ Enter Secure Boot Configuration Submenu
 
 Select Attempt Secure Boot Option
     [Documentation]    Selects the Attempt Secure Boot Option
-    ...                in the Secure Boot Configuration Submenu
+    ...    in the Secure Boot Configuration Submenu
     Press key n times    1    ${ARROW_DOWN}
     ${out}=    Read From Terminal
     ${is_selected}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    X
-    IF    not ${is_selected}
-        Press key n times    1    ${ENTER}
-    END
+    IF    not ${is_selected}    Press key n times    1    ${ENTER}
 
 Clear Attempt Secure Boot Option
     [Documentation]    Deselects the Attempt Secure Boot Option
-    ...                in the Secure Boot Configuration Submenu
+    ...    in the Secure Boot Configuration Submenu
     Press key n times    1    ${ARROW_DOWN}
     ${out}=    Read From Terminal
     ${is_selected}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    X
-    IF    ${is_selected}
-        Press key n times    1    ${ENTER}
-    END
+    IF    ${is_selected}    Press key n times    1    ${ENTER}
 
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
     Read From Terminal Until    ${tianocore_string}
-    IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    ${setup_menu_key}
-    ...    ELSE     Write Bare Into Terminal    ${setup_menu_key}
+    IF    '${dut_connection_method}' == 'pikvm'
+        Single Key PiKVM    ${setup_menu_key}
+    ELSE
+        Write Bare Into Terminal    ${setup_menu_key}
+    END
     # wait for setup menu to appear
     # Read From Terminal Until    Continue
 
@@ -342,8 +370,8 @@ Reset in Setup Menu Tianocore
 
 Enter iPXE
     [Documentation]    Enter iPXE after device power cutoff.
-    # TODO:   2 methods for entering iPXE (Ctrl-B and SeaBIOS)
-    # TODO2:  problem with iPXE string (e.g. when 3 network interfaces are available)
+    # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
+    # TODO2:    problem with iPXE string (e.g. when 3 network interfaces are available)
 
     IF    '${payload}' == 'seabios'
         Enter SeaBIOS
@@ -357,7 +385,10 @@ Enter iPXE
     ELSE IF    '${payload}' == 'tianocore'
         Enter Boot Menu Tianocore
         Enter Submenu in Tianocore    option=${edk2_ipxe_string}
-        Enter Submenu in Tianocore    option=iPXE Shell    checkpoint=${edk2_ipxe_checkpoint}    description_lines=${edk2_ipxe_start_pos}
+        Enter Submenu in Tianocore
+        ...    option=iPXE Shell
+        ...    checkpoint=${edk2_ipxe_checkpoint}
+        ...    description_lines=${edk2_ipxe_start_pos}
         Set Prompt For Terminal    iPXE>
         Read From Terminal Until Prompt
     END
@@ -372,12 +403,13 @@ Get hostname ip
     Should Not Contain    ${out_hostname}    link is not ready
     ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b192\\.168\\.\\d{1,3}\\.\\d{1,3}\\b
     Should Not Be Empty    ${ip_address}
-    [Return]    ${ip_address[0]}
-    #[Return]    ${ip_address.partition("\n")[0]}
+    RETURN    ${ip_address[0]}
+
+    # [Return]    ${ip_address.partition("\n")[0]}
 
 Get firmware version from binary
     [Documentation]    Return firmware version from local firmware binary file.
-    ...                Takes binary file path as an argument.
+    ...    Takes binary file path as an argument.
     [Arguments]    ${binary_path}
     ${coreboot_version1}=    Run    strings ${binary_path}|grep COREBOOT_ORIGIN_GIT_TAG|cut -d" " -f 3|tr -d '"'
     ${coreboot_version2}=    Run    strings ${binary_path}|grep CONFIG_LOCALVERSION|cut -d"=" -f 2|tr -d '"'
@@ -386,7 +418,7 @@ Get firmware version from binary
     ${coreboot_version}=    Set Variable If    ${version_length1} == 0    ${coreboot_version2}    ${coreboot_version1}
     ${version_length}=    Get Length    ${coreboot_version}
     ${coreboot_version}=    Set Variable If    ${version_length} == 0    ${coreboot_version3}    ${coreboot_version}
-    [Return]    ${coreboot_version}
+    RETURN    ${coreboot_version}
 
 Get firmware version from UEFI shell
     [Documentation]    Return firmware version from UEFI shell.
@@ -396,44 +428,50 @@ Get firmware version from UEFI shell
     Telnet.Write Bare    \n
     ${output}=    Telnet.Read Until    BiosSegment
     ${version}=    Get Lines Containing String    ${output}    BiosVersion
-    [Return]    ${version.replace('BiosVersion: ', '')}
+    RETURN    ${version.replace('BiosVersion: ', '')}
 
 Get Firmware Version From Dmidecode
     ${output}=    Execute Linux command    dmidecode -t bios
     ${version_string}=    Get Lines Containing String    ${output}    Version:
     ${version}=    Fetch From Right    ${version_string}    ${SPACE}
-    [Return]    ${version}
+    RETURN    ${version}
 
 Get firmware version
     [Documentation]    Return firmware version via method supported by the
-    ...                platform.
+    ...    platform.
     # Boot platform into payload allowing to read flashed firmware version
     IF    '${FLASH_VERIFY_METHOD}'=='iPXE-boot'
-    ...    Boot Debian from iPXE    ${pxe_ip}     ${http_port}    ${filename}    ${debian_stable_ver}
-    ...    ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-shell'
-    ...                Tianocore One Time Boot    ${FLASH_VERIFY_OPTION}
-    ...    ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
-    ...                No Operation
+        Boot Debian from iPXE    ${pxe_ip}    ${http_port}    ${filename}    ${debian_stable_ver}
+    ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-shell'
+        Tianocore One Time Boot    ${FLASH_VERIFY_OPTION}
+    ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
+        No Operation
+    END
     # Read firmware version
-    ${version}=    IF
-    ...               '${FLASH_VERIFY_METHOD}'=='iPXE-boot'
-    ...    Get Firmware Version From Dmidecode
-    ...    ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-shell'
-    ...    Get firmware version from UEFI shell
-    ...    ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
-    ...    Get firmware version from binary    ${fw_file}
-    [Return]    ${version}
+    IF    '${FLASH_VERIFY_METHOD}'=='iPXE-boot'
+        ${version}=    Get Firmware Version From Dmidecode
+    ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-shell'
+        ${version}=    Get firmware version from UEFI shell
+    ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
+        ${version}=    Get firmware version from binary    ${fw_file}
+    ELSE
+        ${version}=    Set Variable    ${None}
+    END
+    RETURN    ${version}
 
 Enter Boot Menu Tianocore
     [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
-    ...                keys list.
+    ...    keys list.
     Read From Terminal Until    ${tianocore_string}
-    IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    ${boot_menu_key}
-    ...    ELSE     Write Bare Into Terminal    ${boot_menu_key}
+    IF    '${dut_connection_method}' == 'pikvm'
+        Single Key PiKVM    ${boot_menu_key}
+    ELSE
+        Write Bare Into Terminal    ${boot_menu_key}
+    END
 
 Enter UEFI Shell Tianocore
     [Documentation]    Enter UEFI Shell in Tianocore by specifying its position
-    ...                in the list.
+    ...    in the list.
     Set Local Variable    ${is_shell_available}    ${False}
     ${menu_construction}=    Get Boot Menu Construction
     ${is_shell_available}=    Evaluate    "UEFI Shell" in """${menu_construction}"""
@@ -458,7 +496,7 @@ Get Menu Reference Tianocore
     ${first_entry}=    Get From List    ${lines}    ${bias}
     ${first_entry}=    Strip String    ${first_entry}    characters=1234567890()
     ${first_entry}=    Strip String    ${first_entry}
-    [Return]    ${first_entry}
+    RETURN    ${first_entry}
 
 Enter One Time Boot in Tianocore
     [Documentation]    Enter One Time Boot option in Tianocore (edk2).
@@ -474,8 +512,8 @@ Tianocore One Time Boot
 
 Reset to Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
-    ...                by pressing F9 and confirming with 'y' when in option
-    ...                setting menu.
+    ...    by pressing F9 and confirming with 'y' when in option
+    ...    setting menu.
     Telnet.Read Until    exit.
     Press key n times    1    ${F9}
     Telnet.Read Until    ignore.
@@ -483,7 +521,7 @@ Reset to Defaults Tianocore
 
 Enter Dasharo System Features
     [Documentation]    Enters Dasharo System Features after the machine has been
-    ...                powered on.
+    ...    powered on.
     Enter Setup Menu Tianocore
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    Dasharo System Features
@@ -498,15 +536,15 @@ Enter Setup Menu Option
     Press key n times and enter    ${index}    ${ARROW_DOWN}
 
 Check if submenu exists Tianocore
-    [Arguments]    ${submenu}
     [Documentation]    Checks if given submenu exists
+    [Arguments]    ${submenu}
     ${out}=    Telnet.Read Until    exit.
     ${result}=    Run Keyword And Return Status    Should Contain    ${out}    ${submenu}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Reenter menu
     [Documentation]    Returns to the previous menu and enters the same one
-    ...                again
+    ...    again
     [Arguments]    ${forward}=${False}
     IF    ${forward} == True
         Press key n times    1    ${ENTER}
@@ -529,7 +567,7 @@ Type in the password
 
 Type in new disk password
     [Documentation]    Types in new disk password when prompted. The actual
-    ...                password is passed as list of keys.
+    ...    password is passed as list of keys.
     [Arguments]    @{keys_password}
     Read From Terminal Until    your new password
     Sleep    0.5s
@@ -573,29 +611,29 @@ Remove disk password
     Read From Terminal Until    Unlock
     FOR    ${i}    IN RANGE    0    2
         Type in the password    @{keys_password}
-        Sleep   0.5s
+        Sleep    0.5s
     END
     Press key n times    1    ${setup_menu_key}
 
 Change to next option in setting
-    [Arguments]    ${setting}
     [Documentation]    Changes given setting option to next in the list of
-    ...                possible options.
+    ...    possible options.
+    [Arguments]    ${setting}
     Enter submenu in Tianocore    ${setting}
     Press key n times and enter    1    ${ARROW_DOWN}
 
 Change numeric value of setting
-    [Arguments]    ${setting}    ${value}
     [Documentation]    Changes numeric value of ${setting} present in menu to
-    ...                ${value}
+    ...    ${value}
+    [Arguments]    ${setting}    ${value}
     Enter submenu in Tianocore    ${setting}    description_lines=2
     Write Bare Into Terminal    ${value}
     Press key n times    1    ${ENTER}
 
 Skip if menu option not available
-    [Arguments]    ${submenu}
     [Documentation]    Skips the test if given submenu is not available in the
-    ...                menu
+    ...    menu
+    [Arguments]    ${submenu}
     ${res}=    Check if submenu exists Tianocore    ${submenu}
     Skip If    not ${res}
     Reenter menu
@@ -603,59 +641,59 @@ Skip if menu option not available
     Telnet.Read Until    Esc=Exit
 
 Get Option Value
-    [Arguments]    ${option}    ${checkpoint}=ESC to exit
     [Documentation]    Reads given ${option} in Tianocore menu and returns its
-    ...                value
+    ...    value
+    [Arguments]    ${option}    ${checkpoint}=ESC to exit
     ${out}=    Read From Terminal Until    ${checkpoint}
     ${option_value}=    Get Option Value From Output    ${out}    ${option}
-    [Return]    ${option_value}
+    RETURN    ${option_value}
 
 Save changes and boot to OS
-    [Arguments]    ${nesting_level}=2
     [Documentation]    Saves current UEFI settings and continues booting to OS.
-    ...                ${nesting_level} is crucial, because it depicts where
-    ...                Continue button is located.
+    ...    ${nesting_level} is crucial, because it depicts where
+    ...    Continue button is located.
+    [Arguments]    ${nesting_level}=2
     Press key n times    1    ${F10}
     Write Bare Into Terminal    y
-    Press key n times    ${nesting_level}   ${ESC}
+    Press key n times    ${nesting_level}    ${ESC}
     Enter submenu in Tianocore    Continue    checkpoint=Continue    description_lines=6
 
 Save changes and reset
-    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
     [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...                is how deep user is currently in the settings.
-    ...                ${main_menu_steps_to_reset} means how many times should
-    ...                arrow down be pressed to get to the Reset option in main
-    ...                settings menu
+    ...    is how deep user is currently in the settings.
+    ...    ${main_menu_steps_to_reset} means how many times should
+    ...    arrow down be pressed to get to the Reset option in main
+    ...    settings menu
+    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
     Press key n times    1    ${F10}
     Write Bare Into Terminal    y
-    Press key n times    ${nesting_level}   ${ESC}
+    Press key n times    ${nesting_level}    ${ESC}
     Press key n times and enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
 
 Check the presence of WiFi Card
     [Documentation]    Checks the if WiFi card is visible for operating system.
-    ...                Returns True if presence is detected.
+    ...    Returns True if presence is detected.
     ${terminal_result}=    Execute Command In Terminal    lspci | grep '${wifi_card_ubuntu}'
     ${result}=    Run Keyword And Return Status    Should Not Be Empty    ${terminal_result}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Check the presence of Bluetooth Card
     [Documentation]    Checks the if Bluetooth card is visible for OS.
-    ...                Returns True if presence is detected.
+    ...    Returns True if presence is detected.
     ${terminal_result}=    Execute Command In Terminal    lsusb | grep '${bluetooth_card_ubuntu}'
     ${result}=    Run Keyword And Return Status    Should Not Be Empty    ${terminal_result}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Check if Tianocore setting is enabled in current menu
-    [Arguments]    ${option}
     [Documentation]    Checks if option ${option} is enabled, returns True/False
+    [Arguments]    ${option}
     ${option_value}=    Get Option Value    ${option}
     ${enabled}=    Run Keyword And Return Status    Should Be Equal    ${option_value}    [X]
-    [Return]    ${enabled}
+    RETURN    ${enabled}
 
 Get relative menu position
     [Documentation]    Evaluate and return relative menu entry position
-    ...                described in the argument.
+    ...    described in the argument.
     [Arguments]    ${entry}    ${checkpoint}    ${bias}=1
     ${output}=    Read From Terminal Until    ${checkpoint}
     ${output}=    Strip String    ${output}
@@ -677,20 +715,23 @@ Get relative menu position
         ${iterations}=    Evaluate    ${iterations} + 1
     END
     ${rel_pos}=    Evaluate    ${end} - ${start}
-    [Return]    ${rel_pos}
+    RETURN    ${rel_pos}
 
 Press key n times and enter
     [Documentation]    Enter specified in the first argument times the specified
-    ...                in the second argument key and then press Enter.
+    ...    in the second argument key and then press Enter.
     [Arguments]    ${n}    ${key}
     Press key n times    ${n}    ${key}
-    IF    '${dut_connection_method}' == 'pikvm'    Single Key PiKVM    Enter
-    ...    ELSE    Write Bare Into Terminal    ${ENTER}
+    IF    '${dut_connection_method}' == 'pikvm'
+        Single Key PiKVM    Enter
+    ELSE
+        Write Bare Into Terminal    ${ENTER}
+    END
 
 Press key n times
     [Documentation]    Enter specified in the first argument times the specified
-    ...                in the second argument key.
-    [Arguments]    ${n}   ${key}
+    ...    in the second argument key.
+    [Arguments]    ${n}    ${key}
     FOR    ${INDEX}    IN RANGE    0    ${n}
         IF    '${dut_connection_method}' == 'pikvm'
             Single Key PiKVM    ${key}
@@ -701,17 +742,19 @@ Press key n times
 
 Get current RTE
     [Documentation]    Returns RTE index from RTE list taken as an argument.
-    ...                Returns -1 if CPU ID not found in variables.robot.
+    ...    Returns -1 if CPU ID not found in variables.robot.
     [Arguments]    @{rte_list}
     ${con}=    SSHLibrary.Open Connection    ${rte_ip}
     SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    ${cpuid}=    SSHLibrary.Execute Command    cat /proc/cpuinfo |grep Serial|cut -d":" -f2|tr -d " "    connection=${con}
-    ${index} =    Set Variable    ${0}
+    ${cpuid}=    SSHLibrary.Execute Command
+    ...    cat /proc/cpuinfo |grep Serial|cut -d":" -f2|tr -d " "
+    ...    connection=${con}
+    ${index}=    Set Variable    ${0}
     FOR    ${item}    IN    @{rte_list}
-        Return From Keyword If    '${item.cpuid}' == '${cpuid}'    ${index}
-        ${index} =    Set Variable    ${index + 1}
+        IF    '${item.cpuid}' == '${cpuid}'    RETURN    ${index}
+        ${index}=    Set Variable    ${index + 1}
     END
-    Return From Keyword    ${-1}
+    RETURN    ${-1}
 
 Get current RTE param
     [Documentation]    Returns current RTE parameter value specified in the argument.
@@ -719,110 +762,124 @@ Get current RTE param
     ${idx}=    Get current RTE    @{RTE_LIST}
     Should Not Be Equal    ${idx}    ${-1}    msg=RTE not found in hw-matrix
     &{rte}=    Get From List    ${RTE_LIST}    ${idx}
-    [Return]    ${rte}[${param}]
+    RETURN    ${rte}[${param}]
 
 Get current CONFIG start index
     [Documentation]    Returns current CONFIG start index from CONFIG_LIST
-    ...                specified in the argument required for slicing list.
-    ...                Returns -1 if CONFIG not found in variables.robot.
+    ...    specified in the argument required for slicing list.
+    ...    Returns -1 if CONFIG not found in variables.robot.
     [Arguments]    ${config_list}
     ${rte_cpuid}=    Get current RTE param    cpuid
     Should Not Be Equal    ${rte_cpuid}    ${-1}    msg=RTE not found in hw-matrix
-    ${index} =    Set Variable    ${0}
+    ${index}=    Set Variable    ${0}
     FOR    ${config}    IN    @{config_list}
         ${result}=    Evaluate    ${config}.get("cpuid")
-        Return From Keyword If   '${result}'=='${rte_cpuid}'    ${index}
-        ${index} =    Set Variable    ${index + 1}
+        IF    '${result}'=='${rte_cpuid}'    RETURN    ${index}
+        ${index}=    Set Variable    ${index + 1}
     END
-    Return From Keyword    ${-1}
+    RETURN    ${-1}
 
 Get current CONFIG stop index
     [Documentation]    Returns current CONFIG stop index from CONFIG_LIST
-    ...                specified in the argument required for slicing list.
-    ...                Returns -1 if CONFIG not found in variables.robot.
+    ...    specified in the argument required for slicing list.
+    ...    Returns -1 if CONFIG not found in variables.robot.
     [Arguments]    ${config_list}    ${start}
     ${length}=    Get Length    ${config_list}
-    ${index} =    Set Variable    ${start + 1}
+    ${index}=    Set Variable    ${start + 1}
     FOR    ${config}    IN    @{config_list[${index}:]}
         ${result}=    Evaluate    ${config}.get("cpuid")
-        Return From Keyword If   '${result}'!='None'    ${index}
-        Return From Keyword If   '${index}'=='${length - 1}'    ${index + 1}
-        ${index} =    Set Variable    ${index + 1}
+        IF    '${result}'!='None'    RETURN    ${index}
+        IF    '${index}'=='${length - 1}'    RETURN    ${index + 1}
+        ${index}=    Set Variable    ${index + 1}
     END
-    Return From Keyword    ${-1}
+    RETURN    ${-1}
 
 Get current CONFIG
     [Documentation]    Returns current config as a list variable based on start
-    ...                and stop indexes.
+    ...    and stop indexes.
     [Arguments]    ${config_list}
     ${start}=    Get current CONFIG start index    ${CONFIG_LIST}
     Should Not Be Equal    ${start}    ${-1}    msg=Current CONFIG not found in hw-matrix
     ${stop}=    Get current CONFIG stop index    ${CONFIG_LIST}    ${start}
     Should Not Be Equal    ${stop}    ${-1}    msg=Current CONFIG not found in hw-matrix
     ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop}
-    [Return]    ${config}
+    RETURN    ${config}
 
 Get current CONFIG item
     [Documentation]    Returns current CONFIG item specified in the argument.
-    ...                Returns -1 if CONFIG item not found in variables.robot.
+    ...    Returns -1 if CONFIG item not found in variables.robot.
     [Arguments]    ${item}
     ${config}=    Get current CONFIG    ${CONFIG_LIST}
     ${length}=    Get Length    ${config}
     Should Be True    ${length} > 1
     FOR    ${element}    IN    @{config[1:]}
-        Return From Keyword If    '${element.type}'=='${item}'    ${element}
+        IF    '${element.type}'=='${item}'    RETURN    ${element}
     END
-    Return From Keyword    ${-1}
+    RETURN    ${-1}
 
 Get current CONFIG item param
     [Documentation]    Returns current CONFIG item parameter specified in the
-    ...                arguments.
+    ...    arguments.
     [Arguments]    ${item}    ${param}
     ${device}=    Get current CONFIG item    ${item}
-    [Return]    ${device.${param}}
+    RETURN    ${device.${param}}
 
 Get slot count
-    [Documentation]    Returns count paramter value from slot key specified in
-    ...                the argument if found, otherwise return 0.
+    [Documentation]    Returns count parameter value from slot key specified in
+    ...    the argument if found, otherwise return 0.
     [Arguments]    ${slot}
     ${isFound}=    Evaluate    "count" in """${slot}"""
     ${return}=    Set Variable If
     ...    ${isFound}==False    0
     ...    ${isFound}==True    ${slot.count}
-    Return From Keyword    ${return}
+    RETURN    ${return}
 
 Get USB slot count
     [Documentation]    Returns count parameter value from USB slot key specified
-    ...                in the argument if found, otherwise return 0.
+    ...    in the argument if found, otherwise return 0.
     [Arguments]    ${slots}
     ${isFound1}=    Evaluate    "USB_Storage" in """${slots.slot1}"""
     ${isFound2}=    Evaluate    "USB_Storage" in """${slots.slot2}"""
-    ${count1}=    IF    ${isFound1}==True     Get slot count    ${slots.slot1}
-    ...    ELSE    Evaluate    0
-    ${count2}=    IF    ${isFound2}==True     Get slot count    ${slots.slot2}
-    ...    ELSE    Evaluate    0
+    IF    ${isFound1}==True
+        ${count1}=    Get slot count    ${slots.slot1}
+    ELSE
+        ${count1}=    Evaluate    0
+    END
+    IF    ${isFound2}==True
+        ${count2}=    Get slot count    ${slots.slot2}
+    ELSE
+        ${count2}=    Evaluate    0
+    END
     ${sum}=    Evaluate    ${count1}+${count2}
-    Return From Keyword    ${sum}
+    RETURN    ${sum}
 
 Get all USB
     [Documentation]    Returns number of attached USB storages in current CONFIG.
     ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
     ${isFound}=    Evaluate    "USB_Storage" in """${conf}"""
-    ${usb_count}=    IF    ${isFound}==True
-    ...    Get Current CONFIG item param     USB_Storage      count
-    ...    ELSE    Evaluate    ""
-    ${count_usb}=    IF    ${isFound}==True
-    ...    Evaluate    ${usb_count}
-    ...    ELSE    Evaluate    0
+    IF    ${isFound}==True
+        ${usb_count}=    Get Current CONFIG item param    USB_Storage    count
+    ELSE
+        ${usb_count}=    Evaluate    ""
+    END
+    IF    ${isFound}==True
+        ${count_usb}=    Evaluate    ${usb_count}
+    ELSE
+        ${count_usb}=    Evaluate    0
+    END
     ${isFound}=    Evaluate    "USB_Expander" in """${conf}"""
-    ${external}=    IF    ${isFound}==True
-    ...    Get Current CONFIG item    USB_Expander
-    ...    ELSE    Evaluate    ""
-    ${external_count}=    IF    ${isFound}==True
-    ...    Get USB slot count    ${external}
-    ...    ELSE    Evaluate    0
+    IF    ${isFound}==True
+        ${external}=    Get Current CONFIG item    USB_Expander
+    ELSE
+        ${external}=    Evaluate    ""
+    END
+    IF    ${isFound}==True
+        ${external_count}=    Get USB slot count    ${external}
+    ELSE
+        ${external_count}=    Evaluate    0
+    END
     ${count}=    Evaluate    ${count_usb}+${external_count}
-    Return from keyword    ${count}
+    RETURN    ${count}
 
 Get boot timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
@@ -833,17 +890,17 @@ Get boot timestamps
     SSHLibrary.Login    root    debian
     ${timestamps}=    SSHLibrary.Execute Command    cbmem -T
     SSHLibrary.Close Connection
-    # swtich to RTE ssh connection
+    # switch to RTE ssh connection
     SSHLibrary.Switch Connection    ${1}
     # FIXME: missing tabs in the first half of below output:
     # ${timestamps}=    Telnet.Execute Command    cbmem -T
     ${timestamps}=    Split String    ${timestamps}    \n
     ${timestamps}=    Get Slice From List    ${timestamps}    0    -1
-    [Return]    ${timestamps}
+    RETURN    ${timestamps}
 
 Log boot timestamps
     [Documentation]    Log to console formatted boot timestamps. Takes timestamp
-    ...                string and string length as an arguments.
+    ...    string and string length as an arguments.
     [Arguments]    ${timestamps}    ${length}
     FOR    ${number}    IN RANGE    0    ${length}
         ${line}=    Get From List    ${timestamps}    ${number}
@@ -858,14 +915,14 @@ Log boot timestamps
 
 Get duration from timestamps
     [Documentation]    Returns number representing full boot duration. Takes
-    ...                cbmem string timestamp and string length as an arguments.
+    ...    cbmem string timestamp and string length as an arguments.
     [Arguments]    ${timestamps}    ${length}
     ${index}=    Evaluate    ${length}-1
     ${line}=    Get From List    ${timestamps}    ${index}
     ${line}=    Split String    ${line}    \
     ${duration}=    Get From List    ${line}    1
     ${duration}=    Convert To Number    ${duration}
-    [Return]    ${duration}
+    RETURN    ${duration}
 
 Prepare lm-sensors
     [Documentation]    Install lm-sensors and probe sensors.
@@ -885,7 +942,7 @@ Get Fan Speed
     ${speed_split}=    Split String    ${speed}
     ${rpm}=    Get From List    ${speed_split}    1
     ${rpm}=    Convert To Number    ${rpm}
-    [Return]    ${rpm}
+    RETURN    ${rpm}
 
 Get CPU Frequency MAX
     [Documentation]    Get max CPU Frequency.
@@ -895,7 +952,7 @@ Get CPU Frequency MAX
     ${freq}=    Split String    ${freq}    separator=,
     ${freq}=    Get From List    ${freq}    0
     ${freq}=    Convert To Number    ${freq}
-    [Return]    ${freq}
+    RETURN    ${freq}
 
 Get CPU Frequency MIN
     [Documentation]    Get min CPU Frequency.
@@ -905,7 +962,7 @@ Get CPU Frequency MIN
     ${freq}=    Split String    ${freq}    separator=,
     ${freq}=    Get From List    ${freq}    0
     ${freq}=    Convert To Number    ${freq}
-    [Return]    ${freq}
+    RETURN    ${freq}
 
 Get CPU Temperature CURRENT
     [Documentation]    Get current CPU temperature.
@@ -913,11 +970,11 @@ Get CPU Temperature CURRENT
     ${temperature}=    Fetch From Left    ${temperature}    °C
     ${temperature}=    Fetch From Right    ${temperature}    +
     ${temperature}=    Convert To Number    ${temperature}
-    [Return]    ${temperature}
+    RETURN    ${temperature}
 
 Get CPU frequencies in Ubuntu
     [Documentation]    Get all CPU frequencies in Ubuntu OS. Keyword returns
-    ...                list of current CPU frequencies
+    ...    list of current CPU frequencies
     @{frequency_list}=    Create List
     ${output}=    Execute Command In Terminal    cat /proc/cpuinfo
     ${output}=    Get Lines Containing String    ${output}    clock
@@ -927,37 +984,48 @@ Get CPU frequencies in Ubuntu
         ${frequency}=    Convert To Number    ${frequency}
         Append To List    ${frequency_list}    ${frequency}
     END
-    [Return]    @{frequency_list}
+    RETURN    @{frequency_list}
 
 Check If CPU not stucks on Initial Frequency in Ubuntu
     [Documentation]    Check that CPU not stuck on initial frequency.
     ${is_cpu_stucks}=    Set Variable    ${False}
     ${are_frequencies_equal}=    Set Variable    ${True}
     @{frequencies}=    Get CPU frequencies in Ubuntu
-    ${first_frequency}=    Get From List   ${frequencies}    0
+    ${first_frequency}=    Get From List    ${frequencies}    0
     FOR    ${frequency}    IN    @{frequencies}
-        ${are_frequencies_equal}=    IF    ${frequency} != ${first_frequency}
-        ...    Set Variable        ${False}
-        IF    '${are_frequencies_equal}'=='False'    Exit For Loop
+        IF    ${frequency} != ${first_frequency}
+            ${are_frequencies_equal}=    Set Variable    ${False}
+        ELSE
+            ${are_frequencies_equal}=    Set Variable    ${None}
+        END
+        IF    '${are_frequencies_equal}'=='False'    BREAK
     END
-    IF    '${are_frequencies_equal}'=='False'    Pass Execution    CPU does not stuck on initial frequency
-    IF    ${first_frequency}!=${initial_cpu_frequency}    Pass Execution    CPU does not stuck on initial frequency
-    ...    ELSE    FAIL    CPU stucks on initial frequency: ${initial_cpu_frequency}
+    IF    '${are_frequencies_equal}'=='False'
+        Pass Execution    CPU does not stuck on initial frequency
+    END
+    IF    ${first_frequency}!=${initial_cpu_frequency}
+        Pass Execution    CPU does not stuck on initial frequency
+    ELSE
+        FAIL    CPU stucks on initial frequency: ${initial_cpu_frequency}
+    END
 
 Check If CPU not stucks on Initial Frequency in Windows
     [Documentation]    Check that CPU not stuck on initial frequency.
-    ${out}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue/100)
+    ${out}=    Execute Command In Terminal
+    ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue/100)
     FOR    ${number}    IN RANGE    0    10
-        ${out2}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue/100)
+        ${out2}=    Execute Command In Terminal
+        ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue/100)
         Should Not be equal    ${out}    ${out2}
     END
 
 Check CPU frequency in Windows
-    [Documentation]    Chech that CPU is running on expected frequency.
+    [Documentation]    Check that CPU is running on expected frequency.
     ${freq_max}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed
     ${freq_max}=    Convert To Number    ${freq_max}
     FOR    ${number}    IN RANGE    0    10
-        ${freq_current}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
+        ${freq_current}=    Execute Command In Terminal
+        ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
         ${freq_current}=    Convert To Number    ${freq_current}
         Run Keyword And Continue On Failure    Should Be True    ${freq_max} > ${freq_current}
     END
@@ -965,71 +1033,101 @@ Check CPU frequency in Windows
 Stress Test
     [Documentation]    Proceed with the stress test.
     [Arguments]    ${time}=60s
-    Detect or Install Package  stress-ng
+    Detect or Install Package    stress-ng
     Execute Command In Terminal    stress-ng --cpu 1 --timeout ${time} &> /dev/null &
 
 Flash firmware
     [Documentation]    Flash platform with firmware file specified in the
-    ...                argument. Keyword fails if file size doesn't match target
-    ...                chip size.
+    ...    argument. Keyword fails if file size doesn't match target
+    ...    chip size.
     [Arguments]    ${fw_file}
     ${file_size}=    Run    ls -l ${fw_file} | awk '{print $5}'
-    IF    '${file_size}'!='${flash_size}'     FAIL    Image size doesn't match the flash chip's size!
-    IF    '${dut_connection_method}' == 'Telnet'    Put File    ${fw_file}    /tmp/coreboot.rom
+    IF    '${file_size}'!='${flash_size}'
+        FAIL    Image size doesn't match the flash chip's size!
+    END
+    IF    '${dut_connection_method}' == 'Telnet'
+        Put File    ${fw_file}    /tmp/coreboot.rom
+    END
     Sleep    2s
     ${platform}=    Get current RTE param    platform
-    IF    '${platform[:3]}' == 'apu'    Flash apu
-    ...    ELSE IF    '${platform[:13]}' == 'optiplex-7010'    Flash firmware optiplex
-    ...    ELSE IF    '${platform[:8]}' == 'KGPE-D16'    Flash KGPE-D16
-    ...    ELSE IF    '${platform[:10]}' == 'novacustom'    Flash Device via Internal Programmer    ${fw_file}
-    ...    ELSE IF    '${platform[:16]}' == 'protectli-vp4630'    Flash Protectli VP4620 External
-    ...    ELSE IF    '${platform[:16]}' == 'protectli-vp4650'    Flash Protectli VP4650 External
-    ...    ELSE IF    '${platform[:16]}' == 'protectli-vp4670'    Flash Protectli VP4670 External
-    ...    ELSE IF    '${platform[:16]}' == 'protectli-vp2420'    Flash Protectli VP2420 Internal
-    ...    ELSE IF    '${platform[:16]}' == 'protectli-vp2410'    Flash Protectli VP2410 External
-    ...    ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'    Flash MSI-PRO-Z690-A-DDR5
-    ...    ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'    Flash MSI-PRO-Z690-A-WiFi-DDR4
-    ...    ELSE IF    '${platform[:46]}' == 'msi-pro-z790-p-ddr5'    Flash MSI-PRO-Z790-P-DDR5
-    ...    ELSE    Fail    Flash firmware not implemented for platform ${platform}
+    IF    '${platform[:3]}' == 'apu'
+        Flash apu
+    ELSE IF    '${platform[:13]}' == 'optiplex-7010'
+        Flash firmware optiplex
+    ELSE IF    '${platform[:8]}' == 'KGPE-D16'
+        Flash KGPE-D16
+    ELSE IF    '${platform[:10]}' == 'novacustom'
+        Flash Device via Internal Programmer    ${fw_file}
+    ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
+        Flash Protectli VP4620 External
+    ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
+        Flash Protectli VP4650 External
+    ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
+        Flash Protectli VP4670 External
+    ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
+        Flash Protectli VP2420 Internal
+    ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
+        Flash Protectli VP2410 External
+    ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
+        Flash MSI-PRO-Z690-A-DDR5
+    ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
+        Flash MSI-PRO-Z690-A-WiFi-DDR4
+    ELSE IF    '${platform[:46]}' == 'msi-pro-z790-p-ddr5'
+        Flash MSI-PRO-Z790-P-DDR5
+    ELSE
+        Fail    Flash firmware not implemented for platform ${platform}
+    END
     # First boot after flashing may take longer than usual
     Set DUT Response Timeout    180s
 
 Prepare Test Suite
     [Documentation]    Keyword prepares Test Suite by importing specific
-    ...                platform configuration keywords and variables and
-    ...                preparing connection with the DUT based on used
-    ...                transmission protocol. Keyword used in all [Suite Setup]
-    ...                sections.
-    IF    '${config}' == 'crystal'    Import Resource    ${CURDIR}/platform-configs/vitro_crystal.robot
-    ...    ELSE IF    '${config}' == 'pv30'    Import Resource    ${CURDIR}/dev-tests/operon/configs/pv30.robot
-    ...    ELSE IF    '${config}' == 'yocto'    Import Resource    ${CURDIR}/dev-tests/operon/configs/yocto.robot
-    ...    ELSE IF    '${config}' == 'raspbian'    Import Resource    ${CURDIR}/dev-tests/operon/configs/raspbian.robot
-    ...    ELSE    Import Resource    ${CURDIR}/platform-configs/${config}.robot
-    IF    '${dut_connection_method}' == 'SSH'    Prepare To SSH Connection
-    ...    ELSE IF    '${dut_connection_method}' == 'Telnet'    Prepare To Serial Connection
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    Prepare To OBMC Connection
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Prepare To PiKVM Connection
-    ...    ELSE    FAIL    Unknown connection method for config: ${config}
+    ...    platform configuration keywords and variables and
+    ...    preparing connection with the DUT based on used
+    ...    transmission protocol. Keyword used in all [Suite Setup]
+    ...    sections.
+    IF    '${config}' == 'crystal'
+        Import Resource    ${CURDIR}/platform-configs/vitro_crystal.robot
+    ELSE IF    '${config}' == 'pv30'
+        Import Resource    ${CURDIR}/dev-tests/operon/configs/pv30.robot
+    ELSE IF    '${config}' == 'yocto'
+        Import Resource    ${CURDIR}/dev-tests/operon/configs/yocto.robot
+    ELSE IF    '${config}' == 'raspbian'
+        Import Resource    ${CURDIR}/dev-tests/operon/configs/raspbian.robot
+    ELSE
+        Import Resource    ${CURDIR}/platform-configs/${config}.robot
+    END
+    IF    '${dut_connection_method}' == 'SSH'
+        Prepare To SSH Connection
+    ELSE IF    '${dut_connection_method}' == 'Telnet'
+        Prepare To Serial Connection
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        Prepare To OBMC Connection
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Prepare To PiKVM Connection
+    ELSE
+        FAIL    Unknown connection method for config: ${config}
+    END
 
 Prepare To SSH Connection
     [Documentation]    Keyword prepares Test Suite by setting current platform
-    ...                and its ip to the global variables, configuring the
-    ...                SSH connection, Setup RteCtrl REST API and checkout used
-    ...                asset in SnipeIt . Keyword used in [Suite Setup]
-    ...                sections if the communication with the platform based on
-    ...                the SSH protocol
+    ...    and its ip to the global variables, configuring the
+    ...    SSH connection, Setup RteCtrl REST API and checkout used
+    ...    asset in SnipeIt . Keyword used in [Suite Setup]
+    ...    sections if the communication with the platform based on
+    ...    the SSH protocol
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Set Global Variable    ${platform}    ${config}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    #Sonoff API Setup    ${sonoff_ip}
+    # Sonoff API Setup    ${sonoff_ip}
 
 Prepare To Serial Connection
     [Documentation]    Keyword prepares Test Suite by opening SSH connection to
-    ...                the RTE, opening serial connection with the DUT, setting
-    ...                current platform to the global variable and setting the
-    ...                DUT to start state. Keyword used in [Suite Setup]
-    ...                sections if the communication with the platform based on
-    ...                the serial connection
+    ...    the RTE, opening serial connection with the DUT, setting
+    ...    current platform to the global variable and setting the
+    ...    DUT to start state. Keyword used in [Suite Setup]
+    ...    sections if the communication with the platform based on
+    ...    the serial connection
     Open Connection And Log In
     ${platform}=    Get current RTE param    platform
     Set Global Variable    ${platform}
@@ -1037,10 +1135,10 @@ Prepare To Serial Connection
 
 Prepare To OBMC Connection
     [Documentation]    Keyword prepares Test Suite by opening open-bmc
-    ...                connection, setting current platform to the global
-    ...                variable and setting the DUT to start state. Keyword
-    ...                used in [Suite Setup] sections if the communication with
-    ...                the platform based on the open-bmc
+    ...    connection, setting current platform to the global
+    ...    variable and setting the DUT to start state. Keyword
+    ...    used in [Suite Setup] sections if the communication with
+    ...    the platform based on the open-bmc
     Set Global Variable    ${platform}    ${config}
     Set Global Variable    ${OPENBMC_HOST}    ${device_ip}
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/rest_client.robot
@@ -1048,19 +1146,19 @@ Prepare To OBMC Connection
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/state_manager.robot
     Set Platform Power State
     Open Connection And Log In OpenBMC
-    Set DUT Response Timeout  300s
+    Set DUT Response Timeout    300s
     Set Chassis Power State    on
     Establish Host Connection
 
 Prepare To PiKVM Connection
     [Documentation]    Keyword prepares Test Suite by opening SSH connection to
-    ...                the RTE, opening serial connection with the DUT (for
-    ...                gathering output from platform), configuring PiKVM,
-    ...                setting current platform to the global variable and
-    ...                setting the DUT to start state. Keyword used in
-    ...                [Suite Setup] sections if the communication with the
-    ...                platform based on the serial connection (platform
-    ...                output) and PiKVM (platform input)
+    ...    the RTE, opening serial connection with the DUT (for
+    ...    gathering output from platform), configuring PiKVM,
+    ...    setting current platform to the global variable and
+    ...    setting the DUT to start state. Keyword used in
+    ...    [Suite Setup] sections if the communication with the
+    ...    platform based on the serial connection (platform
+    ...    output) and PiKVM (platform input)
     Remap keys variables to PiKVM
     Open Connection And Log In
     ${platform}=    Get current RTE param    platform
@@ -1069,7 +1167,7 @@ Prepare To PiKVM Connection
 
 Remap keys variables to PiKVM
     [Documentation]    Updates keys variables from keys.robot to be compatible
-    ...                with PiKVM
+    ...    with PiKVM
     Set Global Variable    ${ARROW_UP}    ArrowUp
     Set Global Variable    ${ARROW_DOWN}    ArrowDown
     Set Global Variable    ${ARROW_RIGHT}    ArrowRight
@@ -1087,7 +1185,7 @@ Remap keys variables to PiKVM
     Set Global Variable    ${F11}    F11
     Set Global Variable    ${F12}    F12
     Set Global Variable    ${ESC}    Escape
-    Set Global Variable    ${ENTER}   Enter
+    Set Global Variable    ${ENTER}    Enter
     Set Global Variable    ${BACKSPACE}    Backspace
     Set Global Variable    ${SPACE}    Space
     Set Global Variable    ${DELETE}    Delete
@@ -1104,38 +1202,44 @@ Remap keys variables to PiKVM
 
 Remap keys variables from PiKVM
     [Documentation]    Updates keys variables from PiKVM ones to the ones
-    ...                as defined in keys.robot
+    ...    as defined in keys.robot
     Import Resource    ${CURDIR}/keys.robot
 
 Get DUT To Start State
     [Documentation]    Clears telnet buffer and get Device Under Test to start
-    ...                state (RTE Relay On).
+    ...    state (RTE Relay On).
     Telnet.Read
     ${result}=    Get Power Supply State
     IF    '${result}'=='low'    Turn On Power Supply
 
 Turn On Power Supply
     ${pc}=    Get Variable Value    ${POWER_CTRL}
-    ${state}=    IF    'sonoff' == '${pc}'    Sonoff Power On
-    ...          ELSE    RteCtrl Relay
+    IF    'sonoff' == '${pc}'
+        ${state}=    Sonoff Power On
+    ELSE
+        ${state}=    RteCtrl Relay
+    END
 
 Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
-    ...                RTE relay set to ON.
+    ...    RTE relay set to ON.
     ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF     'sonoff' == '${pc}'    Sonoff Power Cycle On
-    ...    ELSE IF    'obmcutil' == '${pc}'    OBMC Power Cycle On
-    ...    ELSE    Rte Relay Power Cycle On
+    IF    'sonoff' == '${pc}'
+        Sonoff Power Cycle On
+    ELSE IF    'obmcutil' == '${pc}'
+        OBMC Power Cycle On
+    ELSE
+        Rte Relay Power Cycle On
+    END
 
 Rte Relay Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
-    ...                RTE relay set to ON.
+    ...    RTE relay set to ON.
     Telnet.Read
     ${result}=    RteCtrl Relay
-    IF   ${result} == 0    Run Keywords
-    ...    Sleep    4s
-    ...    AND    Telnet.Read
-    ...    AND    RteCtrl Relay
+    IF    ${result} == 0
+        Run Keywords    Sleep    4s    AND    Telnet.Read    AND    RteCtrl Relay
+    END
 
 OBMC Power Cycle On
     [Documentation]    Clears obmc-console-client buffer and perform full power
@@ -1162,7 +1266,7 @@ OBMC Power Cycle Off
 
 Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
-    ...                Sonoff
+    ...    Sonoff
     Telnet.Read
     Sonoff Power Off
     Sonoff Power On
@@ -1172,11 +1276,15 @@ Sonoff Power Cycle On
 
 Power Cycle Off
     [Documentation]    Power cycle off power supply using the supported
-    ...                method.
+    ...    method.
     ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF     'sonoff' == '${pc}'    Sonoff Power Cycle Off
-    ...    ELSE IF    'obmcutil' == '${pc}'    OBMC Power Cycle Off
-    ...    ELSE    Rte Relay Power Cycle Off
+    IF    'sonoff' == '${pc}'
+        Sonoff Power Cycle Off
+    ELSE IF    'obmcutil' == '${pc}'
+        OBMC Power Cycle Off
+    ELSE
+        Rte Relay Power Cycle Off
+    END
     Telnet.Close All Connections
     Serial setup    ${rte_ip}    ${rte_s2n_port}
 
@@ -1185,7 +1293,7 @@ Rte Relay Power Cycle Off
     # sleep for DUT Start state in Suite Setup
     Sleep    1s
     ${result}=    Get RTE Relay State
-    IF   '${result}' == 'high'    RteCtrl Relay
+    IF    '${result}' == 'high'    RteCtrl Relay
 
 Sonoff Power Cycle Off
     Sonoff Power On
@@ -1193,45 +1301,51 @@ Sonoff Power Cycle Off
 
 Get Relay State
     [Documentation]    Returns the power relay state depending on the supported
-    ...                method.
+    ...    method.
     ${pc}=    Get Variable Value    ${POWER_CTRL}
-    ${state}=    IF    'sonoff' == '${pc}'    Get Sonoff State
-    ...          ELSE    Get RTE Relay State
-    [Return]    ${state}
+    IF    'sonoff' == '${pc}'
+        ${state}=    Get Sonoff State
+    ELSE
+        ${state}=    Get RTE Relay State
+    END
+    RETURN    ${state}
 
 Get RTE Relay State
     [Documentation]    Returns the RTE relay state through REST API.
     ${state}=    RteCtrl Get GPIO State    0
-    [Return]    ${state}
+    RETURN    ${state}
 
 Get Power Supply State
     [Documentation]    Returns the power supply state.
     ${pc}=    Get Variable Value    ${POWER_CTRL}
-    ${state}=    IF    '${pc}'=='sonoff'    Get Sonoff State
-    ...    ELSE    Get Relay State
-    [Return]    ${state}
+    IF    '${pc}'=='sonoff'
+        ${state}=    Get Sonoff State
+    ELSE
+        ${state}=    Get Relay State
+    END
+    RETURN    ${state}
 
 Get Sound Devices Windows
     [Documentation]    Get and return all sound devices in Windows OS using
-    ...                PowerShell
+    ...    PowerShell
     ${out}=    Execute Command In Terminal    Get-WmiObject -class Win32_SoundDevice
-    [Return]    ${out}
+    RETURN    ${out}
 
 Get USB Devices Windows
     [Documentation]    Get and return all sound devices in Windows OS using
-    ...                PowerShell
+    ...    PowerShell
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
-    [Return]    ${out}
+    RETURN    ${out}
 
 Get CPU temperature and CPU fan speed
     [Documentation]    Get the current CPU temperature in Celsius degrees and
-    ...                the current CPU fan speed in rpms.
+    ...    the current CPU fan speed in rpms.
     ${output}=    Telnet.Execute Command    sensors w83795g-i2c-1-2f |grep fan1 -A 16
     ${rpm}=    Get Lines Containing String    ${output}    fan1
     ${rpm}=    Split String    ${rpm}    ${SPACE}
     ${rpm}=    Get Substring    ${rpm}    -8    -7
     ${rpm}=    Get From List    ${rpm}    0
-    ${rpm_value}=    Convert To Integer     ${rpm}
+    ${rpm_value}=    Convert To Integer    ${rpm}
     ${temperature}=    Get Lines Containing String    ${output}    temp7
     ${temperature}=    Split String    ${temperature}    ${SPACE}
     ${temperature}=    Get Substring    ${temperature}    -8    -7
@@ -1239,14 +1353,14 @@ Get CPU temperature and CPU fan speed
     ${temperature}=    Remove String    ${temperature}    +
     ${temperature}=    Remove String    ${temperature}    °
     ${temperature}=    Remove String    ${temperature}    C
-    ${temperature_value}=    Convert To Number     ${temperature}
-    [Return]    ${rpm_value}    ${temperature_value}
+    ${temperature_value}=    Convert To Number    ${temperature}
+    RETURN    ${rpm_value}    ${temperature_value}
 
 Execute Linux command without output
     [Documentation]    Execute linux command over serial console. Do not return
-    ...                standard output. There is one optional argument. The
-    ...                timeout_before defines how long we wait till we have a
-    ...                clear prompt to enter the command.
+    ...    standard output. There is one optional argument. The
+    ...    timeout_before defines how long we wait till we have a
+    ...    clear prompt to enter the command.
     [Arguments]    ${cmd}    ${timeout}=10
     Set DUT Response Timeout    ${timeout} seconds
     # Make sure that we have a clear prompt before executing next command
@@ -1258,36 +1372,36 @@ Execute Linux command without output
 
 Execute Linux command
     [Documentation]    Execute linux command over serial console and return the
-    ...                standard output. There are two optional arguments. The
-    ...                timeout_before defines how long we wait till we have a
-    ...                clear prompt to enter the command. The timeout_after
-    ...                defines for how long we wait until the next prompt (until
-    ...                the executed command finishes).
+    ...    standard output. There are two optional arguments. The
+    ...    timeout_before defines how long we wait till we have a
+    ...    clear prompt to enter the command. The timeout_after
+    ...    defines for how long we wait until the next prompt (until
+    ...    the executed command finishes).
     [Arguments]    ${cmd}    ${timeout_after}=30
     Write Into Terminal    ${cmd}
     Set DUT Response Timeout    ${timeout_after} seconds
     ${out}=    Read From Terminal Until Prompt
-    [Return]    ${out}
+    RETURN    ${out}
 
 Execute Linux tpm2_tools command
     [Documentation]    Execute linux tpm2_tools command, check that no errors
-    ...                and warnings apper and return the standard output.
-    ...                There are two optional arguments. The timeout_before
-    ...                defines how long we wait till we have a clear prompt to
-    ...                enter the command. The timeout_after defines for how long
-    ...                we wait until the next prompt (until the executed command
-    ...                finishes).
+    ...    and warnings apper and return the standard output.
+    ...    There are two optional arguments. The timeout_before
+    ...    defines how long we wait till we have a clear prompt to
+    ...    enter the command. The timeout_after defines for how long
+    ...    we wait until the next prompt (until the executed command
+    ...    finishes).
     [Arguments]    ${cmd}    ${timeout_after}=30
     Write Into Terminal    ${cmd}
     Set DUT Response Timeout    ${timeout_after} seconds
     ${out}=    Read From Terminal Until Prompt
     Should Not Contain Any    ${out}    WARN    ERROR
-    [Return]    ${out}
+    RETURN    ${out}
 
 Restore Initial DUT Connection Method
     [Documentation]    We need to go back to pikvm control when going back from OS to firmware
     ${initial_method_defined}=    Get Variable Value    ${initial_dut_connection_method}
-    Return From Keyword If    '${initial_method_defined}' == 'None'
+    IF    '${initial_method_defined}' == 'None'    RETURN
     IF    '${initial_dut_connection_method}' == 'pikvm'
         Set Global Variable    ${dut_connection_method}    pikvm
         # We need this when going back from SSH to PiKVM
@@ -1326,7 +1440,7 @@ Check Displays Windows
     # '16' = 'Internal'
     # '2147483648' = 'Internal'
     ${out}=    Execute Command In Terminal    Get-WmiObject WmiMonitorConnectionParams -Namespace root/wmi
-    [Return]    ${out}
+    RETURN    ${out}
 
 Check HDMI Windows
     [Documentation]    Check if HDMI display is recognized by Windows OS.
@@ -1335,19 +1449,26 @@ Check HDMI Windows
 
 Check docking station HDMI Windows
     [Documentation]    Check if docking station HDMI display is recognized by
-    ...                Windows OS.
+    ...    Windows OS.
     ${out}=    Check Displays Windows
     Should Contain Any    ${out}    VideoOutputTechnology : 12    VideoOutputTechnology : 10
 
 Check DP Windows
     [Documentation]    Check if DP display is recognized by Windows OS.
     ${out}=    Check Displays Windows
-    IF    '${platform}' == 'protectli-vp4630'    Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11    VideoOutputTechnology : 2147483648
-    ...    ELSE    Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
+    IF    '${platform}' == 'protectli-vp4630'
+        Should Contain Any
+        ...    ${out}
+        ...    VideoOutputTechnology : 10
+        ...    VideoOutputTechnology : 11
+        ...    VideoOutputTechnology : 2147483648
+    ELSE
+        Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
+    END
 
 Check docking station DP Windows
     [Documentation]    Check if docking station DP display is recognized by
-    ...                Windows OS.
+    ...    Windows OS.
     ${out}=    Check Displays Windows
     Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
 
@@ -1358,13 +1479,13 @@ Check Internal LCD Windows
 
 Check external HDMI in Linux
     [Documentation]    Keyword checks if an external HDMI device is visible
-    ...                in Linux OS.
+    ...    in Linux OS.
     ${out}=    Execute Linux command    cat /sys/class/drm/card0/*HDMI*/status
     Should Contain    ${out}    connected
 
 Check docking station HDMI in Linux
     [Documentation]    Keyword checks if an docking station HDMI device is
-    ...                visiblein Linux OS.
+    ...    visiblein Linux OS.
     TRY
         ${out}=    Execute Linux command    cat /sys/class/drm/card0-DP-7/status
         Should Not Contain    ${out}    disconnected
@@ -1377,21 +1498,21 @@ Check docking station HDMI in Linux
 
 Check external DP in Linux
     [Documentation]    Keyword checks if an external Display Port device is
-    ...                visible in Linux OS.
+    ...    visible in Linux OS.
     ${out}=    Execute Linux command    cat /sys/class/drm/card0-DP-1/status
     Should Not Contain    ${out}    disconnected
     Should Contain    ${out}    connected
 
 Check docking station DP in Linux
     [Documentation]    Keyword checks if an docking station Display Port device
-    ...                is visible in Linux OS.
+    ...    is visible in Linux OS.
     ${out}=    Execute Linux command    cat /sys/class/drm/card0-DP-7/status
     Should Not Contain    ${out}    disconnected
     Should Contain    ${out}    connected
 
 Device detection in Linux
     [Documentation]    Keyword checks if a given device name as a parameter is
-    ...                visible in Linux OS.
+    ...    visible in Linux OS.
     [Arguments]    ${device}
     ${out}=    Execute Linux command    libinput list-devices | grep ${device}
     Should Contain    ${out}    ${device}
@@ -1423,9 +1544,9 @@ Check charging state in Windows
 
 Discharge the battery until target level in Linux
     [Documentation]    Keyword stresses the CPU to discharge the battery until
-    ...                the target charge level is reached.
+    ...    the target charge level is reached.
     [Arguments]    ${target}
-    Detect or Install Package  stress-ng
+    Detect or Install Package    stress-ng
     WHILE    True
         ${out}=    Execute Command In Terminal    cat /sys/class/power_supply/BAT0/capacity
         IF    ${out} <= ${target}    BREAK
@@ -1435,7 +1556,7 @@ Discharge the battery until target level in Linux
 Check battery percentage in Linux
     [Documentation]    Keyword check the battery percentage in Linux OS.
     ${percentage}=    Execute Command In Terminal    cat /sys/class/power_supply/BAT0/capacity
-    [Return]    ${percentage}
+    RETURN    ${percentage}
 
 Charge battery until target level in Linux
     [Documentation]    Keyword periodically checks battery charge level until it
@@ -1444,10 +1565,10 @@ Charge battery until target level in Linux
     FOR    ${i}    IN RANGE    2000
         ${out}=    Check battery percentage in Linux
         Sleep    5
-        Exit For Loop If    ${out} == ${target}
+        IF    ${out} == ${target}    BREAK
     END
     Run Keyword Unless    ${out} == ${target}
-        Log    Could not charge battery to specified level within timeout.
+    Log    Could not charge battery to specified level within timeout.
 
 Turn On ACPI_CALL module in Linux
     [Documentation]    Keyword turns on acpi_call module in Linux OS.
@@ -1455,17 +1576,17 @@ Turn On ACPI_CALL module in Linux
 
 Set Brightness in Linux
     [Documentation]    Keyword sets desired brightness in Linux OS.
-    ...                Brightness value range: [0 , 48000].
+    ...    Brightness value range: [0 , 48000].
     [Arguments]    ${brightness}
     Execute Linux command    echo ${brightness} > /sys/class/backlight/intel_backlight/brightness
 
 Get current Brightness in Linux
     [Documentation]    Keyword gets current brightness in Linux OS and returns
-    ...                it as an integer.
+    ...    it as an integer.
     Set Local Variable    ${cmd}    cat /sys/class/backlight/intel_backlight/brightness
     ${out1}=    Execute Linux command    ${cmd}
     ${brightness}=    Convert To Integer    ${out1}
-    [Return]    ${brightness}
+    RETURN    ${brightness}
 
 Brightness up button in Linux
     [Documentation]    Keyword increases the screen brightness in Linux OS.
@@ -1481,45 +1602,45 @@ Brightness down button in Linux
 
 Toggle Camera in Linux
     [Documentation]    Keyword toggles camera by simulating the function
-    ...                button in Linux OS.
+    ...    button in Linux OS.
     # simulating camera hotkey
     Execute Linux command    echo '\\_SB.PCI0.LPCB.EC0._Q13' | tee /proc/acpi/call
     Sleep    2s
 
 Get WiFi block status
     [Documentation]    Keyword returns True if WiFi is soft or hard blocked.
-    ...                Soft or hard blocking check depends on the given
-    ...                argument.
-    ...                Mode - Soft or Hard
+    ...    Soft or hard blocking check depends on the given
+    ...    argument.
+    ...    Mode - Soft or Hard
     [Arguments]    ${mode}=Soft
     ${wifi_status}=    Execute Linux command    rfkill list 0
     ${status}=    Run Keyword And Return Status    Should Contain    ${wifi_status}    ${mode} blocked: yes
-    [Return]    ${status}
+    RETURN    ${status}
 
 Get Bluetooth block status
-    [Documentation]    Keyword returns True if Bluetooh is soft or hard blocked.
-    ...                Soft or hard blocking check depends on the given
-    ...                argument.
-    ...                Mode - Soft or Hard
+    [Documentation]    Keyword returns True if Bluetooth is soft or hard blocked.
+    ...    Soft or hard blocking check depends on the given
+    ...    argument.
+    ...    Mode - Soft or Hard
     [Arguments]    ${mode}=Soft
     ${bt_status}=    Execute Linux command    rfkill list 0
     ${status}=    Run Keyword And Return Status    Should Contain    ${bt_status}    ${mode} blocked: yes
-    [Return]    ${status}
+    RETURN    ${status}
 
 Toggle flight mode in Linux
     [Documentation]    Keyword toggles the airplane mode by simulating the
-    ...                function button usage in Linux OS.
+    ...    function button usage in Linux OS.
     # simulating airplane mode hotkey
     Execute Linux command    echo '\\_SB.PCI0.LPCB.EC0._Q14' | tee /proc/acpi/call
     Sleep    2s
 
 List devices in Linux
     [Documentation]    Keyword lists devices in Linux OS and returns output.
-    ...                The port is given as an argument:
-    ...                ${port}: pci or usb
+    ...    The port is given as an argument:
+    ...    ${port}: pci or usb
     [Arguments]    ${port}
     ${out}=    Execute Linux command    ls${port}
-    [Return]    ${out}
+    RETURN    ${out}
 
 Detect Docking Station in Linux
     [Documentation]    Keyword check the docking station is detected correctly.
@@ -1530,17 +1651,17 @@ Detect Docking Station in Linux
 
 Check if files are identical in Linux
     [Documentation]    Keyword takes two files as arguments and compares them
-    ...                using sha256sum in Linux OS. Returns True if both files
-    ...                have an indentical content.
+    ...    using sha256sum in Linux OS. Returns True if both files
+    ...    have an identical content.
     [Arguments]    ${file1}    ${file2}
-    ${out1}=    Execute Linux command      sha256sum ${file1}
-    ${out2}=    Execute Linux command      sha256sum ${file2}
+    ${out1}=    Execute Linux command    sha256sum ${file1}
+    ${out2}=    Execute Linux command    sha256sum ${file2}
     ${splitted1}=    Split String    ${out1}
     ${sha256sum1}=    Get From List    ${splitted1}    1
     ${splitted2}=    Split String    ${out2}
     ${sha256sum2}=    Get From List    ${splitted2}    1
     ${status}=    Run Keyword And Return Status    Should Be Equal    ${sha256sum1}    ${sha256sum2}
-    [Return]    ${status}
+    RETURN    ${status}
 
 Scan for Wi-Fi in Linux
     [Documentation]    Turn on Wi-Fi then scan in search of company network.
@@ -1563,14 +1684,15 @@ Scan for Bluetooth in Linux
 
 Get Video Controllers Windows
     [Documentation]    Get and return all video controllers on the device using
-    ...                PowerShell on Windows OS.
-    ${out}=    Execute Command In Terminal    Get-WmiObject -Class Win32_VideoController | Select Description, Name, Status
-    [Return]    ${out}
+    ...    PowerShell on Windows OS.
+    ${out}=    Execute Command In Terminal
+    ...    Get-WmiObject -Class Win32_VideoController | Select Description, Name, Status
+    RETURN    ${out}
 
 Check NVIDIA Power Management in Linux
     [Documentation]    Check whether the NVIDIA Graphics Card power management
-    ...                works correctly (card should powers on only if it's in
-    ...                use).
+    ...    works correctly (card should powers on only if it's in
+    ...    use).
     Sleep    20s
     ${out}=    Execute Linux command    cat /sys/class/drm/card1/device/power/runtime_status
     Should Contain    ${out}    suspended
@@ -1582,27 +1704,30 @@ Check NVIDIA Power Management in Linux
     Should Contain    ${out}    suspended
 
 Get Battery Power Level Windows
-    [Documentation]    Check and return batery power level in % using PowerShell
-    ...                on Windows OS.
-    ${out}=    Execute Command In Terminal    Get-CimInstance -ClassName Win32_Battery | Select-Object -ExpandProperty EstimatedChargeRemaining
+    [Documentation]    Check and return battery power level in % using PowerShell
+    ...    on Windows OS.
+    ${out}=    Execute Command In Terminal
+    ...    Get-CimInstance -ClassName Win32_Battery | Select-Object -ExpandProperty EstimatedChargeRemaining
     ${out}=    Convert To Integer    ${out}
-    [Return]    ${out}
+    RETURN    ${out}
 
 Check If Battery Is Charging Windows
     [Documentation]    Check if battery is currently charging using PowerShell
-    ...                on Windows OS.
-    ${out}=    Execute Command In Terminal  Get-CimInstance -ClassName Win32_Battery | Select-Object -Property BatteryStatus
+    ...    on Windows OS.
+    ${out}=    Execute Command In Terminal
+    ...    Get-CimInstance -ClassName Win32_Battery | Select-Object -Property BatteryStatus
     Should Contain    ${out}    2
 
 Get Pointing Devices Windows
     [Documentation]    Get and return all devices used to move mouse across the
-    ...                screen using PowerShell on Windows OS.
-    ${out}=    Execute Command In Terminal    Get-CimInstance -ClassName Win32_PointingDevice | Select-Object -Property DeviceID, Caption
-    [Return]    ${out}
+    ...    screen using PowerShell on Windows OS.
+    ${out}=    Execute Command In Terminal
+    ...    Get-CimInstance -ClassName Win32_PointingDevice | Select-Object -Property DeviceID, Caption
+    RETURN    ${out}
 
 Identify Disks in Linux
     [Documentation]    Check whether any disk is recognized in Linux system
-    ...                and identify their vndor and model.
+    ...    and identify their vndor and model.
     ${out}=    Execute Linux command    lsblk --nodeps --output NAME
     @{disks}=    Get Regexp matches    ${out}    sd.
     ${disks_info}=    Create List
@@ -1613,16 +1738,16 @@ Identify Disks in Linux
         ${model_name}=    Fetch From Left    ${model}    \r\n
         ${vendor_name}=    Fetch From Right    ${vendor_name}    \r
         ${model_name}=    Fetch From Right    ${model_name}    \r
-        #${vendor_name}=    Fetch From Left    ${vendor_name}    \x20
-        #${model_name}=    Fetch From Left    ${model_name}    \x20
+        # ${vendor_name}=    Fetch From Left    ${vendor_name}    \x20
+        # ${model_name}=    Fetch From Left    ${model_name}    \x20
         Append To List    ${disks_info}    ${disk}
         Append To List    ${disks_info}    ${vendor_name}
         Append To List    ${disks_info}    ${model_name}
     END
-    [Return]    ${disks_info}
+    RETURN    ${disks_info}
 
 Identify Path To SD Card in linux
-    [Documentation]    Check whitch sdX is the corect path to mounted SD card.
+    [Documentation]    Check which sdX is the correct path to mounted SD card.
     ${out}=    Execute Linux command    lsblk --nodeps --output NAME
     @{disks}=    Get Regexp matches    ${out}    sd.
     @{path}=    Create List
@@ -1635,29 +1760,31 @@ Identify Path To SD Card in linux
             Log    ${disk} is not SD Card
         END
     END
-    [Return]    @{path}
+    RETURN    @{path}
 
 Check Read Write To External Drive in linux
     [Documentation]    Check if read/write to external drive works on Linux.
     [Arguments]    ${disk}
-    Execute Linux command     dd if=/dev/urandom of=/tmp/in.bin bs=4K count=100
-    Execute Linux command     dd if=/tmp/in.bin of=/dev/${disk} bs=4K count=100
-    Execute Linux command     dd if=/dev/${disk} of=/tmp/out.bin bs=4K count=100
-    ${result}=    Check if files are identical in Linux    /tmp/in.bin     /tmp/out.bin
+    Execute Linux command    dd if=/dev/urandom of=/tmp/in.bin bs=4K count=100
+    Execute Linux command    dd if=/tmp/in.bin of=/dev/${disk} bs=4K count=100
+    Execute Linux command    dd if=/dev/${disk} of=/tmp/out.bin bs=4K count=100
+    ${result}=    Check if files are identical in Linux    /tmp/in.bin    /tmp/out.bin
     Should Be True    ${result}
 
 Identify Path To SD Card in Windows
     [Documentation]    Check thecorrect path to mounted SD card.
-    ${out}=    Run    sshpass -p ${device_windows_password} scp drive_letters.ps1 ${device_windows_username}@${device_ip}:/C:/Users/user
+    ${out}=    Run
+    ...    sshpass -p ${device_windows_password} scp drive_letters.ps1 ${device_windows_username}@${device_ip}:/C:/Users/user
     Should Be Empty    ${out}
     ${result}=    Execute Command in Terminal    .\\drive_letters.ps1
     ${lines}=    Get Lines Matching Pattern    ${result}    *SD*
     ${drive_letter}=    Evaluate    $lines[0:2]
-    [Return]    ${drive_letter}
+    RETURN    ${drive_letter}
 
 Check Read Write To External Drive in Windows
     [Arguments]    ${drive_letter}
-    Execute Command in Terminal    New-Item -Path "${drive_letter}/" -Name "testfile.txt" -ItemType "file" -Value "This is a test string."
+    Execute Command in Terminal
+    ...    New-Item -Path "${drive_letter}/" -Name "testfile.txt" -ItemType "file" -Value "This is a test string."
     ${out}=    Execute Command in Terminal    Get-Content "${drive_letter}/testfile.txt"
     Should Contain    ${out}    This is a test string.
     Execute Command in Terminal    rm -fo ${drive_letter}/testfile.txt
@@ -1667,7 +1794,7 @@ Install Docker Packages
     ${out_test}=    Execute Command In Terminal    docker --version; echo $?
     ${exit_code_str}=    Get Line    ${out_test}    -1
     ${exit_code}=    Convert To Integer    ${exit_code_str}
-    IF   ${exit_code} != 0
+    IF    ${exit_code} != 0
         Wait Until Keyword Succeeds    5x    1s    Check Internet Connection on Linux
         Execute Command In Terminal    wget https://get.docker.com -O /tmp/get-docker.sh
         Execute Command In Terminal    sh /tmp/get-docker.sh    timeout=5m
@@ -1677,24 +1804,29 @@ Install Docker Packages
 
 Detect or Install Package
     [Documentation]    Check whether the package, that is necessary to run the
-    ...                test case, has already been installed on the system.
+    ...    test case, has already been installed on the system.
     [Arguments]    ${package}
     ${is_package_installed}=    Set Variable    ${False}
     Log To Console    \nChecking if ${package} is installed...
     ${is_package_installed}=    Check if package is installed    ${package}
-    IF    ${is_package_installed}    Log To Console    \nPackage ${package} is installed
-    ...    ELSE    Log To Console    \nPackage ${package} is not installed
-    Return From Keyword If    ${is_package_installed}
+    IF    ${is_package_installed}
+        Log To Console    \nPackage ${package} is installed
+    ELSE
+        Log To Console    \nPackage ${package} is not installed
+    END
+    IF    ${is_package_installed}    RETURN
     Log To Console    \nInstalling required package (${package})...
     Install package    ${package}
     Sleep    10s
     ${is_package_installed}=    Check if package is installed    ${package}
-    IF    ${is_package_installed}=='False'    FAIL    \nRequired package (${package}) cannot be installed
+    IF    ${is_package_installed}=='False'
+        FAIL    \nRequired package (${package}) cannot be installed
+    END
     Log To Console    \nRequired package (${package}) installed successfully
 
 Check if package is installed
     [Documentation]    Check whether the package, that is necessary to run the
-    ...                test case, has already been installed on the system.
+    ...    test case, has already been installed on the system.
     [Arguments]    ${package}
     ${output}=    Execute Command In Terminal    dpkg --list ${package} | cat
     IF    "no packages found matching" in """${output}""" or "<none>" in """${output}"""
@@ -1702,11 +1834,11 @@ Check if package is installed
     ELSE
         ${is_installed}=    Set Variable    ${True}
     END
-    [Return]    ${is_installed}
+    RETURN    ${is_installed}
 
 Install package
     [Documentation]    Install the package, that is necessary to run the
-    ...                test case
+    ...    test case
     [Arguments]    ${package}
     Set DUT Response Timeout    600s
     Write Into Terminal    apt-get install --assume-yes ${package}
@@ -1717,7 +1849,9 @@ Download File
     [Documentation]    Download file from the given URL.
     [Arguments]    ${remote_url}    ${local_path}    ${timeout}=30
     Wait Until Keyword Succeeds    5x    1s    Check Internet Connection on Linux
-    ${out}=    Execute Linux command    wget --content-disposition --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}    ${timeout}
+    ${out}=    Execute Linux command
+    ...    wget --content-disposition --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
+    ...    ${timeout}
     Should Contain    ${out}    200 OK
     Should Contain    ${out}    ${local_path}
     Should Contain    ${out}    saved
@@ -1725,17 +1859,25 @@ Download File
 
 Login to Linux with Root Privileges
     [Documentation]    Login to Linux to perform test on OS level. Which login
-    ...                method will be used depends on: connection method and
-    ...                platform type.
-    IF    '${dut_connection_method}' == 'SSH'    Run Keywords
-    ...                Login to Linux via SSH    ${device_ubuntu_username}    ${device_ubuntu_password}
-    ...                AND    Switch to root user
-    IF    '${config}'=='raptor-cs_talos2'    Login to Linux via OBMC    root    debian
-    ...    ELSE IF    '${platform[:8]}' == 'KGPE-D16'    Serial root login Linux    debian
+    ...    method will be used depends on: connection method and
+    ...    platform type.
+    IF    '${dut_connection_method}' == 'SSH'
+        Run Keywords
+        ...    Login to Linux via SSH
+        ...    ${device_ubuntu_username}
+        ...    ${device_ubuntu_password}
+        ...    AND
+        ...    Switch to root user
+    END
+    IF    '${config}'=='raptor-cs_talos2'
+        Login to Linux via OBMC    root    debian
+    ELSE IF    '${platform[:8]}' == 'KGPE-D16'
+        Serial root login Linux    debian
+    END
 
 Execute Command In Terminal
-     [Documentation]    Universal keyword to execute command regardless of the
-    ...                used method of connection to the DUT (Telnet or SSH).
+    [Documentation]    Universal keyword to execute command regardless of the
+    ...    used method of connection to the DUT (Telnet or SSH).
     [Arguments]    ${command}    ${timeout}=30s
     Set DUT Response Timeout    ${timeout}
     IF    '${dut_connection_method}' == 'Telnet'
@@ -1744,111 +1886,157 @@ Execute Command In Terminal
         Write Into Terminal    ${command}
         ${output}=    Read From Terminal Until Prompt
     END
-    [Return]    ${output}
+    RETURN    ${output}
 
 Read From Terminal
     [Documentation]    Universal keyword to read the console output regardless
-    ...                of the used method of connection to the DUT
-    ...                (Telnet or SSH).
-    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Read
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Read
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
-    [Return]    ${output}
+    ...    of the used method of connection to the DUT
+    ...    (Telnet or SSH).
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Read
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Read
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=    SSHLibrary.Read
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${output}=    Telnet.Read
+    ELSE
+        ${output}=    FAIL    Unknown connection method: ${dut_connection_method}
+    END
+    RETURN    ${output}
 
 Read From Terminal Until
     [Documentation]    Universal keyword to read the console output until the
-    ...                defined text occurs regardless of the used method of
-    ...                connection to the DUT (Telnet or SSH).
+    ...    defined text occurs regardless of the used method of
+    ...    connection to the DUT (Telnet or SSH).
     [Arguments]    ${expected}
-    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read Until    ${expected}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Read Until    ${expected}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Read Until    ${expected}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read Until    ${expected}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
-    [Return]    ${output}
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Read Until    ${expected}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Read Until    ${expected}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=    SSHLibrary.Read Until    ${expected}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${output}=    Telnet.Read Until    ${expected}
+    ELSE
+        ${output}=    FAIL    Unknown connection method: ${dut_connection_method}
+    END
+    RETURN    ${output}
 
 Read From Terminal Until Prompt
     [Documentation]    Universal keyword to read the console output until the
-    ...                defined prompt occurs regardless of the used method of
-    ...                connection to the DUT (Telnet or SSH).
+    ...    defined prompt occurs regardless of the used method of
+    ...    connection to the DUT (Telnet or SSH).
     IF    '${dut_connection_method}' == 'SSH' or '${dut_connection_method}' == 'open-bmc'
         ${output}=    SSHLibrary.Read Until Prompt    strip_prompt=${True}
         ${output}=    Strip String    ${output}    characters=\n\r
     ELSE
-        ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read Until Prompt    strip_prompt=${True}
-        ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read Until Prompt    strip_prompt=${True}
-        ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+        IF    '${dut_connection_method}' == 'Telnet'
+            ${output}=    Telnet.Read Until Prompt    strip_prompt=${True}
+        ELSE IF    '${dut_connection_method}' == 'pikvm'
+            ${output}=    Telnet.Read Until Prompt    strip_prompt=${True}
+        ELSE
+            ${output}=    FAIL    Unknown connection method: ${dut_connection_method}
+        END
     END
-    [Return]    ${output}
+    RETURN    ${output}
 
 Read From Terminal Until Regexp
     [Documentation]    Universal keyword to read the console output until the
-    ...                defined regexp occurs regardless of the used method of
-    ...                connection to the DUT (Telnet or SSH).
+    ...    defined regexp occurs regardless of the used method of
+    ...    connection to the DUT (Telnet or SSH).
     [Arguments]    ${regexp}
-    ${output}=    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Read Until Regexp    ${regexp}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Read Until Regexp    ${regexp}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Read Until Regexp    ${regexp}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Read Until Regexp    ${regexp}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
-    [Return]    ${output}
+    IF    '${dut_connection_method}' == 'Telnet'
+        ${output}=    Telnet.Read Until Regexp    ${regexp}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        ${output}=    Telnet.Read Until Regexp    ${regexp}
+    ELSE
+        ${output}=    FAIL    Unknown connection method: ${dut_connection_method}
+    END
+    RETURN    ${output}
 
 Set Prompt For Terminal
     [Documentation]    Universal keyword to set the prompt (used in Read Until
-    ...                prompt keyword) regardless of the used method of
-    ...                connection to the DUT (Telnet or SSH).
+    ...    prompt keyword) regardless of the used method of
+    ...    connection to the DUT (Telnet or SSH).
     [Arguments]    ${prompt}
-    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Set Prompt    ${prompt}    prompt_is_regexp=False
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Set Client Configuration    prompt=${prompt}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Set Client Configuration    prompt=${prompt}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Set Prompt    ${prompt}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Set Prompt    ${prompt}    prompt_is_regexp=False
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Set Client Configuration    prompt=${prompt}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Set Client Configuration    prompt=${prompt}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Telnet.Set Prompt    ${prompt}
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
 
 Set DUT Response Timeout
     [Documentation]    Universal keyword to set the timeout (used for operations
-    ...                that expect some output to appear) regardless of the
-    ...                used method of connection to the DUT (Telnet or SSH).
+    ...    that expect some output to appear) regardless of the
+    ...    used method of connection to the DUT (Telnet or SSH).
     [Arguments]    ${timeout}
-    IF    '${dut_connection_method}' == 'Telnet'   Telnet.Set Timeout    ${timeout}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Telnet.Set Timeout    ${timeout}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Set Timeout    ${timeout}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Set Client Configuration    timeout=${timeout}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Set Client Configuration    timeout=${timeout}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Telnet.Set Timeout    ${timeout}
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
 
 Write Into Terminal
     [Documentation]    Universal keyword to write text to console regardless of
-    ...                the used method of connection to the DUT (Telnet, PiKVM or SSH).
+    ...    the used method of connection to the DUT (Telnet, PiKVM or SSH).
     [Arguments]    ${text}
-    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Write    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Write    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Write    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Write PiKVM    ${text}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Write    ${text}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Write    ${text}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Write    ${text}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Write PiKVM    ${text}
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
 
 Write Bare Into Terminal
     [Documentation]    Universal keyword to write bare text (without new line
-    ...                mark) to console regardless of the used method of
-    ...                connection to the DUT (Telnet, PiKVM or SSH).
+    ...    mark) to console regardless of the used method of
+    ...    connection to the DUT (Telnet, PiKVM or SSH).
     [Arguments]    ${text}    ${interval}=${null}
-    IF    '${dut_connection_method}' == 'Telnet'    Telnet.Write Bare    ${text}    ${interval}
-    ...    ELSE IF    '${dut_connection_method}' == 'SSH'    SSHLibrary.Write Bare    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    SSHLibrary.Write Bare    ${text}
-    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Write Bare PiKVM    ${text}
-    ...    ELSE    FAIL    Unknown connection method: ${dut_connection_method}
+    IF    '${dut_connection_method}' == 'Telnet'
+        Telnet.Write Bare    ${text}    ${interval}
+    ELSE IF    '${dut_connection_method}' == 'SSH'
+        SSHLibrary.Write Bare    ${text}
+    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+        SSHLibrary.Write Bare    ${text}
+    ELSE IF    '${dut_connection_method}' == 'pikvm'
+        Write Bare PiKVM    ${text}
+    ELSE
+        FAIL    Unknown connection method: ${dut_connection_method}
+    END
 
 Compare Serial Number from MAC
     [Documentation]    Compare serial number with value got calculated from MAC
-    ...                address with serial number got from dmidecode.
+    ...    address with serial number got from dmidecode.
     [Arguments]    ${serial_number}
     ${out}=    Calculate serial number from MAC
     Should Contain    ${serial_number}    ${out}
 
 Firmware version verification from binary
     [Documentation]    Check whether the DUT firmware version is the same as it
-    ...                is expected by checking it with dmidecode and comparing
-    ...                with a value get from binary.
+    ...    is expected by checking it with dmidecode and comparing
+    ...    with a value get from binary.
     Read Firmware    ${TEMPDIR}${/}coreboot.rom
     Power Cycle On
     ${version}=    Get firmware version
@@ -1856,27 +2044,32 @@ Firmware version verification from binary
     Should Contain    ${coreboot_version}    ${version}
 
 Firmware release date verification from SOL
-    [Documentation]    Check whether the DUT firmare release date is the same
-    ...                as it is expected by checking it with dmidecode and
-    ...                comparing with a value get from sign of life.
+    [Documentation]    Check whether the DUT firmware release date is the same
+    ...    as it is expected by checking it with dmidecode and
+    ...    comparing with a value get from sign of life.
     Power Cycle On
     ${sign_of_life}=    Get sign of life
     ${sol_date}=    Get Lines Containing String    ${sign_of_life}    coreboot build
     Power On
     ${slash_release_date}=    Get release date
-    ${release_date}=    IF    ${change_release_date}
-    ...    Change release date format    ${slash_release_date}
-    ...    ELSE    Set Variable    ${slash_release_date}
-    Should Be Equal        ${sol_date.split()[-1]}    ${release_date}
+    IF    ${change_release_date}
+        ${release_date}=    Change release date format    ${slash_release_date}
+    ELSE
+        ${release_date}=    Set Variable    ${slash_release_date}
+    END
+    Should Be Equal    ${sol_date.split()[-1]}    ${release_date}
 
 Build Firmware From Source
     [Documentation]    Builds firmware based on device type.
-    IF    "novacustom" in "${config}"    Build Firmware Novacustom
-    ...    ELSE    FAIL    Unsupported platform type.
+    IF    "novacustom" in "${config}"
+        Build Firmware Novacustom
+    ELSE
+        FAIL    Unsupported platform type.
+    END
 
 Check Write Protection Availability
     [Documentation]    Check whether it is possible to set Write Protection
-    ...                on the DUT.
+    ...    on the DUT.
     ${out}=    Execute Linux command    ./flashrom -p internal --wp-list
     Should Not Contain    ${out}    write protect support is not implemented for this flash chip
     Should Contain    ${out}    Available write protection ranges:
@@ -1885,19 +2078,19 @@ Check Write Protection Availability
 Erase Write Protection
     [Documentation]    Erase write protection from the flash chip.
     ${out}=    Execute Linux command    ./flashrom -p internal --wp-disable    180
-    Should Contain    ${out}    Sucessfully set the requested mode
+    Should Contain    ${out}    Successfully set the requested mode
     ${out}=    Execute Linux command    ./flashrom -p internal --wp-range=0,0    180
-    Should Contain    ${out}    Sucessfully set the requested protection range
+    Should Contain    ${out}    Successfully set the requested protection range
 
 Set Write Protection
     [Documentation]    Set protection range as defined by the parameters:
-    ...                `${start_adress}` -  protection start adress,
-    ...                `${length}` - flash protected range length.
+    ...    `${start_adress}` -    protection start address,
+    ...    `${length}` - flash protected range length.
     [Arguments]    ${start_adress}    ${length}
     ${out}=    Execute Linux command    ./flashrom -p internal --wp-range=${start_adress},${length}    180
-    Should Contain    ${out}    Sucessfully set the requested protection range
+    Should Contain    ${out}    Successfully set the requested protection range
     ${out}=    Execute Linux command    ./flashrom -p internal --wp-enable    180
-    Should Contain    ${out}    Sucessfully set the requested mode
+    Should Contain    ${out}    Successfully set the requested mode
 
 Check Write Protection Status
     [Documentation]    Check whether Write Protection mechanism is active.
@@ -1906,7 +2099,7 @@ Check Write Protection Status
 
 Compare Write Protection Ranges
     [Documentation]    Allows to compare Protection Range: declared and
-    ...                currently set.
+    ...    currently set.
     [Arguments]    ${start_adress}    ${length}
     ${out}=    Execute Linux command    ./flashrom -p internal --wp-status    180
     ${protection_range}=    Get Lines Containing String    ${out}    Protection range:
@@ -1915,13 +2108,17 @@ Compare Write Protection Ranges
     ${set_start_adress}=    Fetch From Right    ${set_start_adress}    =
     ${set_length}=    Get From List    ${protection_range}    3
     ${set_length}=    Fetch From Right    ${set_length}    =
-    IF   ${set_start_adress}!=${start_adress}    FAIL    Declared and currently set protection start adresses are not the same
-    IF   ${set_length}!=${length}    FAIL    Declared and currently set protection lengths are not the same
+    IF    ${set_start_adress}!=${start_adress}
+        FAIL    Declared and currently set protection start addresses are not the same
+    END
+    IF    ${set_length}!=${length}
+        FAIL    Declared and currently set protection lengths are not the same
+    END
 
 Read System information in Petitboot
     [Documentation]    Keyword allows to check whether the read system
-    ...                information option is available in Petitboot and
-    ...                whether the option works correctly.
+    ...    information option is available in Petitboot and
+    ...    whether the option works correctly.
     Sleep    2s
     ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    System information
@@ -1937,10 +2134,10 @@ Read System information in Petitboot
 
 Rescan devices in Petitboot
     [Documentation]    Keyword allows to check whether the rescan devices
-    ...                option is available in Petitboot and whether the
-    ...                option works correctly.
+    ...    option is available in Petitboot and whether the
+    ...    option works correctly.
     Sleep    2s
-    ${output}=   Read From Terminal Until    help
+    ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    Rescan devices
     Set Local Variable    ${move}    3
     FOR    ${index}    IN RANGE    0    ${move}
@@ -1953,7 +2150,7 @@ Rescan devices in Petitboot
 
 Check eMMC module
     [Documentation]    Check the eMMC module is detected via the Operating
-    ...                System.
+    ...    System.
     ${out}=    Execute Linux command    parted /dev/mmcblk0 -- print
     Should Contain    ${out}    ${eMMC_name}
     Should Contain    ${out}    ${eMMC_partition_table}
@@ -1966,7 +2163,7 @@ Coldboot via RTE Relay
 
 Reboot via OS boot by Petitboot
     [Documentation]    Reboot system with system installed on the DUT while
-    ...                already logged into Petitboot.
+    ...    already logged into Petitboot.
     Boot from USB
     Login to Linux
     Execute Linux Command    reboot
@@ -1974,7 +2171,7 @@ Reboot via OS boot by Petitboot
 
 Reboot via Ubuntu by Tianocore
     [Documentation]    Reboot system with Ubuntu installed on the DUT while
-    ...                already logged into Tianocore.
+    ...    already logged into Tianocore.
     Enter Boot Menu Tianocore
     Enter submenu in Tianocore    ubuntu
     Login to Linux
@@ -2010,7 +2207,7 @@ Get cbmem from cloud
     ${cbmem_path}=    Set Variable    /usr/local/bin/cbmem
     ${out_test}=    Execute Command In Terminal    test -x ${cbmem_path}; echo $?
     ${exit_code}=    Convert To Integer    ${out_test}
-    IF   ${exit_code} != 0
+    IF    ${exit_code} != 0
         Download File    https://cloud.3mdeb.com/index.php/s/C6LJMi4bWz3wzR9/download    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
     END
@@ -2020,7 +2217,7 @@ Get flashrom from cloud
     ${flashrom_path}=    Set Variable    /usr/local/bin/flashrom
     ${out_test}=    Execute Command InTerminal    test -x ${flashrom_path}; echo $?
     ${exit_code}=    Convert To Integer    ${out_test}
-    IF   ${exit_code} != 0
+    IF    ${exit_code} != 0
         Download File    https://cloud.3mdeb.com/index.php/s/D7AQDdRZmQFTL6n/download    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
@@ -2038,16 +2235,16 @@ Get cbfstool from cloud
 Extract Repository Name From URL
     [Documentation]    Accepts git URL as an argument. Returns repository name.
     [Arguments]    ${url}
-    ${url_without_extension}    Fetch From Left    ${url}    .git
-    ${repo_name}    Fetch From Right    ${url_without_extension}    /
-    [Return]    ${repo_name}
+    ${url_without_extension}=    Fetch From Left    ${url}    .git
+    ${repo_name}=    Fetch From Right    ${url_without_extension}    /
+    RETURN    ${repo_name}
 
 Clone git repository
     [Documentation]    Clones given git repository to the target location
     [Arguments]    ${repo_url}    ${location}=${EMPTY}
     Wait Until Keyword Succeeds    5x    1s    Check Internet Connection on Linux
     IF    '${location}' != '${EMPTY}'
-        ${repo_path}=    ${location}
+        ${repo_path}=    ${location}=
     ELSE
         ${repo_path}=    Extract Repository Name from URL    ${repo_url}
     END
@@ -2089,7 +2286,7 @@ Boot operating system
     [Documentation]    Keyword allows boot operating system installed on the
     ...    DUT. Takes as an argument operating system name.
     [Arguments]    ${operating_system}
-    IF    '${dut_connection_method}' == 'SSH'    Return From Keyword
+    IF    '${dut_connection_method}' == 'SSH'    RETURN
     Set Local Variable    ${is_system_installed}    ${False}
     Enter Boot Menu Tianocore
     ${menu_construction}=    Get Boot Menu Construction
@@ -2101,10 +2298,10 @@ Boot operating system
     Press key n times and enter    ${system_index}    ${ARROW_DOWN}
 
 Boot system or from connected disk
-    [Arguments]    ${system_name}
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
     ...    to boot from connected disk set up in config
-    IF    '${dut_connection_method}' == 'SSH'    Return From Keyword
+    [Arguments]    ${system_name}
+    IF    '${dut_connection_method}' == 'SSH'    RETURN
     Enter Boot Menu Tianocore
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
@@ -2122,7 +2319,9 @@ Boot system or from connected disk
             ${disk_name}=    Set Variable    ${ssd_list[0]}
         END
         ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
-        Run Keyword If    ${system_index} == -1    Fail    Disk: ${disk_name} not found in Boot Menu
+        IF    ${system_index} == -1
+            Fail    Disk: ${disk_name} not found in Boot Menu
+        END
     ELSE
         ${system_index}=    Get Index From List    ${menu_construction}    ${system_name}
     END
@@ -2139,28 +2338,28 @@ Get iPXE Boot Menu Construction
         # Replace multiple spaces with a single one
         ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
         # Remove leading and trailing spaces
-        ${line}=   Strip String    ${line}
+        ${line}=    Strip String    ${line}
         # Drop leading and trailing pipes
-        ${line}=   Strip String    ${line}    characters=|
+        ${line}=    Strip String    ${line}    characters=|
         # Remove leading and trailing spaces
-        ${line}=   Strip String    ${line}
+        ${line}=    Strip String    ${line}
         # If the resulting line is not empty, add it as a bootable entry
         ${length}=    Get Length    ${line}
-        Run Keyword If    ${length} > 0    Append To List    ${menu_construction}    ${line}
+        IF    ${length} > 0    Append To List    ${menu_construction}    ${line}
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Get Boot Menu Construction
-   [Documentation]    Keyword allows to get and return boot menu construction.
-   ...    Getting boot menu contruction is carried out in the following basis:
-   ...    1. Get serial output, which shows Boot menu with all elements,
-   ...    headers and whitespaces.
-   ...    2. Split serial output string and create list.
-   ...    3. Create empty list for detected elements of menu.
-   ...    4. Add to the new list only elements which are not whitespaces
-   ...    5. Remove from new list menu header and footer (header always
-   ...    occupies three lines, footer -4)
+    [Documentation]    Keyword allows to get and return boot menu construction.
+    ...    Getting boot menu construction is carried out in the following basis:
+    ...    1. Get serial output, which shows Boot menu with all elements,
+    ...    headers and whitespaces.
+    ...    2. Split serial output string and create list.
+    ...    3. Create empty list for detected elements of menu.
+    ...    4. Add to the new list only elements which are not whitespaces
+    ...    5. Remove from new list menu header and footer (header always
+    ...    occupies three lines, footer -4)
     ${menu}=    Read From Terminal Until    exit
     ${menu}=    Remove String    ${menu}    \r
     @{menu_lines}=    Split String    ${menu}    \n
@@ -2169,30 +2368,30 @@ Get Boot Menu Construction
         # Replace multiple spaces with a single one
         ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
         # Remove leading and trailing spaces
-        ${line}=   Strip String    ${line}
+        ${line}=    Strip String    ${line}
         # Drop leading and trailing pipes
-        ${line}=   Strip String    ${line}    characters=|
+        ${line}=    Strip String    ${line}    characters=|
         # Remove leading and trailing spaces
-        ${line}=   Strip String    ${line}
+        ${line}=    Strip String    ${line}
         # If the resulting line is not empty, add it as a bootable entry
         ${length}=    Get Length    ${line}
-        Run Keyword If    ${length} > 0    Append To List    ${menu_construction}    ${line}
+        IF    ${length} > 0    Append To List    ${menu_construction}    ${line}
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-4]
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Get Setup Menu Construction
+    [Documentation]    Keyword allows to get and return setup menu construction.
+    ...    Getting setup menu construction is carried out in the following basis:
+    ...    1. Get serial output, which shows Boot menu with all elements,
+    ...    headers and whitespaces.
+    ...    2. Split serial output string and create list.
+    ...    3. Create empty list for detected elements of menu.
+    ...    4. Add to the new list only elements which are not whitespaces and
+    ...    not menu frames.
+    ...    5. Remove from new list menu header and footer (header always
+    ...    occupies one line, footer -3)
     [Arguments]    ${checkpoint}=Select Entry
-   [Documentation]    Keyword allows to get and return setup menu construction.
-   ...    Getting setup menu contruction is carried out in the following basis:
-   ...    1. Get serial output, which shows Boot menu with all elements,
-   ...    headers and whitespaces.
-   ...    2. Split serial output tring and create list.
-   ...    3. Create empty list for detected elements of menu.
-   ...    4. Add to the new list only elements which are not whitespaces and
-   ...    not menu frames.
-   ...    5. Remove from new list menu header and footer (header always
-   ...    occupies one line, footer -3)
     ${menu}=    Read From Terminal Until    ${checkpoint}
     @{menu_lines}=    Split String    ${menu}    \n
     @{menu_construction}=    Create List
@@ -2206,20 +2405,20 @@ Get Setup Menu Construction
         END
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-1]
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Get Setup Submenu Construction
-   [Documentation]    Keyword allows to get and return setup menu construction.
-   ...    Getting setup menu contruction is carried out in the following basis:
-   ...    1. Get serial output, which shows Boot menu with all elements,
-   ...    headers and whitespaces.
-   ...    2. Split serial output tring and create list.
-   ...    3. Create empty list for detected elements of menu.
-   ...    4. Add to the new list only elements which are not whitespaces and
-   ...    not menu frames.
-   ...    5. Remove from new list menu header and footer (header always
-   ...    occupies one line, footer -3)
-   [Arguments]    ${checkpoint}=Press ESC to exit.    ${description_lines}=1
+    [Documentation]    Keyword allows to get and return setup menu construction.
+    ...    Getting setup menu construction is carried out in the following basis:
+    ...    1. Get serial output, which shows Boot menu with all elements,
+    ...    headers and whitespaces.
+    ...    2. Split serial output string and create list.
+    ...    3. Create empty list for detected elements of menu.
+    ...    4. Add to the new list only elements which are not whitespaces and
+    ...    not menu frames.
+    ...    5. Remove from new list menu header and footer (header always
+    ...    occupies one line, footer -3)
+    [Arguments]    ${checkpoint}=Press ESC to exit.    ${description_lines}=1
     ${menu}=    Read From Terminal Until    ${checkpoint}
     @{menu_lines}=    Split String    ${menu}    \n
     @{menu_construction}=    Create List
@@ -2233,19 +2432,19 @@ Get Setup Submenu Construction
         END
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[${description_lines}:-1]
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Remove Entry From List
     [Arguments]    ${input_list}    ${regexp}
     @{output_list}=    Create List
     FOR    ${item}    IN    @{input_list}
         ${is_match}=    Run Keyword And Return Status    Should Not Match Regexp    ${item}    ${regexp}
-        Run Keyword If    ${is_match}    Append To List    ${output_list}    ${item}
+        IF    ${is_match}    Append To List    ${output_list}    ${item}
     END
-    [Return]    ${output_list}
+    RETURN    ${output_list}
 
 Get Secure Boot Configuration Submenu Construction
-   [Documentation]    Keyword allows to get and return Secure Boot menu construction.
+    [Documentation]    Keyword allows to get and return Secure Boot menu construction.
     ${menu}=    Read From Terminal Until    Reset Secure Boot Keys
     @{menu_lines}=    Split To Lines    ${menu}
     # TODO: make it a generic keyword, to remove all possible control strings
@@ -2261,19 +2460,19 @@ Get Secure Boot Configuration Submenu Construction
         END
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Get USB Configuration Submenu Construction
-   [Documentation]    Keyword allows to get and return setup menu construction.
-   ...    Getting setup menu contruction is carried out in the following basis:
-   ...    1. Get serial output, which shows Boot menu with all elements,
-   ...    headers and whitespaces.
-   ...    2. Split serial output tring and create list.
-   ...    3. Create empty list for detected elements of menu.
-   ...    4. Add to the new list only elements which are not whitespaces and
-   ...    not menu frames.
-   ...    5. Remove from new list menu header and footer (header always
-   ...    occupies one line, footer -3)
+    [Documentation]    Keyword allows to get and return setup menu construction.
+    ...    Getting setup menu construction is carried out in the following basis:
+    ...    1. Get serial output, which shows Boot menu with all elements,
+    ...    headers and whitespaces.
+    ...    2. Split serial output string and create list.
+    ...    3. Create empty list for detected elements of menu.
+    ...    4. Add to the new list only elements which are not whitespaces and
+    ...    not menu frames.
+    ...    5. Remove from new list menu header and footer (header always
+    ...    occupies one line, footer -3)
     ${menu}=    Read From Terminal Until    Press ESC to exit.
     @{menu_lines}=    Split String    ${menu}    \n
     @{menu_construction}=    Create List
@@ -2286,31 +2485,32 @@ Get USB Configuration Submenu Construction
         END
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-1]
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Generate 1GB File in Windows
     [Documentation]    Generates 1G file in Windows in .txt format.
     ${out}=    Execute Command in Terminal    fsutil file createnew test_file.txt 1073741824
-    Should Contain    ${out}   is created
+    Should Contain    ${out}    is created
 
 Get Drive Letter Of USB
     [Documentation]    Gets drive letter of attached USB, work with only one USB
-    ...                attached.
-    ${drive_letter}=    Execute Command in Terminal    (Get-Volume | where drivetype -eq removable | where filesystemtype -eq FAT32).driveletter
+    ...    attached.
+    ${drive_letter}=    Execute Command in Terminal
+    ...    (Get-Volume | where drivetype -eq removable | where filesystemtype -eq FAT32).driveletter
     ${drive_letter}=    Fetch From Left    ${drive_letter}    \r
-    [Return]    ${drive_letter}
+    RETURN    ${drive_letter}
 
 Get Hash Of File
     [Documentation]    Gets line with hash of file.
     [Arguments]    ${path_file}
     ${out}=    Execute Command in Terminal    Get-FileHash -Path ${path_file} | Format-List
     ${hash}=    Get Lines Containing String    ${out}    Hash
-    [Return]    ${hash}
+    RETURN    ${hash}
 
 Identify Path To USB
     [Documentation]    Identifies path to USB storage. Setting ${usb_model}
-    ...                variable in .config file is required to correctly work
-    ...                this keyword.
+    ...    variable in .config file is required to correctly work
+    ...    this keyword.
     ${out}=    Execute Linux command    lsblk --nodeps --output NAME
     @{disks}=    Get Regexp matches    ${out}    sd.
     FOR    ${disk}    IN    @{disks}
@@ -2318,12 +2518,12 @@ Identify Path To USB
         ${model_name}=    Fetch From Left    ${model}    \r\n
         ${model_name}=    Fetch From Right    ${model_name}    \r
         Set Local Variable    ${usb_disk}    ${disk}
-        Exit For Loop If    '${model_name}' == '${usb_model}'
+        IF    '${model_name}' == '${usb_model}'    BREAK
     END
     ${out}=    Execute Linux command    lsblk | grep ${usb_disk} | grep part | cat
     ${split}=    Split String    ${out}
     ${path_to_usb}=    Get From List    ${split}    7
-    [Return]    ${path_to_usb}
+    RETURN    ${path_to_usb}
 
 Get Intel ME Mode State
     [Documentation]    Returns the current state of Intel ME mode.
@@ -2334,7 +2534,7 @@ Get Intel ME Mode State
 
 Setup Intel ME Mode
     [Documentation]    Sets the state of Intel ME mode based on the current
-    ...                state.
+    ...    state.
     [Arguments]    ${actual_state}    ${tested_state}
     IF    '${dut_connection_method}' == 'pikvm'
         Single Key PiKVM    Enter
@@ -2397,11 +2597,14 @@ Return Intel ME Options
 
 Calculate Smoothing
     [Documentation]    Compares the actual and expected value of the fan speed,
-    ...                taking smoothing into account.
+    ...    taking smoothing into account.
     [Arguments]    ${pwm}    ${expected_speed_percentage}
     ${pwm}=    Evaluate    float(${pwm}/2.55)
-    ${smoothing}=    IF    ${expected_speed_percentage} < 35    Evaluate    1
-        ...    ELSE    Evaluate    6
+    IF    ${expected_speed_percentage} < 35
+        ${smoothing}=    Evaluate    1
+    ELSE
+        ${smoothing}=    Evaluate    6
+    END
     ${high_limit}=    Evaluate    ${expected_speed_percentage}+${smoothing}
     ${low_limit}=    Evaluate    ${expected_speed_percentage}-${smoothing}
     Log To Console    \n ----------------------------------------------------------------
@@ -2412,26 +2615,29 @@ Calculate Smoothing
 Get PWM Value
     [Documentation]    Returns current PWN value from hwmon.
     # ../hwmon/hwmonX/pwm{1,2}
-    ${hwmon}=    Execute Command In Terminal    ls /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon | grep hwmon
+    ${hwmon}=    Execute Command In Terminal
+    ...    ls /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon | grep hwmon
     ${pwm}=    Execute Command In Terminal    cat /sys/devices/LNXSYSTM:00/LNXSYBUS:00/17761776:00/hwmon/${hwmon}/pwm1
     ${pwm}=    Convert To Number    ${pwm}
-    [Return]    ${pwm}
+    RETURN    ${pwm}
 
 Get Temperature CURRENT
     [Documentation]    Get current temperature from hwmon.
-    ${hwmon}=    Execute Command In Terminal    ls /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon | grep hwmon
-    ${temperature}=    Execute Command In Terminal    cat /sys/devices/LNXSYSTM:00/LNXSYBUS:00/17761776:00/hwmon/${hwmon}/temp1_input
+    ${hwmon}=    Execute Command In Terminal
+    ...    ls /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon | grep hwmon
+    ${temperature}=    Execute Command In Terminal
+    ...    cat /sys/devices/LNXSYSTM:00/LNXSYBUS:00/17761776:00/hwmon/${hwmon}/temp1_input
     ${temperature}=    Evaluate    ${temperature[:2]}
     ${temperature}=    Convert To Number    ${temperature}
-    [Return]    ${temperature}
+    RETURN    ${temperature}
 
 Get RPM Value From System76_acpi
     [Documentation]    Returns current RPM value of CPU fan form driver
-    ...                system76_acpi.
+    ...    system76_acpi.
     ${speed}=    Execute Command In Terminal    sensors | grep "CPU fan"
     ${speed_split}=    Split String    ${speed}
     ${rpm}=    Get From List    ${speed_split}    2
-    [Return]    ${rpm}
+    RETURN    ${rpm}
 
 Detect or install FWTS
     [Documentation]    Keyword allows to check if Firmware Test Suite (fwts)
@@ -2443,7 +2649,7 @@ Detect or install FWTS
     ${is_package_installed}=    Check if package is installed    ${package}
     IF    ${is_package_installed}
         Log To Console    \nPackage ${package} is installed
-        Return From Keyword
+        RETURN
     ELSE
         Log To Console    \nPackage ${package} is not installed
     END
@@ -2451,7 +2657,9 @@ Detect or install FWTS
     Get and install FWTS
     Sleep    10s
     ${is_package_installed}=    Check if package is installed    ${package}
-    IF    ${is_package_installed}=='False'    FAIL    \nRequired package (${package}) cannot be installed
+    IF    ${is_package_installed}=='False'
+        FAIL    \nRequired package (${package}) cannot be installed
+    END
     Log To Console    \nRequired package (${package}) installed successfully
 
 Get and install FWTS
@@ -2484,7 +2692,7 @@ Perform suspend test using FWTS
     EXCEPT
         ${is_suspend_performed_correctly}=    Set Variable    ${False}
     END
-    [Return]    ${is_suspend_performed_correctly}
+    RETURN    ${is_suspend_performed_correctly}
 
 Perform hibernation test using FWTS
     [Documentation]    Keyword allows to perform hibernation and resume procedure
@@ -2506,7 +2714,7 @@ Perform hibernation test using FWTS
     EXCEPT
         ${is_hibernation_performed_correctly}=    Set Variable    ${False}
     END
-    [Return]    ${is_hibernation_performed_correctly}
+    RETURN    ${is_hibernation_performed_correctly}
 
 Get Index of Matching option in menu
     [Documentation]    This keyword returns the index of element that matches
@@ -2520,7 +2728,7 @@ Get Index of Matching option in menu
         END
     END
     ${index}=    Get Index From List    ${menu_construction}    ${option}
-    [Return]    ${index}
+    RETURN    ${index}
 
 Enter TCG Drive Management Submenu
     [Documentation]    Enters TCG Drive Management submenu
@@ -2564,7 +2772,7 @@ Enter Dasharo Security Options Submenu
     ${system_index}=    Get Index From List    ${menu_construction}    Dasharo Security Options
     Press key n times and enter    ${system_index}    ${ARROW_DOWN}
     ${menu_construction}=    Get Dasharo Security Submenu Construction
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Enter Dasharo System Features submenu
     [Documentation]    Returns output of ${submenu}.
@@ -2574,12 +2782,10 @@ Enter Dasharo System Features submenu
     Press key n times and enter    ${system_index}    ${ARROW_DOWN}
     ${menu_construction}=    Get Setup SubMenu Construction
     ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
-    IF    ${system_index} == -1
-        Skip    msg=Menu option not found
-    END
+    IF    ${system_index} == -1    Skip    msg=Menu option not found
     Press key n times and enter    ${system_index}    ${ARROW_DOWN}
     ${menu_construction}=    Get Setup Submenu Construction
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Enter USB Configuration Submenu
     [Documentation]    Returns output of USB Configuration SubMenu.
@@ -2590,7 +2796,7 @@ Enter USB Configuration Submenu
     ${system_index}=    Get Index From List    ${menu_construction}    USB Configuration
     Press key n times and enter    ${system_index}    ${ARROW_DOWN}
     ${menu_construction}=    Get USB Configuration Submenu Construction
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Enable Option In USB Configuration Submenu
     [Documentation]    Enables option in USB Configuration SubMenu.
@@ -2661,7 +2867,7 @@ Enable Option In submenu
 
 Get Current CONFIG list param
     [Documentation]    Returns current CONFIG list parameters specified in the
-    ...                arguments.
+    ...    arguments.
     [Arguments]    ${item}    ${param}
     ${config}=    Get current CONFIG    ${CONFIG_LIST}
     ${length}=    Get Length    ${config}
@@ -2674,11 +2880,11 @@ Get Current CONFIG list param
     END
     ${length}=    Get Length    ${attached_usb_list}
     Should Be True    ${length} > 0
-    [Return]    @{attached_usb_list}
+    RETURN    @{attached_usb_list}
 
 Check That USB Devices Are detected
     [Documentation]    Checks if the USB devices from the config are the same as
-    ...                those visible in the boot menu.
+    ...    those visible in the boot menu.
     ${menu_construction}=    Read From Terminal Until    exit
     @{attached_usb_list}=    Get Current CONFIG list param    USB_Storage    name
     FOR    ${stick}    IN    @{attached_usb_list}
@@ -2689,7 +2895,7 @@ Check That USB Devices Are detected
 
 Check That USB Devices Are Not Detected
     [Documentation]    Checks if the USB devices from the config are the same as
-    ...                those visible in the boot menu.
+    ...    those visible in the boot menu.
     ${menu_construction}=    Get Boot Menu Construction
     @{attached_usb_list}=    Get Current CONFIG list param    USB_Storage    name
     FOR    ${stick}    IN    @{attached_usb_list}
@@ -2730,16 +2936,16 @@ Remove Extra Default Route
     END
 
 Get Dasharo Security Submenu Construction
-   [Documentation]    Keyword allows to get and return setup menu construction.
-   ...    Getting setup menu contruction is carried out in the following basis:
-   ...    1. Get serial output, which shows Boot menu with all elements,
-   ...    headers and whitespaces.
-   ...    2. Split serial output tring and create list.
-   ...    3. Create empty list for detected elements of menu.
-   ...    4. Add to the new list only elements which are not whitespaces and
-   ...    not menu frames.
-   ...    5. Remove from new list menu header and footer (header always
-   ...    occupies one line, footer -3)
+    [Documentation]    Keyword allows to get and return setup menu construction.
+    ...    Getting setup menu construction is carried out in the following basis:
+    ...    1. Get serial output, which shows Boot menu with all elements,
+    ...    headers and whitespaces.
+    ...    2. Split serial output string and create list.
+    ...    3. Create empty list for detected elements of menu.
+    ...    4. Add to the new list only elements which are not whitespaces and
+    ...    not menu frames.
+    ...    5. Remove from new list menu header and footer (header always
+    ...    occupies one line, footer -3)
     ${menu}=    Read From Terminal Until    Press ESC to exit.
     @{menu_lines}=    Split String    ${menu}    \n
     @{menu_construction}=    Create List
@@ -2753,7 +2959,7 @@ Get Dasharo Security Submenu Construction
             Append To List    ${menu_construction}    ${line}
         END
     END
-    [Return]    ${menu_construction}
+    RETURN    ${menu_construction}
 
 Should Contain All
     [Arguments]    ${string}    @{substrings}

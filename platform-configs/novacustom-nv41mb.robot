@@ -213,7 +213,7 @@ ${usb_type-a_devices_detection_support}             ${True}
 ${tpm_detect_support}                               ${False}
 ${network_interface_after_suspend_support}          ${True}
 
-# Supported OS intallation variants
+# Supported OS installation variants
 ${install_debian_usb_support}                       ${False}
 ${install_ubuntu_usb_support}                       ${False}
 
@@ -240,13 +240,13 @@ ${fan_control_measure_interval}                     3
 ${custom_fan_curve_test_duration}                   30
 # Interval between the following readings in custom fan curve tests
 ${custom_fan_curve_measure_interval}                1
-# Maxium fails during during performing test suite usb-boot.robot
+# Maximum fails during during performing test suite usb-boot.robot
 ${allowed_fails_usb_boot}                           0
-# Maxium fails during during performing test suite usb-detect.robot
+# Maximum fails during during performing test suite usb-detect.robot
 ${allowed_fails_usb_detect}                         0
 # Number of suspend and resume cycles performed during suspend test
 ${suspend_iterations_number}                        15
-# Maxium number of fails during performing suspend and resume cycles
+# Maximum number of fails during performing suspend and resume cycles
 ${suspend_allowed_fails}                            0
 # Number of Ubuntu booting iterations
 ${ubuntu_booting_iterations}                        5

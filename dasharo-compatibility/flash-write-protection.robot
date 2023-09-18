@@ -33,7 +33,7 @@ HWP001.001 Hardware flash write protection support
     Check Write Protection Availability
 
 HWP002.001 Hardware flash write protection enable / disable
-    [Documentation]    Check whether there is a possibiliy to set and erase
+    [Documentation]    Check whether there is a possibility to set and erase
     ...    hardware write protection on the DUT.
     Skip If    not ${hardware_wp_support}    HWP001.001 not supported
     Power On
