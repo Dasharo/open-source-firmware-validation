@@ -1,23 +1,16 @@
 *** Variables ***
-# For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
-# We need to go back to the initial method (pikvm) when switching back from
-# OS to firmware (e.g. when rebooting inside a single test case).
-${initial_dut_connection_method}                    pikvm
-${dut_connection_method}                            ${initial_dut_connection_method}
+${dut_connection_method}                            Telnet
 ${payload}                                          tianocore
 ${rte_s2n_port}                                     13541
-${flash_size}                                       ${32*1024*1024}
+${flash_size}                                       ${16*1024*1024}
 ${flash_length}                                     ${EMPTY}
 ${tianocore_string}                                 to boot directly
-${boot_menu_key}                                    F11
-${setup_menu_key}                                   Delete
-${boot_menu_string}                                 Please select boot device:
+${boot_menu_key}                                    ${F11}
+${setup_menu_key}                                   ${DELETE}
+${boot_menu_string}                                 Please select boot device
 ${setup_menu_string}                                Select Entry
 ${payload_string}                                   ${EMPTY}
-${edk2_ipxe_string}                                 iPXE Network Boot
-${edk2_ipxe_checkpoint}                             iPXE Shell
-${edk2_ipxe_start_pos}                              1
-${ipxe_boot_entry}                                  ${EMPTY}
+${ipxe_boot_entry}                                  Network Boot and Utilities
 ${ipxe_string}                                      ${EMPTY}
 ${ipxe_string2}                                     ${EMPTY}
 ${ipxe_key}                                         ${EMPTY}
@@ -26,13 +19,12 @@ ${sol_string}                                       ${EMPTY}
 ${sn_pattern}                                       ${EMPTY}
 ${manufacturer}                                     ${EMPTY}
 ${cpu}                                              ${EMPTY}
-${power_ctrl}                                       sonoff
+${power_ctrl}                                       RteCtrl
 ${flash_verify_method}                              none
 ${incorrect_signatures_firmware}                    ${EMPTY}
-${wifi_card}                                        ${EMPTY}
-${wifi_card_ubuntu}                                 ${EMPTY}
-${initial_fan_rpm}                                  6995
-${accepted_%_near_initial_rpm}                      20
+${wifi_card}                                        Qualcomm
+${wifi_card_ubuntu}                                 Qualcomm
+${LTE_card}                                         ${EMPTY}
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
@@ -44,42 +36,54 @@ ${accepted_%_near_initial_rpm}                      20
 # ${wol_interface}    enp3s0
 # ${SD_DEV_LINUX}    /dev/mmcblk0
 # ${nic_number}    ${4}
+${device_usb_keyboard}                              Logitech, Inc. Keyboard K120
+${device_nvme_disk}                                 ${EMPTY}
+${device_audio1}                                    ${EMPTY}
+${device_audio2}                                    ${EMPTY}
+${device_audio1_win}                                ${EMPTY}
+${initial_cpu_frequency}                            2000
+${win_usb_stick}                                    ${EMPTY}
+${usb_short_name}                                   ${EMPTY}
+${me_interface}                                     ${EMPTY}
+${initial_fan_rpm}                                  ${EMPTY}
+${accepted_%_near_initial_rpm}                      ${EMPTY}
+${max_cpu_temp}                                     77
+
+# eMMC driver support
+${eMMC_name}                                        MMC BJTD4R
+${eMMC_partition_table}                             gpt
 
 # Platform flashing flags
 ${flashing_basic_method}                            external
 
+${usb_live}                                         USB
+${device_usb_username}                              user
+${device_usb_password}                              ubuntu
+${device_usb_prompt}                                user@user-PT401:~$
+${device_usb_root_prompt}                           root@user-PT401:/home/user#
+@{attached_usb}                                     @{EMPTY}
+
 ${device_windows_username}                          user
 ${device_windows_password}                          windows
-${device_windows_user_prompt}                       PS C:\\Users\\user>
-
-${device_ubuntu_username}                           ubuntu
+${device_ubuntu_username}                           user
 ${device_ubuntu_password}                           ubuntu
-${device_ubuntu_user_prompt}                        ubuntu@3mdeb:~$
-${device_ubuntu_root_prompt}                        root@3mdeb:/home/ubuntu#
-${pikvm_ip}                                         192.168.10.45
-${3mdeb_wifi_network}                               3mdeb_abr
+${device_ubuntu_user_prompt}                        user@user-PT401:~$
+${device_ubuntu_root_prompt}                        root@user-PT401:/home/user#
+${3mdeb_wifi_network}                               3mdeb_Laboratorium
 
 ${dmidecode_serial_number}                          N/A
-${dmidecode_firmware_version}                       Dasharo (coreboot+UEFI) v1.1.2
-${dmidecode_product_name}                           MS-7D25
-${dmidecode_release_date}                           08/29/2023
-${dmidecode_manufacturer}                           Micro-Star International Co., Ltd.
+${dmidecode_firmware_version}                       Dasharo (coreboot+UEFI) v
+${dmidecode_product_name}                           ${EMPTY}
+${dmidecode_release_date}                           ${EMPTY}
+${dmidecode_manufacturer}                           Protectli
 ${dmidecode_vendor}                                 3mdeb
 ${dmidecode_family}                                 N/A
-${dmidecode_type}                                   Desktop
+${dmidecode_type}                                   N/A
 
-${device_usb_keyboard}                              ${EMPTY}
-${device_nvme_disk}                                 ${EMPTY}
-${device_audio1}                                    ${EMPTY}
-${device_audio2}                                    ${EMPTY}
-${device_audio1_win}                                Realtek High Definition Audio
-${wifi_card_ubuntu}                                 ${EMPTY}
-${usb_model}                                        Kingston
-${sd_card_vendor}                                   Mass
-${sd_card_model}                                    Storage
-${no_check_sonoff}                                  ${True}
+${flashing_vboot_badkeys}                           ${False}
+${secure_boot_default_state}                        Disabled
 
-${usb_model}                                        Kingston
+${me_interface}                                     ${EMPTY}
 
 # Supported test environments
 ${tests_in_firmware_support}                        ${True}
@@ -96,17 +100,22 @@ ${tests_in_freebsd_support}                         ${False}
 
 # Regression test flags
 # Test module: dasharo-compatibility
-${coreboot_base_port_support}                       ${False}
-${resource_allocator_v4_support}                    ${False}
+${base_port_bootblock_support}                      ${False}
+${base_port_romstage_support}                       ${False}
+${base_port_postcar_support}                        ${False}
+${base_port_ramstage_support}                       ${False}
+${base_port_allocator_v4_support}                   ${False}
+${petitboot_payload_support}                        ${False}
+${heads_payload_support}                            ${False}
 ${custom_boot_menu_key_support}                     ${True}
 ${custom_setup_menu_key_support}                    ${True}
-${custom_network_boot_entries_support}              ${False}
+${custom_network_boot_entries_support}              ${True}
 ${coreboot_fan_control_support}                     ${False}
 ${internal_lcd_display_support}                     ${False}
 ${external_hdmi_display_support}                    ${True}
-${external_display_port_support}                    ${True}
+${external_display_port_support}                    ${False}
 ${ec_and_super_io_support}                          ${False}
-${custom_logo_support}                              ${True}
+${custom_logo_support}                              ${False}
 ${usb_disks_detection_support}                      ${True}
 ${usb_keyboard_detection_support}                   ${True}
 ${usb_camera_detection_support}                     ${False}
@@ -114,17 +123,19 @@ ${usb_type_c_display_support}                       ${False}
 ${uefi_shell_support}                               ${True}
 ${uefi_compatible_interface_support}                ${True}
 ${ipxe_boot_support}                                ${False}
+${netboot_utilities_support}                        ${True}
 ${nvme_disk_support}                                ${True}
-${sd_card_reader_support}                           ${True}
+${sd_card_reader_support}                           ${False}
 ${wireless_card_support}                            ${True}
 ${wireless_card_wifi_support}                       ${True}
 ${wireless_card_bluetooth_support}                  ${True}
+${miniPCIe_slot_support}                            ${True}
 ${nvidia_graphics_card_support}                     ${False}
 ${usb_c_charging_support}                           ${False}
 ${thunderbolt_charging_support}                     ${False}
 ${usb_c_display_support}                            ${False}
-${audio_subsystem_support}                          ${True}
-${suspend_and_resume_support}                       ${True}
+${audio_subsystem_support}                          ${False}
+${suspend_and_resume_support}                       ${False}
 ${serial_number_verification}                       ${False}
 ${serial_from_MAC}                                  ${False}
 ${firmware_number_verification}                     ${True}
@@ -134,19 +145,22 @@ ${release_date_verification}                        ${True}
 ${release_date_from_sol}                            ${False}
 ${manufacturer_verification}                        ${True}
 ${vendor_verification}                              ${True}
-${family_verification}                              ${False}
+${family_verification}                              ${True}
 ${type_verification}                                ${True}
 ${hardware_wp_support}                              ${False}
 ${docking_station_usb_support}                      ${False}
 ${docking_station_keyboard_support}                 ${False}
 ${docking_station_usb_c_charging_support}           ${False}
-${emmc_support}                                     ${False}
-${DTS_support}                                      ${True}
+${docking_station_detect_support}                   ${False}
+${docking_station_audio_support}                    ${False}
+${emmc_support}                                     ${True}
+${DTS_support}                                      ${False}
 ${firmware_building_support}                        ${False}
+${cpu_tests_support}                                ${False}
 ${docking_station_net_interface}                    ${False}
 ${docking_station_hdmi}                             ${False}
 ${docking_station_display_port}                     ${False}
-${upload_on_usb_support}                            ${True}
+${upload_on_usb_support}                            ${False}
 ${docking_station_upload_support}                   ${False}
 ${thunderbolt_docking_station_support}              ${False}
 ${thunderbolt_docking_station_usb_support}          ${False}
@@ -157,33 +171,32 @@ ${thunderbolt_docking_station_hdmi}                 ${False}
 ${thunderbolt_docking_station_display_port}         ${False}
 ${thunderbolt_docking_station_audio_support}        ${False}
 ${docking_station_sd_card_reader_support}           ${False}
-${cpu_tests_support}                                ${True}
-${reset_to_defaults_support}                        ${True}
+${reset_to_defaults_support}                        ${False}
 
 # Test module: dasharo-security
 ${tpm_support}                                      ${True}
 ${vboot_keys_generating_support}                    ${False}
-${verified_boot_support}                            ${True}
-${verified_boot_popup_support}                      ${True}
-${measured_boot_support}                            ${True}
+${verified_boot_support}                            ${False}
+${verified_boot_popup_support}                      ${False}
+${measured_boot_support}                            ${False}
 ${secure_boot_support}                              ${True}
-${me_neuter_support}                                ${True}
+${me_neuter_support}                                ${False}
 ${usb_stack_support}                                ${False}
-${usb_mass_storage_support}                         ${True}
-${tcg_opal_disk_password_support}                   ${True}
-${bios_lock_support}                                ${True}
-${smm_write_protection_support}                     ${True}
+${usb_mass_storage_support}                         ${False}
+${tcg_opal_disk_password_support}                   ${False}
+${bios_lock_support}                                ${False}
+${smm_write_protection_support}                     ${False}
 ${wifi_bluetooth_card_switch_support}               ${False}
 ${camera_switch_support}                            ${False}
-${early_boot_dma_support}                           ${True}
-${uefi_password_support}                            ${True}
+${early_boot_dma_support}                           ${False}
+${uefi_password_support}                            ${False}
 
 # Test module: dasharo-performance
-${serial_boot_measure}                              ${False}
+${serial_boot_measure}                              ${True}
 ${device_boot_measure_support}                      ${False}
-${cpu_temperature_measure}                          ${False}
-${cpu_frequency_measure}                            ${False}
-${platform_stability_checking}                      ${False}
+${cpu_frequency_measure}                            ${True}
+${cpu_temperature_measure}                          ${True}
+${platform_stability_checking}                      ${True}
 ${test_fan_speed}                                   ${False}
 ${custom_fan_curve_silent_mode_support}             ${False}
 ${custom_fan_curve_performance_mode_support}        ${False}
@@ -198,29 +211,25 @@ ${opnsense_vga_booting}                             ${False}
 ${freebsd_booting}                                  ${False}
 ${windows_booting}                                  ${False}
 
-# Test module: dasharo-stab
-${m2_wifi_support}                                  ${False}
-${nvme_detection_support}                           ${False}
-${usb_type-a_devices_detection_support}             ${False}
-${tpm_detect_support}                               ${False}
-
 # Supported OS intallation variants
 ${install_debian_usb_support}                       ${False}
 ${install_ubuntu_usb_support}                       ${False}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases
-${boot_from_usb_iterations_number}                  0
+${boot_from_usb_iterations_number}                  5
 # Sticks detection test cases
-${usb_detection_iterations_number}                  0
+${usb_detection_iterations_number}                  5
+# Platform boot measure test cases
+${device_boot_measure_itterations}                  3
 
 # Other platform flags and counters
 # Cooling procedure iterations
 ${cooling_procedure_iterations}                     0
 # Stability tests duration in minutes
-${stability_test_duration}                          15
+${stability_test_duration}                          300
 # Interval between the following readings in stability tests
-${stability_test_measure_interval}                  5
+${stability_test_measure_interval}                  10
 # Frequency measure test duration
 ${frequency_test_duration}                          60
 # Interval between the following readings in frequency measure tests
@@ -275,12 +284,6 @@ ${docking_station_warmboot_iterations}              2
 ${docking_station_coldboot_iterations}              2
 # Maximum fails during performing docking station detect tests
 ${allowed_docking_station_detect_fails}             0
-# Number of M.2 Wi-fi card checking iterations after suspension
-${m2_wifi_iterations}                               5
-# Number of NVMe disk detection iterations after suspension
-${nvme_detection_iterations}                        5
-# Number of USB Type-A devices detection iterations after suspension
-${usb_type-a_devices_detection_iterations}          5
 
 
 *** Keywords ***
@@ -289,52 +292,50 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
-    Restore Initial DUT Connection Method
     IF    '${dut_connection_method}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off    ${6}
+    RteCtrl Power Off
     Sleep    5s
-    # read the old output
     Telnet.Read
     RteCtrl Power On
 
-Flash MSI-PRO-Z690-A-DDR5
-    [Documentation]    Flash Device Under Test firmware, check flashing result
-    ...    and set RTE relay to OFF state. Implementation must be
-    ...    compatible with the theory of operation of a specific
-    ...    platform.
-    Sonoff Power Cycle Off
-    Put file    ${fw_file}    /tmp/coreboot.rom
-    FOR    ${internation}    IN RANGE    0    5
-        RteCtrl Power Off    ${6}
-        Sleep    2s
-    END
-    Sleep    2s
-    RteCtrl Set OC GPIO    2    high-z
-    Sleep    2s
-    RteCtrl Set OC GPIO    3    low
-    Sleep    2s
-    RteCtrl Set OC GPIO    1    low
-    Sleep    3s
-    ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-    ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 --layout msi_z690a.layout -i bios -w /tmp/coreboot.rom 2>&1
-    ...    return_rc=True
-    IF    ${rc} != 0    Fail    \nFlashrom returned status ${rc}\n
-    RteCtrl Set OC GPIO    1    high-z
-    RteCtrl Set OC GPIO    3    high-z
-    Sleep    2s
-    Sonoff Power Cycle On
-    IF    ${rc} == 3    RETURN
-    IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
-        RETURN
-    END
-    Should Contain    ${flash_result}    VERIFIED
-
-Read MSI-PRO-Z690-A-DDR5 firmware
-    [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
-    ...    state. Implementation must be compatible with the theory
+Flash Device via External Programmer
+    [Documentation]    Keyword allows to flash Device Under Test firmware by
+    ...    using external programmer and check flashing procedure
+    ...    result. Implementation must be compatible with the theory
     ...    of operation of a specific platform.
-    Sonoff Power Cycle Off
-    Sleep    2s
-    SSHLibrary.Execute Command    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -r /tmp/coreboot.rom
-    Power Cycle Off
+    No operation
+    # Power Cycle On
+    # Sleep    5s
+    # RteCtrl Power Off
+    # Sleep    3s
+    # RteCtrl Set OC GPIO    2    low
+    # Sleep    2s
+    # RteCtrl Set OC GPIO    3    low
+    # Sleep    2s
+    # RteCtrl Set OC GPIO    1    low
+    # Sleep    2s
+    # Power Cycle off
+    # Sleep    2s
+    # ${flash_result}    ${rc}=    SSHLibrary.Execute Command
+    # ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25L12835F/MX25L12845E/MX25L12865E" 2>&1
+    # ...    return_rc=True
+    # Sleep    2s
+    # RteCtrl Set OC GPIO    3    high-z
+    # RteCtrl Set OC GPIO    1    high-z
+    # Power Cycle On
+    # IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n
+    # IF    ${rc} == 3    RETURN
+    # IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
+    #    RETURN
+    # END
+    # Should Contain    ${flash_result}    VERIFIED
+
+Check coreboot Components Measurement
+    [Documentation]    Check whether the hashes of the coreboot components
+    ...    measurements have been stored in the TPM PCR registers.
+    ${out}=    Execute Linux command    ./cbmem -c | grep -i PCR | cat
+    Should Contain    ${out}    fallback/payload` to PCR 2 measured
+    Should Contain    ${out}    fallback/dsdt.aml` to PCR 2 measured
+    Should Contain    ${out}    vbt.bin` to PCR 2 measured
+    Should Not Contain    ${out}    Extending hash into PCR failed

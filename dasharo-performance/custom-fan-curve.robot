@@ -1,0 +1,118 @@
+*** Settings ***
+Library             SSHLibrary    timeout=90 seconds
+Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             Process
+Library             OperatingSystem
+Library             String
+Library             RequestsLibrary
+Library             Collections
+Variables           ../platform-configs/fan-curve-config.yaml
+# TODO: maybe have a single file to include if we need to include the same
+# stuff in all test cases
+Resource            ../sonoff-rest-api/sonoff-api.robot
+Resource            ../rtectrl-rest-api/rtectrl.robot
+Resource            ../variables.robot
+Resource            ../keywords.robot
+Resource            ../keys.robot
+
+# TODO:
+# - document which setup/teardown keywords to use and what are they doing
+# - go threough them and make sure they are doing what the name suggest (not
+# exactly the case right now)
+Suite Setup         Run Keyword    Prepare Test Suite
+Suite Teardown      Run Keyword    Log Out And Close Connection
+
+
+*** Test Cases ***
+CFC001.001 Custom fan curve silent profile measure (Ubuntu 22.04)
+    [Documentation]    Check whether the fan curve is configured correctly in
+    ...    silent profile and the fan spins up and down according to
+    ...    the defined values.
+    Skip If    not ${custom_fan_curve_silent_mode_support}    CFC001.001 not supported
+    Skip If    not ${tests_in_ubuntu_support}    CFC001.001 not supported
+    Power On
+    Login to Linux
+    Switch to root user
+    Prepare lm-sensors
+    Stress Test    ${custom_fan_curve_test_duration}m
+    ${timer}=    Convert To Integer    0
+    FOR    ${i}    IN RANGE    (${custom_fan_curve_test_duration} / ${custom_fan_curve_measure_interval})
+        Log To Console    \n ----------------------------------------------------------------
+        Log To Console    ${timer} min.
+        ${temperature}=    Get Temperature CURRENT
+        ${pwm}=    Get PWM Value
+        ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Silent Mode
+        ...    ${temperature}
+        Calculate smoothing    ${pwm}    ${expected_speed_percentage}
+        Sleep    ${custom_fan_curve_measure_interval}m
+        ${timer}=    Evaluate    ${timer} + ${custom_fan_curve_measure_interval}
+    END
+
+CFC002.001 Custom fan curve performance profile measure (Ubuntu 22.04)
+    [Documentation]    Check whether the fan curve is configured correctly in
+    ...    silent profile and the fan spins up and down according to
+    ...    the defined values.
+    Skip If    not ${custom_fan_curve_performance_mode_support}    CFC002.001 not supported
+    Skip If    not ${tests_in_ubuntu_support}    CFC002.001 not supported
+    Power On
+    Login to Linux
+    Switch to root user
+    Prepare lm-sensors
+    Stress Test    ${custom_fan_curve_test_duration}m
+    ${timer}=    Convert To Integer    0
+    FOR    ${i}    IN RANGE    (${custom_fan_curve_test_duration} / ${custom_fan_curve_measure_interval})
+        Log To Console    \n ----------------------------------------------------------------
+        Log To Console    ${timer} min.
+        ${temperature}=    Get Temperature CURRENT
+        ${pwm}=    Get PWM Value
+        ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Performance Mode
+        ...    ${temperature}
+        Calculate smoothing    ${pwm}    ${expected_speed_percentage}
+        Sleep    ${custom_fan_curve_measure_interval}m
+        ${timer}=    Evaluate    ${timer} + ${custom_fan_curve_measure_interval}
+    END
+
+
+*** Keywords ***
+Calculate Speed Percentage Based On Temperature
+    [Documentation]    Calculates the expected speed percentage by config file
+    ...    for a given temperature based on an algorithm and a
+    ...    defined curve.
+    [Arguments]    ${temperature}    @{temperature_curve}
+    ${rpm}=    Evaluate    -1
+    FOR    ${range_data}    IN    @{temperature_curve}
+        ${min_temp}    ${max_temp}=    Get From Dictionary    ${range_data}    range
+        ${eval_min}    ${eval_max}=    Get From Dictionary    ${range_data}    evaluation
+        # if temperature is equal to start of the range then rpm value will be
+        # equal to minimal rpm for this range
+        IF    ${temperature} == ${min_temp}
+            ${rpm}=    Evaluate    float(${eval_min})
+            BREAK
+            # if not check if the temperature is lower than maximum temperature in
+            # this range and if so, then calculate rpm by finding a linear function
+            # and its ordinate
+        ELSE IF    ${temperature} < ${max_temp}
+            ${rpm}=    Evaluate
+            ...    float(((${eval_max}-${eval_min})/(${max_temp}-${min_temp}))*(${temperature}-${min_temp})+${eval_min})
+            BREAK
+        END
+    END
+
+    IF    ${rpm} == -1    FAIL
+    RETURN    ${rpm}
+
+Calculate Speed Percentage Based On Temperature In Performance Mode
+    [Documentation]    Calculates the expected speed percentage in performance
+    ...    mode for a given temperature based on an algorithm and a
+    ...    defined curve.
+    [Arguments]    ${temperature}
+    ${rpm}=    Calculate Speed Percentage Based On Temperature    ${temperature}    @{temperature_curve_performance}
+    RETURN    ${rpm}
+
+Calculate Speed Percentage Based On Temperature In Silent Mode
+    [Documentation]    Calculates the expected speed percentage in silent
+    ...    mode for a given temperature based on an algorithm and a
+    ...    defined curve.
+    [Arguments]    ${temperature}
+    ${rpm}=    Calculate Speed Percentage Based On Temperature    ${temperature}    @{temperature_curve_silent}
+    RETURN    ${rpm}

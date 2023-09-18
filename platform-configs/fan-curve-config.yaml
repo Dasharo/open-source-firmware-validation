@@ -1,0 +1,19 @@
+temperature_curve_silent:
+  - range: [0, 65]
+    evaluation: [20, 25]
+
+  - range: [65, 75]
+    evaluation: [25, 35]
+
+  - range: [75, 100]
+    evaluation: [35, 100]
+
+temperature_curve_performance:
+  - range: [0, 55]
+    evaluation: [25, 35]
+
+  - range: [55, 75]
+    evaluation: [35, 60]
+
+  - range: [75, 100]
+    evaluation: [60, 100]

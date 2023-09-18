@@ -10,3 +10,6 @@
 [submodule "lib"]
 	path = lib
 	url = git@github.com:3mdeb/testing-stands.git
+[submodule "osfv-scripts"]
+	path = osfv-scripts
+	url = https://github.com/Dasharo/osfv-scripts.git

@@ -1,98 +1,170 @@
-# open-source firmware validation
+# Open Source Firmware Remote Test Environment
 
-The following repository contains set of tests and other features to conduct
-Dasharo firmware validation procedures. 
+## Warning
 
-## Test stands information and architecture
-
-Every validation procedure is carried out on the testing stand, that is
-specially prepared for each platform including:
-
-* method of connection with the platform,
-* method of controlling platform power supply,
-* method of controlling platform power on, power off and reset,
-* method of flashing the platform.
+**!!! WARNING !!!**
+This repository is in the process of migration and multiple major reworks. If
+you do not know what you are doing, consider not using it until at least
+`v0.5.0` is relased. When this is scheduled, link to such a milestone will
+apear here.
+**!!! WARNING !!!**
 
 ![regression-architecture](https://cloud.3mdeb.com/index.php/s/KkERgGoniBtjfC4/preview)
 
+The following repository contains set of tests and other features to conduct
+Dasharo firmware validation procedures.
+
+## Test environment overview
+
+In fact, OSFV currently consist of two separated testing environments:
+
+1. Dasharo OSFV (dedicated for all dasharo platforms; consists of modules:
+  `dasharo-compatibility`, `dasharo-security`, `dasharo-performance` and
+  `dasharo-stability`).
+
+Each of these groups differs in the mechanisms implemented and the extent of
+support for different payloads.
+
+In addition, keep in mind that due to the approach to generating release files,
+for the `raptor-CS talos2` platform dedicated mechanism for testing environment
+and running tests have been implemented.
+
 ## Supported platforms
 
-| Manufacturer | Platform              | Support | $CONFIG                  | Stand documentation    |
-|--------------|-----------------------|---------|--------------------------|------------------------|
-| MSI          | PRO Z690-A DDR5       | Limited | `msi-pro-z690-ddr5`      | [Documentation][doc_1] |
-| MSI          | PRO Z690-A WIFI DDR4  | Limited | `msi-pro-z690-wifi-ddr4` | [Documentation][doc_1] |
+| Manufacturer | Platform             | Firmware                 |  $CONFIG                               |
+|--------------|----------------------|--------------------------|----------------------------------------|
+| NovaCustom   | NV41MZ               | Dasharo                  |  `novacustom-nv41mz`                   |
+| NovaCustom   | NV41MB               | Dasharo                  |  `novacustom-nv41mb`                   |
+| NovaCustom   | NS50MU               | Dasharo                  |  `novacustom-ns50mu`                   |
+| NovaCustom   | NS70MU               | Dasharo                  |  `movacustom-ns70mu`                   |
+| NovaCustom   | NV41PZ               | Dasharo                  |  `novacustom-nv41pz`                   |
+| NovaCustom   | NS50PU               | Dasharo                  |  `novacustom-ns50pu`                   |
+| NovaCustom   | NS70PU               | Dasharo                  |  `novacustom-ns70pu`                   |
+| MSI          | PRO Z690 A WIFI DDR4 | Dasharo                  |  `msi-pro-z690-a-wifi-ddr4`            |
+| MSI          | PRO Z690 A DDR5      | Dasharo                  |  `msi-pro-z690-a-ddr5`                 |
+| Protectli    | VP2410               | Dasharo                  |  `protectli-vp2410`                    |
+| Protectli    | VP2420               | Dasharo                  |  `protectli-vp2420`                    |
+| Protectli    | VP4630               | Dasharo                  |  `protectli-vp4630`                    |
+| Protectli    | VP4650               | Dasharo                  |  `protectli-vp4650`                    |
+| Protectli    | VP4670               | Dasharo                  |  `protectli-vp4670`                    |
+| Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
 
-[doc_1]: https://docs.dasharo.com/transparent-validation/msi-z690/laboratory-assembly-guide/
+## Getting started
 
-## Startup and configuration of the environment
+### Initalizing environment
 
-To set the environment locally, use the following commands:
+* Clone repository and setup virtualenv:
 
 ```bash
+git clone https://github.com/Dasharo/open-source-firmware-validation
+cd open-source-firmware-validation
 git submodule update --init --checkout
-virtualenv -p $(which python3) robot-venv
-source robot-venv/bin/activate
-pip install -U -r requirements.txt
+python3 -m virtualenv venv
+source venv/bin/activate
 ```
 
-If the environment has been initialized already, use only the following command:
+* Install modules (in case of Raptor Talos II platform):
+
+```
+pip install -U -r requirements-openbmc.txt
+```
+
+* Install modules (in case of other platforms):
+
+```
+pip install -r requirements.txt
+```
+
+* If you initialize the environment and try to run the environment again you
+  just need to use only this command:
 
 ```bash
-source robot-venv/bin/activate
+source venv/bin/activate
 ```
 
-## Runnig test modules, test suites and test cases
+### Running tests
 
-To run all the test cases dedicated for tested platform, execute the following
-command after initialize the environment:
+When running tests on Dasharo platforms use the following commands:
+
+* For running single test case:
 
 ```bash
-./regression.sh
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:$CONFIG -v fw_file:$FW_FILE \
+-t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
 ```
 
-To run only one test module, execute the following command after initialize the
-environment:
+* For running single test suite:
 
 ```bash
-robot -L TRACE -v stand_ip:$STAND_IP -v config:$CONFIG -v fw_file:$FW_FILE ./<module_name>
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:$CONFIG -v fw_file:$FW_FILE \
+$TEST_MODULE/$TEST_SUITE
 ```
 
-Where:
-
-* `$STAND_IP` - testing stand IP address.
-* `$CONFIG` - tested platform config. All platform configs are available in
-    `platform-configs` folder.
-* `$FW_FILE` - name and path to the firmware file, on which testing should be
-    performed.
-
-To run only one test suite, execute the following command after initialize the
-environment:
+* For running single test module:
 
 ```bash
-robot -L TRACE -v stand_ip:$STAND_IP -v config:$CONFIG -v fw_file:$FW_FILE ./<module_name>/<suite_name>.robot
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:$CONFIG -v fw_file:$FW_FILE \
+./$TEST_MODULE
 ```
 
-* `$STAND_IP` - testing stand IP address.
-* `$CONFIG` - tested platform config. All platform configs are available in
-    `platform-configs` folder.
-* `$FW_FILE` - name and path to the firmware file, on which testing should be
-    performed.
+Parameters should be defined as follows:
 
-> Note: If test suite does not contain any test case involving flashing the
-device, `$FW_FILE` parameter might be skipped.
+* $DEVICE_IP - testing manager IP address; for platforms mounted on the stands
+  in the lab it will be RTE address; for DUTs, on which we perform tests by
+  using SSH connection it will be their own IP address.
+* $FW_FILE - path to and name of the coreboot firmware file,
+* $CONFIG - tested platform config; the value given for this parameter should be
+  derived from the configuration name of the corresponding platform (folder
+  platform_configs),
+* $TEST_MODULE - name of the test module (i.e. `dasharo-compatibility`),
+* $TEST_SUITE - name of the test suite (i.e. `coreboot-base-port`),
+* $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001`).
+  Note that after test case ID asterisk should be added. This is necessary due
+  to the construction of the flag `-t` (or `--test`)
 
-To run only one test case, execute the following command after initialize the
-environment:
+When running tests on Talos2 platform use the following commands:
+
+* For running single test case:
 
 ```bash
-robot -L TRACE -t "<case_name>*" -v stand_ip:$STAND_IP -v config:$CONFIG -v fw_file:$FW_FILE ./<module_name>/<suite_name>.robot
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
+-v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
+-t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
 ```
 
-* `$STAND_IP` - testing stand IP address.
-* `$CONFIG` - tested platform config. All platform configs are available in
-    `platform-configs` folder.
-* `$FW_FILE` - name and path to the firmware file, on which testing should be
-    performed.
+* For running single test suite:
 
-> Note: If test suite does not contain any test case involving flashing the
-device, `$FW_FILE` parameter might be skipped.
+```bash
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
+-v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
+$TEST_MODULE/$TEST_SUITE
+```
+
+* For running single test module:
+
+```bash
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
+-v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
+./$TEST_MODULE
+```
+
+Parameters should be defined as follows:
+
+* $DEVICE_IP - OBMC IP address (currently `192.168.20.9`),
+* $FW_FILE - path to and name of the coreboot firmware file,
+* $BOOTBLOCK_FILE - path to and name of the bootblock file,
+* $ZIMAGE_FILE - path to and name of the zImage file,
+* $PNOR_FILE - path to and name of the pnor file,
+* $TEST_MODULE - name of the test module (i.e. `dasharo-compatibility`),
+* $TEST_SUITE - name of the test suite (i.e. `coreboot-base-port`),
+* $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001`).
+  Note that after test case ID asterisk should be added. This is necessary due
+  to the construction of the flag `-t` (or `--test`)
+
+## Contributing
+
+* Install pre-commit hooks after cloning repository:
+
+```bash
+pre-commit install
+```

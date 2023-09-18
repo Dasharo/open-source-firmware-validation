@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    ../os/ubuntu_2204_credentials.robot
+
+
 *** Variables ***
 # For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
 # We need to go back to the initial method (pikvm) when switching back from
@@ -52,16 +56,16 @@ ${device_windows_username}                          user
 ${device_windows_password}                          windows
 ${device_windows_user_prompt}                       PS C:\\Users\\user>
 
-${device_ubuntu_username}                           ubuntu
+${device_ubuntu_username}                           user
 ${device_ubuntu_password}                           ubuntu
-${device_ubuntu_user_prompt}                        ubuntu@3mdeb:~$
-${device_ubuntu_root_prompt}                        root@3mdeb:/home/ubuntu#
-${pikvm_ip}                                         192.168.10.45
+${device_ubuntu_user_prompt}                        user@user-MS-7E06:~$
+${device_ubuntu_root_prompt}                        root@user-MS-7E06:/home/user#
+${pikvm_ip}                                         192.168.10.226
 ${3mdeb_wifi_network}                               3mdeb_abr
 
 ${dmidecode_serial_number}                          N/A
-${dmidecode_firmware_version}                       Dasharo (coreboot+UEFI) v1.1.2
-${dmidecode_product_name}                           MS-7D25
+${dmidecode_firmware_version}                       Dasharo (coreboot+UEFI) v0.9.0
+${dmidecode_product_name}                           MS-7E06
 ${dmidecode_release_date}                           08/29/2023
 ${dmidecode_manufacturer}                           Micro-Star International Co., Ltd.
 ${dmidecode_vendor}                                 3mdeb
@@ -78,8 +82,6 @@ ${usb_model}                                        Kingston
 ${sd_card_vendor}                                   Mass
 ${sd_card_model}                                    Storage
 ${no_check_sonoff}                                  ${True}
-
-${usb_model}                                        Kingston
 
 # Supported test environments
 ${tests_in_firmware_support}                        ${True}
@@ -198,7 +200,7 @@ ${opnsense_vga_booting}                             ${False}
 ${freebsd_booting}                                  ${False}
 ${windows_booting}                                  ${False}
 
-# Test module: dasharo-stab
+# Test module: dasharo-stability
 ${m2_wifi_support}                                  ${False}
 ${nvme_detection_support}                           ${False}
 ${usb_type-a_devices_detection_support}             ${False}
@@ -298,7 +300,7 @@ Power On
     Telnet.Read
     RteCtrl Power On
 
-Flash MSI-PRO-Z690-A-DDR5
+Flash MSI-PRO-Z790-P-DDR5
     [Documentation]    Flash Device Under Test firmware, check flashing result
     ...    and set RTE relay to OFF state. Implementation must be
     ...    compatible with the theory of operation of a specific
@@ -330,7 +332,7 @@ Flash MSI-PRO-Z690-A-DDR5
     END
     Should Contain    ${flash_result}    VERIFIED
 
-Read MSI-PRO-Z690-A-DDR5 firmware
+Read MSI-PRO-Z790-P-DDR5 firmware
     [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
     ...    state. Implementation must be compatible with the theory
     ...    of operation of a specific platform.
