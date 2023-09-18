@@ -1,22 +1,22 @@
 *** Settings ***
-Library         SSHLibrary    timeout=90 seconds
-Library         Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library         Process
-Library         OperatingSystem
-Library         String
-Library         RequestsLibrary
 Library         Collections
+Library         OperatingSystem
+Library         Process
+Library         String
+Library         Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library         SSHLibrary    timeout=90 seconds
+Library         RequestsLibrary
 Resource        ../sonoff-rest-api/sonoff-api.robot
 Resource        ../rtectrl-rest-api/rtectrl.robot
 Resource        ../variables.robot
 Resource        ../keywords.robot
 Resource        ../keys.robot
 
-Suite Setup     Prepare platform
+Suite Setup     Prepare Platform
 
 
 *** Keywords ***
-Prepare platform
+Prepare Platform
     [Documentation]    Keyword allows to flashing the device with the required
     ...    firmware version. Number of files used in the flashing procedure and
     ...    method of the flashing depends on the platform specify:
@@ -26,25 +26,25 @@ Prepare platform
     ...    used.
     ...    -> for the platforms that don't both don't have external flashing
     ...    enabled and OBMC, internal flashing mechanism is used.
-    IF    '${config}'=='raptor-cs_talos2'
-        Variable Should Exist    ${fw_file}
-        Variable Should Exist    ${bootblock_file}
-        Variable Should Exist    ${zImage_file}
+    IF    '${CONFIG}'=='raptor-cs_talos2'
+        Variable Should Exist    ${FW_FILE}
+        Variable Should Exist    ${BOOTBLOCK_FILE}
+        Variable Should Exist    ${Z_IMAGE_FILE}
         Prepare Test Suite
-        Flash Heads From OpenBMC    ${bootblock_file}    ${fw_file}    ${zImage_file}
-        ${fw_ver_file}=    Get firmware version from coreboot file    ${fw_file}
+        Flash Heads From OpenBMC    ${BOOTBLOCK_FILE}    ${FW_FILE}    ${Z_IMAGE_FILE}
+        ${fw_ver_file}=    Get Firmware Version From Coreboot File    ${FW_FILE}
         Power On
-        ${fw_ver_bootblock}    ${fw_ver_romstage}=    Get firmware version from bootlogs
+        ${fw_ver_bootblock}    ${fw_ver_romstage}=    Get Firmware Version From Bootlogs
         Log Out And Close Connection
         Should Be Equal    ${fw_ver_file}    ${fw_ver_bootblock}
         Should Be Equal    ${fw_ver_bootblock}    ${fw_ver_romstage}
     ELSE
-        Variable Should Exist    ${fw_file}
+        Variable Should Exist    ${FW_FILE}
         Prepare Test Suite
-        Flash firmware    ${fw_file}
+        Flash Firmware    ${FW_FILE}
         Power Cycle On
-        ${version}=    Get firmware version
-        ${coreboot_version}=    Get firmware version from binary    ${fw_file}
+        ${version}=    Get Firmware Version
+        ${coreboot_version}=    Get Firmware Version From Binary    ${FW_FILE}
         Log Out And Close Connection
         Should Contain    ${coreboot_version}    ${version}
     END

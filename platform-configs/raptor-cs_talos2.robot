@@ -1,256 +1,253 @@
 *** Variables ***
-${dut_connection_method}                            open-bmc
-${payload}                                          petitboot
-${flash_size}                                       ${64*1024*1024}
-${manufacturer}                                     Raptor Engineering, LLC
-${cpu}                                              IBM POWER9 v2 CPU (4-Core) CP9M31
-${dram_size}                                        ${8192}
-${def_cores}                                        4
-${def_threads}                                      4
-${def_cpu}                                          32
-${def_online_cpu}                                   0-31
-${def_sockets}                                      2
-${open_bmc_username}                                root
-${open_bmc_password}                                openpower
-${open_bmc_root_prompt}                             root@talos:~#
-${obmc_PowerRunning_state}                          Running
-${obmc_PowerStandby_state}                          Standby
-${obmc_PowerIdle_state}                             Quiesced
-${obmc_PowerOff_state}                              Off
-${REST_USERNAME}                                    root
-${REST_PASSWORD}                                    openpower
-${FLASH_VERIFY_METHOD}                              none
-${initial_fan_rpm}                                  6995
-${accepted_%_near_initial_rpm}                      20
-${POWER_CTRL}                                       obmcutil
-${tpm_pcr_zero_pattern}                             00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+${DUT_CONNECTION_METHOD}=                           open-bmc
+${PAYLOAD}=                                         petitboot
+${FLASH_SIZE}=                                      ${64*1024*1024}
+${MANUFACTURER}=                                    Raptor Engineering, LLC
+${CPU}=                                             IBM POWER9 v2 CPU (4-Core) CP9M31
+${DRAM_SIZE}=                                       ${8192}
+${DEF_CORES}=                                       4
+${DEF_THREADS}=                                     4
+${DEF_CPU}=                                         32
+${DEF_ONLINE_CPU}=                                  0-31
+${DEF_SOCKETS}=                                     2
+${OPEN_BMC_USERNAME}=                               root
+${OPEN_BMC_PASSWORD}=                               openpower
+${OPEN_BMC_ROOT_PROMPT}=                            root@talos:~#
+${OBMC_POWER_RUNNING_STATE}=                        Running
+${OBMC_POWER_STANDBY_STATE}=                        Standby
+${OBMC_POWER_IDLE_STATE}=                           Quiesced
+${OBMC_POWER_OFF_STATE}=                            Off
+${REST_USERNAME}=                                   root
+${REST_PASSWORD}=                                   openpower
+${FLASH_VERIFY_METHOD}=                             none
+${INITIAL_FAN_RPM}=                                 6995
+${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
+${POWER_CTRL}=                                      obmcutil
+${TPM_PCR_ZERO_PATTERN}=                            00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-${talos_sonoff_ip}                                  192.168.10.47
-${heads_prompt}                                     ~ #
+${TALOS_SONOFF_IP}=                                 192.168.10.47
+${HEADS_PROMPT}=                                    ~ #
 
 # Platform flashing flags
-${flashing_basic_method}                            obmc
-${flashing_dev_method}                              obmc
+${FLASHING_BASIC_METHOD}=                           obmc
+${FLASHING_DEV_METHOD}=                             obmc
 
 # Temporary parameter - we are not able to use the Hardware matrix
-@{attached_usb}                                     ${usb_live}
-${usb_live}                                         USB: sda2
+@{ATTACHED_USB}=                                    ${USB_LIVE}
+${USB_LIVE}=                                        USB: sda2
 
 # Supported test environments
-${tests_in_firmware_support}                        ${True}
-${tests_in_ubuntu_support}                          ${False}
-${tests_in_debian_support}                          ${True}
-${tests_in_windows_support}                         ${False}
-${tests_in_ubuntu_server_support}                   ${False}
-${tests_in_proxmox_ve_support}                      ${False}
-${tests_in_pfsense_serial_support}                  ${False}
-${tests_in_pfsense_vga_support}                     ${False}
-${tests_in_opnsense_serial_support}                 ${False}
-${tests_in_opnsense_vga_support}                    ${False}
-${tests_in_freebsd_support}                         ${False}
+${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
+${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
+${TESTS_IN_DEBIAN_SUPPORT}=                         ${TRUE}
+${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
+${TESTS_IN_UBUNTU_SERVER_SUPPORT}=                  ${FALSE}
+${TESTS_IN_PROXMOX_VE_SUPPORT}=                     ${FALSE}
+${TESTS_IN_PFSENSE_SERIAL_SUPPORT}=                 ${FALSE}
+${TESTS_IN_PFSENSE_VGA_SUPPORT}=                    ${FALSE}
+${TESTS_IN_OPNSENSE_SERIAL_SUPPORT}=                ${FALSE}
+${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${FALSE}
+${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
 # Test module: dasharo-compatibility
-${base_port_bootblock_support}                      ${True}
-${base_port_romstage_support}                       ${True}
-${base_port_postcar_support}                        ${False}
-${base_port_ramstage_support}                       ${True}
-${base_port_allocator_v4_support}                   ${False}
-${petitboot_payload_support}                        ${False}
-${heads_payload_support}                            ${True}
-${custom_boot_menu_key_support}                     ${False}
-${custom_setup_menu_key_support}                    ${False}
-${custom_network_boot_entries_support}              ${False}
-${coreboot_fan_control_support}                     ${False}
-${internal_lcd_display_support}                     ${False}
-${external_hdmi_display_support}                    ${False}
-${external_display_port_support}                    ${False}
-${ec_and_super_io_support}                          ${False}
-${custom_logo_support}                              ${False}
-${usb_disks_detection_support}                      ${False}
-${usb_keyboard_detection_support}                   ${False}
-${usb_camera_detection_support}                     ${False}
-${usb_type_c_display_support}                       ${False}
-${uefi_shell_support}                               ${False}
-${uefi_compatible_interface_support}                ${False}
-${ipxe_boot_support}                                ${False}
-${netboot_utilities_support}                        ${False}
-${nvme_disk_support}                                ${False}
-${sd_card_reader_support}                           ${False}
-${wireless_card_support}                            ${False}
-${wireless_card_wifi_support}                       ${False}
-${wireless_card_bluetooth_support}                  ${False}
-${miniPCIe_slot_support}                            ${False}
-${nvidia_graphics_card_support}                     ${False}
-${usb_c_charging_support}                           ${False}
-${thunderbolt_charging_support}                     ${False}
-${usb_c_display_support}                            ${False}
-${audio_subsystem_support}                          ${False}
-${suspend_and_resume_support}                       ${False}
-${serial_number_verification}                       ${False}
-${serial_from_MAC}                                  ${False}
-${firmware_number_verification}                     ${False}
-${firmware_from_binary}                             ${False}
-${product_name_verification}                        ${False}
-${release_date_verification}                        ${False}
-${release_date_from_sol}                            ${False}
-${manufacturer_verification}                        ${False}
-${vendor_verification}                              ${False}
-${family_verification}                              ${False}
-${type_verification}                                ${False}
-${hardware_wp_support}                              ${False}
-${docking_station_usb_support}                      ${False}
-${docking_station_keyboard_support}                 ${False}
-${docking_station_usb_c_charging_support}           ${False}
-${docking_station_detect_support}                   ${False}
-${docking_station_audio_support}                    ${False}
-${emmc_support}                                     ${False}
-${DTS_support}                                      ${False}
-${firmware_building_support}                        ${False}
-${cpu_tests_support}                                ${False}
-${docking_station_net_interface}                    ${False}
-${docking_station_hdmi}                             ${False}
-${docking_station_display_port}                     ${False}
-${upload_on_usb_support}                            ${False}
-${docking_station_upload_support}                   ${False}
-${fan_speed_measure_support}                        ${False}
-${device_tree_support}                              ${True}
-${docking_station_sd_card_reader_support}           ${False}
-${upload_on_usb_support}                            ${False}
-${docking_station_upload_support}                   ${False}
-${thunderbolt_docking_station_support}              ${False}
-${thunderbolt_docking_station_usb_support}          ${False}
-${thunderbolt_docking_station_keyboard_support}     ${False}
-${thunderbolt_docking_station_upload_support}       ${False}
-${thunderbolt_docking_station_net_interface}        ${False}
-${thunderbolt_docking_station_hdmi}                 ${False}
-${thunderbolt_docking_station_display_port}         ${False}
-${thunderbolt_docking_station_audio_support}        ${False}
-${docking_station_sd_card_reader_support}           ${False}
-${thunderbolt_docking_station_detect_support}       ${False}
-${reset_to_defaults_support}                        ${False}
+${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${TRUE}
+${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${TRUE}
+${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
+${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${TRUE}
+${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
+${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
+${HEADS_PAYLOAD_SUPPORT}=                           ${TRUE}
+${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${FALSE}
+${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${FALSE}
+${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
+${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${FALSE}
+${INTERNAL_LCD_DISPLAY_SUPPORT}=                    ${FALSE}
+${EXTERNAL_HDMI_DISPLAY_SUPPORT}=                   ${FALSE}
+${EXTERNAL_DISPLAY_PORT_SUPPORT}=                   ${FALSE}
+${EC_AND_SUPER_IO_SUPPORT}=                         ${FALSE}
+${CUSTOM_LOGO_SUPPORT}=                             ${FALSE}
+${USB_DISKS_DETECTION_SUPPORT}=                     ${FALSE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=                  ${FALSE}
+${USB_CAMERA_DETECTION_SUPPORT}=                    ${FALSE}
+${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
+${UEFI_SHELL_SUPPORT}=                              ${FALSE}
+${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${FALSE}
+${IPXE_BOOT_SUPPORT}=                               ${FALSE}
+${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
+${NVME_DISK_SUPPORT}=                               ${FALSE}
+${SD_CARD_READER_SUPPORT}=                          ${FALSE}
+${WIRELESS_CARD_SUPPORT}=                           ${FALSE}
+${WIRELESS_CARD_WIFI_SUPPORT}=                      ${FALSE}
+${WIRELESS_CARD_BLUETOOTH_SUPPORT}=                 ${FALSE}
+${MINI_PC_IE_SLOT_SUPPORT}=                         ${FALSE}
+${NVIDIA_GRAPHICS_CARD_SUPPORT}=                    ${FALSE}
+${USB_C_CHARGING_SUPPORT}=                          ${FALSE}
+${THUNDERBOLT_CHARGING_SUPPORT}=                    ${FALSE}
+${USB_C_DISPLAY_SUPPORT}=                           ${FALSE}
+${AUDIO_SUBSYSTEM_SUPPORT}=                         ${FALSE}
+${SUSPEND_AND_RESUME_SUPPORT}=                      ${FALSE}
+${SERIAL_NUMBER_VERIFICATION}=                      ${FALSE}
+${SERIAL_FROM_MAC}=                                 ${FALSE}
+${FIRMWARE_NUMBER_VERIFICATION}=                    ${FALSE}
+${FIRMWARE_FROM_BINARY}=                            ${FALSE}
+${PRODUCT_NAME_VERIFICATION}=                       ${FALSE}
+${RELEASE_DATE_VERIFICATION}=                       ${FALSE}
+${RELEASE_DATE_FROM_SOL}=                           ${FALSE}
+${MANUFACTURER_VERIFICATION}=                       ${FALSE}
+${VENDOR_VERIFICATION}=                             ${FALSE}
+${FAMILY_VERIFICATION}=                             ${FALSE}
+${TYPE_VERIFICATION}=                               ${FALSE}
+${HARDWARE_WP_SUPPORT}=                             ${FALSE}
+${DOCKING_STATION_USB_SUPPORT}=                     ${FALSE}
+${DOCKING_STATION_KEYBOARD_SUPPORT}=                ${FALSE}
+${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=          ${FALSE}
+${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
+${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
+${EMMC_SUPPORT}=                                    ${FALSE}
+${DTS_SUPPORT}=                                     ${FALSE}
+${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
+${CPU_TESTS_SUPPORT}=                               ${FALSE}
+${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
+${DOCKING_STATION_HDMI}=                            ${FALSE}
+${DOCKING_STATION_DISPLAY_PORT}=                    ${FALSE}
+${DOCKING_STATION_UPLOAD_SUPPORT}=                  ${FALSE}
+${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
+${DEVICE_TREE_SUPPORT}=                             ${TRUE}
+${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
+${UPLOAD_ON_USB_SUPPORT}=                           ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_SUPPORT}=             ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_USB_SUPPORT}=         ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_KEYBOARD_SUPPORT}=    ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_UPLOAD_SUPPORT}=      ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_NET_INTERFACE}=       ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_DETECT_SUPPORT}=      ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 
 # Test module: dasharo-security
-${tpm_support}                                      ${True}
-${vboot_keys_generating_support}                    ${False}
-${verified_boot_support}                            ${False}
-${verified_boot_popup_support}                      ${False}
-${measured_boot_support}                            ${False}
-${secure_boot_support}                              ${False}
-${me_neuter_support}                                ${False}
-${usb_stack_support}                                ${False}
-${usb_mass_storage_support}                         ${False}
-${tcg_opal_disk_password_support}                   ${False}
-${bios_lock_support}                                ${False}
-${smm_write_protection_support}                     ${False}
-${wifi_bluetooth_card_switch_support}               ${False}
-${camera_switch_support}                            ${False}
-${early_boot_dma_support}                           ${False}
-${uefi_password_support}                            ${False}
+${TPM_SUPPORT}=                                     ${TRUE}
+${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${FALSE}
+${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
+${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
+${SECURE_BOOT_SUPPORT}=                             ${FALSE}
+${ME_NEUTER_SUPPORT}=                               ${FALSE}
+${USB_STACK_SUPPORT}=                               ${FALSE}
+${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
+${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
+${BIOS_LOCK_SUPPORT}=                               ${FALSE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
+${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
+${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
+${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
+${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 
 # Test module: dasharo-performance
-${serial_boot_measure}                              ${False}
-${device_boot_measure_support}                      ${False}
-${cpu_frequency_measure}                            ${True}
-${cpu_temperature_measure}                          ${False}
-${platform_stability_checking}                      ${False}
-${test_fan_speed}                                   ${False}
-${custom_fan_curve_silent_mode_support}             ${False}
-${custom_fan_curve_performance_mode_support}        ${False}
-${ubuntu_booting}                                   ${False}
-${debian_booting}                                   ${False}
-${ubuntu_server_booting}                            ${False}
-${proxmox_ve_booting}                               ${False}
-${pfsense_serial_booting}                           ${False}
-${pfsense_vga_booting}                              ${False}
-${opnsense_serial_booting}                          ${False}
-${opnsense_vga_booting}                             ${False}
-${freebsd_booting}                                  ${False}
-${windows_booting}                                  ${False}
+${SERIAL_BOOT_MEASURE}=                             ${FALSE}
+${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
+${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
+${CPU_TEMPERATURE_MEASURE}=                         ${FALSE}
+${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
+${TEST_FAN_SPEED}=                                  ${FALSE}
+${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
+${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+${UBUNTU_BOOTING}=                                  ${FALSE}
+${DEBIAN_BOOTING}=                                  ${FALSE}
+${UBUNTU_SERVER_BOOTING}=                           ${FALSE}
+${PROXMOX_VE_BOOTING}=                              ${FALSE}
+${PFSENSE_SERIAL_BOOTING}=                          ${FALSE}
+${PFSENSE_VGA_BOOTING}=                             ${FALSE}
+${OPNSENSE_SERIAL_BOOTING}=                         ${FALSE}
+${OPNSENSE_VGA_BOOTING}=                            ${FALSE}
+${FREEBSD_BOOTING}=                                 ${FALSE}
+${WINDOWS_BOOTING}=                                 ${FALSE}
 
 # Test module: dasharo-stability
-${m2_wifi_support}                                  ${False}
-${nvme_detection_support}                           ${False}
-${usb_type-a_devices_detection_support}             ${False}
-${tpm_detect_support}                               ${True}
+${M2_WIFI_SUPPORT}=                                 ${FALSE}
+${NVME_DETECTION_SUPPORT}=                          ${FALSE}
+${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
 
 # Supported OS installation variants
-${install_debian_usb_support}                       ${False}
-${install_ubuntu_usb_support}                       ${False}
+${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
+${INSTALL_UBUNTU_USB_SUPPORT}=                      ${FALSE}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases
-${boot_from_usb_iterations_number}                  0
+${BOOT_FROM_USB_ITERATIONS_NUMBER}=                 0
 # Sticks detection test cases
-${usb_detection_iterations_number}                  0
+${USB_DETECTION_ITERATIONS_NUMBER}=                 0
 
 # Other platform flags and counters
 # Cooling procedure iterations
-${cooling_procedure_iterations}                     0
+${COOLING_PROCEDURE_ITERATIONS}=                    0
 # Stability tests duration in minutes
-${stability_test_duration}                          15
+${STABILITY_TEST_DURATION}=                         15
 # Interval between the following readings in stability tests
-${stability_test_measure_interval}                  5
+${STABILITY_TEST_MEASURE_INTERVAL}=                 5
 # Frequency measure test duration
-${frequency_test_duration}                          60
+${FREQUENCY_TEST_DURATION}=                         60
 # Interval between the following readings in frequency measure tests
-${frequency_test_measure_interval}                  1
+${FREQUENCY_TEST_MEASURE_INTERVAL}=                 1
 # Temperature measure test duration
-${temperature_test_duration}                        60
+${TEMPERATURE_TEST_DURATION}=                       60
 # Interval between the following readings in temperature measure tests
-${temperature_test_measure_interval}                1
+${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
 # Fan control measure tests duration in minutes
-${fan_control_test_duration}                        30
+${FAN_CONTROL_TEST_DURATION}=                       30
 # Interval between the following readings in fan control tests
-${fan_control_measure_interval}                     3
+${FAN_CONTROL_MEASURE_INTERVAL}=                    3
 # Custom fan curve tests duration in minutes
-${custom_fan_curve_test_duration}                   30
+${CUSTOM_FAN_CURVE_TEST_DURATION}=                  30
 # Interval between the following readings in custom fan curve tests
-${custom_fan_curve_measure_interval}                1
+${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}=               1
 # Maximum fails during during performing test suite usb-boot.robot
-${allowed_fails_usb_boot}                           0
+${ALLOWED_FAILS_USB_BOOT}=                          0
 # Maximum fails during during performing test suite usb-detect.robot
-${allowed_fails_usb_detect}                         0
+${ALLOWED_FAILS_USB_DETECT}=                        0
 # Number of Ubuntu booting iterations
-${ubuntu_booting_iterations}                        5
+${UBUNTU_BOOTING_ITERATIONS}=                       5
 # Number of Debian booting iterations
-${debian_booting_iterations}                        5
+${DEBIAN_BOOTING_ITERATIONS}=                       5
 # Number of Ubuntu Server booting iterations
-${ubuntu_server_booting_iterations}                 5
+${UBUNTU_SERVER_BOOTING_ITERATIONS}=                5
 # Number of Proxmox VE booting iterations
-${proxmox_ve_booting_iterations}                    5
+${PROXMOX_VE_BOOTING_ITERATIONS}=                   5
 # Number of pfSense (serial output) booting iterations
-${pfsense_serial_booting_iterations}                5
+${PFSENSE_SERIAL_BOOTING_ITERATIONS}=               5
 # Number of pfSense (VGA output) booting iterations
-${pfsense_vga_booting_iterations}                   5
+${PFSENSE_VGA_BOOTING_ITERATIONS}=                  5
 # Number of OPNsense (serial output) booting iterations
-${opnsense_serial_booting_iterations}               5
+${OPNSENSE_SERIAL_BOOTING_ITERATIONS}=              5
 # Number of OPNsense (VGA output) booting iterations
-${opnsense_vga_booting_iterations}                  5
+${OPNSENSE_VGA_BOOTING_ITERATIONS}=                 5
 # Number of FreeBSD booting iterations
-${freebsd_booting_iterations}                       5
+${FREEBSD_BOOTING_ITERATIONS}=                      5
 # Number of Windows booting iterations
-${windows_booting_iterations}                       5
+${WINDOWS_BOOTING_ITERATIONS}=                      5
 # Maximum fails during performing booting OS tests
-${allowed_booting_fails}                            0
+${ALLOWED_BOOTING_FAILS}=                           0
 # Number of docking station detection iterations after reboot
-${docking_station_reboot_iterations}                2
+${DOCKING_STATION_REBOOT_ITERATIONS}=               2
 # Number of docking station detection iterations after warmboot
-${docking_station_warmboot_iterations}              2
+${DOCKING_STATION_WARMBOOT_ITERATIONS}=             2
 # Number of docking station detection iterations after coldboot
-${docking_station_coldboot_iterations}              2
+${DOCKING_STATION_COLDBOOT_ITERATIONS}=             2
 # Maximum fails during performing docking station detect tests
-${allowed_docking_station_detect_fails}             0
+${ALLOWED_DOCKING_STATION_DETECT_FAILS}=            0
 # Number of M.2 Wi-fi card checking iterations after suspension
-${m2_wifi_iterations}                               5
+${M2_WIFI_ITERATIONS}=                              5
 # Number of NVMe disk detection iterations after suspension
-${nvme_detection_iterations}                        5
+${NVME_DETECTION_ITERATIONS}=                       5
 # Number of USB Type-A devices detection iterations after suspension
-${usb_type-a_devices_detection_iterations}          5
+${USB_TYPE-A_DEVICES_DETECTION_ITERATIONS}=         5
 
 
 *** Keywords ***
-Get firmware version from coreboot file
+Get Firmware Version From Coreboot File
     [Documentation]    Return firmware version from binary file sent via SSH to
     ...    RTE system. Takes binary file path as an argument.
     [Arguments]    ${binary_path}
@@ -264,7 +261,7 @@ Get firmware version from coreboot file
     ...    (raptor-cs_talos-2_v|Heads-v)\\d{1,}\.\\d{1,}\.\\d{1,}\
     RETURN    ${firmware_version_file[-1]}
 
-Get firmware version from bootlogs
+Get Firmware Version From Bootlogs
     [Documentation]    Return firmware version from the platform booting logs.
     ${output}=    Read From Terminal Until    bootblock starting
     ${firmware_version_bootblock}=    Get Regexp Matches
@@ -285,8 +282,7 @@ Set Platform Power State
     ...    power state is understood whether the platform is connected to the
     ...    power supply. If the platform power state is off, obmc connection
     ...    will not be estabilished.
-    [Arguments]    ${requested_power_state}=on
-    Sonoff API Setup    ${talos_sonoff_ip}
+    Sonoff API Setup    ${TALOS_SONOFF_IP}
     ${result}=    Get Sonoff State
     IF    '${result}'=='low'
         Sonoff Power On
@@ -296,9 +292,9 @@ Set Platform Power State
 Open OBMC Service Connection
     [Documentation]    Keyword allows to open second connection to the OBMC for
     ...    performing service procedures: power controlling and platform flashing.
-    ${power_ctrl_connection}=    SSHLibrary.Open Connection    ${device_ip}    prompt=${open_bmc_root_prompt}
+    ${power_ctrl_connection}=    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${OPEN_BMC_ROOT_PROMPT}
     SSHLibrary.Switch Connection    ${power_ctrl_connection}
-    SSHLibrary.Login    ${open_bmc_username}    ${open_bmc_password}
+    SSHLibrary.Login    ${OPEN_BMC_USERNAME}    ${OPEN_BMC_PASSWORD}
     Set DUT Response Timeout    300s
 
 Close OBMC Service Connection
@@ -345,107 +341,107 @@ Turn On Host With Obmcutil
     [Documentation]    Keyword allows to turn the host system on by using built
     ...    into OpenBMC service to control platform state.
     Write Into Terminal    obmcutil chassison
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    obmcutil poweron
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
 
 Turn Off Host With Obmcutil
     [Documentation]    Keyword allows to turn the host system off by using built
     ...    into OpenBMC service to control platform state.
     Write Into Terminal    obmcutil chassisoff
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    obmcutil poweroff
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
 
-Reset mboxd
+Reset Mboxd
     [Documentation]    Keyword allows to reset mboxd service. This operation
     ...    is necessary to erase temporarily mounted images.
     Write Into Terminal    systemctl stop mboxd
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    systemctl start mboxd
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
 
 Read Talos2 Firmware From OpenBMC
     [Documentation]    Keyword allows to read device's current firmware. The
     ...    read firmware is placed on the OpenBMC in /tmp folder
     Write Into Terminal    pflash -P HBB -r /tmp/hbb.bin
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    pflash -P HBI -r /tmp/hbi.bin
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
 
 Flash Talos2 Firmware From OpenBMC
     [Documentation]    Keyword flashes the board with uploaded firmware on
     ...    OpenBMC.
     [Arguments]    ${bootblock_file}    ${coreboot_file}
     Open OBMC Service Connection
-    SCP.Open Connection    ${device_ip}    username=${open_bmc_username}    password=${open_bmc_password}
+    SCP.Open Connection    ${DEVICE_IP}    username=${OPEN_BMC_USERNAME}    password=${OPEN_BMC_PASSWORD}
     SCP.Put File    ${bootblock_file}    /tmp/bootblock.rom
     SCP.Put File    ${coreboot_file}    /tmp/coreboot.rom
     SCP.Close Connection
     Turn Off Host With Obmcutil
-    Reset mboxd
+    Reset Mboxd
     Write Into Terminal    pflash -f -e -P HBB -p /tmp/bootblock.rom
     Read From Terminal Until    Erasing...
     Read From Terminal Until    100%
     Read From Terminal Until    Programming & Verifying..
     Read From Terminal Until    100%
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    pflash -f -e -P HBI -p /tmp/coreboot.rom
     Read From Terminal Until    Erasing...
     Read From Terminal Until    100%
     Read From Terminal Until    Programming & Verifying..
     Read From Terminal Until    100%
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Close OBMC Service Connection
 
 Flash Petitboot From OpenBMC
     [Documentation]    Keyword flashes the board with Petitboot system.
     [Arguments]    ${bootblock_file}    ${coreboot_file}    ${pnor_file}
     Open OBMC Service Connection
-    SCP.Open Connection    ${device_ip}    username=${open_bmc_username}    password=${open_bmc_password}
+    SCP.Open Connection    ${DEVICE_IP}    username=${OPEN_BMC_USERNAME}    password=${OPEN_BMC_PASSWORD}
     SCP.Put File    ${bootblock_file}    /tmp/bootblock.rom
     SCP.Put File    ${coreboot_file}    /tmp/coreboot.rom
     SCP.Put File    ${pnor_file}    /tmp/talos.pnor
     SCP.Close Connection
     Turn Off Host With Obmcutil
-    Reset mboxd
+    Reset Mboxd
     Write Into Terminal    pflash -f -P HBB -p /tmp/bootblock.rom -F /tmp/talos.pnor
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    pflash -f -P HBI -p /tmp/coreboot.rom -F /tmp/talos.pnor
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    pflash -f -E -p /tmp/talos.pnor
     Read From Terminal Until    Erasing...
     Read From Terminal Until    Programming & Verifying...
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Close OBMC Service Connection
 
 Flash Heads From OpenBMC
     [Documentation]    Keyword flashes BOOTKERNEL partition to install Heads.
-    [Arguments]    ${bootblock_file}    ${coreboot_file}    ${zImage_file}
-    ${heads_already_flashed}=    Get Variable Value    ${heads_already_flashed}    ${False}
+    [Arguments]    ${bootblock_file}    ${coreboot_file}    ${z_image_file}
+    ${heads_already_flashed}=    Get Variable Value    ${HEADS_ALREADY_FLASHED}    ${FALSE}
     IF    ${heads_already_flashed}    RETURN
     Open OBMC Service Connection
-    SCP.Open Connection    ${device_ip}    username=${open_bmc_username}    password=${open_bmc_password}
+    SCP.Open Connection    ${DEVICE_IP}    username=${OPEN_BMC_USERNAME}    password=${OPEN_BMC_PASSWORD}
     SCP.Put File    ${bootblock_file}    /tmp/bootblock.rom
     SCP.Put File    ${coreboot_file}    /tmp/coreboot.rom
-    SCP.Put File    ${zImage_file}    /tmp/zImage.bundled
+    SCP.Put File    ${z_image_file}    /tmp/zImage.bundled
     SCP.Close Connection
     Turn Off Host With Obmcutil
-    Reset mboxd
+    Reset Mboxd
     Write Into Terminal    pflash -f -e -P HBB -p /tmp/bootblock.rom
     Read From Terminal Until    Erasing...
     Read From Terminal Until    Programming & Verifying...
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    pflash -f -e -P HBI -p /tmp/coreboot.rom
     Read From Terminal Until    Erasing...
     Read From Terminal Until    Programming & Verifying...
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Write Into Terminal    pflash -f -e -P BOOTKERNEL -p /tmp/zImage.bundled
     Read From Terminal Until    Erasing...
     Read From Terminal Until    Programming & Verifying...
-    Read From Terminal Until    ${open_bmc_root_prompt}
+    Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Close OBMC Service Connection
-    Set Global Variable    ${heads_already_flashed}    ${True}
+    Set Global Variable    ${HEADS_ALREADY_FLASHED}    ${TRUE}
 
 Check TPM PCRs Correctness
     [Documentation]    Keyword allows to checking the TPM PCRs correctness.
@@ -458,10 +454,10 @@ Check TPM PCRs Correctness
     ...    -> PCRs 4 and 5 values should not be the same as "capped values",
     ...    -> PCRs 6 and 7 values depend on current state of Heads, skip checks.
     [Arguments]    ${tpm_pcrs}
-    ${number_of_pcrs}=    Get length    ${tpm_pcrs}
+    ${number_of_pcrs}=    Get Length    ${tpm_pcrs}
     FOR    ${iteration}    IN RANGE    0    8
         TRY
-            Should Be True    '${tpm_pcrs[${iteration}][8:]}'!='${tpm_pcr_zero_pattern}'
+            Should Be True    '${tpm_pcrs[${iteration}][8:]}'!='${TPM_PCR_ZERO_PATTERN}'
         EXCEPT
             FAIL    \n PCR-${iteration} has incorrect value: ${tpm_pcrs[${iteration}]}
         END

@@ -1,61 +1,61 @@
 *** Variables ***
-${dut_connection_method}        Telnet
-${payload}                      seabios
-${rte_s2n_port}                 13541
-${flash_size}                   ${12*1024*1024}
-${seabios_string}               ESC
-${seabios_key}                  \x1b
-${tianocore_string}             ESC
-${tianocore_key}                \x1b
-${manufacturer}                 PC Engines
-${cpu}                          AMD G-T40E
-${dram_size}                    ${16384}
-${def_cores}                    2
-${def_threads}                  1
-${def_cpu}                      2
-${def_online_cpu}               0-1
-${def_sockets}                  1
-${power_ctrl}                   sonoff
-${flash_verify_method}          tianocore-shell
-${flash_verify_option}          UEFI Shell    # Selected One Time Boot option
+${DUT_CONNECTION_METHOD}=       Telnet
+${PAYLOAD}=                     seabios
+${RTE_S2_N_PORT}=               13541
+${FLASH_SIZE}=                  ${12*1024*1024}
+${SEABIOS_STRING}=              ESC
+${SEABIOS_KEY}=                 \x1b
+${TIANOCORE_STRING}=            ESC
+${TIANOCORE_KEY}=               \x1b
+${MANUFACTURER}=                PC Engines
+${CPU}=                         AMD G-T40E
+${DRAM_SIZE}=                   ${16384}
+${DEF_CORES}=                   2
+${DEF_THREADS}=                 1
+${DEF_CPU}=                     2
+${DEF_ONLINE_CPU}=              0-1
+${DEF_SOCKETS}=                 1
+${POWER_CTRL}=                  sonoff
+${FLASH_VERIFY_METHOD}=         tianocore-shell
+${FLASH_VERIFY_OPTION}=         UEFI Shell    # Selected One Time Boot option
 
 # Platform flashing flags
-${flashing_basic_method}        external
+${FLASHING_BASIC_METHOD}=       external
 
 # Regression test flags
 # suite: board-status
-${L3_cache_support}             ${False}
-${L4_cache_support}             ${False}
-${hard_disk_with_Linux}         ${False}
-${hard_disk_with_pfSense}       ${False}
-${wol_support}                  ${False}
+${L3_CACHE_SUPPORT}=            ${FALSE}
+${L4_CACHE_SUPPORT}=            ${FALSE}
+${HARD_DISK_WITH_LINUX}=        ${FALSE}
+${HARD_DISK_WITH_PF_SENSE}=     ${FALSE}
+${WOL_SUPPORT}=                 ${FALSE}
 # suite: coreboot
-${prepare_security_reg}         ${False}
-${SOL_support}                  ${False}
-${change_release_date}          ${False}
-${serial_number_support}        ${False}
-${serial_from_MAC}              ${False}
-${ECC_support}                  ${False}
+${PREPARE_SECURITY_REG}=        ${FALSE}
+${SOL_SUPPORT}=                 ${FALSE}
+${CHANGE_RELEASE_DATE}=         ${FALSE}
+${SERIAL_NUMBER_SUPPORT}=       ${FALSE}
+${SERIAL_FROM_MAC}=             ${FALSE}
+${ECC_SUPPORT}=                 ${FALSE}
 # suite: os
-${iPXE_string_support}          ${False}
+${I_PXE_STRING_SUPPORT}=        ${FALSE}
 # suite: payload
-${iPXE_config_support}          ${False}
-${serial_config_support}        ${False}
-${boot_menu_wait_6s}            ${False}
-${security_registers}           ${False}
-${sortbootorder_support}        ${False}
-${cbp_support}                  ${False}
-${iommu_support}                ${False}
-${BIOS_WP_support}              ${False}
-${EHCI0_support}                ${False}
-${serial_redirection}           ${False}
-${memtest_support}              ${False}
-${delete_all_MBR}               ${False}
-${watchdog_support}             ${False}
-${sd_mode_support}              ${False}
+${I_PXE_CONFIG_SUPPORT}=        ${FALSE}
+${SERIAL_CONFIG_SUPPORT}=       ${FALSE}
+${BOOT_MENU_WAIT_6_S}=          ${FALSE}
+${SECURITY_REGISTERS}=          ${FALSE}
+${SORTBOOTORDER_SUPPORT}=       ${FALSE}
+${CBP_SUPPORT}=                 ${FALSE}
+${IOMMU_SUPPORT}=               ${FALSE}
+${BIOS_WP_SUPPORT}=             ${FALSE}
+${EHCI0_SUPPORT}=               ${FALSE}
+${SERIAL_REDIRECTION}=          ${FALSE}
+${MEMTEST_SUPPORT}=             ${FALSE}
+${DELETE_ALL_MBR}=              ${FALSE}
+${WATCHDOG_SUPPORT}=            ${FALSE}
+${SD_MODE_SUPPORT}=             ${FALSE}
 # suite: hardware
-${gpio_driver_support}          ${False}
-${switch_S1_support}            ${False}
+${GPIO_DRIVER_SUPPORT}=         ${FALSE}
+${SWITCH_S1_SUPPORT}=           ${FALSE}
 
 
 *** Keywords ***
@@ -71,7 +71,7 @@ Power On
     Sonoff Power On
     RteCtrl Power On
 
-Flash firmware optiplex
+Flash Firmware Optiplex
     [Documentation]    Flash Device Under Test firmware, check flashing result
     ...    and set RTE relay to OFF state. Implementation must be
     ...    compatible with the theory of operation of a specific
@@ -101,7 +101,7 @@ Flash firmware optiplex
     Should Contain    ${flash_result}    VERIFIED
     Power Cycle Off
 
-Read firmware optiplex
+Read Firmware Optiplex
     [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
     ...    state. Implementation must be compatible with the theory
     ...    of operation of a specific platform.

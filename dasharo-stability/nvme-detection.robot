@@ -1,19 +1,21 @@
 *** Settings ***
-Library             SSHLibrary    timeout=90 seconds
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library             Process
-Library             OperatingSystem
-Library             String
-Library             RequestsLibrary
 Library             Collections
+Library             OperatingSystem
+Library             Process
+Library             String
+Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             SSHLibrary    timeout=90 seconds
+Library             RequestsLibrary
 Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-Suite Setup         Run Keyword    Prepare Test Suite
-Suite Teardown      Run Keyword    Log Out And Close Connection
+Suite Setup         Run Keyword
+...                     Prepare Test Suite
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 
 
 *** Test Cases ***
@@ -64,36 +66,36 @@ Suite Teardown      Run Keyword    Log Out And Close Connection
 SNV003.001 NVMe detection after reboot (Ubuntu 22.04)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a reboot.
-    Skip If    not ${nvme_detection_support}    SNV003.001 not supported
-    Skip If    not ${tests_in_ubuntu_support}    SNV003.001 not supported
+    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV003.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.001 not supported
     Power On
-    Login to Linux
-    Switch to root user
-    ${out}=    List devices in Linux    pci
-    Should Contain    ${out}    ${device_nvme_disk}
-    FOR    ${INDEX}    IN RANGE    0    ${nvme_detection_iterations}
+    Login To Linux
+    Switch To Root User
+    ${out}=    List Devices In Linux    pci
+    Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    FOR    ${index}    IN RANGE    0    ${NVME_DETECTION_ITERATIONS}
         Write Into Terminal    reboot
         Sleep    60s
-        Login to Linux
-        Switch to root user
-        ${out}=    List devices in Linux    pci
-        Should Contain    ${out}    ${device_nvme_disk}
+        Login To Linux
+        Switch To Root User
+        ${out}=    List Devices In Linux    pci
+        Should Contain    ${out}    ${DEVICE_NVME_DISK}
     END
 
 SNV004.001 NVMe detection after suspension (Ubuntu 22.04)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    Skip If    not ${nvme_detection_support}    SNV004.001 not supported
-    Skip If    not ${tests_in_ubuntu_support}    SNV004.001 not supported
+    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.001 not supported
     Power On
-    Login to Linux
-    Switch to root user
-    ${out}=    List devices in Linux    pci
-    Should Contain    ${out}    ${device_nvme_disk}
-    Detect or install FWTS
-    FOR    ${INDEX}    IN RANGE    0    ${nvme_detection_iterations}
-        Perform suspend test using FWTS
-        ${out}=    List devices in Linux    pci
-        Should Contain    ${out}    ${device_nvme_disk}
+    Login To Linux
+    Switch To Root User
+    ${out}=    List Devices In Linux    pci
+    Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    Detect Or Install FWTS
+    FOR    ${index}    IN RANGE    0    ${NVME_DETECTION_ITERATIONS}
+        Perform Suspend Test Using FWTS
+        ${out}=    List Devices In Linux    pci
+        Should Contain    ${out}    ${DEVICE_NVME_DISK}
     END
-    Exit from root user
+    Exit From Root User

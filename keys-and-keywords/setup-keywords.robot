@@ -7,31 +7,31 @@ Prepare Test Suite
     Import Needed Resources
     Check Stand Address Correctness
     Prepare Devices For Power Control
-    IF    '${dut_connection_method}' == 'SSH'
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
-    ELSE IF    '${dut_connection_method}' == 'Telnet'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Open Connection And Log In
         Get DUT To Start State
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         No Operation
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
-        ${pikvm_address}=    Get Pikvm Ip    ${stand_ip}
-        Set Global Variable    ${pikvm_ip}    ${pikvm_address}
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        ${pikvm_address}=    Get Pikvm Ip    ${STAND_IP}
+        Set Global Variable    ${PIKVM_IP}    ${pikvm_address}
         Open Connection And Log In
         Get DUT To Start State
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
 
 Import Needed Resources
     [Documentation]    Keyword allows to prepare test suite by importing
     ...    specific resources dedicated for the testing stand and tested
     ...    platform.
-    Import Resource    ${CURDIR}/platform-configs/${config}.robot
-    IF    ${tests_in_firmware_support}
+    Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
+    IF    ${TESTS_IN_FIRMWARE_SUPPORT}
         Import Resource    ${CURDIR}/firmware-keywords.robot
     END
-    IF    ${tests_in_ubuntu_support}
+    IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Import Resource    ${CURDIR}/keys-and-keywords/ubuntu-keywords.robot
     END
 
@@ -40,30 +40,30 @@ Prepare Devices For Power Control
     ...    the stand. Depends on stand configuration, keyword starts
     ...    RTE REST API and/or Sonoff REST API sessions and sets global variable
     ...    ${power _control} used during preparing DUT to start state
-    ${rte_presence}=    Check RTE Presence on Stand    ${stand_ip}
-    ${sonoff_presence}=    Check Sonoff Presence on Stand    ${stand_ip}
+    ${rte_presence}=    Check RTE Presence On Stand    ${STAND_IP}
+    ${sonoff_presence}=    Check Sonoff Presence On Stand    ${STAND_IP}
     IF    ${rte_presence}
-        Set Global Variable    ${rte_ip}    ${stand_ip}
-        Set Global Variable    ${pc}    rte
+        Set Global Variable    ${RTE_IP}    ${STAND_IP}
+        Set Global Variable    ${PC}    rte
         REST API Setup    RteCtrl
     END
     IF    ${sonoff_presence}
-        ${sonoff_ip}=    Get Sonoff Ip    ${stand_ip}
-        Set Global Variable    ${pc}    sonoff
-        Set Global Variable    ${sonoff_session_handler}    SonoffCtrl
-        Sonoff API Setup    ${sonoff_session_handler}    ${sonoff_ip}
+        ${sonoff_ip}=    Get Sonoff Ip    ${STAND_IP}
+        Set Global Variable    ${PC}    sonoff
+        Set Global Variable    ${SONOFF_SESSION_HANDLER}    SonoffCtrl
+        Sonoff API Setup    ${SONOFF_SESSION_HANDLER}    ${sonoff_ip}
     END
 
 Open Connection And Log In
     [Documentation]    Keyword allows to prepare test suite by initializing
     ...    SSH and Telnet connections.
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    SSHLibrary.Open Connection    ${stand_ip}    prompt=~#
+    SSHLibrary.Open Connection    ${STAND_IP}    prompt=~#
     SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    Serial setup    ${rte_ip}    ${rte_s2n_port}
-    IF    '${snipeit}'=='no'    RETURN
+    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
+    IF    '${SNIPEIT}'=='no'    RETURN
     SnipeIt API Setup    SnipeItApi
-    SnipeIt Checkout    ${stand_ip}
+    SnipeIt Checkout    ${STAND_IP}
 
 Get DUT To Start State
     [Documentation]    Keyword allows to prepare DUT to start state - clears
@@ -74,12 +74,12 @@ Get DUT To Start State
 
 Get Power Supply State
     [Documentation]    Keyword allows to obtain current power supply state.
-    IF    '${pc}'=='sonoff'
-        ${state}=    Get Sonoff State    ${sonoff_session_handler}
-    ELSE IF    '${pc}'=='rte'
+    IF    '${PC}'=='sonoff'
+        ${state}=    Get Sonoff State    ${SONOFF_SESSION_HANDLER}
+    ELSE IF    '${PC}'=='rte'
         ${state}=    Get RTE Relay State
     ELSE
-        FAIL    Unknown power control method for stand: ${stand_ip}
+        FAIL    Unknown power control method for stand: ${STAND_IP}
     END
     RETURN    ${state}
 
@@ -92,52 +92,57 @@ Get RTE Relay State
 Turn On Power Supply
     [Documentation]    Keyword allows to turn on the power supply connected to
     ...    the DUT.
-    IF    'sonoff' == '${pc}'
-        Sonoff Power On    ${sonoff_session_handler}
-    ELSE IF    '${pc}'=='rte'
+    IF    'sonoff' == '${PC}'
+        Sonoff Power On    ${SONOFF_SESSION_HANDLER}
+    ELSE IF    '${PC}'=='rte'
         RteCtrl Relay
     ELSE
-        FAIL    Unknown power control method for stand: ${stand_ip}
+        FAIL    Unknown power control method for stand: ${STAND_IP}
     END
 
 Power Cycle On
     [Documentation]    Keyword allows to perform the DUT full power on cycle -
     ...    clears Terminal and sets Device Under Test to start state.
-    IF    'sonoff' == '${pc}'
+    IF    'sonoff' == '${PC}'
         Telnet.Read
-        Sonoff Power Off    ${sonoff_session_handler}
+        Sonoff Power Off    ${SONOFF_SESSION_HANDLER}
         Sleep    1s
-        Sonoff Power On    ${sonoff_session_handler}
+        Sonoff Power On    ${SONOFF_SESSION_HANDLER}
         Sleep    15s
         Power On
-    ELSE IF    '${pc}'=='rte'
+    ELSE IF    '${PC}'=='rte'
         Telnet.Read
         ${result}=    RteCtrl Relay
         IF    ${result} == 0
-            Run Keywords    Sleep    4s    AND    Telnet.Read    AND    RteCtrl Relay
+            Run Keywords
+            ...    Sleep    4s
+            ...    AND
+            ...    Telnet.Read
+            ...    AND
+            ...    RteCtrl Relay
         END
     ELSE
-        FAIL    Unknown power control method for stand: ${stand_ip}
+        FAIL    Unknown power control method for stand: ${STAND_IP}
     END
 
 Power Cycle Off
     [Documentation]    Keyword allows to perform the DUT full power on cycle -
     ...    closes serial connection and sets Device Under Test to off state.
     Telnet.Close All Connections
-    IF    'sonoff' == '${pc}'
-        Sonoff Power On    ${sonoff_session_handler}
+    IF    'sonoff' == '${PC}'
+        Sonoff Power On    ${SONOFF_SESSION_HANDLER}
         Sleep    1s
-        Sonoff Power Off    ${sonoff_session_handler}
-    ELSE IF    '${pc}'=='rte'
+        Sonoff Power Off    ${SONOFF_SESSION_HANDLER}
+    ELSE IF    '${PC}'=='rte'
         Sleep    1s
         ${result}=    Get RTE Relay State
         IF    '${result}' == 'high'    RteCtrl Relay
     ELSE
-        FAIL    Unknown power control method for stand: ${stand_ip}
+        FAIL    Unknown power control method for stand: ${STAND_IP}
     END
-    Serial setup    ${rte_ip}    ${rte_s2n_port}
+    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
 
-Serial setup
+Serial Setup
     [Documentation]    Keyword allows to setup serial connection between DUT
     ...    and RTE via telnet. Takes host and ser2net port as arguments.
     [Arguments]    ${host}    ${s2n_port}
@@ -154,42 +159,42 @@ Check Stand Address Correctness
     [Documentation]    Keyword allows to check the correctness of the provided
     ...    stand ip address, no matter if the testing stand contains RTE or not.
     ...    If the address is not found in the list, fails the test.
-    IF    '${dut_connection_method}' == 'SSH'
-        ${is_address_correct}=    Check Platform Provided ip    ${stand_ip}
-    ELSE IF    '${dut_connection_method}' == 'Telnet'
-        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
-        ${is_address_correct}=    Check RTE Provided ip    ${stand_ip}
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        ${is_address_correct}=    Check Platform Provided Ip    ${STAND_IP}
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        ${is_address_correct}=    Check RTE Provided Ip    ${STAND_IP}
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        ${is_address_correct}=    Check RTE Provided Ip    ${STAND_IP}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
     IF    ${is_address_correct}    RETURN
-    FAIL    stand_ip:${stand_ip} not found in the hardware configuration.
+    FAIL    stand_ip:${STAND_IP} not found in the hardware configuration.
 
 Log Out And Close Connection
     [Documentation]    Keyword allows to close all opened SSH, serial
     ...    connections and checkin used asset in SnipeIt.
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
-    IF    '${snipeit}'=='yes'    SnipeIt Checkin    ${stand_ip}
+    IF    '${SNIPEIT}'=='yes'    SnipeIt Checkin    ${STAND_IP}
 
-Flash firmware
+Flash Firmware
     [Documentation]    Keyword allows to flash platform with selected firmware
     ...    by using default flashing method. Takes firmware file (${fw_file})
     ...    as an argument. Keyword fails if file size doesn't match target
     ...    chip size.
     [Arguments]    ${fw_file}
     ${file_size}=    Run    ls -l ${fw_file} | awk '{print $5}'
-    IF    '${file_size}'!='${flash_size}'
+    IF    '${file_size}'!='${FLASH_SIZE}'
         FAIL    Image size doesn't match the flash chip's size!
     END
-    IF    '${default_flashing_method}'=='external programmer'
-        Flash firmware with external programmer    ${fw_file}
+    IF    '${DEFAULT_FLASHING_METHOD}'=='external programmer'
+        Flash Firmware With External Programmer    ${fw_file}
     ELSE
-        FAIL    Unsupported flashing method: ${default_flashing_method}
+        FAIL    Unsupported flashing method: ${DEFAULT_FLASHING_METHOD}
     END
 
-Get firmware version from binary
+Get Firmware Version From Binary
     [Documentation]    Keyword allows to obtain the firmware version from the
     ...    binary file. Takes binary file path as an argument.
     [Arguments]    ${binary_path}
@@ -206,17 +211,17 @@ Get firmware version from binary
     ${firmware_version}=    Split To Lines    ${coreboot_version}
     RETURN    ${firmware_version[0]}
 
-Get firmware version
+Get Firmware Version
     [Documentation]    Keyword allows to obtain the firmware version by
     ...    using method defined in the configuration. Takes binary file path
     ...    as an argument.
     Set DUT Response Timeout    120s
-    IF    '${flash_verify_method}'=='iPXE-boot'
+    IF    '${FLASH_VERIFY_METHOD}'=='iPXE-boot'
         No Operation
-    ELSE IF    '${flash_verify_method}'=='tianocore-setup-menu'
+    ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-setup-menu'
         ${firmware_version}=    Get Firmware Version From Tianocore Setup Menu
     ELSE
-        FAIL    Unsupported flash verify method: ${flash_verify_method}
+        FAIL    Unsupported flash verify method: ${FLASH_VERIFY_METHOD}
     END
     Set DUT Response Timeout    30s
     RETURN    ${firmware_version[0]}
@@ -225,16 +230,16 @@ Read From Terminal
     [Documentation]    Universal keyword to read the console output regardless
     ...    of the used method of connection to the DUT
     ...    (Telnet or SSH).
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${output}=    Telnet.Read
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         ${output}=    Telnet.Read
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
     RETURN    ${output}
 
@@ -243,16 +248,16 @@ Read From Terminal Until
     ...    defined text occurs regardless of the used method of connection to
     ...    the DUT (Telnet or SSH).
     [Arguments]    ${expected}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${output}=    Telnet.Read Until    ${expected}
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read Until    ${expected}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read Until    ${expected}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         ${output}=    Telnet.Read Until    ${expected}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
     RETURN    ${output}
 
@@ -260,16 +265,16 @@ Read From Terminal Until Prompt
     [Documentation]    Universal keyword to read the console output until the
     ...    defined prompt occurs regardless of the used method of connection to
     ...    the DUT (Telnet or SSH).
-    IF    '${dut_connection_method}' == 'Telnet'
-        ${output}=    Telnet.Read Until Prompt    strip_prompt=${True}
-    ELSE IF    '${dut_connection_method}' == 'SSH'
-        ${output}=    SSHLibrary.Read Until Prompt    strip_prompt=${True}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
-        ${output}=    SSHLibrary.Read Until Prompt    strip_prompt=${True}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
-        ${output}=    Telnet.Read Until Prompt    strip_prompt=${True}
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        ${output}=    Telnet.Read Until Prompt    strip_prompt=${TRUE}
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        ${output}=    SSHLibrary.Read Until Prompt    strip_prompt=${TRUE}
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
+        ${output}=    SSHLibrary.Read Until Prompt    strip_prompt=${TRUE}
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        ${output}=    Telnet.Read Until Prompt    strip_prompt=${TRUE}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
     RETURN    ${output}
 
@@ -278,16 +283,16 @@ Read From Terminal Until Regexp
     ...    defined regexp occurs regardless of the used method of connection to
     ...    the DUT (Telnet or SSH).
     [Arguments]    ${regexp}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${output}=    Telnet.Read Until Regexp    ${regexp}
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         ${output}=    Telnet.Read Until Regexp    ${regexp}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
     RETURN    ${output}
 
@@ -296,16 +301,16 @@ Set Prompt For Terminal
     ...    prompt keyword) regardless of the used method of connection to
     ...    the DUT (Telnet or SSH).
     [Arguments]    ${prompt}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Set Prompt    ${prompt}    prompt_is_regexp=False
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Set Client Configuration    prompt=${prompt}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         SSHLibrary.Set Client Configuration    prompt=${prompt}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Telnet.Set Prompt    ${prompt}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
 
 Set DUT Response Timeout
@@ -313,32 +318,32 @@ Set DUT Response Timeout
     ...    that expect some output to appear) regardless of the used method of
     ...    connection to the DUT (Telnet or SSH).
     [Arguments]    ${timeout}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Set Timeout    ${timeout}
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Telnet.Set Timeout    ${timeout}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
 
 Write Into Terminal
     [Documentation]    Universal keyword to write text to console regardless of
     ...    the used method of connection to the DUT (Telnet, PiKVMor SSH).
     [Arguments]    ${text}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Write    ${text}
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Write    ${text}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         SSHLibrary.Write    ${text}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Write PiKVM    ${text}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
 
 Write Bare Into Terminal
@@ -346,33 +351,33 @@ Write Bare Into Terminal
     ...    mark) to console regardless of the used method of connection to
     ...    the DUT (Telnet, PiKVM or SSH).
     [Arguments]    ${text}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Write Bare    ${text}
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Write Bare    ${text}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         SSHLibrary.Write Bare    ${text}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Write Bare PiKVM    ${text}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
 
 Execute Command In Terminal
     [Documentation]    Universal keyword to execute command regardless of the
     ...    used method of connection to the DUT (Telnet or SSH).
     [Arguments]    ${command}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Execute Command    ${command}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Execute Command    ${command}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Write PiKVM    ${command}
         ${output}=    Telnet.Read Until Prompt
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
     RETURN    ${output}
 
@@ -382,52 +387,52 @@ Boot Operating System
     ...    platform type.
     [Arguments]    ${operating_system}
     Enter Boot Menu Tianocore
-    Enter submenu in Tianocore    ${operating_system}
+    Enter Submenu In Tianocore    ${operating_system}
 
-Login to System with Root Privileges
+Login To System With Root Privileges
     [Documentation]    Keyword allows to login to system with root privileges
     ...    to perform test on OS level.
     [Arguments]    ${operating_system}
     IF    '${operating_system}'=='ubuntu'
-        Login to System    ${username_ubuntu}    ${password_ubuntu}    ${prompt_ubuntu}
-        Switch to root user
+        Login To System    ${USERNAME_UBUNTU}    ${PASSWORD_UBUNTU}    ${PROMPT_UBUNTU}
+        Switch To Root User
     ELSE
         FAIL    Unsupported in test environment OS: ${operating_system}
     END
 
-Login to System
+Login To System
     [Documentation]    Keyword allows to login to system to perform test on
     ...    OS level. Which login method will be used depends on the connection
     ...    method.
     [Arguments]    ${username}    ${password}    ${prompt}
-    IF    '${dut_connection_method}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Login    ${username}    ${password}
-    ELSE IF    '${dut_connection_method}' == 'SSH'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Login    ${username}    ${password}
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Set DUT Response Timeout    300s
         Read From Terminal Until    login:
         Write Into Terminal    ${username}
         Read From Terminal Until    Password:
         Write Into Terminal    ${password}
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set DUT Response Timeout    120s
         Read From Terminal Until    login:
         Write Into Terminal    ${username}
         Read From Terminal Until    Password:
         Write Into Terminal    ${password}
     ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
+        FAIL    Unknown or improper connection method: ${DUT_CONNECTION_METHOD}
     END
     Set Prompt For Terminal    ${prompt}
     Read From Terminal Until Prompt
     Read From Terminal Until Prompt
 
-Switch to root user
+Switch To Root User
     [Documentation]    Keyword allows to switch to the root environment to
     ...    perform in the OS tasks reserved for user with high privileges.
     Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo] password for ${device_ubuntu_username}:
-    Write Into Terminal    ${device_ubuntu_password}
-    Set Prompt For Terminal    ${device_ubuntu_root_prompt}
+    Read From Terminal Until    [sudo] password for ${DEVICE_UBUNTU_USERNAME}:
+    Write Into Terminal    ${DEVICE_UBUNTU_PASSWORD}
+    Set Prompt For Terminal    ${DEVICE_UBUNTU_ROOT_PROMPT}
     Read From Terminal Until Prompt

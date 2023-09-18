@@ -1,11 +1,11 @@
 *** Settings ***
-Library             SSHLibrary    timeout=90 seconds
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library             Process
-Library             OperatingSystem
-Library             String
-Library             RequestsLibrary
 Library             Collections
+Library             OperatingSystem
+Library             Process
+Library             String
+Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             SSHLibrary    timeout=90 seconds
+Library             RequestsLibrary
 Library             ../keys-and-keywords/totp.py
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
@@ -20,12 +20,14 @@ Resource            ../keys-and-keywords/heads-keywords.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keywords    Prepare Test Suite
-Suite Teardown      Run Keyword    Log Out And Close Connection
+Suite Setup         Run Keywords
+...                     Prepare Test Suite
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 
 
 *** Variables ***
-${TOTP_URI}     unset
+${TOTP_URI}=    unset
 
 # Notes on menu option keys:
 # - check for them explicitly, so we won't go into wrong menu if they change
@@ -42,15 +44,17 @@ ${TOTP_URI}     unset
 HDS001.001 Heads installation
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Heads bootloader
-    Skip If    not ${tests_in_firmware_support}    HDS001.001 not supported
-    Skip If    not ${heads_payload_support}    HDS001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS001.001 not supported
+    Skip If    not ${HEADS_PAYLOAD_SUPPORT}    HDS001.001 not supported
     Power On
     # Factory reset. Additional window if /boot already has Heads stuff in it.
     ${output}=    Read From Terminal Until    ┘
     ${output}=    Get Lines Containing String    ${output}    F${SPACE}${SPACE}OEM Factory Reset / Re-Ownership
-    IF    "${output}"!="${EMPTY}"    Write Bare Into Terminal    F
-    IF    "${output}"!="${EMPTY}"    Write Bare Into Terminal    ${ENTER}
-    IF    "${output}"!="${EMPTY}"    Read From Terminal Until    ┘
+    IF    "${output}"!="${EMPTY}"
+        Write Bare Into Terminal    F
+        Write Bare Into Terminal    ${ENTER}
+        Read From Terminal Until    ┘
+    END
     # Select 'Continue' and choose default answer for 6 questions.
     Write Into Terminal    ${ARROW_RIGHT}${ENTER}${ENTER}${ENTER}${ENTER}${ENTER}${ENTER}
     Read From Terminal Until    Resetting GPG Key...
@@ -73,8 +77,8 @@ HDS001.001 Heads installation
     Write Bare Into Terminal    ${ENTER}
     ${output}=    Read From Terminal Until    Once you have scanned the QR code, hit Enter to continue
     Log    ${output}    console=yes
-    ${totp_uri}=    Get Lines Containing String    ${output}    otpauth://totp
-    Set Suite Variable    $TOTP_URI    ${totp_uri}
+    ${totp_uri_local}=    Get Lines Containing String    ${output}    otpauth://totp
+    Set Suite Variable    $TOTP_URI    ${totp_uri_local}
     Write Bare Into Terminal    ${ENTER}
     ${output}=    Read From Terminal Until    ┘
     ${totp_dut}=    Get Regexp Matches    ${output}    TOTP: (......)    1
@@ -88,8 +92,8 @@ HDS001.001 Heads installation
 HDS002.001 Boot into Heads
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Heads bootloader
-    Skip If    not ${tests_in_firmware_support}    HDS001.001 not supported
-    Skip If    not ${heads_payload_support}    HDS001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS001.001 not supported
+    Skip If    not ${HEADS_PAYLOAD_SUPPORT}    HDS001.001 not supported
     Power On
     ${output}=    Detect Heads Main Menu
     ${totp_dut}=    Get Regexp Matches    ${output}    TOTP: (......)    1

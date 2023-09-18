@@ -1,11 +1,11 @@
 *** Settings ***
-Library             SSHLibrary    timeout=90 seconds
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library             Process
-Library             OperatingSystem
-Library             String
-Library             RequestsLibrary
 Library             Collections
+Library             OperatingSystem
+Library             Process
+Library             String
+Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             SSHLibrary    timeout=90 seconds
+Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../sonoff-rest-api/sonoff-api.robot
@@ -18,39 +18,41 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword    Prepare Test Suite
-Suite Teardown      Run Keyword    Log Out And Close Connection
+Suite Setup         Run Keyword
+...                     Prepare Test Suite
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 
 
 *** Test Cases ***
 AUD001.001 Audio subsystem detection (Ubuntu 20.04)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Linux OS.
-    Skip If    not ${audio_subsystem_support}    AUD001.001 not supported
-    Skip If    not ${tests_in_ubuntu_support}    AUD001.001 not supported
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD001.001 not supported
     Power On
-    Boot system or from connected disk    ubuntu
-    Login to Linux
-    Switch to root user
-    Detect or Install Package    alsa-utils
-    ${out}=    Execute Linux command    cat /sys/class/sound/card0/hwC0D*/chip_name
-    Should Contain    ${out}    ${device_audio1}
-    Should Contain    ${out}    ${device_audio2}
-    Exit from root user
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Detect Or Install Package    alsa-utils
+    ${out}=    Execute Linux Command    cat /sys/class/sound/card0/hwC0D*/chip_name
+    Should Contain    ${out}    ${DEVICE_AUDIO1}
+    Should Contain    ${out}    ${DEVICE_AUDIO2}
+    Exit From Root User
 
 AUD001.002 Audio subsystem detection (Windows 11)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Windows 11.
-    Skip If    not ${audio_subsystem_support}    AUD001.002 not supported
-    Skip If    not ${tests_in_windows_support}    AUD001.002 not supported
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.002 not supported
     Power On
-    Boot system or from connected disk    ${os_windows}
-    Login to Windows
+    Boot System Or From Connected Disk    ${OS_WINDOWS}
+    Login To Windows
     ${out}=    Get Sound Devices Windows
-    Should Contain    ${out}    ${device_audio1_win}
+    Should Contain    ${out}    ${DEVICE_AUDIO1_WIN}
     Should Contain    ${out}    OK
 
-## PI-KVM necessary
+# PI-KVM necessary
 # AUD002.001 Audio playback (Ubuntu 20.04)
 #    [Documentation]    Check whether the audio subsystem is able to playback
 #    ...    audio recordings.
@@ -71,16 +73,16 @@ AUD001.002 Audio subsystem detection (Windows 11)
 AUD004.001 External headset recognition (Ubuntu 20.04)
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
-    Skip If    not ${audio_subsystem_support}    AUD004.001 not supported
-    Skip If    not ${tests_in_ubuntu_support}    AUD004.001 not supported
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.001 not supported
     Power On
-    Boot system or from connected disk    ubuntu
-    Login to Linux
-    Switch to root user
-    ${out}=    Execute Linux command    amixer -c 0 contents | grep -A 2 'Headphone' | cat
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Linux Command    amixer -c 0 contents | grep -A 2 'Headphone' | cat
     ${headset_string}=    Set Variable    values=on
     Should Contain    ${out}    ${headset_string}
-    Exit from root user
+    Exit From Root User
 
 # Work in progress
 # AUD004.002 External headset recognition (Windows 11)

@@ -21,7 +21,7 @@ Enter Heads Recovery Shell
     Write Bare Into Terminal    ${ENTER}
     Sleep    0.5s
     Read From Terminal Until    User requested recovery shell
-    Set Prompt For Terminal    ${heads_prompt}
+    Set Prompt For Terminal    ${HEADS_PROMPT}
     Read From Terminal Until Prompt
 
 Get TPM PCRs

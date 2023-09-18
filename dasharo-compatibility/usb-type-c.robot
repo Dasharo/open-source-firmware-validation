@@ -1,11 +1,11 @@
 *** Settings ***
-Library             SSHLibrary    timeout=90 seconds
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library             Process
-Library             OperatingSystem
-Library             String
-Library             RequestsLibrary
 Library             Collections
+Library             OperatingSystem
+Library             Process
+Library             String
+Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             SSHLibrary    timeout=90 seconds
+Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../sonoff-rest-api/sonoff-api.robot
@@ -18,17 +18,19 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword    Prepare Test Suite
-Suite Teardown      Run Keyword    Log Out And Close Connection
+Suite Setup         Run Keyword
+...                     Prepare Test Suite
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 
 
 *** Test Cases ***
 UTC004.001 USB Type-C Display output (semi-automatic)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${usb_type_c_display_support}    UTC004.001 not supported
+    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC004.001 not supported
     Power On
-    Login to Linux
-    Switch to root user
-    ${out}=    List devices in Linux    usb
-    Should Contain    ${out}    ${clevo_usb_c_hub}
-    Exit from root user
+    Login To Linux
+    Switch To Root User
+    ${out}=    List Devices In Linux    usb
+    Should Contain    ${out}    ${CLEVO_USB_C_HUB}
+    Exit From Root User

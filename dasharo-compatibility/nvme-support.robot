@@ -1,11 +1,11 @@
 *** Settings ***
-Library             SSHLibrary    timeout=90 seconds
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library             Process
-Library             OperatingSystem
-Library             String
-Library             RequestsLibrary
 Library             Collections
+Library             OperatingSystem
+Library             Process
+Library             String
+Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             SSHLibrary    timeout=90 seconds
+Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../sonoff-rest-api/sonoff-api.robot
@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword    Prepare Test Suite
-Suite Teardown      Run Keyword    Log Out And Close Connection
+Suite Setup         Run Keyword
+...                     Prepare Test Suite
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 
 
 *** Test Cases ***
@@ -36,25 +38,25 @@ Suite Teardown      Run Keyword    Log Out And Close Connection
 NVM001.002 NVMe support in OS (Ubuntu 20.04)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    Skip If    not ${nvme_disk_support}    NVM001.002 not supported
-    Skip If    not ${tests_in_ubuntu_support}    NVM001.002 not supported
+    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.002 not supported
     Power On
-    Boot system or from connected disk    ubuntu
-    Login to Linux
-    Switch to root user
-    ${out}=    List devices in Linux    pci
-    Should Contain    ${out}    ${device_nvme_disk}
-    Exit from root user
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${out}=    List Devices In Linux    pci
+    Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    Exit From Root User
 
 NVM001.003 NVMe support in OS (Windows 10)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    Skip If    not ${nvme_disk_support}    NVM001.003 not supported
-    Skip If    not ${tests_in_windows_support}    NVM001.003 not supported
+    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.003 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVM001.003 not supported
     Power On
-    Boot system or from connected disk    ${os_windows}
-    Login to Windows
+    Boot System Or From Connected Disk    ${OS_WINDOWS}
+    Login To Windows
     # Switch to root user
-    ${out}=    Execute Command in Terminal    Get-PnpDevice -Status "OK" | where { $_.InstanceId -like "*NVME*"}
+    ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" | where { $_.InstanceId -like "*NVME*"}
     Should Contain    ${out}    DiskDrive
     # Exit from root user

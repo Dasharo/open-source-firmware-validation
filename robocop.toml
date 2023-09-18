@@ -1,0 +1,40 @@
+[tool.robocop]
+configure = [
+    # TODO: add missing documentation for keywords and re-enable
+    "0201:enabled:False",
+    # TODO: add missing documentation for test cases and re-enable
+    "0202:enabled:False",
+    # TODO: add missing documentation for test suitdes and re-enable
+    "0203:enabled:False",
+    # TODO: consider re-enabling
+    "0301:enabled:False",
+    # TODO: consider fixing and re-enabling
+    "0316:enabled:False",
+    # TODO: fix and re-enable
+    "0319:enabled:False",
+    # TODO: consider reducing to default 40, or less
+    "0501:max_len:50",
+    # TODO: consider reducing to default 10, or less
+    "0503:max_calls:50",
+    # TODO: consider reducing to dfeault 20, or less
+    "0504:max_len:50",
+    # TODO: consider reducing to dfeault 10, or less
+    "0505:max_calls:50",
+    # TODO: reduce to default 400 or so
+    "0506:max_lines:5000",
+    # TODO: reduce to 120/80
+    "0508:line_length:180",
+    "0701:enabled:False",
+    # TODO: fix and re-enable
+    "0908:enabled:False",
+    # TODO: re-enable after fixes
+    "0913:enabled:False",
+    # TODO: fix unused variables and re-enable
+    "0920:enabled:False",
+    # TODO: consider fixing and re-enabling
+    "0922:enabled:False",
+    # TODO: We have lots of such warning to be improved
+    "0923:enabled:False",
+    # TODO: fix and re-enable
+    "0924:enabled:False"
+]

@@ -1,33 +1,33 @@
 *** Keywords ***
 Enter Boot Menu Tianocore
     [Documentation]    Keyword allows to enter into Tianocore Boot Menu.
-    Read From Terminal Until    ${tianocore_string}
-    IF    '${dut_connection_method}' == 'pikvm'
-        Single Key PiKVM    ${boot_menu_key}
+    Read From Terminal Until    ${TIANOCORE_STRING}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Single Key PiKVM    ${BOOT_MENU_KEY}
     ELSE
-        Write Bare Into Terminal    ${boot_menu_key}
+        Write Bare Into Terminal    ${BOOT_MENU_KEY}
     END
 
 Enter Setup Menu Tianocore
     [Documentation]    Keyword allows to enter into Tianocore Setup Menu.
-    Read From Terminal Until    ${tianocore_string}
-    IF    '${dut_connection_method}' == 'pikvm'
-        Single Key PiKVM    ${setup_menu_key}
+    Read From Terminal Until    ${TIANOCORE_STRING}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Single Key PiKVM    ${SETUP_MENU_KEY}
     ELSE
-        Write Bare Into Terminal    ${setup_menu_key}
+        Write Bare Into Terminal    ${SETUP_MENU_KEY}
     END
 
-Enter submenu in Tianocore
+Enter Submenu In Tianocore
     [Documentation]    Keyword allows to enter into any Tianocore submenu.
     [Arguments]    ${option}    ${checkpoint}=ESC to exit    ${description_lines}=1
-    ${rel_pos}=    Get relative menu position    ${option}    ${checkpoint}    ${description_lines}
-    IF    '${dut_connection_method}' == 'pikvm'
-        Press key n times and enter    ${rel_pos}    ArrowDown
+    ${rel_pos}=    Get Relative Menu Position    ${option}    ${checkpoint}    ${description_lines}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Press Key N Times And Enter    ${rel_pos}    ArrowDown
     ELSE
-        Press key n times and enter    ${rel_pos}    ${ARROW_DOWN}
+        Press Key N Times And Enter    ${rel_pos}    ${ARROW_DOWN}
     END
 
-Get relative menu position
+Get Relative Menu Position
     [Documentation]    Keyword evaluates and returns relative menu entry
     ...    position described in the argument.
     [Arguments]    ${entry}    ${checkpoint}    ${bias}
@@ -64,25 +64,25 @@ Get Menu Reference Tianocore
     ${first_entry}=    Strip String    ${first_entry}
     RETURN    ${first_entry}
 
-Press key n times and enter
+Press Key N Times And Enter
     [Documentation]    Keyword allows to write into terminal certain key
     ...    certain number of times and then press Enter key. As the arguments
     ...    takes requested number of entering the key and requested key.
     [Arguments]    ${n}    ${key}
-    Press key n times    ${n}    ${key}
-    IF    '${dut_connection_method}' == 'pikvm'
+    Press Key N Times    ${n}    ${key}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${key}
     ELSE
         Write Bare Into Terminal    ${key}
     END
 
-Press key n times
+Press Key N Times
     [Documentation]    Keyword allows to write into terminal certain key
     ...    certain number of times. As the arguments takes requested number
     ...    of entering the key and requested key.
     [Arguments]    ${n}    ${key}
-    FOR    ${INDEX}    IN RANGE    0    ${n}
-        IF    '${dut_connection_method}' == 'pikvm'
+    FOR    ${index}    IN RANGE    0    ${n}
+        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Single Key PiKVM    ${key}
         ELSE
             Write Bare Into Terminal    ${key}
@@ -92,16 +92,16 @@ Press key n times
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
     ...    boot method (from USB or from iPXE) as parameter.
-    [Arguments]    ${DTS_booting_method}
+    [Arguments]    ${dts_booting_method}
     Enter Boot Menu Tianocore
-    IF    '${DTS_booting_method}'=='USB'
-        Enter submenu in Tianocore    USB SanDisk 3.2Gen1
-    ELSE IF    '${DTS_booting_method}'=='USB'
+    IF    '${dts_booting_method}'=='USB'
+        Enter Submenu In Tianocore    USB SanDisk 3.2Gen1
+    ELSE IF    '${dts_booting_method}'=='USB'
         No Operation
     ELSE
-        FAIL    Unknown or improper connection method: ${DTS_booting_method}
+        FAIL    Unknown or improper connection method: ${dts_booting_method}
     END
-    Read From Terminal Until    ${DTS_string}
+    Read From Terminal Until    ${DTS_STRING}
 
 Check DTS Menu Appears
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite menu
@@ -141,19 +141,19 @@ Check Power Off In DTS
     ${output}=    Read From Terminal
     Should Be Empty    ${output}
 
-Flash firmware in DTS
+Flash Firmware In DTS
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
     ...    ability for flashing firmware work correctly.
     Execute Command In Terminal
-    ...    wget -0 /tmp/coreboot.rom https://3mdeb.com/open-source-firmware/Dasahro/${binary_location}
-    ${output}=    Execute Command In Terminal    flashrom -p internal -w /tmp/coreboot ${flashrom_variables}
+    ...    wget -0 /tmp/coreboot.rom https://3mdeb.com/open-source-firmware/Dasahro/${BINARY_LOCATION}
+    ${output}=    Execute Command In Terminal    flashrom -p internal -w /tmp/coreboot ${FLASHROM_VARIABLES}
     Should Contain    ${output}    VERIFIED
 
 Flash EC Firmware In DTS
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
     ...    ability for flashing EC firmware work correctly.
     Execute Command In Terminal
-    ...    wget -0 /tmp/ec.rom https://3mdeb.com/open-source-firmware/Dasahro/${ec_binary_location}
+    ...    wget -0 /tmp/ec.rom https://3mdeb.com/open-source-firmware/Dasahro/${EC_BINARY_LOCATION}
     Write Into Terminal    system76_ectool flash ec.rom
     ${output}=    Read From Terminal Until    shut off
     Should Contain    ${output}    Successfully programmed SPI ROM
@@ -163,13 +163,13 @@ Check Firmware Version
     [Documentation]    Keyword allows to check firmware version in the Dasharo
     ...    Tools Suite Shell.
     ${output}=    Execute Command In Terminal    dmidecode -t 0
-    Should contain    ${output}    ${version}
+    Should Contain    ${output}    ${VERSION}
 
 Check EC Firmware Version
     [Documentation]    Keyword allows to check EC firmware version in the
     ...    Dasharo Tools Suite Shell.
     ${output}=    Execute Command In Terminal    system76_ectool info
-    Should contain    ${output}    ${ec_version}
+    Should Contain    ${output}    ${EC_VERSION}
 
 Fwupd Update
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
