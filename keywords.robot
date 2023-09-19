@@ -1645,7 +1645,7 @@ List Devices In Linux
     ${out}=    Execute Linux Command    ls${port}
     RETURN    ${out}
 
-Detect Docking Station In Linux
+Detect Docking Station In Linux (WL-UMD05 Pro)
     [Documentation]    Keyword check the docking station is detected correctly.
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    VIA Labs, Inc. USB2.0 Hub
