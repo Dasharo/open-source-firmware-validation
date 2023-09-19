@@ -1244,14 +1244,22 @@ Turn On ACPI CALL Module In Linux
 
 Set Brightness In Linux
     [Documentation]    Keyword sets desired brightness in Linux OS.
-    ...    Brightness value range: [0 , 48000].
+    ...    Brightness value range depends on platform.
     [Arguments]    ${brightness}
-    Execute Linux Command    echo ${brightness} > /sys/class/backlight/intel_backlight/brightness
+    Execute Linux Command    echo ${brightness} > /sys/class/backlight/acpi_video0/brightness
 
 Get Current Brightness In Linux
     [Documentation]    Keyword gets current brightness in Linux OS and returns
     ...    it as an integer.
-    Set Local Variable    ${CMD}    cat /sys/class/backlight/intel_backlight/brightness
+    Set Local Variable    ${CMD}    cat /sys/class/backlight/acpi_video0/brightness
+    ${out1}=    Execute Linux Command    ${CMD}
+    ${brightness}=    Convert To Integer    ${out1}
+    RETURN    ${brightness}
+
+Get Maximum Brightness In Linux
+    [Documentation]    Keyword gets maximum brightness in Linux OS and returns
+    ...    it as an integer.
+    Set Local Variable    ${CMD}    cat /sys/class/backlight/acpi_video0/max_brightness
     ${out1}=    Execute Linux Command    ${CMD}
     ${brightness}=    Convert To Integer    ${out1}
     RETURN    ${brightness}
