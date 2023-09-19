@@ -5,6 +5,7 @@ Library         osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
 Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/secure-boot-lib.robot
+Resource        lib/usb-hid-msc-lib.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -2884,8 +2885,16 @@ Get Current CONFIG List Param
 
 Check That USB Devices Are Detected
     [Documentation]    Checks if the USB devices from the config are the same as
-    ...    those visible in the boot menu.
+    ...    those visible in the boot menu. Alternatively, if we set emulated to
+    ...    True, it only probes for the PiKVM emulated USB.
+    [Arguments]    ${emulated}=${FALSE}
     ${menu_construction}=    Read From Terminal Until    exit
+
+    IF    ${emulated} == ${TRUE}
+        Should Match    ${menu_construction}    *PiKVM*
+        RETURN    ${TRUE}
+    END
+
     @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
     FOR    ${stick}    IN    @{attached_usb_list}
         # ${stick} should match with one element of ${menu_construction}

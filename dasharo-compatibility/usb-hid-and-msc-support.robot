@@ -10,14 +10,15 @@ Library             RequestsLibrary
 # stuff in all test cases
 Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
+Resource            ../pikvm-rest-api/pikvm_comm.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-# TODO:
-# - document which setup/teardown keywords to use and what are they doing
-# - go threough them and make sure they are doing what the name suggest (not
-# exactly the case right now)
+# Required setup keywords:
+# Prepare Test Suite - elementary setup keyword for all tests.
+# Required teardown keywords:
+# Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
 Suite Teardown      Run Keyword
@@ -25,14 +26,14 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-# USB001.001 USB devices detected in FW
-#    [Documentation]    Check whether USB devices are detected in Tianocore
-#    ...    (edk2).
-#    Skip If    not ${usb_disks_detection_support}    USB001.001 not supported
-#    Power On
-#    Enter Tianocore
-#    Enter One Time Boot in Tianocore
-#    Telnet.Read Until    ${clevo_usb_stick}
+USB001.001 USB devices detected in FW
+    [Documentation]    Check whether USB devices are detected in Tianocore
+    ...    (edk2).
+    Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.001 not supported
+    Upload And Mount DTS Flash Iso
+    Power On
+    Enter Boot Menu Tianocore
+    Check That USB Devices Are Detected    ${TRUE}
 
 USB001.002 USB devices detected by OS (Ubuntu 20.04)
     [Documentation]    Check whether the external USB devices are detected
@@ -59,14 +60,14 @@ USB001.003 USB devices detected by OS (Windows 10)
     ${drives}=    Get Lines Matching Regexp    ${out}    ^OK\\s+DiskDrive\\s+.*$
     Should Contain    ${drives}    ${USB_MODEL}
 
-# TODO:
-# - when we obtain Pi-KVM rest-api
-# USB002.001 USB keyboard detected in FW
-#    [Documentation]    Check whether the external USB keyboard is detected
-#    ...    correctly by the firmware and all basic keys work
-#    ...    according to their labels.
-#    Power On
-#    Enter Tianocore
+USB002.001 USB keyboard detected in FW
+    [Documentation]    Check whether the external USB keyboard is detected
+    ...    correctly by the firmware and all basic keys work
+    ...    according to their labels.
+    Power On
+    Enter Setup Menu Tianocore
+    Enter Device Manager Submenu
+    Save Changes And Reset
 
 USB002.002 USB keyboard in OS (Ubuntu 20.04)
     [Documentation]    Check whether the external USB keyboard is detected
