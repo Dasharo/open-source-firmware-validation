@@ -248,7 +248,7 @@ Enroll Certificate
     Press key n times    1    ${ENTER}
     Read From Terminal Until    Enroll Signature Using File
     Press key n times    1    ${ENTER}
-    Read From Terminal Until    NO FILE SYSTEM INFO
+    Read From Terminal Until    File Explorer
 
     Press key n times and enter    1    ${ARROW_UP}
 
