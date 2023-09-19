@@ -26,7 +26,7 @@ Suite Teardown      Run Keyword
 
 *** Test Cases ***
 # semi-automatic test
-DUD001.001 Docking station detection after coldboot (Ubuntu 22.04)
+DUD001.001 Docking station (WL-UMD05) detection after coldboot (Ubuntu 22.04)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    DUD001.001 not supported
@@ -34,7 +34,7 @@ DUD001.001 Docking station detection after coldboot (Ubuntu 22.04)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Docking Station In Linux
+    Detect Docking Station In Linux (WL-UMD05 Pro)
     Set Global Variable    ${FAILED_DETECTION}    0
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         TRY
@@ -43,7 +43,7 @@ DUD001.001 Docking station detection after coldboot (Ubuntu 22.04)
             IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    60s
             Login To Linux
             Switch To Root User
-            Detect Docking Station In Linux
+            Detect Docking Station In Linux (WL-UMD05 Pro)
             Exit From Root User
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
@@ -56,7 +56,7 @@ DUD001.001 Docking station detection after coldboot (Ubuntu 22.04)
 
 # semi-automatic test
 
-DUD002.001 Docking station detection after warmboot (Ubuntu 22.04)
+DUD002.001 Docking station (WL-UMD05) detection after warmboot (Ubuntu 22.04)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    DUD002.001 not supported
@@ -64,7 +64,7 @@ DUD002.001 Docking station detection after warmboot (Ubuntu 22.04)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Docking Station In Linux
+    Detect Docking Station In Linux (WL-UMD05 Pro)
     Set Global Variable    ${FAILED_DETECTION}    0
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         TRY
@@ -73,7 +73,7 @@ DUD002.001 Docking station detection after warmboot (Ubuntu 22.04)
             IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    60s
             Login To Linux
             Switch To Root User
-            Detect Docking Station In Linux
+            Detect Docking Station In Linux (WL-UMD05 Pro)
             Exit From Root User
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
@@ -84,7 +84,7 @@ DUD002.001 Docking station detection after warmboot (Ubuntu 22.04)
     END
     Log To Console    \nAll iterations passed.
 
-DUD003.001 Docking station detection after reboot (Ubuntu 22.04)
+DUD003.001 Docking station (WL-UMD05) detection after reboot (Ubuntu 22.04)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    DUD003.001 not supported
@@ -92,7 +92,7 @@ DUD003.001 Docking station detection after reboot (Ubuntu 22.04)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Docking Station In Linux
+    Detect Docking Station In Linux (WL-UMD05 Pro)
     Set Global Variable    ${FAILED_DETECTION}    0
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
@@ -100,14 +100,14 @@ DUD003.001 Docking station detection after reboot (Ubuntu 22.04)
             IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    45s
             Login To Linux
             Switch To Root User
-            Detect Docking Station In Linux
+            Detect Docking Station In Linux (WL-UMD05 Pro)
             Exit From Root User
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
             Power On
             Login To Linux
             Switch To Root User
-            Detect Docking Station In Linux
+            Detect Docking Station In Linux (WL-UMD05 Pro)
         END
     END
     IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
@@ -115,7 +115,7 @@ DUD003.001 Docking station detection after reboot (Ubuntu 22.04)
     END
     Log To Console    \nAll iterations passed.
 
-DUD004.001 Docking station detection after suspend (Ubuntu 22.04)
+DUD004.001 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    DUD004.001 not supported
@@ -124,12 +124,12 @@ DUD004.001 Docking station detection after suspend (Ubuntu 22.04)
     Login To Linux
     Switch To Root User
     Detect Or Install FWTS
-    Detect Docking Station In Linux
+    Detect Docking Station In Linux (WL-UMD05 Pro)
     Set Global Variable    ${FAILED_DETECTION}    0
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         Perform Suspend Test Using FWTS
         TRY
-            Detect Docking Station In Linux
+            Detect Docking Station In Linux (WL-UMD05 Pro)
         EXCEPT    message
             Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
         END
