@@ -40,3 +40,19 @@ Install package
     Write Into Terminal    apt-get install --assume-yes ${package}
     Read From Terminal Until Prompt
     Set DUT Response Timeout    30s
+
+Switch to root user
+    [Documentation]    Switch to the root environment.
+    # the "sudo -S" to pass password from stdin does not work correctly with
+    # the su command and we need to type in the password
+    Write Into Terminal    sudo su
+    Read From Terminal Until    [sudo] password for ${device_ubuntu_username}:
+    Write Into Terminal    ${device_ubuntu_password}
+    Set Prompt For Terminal    ${device_ubuntu_root_prompt}
+    Read From Terminal Until Prompt
+
+Exit from root user
+    [Documentation]    Exit from the root environment
+    Write Into Terminal    exit
+    Set Prompt For Terminal    ${device_ubuntu_user_prompt}
+    Read From Terminal Until Prompt

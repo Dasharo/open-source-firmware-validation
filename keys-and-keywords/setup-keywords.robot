@@ -1,38 +1,102 @@
+*** Settings ***
+
+Library    ../keywords.py
+#Library    ../osfv-scripts/snipeit/snipeit_robot.py
+Library    Collections
+
+#Variables    ../platform-configs/fan-curve-config.yaml
+
+Resource    ../pikvm-rest-api/pikvm_comm.robot
+#Resource     keys-and-keywords/flashrom.robot
+Resource    ../pikvm-rest-api/pikvm_comm.robot
+
 *** Keywords ***
+setup-keywords backup
 Prepare Test Suite
     [Documentation]    Keyword allows to prepare Test Suite by importing
     ...    specific platform configuration keywords and variables and preparing
     ...    connection with the DUT based on used transmission protocol.
     ...    Keyword used in all [Suite Setup] sections.
-    Import Needed Resources
-    Check Stand Address Correctness
-    Prepare Devices For Power Control
-    IF    '${dut_connection_method}' == 'SSH'
-        SSHLibrary.Set Default Configuration    timeout=60 seconds
-    ELSE IF    '${dut_connection_method}' == 'Telnet'
-        Open Connection And Log In
-        Get DUT To Start State
-    ELSE IF    '${dut_connection_method}' == 'open-bmc'
-        No Operation
-    ELSE IF    '${dut_connection_method}' == 'pikvm'
-        ${pikvm_address}=    Get Pikvm Ip    ${stand_ip}
-        Set Global Variable    ${pikvm_ip}    ${pikvm_address}
-        Open Connection And Log In
-        Get DUT To Start State
-    ELSE
-        FAIL    Unknown or improper connection method: ${dut_connection_method}
-    END
+    #Import Needed Resources
+    #Check Stand Address Correctness
+    #Prepare Devices For Power Control
+    IF    '${config}' == 'crystal'    Import Resource    ${CURDIR}/../platform-configs/vitro_crystal.robot
+    ...    ELSE IF    '${config}' == 'pv30'    Import Resource    ${CURDIR}/../dev-tests/operon/configs/pv30.robot
+    ...    ELSE IF    '${config}' == 'yocto'    Import Resource    ${CURDIR}/../dev-tests/operon/configs/yocto.robot
+    ...    ELSE IF    '${config}' == 'raspbian'    Import Resource    ${CURDIR}/../dev-tests/operon/configs/raspbian.robot
+    ...    ELSE    Import Resource    ${CURDIR}/../platform-configs/${config}.robot
+    IF    '${dut_connection_method}' == 'SSH'    Prepare To SSH Connection
+    ...    ELSE IF    '${dut_connection_method}' == 'Telnet'    Prepare To Serial Connection
+    ...    ELSE IF    '${dut_connection_method}' == 'open-bmc'    Prepare To OBMC Connection
+    ...    ELSE IF    '${dut_connection_method}' == 'pikvm'    Prepare To PiKVM Connection
+    ...    ELSE    FAIL    Unknown connection method for config: ${config}
+
+Prepare To PiKVM Connection
+    [Documentation]    Keyword prepares Test Suite by opening SSH connection to
+    ...                the RTE, opening serial connection with the DUT (for
+    ...                gathering output from platform), configuring PiKVM,
+    ...                setting current platform to the global variable and
+    ...                setting the DUT to start state. Keyword used in
+    ...                [Suite Setup] sections if the communication with the
+    ...                platform based on the serial connection (platform
+    ...                output) and PiKVM (platform input)
+    Remap keys variables to PiKVM
+    Open Connection And Log In
+    ${platform}=    Get current RTE param    platform
+    Set Global Variable    ${platform}
+    Get DUT To Start State
+
+Remap keys variables to PiKVM
+    [Documentation]    Updates keys variables from keys.robot to be compatible
+    ...                with PiKVM
+    Set Global Variable    ${ARROW_UP}    ArrowUp
+    Set Global Variable    ${ARROW_DOWN}    ArrowDown
+    Set Global Variable    ${ARROW_RIGHT}    ArrowRight
+    Set Global Variable    ${ARROW_LEFT}    ArrowLeft
+    Set Global Variable    ${F1}    F1
+    Set Global Variable    ${F2}    F2
+    Set Global Variable    ${F3}    F3
+    Set Global Variable    ${F4}    F4
+    Set Global Variable    ${F5}    F5
+    Set Global Variable    ${F6}    F6
+    Set Global Variable    ${F7}    F7
+    Set Global Variable    ${F8}    F8
+    Set Global Variable    ${F9}    F9
+    Set Global Variable    ${F10}    F10
+    Set Global Variable    ${F11}    F11
+    Set Global Variable    ${F12}    F12
+    Set Global Variable    ${ESC}    Escape
+    Set Global Variable    ${ENTER}   Enter
+    Set Global Variable    ${BACKSPACE}    Backspace
+    Set Global Variable    ${KEY_SPACE}    Space
+    Set Global Variable    ${DELETE}    Delete
+    Set Global Variable    ${Digit0}    Digit0
+    Set Global Variable    ${Digit1}    Digit1
+    Set Global Variable    ${Digit2}    Digit2
+    Set Global Variable    ${Digit3}    Digit3
+    Set Global Variable    ${Digit4}    Digit4
+    Set Global Variable    ${Digit5}    Digit5
+    Set Global Variable    ${Digit6}    Digit6
+    Set Global Variable    ${Digit7}    Digit7
+    Set Global Variable    ${Digit8}    Digit8
+    Set Global Variable    ${Digit9}    Digit9
+
+Remap keys variables from PiKVM
+    [Documentation]    Updates keys variables from PiKVM ones to the ones
+    ...                as defined in keys.robot
+    Import Resource    ${CURDIR}/keys.robot
+
 
 Import Needed Resources
     [Documentation]    Keyword allows to prepare test suite by importing
     ...    specific resources dedicated for the testing stand and tested
     ...    platform.
-    Import Resource    ${CURDIR}/platform-configs/${config}.robot
+    Import Resource    ${CURDIR}/../platform-configs/${config}.robot
     IF    ${tests_in_firmware_support}
         Import Resource    ${CURDIR}/firmware-keywords.robot
     END
     IF    ${tests_in_ubuntu_support}
-        Import Resource    ${CURDIR}/keys-and-keywords/ubuntu-keywords.robot
+        Import Resource    ${CURDIR}/ubuntu-keywords.robot
     END
 
 Prepare Devices For Power Control
@@ -55,33 +119,69 @@ Prepare Devices For Power Control
     END
 
 Open Connection And Log In
-    [Documentation]    Keyword allows to prepare test suite by initializing
-    ...    SSH and Telnet connections.
+    [Documentation]    Open SSH connection and login to session. Setup RteCtrl
+    ...                REST API, serial connection and checkout used asset in
+    ...                SnipeIt
+    Check provided ip
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    SSHLibrary.Open Connection    ${stand_ip}    prompt=~#
+    SSHLibrary.Open Connection    ${rte_ip}    prompt=~#
     SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
+    RTE REST API Setup    ${rte_ip}    ${http_port}
+    IF     'sonoff' == '${power_ctrl}'
+        ${sonoff_ip}=    Get current RTE param    sonoff_ip
+        Sonoff API Setup    ${sonoff_ip}
+    END
     Serial setup    ${rte_ip}    ${rte_s2n_port}
-    IF    '${snipeit}'=='no'    RETURN
-    SnipeIt API Setup    SnipeItApi
-    SnipeIt Checkout    ${stand_ip}
+    Return From Keyword If    '${snipeit}'=='no'
+    SnipeIt Checkout    ${rte_ip}
+
+Get current RTE
+    [Documentation]    Returns RTE index from RTE list taken as an argument.
+    ...                Returns -1 if CPU ID not found in variables.robot.
+    [Arguments]    @{rte_list}
+    ${con}=    SSHLibrary.Open Connection    ${rte_ip}
+    SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
+    ${cpuid}=    SSHLibrary.Execute Command    cat /proc/cpuinfo |grep Serial|cut -d":" -f2|tr -d " "    connection=${con}
+    ${index} =    Set Variable    ${0}
+    FOR    ${item}    IN    @{rte_list}
+        Return From Keyword If    '${item.cpuid}' == '${cpuid}'    ${index}
+        ${index} =    Set Variable    ${index + 1}
+    END
+    Return From Keyword    ${-1}
+
+Get current RTE param
+    [Documentation]    Returns current RTE parameter value specified in the argument.
+    [Arguments]    ${param}
+    ${idx}=    Get current RTE    @{RTE_LIST}
+    Should Not Be Equal    ${idx}    ${-1}    msg=RTE not found in hw-matrix
+    &{rte}=    Get From List    ${RTE_LIST}    ${idx}
+    [Return]    ${rte}[${param}]
+
+Check provided ip
+    [Documentation]    Check the correctness of the provided ip address, if the
+    ...                address is not found in the RTE list, fail the test.
+    ${index} =    Set Variable    ${0}
+    FOR    ${item}    IN    @{RTE_LIST}
+        ${result}=    Evaluate    ${item}.get("ip")
+        Return From Keyword If   '${result}'=='${rte_ip}'
+        ${index} =    Set Variable    ${index + 1}
+    END
+    Fail    rte_ip:${rte_ip} not found in the hardware configuration.
 
 Get DUT To Start State
-    [Documentation]    Keyword allows to prepare DUT to start state - clears
-    ...    Terminal and sets Device Under Test to start state (RTE Relay On).
-    Read From Terminal
+    [Documentation]    Clears telnet buffer and get Device Under Test to start
+    ...                state (RTE Relay On).
+    Telnet.Read
     ${result}=    Get Power Supply State
     IF    '${result}'=='low'    Turn On Power Supply
 
 Get Power Supply State
-    [Documentation]    Keyword allows to obtain current power supply state.
-    IF    '${pc}'=='sonoff'
-        ${state}=    Get Sonoff State    ${sonoff_session_handler}
-    ELSE IF    '${pc}'=='rte'
-        ${state}=    Get RTE Relay State
-    ELSE
-        FAIL    Unknown power control method for stand: ${stand_ip}
-    END
-    RETURN    ${state}
+    [Documentation]    Returns the power supply state.
+    ${pc}=    Get Variable Value    ${POWER_CTRL}
+    ${state}=    IF    '${pc}'=='sonoff'    Get Sonoff State
+    ...    ELSE    Get Relay State
+    [Return]    ${state}
+
 
 Get RTE Relay State
     [Documentation]    Keyword allows to obtain the RTE relay state through
