@@ -143,7 +143,8 @@ ECR014.001 Keyboard (function key: brightness down) in OS (Ubuntu 20.04)
     Switch To Root User
     Detect Or Install Package    acpi-call
     Turn On ACPI CALL Module In Linux
-    Set Brightness In Linux    48000
+    ${max_brightness}=    Get Maximum Brightness In Linux
+    Set Brightness In Linux    ${max_brightness}
     ${brightness1}=    Get Current Brightness In Linux
     Brightness Down Button In Linux
     ${brightness2}=    Get Current Brightness In Linux
@@ -160,7 +161,7 @@ ECR015.001 Keyboard (function key: brightness up) in OS (Ubuntu 20.04)
     Switch To Root User
     Detect Or Install Package    acpi-call
     Turn On ACPI CALL Module In Linux
-    Set Brightness In Linux    20000
+    Set Brightness In Linux    0
     ${brightness1}=    Get Current Brightness In Linux
     Brightness Up Button In Linux
     ${brightness2}=    Get Current Brightness In Linux
