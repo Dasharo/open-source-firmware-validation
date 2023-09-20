@@ -1,7 +1,7 @@
 *** Settings ***
 Library         Collections
 Library         keywords.py
-Library         osfv-scripts/snipeit/snipeit_robot.py
+Library         osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
 Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
 Variables       platform-configs/fan-curve-config.yaml
