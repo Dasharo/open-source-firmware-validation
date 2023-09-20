@@ -153,10 +153,19 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=protectli-vp4670    sonoff_ip=192.168.10.19
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
+# 3mdeb Protectli vp4670_2 ---------------------------------------------------
+&{RTE47}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95    pcb_rev=1.1.0
+...                         platform=protectli-vp4670    sonoff_ip=192.168.10.144
+...                         board-revision=x    env=dev
+...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb Protectli vp4650 -----------------------------------------------------
 &{RTE38}=                   ip=192.168.10.203    cpuid=02c00142076840cf    pcb_rev=1.1.0
 ...                         platform=protectli-vp4650    sonoff_ip=192.168.10.251
 ...                         board-revision=x    env=dev
+...                         platform_vendor=protectli    firmware_type=UEFI
+# 3mdeb Protectli vp4650_2 ---------------------------------------------------
+&{RTE48}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb    pcb_rev=1.1.0
+...                         platform=protectli-vp4650    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb Protectli vp2420 -----------------------------------------------------
 &{RTE40}=                   ip=192.168.10.221    cpuid=02c00142959df458    pcb_rev=1.1.0
@@ -390,8 +399,8 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG36}=                &{RTE44}
 @{CONFIG37}=                &{RTE45}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
-@{CONFIG39}=                &{RTE47}
-@{CONFIG40}=                &{RTE48}
+@{CONFIG39}=                &{RTE47}    &{USB11}    &{SSD09}
+@{CONFIG40}=                &{RTE48}    &{USB11}    &{SSD08}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -402,4 +411,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG26}    @{CONFIG27}    @{CONFIG28}    @{CONFIG29}
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
-...                         @{CONFIG38}    @{CONFIG39}
+...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}
