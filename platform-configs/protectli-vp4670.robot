@@ -21,9 +21,9 @@ ${CPU}=                                             ${EMPTY}
 ${POWER_CTRL}=                                      sonoff
 ${FLASH_VERIFY_METHOD}=                             none
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
-${WIFI_CARD}=                                       ${EMPTY}
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
+${WIFI_CARD_UBUNTU}=                                Qualcomm Atheros QCA6174
 ${LTE_CARD}=                                        ${EMPTY}
+${USB_MODEL}=                                       SanDisk
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
@@ -63,15 +63,15 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP4670:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_UBUNTU_USERNAME}=                          user
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-VP4670:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-VP4670:/home/user#
+${UBUNTU_USERNAME}=                                 ubuntu
+${UBUNTU_PASSWORD}=                                 ubuntu
+${UBUNTU_USER_PROMPT}=                              ubuntu@3mdeb:~$
+${UBUNTU_ROOT_PROMPT}=                              root@3mdeb:/home/ubuntu#
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.0.19
-${DMIDECODE_PRODUCT_NAME}=                          VP4670
+${DMIDECODE_PRODUCT_NAME}=                          VP4650
 ${DMIDECODE_RELEASE_DATE}=                          12/08/2022
 ${DMIDECODE_MANUFACTURER}=                          Protectli
 ${DMIDECODE_VENDOR}=                                3mdeb
@@ -154,7 +154,7 @@ ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${EMMC_SUPPORT}=                                    ${TRUE}
 ${DTS_SUPPORT}=                                     ${FALSE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
-${CPU_TESTS_SUPPORT}=                               ${TRUE}
+${DEVICE_TREE_SUPPORT}=                             ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
 ${DOCKING_STATION_DISPLAY_PORT}=                    ${FALSE}
@@ -170,21 +170,19 @@ ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
-${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
-${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
 ${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${FALSE}
-${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
-${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
+${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
@@ -192,7 +190,7 @@ ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${TRUE}
+${SERIAL_BOOT_MEASURE}=                             ${FALSE}
 ${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
