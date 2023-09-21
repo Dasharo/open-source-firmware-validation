@@ -122,6 +122,9 @@ Parameters should be defined as follows:
   Note that after test case ID asterisk should be added. This is necessary due
   to the construction of the flag `-t` (or `--test`)
 
+You can also run tests with `-v snipeit:no` in order to skip checking whether
+the platform is available on snipeit.
+
 When running tests on Talos2 platform use the following commands:
 
 * For running single test case:
@@ -160,6 +163,9 @@ Parameters should be defined as follows:
 * $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001`).
   Note that after test case ID asterisk should be added. This is necessary due
   to the construction of the flag `-t` (or `--test`)
+
+You can also run tests with `-v snipeit:no` in order to skip checking whether
+the platform is available on snipeit.
 
 ## Contributing
 
