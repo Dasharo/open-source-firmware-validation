@@ -181,6 +181,10 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0    pcb_rev=a22082
 ...                         platform=RPi-3-model-B-V1.2    sonoff_ip=192.168.10.27
 ...                         env=dev    platform_vendor=element14    firmware_type=yocto
+# QEMU
+&{RTE48}=                   ip=127.0.0.1    cpuid=02c0014296737c0d    pcb_rev=1.1.0
+...                         platform=qemu    board-revision=1.01    env=dev
+...                         platform_vendor=qemu
 
 @{RTE_LIST}=                &{RTE01}    &{RTE02}    &{RTE03}    &{RTE04}    &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -191,7 +195,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}    &{RTE47}
+...                         &{RTE46}    &{RTE47}    &{RTE48}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -382,6 +386,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG37}=                &{RTE45}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
 @{CONFIG39}=                &{RTE47}
+@{CONFIG40}=                &{RTE48}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}

@@ -246,10 +246,12 @@ Open Connection And Log In
     ...    REST API, serial connection and checkout used asset in
     ...    SnipeIt
     Check Provided Ip
-    SSHLibrary.Set Default Configuration    timeout=60 seconds
-    SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
-    SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
+    IF    '${CONFIG}' != 'qemu'
+        SSHLibrary.Set Default Configuration    timeout=60 seconds
+        SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
+        SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
+        RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
+    END
     IF    'sonoff' == '${POWER_CTRL}'
         ${sonoff_ip}=    Get Current RTE Param    sonoff_ip
         Sonoff API Setup    ${sonoff_ip}
@@ -1121,8 +1123,12 @@ Prepare To Serial Connection
     ...    sections if the communication with the platform based on
     ...    the serial connection
     Open Connection And Log In
-    ${platform}=    Get Current RTE Param    platform
-    Set Global Variable    ${PLATFORM}
+    IF    '${CONFIG}' == 'qemu'
+        Set Global Variable    ${PLATFORM}    qemu
+    ELSE
+        ${platform}=    Get Current RTE Param    platform
+        Set Global Variable    ${PLATFORM}
+    END
     Get DUT To Start State
 
 Prepare To OBMC Connection
@@ -1201,8 +1207,10 @@ Get DUT To Start State
     [Documentation]    Clears telnet buffer and get Device Under Test to start
     ...    state (RTE Relay On).
     Telnet.Read
-    ${result}=    Get Power Supply State
-    IF    '${result}'=='low'    Turn On Power Supply
+    IF    '${CONFIG}' != 'qemu'
+        ${result}=    Get Power Supply State
+        IF    '${result}'=='low'    Turn On Power Supply
+    END
 
 Turn On Power Supply
     ${pc}=    Get Variable Value    ${POWER_CTRL}
