@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This one must be retreived manually from the DUT before starting regression
+# This one must be retrieved manually from the DUT before starting regression
 DEVICE_IP=192.168.4.107
 
 # Uncomment one of these
