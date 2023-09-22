@@ -1,26 +1,26 @@
 *** Keywords ***
-Enable Custom Mode and Enroll certificate
-    [Arguments]    ${cert_filename}    ${fileformat}=GOOD
+Enable Custom Mode And Enroll Certificate
     [Documentation]    This keyword enables the secure boot custom mode
     ...    and enrolls a certificate with the given name.
     ...    It can also take the fileformat parameter
     ...    indicating whether the file is of a valid format.
     ...    If not, it will look for the appropriate ERROR
     ...    message.
+    [Arguments]    ${cert_filename}    ${fileformat}=GOOD
     Enter Setup Menu Tianocore
     Enter Device Manager Submenu
     Enter Secure Boot Configuration Submenu
     Enter Custom Secure Boot Options
     Enroll Certificate    ${cert_filename}    ${fileformat}
 
-Enter UEFI Shell and Boot .EFI File
-    [Arguments]    @{filename}
+Enter UEFI Shell And Boot .EFI File
     [Documentation]    Boots given .efi file from UEFI shell.
     ...    Assumes that it is located on FS0.
+    [Arguments]    @{filename}
     Enter Boot Menu Tianocore
     Enter UEFI Shell Tianocore
     Read From Terminal Until    Shell>
-    Boot .EFI File From UEFI shell    @{filename}
+    Boot .EFI File From UEFI Shell    @{filename}
 
 Verify Reset Secure Boot Keys
     [Documentation]    Verifies that Reset Secure Boot Keys
@@ -30,24 +30,23 @@ Verify Reset Secure Boot Keys
     Enter Secure Boot Configuration Submenu
     Read From Terminal Until    Reset Secure Boot Keys
 
-
 Reset Secure Boot Keys Again
     [Documentation]    Performs Reset Secure Boot Keys if they've
     ...    been reset since flashing.
     Enter Setup Menu Tianocore
     Enter Device Manager Submenu
     Enter Secure Boot Configuration Submenu
-    Press key n times and enter    3    ${ARROW_DOWN}
+    Press Key N Times And Enter    3    ${ARROW_DOWN}
     Read From Terminal Until    INFO
-    Press key n times    1    ${ENTER}
-    Save changes and reset    2    5
+    Press Key N Times    1    ${ENTER}
+    Save Changes And Reset    2    5
 
 Upload Required Images
     [Documentation]    Uploads the required images onto the PiKVM
-    Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/k9EcYGDTWQAwtGs/download/good_keys.img
-    Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/LaZQKGizg8gQRMZ/download/not_signed.img
-    Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/q7PfkFz7Bd2RTXz/download/bad_keys.img
-    Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/TnEWbqGZ83i6bHo/download/bad_format.img
+    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/k9EcYGDTWQAwtGs/download/good_keys.img
+    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/LaZQKGizg8gQRMZ/download/not_signed.img
+    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/q7PfkFz7Bd2RTXz/download/bad_keys.img
+    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/TnEWbqGZ83i6bHo/download/bad_format.img
 
 Check If Attempt Secure Boot Can Be Selected
     [Documentation]    The Attempt Secure Boot option may be unavailable if
