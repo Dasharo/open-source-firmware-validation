@@ -66,6 +66,7 @@ ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@3mdeb:~$
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/ubuntu#
 ${PIKVM_IP}=                                        192.168.10.45
+${DEVICE_IP}=                                       192.168.10.93
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
@@ -89,6 +90,9 @@ ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
 
 ${USB_DEVICE}=                                      Multifunction Composite Gadget
+
+@{DEVICES_STORAGE_USB}=                             &{USB13}
+@{DEVICES_STORAGE_DISK}=                            &{SSD08}
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}

@@ -3,16 +3,28 @@ Resource    ../os/ubuntu_2204_credentials.robot
 
 
 *** Variables ***
-${DUT_CONNECTION_METHOD}=                           SSH
+${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
+${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
-${RTE_S2_N_PORT}=                                   ${EMPTY}
+&{RTE}=
+...                                                 status=not_connected
+...                                                 ip=not_connected
+# TODO: get rid of legacy RTE_IP variable
+${RTE_IP}=                                          ${RTE}[ip]
+&{SONOFF}=                                          status=present    ip=192.168.10.69
+# TODO: get rid of legacy RTE_IP variable
+${SONOFF_IP}=                                       ${SONOFF}[ip]
+${SERIAL_TELNET_PORT}=                              13541
+${SERIAL_TELNET_IP}=                                ${RTE_IP}
 ${FLASH_SIZE}=                                      ${16*1024*1024}
-${TIANOCORE_KEY}=                                   ${F2}
 ${TIANOCORE_STRING}=                                ENTER
-${TIANOCORE_BOOT_MENU_KEY}=                         ${F7}
-${SETUP_MENU_KEY}=                                  ${EMPTY}
+${BOOT_MENU_KEY}=                                   F7
+${SETUP_MENU_KEY}=                                  F2
+${BOOT_MENU_STRING}=                                Please select boot device:
+${SETUP_MENU_STRING}=                               Select Entry
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             Intel(R) Core(TM) i7-1165G7 CPU
+${POWER_CTRL}=                                      sonoff
 ${INITIAL_CPU_FREQUENCY}=                           2800
 ${DRAM_SIZE}=                                       ${8192}
 ${DEF_CORES}=                                       4
@@ -37,6 +49,10 @@ ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
 ${DEVICE_UBUNTU_HOSTNAME}=                          ${UBUNTU_HOSTNAME}
+
+${PIKVM_IP}=                                        192.168.4.180
+${DEVICE_IP}=                                       192.168.4.240
+
 ${CLEVO_BATTERY_CAPACITY}=                          3200*1000
 # ${clevo_brightness_delta}    2376 - unfortunately it's not constant
 ${DEVICE_NVME_DISK}=                                Non-Volatile memory controller

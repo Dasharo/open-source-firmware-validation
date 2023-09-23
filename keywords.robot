@@ -174,6 +174,7 @@ Login To Linux Via SSH
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
     [Arguments]    ${username}    ${password}    ${timeout}=180    ${prompt}=${DEVICE_UBUNTU_USER_PROMPT}
+    Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
     SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
@@ -522,6 +523,63 @@ Get All USB
     ${count}=    Evaluate    ${count_usb}+${external_count}
     RETURN    ${count}
 
+Check If Tianocore Setting Is Enabled In Current Menu
+    [Documentation]    Checks if option ${option} is enabled, returns True/False
+    [Arguments]    ${option}
+    ${option_value}=    Get Option Value    ${option}
+    ${enabled}=    Run Keyword And Return Status
+    ...    Should Be Equal    ${option_value}    [X]
+    RETURN    ${enabled}
+
+Get Relative Menu Position
+    [Documentation]    Evaluate and return relative menu entry position
+    ...    described in the argument.
+    [Arguments]    ${entry}    ${checkpoint}    ${bias}=1
+    ${output}=    Read From Terminal Until    ${checkpoint}
+    ${output}=    Strip String    ${output}
+    ${reference}=    Get Menu Reference Tianocore    ${output}    ${bias}
+    @{lines}=    Split To Lines    ${output}
+    ${iterations}=    Set Variable    0
+    FOR    ${line}    IN    @{lines}
+        IF    '${reference}' in '${line}\\n'
+            ${start}=    Set Variable    ${iterations}
+            BREAK
+        END
+        ${iterations}=    Evaluate    ${iterations} + 1
+    END
+    ${iterations}=    Set Variable    0
+    FOR    ${line}    IN    @{lines}
+        IF    '${entry}' in '${line}\\n'
+            ${end}=    Set Variable    ${iterations}
+        END
+        ${iterations}=    Evaluate    ${iterations} + 1
+    END
+    ${rel_pos}=    Evaluate    ${end} - ${start}
+    RETURN    ${rel_pos}
+
+Press Key N Times And Enter
+    [Documentation]    Enter specified in the first argument times the specified
+    ...    in the second argument key and then press Enter.
+    [Arguments]    ${n}    ${key}
+    Press Key N Times    ${n}    ${key}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Single Key PiKVM    Enter
+    ELSE
+        Write Bare Into Terminal    ${ENTER}
+    END
+
+Press Key N Times
+    [Documentation]    Enter specified in the first argument times the specified
+    ...    in the second argument key.
+    [Arguments]    ${n}    ${key}
+    FOR    ${index}    IN RANGE    0    ${n}
+        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+            Single Key PiKVM    ${key}
+        ELSE
+            Write Bare Into Terminal    ${key}
+        END
+    END
+
 Get Boot Timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
     # fix for LT1000 and protectli platforms (output without tabs)
@@ -692,33 +750,32 @@ Flash Firmware
         Put File    ${fw_file}    /tmp/coreboot.rom
     END
     Sleep    2s
-    ${platform}=    Get Current RTE Param    platform
-    IF    '${platform[:3]}' == 'apu'
+    IF    '${PLATFORM[:3]}' == 'apu'
         Flash Apu
-    ELSE IF    '${platform[:13]}' == 'optiplex-7010'
+    ELSE IF    '${PLATFORM[:13]}' == 'optiplex-7010'
         Flash Firmware Optiplex
-    ELSE IF    '${platform[:8]}' == 'KGPE-D16'
+    ELSE IF    '${PLATFORM[:8]}' == 'KGPE-D16'
         Flash KGPE-D16
-    ELSE IF    '${platform[:10]}' == 'novacustom'
+    ELSE IF    '${PLATFORM[:10]}' == 'novacustom'
         Flash Device Via Internal Programmer    ${fw_file}
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp4630'
         Flash Protectli VP4620 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp4650'
         Flash Protectli VP4650 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp4670'
         Flash Protectli VP4670 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp2420'
         Flash Protectli VP2420 Internal
-    ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp2410'
         Flash Protectli VP2410 External
-    ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
+    ELSE IF    '${PLATFORM[:19]}' == 'msi-pro-z690-a-ddr5'
         Flash MSI-PRO-Z690-A-DDR5
-    ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
+    ELSE IF    '${PLATFORM[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
         Flash MSI-PRO-Z690-A-WiFi-DDR4
-    ELSE IF    '${platform[:46]}' == 'msi-pro-z790-p-ddr5'
+    ELSE IF    '${PLATFORM[:46]}' == 'msi-pro-z790-p-ddr5'
         Flash MSI-PRO-Z790-P-DDR5
     ELSE
-        Fail    Flash firmware not implemented for platform ${platform}
+        Fail    Flash firmware not implemented for platform ${PLATFORM}
     END
     # First boot after flashing may take longer than usual
     Set DUT Response Timeout    180s
@@ -1802,17 +1859,11 @@ Boot System Or From Connected Disk
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
     IF    not ${is_system_present}
-        ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
-        ${ssd_list_length}=    Get Length    ${ssd_list}
-        IF    ${ssd_list_length} == 0
-            ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
-            ${hdd_list_length}=    Get Length    ${hdd_list}
-            IF    ${hdd_list_length} == 0
-                FAIL    "System was not found and there are no disk connected"
-            END
-            ${disk_name}=    Set Variable    ${hdd_list[0]}
+        ${disks_list_length}=    Get Length    ${DEVICES_STORAGE_DISK}
+        IF    ${disks_list_length} == 0
+            FAIL    "System was not found and there are no disks connected"
         ELSE
-            ${disk_name}=    Set Variable    ${ssd_list[0]}
+            ${disk_name}=    Set Variable    ${DEVICES_STORAGE_DISK[0]}[boot_name]
         END
         ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
         IF    ${system_index} == -1
@@ -2209,49 +2260,30 @@ Enable Option In Submenu
         Write Bare Into Terminal    Y
     END
 
-Get Current CONFIG List Param
-    [Documentation]    Returns current CONFIG list parameters specified in the
-    ...    arguments.
-    [Arguments]    ${item}    ${param}
-    ${config}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${length}=    Get Length    ${config}
-    Should Be True    ${length} > 1
-    @{attached_usb_list}=    Create List
-    FOR    ${element}    IN    @{config[1:]}
-        IF    '${element.type}'=='${item}'
-            Append To List    ${attached_usb_list}    ${element.${param}}
-        END
-    END
-    ${length}=    Get Length    ${attached_usb_list}
-    Should Be True    ${length} > 0
-    RETURN    @{attached_usb_list}
-
 Check That USB Devices Are Detected
     [Documentation]    Checks if the USB devices from the config are the same as
     ...    those visible in the boot menu. Alternatively, if we set emulated to
     ...    True, it only probes for the PiKVM emulated USB.
-    [Arguments]    ${emulated}=${FALSE}
-    ${menu_construction}=    Read From Terminal Until    exit
-
-    IF    ${emulated} == ${TRUE}
-        Should Match    ${menu_construction}    *PiKVM*
-        RETURN    ${TRUE}
+    ...    those visible in the boot menu.
+    ${storage_usb_list_length}=    Get Length    ${DEVICES_STORAGE_USB}
+    IF    ${storage_usb_list_length} == 0
+        FAIL    "No devices in DEVICES_STORAGE_USB list"
     END
-
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        # ${stick} should match with one element of ${menu_construction}
-
-        Should Match    ${menu_construction}    *${stick}*
+    ${menu_construction}=    Read From Terminal Until    exit
+    FOR    ${device}    IN    @{DEVICES_STORAGE_USB}
+        Should Match    ${menu_construction}    *${device}[name]*
     END
 
 Check That USB Devices Are Not Detected
     [Documentation]    Checks if the USB devices from the config are the same as
     ...    those visible in the boot menu.
+    ${storage_usb_list_length}=    Get Length    ${DEVICES_STORAGE_USB}
+    IF    ${storage_usb_list_length} == 0
+        FAIL    "No devices in DEVICES_STORAGE_USB list"
+    END
     ${menu_construction}=    Get Boot Menu Construction
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        Should Not Contain    ${menu_construction}    ${stick}
+    FOR    ${device}    IN    @{DEVICES_STORAGE_USB}
+        Should Not Contain    ${menu_construction}    ${device}[name]
     END
 
 Switch To Root User In Ubuntu Server
