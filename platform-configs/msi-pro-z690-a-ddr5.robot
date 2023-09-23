@@ -5,7 +5,18 @@
 ${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
-${RTE_S2_N_PORT}=                                   13541
+&{RTE}=
+...                                                 status=present
+...                                                 ip=192.168.10.188
+...                                                 usernam=root
+...                                                 password=meta-rte
+# TODO: get rid of legacy RTE_IP variable
+${RTE_IP}=                                          ${RTE}[ip]
+&{SONOFF}=                                          status=present    ip=192.168.10.69
+# TODO: get rid of legacy RTE_IP variable
+${SONOFF_IP}=                                       ${SONOFF}[ip]
+${SERIAL_TELNET_PORT}=                              13541
+${SERIAL_TELNET_IP}=                                ${RTE_IP}
 ${FLASH_SIZE}=                                      ${32*1024*1024}
 ${FLASH_LENGTH}=                                    ${EMPTY}
 ${TIANOCORE_STRING}=                                to boot directly
