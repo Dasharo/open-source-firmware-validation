@@ -35,3 +35,4 @@ USH001.001 UEFI Shell
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    UEFI Interactive Shell
+    Read From Terminal

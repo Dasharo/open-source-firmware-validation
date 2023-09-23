@@ -859,7 +859,6 @@ Prepare To PiKVM Connection
     ...    output) and PiKVM (platform input)
     Remap Keys Variables To PiKVM
     Open Connection And Log In
-    Get DUT To Start State
 
 Remap Keys Variables To PiKVM
     [Documentation]    Updates keys variables from keys.robot to be compatible
@@ -901,22 +900,6 @@ Remap Keys Variables From PiKVM
     ...    as defined in keys.robot
     Import Resource    ${CURDIR}/keys.robot
 
-Get DUT To Start State
-    [Documentation]    Clears telnet buffer and get DUT to start
-    ...    state (RTE Relay On).
-    Telnet.Read
-    IF    '${CONFIG}' != 'qemu'
-        ${result}=    Get Power Supply State
-        IF    '${result}'=='low'    Turn On Power Supply
-    END
-
-Turn On Power Supply
-    IF    'sonoff' == '${POWER_CTRL}'
-        ${state}=    Sonoff Power On
-    ELSE
-        ${state}=    RteCtrl Relay
-    END
-
 Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
@@ -932,14 +915,11 @@ Rte Relay Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
     Telnet.Read
-    ${result}=    RteCtrl Relay
-    IF    ${result} == 0
-        Run Keywords
-        ...    Sleep    4s
-        ...    AND
-        ...    Telnet.Read
-        ...    AND
-        ...    RteCtrl Relay
+    ${state}=    Get RteCtrl Relay State
+    IF    ${state} == 0
+        Sleep    4s
+        Telnet.Read
+        RteCtrl Relay
     END
 
 OBMC Power Cycle On
@@ -968,13 +948,10 @@ OBMC Power Cycle Off
 Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
     ...    Sonoff
-    Telnet.Read
     Sonoff Power Off
+    Sleep    5s
+    Telnet.Read
     Sonoff Power On
-    Sleep    15
-    # TODO: This should be performed only if power button control is supported
-    # for the given DUT
-    Power On
 
 Power Cycle Off
     [Documentation]    Power cycle off power supply using the supported
@@ -991,10 +968,8 @@ Power Cycle Off
 
 Rte Relay Power Cycle Off
     [Documentation]    Performs full power cycle with RTE relay set to OFF.
-    # sleep for DUT Start state in Suite Setup
-    Sleep    1s
-    ${result}=    Get RTE Relay State
-    IF    '${result}' == 'high'    RteCtrl Relay
+    ${state}=    Get RTE Relay State
+    IF    '${state}' == 'high'    RteCtrl Relay
 
 Sonoff Power Cycle Off
     Sonoff Power On
@@ -1003,15 +978,6 @@ Sonoff Power Cycle Off
 Get RTE Relay State
     [Documentation]    Returns the RTE relay state through REST API.
     ${state}=    RteCtrl Get GPIO State    0
-    RETURN    ${state}
-
-Get Power Supply State
-    [Documentation]    Returns the power supply state.
-    IF    '${POWER_CTRL}'=='sonoff'
-        ${state}=    Get Sonoff State
-    ELSE
-        ${state}=    Get RTE Relay State
-    END
     RETURN    ${state}
 
 Get Sound Devices Windows
