@@ -11,13 +11,13 @@ Variables       platform-configs/fan-curve-config.yaml
 # TODO: split this file into some manageable modules
 
 Serial Setup
-    [Documentation]    Setup serial communication via telnet. Takes host and
-    ...    ser2net port as an arguments.
-    [Arguments]    ${host}    ${s2n_port}
+    [Documentation]    Setup serial communication via telnet. Takes ip and
+    ...    port as arguments
+    [Arguments]    ${ip}    ${port}
     # provide ser2net port where serial was redirected
     Telnet.Open Connection
-    ...    ${host}
-    ...    port=${s2n_port}
+    ...    ${ip}
+    ...    port=${port}
     ...    newline=LF
     ...    terminal_emulation=True
     ...    terminal_type=vt100
@@ -92,7 +92,10 @@ Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Read From Terminal Until    login:
+        # On laptopts, we have serial over EC from firmware only, so we will
+        # not have Linux prompt. We try logging in multiple times anyway, so
+        # this should not be a huge problem.
+        # Read From Terminal Until    login:
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
@@ -173,6 +176,7 @@ Login To Linux Via SSH
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
     [Arguments]    ${username}    ${password}    ${timeout}=180    ${prompt}=${DEVICE_UBUNTU_USER_PROMPT}
+    Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
     SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
@@ -243,29 +247,20 @@ Open Connection And Log In
     [Documentation]    Open SSH connection and login to session. Setup RteCtrl
     ...    REST API, serial connection and checkout used asset in
     ...    SnipeIt
-    Check Provided Ip
-    SSHLibrary.Set Default Configuration    timeout=60 seconds
-    SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
-    SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
-    IF    'sonoff' == '${POWER_CTRL}'
-        ${sonoff_ip}=    Get Current RTE Param    sonoff_ip
-        Sonoff API Setup    ${sonoff_ip}
+    # Establish SSH connection with RTE if present for the given DUT
+    IF    '${RTE}[status]'=='present'
+        SSHLibrary.Set Default Configuration    timeout=60 seconds
+        SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
+        SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
+        RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
     END
-    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
-    IF    '${SNIPEIT}'=='no'    RETURN
-    SnipeIt Checkout    ${RTE_IP}
-
-Check Provided Ip
-    [Documentation]    Check the correctness of the provided ip address, if the
-    ...    address is not found in the RTE list, fail the test.
-    ${index}=    Set Variable    ${0}
-    FOR    ${item}    IN    @{RTE_LIST}
-        ${result}=    Evaluate    ${item}.get("ip")
-        IF    '${result}'=='${RTE_IP}'    RETURN
-        ${index}=    Set Variable    ${index+1}
+    # Setup Sonoff API if present for the given DUT
+    IF    '${SONOFF}[status]'=='present'
+        Sonoff API Setup    ${SONOFF_IP}
     END
-    Fail    rte_ip:${RTE_IP} not found in the hardware configuration.
+    Serial Setup    ${SERIAL_TELNET_IP}    ${SERIAL_TELNET_PORT}
+    # TODO: not all stand have RTE
+    IF    '${SNIPEIT}'=='yes'    SnipeIt Checkout    ${RTE_IP}
 
 Open Connection And Log In OpenBMC
     [Documentation]    Keyword logs in OpenBMC via SSH.
@@ -284,6 +279,7 @@ Log Out And Close Connection
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
     IF    '${PLATFORM}'=='raptor-cs_talos2'    RETURN
+    # TODO: not all stand have RTE
     IF    '${SNIPEIT}'=='yes'    SnipeIt Checkin    ${RTE_IP}
 
 Enter Petitboot And Return Menu
@@ -297,12 +293,6 @@ Enter Petitboot And Return Menu
     Set DUT Response Timeout    20s
     Sleep    2s
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
-    RETURN    ${menu}
-
-Enter Tianocore And Return Menu
-    [Documentation]    Enter SeaBIOS and returns boot entry menu.
-    Enter Boot Menu Tianocore
-    ${menu}=    Read From Terminal Until    ESC to exit
     RETURN    ${menu}
 
 Enter Boot Menu
@@ -349,11 +339,7 @@ Clear Attempt Secure Boot Option
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
     Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${SETUP_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${SETUP_MENU_KEY}
-    END
+    Press Key N Times    1    ${SETUP_MENU_KEY}
     # wait for setup menu to appear
     # Read From Terminal Until    Continue
 
@@ -464,6 +450,9 @@ Enter Boot Menu Tianocore
     ELSE
         Write Bare Into Terminal    ${BOOT_MENU_KEY}
     END
+    # FIXME: Laptop EC serial workaround
+    Press Key N Times    1    ${ARROW_DOWN}
+    Press Key N Times    1    ${ARROW_UP}
 
 Enter UEFI Shell Tianocore
     [Documentation]    Enter UEFI Shell in Tianocore by specifying its position
@@ -529,6 +518,7 @@ Enter Setup Menu Option
     [Arguments]    ${option}
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    ${option}
+    Should Not Be Equal As Integers    ${index}    -1    msg=${option} does not exist in menu
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Check If Submenu Exists Tianocore
@@ -740,141 +730,6 @@ Press Key N Times
         END
     END
 
-Get Current RTE
-    [Documentation]    Returns RTE index from RTE list taken as an argument.
-    ...    Returns -1 if CPU ID not found in variables.robot.
-    [Arguments]    @{rte_list}
-    ${con}=    SSHLibrary.Open Connection    ${RTE_IP}
-    SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    ${cpuid}=    SSHLibrary.Execute Command
-    ...    cat /proc/cpuinfo |grep Serial|cut -d":" -f2|tr -d " "
-    ...    connection=${con}
-    ${index}=    Set Variable    ${0}
-    FOR    ${item}    IN    @{rte_list}
-        IF    '${item.cpuid}' == '${cpuid}'    RETURN    ${index}
-        ${index}=    Set Variable    ${index+1}
-    END
-    RETURN    ${-1}
-
-Get Current RTE Param
-    [Documentation]    Returns current RTE parameter value specified in the argument.
-    [Arguments]    ${param}
-    ${idx}=    Get Current RTE    @{RTE_LIST}
-    Should Not Be Equal    ${idx}    ${-1}    msg=RTE not found in hw-matrix
-    &{rte}=    Get From List    ${RTE_LIST}    ${idx}
-    RETURN    ${rte}[${param}]
-
-Get Current CONFIG Start Index
-    [Documentation]    Returns current CONFIG start index from CONFIG_LIST
-    ...    specified in the argument required for slicing list.
-    ...    Returns -1 if CONFIG not found in variables.robot.
-    [Arguments]    ${config_list}
-    ${rte_cpuid}=    Get Current RTE Param    cpuid
-    Should Not Be Equal    ${rte_cpuid}    ${-1}    msg=RTE not found in hw-matrix
-    ${index}=    Set Variable    ${0}
-    FOR    ${config}    IN    @{config_list}
-        ${result}=    Evaluate    ${config}.get("cpuid")
-        IF    '${result}'=='${rte_cpuid}'    RETURN    ${index}
-        ${index}=    Set Variable    ${index+1}
-    END
-    RETURN    ${-1}
-
-Get Current CONFIG Stop Index
-    [Documentation]    Returns current CONFIG stop index from CONFIG_LIST
-    ...    specified in the argument required for slicing list.
-    ...    Returns -1 if CONFIG not found in variables.robot.
-    [Arguments]    ${config_list}    ${start}
-    ${length}=    Get Length    ${config_list}
-    ${index}=    Set Variable    ${start+1}
-    FOR    ${config}    IN    @{config_list[${index}:]}
-        ${result}=    Evaluate    ${config}.get("cpuid")
-        IF    '${result}'!='None'    RETURN    ${index}
-        IF    '${index}'=='${length-1}'    RETURN    ${index+1}
-        ${index}=    Set Variable    ${index+1}
-    END
-    RETURN    ${-1}
-
-Get Current CONFIG
-    [Documentation]    Returns current config as a list variable based on start
-    ...    and stop indexes.
-    [Arguments]    ${config_list}
-    ${start}=    Get Current CONFIG Start Index    ${config_list}
-    Should Not Be Equal    ${start}    ${-1}    msg=Current CONFIG not found in hw-matrix
-    ${stop}=    Get Current CONFIG Stop Index    ${config_list}    ${start}
-    Should Not Be Equal    ${stop}    ${-1}    msg=Current CONFIG not found in hw-matrix
-    ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop}
-    RETURN    ${config}
-
-Get Current CONFIG Item
-    [Documentation]    Returns current CONFIG item specified in the argument.
-    ...    Returns -1 if CONFIG item not found in variables.robot.
-    [Arguments]    ${item}
-    ${config}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${length}=    Get Length    ${config}
-    Should Be True    ${length} > 1
-    FOR    ${element}    IN    @{config[1:]}
-        IF    '${element.type}'=='${item}'    RETURN    ${element}
-    END
-    RETURN    ${-1}
-
-Get Current CONFIG Item Param
-    [Documentation]    Returns current CONFIG item parameter specified in the
-    ...    arguments.
-    [Arguments]    ${item}    ${param}
-    ${device}=    Get Current CONFIG Item    ${item}
-    RETURN    ${device.${param}}
-
-Get Slot Count
-    [Documentation]    Returns count parameter value from slot key specified in
-    ...    the argument if found, otherwise return 0.
-    [Arguments]    ${slot}
-    ${is_found}=    Evaluate    "count" in """${slot}"""
-    ${return}=    Set Variable If
-    ...    ${is_found}==False    0
-    ...    ${is_found}==True    ${slot.count}
-    RETURN    ${return}
-
-Get USB Slot Count
-    [Documentation]    Returns count parameter value from USB slot key specified
-    ...    in the argument if found, otherwise return 0.
-    [Arguments]    ${slots}
-    ${is_found1}=    Evaluate    "USB_Storage" in """${slots.slot1}"""
-    ${is_found2}=    Evaluate    "USB_Storage" in """${slots.slot2}"""
-    IF    ${is_found1}==True
-        ${count1}=    Get Slot Count    ${slots.slot1}
-    ELSE
-        ${count1}=    Evaluate    0
-    END
-    IF    ${is_found2}==True
-        ${count2}=    Get Slot Count    ${slots.slot2}
-    ELSE
-        ${count2}=    Evaluate    0
-    END
-    ${sum}=    Evaluate    ${count1}+${count2}
-    RETURN    ${sum}
-
-Get All USB
-    [Documentation]    Returns number of attached USB storages in current CONFIG.
-    ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${is_found}=    Evaluate    "USB_Storage" in """${conf}"""
-    IF    ${is_found}==True
-        ${usb_count}=    Get Current CONFIG Item Param    USB_Storage    count
-        ${count_usb}=    Evaluate    ${usb_count}
-    ELSE
-        ${usb_count}=    Evaluate    ""
-        ${count_usb}=    Evaluate    0
-    END
-    ${is_found}=    Evaluate    "USB_Expander" in """${conf}"""
-    IF    ${is_found}==True
-        ${external}=    Get Current CONFIG Item    USB_Expander
-        ${external_count}=    Get USB Slot Count    ${external}
-    ELSE
-        ${external}=    Evaluate    ""
-        ${external_count}=    Evaluate    0
-    END
-    ${count}=    Evaluate    ${count_usb}+${external_count}
-    RETURN    ${count}
-
 Get Boot Timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
     # fix for LT1000 and protectli platforms (output without tabs)
@@ -1045,33 +900,32 @@ Flash Firmware
         Put File    ${fw_file}    /tmp/coreboot.rom
     END
     Sleep    2s
-    ${platform}=    Get Current RTE Param    platform
-    IF    '${platform[:3]}' == 'apu'
+    IF    '${PLATFORM[:3]}' == 'apu'
         Flash Apu
-    ELSE IF    '${platform[:13]}' == 'optiplex-7010'
+    ELSE IF    '${PLATFORM[:13]}' == 'optiplex-7010'
         Flash Firmware Optiplex
-    ELSE IF    '${platform[:8]}' == 'KGPE-D16'
+    ELSE IF    '${PLATFORM[:8]}' == 'KGPE-D16'
         Flash KGPE-D16
-    ELSE IF    '${platform[:10]}' == 'novacustom'
+    ELSE IF    '${PLATFORM[:10]}' == 'novacustom'
         Flash Device Via Internal Programmer    ${fw_file}
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp4630'
         Flash Protectli VP4620 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp4650'
         Flash Protectli VP4650 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp4670'
         Flash Protectli VP4670 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp2420'
         Flash Protectli VP2420 Internal
-    ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp2410'
         Flash Protectli VP2410 External
-    ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
+    ELSE IF    '${PLATFORM[:19]}' == 'msi-pro-z690-a-ddr5'
         Flash MSI-PRO-Z690-A-DDR5
-    ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
+    ELSE IF    '${PLATFORM[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
         Flash MSI-PRO-Z690-A-WiFi-DDR4
-    ELSE IF    '${platform[:46]}' == 'msi-pro-z790-p-ddr5'
+    ELSE IF    '${PLATFORM[:46]}' == 'msi-pro-z790-p-ddr5'
         Flash MSI-PRO-Z790-P-DDR5
     ELSE
-        Fail    Flash firmware not implemented for platform ${platform}
+        Fail    Flash firmware not implemented for platform ${PLATFORM}
     END
     # First boot after flashing may take longer than usual
     Set DUT Response Timeout    180s
@@ -1082,17 +936,8 @@ Prepare Test Suite
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
-    IF    '${CONFIG}' == 'crystal'
-        Import Resource    ${CURDIR}/platform-configs/vitro_crystal.robot
-    ELSE IF    '${CONFIG}' == 'pv30'
-        Import Resource    ${CURDIR}/dev-tests/operon/configs/pv30.robot
-    ELSE IF    '${CONFIG}' == 'yocto'
-        Import Resource    ${CURDIR}/dev-tests/operon/configs/yocto.robot
-    ELSE IF    '${CONFIG}' == 'raspbian'
-        Import Resource    ${CURDIR}/dev-tests/operon/configs/raspbian.robot
-    ELSE
-        Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
-    END
+    Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
+    Set Global Variable    ${PLATFORM}    ${CONFIG}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Prepare To SSH Connection
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
@@ -1112,10 +957,7 @@ Prepare To SSH Connection
     ...    asset in SnipeIt . Keyword used in [Suite Setup]
     ...    sections if the communication with the platform based on
     ...    the SSH protocol
-    # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
-    Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    # Sonoff API Setup    ${sonoff_ip}
 
 Prepare To Serial Connection
     [Documentation]    Keyword prepares Test Suite by opening SSH connection to
@@ -1125,9 +967,6 @@ Prepare To Serial Connection
     ...    sections if the communication with the platform based on
     ...    the serial connection
     Open Connection And Log In
-    ${platform}=    Get Current RTE Param    platform
-    Set Global Variable    ${PLATFORM}
-    Get DUT To Start State
 
 Prepare To OBMC Connection
     [Documentation]    Keyword prepares Test Suite by opening open-bmc
@@ -1135,7 +974,6 @@ Prepare To OBMC Connection
     ...    variable and setting the DUT to start state. Keyword
     ...    used in [Suite Setup] sections if the communication with
     ...    the platform based on the open-bmc
-    Set Global Variable    ${PLATFORM}    ${CONFIG}
     Set Global Variable    ${OPENBMC_HOST}    ${DEVICE_IP}
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/rest_client.robot
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/utils.robot
@@ -1157,9 +995,6 @@ Prepare To PiKVM Connection
     ...    output) and PiKVM (platform input)
     Remap Keys Variables To PiKVM
     Open Connection And Log In
-    ${platform}=    Get Current RTE Param    platform
-    Set Global Variable    ${PLATFORM}
-    Get DUT To Start State
 
 Remap Keys Variables To PiKVM
     [Documentation]    Updates keys variables from keys.robot to be compatible
@@ -1201,28 +1036,12 @@ Remap Keys Variables From PiKVM
     ...    as defined in keys.robot
     Import Resource    ${CURDIR}/keys.robot
 
-Get DUT To Start State
-    [Documentation]    Clears telnet buffer and get Device Under Test to start
-    ...    state (RTE Relay On).
-    Telnet.Read
-    ${result}=    Get Power Supply State
-    IF    '${result}'=='low'    Turn On Power Supply
-
-Turn On Power Supply
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
-        ${state}=    Sonoff Power On
-    ELSE
-        ${state}=    RteCtrl Relay
-    END
-
 Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
+    IF    'sonoff' == '${POWER_CTRL}'
         Sonoff Power Cycle On
-    ELSE IF    'obmcutil' == '${pc}'
+    ELSE IF    'obmcutil' == '${POWER_CTRL}'
         OBMC Power Cycle On
     ELSE
         Rte Relay Power Cycle On
@@ -1232,14 +1051,11 @@ Rte Relay Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
     Telnet.Read
-    ${result}=    RteCtrl Relay
-    IF    ${result} == 0
-        Run Keywords
-        ...    Sleep    4s
-        ...    AND
-        ...    Telnet.Read
-        ...    AND
-        ...    RteCtrl Relay
+    ${state}=    Get RteCtrl Relay State
+    IF    ${state} == 0
+        Sleep    4s
+        Telnet.Read
+        RteCtrl Relay
     END
 
 OBMC Power Cycle On
@@ -1268,62 +1084,36 @@ OBMC Power Cycle Off
 Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
     ...    Sonoff
-    Telnet.Read
     Sonoff Power Off
+    Sleep    10s
+    Telnet.Read
     Sonoff Power On
-    Sleep    15
-    # Send "Power On" signal resembling power button press
-    Power On
 
 Power Cycle Off
     [Documentation]    Power cycle off power supply using the supported
     ...    method.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
+    IF    'sonoff' == '${POWER_CTRL}'
         Sonoff Power Cycle Off
-    ELSE IF    'obmcutil' == '${pc}'
+    ELSE IF    'obmcutil' == '${POWER_CTRL}'
         OBMC Power Cycle Off
     ELSE
         Rte Relay Power Cycle Off
     END
     Telnet.Close All Connections
-    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
+    Serial Setup    ${SERIAL_TELNET_IP}    ${SERIAL_TELNET_PORT}
 
 Rte Relay Power Cycle Off
     [Documentation]    Performs full power cycle with RTE relay set to OFF.
-    # sleep for DUT Start state in Suite Setup
-    Sleep    1s
-    ${result}=    Get RTE Relay State
-    IF    '${result}' == 'high'    RteCtrl Relay
+    ${state}=    Get RTE Relay State
+    IF    '${state}' == 'high'    RteCtrl Relay
 
 Sonoff Power Cycle Off
     Sonoff Power On
     Sonoff Power Off
 
-Get Relay State
-    [Documentation]    Returns the power relay state depending on the supported
-    ...    method.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
-        ${state}=    Get Sonoff State
-    ELSE
-        ${state}=    Get RTE Relay State
-    END
-    RETURN    ${state}
-
 Get RTE Relay State
     [Documentation]    Returns the RTE relay state through REST API.
     ${state}=    RteCtrl Get GPIO State    0
-    RETURN    ${state}
-
-Get Power Supply State
-    [Documentation]    Returns the power supply state.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    '${pc}'=='sonoff'
-        ${state}=    Get Sonoff State
-    ELSE
-        ${state}=    Get Relay State
-    END
     RETURN    ${state}
 
 Get Sound Devices Windows
@@ -2233,7 +2023,7 @@ Get Flashrom From Cloud
     ${out_test}=    Execute Command InTerminal    test -x ${flashrom_path}; echo $?
     ${exit_code}=    Convert To Integer    ${out_test}
     IF    ${exit_code} != 0
-        Download File    https://cloud.3mdeb.com/index.php/s/D7AQDdRZmQFTL6n/download    ${flashrom_path}
+        Download File    https://cloud.3mdeb.com/index.php/s/fsPNM8SpDjATMrW/download    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
@@ -2322,17 +2112,11 @@ Boot System Or From Connected Disk
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
     IF    not ${is_system_present}
-        ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
-        ${ssd_list_length}=    Get Length    ${ssd_list}
-        IF    ${ssd_list_length} == 0
-            ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
-            ${hdd_list_length}=    Get Length    ${hdd_list}
-            IF    ${hdd_list_length} == 0
-                FAIL    "System was not found and there are no disk connected"
-            END
-            ${disk_name}=    Set Variable    ${hdd_list[0]}
+        ${disks_list_length}=    Get Length    ${DEVICES_STORAGE_DISK}
+        IF    ${disks_list_length} == 0
+            FAIL    "System was not found and there are no disks connected"
         ELSE
-            ${disk_name}=    Set Variable    ${ssd_list[0]}
+            ${disk_name}=    Set Variable    ${DEVICES_STORAGE_DISK[0]}[boot_name]
         END
         ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
         IF    ${system_index} == -1
@@ -2887,41 +2671,28 @@ Enable Option In Submenu
         Write Bare Into Terminal    Y
     END
 
-Get Current CONFIG List Param
-    [Documentation]    Returns current CONFIG list parameters specified in the
-    ...    arguments.
-    [Arguments]    ${item}    ${param}
-    ${config}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${length}=    Get Length    ${config}
-    Should Be True    ${length} > 1
-    @{attached_usb_list}=    Create List
-    FOR    ${element}    IN    @{config[1:]}
-        IF    '${element.type}'=='${item}'
-            Append To List    ${attached_usb_list}    ${element.${param}}
-        END
-    END
-    ${length}=    Get Length    ${attached_usb_list}
-    Should Be True    ${length} > 0
-    RETURN    @{attached_usb_list}
-
 Check That USB Devices Are Detected
     [Documentation]    Checks if the USB devices from the config are the same as
     ...    those visible in the boot menu.
-    ${menu_construction}=    Read From Terminal Until    exit
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        # ${stick} should match with one element of ${menu_construction}
-
-        Should Match    ${menu_construction}    *${stick}*
+    ${storage_usb_list_length}=    Get Length    ${DEVICES_STORAGE_USB}
+    IF    ${storage_usb_list_length} == 0
+        FAIL    "No devices in DEVICES_STORAGE_USB list"
+    END
+    ${menu_construction}=    Get Boot Menu Construction
+    FOR    ${device}    IN    @{DEVICES_STORAGE_USB}
+        Should Contain    ${menu_construction}    ${device}[name]
     END
 
 Check That USB Devices Are Not Detected
     [Documentation]    Checks if the USB devices from the config are the same as
     ...    those visible in the boot menu.
+    ${storage_usb_list_length}=    Get Length    ${DEVICES_STORAGE_USB}
+    IF    ${storage_usb_list_length} == 0
+        FAIL    "No devices in DEVICES_STORAGE_USB list"
+    END
     ${menu_construction}=    Get Boot Menu Construction
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        Should Not Contain    ${menu_construction}    ${stick}
+    FOR    ${device}    IN    @{DEVICES_STORAGE_USB}
+        Should Not Contain    ${menu_construction}    ${device}[name]
     END
 
 Switch To Root User In Ubuntu Server

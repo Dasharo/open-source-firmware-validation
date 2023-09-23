@@ -35,3 +35,4 @@ USH001.001 UEFI Shell
     Enter Boot Menu Tianocore
     Enter UEFI Shell Tianocore
     Read From Terminal Until    UEFI Interactive Shell
+    Read From Terminal

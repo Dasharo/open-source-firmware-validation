@@ -5,7 +5,16 @@
 ${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
-${RTE_S2_N_PORT}=                                   13541
+&{RTE}=
+...                                                 status=present
+...                                                 ip=192.168.10.188
+# TODO: get rid of legacy RTE_IP variable
+${RTE_IP}=                                          ${RTE}[ip]
+&{SONOFF}=                                          status=present    ip=192.168.10.69
+# TODO: get rid of legacy RTE_IP variable
+${SONOFF_IP}=                                       ${SONOFF}[ip]
+${SERIAL_TELNET_PORT}=                              13541
+${SERIAL_TELNET_IP}=                                ${RTE_IP}
 ${FLASH_SIZE}=                                      ${32*1024*1024}
 ${FLASH_LENGTH}=                                    ${EMPTY}
 ${TIANOCORE_STRING}=                                to boot directly
@@ -56,6 +65,7 @@ ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@3mdeb:~$
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/ubuntu#
 ${PIKVM_IP}=                                        192.168.10.45
+${DEVICE_IP}=                                       192.168.10.93
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
@@ -79,6 +89,9 @@ ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
 
 ${USB_DEVICE}=                                      Multifunction Composite Gadget
+
+@{DEVICES_STORAGE_USB}=                             &{USB13}
+@{DEVICES_STORAGE_DISK}=                            &{SSD08}
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
