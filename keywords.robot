@@ -12,13 +12,13 @@ Variables       platform-configs/fan-curve-config.yaml
 # TODO: split this file into some manageable modules
 
 Serial Setup
-    [Documentation]    Setup serial communication via telnet. Takes host and
-    ...    ser2net port as an arguments.
-    [Arguments]    ${host}    ${s2n_port}
+    [Documentation]    Setup serial communication via telnet. Takes ip and
+    ...    port as arguments
+    [Arguments]    ${ip}    ${port}
     # provide ser2net port where serial was redirected
     Telnet.Open Connection
-    ...    ${host}
-    ...    port=${s2n_port}
+    ...    ${ip}
+    ...    port=${port}
     ...    newline=LF
     ...    terminal_emulation=True
     ...    terminal_type=vt100
@@ -244,29 +244,20 @@ Open Connection And Log In
     [Documentation]    Open SSH connection and login to session. Setup RteCtrl
     ...    REST API, serial connection and checkout used asset in
     ...    SnipeIt
-    Check Provided Ip
-    SSHLibrary.Set Default Configuration    timeout=60 seconds
-    SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
-    SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
-    IF    'sonoff' == '${POWER_CTRL}'
-        ${sonoff_ip}=    Get Current RTE Param    sonoff_ip
-        Sonoff API Setup    ${sonoff_ip}
+    # Establish SSH connection with RTE if present for the given DUT
+    IF    '${RTE}[status]'=='present'
+        SSHLibrary.Set Default Configuration    timeout=60 seconds
+        SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
+        SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
+        RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
     END
-    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
-    IF    '${SNIPEIT}'=='no'    RETURN
-    SnipeIt Checkout    ${RTE_IP}
-
-Check Provided Ip
-    [Documentation]    Check the correctness of the provided ip address, if the
-    ...    address is not found in the RTE list, fail the test.
-    ${index}=    Set Variable    ${0}
-    FOR    ${item}    IN    @{RTE_LIST}
-        ${result}=    Evaluate    ${item}.get("ip")
-        IF    '${result}'=='${RTE_IP}'    RETURN
-        ${index}=    Set Variable    ${index+1}
+    # Setup Sonoff API if present for the given DUT
+    IF    '${SONOFF}[status]'=='present'
+        Sonoff API Setup    ${SONOFF_IP}
     END
-    Fail    rte_ip:${RTE_IP} not found in the hardware configuration.
+    Serial Setup    ${SERIAL_TELNET_IP}    ${SERIAL_TELNET_PORT}
+    # TODO: not all stand have RTE
+    IF    '${SNIPEIT}'=='yes'    SnipeIt Checkout    ${RTE_IP}
 
 Open Connection And Log In OpenBMC
     [Documentation]    Keyword logs in OpenBMC via SSH.
@@ -285,6 +276,7 @@ Log Out And Close Connection
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
     IF    '${PLATFORM}'=='raptor-cs_talos2'    RETURN
+    # TODO: not all stand have RTE
     IF    '${SNIPEIT}'=='yes'    SnipeIt Checkin    ${RTE_IP}
 
 Enter Petitboot And Return Menu
@@ -1069,17 +1061,8 @@ Prepare Test Suite
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
-    IF    '${CONFIG}' == 'crystal'
-        Import Resource    ${CURDIR}/platform-configs/vitro_crystal.robot
-    ELSE IF    '${CONFIG}' == 'pv30'
-        Import Resource    ${CURDIR}/dev-tests/operon/configs/pv30.robot
-    ELSE IF    '${CONFIG}' == 'yocto'
-        Import Resource    ${CURDIR}/dev-tests/operon/configs/yocto.robot
-    ELSE IF    '${CONFIG}' == 'raspbian'
-        Import Resource    ${CURDIR}/dev-tests/operon/configs/raspbian.robot
-    ELSE
-        Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
-    END
+    Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
+    Set Global Variable    ${PLATFORM}    ${CONFIG}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Prepare To SSH Connection
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
@@ -1099,10 +1082,7 @@ Prepare To SSH Connection
     ...    asset in SnipeIt . Keyword used in [Suite Setup]
     ...    sections if the communication with the platform based on
     ...    the SSH protocol
-    # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
-    Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    # Sonoff API Setup    ${sonoff_ip}
 
 Prepare To Serial Connection
     [Documentation]    Keyword prepares Test Suite by opening SSH connection to
@@ -1112,8 +1092,6 @@ Prepare To Serial Connection
     ...    sections if the communication with the platform based on
     ...    the serial connection
     Open Connection And Log In
-    ${platform}=    Get Current RTE Param    platform
-    Set Global Variable    ${PLATFORM}
     Get DUT To Start State
 
 Prepare To OBMC Connection
@@ -1122,7 +1100,6 @@ Prepare To OBMC Connection
     ...    variable and setting the DUT to start state. Keyword
     ...    used in [Suite Setup] sections if the communication with
     ...    the platform based on the open-bmc
-    Set Global Variable    ${PLATFORM}    ${CONFIG}
     Set Global Variable    ${OPENBMC_HOST}    ${DEVICE_IP}
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/rest_client.robot
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/utils.robot
@@ -1144,8 +1121,6 @@ Prepare To PiKVM Connection
     ...    output) and PiKVM (platform input)
     Remap Keys Variables To PiKVM
     Open Connection And Log In
-    ${platform}=    Get Current RTE Param    platform
-    Set Global Variable    ${PLATFORM}
     Get DUT To Start State
 
 Remap Keys Variables To PiKVM
@@ -1189,15 +1164,14 @@ Remap Keys Variables From PiKVM
     Import Resource    ${CURDIR}/keys.robot
 
 Get DUT To Start State
-    [Documentation]    Clears telnet buffer and get Device Under Test to start
+    [Documentation]    Clears telnet buffer and get DUT to start
     ...    state (RTE Relay On).
     Telnet.Read
     ${result}=    Get Power Supply State
     IF    '${result}'=='low'    Turn On Power Supply
 
 Turn On Power Supply
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
+    IF    'sonoff' == '${POWER_CTRL}'
         ${state}=    Sonoff Power On
     ELSE
         ${state}=    RteCtrl Relay
@@ -1206,10 +1180,9 @@ Turn On Power Supply
 Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
+    IF    'sonoff' == '${POWER_CTRL}'
         Sonoff Power Cycle On
-    ELSE IF    'obmcutil' == '${pc}'
+    ELSE IF    'obmcutil' == '${POWER_CTRL}'
         OBMC Power Cycle On
     ELSE
         Rte Relay Power Cycle On
@@ -1259,22 +1232,22 @@ Sonoff Power Cycle On
     Sonoff Power Off
     Sonoff Power On
     Sleep    15
-    # Send "Power On" signal resembling power button press
+    # TODO: This should be performed only if power button control is supported
+    # for the given DUT
     Power On
 
 Power Cycle Off
     [Documentation]    Power cycle off power supply using the supported
     ...    method.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
+    IF    'sonoff' == '${POWER_CTRL}'
         Sonoff Power Cycle Off
-    ELSE IF    'obmcutil' == '${pc}'
+    ELSE IF    'obmcutil' == '${POWER_CTRL}'
         OBMC Power Cycle Off
     ELSE
         Rte Relay Power Cycle Off
     END
     Telnet.Close All Connections
-    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
+    Serial Setup    ${SERIAL_TELNET_IP}    ${SERIAL_TELNET_PORT}
 
 Rte Relay Power Cycle Off
     [Documentation]    Performs full power cycle with RTE relay set to OFF.
@@ -1287,17 +1260,6 @@ Sonoff Power Cycle Off
     Sonoff Power On
     Sonoff Power Off
 
-Get Relay State
-    [Documentation]    Returns the power relay state depending on the supported
-    ...    method.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
-        ${state}=    Get Sonoff State
-    ELSE
-        ${state}=    Get RTE Relay State
-    END
-    RETURN    ${state}
-
 Get RTE Relay State
     [Documentation]    Returns the RTE relay state through REST API.
     ${state}=    RteCtrl Get GPIO State    0
@@ -1305,11 +1267,10 @@ Get RTE Relay State
 
 Get Power Supply State
     [Documentation]    Returns the power supply state.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    '${pc}'=='sonoff'
+    IF    '${POWER_CTRL}'=='sonoff'
         ${state}=    Get Sonoff State
     ELSE
-        ${state}=    Get Relay State
+        ${state}=    Get RTE Relay State
     END
     RETURN    ${state}
 
