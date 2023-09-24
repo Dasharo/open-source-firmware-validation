@@ -319,11 +319,7 @@ Enter Secure Boot Configuration Submenu
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
     Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${SETUP_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${SETUP_MENU_KEY}
-    END
+    Press Key N Times    1    ${SETUP_MENU_KEY}
     # wait for setup menu to appear
     # Read From Terminal Until    Continue
 
@@ -1072,7 +1068,7 @@ Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
     ...    Sonoff
     Sonoff Power Off
-    Sleep    5s
+    Sleep    10s
     Telnet.Read
     Sonoff Power On
 
@@ -2667,7 +2663,7 @@ Check That USB Devices Are Detected
     IF    ${storage_usb_list_length} == 0
         FAIL    "No devices in DEVICES_STORAGE_USB list"
     END
-    ${menu_construction}=    Read From Terminal Until    exit
+    ${menu_construction}=    Get Boot Menu Construction
     FOR    ${device}    IN    @{DEVICES_STORAGE_USB}
         Should Match    ${menu_construction}    *${device}[name]*
     END
