@@ -949,7 +949,7 @@ Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
     ...    Sonoff
     Sonoff Power Off
-    Sleep    5s
+    Sleep    10s
     Telnet.Read
     Sonoff Power On
 
@@ -2235,7 +2235,7 @@ Check That USB Devices Are Detected
     IF    ${storage_usb_list_length} == 0
         FAIL    "No devices in DEVICES_STORAGE_USB list"
     END
-    ${menu_construction}=    Read From Terminal Until    exit
+    ${menu_construction}=    Get Boot Menu Construction
     FOR    ${device}    IN    @{DEVICES_STORAGE_USB}
         Should Match    ${menu_construction}    *${device}[name]*
     END
