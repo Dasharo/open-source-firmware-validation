@@ -328,24 +328,6 @@ Enter Secure Boot Configuration Submenu
     ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
     Press Key N Times And Enter    2    ${ARROW_DOWN}
 
-Select Attempt Secure Boot Option
-    [Documentation]    Selects the Attempt Secure Boot Option
-    ...    in the Secure Boot Configuration Submenu
-    Press Key N Times    1    ${ARROW_DOWN}
-    ${out}=    Read From Terminal
-    ${is_selected}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    X
-    IF    not ${is_selected}    Press Key N Times    1    ${ENTER}
-
-Clear Attempt Secure Boot Option
-    [Documentation]    Deselects the Attempt Secure Boot Option
-    ...    in the Secure Boot Configuration Submenu
-    Press Key N Times    1    ${ARROW_DOWN}
-    ${out}=    Read From Terminal
-    ${is_selected}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    X
-    IF    ${is_selected}    Press Key N Times    1    ${ENTER}
-
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
     Read From Terminal Until    ${TIANOCORE_STRING}
@@ -735,6 +717,10 @@ Press Key N Times
     FOR    ${index}    IN RANGE    0    ${n}
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Single Key PiKVM    ${key}
+            # Key press time as defined in PiKVM library is 200ms. We need some
+            # additional delay to make sure we can gather all input from terminal after
+            # key press.
+            Sleep    1s
         ELSE
             Write Bare Into Terminal    ${key}
         END
@@ -2466,6 +2452,7 @@ Get Secure Boot Configuration Submenu Construction
         END
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
+    Remove Values From List    ${menu_construction}    Secure Boot Configuration
     RETURN    ${menu_construction}
 
 Get USB Configuration Submenu Construction
