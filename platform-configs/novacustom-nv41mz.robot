@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../os/ubuntu_2204_credentials.robot
+Resource    ../lib/os-credentials/ubuntu-2204.robot
 
 
 *** Variables ***
@@ -74,6 +74,9 @@ ${DMIDECODE_TYPE}=                                  Notebook
 # be a full path
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
+${DEVICE_WINDOWS_USER_PROMPT}=                      user>
+
+${WINDOWS_PWRTEST_LOCATION}=                        C:\\Program Files (x86)\\Windows Kits\\10\\Tools\\10.0.22621.0\\x64
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
