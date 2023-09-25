@@ -8,8 +8,6 @@ ${PAYLOAD}=                                         tianocore
 &{RTE}=
 ...                                                 status=present
 ...                                                 ip=192.168.10.188
-...                                                 usernam=root
-...                                                 password=meta-rte
 # TODO: get rid of legacy RTE_IP variable
 ${RTE_IP}=                                          ${RTE}[ip]
 &{SONOFF}=                                          status=present    ip=192.168.10.69

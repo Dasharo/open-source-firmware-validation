@@ -25,10 +25,6 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.10.169
 &{RTE39}=
 ...                         sonoff_ip=192.168.10.69
-# MSI-PRO-Z790-P platforms (Zir-Blazer) -----------------------------
-&{RTE46}=                   ip=192.168.10.127
-...                         platform=msi-pro-z790-p-ddr5
-...                         sonoff_ip=192.168.10.19
 # 3mdeb Protectli vp4630 -----------------------------------------------------
 &{RTE36}=                   ip=192.168.10.244
 ...                         platform=protectli-vp4630
