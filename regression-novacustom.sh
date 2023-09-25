@@ -9,7 +9,7 @@ CONFIG="novacustom-nv41pz"
 # CONFIG="novacustom-ns70pu"
 
 # FW_FILE="coreboot.rom"
-# 
+#
 # if [ ! -f "${FW_FILE}" ]; then
 #     echo "${FW_FILE} not found. Please provide correct FW_FILE value"
 #     exit 1
@@ -40,69 +40,57 @@ handle_ctrl_c() {
 trap 'handle_ctrl_c' SIGINT
 
 compatibility_tests=(
-  #"custom-boot-menu-key"
-  # "uefi-shell"
+  "custom-boot-menu-key"
+  "uefi-shell"
   "network-boot"
-  #"efi"
-  # "display-ports-and-lcd-support"
-  # "usb-hid-and-msc-support"
-  # "dmidecode"
-  # "wifi-bluetooth-support"
-  # "audio-subsystem"
-  # "nvme-support"
-  # "cpu-status"
-  # # "reset-to-defaults"
-  # "platform-suspend-and-resume"
-  # "ec-and-super-IO"
-  # "sd-card-reader"
-  # "usb-camera"
-  # "cpu-status"
-  # # "boot-blocking"
-  # "docking-station-detect"
-  # "docking-station-usb-c-charging"
-  # "docking-station-usb-devices"
-  # "docking-station-net-interface"
-  # "docking-station-display-ports"
-  # "docking-station-audio"
-  # "docking-station-sd-card-reader"
-#   "thunderbolt-docking-station"
-#   "thunderbolt-docking-station-usb-devices"
-#   "thunderbolt-docking-station-net-interface"
-#   "thunderbolt-docking-station-display-ports"
-#   "thunderbolt-docking-station-audio"
+  "efi"
+  # "reset-to-defaults"
+  "display-ports-and-lcd-support"
+  "usb-hid-and-msc-support"
+  "dmidecode"
+  "wifi-bluetooth-support"
+  "audio-subsystem"
+  "nvme-support"
+  "usb-camera"
+  "sd-card-reader"
+  "usb-type-c"
+  "cpu-status"
+  "ec-and-super-IO"
+  "platform-suspend-and-resume"
+  "usb-type-c.robot"
 )
 
 security_tests=(
   "usb-stack"
   "uefi-password"
-  # "tpm-support"
-  # "measured-boot"
-  # "verified-boot"
-  # "network-stack"
-  # "me-neuter"
-  # "early-boot-dma-protection"
-  # "bios-lock"
-  # "smm-bios-write-protection"
+  "tpm-support"
+  "measured-boot"
+  "verified-boot"
+  "network-stack"
+  "me-neuter"
+  "early-boot-dma-protection"
+  "bios-lock"
+  "smm-bios-write-protection"
 )
 
-# performance_tests=(
-#   "cpu-temperature"
-#   "cpu-frequency"
-# )
+performance_tests=(
+  "cpu-temperature"
+  "cpu-frequency"
+)
 
 OS=ubuntu
 
-# # Compatibility tests
-# for test in "${compatibility_tests[@]}"; do
-#     execute_robot "compatibility" "$test"
-# done
+# Compatibility tests
+for test in "${compatibility_tests[@]}"; do
+    execute_robot "compatibility" "$test"
+done
 
 # Security tests
 for test in "${security_tests[@]}"; do
     execute_robot "security" "$test"
 done
 
-# Performance tests
-# for test in "${performance_tests[@]}"; do
-#     execute_robot "security" "$test"
-# done
+Performance tests
+for test in "${performance_tests[@]}"; do
+    execute_robot "security" "$test"
+done
