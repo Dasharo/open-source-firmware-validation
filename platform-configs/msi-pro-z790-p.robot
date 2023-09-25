@@ -205,6 +205,14 @@ ${NVME_DETECTION_SUPPORT}=                          ${FALSE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${FALSE}
 
+# Test module: dasharo-tools-suite
+${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
+${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
+${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
+${FW_VERSION}=                                      v0.9.0
+${FW_DOWNLOAD_LINK}=
+...                                                 https://cloud.3mdeb.com/index.php/s/Ms5pwfwpQgtZwZS/download/msi_ms7e06_ddr5_v0.9.0_serial.rom
+
 # Supported OS installation variants
 ${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
 ${INSTALL_UBUNTU_USB_SUPPORT}=                      ${FALSE}

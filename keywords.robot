@@ -5,6 +5,8 @@ Library         osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
 Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/secure-boot-lib.robot
+Resource        lib/usb-hid-msc-lib.robot
+Resource        lib/dts-lib.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -49,20 +51,6 @@ Check IPXE Appears Only Once
     EXCEPT
         FAIL    Test case marked as Failed\nRequested boot option: (${IPXE_BOOT_ENTRY}) appears not only once.
     END
-
-Launch To DTS Shell
-    [Documentation]    Launch to DTS via iPXE and open Shell.
-    Enter IPXE
-    IPXE DTS
-    Set DUT Response Timeout    120s
-    Read From Terminal Until    Enter an option
-    Set DUT Response Timeout    30s
-    Write Into Terminal    9
-    Set Prompt For Terminal    bash-5.1#
-    Read From Terminal Until Prompt
-    # These could be removed once routes priorities in DTS are resolved.
-    Sleep    10
-    Remove Extra Default Route
 
 Replace Logo In Firmware
     [Documentation]    Swap to custom logo in firmware on DUT using cbfstool according
