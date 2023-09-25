@@ -66,6 +66,7 @@ ${DMIDECODE_TYPE}=                                  Notebook
 # be a full path
 ${DEVICE_UBUNTU_USER_PROMPT}=                       :~$
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       user#
+${DEVICE_WINDOWS_USER_PROMPT}=                      user>
 
 # Supported tests environment
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
