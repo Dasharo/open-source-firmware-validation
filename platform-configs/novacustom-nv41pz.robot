@@ -65,7 +65,7 @@ ${WIN_USB_STICK}=                                   ${SPACE*1}USB${SPACE*2}SanDi
 ${CLEVO_USB_C_HUB}=                                 4-port
 ${DEVICE_AUDIO1}=                                   ALC256
 ${DEVICE_AUDIO2}=                                   Alderlake-P HDMI
-${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
+${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr_biuro
 ${SD_CARD_VENDOR}=                                  TS-RDF5A
 ${SD_CARD_MODEL}=                                   Transcend
 ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MHz
@@ -77,7 +77,7 @@ ${EXTERNAL_HEADSET}=                                USB PnP Audio Device
 ${USB_DEVICE}=                                      Kingston
 
 @{DEVICES_STORAGE_USB}=                             &{USB13}
-@{DEVICES_STORAGE_DISK}=                            &{SSD08}
+@{DEVICES_STORAGE_DISK}=                            &{SSD10}
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.6.0
@@ -170,7 +170,7 @@ ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=          ${FALSE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${TRUE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${TRUE}
 ${EMMC_SUPPORT}=                                    ${FALSE}
-${DTS_SUPPORT}=                                     ${FALSE}
+${DTS_SUPPORT}=                                     ${TRUE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${TRUE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${TRUE}
 ${DOCKING_STATION_HDMI}=                            ${TRUE}
@@ -188,9 +188,11 @@ ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${TRUE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${TRUE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
-${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
+${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
+# It causes "Power on AC" option to reset to disable, so we can no longer Powe On using Sonoff
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
+${ME_NEUTER_SUPPORT}=                               ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
@@ -308,6 +310,7 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
+    Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Power Cycle On
 

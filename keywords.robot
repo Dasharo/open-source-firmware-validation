@@ -93,7 +93,10 @@ Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Read From Terminal Until    login:
+        # On laptopts, we have serial over EC from firmware only, so we will
+        # not have Linux prompt. We try logging in multiple times anyway, so
+        # this should not be a huge problem.
+        # Read From Terminal Until    login:
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
@@ -1736,7 +1739,7 @@ Get Flashrom From Cloud
     ${out_test}=    Execute Command InTerminal    test -x ${flashrom_path}; echo $?
     ${exit_code}=    Convert To Integer    ${out_test}
     IF    ${exit_code} != 0
-        Download File    https://cloud.3mdeb.com/index.php/s/D7AQDdRZmQFTL6n/download    ${flashrom_path}
+        Download File    https://cloud.3mdeb.com/index.php/s/fsPNM8SpDjATMrW/download    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
@@ -2237,7 +2240,7 @@ Check That USB Devices Are Detected
     END
     ${menu_construction}=    Get Boot Menu Construction
     FOR    ${device}    IN    @{DEVICES_STORAGE_USB}
-        Should Match    ${menu_construction}    *${device}[name]*
+        Should Contain    ${menu_construction}    ${device}[name]
     END
 
 Check That USB Devices Are Not Detected
