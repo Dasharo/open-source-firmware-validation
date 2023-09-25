@@ -22,10 +22,6 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.10.169
 &{RTE39}=
 ...                         sonoff_ip=192.168.10.69
-# MSI-PRO-Z790-P platforms (Zir-Blazer) -----------------------------
-&{RTE46}=                   ip=192.168.10.127
-...                         platform=msi-pro-z790-p-ddr5
-...                         sonoff_ip=192.168.10.19
 # 3mdeb Protectli vp4630 -----------------------------------------------------
 &{RTE36}=                   ip=192.168.10.244
 ...                         platform=protectli-vp4630
@@ -57,7 +53,6 @@ ${OS_UBUNTU}=               ubuntu
 @{RTE_LIST}=                &{RTE33}    &{RTE34}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}
 
 # -----------------------------------------------------------------------------
 &{SSD07}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
@@ -101,7 +96,6 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG35}=                &{RTE43}
 @{CONFIG36}=                &{RTE44}
 @{CONFIG37}=                &{RTE45}
-@{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
 
 @{CONFIG_LIST}=             @{CONFIG25}
 ...                         @{CONFIG26}    @{CONFIG28}    @{CONFIG29}
