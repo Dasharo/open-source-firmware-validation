@@ -56,10 +56,10 @@ compatibility_tests=(
   "wifi-bluetooth-support"
   "audio-subsystem"
   "nvme-support"
-  "network-boot"
   "reset-to-defaults"
   "network-boot-utilities"
   "eMMC-support"
+  "usb-boot"
   "usb-detect"
   "custom-network-boot-entries"
 )
@@ -70,6 +70,9 @@ security_tests=(
   "verified-boot"
   "bios-lock"
   "secure-boot"
+  "usb-stack"
+  "smm-bios-write-protection"
+  "me-neuter"
 )
 
 performance_tests=(
