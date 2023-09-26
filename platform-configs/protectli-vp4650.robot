@@ -63,6 +63,7 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP4650:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
+${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\Users\user>
 ${UBUNTU_USERNAME}=                                 ubuntu
 ${UBUNTU_PASSWORD}=                                 ubuntu
 ${UBUNTU_USER_PROMPT}=                              ubuntu@3mdeb:~$
