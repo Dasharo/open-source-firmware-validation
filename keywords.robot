@@ -2967,3 +2967,36 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
+
+Flash SD Wire
+    [Documentation]    This keyword flashes the sd wire that's connected to
+    ...    the provided RTE IP.
+    Open Connection And Log In
+
+    Variable Should Exist    ${file_bmap}
+    Variable Should Exist    ${file_gz}
+
+    SSHLibrary.Put File    ${file_bmap}    /home/root/    scp=ON
+    SSHLibrary.Put File    ${file_gz}    /home/root/    scp=ON
+
+    # sonoff turn off power should be here
+    SSHLibrary.Execute Command    sd-mux-ctrl -e=sd-wire_01-80 --ts
+    SSHLibrary.Execute Command    umount /dev/sda*
+    SSHLibrary.Execute Command    bmaptool copy --bmap ${file_bmap} ${file_gz} /dev/sda
+
+    # This section is only here because I dont have access to a Raspberry Pi
+    # Model 3B+, because of this I have to use the official OS image, which
+    # requires doing this for the uart to work.
+    # Once we switch to a Rpi 3 model B+ and start flashing actual images
+    # (eg. mobiqam) then this will not be needed.
+    SSHLibrary.Execute Command    mount /dev/sda1 cos/
+    SSHLibrary.Execute Command    echo "dtoverlay=disable-bt" >> cos/config.txt
+    SSHLibrary.Execute Command    echo "dtoverlay=miniuart-bt" >> cos/config.txt
+    SSHLibrary.Execute Command    echo "Enable UART" >> cos/config.txt
+    SSHLibrary.Execute Command    echo "enable_uart=1" >> cos/config.txt
+    SSHLibrary.Execute Command    echo "dtoverlay=pi3-disable-bt" >> cos/config.txt
+    SSHLibrary.Execute Command    umount /dev/sda*
+
+    SSHLibrary.Execute Command    sd-mux-ctrl -e=sd-wire_01-80 --dut
+    # sonoff turn on power should be here
+    SSHLibrary.Close All Connections
