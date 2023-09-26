@@ -242,11 +242,14 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD08}=                   vendor=Intel    volume=512GB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=INTEL SSDPEKNU512GZ
-&{SSD09}=                   vendor=Kingston    volume=250    type=Storage_SSD
+&{SSD09}=                   vendor=Kingston    volume=250GB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=KINGSTON SNVS250G
+&{SSD10}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 980 PRO 1TB
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
-...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}
+...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -399,7 +402,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG36}=                &{RTE44}
 @{CONFIG37}=                &{RTE45}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
-@{CONFIG39}=                &{RTE47}    &{USB11}    &{SSD09}
+@{CONFIG39}=                &{RTE47}    &{USB11}    &{SSD10}
 @{CONFIG40}=                &{RTE48}    &{USB11}    &{SSD08}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
