@@ -51,3 +51,8 @@ Select Option From List
     Press Key N Times    ${list_length}    ${ARROW_UP}
     ${option_index}=    Get Index From List    ${list_options}    ${list_element}
     Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
+
+Save BIOS Changes
+    [Documentation]    This keyword saves introduced changes
+    Press Key N Times    1    ${F10}
+    Write Bare Into Terminal    y
