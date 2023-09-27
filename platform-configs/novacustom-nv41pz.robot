@@ -59,7 +59,7 @@ ${CLEVO_BATTERY_CAPACITY}=                          3200*1000
 ${DEVICE_NVME_DISK}=                                Non-Volatile memory controller
 ${CLEVO_DISK}=                                      Samsung SSD 980 PRO
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
-${USB_STICK}=                                       USB SanDisk 3.2Gen1
+${USB_STICK}=                                       USB DISK 3.0
 ${WIN_USB_STICK}=                                   ${SPACE*1}USB${SPACE*2}SanDisk 3.2Gen1
 ${CLEVO_USB_C_HUB}=                                 4-port
 ${DEVICE_AUDIO1}=                                   ALC256
@@ -71,7 +71,7 @@ ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MH
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Alder Lake-P PCH CNVi WiFi (rev 01)
 ${BLUETOOTH_CARD_UBUNTU}=                           Intel Corp. AX201 Bluetooth
 ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
-${USB_MODEL}=                                       USB Flash Memory
+${USB_MODEL}=                                       USB DISK 3.0
 ${EXTERNAL_HEADSET}=                                USB PnP Audio Device
 ${USB_DEVICE}=                                      Kingston
 
@@ -79,9 +79,9 @@ ${USB_DEVICE}=                                      Kingston
 @{DEVICES_STORAGE_DISK}=                            &{SSD10}
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.6.0
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.7.0
 ${DMIDECODE_PRODUCT_NAME}=                          NV4xPZ
-${DMIDECODE_RELEASE_DATE}=                          03/17/2022
+${DMIDECODE_RELEASE_DATE}=                          09/26/2023
 ${DMIDECODE_MANUFACTURER}=                          Notebook
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                Not Applicable
@@ -233,7 +233,7 @@ ${WINDOWS_BOOTING}=                                 ${FALSE}
 ${M2_WIFI_SUPPORT}=                                 ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                          ${TRUE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
-${TPM_DETECT_SUPPORT}=                              ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
 # Supported OS installation variants
