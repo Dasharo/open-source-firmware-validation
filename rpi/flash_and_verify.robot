@@ -19,6 +19,17 @@ Flash The Rpi and verify that it is working
     [Documentation]    This test flashes the Rpi connected to the RTE through
     ...    the SD Wire, then attempts to log into it over serial to see whether
     ...    it works.
-    Flash SD Wire
-    # telnet to check if the flashing worked???
-    # Im not yet sure how to use telnet
+    Open Connection And Log In
+    ${sd_wire_id_list} =    Get List Of SD Wire Ids
+    ${length_of_sd_wire_id_list} =    Get Length    ${sd_wire_id_list}
+    ${length_of_sd_wire_id_list} =    Convert To String    ${length_of_sd_wire_id_list}
+    # we are currently doing this because we only expect one SD Wire
+    Should Be Equal    ${length_of_sd_wire_id_list}    1
+    Should Be Equal    ${sd_wire_id_list[0]}    sd-wire_01-80
+    Flash SD Card Via SD Wire    ${file_bmap}    ${file_gz}    ${sd_wire_id_list[0]}
+    # telnet???
+    Serial Setup    192.168.4.241    13541
+    Telnet.Set Prompt    :~$
+    Telnet.Login    root    hjznTZAL4b
+    Telnet.Execute Command    echo "robot framework did this" > something.txt
+    Log Out And Close Connection

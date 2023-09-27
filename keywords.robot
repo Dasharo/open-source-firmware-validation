@@ -2968,25 +2968,69 @@ Should Contain All
         Should Contain    ${string}    ${substring}
     END
 
-Flash SD Wire
-    [Documentation]    This keyword flashes the sd wire that's connected to
-    ...    the provided RTE IP.
-    Open Connection And Log In
-
-    Variable Should Exist    ${file_bmap}
-    Variable Should Exist    ${file_gz}
-
+Flash SD Card Via SD Wire
+    [Documentation]    This keyword flashes the SD card connected to the SD Wire
+    ...    with the provided serial number.
+    [Arguments]    ${file_bmap}    ${file_gz}    ${serial_number}
     SSHLibrary.Put File    ${file_bmap}    /data/    scp=ON
     SSHLibrary.Put File    ${file_gz}    /data/    scp=ON
-
-    # sonoff turn off power should be here
-
-    SSHLibrary.Execute Command    sd-mux-ctrl -e=sd-wire_01-80 --ts
+    # sonoff turn off power should be here, but for now this (since the
+    # setup is at my desk)
+    Log    !!!FLASHING RPI, TURN OFF POWER!!!    console=yes
+    Log    !!!FLASHING RPI, TURN OFF POWER!!!    console=yes
+    Log    !!!FLASHING RPI, TURN OFF POWER!!!    console=yes
+    Log    !!!FLASHING RPI, TURN OFF POWER!!!    console=yes
+    Log    !!!FLASHING RPI, TURN OFF POWER!!!    console=yes
+    Sleep    30s
+    Log    you should have turned it off by now    console=yes
+    SSHLibrary.Execute Command    sd-mux-ctrl -e=${serial_number} --ts
+    ${status}=    Get Status Of SD Wire    ${serial_number}
+    Should Be Equal    ${status}    TS
     SSHLibrary.Execute Command    umount /dev/sda*
-    SSHLibrary.Execute Command    bmaptool copy --bmap /data/${file_bmap} /data/${file_gz} /dev/sda
-
-    SSHLibrary.Execute Command    sd-mux-ctrl -e=sd-wire_01-80 --dut
-
-    # sonoff turn on power should be here
-
+    ${bmap_name}=    Evaluate    "${file_bmap}".split("/")[-1]
+    ${gz_name}=    Evaluate    "${file_gz}".split("/")[-1]
+    ${output}=    SSHLibrary.Execute Command    bmaptool copy --bmap /data/${bmap_name} /data/${gz_name} /dev/sda
+    SSHLibrary.Execute Command    sd-mux-ctrl -e=${serial_number} --dut
+    ${status}=    Get Status Of SD Wire    ${serial_number}
+    Should Be Equal    ${status}    DUT
+    # sonoff turn on power should be here, but for now this (since the
+    # setup is at my desk)
+    Log    !!!FLASHED RPI, TURN ON POWER!!!    console=yes
+    Log    !!!FLASHED RPI, TURN ON POWER!!!    console=yes
+    Log    !!!FLASHED RPI, TURN ON POWER!!!    console=yes
+    Log    !!!FLASHED RPI, TURN ON POWER!!!    console=yes
+    Log    !!!FLASHED RPI, TURN ON POWER!!!    console=yes
+    Sleep    30s
+    Log    you should have turned it on by now    console=yes
     SSHLibrary.Close All Connections
+
+Get List Of SD Wire Ids
+    [Documentation]    This keyword connects to a RTE, and returns the list of
+    ...    all id's of SD Wires that are currently connected.
+    ${output}=    SSHLibrary.Execute Command    sd-mux-ctrl --list
+    ${lines}=    Split String    ${output}    \n
+    ${sd_wire_list}=    Create List
+    FOR    ${line}    IN    @{lines}
+        ${fields}=    Split String    ${line}    ,
+        ${length}=    Get Length    ${fields}
+        IF    ${length}>1
+            ${finalSplit}=    Split String    ${fields}[2]
+            Append To List    ${sd_wire_list}    ${finalSplit}[1]
+        END
+    END
+    [Return]    ${sd_wire_list}
+
+Get Status Of SD Wire
+    [Documentation]    Returns the status of the provided SD Wire Id. The status
+    ...    is always DUT, TS, or if its anything else the test will fail.
+    [Arguments]    ${serial_number}
+    ${output}=    SSHLibrary.Execute Command    sd-mux-ctrl -e=${serial_number} -u
+    ${doesItContainDUT}=    Evaluate    "DUT" in "${output}"
+    ${doesItContainTS}=    Evaluate    "TS" in "${output}"
+    IF    ${doesItContainDUT}==True
+        RETURN    DUT
+    END
+    IF    ${doesItContainTS}==True
+        RETURN    TS
+    END
+    Fatal Error    SD Wire status not recognized: ${output}

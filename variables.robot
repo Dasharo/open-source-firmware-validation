@@ -177,6 +177,10 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387    pcb_rev=1.1.0
 ...                         platform=protectli-PT601    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
+# 3mdeb Rpi Rte         ------------------------------------------------------
+&{RTE47}=                   ip=192.168.4.241    cpuid=02c00042fdc96eda    pcb_rev=1.0.0
+...                         platform=dht-prod    env=prod
+...                         platform_vendor=unknown    firmware_type=unknown
 
 @{RTE_LIST}=                &{RTE01}    &{RTE02}    &{RTE03}    &{RTE04}    &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -187,7 +191,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}
+...                         &{RTE46}    &{RTE47}
 
 # hardware database:
 # -----------------------------------------------------------------------------
