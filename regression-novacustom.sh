@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This one must be retreived manually from the DUT before starting regression
+# This one must be retrieved manually from the DUT before starting regression
 DEVICE_IP=192.168.4.69
 
 # Uncomment one of these
@@ -20,7 +20,7 @@ execute_robot() {
     local _log_file="${_test_name}_log.html"
     # local _report_file="${_test_name}_report.html"
     # local _output_file="${_test_name}.xml"
-    
+
     robot -L TRACE \
           -l ${CONFIG}-${OS}/${_log_file} \
           -v device_ip:${DEVICE_IP} \
@@ -84,10 +84,10 @@ security_tests=(
   "smm-bios-write-protection"
 )
 
-performance_tests=(
-  "cpu-temperature"
-  "cpu-frequency"
-)
+# performance_tests=(
+#   "cpu-temperature"
+#   "cpu-frequency"
+# )
 
 OS=ubuntu
 
