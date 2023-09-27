@@ -44,7 +44,7 @@ compatibility_tests=(
   "uefi-shell"
   "network-boot"
   "efi"
-  # "reset-to-defaults"
+  "reset-to-defaults"
   "display-ports-and-lcd-support"
   "usb-hid-and-msc-support"
   "dmidecode"
@@ -57,10 +57,10 @@ compatibility_tests=(
   "cpu-status"
   "ec-and-super-IO"
   "platform-suspend-and-resume"
-  "usb-type-c.robot"
 )
 
 security_tests=(
+  "secure-boot"
   "usb-stack"
   "uefi-password"
   "tpm-support"
@@ -78,6 +78,14 @@ performance_tests=(
   "cpu-frequency"
 )
 
+stability_tests=(
+  "m2-wifi"
+  "network-interface-after-suspend"
+  "nvme-detection"
+  "tpm-detect"
+  "usb-type-a-devices-detection"
+)
+
 OS=ubuntu
 
 # Compatibility tests
@@ -90,7 +98,12 @@ for test in "${security_tests[@]}"; do
     execute_robot "security" "$test"
 done
 
-Performance tests
+# Performance tests
 for test in "${performance_tests[@]}"; do
-    execute_robot "security" "$test"
+    execute_robot "performance" "$test"
+done
+
+# Stability tests
+for test in "${stability_tests[@]}"; do
+    execute_robot "stability" "$test"
 done
