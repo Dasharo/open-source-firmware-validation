@@ -177,7 +177,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387    pcb_rev=1.1.0
 ...                         platform=protectli-PT601    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
-# 3mdeb Rpi Rte    ------------------------------------------------------
+# 3mdeb RPi 3B for Yocto ------------------------------------------------------
 &{RTE47}=                   ip=192.168.10.65    cpuid=00000000ec3a10e8    pcb_rev=a22082
 ...                         platform=RPi-3-model-B-V1.2    env=dev
 ...                         platform_vendor=unknown    firmware_type=unknown
@@ -381,6 +381,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG36}=                &{RTE44}
 @{CONFIG37}=                &{RTE45}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
+@{CONFIG39}=                &{RTE47}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -391,4 +392,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG26}    @{CONFIG27}    @{CONFIG28}    @{CONFIG29}
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
-...                         @{CONFIG38}
+...                         @{CONFIG38}    @{CONFIG39}
