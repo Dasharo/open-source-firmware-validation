@@ -136,7 +136,7 @@ ${OS_UBUNTU}=               ubuntu
 # MSI-PRO-Z790-P platforms (Zir-Blazer) -----------------------------
 &{RTE46}=                   ip=192.168.10.127    cpuid=02c00142a99e60ef    pcb_rev=1.1.0
 ...                         platform=msi-pro-z790-p-ddr5    board-revision=1.1.0    env=dev
-...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.19
+...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.253
 ...                         firmware_type=UEFI    pikvm_ip=192.168.10.226
 # PC Engines APU7 platform -----------------------------------------------------
 &{RTE35}=                   ip=192.168.10.177    cpuid=02c00042522d9294    pcb_rev=0.5.3

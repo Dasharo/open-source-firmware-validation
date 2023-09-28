@@ -11,17 +11,7 @@ ${BOOT_MENU_STRING}=                                Please select boot device
 ${SETUP_MENU_STRING}=                               Select Entry
 ${PAYLOAD_STRING}=                                  ${EMPTY}
 ${IPXE_STRING}=                                     ${EMPTY}
-<<<<<<< HEAD
-<<<<<<< HEAD
-${IPXE_STRING2}=                                    ${EMPTY}
-${IPXE_KEY}=                                        ${EMPTY}
 ${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
-=======
-${EDK2_IPXE_STRING}=                                Network Boot and Utilities
->>>>>>> 6d42f690b952 (remove unused variables in platform-configs/)
-=======
-${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
->>>>>>> ab4b08f5c066 (rename EDK2_IPXE_STRING to IPXE_BOOT_ENTRY)
 ${EDK2_IPXE_CHECKPOINT}=                            Advanced
 ${EDK2_IPXE_START_POS}=                             2
 ${SOL_STRING}=                                      ${EMPTY}
@@ -178,6 +168,7 @@ ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
+${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

@@ -307,8 +307,6 @@ Reset In Setup Menu Tianocore
     ${index}=    Get Index From List    ${menu_construction}    eset
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
-<<<<<<< HEAD
-=======
 Enter IPXE
     [Documentation]    Enter iPXE after device power cutoff.
     # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
@@ -334,7 +332,6 @@ Enter IPXE
         Read From Terminal Until Prompt
     END
 
->>>>>>> 6d42f690b952 (remove unused variables in platform-configs/)
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
     # TODO: We do not necessarily need Internet to be reachable for the internal
