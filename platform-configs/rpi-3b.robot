@@ -51,8 +51,8 @@ ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 
 # SD Wire config
-${SD_WIRES_CONNECTED}=                              1
-${SD_WIRE_NAME1}=                                   sd-wire_01-80
+${SD_WIRES_CONNECTED}=                              ${1}
+${SD_WIRE_SERIAL1}=                                 sd-wire_01-80
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      ${EMPTY}

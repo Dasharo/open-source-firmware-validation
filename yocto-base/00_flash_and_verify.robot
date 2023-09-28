@@ -1,7 +1,5 @@
 *** Settings ***
 Library             Collections
-#Library             OperatingSystem
-#Library             Process
 Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
@@ -12,8 +10,7 @@ Resource            ../../variables.robot
 Resource            ../../keywords.robot
 Resource            ../lib/sd-wire.robot
 
-Test Teardown       Run Keyword If Test Failed    Stop Test Suite
-Suite Setup         Open Connection And Log In
+Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
 *** Test Cases ***
@@ -23,10 +20,11 @@ Verify number of connected SD Wire devices
     ...    the DUT platform.
     ${sd_wire_id_list}=    Get List Of SD Wire Ids
     ${length_of_sd_wire_id_list}=    Get Length    ${sd_wire_id_list}
-    ${length_of_sd_wire_id_list}=    Convert To String    ${length_of_sd_wire_id_list}
     # we are currently doing this because we only expect one SD Wire
     Should Be Equal    ${length_of_sd_wire_id_list}    ${SD_WIRES_CONNECTED}
-    Should Be Equal    ${sd_wire_id_list[0]}    ${SD_WIRE_NAME1}
+    FOR    ${index}    IN RANGE    0    ${SD_WIRES_CONNECTED}
+        Should Be Equal    ${sd_wire_id_list[${index}]}    ${SD_WIRE_SERIAL1}
+    END
 
 Flash platform and verify
     [Documentation]    This test flashes the DUT connected to the RTE through
