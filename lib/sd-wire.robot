@@ -1,9 +1,5 @@
 *** Settings ***
-Library         ../keywords.py
-Resource        ../keys-and-keywords/flashrom.robot
-Resource        ../pikvm-rest-api/pikvm_comm.robot
-Variables       ../platform-configs/fan-curve-config.yaml
-
+Resource    ../keywords.py
 
 *** Keywords ***
 Flash SD Card Via SD Wire
