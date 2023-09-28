@@ -160,6 +160,7 @@ ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
+${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

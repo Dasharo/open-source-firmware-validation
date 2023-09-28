@@ -160,6 +160,7 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
