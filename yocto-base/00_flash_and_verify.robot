@@ -13,8 +13,8 @@ Resource            ../lib/sd-wire.robot
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
-*** Test Cases ***
 
+*** Test Cases ***
 Verify number of connected SD Wire devices
     [Documentation]    Test confirms the number of connected SD Wire devices to
     ...    the DUT platform.
@@ -30,7 +30,9 @@ Flash platform and verify
     [Documentation]    This test flashes the DUT connected to the RTE through
     ...    the SD Wire, then attempts to log into it over serial to see whether
     ...    it works.
-    Run Keyword If    '${PREV TEST STATUS}' == 'FAIL'    Fail    'Incorrect number of connected SD Wire devices.'
+    IF    '${PREV_TEST_STATUS}' == 'FAIL'
+        Fail    'Incorrect number of connected SD Wire devices.'
+    END
     Variable Should Exist    ${DUT_PASSWORD}
     # flashing
     Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
