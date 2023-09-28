@@ -36,16 +36,23 @@ Enter Submenu And Return Its Construction
     ${submenu_construction}=    Get Submenu Construction
     RETURN    ${submenu_construction}
 
-Select Option From List
-    [Documentation]    Requires menu construction as input. Selects desired
-    ...    element from the list of the option
-    [Arguments]    ${menu_construction}    ${option}    ${list_element}
+Read Option List Contents
+    [Documentation]    This keywords enters the option and returns the content
+    ...    of the list
+    [Arguments]    ${menu_construction}    ${option}
     ${option_index}=    Get Index From List    ${menu_construction}    ${option}
     Read From Terminal
     Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
     Sleep    1s
     ${list}=    Read From Terminal
     ${list_options}=    Get List Options    ${list}
+    RETURN    ${list_options}
+
+Select Option From List
+    [Documentation]    Requires menu construction as input. Selects desired
+    ...    element from the list of the option
+    [Arguments]    ${menu_construction}    ${option}    ${list_element}
+    ${list_options}=    Read Option List Contents    ${menu_construction}    ${option}
     # It turns out that if you go to the beginning of the list and you press
     # 'up' you won't get to the last option - this is good and we can make sure
     # that we are at the start of the list
