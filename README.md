@@ -48,6 +48,7 @@ and running tests have been implemented.
 | Protectli    | VP4650               | Dasharo                  |  `protectli-vp4650`                    |
 | Protectli    | VP4670               | Dasharo                  |  `protectli-vp4670`                    |
 | Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
+| N/A          | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
 
 ## Getting started
 
@@ -81,6 +82,11 @@ pip install -r requirements.txt
 ```bash
 source venv/bin/activate
 ```
+
+> NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
+> Go through [these
+> steps](https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli#installation)
+> to configure the scripts
 
 ### Running tests
 
