@@ -314,10 +314,12 @@ Enter Device Manager Submenu
 Enter Secure Boot Configuration Submenu
     [Documentation]    Enter to the Secure Boot Configuration submenu which
     ...    should be located in the Setup Menu.
-
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
-    Press Key N Times And Enter    2    ${ARROW_DOWN}
+    ${menu_construction}=    Get Setup SubMenu Construction
+    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Secure Boot Configuration
+    # Above instruction detects "Devices list" as an option in the menu which
+    # isn't one so we have to decrease the index
+    ${index}=    Evaluate    ${index}-1
+    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.

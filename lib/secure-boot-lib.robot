@@ -2,7 +2,9 @@
 Documentation       Collection of keywords related to UEFI Secure Boot
 
 Resource            ../keywords.robot
+Library    secure-boot.py
 
+Library    String
 
 *** Keywords ***
 Enable Custom Mode And Enroll Certificate
@@ -27,21 +29,18 @@ Enroll Certificate
     ...
     [Arguments]    ${cert_filename}    ${fileformat}=GOOD
 
-    Read From Terminal Until    PK Options
+    Read From Terminal Until    DBT Options
     Press Key N Times And Enter    2    ${ARROW_DOWN}
-    Read From Terminal Until    Enroll Signature
+    Read From Terminal Until    Delete Signature
     Press Key N Times    1    ${ENTER}
-    Read From Terminal Until    Enroll Signature Using File
-    Press Key N Times    1    ${ENTER}
-    Read From Terminal Until    NO FILE SYSTEM INFO
-
-    Press Key N Times And Enter    1    ${ARROW_UP}
-
+    Read From Terminal Until    Save
     Read From Terminal
+    Press Key N Times    1    ${ENTER}
+    Enter Volume In File Explorer    GOOD_KEYS
     ${out}=    Get File Explorer Submenu Construction
     Should Contain Match    ${out}    *${cert_filename}*
     ${index}=    Get Index From List    ${out}    ${cert_filename}
-    Press Key N Times And Enter    ${index}+2    ${ARROW_DOWN}
+    Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
     Read From Terminal
     Read From Terminal Until    Enroll
     ${enroll_menuconstr}=    Get Enroll Signature Submenu Construction
@@ -54,6 +53,51 @@ Enroll Certificate
     ELSE
         Read From Terminal Until    ERROR
     END
+
+Enter Volume In File Explorer
+    [Documentation]    Enter the given volume
+    [Arguments]    ${target_volume}
+    # 1. Read out the whole File Explorer menu
+    ${fe_initial}=    Read From Terminal Until    Esc=Exit
+    # 2. Get lines starting with > 
+    ${volumes}=    Get File Explorer Volumes    ${fe_initial}
+    # 3. See if our label is within these entries
+    ${index}=    Get Index From List    ${volumes}    ${target_volume}
+    # 4. If yes, go to the selected label
+    IF    ${index} != -1
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    # 5. If no, get the number of entries and go that meny times below
+    ELSE
+        ${volumes_no}=    Get Length    ${volumes}
+        Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
+    #    - check if the label is what we need, if yes, select
+        FOR    ${in}    IN RANGE    20
+            ${new_entry}=   Read From Terminal
+            ${new_volume}=    Get File Explorer Volumes    ${new_entry}
+            ${index}=    Get Index From List    ${new_volume}    ${target_volume}
+            IF    ${index} != -1    BREAK
+    #        - if no, keep going down one by one and select (until 10-20 times)
+            Press Key N Times    1    ${ARROW_DOWN}
+        END
+    END
+    Press Key N Times    1    ${ENTER}
+
+# Get File Explorer Volumes
+#     [Documentation]    Returns a list of volumes labels from Secure Boot File Explorer.
+#     ...    Accepts raw terminal output to be processed.
+#     [Arguments]    ${terminal_output}
+#     # 2. Get lines starting with > 
+#     @{volume_labels}=    Create List
+#     ${lines}=    Get Lines Matching Regexp    ${terminal_output}    ^\\s>\\s.*$
+#     @{entries}=    Split To Lines    ${lines}
+#     FOR    ${entry}    IN    @{entries}
+#         # use extract_text here
+#         ${label}=    Strip String    ${entry}
+#         ${label}=    Strip String    ${label}    characters=>
+#         ${label}=    Strip String    ${label}
+#         Append To List    ${volume_labels}    ${label}
+#     END
+#     RETURN    ${volume_labels}
 
 Get Custom Secureboot Submenu Construction
     [Documentation]    Keyword allows to get and return File Explorer menu construction.
@@ -89,16 +133,6 @@ Get Enroll Signature Submenu Construction
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
     RETURN    ${menu_construction}
 
-Upload Image
-    [Documentation]    Mounts the image from the given URL on the PiKVM.
-    [Arguments]    ${ip}    ${img_url}
-    Upload Image To PiKVM    ${ip}    ${img_url}
-
-Mount Image
-    [Documentation]    Mounts the image with the given name on the PiKVM.
-    [Arguments]    ${ip}    ${img_name}
-    Mount Image On PiKVM    ${ip}    ${img_name}
-
 Get File Explorer Submenu Construction
     [Documentation]    Keyword allows to get and return File Explorer menu construction.
     # Read From Terminal Until    NEW FILE
@@ -123,6 +157,9 @@ Enter UEFI Shell And Boot .EFI File
     [Arguments]    @{filename}
     Enter Boot Menu Tianocore
     Enter UEFI Shell Tianocore
+    Read From Terminal Until     Press ESC
+    Press Key N Times    1    ${ESC}
+    Press Key N Times    1    ${ENTER}
     Read From Terminal Until    Shell>
     Boot .EFI File From UEFI Shell    @{filename}
 
@@ -146,10 +183,10 @@ Reset Secure Boot Keys
 
 Upload Required Images
     [Documentation]    Uploads the required images onto the PiKVM
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/k9EcYGDTWQAwtGs/download/good_keys.img
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/LaZQKGizg8gQRMZ/download/not_signed.img
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/DpmnoBK8HBJDTY4/download/bad_keys.img
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/TnEWbqGZ83i6bHo/download/bad_format.img
+    Upload Image To PiKVM    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/SjM5dQGji4XDAni/download/good_keys.img
+    Upload Image To PiKVM    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/zmJXxGG4piGB2Me/download/not_signed.img
+    Upload Image To PiKVM    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/BJPbSqRH6NdbRym/download/bad_keys.img
+    Upload Image To PiKVM    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/zmJXxGG4piGB2Me/download/bad_format.img
 
 Check Secure Boot In Linux
     [Documentation]    Keyword checks Secure Boot state in Linux.

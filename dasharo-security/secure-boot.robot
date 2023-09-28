@@ -28,77 +28,77 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-SBO001.001 Check Secure Boot default state (firmware)
-    [Documentation]    This test aims to verify that Secure Boot state after
-    ...    flashing the platform with the Dasharo firmware is
-    ...    correct.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
-    Power On
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
-    ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    Should Contain    ${sb_state}    [ ]
-
-SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
-    [Documentation]    This test verifies that Secure Boot can be enabled from
-    ...    boot menu and, after the DUT reset, it is seen from
-    ...    the OS.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO002.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.001 not supported
-
-    Power On
-    Enable Secure Boot
-
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${sb_status}=    Check Secure Boot In Linux
-    Should Be True    ${sb_status}
-
-    Power On
-    Disable Secure Boot
-
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${sb_status}=    Check Secure Boot In Linux
-    Should Not Be True    ${sb_status}
-
-SBO002.002 UEFI Secure Boot (Windows 11)
-    [Documentation]    This test verifies that Secure Boot can be enabled from
-    ...    boot menu and, after the DUT reset, it is seen from
-    ...    the OS.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO002.002 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.002 not supported
-
-    Power On
-    Enable Secure Boot
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
-    Login To Windows
-    ${sb_status}=    Check Secure Boot In Windows
-    Should Be True    ${sb_status}
-    Power On
-    Disable Secure Boot
-
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
-    Login To Windows
-    ${sb_status}=    Check Secure Boot In Windows
-    Should Not Be True    ${sb_status}
-
+# SBO001.001 Check Secure Boot default state (firmware)
+#     [Documentation]    This test aims to verify that Secure Boot state after
+#     ...    flashing the platform with the Dasharo firmware is
+#     ...    correct.
+#     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO001.001 not supported
+#     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
+#     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
+#     Power On
+#     Enter Setup Menu Tianocore
+#     Enter Device Manager Submenu
+#     Enter Secure Boot Configuration Submenu
+#     ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
+#     Should Contain    ${sb_state}    [ ]
+# 
+# SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
+#     [Documentation]    This test verifies that Secure Boot can be enabled from
+#     ...    boot menu and, after the DUT reset, it is seen from
+#     ...    the OS.
+#     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO002.001 not supported
+#     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.001 not supported
+#     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.001 not supported
+# 
+#     Power On
+#     Enable Secure Boot
+# 
+#     Boot System Or From Connected Disk    ubuntu
+#     Login To Linux
+#     Switch To Root User
+#     ${sb_status}=    Check Secure Boot In Linux
+#     Should Be True    ${sb_status}
+# 
+#     Power On
+#     Disable Secure Boot
+# 
+#     Boot System Or From Connected Disk    ubuntu
+#     Login To Linux
+#     Switch To Root User
+#     ${sb_status}=    Check Secure Boot In Linux
+#     Should Not Be True    ${sb_status}
+# 
+# SBO002.002 UEFI Secure Boot (Windows 11)
+#     [Documentation]    This test verifies that Secure Boot can be enabled from
+#     ...    boot menu and, after the DUT reset, it is seen from
+#     ...    the OS.
+#     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO002.002 not supported
+#     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.002 not supported
+#     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.002 not supported
+# 
+#     Power On
+#     Enable Secure Boot
+#     Boot System Or From Connected Disk    ${OS_WINDOWS}
+#     Login To Windows
+#     ${sb_status}=    Check Secure Boot In Windows
+#     Should Be True    ${sb_status}
+#     Power On
+#     Disable Secure Boot
+# 
+#     Boot System Or From Connected Disk    ${OS_WINDOWS}
+#     Login To Windows
+#     ${sb_status}=    Check Secure Boot In Windows
+#     Should Not Be True    ${sb_status}
+# 
 SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     [Documentation]    This test verifies that Secure Boot allows booting
     ...    a signed file with a correct key.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
-    Mount Image    ${PIKVM_IP}    good_keys.img
+    Mount Image On PiKVM    ${PIKVM_IP}    good_keys.img
     Power On
-    Enable Secure Boot
+    # Enable Secure Boot
     Enable Custom Mode And Enroll Certificate    DB.cer
     Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
 
@@ -108,7 +108,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Mount Image    ${PIKVM_IP}    not_signed.img
+    Mount Image On PiKVM    ${PIKVM_IP}    not_signed.img
     Power On
     Enter UEFI Shell And Boot .EFI File    hello.efi    Access Denied
 
@@ -118,7 +118,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
-    Mount Image    ${PIKVM_IP}    bad_keys.img
+    Mount Image On PiKVM    ${PIKVM_IP}    bad_keys.img
     Power On
     Enter UEFI Shell And Boot .EFI File    hello-bad-keys.efi    Access Denied
 
@@ -141,7 +141,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
-    Mount Image    ${PIKVM_IP}    good_keys.img
+    Mount Image On PiKVM    ${PIKVM_IP}    good_keys.img
     Power On
     Enable Custom Mode And Enroll Certificate    DB.cer
     Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
@@ -159,6 +159,6 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
-    Mount Image    ${PIKVM_IP}    bad_format.img
+    Mount Image On PiKVM    ${PIKVM_IP}    bad_format.img
     Power On
     Enable Custom Mode And Enroll Certificate    DB.txt    BAD

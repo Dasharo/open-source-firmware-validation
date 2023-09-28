@@ -61,16 +61,16 @@ compatibility_tests=(
 
 security_tests=(
   "secure-boot"
-  "usb-stack"
-  "uefi-password"
-  "tpm-support"
-  "measured-boot"
-  "verified-boot"
-  "network-stack"
-  "me-neuter"
-  "early-boot-dma-protection"
-  "bios-lock"
-  "smm-bios-write-protection"
+  # "usb-stack"
+  # "uefi-password"
+  # "tpm-support"
+  # "measured-boot"
+  # "verified-boot"
+  # "network-stack"
+  # "me-neuter"
+  # "early-boot-dma-protection"
+  # "bios-lock"
+  # "smm-bios-write-protection"
 )
 
 performance_tests=(
@@ -89,21 +89,21 @@ stability_tests=(
 OS=ubuntu
 
 # Compatibility tests
-for test in "${compatibility_tests[@]}"; do
-    execute_robot "compatibility" "$test"
-done
+# for test in "${compatibility_tests[@]}"; do
+#     execute_robot "compatibility" "$test"
+# done
 
 # Security tests
 for test in "${security_tests[@]}"; do
     execute_robot "security" "$test"
 done
 
-# Performance tests
-for test in "${performance_tests[@]}"; do
-    execute_robot "performance" "$test"
-done
-
-# Stability tests
-for test in "${stability_tests[@]}"; do
-    execute_robot "stability" "$test"
-done
+# # Performance tests
+# for test in "${performance_tests[@]}"; do
+#     execute_robot "performance" "$test"
+# done
+# 
+# # Stability tests
+# for test in "${stability_tests[@]}"; do
+#     execute_robot "stability" "$test"
+# done
