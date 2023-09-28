@@ -31,16 +31,15 @@ Flash platform and verify
     ...    the SD Wire, then attempts to log into it over serial to see whether
     ...    it works.
     Run Keyword If    '${PREV TEST STATUS}' == 'FAIL'    Fail    'Incorrect number of connected SD Wire devices.'
-    Variable Should Exist    ${RPI_PASSWORD}
+    Variable Should Exist    ${DUT_PASSWORD}
     # flashing
-    Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${sd_wire_id_list[0]}
+    Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
     # telnet
     Telnet.Set Prompt    :~#
     Telnet.Read Until    mobiqam-machine-rpb3 login:
     Telnet.Write Bare    \n
-    Telnet.Login    root    ${RPI_PASSWORD}
+    Telnet.Login    root    ${DUT_PASSWORD}
     Telnet.Execute Command    echo "robot framework did this" > something.txt
     ${output}=    Telnet.Execute Command    cat something.txt
     ${lines}=    Split To Lines    ${output}
     Should Be Equal As Strings    ${lines[0]}    robot framework did this
-    Log Out And Close Connection
