@@ -38,7 +38,7 @@ Flash platform and verify
     Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
     # telnet
     Telnet.Set Prompt    :~#
-    Telnet.Read Until    mobiqam-machine-rpb3 login:
+    Telnet.Read Until    login:
     Telnet.Write Bare    \n
     Telnet.Login    root    ${DUT_PASSWORD}
     ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID"
