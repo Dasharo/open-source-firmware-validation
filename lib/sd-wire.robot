@@ -9,7 +9,7 @@ Flash SD Card Via SD Wire
     [Arguments]    ${file_bmap}    ${file_gz}    ${serial_number}
     SSHLibrary.Put File    ${file_bmap}    /data/    scp=ON
     SSHLibrary.Put File    ${file_gz}    /data/    scp=ON
-    SSHLibrary.Execute Command    ./sonoff.sh off
+    Sonoff Power Off
     SSHLibrary.Execute Command    sd-mux-ctrl -e=${serial_number} --ts
     ${status}=    Get Status Of SD Wire    ${serial_number}
     Should Be Equal    ${status}    TS
@@ -20,7 +20,7 @@ Flash SD Card Via SD Wire
     SSHLibrary.Execute Command    sd-mux-ctrl -e=${serial_number} --dut
     ${status}=    Get Status Of SD Wire    ${serial_number}
     Should Be Equal    ${status}    DUT
-    SSHLibrary.Execute Command    ./sonoff.sh on
+    Sonoff Power On
 
 Get List Of SD Wire Ids
     [Documentation]    This keyword connects to a RTE, and returns the list of
