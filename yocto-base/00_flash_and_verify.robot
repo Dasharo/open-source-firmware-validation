@@ -41,7 +41,10 @@ Flash platform and verify
     Telnet.Read Until    mobiqam-machine-rpb3 login:
     Telnet.Write Bare    \n
     Telnet.Login    root    ${DUT_PASSWORD}
-    Telnet.Execute Command    echo "robot framework did this" > something.txt
-    ${output}=    Telnet.Execute Command    cat something.txt
+    ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID"
     ${lines}=    Split To Lines    ${output}
-    Should Be Equal As Strings    ${lines[0]}    robot framework did this
+    ${actual_version}=    Evaluate    "${lines[0]}".split("=")[-1]
+    # get version from file name
+    ${gz_name}=    Evaluate    "${FILE_GZ}".split("/")[-1]
+    ${flashed_version}=    Replace String    ${gz_name}    .gz    ${EMPTY}
+    Should Be Equal As Strings    ${actual_version}    ${flashed_version}
