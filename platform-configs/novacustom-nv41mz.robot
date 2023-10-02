@@ -25,6 +25,7 @@ ${IPXE_STRING}=                                     Network Boot Firmware
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${MAX_CPU_TEMP}=                                    77
+${DEVICE_IP}=                                       192.168.4.107
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd
@@ -59,7 +60,7 @@ ${USB_DEVICE}=                                      SanDisk
 ${WEBCAM_UBUNTU}=                                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.4.0
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.5.0
 ${DMIDECODE_PRODUCT_NAME}=                          NV4XMB,ME,MZ
 ${DMIDECODE_RELEASE_DATE}=                          N/A
 ${DMIDECODE_MANUFACTURER}=                          Notebook
@@ -168,6 +169,9 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+
+
+${ME_NEUTER_SUPPORT}=                               ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

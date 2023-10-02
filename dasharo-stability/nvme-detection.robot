@@ -89,7 +89,8 @@ SNV004.001 NVMe detection after suspension (Ubuntu 22.04)
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu Login to Linux
+    Boot System Or From Connected Disk    ubuntu
+    Login to Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
