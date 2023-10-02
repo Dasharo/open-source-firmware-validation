@@ -1,5 +1,6 @@
 import json
 import socket
+import time
 
 from robot.api.deco import keyword, library
 
@@ -39,3 +40,67 @@ class QemuMonitor:
     @keyword
     def quit(self):
         return self._send("quit")
+
+    @keyword("Add HDD To Qemu")
+    def blockdev_add(self, img_name):
+        blockdev_add_params = {
+            "node-name": "mydisk",
+            "driver": "file",
+            "filename": img_name,
+            "aio": "threads",
+            "cache": {"direct": True, "no-flush": False},
+        }
+        print(self._send("blockdev-add", **blockdev_add_params))
+
+        device_add_params = {
+            "driver": "scsi-hd",
+            "drive": "mydisk",
+            "bus": "scsi.0",
+            "id": "myhdd",
+        }
+        return self._send("device_add", **device_add_params)
+
+    @keyword("Remove Drive From Qemu")
+    def device_del(self):
+        return self._send("device_del", id="myhdd")
+
+    @keyword("Add USB To Qemu")
+    def usb_add(self, img_name):
+        # first make sure to get rid of any previous instance
+        print(self._send("device_del", id="usbdisk"))
+        time.sleep(2)
+        blockdev_params = {
+            "node-name": "drive-iso",
+        }
+        print(self._send("blockdev-del", **blockdev_params))
+        time.sleep(2)
+        blockdev_params = {
+            "node-name": "file_iso",
+        }
+        print(self._send("blockdev-del", **blockdev_params))
+        time.sleep(2)
+
+        blockdev_params = {
+            "node-name": "file_iso",
+            "driver": "file",
+            "filename": img_name,
+            "auto-read-only": True,
+            "discard": "unmap",
+        }
+        print(self._send("blockdev-add", **blockdev_params))
+
+        drive_params = {
+            "driver": "raw",
+            "file": "file_iso",
+            "node-name": "drive-iso",
+            "read-only": True,
+            "discard": "unmap",
+        }
+        print(self._send("blockdev-add", **drive_params))
+
+        usb_storage_params = {
+            "driver": "usb-storage",
+            "id": "usbdisk",
+            "drive": "drive-iso",
+        }
+        print(self._send("device_add", **usb_storage_params))
