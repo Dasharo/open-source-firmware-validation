@@ -17,6 +17,7 @@ Flash SD Card Via SD Wire
     ${bmap_name}=    Evaluate    "${file_bmap}".split("/")[-1]
     ${gz_name}=    Evaluate    "${file_gz}".split("/")[-1]
     ${output}=    SSHLibrary.Execute Command    bmaptool copy --bmap /data/${bmap_name} /data/${gz_name} /dev/sda
+    SSHLibrary.Execute Command    rm /data/${bmap_name} /data/${gz_name}
     SSHLibrary.Execute Command    sd-mux-ctrl -e=${serial_number} --dut
     ${status}=    Get Status Of SD Wire    ${serial_number}
     Should Be Equal    ${status}    DUT
