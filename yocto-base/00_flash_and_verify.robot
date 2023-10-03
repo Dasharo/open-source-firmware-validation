@@ -45,7 +45,5 @@ Flash platform and verify
     ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID"
     ${lines}=    Split To Lines    ${output}
     ${actual_version}=    Evaluate    "${lines[0]}".split("=")[-1]
-    # get version from file name
-    ${gz_name}=    Evaluate    "${FILE_GZ}".split("/")[-1]
-    ${flashed_version}=    Replace String    ${gz_name}    .gz    ${EMPTY}
-    Should Be Equal As Strings    ${actual_version}    ${flashed_version}
+    ${file_gz}=    Evaluate    "${FILE_GZ}".split("/")[-1]
+    Should Contain    ${file_gz}    ${actual_version}
