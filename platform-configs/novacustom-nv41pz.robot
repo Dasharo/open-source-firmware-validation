@@ -54,6 +54,8 @@ ${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
 ${DEVICE_UBUNTU_HOSTNAME}=                          ${UBUNTU_HOSTNAME}
 
+${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
+
 ${CLEVO_BATTERY_CAPACITY}=                          3200*1000
 # ${clevo_brightness_delta}    2376 - unfortunately it's not constant
 ${DEVICE_NVME_DISK}=                                Non-Volatile memory controller
@@ -68,6 +70,8 @@ ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr_biuro
 ${SD_CARD_VENDOR}=                                  TS-RDF5A
 ${SD_CARD_MODEL}=                                   Transcend
 ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MHz
+# Uncomment currently mounted card
+# ${WIFI_CARD_UBUNTU}=    Qualcomm Atheros AR9462 Wireless Network Adapter (rev 01)
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Alder Lake-P PCH CNVi WiFi (rev 01)
 ${BLUETOOTH_CARD_UBUNTU}=                           Intel Corp. AX201 Bluetooth
 ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
@@ -189,7 +193,7 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
 # It causes "Power on AC" option to reset to disable, so we can no longer Powe On using Sonoff
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 
 # Test module: dasharo-security
@@ -210,14 +214,14 @@ ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${FALSE}
-${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
+${SERIAL_BOOT_MEASURE}=                             ${TRUE}
+${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
-${TEST_FAN_SPEED}=                                  ${FALSE}
+${TEST_FAN_SPEED}=                                  ${TRUE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${TRUE}
-${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${TRUE}
 ${UBUNTU_BOOTING}=                                  ${FALSE}
 ${DEBIAN_BOOTING}=                                  ${FALSE}
 ${UBUNTU_SERVER_BOOTING}=                           ${FALSE}
