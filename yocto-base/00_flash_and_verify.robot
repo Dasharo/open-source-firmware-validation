@@ -35,6 +35,8 @@ Flash platform and verify
         Fail    'Incorrect number of connected SD Wire devices.'
     END
     Variable Should Exist    ${DUT_PASSWORD}
+    Variable Should Exist    ${FILE_BMAP}
+    Variable Should Exist    ${FILE_GZ}
     Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
     Serial Root Login Linux    ${DUT_PASSWORD}
     ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID | cut -d '=' -f 2"
