@@ -65,6 +65,7 @@ compatibility_tests=(
   "cpu-status"
   "reset-to-defaults"
   "platform-suspend-and-resume"
+  "memory-profile"
 )
 
 security_tests=(
