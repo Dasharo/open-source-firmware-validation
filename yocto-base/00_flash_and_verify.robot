@@ -36,10 +36,7 @@ Flash platform and verify
     END
     Variable Should Exist    ${DUT_PASSWORD}
     Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
-    Telnet.Set Prompt    :~#
-    Telnet.Read Until    login:
-    Telnet.Write Bare    \n
-    Telnet.Login    root    ${DUT_PASSWORD}
+    Serial Root Login Linux    ${DUT_PASSWORD}
     ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID"
     ${lines}=    Split To Lines    ${output}
     ${actual_version}=    Evaluate    "${lines[0]}".split("=")[-1]
