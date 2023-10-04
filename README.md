@@ -48,7 +48,7 @@ and running tests have been implemented.
 | Protectli    | VP4650               | Dasharo                  |  `protectli-vp4650`                    |
 | Protectli    | VP4670               | Dasharo                  |  `protectli-vp4670`                    |
 | Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
-| N/A          | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
+| Raspberry Pi | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
 
 ## Getting started
 
