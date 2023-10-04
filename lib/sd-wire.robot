@@ -53,3 +53,15 @@ Get Status Of SD Wire
         RETURN    TS
     END
     Fatal Error    SD Wire status not recognized: ${output}
+
+Verify Number Of Connected SD Wire Devices
+    [Documentation]    Keyword confirms the number of connected SD Wire devices
+    ...    to the DUT platform.
+    ${sd_wire_id_list}=    Get List Of SD Wire Ids
+    ${length_of_sd_wire_id_list}=    Get Length    ${sd_wire_id_list}
+    # this is done to check whether the id of the SD Wire that's connected
+    # to the RTE matches the expected value.
+    Should Be Equal    ${length_of_sd_wire_id_list}    ${SD_WIRES_CONNECTED}
+    FOR    ${index}    IN RANGE    0    ${SD_WIRES_CONNECTED}
+        Should Be Equal    ${sd_wire_id_list[${index}]}    ${SD_WIRE_SERIAL1}
+    END

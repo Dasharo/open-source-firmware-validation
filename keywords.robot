@@ -1077,6 +1077,8 @@ Prepare Test Suite
         Import Resource    ${CURDIR}/dev-tests/operon/configs/yocto.robot
     ELSE IF    '${CONFIG}' == 'raspbian'
         Import Resource    ${CURDIR}/dev-tests/operon/configs/raspbian.robot
+    ELSE IF    '${CONFIG}' == 'rpi-3b'
+        Import Resource    ${CURDIR}/platform-configs/rpi-3b.robot
     ELSE
         Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
     END
@@ -1090,6 +1092,9 @@ Prepare Test Suite
         Prepare To PiKVM Connection
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
+    END
+    IF    '${CONFIG}' == 'rpi-3b'
+        Verify Number Of Connected SD Wire Devices
     END
 
 Prepare To SSH Connection
