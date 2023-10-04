@@ -35,9 +35,7 @@ Flash platform and verify
         Fail    'Incorrect number of connected SD Wire devices.'
     END
     Variable Should Exist    ${DUT_PASSWORD}
-    # flashing
     Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
-    # telnet
     Telnet.Set Prompt    :~#
     Telnet.Read Until    login:
     Telnet.Write Bare    \n
