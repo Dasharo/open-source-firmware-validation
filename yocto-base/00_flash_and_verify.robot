@@ -15,25 +15,10 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-# Verify number of connected SD Wire devices
-#    [Documentation]    Test confirms the number of connected SD Wire devices to
-#    ...    the DUT platform.
-#    ${sd_wire_id_list}=    Get List Of SD Wire Ids
-#    ${length_of_sd_wire_id_list}=    Get Length    ${sd_wire_id_list}
-#    # this is done to check whether the id of the SD Wire that's connected
-#    # to the RTE matches the expected value.
-#    Should Be Equal    ${length_of_sd_wire_id_list}    ${SD_WIRES_CONNECTED}
-#    FOR    ${index}    IN RANGE    0    ${SD_WIRES_CONNECTED}
-#    Should Be Equal    ${sd_wire_id_list[${index}]}    ${SD_WIRE_SERIAL1}
-#    END
-
 Flash platform and verify
     [Documentation]    This test flashes the DUT connected to the RTE through
     ...    the SD Wire, then attempts to log into it over serial to see whether
     ...    it works.
-    # IF    '${PREV_TEST_STATUS}' == 'FAIL'
-    #    Fail    'Incorrect number of connected SD Wire devices.'
-    # END
     Variable Should Exist    ${DUT_PASSWORD}
     Variable Should Exist    ${FILE_BMAP}
     Variable Should Exist    ${FILE_GZ}
