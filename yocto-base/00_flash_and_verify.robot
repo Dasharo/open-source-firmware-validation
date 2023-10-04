@@ -37,8 +37,7 @@ Flash platform and verify
     Variable Should Exist    ${DUT_PASSWORD}
     Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
     Serial Root Login Linux    ${DUT_PASSWORD}
-    ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID"
+    ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID | cut -d '=' -f 2"
     ${lines}=    Split To Lines    ${output}
-    ${actual_version}=    Evaluate    "${lines[0]}".split("=")[-1]
     ${file_gz}=    Evaluate    "${FILE_GZ}".split("/")[-1]
-    Should Contain    ${file_gz}    ${actual_version}
+    Should Contain    ${file_gz}    ${lines[0]}
