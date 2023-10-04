@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             OperatingSystem
 Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
@@ -26,5 +27,5 @@ Flash platform and verify
     Serial Root Login Linux    ${DUT_PASSWORD}
     ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID | cut -d '=' -f 2"
     ${lines}=    Split To Lines    ${output}
-    ${file_gz}=    Evaluate    "${FILE_GZ}".split("/")[-1]
+    ${dir}    ${file_gz}=    Split Path    ${FILE_GZ}
     Should Contain    ${file_gz}    ${lines[0]}
