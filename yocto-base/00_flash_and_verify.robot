@@ -10,6 +10,7 @@ Resource            ../../rtectrl-rest-api/rtectrl.robot
 Resource            ../../variables.robot
 Resource            ../../keywords.robot
 Resource            ../lib/sd-wire.robot
+Resource            ../lib/linux.robot
 
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
@@ -25,7 +26,6 @@ Flash platform and verify
     Variable Should Exist    ${FILE_GZ}
     Flash SD Card Via SD Wire    ${FILE_BMAP}    ${FILE_GZ}    ${SD_WIRE_SERIAL1}
     Serial Root Login Linux    ${DUT_PASSWORD}
-    ${output}=    Telnet.Execute Command    sh -c "cat /etc/os-release | grep VERSION_ID | cut -d '=' -f 2"
-    ${lines}=    Split To Lines    ${output}
+    ${version}=    Get Linux Version ID
     ${dir}    ${file_gz}=    Split Path    ${FILE_GZ}
-    Should Contain    ${file_gz}    ${lines[0]}
+    Should Contain    ${file_gz}    ${version}
