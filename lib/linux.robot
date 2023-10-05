@@ -14,3 +14,12 @@ Get Linux Version ID
         FAIL    Connection method not supported for checking version
     END
     RETURN    ${output}
+
+Get Utility Version
+    [Documentation]    This keyword checks whether a utility is available
+    ...    fails if its not, but if it is the version gets logged.
+    [Arguments]    ${utility}
+    ${output}=    Telnet.Execute Command    ${utility} --version | head -1
+    ${output}=    Get Line    ${output}    0
+    Should Not Contain    ${output}    command not found
+    Log    ${output}
