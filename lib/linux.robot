@@ -21,5 +21,7 @@ Get Utility Version
     [Arguments]    ${utility}
     ${output}=    Telnet.Execute Command    ${utility} --version | head -1
     ${output}=    Get Line    ${output}    0
-    Should Not Contain    ${output}    command not found
     Log    ${output}
+    ${output}=    Telnet.Execute Command    echo $?
+    ${output}=    Get Line    ${output}    0
+    Should Be Equal As Strings    ${output}    0
