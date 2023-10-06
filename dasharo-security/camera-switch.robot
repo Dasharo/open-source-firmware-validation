@@ -31,7 +31,7 @@ CHS001.001 Check camera enablement
     IF    not ${CAMERA_SWITCH_SUPPORT}    Skip
 
     # changing settings in UEFI is only possible using serial connection
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Power On
         Enter Dasharo System Features
         Enter Submenu In Tianocore    Dasharo Security Options
@@ -61,7 +61,7 @@ CHS002.001 Check camera disablement
     IF    not ${CAMERA_SWITCH_SUPPORT}    Skip
 
     # changing settings in UEFI is only possible using serial connection
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Power On
         Enter Dasharo System Features
         Enter Submenu In Tianocore    Dasharo Security Options
