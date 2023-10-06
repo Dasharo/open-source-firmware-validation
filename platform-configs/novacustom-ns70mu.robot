@@ -50,6 +50,7 @@ ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MH
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Wi-Fi 6 AX201 (rev 20)
 ${USB_MODEL}=                                       USB Flash Memory
 ${EXTERNAL_HEADSET}=                                USB PnP Audio Device
+${WEBCAM_UBUNTU}=                                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.4.0

@@ -35,6 +35,7 @@ CHS001.001 Check camera enablement
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Enable Camera    ${TRUE}
     Save Changes And Reset    2    4
+
     Login To Linux
     ${webcam}=    Check The Presence Of Webcam
     Should Be True    ${webcam}
@@ -49,6 +50,7 @@ CHS002.001 Check camera disablement
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Enable Camera    ${FALSE}
     Save Changes And Reset    2    4
+
     Login To Linux
     ${webcam}=    Check The Presence Of Webcam
     Should Not Be True    ${webcam}
