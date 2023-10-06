@@ -78,6 +78,7 @@ ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audi
 ${USB_MODEL}=                                       USB DISK 3.0
 ${EXTERNAL_HEADSET}=                                USB PnP Audio Device
 ${USB_DEVICE}=                                      Kingston
+${WEBCAM_UBUNTU}=                                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 
 @{DEVICES_STORAGE_USB}=                             &{USB13}
 @{DEVICES_STORAGE_DISK}=                            &{SSD10}
