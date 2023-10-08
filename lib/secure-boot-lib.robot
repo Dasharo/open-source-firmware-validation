@@ -1,10 +1,10 @@
 *** Settings ***
 Documentation       Collection of keywords related to UEFI Secure Boot
 
+Library             String
+Library             secure-boot.py
 Resource            ../keywords.robot
-Library    secure-boot.py
 
-Library    String
 
 *** Keywords ***
 Enable Custom Mode And Enroll Certificate
@@ -59,45 +59,45 @@ Enter Volume In File Explorer
     [Arguments]    ${target_volume}
     # 1. Read out the whole File Explorer menu
     ${fe_initial}=    Read From Terminal Until    Esc=Exit
-    # 2. Get lines starting with > 
+    # 2. Get lines starting with >
     ${volumes}=    Get File Explorer Volumes    ${fe_initial}
     # 3. See if our label is within these entries
     ${index}=    Get Index From List    ${volumes}    ${target_volume}
     # 4. If yes, go to the selected label
     IF    ${index} != -1
         Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    # 5. If no, get the number of entries and go that meny times below
+        # 5. If no, get the number of entries and go that menu times below
     ELSE
         ${volumes_no}=    Get Length    ${volumes}
         Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
-    #    - check if the label is what we need, if yes, select
+        #    - check if the label is what we need, if yes, select
         FOR    ${in}    IN RANGE    20
-            ${new_entry}=   Read From Terminal
+            ${new_entry}=    Read From Terminal
             ${new_volume}=    Get File Explorer Volumes    ${new_entry}
             ${index}=    Get Index From List    ${new_volume}    ${target_volume}
             IF    ${index} != -1    BREAK
-    #        - if no, keep going down one by one and select (until 10-20 times)
+            #    - if no, keep going down one by one and select (until 10-20 times)
             Press Key N Times    1    ${ARROW_DOWN}
         END
     END
     Press Key N Times    1    ${ENTER}
 
 # Get File Explorer Volumes
-#     [Documentation]    Returns a list of volumes labels from Secure Boot File Explorer.
-#     ...    Accepts raw terminal output to be processed.
-#     [Arguments]    ${terminal_output}
-#     # 2. Get lines starting with > 
-#     @{volume_labels}=    Create List
-#     ${lines}=    Get Lines Matching Regexp    ${terminal_output}    ^\\s>\\s.*$
-#     @{entries}=    Split To Lines    ${lines}
-#     FOR    ${entry}    IN    @{entries}
-#         # use extract_text here
-#         ${label}=    Strip String    ${entry}
-#         ${label}=    Strip String    ${label}    characters=>
-#         ${label}=    Strip String    ${label}
-#         Append To List    ${volume_labels}    ${label}
-#     END
-#     RETURN    ${volume_labels}
+#    [Documentation]    Returns a list of volumes labels from Secure Boot File Explorer.
+#    ...    Accepts raw terminal output to be processed.
+#    [Arguments]    ${terminal_output}
+#    # 2. Get lines starting with >
+#    @{volume_labels}=    Create List
+#    ${lines}=    Get Lines Matching Regexp    ${terminal_output}    ^\\s>\\s.*$
+#    @{entries}=    Split To Lines    ${lines}
+#    FOR    ${entry}    IN    @{entries}
+#    # use extract_text here
+#    ${label}=    Strip String    ${entry}
+#    ${label}=    Strip String    ${label}    characters=>
+#    ${label}=    Strip String    ${label}
+#    Append To List    ${volume_labels}    ${label}
+#    END
+#    RETURN    ${volume_labels}
 
 Get Custom Secureboot Submenu Construction
     [Documentation]    Keyword allows to get and return File Explorer menu construction.
@@ -157,7 +157,7 @@ Enter UEFI Shell And Boot .EFI File
     [Arguments]    @{filename}
     Enter Boot Menu Tianocore
     Enter UEFI Shell Tianocore
-    Read From Terminal Until     Press ESC
+    Read From Terminal Until    Press ESC
     Press Key N Times    1    ${ESC}
     Press Key N Times    1    ${ENTER}
     Read From Terminal Until    Shell>

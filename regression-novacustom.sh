@@ -60,7 +60,7 @@ compatibility_tests=(
 )
 
 security_tests=(
-  "secure-boot"
+  # "secure-boot"
   # "usb-stack"
   # "uefi-password"
   # "tpm-support"
@@ -68,9 +68,9 @@ security_tests=(
   # "verified-boot"
   # "network-stack"
   # "me-neuter"
-  # "early-boot-dma-protection"
+  "early-boot-dma-protection"
   # "bios-lock"
-  # "smm-bios-write-protection"
+  "smm-bios-write-protection"
 )
 
 performance_tests=(
@@ -102,7 +102,7 @@ done
 # for test in "${performance_tests[@]}"; do
 #     execute_robot "performance" "$test"
 # done
-# 
+#
 # # Stability tests
 # for test in "${stability_tests[@]}"; do
 #     execute_robot "stability" "$test"
