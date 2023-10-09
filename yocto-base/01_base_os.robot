@@ -54,6 +54,5 @@ USB
 
 Ethernet
     [Documentation]    tests whether we have an internet connection
-    ${output}=    Telnet.Execute Command    ping 8.8.8.8 -c 5 | grep -F " 0% packet loss" | wc -l
-    ${output}=    Get Line    ${output}    0
-    Should Be Equal As Strings    ${output}    1
+    ${output}=    Telnet.Execute Command    ping -c 5 8.8.8.8
+    Should Contain    ${output}    , 0% packet loss
