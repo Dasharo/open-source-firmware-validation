@@ -16,7 +16,7 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-Boot
+Booting Platform
     [Documentation]    This test aims to see whether the device can boot.
     Variable Should Exist    ${DUT_PASSWORD}
     Sonoff Power Off
@@ -30,7 +30,7 @@ Boot
         Fatal Error
     END
 
-Utilities
+Basic Packages
     [Documentation]    checks whether tar, time and chronyc utilities exist.
     Get Utility Version    tar
     Get Utility Version    time
