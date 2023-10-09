@@ -54,5 +54,4 @@ USB
 
 Ethernet
     [Documentation]    tests whether we have an internet connection
-    ${output}=    Telnet.Execute Command    ping -c 5 8.8.8.8
-    Should Contain    ${output}    , 0% packet loss
+    Check Internet Connection On Linux
