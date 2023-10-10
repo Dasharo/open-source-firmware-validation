@@ -175,9 +175,9 @@ Fwupd Update
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
     ...    ability for update firmware with the use of fwupd works correctly.
     ${output}=    Execute Command In Terminal    fwupdmgr refresh
-    Should Contatin    ${output}    Successfully
+    Should Contain    ${output}    Successfully
     ${output}=    Execute Command In Terminal    fwupdmgr update
-    Should Contatin    ${output}    Successfully installed firmware
+    Should Contain    ${output}    Successfully installed firmware
 
 Get Firmware Version From Tianocore Setup Menu
     [Documentation]    Keyword allows to read firmware version from Tianocore

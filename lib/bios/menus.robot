@@ -1,10 +1,11 @@
 *** Settings ***
-Library     Collections
-Library     String
-Library     ./menus.py
-Resource    ../../keywords.robot
-
 Documentation       Collection of keywords related to EDK2 menus
+
+Library             Collections
+Library             String
+Library             ./menus.py
+Resource            ../../keywords.robot
+
 
 *** Keywords ***
 Get Submenu Construction
