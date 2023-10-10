@@ -14,14 +14,15 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-# TODO:
-# - document which setup/teardown keywords to use and what are they doing
-# - go threough them and make sure they are doing what the name suggest (not
-# exactly the case right now)
+# Required setup keywords:
+# Prepare Test Suite - elementary setup keyword for all tests.
+# Upload Required Images - uploads all required files onto the PiKVM.
+# Required teardown keywords:
+# Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Reset Secure Boot Keys For The First Time
+...                     Upload Required Images
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -89,72 +90,75 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     ${sb_status}=    Check Secure Boot In Windows
     Should Not Be True    ${sb_status}
 
+SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
+    [Documentation]    This test verifies that Secure Boot allows booting
+    ...    a signed file with a correct key.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
+    Mount Image    ${PIKVM_IP}    good_keys.img
+    Power On
+    Enable Secure Boot
+    Enable Custom Mode And Enroll Certificate    DB.cer
+    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
 
-*** Keywords ***
-Check If Attempt Secure Boot Can Be Selected
-    [Documentation]    The Attempt Secure Boot option may be unavailable if
-    ...    Reset Secure Boot Keys was not selected before. This keyword checks
-    ...    if the Attempt Secure Boot can already be selected. If the help text
-    ...    matches this option, it means it can already be selected.
-    ${menu_construction}=    Get Secure Boot Configuration Submenu Construction
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Attempt Secure Boot
+SBO004.001 Attempt to boot file without the key from Shell (firmware)
+    [Documentation]    This test verifies that Secure Boot blocks booting a file
+    ...    without a key.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+    Mount Image    ${PIKVM_IP}    not_signed.img
+    Power On
+    Enter UEFI Shell And Boot .EFI File    hello.efi    Access Denied
 
-    Press Key N Times    ${index} - 2    ${ARROW_DOWN}
-    Read From Terminal
-    Press Key N Times    2    ${ARROW_DOWN}
-    ${out}=    Read From Terminal
-    ${can_be_selected}=    Run Keyword And Return Status
-    ...    Should Contain Any    ${out}    Enable/Disable the    Secure Boot feature    after platform reset
-    RETURN    ${can_be_selected}
+SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
+    [Documentation]    This test verifies that Secure Boot disallows booting
+    ...    a signed file with a wrong-signed key.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
+    Mount Image    ${PIKVM_IP}    bad_keys.img
+    Power On
+    Enter UEFI Shell And Boot .EFI File    hello-bad-keys.efi    Access Denied
 
-Reset Secure Boot Keys For The First Time
-    [Documentation]    This test aims to verify that Secure Boot state after
-    ...    flashing the platform with the Dasharo firmware is
-    ...    correct.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
+SBO006.001 Reset Secure Boot Keys option availability (firmware)
+    [Documentation]    This test verifies that the Reset Secure Boot Keys
+    ...    option is available
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
+
     Power On
     Enter Setup Menu Tianocore
     Enter Device Manager Submenu
     Enter Secure Boot Configuration Submenu
-    ${attempt_sb_can_be_selected}=    Check If Attempt Secure Boot Can Be Selected
-    IF    not ${attempt_sb_can_be_selected}
-        Reenter Menu
-        Press Key N Times And Enter    2    ${ARROW_DOWN}
-        Press Key N Times    1    ${ENTER}
-    END
+    Read From Terminal Until    Reset Secure Boot Keys
 
-Check Secure Boot In Linux
-    [Documentation]    Keyword checks Secure Boot state in Linux.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    ${out}=    Execute Linux Command    dmesg | grep secureboot
-    Should Contain Any    ${out}    disabled    enabled
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    enabled
-    RETURN    ${sb_status}
-
-Check Secure Boot In Windows
-    [Documentation]    Keyword checks Secure Boot state in Windows.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    ${out}=    Execute Command In Terminal    Confirm-SecureBootUEFI
-    Should Contain Any    ${out}    True    False
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    True
-    RETURN    ${sb_status}
-
-Enable Secure Boot
+SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
+    [Documentation]    This test verifies that restoring the keys to default
+    ...    removes any custom added certificates.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO007.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
+    Mount Image    ${PIKVM_IP}    good_keys.img
+    Power On
+    Enable Custom Mode And Enroll Certificate    DB.cer
+    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
+    Power On
     Enter Setup Menu Tianocore
     Enter Device Manager Submenu
     Enter Secure Boot Configuration Submenu
-    Select Attempt Secure Boot Option
-    Save Changes And Reset    2
+    Reset Secure Boot Keys
+    Save Changes And Reset    2    5
+    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Access Denied
 
-Disable Secure Boot
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
-    Clear Attempt Secure Boot Option
-    Save Changes And Reset    2
+SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
+    [Documentation]    This test verifies that it is impossible to load
+    ...    a certificate in the wrong file format.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO008.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
+    Mount Image    ${PIKVM_IP}    bad_format.img
+    Power On
+    Enable Custom Mode And Enroll Certificate    DB.txt    BAD

@@ -36,7 +36,7 @@ TDD001.001 Docking station detection after coldboot (Ubuntu 22.04)
     Switch To Root User
     Detect Docking Station In Linux
     Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    ${DOCKING_STATION_COLDBOOT_ITERATIONS}
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         TRY
             Log To Console    Coldboot the DUT manually
             # coldboot - msi ./sonoff, protectli RteCtrl -rel, novacustom ???
@@ -66,7 +66,7 @@ TDD002.001 Docking station detection after warmboot (Ubuntu 22.04)
     Switch To Root User
     Detect Docking Station In Linux
     Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    ${DOCKING_STATION_WARMBOOT_ITERATIONS}
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         TRY
             Log To Console    Warmboot the DUT manually
             # warmboot - msi rte, protectli novacustom ???
@@ -94,7 +94,7 @@ TDD003.001 Docking station detection after reboot (Ubuntu 22.04)
     Switch To Root User
     Detect Docking Station In Linux
     Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    ${DOCKING_STATION_REBOOT_ITERATIONS}
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
             Write Into Terminal    reboot
             IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    45s

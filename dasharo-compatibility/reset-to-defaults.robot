@@ -253,3 +253,21 @@ RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     Read From Terminal Until    ESC to exit
     ${value}=    Get Option Value    Platform sleep type
     Should Be Equal    ${value}    <Suspend to Idle>
+
+RTD014.001 F9 resets Memory SPD Profile to JEDEC
+    [Documentation]    Check whether pressing F9 resets Memory SPD Profile to
+    ...    JEDEC
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
+    Skip If    not ${MEMORY_PROFILE_SUPPORT}
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Power On
+    Enter Setup Menu Tianocore
+    Enter Dasharo System Features Submenu    Memory Configuration
+    Refresh Serial Screen In BIOS Editable Settings Menu
+    Change To Next Option In Setting    Memory SPD Profile
+    Reset To Defaults Tianocore
+    Press Key N Times    1    ${F10}
+    Write Bare Into Terminal    y
+    Read From Terminal Until    ESC to exit
+    ${value}=    Get Option Value    Memory SPD Profile
+    Should Start With    ${value}    <JEDEC

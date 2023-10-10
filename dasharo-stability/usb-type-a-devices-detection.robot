@@ -32,7 +32,7 @@ Suite Teardown      Run Keyword
 #    Switch to root user
 #    ${out}=    List devices in Linux    usb
 #    Should Contain    ${out}    ${usb_device}
-#    FOR    ${INDEX}    IN RANGE    0    ${usb_type-a_devices_detection_iterations}
+#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_coldboot_iterations}
 #    Power Cycle On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -54,7 +54,7 @@ Suite Teardown      Run Keyword
 #    ${out}=    List devices in Linux    usb
 #    Should Contain    ${out}    ${usb_device}
 #    Detect or install FWTS
-#    FOR    ${INDEX}    IN RANGE    0    ${usb_type-a_devices_detection_iterations}
+#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_warmboot_iterations}
 #    Power On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -74,7 +74,7 @@ SUD003.001 USB devices detection after reboot (Ubuntu 22.04)
     Switch To Root User
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
-    FOR    ${index}    IN RANGE    0    ${USB_TYPE-a_devices_detection_reboot_iterations}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Write Into Terminal    reboot
         Sleep    60s
         Login To Linux
@@ -94,7 +94,7 @@ SUD004.001 USB devices detection after suspension (Ubuntu 22.04)
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
     Detect Or Install FWTS
-    FOR    ${index}    IN RANGE    0    ${USB_TYPE-a_devices_detection_iterations}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         Execute Command In Terminal    fwts s3 --s3-sleep-delay=10
         ${out}=    List Devices In Linux    usb
         Should Contain    ${out}    ${USB_DEVICE}

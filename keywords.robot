@@ -4,6 +4,9 @@ Library         keywords.py
 Library         osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
 Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
+Resource        lib/bios/menus.robot
+Resource        lib/secure-boot-lib.robot
+Resource        lib/usb-hid-msc-lib.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -327,24 +330,6 @@ Enter Secure Boot Configuration Submenu
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
     Press Key N Times And Enter    2    ${ARROW_DOWN}
-
-Select Attempt Secure Boot Option
-    [Documentation]    Selects the Attempt Secure Boot Option
-    ...    in the Secure Boot Configuration Submenu
-    Press Key N Times    1    ${ARROW_DOWN}
-    ${out}=    Read From Terminal
-    ${is_selected}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    X
-    IF    not ${is_selected}    Press Key N Times    1    ${ENTER}
-
-Clear Attempt Secure Boot Option
-    [Documentation]    Deselects the Attempt Secure Boot Option
-    ...    in the Secure Boot Configuration Submenu
-    Press Key N Times    1    ${ARROW_DOWN}
-    ${out}=    Read From Terminal
-    ${is_selected}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    X
-    IF    ${is_selected}    Press Key N Times    1    ${ENTER}
 
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
@@ -735,6 +720,10 @@ Press Key N Times
     FOR    ${index}    IN RANGE    0    ${n}
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Single Key PiKVM    ${key}
+            # Key press time as defined in PiKVM library is 200ms. We need some
+            # additional delay to make sure we can gather all input from terminal after
+            # key press.
+            Sleep    1s
         ELSE
             Write Bare Into Terminal    ${key}
         END
@@ -2353,6 +2342,7 @@ Get IPXE Boot Menu Construction
         IF    ${length} > 0    Append To List    ${menu_construction}    ${line}
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
+    Remove Values From List    ${menu_construction}    Secure Boot Configuration
     RETURN    ${menu_construction}
 
 Get Boot Menu Construction
@@ -2385,60 +2375,6 @@ Get Boot Menu Construction
     ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-4]
     RETURN    ${menu_construction}
 
-Get Setup Menu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
-    ...    Getting setup menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces and
-    ...    not menu frames.
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies one line, footer -3)
-    [Arguments]    ${checkpoint}=Select Entry
-    ${menu}=    Read From Terminal Until    ${checkpoint}
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Strip String    ${line}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!="${SPACE}"
-            ${line}=    Get Substring    ${line}    1
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-1]
-    RETURN    ${menu_construction}
-
-Get Setup Submenu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
-    ...    Getting setup menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces and
-    ...    not menu frames.
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies one line, footer -3)
-    [Arguments]    ${checkpoint}=Press ESC to exit.    ${description_lines}=1
-    ${menu}=    Read From Terminal Until    ${checkpoint}
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Strip String    ${line}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!="${SPACE}"
-            ${line}=    Get Substring    ${line}    1
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[${description_lines}:-1]
-    RETURN    ${menu_construction}
-
 Remove Entry From List
     [Arguments]    ${input_list}    ${regexp}
     @{output_list}=    Create List
@@ -2456,6 +2392,7 @@ Get Secure Boot Configuration Submenu Construction
     # TODO: make it a generic keyword, to remove all possible control strings
     # from menu constructions
     @{menu_lines}=    Remove Entry From List    ${menu_lines}    .*Move Highlight.*
+    @{menu_lines}=    Remove Entry From List    ${menu_lines}    .*Secure Boot Configuration.*
     @{menu_construction}=    Create List
     FOR    ${line}    IN    @{menu_lines}
         ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
@@ -2782,19 +2719,6 @@ Enter Dasharo Security Options Submenu
     ${menu_construction}=    Get Dasharo Security Submenu Construction
     RETURN    ${menu_construction}
 
-Enter Dasharo System Features Submenu
-    [Documentation]    Returns output of ${submenu}.
-    [Arguments]    ${submenu}
-    ${menu_construction}=    Get Setup Menu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
-    IF    ${system_index} == -1    Skip    msg=Menu option not found
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup Submenu Construction
-    RETURN    ${menu_construction}
-
 Enter USB Configuration Submenu
     [Documentation]    Returns output of USB Configuration SubMenu.
     ${menu_construction}=    Get Setup Menu Construction
@@ -2895,8 +2819,16 @@ Get Current CONFIG List Param
 
 Check That USB Devices Are Detected
     [Documentation]    Checks if the USB devices from the config are the same as
-    ...    those visible in the boot menu.
+    ...    those visible in the boot menu. Alternatively, if we set emulated to
+    ...    True, it only probes for the PiKVM emulated USB.
+    [Arguments]    ${emulated}=${FALSE}
     ${menu_construction}=    Read From Terminal Until    exit
+
+    IF    ${emulated} == ${TRUE}
+        Should Match    ${menu_construction}    *PiKVM*
+        RETURN    ${TRUE}
+    END
+
     @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
     FOR    ${stick}    IN    @{attached_usb_list}
         # ${stick} should match with one element of ${menu_construction}
