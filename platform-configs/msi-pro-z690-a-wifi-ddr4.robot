@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../os/ubuntu_2204_credentials.robot
+Resource    ../os-config/ubuntu-credentials.robot
 
 
 *** Variables ***
