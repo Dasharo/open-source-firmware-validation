@@ -113,6 +113,25 @@ Enter Dasharo System Features Submenu Snapshot
     ${menu_construction}=    Get Setup Submenu Construction
     RETURN    ${menu_construction}
 
+Enter Dasharo Submenu
+    [Documentation]    Grabs current menu, finds specified ${submenu} and
+    ...    returns its contents.
+    [Arguments]    ${submenu}
+    ${menu}=    Read From Terminal Until    ${DASHARO_ENTER_PROMPT}
+    ${menu_construction}=    Enter Dasharo Submenu Snapshot    ${menu}    ${submenu}
+    RETURN    ${menu_construction}
+
+Enter Dasharo Submenu Snapshot
+    [Documentation]    Version of "Enter Dasharo Submenu" that processes menu
+    ...   grabbed beforehand.
+    [Arguments]    ${menu_construction}    ${submenu}
+    ${menu_construction}=    Parse Menu Snapshot Into Construction    ${menu_construction}    3
+    ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
+    IF    ${system_index} == -1    Skip    msg=Menu option not found
+    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+    ${menu_construction}=    Get Setup Submenu Construction    checkpoint=${DASHARO_EXIT_PROMPT}
+    RETURN    ${menu_construction}
+
 Parse Menu Snapshot Into Construction
     [Documentation]    Breaks grabbed menu data into lines.
     [Arguments]    ${menu}    ${description_lines}
