@@ -274,7 +274,7 @@ Set Platform Power State
     [Documentation]    Keyword allows to set platform power state. As platform
     ...    power state is understood whether the platform is connected to the
     ...    power supply. If the platform power state is off, obmc connection
-    ...    will not be estabilished.
+    ...    will not be established.
     Sonoff API Setup    ${TALOS_SONOFF_IP}
     ${result}=    Get Sonoff State
     IF    '${result}'=='low'
