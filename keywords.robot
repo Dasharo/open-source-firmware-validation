@@ -41,7 +41,7 @@ IPXE DTS
     Write Bare Into Terminal    chain http://boot.3mdeb.com/dts.ipxe\n    0.1
 
 Check IPXE Appears Only Once
-    [Documentation]    Check the iPXE oprion appears only once in the boot
+    [Documentation]    Check the iPXE option appears only once in the boot
     ...    option list.
     ${menu_construction}=    Get Boot Menu Construction
     TRY
