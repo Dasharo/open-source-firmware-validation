@@ -136,3 +136,20 @@ Parse Menu Snapshot Into Construction
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[${description_lines}:-1]
     RETURN    ${menu_construction}
+
+Change Numeric Value Of Setting
+    [Documentation]    Changes numeric value of ${setting} present in menu to
+    ...    ${value}
+    [Arguments]    ${setting}    ${value}
+    Enter Submenu In Tianocore    ${setting}    description_lines=2
+    Write Bare Into Terminal    ${value}
+    Press Key N Times    1    ${ENTER}
+
+Reset To Defaults Tianocore
+    [Documentation]    Resets all Tianocore options to defaults. It is invoked
+    ...    by pressing F9 and confirming with 'y' when in option
+    ...    setting menu.
+    Telnet.Read Until    exit.
+    Press Key N Times    1    ${F9}
+    Telnet.Read Until    ignore.
+    Write Bare Into Terminal    y

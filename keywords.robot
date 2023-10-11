@@ -492,15 +492,6 @@ Tianocore One Time Boot
     Enter Boot Menu Tianocore
     Enter Submenu In Tianocore    ${option}
 
-Reset To Defaults Tianocore
-    [Documentation]    Resets all Tianocore options to defaults. It is invoked
-    ...    by pressing F9 and confirming with 'y' when in option
-    ...    setting menu.
-    Telnet.Read Until    exit.
-    Press Key N Times    1    ${F9}
-    Telnet.Read Until    ignore.
-    Write Bare Into Terminal    y
-
 Enter Dasharo System Features
     [Documentation]    Enters Dasharo System Features after the machine has been
     ...    powered on.
@@ -604,14 +595,6 @@ Change To Next Option In Setting
     [Arguments]    ${setting}
     Enter Submenu In Tianocore    ${setting}
     Press Key N Times And Enter    1    ${ARROW_DOWN}
-
-Change Numeric Value Of Setting
-    [Documentation]    Changes numeric value of ${setting} present in menu to
-    ...    ${value}
-    [Arguments]    ${setting}    ${value}
-    Enter Submenu In Tianocore    ${setting}    description_lines=2
-    Write Bare Into Terminal    ${value}
-    Press Key N Times    1    ${ENTER}
 
 Skip If Menu Option Not Available
     [Documentation]    Skips the test if given submenu is not available in the
