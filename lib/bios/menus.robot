@@ -153,7 +153,7 @@ Change Numeric Value Of Setting
     [Documentation]    Changes numeric value of ${setting} present in menu to
     ...    ${value}
     [Arguments]    ${setting}    ${value}
-    Enter Submenu In Tianocore    ${setting}    description_lines=2
+    Enter Submenu In Tianocore    ${setting}    checkpoint=${DASHARO_EXIT_PROMPT}    description_lines=2
     Write Bare Into Terminal    ${value}
     Press Key N Times    1    ${ENTER}
 
@@ -161,7 +161,8 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
-    Telnet.Read Until    exit.
+    [Arguments]    ${checkpoint}=exit.
+    Telnet.Read Until    ${checkpoint}
     Press Key N Times    1    ${F9}
     Telnet.Read Until    ignore.
     Write Bare Into Terminal    y
