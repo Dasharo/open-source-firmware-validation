@@ -43,7 +43,7 @@ IPXE DTS
     Write Bare Into Terminal    chain http://boot.3mdeb.com/dts.ipxe\n    0.1
 
 Check IPXE Appears Only Once
-    [Documentation]    Check the iPXE oprion appears only once in the boot
+    [Documentation]    Check the iPXE option appears only once in the boot
     ...    option list.
     ${menu_construction}=    Get Boot Menu Construction
     TRY
@@ -1079,6 +1079,8 @@ Prepare Test Suite
         Import Resource    ${CURDIR}/dev-tests/operon/configs/yocto.robot
     ELSE IF    '${CONFIG}' == 'raspbian'
         Import Resource    ${CURDIR}/dev-tests/operon/configs/raspbian.robot
+    ELSE IF    '${CONFIG}' == 'rpi-3b'
+        Import Resource    ${CURDIR}/platform-configs/rpi-3b.robot
     ELSE
         Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
     END
@@ -1092,6 +1094,9 @@ Prepare Test Suite
         Prepare To PiKVM Connection
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
+    END
+    IF    '${CONFIG}' == 'rpi-3b'
+        Verify Number Of Connected SD Wire Devices
     END
 
 Prepare To SSH Connection
