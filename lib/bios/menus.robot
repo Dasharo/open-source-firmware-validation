@@ -123,20 +123,20 @@ Enter Dasharo System Features Submenu Snapshot
 Enter Dasharo Submenu
     [Documentation]    Grabs current menu, finds specified ${submenu} and
     ...    returns its contents.
-    [Arguments]    ${submenu}
-    ${menu}=    Read From Terminal Until    ${DASHARO_ENTER_PROMPT}
+    [Arguments]    ${submenu}    ${checkpoint}=<Enter>=Select Entry
+    ${menu}=    Read From Terminal Until    ${checkpoint}
     ${menu_construction}=    Enter Dasharo Submenu Snapshot    ${menu}    ${submenu}
     RETURN    ${menu_construction}
 
 Enter Dasharo Submenu Snapshot
     [Documentation]    Version of "Enter Dasharo Submenu" that processes menu
-    ...   grabbed beforehand.
+    ...    grabbed beforehand.
     [Arguments]    ${menu_construction}    ${submenu}
     ${menu_construction}=    Parse Menu Snapshot Into Construction    ${menu_construction}    3
     ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
     IF    ${system_index} == -1    Skip    msg=Menu option not found
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup Submenu Construction    checkpoint=${DASHARO_EXIT_PROMPT}
+    ${menu_construction}=    Get Setup Submenu Construction    checkpoint=Esc=Exit
     RETURN    ${menu_construction}
 
 Parse Menu Snapshot Into Construction
@@ -159,8 +159,8 @@ Parse Menu Snapshot Into Construction
 Change Numeric Value Of Setting
     [Documentation]    Changes numeric value of ${setting} present in menu to
     ...    ${value}
-    [Arguments]    ${setting}    ${value}
-    Enter Submenu In Tianocore    ${setting}    description_lines=2
+    [Arguments]    ${setting}    ${value}    ${checkpoint}=ESC to exit
+    Enter Submenu In Tianocore    ${setting}    ${checkpoint}    description_lines=2
     Write Bare Into Terminal    ${value}
     Press Key N Times    1    ${ENTER}
 
@@ -168,7 +168,8 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
-    Telnet.Read Until    exit.
+    [Arguments]    ${checkpoint}=exit.
+    Telnet.Read Until    ${checkpoint}
     Press Key N Times    1    ${F9}
     Telnet.Read Until    ignore.
     Write Bare Into Terminal    y

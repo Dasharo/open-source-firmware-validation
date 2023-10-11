@@ -45,6 +45,7 @@ ${WIN_USB_STICK}=                                   ${EMPTY}
 ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      MMC AJTD4R
@@ -168,7 +169,7 @@ ${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 
 # Test module: dasharo-security
