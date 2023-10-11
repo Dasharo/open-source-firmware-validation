@@ -1,7 +1,6 @@
 *** Settings ***
 Library         Collections
 Library         keywords.py
-Library         osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
 Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
@@ -1097,6 +1096,9 @@ Prepare Test Suite
     END
     IF    '${CONFIG}' == 'rpi-3b'
         Verify Number Of Connected SD Wire Devices
+    END
+    IF    '${SNIPEIT}' == 'yes'
+        Import Library    osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
     END
 
 Prepare To SSH Connection
