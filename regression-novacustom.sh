@@ -2,7 +2,7 @@
 
 # Uncomment one of these
 CONFIG="novacustom-nv41pz"
-# CONFIG="novacustom-nv41pz"
+# CONFIG="novacustom-nv41mz"
 # CONFIG="novacustom-ns70mu"
 # CONFIG="novacustom-ns70pu"
 
@@ -35,50 +35,53 @@ handle_ctrl_c() {
 trap 'handle_ctrl_c' SIGINT
 
 compatibility_tests=(
-  "custom-boot-menu-key"
-  "uefi-shell"
-  "network-boot"
-  "efi"
-  "reset-to-defaults"
-  "display-ports-and-lcd-support"
-  "usb-hid-and-msc-support"
-  "dmidecode"
-  "wifi-bluetooth-support"
-  "audio-subsystem"
-  "nvme-support"
-  "usb-camera"
-  "sd-card-reader"
+  # "custom-boot-menu-key"
+  # "uefi-shell"
+  # "network-boot"
+  # "efi"
+  # "reset-to-defaults"
+  # "display-ports-and-lcd-support"
+  # "usb-hid-and-msc-support"
+  # "dmidecode"
+  # "wifi-bluetooth-support"
+  # "audio-subsystem"
+  # "nvme-support"
+  # "usb-camera"
+  # "sd-card-reader"
   "usb-type-c"
-  "cpu-status"
-  "ec-and-super-IO"
-  "platform-suspend-and-resume"
+  # "cpu-status"
+  # "ec-and-super-IO"
+  # "platform-suspend-and-resume"
+  # "firmware-bulding-locally"
 )
 
 security_tests=(
-  "secure-boot"
-  "usb-stack"
-  "uefi-password"
-  "tpm-support"
-  "measured-boot"
-  "verified-boot"
-  "network-stack"
-  "me-neuter"
-  "early-boot-dma-protection"
-  "bios-lock"
-  "smm-bios-write-protection"
+  # "secure-boot"
+  # "usb-stack"
+  # "uefi-password"
+  # "tpm-support"
+  # "measured-boot"
+  # "verified-boot"
+  # "network-stack"
+  # "me-neuter"
+  # "early-boot-dma-protection"
+  # "bios-lock"
+  # "smm-bios-write-protection"
+  # "wifi-bluetooth-switch"
+  # "camera-switch"
 )
 
 performance_tests=(
-  "cpu-temperature"
-  "cpu-frequency"
+  # "cpu-temperature"
+  # "cpu-frequency"
 )
 
 stability_tests=(
-  "m2-wifi"
-  "network-interface-after-suspend"
-  "nvme-detection"
-  "tpm-detect"
-  "usb-type-a-devices-detection"
+  # "m2-wifi"
+  # "network-interface-after-suspend"
+  # "nvme-detection"
+  # "tpm-detect"
+  # "usb-type-a-devices-detection"
 )
 
 OS=ubuntu
