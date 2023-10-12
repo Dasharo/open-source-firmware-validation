@@ -26,7 +26,7 @@ Suite Teardown      Run Keyword
 
 *** Test Cases ***
 BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
-    [Documentation]    Check whether seting Auto Boot Time-out to 7 the value
+    [Documentation]    Check whether setting Auto Boot Time-out to 7 the value
     ...    is remembered after restart
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
@@ -63,7 +63,7 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     Enter Dasharo Submenu    Boot Maintenance Manager
     Refresh Serial Screen In BIOS Editable Settings Menu
     ${value}=    Get Option Value    Auto Boot Time-out    checkpoint=${DASHARO_EXIT_PROMPT}
-    Should Be Equal    ${value}    ${DEFAULTS_VALUE_AUTO_BOOT_TIME_OUT}
+    Should Be Equal    ${value}    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}
 
 
 *** Keywords ***

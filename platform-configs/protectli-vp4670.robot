@@ -49,9 +49,9 @@ ${WIN_USB_STICK}=                                   ${EMPTY}
 ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
-${DEFAULTS_VALUE_AUTO_BOOT_TIME_OUT}                6
-${DASHARO_ENTER_PROMPT}                             <Enter>=Select Entry
-${DASHARO_EXIT_PROMPT}                              Esc=Exit
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
+${DASHARO_ENTER_PROMPT}=                            <Enter>=Select Entry
+${DASHARO_EXIT_PROMPT}=                             Esc=Exit
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      MMC AJTD4R
