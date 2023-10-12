@@ -6,12 +6,12 @@ CONFIG="novacustom-nv41pz"
 # CONFIG="novacustom-ns70mu"
 # CONFIG="novacustom-ns70pu"
 
-# FW_FILE="coreboot.rom"
-#
-# if [ ! -f "${FW_FILE}" ]; then
-#     echo "${FW_FILE} not found. Please provide correct FW_FILE value"
-#     exit 1
-# fi
+FW_FILE="novacustom_nv4x_adl_v1.7.0.rom"
+
+if [ ! -f "${FW_FILE}" ]; then
+    echo "${FW_FILE} not found. Please provide correct FW_FILE value"
+    exit 1
+fi
 
 # Function to execute the robot command
 execute_robot() {
@@ -22,6 +22,7 @@ execute_robot() {
           -l ${CONFIG}-${OS}/${_log_file} \
           -v config:${CONFIG} \
           -v snipeit:no \
+          -v fw_file:${FW_FILE} \
           dasharo-${_category}/${_test_name}.robot
 }
 # Function to handle Ctrl+C
@@ -48,7 +49,7 @@ compatibility_tests=(
   # "nvme-support"
   # "usb-camera"
   # "sd-card-reader"
-  "usb-type-c"
+  # "usb-type-c"
   # "cpu-status"
   # "ec-and-super-IO"
   # "platform-suspend-and-resume"
@@ -72,6 +73,9 @@ security_tests=(
 )
 
 performance_tests=(
+  "platform-stability"
+  # "boot-measure"
+  # "custom-fan-curve"
   # "cpu-temperature"
   # "cpu-frequency"
 )
