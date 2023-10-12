@@ -11,7 +11,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-added-large-files
       - id: check-merge-conflict
@@ -57,7 +57,7 @@ repos:
     - id: black
 
   - repo: https://github.com/MarketSquare/robotframework-tidy
-    rev: 4.5.0
+    rev: 4.6.0
     hooks:
       - id: robotidy
 
