@@ -130,7 +130,7 @@ Enter Dasharo Submenu
 
 Enter Dasharo Submenu Snapshot
     [Documentation]    Version of "Enter Dasharo Submenu" that processes menu
-    ...   grabbed beforehand.
+    ...    grabbed beforehand.
     [Arguments]    ${menu_construction}    ${submenu}
     ${menu_construction}=    Parse Menu Snapshot Into Construction    ${menu_construction}    3
     ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}

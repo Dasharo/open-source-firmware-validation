@@ -49,9 +49,9 @@ ${USB_SHORT_NAME}=                                  USB
 ${ME_INTERFACE}=                                    Intel Corporation Comet Lake Management Engine Interface
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
-${DEFAULTS_VALUE_AUTO_BOOT_TIME_OUT}                6
-${DASHARO_ENTER_PROMPT}                             <Enter>=Select Entry
-${DASHARO_EXIT_PROMPT}                              Esc=Exit
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
+${DASHARO_ENTER_PROMPT}=                            <Enter>=Select Entry
+${DASHARO_EXIT_PROMPT}=                             Esc=Exit
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      MMC AJTD4R
