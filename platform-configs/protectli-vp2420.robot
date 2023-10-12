@@ -42,9 +42,9 @@ ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${ME_INTERFACE}=                                    Intel Corporation Device 4b70 (rev 11)
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
-${DEFAULTS_VALUE_AUTO_BOOT_TIME_OUT}                6
-${DASHARO_ENTER_PROMPT}                             <Enter>=Select Entry
-${DASHARO_EXIT_PROMPT}                              Esc=Exit
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
+${DASHARO_ENTER_PROMPT}=                            <Enter>=Select Entry
+${DASHARO_EXIT_PROMPT}=                             Esc=Exit
 
 ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
