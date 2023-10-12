@@ -35,7 +35,7 @@ FLB001.001 Firmware locally build (Ubuntu 22.04)
     Login To Linux
     Switch To Root User
     Install Docker Packages
-    Build Firmware From Source
+    Build Coreboot
 
 FLB002.001 Flash locally built firmware (Ubuntu 22.04)
     [Documentation]    This test aims to verify whether there is a possibility

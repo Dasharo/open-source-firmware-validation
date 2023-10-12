@@ -66,7 +66,9 @@ ${OS_UBUNTU}=               ubuntu
 ...                         boot_name=KINGSTON SNVS250G
 &{SSD10}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
 ...                         interface=NVME    count=1    boot_name=Samsung SSD 990 PRO 1TB
-@{SSD_LIST}=                &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
+&{SSD11}=                   endor=Samsung    volume=250GB    type=Storage_SSD
+...                         interface=NVME    count=1    boot_name=Samsung SSD 990 250GB
+@{SSD_LIST}=                &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}    &{SSD11}
 # -----------------------------------------------------------------------------
 &{USB11}=                   vendor=SanDisk    volume=32GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=1
