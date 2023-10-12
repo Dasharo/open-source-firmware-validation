@@ -1072,6 +1072,10 @@ Prepare Test Suite
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
+    IF    '${SNIPEIT}' == 'yes'
+        Import Library    ${CURDIR}/osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
+        # Import Library    snipeit_robot.py
+    END
     IF    '${CONFIG}' == 'crystal'
         Import Resource    ${CURDIR}/platform-configs/vitro_crystal.robot
     ELSE IF    '${CONFIG}' == 'pv30'
@@ -1098,9 +1102,6 @@ Prepare Test Suite
     END
     IF    '${CONFIG}' == 'rpi-3b'
         Verify Number Of Connected SD Wire Devices
-    END
-    IF    '${SNIPEIT}' == 'yes'
-        Import Library    osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
     END
 
 Prepare To SSH Connection
