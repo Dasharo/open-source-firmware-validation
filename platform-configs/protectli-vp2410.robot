@@ -36,7 +36,6 @@ ${ME_INTERFACE}=                                    ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
-${DASHARO_ENTER_PROMPT}=                            <Enter>=Select Entry
 ${DASHARO_EXIT_PROMPT}=                             Esc=Exit
 
 ${USB_LIVE}=                                        USB

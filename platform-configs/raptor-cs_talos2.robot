@@ -27,6 +27,8 @@ ${TPM_PCR_ZERO_PATTERN}=                            00 00 00 00 00 00 00 00 00 0
 
 ${TALOS_SONOFF_IP}=                                 192.168.10.47
 ${HEADS_PROMPT}=                                    ~ #
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
+${DASHARO_EXIT_PROMPT}=                             ${EMPTY}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           obmc

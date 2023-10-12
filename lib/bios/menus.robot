@@ -116,8 +116,8 @@ Enter Dasharo System Features Submenu Snapshot
 Enter Dasharo Submenu
     [Documentation]    Grabs current menu, finds specified ${submenu} and
     ...    returns its contents.
-    [Arguments]    ${submenu}
-    ${menu}=    Read From Terminal Until    ${DASHARO_ENTER_PROMPT}
+    [Arguments]    ${submenu}    ${checkpoint}=<Enter>=Select Entry
+    ${menu}=    Read From Terminal Until    ${checkpoint}
     ${menu_construction}=    Enter Dasharo Submenu Snapshot    ${menu}    ${submenu}
     RETURN    ${menu_construction}
 
