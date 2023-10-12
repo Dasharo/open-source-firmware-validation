@@ -13,3 +13,4 @@ credentials.py
 downstream_job_parameters.txt
 openbmc-test-automation/
 __pycache__*
+*.fd
