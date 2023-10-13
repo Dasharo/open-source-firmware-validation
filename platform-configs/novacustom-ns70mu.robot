@@ -1,14 +1,21 @@
+*** Settings ***
+Resource    ../keywords.robot
 *** Variables ***
-${DUT_CONNECTION_METHOD}=                           SSH
+${DUT_CONNECTION_METHOD}=                           pikvm
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   ${EMPTY}
 ${FLASH_SIZE}=                                      ${16*1024*1024}
 ${TIANOCORE_KEY}=                                   ${F2}
-${TIANOCORE_STRING}=                                ENTER
+${TIANOCORE_STRING}=                                to boot directly
 ${TIANOCORE_BOOT_MENU_KEY}=                         ${F7}
-${SETUP_MENU_KEY}=                                  ${EMPTY}
+${BOOT_MENU_KEY}=                                   F7
+${SETUP_MENU_KEY}=                                  F2
+${EDK2_IPXE_STRING}=                                iPXE Network Boot
+${EDK2_IPXE_CHECKPOINT}=                            iPXE Shell
+${EDK2_IPXE_START_POS}=                             1
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             Intel(R) Core(TM) i7-1165G7 CPU
+${POWER_CTRL}=                                      sonoff
 ${INITIAL_CPU_FREQUENCY}=                           2800
 ${DRAM_SIZE}=                                       ${8192}
 ${DEF_CORES}=                                       4
@@ -25,12 +32,23 @@ ${MAX_CPU_TEMP}=                                    77
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd
 
-# These were added    for clevo tests
+&{RTE}=
+...                                                 status=not_connected
+...                                                 ip=not_connected
+# TODO: get rid of legacy RTE_IP variable
+${RTE_IP}=                                          ${RTE}[ip]
+
+&{SONOFF}=                                          status=present    ip=192.168.4.35
+${SONOFF_IP}=                                       ${SONOFF}[ip]
+${PIKVM_IP}=                                        192.168.4.180
+${DEVICE_IP}=                                       192.168.4.165
+${SERIAL_TELNET_PORT}=                              13541
+${SERIAL_TELNET_IP}=                                ${PIKVM_IP}
 ${DEVICE_UBUNTU_USERNAME}=                          user
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_UBUNTU_HOSTNAME}=                          NV41MZ
+${DEVICE_UBUNTU_HOSTNAME}=                          user-NV4xPZ
 ${CLEVO_BATTERY_CAPACITY}=                          3200*1000
 # ${clevo_brightness_delta}    2376 - unfortunately it's not constant
 ${DEVICE_NVME_DISK}=                                Non-Volatile memory controller
@@ -47,12 +65,12 @@ ${SD_CARD_MODEL}=                                   Transcend
 ${WIN_USB_STICK}=                                   ${SPACE*1}USB${SPACE*2}SanDisk 3.2Gen1
 ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Wi-Fi 6 AX201 (rev 20)
-${USB_MODEL}=                                       USB Flash Memory
+${USB_MODEL}=                                       Kingston
 ${EXTERNAL_HEADSET}=                                USB PnP Audio Device
 ${WEBCAM_UBUNTU}=                                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.4.0
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.5.0
 ${DMIDECODE_PRODUCT_NAME}=                          NS50_70MU
 ${DMIDECODE_RELEASE_DATE}=                          N/A
 ${DMIDECODE_MANUFACTURER}=                          Notebook
@@ -67,9 +85,10 @@ ${DMIDECODE_TYPE}=                                  Notebook
 # be a full path
 ${DEVICE_UBUNTU_USER_PROMPT}=                       :~$
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       user#
+${DEVICE_WINDOWS_USER_PROMPT}=                      user>
 
 # Supported tests environment
-${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
@@ -137,7 +156,7 @@ ${L3_CACHE_SUPPORT}=                                ${FALSE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${DOCKING_STATION_USB_SUPPORT}=                     ${TRUE}
 ${DOCKING_STATION_KEYBOARD_SUPPORT}=                ${TRUE}
-${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=          ${FALSE}
+${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=          ${TRUE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${TRUE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${TRUE}
 ${EMMC_SUPPORT}=                                    ${FALSE}
@@ -160,7 +179,8 @@ ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${TRUE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
+${ME_NEUTER_SUPPORT}=                               ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
@@ -170,14 +190,14 @@ ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${FALSE}
 ${USB_STACK_SUPPORT}=                               ${FALSE}
-${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
-${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
-${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
-${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
-${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
-${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
-${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
+${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
+${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
+${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
+${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
+${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}
@@ -271,6 +291,8 @@ ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 
+${USB_DEVICE}=                                      Kingston
+
 
 *** Keywords ***
 Power On
@@ -278,13 +300,10 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
+    Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    1s
-    RteCtrl Power Off
-    Sleep    7s
-    # read the old output
-    SSH.Read
-    RteCtrl Power On
+    Power Cycle On
+    
 
 Flash Device Via Internal Programmer
     [Documentation]    Keyword allows to flash Device Under Test firmware by
