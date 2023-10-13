@@ -6,6 +6,7 @@ Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
+Resource        lib/terminal.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -24,8 +25,6 @@ Serial Setup
     ...    terminal_emulation=True
     ...    terminal_type=vt100
     ...    window_size=400x100
-    # remove encoding setup for terminal emulator pyte
-    # Telnet.Set Encoding    errors=ignore
     Telnet.Set Timeout    180s
 
 IPXE Dhcp
@@ -303,76 +302,11 @@ Enter Petitboot And Return Menu
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
     RETURN    ${menu}
 
-Enter Tianocore And Return Menu
-    [Documentation]    Enter SeaBIOS and returns boot entry menu.
-    Enter Boot Menu Tianocore
-    ${menu}=    Read From Terminal Until    ESC to exit
-    RETURN    ${menu}
-
-Enter Boot Menu
-    [Documentation]    Enter Boot Menu with key specified in platform-configs.
-    IF    '${PAYLOAD}' == 'seabios'
-        Enter SeaBIOS
-    ELSE IF    '${PAYLOAD}' == 'tianocore'
-        Enter Boot Menu Tianocore
-    END
-
-Enter Device Manager Submenu
-    [Documentation]    Enter to the Device Manager submenu which should be
-    ...    located in the Setup Menu.
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    Device Manager
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Enter Secure Boot Configuration Submenu
-    [Documentation]    Enter to the Secure Boot Configuration submenu which
-    ...    should be located in the Setup Menu.
-
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
-    Press Key N Times And Enter    2    ${ARROW_DOWN}
-
-Enter Setup Menu Tianocore
-    [Documentation]    Enter Setup Menu with key specified in platform-configs.
-    Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${SETUP_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${SETUP_MENU_KEY}
-    END
-    # wait for setup menu to appear
-    # Read From Terminal Until    Continue
-
 Reset In Setup Menu Tianocore
     [Documentation]    Enters reset option in setup menu
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    eset
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Enter IPXE
-    [Documentation]    Enter iPXE after device power cutoff.
-    # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
-    # TODO2:    problem with iPXE string (e.g. when 3 network interfaces are available)
-
-    IF    '${PAYLOAD}' == 'seabios'
-        Enter SeaBIOS
-        Sleep    0.5s
-        ${setup}=    Telnet.Read
-        ${lines}=    Get Lines Matching Pattern    ${setup}    ${IPXE_BOOT_ENTRY}
-        Telnet.Write Bare    ${lines[0]}
-        Telnet.Read Until    ${IPXE_STRING}
-        Telnet.Write Bare    ${IPXE_KEY}
-        IPXE Wait For Prompt
-    ELSE IF    '${PAYLOAD}' == 'tianocore'
-        Enter Boot Menu Tianocore
-        Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
-        Enter Submenu In Tianocore
-        ...    option=iPXE Shell
-        ...    checkpoint=${EDK2_IPXE_CHECKPOINT}
-        ...    description_lines=${EDK2_IPXE_START_POS}
-        Set Prompt For Terminal    iPXE>
-        Read From Terminal Until Prompt
-    END
 
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
@@ -441,201 +375,6 @@ Get Firmware Version
     END
     RETURN    ${version}
 
-Enter Boot Menu Tianocore
-    [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
-    ...    keys list.
-    Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${BOOT_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${BOOT_MENU_KEY}
-    END
-
-Enter UEFI Shell Tianocore
-    [Documentation]    Enter UEFI Shell in Tianocore by specifying its position
-    ...    in the list.
-    Set Local Variable    ${IS_SHELL_AVAILABLE}    ${FALSE}
-    ${menu_construction}=    Get Boot Menu Construction
-    ${is_shell_available}=    Evaluate    "UEFI Shell" in """${menu_construction}"""
-    IF    not ${is_shell_available}
-        FAIL    Test case marked as Failed\nBoot menu does not contain position for entering UEFI Shell
-    END
-    ${system_index}=    Get Index From List    ${menu_construction}    UEFI Shell
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-
-Enter Submenu In Tianocore
-    [Documentation]    Enter chosen option. Generic keyword.
-    [Arguments]    ${option}    ${checkpoint}=ESC to exit    ${description_lines}=1
-    ${rel_pos}=    Get Relative Menu Position    ${option}    ${checkpoint}    ${description_lines}
-    Press Key N Times And Enter    ${rel_pos}    ${ARROW_DOWN}
-
-Get Menu Reference Tianocore
-    [Documentation]    Get first entry from Tianocore Boot Manager menu.
-    [Arguments]    ${raw_menu}    ${bias}
-    ${lines}=    Get Lines Matching Pattern    ${raw_menu}    *[qwertyuiopasdfghjklzxcvbnm]*
-    ${lines}=    Split To Lines    ${lines}
-    ${bias}=    Convert To Integer    ${bias}
-    ${first_entry}=    Get From List    ${lines}    ${bias}
-    ${first_entry}=    Strip String    ${first_entry}    characters=1234567890()
-    ${first_entry}=    Strip String    ${first_entry}
-    RETURN    ${first_entry}
-
-Enter One Time Boot In Tianocore
-    [Documentation]    Enter One Time Boot option in Tianocore (edk2).
-    Telnet.Set Timeout    20 seconds
-    ${rel_pos}=    Get Relative Menu Position    Standard English    One Time Boot    Select Entry
-    Press Key N Times And Enter    ${rel_pos-8}    ${ARROW_DOWN}
-    Telnet.Read Until    Device Path
-
-Tianocore One Time Boot
-    [Arguments]    ${option}
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    ${option}
-
-Enter Dasharo System Features
-    [Documentation]    Enters Dasharo System Features after the machine has been
-    ...    powered on.
-    Enter Setup Menu Tianocore
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Enter Setup Menu Option
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
-    [Arguments]    ${option}
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    ${option}
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Check If Submenu Exists Tianocore
-    [Documentation]    Checks if given submenu exists
-    [Arguments]    ${submenu}
-    ${out}=    Telnet.Read Until    exit.
-    ${result}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    ${submenu}
-    RETURN    ${result}
-
-Reenter Menu
-    [Documentation]    Returns to the previous menu and enters the same one
-    ...    again
-    [Arguments]    ${forward}=${FALSE}
-    IF    ${forward} == True
-        Press Key N Times    1    ${ENTER}
-        Sleep    1s
-        Press Key N Times    1    ${ESC}
-    ELSE
-        Press Key N Times    1    ${ESC}
-        Sleep    1s
-        Press Key N Times    1    ${ENTER}
-    END
-
-Type In The Password
-    [Documentation]    Operation for typing in the password
-    [Arguments]    @{keys_password}
-    FOR    ${key}    IN    @{keys_password}
-        Write Bare Into Terminal    ${key}
-        Sleep    0.5s
-    END
-    Press Key N Times    1    ${ENTER}
-
-Type In New Disk Password
-    [Documentation]    Types in new disk password when prompted. The actual
-    ...    password is passed as list of keys.
-    [Arguments]    @{keys_password}
-    Read From Terminal Until    your new password
-    Sleep    0.5s
-    # FIXME: Often the TCG OPAL test fails to enter Setup Menu after typing
-    # password, and the default boot path proceeds instead. Pressing Setup Key
-    # at this point allows to enter Setup Menu much more reliably.
-    Press Key N Times    1    ${SETUP_MENU_KEY}
-    FOR    ${i}    IN RANGE    0    2
-        Type In The Password    @{keys_password}
-        Sleep    1s
-    END
-
-Type In BIOS Password
-    [Documentation]    Types in password in general BIOS prompt
-    [Arguments]    @{keys_password}
-    Read From Terminal Until    password
-    Sleep    0.5s
-    Type In The Password    @{keys_password}
-
-Type In Disk Password
-    [Documentation]    Types in the disk password
-    [Arguments]    @{keys_password}
-    Read From Terminal Until    Unlock
-    Sleep    0.5s
-    # FIXME: See a comment in: Type in new disk password
-    Press Key N Times    1    ${SETUP_MENU_KEY}
-    Type In The Password    @{keys_password}
-    Press Key N Times    1    ${ENTER}
-
-Remove Disk Password
-    [Documentation]    Removes disk password
-    [Arguments]    @{keys_password}
-    Enter Device Manager Submenu
-    Enter TCG Drive Management Submenu
-    # if we want to remove password, we can assume that it is turned on so, we
-    # don't have to check all the options
-    Log    Select entry: Admin Revert to factory default and Disable
-    Press Key N Times    1    ${ENTER}
-    Press Key N Times And Enter    4    ${ARROW_DOWN}
-    Save Changes And Reset    3
-    Read From Terminal Until    Unlock
-    FOR    ${i}    IN RANGE    0    2
-        Type In The Password    @{keys_password}
-        Sleep    0.5s
-    END
-    Press Key N Times    1    ${SETUP_MENU_KEY}
-
-Change To Next Option In Setting
-    [Documentation]    Changes given setting option to next in the list of
-    ...    possible options.
-    [Arguments]    ${setting}
-    Enter Submenu In Tianocore    ${setting}
-    Press Key N Times And Enter    1    ${ARROW_DOWN}
-
-Skip If Menu Option Not Available
-    [Documentation]    Skips the test if given submenu is not available in the
-    ...    menu
-    [Arguments]    ${submenu}
-    ${res}=    Check If Submenu Exists Tianocore    ${submenu}
-    Skip If    not ${res}
-    Reenter Menu
-    Sleep    1s
-    Telnet.Read Until    Esc=Exit
-
-Get Option Value
-    [Documentation]    Reads given ${option} in Tianocore menu and returns its
-    ...    value
-    [Arguments]    ${option}    ${checkpoint}=ESC to exit
-    ${out}=    Read From Terminal Until    ${checkpoint}
-    ${option_value}=    Get Option Value From Output    ${out}    ${option}
-    RETURN    ${option_value}
-
-Save Changes And Boot To OS
-    [Documentation]    Saves current UEFI settings and continues booting to OS.
-    ...    ${nesting_level} is crucial, because it depicts where
-    ...    Continue button is located.
-    [Arguments]    ${nesting_level}=2
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Press Key N Times    ${nesting_level}    ${ESC}
-    Enter Submenu In Tianocore    Continue    checkpoint=Continue    description_lines=6
-
-Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...    is how deep user is currently in the settings.
-    ...    ${main_menu_steps_to_reset} means how many times should
-    ...    arrow down be pressed to get to the Reset option in main
-    ...    settings menu
-    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Press Key N Times    ${nesting_level}    ${ESC}
-    Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
-
 Check The Presence Of WiFi Card
     [Documentation]    Checks the if WiFi card is visible for operating system.
     ...    Returns True if presence is detected.
@@ -651,67 +390,6 @@ Check The Presence Of Bluetooth Card
     ${result}=    Run Keyword And Return Status
     ...    Should Not Be Empty    ${terminal_result}
     RETURN    ${result}
-
-Check If Tianocore Setting Is Enabled In Current Menu
-    [Documentation]    Checks if option ${option} is enabled, returns True/False
-    [Arguments]    ${option}
-    ${option_value}=    Get Option Value    ${option}
-    ${enabled}=    Run Keyword And Return Status
-    ...    Should Be Equal    ${option_value}    [X]
-    RETURN    ${enabled}
-
-Get Relative Menu Position
-    [Documentation]    Evaluate and return relative menu entry position
-    ...    described in the argument.
-    [Arguments]    ${entry}    ${checkpoint}    ${bias}=1
-    ${output}=    Read From Terminal Until    ${checkpoint}
-    ${output}=    Strip String    ${output}
-    ${reference}=    Get Menu Reference Tianocore    ${output}    ${bias}
-    @{lines}=    Split To Lines    ${output}
-    ${iterations}=    Set Variable    0
-    FOR    ${line}    IN    @{lines}
-        IF    '${reference}' in '${line}\\n'
-            ${start}=    Set Variable    ${iterations}
-            BREAK
-        END
-        ${iterations}=    Evaluate    ${iterations} + 1
-    END
-    ${iterations}=    Set Variable    0
-    FOR    ${line}    IN    @{lines}
-        IF    '${entry}' in '${line}\\n'
-            ${end}=    Set Variable    ${iterations}
-        END
-        ${iterations}=    Evaluate    ${iterations} + 1
-    END
-    ${rel_pos}=    Evaluate    ${end} - ${start}
-    RETURN    ${rel_pos}
-
-Press Key N Times And Enter
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key and then press Enter.
-    [Arguments]    ${n}    ${key}
-    Press Key N Times    ${n}    ${key}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-    ELSE
-        Write Bare Into Terminal    ${ENTER}
-    END
-
-Press Key N Times
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key.
-    [Arguments]    ${n}    ${key}
-    FOR    ${index}    IN RANGE    0    ${n}
-        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Single Key PiKVM    ${key}
-            # Key press time as defined in PiKVM library is 200ms. We need some
-            # additional delay to make sure we can gather all input from terminal after
-            # key press.
-            Sleep    1s
-        ELSE
-            Write Bare Into Terminal    ${key}
-        END
-    END
 
 Get Current RTE
     [Documentation]    Returns RTE index from RTE list taken as an argument.
@@ -1870,157 +1548,6 @@ Login To Linux With Root Privileges
         Serial Root Login Linux    debian
     END
 
-Execute Command In Terminal
-    [Documentation]    Universal keyword to execute command regardless of the
-    ...    used method of connection to the DUT (Telnet or SSH).
-    [Arguments]    ${command}    ${timeout}=30s
-    Set DUT Response Timeout    ${timeout}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
-    ELSE
-        Write Into Terminal    ${command}
-        ${output}=    Read From Terminal Until Prompt
-    END
-    RETURN    ${output}
-
-Read From Terminal
-    [Documentation]    Universal keyword to read the console output regardless
-    ...    of the used method of connection to the DUT
-    ...    (Telnet or SSH).
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        ${output}=    SSHLibrary.Read
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        ${output}=    SSHLibrary.Read
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${output}=    Telnet.Read
-    ELSE
-        ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-    END
-    RETURN    ${output}
-
-Read From Terminal Until
-    [Documentation]    Universal keyword to read the console output until the
-    ...    defined text occurs regardless of the used method of
-    ...    connection to the DUT (Telnet or SSH).
-    [Arguments]    ${expected}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read Until    ${expected}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        ${output}=    SSHLibrary.Read Until    ${expected}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        ${output}=    SSHLibrary.Read Until    ${expected}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${output}=    Telnet.Read Until    ${expected}
-    ELSE
-        ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-    END
-    RETURN    ${output}
-
-Read From Terminal Until Prompt
-    [Documentation]    Universal keyword to read the console output until the
-    ...    defined prompt occurs regardless of the used method of
-    ...    connection to the DUT (Telnet or SSH).
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH' or '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        ${output}=    SSHLibrary.Read Until Prompt    strip_prompt=${TRUE}
-        ${output}=    Strip String    ${output}    characters=\n\r
-    ELSE
-        IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-            ${output}=    Telnet.Read Until Prompt    strip_prompt=${TRUE}
-        ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            ${output}=    Telnet.Read Until Prompt    strip_prompt=${TRUE}
-        ELSE
-            ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-        END
-    END
-    RETURN    ${output}
-
-Read From Terminal Until Regexp
-    [Documentation]    Universal keyword to read the console output until the
-    ...    defined regexp occurs regardless of the used method of
-    ...    connection to the DUT (Telnet or SSH).
-    [Arguments]    ${regexp}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read Until Regexp    ${regexp}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${output}=    Telnet.Read Until Regexp    ${regexp}
-    ELSE
-        ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-    END
-    RETURN    ${output}
-
-Set Prompt For Terminal
-    [Documentation]    Universal keyword to set the prompt (used in Read Until
-    ...    prompt keyword) regardless of the used method of
-    ...    connection to the DUT (Telnet or SSH).
-    [Arguments]    ${prompt}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Set Prompt    ${prompt}    prompt_is_regexp=False
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        SSHLibrary.Set Client Configuration    prompt=${prompt}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        SSHLibrary.Set Client Configuration    prompt=${prompt}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Telnet.Set Prompt    ${prompt}
-    ELSE
-        FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-    END
-
-Set DUT Response Timeout
-    [Documentation]    Universal keyword to set the timeout (used for operations
-    ...    that expect some output to appear) regardless of the
-    ...    used method of connection to the DUT (Telnet or SSH).
-    [Arguments]    ${timeout}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Set Timeout    ${timeout}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Telnet.Set Timeout    ${timeout}
-    ELSE
-        FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-    END
-
-Write Into Terminal
-    [Documentation]    Universal keyword to write text to console regardless of
-    ...    the used method of connection to the DUT (Telnet, PiKVM or SSH).
-    [Arguments]    ${text}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Write    ${text}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        SSHLibrary.Write    ${text}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        SSHLibrary.Write    ${text}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Write PiKVM    ${text}
-    ELSE
-        FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-    END
-
-Write Bare Into Terminal
-    [Documentation]    Universal keyword to write bare text (without new line
-    ...    mark) to console regardless of the used method of
-    ...    connection to the DUT (Telnet, PiKVM or SSH).
-    [Arguments]    ${text}    ${interval}=${NULL}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Write Bare    ${text}    ${interval}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        SSHLibrary.Write Bare    ${text}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        SSHLibrary.Write Bare    ${text}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Write Bare PiKVM    ${text}
-    ELSE
-        FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
-    END
-
 Compare Serial Number From MAC
     [Documentation]    Compare serial number with value got calculated from MAC
     ...    address with serial number got from dmidecode.
@@ -2347,36 +1874,6 @@ Get IPXE Boot Menu Construction
     Remove Values From List    ${menu_construction}    Secure Boot Configuration
     RETURN    ${menu_construction}
 
-Get Boot Menu Construction
-    [Documentation]    Keyword allows to get and return boot menu construction.
-    ...    Getting boot menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies three lines, footer -4)
-    ${menu}=    Read From Terminal Until    exit
-    ${menu}=    Remove String    ${menu}    \r
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        # Replace multiple spaces with a single one
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        # Remove leading and trailing spaces
-        ${line}=    Strip String    ${line}
-        # Drop leading and trailing pipes
-        ${line}=    Strip String    ${line}    characters=|
-        # Remove leading and trailing spaces
-        ${line}=    Strip String    ${line}
-        # If the resulting line is not empty, add it as a bootable entry
-        ${length}=    Get Length    ${line}
-        IF    ${length} > 0    Append To List    ${menu_construction}    ${line}
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-4]
-    RETURN    ${menu_construction}
-
 Remove Entry From List
     [Arguments]    ${input_list}    ${regexp}
     @{output_list}=    Create List
@@ -2405,31 +1902,6 @@ Get Secure Boot Configuration Submenu Construction
         END
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    RETURN    ${menu_construction}
-
-Get USB Configuration Submenu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
-    ...    Getting setup menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces and
-    ...    not menu frames.
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies one line, footer -3)
-    ${menu}=    Read From Terminal Until    Press ESC to exit.
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!="${SPACE}"
-            ${line}=    Get Substring    ${line}    1
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-1]
     RETURN    ${menu_construction}
 
 Generate 1GB File In Windows
@@ -2661,21 +2133,6 @@ Perform Hibernation Test Using FWTS
     END
     RETURN    ${is_hibernation_performed_correctly}
 
-Get Index Of Matching Option In Menu
-    [Documentation]    This keyword returns the index of element that matches
-    ...    one in given menu
-    [Arguments]    ${menu_construction}    ${option}
-    FOR    ${element}    IN    @{menu_construction}
-        ${matches}=    Run Keyword And Return Status
-        ...    Should Match    ${element}    *${option}*
-        IF    ${matches}
-            ${option}=    Set Variable    ${element}
-            BREAK
-        END
-    END
-    ${index}=    Get Index From List    ${menu_construction}    ${option}
-    RETURN    ${index}
-
 Enter TCG Drive Management Submenu
     [Documentation]    Enters TCG Drive Management submenu
     ${menu_construction}=    Get Setup SubMenu Construction
@@ -2708,29 +2165,6 @@ Disable Option In Submenu
         Press Key N Times    1    ${F10}
         Write Bare Into Terminal    y
     END
-
-Enter Dasharo Security Options Submenu
-    [Documentation]    Enters and returns the output of Dasharo Security
-    ...    Options
-    ${menu_construction}=    Get Setup Menu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo Security Options
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Dasharo Security Submenu Construction
-    RETURN    ${menu_construction}
-
-Enter USB Configuration Submenu
-    [Documentation]    Returns output of USB Configuration SubMenu.
-    ${menu_construction}=    Get Setup Menu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    USB Configuration
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get USB Configuration Submenu Construction
-    RETURN    ${menu_construction}
 
 Enable Option In USB Configuration Submenu
     [Documentation]    Enables option in USB Configuration SubMenu.
@@ -2879,33 +2313,6 @@ Remove Extra Default Route
         ${route_info}=    Execute Linux Command    ip route | grep ^default
         Log    Default route via 172.16.0.1 dev ${devname[0]} removed
     END
-
-Get Dasharo Security Submenu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
-    ...    Getting setup menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces and
-    ...    not menu frames.
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies one line, footer -3)
-    ${menu}=    Read From Terminal Until    Press ESC to exit.
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        ${line_contains_checkbox}=    Run Keyword And Return Status
-        ...    Should Contain    ${line}    [
-
-        IF    "${line}"!="${EMPTY}" and "${line}"!="${SPACE}" and "${line_contains_checkbox}"=="True"
-            ${line}=    Get Substring    ${line}    1
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    RETURN    ${menu_construction}
 
 Should Contain All
     [Arguments]    ${string}    @{substrings}

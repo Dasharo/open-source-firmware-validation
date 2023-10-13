@@ -169,7 +169,7 @@ ${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
@@ -294,6 +294,8 @@ ${M2_WIFI_ITERATIONS}=                              5
 ${NVME_DETECTION_ITERATIONS}=                       5
 # Number of USB Type-A devices detection iterations after suspension
 ${USB_TYPE-A_DEVICES_DETECTION_ITERATIONS}=         5
+
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                0
 
 
 *** Keywords ***
