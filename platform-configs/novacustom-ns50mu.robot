@@ -21,7 +21,6 @@ ${IPXE_STRING}=                                     Network Boot Firmware
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
-${DASHARO_EXIT_PROMPT}=                             ${EMPTY}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd
