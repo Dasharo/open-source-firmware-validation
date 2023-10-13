@@ -129,7 +129,7 @@ Enter Dasharo Submenu Snapshot
     ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
     IF    ${system_index} == -1    Skip    msg=Menu option not found
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup Submenu Construction    checkpoint=${DASHARO_EXIT_PROMPT}
+    ${menu_construction}=    Get Setup Submenu Construction    checkpoint=Esc=Exit
     RETURN    ${menu_construction}
 
 Parse Menu Snapshot Into Construction
@@ -152,8 +152,8 @@ Parse Menu Snapshot Into Construction
 Change Numeric Value Of Setting
     [Documentation]    Changes numeric value of ${setting} present in menu to
     ...    ${value}
-    [Arguments]    ${setting}    ${value}
-    Enter Submenu In Tianocore    ${setting}    checkpoint=${DASHARO_EXIT_PROMPT}    description_lines=2
+    [Arguments]    ${setting}    ${value}    ${checkpoint}=ESC to exit
+    Enter Submenu In Tianocore    ${setting}    ${checkpoint}    description_lines=2
     Write Bare Into Terminal    ${value}
     Press Key N Times    1    ${ENTER}
 
