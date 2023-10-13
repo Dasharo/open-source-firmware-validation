@@ -19,7 +19,6 @@ ${POWER_CTRL}=                          sonoff
 ${FLASH_VERIFY_METHOD}=                 tianocore-shell
 ${FLASH_VERIFY_OPTION}=                 UEFI Shell    # Selected One Time Boot option
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=    ${EMPTY}
-${DASHARO_EXIT_PROMPT}=                 ${EMPTY}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=               external

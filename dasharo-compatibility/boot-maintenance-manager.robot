@@ -34,15 +34,15 @@ BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
     Enter Setup Menu Tianocore
     Enter Dasharo Submenu    Boot Maintenance Manager
     Refresh Serial Screen In BIOS Editable Settings Menu
-    Change Numeric Value Of Setting    Auto Boot Time-out    7
+    Change Numeric Value Of Setting    Auto Boot Time-out    7    Esc=Exit
     Press Key N Times    1    ${F10}
     Write Bare Into Terminal    y
-    Read From Terminal Until    ${DASHARO_EXIT_PROMPT}
+    Read From Terminal Until    Esc=Exit
     Restart The DUT
     Enter Setup Menu Tianocore
     Enter Dasharo Submenu    Boot Maintenance Manager
     Refresh Serial Screen In BIOS Editable Settings Menu
-    ${value}=    Get Option Value    Auto Boot Time-out    checkpoint=${DASHARO_EXIT_PROMPT}
+    ${value}=    Get Option Value    Auto Boot Time-out    Esc=Exit
     Should Be Equal    ${value}    [7]
 
 BMM002.001 F9 resets Auto Boot Time-out to default value
@@ -54,15 +54,15 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     Enter Setup Menu Tianocore
     Enter Dasharo Submenu    Boot Maintenance Manager
     Refresh Serial Screen In BIOS Editable Settings Menu
-    Reset To Defaults Tianocore    checkpoint=${DASHARO_EXIT_PROMPT}
+    Reset To Defaults Tianocore    Esc=Exit
     Press Key N Times    1    ${F10}
     Write Bare Into Terminal    y
-    Read From Terminal Until    ${DASHARO_EXIT_PROMPT}
+    Read From Terminal Until    Esc=Exit
     Restart The DUT
     Enter Setup Menu Tianocore
     Enter Dasharo Submenu    Boot Maintenance Manager
     Refresh Serial Screen In BIOS Editable Settings Menu
-    ${value}=    Get Option Value    Auto Boot Time-out    checkpoint=${DASHARO_EXIT_PROMPT}
+    ${value}=    Get Option Value    Auto Boot Time-out    Esc=Exit
     Should Be Equal    ${value}    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}
 
 
