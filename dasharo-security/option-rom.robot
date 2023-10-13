@@ -16,7 +16,7 @@ Suite Teardown      Run Keyword
 
 *** Test Cases ***
 SOR001.001 Check that all options in OptionROMs are available
-    [Documentation]    This test disables OptionROMs loading
+    [Documentation]    This test checks if all OptionROM options are available
     Power On
     Enter Dasharo System Features
     ${menu_construction}=    Enter Submenu And Return Its Construction    PCIPCIe Configuration
