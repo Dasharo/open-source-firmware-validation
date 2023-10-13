@@ -173,6 +173,8 @@ the platform is available on snipeit.
 
 ## QEMU workflow
 
+> Make sure to proceed with [Getting started section](#getting-started) first.
+
 Many of the test and keywords can be tested in emulation environment. This
 can greatly increase the development speed:
 * there is no need to acquire hardware,
