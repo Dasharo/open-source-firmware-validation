@@ -26,12 +26,19 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Enter Boot Menu
+Enter Boot Menu Tianocore
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    Enter Boot Menu
+    Enter Boot Menu Tianocore
     ${out}=    Read From Terminal Until    exit
     Should Contain    ${out}    Please select boot device:
+
+Enter Boot Menu Tianocore And Return Construction
+    [Documentation]    Test Enter Boot Menu kwd
+    Power On
+    ${menu}=    Enter Boot Menu Tianocore And Return Construction
+    List Should Not Contain Value    ${menu}    Please select boot device:
+    List Should Contain Value    ${menu}    Setup
 
 Enter Setup Menu Tianocore
     [Documentation]    Test Enter Setup Menu Tianocore kwd
@@ -40,42 +47,65 @@ Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    Select Entry
     Should Contain    ${out}    Select Language
 
-Get Setup Menu Construction
+Enter Setup Menu Tianocore And Return Construction
     [Documentation]    Test Get Setup Menu Construction kwd
     Power On
-    Enter Setup Menu Tianocore
-    ${menu_construction}=    Get Setup Menu Construction
-    # TODO: Fix kwd so it does not unnecessarily remove 1st character in these
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     # First entry should be always language selection
-    Should Be Equal As Strings    ${menu_construction}[0]    elect Language Standard English
+    Should Be Equal As Strings    ${setup_menu}[0]    Select Language <Standard English>
     # The next entries should not start with ">" (it should be stripped)
-    Should Not Contain    ${menu_construction}[1]    >
-    Should Not Contain    ${menu_construction}[2]    >
+    Should Not Contain    ${setup_menu}[1]    >
+    Should Not Contain    ${setup_menu}[2]    >
     # Two last entris should be: Continue, Reset
-    Should Be Equal As Strings    ${menu_construction}[-2]    ontinue
+    Should Be Equal As Strings    ${setup_menu}[-2]    Continue
     # Last entry should be always: Reset
-    Should Be Equal As Strings    ${menu_construction}[-1]    eset
+    Should Be Equal As Strings    ${setup_menu}[-1]    Reset
+    # These should always be present, with no particular order
+    List Should Contain Value    ${setup_menu}    Device Manager
+    List Should Contain Value    ${setup_menu}    Dasharo System Features
+    List Should Contain Value    ${setup_menu}    One Time Boot
+    List Should Contain Value    ${setup_menu}    Boot Maintenance Manager
 
-Enter Dasharo System Features
-    [Documentation]    Test Enter Dasharo System Features Submenu kwd
+Enter User Password Management Menu
+    [Documentation]    Test entering into User Password Management menu
     Power On
-    Enter Dasharo System Features
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    Enter Setup Menu Option From Snapshot    ${setup_menu}    User Password Management
     ${out}=    Read From Terminal Until    Esc=Exit
-    Should Contain    ${out}    Dasharo System Features
+    Should Contain    ${out}    Password Management
 
-Enter Device Manager Submenu
-    [Documentation]    Test Enter Device Manager Submenu kwd
+Parse User Password Management Menu
+    [Documentation]    Test entering into User Password Management menu
     Power On
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    ${out}=    Read From Terminal Until    Esc=Exit
-    Should Contain    ${out}    Device Manager
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${password_menu}=    Enter Setup Menu Option From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    User Password Management
+    Should Be Equal As Strings    ${password_menu}[0]    Admin Password Status Not Installed
+    Should Be Equal As Strings    ${password_menu}[1]    Change Admin Password
+    ${password_menu_entries}=    Get Length    ${password_menu}
+    Should Be Equal As Integers    ${password_menu_entries}    2
 
-# TODO: fix this kwd
-# Enter Secure Boot Configuration Submenu
-#    [Documentation]    Test Enter Secure Boot Configuration Submenu kwd
+# Enter Dasharo System Features
+#    [Documentation]    Test Enter Dasharo System Features Submenu kwd
+#    Power On
+#    Enter Dasharo System Features
+#    ${out}=    Read From Terminal Until    Esc=Exit
+#    Should Contain    ${out}    Dasharo System Features
+#
+# Enter Device Manager Submenu
+#    [Documentation]    Test Enter Device Manager Submenu kwd
 #    Power On
 #    Enter Setup Menu Tianocore
-#    Enter Secure Boot Configuration Submenu
+#    Enter Device Manager Submenu
 #    ${out}=    Read From Terminal Until    Esc=Exit
-#    Should Contain    ${out}    Secure Boot Configuration
+#    Should Contain    ${out}    Device Manager
+#
+# # TODO: fix this kwd
+# # Enter Secure Boot Configuration Submenu
+# #    [Documentation]    Test Enter Secure Boot Configuration Submenu kwd
+# #    Power On
+# #    Enter Setup Menu Tianocore
+# #    Enter Secure Boot Configuration Submenu
+# #    ${out}=    Read From Terminal Until    Esc=Exit
+# #    Should Contain    ${out}    Secure Boot Configuration

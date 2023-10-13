@@ -24,8 +24,6 @@ Serial Setup
     ...    terminal_emulation=True
     ...    terminal_type=vt100
     ...    window_size=400x100
-    # remove encoding setup for terminal emulator pyte
-    # Telnet.Set Encoding    errors=ignore
     Telnet.Set Timeout    180s
 
 IPXE Dhcp
@@ -309,14 +307,6 @@ Enter Tianocore And Return Menu
     ${menu}=    Read From Terminal Until    ESC to exit
     RETURN    ${menu}
 
-Enter Boot Menu
-    [Documentation]    Enter Boot Menu with key specified in platform-configs.
-    IF    '${PAYLOAD}' == 'seabios'
-        Enter SeaBIOS
-    ELSE IF    '${PAYLOAD}' == 'tianocore'
-        Enter Boot Menu Tianocore
-    END
-
 Enter Device Manager Submenu
     [Documentation]    Enter to the Device Manager submenu which should be
     ...    located in the Setup Menu.
@@ -331,17 +321,6 @@ Enter Secure Boot Configuration Submenu
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
     Press Key N Times And Enter    2    ${ARROW_DOWN}
-
-Enter Setup Menu Tianocore
-    [Documentation]    Enter Setup Menu with key specified in platform-configs.
-    Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${SETUP_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${SETUP_MENU_KEY}
-    END
-    # wait for setup menu to appear
-    # Read From Terminal Until    Continue
 
 Reset In Setup Menu Tianocore
     [Documentation]    Enters reset option in setup menu
@@ -441,16 +420,6 @@ Get Firmware Version
     END
     RETURN    ${version}
 
-Enter Boot Menu Tianocore
-    [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
-    ...    keys list.
-    Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${BOOT_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${BOOT_MENU_KEY}
-    END
-
 Enter UEFI Shell Tianocore
     [Documentation]    Enter UEFI Shell in Tianocore by specifying its position
     ...    in the list.
@@ -498,14 +467,6 @@ Enter Dasharo System Features
     Enter Setup Menu Tianocore
     ${menu_construction}=    Get Setup Menu Construction
     ${index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Enter Setup Menu Option
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
-    [Arguments]    ${option}
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    ${option}
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Check If Submenu Exists Tianocore
@@ -2342,36 +2303,6 @@ Get IPXE Boot Menu Construction
     END
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
     Remove Values From List    ${menu_construction}    Secure Boot Configuration
-    RETURN    ${menu_construction}
-
-Get Boot Menu Construction
-    [Documentation]    Keyword allows to get and return boot menu construction.
-    ...    Getting boot menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies three lines, footer -4)
-    ${menu}=    Read From Terminal Until    exit
-    ${menu}=    Remove String    ${menu}    \r
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        # Replace multiple spaces with a single one
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        # Remove leading and trailing spaces
-        ${line}=    Strip String    ${line}
-        # Drop leading and trailing pipes
-        ${line}=    Strip String    ${line}    characters=|
-        # Remove leading and trailing spaces
-        ${line}=    Strip String    ${line}
-        # If the resulting line is not empty, add it as a bootable entry
-        ${length}=    Get Length    ${line}
-        IF    ${length} > 0    Append To List    ${menu_construction}    ${line}
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-4]
     RETURN    ${menu_construction}
 
 Remove Entry From List
