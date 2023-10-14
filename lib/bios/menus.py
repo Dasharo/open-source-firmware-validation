@@ -7,11 +7,20 @@ from robot.api.deco import keyword
 def check_if_menu_line_is_an_option(line):
     """
     Checks if given line is the part of some menu, by checking if the option
-    is selectable: checks for the presence of '[' or '<'
+    is selectable: checks for the presence of '[' or '>'
     """
-    if "[" in line or "<" in line:
+    re_starts_with_arrow_opt = r"^>.*$"
+    re_multiple_choice_opt = r"^.*<.*$"
+    re_boolean_opt = r"^.*\[.*\]"
+
+    if re.match(re_starts_with_arrow_opt, line):
         return True
-    return False
+    elif re.match(re_multiple_choice_opt, line):
+        return True
+    elif re.match(re_boolean_opt, line):
+        return True
+    else:
+        return False
 
 
 @keyword("Get list options")

@@ -301,19 +301,6 @@ Enter Petitboot And Return Menu
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
     RETURN    ${menu}
 
-Enter Tianocore And Return Menu
-    [Documentation]    Enter SeaBIOS and returns boot entry menu.
-    Enter Boot Menu Tianocore
-    ${menu}=    Read From Terminal Until    ESC to exit
-    RETURN    ${menu}
-
-Enter Device Manager Submenu
-    [Documentation]    Enter to the Device Manager submenu which should be
-    ...    located in the Setup Menu.
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    Device Manager
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
 Enter Secure Boot Configuration Submenu
     [Documentation]    Enter to the Secure Boot Configuration submenu which
     ...    should be located in the Setup Menu.
@@ -449,25 +436,10 @@ Get Menu Reference Tianocore
     ${first_entry}=    Strip String    ${first_entry}
     RETURN    ${first_entry}
 
-Enter One Time Boot In Tianocore
-    [Documentation]    Enter One Time Boot option in Tianocore (edk2).
-    Telnet.Set Timeout    20 seconds
-    ${rel_pos}=    Get Relative Menu Position    Standard English    One Time Boot    Select Entry
-    Press Key N Times And Enter    ${rel_pos-8}    ${ARROW_DOWN}
-    Telnet.Read Until    Device Path
-
 Tianocore One Time Boot
     [Arguments]    ${option}
     Enter Boot Menu Tianocore
     Enter Submenu In Tianocore    ${option}
-
-Enter Dasharo System Features
-    [Documentation]    Enters Dasharo System Features after the machine has been
-    ...    powered on.
-    Enter Setup Menu Tianocore
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Check If Submenu Exists Tianocore
     [Documentation]    Checks if given submenu exists
@@ -567,6 +539,8 @@ Skip If Menu Option Not Available
     Sleep    1s
     Telnet.Read Until    Esc=Exit
 
+# TODO: remove
+
 Get Option Value
     [Documentation]    Reads given ${option} in Tianocore menu and returns its
     ...    value
@@ -584,6 +558,8 @@ Save Changes And Boot To OS
     Write Bare Into Terminal    y
     Press Key N Times    ${nesting_level}    ${ESC}
     Enter Submenu In Tianocore    Continue    checkpoint=Continue    description_lines=6
+
+# TODO: calculate steps_to_reset based on menu construction
 
 Save Changes And Reset
     [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
@@ -612,6 +588,8 @@ Check The Presence Of Bluetooth Card
     ${result}=    Run Keyword And Return Status
     ...    Should Not Be Empty    ${terminal_result}
     RETURN    ${result}
+
+# TODO: remove
 
 Check If Tianocore Setting Is Enabled In Current Menu
     [Documentation]    Checks if option ${option} is enabled, returns True/False
@@ -655,7 +633,11 @@ Press Key N Times And Enter
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    Enter
     ELSE
+        # Before entering new menu, make sure we get rid of all leftovers
+        Sleep    1s
+        Read From Terminal
         Write Bare Into Terminal    ${ENTER}
+        # Send the ANSI escape code to clear the screen
     END
 
 Press Key N Times
@@ -2335,31 +2317,6 @@ Get Secure Boot Configuration Submenu Construction
     ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
     RETURN    ${menu_construction}
 
-Get USB Configuration Submenu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
-    ...    Getting setup menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces and
-    ...    not menu frames.
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies one line, footer -3)
-    ${menu}=    Read From Terminal Until    Press ESC to exit.
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!="${SPACE}"
-            ${line}=    Get Substring    ${line}    1
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[3:-1]
-    RETURN    ${menu_construction}
-
 Generate 1GB File In Windows
     [Documentation]    Generates 1G file in Windows in .txt format.
     ${out}=    Execute Command In Terminal    fsutil file createnew test_file.txt 1073741824
@@ -2589,21 +2546,6 @@ Perform Hibernation Test Using FWTS
     END
     RETURN    ${is_hibernation_performed_correctly}
 
-Get Index Of Matching Option In Menu
-    [Documentation]    This keyword returns the index of element that matches
-    ...    one in given menu
-    [Arguments]    ${menu_construction}    ${option}
-    FOR    ${element}    IN    @{menu_construction}
-        ${matches}=    Run Keyword And Return Status
-        ...    Should Match    ${element}    *${option}*
-        IF    ${matches}
-            ${option}=    Set Variable    ${element}
-            BREAK
-        END
-    END
-    ${index}=    Get Index From List    ${menu_construction}    ${option}
-    RETURN    ${index}
-
 Enter TCG Drive Management Submenu
     [Documentation]    Enters TCG Drive Management submenu
     ${menu_construction}=    Get Setup SubMenu Construction
@@ -2636,29 +2578,6 @@ Disable Option In Submenu
         Press Key N Times    1    ${F10}
         Write Bare Into Terminal    y
     END
-
-Enter Dasharo Security Options Submenu
-    [Documentation]    Enters and returns the output of Dasharo Security
-    ...    Options
-    ${menu_construction}=    Get Setup Menu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo Security Options
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Dasharo Security Submenu Construction
-    RETURN    ${menu_construction}
-
-Enter USB Configuration Submenu
-    [Documentation]    Returns output of USB Configuration SubMenu.
-    ${menu_construction}=    Get Setup Menu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    USB Configuration
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get USB Configuration Submenu Construction
-    RETURN    ${menu_construction}
 
 Enable Option In USB Configuration Submenu
     [Documentation]    Enables option in USB Configuration SubMenu.
@@ -2807,33 +2726,6 @@ Remove Extra Default Route
         ${route_info}=    Execute Linux Command    ip route | grep ^default
         Log    Default route via 172.16.0.1 dev ${devname[0]} removed
     END
-
-Get Dasharo Security Submenu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
-    ...    Getting setup menu construction is carried out in the following basis:
-    ...    1. Get serial output, which shows Boot menu with all elements,
-    ...    headers and whitespaces.
-    ...    2. Split serial output string and create list.
-    ...    3. Create empty list for detected elements of menu.
-    ...    4. Add to the new list only elements which are not whitespaces and
-    ...    not menu frames.
-    ...    5. Remove from new list menu header and footer (header always
-    ...    occupies one line, footer -3)
-    ${menu}=    Read From Terminal Until    Press ESC to exit.
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        ${line_contains_checkbox}=    Run Keyword And Return Status
-        ...    Should Contain    ${line}    [
-
-        IF    "${line}"!="${EMPTY}" and "${line}"!="${SPACE}" and "${line_contains_checkbox}"=="True"
-            ${line}=    Get Substring    ${line}    1
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    RETURN    ${menu_construction}
 
 Should Contain All
     [Arguments]    ${string}    @{substrings}

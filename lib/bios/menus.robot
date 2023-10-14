@@ -21,7 +21,14 @@ Enter Boot Menu Tianocore
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
     ${menu}=    Read From Terminal Until    exit
-    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    3    4
+    # Lines to strip:
+    #    TOP:
+    #    Please select boot device:
+    #    BOTTOM
+    #    ^ and v to move selection
+    #    ENTER to select boot device
+    #    ESC to exit
+    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
     RETURN    ${construction}
 
 Enter Boot Menu Tianocore And Return Construction
@@ -41,25 +48,32 @@ Enter Setup Menu Tianocore
 
 Get Setup Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
-    [Arguments]    ${checkpoint}=Save screenshot
+    [Arguments]    ${checkpoint}=Select Entry
+    # Lines to strip:
+    #    TOP:
+    #    Standard PC (Q35 + ICH9 2009)
+    #    pc-q35-7.2    2.00 GHz
+    #    0.0.0    128 MB RAM
+    #    BOTTOM
+    #    ^v=Move Highlight    <Enter>=Select Entry
     ${construction}=    Get Menu Construction    ${checkpoint}    3    1
     RETURN    ${construction}
 
 Get Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
-    [Arguments]    ${checkpoint}=Press ESC to exit.    ${leading_lines}=1    ${trailing_lines}=0
+    [Arguments]    ${checkpoint}=Press ESC to exit.    ${lines_top}=1    ${lines_bot}=0
     ${menu}=    Read From Terminal Until    ${checkpoint}
-    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${leading_lines}    ${trailing_lines}
+    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
     RETURN    ${construction}
 
 Parse Menu Snapshot Into Construction
     [Documentation]    Breaks grabbed menu data into lines.
-    [Arguments]    ${menu}    ${leading_lines}    ${trailing_lines}
-    ${slice_start}=    Set Variable    ${leading_lines}
-    IF    ${trailing_lines} == 0
+    [Arguments]    ${menu}    ${lines_top}    ${lines_bot}
+    ${slice_start}=    Set Variable    ${lines_top}
+    IF    ${lines_bot} == 0
         ${slice_end}=    Set Variable    None
     ELSE
-        ${slice_end}=    Evaluate    ${trailing_lines} * -1
+        ${slice_end}=    Evaluate    ${lines_bot} * -1
     END
     ${menu}=    Remove String    ${menu}    \r
     @{menu_lines}=    Split To Lines    ${menu}
@@ -71,10 +85,10 @@ Parse Menu Snapshot Into Construction
         ${line}=    Strip String    ${line}
         # Drop leading and trailing pipes (e.g. in One Time Boot Menu)
         ${line}=    Strip String    ${line}    characters=|
-        # Drop leading arrows (e.g. preceding options)
-        ${line}=    Strip String    ${line}    characters=>    mode=left
         # Remove leading and trailing spaces
         ${line}=    Strip String    ${line}
+        # Drop all remaining borders
+        ${line}=    Remove String Using Regexp    ${line}    ^[\\|\\s/\\\\-]+$
         # If the resulting line is not empty, add it as a menu entry
         ${length}=    Get Length    ${line}
         IF    ${length} > 0    Append To List    ${construction}    ${line}
@@ -89,63 +103,49 @@ Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Get Setup Menu Construction
     RETURN    ${menu}
 
-Enter Setup Menu Option From Snapshot
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
-    [Arguments]    ${menu}    ${option}
-    ${index}=    Get Index From List    ${menu}    ${option}
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Enter Setup Menu Option From Snapshot And Return Construction
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
-    [Arguments]    ${menu}    ${option}
-    ${index}=    Get Index From List    ${menu}    ${option}
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    ${submenu}=    Get Menu Construction    Esc=Exit    3    2
+Get Submenu Construction
+    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1
+    # In most cases, we need to strip two lines:
+    #    TOP:
+    #    Title line, such as:    Dasharo System Features
+    #    BOTTOM:
+    #    Help line, such as:    F9=Reset to Defaults    Esc=Exit
+    ${submenu}=    Get Menu Construction    ${checkpoint}    ${lines_top}    ${lines_bot}
+    # Handling of additional exceptions appearing in submenus:
+    #    1. Drop unselectable strings from Device Manager
+    Remove Values From List    ${submenu}    Devices List
     RETURN    ${submenu}
 
-Enter Setup Menu Option
+Enter Submenu From Snapshot
     [Documentation]    Enter given Setup Menu Tianocore option after entering
     ...    Setup Menu Tianocore
-    [Arguments]    ${option}
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    ${option}
+    [Arguments]    ${menu}    ${option}
+    ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
-Get Submenu Construction
-    [Documentation]    Reads and returns the construction of any submenu
-    ${menu}=    Read From Terminal Until    Press ESC to exit.
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
+Enter Submenu From Snapshot And Return Construction
+    [Documentation]    Enter given Setup Menu Tianocore option after entering
+    ...    Setup Menu Tianocore
+    [Arguments]    ${menu}    ${option}
+    ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
+    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    ${submenu}=    Get Submenu Construction
+    RETURN    ${submenu}
 
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        ${is_menu_option}=    Check If Menu Line Is An Option    ${line}
-        IF    ${is_menu_option}
-            ${line}=    Get Substring    ${line}    0    30
-            ${line}=    Strip String    ${line}
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    RETURN    ${menu_construction}
-
-Enter Submenu And Return Its Construction
-    [Documentation]    Enters given submenu and returns its construction
-    [Arguments]    ${submenu}
-    ${menu_construction}=    Get Setup Submenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    Read From Terminal Until    <Enter>
-    ${submenu_construction}=    Get Submenu Construction
-    RETURN    ${submenu_construction}
+Enter Device Manager Submenu
+    [Arguments]    ${setup_menu}
+    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    Should Not Contain    ${device_menu}[0]    Devices List
+    List Should Contain Value    ${device_menu}    Driver Health Manager
+    RETURN    ${device_menu}
 
 Read Option List Contents
     [Documentation]    This keywords enters the option and returns the content
     ...    of the list
     [Arguments]    ${menu_construction}    ${option}
-    ${option_index}=    Get Index From List    ${menu_construction}    ${option}
+    ${option_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${option}
     Read From Terminal
     Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
     Sleep    1s
@@ -163,7 +163,7 @@ Select Option From List
     # that we are at the start of the list
     ${list_length}=    Get Length    ${list_options}
     Press Key N Times    ${list_length}    ${ARROW_UP}
-    ${option_index}=    Get Index From List    ${list_options}    ${list_element}
+    ${option_index}=    Get Index Of Matching Option In Menu    ${list_options}    ${list_element}
     Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
 
 Save BIOS Changes
@@ -175,7 +175,7 @@ Enter Dasharo System Features Submenu
     [Documentation]    Grabs current menu, finds specified ${submenu} and
     ...    returns its contents.
     [Arguments]    ${submenu}
-    ${menu}=    Read From Terminal Until    Save screenshot
+    ${menu}=    Read From Terminal Until    Esc=Exit
     ${menu_construction}=    Enter Dasharo System Features Submenu Snapshot    ${menu}    ${submenu}
     RETURN    ${menu_construction}
 
@@ -193,15 +193,84 @@ Enter Dasharo System Features Submenu Snapshot
     ${menu_construction}=    Get Setup Submenu Construction
     RETURN    ${menu_construction}
 
-### TO REMOVE
+Enter Dasharo System Features
+    [Arguments]    ${setup_menu}
+    ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Dasharo System Features
+    RETURN    ${dasharo_menu}
 
 Enter Dasharo Submenu
-    [Documentation]    Grabs current menu, finds specified ${submenu} and
-    ...    returns its contents.
-    [Arguments]    ${submenu}    ${checkpoint}=<Enter>=Select Entry
-    ${menu}=    Read From Terminal Until    ${checkpoint}
-    ${menu_construction}=    Enter Dasharo Submenu Snapshot    ${menu}    ${submenu}
-    RETURN    ${menu_construction}
+    [Arguments]    ${dasharo_menu}    ${option}
+    ${submenu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${dasharo_menu}
+    ...    ${option}
+    # Handling exceptions caused by some options splitting into multiple lines.
+    # For Dasharo System Features options, we can assume that each entry has
+    # either ">", or "[ ]", or "< >". For other edk2 menus, this is not always
+    # the case.
+    FOR    ${entry}    IN    @{submenu}
+        ${status}=    Check If Menu Line Is An Option    ${entry}
+        IF    ${status} != ${TRUE}
+            Remove Values From List    ${submenu}    ${entry}
+        END
+    END
+    RETURN    ${submenu}
+
+Get Index Of Matching Option In Menu
+    [Documentation]    This keyword returns the index of element that matches
+    ...    one in given menu
+    [Arguments]    ${menu_construction}    ${option}
+    FOR    ${element}    IN    @{menu_construction}
+        ${matches}=    Run Keyword And Return Status
+        ...    Should Match    ${element}    *${option}*
+        IF    ${matches}
+            ${option}=    Set Variable    ${element}
+            BREAK
+        END
+    END
+    ${index}=    Get Index From List    ${menu_construction}    ${option}
+    RETURN    ${index}
+
+Get Option State
+    [Documentation]    Gets menu construction and option name as arguments.
+    ...    Returns option state, which can be: True, False, or numerical value.
+    [Arguments]    ${menu}    ${option}
+    ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
+    ${value}=    Get Value From Brackets    ${menu}[${index}]
+    IF    '${value}' == 'X'
+        ${state}=    Set Variable    ${TRUE}
+    ELSE IF    '${value}' == '${SPACE}'
+        ${state}=    Set Variable    ${FALSE}
+    ELSE
+        ${state}=    Set Variable    ${value}
+    END
+    RETURN    ${state}
+
+Set Option State
+    [Documentation]    Gets menu construction option name, and desired state
+    ...    as arguments.
+    [Arguments]    ${menu}    ${option}    ${target_state}
+    ${current_state}=    Get Option State    ${menu}    ${option}
+
+    # This type of field can either be boolean ([X] or [ ]), or free entry
+    # field. At first, find out which one is it.
+    IF    '${current_state}' == '${TRUE}' or '${current_state}' == '${FALSE}'
+        ${type}=    Set Variable    bool
+    ELSE
+        ${type}=    Set Variable    numerical
+    END
+
+    IF    '${current_state}' != '${target_state}'
+        ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+        IF    '${type}' == 'numerical'
+            Write Bare Into Terminal    ${target_state}
+            Press Key N Times    1    ${ENTER}
+        END
+    ELSE
+        Log    Nothing to do. Desired state is already set.
+    END
 
 ### TO REMOVE
 
