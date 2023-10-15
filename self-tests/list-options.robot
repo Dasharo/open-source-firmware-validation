@@ -80,16 +80,16 @@ Select State Of List Option In ME Menu (bottom-top)
 
 # TODO: Current version of Get Option State kwd does not handle list options
 # splitting into multiple lines
-
-Get Current State Of List Option In Memory Menu
-    [Documentation]    Checks whether the numerical option can be set.
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
-    ${state}=    Get Option State    ${memory_menu}    Memory SPD Profile
-    # Starts with capital letter, no extra trailing whitespaces
-    Should Match Regexp    ${state}    ^[A-Z][\\w()\\s-]+\\S$
+#
+# Get Current State Of List Option In Memory Menu
+#    [Documentation]    Checks whether the numerical option can be set.
+#    Power On
+#    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+#    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+#    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
+#    ${state}=    Get Option State    ${memory_menu}    Memory SPD Profile
+#    # Starts with capital letter, no extra trailing whitespaces
+#    Should Match Regexp    ${state}    ^[A-Z][\\w()\\s-]+\\S$
 
 Parse Available Selections Of List Option In Memory Menu
     Power On

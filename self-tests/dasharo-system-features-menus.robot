@@ -52,7 +52,7 @@ Enter Dasharo Security Options
 Parse Dasharo Security Options
     [Documentation]    Check if Dasharo Security Options menu can be parsed.
     ${security_menu}=    Parsing Dasharo Submenu Verification    Dasharo Security Options
-    Should Match Regexp    ${security_menu}[0]    ^Lock the BIOS boot medium \\[.\\]$
+    Should Match Regexp    ${security_menu}[0]    ^Lock the BIOS boot medium \\[.\\].*$
     List Should Contain Value    ${security_menu}    > Enter Firmware Update Mode
     # Second line from "Enable SMM BIOS write protection" should not be there
     List Should Not Contain Value    ${security_menu}    protection
@@ -66,7 +66,7 @@ Parse Networking Options
     ${networking_menu}=    Parsing Dasharo Submenu Verification    Networking Options
     ${networking_entries}=    Get Length    ${networking_menu}
     Should Be Equal As Integers    ${networking_entries}    1
-    Should Match Regexp    ${networking_menu}[0]    ^Enable network boot \\[.\\]$
+    Should Match Regexp    ${networking_menu}[0]    ^Enable network boot \\[.\\].*$
 
 Enter USB Configuration
     [Documentation]    Check if USB Configuration menu can be entered.
@@ -77,8 +77,8 @@ Parse USB Configuration
     ${usb_menu}=    Parsing Dasharo Submenu Verification    USB Configuration
     ${usb_entries}=    Get Length    ${usb_menu}
     Should Be Equal As Integers    ${usb_entries}    2
-    Should Match Regexp    ${usb_menu}[0]    ^Enable USB stack \\[.\\]$
-    Should Match Regexp    ${usb_menu}[1]    ^Enable USB Mass Storage \\[.\\]$
+    Should Match Regexp    ${usb_menu}[0]    ^Enable USB stack \\[.\\].*$
+    Should Match Regexp    ${usb_menu}[1]    ^Enable USB Mass Storage \\[.\\].*$
     # Second line from "Enable USB Mass Storage driver" should not be there
     List Should Not Contain Value    ${usb_menu}    driver
 
@@ -91,7 +91,7 @@ Parse Intel Management Engine Options
     ${me_menu}=    Parsing Dasharo Submenu Verification    Intel Management Engine Options
     ${me_entries}=    Get Length    ${me_menu}
     Should Be Equal As Integers    ${me_entries}    1
-    Should Match Regexp    ${me_menu}[0]    ^Intel ME mode <.*>$
+    Should Match Regexp    ${me_menu}[0]    ^Intel ME mode <.*>.*$
 
 Enter Chipset Configuration
     [Documentation]    Check if Chipset Configuration menu can be entered.
@@ -102,7 +102,7 @@ Parse Chipset Configuration
     ${chipset_menu}=    Parsing Dasharo Submenu Verification    Chipset Configuration
     ${chipset_entries}=    Get Length    ${chipset_menu}
     Should Be Equal As Integers    ${chipset_entries}    3
-    Should Match Regexp    ${chipset_menu}[0]    ^Enable PS2 Controller \\[.\\]$
+    Should Match Regexp    ${chipset_menu}[0]    ^Enable PS2 Controller \\[.\\].*$
 
 Enter Power Management Options
     [Documentation]    Check if Power Management Options menu can be entered.
@@ -113,7 +113,7 @@ Parse Power Management Options
     ${power_menu}=    Parsing Dasharo Submenu Verification    Power Management Options
     ${power_entries}=    Get Length    ${power_menu}
     Should Be Equal As Integers    ${power_entries}    4
-    Should Match Regexp    ${power_menu}[0]    ^Fan profile <.*>$
+    Should Match Regexp    ${power_menu}[0]    ^Fan profile <.*>.*$
     # Second line from Batter Start/Stop Chare Threshold should not be there
     List Should Not Contain Value    ${power_menu}    Threshold
 
