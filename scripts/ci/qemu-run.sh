@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 if [ ! -f "./OVMF_CODE.fd" ]; then
-    wget -O ./OVMF_CODE.fd https://cloud.3mdeb.com/index.php/s/iXmyJxKLBB2Eb94/download
+    wget -O ./OVMF_CODE.fd https://github.com/Dasharo/edk2/releases/download/dasharo_qemu_v0.0.1-test3/OVMF_CODE_RELEASE.fd
 fi
 
 if [ ! -f "./OVMF_VARS.fd" ]; then
-    wget -O ./OVMF_VARS.fd https://cloud.3mdeb.com/index.php/s/Mn2n92DZLnZQZ8N/download
+    wget -O ./OVMF_VARS.fd https://github.com/Dasharo/edk2/releases/download/dasharo_qemu_v0.0.1-test3/OVMF_VARS_RELEASE.fd
 fi
 
 cp ./OVMF_VARS.fd /tmp/OVMF_VARS.fd
