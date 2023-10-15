@@ -31,19 +31,19 @@ BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo Submenu    Boot Maintenance Manager
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    Change Numeric Value Of Setting    Auto Boot Time-out    7    Esc=Exit
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    Esc=Exit
-    Restart The DUT
-    Enter Setup Menu Tianocore
-    Enter Dasharo Submenu    Boot Maintenance Manager
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${value}=    Get Option Value    Auto Boot Time-out    Esc=Exit
-    Should Be Equal    ${value}    [7]
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    7
+    Save Changes And Reset    2    2
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    ${timeout_value}=    Get Option State    ${boot_mgr_menu}    Auto Boot Time-out
+    Should Be Equal As Integers    ${timeout_value}    7
 
 BMM002.001 F9 resets Auto Boot Time-out to default value
     [Documentation]    Check whether pressing F9 resets Auto Boot Time-out to
@@ -51,23 +51,17 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo Submenu    Boot Maintenance Manager
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    Reset To Defaults Tianocore    Esc=Exit
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    Esc=Exit
-    Restart The DUT
-    Enter Setup Menu Tianocore
-    Enter Dasharo Submenu    Boot Maintenance Manager
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${value}=    Get Option Value    Auto Boot Time-out    Esc=Exit
-    Should Be Equal    ${value}    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    7
+    Reset To Defaults Tianocore
+    Save Changes And Reset    2    2
 
-
-*** Keywords ***
-Restart The DUT
-    [Documentation]    Does the same as power on (turns the power off and on).
-    ...    Keyword for future Keyword-based documentation generation.
-    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    ${timeout_value}=    Get Option State    ${boot_mgr_menu}    Auto Boot Time-out
+    Should Be Equal As Integers    ${timeout_value}    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}

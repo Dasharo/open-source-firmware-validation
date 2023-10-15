@@ -130,40 +130,6 @@ Enter Submenu From Snapshot And Return Construction
     ${submenu}=    Get Submenu Construction
     RETURN    ${submenu}
 
-Enter Device Manager Submenu
-    [Arguments]    ${setup_menu}
-    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    Should Not Contain    ${device_menu}[0]    Devices List
-    List Should Contain Value    ${device_menu}    Driver Health Manager
-    RETURN    ${device_menu}
-
-Read Option List Contents
-    [Documentation]    This keywords enters the option and returns the content
-    ...    of the list
-    [Arguments]    ${menu_construction}    ${option}
-    ${option_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${option}
-    Read From Terminal
-    Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
-    Sleep    1s
-    ${list}=    Read From Terminal
-    ${list_options}=    Get List Options    ${list}
-    RETURN    ${list_options}
-
-Select Option From List
-    [Documentation]    Requires menu construction as input. Selects desired
-    ...    element from the list of the option
-    [Arguments]    ${menu_construction}    ${option}    ${list_element}
-    ${list_options}=    Read Option List Contents    ${menu_construction}    ${option}
-    # It turns out that if you go to the beginning of the list and you press
-    # 'up' you won't get to the last option - this is good and we can make sure
-    # that we are at the start of the list
-    ${list_length}=    Get Length    ${list_options}
-    Press Key N Times    ${list_length}    ${ARROW_UP}
-    ${option_index}=    Get Index Of Matching Option In Menu    ${list_options}    ${list_element}
-    Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
-
 Save BIOS Changes
     [Documentation]    This keyword saves introduced changes
     Press Key N Times    1    ${F10}
@@ -341,7 +307,10 @@ Set Option State
         Log    Nothing to do. Desired state is already set.
     END
 
-### TO REMOVE
+############################################################################
+### Below keywords still must be reviewed and reworked. We should reuse the
+### keywords from above, and remove as much as possible the ones below.
+############################################################################
 
 Enter Dasharo Submenu Snapshot
     [Documentation]    Version of "Enter Dasharo Submenu" that processes menu
@@ -366,10 +335,9 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
-    [Arguments]    ${checkpoint}=exit.
-    Telnet.Read Until    ${checkpoint}
+    Read From Terminal
     Press Key N Times    1    ${F9}
-    Telnet.Read Until    ignore.
+    Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
 Enter Secure Boot Configuration Submenu
@@ -561,8 +529,6 @@ Save Changes And Reset
     Press Key N Times    ${nesting_level}    ${ESC}
     Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
 
-# TODO: remove
-
 Check If Tianocore Setting Is Enabled In Current Menu
     [Documentation]    Checks if option ${option} is enabled, returns True/False
     [Arguments]    ${option}
@@ -596,3 +562,37 @@ Get Relative Menu Position
     END
     ${rel_pos}=    Evaluate    ${end} - ${start}
     RETURN    ${rel_pos}
+
+Enter Device Manager Submenu
+    [Arguments]    ${setup_menu}
+    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    Should Not Contain    ${device_menu}[0]    Devices List
+    List Should Contain Value    ${device_menu}    Driver Health Manager
+    RETURN    ${device_menu}
+
+Read Option List Contents
+    [Documentation]    This keywords enters the option and returns the content
+    ...    of the list
+    [Arguments]    ${menu_construction}    ${option}
+    ${option_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${option}
+    Read From Terminal
+    Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
+    Sleep    1s
+    ${list}=    Read From Terminal
+    ${list_options}=    Get List Options    ${list}
+    RETURN    ${list_options}
+
+Select Option From List
+    [Documentation]    Requires menu construction as input. Selects desired
+    ...    element from the list of the option
+    [Arguments]    ${menu_construction}    ${option}    ${list_element}
+    ${list_options}=    Read Option List Contents    ${menu_construction}    ${option}
+    # It turns out that if you go to the beginning of the list and you press
+    # 'up' you won't get to the last option - this is good and we can make sure
+    # that we are at the start of the list
+    ${list_length}=    Get Length    ${list_options}
+    Press Key N Times    ${list_length}    ${ARROW_UP}
+    ${option_index}=    Get Index Of Matching Option In Menu    ${list_options}    ${list_element}
+    Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
