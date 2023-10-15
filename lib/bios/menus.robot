@@ -4,7 +4,6 @@ Documentation       Collection of keywords related to EDK2 menus
 Library             Collections
 Library             String
 Library             ./menus.py
-Resource            ../../keywords.robot
 
 
 *** Keywords ***
@@ -127,8 +126,7 @@ Enter Submenu From Snapshot And Return Construction
     [Documentation]    Enter given Setup Menu Tianocore option after entering
     ...    Setup Menu Tianocore
     [Arguments]    ${menu}    ${option}
-    ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    Enter Submenu From Snapshot    ${menu}    ${option}
     ${submenu}=    Get Submenu Construction
     RETURN    ${submenu}
 
@@ -230,43 +228,114 @@ Get Index Of Matching Option In Menu
         END
     END
     ${index}=    Get Index From List    ${menu_construction}    ${option}
+    Should Be True    ${index} >= 0    Option ${option} not found in the list
     RETURN    ${index}
+
+Press Key N Times And Enter
+    [Documentation]    Enter specified in the first argument times the specified
+    ...    in the second argument key and then press Enter.
+    [Arguments]    ${n}    ${key}
+    Press Key N Times    ${n}    ${key}
+    Press Enter
+
+Press Enter
+    # Before entering new menu, make sure we get rid of all leftovers
+    Sleep    1s
+    Read From Terminal
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Single Key PiKVM    Enter
+    ELSE
+        Press Key N Times    1    ${ENTER}
+    END
+
+Press Key N Times
+    [Documentation]    Enter specified in the first argument times the specified
+    ...    in the second argument key.
+    [Arguments]    ${n}    ${key}
+    FOR    ${index}    IN RANGE    0    ${n}
+        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+            Single Key PiKVM    ${key}
+            # Key press time as defined in PiKVM library is 200ms. We need some
+            # additional delay to make sure we can gather all input from terminal after
+            # key press.
+            Sleep    1s
+        ELSE
+            Write Bare Into Terminal    ${key}
+        END
+    END
 
 Get Option State
     [Documentation]    Gets menu construction and option name as arguments.
-    ...    Returns option state, which can be: True, False, or numerical value.
+    ...    Returns option state, which can be: True, False, or numeric value.
     [Arguments]    ${menu}    ${option}
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     ${value}=    Get Value From Brackets    ${menu}[${index}]
     IF    '${value}' == 'X'
         ${state}=    Set Variable    ${TRUE}
-    ELSE IF    '${value}' == '${SPACE}'
+    ELSE IF    '${value}' == ' '
         ${state}=    Set Variable    ${FALSE}
     ELSE
         ${state}=    Set Variable    ${value}
     END
     RETURN    ${state}
 
+Get Option Type
+    [Documentation]    Accepts option state and returns option type. Option
+    ...    type can be one of:    bool, numeric, list.
+    [Arguments]    ${state}
+    # This type of field can either be boolean ([X] or [ ]), or free entry
+    # field. At first, find out which one is it.
+    IF    '${state}' == '${TRUE}' or '${state}' == '${FALSE}'
+        ${type}=    Set Variable    bool
+    ELSE
+        ${status}=    Run Keyword And Return Status
+        ...    Convert To Integer    ${state}
+        IF    ${status} == ${TRUE}
+            ${type}=    Set Variable    numeric
+        ELSE
+            ${type}=    Set Variable    list
+        END
+    END
+    RETURN    ${type}
+
+Select State From List
+    [Documentation]    Accepts a list of option and states (current and target).
+    ...    Selects the target state.
+    [Arguments]    ${list}    ${current_state}    ${target_state}
+    # Calculate offset and direction
+    ${current_index}=    Get Index From List    ${list}    ${current_state}
+    ${target_index}=    Get Index From List    ${list}    ${target_state}
+    ${diff_index}=    Evaluate    ${target_index} - ${current_index}
+    IF    ${diff_index} > 0
+        ${direction}=    Set Variable    ${ARROW_DOWN}
+        ${offset}=    Set Variable    ${diff_index}
+    ELSE
+        ${direction}=    Set Variable    ${ARROW_UP}
+        ${offset}=    Evaluate    -1 * ${diff_index}
+    END
+    # Select the target state
+    Press Key N Times And Enter    ${offset}    ${direction}
+
 Set Option State
     [Documentation]    Gets menu construction option name, and desired state
     ...    as arguments.
     [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
-
-    # This type of field can either be boolean ([X] or [ ]), or free entry
-    # field. At first, find out which one is it.
-    IF    '${current_state}' == '${TRUE}' or '${current_state}' == '${FALSE}'
-        ${type}=    Set Variable    bool
-    ELSE
-        ${type}=    Set Variable    numerical
-    END
-
     IF    '${current_state}' != '${target_state}'
-        ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
-        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-        IF    '${type}' == 'numerical'
+        ${type}=    Get Option Type    ${current_state}
+        Enter Submenu From Snapshot    ${menu}    ${option}
+        IF    '${type}' == 'numeric'
             Write Bare Into Terminal    ${target_state}
-            Press Key N Times    1    ${ENTER}
+            Press Enter
+        END
+        IF    '${type}' == 'list'
+            ${out}=    Read From Terminal Until    ---/
+            ${list}=    Extract Strings From Frame    ${out}
+            List Should Contain Value
+            ...    ${list}
+            ...    ${target_state}
+            ...    Target state ${target_state} not available in the list
+            Select State From List    ${list}    ${current_state}    ${target_state}
         END
     ELSE
         Log    Nothing to do. Desired state is already set.
@@ -302,3 +371,228 @@ Reset To Defaults Tianocore
     Press Key N Times    1    ${F9}
     Telnet.Read Until    ignore.
     Write Bare Into Terminal    y
+
+Enter Secure Boot Configuration Submenu
+    [Documentation]    Enter to the Secure Boot Configuration submenu which
+    ...    should be located in the Setup Menu.
+
+    ${menu_construction}=    Get Setup Menu Construction
+    ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
+    Press Key N Times And Enter    2    ${ARROW_DOWN}
+
+Enter IPXE
+    [Documentation]    Enter iPXE after device power cutoff.
+    # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
+    # TODO2:    problem with iPXE string (e.g. when 3 network interfaces are available)
+
+    IF    '${PAYLOAD}' == 'seabios'
+        Enter SeaBIOS
+        Sleep    0.5s
+        ${setup}=    Telnet.Read
+        ${lines}=    Get Lines Matching Pattern    ${setup}    ${IPXE_BOOT_ENTRY}
+        Telnet.Write Bare    ${lines[0]}
+        Telnet.Read Until    ${IPXE_STRING}
+        Telnet.Write Bare    ${IPXE_KEY}
+        IPXE Wait For Prompt
+    ELSE IF    '${PAYLOAD}' == 'tianocore'
+        Enter Boot Menu Tianocore
+        Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
+        Enter Submenu In Tianocore
+        ...    option=iPXE Shell
+        ...    checkpoint=${EDK2_IPXE_CHECKPOINT}
+        ...    description_lines=${EDK2_IPXE_START_POS}
+        Set Prompt For Terminal    iPXE>
+        Read From Terminal Until Prompt
+    END
+
+Enter Submenu In Tianocore
+    [Documentation]    Enter chosen option. Generic keyword.
+    [Arguments]    ${option}    ${checkpoint}=ESC to exit    ${description_lines}=1
+    ${rel_pos}=    Get Relative Menu Position    ${option}    ${checkpoint}    ${description_lines}
+    Press Key N Times And Enter    ${rel_pos}    ${ARROW_DOWN}
+
+Enter UEFI Shell Tianocore
+    [Documentation]    Enter UEFI Shell in Tianocore by specifying its position
+    ...    in the list.
+    Set Local Variable    ${IS_SHELL_AVAILABLE}    ${FALSE}
+    ${menu_construction}=    Get Boot Menu Construction
+    ${is_shell_available}=    Evaluate    "UEFI Shell" in """${menu_construction}"""
+    IF    not ${is_shell_available}
+        FAIL    Test case marked as Failed\nBoot menu does not contain position for entering UEFI Shell
+    END
+    ${system_index}=    Get Index From List    ${menu_construction}    UEFI Shell
+    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+
+Get Menu Reference Tianocore
+    [Documentation]    Get first entry from Tianocore Boot Manager menu.
+    [Arguments]    ${raw_menu}    ${bias}
+    ${lines}=    Get Lines Matching Pattern    ${raw_menu}    *[qwertyuiopasdfghjklzxcvbnm]*
+    ${lines}=    Split To Lines    ${lines}
+    ${bias}=    Convert To Integer    ${bias}
+    ${first_entry}=    Get From List    ${lines}    ${bias}
+    ${first_entry}=    Strip String    ${first_entry}    characters=1234567890()
+    ${first_entry}=    Strip String    ${first_entry}
+    RETURN    ${first_entry}
+
+Tianocore One Time Boot
+    [Arguments]    ${option}
+    Enter Boot Menu Tianocore
+    Enter Submenu In Tianocore    ${option}
+
+Check If Submenu Exists Tianocore
+    [Documentation]    Checks if given submenu exists
+    [Arguments]    ${submenu}
+    ${out}=    Telnet.Read Until    exit.
+    ${result}=    Run Keyword And Return Status
+    ...    Should Contain    ${out}    ${submenu}
+    RETURN    ${result}
+
+Reenter Menu
+    [Documentation]    Returns to the previous menu and enters the same one
+    ...    again
+    [Arguments]    ${forward}=${FALSE}
+    IF    ${forward} == True
+        Press Key N Times    1    ${ENTER}
+        Sleep    1s
+        Press Key N Times    1    ${ESC}
+    ELSE
+        Press Key N Times    1    ${ESC}
+        Sleep    1s
+        Press Key N Times    1    ${ENTER}
+    END
+
+Type In The Password
+    [Documentation]    Operation for typing in the password
+    [Arguments]    @{keys_password}
+    FOR    ${key}    IN    @{keys_password}
+        Write Bare Into Terminal    ${key}
+        Sleep    0.5s
+    END
+    Press Key N Times    1    ${ENTER}
+
+Type In New Disk Password
+    [Documentation]    Types in new disk password when prompted. The actual
+    ...    password is passed as list of keys.
+    [Arguments]    @{keys_password}
+    Read From Terminal Until    your new password
+    Sleep    0.5s
+    # FIXME: Often the TCG OPAL test fails to enter Setup Menu after typing
+    # password, and the default boot path proceeds instead. Pressing Setup Key
+    # at this point allows to enter Setup Menu much more reliably.
+    Press Key N Times    1    ${SETUP_MENU_KEY}
+    FOR    ${i}    IN RANGE    0    2
+        Type In The Password    @{keys_password}
+        Sleep    1s
+    END
+
+Type In BIOS Password
+    [Documentation]    Types in password in general BIOS prompt
+    [Arguments]    @{keys_password}
+    Read From Terminal Until    password
+    Sleep    0.5s
+    Type In The Password    @{keys_password}
+
+Type In Disk Password
+    [Documentation]    Types in the disk password
+    [Arguments]    @{keys_password}
+    Read From Terminal Until    Unlock
+    Sleep    0.5s
+    # FIXME: See a comment in: Type in new disk password
+    Press Key N Times    1    ${SETUP_MENU_KEY}
+    Type In The Password    @{keys_password}
+    Press Key N Times    1    ${ENTER}
+
+Remove Disk Password
+    [Documentation]    Removes disk password
+    [Arguments]    @{keys_password}
+    Enter Device Manager Submenu
+    Enter TCG Drive Management Submenu
+    # if we want to remove password, we can assume that it is turned on so, we
+    # don't have to check all the options
+    Log    Select entry: Admin Revert to factory default and Disable
+    Press Key N Times    1    ${ENTER}
+    Press Key N Times And Enter    4    ${ARROW_DOWN}
+    Save Changes And Reset    3
+    Read From Terminal Until    Unlock
+    FOR    ${i}    IN RANGE    0    2
+        Type In The Password    @{keys_password}
+        Sleep    0.5s
+    END
+    Press Key N Times    1    ${SETUP_MENU_KEY}
+
+Change To Next Option In Setting
+    [Documentation]    Changes given setting option to next in the list of
+    ...    possible options.
+    [Arguments]    ${setting}
+    Enter Submenu In Tianocore    ${setting}
+    Press Key N Times And Enter    1    ${ARROW_DOWN}
+
+Skip If Menu Option Not Available
+    [Documentation]    Skips the test if given submenu is not available in the
+    ...    menu
+    [Arguments]    ${submenu}
+    ${res}=    Check If Submenu Exists Tianocore    ${submenu}
+    Skip If    not ${res}
+    Reenter Menu
+    Sleep    1s
+    Telnet.Read Until    Esc=Exit
+
+Save Changes And Boot To OS
+    [Documentation]    Saves current UEFI settings and continues booting to OS.
+    ...    ${nesting_level} is crucial, because it depicts where
+    ...    Continue button is located.
+    [Arguments]    ${nesting_level}=2
+    Press Key N Times    1    ${F10}
+    Write Bare Into Terminal    y
+    Press Key N Times    ${nesting_level}    ${ESC}
+    Enter Submenu In Tianocore    Continue    checkpoint=Continue    description_lines=6
+
+# TODO: calculate steps_to_reset based on menu construction
+
+Save Changes And Reset
+    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
+    ...    is how deep user is currently in the settings.
+    ...    ${main_menu_steps_to_reset} means how many times should
+    ...    arrow down be pressed to get to the Reset option in main
+    ...    settings menu
+    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
+    Press Key N Times    1    ${F10}
+    Write Bare Into Terminal    y
+    Press Key N Times    ${nesting_level}    ${ESC}
+    Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
+
+# TODO: remove
+
+Check If Tianocore Setting Is Enabled In Current Menu
+    [Documentation]    Checks if option ${option} is enabled, returns True/False
+    [Arguments]    ${option}
+    ${option_value}=    Get Option Value    ${option}
+    ${enabled}=    Run Keyword And Return Status
+    ...    Should Be Equal    ${option_value}    [X]
+    RETURN    ${enabled}
+
+Get Relative Menu Position
+    [Documentation]    Evaluate and return relative menu entry position
+    ...    described in the argument.
+    [Arguments]    ${entry}    ${checkpoint}    ${bias}=1
+    ${output}=    Read From Terminal Until    ${checkpoint}
+    ${output}=    Strip String    ${output}
+    ${reference}=    Get Menu Reference Tianocore    ${output}    ${bias}
+    @{lines}=    Split To Lines    ${output}
+    ${iterations}=    Set Variable    0
+    FOR    ${line}    IN    @{lines}
+        IF    '${reference}' in '${line}\\n'
+            ${start}=    Set Variable    ${iterations}
+            BREAK
+        END
+        ${iterations}=    Evaluate    ${iterations} + 1
+    END
+    ${iterations}=    Set Variable    0
+    FOR    ${line}    IN    @{lines}
+        IF    '${entry}' in '${line}\\n'
+            ${end}=    Set Variable    ${iterations}
+        END
+        ${iterations}=    Evaluate    ${iterations} + 1
+    END
+    ${rel_pos}=    Evaluate    ${end} - ${start}
+    RETURN    ${rel_pos}

@@ -23,6 +23,30 @@ def check_if_menu_line_is_an_option(line):
         return False
 
 
+@keyword("Extract strings from frame")
+def extract_strings_from_frame(text):
+    inside_frame = False
+    extracted_strings = []
+    re_frame_start = r"^.*/-{3,}\\.*$"
+    re_frame_end = r"^.*\\-{3,}/.*$"
+    re_selection = r"\|\s*([^|]+?)\s*\|"
+
+    for line in text.splitlines():
+        if re.match(re_frame_start, line):
+            inside_frame = True
+            continue
+        elif re.match(re_frame_end, line):
+            inside_frame = False
+            continue
+
+        if inside_frame:
+            match = re.search(re_selection, line)
+            if match:
+                extracted_strings.append(match.group(1).strip())
+
+    return extracted_strings
+
+
 @keyword("Get list options")
 def get_list_options(menu):
     """

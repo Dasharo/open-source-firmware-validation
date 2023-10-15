@@ -33,7 +33,7 @@ PXE001.001 Dasharo Network Boot is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE001.001 not supported
     Power On
     Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     ${out}=    Read From Terminal Until    ${EDK2_IPXE_CHECKPOINT}
     Should Contain    ${out}    Dasharo Network Boot Menu
 
@@ -44,7 +44,7 @@ PXE002.001 Dasharo network boot menu boot options order is correct
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE002.001 not supported
     Power On
     Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Should Contain    ${ipxe_menu}[0]    Dasharo Network Boot Menu
     Should Contain    ${ipxe_menu}[1]    Autoboot (DHCP)
@@ -59,7 +59,7 @@ PXE003.001 Autoboot option is available and works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE003.001 not supported
     Power On
     Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     Enter Submenu In Tianocore    option=Autoboot (DHCP)    checkpoint=${EDK2_IPXE_CHECKPOINT}
     ${out}=    Read From Terminal Until    ESC to exit
     Should Contain    ${out}    Please select boot device
@@ -71,7 +71,7 @@ PXE004.001 DTS option is available and works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE004.001 not supported
     Power On
     Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     Enter Submenu In Tianocore    option=Dasharo Tools Suite    checkpoint=${EDK2_IPXE_CHECKPOINT}
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
@@ -89,7 +89,7 @@ PXE005.001 OS installation option is available and works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE005.001 not supported
     Power On
     Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     Enter Submenu In Tianocore    option=OS installation    checkpoint=${EDK2_IPXE_CHECKPOINT}
     ${out}=    Read From Terminal Until    netboot.xyz [ enabled: true ]
     Should Contain    ${out}    netboot.xyz
@@ -106,6 +106,6 @@ PXE006.001 iPXE shell option is available and works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE006.001 not supported
     Power On
     Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     Enter Submenu In Tianocore    option=iPXE Shell    checkpoint=${EDK2_IPXE_CHECKPOINT}
     Read From Terminal Until    iPXE>

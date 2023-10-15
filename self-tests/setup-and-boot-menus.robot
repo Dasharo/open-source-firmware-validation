@@ -146,3 +146,11 @@ Parse Boot Maintenance Manager Menu
     Should Be Equal As Strings    ${boot_mgr_menu}[3]    > Boot From File
     Should Match Regexp    ${boot_mgr_menu}[4]    ^Boot Next Value <.*>$
     Should Match Regexp    ${boot_mgr_menu}[5]    ^Auto Boot Time-out \\[\\d+\\]$
+
+Enter Invalid Option in Setup Menu
+    [Documentation]    Test if keyword fails (rather than silently continuing) when
+    ...    not existing submenu was given.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    Run Keyword And Return Status
+    ...    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Not Existing Submenu

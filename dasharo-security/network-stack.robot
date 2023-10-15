@@ -33,22 +33,14 @@ NBA001.001 Enable Network Boot (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA001.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
     Power On
-    Enter Dasharo System Features
-    Enter Submenu In Tianocore    Networking Options
-    ${network_boot_enabled}=    Check If Tianocore Setting Is Enabled In Current Menu    Enable network boot
-    IF    not ${network_boot_enabled}
-        Refresh Serial Screen In BIOS Editable Settings Menu
-        Enter Submenu In Tianocore    Enable network boot    ESC to exit
-        Save Changes And Reset    2    4
-    ELSE
-        Log    Reboot
-        Press Key N Times    2    ${ESC}
-        Press Key N Times And Enter    4    ${ARROW_DOWN}
-    END
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    Set Option State    ${network_menu}    Enable network boot    ${TRUE}
+    Save Changes And Reset    2    4
 
-    Enter Boot Menu Tianocore
-    ${output}=    Read From Terminal Until    ESC to exit
-    Should Contain    ${output}    Network Boot
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
 NBA002.001 Disable Network Boot (firmware)
     [Documentation]    This test aims to verify that the Network Boot option
@@ -58,19 +50,11 @@ NBA002.001 Disable Network Boot (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA002.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
     Power On
-    Enter Dasharo System Features
-    Enter Submenu In Tianocore    Networking Options
-    ${network_boot_enabled}=    Check If Tianocore Setting Is Enabled In Current Menu    Enable network boot
-    IF    ${network_boot_enabled}
-        Refresh Serial Screen In BIOS Editable Settings Menu
-        Enter Submenu In Tianocore    Enable network boot    ESC to exit
-        Save Changes And Reset    2    4
-    ELSE
-        Log    Reboot
-        Press Key N Times    2    ${ESC}
-        Press Key N Times And Enter    4    ${ARROW_DOWN}
-    END
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    Set Option State    ${network_menu}    Enable network boot    ${FALSE}
+    Save Changes And Reset    2    4
 
-    Enter Boot Menu Tianocore
-    ${output}=    Read From Terminal Until    ESC to exit
-    Should Not Contain    ${output}    Network Boot
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
