@@ -2495,52 +2495,25 @@ Setup Intel ME Mode
     [Documentation]    Sets the state of Intel ME mode based on the current
     ...    state.
     [Arguments]    ${actual_state}    ${tested_state}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-        IF    '${actual_state}' == 'Enabled'
-            IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    2    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (Soft)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (HAP)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    2    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            END
+    Single Key PiKVM    Enter
+    IF    '${actual_state}' == 'Enabled'
+        IF    '${tested_state}' == 'Disabled (Soft)'
+            Press Key N Times And Enter    1    ${ARROW_DOWN}
+        ELSE IF    '${tested_state}' == 'Disabled (HAP)'
+            Press Key N Times And Enter    2    ${ARROW_DOWN}
         END
-        Single Key PiKVM    F10
-        Single Key PiKVM    KeyY
-    ELSE
-        Write Bare Into Terminal    ${ENTER}
-        IF    '${actual_state}' == 'Enabled'
-            IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    2    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (Soft)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (HAP)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    2    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            END
+    ELSE IF    '${actual_state}' == 'Disabled (Soft)'
+        IF    '${tested_state}' == 'Enabled'
+            Press Key N Times And Enter    1    ${ARROW_UP}
+        ELSE IF    '${tested_state}' == 'Disabled (HAP)'
+            Press Key N Times And Enter    1    ${ARROW_DOWN}
         END
-        Write Bare Into Terminal    ${F10}
-        Write Bare Into Terminal    ${Y}
+    ELSE IF    '${actual_state}' == 'Disabled (HAP)'
+        IF    '${tested_state}' == 'Enabled'
+            Press Key N Times And Enter    2    ${ARROW_UP}
+        ELSE IF    '${tested_state}' == 'Disabled (Soft)'
+            Press Key N Times And Enter    1    ${ARROW_UP}
+        END
     END
 
 Return Intel ME Options

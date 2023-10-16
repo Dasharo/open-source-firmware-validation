@@ -48,7 +48,7 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu 22.04)
     IF    '${actual_state}' != 'Enabled'
         Setup Intel ME Mode    ${actual_state}    Enabled
     END
-    Power On
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -67,7 +67,7 @@ MNE003.001 Intel ME mode option Disable (Soft) works correctly (Ubuntu 22.04)
     IF    '${actual_state}' != 'Disabled (Soft)'
         Setup Intel ME Mode    ${actual_state}    Disabled (Soft)
     END
-    Power On
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -86,7 +86,7 @@ MNE004.001 Intel ME mode option Disable (HAP) works correctly (Ubuntu 22.04)
     IF    '${actual_state}' != 'Disabled (HAP)'
         Setup Intel ME Mode    ${actual_state}    Disabled (HAP)
     END
-    Power On
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -106,7 +106,7 @@ MNE006.001 Check Intel ME version (Ubuntu 22.04)
     IF    '${actual_state}' != 'Enabled'
         Setup Intel ME Mode    ${actual_state}    Enabled
     END
-    Power On
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
