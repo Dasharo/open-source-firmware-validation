@@ -33,13 +33,15 @@ BLS001.001 BIOS lock support (Ubuntu 22.04)
     Skip If    not ${BIOS_LOCK_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    ${menu_construction}=    Enter Dasharo Security Options Submenu
-    Enable Option In Submenu    ${menu_construction}    Lock the BIOS boot medium
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${network_menu}    Lock the BIOS boot medium    ${TRUE}
     Save Changes And Reset    2    4
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
     Should Not Be Empty    ${pr0}
@@ -52,13 +54,15 @@ BLS002.001 BIOS lock support deactivation (Ubuntu 22.04)
     Skip If    not ${BIOS_LOCK_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    ${menu_construction}=    Enter Dasharo Security Options Submenu
-    Disable Option In Submenu    ${menu_construction}    Lock the BIOS boot medium
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${network_menu}    Lock the BIOS boot medium    ${FALSE}
     Save Changes And Reset    2    4
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
     Should Be Empty    ${pr0}
