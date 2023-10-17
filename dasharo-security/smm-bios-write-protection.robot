@@ -37,15 +37,15 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu 22.04)
     Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Dasharo Security Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${menu_construction}=    Get Setup Submenu Construction    description_lines=2
-    Enable Option In Submenu    ${menu_construction}    Enable SMM BIOS write
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${network_menu}    Enable SMM BIOS write    ${TRUE}
     Save Changes And Reset    2    4
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    SMM protection is enabled
 
@@ -61,14 +61,14 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu 22.04)
     Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Dasharo Security Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${menu_construction}=    Get Setup Submenu Construction    description_lines=3
-    Disable Option In Submenu    ${menu_construction}    Enable SMM BIOS write
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${network_menu}    Enable SMM BIOS write    ${FALSE}
     Save Changes And Reset    2    4
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Not Contain    ${out_flashrom}    SMM protection is enabled
