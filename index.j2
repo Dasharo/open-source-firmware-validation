@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dasharo Open Source Firmware Validation Documentation</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="resources/reset.css">
+    <link rel="stylesheet" href="resources/docs.css">
+    <script src="resources/docs.js"></script>
+  </head>
+  <body>
+    <div>
+    <h1>Dasharo Open Source Fimrware Validatino Documentation</h1>
+    <p>
+      This page contains links documentation of libraries and test cases of
+      Dashar OSFV.
+    </p>
+    </div>
+    <h2 id="libraries">
+      <a href="#libraries" title="Permalink to this heading.">Libraries</a>
+    </h2>
+    <p>
+      Libraries documentation
+    </p>
+    <table>
+      <tr><th>Library</th><th>Documentation</th><th>Introduction</th></tr>
+      {% for library in libraries %}
+      <tr>
+        <td>{{ library.name }}</td>
+        <td>
+          <button class="view-doc" value="{{ library.name }}">View</button>
+        </td>
+        <td>
+          {{ library.description }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h2 id="tests">
+      <a href="#tests" title="Permalink to this heading.">Tests</a>
+    </h2>
+    <p>
+      Tests documentation
+    </p>
+    <table>
+      <tr><th>Test</th><th>Documentation</th><th>Introduction</th></tr>
+      {% for test in tests %}
+      <tr>
+        <td>{{ test.name }}</td>
+        <td>
+          <button class="view-tool" value="{{ test.name }}">View</button>
+        </td>
+        <td>
+          {{ test.description }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+  </body>
+</html>
