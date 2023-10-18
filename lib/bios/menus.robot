@@ -572,19 +572,6 @@ Skip If Menu Option Not Available
     Sleep    1s
     Telnet.Read Until    Esc=Exit
 
-# TODO:
-# Rename to: Save Changes And Continue
-
-Save Changes And Boot To OS
-    [Documentation]    Saves current UEFI settings and continues booting to OS.
-    ...    ${nesting_level} is crucial, because it depicts where
-    ...    Continue button is located.
-    [Arguments]    ${nesting_level}=2
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Press Key N Times    ${nesting_level}    ${ESC}
-    Enter Submenu In Tianocore    Continue    checkpoint=Continue    description_lines=6
-
 # TODO: calculate steps_to_reset based on the menu construction
 
 Save Changes And Reset
@@ -598,19 +585,6 @@ Save Changes And Reset
     Write Bare Into Terminal    y
     Press Key N Times    ${nesting_level}    ${ESC}
     Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
-
-# TODO:
-# Should be removed. We can use Get Option State instead. This keyword was likely
-# used only in some security tests is not needed already anymore. As we already
-# internally check for current state when    setting the new option state.
-
-Check If Tianocore Setting Is Enabled In Current Menu
-    [Documentation]    Checks if option ${option} is enabled, returns True/False
-    [Arguments]    ${option}
-    ${option_value}=    Get Option Value    ${option}
-    ${enabled}=    Run Keyword And Return Status
-    ...    Should Be Equal    ${option_value}    [X]
-    RETURN    ${enabled}
 
 # TODO:
 # This should be removed.

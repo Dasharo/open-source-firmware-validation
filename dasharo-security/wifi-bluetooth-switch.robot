@@ -28,25 +28,14 @@ Suite Teardown      Run Keyword
 WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu 22.04)
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to false
-    IF    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    Skip
+    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS001.001 not supported
 
     Power On
-    # changing settings in UEFI is only possible using serial connection
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Enter Dasharo System Features
-        Skip If Menu Option Not Available    Networking Options
-        Enter Submenu In Tianocore    Networking Options
-        Skip If Menu Option Not Available    Enable Wi-Fi + BT radios
-        ${setting}=    Check If Tianocore Setting Is Enabled In Current Menu    Enable Wi-Fi + BT radios
-        IF    ${setting}
-            Enter Submenu In Tianocore    Enable Wi-Fi + BT radios
-        END
-        Save Changes And Boot To OS
-    ELSE
-        Log    DUT connection method is different from Telnet!
-        Log    Cannot change UEFI options, skipping to testing switch results...
-    END
-
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${security_menu}    Enable Wi-Fi + BT radios    ${FALSE}
+    Save Changes And Reset    2    4
     Login To Linux
     ${wifi}=    Check The Presence Of WiFi Card
     Should Not Be True    ${wifi}
@@ -56,25 +45,14 @@ WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu 22.04)
 WBS002.001 Wifi and Bluetooth card power switch enabled (Ubuntu 22.04)
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to true
-    IF    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    Skip
+    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS002.001 not supported
 
     Power On
-    # changing settings in UEFI is only possible using serial connection
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Enter Dasharo System Features
-        Skip If Menu Option Not Available    Networking Options
-        Enter Submenu In Tianocore    Networking Options
-        Skip If Menu Option Not Available    Enable Wi-Fi + BT radios
-        ${setting}=    Check If Tianocore Setting Is Enabled In Current Menu    Enable Wi-Fi + BT radios
-        IF    not ${setting}
-            Enter Submenu In Tianocore    Enable Wi-Fi + BT radios
-        END
-        Save Changes And Boot To OS
-    ELSE
-        Log    DUT connection method is different from Telnet!
-        Log    Cannot change UEFI options, skipping to testing switch results...
-    END
-
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${security_menu}    Enable Wi-Fi + BT radios    ${TRUE}
+    Save Changes And Reset    2    4
     Login To Linux
     ${wifi}=    Check The Presence Of WiFi Card
     Should Be True    ${wifi}
