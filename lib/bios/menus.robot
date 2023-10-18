@@ -313,6 +313,7 @@ Set Option State
 ############################################################################
 
 # TODO: should be removed, and replaced with "Enter Dasharo Submenu" in all tests
+
 Enter Dasharo Submenu Snapshot
     [Documentation]    Version of "Enter Dasharo Submenu" that processes menu
     ...    grabbed beforehand.
@@ -325,6 +326,7 @@ Enter Dasharo Submenu Snapshot
     RETURN    ${menu_construction}
 
 # TODO: should be removed, and replaced with "Set Option State" in all tests and keywords
+
 Change Numeric Value Of Setting
     [Documentation]    Changes numeric value of ${setting} present in menu to
     ...    ${value}
@@ -333,8 +335,9 @@ Change Numeric Value Of Setting
     Write Bare Into Terminal    ${value}
     Press Key N Times    1    ${ENTER}
 
-# TODO: Should porbably stay in this file, if it works correctly. Adding test
+# TODO: Should probably stay in this file, if it works correctly. Adding test
 # for QEMU under self-tests would be nice, to make sure it always works.
+
 Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
@@ -344,11 +347,11 @@ Reset To Defaults Tianocore
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
-
-# TODO: Shoule be reworked to use:
+# TODO: Should be reworked to use:
 #    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
 #    ...    ${setup_menu}
 #    ...    Secure Boot Configuration
+
 Enter Secure Boot Configuration Submenu
     [Documentation]    Enter to the Secure Boot Configuration submenu which
     ...    should be located in the Setup Menu.
@@ -366,6 +369,7 @@ Enter Secure Boot Configuration Submenu
 #
 # Test in QEMU under self-tests would be nice, but QEMU does not support
 # network boot just yet.
+
 Enter IPXE
     [Documentation]    Enter iPXE after device power cutoff.
     # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
@@ -393,7 +397,8 @@ Enter IPXE
 
 # TODO:
 # Should be removed
-# Should be replaced by: "Enter Submenu From Snapshot" in tests 
+# Should be replaced by: "Enter Submenu From Snapshot" in tests
+
 Enter Submenu In Tianocore
     [Documentation]    Enter chosen option. Generic keyword.
     [Arguments]    ${option}    ${checkpoint}=ESC to exit    ${description_lines}=1
@@ -403,6 +408,7 @@ Enter Submenu In Tianocore
 # TODO:
 # Should be reworked/removed
 # The implementation shoulduse: "Enter Submenu From Snapsot" most likely
+
 Enter UEFI Shell Tianocore
     [Documentation]    Enter UEFI Shell in Tianocore by specifying its position
     ...    in the list.
@@ -418,6 +424,7 @@ Enter UEFI Shell Tianocore
 # TODO:
 # This keyword should be removed. If it is used in tests, it should
 # be replaced.
+
 Get Menu Reference Tianocore
     [Documentation]    Get first entry from Tianocore Boot Manager menu.
     [Arguments]    ${raw_menu}    ${bias}
@@ -433,6 +440,7 @@ Get Menu Reference Tianocore
 # This should be removed. "Enter Boot Menu Tianocore" should be enough.
 # Or "Enter Setup" -> "Enter Submenu from Snapshot" if we really need to enter
 # this option from setup, not directly when booting
+
 Tianocore One Time Boot
     [Arguments]    ${option}
     Enter Boot Menu Tianocore
@@ -441,6 +449,7 @@ Tianocore One Time Boot
 # TODO:
 # This should be removed. We can use existing keywords to get menu construction,
 # and then use BuiltIn keywords to check if element is in the list
+
 Check If Submenu Exists Tianocore
     [Documentation]    Checks if given submenu exists
     [Arguments]    ${submenu}
@@ -453,6 +462,7 @@ Check If Submenu Exists Tianocore
 # This can probably be removed if tests work fine without it.
 # This was some workaround, which is probably not needed anymore since
 # we have improved Telnet input handling.
+
 Reenter Menu
     [Documentation]    Returns to the previous menu and enters the same one
     ...    again
@@ -468,6 +478,7 @@ Reenter Menu
     END
 
 # This should stay, maybe improved if needed
+
 Type In The Password
     [Documentation]    Operation for typing in the password
     [Arguments]    @{keys_password}
@@ -478,6 +489,7 @@ Type In The Password
     Press Key N Times    1    ${ENTER}
 
 # This should stay, maybe improved if needed
+
 Type In New Disk Password
     [Documentation]    Types in new disk password when prompted. The actual
     ...    password is passed as list of keys.
@@ -494,6 +506,7 @@ Type In New Disk Password
     END
 
 # This should stay, maybe improved if needed
+
 Type In BIOS Password
     [Documentation]    Types in password in general BIOS prompt
     [Arguments]    @{keys_password}
@@ -502,6 +515,7 @@ Type In BIOS Password
     Type In The Password    @{keys_password}
 
 # This should stay, maybe improved if needed
+
 Type In Disk Password
     [Documentation]    Types in the disk password
     [Arguments]    @{keys_password}
@@ -513,6 +527,7 @@ Type In Disk Password
     Press Key N Times    1    ${ENTER}
 
 # This should stay, maybe improved if needed
+
 Remove Disk Password
     [Documentation]    Removes disk password
     [Arguments]    @{keys_password}
@@ -534,6 +549,7 @@ Remove Disk Password
 # TODO:
 # This should be removed. Set Option State should be used for setting
 # all kinds of options, including lists.
+
 Change To Next Option In Setting
     [Documentation]    Changes given setting option to next in the list of
     ...    possible options.
@@ -545,6 +561,7 @@ Change To Next Option In Setting
 # This might stay, but should be reworked. Should accept
 # menu construction and check if element is in the list using BuiltIn
 # keywords.
+
 Skip If Menu Option Not Available
     [Documentation]    Skips the test if given submenu is not available in the
     ...    menu
@@ -557,6 +574,7 @@ Skip If Menu Option Not Available
 
 # TODO:
 # Rename to: Save Changes And Continue
+
 Save Changes And Boot To OS
     [Documentation]    Saves current UEFI settings and continues booting to OS.
     ...    ${nesting_level} is crucial, because it depicts where
@@ -568,6 +586,7 @@ Save Changes And Boot To OS
     Enter Submenu In Tianocore    Continue    checkpoint=Continue    description_lines=6
 
 # TODO: calculate steps_to_reset based on the menu construction
+
 Save Changes And Reset
     [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
     ...    is how deep user is currently in the settings.
@@ -583,7 +602,8 @@ Save Changes And Reset
 # TODO:
 # Should be removed. We can use Get Option State instead. This keyword was likely
 # used only in some security tests is not needed already anymore. As we already
-# internally check for current state when  setting the new option state.
+# internally check for current state when    setting the new option state.
+
 Check If Tianocore Setting Is Enabled In Current Menu
     [Documentation]    Checks if option ${option} is enabled, returns True/False
     [Arguments]    ${option}
@@ -594,8 +614,9 @@ Check If Tianocore Setting Is Enabled In Current Menu
 
 # TODO:
 # This should be removed.
-# **Maybe** similar logic can be used  in Save Changes And Reset to calculate
+# **Maybe** similar logic can be used    in Save Changes And Reset to calculate
 # the position? But this keyword is much too complicated.
+
 Get Relative Menu Position
     [Documentation]    Evaluate and return relative menu entry position
     ...    described in the argument.
@@ -624,6 +645,7 @@ Get Relative Menu Position
 
 # TODO:
 # Can stay if that makes tests cases more readable
+
 Enter Device Manager Submenu
     [Arguments]    ${setup_menu}
     ${device_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -632,34 +654,3 @@ Enter Device Manager Submenu
     Should Not Contain    ${device_menu}[0]    Devices List
     List Should Contain Value    ${device_menu}    Driver Health Manager
     RETURN    ${device_menu}
-
-# TODO:
-# Should be removed. If we need it as a standalone keyword, it can
-# be implemented based on the current state of the "Set Option State"
-# for lists.
-Read Option List Contents
-    [Documentation]    This keywords enters the option and returns the content
-    ...    of the list
-    [Arguments]    ${menu_construction}    ${option}
-    ${option_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${option}
-    Read From Terminal
-    Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
-    Sleep    1s
-    ${list}=    Read From Terminal
-    ${list_options}=    Get List Options    ${list}
-    RETURN    ${list_options}
-
-# TODO:
-# Should be removed. Set Option State should be ised instead.
-Select Option From List
-    [Documentation]    Requires menu construction as input. Selects desired
-    ...    element from the list of the option
-    [Arguments]    ${menu_construction}    ${option}    ${list_element}
-    ${list_options}=    Read Option List Contents    ${menu_construction}    ${option}
-    # It turns out that if you go to the beginning of the list and you press
-    # 'up' you won't get to the last option - this is good and we can make sure
-    # that we are at the start of the list
-    ${list_length}=    Get Length    ${list_options}
-    Press Key N Times    ${list_length}    ${ARROW_UP}
-    ${option_index}=    Get Index Of Matching Option In Menu    ${list_options}    ${list_element}
-    Press Key N Times And Enter    ${option_index}    ${ARROW_DOWN}
