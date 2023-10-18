@@ -547,17 +547,6 @@ Remove Disk Password
     Press Key N Times    1    ${SETUP_MENU_KEY}
 
 # TODO:
-# This should be removed. Set Option State should be used for setting
-# all kinds of options, including lists.
-
-Change To Next Option In Setting
-    [Documentation]    Changes given setting option to next in the list of
-    ...    possible options.
-    [Arguments]    ${setting}
-    Enter Submenu In Tianocore    ${setting}
-    Press Key N Times And Enter    1    ${ARROW_DOWN}
-
-# TODO:
 # This might stay, but should be reworked. Should accept
 # menu construction and check if element is in the list using BuiltIn
 # keywords.

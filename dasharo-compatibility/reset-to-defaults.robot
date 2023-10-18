@@ -160,16 +160,17 @@ RTD008.001 F9 resets Intel ME mode to enabled
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD008.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Intel Management Engine Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    Change To Next Option In Setting    Intel ME mode
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
+    Set Option State    ${me_menu}    Intel ME mode    Disabled (HAP)
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Intel ME mode
-    Should Be Equal    ${value}    <Enabled>
+    Save Changes And Reset    2    4
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
+    ${state}=    Get Option State    ${me_menu}    Intel ME mode
+    Should Be Equal    ${state}    Enabled
 
 RTD009.001 F9 resets Enable PS2 Controller to enabled
     [Documentation]    Check whether pressing F9 resets Enable PS2 Controller
@@ -226,16 +227,17 @@ RTD012.001 F9 resets Fan profile to Silent
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD012.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Power Management Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    Change To Next Option In Setting    Fan profile
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Set Option State    ${power_menu}    Fan profile    Performance
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Fan profile
-    Should Be Equal    ${value}    <Silent>
+    Save Changes And Reset    2    4
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    ${state}=    Get Option State    ${power_menu}    Fan profile
+    Should Be Equal    ${state}    Silent
 
 RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     [Documentation]    Check whether pressing F9 resets Platform sleep type to
@@ -243,16 +245,17 @@ RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD013.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Power Management Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    Change To Next Option In Setting    Platform sleep type
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Set Option State    ${power_menu}    Platform sleep type    Suspend to RAM (S3)
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Platform sleep type
-    Should Be Equal    ${value}    <Suspend to Idle>
+    Save Changes And Reset    2    4
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    ${state}=    Get Option State    ${power_menu}    Platform sleep type
+    Should Be Equal    ${state}    Suspend to Idle (S0ix)
 
 RTD014.001 F9 resets Memory SPD Profile to JEDEC
     [Documentation]    Check whether pressing F9 resets Memory SPD Profile to
@@ -261,13 +264,14 @@ RTD014.001 F9 resets Memory SPD Profile to JEDEC
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Memory Configuration
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    Change To Next Option In Setting    Memory SPD Profile
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
+    Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined extreme memory profile)
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Memory SPD Profile
-    Should Start With    ${value}    <JEDEC
+    Save Changes And Reset    2    4
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
+    ${state}=    Get Option State    ${memory_menu}    Memory SPD Profile
+    Should Be Equal    ${state}    <JEDEC (safe
