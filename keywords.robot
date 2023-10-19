@@ -359,7 +359,8 @@ Get Firmware Version
     IF    '${FLASH_VERIFY_METHOD}'=='iPXE-boot'
         Boot Debian From IPXE    ${PXE_IP}    ${HTTP_PORT}    ${FILENAME}    ${DEBIAN_STABLE_VER}
     ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-shell'
-        Tianocore One Time Boot    ${FLASH_VERIFY_OPTION}
+        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        Enter Submenu From Snapshot    ${boot_menu}    ${FLASH_VERIFY_OPTION}
     ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
         No Operation
     END
