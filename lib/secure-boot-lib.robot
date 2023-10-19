@@ -13,9 +13,13 @@ Enable Custom Mode And Enroll Certificate
     ...    If not, it will look for the appropriate ERROR
     ...    message.
     [Arguments]    ${cert_filename}    ${fileformat}=GOOD
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    Secure Boot Configuration
     Enter Custom Secure Boot Options
     Enroll Certificate    ${cert_filename}    ${fileformat}
 
@@ -121,8 +125,8 @@ Enter UEFI Shell And Boot .EFI File
     [Documentation]    Boots given .efi file from UEFI shell.
     ...    Assumes that it is located on FS0.
     [Arguments]    @{filename}
-    Enter Boot Menu Tianocore
-    Enter UEFI Shell Tianocore
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
     Boot .EFI File From UEFI Shell    @{filename}
 
@@ -172,16 +176,24 @@ Check Secure Boot In Windows
     RETURN    ${sb_status}
 
 Enable Secure Boot
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    Secure Boot Configuration
     Select Attempt Secure Boot Option
     Save Changes And Reset    2
 
 Disable Secure Boot
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    Secure Boot Configuration
     Clear Attempt Secure Boot Option
     Save Changes And Reset    2
 
