@@ -14,6 +14,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
+# Resource    ../platform-configs/msi-pro-z690-a-ddr5.robot
 # Required setup keywords:
 # Prepare Test Suite - elementary setup keyword for all tests.
 # Upload Required Images - uploads all required files onto the PiKVM.
@@ -36,11 +37,27 @@ SBO001.001 Check Secure Boot default state (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    Secure Boot Configuration
+
+    # The code below still needs fixes
+
     ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
     Should Contain    ${sb_state}    [ ]
+
+    # Below is the full test code before the first fixes
+
+    # Power On
+    # Enter Setup Menu Tianocore
+    # Enter Device Manager Submenu
+    # Enter Secure Boot Configuration Submenu
+    # ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
+    # Should Contain    ${sb_state}    [ ]
 
 SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     [Documentation]    This test verifies that Secure Boot can be enabled from
@@ -128,12 +145,26 @@ SBO006.001 Reset Secure Boot Keys option availability (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO006.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
-
     Power On
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    Secure Boot Configuration
+
+    # The code below still needs fixes
+
     Read From Terminal Until    Reset Secure Boot Keys
+
+    # Below is the full test code before the first fixes
+
+    # Power On
+    # Enter Setup Menu Tianocore
+    # Enter Device Manager Submenu
+    # Enter Secure Boot Configuration Submenu
+    # Read From Terminal Until    Reset Secure Boot Keys
 
 SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     [Documentation]    This test verifies that restoring the keys to default
@@ -146,12 +177,33 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Enable Custom Mode And Enroll Certificate    DB.cer
     Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
     Power On
-    Enter Setup Menu Tianocore
-    Enter Device Manager Submenu
-    Enter Secure Boot Configuration Submenu
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    Secure Boot Configuration
+
+    # The code below still needs fixes
+
     Reset Secure Boot Keys
     Save Changes And Reset    2    5
     Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Access Denied
+
+    # Below is the full code before the first fixes
+
+    # Mount Image    ${PIKVM_IP}    good_keys.img
+    # Power On
+    # Enable Custom Mode And Enroll Certificate    DB.cer
+    # Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
+    # Power On
+    # Enter Setup Menu Tianocore
+    # Enter Device Manager Submenu
+    # Enter Secure Boot Configuration Submenu
+    # Reset Secure Boot Keys
+    # Save Changes And Reset    2    5
+    # Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Access Denied
 
 SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     [Documentation]    This test verifies that it is impossible to load
