@@ -214,13 +214,17 @@ RTD011.001 F9 resets Watchdog timeout value to 500
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Chipset Configuration
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    Change Numeric Value Of Setting    Watchdog timeout value    400
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    Set Option State    ${chipset_menu}    Watchdog timeout value    400
     Reset To Defaults Tianocore
-    ${value}=    Get Option Value    Watchdog timeout value
-    Should Be Equal    ${value}    [500]
+    Save Changes And Reset    2    4
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    ${state}=    Get Option State    ${chipset_menu}    Watchdog timeout value
+    Should Be Equal    ${state}    500
 
 RTD012.001 F9 resets Fan profile to Silent
     [Documentation]    Check whether pressing F9 resets Fan profile to Silent

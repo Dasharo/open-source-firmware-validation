@@ -325,16 +325,6 @@ Enter Dasharo Submenu Snapshot
     ${menu_construction}=    Get Setup Submenu Construction    checkpoint=Esc=Exit
     RETURN    ${menu_construction}
 
-# TODO: should be removed, and replaced with "Set Option State" in all tests and keywords
-
-Change Numeric Value Of Setting
-    [Documentation]    Changes numeric value of ${setting} present in menu to
-    ...    ${value}
-    [Arguments]    ${setting}    ${value}    ${checkpoint}=ESC to exit
-    Enter Submenu In Tianocore    ${setting}    ${checkpoint}    description_lines=2
-    Write Bare Into Terminal    ${value}
-    Press Key N Times    1    ${ENTER}
-
 # TODO: Should probably stay in this file, if it works correctly. Adding test
 # for QEMU under self-tests would be nice, to make sure it always works.
 
