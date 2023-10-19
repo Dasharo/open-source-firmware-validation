@@ -22,8 +22,8 @@ Resource            ../keys.robot
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND
-...                     Upload Required Images
+# ...    AND
+# ...    Upload Required Images
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -44,20 +44,8 @@ SBO001.001 Check Secure Boot default state (firmware)
     ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${device_mgr_menu}
     ...    Secure Boot Configuration
-
-    # The code below still needs fixes
-
-    ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    Should Contain    ${sb_state}    [ ]
-
-    # Below is the full test code before the first fixes
-
-    # Power On
-    # Enter Setup Menu Tianocore
-    # Enter Device Manager Submenu
-    # Enter Secure Boot Configuration Submenu
-    # ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    # Should Contain    ${sb_state}    [ ]
+    ${state}=    Get Option State    ${secure_boot_menu}    Attempt Secure Boot
+    Should BE Equal    ${state}    ${FALSE}
 
 SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     [Documentation]    This test verifies that Secure Boot can be enabled from

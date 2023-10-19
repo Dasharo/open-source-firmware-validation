@@ -403,6 +403,14 @@ Reenter Menu
         Press Key N Times    1    ${ENTER}
     END
 
+Reload Dasharo Submenu
+    Press Key N Times    1    ${ESC}
+    Sleep    1s
+    Press Key N Times    1    ${ENTER}
+    Sleep    1s
+    ${submenu}=    Get Submenu Construction
+    RETURN    ${submenu}
+
 # This should stay, maybe improved if needed
 
 Type In The Password

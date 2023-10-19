@@ -144,8 +144,9 @@ Boot .EFI File From UEFI Shell
 
 Reset Secure Boot Keys
     [Documentation]    This keyword resets the Secure Boot Keys.
-    Go To Secure Boot Menu Entry    Reset Secure Boot Keys
-    Read From Terminal Until    Exit
+    [Arguments]    ${menu}
+    Go To Secure Boot Menu Entry    Reset Secure Boot Keys    ${menu}
+    Read From Terminal Until    Are you sure?
     Press Key N Times    1    ${ENTER}
 
 Upload Required Images
@@ -183,7 +184,7 @@ Enable Secure Boot
     ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${device_mgr_menu}
     ...    Secure Boot Configuration
-    Select Attempt Secure Boot Option
+    Select Attempt Secure Boot Option    ${secure_boot_menu}
     Save Changes And Reset    2
 
 Disable Secure Boot
@@ -220,8 +221,9 @@ Check If Attempt Secure Boot Can Be Selected
     ...    Reset Secure Boot Keys was not selected before. This keyword checks
     ...    if the Attempt Secure Boot can already be selected. If the help text
     ...    matches this option, it means it can already be selected.
-    ${menu_construction}=    Get Secure Boot Configuration Submenu Construction
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Attempt Secure Boot
+    [Arguments]    ${menu}
+    # ${menu_construction}=    Get Secure Boot Configuration Submenu Construction
+    ${index}=    Get Index Of Matching Option In Menu    ${menu}    Attempt Secure Boot
 
     # Go to one option before the target option and clear serial output
     Press Key N Times    ${index} - 1    ${ARROW_DOWN}
@@ -238,8 +240,8 @@ Go To Secure Boot Menu Entry
     [Documentation]    This keywords workarounds the fact the the Attempt Secure
     ...    Boot option might be not active and menu position might be off-by-one
     ...    with the actual key presses needed.
-    [Arguments]    ${entry}
-    ${attempt_sb_can_be_selected}=    Check If Attempt Secure Boot Can Be Selected
+    [Arguments]    ${entry}    ${menu}
+    ${attempt_sb_can_be_selected}=    Check If Attempt Secure Boot Can Be Selected    ${menu}
     Reenter Menu
     ${menu_construction}=    Get Secure Boot Configuration Submenu Construction
     ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${entry}
@@ -251,25 +253,20 @@ Go To Secure Boot Menu Entry
 Select Attempt Secure Boot Option
     [Documentation]    Selects the Attempt Secure Boot Option
     ...    in the Secure Boot Configuration Submenu
-
-    ${can_be_selected}=    Check If Attempt Secure Boot Can Be Selected
+    [Arguments]    ${menu}
+    ${can_be_selected}=    Check If Attempt Secure Boot Can Be Selected    ${menu}
     IF    not ${can_be_selected}
         Reenter Menu
-        Reset Secure Boot Keys
+        # ${menu}=    Reload Dasharo Submenu
+        Reset Secure Boot Keys    ${menu}
     END
-    Reenter Menu
-    ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    ${option_is_set}=    Run Keyword And Return Status
-    ...    Should Contain    ${sb_state}    [X]
-
-    IF    ${option_is_set}
-        Log    Attempt Secure Boot option is already set, nothing to do.
-    ELSE
-        Reenter Menu
-        Go To Secure Boot Menu Entry    Attempt Secure Boot
-        Read From Terminal Until    reset the platform to take effect!
-        Press Key N Times    1    ${ENTER}
-    END
+    ${reloaded_menu}=    Reload Dasharo Submenu
+    ${sb_state}=    Get Option State    ${reloaded_menu}    Attempt Secure Boot
+    Set Option State    ${reloaded_menu}    Attempt Secure Boot    ${TRUE}
+    ${reloaded_menu_2}=    Reload Dasharo Submenu
+    Go To Secure Boot Menu Entry    Attempt Secure Boot    ${reloaded_menu_2}
+    Read From Terminal Until    reset the platform to take effect!
+    Press Key N Times    1    ${ENTER}
 
 Clear Attempt Secure Boot Option
     [Documentation]    Deselects the Attempt Secure Boot Option
