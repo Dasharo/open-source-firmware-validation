@@ -15,7 +15,7 @@ ${RTE_IP}=                                          ${RTE}[ip]
 # TODO: get rid of legacy RTE_IP variable
 ${SONOFF_IP}=                                       ${SONOFF}[ip]
 ${PIKVM_IP}=                                        192.168.4.180
-${DEVICE_IP}=                                       192.168.4.240
+${DEVICE_IP}=                                       192.168.4.237
 ${SERIAL_TELNET_PORT}=                              13541
 ${SERIAL_TELNET_IP}=                                ${PIKVM_IP}
 ${FLASH_SIZE}=                                      ${32*1024*1024}

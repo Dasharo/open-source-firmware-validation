@@ -52,6 +52,9 @@ ${OS_UBUNTU}=               ubuntu
 # 3mdeb Protectli PT601 ------------------------------------------------------
 &{RTE45}=                   ip=192.168.10.218
 ...                         platform=protectli-PT601
+# MSI-PRO-Z790-P platforms (Zir-Blazer) -----------------------------
+&{RTE46}=                   ip=192.168.10.127
+...                         platform=msi-pro-z790-p-ddr5
 # 3mdeb RPi 3B for Yocto ------------------------------------------------------
 &{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0    pcb_rev=a22082
 ...                         platform=RPi-3-model-B-V1.2    sonoff_ip=192.168.10.27

@@ -58,22 +58,22 @@ compatibility_tests=(
 
 security_tests=(
   # "secure-boot"
-  # "usb-stack"
-  # "uefi-password"
-  # "tpm-support"
-  # "measured-boot"
+  "usb-stack"
+  "uefi-password"
+  "tpm-support"
+  "measured-boot"
   # "verified-boot"
   # "network-stack"
-  # "me-neuter"
-  # "early-boot-dma-protection"
-  # "bios-lock"
-  # "smm-bios-write-protection"
+  "me-neuter"
+  "early-boot-dma-protection"
+  "bios-lock"
+  "smm-bios-write-protection"
   # "wifi-bluetooth-switch"
   # "camera-switch"
 )
 
 performance_tests=(
-  "platform-stability"
+#   "platform-stability"
   # "boot-measure"
   # "custom-fan-curve"
   # "cpu-temperature"

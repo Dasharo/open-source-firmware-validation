@@ -3,6 +3,8 @@ Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
 
 
 *** Variables ***
+${SERIAL_TELNET_PORT}=                              1234
+${SERIAL_TELNET_IP}=                                127.0.0.1
 ${DUT_CONNECTION_METHOD}=                           Telnet
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   1234

@@ -16,6 +16,9 @@ Enter Boot Menu Tianocore
     ELSE
         Write Bare Into Terminal    ${BOOT_MENU_KEY}
     END
+    # FIXME: Laptop EC serial workaround
+    Press Key N Times    1    ${ARROW_DOWN}
+    Press Key N Times    1    ${ARROW_UP}
 
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.

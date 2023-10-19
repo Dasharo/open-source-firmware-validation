@@ -248,25 +248,26 @@ Open Connection And Log In
     [Documentation]    Open SSH connection and login to session. Setup RteCtrl
     ...    REST API, serial connection and checkout used asset in
     ...    SnipeIt
-    Check Provided Ip
     # Establish SSH connection with RTE if present for the given DUT
-    IF    '${RTE}[status]'=='present' or '${CONFIG}' != 'qemu'
-        SSHLibrary.Set Default Configuration    timeout=60 seconds
-        SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
-        SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-        RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
-    END
-    IF    'sonoff' == '${POWER_CTRL}'
-        ${sonoff_ip}=    Get Current RTE Param    sonoff_ip
-        Sonoff API Setup    ${sonoff_ip}
-    END
-    # Setup Sonoff API if present for the given DUT
-    IF    '${SONOFF}[status]'=='present'
-        Sonoff API Setup    ${SONOFF_IP}
+    IF    '${CONFIG}' != 'qemu'
+        IF    '${RTE}[status]'=='present'
+            SSHLibrary.Set Default Configuration    timeout=60 seconds
+            SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
+            SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
+            RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
+        END
+        # IF    'sonoff' == '${POWER_CTRL}'
+        #    ${sonoff_ip}=    Get Current RTE Param    sonoff_ip
+        #    Sonoff API Setup    ${sonoff_ip}
+        # END
+        # Setup Sonoff API if present for the given DUT
+        IF    '${SONOFF}[status]'=='present'
+            Sonoff API Setup    ${SONOFF_IP}
+        END
+        # TODO: not all stand have RTE
+        IF    '${SNIPEIT}'=='yes'    SnipeIt Checkout    ${RTE_IP}
     END
     Serial Setup    ${SERIAL_TELNET_IP}    ${SERIAL_TELNET_PORT}
-    # TODO: not all stand have RTE
-    IF    '${SNIPEIT}'=='yes'    SnipeIt Checkout    ${RTE_IP}
 
 Open Connection And Log In OpenBMC
     [Documentation]    Keyword logs in OpenBMC via SSH.
@@ -560,29 +561,6 @@ Get Relative Menu Position
     ${rel_pos}=    Evaluate    ${end} - ${start}
     RETURN    ${rel_pos}
 
-Press Key N Times And Enter
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key and then press Enter.
-    [Arguments]    ${n}    ${key}
-    Press Key N Times    ${n}    ${key}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-    ELSE
-        Write Bare Into Terminal    ${ENTER}
-    END
-
-Press Key N Times
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key.
-    [Arguments]    ${n}    ${key}
-    FOR    ${index}    IN RANGE    0    ${n}
-        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Single Key PiKVM    ${key}
-        ELSE
-            Write Bare Into Terminal    ${key}
-        END
-    END
-
 Get Boot Timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
     # fix for LT1000 and protectli platforms (output without tabs)
@@ -833,7 +811,6 @@ Prepare To Serial Connection
         ${platform}=    Get Current RTE Param    platform
         Set Global Variable    ${PLATFORM}
     END
-    Get DUT To Start State
 
 Prepare To OBMC Connection
     [Documentation]    Keyword prepares Test Suite by opening open-bmc
