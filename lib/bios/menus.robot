@@ -312,19 +312,6 @@ Set Option State
 ### keywords from above, and remove as much as possible the ones below.
 ############################################################################
 
-# TODO: should be removed, and replaced with "Enter Dasharo Submenu" in all tests
-
-Enter Dasharo Submenu Snapshot
-    [Documentation]    Version of "Enter Dasharo Submenu" that processes menu
-    ...    grabbed beforehand.
-    [Arguments]    ${menu_construction}    ${submenu}
-    ${menu_construction}=    Parse Menu Snapshot Into Construction    ${menu_construction}    3
-    ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
-    IF    ${system_index} == -1    Skip    msg=Menu option not found
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup Submenu Construction    checkpoint=Esc=Exit
-    RETURN    ${menu_construction}
-
 # TODO: Should probably stay in this file, if it works correctly. Adding test
 # for QEMU under self-tests would be nice, to make sure it always works.
 
