@@ -50,7 +50,6 @@ DMP001.001 TCG OPAL disk password set and check
     Reset In Setup Menu Tianocore
     Log    Test if disk password works
     Type In Disk Password    @{password}
-    Enter Setup Menu Tianocore
     Remove Disk Password    @{password}
 
 

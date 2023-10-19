@@ -496,8 +496,13 @@ Type In Disk Password
 Remove Disk Password
     [Documentation]    Removes disk password
     [Arguments]    @{keys_password}
-    Enter Device Manager Submenu
-    Enter TCG Drive Management Submenu
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${tcg_drive_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    TCG Drive Management
     # if we want to remove password, we can assume that it is turned on so, we
     # don't have to check all the options
     Log    Select entry: Admin Revert to factory default and Disable
@@ -555,15 +560,3 @@ Get Relative Menu Position
     END
     ${rel_pos}=    Evaluate    ${end} - ${start}
     RETURN    ${rel_pos}
-
-# TODO:
-# Can stay if that makes tests cases more readable
-
-Enter Device Manager Submenu
-    [Arguments]    ${setup_menu}
-    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    Should Not Contain    ${device_menu}[0]    Devices List
-    List Should Contain Value    ${device_menu}    Driver Health Manager
-    RETURN    ${device_menu}
