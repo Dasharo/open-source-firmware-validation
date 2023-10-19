@@ -400,16 +400,6 @@ Get Menu Reference Tianocore
     ${first_entry}=    Strip String    ${first_entry}
     RETURN    ${first_entry}
 
-# TODO:
-# This should be removed. "Enter Boot Menu Tianocore" should be enough.
-# Or "Enter Setup" -> "Enter Submenu from Snapshot" if we really need to enter
-# this option from setup, not directly when booting
-
-Tianocore One Time Boot
-    [Arguments]    ${option}
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    ${option}
-
 # TODO
 # This can probably be removed if tests work fine without it.
 # This was some workaround, which is probably not needed anymore since
