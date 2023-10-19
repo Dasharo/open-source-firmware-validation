@@ -370,22 +370,6 @@ Enter Submenu In Tianocore
     Press Key N Times And Enter    ${rel_pos}    ${ARROW_DOWN}
 
 # TODO:
-# Should be reworked/removed
-# The implementation shoulduse: "Enter Submenu From Snapsot" most likely
-
-Enter UEFI Shell Tianocore
-    [Documentation]    Enter UEFI Shell in Tianocore by specifying its position
-    ...    in the list.
-    Set Local Variable    ${IS_SHELL_AVAILABLE}    ${FALSE}
-    ${menu_construction}=    Get Boot Menu Construction
-    ${is_shell_available}=    Evaluate    "UEFI Shell" in """${menu_construction}"""
-    IF    not ${is_shell_available}
-        FAIL    Test case marked as Failed\nBoot menu does not contain position for entering UEFI Shell
-    END
-    ${system_index}=    Get Index From List    ${menu_construction}    UEFI Shell
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-
-# TODO:
 # This keyword should be removed. If it is used in tests, it should
 # be replaced.
 
