@@ -324,19 +324,6 @@ Reset To Defaults Tianocore
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
-# TODO: Should be reworked to use:
-#    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
-#    ...    ${setup_menu}
-#    ...    Secure Boot Configuration
-
-Enter Secure Boot Configuration Submenu
-    [Documentation]    Enter to the Secure Boot Configuration submenu which
-    ...    should be located in the Setup Menu.
-
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    Secure Boot Configuration
-    Press Key N Times And Enter    2    ${ARROW_DOWN}
-
 # TODO:
 # The SeaBIOS part can be removed.
 # The implementation should probably be replaced by a keyword selecting
