@@ -446,18 +446,6 @@ Tianocore One Time Boot
     Enter Boot Menu Tianocore
     Enter Submenu In Tianocore    ${option}
 
-# TODO:
-# This should be removed. We can use existing keywords to get menu construction,
-# and then use BuiltIn keywords to check if element is in the list
-
-Check If Submenu Exists Tianocore
-    [Documentation]    Checks if given submenu exists
-    [Arguments]    ${submenu}
-    ${out}=    Telnet.Read Until    exit.
-    ${result}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    ${submenu}
-    RETURN    ${result}
-
 # TODO
 # This can probably be removed if tests work fine without it.
 # This was some workaround, which is probably not needed anymore since
@@ -545,21 +533,6 @@ Remove Disk Password
         Sleep    0.5s
     END
     Press Key N Times    1    ${SETUP_MENU_KEY}
-
-# TODO:
-# This might stay, but should be reworked. Should accept
-# menu construction and check if element is in the list using BuiltIn
-# keywords.
-
-Skip If Menu Option Not Available
-    [Documentation]    Skips the test if given submenu is not available in the
-    ...    menu
-    [Arguments]    ${submenu}
-    ${res}=    Check If Submenu Exists Tianocore    ${submenu}
-    Skip If    not ${res}
-    Reenter Menu
-    Sleep    1s
-    Telnet.Read Until    Esc=Exit
 
 # TODO: calculate steps_to_reset based on the menu construction
 
