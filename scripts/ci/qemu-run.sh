@@ -1,13 +1,34 @@
 #!/usr/bin/env bash
 
-if [ ! -f "./OVMF_CODE.fd" ]; then
+INIT_DIR="$(pwd)"
+
+# Check if a directory was provided as the first parameter
+if [ -n "$1" ]; then
+    DIR="$1"
+else
+    DIR="$(pwd)"
+fi
+
+# Check if the directory exists
+if [ ! -d "$DIR" ]; then
+    echo "The provided directory does not exist."
+    exit 1
+fi
+
+# Change to the specified directory
+cd "$DIR"
+
+# Check for the existence of OVMF_CODE.fd and OVMF_VARS.fs files
+if [ ! -f "OVMF_CODE.fd" ] || [ ! -f "OVMF_VARS.fd" ]; then
+    echo "The required files OVMF_CODE.fd and OVMF_VARS.fs are missing."
+    echo "Downloading files from the server..."
     wget -O ./OVMF_CODE.fd https://github.com/Dasharo/edk2/releases/download/dasharo_qemu_v0.0.1-test3/OVMF_CODE_RELEASE.fd
-fi
-
-if [ ! -f "./OVMF_VARS.fd" ]; then
     wget -O ./OVMF_VARS.fd https://github.com/Dasharo/edk2/releases/download/dasharo_qemu_v0.0.1-test3/OVMF_VARS_RELEASE.fd
+else
+    echo "Both OVMF_CODE.fd and OVMF_VARS.fs files exist in the directory."
 fi
 
+echo "Copy OVMF_VARS.fd to /tmp/OVMF_VARS.fd"
 cp ./OVMF_VARS.fd /tmp/OVMF_VARS.fd
 
 q35_params="-machine q35,smm=on \
@@ -20,8 +41,11 @@ q35_params="-machine q35,smm=on \
     -net none \
     -serial telnet:localhost:1234,server,nowait"
 
-if [ "$1" == "nographic" ]; then
+echo "Run QEMU Q35 with Dasharo (UEFI) firmware ... (Ctrl+C to terminate)"
+if [ "$2" == "nographic" ]; then
     qemu-system-x86_64 $q35_params -nographic
 else
     qemu-system-x86_64 $q35_params
 fi
+
+cd $INIT_DIR
