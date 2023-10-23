@@ -38,7 +38,6 @@ q35_params="-machine q35,smm=on \
     -debugcon file:debug.log -global isa-debugcon.iobase=0x402 \
     -global ICH9-LPC.disable_s3=1 \
     -qmp unix:/tmp/qmp-socket,server,nowait \
-    -net none \
     -serial telnet:localhost:1234,server,nowait"
 
 echo "Run QEMU Q35 with Dasharo (UEFI) firmware ... (Ctrl+C to terminate)"
