@@ -182,15 +182,30 @@ can greatly increase the development speed:
   problems,
 * the boot time (and responsivness in general) is much faster.
 
-Dasharo in QEMU can be started with:
+### Booting
+
+Following script assume that you have OVMF_CODE.fd and OVMF_VARS.fd in you
+current working directory. If those binaries will not be found script will
+download latest release of Dasharo (UEFI) for QEMU Q35.
+
+If you want to use script in development workflow most likely you already built
+Dasharo (UEFI) for QEMU Q35 according to [this
+instruction](https://docs.dasharo.com/variants/qemu_q35/building-manual/). In
+that case you would like to provide directory with Dasharo (UEFI) binaries as
+first parameter (`PATH_TO_DASHARO_FW`).
+
+You may also decide to not use graphics user interface for QEMU. In that case
+provide second parameter `nographic`.
+
+Dasharo (UEFI) in QEMU can be started with:
 
 ```bash
-./scripts/ci/qemu-run.sh
+./scripts/ci/qemu-run.sh [PATH_TO_DASHARO_FW] [nographic]
 ```
 
-A graphical QEMU windows would popup, so you can observe the test flow, or
-control it manually. The actual testing will happen over serial, which is
-exposed via telnet.
+Without `nographic` a graphical QEMU windows would popup, so you can observe
+the test flow, or control it manually. The actual testing will happen over
+serial, which is exposed via telnet.
 
 You may also build customized Dasharo firmware for QEMU (e.g. with some Dasharo
 options enabled or disabled). In such a case, please refer to:
@@ -201,6 +216,9 @@ Following tests are proven to work with QEMU right now:
 
 ```shell
 robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no dasharo-compatibility/uefi-shell.robot
+```
+
+```shell
 robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no dasharo-compatibility/custom-boot-menu-key.robot
 ```
 
