@@ -19,6 +19,7 @@ ${PAYLOAD_STRING}=                                  ${EMPTY}
 ${IPXE_STRING}=                                     ${EMPTY}
 ${IPXE_STRING2}=                                    ${EMPTY}
 ${IPXE_KEY}=                                        ${EMPTY}
+${IPXE_BOOT_ENTRY}=                                 iPXE Network Boot
 ${EDK2_IPXE_STRING}=                                iPXE Network Boot
 ${EDK2_IPXE_CHECKPOINT}=                            Advanced
 ${EDK2_IPXE_START_POS}=                             2
