@@ -42,10 +42,16 @@ q35_params="-machine q35,smm=on \
     -serial telnet:localhost:1234,server,nowait"
 
 echo "Run QEMU Q35 with Dasharo (UEFI) firmware ... (Ctrl+C to terminate)"
-if [ "$2" == "nographic" ]; then
-    qemu-system-x86_64 $q35_params -nographic
-else
+case "$2" in
+	nographic)
+		qemu-system-x86_64 $q35_params -nographic
+		;;
+	vnc)
+		qemu-system-x86_64 $q35_params -nographic -vnc :0
+		;;
+	*)
     qemu-system-x86_64 $q35_params
-fi
+		;;
+esac
 
 cd $INIT_DIR
