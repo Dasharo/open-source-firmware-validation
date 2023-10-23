@@ -195,12 +195,13 @@ that case you would like to provide directory with Dasharo (UEFI) binaries as
 first parameter (`PATH_TO_DASHARO_FW`).
 
 You may also decide to not use graphics user interface for QEMU. In that case
-provide second parameter `nographic`.
+provide second parameter `nographic`. If you run QEMU on remove machine you may
+consider `vnc` with defult port for graphical output being 5900.
 
 Dasharo (UEFI) in QEMU can be started with:
 
 ```bash
-./scripts/ci/qemu-run.sh [PATH_TO_DASHARO_FW] [nographic]
+./scripts/ci/qemu-run.sh [PATH_TO_DASHARO_FW] [nographic|vnc]
 ```
 
 Without `nographic` a graphical QEMU windows would popup, so you can observe
