@@ -46,7 +46,7 @@ and running tests have been implemented.
 | Protectli    | VP4670               | Dasharo                  |  `protectli-vp4670`                    |
 | Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
 | Raspberry Pi | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
-| Emulation    | QEMU x86             | Dasharo (OVMF)           |  `qemu`                                |
+| QEMU         | Q35                  | Dasharo (UEFI)           |  `qemu`                                |
 
 ## Getting started
 
