@@ -75,12 +75,13 @@ PXE004.001 DTS option is available and works correctly
     Enter Submenu In Tianocore    option=Dasharo Tools Suite    checkpoint=${EDK2_IPXE_CHECKPOINT}
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
-    Should Contain    ${out}    boot.3mdeb.com
     Should Contain    ${out}    Dasharo HCL report
-    Should Contain    ${out}    Update Dasharo firmware
+    Should Contain    ${out}    Install Dasharo firmware
+    Should Contain    ${out}    Load DES keys
+    Should Contain    ${out}    Start SSH server
     Should Contain    ${out}    Shell
-    Should Contain    ${out}    Power off
-    Should Contain    ${out}    Reboot
+    Should Contain    ${out}    Power off system
+    Should Contain    ${out}    Reboot system
 
 PXE005.001 OS installation option is available and works correctly
     [Documentation]    This test aims to verify that the OS installation option
