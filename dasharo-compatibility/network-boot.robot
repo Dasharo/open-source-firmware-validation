@@ -32,6 +32,11 @@ PXE001.001 Dasharo Network Boot is available
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE001.001 not supported
     Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    Set Option State    ${network_menu}    Enable network boot    ${TRUE}
+    Save Changes And Reset    2    4
     Enter Boot Menu Tianocore
     Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     ${out}=    Read From Terminal Until    ${EDK2_IPXE_CHECKPOINT}
