@@ -32,6 +32,7 @@ echo "Copy OVMF_VARS.fd to /tmp/OVMF_VARS.fd"
 cp ./OVMF_VARS.fd /tmp/OVMF_VARS.fd
 
 q35_params="-machine q35,smm=on \
+    -m 1G \
     -global driver=cfi.pflash01,property=secure,value=on \
     -drive if=pflash,format=raw,unit=0,file=./OVMF_CODE.fd,readonly=on \
     -drive if=pflash,format=raw,unit=1,file=/tmp/OVMF_VARS.fd \
