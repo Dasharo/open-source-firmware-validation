@@ -535,32 +535,6 @@ Check If Tianocore Setting Is Enabled In Current Menu
     ...    Should Be Equal    ${option_value}    [X]
     RETURN    ${enabled}
 
-Get Relative Menu Position
-    [Documentation]    Evaluate and return relative menu entry position
-    ...    described in the argument.
-    [Arguments]    ${entry}    ${checkpoint}    ${bias}=1
-    ${output}=    Read From Terminal Until    ${checkpoint}
-    ${output}=    Strip String    ${output}
-    ${reference}=    Get Menu Reference Tianocore    ${output}    ${bias}
-    @{lines}=    Split To Lines    ${output}
-    ${iterations}=    Set Variable    0
-    FOR    ${line}    IN    @{lines}
-        IF    '${reference}' in '${line}\\n'
-            ${start}=    Set Variable    ${iterations}
-            BREAK
-        END
-        ${iterations}=    Evaluate    ${iterations} + 1
-    END
-    ${iterations}=    Set Variable    0
-    FOR    ${line}    IN    @{lines}
-        IF    '${entry}' in '${line}\\n'
-            ${end}=    Set Variable    ${iterations}
-        END
-        ${iterations}=    Evaluate    ${iterations} + 1
-    END
-    ${rel_pos}=    Evaluate    ${end} - ${start}
-    RETURN    ${rel_pos}
-
 Get Boot Timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
     # fix for LT1000 and protectli platforms (output without tabs)
