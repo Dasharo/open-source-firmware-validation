@@ -15,7 +15,7 @@ kwds_to_remove=(
 )
 
 echo "Keywords that should not be used, but are still used:"
-for file in $(find . -type f -name "*.robot"); do
+find . -type f -name "*.robot" | while IFS= read -r file; do
   for kwd in "${kwds_to_remove[@]}"; do
       grep -i -n -H "$kwd" "$file"
   done
