@@ -196,7 +196,7 @@ first parameter (`PATH_TO_DASHARO_FW`).
 
 You may also decide to not use graphics user interface for QEMU. In that case
 provide second parameter `nographic`. If you run QEMU on remove machine you may
-consider `vnc` with defult port for graphical output being 5900.
+consider `vnc` with default port for graphical output being 5900.
 
 Dasharo (UEFI) in QEMU can be started with:
 

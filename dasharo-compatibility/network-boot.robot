@@ -60,7 +60,8 @@ PXE003.001 Autoboot option is available and works correctly
     Enter Boot Menu Tianocore
     Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     Enter Submenu In Tianocore    option=Autoboot (DHCP)    checkpoint=${EDK2_IPXE_CHECKPOINT}
-    ${out}=    Read From Terminal Until    ESC to exit
+    ${out}=    Read From Terminal Until    ${EDK2_IPXE_STRING}
+    Read From Terminal
     Should Contain    ${out}    Please select boot device
 
 PXE004.001 DTS option is available and works correctly
