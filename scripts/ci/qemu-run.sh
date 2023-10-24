@@ -16,7 +16,7 @@ if [ ! -d "$DIR" ]; then
 fi
 
 # Change to the specified directory
-cd "$DIR"
+cd "$DIR" || exit
 
 # Check for the existence of OVMF_CODE.fd and OVMF_VARS.fs files
 if [ ! -f "OVMF_CODE.fd" ] || [ ! -f "OVMF_VARS.fd" ]; then
@@ -54,4 +54,4 @@ case "$2" in
 		;;
 esac
 
-cd $INIT_DIR
+cd $INIT_DIR || exit
