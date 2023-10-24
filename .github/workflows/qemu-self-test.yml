@@ -19,7 +19,7 @@ jobs:
 
     - name: Start QEMU in background
       run: |
-        ./scripts/ci/qemu-run.sh nographic &
+        ./scripts/ci/qemu-run.sh . nographic &
 
     - name: Set up Python
       uses: actions/setup-python@v2
