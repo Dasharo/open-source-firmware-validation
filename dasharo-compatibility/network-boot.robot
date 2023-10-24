@@ -51,11 +51,10 @@ PXE002.001 Dasharo network boot menu boot options order is correct
     Enter Boot Menu Tianocore
     Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
-    Should Contain    ${ipxe_menu}[0]    Dasharo Network Boot Menu
-    Should Contain    ${ipxe_menu}[1]    Autoboot (DHCP)
-    Should Contain    ${ipxe_menu}[2]    Dasharo Tools Suite
-    Should Contain    ${ipxe_menu}[3]    OS installation (netboot.xyz official server)
-    Should Contain    ${ipxe_menu}[4]    iPXE Shell
+    Should Contain    ${ipxe_menu}[0]    Autoboot (DHCP)
+    Should Contain    ${ipxe_menu}[1]    Dasharo Tools Suite
+    Should Contain    ${ipxe_menu}[2]    OS installation (netboot.xyz official server)
+    Should Contain    ${ipxe_menu}[3]    iPXE Shell
 
 PXE003.001 Autoboot option is available and works correctly
     [Documentation]    This test aims to verify that the Autoboot option in
