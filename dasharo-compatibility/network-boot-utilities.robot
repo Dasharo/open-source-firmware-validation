@@ -45,11 +45,11 @@ NBT002.001 OS selection & utilities is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
     Power On
     Set DUT Response Timeout    60s
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
-    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
-    Enter Submenu From Snapshot    ${ipxe_menu}    OS Selection & Utilities
-    Read From Terminal Until    netboot.protectli.com
+    Enter Boot Menu Tianocore
+    Enter Submenu In Tianocore    option=Network Boot and Utilities
+    Enter Submenu In Tianocore    option=OS Selection & Utilities    checkpoint=Advanced    description_lines=2
+    Set DUT Response Timeout    60s
+    Read From Terminal Until    About netboot.xyz
 
 NBT003.001 iPXE boot is available
     [Documentation]    Check whether iPXE boot is available, and if after
