@@ -144,6 +144,11 @@ Enter Submenu From Snapshot And Return Construction
     ${submenu}=    Get Submenu Construction
     RETURN    ${submenu}
 
+Save BIOS Changes
+    [Documentation]    This keyword saves introduced changes
+    Press Key N Times    1    ${F10}
+    Write Bare Into Terminal    y
+
 Enter Dasharo System Features
     [Arguments]    ${setup_menu}
     ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -214,6 +219,9 @@ Press Key N Times
             Sleep    1s
         ELSE
             Write Bare Into Terminal    ${key}
+            # May be useful to add sleep here when implementing test in QEMU
+            # to see how the movement looks like.
+            # Sleep    1s
         END
     END
 

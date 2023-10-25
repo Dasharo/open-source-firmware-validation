@@ -8,6 +8,7 @@ Resource        lib/usb-hid-msc-lib.robot
 Resource        lib/terminal.robot
 Resource        lib/esp-scanning-lib.robot
 Resource        lib/dl-cache.robot
+Resource        lib/self-tests.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
