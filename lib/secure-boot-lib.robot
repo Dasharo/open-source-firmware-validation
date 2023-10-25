@@ -144,16 +144,22 @@ Boot .EFI File From UEFI Shell
 
 Reset Secure Boot Keys
     [Documentation]    This keyword resets the Secure Boot Keys.
-    Go To Secure Boot Menu Entry    Reset Secure Boot Keys
-    Read From Terminal Until    Exit
+    [Arguments]    ${sb_menu}
+    Go To Secure Boot Menu Entry    ${sb_menu}    Reset Secure Boot Keys
+    Read From Terminal Until    Are you sure?
     Press Key N Times    1    ${ENTER}
 
 Upload Required Images
     [Documentation]    Uploads the required images onto the PiKVM
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/k9EcYGDTWQAwtGs/download/good_keys.img
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/LaZQKGizg8gQRMZ/download/not_signed.img
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/DpmnoBK8HBJDTY4/download/bad_keys.img
-    Upload Image    ${PIKVM_IP}    https://cloud.3mdeb.com/index.php/s/TnEWbqGZ83i6bHo/download/bad_format.img
+    ${pikvm_ip}=    Get Variable Value    ${PIKVM_IP}
+    IF    ${pikvm_ip}
+        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/k9EcYGDTWQAwtGs/download/good_keys.img
+        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/LaZQKGizg8gQRMZ/download/not_signed.img
+        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/DpmnoBK8HBJDTY4/download/bad_keys.img
+        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/TnEWbqGZ83i6bHo/download/bad_format.img
+    ELSE
+        Log    No PIKV_IP defined. Images for Secure Boot tests must be shipped via other backend.
+    END
 
 Check Secure Boot In Linux
     [Documentation]    Keyword checks Secure Boot state in Linux.
@@ -183,7 +189,7 @@ Enable Secure Boot
     ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${device_mgr_menu}
     ...    Secure Boot Configuration
-    Select Attempt Secure Boot Option
+    Select Attempt Secure Boot Option    ${secure_boot_menu}
     Save Changes And Reset    2
 
 Disable Secure Boot
@@ -220,8 +226,8 @@ Check If Attempt Secure Boot Can Be Selected
     ...    Reset Secure Boot Keys was not selected before. This keyword checks
     ...    if the Attempt Secure Boot can already be selected. If the help text
     ...    matches this option, it means it can already be selected.
-    ${menu_construction}=    Get Secure Boot Configuration Submenu Construction
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Attempt Secure Boot
+    [Arguments]    ${sb_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${sb_menu}    Attempt Secure Boot
 
     # Go to one option before the target option and clear serial output
     Press Key N Times    ${index} - 1    ${ARROW_DOWN}
@@ -238,38 +244,28 @@ Go To Secure Boot Menu Entry
     [Documentation]    This keywords workarounds the fact the the Attempt Secure
     ...    Boot option might be not active and menu position might be off-by-one
     ...    with the actual key presses needed.
-    [Arguments]    ${entry}
-    ${attempt_sb_can_be_selected}=    Check If Attempt Secure Boot Can Be Selected
-    Reenter Menu
-    ${menu_construction}=    Get Secure Boot Configuration Submenu Construction
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${entry}
+    [Arguments]    ${sb_menu}    ${entry}
+    ${attempt_sb_can_be_selected}=    Check If Attempt Secure Boot Can Be Selected    ${sb_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${sb_menu}    ${entry}
     IF    not ${attempt_sb_can_be_selected}
         ${index}=    Evaluate    ${index} - 1
     END
-    Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
+    Reenter Menu
+    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Select Attempt Secure Boot Option
     [Documentation]    Selects the Attempt Secure Boot Option
     ...    in the Secure Boot Configuration Submenu
+    [Arguments]    ${sb_menu}
 
-    ${can_be_selected}=    Check If Attempt Secure Boot Can Be Selected
+    ${can_be_selected}=    Check If Attempt Secure Boot Can Be Selected    ${sb_menu}
     IF    not ${can_be_selected}
         Reenter Menu
-        Reset Secure Boot Keys
+        Reset Secure Boot Keys    ${sb_menu}
     END
     Reenter Menu
-    ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    ${option_is_set}=    Run Keyword And Return Status
-    ...    Should Contain    ${sb_state}    [X]
-
-    IF    ${option_is_set}
-        Log    Attempt Secure Boot option is already set, nothing to do.
-    ELSE
-        Reenter Menu
-        Go To Secure Boot Menu Entry    Attempt Secure Boot
-        Read From Terminal Until    reset the platform to take effect!
-        Press Key N Times    1    ${ENTER}
-    END
+    Set Option State    ${sb_menu}    Attempt Secure Boot    ${TRUE}
+    Fail
 
 Clear Attempt Secure Boot Option
     [Documentation]    Deselects the Attempt Secure Boot Option

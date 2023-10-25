@@ -94,6 +94,19 @@ Parse Menu Snapshot Into Construction
     END
     Log    ${construction}
     ${construction}=    Get Slice From List    ${construction}    ${slice_start}    ${slice_end}
+    # TODO: Improve parsing of the menu into construction. It can probably be
+    # simplified, but at least we have this only in one kewyrod not in multiple
+    # ones.
+    # Make sure to remove control help text appearing in the screen if somehow
+    # they are still there.
+    Remove Values From List
+    ...    ${construction}
+    ...    Esc\=Exit
+    ...    ^v\=Move High
+    ...    <Enter>\=Select Entry
+    ...    F9\=Reset to Defaults F10\=Save
+    ...    LCtrl+LAlt+F12\=Save screenshot
+    ...    <Spacebar>Toggle Checkbox
     RETURN    ${construction}
 
 Enter Setup Menu Tianocore And Return Construction
@@ -129,6 +142,11 @@ Enter Submenu From Snapshot And Return Construction
     Enter Submenu From Snapshot    ${menu}    ${option}
     ${submenu}=    Get Submenu Construction
     RETURN    ${submenu}
+
+Save BIOS Changes
+    [Documentation]    This keyword saves introduced changes
+    Press Key N Times    1    ${F10}
+    Write Bare Into Terminal    y
 
 Enter Dasharo System Features
     [Arguments]    ${setup_menu}
@@ -200,6 +218,9 @@ Press Key N Times
             Sleep    1s
         ELSE
             Write Bare Into Terminal    ${key}
+            # May be useful to add sleep here when implementing test in QEMU
+            # to see how the movement looks like.
+            # Sleep    1s
         END
     END
 
