@@ -43,6 +43,7 @@ Enter Boot Menu Tianocore And Return Construction
     ${menu}=    Enter Boot Menu Tianocore And Return Construction
     List Should Not Contain Value    ${menu}    Please select boot device:
     List Should Contain Value    ${menu}    Setup
+    Menu Construction Should Not Contain Control Text    ${menu}
 
 Enter Setup Menu Tianocore
     [Documentation]    Test Enter Setup Menu Tianocore kwd
@@ -66,6 +67,7 @@ Enter Setup Menu Tianocore And Return Construction
     List Should Contain Value    ${setup_menu}    > Dasharo System Features
     List Should Contain Value    ${setup_menu}    > One Time Boot
     List Should Contain Value    ${setup_menu}    > Boot Maintenance Manager
+    Menu Construction Should Not Contain Control Text    ${setup_menu}
 
 Enter User Password Management Menu
     [Documentation]    Test entering into User Password Management menu
@@ -86,6 +88,7 @@ Parse User Password Management Menu
     Should Be Equal As Strings    ${password_menu}[1]    Change Admin Password
     ${password_menu_entries}=    Get Length    ${password_menu}
     Should Be Equal As Integers    ${password_menu_entries}    2
+    Menu Construction Should Not Contain Control Text    ${password_menu}
 
 Enter Device Manager Menu
     [Documentation]    Test entering into User Password Management menu
@@ -107,6 +110,34 @@ Parse Device Manager Menu
     ...    Device Manager
     Should Not Contain    ${device_menu}[0]    Devices List
     List Should Contain Value    ${device_menu}    > Driver Health Manager
+    List Should Contain Value    ${device_menu}    Press ESC to exit.
+    Menu Construction Should Not Contain Control Text    ${device_menu}
+
+Enter Secure Boot Menu
+    [Documentation]    Test entering into User Password Management menu
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    Enter Submenu From Snapshot    ${device_menu}    Secure Boot Configuration
+    ${out}=    Read From Terminal Until    Esc=Exit
+    Should Contain    ${out}    Secure Boot Configuration
+    Should Contain    ${out}    Current Secure Boot State
+
+Parse Secure Boot Menu
+    [Documentation]    Test entering into User Password Management menu
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction    ${device_menu}    Secure Boot Configuration
+    Should Match Regexp    ${sb_menu}[0]    ^Current Secure Boot State.*$
+    Should Match Regexp    ${sb_menu}[1]    ^Attempt Secure Boot \\[.\\].*$
+    Should Match Regexp    ${sb_menu}[2]    ^Secure Boot Mode \\<.*\\>.*$
+    Should Match Regexp    ${sb_menu}[3]    ^Reset Secure Boot Keys$
+    Menu Construction Should Not Contain Control Text    ${sb_menu}
 
 Enter One Time Boot Menu
     [Documentation]    Test entering into User Password Management menu
@@ -124,6 +155,7 @@ Parse One Time Boot Menu
     ...    ${setup_menu}
     ...    One Time Boot
     List Should Contain Value    ${otb_menu}    UEFI Shell
+    Menu Construction Should Not Contain Control Text    ${otb_menu}
 
 Enter Boot Maintenance Manager Menu
     [Documentation]    Test entering into User Password Management menu
@@ -146,6 +178,7 @@ Parse Boot Maintenance Manager Menu
     Should Be Equal As Strings    ${boot_mgr_menu}[3]    > Boot From File
     Should Match Regexp    ${boot_mgr_menu}[4]    ^Boot Next Value <.*>$
     Should Match Regexp    ${boot_mgr_menu}[5]    ^Auto Boot Time-out \\[\\d+\\]$
+    Menu Construction Should Not Contain Control Text    ${boot_mgr_menu}
 
 Enter Invalid Option in Setup Menu
     [Documentation]    Test if keyword fails (rather than silently continuing) when

@@ -41,14 +41,11 @@ SBO001.001 Check Secure Boot default state (firmware)
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
-    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${device_mgr_menu}
     ...    Secure Boot Configuration
-
-    # The code below still needs fixes
-
-    ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    Should Contain    ${sb_state}    [ ]
+    ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
+    Should Contain    ${sb_state}[0]    Disabled
 
     # Below is the full test code before the first fixes
 
@@ -69,6 +66,8 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
 
     Power On
     Enable Secure Boot
+
+    Fail
 
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -95,6 +94,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
 
     Power On
     Enable Secure Boot
+
     Login To Windows
     ${sb_status}=    Check Secure Boot In Windows
     Should Be True    ${sb_status}

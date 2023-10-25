@@ -44,6 +44,7 @@ Parse Dasharo System Features Menu
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     List Should Contain Value    ${dasharo_menu}    > Serial Port Configuration
+    Menu Construction Should Not Contain Control Text    ${dasharo_menu}
 
 Enter Dasharo Security Options
     [Documentation]    Check if Dasharo Security Options menu can be entered.
@@ -56,6 +57,7 @@ Parse Dasharo Security Options
     List Should Contain Value    ${security_menu}    > Enter Firmware Update Mode
     # Second line from "Enable SMM BIOS write protection" should not be there
     List Should Not Contain Value    ${security_menu}    protection
+    Menu Construction Should Not Contain Control Text    ${security_menu}
 
 Enter Networking Options
     [Documentation]    Check if Networking Options menu can be entered.
@@ -67,6 +69,7 @@ Parse Networking Options
     ${networking_entries}=    Get Length    ${networking_menu}
     Should Be Equal As Integers    ${networking_entries}    1
     Should Match Regexp    ${networking_menu}[0]    ^Enable network boot \\[.\\].*$
+    Menu Construction Should Not Contain Control Text    ${networking_menu}
 
 Enter USB Configuration
     [Documentation]    Check if USB Configuration menu can be entered.
@@ -81,6 +84,7 @@ Parse USB Configuration
     Should Match Regexp    ${usb_menu}[1]    ^Enable USB Mass Storage \\[.\\].*$
     # Second line from "Enable USB Mass Storage driver" should not be there
     List Should Not Contain Value    ${usb_menu}    driver
+    Menu Construction Should Not Contain Control Text    ${usb_menu}
 
 Enter Intel Management Engine Options
     [Documentation]    Check if Intel Management Engine menu can be entered.
@@ -92,6 +96,7 @@ Parse Intel Management Engine Options
     ${me_entries}=    Get Length    ${me_menu}
     Should Be Equal As Integers    ${me_entries}    1
     Should Match Regexp    ${me_menu}[0]    ^Intel ME mode <.*>.*$
+    Menu Construction Should Not Contain Control Text    ${me_menu}
 
 Enter Chipset Configuration
     [Documentation]    Check if Chipset Configuration menu can be entered.
@@ -103,6 +108,7 @@ Parse Chipset Configuration
     ${chipset_entries}=    Get Length    ${chipset_menu}
     Should Be Equal As Integers    ${chipset_entries}    3
     Should Match Regexp    ${chipset_menu}[0]    ^Enable PS2 Controller \\[.\\].*$
+    Menu Construction Should Not Contain Control Text    ${chipset_menu}
 
 Enter Power Management Options
     [Documentation]    Check if Power Management Options menu can be entered.
@@ -116,6 +122,7 @@ Parse Power Management Options
     Should Match Regexp    ${power_menu}[0]    ^Fan profile <.*>.*$
     # Second line from Batter Start/Stop Chare Threshold should not be there
     List Should Not Contain Value    ${power_menu}    Threshold
+    Menu Construction Should Not Contain Control Text    ${power_menu}
 
 Enter PCI/PCIe Configuration
     [Documentation]    Check if PCI/PCIe Configuration menu can be entered.
@@ -129,6 +136,7 @@ Parse PCI/PCIe Configuration
     Should Match Regexp    ${pci_menu}[0]    ^Enable PCIe Resizeable \\[.\\].*$
     # Second line from Enable PCIe Resizeable BARs should not be there
     List Should Not Contain Value    ${pci_menu}    BARs
+    Menu Construction Should Not Contain Control Text    ${pci_menu}
 
 Enter Memory Configuration
     [Documentation]    Check if Memory Configuration menu can be entered.
@@ -143,6 +151,7 @@ Parse Memory Configuration
     # Second line from profile should not be there
     List Should Not Contain Value    ${memory_menu}    non-overclocked default)>
     List Should Not Contain Value    ${memory_menu}    extreme memory profile)>
+    Menu Construction Should Not Contain Control Text    ${memory_menu}
 
 Enter Serial Port Configuration
     [Documentation]    Check if Serial Port Configuration menu can be entered.
@@ -156,6 +165,7 @@ Parse Serial Port Configuration
     Should Match Regexp    ${serial_menu}[0]    ^Enable Serial Port \\[.\\].*$
     # Second line from Enable Serial Port Console Redirection should not be there
     List Should Not Contain Value    ${serial_menu}    Console Redirection
+    Menu Construction Should Not Contain Control Text    ${serial_menu}
 
 
 *** Keywords ***
