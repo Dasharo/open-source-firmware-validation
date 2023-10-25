@@ -250,7 +250,7 @@ Go To Secure Boot Menu Entry
     IF    not ${attempt_sb_can_be_selected}
         ${index}=    Evaluate    ${index} - 1
     END
-    Reenter Menu
+    ${sb_menu}=    Reenter Menu And Return Construction
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Select Attempt Secure Boot Option
@@ -260,10 +260,10 @@ Select Attempt Secure Boot Option
 
     ${can_be_selected}=    Check If Attempt Secure Boot Can Be Selected    ${sb_menu}
     IF    not ${can_be_selected}
-        Reenter Menu
+        ${sb_menu}=    Reenter Menu And Return Construction
         Reset Secure Boot Keys    ${sb_menu}
     END
-    Reenter Menu
+    ${sb_menu}=    Reenter Menu And Return Construction
     Set Option State    ${sb_menu}    Attempt Secure Boot    ${TRUE}
     Fail
 
@@ -276,7 +276,7 @@ Clear Attempt Secure Boot Option
     IF    ${option_is_cleared}
         Log    Attempt Secure Boot option is already cleared, nothing to do.
     ELSE
-        Reenter Menu
+        ${sb_menu}=    Reenter Menu And Return Construction
         Go To Secure Boot Menu Entry    Attempt Secure Boot
         Read From Terminal Until    reset the platform to take effect!
         Press Key N Times    1    ${ENTER}
