@@ -19,11 +19,7 @@ ${PAYLOAD_STRING}=                                  ${EMPTY}
 ${EDK2_IPXE_STRING}=                                Network Boot and Utilities
 ${EDK2_IPXE_CHECKPOINT}=                            Advanced
 ${EDK2_IPXE_START_POS}=                             2
-${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
 ${IPXE_STRING}=                                     ${EMPTY}
-${IPXE_STRING2}=                                    ${EMPTY}
-${IPXE_KEY}=                                        ${EMPTY}
-${NET_BOOT_KEY}=                                    ${EMPTY}
 ${SOL_STRING}=                                      ${EMPTY}
 ${SN_PATTERN}=                                      ${EMPTY}
 ${MANUFACTURER}=                                    ${EMPTY}
@@ -45,6 +41,7 @@ ${ME_INTERFACE}=                                    Intel Corporation Device 4b7
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${USB_MODEL}=                                       Kingston
+${MAX_CPU_TEMP}=                                    95
 
 ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
@@ -304,7 +301,7 @@ Power On
 Flash Protectli VP2420 Internal
     Power On
     # Boot operating system    ubuntu
-    Boot Operating System    SSDPR-CL100-240-G2
+    Boot Operating System    Samsung SSD 860 EVO M.2 250GB
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
