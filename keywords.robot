@@ -44,9 +44,9 @@ Check IPXE Appears Only Once
     ...    option list.
     ${menu_construction}=    Get Boot Menu Construction
     TRY
-        Should Contain X Times    ${menu_construction}    ${IPXE_BOOT_ENTRY}    1
+        Should Contain X Times    ${menu_construction}    ${EDK2_IPXE_STRING}    1
     EXCEPT
-        FAIL    Test case marked as Failed\nRequested boot option: (${IPXE_BOOT_ENTRY}) appears not only once.
+        FAIL    Test case marked as Failed\nRequested boot option: (${EDK2_IPXE_STRING}) appears not only once.
     END
 
 Launch To DTS Shell
@@ -307,6 +307,34 @@ Reset In Setup Menu Tianocore
     ${index}=    Get Index From List    ${menu_construction}    eset
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
+<<<<<<< HEAD
+=======
+Enter IPXE
+    [Documentation]    Enter iPXE after device power cutoff.
+    # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
+    # TODO2:    problem with iPXE string (e.g. when 3 network interfaces are available)
+
+    IF    '${PAYLOAD}' == 'seabios'
+        Enter SeaBIOS
+        Sleep    0.5s
+        ${setup}=    Telnet.Read
+        ${lines}=    Get Lines Matching Pattern    ${setup}    ${EDK2_IPXE_STRING}
+        Telnet.Write Bare    ${lines[0]}
+        Telnet.Read Until    ${IPXE_STRING}
+        Telnet.Write Bare    ${IPXE_KEY}
+        IPXE Wait For Prompt
+    ELSE IF    '${PAYLOAD}' == 'tianocore'
+        Enter Boot Menu Tianocore
+        Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+        Enter Submenu In Tianocore
+        ...    option=iPXE Shell
+        ...    checkpoint=${EDK2_IPXE_CHECKPOINT}
+        ...    description_lines=${EDK2_IPXE_START_POS}
+        Set Prompt For Terminal    iPXE>
+        Read From Terminal Until Prompt
+    END
+
+>>>>>>> 6d42f690b952 (remove unused variables in platform-configs/)
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
     # TODO: We do not necessarily need Internet to be reachable for the internal

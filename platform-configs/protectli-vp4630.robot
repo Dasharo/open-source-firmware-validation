@@ -11,12 +11,15 @@ ${BOOT_MENU_STRING}=                                Please select boot device
 ${SETUP_MENU_STRING}=                               Select Entry
 ${PAYLOAD_STRING}=                                  ${EMPTY}
 ${IPXE_STRING}=                                     ${EMPTY}
+<<<<<<< HEAD
 ${IPXE_STRING2}=                                    ${EMPTY}
 ${IPXE_KEY}=                                        ${EMPTY}
 ${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
+=======
+${EDK2_IPXE_STRING}=                                Network Boot and Utilities
+>>>>>>> 6d42f690b952 (remove unused variables in platform-configs/)
 ${EDK2_IPXE_CHECKPOINT}=                            Advanced
 ${EDK2_IPXE_START_POS}=                             2
-${NET_BOOT_KEY}=                                    ${EMPTY}
 ${SOL_STRING}=                                      ${EMPTY}
 ${SN_PATTERN}=                                      ${EMPTY}
 ${MANUFACTURER}=                                    ${EMPTY}
