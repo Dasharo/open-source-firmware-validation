@@ -68,6 +68,12 @@ Get Menu Construction
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
     RETURN    ${construction}
 
+Get IPXE Boot Menu Construction
+    [Documentation]    Keyword allows to get and return iPXE menu construction.
+    ${menu}=    Read From Terminal Until    ${EDK2_IPXE_CHECKPOINT}
+    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    0
+    RETURN    ${construction}
+
 Parse Menu Snapshot Into Construction
     [Documentation]    Breaks grabbed menu data into lines.
     [Arguments]    ${menu}    ${lines_top}    ${lines_bot}

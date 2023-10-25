@@ -32,8 +32,12 @@ PXE001.001 Dasharo Network Boot is available
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE001.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Should Contain
+    ...    ${boot_menu}
+    ...    ${IPXE_BOOT_ENTRY}
+    ...    Network boot entry not found. Perhaps network boot option is disabled?
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${out}=    Read From Terminal Until    ${EDK2_IPXE_CHECKPOINT}
     Should Contain    ${out}    Dasharo Network Boot Menu
 
@@ -43,8 +47,12 @@ PXE002.001 Dasharo network boot menu boot options order is correct
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE002.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Should Contain
+    ...    ${boot_menu}
+    ...    ${IPXE_BOOT_ENTRY}
+    ...    Network boot entry not found. Perhaps network boot option is disabled?
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Should Contain    ${ipxe_menu}[0]    Autoboot (DHCP)
     Should Contain    ${ipxe_menu}[1]    Dasharo Tools Suite
