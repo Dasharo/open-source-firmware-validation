@@ -48,8 +48,8 @@ NBT002.001 OS selection & utilities is available
     Enter Boot Menu Tianocore
     Enter Submenu In Tianocore    option=Network Boot and Utilities
     Enter Submenu In Tianocore    option=OS Selection & Utilities    checkpoint=Advanced    description_lines=2
-    Set DUT Response Timeout    20s
-    Read From Terminal Until    Press any key to continue to netboot.xyz
+    Set DUT Response Timeout    60s
+    Read From Terminal Until    About netboot.xyz
 
 NBT003.001 iPXE boot is available
     [Documentation]    Check whether iPXE boot is available, and if after
