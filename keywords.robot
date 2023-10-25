@@ -1340,6 +1340,7 @@ Scan For Wi-Fi In Linux
     Set DUT Response Timeout    60 seconds
     Write Into Terminal    nmcli device wifi list
     Read From Terminal Until    ${3_MDEB_WIFI_NETWORK}
+    Write Into Terminal    q
 
 Scan For Bluetooth In Linux
     [Documentation]    Turn on Bluetooth then scan in search of company network.
