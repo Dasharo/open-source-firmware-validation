@@ -354,14 +354,26 @@ Reenter Menu
     ...    again
     [Arguments]    ${forward}=${FALSE}
     IF    ${forward} == True
-        Press Key N Times    1    ${ENTER}
-        Sleep    1s
+        Press Enter
+        # ESC itself does not "refresh" the data over serial. Only pressing
+        # other keys (such as arrow keys) makes the change caused by ESC
+        # (moving back one menu up) to be redrawn. Using either UP and then DOWN,
+        # or just LEFT / RIGHT (which does not impact any actual movement) should
+        # be safe to use here.
         Press Key N Times    1    ${ESC}
+        Press Key N Times    1    ${ARROW_LEFT}
     ELSE
         Press Key N Times    1    ${ESC}
-        Sleep    1s
-        Press Key N Times    1    ${ENTER}
+        Press Key N Times    1    ${ARROW_LEFT}
+        Press Enter
     END
+
+Reenter Menu And Return Construction
+    [Documentation]    Enters the same menu again, returning updated menu construction
+    [Arguments]    ${forward}=${FALSE}
+    Reenter Menu    ${forward}
+    ${menu}=    Get Submenu Construction
+    RETURN    ${menu}
 
 # This should stay, maybe improved if needed
 
