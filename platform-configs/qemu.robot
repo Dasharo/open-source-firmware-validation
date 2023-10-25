@@ -186,13 +186,13 @@ ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
-${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
-${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
-${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
-${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
-${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
-${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
+${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
+${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
+${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
+${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}

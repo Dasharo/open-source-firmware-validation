@@ -33,12 +33,14 @@ PSW001.001 Check Password Setup option availability and default state
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW001.001 not supported
     Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
-    Enter Setup Menu Tianocore
-    Enter Setup Menu Option    User Password Management
-    ${entries}=    Get Setup Submenu Construction    Esc=Exit
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${password_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    User Password Management
+
     ${menu_correct_status}=    Run Keyword And Return Status
-    ...    Check User Password Management Menu Default State    ${entries}
-    Should Be True    ${menu_correct_status}
+    ...    Check User Password Management Menu Default State    ${ENTRIES}
+    Should Contain    ${password_menu}    Admin Password Status Not Installed
 
 PSW002.001 Password setting mechanism correctness checking
     [Documentation]    This test aims to verify whether Change Admin Password
@@ -121,9 +123,11 @@ PSW006.001 Attempt to turn off setup password functionality
     Read From Terminal Until    password
     ${password}=    Set Variable    1    q    a    z    X    S    W    @
     Type In The Password    ${password}
-    Enter Setup Menu Option    User Password Management
-    ${menu_construction}=    Get Setup Submenu Construction    Esc=Exit
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Change Admin Password
+    Get Setup Menu Construction
+    ${password_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${SETUP_MENU}
+    ...    User Password Management
+    ${index}=    Get Index Of Matching Option In Menu    ${password_menu}    Change Admin Password
     Should Not Be Equal    '${index}'    -1    The option was not found in menu
     # we assume that there is an option in menu "Admin Password Status" which is
     # not accessible, hence we subtract one from received index
@@ -147,10 +151,11 @@ PSW007.001 Attempt to set non-compilant password
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW007.001 not supported
     Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
-    Enter Setup Menu Tianocore
-    Enter Setup Menu Option    User Password Management
-    ${menu_construction}=    Get Setup Submenu Construction    Esc=Exit
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Change Admin Password
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${password_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    User Password Management
+    ${index}=    Get Index Of Matching Option In Menu    ${password_menu}    Change Admin Password
     Should Not Be Equal    '${index}'    -1    The option was not found in menu
     # we assume that there is an option in menu "Admin Password Status" which is
     # not accessible, hence we subtract one from received index
@@ -170,10 +175,11 @@ PSW008.001 Attempt to set old password
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW008.001 not supported
     Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
-    Enter Setup Menu Tianocore
-    Enter Setup Menu Option    User Password Management
-    ${menu_construction}=    Get Setup Submenu Construction    Esc=Exit
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Change Admin Password
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${password_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    User Password Management
+    ${index}=    Get Index Of Matching Option In Menu    ${password_menu    Change Admin Password
     Should Not Be Equal    '${index}'    -1    The option was not found in menu
     # we assume that there is an option in menu "Admin Password Status" which is
     # not accessible, hence we subtract one from received index
@@ -189,10 +195,11 @@ PSW008.001 Attempt to set old password
 Set Password 5 Times
     [Documentation]    Sets the password 5 times to reset the same password
     ...    counter
-    Enter Setup Menu Tianocore
-    Enter Setup Menu Option    User Password Management
-    ${menu_construction}=    Get Setup Submenu Construction    Esc=Exit
-    ${index}=    Get Index Of Matching Option In Menu    ${menu_construction}    Change Admin Password
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${password_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    User Password Management
+    ${index}=    Get Index Of Matching Option In Menu    ${password_menu}    Change Admin Password
     Should Not Be Equal    '${index}'    -1    The option was not found in menu
     # we assume that there is an option in menu "Admin Password Status" which is
     # not accessible, hence we subtract one from received index

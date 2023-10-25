@@ -195,8 +195,8 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
 # It causes "Power on AC" option to reset to disable, so we can no longer Powe On using Sonoff
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 
 # Test module: dasharo-security
