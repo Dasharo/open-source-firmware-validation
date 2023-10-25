@@ -33,6 +33,7 @@ CBK001.001 Custom boot menu key
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBK001.001 not supported
     Power On
     Enter Boot Menu
+    Read From Terminal Until    Please select boot device:
 
 CBK002.001 Custom setup menu key
     [Documentation]    Check whether the DUT is configured properly to use
@@ -41,3 +42,4 @@ CBK002.001 Custom setup menu key
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBK002.001 not supported
     Power On
     Enter Setup Menu Tianocore
+    Read From Terminal Until    <Enter>=Select Entry
