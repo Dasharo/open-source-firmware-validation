@@ -1,6 +1,7 @@
 *** Settings ***
 Resource    ../keys-and-keywords/flashrom.robot
 Resource    ../keywords.robot
+Resource    ../os-config/ubuntu-credentials.robot
 
 
 *** Variables ***
@@ -18,6 +19,7 @@ ${PAYLOAD_STRING}=                                  ${EMPTY}
 ${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
 ${EDK2_IPXE_CHECKPOINT}=                            Advanced
 ${EDK2_IPXE_START_POS}=                             2
+${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
 ${IPXE_STRING}=                                     ${EMPTY}
 ${IPXE_STRING2}=                                    ${EMPTY}
 ${IPXE_KEY}=                                        ${EMPTY}
@@ -43,6 +45,7 @@ ${ME_INTERFACE}=                                    Intel Corporation Device 4b7
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
+${USB_MODEL}=                                       Kingston
 
 ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
@@ -61,16 +64,16 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP2420:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         ${EMPTY}
 ${DEVICE_WINDOWS_PASSWORD}=                         ${EMPTY}
-${DEVICE_UBUNTU_USERNAME}=                          user
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-VP2420:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-VP2420:/home/user#
+${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
+${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
+${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.1.0
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.2.0
 ${DMIDECODE_PRODUCT_NAME}=                          VP2420
-${DMIDECODE_RELEASE_DATE}=                          04/12/2023
+${DMIDECODE_RELEASE_DATE}=                          10/12/2023
 ${DMIDECODE_MANUFACTURER}=                          Protectli
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                N/A
@@ -164,7 +167,7 @@ ${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 
 # Test module: dasharo-security
@@ -176,12 +179,14 @@ ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${ME_NEUTER_SUPPORT}=                               ${FALSE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
-${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${USB_STACK_SUPPORT}=                               ${TRUE}
+${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
