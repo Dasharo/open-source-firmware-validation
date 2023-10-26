@@ -304,4 +304,5 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
+    Read From Terminal
     Qemu Monitor.System Reset

@@ -1695,8 +1695,8 @@ Reboot Via OS Boot By Petitboot
 Reboot Via Ubuntu By Tianocore
     [Documentation]    Reboot system with Ubuntu installed on the DUT while
     ...    already logged into Tianocore.
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    ubuntu
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ubuntu
     Login To Linux
     Switch To Root User
     Write Into Terminal    reboot
@@ -1850,30 +1850,6 @@ Boot System Or From Connected Disk
         ${system_index}=    Get Index From List    ${menu_construction}    ${system_name}
     END
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-
-Get IPXE Boot Menu Construction
-    [Documentation]    Keyword allows to get and return iPXE boot menu construction.
-    [Arguments]    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
-    ${menu}=    Read From Terminal Until    ${checkpoint}
-    ${menu}=    Remove String    ${menu}    \r
-    @{menu_lines}=    Split String    ${menu}    \n
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        # Replace multiple spaces with a single one
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        # Remove leading and trailing spaces
-        ${line}=    Strip String    ${line}
-        # Drop leading and trailing pipes
-        ${line}=    Strip String    ${line}    characters=|
-        # Remove leading and trailing spaces
-        ${line}=    Strip String    ${line}
-        # If the resulting line is not empty, add it as a bootable entry
-        ${length}=    Get Length    ${line}
-        IF    ${length} > 0    Append To List    ${menu_construction}    ${line}
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    Remove Values From List    ${menu_construction}    Secure Boot Configuration
-    RETURN    ${menu_construction}
 
 Remove Entry From List
     [Arguments]    ${input_list}    ${regexp}

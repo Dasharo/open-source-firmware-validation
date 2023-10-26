@@ -32,8 +32,8 @@ NBT001.001 Netboot is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT001.001 not supported
     Power On
     Set DUT Response Timeout    60s
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=Network Boot and Utilities
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
     Set DUT Response Timeout    20s
     Read From Terminal Until    Network Boot and Utilities
     Read From Terminal Until    Please Select an Option
@@ -45,11 +45,11 @@ NBT002.001 OS selection & utilities is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
     Power On
     Set DUT Response Timeout    60s
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=Network Boot and Utilities
-    Enter Submenu In Tianocore    option=OS Selection & Utilities    checkpoint=Advanced    description_lines=2
-    Set DUT Response Timeout    60s
-    Read From Terminal Until    About netboot.xyz
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    Enter Submenu From Snapshot    ${ipxe_menu}    OS Selection & Utilities
+    Read From Terminal Until    netboot.protectli.com
 
 NBT003.001 iPXE boot is available
     [Documentation]    Check whether iPXE boot is available, and if after
@@ -57,10 +57,11 @@ NBT003.001 iPXE boot is available
     Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT003.001 not supported
     Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Boot
     Set DUT Response Timeout    60s
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=Network Boot and Utilities
-    Enter Submenu In Tianocore    option=iPXE Boot    checkpoint=Advanced    description_lines=2
     Set DUT Response Timeout    20s
     Read From Terminal Until    Nothing to boot: No such file or directory
 
@@ -71,9 +72,10 @@ NBT004.001 iPXE shell is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT004.001 not supported
     Power On
     Set DUT Response Timeout    60s
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=Network Boot and Utilities
-    Enter Submenu In Tianocore    option=iPXE Shell    checkpoint=Advanced    description_lines=2
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Set DUT Response Timeout    20s
     Read From Terminal Until    You are now in iPXE shell.
 
@@ -84,9 +86,10 @@ NBT005.001 iPXE shell works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT005.001 not supported
     Power On
     Set DUT Response Timeout    60s
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=Network Boot and Utilities
-    Enter Submenu In Tianocore    option=iPXE Shell    checkpoint=Advanced    description_lines=2
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Set Prompt For Terminal    iPXE>
     Read From Terminal Until Prompt
     Write Into Terminal    dhcp net0
@@ -104,9 +107,10 @@ NBT006.001 Advanced option is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT006.001 not supported
     Power On
     Set DUT Response Timeout    60s
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=Network Boot and Utilities
-    Enter Submenu In Tianocore    option=Advanced    checkpoint=Advanced    description_lines=2
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    Enter Submenu From Snapshot    ${ipxe_menu}    Advanced
     Set DUT Response Timeout    20s
     Read From Terminal Until    Change Netboot iPXE Payload URL
 
@@ -117,17 +121,26 @@ NBT007.001 Change netboot URL option works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT007.001 not supported
     Power On
     Set DUT Response Timeout    60s
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=Network Boot and Utilities
-    Enter Submenu In Tianocore    option=Advanced    checkpoint=Advanced    description_lines=2
-    Enter Submenu In Tianocore    option=Change Netboot iPXE Payload URL    checkpoint=Exit    description_lines=2
-    Enter Submenu In Tianocore    option=Change Netboot iPXE Payload URL    checkpoint=Default    description_lines=3
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    Enter Submenu From Snapshot    ${ipxe_menu}    Advanced
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2    checkpoint=Exit
+    Enter Submenu From Snapshot    ${ipxe_menu}    Change Netboot iPXE Payload URL
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=3    checkpoint=Reset to Default
+    Enter Submenu From Snapshot    ${ipxe_menu}    Change Netboot iPXE Payload URL
     Set DUT Response Timeout    20s
     Read From Terminal Until    Enter url parameters:
     FOR    ${i}    IN RANGE    100
         Write Bare Into Terminal    ${BACKSPACE}    0.1
     END
-    Write Bare Into Terminal    http://boot.3mdeb.com/dts.ipxe\n    0.1
-    Enter Submenu In Tianocore    option=Apply and Exit    checkpoint=Default    description_lines=3
-    Enter Submenu In Tianocore    option=iPXE Boot    checkpoint=Advanced    description_lines=2
-    Read From Terminal Until    Nothing to boot: No such file or directory
+    Write Bare Into Terminal    http://boot.3mdeb.com/dts.ipxe    0.1
+    Press Enter
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=3    checkpoint=Reset to Default
+    Enter Submenu From Snapshot    ${ipxe_menu}    Apply and Exit
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    Enter Submenu From Snapshot    ${ipxe_menu}    Advanced
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2    checkpoint=Exit
+    Enter Submenu From Snapshot    ${ipxe_menu}    Change Netboot iPXE Payload URL
+    ${out}=    Read From Terminal Until    Reset to Default
+    Should Contain    ${out}    http://boot.3mdeb.com/dts.ipxe
