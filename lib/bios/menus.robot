@@ -419,6 +419,11 @@ Remove Disk Password
 # TODO: calculate steps_to_reset based on the menu construction
 # Hint: Look up: "Get Relative Menu Position" kwd in git history
 
+Save Changes
+    [Documentation]    Saves current UEFI settings
+    Press Key N Times    1    ${F10}
+    Write Bare Into Terminal    y
+
 Save Changes And Reset
     [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
     ...    is how deep user is currently in the settings.
@@ -426,7 +431,6 @@ Save Changes And Reset
     ...    arrow down be pressed to get to the Reset option in main
     ...    settings menu
     [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
+    Save Changes
     Press Key N Times    ${nesting_level}    ${ESC}
     Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
