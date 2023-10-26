@@ -351,21 +351,6 @@ Enter IPXE
     Set Prompt For Terminal    iPXE>
     Read From Terminal Until Prompt
 
-# TODO:
-# This keyword should be removed. If it is used in tests, it should
-# be replaced.
-
-Get Menu Reference Tianocore
-    [Documentation]    Get first entry from Tianocore Boot Manager menu.
-    [Arguments]    ${raw_menu}    ${bias}
-    ${lines}=    Get Lines Matching Pattern    ${raw_menu}    *[qwertyuiopasdfghjklzxcvbnm]*
-    ${lines}=    Split To Lines    ${lines}
-    ${bias}=    Convert To Integer    ${bias}
-    ${first_entry}=    Get From List    ${lines}    ${bias}
-    ${first_entry}=    Strip String    ${first_entry}    characters=1234567890()
-    ${first_entry}=    Strip String    ${first_entry}
-    RETURN    ${first_entry}
-
 Reenter Menu
     [Documentation]    Returns to the previous menu and enters the same one
     ...    again
