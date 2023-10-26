@@ -32,8 +32,6 @@ DMP001.001 TCG OPAL disk password set and check
     Power On
     Enter Setup Menu Tianocore
     Enter TCG Drive Management Submenu
-    # Press key n times and enter    1    ${ARROW_DOWN}
-    # Enter submenu in Tianocore    TCG Drive Management    ESC to exit    2
     # test assumes that only the first disk is bootable or there is only
     # one disk
     ${has_connected_disks}=    Check If Any Disk Is Connected

@@ -18,10 +18,16 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+# ...    AND
+# ...    Make Sure That Network Boot Is Enabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
+# TODO: It should be In Suite Setup, not in Test Setup. But when it is, at least
+# the QEMU run hangs in the first occurrence of Power On keyword in the first
+# test executed, never returning from this keyword.
+Test Setup          Make Sure That Network Boot Is Enabled
 
 
 *** Test Cases ***
@@ -32,8 +38,8 @@ PXE001.001 Dasharo Network Boot is available
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE001.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${out}=    Read From Terminal Until    ${EDK2_IPXE_CHECKPOINT}
     Should Contain    ${out}    Dasharo Network Boot Menu
 
@@ -43,8 +49,8 @@ PXE002.001 Dasharo network boot menu boot options order is correct
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE002.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Should Contain    ${ipxe_menu}[0]    Autoboot (DHCP)
     Should Contain    ${ipxe_menu}[1]    Dasharo Tools Suite
@@ -57,11 +63,11 @@ PXE003.001 Autoboot option is available and works correctly
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE003.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
-    Enter Submenu In Tianocore    option=Autoboot (DHCP)    checkpoint=${EDK2_IPXE_CHECKPOINT}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    Autoboot (DHCP)
     ${out}=    Read From Terminal Until    ${EDK2_IPXE_STRING}
-    Read From Terminal
     Should Contain    ${out}    Please select boot device
 
 PXE004.001 DTS option is available and works correctly
@@ -70,9 +76,10 @@ PXE004.001 DTS option is available and works correctly
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE004.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
-    Enter Submenu In Tianocore    option=Dasharo Tools Suite    checkpoint=${EDK2_IPXE_CHECKPOINT}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
     Should Contain    ${out}    Dasharo HCL report
@@ -89,9 +96,10 @@ PXE005.001 OS installation option is available and works correctly
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE005.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
-    Enter Submenu In Tianocore    option=OS installation    checkpoint=${EDK2_IPXE_CHECKPOINT}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
     ${out}=    Read From Terminal Until    netboot.xyz [ enabled: true ]
     Should Contain    ${out}    netboot.xyz
     Should Contain    ${out}    Distributions:
@@ -106,7 +114,30 @@ PXE006.001 iPXE shell option is available and works correctly
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE006.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE006.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
-    Enter Submenu In Tianocore    option=iPXE Shell    checkpoint=${EDK2_IPXE_CHECKPOINT}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Read From Terminal Until    iPXE>
+
+
+*** Keywords ***
+Make Sure That Network Boot Is Enabled
+    [Documentation]    This keywords checks that "Enable network boot" in
+    ...    "Networking Options" is enabled when present, so the network
+    ...    boot tests can be executed.
+    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE006.001 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${dasharo_menu}    Networking Options
+    IF    ${index} != -1
+        ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+        ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
+        IF    ${index} != -1
+            Set Option State    ${network_menu}    Enable network boot    ${TRUE}
+            Save Changes And Reset    2    4
+            Sleep    10s
+        END
+    END

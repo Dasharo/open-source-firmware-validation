@@ -307,6 +307,13 @@ Set Option State
         Log    Nothing to do. Desired state is already set.
     END
 
+Get IPXE Boot Menu Construction
+    [Documentation]    Keyword allows to get and return iPXE menu construction.
+    [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
+    ${menu}=    Read From Terminal Until    ${checkpoint}
+    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
+    RETURN    ${construction}
+
 ############################################################################
 ### Below keywords still must be reviewed and reworked. We should reuse the
 ### keywords from above, and remove as much as possible the ones below.
@@ -336,38 +343,13 @@ Reset To Defaults Tianocore
 
 Enter IPXE
     [Documentation]    Enter iPXE after device power cutoff.
-    # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
-    # TODO2:    problem with iPXE string (e.g. when 3 network interfaces are available)
-
-    IF    '${PAYLOAD}' == 'seabios'
-        Enter SeaBIOS
-        Sleep    0.5s
-        ${setup}=    Telnet.Read
-        ${lines}=    Get Lines Matching Pattern    ${setup}    ${IPXE_BOOT_ENTRY}
-        Telnet.Write Bare    ${lines[0]}
-        Telnet.Read Until    ${IPXE_STRING}
-        Telnet.Write Bare    ${IPXE_KEY}
-        IPXE Wait For Prompt
-    ELSE IF    '${PAYLOAD}' == 'tianocore'
-        Enter Boot Menu Tianocore
-        Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
-        Enter Submenu In Tianocore
-        ...    option=iPXE Shell
-        ...    checkpoint=${EDK2_IPXE_CHECKPOINT}
-        ...    description_lines=${EDK2_IPXE_START_POS}
-        Set Prompt For Terminal    iPXE>
-        Read From Terminal Until Prompt
-    END
-
-# TODO:
-# Should be removed
-# Should be replaced by: "Enter Submenu From Snapshot" in tests
-
-Enter Submenu In Tianocore
-    [Documentation]    Enter chosen option. Generic keyword.
-    [Arguments]    ${option}    ${checkpoint}=ESC to exit    ${description_lines}=1
-    ${rel_pos}=    Get Relative Menu Position    ${option}    ${checkpoint}    ${description_lines}
-    Press Key N Times And Enter    ${rel_pos}    ${ARROW_DOWN}
+    # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
+    Set Prompt For Terminal    iPXE>
+    Read From Terminal Until Prompt
 
 # TODO:
 # This keyword should be removed. If it is used in tests, it should
