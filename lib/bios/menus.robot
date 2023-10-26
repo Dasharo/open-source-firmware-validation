@@ -130,33 +130,6 @@ Enter Submenu From Snapshot And Return Construction
     ${submenu}=    Get Submenu Construction
     RETURN    ${submenu}
 
-Save BIOS Changes
-    [Documentation]    This keyword saves introduced changes
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-
-Enter Dasharo System Features Submenu
-    [Documentation]    Grabs current menu, finds specified ${submenu} and
-    ...    returns its contents.
-    [Arguments]    ${submenu}
-    ${menu}=    Read From Terminal Until    Esc=Exit
-    ${menu_construction}=    Enter Dasharo System Features Submenu Snapshot    ${menu}    ${submenu}
-    RETURN    ${menu_construction}
-
-Enter Dasharo System Features Submenu Snapshot
-    [Documentation]    Version of "Enter Dasharo System Features Submenu" that
-    ...    processes menu grabbed beforehand.
-    [Arguments]    ${menu_construction}    ${submenu}
-    ${menu_construction}=    Parse Menu Snapshot Into Construction    ${menu_construction}    3
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    ${submenu}
-    IF    ${system_index} == -1    Skip    msg=Menu option not found
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup Submenu Construction
-    RETURN    ${menu_construction}
-
 Enter Dasharo System Features
     [Arguments]    ${setup_menu}
     ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -269,8 +242,10 @@ Select State From List
     ...    Selects the target state.
     [Arguments]    ${list}    ${current_state}    ${target_state}
     # Calculate offset and direction
-    ${current_index}=    Get Index From List    ${list}    ${current_state}
-    ${target_index}=    Get Index From List    ${list}    ${target_state}
+    ${current_index}=    Get Index Of Matching Option In Menu    ${list}    ${current_state}
+    Should Not Be Equal As Integers    ${current_index}    -1
+    ${target_index}=    Get Index Of Matching Option In Menu    ${list}    ${target_state}
+    Should Not Be Equal As Integers    ${target_index}    -1
     ${diff_index}=    Evaluate    ${target_index} - ${current_index}
     IF    ${diff_index} > 0
         ${direction}=    Set Variable    ${ARROW_DOWN}
@@ -297,10 +272,12 @@ Set Option State
         IF    '${type}' == 'list'
             ${out}=    Read From Terminal Until    ---/
             ${list}=    Extract Strings From Frame    ${out}
-            List Should Contain Value
-            ...    ${list}
-            ...    ${target_state}
-            ...    Target state ${target_state} not available in the list
+            # TODO: Temporarily disabled due to the complexity with
+            # options spanning into multiple lines.
+            # List Should Contain Value
+            # ...    ${list}
+            # ...    ${target_state}
+            # ...    Target state ${target_state} not available in the list
             Select State From List    ${list}    ${current_state}    ${target_state}
         END
     ELSE
