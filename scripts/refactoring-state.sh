@@ -6,7 +6,6 @@ kwds_to_remove=(
 "Get Relative Menu Position"
 "Check If Tianocore Setting Is Enabled In Current Menu"
 "Change To Next Option In Setting"
-"Reenter Menu"
 "Check If Submenu Exists Tianocore"
 "Get Menu Reference Tianocore"
 "Enter Submenu In Tianocore"
