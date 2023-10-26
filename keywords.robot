@@ -1,6 +1,5 @@
 *** Settings ***
 Library         Collections
-Library         keywords.py
 Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
