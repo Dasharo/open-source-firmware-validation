@@ -20,7 +20,7 @@ ${DEF_THREADS}=                                     2
 ${DEF_CPU}=                                         8
 ${DEF_ONLINE_CPU}=                                  0-7
 ${DEF_SOCKETS}=                                     2
-${EDK2_IPXE_STRING}=                                iPXE Network boot
+${IPXE_BOOT_ENTRY}=                                 iPXE Network boot
 ${IPXE_STRING}=                                     Network Boot Firmware
 ${MAX_CPU_TEMP}=                                    77
 
