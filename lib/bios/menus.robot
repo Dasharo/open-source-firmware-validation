@@ -366,11 +366,6 @@ Get Menu Reference Tianocore
     ${first_entry}=    Strip String    ${first_entry}
     RETURN    ${first_entry}
 
-# TODO
-# This can probably be removed if tests work fine without it.
-# This was some workaround, which is probably not needed anymore since
-# we have improved Telnet input handling.
-
 Reenter Menu
     [Documentation]    Returns to the previous menu and enters the same one
     ...    again
