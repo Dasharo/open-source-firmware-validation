@@ -44,9 +44,9 @@ Check IPXE Appears Only Once
     ...    option list.
     ${menu_construction}=    Get Boot Menu Construction
     TRY
-        Should Contain X Times    ${menu_construction}    ${EDK2_IPXE_STRING}    1
+        Should Contain X Times    ${menu_construction}    ${IPXE_BOOT_ENTRY}    1
     EXCEPT
-        FAIL    Test case marked as Failed\nRequested boot option: (${EDK2_IPXE_STRING}) appears not only once.
+        FAIL    Test case marked as Failed\nRequested boot option: (${IPXE_BOOT_ENTRY}) appears not only once.
     END
 
 Launch To DTS Shell
@@ -318,14 +318,14 @@ Enter IPXE
         Enter SeaBIOS
         Sleep    0.5s
         ${setup}=    Telnet.Read
-        ${lines}=    Get Lines Matching Pattern    ${setup}    ${EDK2_IPXE_STRING}
+        ${lines}=    Get Lines Matching Pattern    ${setup}    ${IPXE_BOOT_ENTRY}
         Telnet.Write Bare    ${lines[0]}
         Telnet.Read Until    ${IPXE_STRING}
         Telnet.Write Bare    ${IPXE_KEY}
         IPXE Wait For Prompt
     ELSE IF    '${PAYLOAD}' == 'tianocore'
         Enter Boot Menu Tianocore
-        Enter Submenu In Tianocore    option=${EDK2_IPXE_STRING}
+        Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
         Enter Submenu In Tianocore
         ...    option=iPXE Shell
         ...    checkpoint=${EDK2_IPXE_CHECKPOINT}
