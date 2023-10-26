@@ -32,17 +32,18 @@ RTD001.001 F9 resets Enable USB stack option to true
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD001.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter USB Configuration Submenu
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=3
-    Disable Option In Submenu    ${submenu_construction}    Enable USB stack
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
+    Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Enable USB stack
-    Should Be Equal    ${value}    [X]
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
+    ${usb_stack_state}=    Get Option State    ${usb_menu}    Enable USB stack
+    Should Be True    ${usb_stack_state}
 
 RTD002.001 F9 resets Enable USB Mass Storage driver option to true
     [Documentation]    Check whether pressing F9 resets Enable Mass Storage
@@ -50,17 +51,18 @@ RTD002.001 F9 resets Enable USB Mass Storage driver option to true
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD002.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter USB Configuration Submenu
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=3
-    Disable Option In Submenu    ${submenu_construction}    Enable USB Mass Storage
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
+    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Enable USB Mass Storage
-    Should Be Equal    ${value}    [X]
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
+    ${usb_storage_state}=    Get Option State    ${usb_menu}    Enable USB Mass Storage
+    Should Be True    ${usb_storage_state}
 
 RTD003.001 F9 resets Lock the BIOS boot medium option to true
     [Documentation]    Check whether pressing F9 resets Lock the BIOS boot
@@ -68,17 +70,18 @@ RTD003.001 F9 resets Lock the BIOS boot medium option to true
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD003.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Dasharo Security Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=3
-    Disable Option In Submenu    ${submenu_construction}    Lock the BIOS boot medium
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Lock the BIOS boot medium
-    Should Be Equal    ${value}    [X]
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    ${bios_lock_state}=    Get Option State    ${security_menu}    Lock the BIOS boot medium
+    Should Be True    ${bios_lock_state}
 
 RTD004.001 F9 resets Enable SMM BIOS write protection to false
     [Documentation]    Check whether pressing F9 resets Enable SMM BIOS write
@@ -86,17 +89,18 @@ RTD004.001 F9 resets Enable SMM BIOS write protection to false
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD004.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Dasharo Security Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=2
-    Enable Option In Submenu    ${submenu_construction}    Enable SMM BIOS write
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${security_menu}    Enable SMM BIOS write    ${TRUE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Enable SMM BIOS write
-    Should Be Equal    ${value}    [ ]
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    ${smm_state}=    Get Option State    ${security_menu}    Enable SMM BIOS write
+    Should Not Be True    ${smm_state}
 
 RTD005.001 F9 resets Early boot DMA Protection to true
     [Documentation]    Check whether pressing F9 resets Early boot DMA
@@ -104,37 +108,18 @@ RTD005.001 F9 resets Early boot DMA Protection to true
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD005.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Dasharo Security Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=3
-    Enable Option In Submenu    ${submenu_construction}    Early boot DMA Protection
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${security_menu}    Early boot DMA Protection    ${TRUE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Early boot DMA Protection
-    Should Be Equal    ${value}    [ ]
+    Save Changes And Reset    2    4
 
-# This is test is commented, because when reset to defaults is selected, then
-# Early boot DMA Protection is set to disabled, hence this option is no
-# longer present.
-#
-# RTD006.001 F9 resets Keep IOMMU enabled when transfer control to OS to false
-#    [Documentation]    Check whether pressing F9 resets Keep IOMMU enabled when
-#    ...    transfer control to OS option to be disabled
-#    Power On
-#    Enter Setup Menu Tianocore
-#    Enter Dasharo System Features submenu    Dasharo Security Options
-#    Refresh serial screen in BIOS editable settings menu
-#    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=3
-#    Enable Option In submenu    ${submenu_construction}    Keep IOMMU enabled when
-#    Reset to Defaults Tianocore
-#    Press key n times    1    ${F10}
-#    Write Bare Into Terminal    y
-#    Read From Terminal Until    ESC to exit
-#    ${value}=    Get Option Value    Keep IOMMU enabled when
-#    Should Be Equal    ${value}    [ ]
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    ${early_dma_state}=    Get Option State    ${security_menu}    Early boot DMA Protection
+    Should Not Be True    ${early_dma_state}
 
 RTD007.001 F9 resets Enable network boot to false
     [Documentation]    Check whether pressing F9 resets Keep IOMMU enabled when
@@ -142,17 +127,18 @@ RTD007.001 F9 resets Enable network boot to false
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Networking Options
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=2
-    Enable Option In Submenu    ${submenu_construction}    Enable network boot
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    Set Option State    ${network_menu}    Enable network boot    ${TRUE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Enable network boot
-    Should Be Equal    ${value}    [ ]
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
+    Should Not Be True    ${network_boot_state}
 
 RTD008.001 F9 resets Intel ME mode to enabled
     [Documentation]    Check whether pressing F9 resets Intel ME mode option
@@ -166,11 +152,12 @@ RTD008.001 F9 resets Intel ME mode to enabled
     Set Option State    ${me_menu}    Intel ME mode    Disabled (HAP)
     Reset To Defaults Tianocore
     Save Changes And Reset    2    4
+
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
-    ${state}=    Get Option State    ${me_menu}    Intel ME mode
-    Should Be Equal    ${state}    Enabled
+    ${me_mode_state}=    Get Option State    ${me_menu}    Intel ME mode
+    Should Be Equal    ${me_mode_state}    Enabled
 
 RTD009.001 F9 resets Enable PS2 Controller to enabled
     [Documentation]    Check whether pressing F9 resets Enable PS2 Controller
@@ -178,17 +165,18 @@ RTD009.001 F9 resets Enable PS2 Controller to enabled
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD009.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Chipset Configuration
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=3
-    Disable Option In Submenu    ${submenu_construction}    Enable PS2 Controller
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    Set Option State    ${chipset_menu}    Enable PS2 Controller    ${FALSE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Enable PS2 Controller
-    Should Be Equal    ${value}    [X]
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    ${ps2_state}=    Get Option State    ${chipset_menu}    Enable PS2 Controller
+    Should Be True    ${ps2_state}
 
 RTD010.001 F9 resets Enable watchdog to enabled
     [Documentation]    Check whether pressing F9 resets Enable watchdog
@@ -196,17 +184,18 @@ RTD010.001 F9 resets Enable watchdog to enabled
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD010.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter Dasharo System Features Submenu    Chipset Configuration
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${submenu_construction}=    Get Setup Submenu Construction    description_lines=3
-    Disable Option In Submenu    ${submenu_construction}    Enable watchdog
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    Set Option State    ${chipset_menu}    Enable watchdog    ${FALSE}
     Reset To Defaults Tianocore
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-    Read From Terminal Until    ESC to exit
-    ${value}=    Get Option Value    Enable watchdog
-    Should Be Equal    ${value}    [X]
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    ${watchdog_state}=    Get Option State    ${chipset_menu}    Enable watchdog
+    Should Be True    ${watchdog_state}
 
 RTD011.001 F9 resets Watchdog timeout value to 500
     [Documentation]    Check whether pressing F9 resets Watchdog timeout value
@@ -220,11 +209,12 @@ RTD011.001 F9 resets Watchdog timeout value to 500
     Set Option State    ${chipset_menu}    Watchdog timeout value    400
     Reset To Defaults Tianocore
     Save Changes And Reset    2    4
+
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
-    ${state}=    Get Option State    ${chipset_menu}    Watchdog timeout value
-    Should Be Equal    ${state}    500
+    ${watchdog_timeout}=    Get Option State    ${chipset_menu}    Watchdog timeout value
+    Should Be Equal As Integers    ${watchdog_timeout}    500
 
 RTD012.001 F9 resets Fan profile to Silent
     [Documentation]    Check whether pressing F9 resets Fan profile to Silent
@@ -237,11 +227,12 @@ RTD012.001 F9 resets Fan profile to Silent
     Set Option State    ${power_menu}    Fan profile    Performance
     Reset To Defaults Tianocore
     Save Changes And Reset    2    4
+
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    ${state}=    Get Option State    ${power_menu}    Fan profile
-    Should Be Equal    ${state}    Silent
+    ${fan_profile}=    Get Option State    ${power_menu}    Fan profile
+    Should Be Equal    ${fan_profile}    Silent
 
 RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     [Documentation]    Check whether pressing F9 resets Platform sleep type to
@@ -255,11 +246,12 @@ RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     Set Option State    ${power_menu}    Platform sleep type    Suspend to RAM (S3)
     Reset To Defaults Tianocore
     Save Changes And Reset    2    4
+
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    ${state}=    Get Option State    ${power_menu}    Platform sleep type
-    Should Be Equal    ${state}    Suspend to Idle (S0ix)
+    ${sleep_type}=    Get Option State    ${power_menu}    Platform sleep type
+    Should Be Equal    ${sleep_type}    Suspend to Idle (S0ix)
 
 RTD014.001 F9 resets Memory SPD Profile to JEDEC
     [Documentation]    Check whether pressing F9 resets Memory SPD Profile to
@@ -271,11 +263,12 @@ RTD014.001 F9 resets Memory SPD Profile to JEDEC
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
-    Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined extreme memory profile)
+    Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined
     Reset To Defaults Tianocore
     Save Changes And Reset    2    4
+
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
-    ${state}=    Get Option State    ${memory_menu}    Memory SPD Profile
-    Should Be Equal    ${state}    <JEDEC (safe
+    ${memory_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
+    Should Be Equal    ${memory_profile}    JEDEC (safe
