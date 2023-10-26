@@ -67,7 +67,7 @@ PXE003.001 Autoboot option is available and works correctly
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    Autoboot (DHCP)
-    ${out}=    Read From Terminal Until    ${EDK2_IPXE_STRING}
+    ${out}=    Read From Terminal Until    ${IPXE_BOOT_ENTRY}
     Should Contain    ${out}    Please select boot device
 
 PXE004.001 DTS option is available and works correctly
@@ -83,7 +83,9 @@ PXE004.001 DTS option is available and works correctly
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
     Should Contain    ${out}    Dasharo HCL report
-    Should Contain    ${out}    Install Dasharo firmware
+    # TODO:
+    # On some targets (such as QEMU), we get option to install, not to update
+    Should Contain Any    ${out}    Install Dasharo firmware    Update Dasharo firmware
     Should Contain    ${out}    Load DES keys
     Should Contain    ${out}    Start SSH server
     Should Contain    ${out}    Shell
