@@ -38,22 +38,21 @@ MPS001.001 Switching to XMP profile
     # Boot and remember current memory speed
     Power On
     Enter Setup Menu Tianocore
-    ${menu}=    Read From Terminal Until    <Enter>=Select Entry
-    ${old_speed}=    Get Lines Matching Regexp    ${menu}    .*RAM @ \\d+ MHz.*
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${old_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${old_speed}
     # Switch profile and reset
-    Enter Dasharo System Features Submenu Snapshot    ${menu}    Memory Configuration
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${current_profile}=    Get Option Value    Memory SPD Profile
-    Should Start With    ${current_profile}    <JEDEC
-    Press Key N Times    1    ${ENTER}
-    Press Key N Times    1    ${ARROW_DOWN}
-    Press Key N Times    1    ${ENTER}
+    ${setup_menu}=    Parse Menu Snapshot Into Construction    ${out}    3    1
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
+    ${current_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
+    Should Start With    ${current_profile}    JEDEC
+    Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined
     Save Changes And Reset    2    4
     # Verify that frequency has changed
     Enter Setup Menu Tianocore
-    ${menu}=    Read From Terminal Until    <Enter>=Select Entry
-    ${new_speed}=    Get Lines Matching Regexp    ${menu}    .*RAM @ \\d+ MHz.*
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${new_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${new_speed}
     Should Not Be Equal    ${old_speed}    ${new_speed}
 
@@ -65,21 +64,20 @@ MPS002.001 Switching back to JEDEC profile
     # Boot and remember current memory speed
     Power On
     Enter Setup Menu Tianocore
-    ${menu}=    Read From Terminal Until    <Enter>=Select Entry
-    ${old_speed}=    Get Lines Matching Regexp    ${menu}    .*RAM @ \\d+ MHz.*
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${old_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${old_speed}
     # Switch profile and reset
-    Enter Dasharo System Features Submenu Snapshot    ${menu}    Memory Configuration
-    Refresh Serial Screen In BIOS Editable Settings Menu
-    ${current_profile}=    Get Option Value    Memory SPD Profile
-    Should Start With    ${current_profile}    <XMP#1
-    Press Key N Times    1    ${ENTER}
-    Press Key N Times    1    ${ARROW_UP}
-    Press Key N Times    1    ${ENTER}
+    ${setup_menu}=    Parse Menu Snapshot Into Construction    ${out}    3    1
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
+    ${current_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
+    Should Start With    ${current_profile}    XMP#1
+    Set Option State    ${memory_menu}    Memory SPD Profile    JEDEC (safe
     Save Changes And Reset    2    4
     # Verify that frequency has changed
     Enter Setup Menu Tianocore
-    ${menu}=    Read From Terminal Until    <Enter>=Select Entry
-    ${new_speed}=    Get Lines Matching Regexp    ${menu}    .*RAM @ \\d+ MHz.*
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${new_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${new_speed}
     Should Not Be Equal    ${old_speed}    ${new_speed}
