@@ -189,7 +189,7 @@ Enable Secure Boot
     ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${device_mgr_menu}
     ...    Secure Boot Configuration
-    Select Attempt Secure Boot Option    ${secure_boot_menu}
+    Select Enable Secure Boot Option    ${secure_boot_menu}
     Save Changes And Reset    2
 
 Disable Secure Boot
@@ -208,18 +208,35 @@ Enter Custom Secure Boot Options
     ...    the Secure Boot Configuration menu and enters
     ...    the Custom Secure Boot Options menu
     ...
-    ${out}=    Get Secure Boot Configuration Submenu Construction
+    ${sb_menu}=    Reenter Menu And Return Construction
     ${is_standardmode}=    Run Keyword And Return Status
-    ...    Should Contain Match    ${out}    *Standard*
+    ...    Should Contain Match    ${sb_menu}    *Standard*
     IF    ${is_standardmode}
-        Press Key N Times And Enter    2    ${ARROW_DOWN}
-        Read From Terminal Until    Custom Mode
         Press Key N Times And Enter    1    ${ARROW_DOWN}
-        Read From Terminal
+        Read From Terminal Until    Custom Mode
         Press Key N Times And Enter    1    ${ARROW_DOWN}
     ELSE
         Press Key N Times And Enter    3    ${ARROW_DOWN}
     END
+
+Check If Enable Secure Boot Can Be Selected
+    [Documentation]    The Enable Secure Boot option may be unavailable if
+    ...    Reset Secure Boot Keys was not selected before. This keyword checks
+    ...    if the Enable Secure Boot can already be selected. If the help text
+    ...    matches this option, it means it can already be selected.
+    [Arguments]    ${sb_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${sb_menu}    Enable Secure Boot
+
+    # Go to one option before the target option and clear serial output
+    Press Key N Times    ${index} - 1    ${ARROW_DOWN}
+    Read From Terminal
+    # Go to the target option and check if the help text matches the expected
+    # option
+    Press Key N Times    1    ${ARROW_DOWN}
+    ${out}=    Read From Terminal
+    ${can_be_selected}=    Run Keyword And Return Status
+    ...    Should Contain All    ${out}    Enable/Disable the    Secure Boot feature    after platform reset
+    RETURN    ${can_be_selected}
 
 Check If Attempt Secure Boot Can Be Selected
     [Documentation]    The Attempt Secure Boot option may be unavailable if
@@ -252,6 +269,30 @@ Go To Secure Boot Menu Entry
     END
     ${sb_menu}=    Reenter Menu And Return Construction
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+
+Select Enable Secure Boot Option
+    [Documentation]    Selects the Enable Secure Boot Option
+    ...    in the Secure Boot Configuration Submenu
+    [Arguments]    ${sb_menu}
+
+    ${can_be_selected}=    Check If Enable Secure Boot Can Be Selected    ${sb_menu}
+    IF    not ${can_be_selected}
+          Enter Custom Secure Boot Options
+          ${sb_menu}=    Get Submenu Construction
+          # Enter Submenu From Snapshot doesn't work because it counts all options, but
+          # not all are selectable
+          # The assumption here is that we enter UEFI SB with default keys, this may be
+          # not always valida for all test cases
+          Press Key N Times And Enter    1    ${ARROW_DOWN}
+          ${sb_menu}=    Get Submenu Construction
+          Enter Submenu From Snapshot    ${sb_menu}    > Reset to default Secure Boot Keys
+          Press Enter
+          # Leave Reset to default Secure Boot Keys menu
+          Press Key N Times    1    ${ESC}
+          Press Key N Times    1    ${ARROW_LEFT}
+    ELSE
+          Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+    END
 
 Select Attempt Secure Boot Option
     [Documentation]    Selects the Attempt Secure Boot Option

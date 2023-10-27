@@ -1860,7 +1860,7 @@ Remove Entry From List
 
 Get Secure Boot Configuration Submenu Construction
     [Documentation]    Keyword allows to get and return Secure Boot menu construction.
-    ${menu}=    Read From Terminal Until    Reset Secure Boot Keys
+    ${menu}=    Read From Terminal Until    Secure Boot Mode
     @{menu_lines}=    Split To Lines    ${menu}
     # TODO: make it a generic keyword, to remove all possible control strings
     # from menu constructions
