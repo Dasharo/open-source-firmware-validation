@@ -301,12 +301,6 @@ Enter Petitboot And Return Menu
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
     RETURN    ${menu}
 
-Reset In Setup Menu Tianocore
-    [Documentation]    Enters reset option in setup menu
-    ${menu_construction}=    Get Setup Menu Construction
-    ${index}=    Get Index From List    ${menu_construction}    eset
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
     # TODO: We do not necessarily need Internet to be reachable for the internal
@@ -1977,17 +1971,6 @@ Setup Intel ME Mode
         Write Bare Into Terminal    ${Y}
     END
 
-Return Intel ME Options
-    [Documentation]    Returns output of Intel ME Options.
-    ${menu_construction}=    Get Setup Menu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Dasharo System Features
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index From List    ${menu_construction}    Intel Management Engine Options
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-    ${menu}=    Read From Terminal Until    Press ESC to exit.
-    RETURN    ${menu}
-
 Calculate Smoothing
     [Documentation]    Compares the actual and expected value of the fan speed,
     ...    taking smoothing into account.
@@ -2108,15 +2091,6 @@ Perform Hibernation Test Using FWTS
         ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
     END
     RETURN    ${is_hibernation_performed_correctly}
-
-Enter TCG Drive Management Submenu
-    [Documentation]    Enters TCG Drive Management submenu
-    ${menu_construction}=    Get Setup SubMenu Construction
-    ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    TCG Drive Management
-    # Above instruction detects "Devices list" as an option in the menu which
-    # isn't one so we have to decrease the index
-    ${system_index}=    Evaluate    ${system_index}-1
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
 
 Disable Option In Submenu
     [Documentation]    Disables selected option in submenu provided in ${menu_construction}
