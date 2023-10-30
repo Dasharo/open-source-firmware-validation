@@ -98,7 +98,7 @@ CPU003.002 Multiple CPU support (Windows 11)
     Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
-    ${cpu_count}=    Get Line    ${cpu_info}    2
+    ${cpu_count}=    Get Line    ${cpu_info}    -1
     ${cpu_count}=    Convert To Number    ${cpu_count}
     Should Be True    ${cpu_count} > 1
 
@@ -125,11 +125,11 @@ CPU004.002 Multiple-core support (Windows 11)
     Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
-    ${cpu_count}=    Get Line    ${cpu_info}    2
+    ${cpu_count}=    Get Line    ${cpu_info}    -1
     ${cpu_count}=    Convert To Number    ${cpu_count}
     ${socket_count}=    Execute Command In Terminal
     ...    (Get-CimInstance -ClassName Win32_ComputerSystem).NumberOfProcessors
-    ${socket_count}=    Get Line    ${socket_count}    0
+    ${socket_count}=    Get Line    ${socket_count}    -1
     ${socket_count}=    Convert To Number    ${socket_count}
     Should Be True    ${cpu_count} / ${socket_count} > 1
 

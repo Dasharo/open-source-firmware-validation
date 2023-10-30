@@ -1006,11 +1006,13 @@ Check If CPU Not Stucks On Initial Frequency In Windows
 
 Check CPU Frequency In Windows
     [Documentation]    Check that CPU is running on expected frequency.
-    ${freq_max}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed
+    ${freq_max_info}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed
+    ${freq_max}=    Get Line    ${freq_max_info}    -1
     ${freq_max}=    Convert To Number    ${freq_max}
     FOR    ${number}    IN RANGE    0    10
-        ${freq_current}=    Execute Command In Terminal
+        ${freq_current_info}=    Execute Command In Terminal
         ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
+        ${freq_current}=    Get Line    ${freq_current_info}    -1
         ${freq_current}=    Convert To Number    ${freq_current}
         Run Keyword And Continue On Failure
         ...    Should Be True    ${freq_max} > ${freq_current}
