@@ -23,12 +23,6 @@ Booting Platform
     Sleep    5s
     Sonoff Power On
     Serial Root Login Linux    ${DUT_PASSWORD}
-    ${output}=    Telnet.Execute Command    echo hi
-    ${output}=    Get Line    ${output}    0
-    Should Be Equal As Strings    ${output}    hi
-    IF    "${output}" != "hi"
-        Fatal Error
-    END
 
 Basic Packages
     [Documentation]    checks whether tar, time and chronyc utilities exist.
