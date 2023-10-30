@@ -103,5 +103,5 @@ done
 
 # Performance tests
 # for test in "${performance_tests[@]}"; do
-#     execute_robot "security" "$test"
+#     execute_robot "performance" "$test"
 # done
