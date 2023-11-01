@@ -10,6 +10,9 @@ ${TEARDOWN}=                no
 ${SNIPEIT}=                 yes
 ${FIRMWARE_TYPE_VAR}=       ${EMPTY}
 
+${RE_FRAME_START}=          ^.*/-{3,}\\\\.*$
+${RE_FRAME_END}=            ^.*\\\\-{3,}/.*$
+
 # Name of boot menu entry to boot the given OS
 ${OS_WINDOWS}=              Windows Boot Manager
 ${OS_UBUNTU}=               ubuntu

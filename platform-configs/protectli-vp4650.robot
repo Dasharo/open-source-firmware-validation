@@ -45,6 +45,7 @@ ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${ME_INTERFACE}=                                    ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      MMC AJTD4R

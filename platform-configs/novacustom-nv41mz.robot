@@ -25,6 +25,7 @@ ${IPXE_STRING}=                                     Network Boot Firmware
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${MAX_CPU_TEMP}=                                    77
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd

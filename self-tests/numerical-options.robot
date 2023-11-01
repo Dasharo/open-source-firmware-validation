@@ -1,4 +1,7 @@
 *** Settings ***
+Documentation       This suite verifies the correct operation of keywords
+...                 getting and setting state of numerical options.
+
 Library             Collections
 Library             OperatingSystem
 Library             Process
@@ -26,20 +29,18 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CBK001.001 Custom boot menu key
-    [Documentation]    Check whether the DUT is configured properly to use
-    ...    custom boot menu hotkey.
-    Skip If    not ${CUSTOM_BOOT_MENU_KEY_SUPPORT}    CBK001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBK001.001 not supported
+Set numerical option
+    [Documentation]    Checks whether the numerical option can be set.
     Power On
-    Enter Boot Menu Tianocore
-    Read From Terminal Until    ${BOOT_MENU_STRING}
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    Set Option State    ${chipset_menu}    Watchdog timeout value    600
+    Save Changes And Reset    2    4
 
-CBK002.001 Custom setup menu key
-    [Documentation]    Check whether the DUT is configured properly to use
-    ...    custom setup menu hotkey.
-    Skip If    not ${CUSTOM_SETUP_MENU_KEY_SUPPORT}    CBK002.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBK002.001 not supported
-    Power On
-    Enter Setup Menu Tianocore
-    Read From Terminal Until    ${SETUP_MENU_STRING}
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    ${state}=    Get Option State    ${chipset_menu}    Watchdog timeout value
+    Log    ${state}
+    Should Be Equal As Integers    ${state}    600

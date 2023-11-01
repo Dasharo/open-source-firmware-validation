@@ -42,6 +42,7 @@ ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${USB_MODEL}=                                       Kingston
 ${MAX_CPU_TEMP}=                                    95
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 
 ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}

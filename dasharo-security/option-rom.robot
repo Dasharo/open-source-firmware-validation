@@ -7,6 +7,7 @@ Resource            ../lib/bios/menus.robot
 Resource            ../variables.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot
+Resource            ../keys.robot
 
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
@@ -18,9 +19,14 @@ Suite Teardown      Run Keyword
 SOR001.001 Check that all options in OptionROMs are available
     [Documentation]    This test checks if all OptionROM options are available
     Power On
-    Enter Dasharo System Features
-    ${menu_construction}=    Enter Submenu And Return Its Construction    PCIPCIe Configuration
-    ${list_content}=    Read Option List Contents    ${menu_construction}    OptionROM Execution Policy
-    Should Contain    ${list_content}    Disable all OptionROMs loading
-    Should Contain    ${list_content}    Enable all OptionROMs loading
-    Should Contain    ${list_content}    Enable OptionROM loading only on GPUs
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${menu_construction}=    Enter Dasharo Submenu    ${dasharo_menu}    PCI/PCIe Configuration
+    Enter Submenu From Snapshot    ${menu_construction}    OptionROM Execution Policy
+    ${out}=    Read From Terminal Until    ---/
+    Log    ${out}
+    ${opts}=    Extract Strings From Frame    ${out}
+    Log    ${opts}
+    Should Be Equal As Strings    ${opts}[0]    Disable all OptionROMs loading
+    Should Be Equal As Strings    ${opts}[1]    Enable all OptionROMs loading
+    Should Be Equal As Strings    ${opts}[2]    Enable OptionROM loading only on GPUs

@@ -30,13 +30,17 @@ DMP001.001 TCG OPAL disk password set and check
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DMP001.001 not supported
     Skip If    not ${TCG_OPAL_DISK_PASSWORD_SUPPORT}    DMP001.001 not supported
     Power On
-    Enter Setup Menu Tianocore
-    Enter TCG Drive Management Submenu
-    # Press key n times and enter    1    ${ARROW_DOWN}
-    # Enter submenu in Tianocore    TCG Drive Management    ESC to exit    2
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${tcg_drive_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_mgr_menu}
+    ...    TCG Drive Management
     # test assumes that only the first disk is bootable or there is only
     # one disk
-    ${has_connected_disks}=    Check If Any Disk Is Connected
+    ${has_connected_disks}=    Run Keyword And Return Status
+    ...    Should Not Contain    ${tcg_drive_menu}    No disks connected to system
     IF    not ${has_connected_disks}
         Fail    Cannot test disk password feature, no supported disk connected to the system
     END
@@ -46,19 +50,8 @@ DMP001.001 TCG OPAL disk password set and check
     Save Changes And Reset    3
     @{password}=    Set Variable    1    2    3
     Type In New Disk Password    @{password}
-    Enter Setup Menu Tianocore
-    Reset In Setup Menu Tianocore
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${setup_menu}    Reset
     Log    Test if disk password works
     Type In Disk Password    @{password}
-    Enter Setup Menu Tianocore
     Remove Disk Password    @{password}
-
-
-*** Keywords ***
-Check If Any Disk Is Connected
-    [Documentation]    Looks for message "No disks connected to system".
-    ...    Returns false if no disks are connected.
-    ${output}=    Read From Terminal Until    F10=Save
-    ${res}=    Run Keyword And Return Status
-    ...    Should Not Contain    ${output}    No disks connected to system
-    RETURN    ${res}

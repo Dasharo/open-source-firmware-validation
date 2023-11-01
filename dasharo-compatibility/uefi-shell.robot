@@ -32,6 +32,6 @@ USH001.001 UEFI Shell
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.001 not supported
     Skip If    not ${UEFI_SHELL_SUPPORT}    USH001.001 not supported
     Power On
-    Enter Boot Menu Tianocore
-    Enter UEFI Shell Tianocore
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    UEFI Interactive Shell

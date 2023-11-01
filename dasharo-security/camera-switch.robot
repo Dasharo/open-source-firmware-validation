@@ -28,29 +28,13 @@ Suite Teardown      Run Keyword
 CHS001.001 Check camera enablement
     [Documentation]    This test makes sure that camera enable option
     ...    is set, hence the camera works properly
-    IF    not ${CAMERA_SWITCH_SUPPORT}    Skip
-
-    # changing settings in UEFI is only possible using serial connection
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Power On
-        Enter Dasharo System Features
-        Enter Submenu In Tianocore    Dasharo Security Options
-        ${camera_enabled}=    Check If Tianocore Setting Is Enabled In Current Menu    Enable Camera
-        Press Key N Times    1    ${F10}
-        Press Key N Times    1    ${ESC}
-        IF    not ${camera_enabled}
-            Enter Submenu In Tianocore    Enable Camera    ESC to exit    3
-            Save Changes And Reset    2    4
-        ELSE
-            Log    Reboot
-            Press Key N Times    2    ${ESC}
-            Press Key N Times And Enter    4    ${ARROW_DOWN}
-        END
-    ELSE
-        Log    DUT connection method is different from Telnet!
-        Log    Cannot change UEFI options, skipping to testing switch results...
-    END
-
+    Skip If    not ${CAMERA_SWITCH_SUPPORT}    CHS001.001 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${security_menu}    Enable Camera    ${TRUE}
+    Save Changes And Reset    2    4
     Login To Linux
     ${webcam}=    Check The Presence Of Webcam
     Should Be True    ${webcam}
@@ -58,29 +42,13 @@ CHS001.001 Check camera enablement
 CHS002.001 Check camera disablement
     [Documentation]    This test makes sure that camera enable option
     ...    is not set, hence the camera is not detected by operating system
-    IF    not ${CAMERA_SWITCH_SUPPORT}    Skip
-
-    # changing settings in UEFI is only possible using serial connection
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Power On
-        Enter Dasharo System Features
-        Enter Submenu In Tianocore    Dasharo Security Options
-        ${camera_enabled}=    Check If Tianocore Setting Is Enabled In Current Menu    Enable Camera
-        Press Key N Times    1    ${F10}
-        Press Key N Times    1    ${ESC}
-        IF    ${camera_enabled}
-            Enter Submenu In Tianocore    Enable Camera    ESC to exit    3
-            Save Changes And Reset    2    4
-        ELSE
-            Log    Reboot
-            Press Key N Times    2    ${ESC}
-            Press Key N Times And Enter    4    ${ARROW_DOWN}
-        END
-    ELSE
-        Log    DUT connection method is different from Telnet!
-        Log    Cannot change UEFI options, skipping to testing switch results...
-    END
-
+    Skip If    not ${CAMERA_SWITCH_SUPPORT}    CHS002.001 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Set Option State    ${security_menu}    Enable Camera    ${FALSE}
+    Save Changes And Reset    2    4
     Login To Linux
     ${webcam}=    Check The Presence Of Webcam
     Should Not Be True    ${webcam}

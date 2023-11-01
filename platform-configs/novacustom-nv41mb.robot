@@ -23,6 +23,7 @@ ${DEF_SOCKETS}=                                     2
 ${IPXE_BOOT_ENTRY}=                                 iPXE Network boot
 ${IPXE_STRING}=                                     Network Boot Firmware
 ${MAX_CPU_TEMP}=                                    77
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd

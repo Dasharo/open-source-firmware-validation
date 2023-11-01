@@ -15,8 +15,8 @@ ${BOOT_MENU_STRING}=                                Please select boot device
 ${SETUP_MENU_STRING}=                               Select Entry
 ${PAYLOAD_STRING}=                                  ${EMPTY}
 ${IPXE_STRING}=                                     ${EMPTY}
-${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
-${EDK2_IPXE_CHECKPOINT}=                            Advanced
+${IPXE_BOOT_ENTRY}=                                 iPXE
+${EDK2_IPXE_CHECKPOINT}=                            iPXE Shell
 ${EDK2_IPXE_START_POS}=                             2
 ${SOL_STRING}=                                      ${EMPTY}
 ${SN_PATTERN}=                                      ${EMPTY}
@@ -121,7 +121,7 @@ ${USB_CAMERA_DETECTION_SUPPORT}=                    ${FALSE}
 ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
 ${UEFI_SHELL_SUPPORT}=                              ${TRUE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${TRUE}
-${IPXE_BOOT_SUPPORT}=                               ${FALSE}
+${IPXE_BOOT_SUPPORT}=                               ${TRUE}
 ${NETBOOT_UTILITIES_SUPPORT}=                       ${TRUE}
 ${NVME_DISK_SUPPORT}=                               ${TRUE}
 ${SD_CARD_READER_SUPPORT}=                          ${FALSE}
@@ -169,7 +169,8 @@ ${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
+${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
@@ -295,6 +296,8 @@ ${NVME_DETECTION_ITERATIONS}=                       5
 # Number of USB Type-A devices detection iterations after suspension
 ${USB_TYPE-A_DEVICES_DETECTION_ITERATIONS}=         5
 
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                0
+
 
 *** Keywords ***
 Power On
@@ -302,4 +305,5 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
+    Read From Terminal
     Qemu Monitor.System Reset
