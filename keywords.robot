@@ -843,6 +843,8 @@ Prepare To PiKVM Connection
     Remap Keys Variables To PiKVM
     Open Connection And Log In
     ${platform}=    Get Current RTE Param    platform
+    ${pikvm_ip}=    Get Current RTE Param    pikvm_ip
+    Set Global Variable    ${PIKVM_IP}
     Set Global Variable    ${PLATFORM}
     Get DUT To Start State
 
