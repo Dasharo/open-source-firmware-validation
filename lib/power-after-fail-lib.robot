@@ -10,9 +10,11 @@ Simulate Power Failure
     IF    'sonoff' == '${POWER_CTRL}'
         Sonoff Power Off
         Sleep    10s
+        Read From Terminal
         Sonoff Power On
     ELSE
         RteCtrl Relay
         Sleep    10s
+        Read From Terminal
         RteCtrl Relay
     END

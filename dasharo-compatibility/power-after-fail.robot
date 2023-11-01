@@ -51,7 +51,7 @@ PSF002.001 Powered Off State Restoration Test
     Enter Setup Menu Tianocore
     Simulate Power Failure
     ${output}=    Run Keyword And Return Status
-    ...    Enter Setup Menu Tianocore
+    ...    Enter Setup Menu Tianocore And Return Construction
     Should Not Be True    ${output}
 
 PSF003.001 Powered On State Restoration Test
