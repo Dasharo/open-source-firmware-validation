@@ -179,11 +179,11 @@ CPF004.002 CPU with load runs on expected frequency (Windows 11)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.002 not supported
     Power On
-    ${out}=    Run
-    ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
-    Should Be Empty    ${out}
     Boot System Or From Connected Disk    windows
     Login To Windows
+    ${out}=    Run
+    ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/${DEVICE_WINDOWS_USERNAME}
+    Should Be Empty    ${out}
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
@@ -228,11 +228,12 @@ CPF005.002 CPU with load runs on expected frequency (Windows 11, battery)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.002 not supported
     Check Battery Backup
     Power On
+    Boot System Or From Connected Disk    windows
+    Login To Windows
     ${out}=    Run
     ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
     Should Be Empty    ${out}
-    Boot System Or From Connected Disk    windows
-    Login To Windows
+
     SSHLibrary.Execute Command    .\\stress-test-windows.ps1
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})

@@ -79,10 +79,10 @@ ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
 
 # Supported test environments
-${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
-${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
+${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
-${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
+${TESTS_IN_WINDOWS_SUPPORT}=                        ${TRUE}
 ${TESTS_IN_UBUNTU_SERVER_SUPPORT}=                  ${FALSE}
 ${TESTS_IN_PROXMOX_VE_SUPPORT}=                     ${FALSE}
 ${TESTS_IN_PFSENSE_SERIAL_SUPPORT}=                 ${FALSE}
@@ -155,6 +155,9 @@ ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
+${L2_CACHE_SUPPORT}=                                ${TRUE}
+${L3_CACHE_SUPPORT}=                                ${TRUE}
+${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 
@@ -177,11 +180,11 @@ ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${FALSE}
+${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
-${CPU_TEMPERATURE_MEASURE}=                         ${FALSE}
-${CPU_FREQUENCY_MEASURE}=                           ${FALSE}
-${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
+${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
+${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
 ${TEST_FAN_SPEED}=                                  ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}

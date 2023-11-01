@@ -31,6 +31,7 @@ MPS001.001 Switching to XMP profile
     ...    timings and are often necessary to get sticks to perform as
     ...    advertised by its manufacturer. Enabling such profile should keep
     ...    the system operational and change memory speed to a higher one.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS001.001 not supported
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
     # Training 32 GiB of DDR5 takes longer than 3 minutes
     Telnet.Set Timeout    5 min
@@ -59,6 +60,7 @@ MPS001.001 Switching to XMP profile
 MPS002.001 Switching back to JEDEC profile
     [Documentation]    JEDEC profile is a safe default for memory configuration.
     ...    We should be able to select it again.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS002.001 not supported
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
     # Boot and remember current memory speed
     Power On

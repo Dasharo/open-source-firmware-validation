@@ -107,7 +107,7 @@ done
 
 # Performance tests
 for test in "${performance_tests[@]}"; do
-    execute_robot "security" "$test"
+    execute_robot "performance" "$test"
 done
 
 # TODO: We could set RF flags within this script, to avoid manual edition of configs
@@ -125,5 +125,5 @@ done
 #
 # # Performance tests
 # for test in "${performance_tests[@]}"; do
-#     execute_robot "security" "$test"
+#     execute_robot "performance" "$test"
 # done
