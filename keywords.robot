@@ -116,6 +116,7 @@ Login To Linux Via OBMC
 
 Login To Windows
     [Documentation]    Universal login to Windows.
+    Boot System Or From Connected Disk    ${OS_WINDOWS}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
@@ -212,7 +213,7 @@ Login To Windows Via SSH
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
             Power On
-            Boot System Or From Connected Disk    windows
+            Boot System Or From Connected Disk    ${OS_WINDOWS}
         END
     END
     IF    ${reboot_count} >= 1

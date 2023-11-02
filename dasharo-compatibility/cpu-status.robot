@@ -38,7 +38,6 @@ CPU001.002 CPU works (Windows 11)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.002 not supported
     Skip If    not ${CPU_TESTS_SUPPORT}    CPU001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
 
 CPU002.001 CPU cache enabled (Ubuntu 22.04)
@@ -64,7 +63,6 @@ CPU002.002 CPU cache enabled (Windows 11)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.002 not supported
     Skip If    not ${CPU_TESTS_SUPPORT}    CPU002.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${mem_info}=    Execute Command In Terminal
     ...    Get-Wmiobject -class win32_cachememory | fl Purpose, CacheType, InstalledSize
@@ -95,7 +93,6 @@ CPU003.002 Multiple CPU support (Windows 11)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.002 not supported
     Skip If    not ${CPU_TESTS_SUPPORT}    CPU003.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1
@@ -122,7 +119,6 @@ CPU004.002 Multiple-core support (Windows 11)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.002 not supported
     Skip If    not ${CPU_TESTS_SUPPORT}    CPU004.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1

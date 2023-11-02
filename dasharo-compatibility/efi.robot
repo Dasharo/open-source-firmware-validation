@@ -43,7 +43,6 @@ EFI001.002 Boot into UEFI OS (Windows 11)
     Skip If    not ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}    EFI001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Execute Command In Terminal    (Get-WmiObject -class Win32_OperatingSystem).Caption
     Should Contain    ${out}    Microsoft Windows 11

@@ -54,7 +54,6 @@ USB001.003 USB devices detected by OS (Windows 10)
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    USB001.003 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     ${drives}=    Get Lines Matching Regexp    ${out}    ^OK\\s+DiskDrive\\s+.*$
@@ -94,7 +93,6 @@ USB002.003 USB keyboard in OS (Windows 11)
     END
     IF    not ${TESTS_IN_WINDOWS_SUPPORT}    SKIP    USB002.003 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
     ${keyboard}=    Get Lines Matching Regexp    ${out}    ^CreationClassName\\s+:\\sWin32_Keyboard.*$
@@ -122,7 +120,6 @@ USB003.002 Upload 1GB file on USB storage (Windows 11)
     IF    not ${UPLOAD_ON_USB_SUPPORT}    SKIP    USB003.002 not supported
     IF    not ${TESTS_IN_WINDOWS_SUPPORT}    SKIP    USB003.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     Generate 1GB File In Windows
     # Work only with one attached USB storage

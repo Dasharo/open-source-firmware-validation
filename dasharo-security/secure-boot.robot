@@ -95,14 +95,12 @@ SBO002.002 UEFI Secure Boot (Windows 11)
 
     Power On
     Enable Secure Boot
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${sb_status}=    Check Secure Boot In Windows
     Should Be True    ${sb_status}
     Power On
     Disable Secure Boot
 
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${sb_status}=    Check Secure Boot In Windows
     Should Not Be True    ${sb_status}

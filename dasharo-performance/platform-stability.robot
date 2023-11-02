@@ -89,7 +89,6 @@ STB001.003 Verify if no reboot occurs in the OS (Windows 11)
     Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    STB001.002 not supported
     Power On
-    Boot System Or From Connected Disk    windows
     Login To Windows
     ${timer}=    Convert To Integer    0
     Set Local Variable    ${DEVICE_UPTIME}    0

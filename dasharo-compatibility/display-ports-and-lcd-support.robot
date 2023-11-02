@@ -30,7 +30,6 @@ DSP001.003 - Internal display in OS (Windows 11)
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     Check Internal LCD Windows
 
@@ -54,7 +53,6 @@ DSP002.002 - External HDMI display in OS (Windows 11)
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     Check HDMI Windows
 
@@ -78,6 +76,5 @@ DSP003.002 - External DP display in OS (Windows 11)
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP003.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     Check DP Windows

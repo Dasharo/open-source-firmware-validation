@@ -46,7 +46,6 @@ AUD001.002 Audio subsystem detection (Windows 11)
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Get Sound Devices Windows
     Should Contain    ${out}    ${DEVICE_AUDIO1_WIN}
@@ -91,7 +90,6 @@ AUD004.001 External headset recognition (Ubuntu 20.04)
 #    Skip If    not ${audio_subsystem_support}    AUD004.002 not supported
 #    Skip If    not ${tests_in_windows_support}    AUD004.002 not supported
 #    Power On
-#    Boot system or from connected disk    ${os_windows}
 #    Login to Windows
 #    Execute Command In Terminal    Install-PackageProvider -Name NuGet -Force
 #    Execute Command In Terminal    Install-Module -Name AudioDeviceCmdlets -Force
