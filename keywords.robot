@@ -224,21 +224,6 @@ Login To Linux Via SSH Without Password
     [Arguments]    ${username}    ${prompt}
     Login To Linux Via SSH    ${username}    ${EMPTY}    prompt=${prompt}
 
-Setup SSH Connection On Windows
-    [Documentation]    Try to login to Windows via SSH.
-    FOR    ${index}    IN RANGE    1    31
-        TRY
-            Login To Windows
-            BREAK
-        EXCEPT
-            Log To Console    \n${index} attempt to setup connection with test stand failed.
-            IF    '${index}' == '30'
-                FAIL    Failed to establish ssh connection
-            END
-            Sleep    3s
-        END
-    END
-
 Switch To Root User
     [Documentation]    Switch to the root environment.
     # the "sudo -S" to pass password from stdin does not work correctly with
