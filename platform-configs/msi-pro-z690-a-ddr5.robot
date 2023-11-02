@@ -52,7 +52,6 @@ ${DEVICE_UBUNTU_USERNAME}=                          ubuntu
 ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@3mdeb:~$
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/ubuntu#
-${PIKVM_IP}=                                        192.168.10.45
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
@@ -153,6 +152,7 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
+${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

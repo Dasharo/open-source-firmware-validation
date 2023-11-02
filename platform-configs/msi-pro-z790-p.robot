@@ -1,7 +1,3 @@
-*** Settings ***
-Resource    ../os/ubuntu_2204_credentials.robot
-
-
 *** Variables ***
 # For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
 # We need to go back to the initial method (pikvm) when switching back from
@@ -56,7 +52,6 @@ ${DEVICE_UBUNTU_USERNAME}=                          user
 ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
 ${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-MS-7E06:~$
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-MS-7E06:/home/user#
-${PIKVM_IP}=                                        192.168.10.226
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
@@ -157,6 +152,7 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
+${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

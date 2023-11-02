@@ -301,6 +301,31 @@ Enter Petitboot And Return Menu
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
     RETURN    ${menu}
 
+Enter IPXE
+    [Documentation]    Enter iPXE after device power cutoff.
+    # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
+    # TODO2:    problem with iPXE string (e.g. when 3 network interfaces are available)
+
+    IF    '${PAYLOAD}' == 'seabios'
+        Enter SeaBIOS
+        Sleep    0.5s
+        ${setup}=    Telnet.Read
+        ${lines}=    Get Lines Matching Pattern    ${setup}    ${IPXE_BOOT_ENTRY}
+        Telnet.Write Bare    ${lines[0]}
+        Telnet.Read Until    ${IPXE_STRING}
+        Telnet.Write Bare    ${IPXE_KEY}
+        IPXE Wait For Prompt
+    ELSE IF    '${PAYLOAD}' == 'tianocore'
+        Enter Boot Menu Tianocore
+        Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
+        Enter Submenu In Tianocore
+        ...    option=iPXE Shell
+        ...    checkpoint=${EDK2_IPXE_CHECKPOINT}
+        ...    description_lines=${EDK2_IPXE_START_POS}
+        Set Prompt For Terminal    iPXE>
+        Read From Terminal Until Prompt
+    END
+
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
     # TODO: We do not necessarily need Internet to be reachable for the internal
@@ -818,6 +843,8 @@ Prepare To PiKVM Connection
     Remap Keys Variables To PiKVM
     Open Connection And Log In
     ${platform}=    Get Current RTE Param    platform
+    ${pikvm_ip}=    Get Current RTE Param    pikvm_ip
+    Set Global Variable    ${PIKVM_IP}
     Set Global Variable    ${PLATFORM}
     Get DUT To Start State
 

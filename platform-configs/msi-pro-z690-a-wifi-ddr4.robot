@@ -55,7 +55,6 @@ ${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
 ${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
-${PIKVM_IP}=                                        192.168.10.116
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
@@ -79,10 +78,10 @@ ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
 
 # Supported test environments
-${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
-${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
+${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
-${TESTS_IN_WINDOWS_SUPPORT}=                        ${TRUE}
+${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
 ${TESTS_IN_UBUNTU_SERVER_SUPPORT}=                  ${FALSE}
 ${TESTS_IN_PROXMOX_VE_SUPPORT}=                     ${FALSE}
 ${TESTS_IN_PFSENSE_SERIAL_SUPPORT}=                 ${FALSE}
@@ -160,6 +159,7 @@ ${L3_CACHE_SUPPORT}=                                ${TRUE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
+${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
