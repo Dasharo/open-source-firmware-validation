@@ -200,8 +200,24 @@ Login To Windows Via SSH
     ...    height=100
     ...    escape_ansi=True
     ...    newline=CRLF
-    Wait Until Keyword Succeeds    12x    10s
-    ...    SSHLibrary.Login    ${username}    ${password}
+    FOR    ${reboot_count}    IN RANGE    3
+        ${login}=    Run Keyword And Return Status
+        ...    Wait Until Keyword Succeeds    5x    10s
+        ...        SSHLibrary.Login    ${username}    ${password}
+        IF    ${login} == ${TRUE}
+            BREAK
+        ELSE
+            IF    ${reboot_count} == 2
+                Fail
+                ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
+            END
+            Power On
+            Boot System Or From Connected Disk    windows
+        END
+    END
+    IF    ${reboot_count} >= 1
+        Log    Windows "Recovery Mode" Workaround - Rebooted ${reboot_count} times.    WARN
+    END
 
 Login To Linux Via SSH Without Password
     [Documentation]    Login to Linux via SSH without password
