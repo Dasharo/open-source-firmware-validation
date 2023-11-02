@@ -19,13 +19,14 @@ fi
 cd "$DIR" || exit
 
 # Check for the existence of OVMF_CODE.fd and OVMF_VARS.fs files
-if [ ! -f "OVMF_CODE.fd" ] || [ ! -f "OVMF_VARS.fd" ]; then
+if [ ! -f "OVMF_CODE.fd" ] || [ ! -f "OVMF_VARS.fd" ] || [ ! -f "image.img" ]; then
     echo "The required files OVMF_CODE.fd and OVMF_VARS.fs are missing."
     echo "Downloading files from the server..."
     wget -O ./OVMF_CODE.fd https://github.com/Dasharo/edk2/releases/download/dasharo_qemu_v0.0.1-test3/OVMF_CODE_RELEASE.fd
     wget -O ./OVMF_VARS.fd https://github.com/Dasharo/edk2/releases/download/dasharo_qemu_v0.0.1-test3/OVMF_VARS_RELEASE.fd
+    wget -O ./image.img https://cloud.3mdeb.com/index.php/s/BwLyjHT9fRncXMY/download/image.img
 else
-    echo "Both OVMF_CODE.fd and OVMF_VARS.fs files exist in the directory."
+    echo "OVMF_CODE.fd, OVMF_VARS.fs and image.img files exist in the directory."
 fi
 
 echo "Copy OVMF_VARS.fd to /tmp/OVMF_VARS.fd"
@@ -39,7 +40,10 @@ q35_params="-machine q35,smm=on \
     -debugcon file:debug.log -global isa-debugcon.iobase=0x402 \
     -global ICH9-LPC.disable_s3=1 \
     -qmp unix:/tmp/qmp-socket,server,nowait \
-    -serial telnet:localhost:1234,server,nowait"
+    -serial telnet:localhost:1234,server,nowait\
+    -drive if=none,id=mydisk,file=image.img \
+    -device virtio-scsi-pci,id=scsi \
+    -device scsi-hd,bus=scsi.0,drive=mydisk,id=myhdd"
 
 echo "Run QEMU Q35 with Dasharo (UEFI) firmware ... (Ctrl+C to terminate)"
 case "$2" in

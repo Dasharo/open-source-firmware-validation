@@ -105,3 +105,19 @@ def check_user_password_management_default_state(entries):
             change_option_present = True
 
     return status_present and change_option_present
+
+@keyword("Merge Two Lists")
+def merge_lists(list1, list2):
+    """
+    This keyword merges two lists into one, without creating double entries
+    if they have some in common.
+    """
+    set1 = set(list1)
+    set2 = set(list2)
+    final_list = set1
+
+    for i2 in set2:
+        if i2 not in set1:
+            final_list.add(i2)
+
+    return final_list

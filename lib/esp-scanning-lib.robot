@@ -59,11 +59,18 @@ Check Boot Menu For All Supported Systems
     ...    per OS
     [Arguments]    ${mode}=normal
 
-    ${boot_list}=    Get Boot Menu Construction
-    Press Key N Times    1    ${ARROW_UP}
+    # You need to scroll down to see some of the entries. As a result,
+    # simply getting a single menu construction won't do.
+
     IF    "${mode}"!="empty"
-        ${boot_list}=    Get Setup Menu Construction    Debian
+        ${boot_list_a}=    Get Boot Menu Construction
+        Press Key N Times    1    ${ARROW_UP}
+        ${boot_list_b}=    Get Menu Construction    Qubes OS    0    0
+        ${boot_list}=    Merge Two Lists    ${boot_list_a}    ${boot_list_b}
+    ELSE
+        ${boot_list}=   Get Boot Menu Construction
     END
+
     IF    "${mode}"=="empty"
         Only N Occurrences    ${boot_list}    0    *Suse*
         Only N Occurrences    ${boot_list}    0    *RedHat*
@@ -72,7 +79,7 @@ Check Boot Menu For All Supported Systems
         Only N Occurrences    ${boot_list}    2    *RedHat*
     END
     @{systems}=    Create List    Fedora    OpenSuse    Windows    CentOS
-    ...    QubesOS    Dasharo Tools Suite
+    ...    Dasharo Tools Suite    Debian    Ubuntu
     FOR    ${system}    IN    @{systems}
         IF    "${mode}"=="empty"
             Should Not Contain Match    ${boot_list}    *${system}*

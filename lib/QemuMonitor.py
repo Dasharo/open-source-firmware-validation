@@ -39,3 +39,9 @@ class QemuMonitor:
     @keyword
     def quit(self):
         return self._send("quit")
+
+    @keyword("Remove HDD From Qemu")
+    def device_del(self):
+        return self._send("device_del", id="myhdd" )
+
+

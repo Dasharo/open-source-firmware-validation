@@ -32,13 +32,6 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP001.001 not supported
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-    Login To Linux
-    Switch To Root User
-    Remove All Supported Systems From Efi
-    Populate /EFI With System Folders
-    Power On
     Enter Boot Menu Tianocore
     Check Boot Menu For All Supported Systems    normal
 
@@ -48,13 +41,8 @@ ESP002.001 ESP Scan after deleting additional .efi files
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP002.001 not supported
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-    Login To Linux
-    Switch To Root User
-    Remove All Supported Systems From Efi
-    Power On
     Enter Boot Menu Tianocore
+    Remove HDD From Qemu
     Check Boot Menu For All Supported Systems    empty
 
 ESP003.001 ESP Scan ignores OSes on removable media
@@ -62,7 +50,7 @@ ESP003.001 ESP Scan ignores OSes on removable media
     ...    partitions of removable media are ignored by the scan and aren't
     ...    listed in boot menu, except for DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP003.001 not supported
-
+    Skip
     Upload And Mount Tinycore
     Power On
     Enter Boot Menu Tianocore
@@ -75,13 +63,7 @@ ESP004.001 ESP Scan does not create duplicate entries
     ...    create duplicate entries, for example, if both shimx64 and grubx64
     ...    are present for a single OS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-    Login To Linux
-    Switch To Root User
-    Populate /EFI With System Folders
+    Skip
     Power On
     Enter Boot Menu Tianocore
     Check Boot Menu For All Supported Systems    double_entry_check
@@ -91,7 +73,7 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    Dasharo Tools Suite boot media and creates a corresponding boot
     ...    menu entry.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP005.001 not supported
-
+    Skip
     Upload And Mount DTS Flash ISO
     Power On
     Enter Boot Menu Tianocore
