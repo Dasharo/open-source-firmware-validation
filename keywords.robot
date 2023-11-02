@@ -213,7 +213,9 @@ Login To Windows Via SSH
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
             Power On
+            Set Global Variable    ${DUT_CONNECTION_METHOD}    pikvm
             Boot System Or From Connected Disk    ${OS_WINDOWS}
+            Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         END
     END
     IF    ${reboot_count} >= 1
