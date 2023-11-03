@@ -10,7 +10,6 @@ transform = [
     "AlignSettingsSection",
     "AlignVariablesSection",
     "DiscardEmptySections",
-    "IndentNestedKeywords",
     "InlineIf",
     "MergeAndOrderSections",
     "NormalizeAssignments",

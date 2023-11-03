@@ -204,7 +204,7 @@ Login To Windows Via SSH
     FOR    ${reboot_count}    IN RANGE    3
         ${login}=    Run Keyword And Return Status
         ...    Wait Until Keyword Succeeds    5x    10s
-        ...        SSHLibrary.Login    ${username}    ${password}
+        ...    SSHLibrary.Login    ${username}    ${password}
         IF    ${login} == ${TRUE}
             BREAK
         ELSE
