@@ -40,7 +40,7 @@ USS001.001 Enable USB stack (firmware)
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
+    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
     Save Changes And Reset    2    4
     Enter Boot Menu Tianocore
     Check That USB Devices Are Detected
@@ -52,11 +52,6 @@ USS002.001 Disable USB stack (firmware)
     Skip If    not ${USB_STACK_SUPPORT}    USS002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS002.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
-    Save Changes And Reset    2    4
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
@@ -96,11 +91,6 @@ USS004.001 Disable USB Mass Storage (firmware)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
-    Save Changes And Reset    2    4
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
     Save Changes And Reset    2    4
     Enter Boot Menu Tianocore
     Check That USB Devices Are Not Detected
