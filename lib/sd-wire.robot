@@ -46,12 +46,8 @@ Get Status Of SD Wire
     ${output}=    SSHLibrary.Execute Command    sd-mux-ctrl -e=${serial_number} -u
     ${does_it_contain_dut}=    Evaluate    "DUT" in "${output}"
     ${does_it_contain_ts}=    Evaluate    "TS" in "${output}"
-    IF    ${does_it_contain_dut}==True
-        RETURN    DUT
-    END
-    IF    ${does_it_contain_ts}==True
-        RETURN    TS
-    END
+    IF    ${does_it_contain_dut}==True    RETURN    DUT
+    IF    ${does_it_contain_ts}==True    RETURN    TS
     Fatal Error    SD Wire status not recognized: ${output}
 
 Verify Number Of Connected SD Wire Devices

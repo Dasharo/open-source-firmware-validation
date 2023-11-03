@@ -761,9 +761,7 @@ Prepare Test Suite
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
     END
-    IF    '${CONFIG}' == 'rpi-3b'
-        Verify Number Of Connected SD Wire Devices
-    END
+    IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
 Prepare To SSH Connection
     [Documentation]    Keyword prepares Test Suite by setting current platform
