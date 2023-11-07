@@ -44,7 +44,6 @@ WLE001.002 Wireless card detection (Windows 11)
     Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
     Should Contain    ${out}    ${WIFI_CARD}
@@ -68,7 +67,6 @@ WLE002.002 Wi-Fi scanning (Windows 11)
     Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE002.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     Execute Command In Terminal    Start-Service WlanSvc
     ${out}=    Execute Command In Terminal    netsh wlan show network

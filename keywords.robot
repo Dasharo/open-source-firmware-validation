@@ -116,6 +116,7 @@ Login To Linux Via OBMC
 
 Login To Windows
     [Documentation]    Universal login to Windows.
+    Boot System Or From Connected Disk    ${OS_WINDOWS}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
@@ -200,28 +201,31 @@ Login To Windows Via SSH
     ...    height=100
     ...    escape_ansi=True
     ...    newline=CRLF
-    Wait Until Keyword Succeeds    12x    10s
-    ...    SSHLibrary.Login    ${username}    ${password}
+    FOR    ${reboot_count}    IN RANGE    3
+        ${login}=    Run Keyword And Return Status
+        ...    Wait Until Keyword Succeeds    5x    10s
+        ...    SSHLibrary.Login    ${username}    ${password}
+        IF    ${login} == ${TRUE}
+            BREAK
+        ELSE
+            IF    ${reboot_count} == 2
+                Fail
+                ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
+            END
+            Power On
+            Set Global Variable    ${DUT_CONNECTION_METHOD}    pikvm
+            Boot System Or From Connected Disk    ${OS_WINDOWS}
+            Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        END
+    END
+    IF    ${reboot_count} >= 1
+        Log    Windows "Recovery Mode" Workaround - Rebooted ${reboot_count} times.    WARN
+    END
 
 Login To Linux Via SSH Without Password
     [Documentation]    Login to Linux via SSH without password
     [Arguments]    ${username}    ${prompt}
     Login To Linux Via SSH    ${username}    ${EMPTY}    prompt=${prompt}
-
-Setup SSH Connection On Windows
-    [Documentation]    Try to login to Windows via SSH.
-    FOR    ${index}    IN RANGE    1    31
-        TRY
-            Login To Windows
-            BREAK
-        EXCEPT
-            Log To Console    \n${index} attempt to setup connection with test stand failed.
-            IF    '${index}' == '30'
-                FAIL    Failed to establish ssh connection
-            END
-            Sleep    3s
-        END
-    END
 
 Switch To Root User
     [Documentation]    Switch to the root environment.
@@ -782,9 +786,7 @@ Prepare Test Suite
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
     END
-    IF    '${CONFIG}' == 'rpi-3b'
-        Verify Number Of Connected SD Wire Devices
-    END
+    IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
 Prepare To SSH Connection
     [Documentation]    Keyword prepares Test Suite by setting current platform

@@ -44,7 +44,6 @@ CPF001.002 CPU not stuck on initial frequency (Windows 11)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.002 not supported
     Power On
-    Boot System Or From Connected Disk    windows
     Login To Windows
     Sleep    10s
     Check If CPU Not Stucks On Initial Frequency In Windows
@@ -97,7 +96,6 @@ CPF002.002 CPU runs on expected frequency (Windows 11)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.002 not supported
     Power On
-    Boot System Or From Connected Disk    windows
     Login To Windows
     Check CPU Frequency In Windows
 
@@ -135,7 +133,6 @@ CPF003.002 CPU runs on expected frequency (Windows 11, battery)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.002 not supported
     Check Battery Backup
     Power On
-    Boot System Or From Connected Disk    windows
     Login To Windows
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
@@ -179,7 +176,6 @@ CPF004.002 CPU with load runs on expected frequency (Windows 11)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.002 not supported
     Power On
-    Boot System Or From Connected Disk    windows
     Login To Windows
     ${out}=    Run
     ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/${DEVICE_WINDOWS_USERNAME}
@@ -228,7 +224,6 @@ CPF005.002 CPU with load runs on expected frequency (Windows 11, battery)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.002 not supported
     Check Battery Backup
     Power On
-    Boot System Or From Connected Disk    windows
     Login To Windows
     ${out}=    Run
     ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user

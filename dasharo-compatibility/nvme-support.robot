@@ -54,7 +54,6 @@ NVM001.003 NVMe support in OS (Windows 10)
     Skip If    not ${NVME_DISK_SUPPORT}    NVM001.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVM001.003 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     # Switch to root user
     ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" | where { $_.InstanceId -like "*NVME*"}

@@ -58,7 +58,6 @@ TPM001.003 TPM Support (Windows 11)
     Skip If    not ${TPM_SUPPORT}    TPM001.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.003 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Execute Command In Terminal    get-tpm
     ${tpm_present}=    Get Lines Matching Regexp    ${out}    ^TpmPresent\\s+:\\s.*$
@@ -100,7 +99,6 @@ TPM002.003 Verify TPM version (Windows 11)
     Skip If    not ${TPM_SUPPORT}    TPM002.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.003 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Execute Command In Terminal
     ...    wmic /namespace:\\\\root\\cimv2\\security\\microsofttpm path win32_tpm get * /format:textvaluelist.xsl
@@ -138,7 +136,6 @@ TPM003.003 Check TPM Physical Presence Interface (Windows 11)
     Skip If    not ${TPM_SUPPORT}    TPM003.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM003.003 not supported
     Power On
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${out}=    Execute Command In Terminal    tpmtool getdeviceinformation
     Should Contain    ${out}    PPI Version: 1.3
