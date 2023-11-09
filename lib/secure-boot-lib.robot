@@ -5,6 +5,61 @@ Resource            ../keywords.robot
 
 
 *** Keywords ***
+Get Secure Boot Menu Construction
+    [Documentation]    Secure Boot menu is very different than all
+    ...    of the others so we need a special keyword for parsing it.
+    ...    Return only selectable entries. If some menu option is not
+    ...    selectable (grayed out) it will not be in the menu construction
+    ...    list.
+    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1
+    ${out}=    Read From Terminal Until    ${checkpoint}
+    # At first, parse the menu as usual
+    ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
+    ${enable_sb_can_be_selected}=    Run Keyword And Return Status
+    ...    List Should Not Contain Value
+    ...    ${menu}
+    ...    To enable Secure Boot, set Secure Boot Mode to
+    IF    ${enable_sb_can_be_selected} == ${FALSE}
+        Remove Values From List
+        ...    ${menu}
+        ...    To enable Secure Boot, set Secure Boot Mode to
+        ...    Custom and enroll the keys/PK first.
+        ...    Enable Secure Boot [ ]
+    END
+    RETURN    ${menu}
+
+Enter Secure Boot Menu
+    [Documentation]    This keyword enters Secure Boot menu after the platform was powered on.
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    Enter Submenu From Snapshot    ${device_mgr_menu}    Secure Boot Configuration
+
+Enter Secure Boot Menu And Return Construction
+    [Documentation]    This keyword enters Secure Boot menu after the platform was powered on. Returns Secure Boot menu construction.
+    Enter Secure Boot Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    RETURN    ${sb_menu}
+
+Enter Advanced Secure Boot Keys Management
+    [Documentation]    Enables Secure Boot Custom Mode and enters Advanced Management menu.
+    [Arguments]    ${sb_menu}
+    Set Option State    ${sb_menu}    Secure Boot Mode    Custom Mode
+    # After selecting Custom Mode, the Advanced Menu is one below
+    Press Key N Times And Enter    1    ${ARROW_DOWN}
+
+Return Secure Boot State
+    [Documentation]    Returns the state of Secure Boot as reported in the Secure Boot Configuration menu
+    [Arguments]    ${sb_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${sb_menu}    Secure Boot State
+    ${sb_state}=    Get From List    ${sb_menu}    ${index}
+    ${sb_state}=    Remove String    ${sb_state}    Secure Boot State
+    ${sb_state}=    Strip String    ${sb_state}
+    RETURN    ${sb_state}
+
+### Kwds below still needs review / rework after SB menu layout changes
+
 Enable Custom Mode And Enroll Certificate
     [Documentation]    This keyword enables the secure boot custom mode
     ...    and enrolls a certificate with the given name.
@@ -181,47 +236,7 @@ Check Secure Boot In Windows
     ...    Should Contain    ${out}    True
     RETURN    ${sb_status}
 
-Enable Secure Boot
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-    Select Attempt Secure Boot Option    ${secure_boot_menu}
-    Save Changes And Reset    2
-
-Disable Secure Boot
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-    Clear Attempt Secure Boot Option
-    Save Changes And Reset    2
-
-Enter Custom Secure Boot Options
-    [Documentation]    Sets the Secure Boot Mode to Custom Mode from
-    ...    the Secure Boot Configuration menu and enters
-    ...    the Custom Secure Boot Options menu
-    ...
-    ${out}=    Get Secure Boot Configuration Submenu Construction
-    ${is_standardmode}=    Run Keyword And Return Status
-    ...    Should Contain Match    ${out}    *Standard*
-    IF    ${is_standardmode}
-        Press Key N Times And Enter    2    ${ARROW_DOWN}
-        Read From Terminal Until    Custom Mode
-        Press Key N Times And Enter    1    ${ARROW_DOWN}
-        Read From Terminal
-        Press Key N Times And Enter    1    ${ARROW_DOWN}
-    ELSE
-        Press Key N Times And Enter    3    ${ARROW_DOWN}
-    END
-
-Check If Attempt Secure Boot Can Be Selected
+Check Gf Attempt Secure Boot Can Be Selected
     [Documentation]    The Attempt Secure Boot option may be unavailable if
     ...    Reset Secure Boot Keys was not selected before. This keyword checks
     ...    if the Attempt Secure Boot can already be selected. If the help text

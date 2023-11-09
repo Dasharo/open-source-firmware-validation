@@ -65,9 +65,21 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.001 not supported
 
     Power On
-    Enable Secure Boot
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    Enter Submenu From Snapshot    ${device_mgr_menu}    Secure Boot Configuration
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    Enter Custom Secure Boot Options    ${sb_menu}
+    Sleep    1s
+    ${out}=    Read From Terminal
+    Log    ${out}
 
     Fail
+
+    Enable Secure Boot
 
     Boot System Or From Connected Disk    ubuntu
     Login To Linux

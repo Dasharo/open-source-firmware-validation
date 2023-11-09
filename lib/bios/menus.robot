@@ -55,15 +55,15 @@ Get Setup Menu Construction
     #    0.0.0    128 MB RAM
     #    BOTTOM
     #    ^v=Move Highlight    <Enter>=Select Entry
-    ${construction}=    Get Menu Construction    ${checkpoint}    3    1
-    RETURN    ${construction}
+    ${menu}=    Get Menu Construction    ${checkpoint}    3    1
+    RETURN    ${menu}
 
 Get Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
-    [Arguments]    ${checkpoint}=Press ESC to exit.    ${lines_top}=1    ${lines_bot}=0
-    ${menu}=    Read From Terminal Until    ${checkpoint}
-    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
-    RETURN    ${construction}
+    [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
+    ${out}=    Read From Terminal Until    ${checkpoint}
+    ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
+    RETURN    ${menu}
 
 Parse Menu Snapshot Into Construction
     [Documentation]    Breaks grabbed menu data into lines.
