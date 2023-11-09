@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation       Collection of keywords related to UEFI Secure Boot
 
-Library             ../robot-venv/lib/python3.11/site-packages/robot/libraries/Telnet.py
 Resource            ../keywords.robot
 
 

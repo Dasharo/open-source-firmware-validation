@@ -6,7 +6,6 @@ Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
 Resource        lib/terminal.robot
-Resource        lib/dts-lib.robot
 Resource        lib/esp-scanning-lib.robot
 Variables       platform-configs/fan-curve-config.yaml
 
