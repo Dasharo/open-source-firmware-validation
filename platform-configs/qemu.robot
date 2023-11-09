@@ -221,8 +221,8 @@ ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${FALSE}
 
 # Supported OS installation variants
-${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
-${INSTALL_UBUNTU_USB_SUPPORT}=                      ${FALSE}
+${INSTALL_DEBIAN_USB_SUPPORT}=                      ${TRUE}
+${INSTALL_UBUNTU_USB_SUPPORT}=                      ${TRUE}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases
