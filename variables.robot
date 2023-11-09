@@ -10,6 +10,8 @@ ${TEARDOWN}=                no
 ${SNIPEIT}=                 yes
 ${FIRMWARE_TYPE_VAR}=       ${EMPTY}
 
+${DL_CACHE_DIR}=            ${CURDIR}/dl-cache
+
 ${RE_FRAME_START}=          ^.*/-{3,}\\\\.*$
 ${RE_FRAME_END}=            ^.*\\\\-{3,}/.*$
 
@@ -124,7 +126,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE33}=                   ip=192.168.10.107    cpuid=02c00042a74281e6    pcb_rev=1.1.0
 ...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.21
-...                         firmware_type=UEFI    pikvm_ip=192.168.10.226
+...                         firmware_type=UEFI    pikvm_ip=192.168.10.116
 &{RTE34}=                   ip=192.168.10.199    cpuid=02c000424753a7fb    pcb_rev=1.1.0
 ...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.169

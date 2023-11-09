@@ -6,6 +6,8 @@ Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
 Resource        lib/terminal.robot
+Resource        lib/esp-scanning-lib.robot
+Resource        lib/dl-cache.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -2240,8 +2242,15 @@ Check That USB Devices Are Detected
     ${menu_construction}=    Read From Terminal Until    exit
 
     IF    ${emulated} == ${TRUE}
-        Should Match    ${menu_construction}    *PiKVM*
-        RETURN    ${TRUE}
+        ${found}=    Run Keyword And Return Status
+        ...    Should Match    ${menu_construction}    *PiKVM*
+        IF    not ${found}
+            Press Key N Times    1    ${ARROW_UP}
+            ${menu_construction}=    Read From Terminal Until    PiKVM
+            RETURN    ${TRUE}
+        ELSE
+            RETURN    ${TRUE}
+        END
     END
 
     @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name

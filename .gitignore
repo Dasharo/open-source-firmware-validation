@@ -14,3 +14,5 @@ downstream_job_parameters.txt
 openbmc-test-automation/
 __pycache__*
 *.fd
+dl-cache/*
+!dl-cache/.gitkeep
