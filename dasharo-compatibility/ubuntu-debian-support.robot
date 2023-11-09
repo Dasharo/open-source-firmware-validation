@@ -83,11 +83,11 @@ LBT002.001 Ubuntu LTS installation on USB storage
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    ${nb_out}=    Boot netboot.xyz using iPXE    ${boot_menu}
-    ${nb_menu}=    Parse netboot.xyz Menu Snapshot Into Construction    ${nb_out}    1    0
+    ${nb_out}=    Boot Netboot.Xyz Using IPXE    ${boot_menu}
+    ${nb_menu}=    Parse Netboot.Xyz Menu Snapshot Into Construction    ${nb_out}    1    0
     Enter Submenu From Snapshot    ${nb_menu}    Linux Network Installs (64-bit)
     ${nb_out}=    Read From Terminal Until    ^...
-    ${nb_menu}=    Parse netboot.xyz Menu Snapshot Into Construction    ${nb_out}    1    0
+    ${nb_menu}=    Parse Netboot.Xyz Menu Snapshot Into Construction    ${nb_out}    1    0
     Fail
 
 LBT002.002 Boot Ubuntu from USB

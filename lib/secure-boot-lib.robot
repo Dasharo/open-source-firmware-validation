@@ -277,21 +277,21 @@ Select Enable Secure Boot Option
 
     ${can_be_selected}=    Check If Enable Secure Boot Can Be Selected    ${sb_menu}
     IF    not ${can_be_selected}
-          Enter Custom Secure Boot Options
-          ${sb_menu}=    Get Submenu Construction
-          # Enter Submenu From Snapshot doesn't work because it counts all options, but
-          # not all are selectable
-          # The assumption here is that we enter UEFI SB with default keys, this may be
-          # not always valida for all test cases
-          Press Key N Times And Enter    1    ${ARROW_DOWN}
-          ${sb_menu}=    Get Submenu Construction
-          Enter Submenu From Snapshot    ${sb_menu}    > Reset to default Secure Boot Keys
-          Press Enter
-          # Leave Reset to default Secure Boot Keys menu
-          Press Key N Times    1    ${ESC}
-          Press Key N Times    1    ${ARROW_LEFT}
+        Enter Custom Secure Boot Options
+        ${sb_menu}=    Get Submenu Construction
+        # Enter Submenu From Snapshot doesn't work because it counts all options, but
+        # not all are selectable
+        # The assumption here is that we enter UEFI SB with default keys, this may be
+        # not always valida for all test cases
+        Press Key N Times And Enter    1    ${ARROW_DOWN}
+        ${sb_menu}=    Get Submenu Construction
+        Enter Submenu From Snapshot    ${sb_menu}    > Reset to default Secure Boot Keys
+        Press Enter
+        # Leave Reset to default Secure Boot Keys menu
+        Press Key N Times    1    ${ESC}
+        Press Key N Times    1    ${ARROW_LEFT}
     ELSE
-          Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+        Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
     END
 
 Select Attempt Secure Boot Option

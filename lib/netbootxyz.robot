@@ -5,8 +5,9 @@ Library             Collections
 Library             String
 Resource            ./bios/menus.robot
 
+
 *** Keywords ***
-Parse netboot.xyz Menu Snapshot Into Construction
+Parse Netboot.Xyz Menu Snapshot Into Construction
     [Documentation]    Breaks grabbed netboot.xyz data into selectable lines.
     [Arguments]    ${menu}    ${lines_top}    ${lines_bot}
     ${slice_start}=    Set Variable    ${lines_top}
@@ -48,7 +49,7 @@ Parse netboot.xyz Menu Snapshot Into Construction
     ...    Signature Checks
     RETURN    ${construction}
 
-Boot netboot.xyz using iPXE
+Boot Netboot.Xyz Using IPXE
     [Documentation]    This keyword boots into netboot.xyz using iPXE
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -57,4 +58,3 @@ Boot netboot.xyz using iPXE
     Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
     ${out}=    Read From Terminal Until    netboot.xyz [ enabled: true ]
     Return    ${out}
-
