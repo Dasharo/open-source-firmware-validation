@@ -98,12 +98,7 @@ PXE005.001 OS installation option is available and works correctly
     ...    in Dasharo Network Boot Menu allows booting into netboot.xyz server.
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE005.001 not supported
-    Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    ${ipxe_menu}=    Get IPXE Boot Menu Construction
-    Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
-    ${out}=    Read From Terminal Until    netboot.xyz [ enabled: true ]
+    ${out}=    Wait Until Keyword Succeeds    5x    60 sec    Boot netboot.xyz using iPXE
     Should Contain    ${out}    netboot.xyz
     Should Contain    ${out}    Distributions:
     Should Contain    ${out}    Linux Network Installs
