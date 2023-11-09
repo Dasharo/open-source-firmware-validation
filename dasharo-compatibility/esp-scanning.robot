@@ -57,7 +57,7 @@ ESP003.001 ESP Scan ignores OSes on removable media
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP003.001 not supported
 
     Power On
-    Download ISO And Mount As USB    img_name=CorePlus-current.iso    img_url=${TINYCORE_URL}
+    Download ISO And Mount As USB    img_name=${DL_CACHE_DIR}/CorePlus-current.iso    img_url=${TINYCORE_URL}
     Power On Or Reboot
     Enter Boot Menu Tianocore
     ${boot_list}=    Get Boot Menu Construction
@@ -82,7 +82,9 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP005.001 not supported
 
     Power On
-    Download ISO And Mount As USB    img_name=dts-base-image-v1.2.8.iso    img_url=${DTS_URL}
+    Download ISO And Mount As USB
+    ...    img_name=${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
+    ...    img_url=${DTS_URL}
     Power On Or Reboot
     Enter Boot Menu Tianocore
     ${boot_list}=    Get Boot Menu Construction
@@ -92,9 +94,18 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
 *** Keywords ***
 Prepare Required Files For Qemu
     IF    "${MANUFACTURER}" == "QEMU"
-        Run    wget -O ./image.img ${DISK_IMAGE_URL}
-        Run    wget -O ./dts-base-image-v1.2.8.iso ${DTS_URL}
-        Run    wget -O ./CorePlus-current.iso ${TINYCORE_URL}
+        Download To Host Cache
+        ...    dts-base-image-v1.2.8.iso
+        ...    ${DTS_URL}
+        ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
+        Download To Host Cache
+        ...    esp-scanning.img
+        ...    ${DISK_IMAGE_URL}
+        ...    a0cf9c6cc561585b375a7416a5bdb98caad4c48d22f87098844b6e294a3c0aff
+        Download To Host Cache
+        ...    CorePlus-14.0.iso
+        ...    ${TINYCORE_URL}
+        ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
     END
 
 Power On Or Reboot

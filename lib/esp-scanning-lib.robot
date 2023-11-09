@@ -7,7 +7,7 @@ Resource            ../keywords.robot
 *** Variables ***
 ${SHIMX64_URL}=         https://cloud.3mdeb.com/index.php/s/TipPHgsCj6MCZHi/download/shimx64.efi
 ${GRUBX64_URL}=         https://cloud.3mdeb.com/index.php/s/e2JjYANjMsgyXtS/download/grubx64.efi
-${TINYCORE_URL}=        https://distro.ibiblio.org/tinycorelinux/14.x/x86/release/CorePlus-current.iso
+${TINYCORE_URL}=        https://distro.ibiblio.org/tinycorelinux/14.x/x86/release/CorePlus-14.0.iso
 ${DTS_URL}=             https://dl.3mdeb.com/open-source-firmware/DTS/v1.2.8/dts-base-image-v1.2.8.iso
 ${DISK_IMAGE_URL}=      https://cloud.3mdeb.com/index.php/s/BwLyjHT9fRncXMY/download/image.img
 
@@ -19,7 +19,7 @@ Prepare EFI Partition With System Files
     ...    via PiKVM
 
     IF    "${MANUFACTURER}" == "QEMU"
-        Add HDD To Qemu    img_name=image.img
+        Add HDD To Qemu    img_name=${DL_CACHE_DIR}/image.img
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
             Boot System Or From Connected Disk    ubuntu

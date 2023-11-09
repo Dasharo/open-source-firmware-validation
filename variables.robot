@@ -10,6 +10,8 @@ ${TEARDOWN}=                no
 ${SNIPEIT}=                 yes
 ${FIRMWARE_TYPE_VAR}=       ${EMPTY}
 
+${DL_CACHE_DIR}=            ${CURDIR}/dl-cache
+
 ${RE_FRAME_START}=          ^.*/-{3,}\\\\.*$
 ${RE_FRAME_END}=            ^.*\\\\-{3,}/.*$
 
