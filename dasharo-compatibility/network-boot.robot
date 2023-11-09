@@ -13,6 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/netbootxyz.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
