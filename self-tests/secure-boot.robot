@@ -120,16 +120,37 @@ Return Secure Boot State
     ${sb_state}=    Return Secure Boot State    ${sb_menu}
     Should Contain Any    ${sb_state}    Enabled    Disabled
 
-# TODO: This fails with: Option Enable Secure Boot not found in the list
-# if the keys were not provisioned first. The question is, should we "hide"
-# restoring keys to default in the keywords like enable/disable SB, or the
-# test scenarios should rather take care of this?
+Make Sure That Keys Are Provisioned
+    [Documentation]    Test Make Sure That Keys Are Provisioned kwd
+    # 1. Erase All SB keys
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enter Advanced Secure Boot Keys Management    ${sb_menu}
+    Erase All Secure Boot Keys
+    Exit From Current Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    Should Not Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+
+    # 2. Call tke kwd and make sure that the keys are provisioned
+    ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
+    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+
+    # 3. Restore default SB keys
+    Enter Advanced Secure Boot Keys Management    ${sb_menu}
+    Reset To Default Secure Boot Keys
+    Exit From Current Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+
+    # 4. Call tke kwd and make sure that the keys are still provisioned
+    ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
+    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
 
 Enable Secure Boot
     [Documentation]    Test Enable Secure Boot kwd
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+    Enable Secure Boot    ${sb_menu}
     Save Changes And Reset    2
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -140,7 +161,7 @@ Disable Secure Boot
     [Documentation]    Test Disable Secure Boot kwd
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
+    Disable Secure Boot    ${sb_menu}
     Save Changes And Reset    2
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
