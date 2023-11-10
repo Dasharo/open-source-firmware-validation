@@ -42,8 +42,7 @@ Enter Secure Boot Menu And Return Construction
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Should Not Contain    ${sb_menu}    Secure Boot Configuration
     Should Match Regexp    ${sb_menu}[0]    ^Current Secure Boot State.*$
-    Should Match Regexp    ${sb_menu}[1]    ^Enable Secure Boot \\[.\\].*$
-    Should Match Regexp    ${sb_menu}[2]    ^Secure Boot Mode \\<.*\\>.*$
+    Should Match Regexp    ${sb_menu}[-1]    ^Secure Boot Mode \\<.*\\>.*$
     Should Not Contain    ${sb_menu}    To enable Secure Boot, set Secure Boot Mode to
     Should Not Contain    ${sb_menu}    Custom and enroll the keys/PK first.
 
@@ -57,12 +56,74 @@ Enter Advanced Secure Boot Keys Management
     Should Contain    ${out}    Reset to default Secure Boot Keys
     Should Contain    ${out}    Erase all Secure Boot Keys
 
+Reset To Default Secure Boot Keys
+    [Documentation]    Test Reset To Default Secure Boot Keys kwd
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enter Advanced Secure Boot Keys Management    ${sb_menu}
+    Reset To Default Secure Boot Keys
+    Save Changes And Reset    3
+
+    Enter Secure Boot Menu
+    ${out}=    Read From Terminal Until    Esc=Exit
+    Should Not Contain    ${out}    To enable Secure Boot, set Secure Boot Mode to
+    Should Not Contain    ${out}    Custom and enroll the keys/PK first.
+
+Erase All Secure Boot Keys
+    [Documentation]    Test Erase All Secure Boot Keys kwd
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enter Advanced Secure Boot Keys Management    ${sb_menu}
+    Erase All Secure Boot Keys
+    Save Changes And Reset    3
+
+    Enter Secure Boot Menu
+    ${out}=    Read From Terminal Until    Esc=Exit
+    Should Contain    ${out}    To enable Secure Boot, set Secure Boot Mode to
+    Should Contain    ${out}    Custom and enroll the keys/PK first.
+
+Secure Boot Menu Parsing With Default Keys
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enter Advanced Secure Boot Keys Management    ${sb_menu}
+    Reset To Default Secure Boot Keys
+    Save Changes And Reset    3
+
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Should Not Contain    ${sb_menu}    Secure Boot Configuration
+    Should Match Regexp    ${sb_menu}[0]    ^Current Secure Boot State.*$
+    Should Match Regexp    ${sb_menu}[1]    ^Enable Secure Boot \\[.\\].*$
+    Should Match Regexp    ${sb_menu}[2]    ^Secure Boot Mode \\<.*\\>.*$
+    Should Not Contain    ${sb_menu}    To enable Secure Boot, set Secure Boot Mode to
+    Should Not Contain    ${sb_menu}    Custom and enroll the keys/PK first.
+
+Secure Boot Menu Parsing With Erased Keys
+    [Documentation]    Test Enter Secure Boot Menu And Return Construction kwd
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enter Advanced Secure Boot Keys Management    ${sb_menu}
+    Erase All Secure Boot Keys
+    Reset To Default Secure Boot Keys
+    Save Changes And Reset    3
+
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Should Not Contain    ${sb_menu}    Secure Boot Configuration
+    Should Match Regexp    ${sb_menu}[0]    ^Current Secure Boot State.*$
+    Should Match Regexp    ${sb_menu}[1]    ^Secure Boot Mode \\<.*\\>.*$
+    Should Not Contain    ${sb_menu}    To enable Secure Boot, set Secure Boot Mode to
+    Should Not Contain    ${sb_menu}    Custom and enroll the keys/PK first.
+
 Return Secure Boot State
     [Documentation]    Test Return Secure Boot State kwd
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_state}=    Return Secure Boot State    ${sb_menu}
     Should Contain Any    ${sb_state}    Enabled    Disabled
+
+# TODO: This fails with: Option Enable Secure Boot not found in the list
+# if the keys were not provisioned first. The question is, should we "hide"
+# restoring keys to default in the keywords like enable/disable SB, or the
+# test scenarios should rather take care of this?
 
 Enable Secure Boot
     [Documentation]    Test Enable Secure Boot kwd

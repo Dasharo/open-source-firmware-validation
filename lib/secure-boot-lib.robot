@@ -19,12 +19,16 @@ Get Secure Boot Menu Construction
     ...    List Should Not Contain Value
     ...    ${menu}
     ...    To enable Secure Boot, set Secure Boot Mode to
+    # If we have a help message indicating keys are not provisioned,
+    # we drop this help message end Enable Secure Boot option (which is
+    # not selectable) from the menu construction.
     IF    ${enable_sb_can_be_selected} == ${FALSE}
         Remove Values From List
         ...    ${menu}
         ...    To enable Secure Boot, set Secure Boot Mode to
         ...    Custom and enroll the keys/PK first.
         ...    Enable Secure Boot [ ]
+        ...    Enable Secure Boot [X]
     END
     RETURN    ${menu}
 
@@ -48,6 +52,24 @@ Enter Advanced Secure Boot Keys Management
     Set Option State    ${sb_menu}    Secure Boot Mode    Custom Mode
     # After selecting Custom Mode, the Advanced Menu is one below
     Press Key N Times And Enter    1    ${ARROW_DOWN}
+
+Reset To Default Secure Boot Keys
+    [Documentation]    This keyword assumes that we are in the Advanced Secure
+    ...    Boot menu already. We assume here it will not change too often and
+    ...    that the menu layout is fixed. Reset to Default Secure Boot Keys is
+    ...    the first entry.
+    Press Enter
+    Read From Terminal Until    Are you sure?
+    Press Enter
+
+Erase All Secure Boot Keys
+    [Documentation]    This keyword assumes that we are in the Advanced Secure
+    ...    Boot menu already. We assume here it will not change too often and
+    ...    that the menu layout is fixed. Erase All Secure Boot Keys is the
+    ...    second entry.
+    Press Key N Times And Enter    1    ${ARROW_DOWN}
+    Read From Terminal Until    Are you sure?
+    Press Enter
 
 Return Secure Boot State
     [Documentation]    Returns the state of Secure Boot as reported in the Secure Boot Configuration menu
