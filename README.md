@@ -39,6 +39,7 @@ and running tests have been implemented.
 | NovaCustom   | NS70PU               | Dasharo                  |  `novacustom-ns70pu`                   |
 | MSI          | PRO Z690 A WIFI DDR4 | Dasharo                  |  `msi-pro-z690-a-wifi-ddr4`            |
 | MSI          | PRO Z690 A DDR5      | Dasharo                  |  `msi-pro-z690-a-ddr5`                 |
+| Protectli    | V1210                | Dasharo                  |  `WIP`                                 |
 | Protectli    | VP2410               | Dasharo                  |  `protectli-vp2410`                    |
 | Protectli    | VP2420               | Dasharo                  |  `protectli-vp2420`                    |
 | Protectli    | VP4630               | Dasharo                  |  `protectli-vp4630`                    |
