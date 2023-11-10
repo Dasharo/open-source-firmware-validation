@@ -349,22 +349,28 @@ Enter IPXE
     Set Prompt For Terminal    iPXE>
     Read From Terminal Until Prompt
 
+Exit From Current Menu
+    [Documentation]    Exits from current menu, refreshing screen.
+    # ESC itself does not "refresh" the data over serial. Only pressing
+    # other keys (such as arrow keys) makes the change caused by ESC
+    # (moving back one menu up) to be redrawn. Using either UP and then DOWN,
+    # or just LEFT / RIGHT (which does not impact any actual movement) should
+    # be safe to use here.
+    Press Key N Times    1    ${ESC}
+    # Before entering new menu, make sure we get rid of all leftovers
+    Sleep    1s
+    Read From Terminal
+    Press Key N Times    1    ${ARROW_LEFT}
+
 Reenter Menu
     [Documentation]    Returns to the previous menu and enters the same one
     ...    again
     [Arguments]    ${forward}=${FALSE}
     IF    ${forward} == True
         Press Enter
-        # ESC itself does not "refresh" the data over serial. Only pressing
-        # other keys (such as arrow keys) makes the change caused by ESC
-        # (moving back one menu up) to be redrawn. Using either UP and then DOWN,
-        # or just LEFT / RIGHT (which does not impact any actual movement) should
-        # be safe to use here.
-        Press Key N Times    1    ${ESC}
-        Press Key N Times    1    ${ARROW_LEFT}
+        Exit From Current Menu
     ELSE
-        Press Key N Times    1    ${ESC}
-        Press Key N Times    1    ${ARROW_LEFT}
+        Exit From Current Menu
         Press Enter
     END
 
