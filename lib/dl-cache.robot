@@ -23,9 +23,7 @@ Download To Host Cache
     END
     Log    Downloading ${url} ...
     ${wget_rc}=    Run And Return RC    wget -O ${local_path} ${url}
-    IF    ${wget_rc} != 0
-        Fail    Download failed with exit code: ${wget_rc}
-    END
+    IF    ${wget_rc} != 0    Fail    Download failed with exit code: ${wget_rc}
 
 Calculate SHA256 Sum
     [Arguments]    ${file_path}
