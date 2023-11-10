@@ -178,9 +178,9 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE44}=                   ip=192.168.10.198    cpuid=02c00042df7b6fc2    pcb_rev=1.1.0
 ...                         platform=protectli-v1410    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
-# 3mdeb Protectli PT601 ------------------------------------------------------
+# 3mdeb Protectli V1610 ------------------------------------------------------
 &{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387    pcb_rev=1.1.0
-...                         platform=protectli-PT601    board-revision=x    env=dev
+...                         platform=protectli-v1610    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb RPi 3B for Yocto ------------------------------------------------------
 &{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0    pcb_rev=a22082
