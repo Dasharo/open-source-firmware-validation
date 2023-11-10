@@ -1732,26 +1732,6 @@ Remove Entry From List
     END
     RETURN    ${output_list}
 
-Get Secure Boot Configuration Submenu Construction
-    [Documentation]    Keyword allows to get and return Secure Boot menu construction.
-    ${menu}=    Read From Terminal Until    Reset Secure Boot Keys
-    @{menu_lines}=    Split To Lines    ${menu}
-    # TODO: make it a generic keyword, to remove all possible control strings
-    # from menu constructions
-    @{menu_lines}=    Remove Entry From List    ${menu_lines}    .*Move Highlight.*
-    @{menu_lines}=    Remove Entry From List    ${menu_lines}    .*Secure Boot Configuration.*
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!=" "
-            ${line}=    Strip String    ${line}
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    RETURN    ${menu_construction}
-
 Generate 1GB File In Windows
     [Documentation]    Generates 1G file in Windows in .txt format.
     ${out}=    Execute Command In Terminal    fsutil file createnew test_file.txt 1073741824
