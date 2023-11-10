@@ -80,7 +80,32 @@ Return Secure Boot State
     ${sb_state}=    Strip String    ${sb_state}
     RETURN    ${sb_state}
 
-### Kwds below still needs review / rework after SB menu layout changes
+Make Sure That Keys Are Provisioned
+    [Documentation]    Expects to be executed when in Secure Boot configuration menu.
+    [Arguments]    ${sb_menu}
+    ${need_reset}=    Run Keyword And Return Status    Should Not Contain Match    ${sb_menu}    Enable Secure Boot *
+    IF    ${need_reset} == ${TRUE}
+        Enter Advanced Secure Boot Keys Management    ${sb_menu}
+        Reset To Default Secure Boot Keys
+        Exit From Current Menu
+        ${sb_menu}=    Get Secure Boot Menu Construction
+    END
+    RETURN    ${sb_menu}
+
+Enable Secure Boot
+    [Documentation]    Expects to be executed when in Secure Boot configuration menu.
+    [Arguments]    ${sb_menu}
+    ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
+    Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+
+Disable Secure Boot
+    [Documentation]    Expects to be executed when in Secure Boot configuration menu.
+    [Arguments]    ${sb_menu}
+    ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
+    Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
+
+# TODO Kwds below still needs review / rework after SB menu layout changes.
+# Only keywords above this line are fairly usabe and tested in self-tests/secure-boot.robot
 
 Enable Custom Mode And Enroll Certificate
     [Documentation]    This keyword enables the secure boot custom mode
@@ -257,64 +282,3 @@ Check Secure Boot In Windows
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    True
     RETURN    ${sb_status}
-
-Check Gf Attempt Secure Boot Can Be Selected
-    [Documentation]    The Attempt Secure Boot option may be unavailable if
-    ...    Reset Secure Boot Keys was not selected before. This keyword checks
-    ...    if the Attempt Secure Boot can already be selected. If the help text
-    ...    matches this option, it means it can already be selected.
-    [Arguments]    ${sb_menu}
-    ${index}=    Get Index Of Matching Option In Menu    ${sb_menu}    Attempt Secure Boot
-
-    # Go to one option before the target option and clear serial output
-    Press Key N Times    ${index} - 1    ${ARROW_DOWN}
-    Read From Terminal
-    # Go to the target option and check if the help text matches the expected
-    # option
-    Press Key N Times    1    ${ARROW_DOWN}
-    ${out}=    Read From Terminal
-    ${can_be_selected}=    Run Keyword And Return Status
-    ...    Should Contain All    ${out}    Enable/Disable the    Secure Boot feature    after platform reset
-    RETURN    ${can_be_selected}
-
-Go To Secure Boot Menu Entry
-    [Documentation]    This keywords workarounds the fact the the Attempt Secure
-    ...    Boot option might be not active and menu position might be off-by-one
-    ...    with the actual key presses needed.
-    [Arguments]    ${sb_menu}    ${entry}
-    ${attempt_sb_can_be_selected}=    Check If Attempt Secure Boot Can Be Selected    ${sb_menu}
-    ${index}=    Get Index Of Matching Option In Menu    ${sb_menu}    ${entry}
-    IF    not ${attempt_sb_can_be_selected}
-        ${index}=    Evaluate    ${index} - 1
-    END
-    ${sb_menu}=    Reenter Menu And Return Construction
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Select Attempt Secure Boot Option
-    [Documentation]    Selects the Attempt Secure Boot Option
-    ...    in the Secure Boot Configuration Submenu
-    [Arguments]    ${sb_menu}
-
-    ${can_be_selected}=    Check If Attempt Secure Boot Can Be Selected    ${sb_menu}
-    IF    not ${can_be_selected}
-        ${sb_menu}=    Reenter Menu And Return Construction
-        Reset Secure Boot Keys    ${sb_menu}
-    END
-    ${sb_menu}=    Reenter Menu And Return Construction
-    Set Option State    ${sb_menu}    Attempt Secure Boot    ${TRUE}
-    Fail
-
-Clear Attempt Secure Boot Option
-    [Documentation]    Deselects the Attempt Secure Boot Option
-    ...    in the Secure Boot Configuration Submenu
-    ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    ${option_is_cleared}=    Run Keyword And Return Status
-    ...    Should Contain    ${sb_state}    [ ]
-    IF    ${option_is_cleared}
-        Log    Attempt Secure Boot option is already cleared, nothing to do.
-    ELSE
-        ${sb_menu}=    Reenter Menu And Return Construction
-        Go To Secure Boot Menu Entry    Attempt Secure Boot
-        Read From Terminal Until    reset the platform to take effect!
-        Press Key N Times    1    ${ENTER}
-    END
