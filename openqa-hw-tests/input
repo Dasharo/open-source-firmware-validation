@@ -1,0 +1,43 @@
+#!/bin/bash
+
+pikvm_ip=$1
+
+function pikvm_cmd() {
+    sshpass -proot \
+            ssh -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$pikvm_ip" \
+                "$@"
+}
+
+# echo reconnect | pikvm_cmd socat -u stdin /tmp/gadget-control
+pikvm_cmd socat -u stdin /tmp/gadget-control
+exit
+
+tee /tmp/pikvm-input | sshpass -proot ssh -o StrictHostKeyChecking=no "root@$pikvm_ip" ./gadget-control --storage /var/lib/kvmd/msd/Qubes-R4.2.0-rc1-x86_64.iso
+exit
+
+# alternative without using ser2net on RTE and socat on host
+ssh "root@$rte_ip" bash - <<EOF
+speed="115200"
+
+# open the device, opening it only once supposed to make sure stty settings
+# apply
+exec 3<"$device"
+
+# set up device
+stty "\$speed" -echo -icrnl -onlcr -icanon <&3
+
+# read from the device in background
+cat <&3 &
+# capture PID of background process so it is possible to terminate it when done
+cat_pid=\$!
+# always terminate background read process
+trap 'kill "\$cat_pid"' SIGINT SIGTERM SIGKILL EXIT
+
+# read commands from user, send them to device
+while read input; do
+   echo "\$input"
+done >&3
+
+# close the device
+exec 3<&-
+EOF

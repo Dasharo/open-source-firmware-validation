@@ -1,0 +1,90 @@
+#!/bin/bash
+
+rte_ip=$1
+pikvm_ip=$2
+image=$3
+# shellcheck disable=SC2034
+image_size=$4 # unused
+
+if [ ! -f "$image" ]; then
+    echo "error: couldn't find '$image'" 1>&2
+    exit 1
+fi
+
+image_name=$(basename "$image")
+
+function pikvm_cmd() {
+    sshpass -proot \
+            ssh -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$pikvm_ip" \
+                "$@"
+}
+
+function rte_cmd() {
+    sshpass -pmeta-rte \
+            ssh -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$rte_ip" \
+                "$@"
+}
+
+# start gadget-control with the image served as a storage
+echo "Enabling OTG (input, storage)"
+pikvm_cmd "openqa/generalhw on /tmp/gadget-control '$image_name' >/var/log/gadget-control 2>&1 &"
+
+echo "Flashing DUT's ROM..."
+if ! rte_cmd ./flash.sh /data/openqa-image.rom >/dev/null; then
+    echo "Flashing has failed." 1>&2
+    exit 1
+fi
+echo "Flashed DUT's ROM."
+
+pikvm_cmd timeout 0.1s socat -u stdin /tmp/gadget-control
+if [ $? -eq 124 ]; then
+    echo "Input socket seems working." 1>&2
+else
+    echo "error: input socket wasn't setup" 1>&2
+    exit 1
+fi
+
+exit
+# upload using PiKVM API
+
+function api() {
+    local api_url=$1
+    shift
+    curl --silent -X POST -k -u admin:admin "$@" "https://$pikvm_ip/api/$api_url"
+}
+
+function can_fail() {
+    local reply
+    reply=$("$@")
+    if [ "$(echo "$reply" | jq .ok )" = false ]; then
+        local error
+        local error_msg
+        error="$(echo "$reply" | jq -r .result.error)"
+        error_msg="$(echo "$reply" | jq -r .result.error_msg)"
+        echo "Allowed error on '$*': $error: $error_msg"
+    fi
+}
+
+function cant_fail() {
+    local reply
+    reply=$("$@")
+    if [ "$(echo "$reply" | jq .ok )" = false ]; then
+        local error
+        local error_msg
+        error="$(echo "$reply" | jq -r .result.error)"
+        error_msg="$(echo "$reply" | jq -r .result.error_msg)"
+        echo "Fatal error on '$*': $error: $error_msg"
+        exit 1
+    fi
+}
+
+# disconnect MSD before uploading a new image
+can_fail api "msd/set_connected?connected=0"
+# remove image first if it already exists
+can_fail api "msd/remove?image=$image_name"
+# upload it
+cant_fail api "msd/write?image=$image_name" -T "$image"
+# select the image
+cant_fail api "msd/set_params?image=$image_name&cdrom=0"
+# connect it
+cant_fail api "msd/set_connected?connected=1"

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rte_ip=$1
+port=$2
+
+exec socat -U stdio "TCP:$rte_ip:$port"

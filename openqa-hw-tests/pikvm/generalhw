@@ -1,0 +1,72 @@
+#!/bin/bash
+
+cmd=$1
+
+gc_gadget=/sys/kernel/config/usb_gadget/kbd
+kvmd_gadget=/sys/kernel/config/usb_gadget/kvmd
+
+# Both kvmd and kvmd-otg services are stopped because kvmd-otg uses USB gadgets
+# and kvmd starts ustreamer which uses /dev/video0.
+
+function wait_for_no_gadget() {
+    for i in {1..10}; do
+        if [ ! -d "$gadget" ]; then
+            return 0
+        fi
+        sleep 0.1s
+    done
+    return 1
+}
+
+function stop_process() {
+    if killall -INT --quiet gadget-control; then
+		# give it a chance to quit on its own
+        sleep 0.1s
+		# we don't know whether it did, so don't fail if not
+        killall --quiet gadget-control
+
+        wait_for_no_gadget kbd
+    fi
+
+    if [ -d "$gc_gadget" ]; then
+        # something went wrong, clean up things manually
+        echo > "$gc_gadget/UDC"
+        find "$gc_gadget" -delete 2>/dev/null
+    fi
+}
+
+function usage() {
+    echo "Usage: $0 on <socket-path> <image-file-basename>"
+    echo "       $0 off"
+    exit 1
+}
+
+if [ "$cmd" = on ]; then
+    socket_path=$2
+    image_basename=$3
+
+	if [ $# -ne 3 ]; then
+		usage
+	fi
+
+    image_path="/var/lib/kvmd/msd/$image_basename"
+    if [ ! -f "$image_path" ]; then
+        echo "Image not found at '$image_path'"
+        exit 1
+    fi
+
+    systemctl stop kvmd kvmd-otg
+    stop_process
+    rm -rf "$socket_path"
+    exec "$(dirname "$0")/gadget-control" --socket "$socket_path" --storage "$image_path"
+elif [ "$cmd" = off ]; then
+    stop_process
+
+    # try to clean up kvmd-otg stuff manually so it starts without issues
+    rm -rf /run/kvmd/otg/
+    find "$kvmd_gadget" -delete 2>/dev/null
+
+    systemctl start kvmd-otg kvmd
+else
+	usage
+fi

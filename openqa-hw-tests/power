@@ -1,0 +1,82 @@
+#!/bin/bash
+
+rte_ip=$1
+pikvm_ip=$2
+action=$3
+
+function pikvm_cmd() {
+    sshpass -proot \
+            ssh -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$pikvm_ip" \
+                "$@"
+}
+
+function rte_cmd() {
+    sshpass -pmeta-rte \
+            ssh -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$rte_ip" \
+                "$@"
+}
+
+function setup_video() {
+    if pikvm_cmd v4l2-ctl --get-dv-timings | grep -q 'Active width: 0'; then
+        echo "Setting EDID"
+        pikvm_cmd v4l2-ctl --set-edid 'file=$HOME/openqa/edid.1024x768'
+
+        echo "Setting DV timings"
+        pikvm_cmd v4l2-ctl --set-dv-bt-timings cvt,width=1024,height=768,fps=60,clear,reduced-blanking=1
+    fi
+}
+
+function get_dut_state() {
+    # ffmpeg hangs when DUT goes off and keeps the device handle open
+    pikvm_cmd killall --quiet ffmpeg
+
+    setup_video 1>&2
+
+    pikvm_cmd timeout 0.1s dd if=/dev/video0 of=/dev/null bs=1 count=5 2>/dev/null
+    local exit_code=$?
+
+    if [ "$exit_code" -eq 124 ]; then
+        # timeout because no reading happens when there is no signal
+        echo DUT is off 1>&2
+        echo off
+    elif [ "$exit_code" -eq 0 ]; then
+        # have video signal
+        echo DUT is on 1>&2
+        echo on
+    elif pikvm_cmd ps aux | grep -q /usr/bin/ustreamer; then
+        echo "Video device of '$pikvm_ip' seems to be in use by PiKVM.  Stopping kvmd!" 1>&2
+        pikvm_cmd systemctl stop kvmd 1>&2
+        echo unknown
+    else
+        # could be still in use by our ffmpeg instance
+        echo unknown
+    fi
+}
+
+# determine state of the DUT by checking video input on PiKVM side
+
+state=$(get_dut_state)
+if [ "$action" = "p$state" ]; then
+    # nothing to do
+    echo Skipping rte_ctrl "$action"
+    exit 0
+fi
+
+# switch state (both "pon" and "poff" just toggle it, hence the checks above)
+rte_cmd rte_ctrl "$action" >/dev/null 2>&1
+
+if [ "$action" = poff ]; then
+    pikvm_cmd openqa/generalhw off
+fi
+
+# give DUT some time to process power request
+for i in {1..10}; do
+    sleep 1
+    if [ "p$(get_dut_state)" = "$action" ]; then
+        echo "Switched DUT's state from '$state'."
+        exit 0
+    fi
+done
+
+echo "fatal error: DUT remained in '$state' state!" 1>&2
+exit 1
