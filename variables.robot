@@ -174,9 +174,9 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE43}=                   ip=192.168.10.55    cpuid=02c0004278eb1b72    pcb_rev=1.1.0
 ...                         platform=protectli-v1210    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
-# 3mdeb Protectli PT201 ------------------------------------------------------
+# 3mdeb Protectli V1410 ------------------------------------------------------
 &{RTE44}=                   ip=192.168.10.198    cpuid=02c00042df7b6fc2    pcb_rev=1.1.0
-...                         platform=protectli-PT401    board-revision=x    env=dev
+...                         platform=protectli-v1410    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb Protectli PT601 ------------------------------------------------------
 &{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387    pcb_rev=1.1.0
