@@ -1845,36 +1845,6 @@ Boot Operating System
     ${system_index}=    Get Index From List    ${menu_construction}    ${operating_system}
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
 
-Boot System Or From Connected Disk
-    [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
-    ...    to boot from connected disk set up in config
-    [Arguments]    ${system_name}
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Enter Boot Menu Tianocore
-    ${menu_construction}=    Get Boot Menu Construction
-    ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
-    IF    not ${is_system_present}
-        ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
-        ${ssd_list_length}=    Get Length    ${ssd_list}
-        IF    ${ssd_list_length} == 0
-            ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
-            ${hdd_list_length}=    Get Length    ${hdd_list}
-            IF    ${hdd_list_length} == 0
-                FAIL    "System was not found and there are no disk connected"
-            END
-            ${disk_name}=    Set Variable    ${hdd_list[0]}
-        ELSE
-            ${disk_name}=    Set Variable    ${ssd_list[0]}
-        END
-        ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
-        IF    ${system_index} == -1
-            Fail    Disk: ${disk_name} not found in Boot Menu
-        END
-    ELSE
-        ${system_index}=    Get Index From List    ${menu_construction}    ${system_name}
-    END
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-
 Remove Entry From List
     [Arguments]    ${input_list}    ${regexp}
     @{output_list}=    Create List

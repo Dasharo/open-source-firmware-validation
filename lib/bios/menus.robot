@@ -133,6 +133,7 @@ Enter Submenu From Snapshot
     ...    Setup Menu Tianocore
     [Arguments]    ${menu}    ${option}
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
+    Should Not Be Equal As Integers    ${index}    -1    msg=Option ${option} not found in menu
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Enter Submenu From Snapshot And Return Construction
@@ -447,3 +448,39 @@ Save Changes And Reset
     Save Changes
     Press Key N Times    ${nesting_level}    ${ESC}
     Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
+
+Boot System Or From Connected Disk
+    [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
+    ...    to boot from connected disk set up in config
+    [Arguments]    ${system_name}
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+    ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
+    # When ESP scanning feature is there, boot entries are named differently than
+    # they used to
+    IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
+        IF    "${system_name}" == "ubuntu"
+            ${system_name}=    Set Variable    Ubuntu
+        END
+    END
+    ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
+    IF    not ${is_system_present}
+        ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
+        ${ssd_list_length}=    Get Length    ${ssd_list}
+        IF    ${ssd_list_length} == 0
+            ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
+            ${hdd_list_length}=    Get Length    ${hdd_list}
+            IF    ${hdd_list_length} == 0
+                FAIL    "System was not found and there are no disk connected"
+            END
+            ${disk_name}=    Set Variable    ${hdd_list[0]}
+        ELSE
+            ${disk_name}=    Set Variable    ${ssd_list[0]}
+        END
+        ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
+        IF    ${system_index} == -1
+            Fail    Disk: ${disk_name} not found in Boot Menu
+        END
+    ELSE
+        ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
+    END
+    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
