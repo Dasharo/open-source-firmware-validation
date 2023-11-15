@@ -3,6 +3,7 @@ Library         Collections
 Library         OperatingSystem
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/secure-boot-lib.robot
+Resource        lib/netbootxyz-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
 Resource        lib/dts-lib.robot
 Resource        lib/terminal.robot
