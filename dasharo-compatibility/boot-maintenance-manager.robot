@@ -65,3 +65,13 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     ...    Boot Maintenance Manager
     ${timeout_value}=    Get Option State    ${boot_mgr_menu}    Auto Boot Time-out
     Should Be Equal As Integers    ${timeout_value}    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}
+
+BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
+    [Documentation]    Check whether Auto Boot Time-out accepts only numeric
+    ...    values.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    Check Non-numeric Values    ${boot_mgr_menu}    Auto Boot Time-out
