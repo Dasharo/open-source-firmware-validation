@@ -317,7 +317,6 @@ Check Non-numeric Values
     ELSE
         Fail    Wrong option type (not accept numeric value)
     END
-    [Teardown]    Log    Fail when check `${char}`    ERROR
 
 Get IPXE Boot Menu Construction
     [Documentation]    Keyword allows to get and return iPXE menu construction.
