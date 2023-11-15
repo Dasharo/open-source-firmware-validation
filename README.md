@@ -93,48 +93,55 @@ source venv/bin/activate
 
 When running tests on Dasharo platforms use the following commands:
 
-* For running single test case:
+* For running a single test case:
 
 ```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:$CONFIG -v fw_file:$FW_FILE \
+robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
 -t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
 ```
 
-* For running single test suite:
+* For running a single test suite:
 
 ```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:$CONFIG -v fw_file:$FW_FILE \
+robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
 $TEST_MODULE/$TEST_SUITE
 ```
 
-* For running single test module:
+* For running a single test module:
 
 ```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:$CONFIG -v fw_file:$FW_FILE \
-./$TEST_MODULE
+robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
+$TEST_MODULE
 ```
 
 Parameters should be defined as follows:
 
-* $DEVICE_IP - testing manager IP address; for platforms mounted on the stands
-  in the lab it will be RTE address; for DUTs, on which we perform tests by
-  using SSH connection it will be their own IP address.
-* $FW_FILE - path to and name of the coreboot firmware file,
-* $CONFIG - tested platform config; the value given for this parameter should be
-  derived from the configuration name of the corresponding platform (folder
-  platform_configs),
+* $DEVICE_IP - IP address of the DUT. Required only when there is no serial
+  input enabled for the device, or tests are executed over SSH. Currently, this
+  is the case for NovaCustom and MSI devices.
+* $RTE_IP - IP address of the RTE. Required only if RTE is used on a given test
+  stand.
+* $FW_FILE - path to and name of the coreboot firmware file. This is usually
+  not required when running single tests or suites, where flashing is not
+  necessary.
+* $CONFIG - platform config - see the `platform-configs` directory for
+  available configurations.
 * $TEST_MODULE - name of the test module (i.e. `dasharo-compatibility`),
-* $TEST_SUITE - name of the test suite (i.e. `coreboot-base-port`),
-* $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001`).
-  Note that after test case ID asterisk should be added. This is necessary due
-  to the construction of the flag `-t` (or `--test`)
+* $TEST_SUITE - name of the test suite (i.e. `uefi-shell.robot`),
+* $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001*`).
+  Note that after test case ID asterisk should be added, if you do not wish
+  to provide the full test name here.
 
 You can also run tests with `-v snipeit:no` in order to skip checking whether
-the platform is available on snipeit.
+the platform is available on snipeit. By default, this is enabled.
 
 When running tests on Talos2 platform use the following commands:
 
-* For running single test case:
+**WARNING** The support state of this platform in the `main` branch may vary.
+We should have a single documentation for all platforms. This effort is tracked in
+[this issue](https://github.com/Dasharo/open-source-firmware-validation/issues/112).
+
+* For running a single test case:
 
 ```bash
 robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
