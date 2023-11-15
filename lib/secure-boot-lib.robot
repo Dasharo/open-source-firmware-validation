@@ -104,6 +104,26 @@ Disable Secure Boot
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
     Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
 
+Check Secure Boot In Linux
+    [Documentation]    Keyword checks Secure Boot state in Linux.
+    ...    Returns True when Secure Boot is enabled
+    ...    and False when disabled.
+    ${out}=    Execute Linux Command    dmesg | grep secureboot
+    Should Contain Any    ${out}    disabled    enabled
+    ${sb_status}=    Run Keyword And Return Status
+    ...    Should Contain    ${out}    enabled
+    RETURN    ${sb_status}
+
+Check Secure Boot In Windows
+    [Documentation]    Keyword checks Secure Boot state in Windows.
+    ...    Returns True when Secure Boot is enabled
+    ...    and False when disabled.
+    ${out}=    Execute Command In Terminal    Confirm-SecureBootUEFI
+    Should Contain Any    ${out}    True    False
+    ${sb_status}=    Run Keyword And Return Status
+    ...    Should Contain    ${out}    True
+    RETURN    ${sb_status}
+
 # TODO Kwds below still needs review / rework after SB menu layout changes.
 # Only keywords above this line are fairly usabe and tested in self-tests/secure-boot.robot
 
@@ -254,31 +274,11 @@ Reset Secure Boot Keys
 Upload Required Images
     [Documentation]    Uploads the required images onto the PiKVM
     ${pikvm_ip}=    Get Variable Value    ${PIKVM_IP}
-    IF    ${pikvm_ip}
+    IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
         Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/k9EcYGDTWQAwtGs/download/good_keys.img
         Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/LaZQKGizg8gQRMZ/download/not_signed.img
         Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/DpmnoBK8HBJDTY4/download/bad_keys.img
         Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/TnEWbqGZ83i6bHo/download/bad_format.img
     ELSE
-        Log    No PIKV_IP defined. Images for Secure Boot tests must be shipped via other backend.
+        Log    Images for Secure Boot tests must be shipped via other backend. Right now, only PiKVM is supported.
     END
-
-Check Secure Boot In Linux
-    [Documentation]    Keyword checks Secure Boot state in Linux.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    ${out}=    Execute Linux Command    dmesg | grep secureboot
-    Should Contain Any    ${out}    disabled    enabled
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    enabled
-    RETURN    ${sb_status}
-
-Check Secure Boot In Windows
-    [Documentation]    Keyword checks Secure Boot state in Windows.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    ${out}=    Execute Command In Terminal    Confirm-SecureBootUEFI
-    Should Contain Any    ${out}    True    False
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    True
-    RETURN    ${sb_status}
