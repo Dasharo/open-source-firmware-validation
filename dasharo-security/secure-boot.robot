@@ -47,15 +47,6 @@ SBO001.001 Check Secure Boot default state (firmware)
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
     Should Contain    ${sb_state}[0]    Disabled
 
-    # Below is the full test code before the first fixes
-
-    # Power On
-    # Enter Setup Menu Tianocore
-    # Enter Device Manager Submenu
-    # Enter Secure Boot Configuration Submenu
-    # ${sb_state}=    Get Option Value    Attempt Secure Boot    checkpoint=Save
-    # Should Contain    ${sb_state}    [ ]
-
 SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     [Documentation]    This test verifies that Secure Boot can be enabled from
     ...    boot menu and, after the DUT reset, it is seen from
@@ -64,32 +55,26 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.001 not supported
 
+    # 1. Make sure that SB is enabled
     Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    Enter Submenu From Snapshot    ${device_mgr_menu}    Secure Boot Configuration
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    Enter Custom Secure Boot Options    ${sb_menu}
-    Sleep    1s
-    ${out}=    Read From Terminal
-    Log    ${out}
-
-    Fail
-
-    Enable Secure Boot
-
+    # 2. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${sb_status}=    Check Secure Boot In Linux
     Should Be True    ${sb_status}
+    Execute Reboot Command
 
-    Power On
-    Disable Secure Boot
+    # 3. Make sure that SB is disabled
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Disable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
 
+    # 4. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -104,123 +89,138 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.002 not supported
 
+    # 1. Make sure that SB is enabled
     Power On
-    Enable Secure Boot
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
 
+    # 2. Check SB state in OS
+    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${sb_status}=    Check Secure Boot In Windows
     Should Be True    ${sb_status}
-    Power On
-    Disable Secure Boot
+    Execute Reboot Command
 
+    # 3. Make sure that SB is disabled
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Disable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
+
+    # 4. Check SB state in OS
+    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
+    Switch To Root User
     ${sb_status}=    Check Secure Boot In Windows
     Should Not Be True    ${sb_status}
 
-SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
-    [Documentation]    This test verifies that Secure Boot allows booting
-    ...    a signed file with a correct key.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO003.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
-    Mount Image    ${PIKVM_IP}    good_keys.img
-    Power On
-    Enable Secure Boot
-    Enable Custom Mode And Enroll Certificate    DB.cer
-    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
-
-SBO004.001 Attempt to boot file without the key from Shell (firmware)
-    [Documentation]    This test verifies that Secure Boot blocks booting a file
-    ...    without a key.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Mount Image    ${PIKVM_IP}    not_signed.img
-    Power On
-    Enter UEFI Shell And Boot .EFI File    hello.efi    Access Denied
-
-SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
-    [Documentation]    This test verifies that Secure Boot disallows booting
-    ...    a signed file with a wrong-signed key.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO005.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
-    Mount Image    ${PIKVM_IP}    bad_keys.img
-    Power On
-    Enter UEFI Shell And Boot .EFI File    hello-bad-keys.efi    Access Denied
-
-SBO006.001 Reset Secure Boot Keys option availability (firmware)
-    [Documentation]    This test verifies that the Reset Secure Boot Keys
-    ...    option is available
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO006.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-
-    # The code below still needs fixes
-
-    Read From Terminal Until    Reset Secure Boot Keys
-
-    # Below is the full test code before the first fixes
-
-    # Power On
-    # Enter Setup Menu Tianocore
-    # Enter Device Manager Submenu
-    # Enter Secure Boot Configuration Submenu
-    # Read From Terminal Until    Reset Secure Boot Keys
-
-SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
-    [Documentation]    This test verifies that restoring the keys to default
-    ...    removes any custom added certificates.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO007.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
-    Mount Image    ${PIKVM_IP}    good_keys.img
-    Power On
-    Enable Custom Mode And Enroll Certificate    DB.cer
-    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-
-    # The code below still needs fixes
-
-    Reset Secure Boot Keys
-    Save Changes And Reset    2    5
-    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Access Denied
-
-    # Below is the full code before the first fixes
-
-    # Mount Image    ${PIKVM_IP}    good_keys.img
-    # Power On
-    # Enable Custom Mode And Enroll Certificate    DB.cer
-    # Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
-    # Power On
-    # Enter Setup Menu Tianocore
-    # Enter Device Manager Submenu
-    # Enter Secure Boot Configuration Submenu
-    # Reset Secure Boot Keys
-    # Save Changes And Reset    2    5
-    # Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Access Denied
-
-SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
-    [Documentation]    This test verifies that it is impossible to load
-    ...    a certificate in the wrong file format.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO008.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
-    Mount Image    ${PIKVM_IP}    bad_format.img
-    Power On
-    Enable Custom Mode And Enroll Certificate    DB.txt    BAD
+# TODO: These must be imrpoved (never worked reliably), and adjusted to both
+# keywords and menu layout changes.
+#
+# SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
+#    [Documentation]    This test verifies that Secure Boot allows booting
+#    ...    a signed file with a correct key.
+#    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO003.001 not supported
+#    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
+#    Mount Image    ${PIKVM_IP}    good_keys.img
+#    Power On
+#    Enable Secure Boot
+#    Enable Custom Mode And Enroll Certificate    DB.cer
+#    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
+#
+# SBO004.001 Attempt to boot file without the key from Shell (firmware)
+#    [Documentation]    This test verifies that Secure Boot blocks booting a file
+#    ...    without a key.
+#    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
+#    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+#    Mount Image    ${PIKVM_IP}    not_signed.img
+#    Power On
+#    Enter UEFI Shell And Boot .EFI File    hello.efi    Access Denied
+#
+# SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
+#    [Documentation]    This test verifies that Secure Boot disallows booting
+#    ...    a signed file with a wrong-signed key.
+#    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO005.001 not supported
+#    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
+#    Mount Image    ${PIKVM_IP}    bad_keys.img
+#    Power On
+#    Enter UEFI Shell And Boot .EFI File    hello-bad-keys.efi    Access Denied
+#
+# SBO006.001 Reset Secure Boot Keys option availability (firmware)
+#    [Documentation]    This test verifies that the Reset Secure Boot Keys
+#    ...    option is available
+#    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO006.001 not supported
+#    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
+#    Power On
+#    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+#    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+#    ...    ${setup_menu}
+#    ...    Device Manager
+#    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+#    ...    ${device_mgr_menu}
+#    ...    Secure Boot Configuration
+#
+#    # The code below still needs fixes
+#
+#    Read From Terminal Until    Reset Secure Boot Keys
+#
+#    # Below is the full test code before the first fixes
+#
+#    # Power On
+#    # Enter Setup Menu Tianocore
+#    # Enter Device Manager Submenu
+#    # Enter Secure Boot Configuration Submenu
+#    # Read From Terminal Until    Reset Secure Boot Keys
+#
+# SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
+#    [Documentation]    This test verifies that restoring the keys to default
+#    ...    removes any custom added certificates.
+#    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO007.001 not supported
+#    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
+#    Mount Image    ${PIKVM_IP}    good_keys.img
+#    Power On
+#    Enable Custom Mode And Enroll Certificate    DB.cer
+#    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
+#    Power On
+#    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+#    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+#    ...    ${setup_menu}
+#    ...    Device Manager
+#    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
+#    ...    ${device_mgr_menu}
+#    ...    Secure Boot Configuration
+#
+#    # The code below still needs fixes
+#
+#    Reset Secure Boot Keys
+#    Save Changes And Reset    2    5
+#    Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Access Denied
+#
+#    # Below is the full code before the first fixes
+#
+#    # Mount Image    ${PIKVM_IP}    good_keys.img
+#    # Power On
+#    # Enable Custom Mode And Enroll Certificate    DB.cer
+#    # Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Hello, world!
+#    # Power On
+#    # Enter Setup Menu Tianocore
+#    # Enter Device Manager Submenu
+#    # Enter Secure Boot Configuration Submenu
+#    # Reset Secure Boot Keys
+#    # Save Changes And Reset    2    5
+#    # Enter UEFI Shell And Boot .EFI File    hello-valid-keys.efi    Access Denied
+#
+# SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
+#    [Documentation]    This test verifies that it is impossible to load
+#    ...    a certificate in the wrong file format.
+#    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO008.001 not supported
+#    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
+#    Mount Image    ${PIKVM_IP}    bad_format.img
+#    Power On
+#    Enable Custom Mode And Enroll Certificate    DB.txt    BAD
