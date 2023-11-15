@@ -473,3 +473,21 @@ Save Changes And Reset
     Save Changes
     Press Key N Times    ${nesting_level}    ${ESC}
     Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
+
+Make Sure That Network Boot Is Enabled
+    [Documentation]    This keywords checks that "Enable network boot" in
+    ...    "Networking Options" is enabled when present, so the network
+    ...    boot tests can be executed.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${dasharo_menu}    Networking Options
+    IF    ${index} != -1
+        ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+        ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
+        IF    ${index} != -1
+            Set Option State    ${network_menu}    Enable network boot    ${TRUE}
+            Save Changes And Reset    2    4
+            Sleep    10s
+        END
+    END

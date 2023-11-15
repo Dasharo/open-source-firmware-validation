@@ -48,13 +48,11 @@ Parse netboot.xyz Menu Snapshot Into Construction
     ...    Signature Checks
     RETURN    ${construction}
 
-Boot netboot.xyz using iPXE
-    [Documentation]    This keyword boots into netboot.xyz using iPXE
-    Power On
+Enter Netboot.xyz Menu
+    [Documentation]    This keyword enters netboot.xyz menu after the platform was
+    ...    powered on.
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
-    ${out}=    Read From Terminal Until    netboot.xyz [ enabled: true ]
-    Return    ${out}
 

@@ -4,6 +4,7 @@ Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
+Resource        lib/netbootxyz-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
 Resource        lib/terminal.robot
 Resource        lib/self-tests.robot
