@@ -145,6 +145,7 @@ ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
+${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${FALSE}

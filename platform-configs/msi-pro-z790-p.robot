@@ -153,6 +153,7 @@ ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
+${ESP_SCANNING_SUPPORT}=                            ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

@@ -32,6 +32,7 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     [Documentation]    This test aims to verify that any properly added .efi
     ...    files will have boot menu entries created for them.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP001.001 not supported
+    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP001.001 not supported
 
     Power On
     Prepare EFI Partition With System Files
@@ -43,6 +44,7 @@ ESP002.001 ESP Scan after deleting additional .efi files
     [Documentation]    This test aims to verify that none of the systems linger
     ...    on in the boot menu after we've deleted their files from /EFI/.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP002.001 not supported
+    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP002.001 not supported
 
     Power On
     Clear Out EFI Partition
@@ -55,6 +57,7 @@ ESP003.001 ESP Scan ignores OSes on removable media
     ...    partitions of removable media are ignored by the scan and aren't
     ...    listed in boot menu, except for DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP003.001 not supported
+    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP003.001 not supported
 
     Power On
     Download ISO And Mount As USB    img_name=${DL_CACHE_DIR}/CorePlus-current.iso    img_url=${TINYCORE_URL}
@@ -68,6 +71,7 @@ ESP004.001 ESP Scan does not create duplicate entries
     ...    create duplicate entries, for example, if both shimx64 and grubx64
     ...    are present for a single OS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
+    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP004.001 not supported
 
     Power On
     Prepare EFI Partition With System Files
@@ -80,6 +84,7 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    Dasharo Tools Suite boot media and creates a corresponding boot
     ...    menu entry.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP005.001 not supported
+    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP005.001 not supported
 
     Power On
     Download ISO And Mount As USB
