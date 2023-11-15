@@ -154,7 +154,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb Protectli vp4670_2 ---------------------------------------------------
-&{RTE47}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95    pcb_rev=1.1.0
+&{RTE49}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95    pcb_rev=1.1.0
 ...                         platform=protectli-vp4670    sonoff_ip=192.168.10.144
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
@@ -164,7 +164,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb Protectli vp4650_2 ---------------------------------------------------
-&{RTE48}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb    pcb_rev=1.1.0
+&{RTE50}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb    pcb_rev=1.1.0
 ...                         platform=protectli-vp4650    board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb Protectli vp2420 -----------------------------------------------------
@@ -209,7 +209,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}    &{RTE47}    &{RTE48}
+...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -402,8 +402,10 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG36}=                &{RTE44}
 @{CONFIG37}=                &{RTE45}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
-@{CONFIG39}=                &{RTE47}    &{USB11}    &{SSD10}
-@{CONFIG40}=                &{RTE48}    &{USB11}    &{SSD08}
+@{CONFIG39}=                &{RTE47}
+@{CONFIG40}=                &{RTE48}
+@{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD10}
+@{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -414,4 +416,5 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG26}    @{CONFIG27}    @{CONFIG28}    @{CONFIG29}
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
-...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}
+...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
+...                         @{CONFIG42}
