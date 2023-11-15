@@ -69,6 +69,18 @@ TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu 22.04)
     Should Contain    ${out3}    23: 0x${sha1_0s}
     Should Contain    ${out3}    23: 0x${sha256_0s}
 
+TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu 22.04)
+    [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
+    ...    functions are working properly when trying to modify protected PCRs.
+    ${sha1}=    Generate Random String    40    [NUMBERS]abcdef
+    ${sha256}=    Generate Random String    64    [NUMBERS]abcdef
+    ${out1}=    Execute Linux Command    tpm2_pcrreset 18
+    ${out2}=    Execute Linux Command    tpm2_pcrextend 18:sha1=${sha1},sha256=${sha256}
+    ${out3}=    Execute Linux Command    tpm2_pcrread
+    Should Contain    ${out1}    tpm:warn(2.0): bad locality
+    Should Contain    ${out2}    tpm:warn(2.0): bad locality
+    Should Contain    ${out3}    18: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+
 TPMCMD004.001 PCREVENT Function (Ubuntu 22.04)
     [Documentation]    This test aims to verify that PCREVENT function is
     ...    working properly.
