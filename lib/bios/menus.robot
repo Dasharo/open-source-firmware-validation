@@ -298,6 +298,27 @@ Set Option State
         Log    Nothing to do. Desired state is already set.
     END
 
+Check Non-numeric Values
+    [Documentation]    Check whether accepts only numeric values.
+    [Arguments]    ${menu}    ${option}
+    ${non_numeric_characters}=    Set Variable
+    ...    abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()`~<>,./?;:'\|""[]{}=+-_
+    ${current_state}=    Get Option State    ${menu}    ${option}
+    ${type}=    Get Option Type    ${current_state}
+    Enter Submenu From Snapshot    ${menu}    ${option}
+    IF    '${type}' == 'numeric'
+        @{characters}=    Split String To Characters    ${non_numeric_characters}
+        FOR    ${char}    IN    @{characters}
+            Log    ${char}
+            Write Bare Into Terminal    ${char}
+            Set DUT Response Timeout    3
+            Read From Terminal Until    !!
+        END
+    ELSE
+        Fail    Wrong option type (not accept numeric value)
+    END
+    [Teardown]    Log    Fail when check `${char}`    ERROR
+
 Get IPXE Boot Menu Construction
     [Documentation]    Keyword allows to get and return iPXE menu construction.
     [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
