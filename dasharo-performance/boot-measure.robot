@@ -24,14 +24,17 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
+*** Variables ***
+${ITERATIONS}=      5
+
+
 *** Test Cases ***
-CBMEM001.001 Serial boot measure: coreboot booting time after coldboot
+CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
     Skip If    not ${SERIAL_BOOT_MEASURE}    CBMEM001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.001 not supported
-    Set Suite Variable    ${ITERATIONS}    5
     ${average}=    Set Variable    0
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${ITERATIONS}
@@ -39,7 +42,6 @@ CBMEM001.001 Serial boot measure: coreboot booting time after coldboot
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        Get Cbmem From Cloud
         ${timestamps}=    Get Boot Timestamps
         ${length}=    Get Length    ${timestamps}
         Log Boot Timestamps    ${timestamps}    ${length}
@@ -51,7 +53,7 @@ CBMEM001.001 Serial boot measure: coreboot booting time after coldboot
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     Log To Console    \nCoreboot average booting time: ${average} s\n
 
-CBMEM002.001 Serial boot measure: coreboot booting time after warmboot
+CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
@@ -64,7 +66,6 @@ CBMEM002.001 Serial boot measure: coreboot booting time after warmboot
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        Get Cbmem From Cloud
         ${timestamps}=    Get Boot Timestamps
         ${length}=    Get Length    ${timestamps}
         Log Boot Timestamps    ${timestamps}    ${length}
@@ -76,7 +77,7 @@ CBMEM002.001 Serial boot measure: coreboot booting time after warmboot
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     Log To Console    \nCoreboot average booting time: ${average} s\n
 
-CBMEM003.001 Serial boot measure: coreboot booting time after system reboot
+CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
@@ -86,10 +87,9 @@ CBMEM003.001 Serial boot measure: coreboot booting time after system reboot
     Power On
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${ITERATIONS}
-        Boot Operating System    ubuntu
+        Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        Get Cbmem From Cloud
         ${timestamps}=    Get Boot Timestamps
         ${length}=    Get Length    ${timestamps}
         Log Boot Timestamps    ${timestamps}    ${length}
@@ -97,7 +97,7 @@ CBMEM003.001 Serial boot measure: coreboot booting time after system reboot
         ${duration_formatted}=    Evaluate    ${duration}/1000000
         Log To Console    (${index}) Coreboot booting time: ${duration_formatted} s (${duration} ns)
         ${average}=    Evaluate    ${average}+${duration_formatted}
-        Telnet.Write Bare    reboot\n
+        Write Into Terminal    reboot
     END
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     Log To Console    \nCoreboot average booting time: ${average} s\n
