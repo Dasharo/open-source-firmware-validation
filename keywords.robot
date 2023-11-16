@@ -554,18 +554,9 @@ Get All USB
 Get Boot Timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
     # fix for LT1000 and protectli platforms (output without tabs)
-    ${hostname_ip}=    Wait Until Keyword Succeeds    1 min    5 sec
-    ...    Get Hostname Ip
-    ${debian_ssh_index}=    SSHLibrary.Open Connection    ${hostname_ip}    prompt=~#
-    SSHLibrary.Switch Connection    ${debian_ssh_index}
-    SSHLibrary.Login    root    debian
-    ${timestamps}=    SSHLibrary.Execute Command    cbmem -T
-    SSHLibrary.Close Connection
-    # switch to RTE ssh connection
-    SSHLibrary.Switch Connection    ${1}
-    # FIXME: missing tabs in the first half of below output:
-    # ${timestamps}=    Telnet.Execute Command    cbmem -T
-    ${timestamps}=    Split String    ${timestamps}    \n
+    Get Cbmem From Cloud
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
+    ${timestamps}=    Split String    ${out_cbmem}    \n
     ${timestamps}=    Get Slice From List    ${timestamps}    0    -1
     RETURN    ${timestamps}
 
@@ -1919,58 +1910,6 @@ Get Intel ME Mode State
     ${menu_me}=    Fetch From Right    ${menu_me}    <
     ${actual_state}=    Fetch From Left    ${menu_me}    >
     RETURN    ${actual_state}
-
-Setup Intel ME Mode
-    [Documentation]    Sets the state of Intel ME mode based on the current
-    ...    state.
-    [Arguments]    ${actual_state}    ${tested_state}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-        IF    '${actual_state}' == 'Enabled'
-            IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    2    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (Soft)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (HAP)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    2    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            END
-        END
-        Single Key PiKVM    F10
-        Single Key PiKVM    KeyY
-    ELSE
-        Write Bare Into Terminal    ${ENTER}
-        IF    '${actual_state}' == 'Enabled'
-            IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    2    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (Soft)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (HAP)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    2    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            END
-        END
-        Write Bare Into Terminal    ${F10}
-        Write Bare Into Terminal    ${Y}
-    END
 
 Calculate Smoothing
     [Documentation]    Compares the actual and expected value of the fan speed,
