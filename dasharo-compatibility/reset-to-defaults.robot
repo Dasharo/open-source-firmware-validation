@@ -272,3 +272,73 @@ RTD014.001 F9 resets Memory SPD Profile to JEDEC
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
     ${memory_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
     Should Be Equal    ${memory_profile}    JEDEC (safe
+
+RTD015.001 F9 reset is effective across DSF
+    [Documentation]    Check whether pressing F9 in one menu resets changes
+    ...    made in another menu within Dasharo System Features
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
+    Skip If    not ${MEMORY_PROFILE_SUPPORT}
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    Set Option State    ${memory_menu}    Enable network boot    ${TRUE}
+    Press Key N Times And Enter    2    ${ESC}
+    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Reset To Defaults Tianocore
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
+    Should Not Be True    ${network_boot_state}
+
+RTD016.001 F9 reset is globally effective
+    [Documentation]    Check whether pressing F9 in a standard menu resets
+    ...    changes made in a DSF menu.
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
+    Skip If    not ${MEMORY_PROFILE_SUPPORT}
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    Set Option State    ${memory_menu}    Enable network boot    ${TRUE}
+    Press Key N Times    2    ${ESC}
+    Press Key N Times And Enter    1    ${ARROW_UP}
+    Reset To Defaults Tianocore
+    Save Changes And Reset    1    5
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
+    Should Not Be True    ${network_boot_state}
+
+RTD016.002 F9 reset is globally effective
+    [Documentation]    Check whether pressing F9 in a DSF menu resets
+    ...    changes made in a standard menu.
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
+    Skip If    not ${MEMORY_PROFILE_SUPPORT}
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${bmm_index}=    Get Index Of Matching Option In Menu    ${setup_menu}    Boot Maintenance Manager
+    ${dsf_index}=    Get Index Of Matching Option In Menu    ${setup_menu}    Dasharo System Features
+    ${dsf_relative_index}=    Evaluate    ${bmm_index} - ${dsf_index}
+    ${bmm_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Boot Maintenance Manager
+    Set Option State    ${bmm_menu}    Auto Boot Time-out    123
+    Press Key N Times    1    ${ESC}
+
+    Press Key N Times And Enter    ${dsf_relative_index}    ${ARROW_UP}
+    ${dasharo_menu}=    Get Submenu Construction
+    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    Reset To Defaults Tianocore
+    Save Changes And Reset    2    4
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${bmm_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Boot Maintenance Manager
+    ${out}=    Get Option State    ${bmm_menu}    Auto Boot Time-out
+    Should Not Be Equal As Integers    ${out}    123
