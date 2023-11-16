@@ -554,18 +554,9 @@ Get All USB
 Get Boot Timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
     # fix for LT1000 and protectli platforms (output without tabs)
-    ${hostname_ip}=    Wait Until Keyword Succeeds    1 min    5 sec
-    ...    Get Hostname Ip
-    ${debian_ssh_index}=    SSHLibrary.Open Connection    ${hostname_ip}    prompt=~#
-    SSHLibrary.Switch Connection    ${debian_ssh_index}
-    SSHLibrary.Login    root    debian
-    ${timestamps}=    SSHLibrary.Execute Command    cbmem -T
-    SSHLibrary.Close Connection
-    # switch to RTE ssh connection
-    SSHLibrary.Switch Connection    ${1}
-    # FIXME: missing tabs in the first half of below output:
-    # ${timestamps}=    Telnet.Execute Command    cbmem -T
-    ${timestamps}=    Split String    ${timestamps}    \n
+    Get Cbmem From Cloud
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
+    ${timestamps}=    Split String    ${out_cbmem}    \n
     ${timestamps}=    Get Slice From List    ${timestamps}    0    -1
     RETURN    ${timestamps}
 
