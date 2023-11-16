@@ -74,4 +74,4 @@ BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
-    Check Non-numeric Values    ${boot_mgr_menu}    Auto Boot Time-out
+    Try To Insert Non-numeric Values Into Numeric Option    ${boot_mgr_menu}    Auto Boot Time-out

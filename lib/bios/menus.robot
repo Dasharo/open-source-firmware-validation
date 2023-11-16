@@ -298,7 +298,7 @@ Set Option State
         Log    Nothing to do. Desired state is already set.
     END
 
-Check Non-numeric Values
+Try To Insert Non-numeric Values Into Numeric Option
     [Documentation]    Check whether accepts only numeric values.
     [Arguments]    ${menu}    ${option}
     ${non_numeric_characters}=    Set Variable
