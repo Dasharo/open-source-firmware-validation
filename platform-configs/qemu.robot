@@ -1,5 +1,6 @@
 *** Settings ***
 Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
+Resource    ../os-config/ubuntu-credentials.robot
 
 
 *** Variables ***
@@ -66,10 +67,10 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP4630:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_UBUNTU_USERNAME}=                          user
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-VP4630:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-VP4630:/home/user#
+${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
+${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
+${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
