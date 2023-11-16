@@ -1,0 +1,2 @@
+  -device hda-duplex,audiodev=hda \
+  -audiodev pa,id=hda,server=unix:/run/user/1000/pulse/native,out.frequency=44100 \
