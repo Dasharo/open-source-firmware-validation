@@ -93,16 +93,20 @@ Write BOOTSPLASH Region Internally
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
+    [Arguments]
+    ...    ${username}=${DEVICE_UBUNTU_USERNAME}
+    ...    ${password}=${DEVICE_UBUNTU_PASSWORD}
+    ...    ${prompt}=${DEVICE_UBUNTU_USER_PROMPT}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Read From Terminal Until    login:
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        Login To Linux Via SSH    ${username}    ${password}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
-        Login To Linux Over Serial Console    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        Login To Linux Over Serial Console    ${username}    ${password}    ${prompt}
     END
 
 Login To Linux Via OBMC
@@ -160,14 +164,14 @@ Login To Linux Over Serial Console
     [Arguments]
     ...    ${username}
     ...    ${password}
-    ...    ${device_ubuntu_user_prompt}=${device_ubuntu_user_prompt}
+    ...    ${prompt}
     ...    ${timeout}=180
     Set DUT Response Timeout    ${timeout} seconds
     Telnet.Read Until    login:
     Telnet.Write    ${username}
     Telnet.Read Until    Password:
     Telnet.Write    ${password}
-    Telnet.Set Prompt    ${device_ubuntu_user_prompt}    prompt_is_regexp=False
+    Telnet.Set Prompt    ${prompt}    prompt_is_regexp=False
     Telnet.Read Until Prompt
 
 Login To Linux Via SSH
@@ -233,10 +237,14 @@ Switch To Root User
     [Documentation]    Switch to the root environment.
     # the "sudo -S" to pass password from stdin does not work correctly with
     # the su command and we need to type in the password
+    [Arguments]
+    ...    ${username}=${DEVICE_UBUNTU_USERNAME}
+    ...    ${password}=${DEVICE_UBUNTU_PASSWORD}
+    ...    ${prompt}=${DEVICE_UBUNTU_USER_PROMPT}
     Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo] password for ${DEVICE_UBUNTU_USERNAME}:
-    Write Into Terminal    ${DEVICE_UBUNTU_PASSWORD}
-    Set Prompt For Terminal    ${DEVICE_UBUNTU_ROOT_PROMPT}
+    Read From Terminal Until    [sudo] password for ${username}:
+    Write Into Terminal    ${password}
+    Set Prompt For Terminal    ${prompt}
     Read From Terminal Until Prompt
 
 Exit From Root User
@@ -1711,7 +1719,7 @@ Coldboot Via RTE Relay
 Reboot Via OS Boot By Petitboot
     [Documentation]    Reboot system with system installed on the DUT while
     ...    already logged into Petitboot.
-    Boot From USB
+    Boot System Or From Connected Disk    ${USB_LIVE}
     Login To Linux
     Execute Linux Command    reboot
     Sleep    60s
@@ -1723,16 +1731,6 @@ Reboot Via Ubuntu By Tianocore
     Enter Submenu From Snapshot    ${boot_menu}    ubuntu
     Login To Linux
     Switch To Root User
-    Write Into Terminal    reboot
-
-Reboot Via Linux On USB
-    [Documentation]    Reboot system with Ubuntu installed on the USB stick.
-    Login To Linux Over Serial Console    ${DEVICE_USB_USERNAME}    ${DEVICE_USB_PASSWORD}    ${DEVICE_USB_PROMPT}
-    Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo] password for ${DEVICE_USB_USERNAME}:
-    Write Into Terminal    ${DEVICE_USB_PASSWORD}
-    Set Prompt For Terminal    ${DEVICE_USB_ROOT_PROMPT}
-    Read From Terminal Until Prompt
     Write Into Terminal    reboot
 
 Refresh Serial Screen In BIOS Editable Settings Menu
