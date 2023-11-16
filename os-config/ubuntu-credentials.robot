@@ -1,5 +1,5 @@
 *** Variables ***
-${UBUNTU_USERNAME}=         ubuntu
+${UBUNTU_USERNAME}=         user
 ${UBUNTU_PASSWORD}=         ubuntu
-${UBUNTU_USER_PROMPT}=      ubuntu@3mdeb:~$
-${UBUNTU_ROOT_PROMPT}=      root@3mdeb:/home/ubuntu#
+${UBUNTU_USER_PROMPT}=      user@user-3mdeb:~$
+${UBUNTU_ROOT_PROMPT}=      root@user-3mdeb:/home/user#
