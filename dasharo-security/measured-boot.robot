@@ -34,7 +34,9 @@ MBO001.001 Measured Boot support (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Get Cbmem From Cloud
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep PCR
-    ${matching_lines}=    Get Lines Matching Regexp    ${out_cbmem}    ^\\?TPM: Digest of .* to PCR \\d+ measured$
+    Detect Or Install Package    tpm2-tools
+    ${out_tpm2_pcrread}=    Execute Command In Terminal    tpm2_pcrread
+    ${matching_lines}=    Get Lines Matching Regexp    ${out_tpm2_pcrread}    .*([0-3]) :.*
     Should Not Be Empty    ${matching_lines}
+    Should Not Contain    ${matching_lines}    0x0000000000000000000000000000000000000000
+    Should Not Contain    ${matching_lines}    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
