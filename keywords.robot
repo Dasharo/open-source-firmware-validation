@@ -1911,58 +1911,6 @@ Get Intel ME Mode State
     ${actual_state}=    Fetch From Left    ${menu_me}    >
     RETURN    ${actual_state}
 
-Setup Intel ME Mode
-    [Documentation]    Sets the state of Intel ME mode based on the current
-    ...    state.
-    [Arguments]    ${actual_state}    ${tested_state}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-        IF    '${actual_state}' == 'Enabled'
-            IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    2    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (Soft)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (HAP)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    2    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            END
-        END
-        Single Key PiKVM    F10
-        Single Key PiKVM    KeyY
-    ELSE
-        Write Bare Into Terminal    ${ENTER}
-        IF    '${actual_state}' == 'Enabled'
-            IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    2    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (Soft)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (HAP)'
-                Press Key N Times And Enter    1    ${ARROW_DOWN}
-            END
-        ELSE IF    '${actual_state}' == 'Disabled (HAP)'
-            IF    '${tested_state}' == 'Enabled'
-                Press Key N Times And Enter    2    ${ARROW_UP}
-            ELSE IF    '${tested_state}' == 'Disabled (Soft)'
-                Press Key N Times And Enter    1    ${ARROW_UP}
-            END
-        END
-        Write Bare Into Terminal    ${F10}
-        Write Bare Into Terminal    ${Y}
-    END
-
 Calculate Smoothing
     [Documentation]    Compares the actual and expected value of the fan speed,
     ...    taking smoothing into account.
