@@ -39,16 +39,16 @@ Enter Netboot.Xyz Menu
     Should Contain    ${out}    Linux Network Installs (64-bit)
     Should Contain    ${out}    netboot.xyz [ enabled: true ]
 
-# Enter Secure Boot Menu And Return Construction
-#     [Documentation]    Test Enter Secure Boot Menu And Return Construction kwd
-#     Power On
-#     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-#     Should Not Contain    ${sb_menu}    Secure Boot Configuration
-#     Should Match Regexp    ${sb_menu}[0]    ^Current Secure Boot State.*$
-#     Should Match Regexp    ${sb_menu}[-1]    ^Secure Boot Mode \\<.*\\>.*$
-#     Should Not Contain    ${sb_menu}    To enable Secure Boot, set Secure Boot Mode to
-#     Should Not Contain    ${sb_menu}    Custom and enroll the keys/PK first.
-# 
+Enter Netboot.Xyz Menu And Return Construction
+    [Documentation]    Test Enter Netboot.Xyz Menu And Return Construction kwd
+    Power On
+    ${nb_menu}=    Enter Netboot.Xyz Menu And Return Construction
+    Should Not Contain    ${nb_menu}    Default
+    Should Not Contain    ${nb_menu}    Distributions
+    Should Not Contain    ${nb_menu}    Tools
+    Should Not Contain    ${nb_menu}    Signature Checks
+    Should Match Regexp    ${nb_menu}[-1]    ^netboot\.xyz \[ enable: (true|false) \]$
+
 # Enter Advanced Secure Boot Keys Management
 #     [Documentation]    Test Enter Advanced Secure Boot Keys Management kwd
 #     Power On
