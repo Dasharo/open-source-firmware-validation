@@ -5,7 +5,6 @@ Library             Collections
 Library             String
 
 
-
 *** Keywords ***
 Boot To Netboot.Xyz
     [Documentation]    This keyword enters netboot.xyz menu after the platform was
@@ -29,6 +28,22 @@ Boot To Netboot.Xyz
         Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
     END
     Read From Terminal Until    netboot.xyz [ enabled: true ]
+
+Get Netboot.Xyz Menu Construction
+    [Documentation]    Return only selectable entries of netboot.xyz menu.
+    ...    If some menu option is not selectable it will not be in the menu 
+    ...    construction list.
+    [Arguments]    ${checkpoint}=[ enabled: true ]    ${lines_top}=1    ${lines_bot}=0
+    ${out}=    Read From Terminal Until    ${checkpoint}
+    # At first, parse the menu as usual
+    ${menu}=    Parse Netboot.Xyz Menu Snapshot Into Construction    ${out}
+    # Remove Values From List
+    #   ...    ${menu}
+    #   ...    To enable Secure Boot, set Secure Boot Mode to
+    #   ...    Custom and enroll the keys/PK first.
+    #   ...    Enable Secure Boot [ ]
+    #   ...    Enable Secure Boot [X]
+    RETURN    ${menu}
 
 Parse Netboot.Xyz Menu Snapshot Into Construction
     [Documentation]    Breaks grabbed netboot.xyz data into selectable lines.
@@ -54,3 +69,10 @@ Enter Netboot.Xyz Menu
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
+
+Enter Netboot.Xyz Menu And Return Construction
+    [Documentation]    This keyword enters netboot.xyz menu after the platform
+    ...    was powered on. Returns netboot.xyz menu construction.
+    Enter Netboot.Xyz Menu
+    ${nb_menu}=    Get Netboot.Xyz Menu Construction
+    RETURN    ${nb_menu}
