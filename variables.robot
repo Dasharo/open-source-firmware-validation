@@ -154,7 +154,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
 # 3mdeb Protectli vp4650 -----------------------------------------------------
-&{RTE38}=                   ip=192.168.10.203    cpuid=02c00142076840cf    pcb_rev=1.1.0
+&{RTE38}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb    pcb_rev=1.1.0
 ...                         platform=protectli-vp4650    sonoff_ip=192.168.10.251
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli    firmware_type=UEFI
@@ -303,9 +303,12 @@ ${OS_UBUNTU}=               ubuntu
 &{USB14}=                   vendor=Kingston    volume=32GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=2
 ...                         sbo_name=USB    name=USB DISK 3.0
+&{USB15}=                   vendor=SanDisk    volume=32GB    type=USB_Storage
+...                         protocol=3.0    interface=USB    count=1
+...                         sbo_name=USB    name=SanDisk Ultra
 @{USB_LIST}=                &{USB01}    &{USB02}    &{USB03}    &{USB04}    &{USB05}
 ...                         &{USB06}    &{USB07}    &{USB08}    &{USB09}    &{USB10}
-...                         &{USB11}    &{USB12}    &{USB13}    &{USB14}
+...                         &{USB11}    &{USB12}    &{USB13}    &{USB14}    &{USB15}
 # -----------------------------------------------------------------------------
 &{MODULE01}=                vendor=HUAWEI    type=LTE_Module    interface=mPCIe
 ...                         count=1
@@ -381,7 +384,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG27}=                &{RTE35}    &{USB07}    &{SSD02}    &{MODULE10}
 @{CONFIG28}=                &{RTE36}    &{USB11}    &{SSD09}
 @{CONFIG29}=                &{RTE37}    &{USB11}
-@{CONFIG30}=                &{RTE38}    &{USB11}
+@{CONFIG30}=                &{RTE38}    &{USB15}
 @{CONFIG31}=                &{RTE39}    &{USB14}    &{SSD08}
 @{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD07}
 @{CONFIG33}=                &{RTE41}

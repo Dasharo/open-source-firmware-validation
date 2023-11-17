@@ -44,7 +44,7 @@ ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${ME_INTERFACE}=                                    ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
-${MAX_CPU_TEMP}=                                    77
+${MAX_CPU_TEMP}=                                    95
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
 
 # eMMC driver support

@@ -1,5 +1,6 @@
 *** Settings ***
 Library         Collections
+Library    robot-venv/lib/python3.11/site-packages/RequestsLibrary/__init__.py
 Resource        keys-and-keywords/flashrom.robot
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
@@ -93,6 +94,7 @@ Write BOOTSPLASH Region Internally
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
+    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Read From Terminal Until    login:
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
@@ -102,7 +104,8 @@ Login To Linux
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
-        Login To Linux Over Serial Console    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        #Login To Linux Over Serial Console    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
     END
 
 Login To Linux Via OBMC
@@ -119,7 +122,8 @@ Login To Linux Via OBMC
 Login To Windows
     [Documentation]    Universal login to Windows.
     Boot System Or From Connected Disk    ${OS_WINDOWS}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm' or '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
@@ -215,7 +219,7 @@ Login To Windows Via SSH
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
             Power On
-            Set Global Variable    ${DUT_CONNECTION_METHOD}    pikvm
+            Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${OS_WINDOWS}
             Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         END
@@ -554,9 +558,10 @@ Get All USB
 Get Boot Timestamps
     [Documentation]    Returns all boot timestamps from cbmem tool.
     # fix for LT1000 and protectli platforms (output without tabs)
-    Get Cbmem From Cloud
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
-    ${timestamps}=    Split String    ${out_cbmem}    \n
+    Login To Linux
+    Switch To Root User
+    ${timestamps}=    Execute Command In Terminal    cbmem -T
+    ${timestamps}=    Split String    ${timestamps}    \n
     ${timestamps}=    Get Slice From List    ${timestamps}    0    -1
     RETURN    ${timestamps}
 
@@ -629,7 +634,7 @@ Get CPU Frequency MIN
 Get CPU Temperature CURRENT
     [Documentation]    Get current CPU temperature.
     ${temperature}=    Execute Command In Terminal    sensors | grep "Package id 0"
-    ${temperature}=    Fetch From Left    ${temperature}    °C
+    ${temperature}=    Fetch From Left    ${temperature}    Â°C
     ${temperature}=    Fetch From Right    ${temperature}    +
     ${temperature}=    Convert To Number    ${temperature}
     RETURN    ${temperature}
@@ -639,9 +644,10 @@ Get CPU Frequencies In Ubuntu
     ...    list of current CPU frequencies
     @{frequency_list}=    Create List
     ${output}=    Execute Command In Terminal    cat /proc/cpuinfo
-    ${output}=    Get Lines Containing String    ${output}    clock
+    ${output}=    Get Lines Containing String    ${output}    cpu MHz
     @{frequencies}=    Split To Lines    ${output}
     FOR    ${frequency}    IN    @{frequencies}
+        ${frequency}=    Fetch From Right    ${frequency}    :
         ${frequency}=    Evaluate    re.sub(r'(?s)[^0-9]*([1-9][0-9]*)[,.][0-9]+MHz', r'\\1', $frequency)
         ${frequency}=    Convert To Number    ${frequency}
         Append To List    ${frequency_list}    ${frequency}
@@ -664,9 +670,7 @@ Check If CPU Not Stucks On Initial Frequency In Ubuntu
     END
     IF    '${are_frequencies_equal}'=='False'
         Pass Execution    CPU does not stuck on initial frequency
-    END
-    IF    ${first_frequency}!=${INITIAL_CPU_FREQUENCY}
-        Pass Execution    CPU does not stuck on initial frequency
+    # if the frequency has changed during runtime, it means it's not stuck
     ELSE
         FAIL    CPU stucks on initial frequency: ${INITIAL_CPU_FREQUENCY}
     END

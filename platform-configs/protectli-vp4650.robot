@@ -21,7 +21,8 @@ ${CPU}=                                             ${EMPTY}
 ${POWER_CTRL}=                                      sonoff
 ${FLASH_VERIFY_METHOD}=                             none
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
+${WIFI_CARD_UBUNTU}=                                Qualcomm Atheros QCA6174
+${WIFI_CARD}=                                       Wi-Fi Direct Virtual Adapter
 ${LTE_CARD}=                                        ${EMPTY}
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
@@ -45,6 +46,7 @@ ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${ME_INTERFACE}=                                    ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
+${MAX_CPU_TEMP}=                                    95
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 
 # eMMC driver support
@@ -54,7 +56,7 @@ ${E_MMC_PARTITION_TABLE}=                           gpt
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           external
 
-${USB_LIVE}=                                        USB SanDisk 3.2Gen1
+${USB_LIVE}=                                        SanDisk Ultra
 ${DEVICE_USB_USERNAME}=                             user
 ${DEVICE_USB_PASSWORD}=                             ubuntu
 ${DEVICE_USB_PROMPT}=                               user@user-VP4650:~$
@@ -63,16 +65,17 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP4650:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_UBUNTU_USERNAME}=                          user
+${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
+${DEVICE_UBUNTU_USERNAME}=                          ubuntu
 ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-VP4650:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-VP4650:/home/user#
+${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@3mdeb:~$
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.0.19
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.1.0
 ${DMIDECODE_PRODUCT_NAME}=                          VP4650
-${DMIDECODE_RELEASE_DATE}=                          12/08/2022
+${DMIDECODE_RELEASE_DATE}=                          10/27/2023
 ${DMIDECODE_MANUFACTURER}=                          Protectli
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                N/A
@@ -85,7 +88,7 @@ ${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
-${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
+${TESTS_IN_WINDOWS_SUPPORT}=                        ${TRUE}
 ${TESTS_IN_UBUNTU_SERVER_SUPPORT}=                  ${TRUE}
 ${TESTS_IN_PROXMOX_VE_SUPPORT}=                     ${TRUE}
 ${TESTS_IN_PFSENSE_SERIAL_SUPPORT}=                 ${TRUE}
@@ -170,7 +173,7 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
-${ESP_SCANNING_SUPPORT}=                            ${FALSE}
+${ESP_SCANNING_SUPPORT}=                            ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
@@ -183,15 +186,15 @@ ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
-${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${FALSE}
+${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
@@ -222,9 +225,9 @@ ${INSTALL_UBUNTU_USB_SUPPORT}=                      ${FALSE}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases
-${BOOT_FROM_USB_ITERATIONS_NUMBER}=                 5
+${BOOT_FROM_USB_ITERATIONS_NUMBER}=                 2
 # Sticks detection test cases
-${USB_DETECTION_ITERATIONS_NUMBER}=                 5
+${USB_DETECTION_ITERATIONS_NUMBER}=                 2
 # Platform boot measure test cases
 ${DEVICE_BOOT_MEASURE_ITTERATIONS}=                 3
 
@@ -236,7 +239,7 @@ ${STABILITY_TEST_DURATION}=                         300
 # Interval between the following readings in stability tests
 ${STABILITY_TEST_MEASURE_INTERVAL}=                 10
 # Frequency measure test duration
-${FREQUENCY_TEST_DURATION}=                         60
+${FREQUENCY_TEST_DURATION}=                         5
 # Interval between the following readings in frequency measure tests
 ${FREQUENCY_TEST_MEASURE_INTERVAL}=                 1
 # Temperature measure test duration
