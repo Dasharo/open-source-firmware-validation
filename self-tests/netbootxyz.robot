@@ -47,7 +47,7 @@ Enter Netboot.Xyz Menu And Return Construction
     Should Not Contain    ${nb_menu}    Distributions
     Should Not Contain    ${nb_menu}    Tools
     Should Not Contain    ${nb_menu}    Signature Checks
-    Should Match Regexp    ${nb_menu}[-1]    ^netboot\.xyz \[ enable: (true|false) \]$
+    Should Contain    ${nb_menu}[-1]    netboot.xyz [ enabled: true ]
 
 # Enter Advanced Secure Boot Keys Management
 #     [Documentation]    Test Enter Advanced Secure Boot Keys Management kwd
