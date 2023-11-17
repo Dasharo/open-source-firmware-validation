@@ -180,7 +180,7 @@ Enter Dasharo Submenu
 Get Index Of Matching Option In Menu
     [Documentation]    This keyword returns the index of element that matches
     ...    one in given menu
-    [Arguments]    ${menu_construction}    ${option}
+    [Arguments]    ${menu_construction}    ${option}    ${ignore_not_found_error}=${FALSE}
     FOR    ${element}    IN    @{menu_construction}
         ${matches}=    Run Keyword And Return Status
         ...    Should Match    ${element}    *${option}*
@@ -190,7 +190,9 @@ Get Index Of Matching Option In Menu
         END
     END
     ${index}=    Get Index From List    ${menu_construction}    ${option}
-    Should Be True    ${index} >= 0    Option ${option} not found in the list
+    IF    ${ignore_not_found_error} == ${FALSE}
+        Should Be True    ${index} >= 0    Option ${option} not found in the list
+    END
     RETURN    ${index}
 
 Press Key N Times And Enter

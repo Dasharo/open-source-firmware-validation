@@ -164,28 +164,25 @@ Enter Volume In File Explorer
     ${volumes}=    Get Submenu Construction    opt_only=${TRUE}
     Log    ${volumes}
     # 2. See if our label is within these entries
-    ${index}=    Get Index Of Matching Option In Menu    ${volumes}    ${target_volume}
+    ${index}=    Get Index Of Matching Option In Menu    ${volumes}    ${target_volume}    ${TRUE}
     # 3. If yes, go to the selected label
     IF    ${index} != -1
         Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
         # 4. If no, get the number of entries and go that many times below
-        # TODO: this must be properly implemented, need to construct test scenario
-        # on QEMU with multiple devices or tests on HW, where it is much more common
     ELSE
-        Fail    Scrolling through File Manager not implemented yet
-        #    ${volumes_no}=    Get Length    ${volumes}
-        #    Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
-        # #    - check if the label is what we need, if yes, select
-        #    FOR    ${in}    IN RANGE    20
-        #    ${new_entry}=    Read From Terminal
-        #    ${new_volume}=    Get File Explorer Volumes    ${new_entry}
-        #    ${index}=    Get Index From List    ${new_volume}    ${target_volume}
-        #    IF    ${index} != -1    BREAK
-        # #    - if no, keep going down one by one and select (until 10-20 times)
-        #    Press Key N Times    1    ${ARROW_DOWN}
-        #    END
+        ${volumes_no}=    Get Length    ${volumes}
+        Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
+        #    - check if the label is what we need, if yes, select
+        FOR    ${in}    IN RANGE    20
+            ${new_entry}=    Read From Terminal
+            ${status}=    Run Keyword And Return Status
+            ...    Should Contain    ${new_entry}    ${target_volume}
+            IF    ${status} == ${TRUE}    BREAK
+            IF    ${in} == 19    Fail    Volume not found
+            Press Key N Times    1    ${ARROW_DOWN}
+        END
     END
-    # Press Key N Times    1    ${ENTER}
+    Press Key N Times    1    ${ENTER}
 
 Select File In File Explorer
     [Documentation]    Select the given file
