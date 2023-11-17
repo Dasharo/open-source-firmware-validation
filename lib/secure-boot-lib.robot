@@ -181,8 +181,8 @@ Enter Volume In File Explorer
             IF    ${in} == 19    Fail    Volume not found
             Press Key N Times    1    ${ARROW_DOWN}
         END
+        Press Key N Times    1    ${ENTER}
     END
-    Press Key N Times    1    ${ENTER}
 
 Select File In File Explorer
     [Documentation]    Select the given file
