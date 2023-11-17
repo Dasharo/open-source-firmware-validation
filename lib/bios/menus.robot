@@ -116,7 +116,7 @@ Enter Setup Menu Tianocore And Return Construction
     RETURN    ${menu}
 
 Get Submenu Construction
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1
+    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
     # In most cases, we need to strip two lines:
     #    TOP:
     #    Title line, such as:    Dasharo System Features
@@ -126,6 +126,19 @@ Get Submenu Construction
     # Handling of additional exceptions appearing in submenus:
     #    1. Drop unselectable strings from Device Manager
     Remove Values From List    ${submenu}    Devices List
+
+    IF    ${opt_only} == ${TRUE}
+        # Handling exceptions caused by some options splitting into multiple lines.
+        # For Dasharo System Features options, we can assume that each entry has
+        # either ">", or "[ ]", or "< >". For other edk2 menus, this is not always
+        # the case (yet?).
+        FOR    ${entry}    IN    @{submenu}
+            ${status}=    Check If Menu Line Is An Option    ${entry}
+            IF    ${status} != ${TRUE}
+                Remove Values From List    ${submenu}    ${entry}
+            END
+        END
+    END
     RETURN    ${submenu}
 
 Enter Submenu From Snapshot
@@ -139,9 +152,9 @@ Enter Submenu From Snapshot
 Enter Submenu From Snapshot And Return Construction
     [Documentation]    Enter given Setup Menu Tianocore option after entering
     ...    Setup Menu Tianocore
-    [Arguments]    ${menu}    ${option}
+    [Arguments]    ${menu}    ${option}    ${opt_only}=${FALSE}
     Enter Submenu From Snapshot    ${menu}    ${option}
-    ${submenu}=    Get Submenu Construction
+    ${submenu}=    Get Submenu Construction    opt_only=${opt_only}
     RETURN    ${submenu}
 
 Save BIOS Changes
@@ -161,16 +174,7 @@ Enter Dasharo Submenu
     ${submenu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${dasharo_menu}
     ...    ${option}
-    # Handling exceptions caused by some options splitting into multiple lines.
-    # For Dasharo System Features options, we can assume that each entry has
-    # either ">", or "[ ]", or "< >". For other edk2 menus, this is not always
-    # the case.
-    FOR    ${entry}    IN    @{submenu}
-        ${status}=    Check If Menu Line Is An Option    ${entry}
-        IF    ${status} != ${TRUE}
-            Remove Values From List    ${submenu}    ${entry}
-        END
-    END
+    ...    opt_only=${TRUE}
     RETURN    ${submenu}
 
 Get Index Of Matching Option In Menu
@@ -221,7 +225,7 @@ Press Key N Times
             Write Bare Into Terminal    ${key}
             # May be useful to add sleep here when implementing test in QEMU
             # to see how the movement looks like.
-            # Sleep    1s
+            # Sleep    0.5s
         END
     END
 

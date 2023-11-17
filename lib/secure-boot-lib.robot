@@ -4,6 +4,21 @@ Documentation       Collection of keywords related to UEFI Secure Boot
 Resource            ../keywords.robot
 
 
+*** Variables ***
+${GOOD_KEYS_URL}=           https://cloud.3mdeb.com/index.php/s/SjM5dQGji4XDAni/download/good_keys.img
+${GOOD_KEYS_NAME}=          good_keys.img
+${GOOD_KEYS_SHA256}=        13de737ba50c8d14a88aaf5314a938fb6826e18ba8f337470ee490b17dd6bea8
+${NOT_SIGNED_URL}=          https://cloud.3mdeb.com/index.php/s/zmJXxGG4piGB2Me/download/not_signed.img
+${NOT_SIGNED_NAME}=         not_signed.img
+${NOT_SIGNED_SHA256}=       15dc0a250b73c3132b1d7c5f8e81f00cc34d899c3ddecbb838a8cd0b66c4f608
+${BAD_KEYS_URL}=            https://cloud.3mdeb.com/index.php/s/BJPbSqRH6NdbRym/download/bad_keys.img
+${BAD_KEYS_NAME}=           bad_keys.img
+${BAD_KEYS_SHA256}=         6da92bd97d4b4ca645fa98dcdfdc0c6876959e5b815a36f1f7759bc5463e7b19
+${BAD_FORMAT_URL}=          https://cloud.3mdeb.com/index.php/s/AsBnATiHTZQ6jae/download/bad_format.img
+${BAD_FORMAT_NAME}=         bad_format.img
+${BAD_FORMAT_SHA256}=       59d17bc120dfd0f2e6948a2bfdbdf5fb06eddcb44f9a053a8e7b8f677e21858c
+
+
 *** Keywords ***
 Get Secure Boot Menu Construction
     [Documentation]    Secure Boot menu is very different than all
@@ -53,21 +68,26 @@ Enter Advanced Secure Boot Keys Management
     # After selecting Custom Mode, the Advanced Menu is one below
     Press Key N Times And Enter    1    ${ARROW_DOWN}
 
+Enter Advanced Secure Boot Keys Management And Return Construction
+    [Documentation]    Enables Secure Boot Custom Mode and enters Advanced Management menu.
+    [Arguments]    ${sb_menu}
+    Enter Advanced Secure Boot Keys Management    ${sb_menu}
+    ${menu}=    Get Submenu Construction    opt_only=${TRUE}
+    RETURN    ${menu}
+
 Reset To Default Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Advanced Secure
-    ...    Boot menu already. We assume here it will not change too often and
-    ...    that the menu layout is fixed. Reset to Default Secure Boot Keys is
-    ...    the first entry.
-    Press Enter
+    ...    Boot menu already.
+    [Arguments]    ${advanced_menu}
+    Enter Submenu From Snapshot    ${advanced_menu}    Reset to default Secure Boot Keys
     Read From Terminal Until    Are you sure?
     Press Enter
 
 Erase All Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Advanced Secure
-    ...    Boot menu already. We assume here it will not change too often and
-    ...    that the menu layout is fixed. Erase All Secure Boot Keys is the
-    ...    second entry.
-    Press Key N Times And Enter    1    ${ARROW_DOWN}
+    ...    Boot menu already.
+    [Arguments]    ${advanced_menu}
+    Enter Submenu From Snapshot    ${advanced_menu}    Erase all Secure Boot Keys
     Read From Terminal Until    Are you sure?
     Press Enter
 
@@ -85,8 +105,8 @@ Make Sure That Keys Are Provisioned
     [Arguments]    ${sb_menu}
     ${need_reset}=    Run Keyword And Return Status    Should Not Contain Match    ${sb_menu}    Enable Secure Boot *
     IF    ${need_reset} == ${TRUE}
-        Enter Advanced Secure Boot Keys Management    ${sb_menu}
-        Reset To Default Secure Boot Keys
+        ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+        Reset To Default Secure Boot Keys    ${advanced_menu}
         Exit From Current Menu
         ${sb_menu}=    Get Secure Boot Menu Construction
     END
@@ -124,161 +144,80 @@ Check Secure Boot In Windows
     ...    Should Contain    ${out}    True
     RETURN    ${sb_status}
 
-# TODO Kwds below still needs review / rework after SB menu layout changes.
-# Only keywords above this line are fairly usabe and tested in self-tests/secure-boot.robot
+Enter Enroll DB Signature Using File In DB Options
+    [Documentation]    Keyword checks Secure Boot state in Windows.
+    [Arguments]    ${advanced_menu}
+    ${db_opts_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${advanced_menu}
+    ...    DB Options
+    ...    opt_only=${TRUE}
+    ${enroll_sig_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${db_opts_menu}
+    ...    Enroll Signature
+    ...    opt_only=${FALSE}
+    Enter Submenu From Snapshot    ${enroll_sig_menu}    Enroll Signature Using File
 
-Enable Custom Mode And Enroll Certificate
-    [Documentation]    This keyword enables the secure boot custom mode
-    ...    and enrolls a certificate with the given name.
-    ...    It can also take the fileformat parameter
-    ...    indicating whether the file is of a valid format.
-    ...    If not, it will look for the appropriate ERROR
-    ...    message.
-    [Arguments]    ${cert_filename}    ${fileformat}=GOOD
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${secure_boot_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-    Enter Custom Secure Boot Options
-    Enroll Certificate    ${cert_filename}    ${fileformat}
-
-Enroll Certificate
-    [Documentation]    Enrolls the certificate with given filename
-    ...    from a USB stick. If fileformat is not set
-    ...    to GOOD, checks for Unsupported file type
-    ...    error.
-    ...
-    [Arguments]    ${cert_filename}    ${fileformat}=GOOD
-
-    Read From Terminal Until    PK Options
-    Press Key N Times And Enter    2    ${ARROW_DOWN}
-    Read From Terminal Until    Enroll Signature
-    Press Key N Times    1    ${ENTER}
-    Read From Terminal Until    Enroll Signature Using File
-    Press Key N Times    1    ${ENTER}
-    Read From Terminal Until    NO FILE SYSTEM INFO
-
-    Press Key N Times And Enter    1    ${ARROW_UP}
-
-    Read From Terminal
-    ${out}=    Get File Explorer Submenu Construction
-    Should Contain Match    ${out}    *${cert_filename}*
-    ${index}=    Get Index From List    ${out}    ${cert_filename}
-    Press Key N Times And Enter    ${index}+2    ${ARROW_DOWN}
-    Read From Terminal
-    Read From Terminal Until    Enroll
-    ${enroll_menuconstr}=    Get Enroll Signature Submenu Construction
-    ${index}=    Get Index From List    ${enroll_menuconstr}    Commit Changes and Exit
-    Press Key N Times And Enter    ${index}-1    ${ARROW_DOWN}
-    ${format_eval}=    Run Keyword And Return Status
-    ...    Should Be Equal As Strings    ${fileformat}    GOOD
-    IF    ${format_eval}
-        Save Changes And Reset    3    5
+Enter Volume In File Explorer
+    [Documentation]    Enter the given volume
+    [Arguments]    ${target_volume}
+    # 1. Read out the whole File Explorer menu
+    ${volumes}=    Get Submenu Construction    opt_only=${TRUE}
+    Log    ${volumes}
+    # 2. See if our label is within these entries
+    ${index}=    Get Index Of Matching Option In Menu    ${volumes}    ${target_volume}
+    # 3. If yes, go to the selected label
+    IF    ${index} != -1
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+        # 4. If no, get the number of entries and go that many times below
+        # TODO: this must be properly implemented, need to construct test scenario
+        # on QEMU with multiple devices or tests on HW, where it is much more common
     ELSE
-        Read From Terminal Until    ERROR
+        Fail    Scrolling through File Manager not implemented yet
+        #    ${volumes_no}=    Get Length    ${volumes}
+        #    Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
+        # #    - check if the label is what we need, if yes, select
+        #    FOR    ${in}    IN RANGE    20
+        #    ${new_entry}=    Read From Terminal
+        #    ${new_volume}=    Get File Explorer Volumes    ${new_entry}
+        #    ${index}=    Get Index From List    ${new_volume}    ${target_volume}
+        #    IF    ${index} != -1    BREAK
+        # #    - if no, keep going down one by one and select (until 10-20 times)
+        #    Press Key N Times    1    ${ARROW_DOWN}
+        #    END
     END
+    # Press Key N Times    1    ${ENTER}
 
-Get Custom Secureboot Submenu Construction
-    [Documentation]    Keyword allows to get and return File Explorer menu construction.
-    ${menu}=    Read From Terminal Until    DBT Options
-    @{menu_lines}=    Split To Lines    ${menu}
-    @{menu_lines}=    Remove Entry From List    ${menu_lines}    .*Move Highlight.*
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!=" "
-            ${line}=    Strip String    ${line}
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    RETURN    ${menu_construction}
+Select File In File Explorer
+    [Documentation]    Select the given file
+    [Arguments]    ${target_file}
+    # 1. Select desired file
+    ${files}=    Get Submenu Construction
+    Log    ${files}
+    ${index}=    Get Index Of Matching Option In Menu    ${files}    ${target_file}
+    # FIXME: We must add 1 due to empty selecatble space in File Manager
+    Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
+    # 2. Save Changes
+    ${enroll_sig_menu}=    Get Submenu Construction
+    # Unselectable filename appears between options after file was selected
+    Remove Values From List    ${enroll_sig_menu}    ${target_file}
+    ${index}=    Get Index Of Matching Option In Menu    ${enroll_sig_menu}    Commit Changes and Exit
+    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
-Get Enroll Signature Submenu Construction
-    [Documentation]    Keyword allows to get and return File Explorer menu construction.
-    ${menu}=    Read From Terminal Until    Discard Changes and Exit
-    @{menu_lines}=    Split To Lines    ${menu}
-    @{menu_lines}=    Remove Entry From List    ${menu_lines}    .*Move Highlight.*
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!=" "
-            ${line}=    Strip String    ${line}
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    RETURN    ${menu_construction}
-
-Upload Image
-    [Documentation]    Mounts the image from the given URL on the PiKVM.
-    [Arguments]    ${ip}    ${img_url}
-    Upload Image To PiKVM    ${ip}    ${img_url}
-
-Mount Image
-    [Documentation]    Mounts the image with the given name on the PiKVM.
-    [Arguments]    ${ip}    ${img_name}
-    Mount Image On PiKVM    ${ip}    ${img_name}
-
-Get File Explorer Submenu Construction
-    [Documentation]    Keyword allows to get and return File Explorer menu construction.
-    # Read From Terminal Until    NEW FILE
-    ${menu}=    Read From Terminal Until    Move Highlight
-    @{menu_lines}=    Split To Lines    ${menu}
-    @{menu_lines}=    Remove Entry From List    ${menu_lines}    .*Move Highlight.*
-    @{menu_construction}=    Create List
-    FOR    ${line}    IN    @{menu_lines}
-        ${line}=    Remove String    ${line}    -    \\    \    /    |    <    >
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
-        IF    "${line}"!="${EMPTY}" and "${line}"!=" "
-            ${line}=    Strip String    ${line}
-            Append To List    ${menu_construction}    ${line}
-        END
-    END
-    ${menu_construction}=    Get Slice From List    ${menu_construction}[1:]
-    RETURN    ${menu_construction}
-
-Enter UEFI Shell And Boot .EFI File
+Enter UEFI Shell
     [Documentation]    Boots given .efi file from UEFI shell.
     ...    Assumes that it is located on FS0.
-    [Arguments]    @{filename}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
-    Boot .EFI File From UEFI Shell    @{filename}
 
-Boot .EFI File From UEFI Shell
-    [Documentation]    Boots given efi file in UEFI shell using PiKVM,
-    ...    and checks the result
-    [Arguments]    ${filename}    ${expected_result}
-    Sleep    3s
+Execute File In UEFI Shell
+    # UEFI shell has different line ending than the one we have set for the
+    # Telnet connection. We cannot change it while the connection is open.
+    [Arguments]    ${file}
     Write Bare Into Terminal    fs0:
-    Write Bare Into Terminal    \n
-    Sleep    1s
-    Write Bare Into Terminal    ${filename}
-    Write Bare Into Terminal    \n
-    Read From Terminal Until    ${expected_result}
-
-Reset Secure Boot Keys
-    [Documentation]    This keyword resets the Secure Boot Keys.
-    [Arguments]    ${sb_menu}
-    Go To Secure Boot Menu Entry    ${sb_menu}    Reset Secure Boot Keys
-    Read From Terminal Until    Are you sure?
-    Press Key N Times    1    ${ENTER}
-
-Upload Required Images
-    [Documentation]    Uploads the required images onto the PiKVM
-    ${pikvm_ip}=    Get Variable Value    ${PIKVM_IP}
-    IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/k9EcYGDTWQAwtGs/download/good_keys.img
-        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/LaZQKGizg8gQRMZ/download/not_signed.img
-        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/DpmnoBK8HBJDTY4/download/bad_keys.img
-        Upload Image    ${pikvm_ip}    https://cloud.3mdeb.com/index.php/s/TnEWbqGZ83i6bHo/download/bad_format.img
-    ELSE
-        Log    Images for Secure Boot tests must be shipped via other backend. Right now, only PiKVM is supported.
-    END
+    Press Enter
+    Read From Terminal Until    FS0:\\>
+    Write Bare Into Terminal    ${file}
+    Press Enter
+    ${out}=    Read From Terminal Until    FS0:\\>
+    RETURN    ${out}

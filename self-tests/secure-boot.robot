@@ -56,12 +56,26 @@ Enter Advanced Secure Boot Keys Management
     Should Contain    ${out}    Reset to default Secure Boot Keys
     Should Contain    ${out}    Erase all Secure Boot Keys
 
+Enter Advanced Secure Boot Keys Management And Return Construction
+    [Documentation]    Test Enter Advanced Secure Boot Keys Management And Return Construction kwd
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Log    ${advanced_menu}
+    Should Contain    ${advanced_menu}    > Reset to default Secure Boot Keys
+    Should Contain    ${advanced_menu}    > Erase all Secure Boot Keys
+    Should Not Contain    ${advanced_menu}    Individual key management:
+    Should Contain    ${advanced_menu}    > PK Options
+    Should Contain    ${advanced_menu}    > KEK Options
+    Should Contain    ${advanced_menu}    > DB Options
+    Should Contain    ${advanced_menu}    > DBX Options
+
 Reset To Default Secure Boot Keys
     [Documentation]    Test Reset To Default Secure Boot Keys kwd
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enter Advanced Secure Boot Keys Management    ${sb_menu}
-    Reset To Default Secure Boot Keys
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
     Save Changes And Reset    3
 
     Enter Secure Boot Menu
@@ -73,8 +87,8 @@ Erase All Secure Boot Keys
     [Documentation]    Test Erase All Secure Boot Keys kwd
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enter Advanced Secure Boot Keys Management    ${sb_menu}
-    Erase All Secure Boot Keys
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
     Save Changes And Reset    3
 
     Enter Secure Boot Menu
@@ -85,8 +99,8 @@ Erase All Secure Boot Keys
 Secure Boot Menu Parsing With Default Keys
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enter Advanced Secure Boot Keys Management    ${sb_menu}
-    Reset To Default Secure Boot Keys
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
     Save Changes And Reset    3
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -101,9 +115,8 @@ Secure Boot Menu Parsing With Erased Keys
     [Documentation]    Test Enter Secure Boot Menu And Return Construction kwd
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enter Advanced Secure Boot Keys Management    ${sb_menu}
-    Erase All Secure Boot Keys
-    Reset To Default Secure Boot Keys
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
     Save Changes And Reset    3
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -125,8 +138,8 @@ Make Sure That Keys Are Provisioned
     # 1. Erase All SB keys
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enter Advanced Secure Boot Keys Management    ${sb_menu}
-    Erase All Secure Boot Keys
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
     Exit From Current Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     Should Not Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
@@ -136,8 +149,8 @@ Make Sure That Keys Are Provisioned
     Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
 
     # 3. Restore default SB keys
-    Enter Advanced Secure Boot Keys Management    ${sb_menu}
-    Reset To Default Secure Boot Keys
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
     Exit From Current Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
@@ -187,3 +200,32 @@ Enable and Disable Secure Boot Multiple Times
         ${sb_state}=    Return Secure Boot State    ${sb_menu}
         Should Contain    ${sb_state}    Disabled
     END
+
+Enter Enroll Signature Using File In DB Options
+    [Documentation]    Test if we can enter File Manager in DB Options, correctly parsing all menus on our way.
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Log    ${advanced_menu}
+
+    ${db_opts_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${advanced_menu}
+    ...    DB Options
+    ...    opt_only=${TRUE}
+    Log    ${db_opts_menu}
+    Should Contain    ${db_opts_menu}    > Enroll Signature
+    Should Contain    ${db_opts_menu}    > Delete Signature
+
+    ${enroll_sig_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${db_opts_menu}
+    ...    Enroll Signature
+    ...    opt_only=${FALSE}
+    Log    ${enroll_sig_menu}
+    Should Contain    ${enroll_sig_menu}    > Enroll Signature Using File
+    Should Contain    ${enroll_sig_menu}    Signature GUID _
+    Should Contain    ${enroll_sig_menu}    > Commit Changes and Exit
+    Should Contain    ${enroll_sig_menu}    > Discard Changes and Exit
+
+    Enter Submenu From Snapshot    ${enroll_sig_menu}    Enroll Signature Using File
+    ${out}=    Read From Terminal Until    Esc=Exit
+    Should Contain    ${out}    File Explorer
