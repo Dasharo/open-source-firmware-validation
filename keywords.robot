@@ -10,6 +10,7 @@ Resource        lib/terminal.robot
 Resource        lib/esp-scanning-lib.robot
 Resource        lib/dl-cache.robot
 Resource        lib/dmidecode-lib.robot
+Resource        lib/flash.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
