@@ -21,6 +21,8 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Make Sure That Lock The BIOS Boot Medium Is Disabled
+...                     AND
 ...                     Flash Firmware    ${FW_FILE}
 ...                     AND
 ...                     Prepare Tools, Keys And Binaries

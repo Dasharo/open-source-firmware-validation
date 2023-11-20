@@ -21,6 +21,8 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Make Sure That Lock The BIOS Boot Medium Is Disabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
