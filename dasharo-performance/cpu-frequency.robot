@@ -98,43 +98,6 @@ CPF002.002 CPU runs on expected frequency (Windows 11) ${POWER_SUPPLY_TEST_NAME}
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.002 not supported
     Power On
     Login To Windows
-    Check CPU Frequency In Windows
-
-CPF003.001 CPU runs on expected frequency (Ubuntu 22.04, battery)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF003.001 not supported
-    Check Battery Backup
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${freq_max}=    Get CPU Frequency MAX
-    ${freq_min}=    Get CPU Frequency MIN
-    ${timer}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer} min.
-        @{frequencies}=    Get CPU Frequencies In Ubuntu
-        FOR    ${frequency}    IN    @{frequencies}
-            Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_max} > ${frequency}
-            Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_min} < ${frequency}
-        END
-        Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
-        ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
-    END
-
-CPF003.002 CPU runs on expected frequency (Windows 11, battery)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.002 not supported
-    Check Battery Backup
-    Power On
-    Login To Windows
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
@@ -179,58 +142,11 @@ CPF004.002 CPU with load runs on expected frequency (Windows 11) ${POWER_SUPPLY_
     Power On
     Login To Windows
     ${out}=    Run
-    ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/${DEVICE_WINDOWS_USERNAME}
-    Should Be Empty    ${out}
-    ${timer}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer} min.
-        Check CPU Frequency In Windows
-        Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
-        ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
-    END
-
-CPF005.001 CPU with load runs on expected frequency (Ubuntu 22.04, battery)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF005.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF005.001 not supported
-    Check Battery Backup
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${freq_max}=    Get CPU Frequency MAX
-    ${freq_min}=    Get CPU Frequency MIN
-    Stress Test    ${FREQUENCY_TEST_DURATION}m
-    ${timer}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer} min.
-        @{frequencies}=    Get CPU Frequencies In Ubuntu
-        FOR    ${frequency}    IN    @{frequencies}
-            Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_max} > ${frequency}
-            Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_min} < ${frequency}
-        END
-        Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
-        ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
-    END
-
-CPF005.002 CPU with load runs on expected frequency (Windows 11, battery)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.002 not supported
-    Check Battery Backup
-    Power On
-    Login To Windows
-    ${out}=    Run
     ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
     Should Be Empty    ${out}
-
     SSHLibrary.Execute Command    .\\stress-test-windows.ps1
+    # ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/${DEVICE_WINDOWS_USERNAME}
+    # Should Be Empty    ${out}
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
@@ -238,29 +154,4 @@ CPF005.002 CPU with load runs on expected frequency (Windows 11, battery)
         Check CPU Frequency In Windows
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
-    END
-
-
-*** Keywords ***
-Check Battery Backup
-    [Documentation]    Check if the current platform is equipped with a battery.
-    Set Local Variable    ${IS_BATTERY}    ${FALSE}
-    IF    '${PLATFORM}'== 'novacustom-ns50'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'tuxedo-ns50'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-ns70'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-nv41-mb'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-nv41-mz'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-ns70pu'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-ns50pu'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-nv41-pz'
-        RETURN
-    ELSE
-        SKIP    \nPlatform does not have battery backup
     END
