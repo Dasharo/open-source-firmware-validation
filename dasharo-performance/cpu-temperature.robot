@@ -18,14 +18,15 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     Check Power Supply And Return Name
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-CPT001.001 CPU temperature without load Ubuntu 22.04
+CPT001.001 CPU temperature without load Ubuntu 22.04 ${POWER_SUPPLY_TEST_NAME}
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
@@ -48,7 +49,7 @@ CPT001.001 CPU temperature without load Ubuntu 22.04
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
 
-CPT002.001 CPU temperature after stress test Ubuntu 22.04
+CPT002.001 CPU temperature after stress test Ubuntu 22.04 ${POWER_SUPPLY_TEST_NAME}
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
