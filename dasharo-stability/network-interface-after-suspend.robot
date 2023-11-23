@@ -25,19 +25,6 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-NET001.001 NET controller after suspend (Ubuntu 22.04)
-    [Documentation]    This test aims to verify that the network controller works and the platform
-    ...    is able to connect to the network after suspend.
-    Skip If    not ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}    NET001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Perform Suspend Test Using FWTS
-    ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
-    Should Contain    ${network_status}    UP
-
 NET003.001 Net controller after reboot (Ubuntu 22.04)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
@@ -55,3 +42,16 @@ NET003.001 Net controller after reboot (Ubuntu 22.04)
         ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
         Should Contain    ${network_status}    UP
     END
+
+NET004.001 NET controller after suspend (Ubuntu 22.04)
+    [Documentation]    This test aims to verify that the network controller works and the platform
+    ...    is able to connect to the network after suspend.
+    Skip If    not ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}    NET001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Perform Suspend Test Using FWTS
+    ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
+    Should Contain    ${network_status}    UP
