@@ -121,25 +121,3 @@ PXE006.001 iPXE shell option is available and works correctly
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Read From Terminal Until    iPXE>
-
-
-*** Keywords ***
-Make Sure That Network Boot Is Enabled
-    [Documentation]    This keywords checks that "Enable network boot" in
-    ...    "Networking Options" is enabled when present, so the network
-    ...    boot tests can be executed.
-    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE006.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE006.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${index}=    Get Index Of Matching Option In Menu    ${dasharo_menu}    Networking Options
-    IF    ${index} != -1
-        ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
-        ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
-        IF    ${index} != -1
-            Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-            Save Changes And Reset    2    4
-            Sleep    10s
-        END
-    END
