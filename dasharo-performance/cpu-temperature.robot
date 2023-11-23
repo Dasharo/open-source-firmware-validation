@@ -18,8 +18,9 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     Check Power Supply
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -39,14 +40,29 @@ CPT001.002 CPU temperature without load (Ubuntu 22.04) (battery)
     ...    allowed temperature.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.002 not supported
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Temperature Without Load (Ubuntu 22.04)
 
-CPT001.003 CPU temperature without load (Ubuntu 22.04) (USB-PD)
+CPT001.003 CPU temperature without load (Ubuntu 22.04) (AC)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.003 not supported
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Temperature Without Load (Ubuntu 22.04)
+
+CPT001.004 CPU temperature without load (Ubuntu 22.04) (USB-PD)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.004 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.004 not supported
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
     CPU Temperature Without Load (Ubuntu 22.04)
 
 CPT002.001 CPU temperature after stress test (Ubuntu 22.04)
@@ -63,14 +79,29 @@ CPT002.002 CPU temperature after stress test (Ubuntu 22.04) (battery)
     ...    temperature during stress test.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.002 not supported
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Temperature After Stress Test (Ubuntu 22.04)
 
-CPT002.003 CPU temperature after stress test (Ubuntu 22.04) (USB-PD)
+CPT002.003 CPU temperature after stress test (Ubuntu 22.04) (AC)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.003 not supported
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Temperature After Stress Test (Ubuntu 22.04)
+
+CPT002.004 CPU temperature after stress test (Ubuntu 22.04) (USB-PD)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.004 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.004 not supported
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
     CPU Temperature After Stress Test (Ubuntu 22.04)
 
 
