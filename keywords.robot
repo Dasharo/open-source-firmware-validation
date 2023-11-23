@@ -232,7 +232,9 @@ Open Connection And Log In
     ...    REST API, serial connection and checkout used asset in
     ...    SnipeIt
     Check Provided Ip
-    IF    '${CONFIG}' != 'qemu'
+    # FIXME: some stands do not have RTE connected, this should be better handled
+    # by reworking variables.robot
+    IF    '${CONFIG}' != 'qemu' and '${CONFIG}' != 'novacustom-nv41pz'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
         SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
