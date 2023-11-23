@@ -93,3 +93,35 @@ Stress Test
     [Arguments]    ${time}=60s
     Detect Or Install Package    stress-ng
     Execute Command In Terminal    stress-ng --cpu 1 --timeout ${time} &> /dev/null &
+
+Check Power Supply
+    IF    ${TESTS_IN_UBUNTU_SUPPORT}
+        ${bat0_present}    ${ac_online}    ${usb-pd_online}=    Check Power Supply On Linux
+    ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
+        Log    Check Power Supply on Windows not implemented yet    ERROR
+    ELSE IF    ${HEADS_PAYLOAD_SUPPORT}
+        Log    Check Power Supply on Heads not implemented yet    ERROR
+    ELSE
+        Fail    Fail: Check Power Supply is not implemented enough
+    END
+    Set Suite Variable    ${BATTERY_PRESENT}    ${bat0_present}
+    Set Suite Variable    ${AC_CONNECTED}    ${ac_online}
+    Set Suite Variable    ${USB-PD_CONNECTED}    ${usb-pd_online}
+
+Check Power Supply On Linux
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    ${bat0_present_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/BAT0/present
+    ${bat0_present}=    Run Keyword And Return Status    Should Contain    ${bat0_present_raw}    1
+
+    ${ac_online_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/AC/online
+    Should Not Contain    ${ac_online_raw}    No such file or directory
+    ${ac_online}=    Run Keyword And Return Status    Should Contain    ${ac_online_raw}    1
+
+    ${usb-pd_online_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/USB-PD/online
+    Log    'cat /sys/class/power_supply/USB-PD/online' not implemented yet, if implemented, remove #    WARN
+    # Should Not Contain    ${USB-PD_online_raw}    No such file or directory
+    ${usb-pd_online}=    Run Keyword And Return Status    Should Contain    ${usb-pd_online_raw}    1
+
+    RETURN    ${bat0_present}    ${ac_online}    ${usb-pd_online}
