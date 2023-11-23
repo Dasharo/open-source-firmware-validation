@@ -2240,7 +2240,7 @@ Get Flashrom From Cloud
     ${out_test}=    Execute Command InTerminal    test -x ${flashrom_path}; echo $?
     ${exit_code}=    Convert To Integer    ${out_test}
     IF    ${exit_code} != 0
-        Download File    https://cloud.3mdeb.com/index.php/s/D7AQDdRZmQFTL6n/download    ${flashrom_path}
+        Download File    https://cloud.3mdeb.com/index.php/s/fsPNM8SpDjATMrW/download    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
