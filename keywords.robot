@@ -377,14 +377,9 @@ Get Current RTE
     [Documentation]    Returns RTE index from RTE list taken as an argument.
     ...    Returns -1 if CPU ID not found in variables.robot.
     [Arguments]    @{rte_list}
-    ${con}=    SSHLibrary.Open Connection    ${RTE_IP}
-    SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    ${cpuid}=    SSHLibrary.Execute Command
-    ...    cat /proc/cpuinfo |grep Serial|cut -d":" -f2|tr -d " "
-    ...    connection=${con}
     ${index}=    Set Variable    ${0}
     FOR    ${item}    IN    @{rte_list}
-        IF    '${item.cpuid}' == '${cpuid}'    RETURN    ${index}
+        IF    '${item.ip}' == '${RTE_IP}'    RETURN    ${index}
         ${index}=    Set Variable    ${index+1}
     END
     RETURN    ${-1}
