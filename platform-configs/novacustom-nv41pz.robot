@@ -3,16 +3,22 @@ Resource    ../os/ubuntu_2204_credentials.robot
 
 
 *** Variables ***
-${DUT_CONNECTION_METHOD}=                           SSH
+${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
+${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
-${RTE_S2_N_PORT}=                                   ${EMPTY}
+${RTE_S2_N_PORT}=                                   13541
 ${FLASH_SIZE}=                                      ${16*1024*1024}
-${TIANOCORE_KEY}=                                   ${F2}
-${TIANOCORE_STRING}=                                ENTER
-${TIANOCORE_BOOT_MENU_KEY}=                         ${F7}
-${SETUP_MENU_KEY}=                                  ${EMPTY}
+${TIANOCORE_STRING}=                                to boot directly
+${BOOT_MENU_KEY}=                                   F7
+${SETUP_MENU_KEY}=                                  F2
+${BOOT_MENU_STRING}=                                Please select boot device:
+${SETUP_MENU_STRING}=                               Select Entry
+${IPXE_BOOT_ENTRY}=                                 iPXE Network Boot
+${EDK2_IPXE_CHECKPOINT}=                            iPXE Shell
+${EDK2_IPXE_START_POS}=                             1
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             Intel(R) Core(TM) i7-1165G7 CPU
+${POWER_CTRL}=                                      sonoff
 ${INITIAL_CPU_FREQUENCY}=                           2800
 ${DRAM_SIZE}=                                       ${8192}
 ${DEF_CORES}=                                       4
@@ -20,7 +26,6 @@ ${DEF_THREADS}=                                     2
 ${DEF_CPU}=                                         8
 ${DEF_ONLINE_CPU}=                                  0-7
 ${DEF_SOCKETS}=                                     2
-${IPXE_BOOT_ENTRY}=                                 iPXE Network boot
 ${IPXE_STRING}=                                     Network Boot Firmware
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
@@ -77,7 +82,7 @@ ${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 
 # Supported test environments
-${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
@@ -98,8 +103,8 @@ ${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${FALSE}
 ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
 ${HEADS_PAYLOAD_SUPPORT}=                           ${FALSE}
-${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${FALSE}
-${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${FALSE}
+${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
+${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
 ${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${FALSE}
 ${DEVICE_TREE_SUPPORT}=                             ${FALSE}
@@ -107,7 +112,7 @@ ${INTERNAL_LCD_DISPLAY_SUPPORT}=                    ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=                   ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=                   ${FALSE}
 ${EC_AND_SUPER_IO_SUPPORT}=                         ${TRUE}
-${CUSTOM_LOGO_SUPPORT}=                             ${FALSE}
+${CUSTOM_LOGO_SUPPORT}=                             ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=                     ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=                  ${TRUE}
 ${USB_CAMERA_DETECTION_SUPPORT}=                    ${TRUE}
@@ -167,7 +172,8 @@ ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${TRUE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${TRUE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
-${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
+${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
+# It causes "Power on AC" option to reset to disable, so we can no longer Powe On using Sonoff
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
@@ -175,20 +181,21 @@ ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
+${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
-${SECURE_BOOT_SUPPORT}=                             ${FALSE}
+${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${FALSE}
-${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
-${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
-${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
+${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
+${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
-${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
-${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
+${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}
@@ -289,13 +296,9 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
+    Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    1s
-    RteCtrl Power Off
-    Sleep    7s
-    # read the old output
-    SSH.Read
-    RteCtrl Power On
+    Power Cycle On
 
 Flash Device Via Internal Programmer
     [Documentation]    Keyword allows to flash Device Under Test firmware by
