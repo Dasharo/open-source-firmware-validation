@@ -46,6 +46,7 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    SMM protection is enabled
 
@@ -70,5 +71,6 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Not Contain    ${out_flashrom}    SMM protection is enabled
