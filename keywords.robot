@@ -956,12 +956,10 @@ OBMC Power Cycle Off
 Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
     ...    Sonoff
-    Telnet.Read
     Sonoff Power Off
+    Sleep    10
+    Telnet.Read
     Sonoff Power On
-    Sleep    15
-    # Send "Power On" signal resembling power button press
-    Power On
 
 Power Cycle Off
     [Documentation]    Power cycle off power supply using the supported
