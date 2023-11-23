@@ -31,6 +31,19 @@ CPT001.001 CPU temperature without load Ubuntu 22.04
     ...    allowed temperature.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.001 not supported
+    CPU Temperature Without Load Ubuntu 22.04
+
+CPT002.001 CPU temperature after stress test Ubuntu 22.04
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.001 not supported
+    CPU Temperature After Stress Test Ubuntu 22.04
+
+
+*** Keywords ***
+CPU Temperature Without Load Ubuntu 22.04
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -48,12 +61,7 @@ CPT001.001 CPU temperature without load Ubuntu 22.04
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
 
-CPT002.001 CPU temperature after stress test Ubuntu 22.04
-    [Documentation]    This test aims to verify whether the temperature of the
-    ...    CPU cores is not higher than the maximum allowed
-    ...    temperature during stress test.
-    Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.001 not supported
+CPU Temperature After Stress Test Ubuntu 22.04
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
