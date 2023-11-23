@@ -28,7 +28,12 @@ handle_ctrl_c() {
 trap 'handle_ctrl_c' SIGINT
 
 compatibility_tests=(
-  "custom-boot-menu-key"
+  "custom-boot-menu-key" # very basic test environment
+  "nvme-support" # booting into Linux OS and executing shell commands
+)
+
+security_tests=(
+  "usb-stack"
 )
 
 # Compatibility tests
@@ -38,6 +43,10 @@ RTE_IP=192.168.10.188
 
 for test in "${compatibility_tests[@]}"; do
     execute_robot "compatibility" "$test"
+done
+
+for test in "${security_tests[@]}"; do
+    execute_robot "security" "$test"
 done
 
 CONFIG=protectli-vp4630
