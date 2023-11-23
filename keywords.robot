@@ -94,7 +94,10 @@ Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Read From Terminal Until    login:
+        # On laptopts, we have serial over EC from firmware only, so we will
+        # not have Linux prompt. We try logging in multiple times anyway, so
+        # this should not be a huge problem.
+        # Read From Terminal Until    login:
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
@@ -176,6 +179,7 @@ Login To Linux Via SSH
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
     [Arguments]    ${username}    ${password}    ${timeout}=180    ${prompt}=${DEVICE_UBUNTU_USER_PROMPT}
+    Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
     SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
