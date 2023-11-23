@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# This one must be retrieved manually from the DUT before starting regression
-DEVICE_IP=192.168.4.69
-
 # Uncomment one of these
-CONFIG="novacustom-nv41mz"
+CONFIG="novacustom-nv41pz"
+# CONFIG="novacustom-nv41mz"
+# CONFIG="novacustom-ns70mu"
+# CONFIG="novacustom-ns70pu"
 
-FW_FILE="coreboot.rom"
+FW_FILE="novacustom_nv4x_adl_v1.7.0.rom"
 
 if [ ! -f "${FW_FILE}" ]; then
     echo "${FW_FILE} not found. Please provide correct FW_FILE value"
@@ -18,13 +18,8 @@ execute_robot() {
     local _category=$1
     local _test_name=$2
     local _log_file="${_test_name}_log.html"
-    # local _report_file="${_test_name}_report.html"
-    # local _output_file="${_test_name}.xml"
-
     robot -L TRACE \
           -l ${CONFIG}-${OS}/${_log_file} \
-          -v device_ip:${DEVICE_IP} \
-          -v rte_ip:${RTE_IP} \
           -v config:${CONFIG} \
           -v snipeit:no \
           -v fw_file:${FW_FILE} \
@@ -41,53 +36,57 @@ handle_ctrl_c() {
 trap 'handle_ctrl_c' SIGINT
 
 compatibility_tests=(
-  "efi"
-  "display-ports-and-lcd-support"
-  "usb-hid-and-msc-support"
-  "uefi-shell"
-  "dmidecode"
-  "custom-boot-menu-key"
-  "wifi-bluetooth-support"
-  "audio-subsystem"
-  "nvme-support"
-  "network-boot"
-  "uefi-shell"
-  "cpu-status"
-  "reset-to-defaults"
-  "platform-suspend-and-resume"
-  "ec-and-super-IO"
-  "sd-card-reader"
-  "usb-camera"
-  "docking-station-usb-c"
-  "docking-station-usb-devices"
-  "docking-station-net-interface"
-  "docking-station-display-ports"
-  "docking-station-audio"
-  "docking-station-sd-card-reader"
-#   "thunderbolt-docking-station"
-#   "thunderbolt-docking-station-usb-devices"
-#   "thunderbolt-docking-station-net-interface"
-#   "thunderbolt-docking-station-display-ports"
-#   "thunderbolt-docking-station-audio"
+  # "custom-boot-menu-key"
+  # "uefi-shell"
+  # "network-boot"
+  # "efi"
+  # "reset-to-defaults"
+  # "display-ports-and-lcd-support"
+  # "usb-hid-and-msc-support"
+  # "dmidecode"
+  # "wifi-bluetooth-support"
+  # "audio-subsystem"
+  # "nvme-support"
+  # "usb-camera"
+  # "sd-card-reader"
+  # "usb-type-c"
+  # "cpu-status"
+  # "ec-and-super-IO"
+  # "platform-suspend-and-resume"
+  # "firmware-bulding-locally"
 )
 
 security_tests=(
-  "tpm-support"
-  "measured-boot"
-  "verified-boot"
-  "network-stack"
-  "me-neuter"
-  "uefi-password"
-  "early-boot-dma-protection"
-  "usb-stack"
-  "bios-lock"
-  "smm-bios-write-protection"
+  # "secure-boot"
+  # "usb-stack"
+  # "uefi-password"
+  # "tpm-support"
+  # "measured-boot"
+  # "verified-boot"
+  # "network-stack"
+  # "me-neuter"
+  # "early-boot-dma-protection"
+  # "bios-lock"
+  # "smm-bios-write-protection"
+  # "wifi-bluetooth-switch"
+  # "camera-switch"
 )
 
-# performance_tests=(
-#   "cpu-temperature"
-#   "cpu-frequency"
-# )
+performance_tests=(
+  "platform-stability"
+  # "boot-measure"
+  # "custom-fan-curve"
+  # "cpu-temperature"
+  # "cpu-frequency"
+)
+
+stability_tests=(
+  # "m2-wifi"
+  # "network-interface-after-suspend"
+  # "nvme-detection"
+  # "tpm-detect"
+  # "usb-type-a-devices-detection"
+)
 
 OS=ubuntu
 
@@ -102,6 +101,11 @@ for test in "${security_tests[@]}"; do
 done
 
 # Performance tests
-# for test in "${performance_tests[@]}"; do
-#     execute_robot "performance" "$test"
-# done
+for test in "${performance_tests[@]}"; do
+    execute_robot "performance" "$test"
+done
+
+# Stability tests
+for test in "${stability_tests[@]}"; do
+    execute_robot "stability" "$test"
+done
