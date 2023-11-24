@@ -95,18 +95,26 @@ Stress Test
     Execute Command In Terminal    stress-ng --cpu 1 --timeout ${time} &> /dev/null &
 
 Check Power Supply
-    IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        ${bat0_present}    ${ac_online}    ${usb-pd_online}=    Check Power Supply On Linux
-    ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-        Check Power Supply On Windows
-    ELSE IF    ${HEADS_PAYLOAD_SUPPORT}
-        Log    Check Power Supply on Heads not implemented yet    ERROR
-    ELSE
-        Fail    Fail: Check Power Supply is not implemented enough
+    ${laptop_platform}=    Check The Platform Is A Laptop
+    Set Suite Variable    ${LAPTOP_PLATFORM}    ${laptop_platform}
+    IF    ${LAPTOP_PLATFORM}
+        IF    ${TESTS_IN_UBUNTU_SUPPORT}
+            ${bat0_present}    ${ac_online}    ${usb-pd_online}=    Check Power Supply On Linux
+        ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
+            Check Power Supply On Windows
+        ELSE IF    ${HEADS_PAYLOAD_SUPPORT}
+            Log    Check Power Supply on Heads not implemented yet    ERROR
+        ELSE
+            Fail    Fail: Check Power Supply is not implemented enough
+        END
+        Set Suite Variable    ${BATTERY_PRESENT}    ${bat0_present}
+        Set Suite Variable    ${AC_CONNECTED}    ${ac_online}
+        Set Suite Variable    ${USB-PD_CONNECTED}    ${usb-pd_online}
     END
-    Set Suite Variable    ${BATTERY_PRESENT}    ${bat0_present}
-    Set Suite Variable    ${AC_CONNECTED}    ${ac_online}
-    Set Suite Variable    ${USB-PD_CONNECTED}    ${usb-pd_online}
+
+Check The Platform Is A Laptop
+    ${laptop_platform}=    Run Keyword And Return Status    Should Contain Any    ${PLATFORM}    novacustom    tuxedo
+    RETURN    ${laptop_platform}
 
 Check Power Supply On Linux
     Power On
