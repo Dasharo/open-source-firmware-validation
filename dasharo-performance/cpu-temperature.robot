@@ -32,6 +32,7 @@ CPT001.001 CPU temperature without load (Ubuntu 22.04)
     ...    allowed temperature.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.001 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Temperature Without Load (Ubuntu 22.04)
 
 CPT001.002 CPU temperature without load (Ubuntu 22.04) (battery)
@@ -40,6 +41,7 @@ CPT001.002 CPU temperature without load (Ubuntu 22.04) (battery)
     ...    allowed temperature.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.002 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
@@ -51,6 +53,7 @@ CPT001.003 CPU temperature without load (Ubuntu 22.04) (AC)
     ...    allowed temperature.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.003 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Temperature Without Load (Ubuntu 22.04)
@@ -61,6 +64,7 @@ CPT001.004 CPU temperature without load (Ubuntu 22.04) (USB-PD)
     ...    allowed temperature.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.004 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.004 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
     CPU Temperature Without Load (Ubuntu 22.04)
@@ -71,6 +75,7 @@ CPT002.001 CPU temperature after stress test (Ubuntu 22.04)
     ...    temperature during stress test.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.001 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Temperature After Stress Test (Ubuntu 22.04)
 
 CPT002.002 CPU temperature after stress test (Ubuntu 22.04) (battery)
@@ -79,6 +84,7 @@ CPT002.002 CPU temperature after stress test (Ubuntu 22.04) (battery)
     ...    temperature during stress test.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.002 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
@@ -90,6 +96,7 @@ CPT002.003 CPU temperature after stress test (Ubuntu 22.04) (AC)
     ...    temperature during stress test.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.003 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Temperature After Stress Test (Ubuntu 22.04)
@@ -100,6 +107,7 @@ CPT002.004 CPU temperature after stress test (Ubuntu 22.04) (USB-PD)
     ...    temperature during stress test.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.004 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.004 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
     CPU Temperature After Stress Test (Ubuntu 22.04)
