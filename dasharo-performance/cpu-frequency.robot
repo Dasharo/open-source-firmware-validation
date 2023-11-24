@@ -32,6 +32,7 @@ CPF001.001 CPU not stuck on initial frequency (Ubuntu 22.04)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.001 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Not Stuck On Initial Frequency (Ubuntu 22.04)
 
 CPF001.002 CPU not stuck on initial frequency (Windows 11)
@@ -39,6 +40,7 @@ CPF001.002 CPU not stuck on initial frequency (Windows 11)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.002 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Not Stuck On Initial Frequency (Windows 11)
 
 CPF001.003 CPU not stuck on initial frequency (Heads+Debian)
@@ -47,6 +49,7 @@ CPF001.003 CPU not stuck on initial frequency (Heads+Debian)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.003 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CPF001.003 not supported
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.003 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
 CPF001.004 CPU not stuck on initial frequency (Ubuntu 22.04) (battery)
@@ -54,10 +57,10 @@ CPF001.004 CPU not stuck on initial frequency (Ubuntu 22.04) (battery)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.004 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.004 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Ubuntu 22.04)
 
 CPF001.005 CPU not stuck on initial frequency (Windows 11) (battery)
@@ -65,10 +68,10 @@ CPF001.005 CPU not stuck on initial frequency (Windows 11) (battery)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.005 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.005 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Windows 11)
 
 CPF001.006 CPU not stuck on initial frequency (Heads+Debian) (battery)
@@ -77,10 +80,10 @@ CPF001.006 CPU not stuck on initial frequency (Heads+Debian) (battery)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.006 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CPF001.006 not supported
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.006 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
 CPF001.007 CPU not stuck on initial frequency (Ubuntu 22.04) (AC)
@@ -88,9 +91,9 @@ CPF001.007 CPU not stuck on initial frequency (Ubuntu 22.04) (AC)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.007 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Ubuntu 22.04)
 
 CPF001.008 CPU not stuck on initial frequency (Windows 11) (AC)
@@ -98,9 +101,9 @@ CPF001.008 CPU not stuck on initial frequency (Windows 11) (AC)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.008 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.008 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Windows 11)
 
 CPF001.009 CPU not stuck on initial frequency (Heads+Debian) (AC)
@@ -109,9 +112,9 @@ CPF001.009 CPU not stuck on initial frequency (Heads+Debian) (AC)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.009 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CPF001.009 not supported
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.009 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
 CPF001.010 CPU not stuck on initial frequency (Ubuntu 22.04) (USB-PD)
@@ -119,9 +122,9 @@ CPF001.010 CPU not stuck on initial frequency (Ubuntu 22.04) (USB-PD)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.010 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.010 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Ubuntu 22.04)
 
 CPF001.011 CPU not stuck on initial frequency (Windows 11) (USB-PD)
@@ -129,9 +132,9 @@ CPF001.011 CPU not stuck on initial frequency (Windows 11) (USB-PD)
     ...    stuck on the initial frequency after booting into the OS.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.011 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.011 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Windows 11)
 
 CPF001.012 CPU not stuck on initial frequency (Heads+Debian) (USB-PD)
@@ -140,9 +143,9 @@ CPF001.012 CPU not stuck on initial frequency (Heads+Debian) (USB-PD)
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.012 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CPF001.012 not supported
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.012 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    Check Battery Backup
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
 CPF002.001 CPU runs on expected frequency (Ubuntu 22.04)
@@ -150,6 +153,7 @@ CPF002.001 CPU runs on expected frequency (Ubuntu 22.04)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.001 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF002.002 CPU runs on expected frequency (Windows 11)
@@ -157,6 +161,7 @@ CPF002.002 CPU runs on expected frequency (Windows 11)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.002 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Runs On Expected Frequency (Windows 11)
 
 CPF002.003 CPU runs on expected frequency (Ubuntu 22.04) (battery)
@@ -164,10 +169,10 @@ CPF002.003 CPU runs on expected frequency (Ubuntu 22.04) (battery)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.003 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF002.004 CPU runs on expected frequency (Windows 11) (battery)
@@ -175,10 +180,10 @@ CPF002.004 CPU runs on expected frequency (Windows 11) (battery)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.004 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.004 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Runs On Expected Frequency (Windows 11)
 
 CPF002.005 CPU runs on expected frequency (Ubuntu 22.04) (AC)
@@ -186,9 +191,9 @@ CPF002.005 CPU runs on expected frequency (Ubuntu 22.04) (AC)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.005 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.005 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF002.006 CPU runs on expected frequency (Windows 11) (AC)
@@ -196,9 +201,9 @@ CPF002.006 CPU runs on expected frequency (Windows 11) (AC)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.006 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.006 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU Runs On Expected Frequency (Windows 11)
 
 CPF002.007 CPU runs on expected frequency (Ubuntu 22.04) (USB-PD)
@@ -206,9 +211,9 @@ CPF002.007 CPU runs on expected frequency (Ubuntu 22.04) (USB-PD)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.007 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    Check Battery Backup
     CPU Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF002.008 CPU runs on expected frequency (Windows 11) (USB-PD)
@@ -216,9 +221,9 @@ CPF002.008 CPU runs on expected frequency (Windows 11) (USB-PD)
     ...    running on expected frequency.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.008 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.008 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    Check Battery Backup
     CPU Runs On Expected Frequency (Windows 11)
 
 CPF004.001 CPU with load runs on expected frequency (Ubuntu 22.04)
@@ -226,6 +231,7 @@ CPF004.001 CPU with load runs on expected frequency (Ubuntu 22.04)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.001 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF004.002 CPU with load runs on expected frequency (Windows 11)
@@ -233,6 +239,7 @@ CPF004.002 CPU with load runs on expected frequency (Windows 11)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.002 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU With Load Runs On Expected Frequency (Windows 11)
 
 CPF004.003 CPU with load runs on expected frequency (Ubuntu 22.04) (battery)
@@ -240,10 +247,10 @@ CPF004.003 CPU with load runs on expected frequency (Ubuntu 22.04) (battery)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.003 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF004.004 CPU with load runs on expected frequency (Windows 11) (battery)
@@ -251,10 +258,10 @@ CPF004.004 CPU with load runs on expected frequency (Windows 11) (battery)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.004 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.004 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU With Load Runs On Expected Frequency (Windows 11)
 
 CPF004.005 CPU with load runs on expected frequency (Ubuntu 22.04) (AC)
@@ -262,9 +269,9 @@ CPF004.005 CPU with load runs on expected frequency (Ubuntu 22.04) (AC)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.005 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.005 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF004.006 CPU with load runs on expected frequency (Windows 11) (AC)
@@ -272,9 +279,9 @@ CPF004.006 CPU with load runs on expected frequency (Windows 11) (AC)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.006 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.006 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Check Battery Backup
     CPU With Load Runs On Expected Frequency (Windows 11)
 
 CPF004.005 CPU with load runs on expected frequency (Ubuntu 22.04) (USB-PD)
@@ -282,9 +289,9 @@ CPF004.005 CPU with load runs on expected frequency (Ubuntu 22.04) (USB-PD)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.007 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    Check Battery Backup
     CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
 
 CPF004.006 CPU with load runs on expected frequency (Windows 11) (USB-PD)
@@ -292,9 +299,9 @@ CPF004.006 CPU with load runs on expected frequency (Windows 11) (USB-PD)
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.008 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.008 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    Check Battery Backup
     CPU With Load Runs On Expected Frequency (Windows 11)
 
 
