@@ -306,29 +306,6 @@ CPF004.006 CPU with load runs on expected frequency (Windows 11) (USB-PD)
 
 
 *** Keywords ***
-Check Battery Backup
-    [Documentation]    Check if the current platform is equipped with a battery.
-    Set Local Variable    ${IS_BATTERY}    ${FALSE}
-    IF    '${PLATFORM}'== 'novacustom-ns50'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'tuxedo-ns50'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-ns70'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-nv41-mb'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-nv41-mz'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-ns70pu'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-ns50pu'
-        RETURN
-    ELSE IF    '${PLATFORM}' == 'novacustom-nv41-pz'
-        RETURN
-    ELSE
-        SKIP    \nPlatform does not have battery backup
-    END
-
 CPU Not Stuck On Initial Frequency (Ubuntu 22.04)
     Power On
     Boot System Or From Connected Disk    ubuntu
