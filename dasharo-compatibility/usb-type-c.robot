@@ -185,7 +185,9 @@ UTC011.001 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04)
             Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
         END
     END
-    IF    '${FAILED_DETECTION}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'    FAIL    \n ${FAILED_DETECTION} iterations failed.
+    IF    '${FAILED_DETECTION}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+        FAIL    \n ${FAILED_DETECTION} iterations failed.
+    END
     Log To Console    \nAll iterations passed.
 
 UTC012.002 USB devices recognition (Ubuntu 22.04)
