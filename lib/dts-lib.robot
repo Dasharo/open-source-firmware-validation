@@ -30,8 +30,7 @@ Boot Dasharo Tools Suite
     ELSE
         FAIL    Unknown or improper connection method: ${dts_booting_method}
     END
-    Read From Terminal Until    Enter an option:
-    Sleep    5s
+    Sleep    40s
 
 Check HCL Report Creation
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
@@ -51,7 +50,7 @@ Enter Shell In DTS
     ...    Suite.
     Write Into Terminal    8
     Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:
-    IF    ${DUT_CONNECTION_METHOD} == pikvm
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
 
