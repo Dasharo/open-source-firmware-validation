@@ -153,7 +153,7 @@ ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=          ${FALSE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${EMMC_SUPPORT}=                                    ${TRUE}
-${DTS_SUPPORT}=                                     ${FALSE}
+${DTS_SUPPORT}=                                     ${TRUE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
@@ -173,6 +173,8 @@ ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
+${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
+${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
