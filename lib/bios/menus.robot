@@ -504,3 +504,57 @@ Boot System Or From Connected Disk
         ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
     END
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+
+Make Sure That Network Boot Is Enabled
+    [Documentation]    This keywords checks that "Enable network boot" in
+    ...    "Networking Options" is enabled when present, so the network
+    ...    boot tests can be executed.
+    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE006.001 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${dasharo_menu}    Networking Options
+    IF    ${index} != -1
+        ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+        ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
+        IF    ${index} != -1
+            Set Option State    ${network_menu}    Enable network boot    ${TRUE}
+            Save Changes And Reset    2    4
+            Sleep    10s
+        END
+    END
+
+Get Firmware Version From Tianocore Setup Menu
+    [Documentation]    Keyword allows to read firmware version from Tianocore
+    ...    Setup menu header.
+    Enter Setup Menu Tianocore
+    ${output}=    Read From Terminal Until    Select Entry
+    ${firmware_line}=    Get Lines Containing String    ${output}    Dasharo (coreboot+UEFI)
+    ${firmware_version}=    Get Regexp Matches    ${firmware_line}    v\\d{1,}\.\\d{1,}\.\\d{1,}
+    RETURN    ${firmware_version}
+
+Disable Firmware Flashing Prevention Options
+    [Documentation]    Keyword makes sure firmware flashing is not prevented by
+    ...    any Dasharo Security Options, if they are present.
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${index}=    Get Index Of Matching Option In Menu
+    ...    ${dasharo_menu}    Dasharo Security Options
+    IF    ${index} != -1
+        ${security_menu}=    Enter Dasharo Submenu
+        ...    ${dasharo_menu}    Dasharo Security Options
+        ${index}=    Get Index Of Matching Option In Menu
+        ...    ${security_menu}    Lock the BIOS boot medium
+        IF    ${index} != -1
+            Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
+            Reenter Menu
+        END
+        ${index}=    Get Index Of Matching Option In Menu
+        ...    ${security_menu}    Enable SMM BIOS write
+        IF    ${index} != -1
+            Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
+            Reenter Menu
+        END
+        Save Changes And Reset    2    4
+    END
