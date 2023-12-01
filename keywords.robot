@@ -731,7 +731,7 @@ Flash Firmware
     ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
         Flash Protectli VP4670 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
-        Flash Protectli VP2420 Internal
+        Flash Protectli VP2420 Internal    ${fw_file}
     ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
         Flash Protectli VP2410 External
     ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
@@ -1548,8 +1548,7 @@ Install Package
 Download File
     [Documentation]    Download file from the given URL.
     [Arguments]    ${remote_url}    ${local_path}    ${timeout}=30
-    Wait Until Keyword Succeeds    5x    1s
-    ...    Check Internet Connection On Linux
+
     ${out}=    Execute Linux Command
     ...    wget --content-disposition --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
     ...    ${timeout}

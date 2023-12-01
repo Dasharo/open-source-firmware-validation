@@ -339,6 +339,17 @@ Flash Protectli VP4650 External
     END
     Should Contain    ${flash_result}    VERIFIED
 
+Flash Protectli VP4650 Internal
+    [Arguments]    ${fw_file}
+    Power On
+    # Boot operating system    ubuntu
+    Boot Operating System    Samsung SSD 860 EVO M.2 250GB
+    Login To Linux
+    Switch To Root User
+    Get Flashrom From Cloud
+    Send File To DUT    ${fw_file}    /tmp/dasharo.rom
+    Flash BIOS Region Via Internal Programmer    /tmp/dasharo.rom
+
 Check Coreboot Components Measurement
     [Documentation]    Check whether the hashes of the coreboot components
     ...    measurements have been stored in the TPM PCR registers.
