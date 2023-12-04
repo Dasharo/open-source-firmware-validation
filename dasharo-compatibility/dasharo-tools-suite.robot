@@ -14,15 +14,11 @@ Resource            ../variables.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND
-...                     Download ISO And Mount As USB
-...                     ${DL_CACHE_DIR}/dts-base-image-v1.2.8.iso
-...                     ${DTS_URL}
-...                     f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
-...                     AND
-...                     Make Sure That Network Boot Is Enabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
+# This must be in Test Setup, not Suite Setup, because of a known problem
+# with QEMU: https://github.com/Dasharo/open-source-firmware-validation/issues/132
+Test Setup          Make Sure That Network Boot Is Enabled    AND    Restore Initial DUT Connection Method
 
 
 *** Test Cases ***
@@ -31,7 +27,15 @@ DTS001.001 Booting DTS from USB works correctly
     ...    from USB.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS001.001 not supported
     Skip If    not ${DTS_SUPPORT}    DTS001.001 not supported
+    # FIXME: Only supported on PiKVM based setups right now
+    Skip If    "${DUT_CONNECTION_METHOD}" != "pikvm"    DTS001.001 not supported
 
+    Skip    This test will fail. You cannot use SSH when using DTS via PiKVM, as it is read-only and SSH fails.
+
+    Download ISO And Mount As USB
+    ...    ${DL_CACHE_DIR}/dts-base-image-v1.2.8.iso
+    ...    ${DTS_URL}
+    ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
     Power On
     Boot Dasharo Tools Suite    USB
 
@@ -40,11 +44,15 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     ...    report in the DTS menu properly creates the report.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.001 not supported
     Skip If    not ${DTS_SUPPORT}    DTS002.001 not supported
-    # Not supported due to SSH authorization error while sending the report
-    Skip    ns
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Check HCL Report Creation
+    Write Into Terminal    1
+    Read From Terminal Until
+    ...    Do you want to support Dasharo development by sending us logs with hardware configuration?
+    Write Into Terminal    N
+    Set DUT Response Timeout    5m
+    ${out}=    Read From Terminal Until    Enter an option:
+    Should Contain    ${out}    Done! Logs saved to:
 
 DTS003.001 DTS option reboot DUT works correctly
     [Documentation]    This test aims to verify that the option Reboot system
@@ -54,9 +62,10 @@ DTS003.001 DTS option reboot DUT works correctly
 
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Sleep    3s
     Write Into Terminal    11
-    Read From Terminal Until    ${TIANOCORE_STRING}
+    # Switch back to serial on PiKVM devices
+    Restore Initial DUT Connection Method
+    Enter Setup Menu Tianocore
 
 DTS004.001 DTS accessing shell works correctly
     [Documentation]    This test aims to verify that shell can be accessed in
@@ -66,14 +75,8 @@ DTS004.001 DTS accessing shell works correctly
 
     Power On
     Boot Dasharo Tools Suite    iPXE
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        # Since Telnet and PiKVM go out of sync with the on-screen shell:
-        Write Into Terminal    8
-        Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
-    ELSE
-        Write Into Terminal    9
-        Read From Terminal Until    bash-5.1#
-    END
+    Write Into Terminal    9
+    Read From Terminal Until Regexp    bash-\\d\\.\\d#
 
 DTS005.001 Flash device from DTS shell by using flashrom works correctly
     [Documentation]    This test aims to verify whether is the possibility to
@@ -134,9 +137,7 @@ DTS008.001 DTS option power-off DUT works correctly
 
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Sleep    3s
     Write Into Terminal    10
     Set DUT Response Timeout    30s
-    ${output}=    Run Keyword And Return Status
-    ...    Read From Terminal Until    ${TIANOCORE_STRING}
-    Should Not Be True    ${output}
+    ${status}=    Run Keyword And Return Status    Enter Setup Menu Tianocore
+    Should Not Be True    ${status}
