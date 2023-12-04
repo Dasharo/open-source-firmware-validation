@@ -1,3 +1,7 @@
+*** Settings ***
+Library     OperatingSystem
+
+
 *** Keywords ***
 Upload And Mount DTS Flash ISO
     [Documentation]    Mounts a bootable ISO as flash USB. Currently
@@ -9,16 +13,18 @@ Upload And Mount DTS Flash ISO
 Download ISO And Mount As USB
     [Documentation]    Mounts the desired ISO as USB stick,
     ...    either via PiKVM or Qemu
-    [Arguments]    ${img_name}    ${img_url}    ${img_sha256sum}
+    [Arguments]    ${img_path}    ${img_url}    ${img_sha256sum}
 
     Download To Host Cache
-    ...    ${img_name}
+    ...    ${img_path}
     ...    ${img_url}
     ...    ${img_sha256sum}
 
+    ${img_dir}    ${img_name}=    Split Path    ${img_path}
+
     IF    "${MANUFACTURER}" == "QEMU"
         Remove Drive From Qemu
-        Add USB To Qemu    img_name=${img_name}
+        Add USB To Qemu    img_name=${img_path}
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
             Upload Image To PiKVM    ${PIKVM_IP}    ${img_url}
