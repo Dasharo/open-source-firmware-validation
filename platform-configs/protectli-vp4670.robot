@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    ../os-config/ubuntu-credentials.robot
+
+
 *** Variables ***
 ${DUT_CONNECTION_METHOD}=                           Telnet
 ${PAYLOAD}=                                         tianocore
@@ -21,9 +25,9 @@ ${CPU}=                                             ${EMPTY}
 ${POWER_CTRL}=                                      sonoff
 ${FLASH_VERIFY_METHOD}=                             none
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
-${WIFI_CARD}=                                       ${EMPTY}
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
+${WIFI_CARD_UBUNTU}=                                Qualcomm Atheros QCA6174
 ${LTE_CARD}=                                        ${EMPTY}
+${USB_MODEL}=                                       SanDisk
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
@@ -35,8 +39,8 @@ ${LTE_CARD}=                                        ${EMPTY}
 # ${wol_interface}    enp3s0
 # ${SD_DEV_LINUX}    /dev/mmcblk0
 # ${nic_number}    ${4}
-${DEVICE_USB_KEYBOARD}=                             ${EMPTY}
-${DEVICE_NVME_DISK}=                                ${EMPTY}
+${DEVICE_USB_KEYBOARD}=                             Logitech
+${DEVICE_NVME_DISK}=                                Samsung SSD 980 PRO 1TB
 ${DEVICE_AUDIO1}=                                   ${EMPTY}
 ${DEVICE_AUDIO2}=                                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
@@ -63,16 +67,17 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP4670:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_UBUNTU_USERNAME}=                          user
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-VP4670:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-VP4670:/home/user#
+${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
+${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
+${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
+${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.0.19
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.1.0
 ${DMIDECODE_PRODUCT_NAME}=                          VP4670
-${DMIDECODE_RELEASE_DATE}=                          12/08/2022
+${DMIDECODE_RELEASE_DATE}=                          15/06/2023
 ${DMIDECODE_MANUFACTURER}=                          Protectli
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                N/A
@@ -120,7 +125,7 @@ ${USB_CAMERA_DETECTION_SUPPORT}=                    ${FALSE}
 ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
 ${UEFI_SHELL_SUPPORT}=                              ${TRUE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${TRUE}
-${IPXE_BOOT_SUPPORT}=                               ${FALSE}
+${IPXE_BOOT_SUPPORT}=                               ${TRUE}
 ${NETBOOT_UTILITIES_SUPPORT}=                       ${TRUE}
 ${NVME_DISK_SUPPORT}=                               ${TRUE}
 ${SD_CARD_READER_SUPPORT}=                          ${FALSE}
@@ -154,7 +159,7 @@ ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${EMMC_SUPPORT}=                                    ${TRUE}
 ${DTS_SUPPORT}=                                     ${FALSE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
-${CPU_TESTS_SUPPORT}=                               ${TRUE}
+${DEVICE_TREE_SUPPORT}=                             ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
 ${DOCKING_STATION_DISPLAY_PORT}=                    ${FALSE}
@@ -177,23 +182,23 @@ ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
 ${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${FALSE}
-${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
-${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
+${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
-${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${TRUE}
+${SERIAL_BOOT_MEASURE}=                             ${FALSE}
 ${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}

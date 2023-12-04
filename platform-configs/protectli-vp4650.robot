@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    ../os-config/ubuntu-credentials.robot
+
+
 *** Variables ***
 ${DUT_CONNECTION_METHOD}=                           Telnet
 ${PAYLOAD}=                                         tianocore
@@ -18,11 +22,12 @@ ${SOL_STRING}=                                      ${EMPTY}
 ${SN_PATTERN}=                                      ${EMPTY}
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             ${EMPTY}
-${POWER_CTRL}=                                      sonoff
+${POWER_CTRL}=                                      RteCtrl
 ${FLASH_VERIFY_METHOD}=                             none
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
+${WIFI_CARD_UBUNTU}=                                Qualcomm Atheros QCA6174
 ${LTE_CARD}=                                        ${EMPTY}
+${USB_MODEL}=                                       SanDisk
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
@@ -42,7 +47,6 @@ ${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
 ${INITIAL_CPU_FREQUENCY}=                           ${EMPTY}
 ${WIN_USB_STICK}=                                   ${EMPTY}
 ${USB_SHORT_NAME}=                                  ${EMPTY}
-${ME_INTERFACE}=                                    ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
@@ -63,10 +67,11 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP4650:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_UBUNTU_USERNAME}=                          user
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-VP4650:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-VP4650:/home/user#
+${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\Users\user>
+${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
+${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
+${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
@@ -80,6 +85,8 @@ ${DMIDECODE_TYPE}=                                  N/A
 
 ${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
 ${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
+
+${ME_INTERFACE}=                                    Intel Corporation Comet Lake Management Engine Interface
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -167,7 +174,7 @@ ${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
@@ -175,15 +182,15 @@ ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
 ${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${FALSE}
-${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
-${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
+${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
