@@ -173,6 +173,7 @@ ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
+${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 

@@ -157,7 +157,7 @@ ${ESP_SCANNING_SUPPORT}=                            ${TRUE}
 ${FW_DOWNLOAD_LINK}=
 ...                                                 https://cloud.3mdeb.com/index.php/s/CiDbHRkpJWq7grw/download/msi_ms7d25_ddr5_v1.1.2_serial.rom
 ${FW_VERSION}=                                      v1.1.2
-${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
+${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 ${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
 
