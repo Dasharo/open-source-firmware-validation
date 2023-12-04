@@ -21,7 +21,7 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Disable Firmware Flashing Prevention Options
+...                     Make Sure That Flash Locks Are Disabled
 ...                     AND
 ...                     Flash Firmware    ${FW_FILE}
 ...                     AND

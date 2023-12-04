@@ -22,7 +22,7 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Disable Firmware Flashing Prevention Options
+...                     Make Sure That Flash Locks Are Disabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
