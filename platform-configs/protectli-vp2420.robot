@@ -1,5 +1,4 @@
 *** Settings ***
-Resource    ../keys-and-keywords/flashrom.robot
 Resource    ../keywords.robot
 Resource    ../os-config/ubuntu-credentials.robot
 
