@@ -130,7 +130,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE34}=                   ip=192.168.10.199    cpuid=02c000424753a7fb    pcb_rev=1.1.0
 ...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.169
-...                         firmware_type=UEFI    pikvm_ip=192.168.10.153
+...                         firmware_type=UEFI    pikvm_ip=192.168.10.16
 &{RTE39}=                   ip=192.168.10.188    cpuid=02c0014266f49b55    pcb_rev=1.1.0
 ...                         platform=msi-pro-z690-a-ddr5    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.69
