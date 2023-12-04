@@ -1,8 +1,3 @@
-*** Settings ***
-Library     ../robot-venv/lib/python3.11/site-packages/robot/libraries/Collections.py
-Resource    bios/menus.robot
-
-
 *** Keywords ***
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
@@ -10,12 +5,8 @@ Boot Dasharo Tools Suite
     [Arguments]    ${dts_booting_method}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     IF    '${dts_booting_method}'=='USB'
-        ${is_pikvm}=    Run Keyword And Return Status
-        ...    Should Contain Match    ${boot_menu}    *PiKVM*
-        IF    ${is_pikvm} == ${TRUE}
+        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
-            Sleep    1s
-            Press Key N Times    1    ${ENTER}
         ELSE IF    '${MANUFACTURER}' == 'QEMU'
             Enter Submenu From Snapshot    ${boot_menu}    QEMU
         ELSE
@@ -30,6 +21,21 @@ Boot Dasharo Tools Suite
     ELSE
         FAIL    Unknown or improper connection method: ${dts_booting_method}
     END
+
+    # For PiKVM devices, we have only input on serial, not output. The video and serial consoles are
+    # two different console in case of Linux, they are not in sync anymore as in case of firmware.
+    # We have to switch to SSH connection to continue test execution on such devices.
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        # Wait for the menu to be loaded on serial
+        Read From Terminal Until    Enter an option:
+        # Enable SSH server and switch to SSH connection by writing on video console "in blind"
+        Write Into Terminal    8
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
+        # Spawn DTS menu on SSH console
+        Write Into Terminal    dts
+    END
+
     Read From Terminal Until    Enter an option:
     Sleep    5s
 
@@ -49,11 +55,7 @@ Check HCL Report Creation
 Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
-    Write Into Terminal    8
-    Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:
-    IF    ${DUT_CONNECTION_METHOD} == pikvm
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-    END
+    Write Into Terminal    9
 
 Run EC Transition
     [Documentation]    Keyword allows to run EC Transition procedure in the
