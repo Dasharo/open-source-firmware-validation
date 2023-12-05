@@ -22,10 +22,9 @@ Resource            ../keys.robot
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND
-...                     Prepare Test Files
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
+Test Setup          Restore Initial DUT Connection Method
 
 
 *** Test Cases ***
@@ -124,11 +123,13 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
-    Download ISO And Mount As USB    ${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}    ${GOOD_KEYS_SHA256}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
+    Save Changes
+    Reenter Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    GOOD_KEYS
@@ -145,7 +146,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Download ISO And Mount As USB    ${NOT_SIGNED_NAME}    ${NOT_SIGNED_URL}
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${NOT_SIGNED_NAME}    ${NOT_SIGNED_URL}    ${NOT_SIGNED_SHA256}
     Power On
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello.efi
@@ -157,7 +158,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
-    Download ISO And Mount As USB    ${BAD_KEYS_NAME}    ${BAD_KEYS_URL}
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_KEYS_NAME}    ${BAD_KEYS_URL}    ${BAD_KEYS_SHA256}
     Power On
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-bad-keys.efi
@@ -186,11 +187,13 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
-    Download ISO And Mount As USB    ${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}    ${GOOD_KEYS_SHA256}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
+    Save Changes
+    Reenter Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    GOOD_KEYS
@@ -217,11 +220,13 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
-    Download ISO And Mount As USB    ${BAD_FORMAT_NAME}    ${BAD_FORMAT_URL}
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_FORMAT_NAME}    ${BAD_FORMAT_URL}    ${BAD_FORMAT_SHA256}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
+    Save Changes
+    Reenter Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    BAD_FORMAT
