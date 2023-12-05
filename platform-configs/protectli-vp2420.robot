@@ -1,5 +1,4 @@
 *** Settings ***
-Resource    ../keywords.robot
 Resource    ../os-config/ubuntu-credentials.robot
 
 
@@ -60,10 +59,12 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP2420:/home/user#
 
 ${DEVICE_WINDOWS_USERNAME}=                         ${EMPTY}
 ${DEVICE_WINDOWS_PASSWORD}=                         ${EMPTY}
+
 ${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
 ${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
+
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A

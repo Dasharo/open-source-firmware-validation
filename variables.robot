@@ -248,8 +248,12 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD10}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 980 PRO 1TB
+&{SSD11}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 860 EVO M.2 250GB
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
+...                         &{SSD11}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -395,7 +399,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG29}=                &{RTE37}    &{USB11}
 @{CONFIG30}=                &{RTE38}    &{USB11}
 @{CONFIG31}=                &{RTE39}    &{USB14}    &{SSD08}
-@{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD07}
+@{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD11}
 @{CONFIG33}=                &{RTE41}
 @{CONFIG34}=                &{RTE42}
 @{CONFIG35}=                &{RTE43}
