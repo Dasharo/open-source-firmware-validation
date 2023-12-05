@@ -28,6 +28,7 @@ Test Setup          Restore Initial DUT Connection Method
 
 
 *** Test Cases ***
+
 SBO001.001 Check Secure Boot default state (firmware)
     [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
@@ -258,6 +259,24 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     ${out}=    Execute File In UEFI Shell    hello.efi
     Should Contain    ${out}    Access Denied
     ${out}=    Execute File In UEFI Shell    signed-hello.efi
+
+SBO010.001 Check support for rsa2k signed certificates
+    [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:2048 -subj "/CN=DB-RSA2048/" -keyout DB-RSA2048.key -out DB-RSA2048.crt -days 3650 -nodes -sha256`
+    ...    converted to DER using `openssl base64 -d -in DB-RSA2048.cer -out DB-RSA2048.der`
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${RSA2_K_TEST_NAME}    ${RSA2_K_TEST_URL}    ${RSA2_K_TEST_SHA256}
+    Power On
+
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Volume In File Explorer    RSA2K_LABEL
+    Select File In File Explorer    DB-RSA2048.der
+    Save Changes And Reset    3    5
+
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    hello_rsa2k.efi
     Should Contain    ${out}    Hello, world!
 
 
