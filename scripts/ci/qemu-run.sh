@@ -67,8 +67,7 @@ if [ $# -ne 2 ]; then
   usage
 fi
 
-QEMU_PARAMS_BASE="-machine q35,smm=on,accel=kvm \
-  -enable-kvm \
+QEMU_PARAMS_BASE="-machine q35,smm=on \
   -global driver=cfi.pflash01,property=secure,value=on \
   -drive if=pflash,format=raw,unit=0,file=./OVMF_CODE.fd,readonly=on \
   -drive if=pflash,format=raw,unit=1,file=/tmp/OVMF_VARS.fd \
@@ -80,6 +79,7 @@ QEMU_PARAMS_BASE="-machine q35,smm=on,accel=kvm \
   -device qemu-xhci,id=usb"
 
 QEMU_PARAMS_OS="-smp 2 \
+  -enable-kvm \
   -mem-prealloc \
   -device ich9-intel-hda \
   -device hda-duplex,audiodev=hda \
