@@ -37,33 +37,12 @@ compatibility_tests=(
   "custom-boot-menu-key"
   "uefi-shell"
   "network-boot"
-  "reset-to-defaults"
 )
 
-# security_tests=(
-#   "tpm-support"
-#   "measured-boot"
-#   "verified-boot"
-#   "network-stack"
-#   "me-neuter"
-#   "uefi-password"
-#   "early-boot-dma-protection"
-#   "tcg-opal-disk-password"
-#   "usb-stack"
-#   "bios-lock"
-#   "smm-bios-write-protection"
-# )
-#
-# performance_tests=(
-#   "cpu-temperature"
-#   "cpu-frequency"
-# )
-
-### Firmware + Ubuntu tests ###
-# Flags to be set in config:
-# ${initial_dut_connection_method}                    pikvm
-# ${tests_in_firmware_support}                        ${True}
-# ${tests_in_ubuntu_support}                          ${True}
+security_tests=(
+  "network-stack"
+  "secure-boot"
+)
 
 OS=ubuntu
 
@@ -72,30 +51,7 @@ for test in "${compatibility_tests[@]}"; do
     execute_robot "compatibility" "$test"
 done
 
-# # Security tests
-# for test in "${security_tests[@]}"; do
-#     execute_robot "security" "$test"
-# done
-#
-# # Performance tests
-# for test in "${performance_tests[@]}"; do
-#     execute_robot "performance" "$test"
-# done
-
-# TODO: We could set RF flags within this script, to avoid manual edition of configs
-# ### Firmware + Windows tests (?) ###
-# OS=windows
-#
-# for test in "${compatibility_tests[@]}"; do
-#     execute_robot "compatibility" "$test"
-# done
-#
-# # Security tests
-# for test in "${security_tests[@]}"; do
-#     execute_robot "security" "$test"
-# done
-#
-# # Performance tests
-# for test in "${performance_tests[@]}"; do
-#     execute_robot "performance" "$test"
-# done
+# Security tests
+for test in "${security_tests[@]}"; do
+    execute_robot "security" "$test"
+done
