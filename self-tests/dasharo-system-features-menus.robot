@@ -118,7 +118,7 @@ Parse Power Management Options
     [Documentation]    Check if Power Management Options menu can be parsed.
     ${power_menu}=    Parsing Dasharo Submenu Verification    Power Management Options
     ${power_entries}=    Get Length    ${power_menu}
-    Should Be Equal As Integers    ${power_entries}    4
+    Should Be Equal As Integers    ${power_entries}    5
     Should Match Regexp    ${power_menu}[0]    ^Fan profile <.*>.*$
     # Second line from Batter Start/Stop Chare Threshold should not be there
     List Should Not Contain Value    ${power_menu}    Threshold
