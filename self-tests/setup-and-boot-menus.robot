@@ -125,20 +125,6 @@ Enter Secure Boot Menu
     Should Contain    ${out}    Secure Boot Configuration
     Should Contain    ${out}    Current Secure Boot State
 
-Parse Secure Boot Menu
-    [Documentation]    Test entering into User Password Management menu
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction    ${device_menu}    Secure Boot Configuration
-    Should Match Regexp    ${sb_menu}[0]    ^Current Secure Boot State.*$
-    Should Match Regexp    ${sb_menu}[1]    ^Attempt Secure Boot \\[.\\].*$
-    Should Match Regexp    ${sb_menu}[2]    ^Secure Boot Mode \\<.*\\>.*$
-    Should Match Regexp    ${sb_menu}[3]    ^Reset Secure Boot Keys$
-    Menu Construction Should Not Contain Control Text    ${sb_menu}
-
 Enter One Time Boot Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
