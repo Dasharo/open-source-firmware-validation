@@ -3,6 +3,46 @@ Documentation       Collection of keywords related to System Sleep States
 
 
 *** Keywords ***
+Check If Platform Sleep Type Can Be Selected
+    [Documentation]    Check if there is a Platform sleep type option
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    ${platform_sleep_type_selectable}=    Run Keyword And Return Status
+    ...    Get Option State
+    ...    ${power_menu}
+    ...    Platform sleep type
+    Set Suite Variable    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    ${platform_sleep_type_selectable}
+
+Set Platform Sleep Type
+    [Documentation]    Set Platform sleep type to the given value
+    [Arguments]    ${platform_sleep_type}
+    Power On
+    IF    '${platform_sleep_type}' == 'S0ix'
+        Set Local Variable    ${PLATFORM_SLEEP_TYPE_TEXT}    Suspend to Idle (S0ix)
+    ELSE IF    '${platform_sleep_type}' == 'S3'
+        Set Local Variable    ${PLATFORM_SLEEP_TYPE_TEXT}    Suspend to RAM (S3)
+    ELSE
+        Fail    Wrong Argument
+    END
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Set Option State    ${power_menu}    Platform sleep type    ${PLATFORM_SLEEP_TYPE_TEXT}
+    Save Changes And Reset    2    4
+
+Check Platform Sleep Type Is Correct On Linux
+    [Documentation]    Check Platform sleep type in Linux
+    [Arguments]    ${platform_sleep_type}=${EMPTY}
+    IF    '${platform_sleep_type}' == 'S0ix'
+        ${power_mem_sleep}=    Execute Command In Terminal    cat /sys/power/mem_sleep
+        Should Contain    ${power_mem_sleep}    [s2idle] shallow    # Six0
+    ELSE IF    '${platform_sleep_type}' == 'S3'
+        ${power_mem_sleep}=    Execute Command In Terminal    cat /sys/power/mem_sleep
+        Should Contain    ${power_mem_sleep}    s2idle [deep]    # S3
+    END
+
 Detect Or Install FWTS
     [Documentation]    Keyword allows to check if Firmware Test Suite (fwts)
     ...    has been already installed on the device. Otherwise, triggers
