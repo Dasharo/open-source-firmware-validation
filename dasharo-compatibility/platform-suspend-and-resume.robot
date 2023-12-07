@@ -13,7 +13,9 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-Suite Setup         Prepare Test Suite
+Suite Setup         Run Keywords
+...                     Prepare Test Suite
+...                     Check If Platform Sleep Type Can Be Selected
 Suite Teardown      Log Out And Close Connection
 
 
@@ -23,10 +25,36 @@ SUSP005.001 Cyclic platform suspend and resume (Ubuntu 22.04)
     ...    and resume procedure performed cyclically works correctly
     Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.001 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.001 not supported
+    Cyclic Platform Suspend And Resume (Ubuntu 22.04)
+
+SUSP005.002 Cyclic platform suspend and resume (Ubuntu 22.04) (S0ix)
+    [Documentation]    This test aims to verify that the DUT platform suspend
+    ...    and resume procedure performed cyclically works correctly
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.002 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.002 not supported
+    Set Platform Sleep Type    S0ix
+    Cyclic Platform Suspend And Resume (Ubuntu 22.04)    S0ix
+
+SUSP005.003 Cyclic platform suspend and resume (Ubuntu 22.04) (S3)
+    [Documentation]    This test aims to verify that the DUT platform suspend
+    ...    and resume procedure performed cyclically works correctly
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.003 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.003 not supported
+    Set Platform Sleep Type    S3
+    Cyclic Platform Suspend And Resume (Ubuntu 22.04)    S3
+
+
+*** Keywords ***
+Cyclic Platform Suspend And Resume (Ubuntu 22.04)
+    [Arguments]    ${platform_sleep_type}=${EMPTY}
     ${suspend_detected_fails}=    Set Variable    ${0}
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
+    Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
     Detect Or Install FWTS
     FOR    ${index}    IN RANGE    0    ${SUSPEND_ITERATIONS_NUMBER}
@@ -39,8 +67,8 @@ SUSP005.001 Cyclic platform suspend and resume (Ubuntu 22.04)
     ...    \n${SUSPEND_ITERATIONS_NUMBER} iterations were performed to check the suspend procedure. \n${suspend_detected_fails} iterations have failed.
     IF    ${suspend_detected_fails} > ${SUSPEND_ALLOWED_FAILS}
         FAIL
-        ...    \nTest case SUSP001.001 has been marked as failed. \nThe number of detected errors is greater than the number of allowed fails: ${SUSPEND_ALLOWED_FAILS}.
+        ...    \nTest case ${TEST_NAME} has been marked as failed. \nThe number of detected errors is greater than the number of allowed fails: ${SUSPEND_ALLOWED_FAILS}.
     ELSE
         Pass Execution
-        ...    \nTest case SUSP001.001 has been marked passed. \nThe number of detected errors is at least the same as the number of allowed fails: ${SUSPEND_ALLOWED_FAILS}.
+        ...    \nTest case ${TEST_NAME} has been marked passed. \nThe number of detected errors is at least the same as the number of allowed fails: ${SUSPEND_ALLOWED_FAILS}.
     END
