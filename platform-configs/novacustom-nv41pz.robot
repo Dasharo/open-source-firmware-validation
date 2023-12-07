@@ -222,7 +222,7 @@ ${WINDOWS_BOOTING}=                                 ${FALSE}
 ${M2_WIFI_SUPPORT}=                                 ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                          ${TRUE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
-${TPM_DETECT_SUPPORT}=                              ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
 # Supported OS installation variants

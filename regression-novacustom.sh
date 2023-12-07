@@ -6,7 +6,11 @@ CONFIG="novacustom-nv41pz"
 # CONFIG="novacustom-ns70mu"
 # CONFIG="novacustom-ns70pu"
 
-FW_FILE="novacustom_nv4x_adl_v1.7.0.rom"
+RTE_IP=192.168.4.180
+
+DEVICE_IP=192.168.4.225
+
+FW_FILE="novacustom_nv4x_adl_v1.7.1.rom"
 
 if [ ! -f "${FW_FILE}" ]; then
     echo "${FW_FILE} not found. Please provide correct FW_FILE value"
@@ -20,6 +24,8 @@ execute_robot() {
     local _log_file="${_test_name}_log.html"
     robot -L TRACE \
           -l ${CONFIG}-${OS}/${_log_file} \
+          -v device_ip:${DEVICE_IP} \
+          -v rte_ip:${RTE_IP} \
           -v config:${CONFIG} \
           -v snipeit:no \
           -v fw_file:${FW_FILE} \
