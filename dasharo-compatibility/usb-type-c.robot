@@ -18,8 +18,9 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     Check If Platform Sleep Type Can Be Selected
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -171,24 +172,26 @@ UTC011.001 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04)
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.001 not supported
-    Power On
-    Login To Linux
-    Switch To Root User
-    Detect Or Install FWTS
-    Detect Docking Station In Linux (WL-UMD05 Pro)
-    Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
-        Perform Suspend Test Using FWTS
-        TRY
-            Detect Docking Station In Linux (WL-UMD05 Pro)
-        EXCEPT    message
-            Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
-        END
-    END
-    IF    '${FAILED_DETECTION}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${FAILED_DETECTION} iterations failed.
-    END
-    Log To Console    \nAll iterations passed.
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.001 not supported
+    Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)
+
+UTC011.002 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04) (S0ix)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.002 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.002 not supported
+    Set Platform Sleep Type    S0ix
+    Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)    S0ix
+
+UTC011.003 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04) (S3)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.003 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.003 not supported
+    Set Platform Sleep Type    S3
+    Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)    S3
 
 UTC012.002 USB devices recognition (Ubuntu 22.04)
     [Documentation]    Check whether the external USB devices connected to the
@@ -345,3 +348,27 @@ UTC021.002 USB Type-C laptop charging (Windows 11)
     Power On
     Login To Windows
     Check Charging State In Windows
+
+
+*** Keywords ***
+Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)
+    [Arguments]    ${platform_sleep_type}=${EMPTY}
+    Power On
+    Login To Linux
+    Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
+    Switch To Root User
+    Detect Or Install FWTS
+    Detect Docking Station In Linux (WL-UMD05 Pro)
+    Set Global Variable    ${FAILED_DETECTION}    0
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
+        Perform Suspend Test Using FWTS
+        TRY
+            Detect Docking Station In Linux (WL-UMD05 Pro)
+        EXCEPT    message
+            Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
+        END
+    END
+    IF    '${FAILED_DETECTION}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+        FAIL    \n ${FAILED_DETECTION} iterations failed.
+    END
+    Log To Console    \nAll iterations passed.
