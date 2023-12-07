@@ -12,8 +12,9 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     Check If Platform Sleep Type Can Be Selected
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -88,8 +89,35 @@ SNV004.001 NVMe detection after suspension (Ubuntu 22.04)
     ...    performing suspension.
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.001 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.001 not supported
+    NVMe Detection After Suspension (Ubuntu 22.04)
+
+SNV004.002 NVMe detection after suspension (Ubuntu 22.04) (S0ix)
+    [Documentation]    Check whether the NVMe disk is correctly detected after
+    ...    performing suspension.
+    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.002 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.002 not supported
+    Set Platform Sleep Type    S0ix
+    NVMe Detection After Suspension (Ubuntu 22.04)    S0ix
+
+SNV004.003 NVMe detection after suspension (Ubuntu 22.04) (S3)
+    [Documentation]    Check whether the NVMe disk is correctly detected after
+    ...    performing suspension.
+    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.003 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.003 not supported
+    Set Platform Sleep Type    S3
+    NVMe Detection After Suspension (Ubuntu 22.04)    S3
+
+
+*** Keywords ***
+NVMe Detection After Suspension (Ubuntu 22.04)
+    [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
-    Boot System Or From Connected Disk    ubuntu Login to Linux
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
