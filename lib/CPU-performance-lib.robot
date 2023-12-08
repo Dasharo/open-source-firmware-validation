@@ -102,7 +102,7 @@ Check Power Supply
         IF    ${TESTS_IN_UBUNTU_SUPPORT}
             ${bat0_present}    ${ac_online}    ${usb-pd_online}=    Check Power Supply On Linux
         ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-            Check Power Supply On Windows
+            ${bat0_present}    ${ac_online}    ${usb-pd_online}=    Check Power Supply On Windows
         ELSE IF    ${HEADS_PAYLOAD_SUPPORT}
             Log    Check Power Supply on Heads not implemented yet    ERROR
         ELSE
@@ -128,6 +128,7 @@ Check Power Supply On Linux
     Should Not Contain    ${ac_online_raw}    No such file or directory
     ${ac_online}=    Run Keyword And Return Status    Should Be Equal    ${ac_online_raw}    1
 
+    # FIXME: USB-PD detection is not yet possible.
     ${usb-pd_online_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/USB-PD/online
     Log    'cat /sys/class/power_supply/USB-PD/online' not implemented yet, if implemented, remove #    WARN
     # Should Not Contain    ${USB-PD_online_raw}    No such file or directory
@@ -138,19 +139,24 @@ Check Power Supply On Linux
 Check Power Supply On Windows
     Power On
     Login To Windows
-    ${bat0_present_raw}=    Execute Command In Terminal    (Get-WmiObject Win32_Battery).BatteryStatus
-    ${bat0_present}=    Run Keyword And Return Status    Should Not Be Empty    ${bat0_present_raw}
+    ${raw_output}=    Execute Command In Terminal    (Get-WmiObject Win32_Battery).BatteryStatus
+    ${bat0_present}=    Run Keyword And Return Status    Should Not Be Empty    ${raw_output}
 
-    ${ac_online_raw}=    Execute Command In Terminal    (Get-WmiObject Win32_Battery).BatteryStatus
-    ${ac_online_raw_empty}=    Run Keyword And Return Status    Should Be Empty    ${ac_online_raw}
-    ${ac_online_raw_equal_2}=    Run Keyword And Return Status    Should Be Equal    ${ac_online_raw}    2
-    IF    ${ac_online_raw_empty} OR ${ac_online_raw_equal_2}
-        Set Local Variable    ${AC_ONLINE}=    ${TRUE}
-    END
+    # ${ac_online_raw}=    Execute Command In Terminal    (Get-WmiObject Win32_Battery).BatteryStatus
+    ${ac_online_empty}=    Run Keyword And Return Status    Should Be Empty    ${raw_output}
+    ${ac_online_equal_2}=    Run Keyword And Return Status    Should Be Equal    ${raw_output}    2
+    # IF    ${ac_online_raw_empty}    or    ${ac_online_raw_equal_2}
+    #    Set Local Variable    ${AC_ONLINE}=    ${TRUE}
+    # END
+    ${ac_online}=    Set Variable If
+    ...    ${ac_online_empty}    ${TRUE}
+    ...    ${ac_online_equal_2}    ${TRUE}
 
-    ${usb-pd_online_raw}=    Execute Command In Terminal    (Get-WmiObject Win32_Battery).BatteryStatus
-    Log    Check power supply USB-PD not implemented yet, if implemented, remove #    WARN
-    # Should Not Contain    ${USB-PD_online_raw}    No such file or directory
-    # ${USB-PD_online}=    Run Keyword And Return Status    Should Be Equal    ${USB-PD_online_raw}    1
+    # FIXME: USB-PD detection is not yet possible.
+    Log    Check power supply USB-PD not implemented yet    WARN
+    ${usb-pd_online}=    Run Keyword And Return Status
+    ...    Should Be Equal
+    ...    ${raw_output}
+    ...    insert the correct USB-PD detection method here
 
-    RETURN    ${bat0_present}    ${AC_ONLINE}    ${USB-PD_online}
+    RETURN    ${bat0_present}    ${ac_online}    ${usb-pd_online}
