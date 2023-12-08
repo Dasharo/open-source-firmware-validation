@@ -34,5 +34,6 @@ MMC001.001 eMMC support (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Check EMMC Module
+    ${out}=    Execute Command In Terminal    cat /sys/class/block/mmcblk0/device/name
+    Should Contain    ${out}    ${E_MMC_NAME}
     Exit From Root User
