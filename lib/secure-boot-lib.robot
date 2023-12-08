@@ -23,6 +23,9 @@ ${INTERMEDIATE_SHA256}=     5261340f3de5c3e70a11273c9bb94a3d01cb34302504982ba7ac
 ${RSA2_K_TEST_NAME}=        hello_rsa2k_test.img
 ${RSA2_K_TEST_URL}=         https://cloud.3mdeb.com/index.php/s/85KSa7EFaMtnJQS/download/hello_rsa2k_test.img
 ${RSA2_K_TEST_SHA256}=      5007aa3051c847eca519d31e3446951012520e103b12deaee7daf29a10354ed4
+${RSA3_K_TEST_NAME}=        hello_rsa3k_test.img
+${RSA3_K_TEST_URL}=         https://cloud.3mdeb.com/index.php/s/7pwazGCojdeWDMX/download/hello_rsa3k_test.img
+${RSA3_K_TEST_SHA256}=      7f62edb71d2567ce7fcd009c274bd012bf8b60a9072a9470e11fc6d9966359d9
 
 
 *** Keywords ***
