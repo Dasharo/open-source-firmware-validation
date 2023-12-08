@@ -218,3 +218,12 @@ Execute File In UEFI Shell
     Press Enter
     ${out}=    Read From Terminal Until    FS0:\\>
     RETURN    ${out}
+Enter DTS From GRUB
+    Read From Terminal Until    Sample EFI boot
+    Press Enter 
+Select DTS Option
+    [Arguments]    ${option}
+    Read From Terminal Until    Enter an option:
+    Write Bare Into Terminal    ${option}
+    Press Enter
+Execute Command In DTS

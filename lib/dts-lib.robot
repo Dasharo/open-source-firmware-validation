@@ -1,3 +1,6 @@
+*** Settings ***
+Resource    terminal.robot
+Library    Telnet
 *** Keywords ***
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
@@ -55,7 +58,9 @@ Check HCL Report Creation
 Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
+    Set Prompt For Terminal    bash-5.1#
     Write Into Terminal    9
+    Read From Terminal Until Prompt
 
 Run EC Transition
     [Documentation]    Keyword allows to run EC Transition procedure in the
