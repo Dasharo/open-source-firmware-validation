@@ -46,8 +46,7 @@ ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
 
 # eMMC driver support
-${E_MMC_NAME}=                                      MMC 8GTF4R
-${E_MMC_PARTITION_TABLE}=                           gpt
+${E_MMC_NAME}=                                      8GTF4R
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           internal

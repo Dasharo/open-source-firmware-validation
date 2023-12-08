@@ -47,9 +47,7 @@ ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${MAX_CPU_TEMP}=                                    77
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
 
-# eMMC driver support
-${E_MMC_NAME}=                                      MMC BJTD4R
-${E_MMC_PARTITION_TABLE}=                           gpt
+${E_MMC_NAME}=                                      BJTD4R
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           external

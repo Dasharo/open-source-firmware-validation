@@ -38,8 +38,7 @@ ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
 
 # eMMC driver support
-${E_MMC_NAME}=                                      ${EMPTY}
-${E_MMC_PARTITION_TABLE}=                           ${EMPTY}
+${E_MMC_NAME}=                                      8GTF4R
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           internal
@@ -137,7 +136,7 @@ ${DOCKING_STATION_KEYBOARD_SUPPORT}=                ${FALSE}
 ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=          ${FALSE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
-${EMMC_SUPPORT}=                                    ${FALSE}
+${EMMC_SUPPORT}=                                    ${TRUE}
 ${DTS_SUPPORT}=                                     ${FALSE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
