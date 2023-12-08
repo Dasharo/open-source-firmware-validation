@@ -52,8 +52,7 @@ ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 
 # eMMC driver support
-${E_MMC_NAME}=                                      MMC AJTD4R
-${E_MMC_PARTITION_TABLE}=                           gpt
+${E_MMC_NAME}=                                      AJTD4R
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           external
