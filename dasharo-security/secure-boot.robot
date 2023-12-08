@@ -317,6 +317,29 @@ SBO009.003 Check support for rsa4k signed certificates
     ${out}=    Execute File In UEFI Shell    hello_rsa4k.efi
     Should Contain    ${out}    Hello, world!
 
+SBO009.004 Check support for ecdsa256 signed certificates
+    [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -subj "/CN=DB-ECDSA256/" -keyout DB-ECDSA256.key
+    ...    -out DB-ECDSA256.crt -days 3650 -nodes -sha256`
+    ...    converted to DER using `openssl base64 -d -in DB-ECDSA256.cer -out DB-ECDSA256.der`
+    Download ISO And Mount As USB
+    ...    ${DL_CACHE_DIR}/${ECDSA256_TEST_NAME}
+    ...    ${ECDSA256_TEST_URL}
+    ...    ${ECDSA256_TEST_SHA256}
+    Power On
+
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Volume In File Explorer    ECDSA256_L
+    Select File In File Explorer    DB-ECDSA256.der
+    Save Changes And Reset    3    5
+
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    hello_ecdsa256.efi
+    Should Contain    ${out}    Hello, world!
+
 *** Keywords ***
 Prepare Test Files
     IF    "${MANUFACTURER}" == "QEMU"
