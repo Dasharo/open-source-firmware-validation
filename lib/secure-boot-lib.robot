@@ -32,6 +32,9 @@ ${RSA4_K_TEST_SHA256}=      abab541a7c676b40a2a1d58d22d5fe4c6a236b83c1e833d5bfd1
 ${ECDSA256_TEST_NAME}=      hello_ecdsa256_test.img
 ${ECDSA256_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/aBmETzTJGeGNg3t/download/hello_ecdsa256_test.img
 ${ECDSA256_TEST_SHA256}=    979f8b24cb09f6e10a71f736799340dc16a081a6e4a6d009ca65e0cebeb890bd
+${ECDSA384_TEST_NAME}=      hello_ecdsa384_test.img
+${ECDSA384_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/dcmckksf2qx9AoD/download/hello_ecdsa384_test.img
+${ECDSA384_TEST_SHA256}=    181c1e9f8051f80677f489aec9ac11ce311bb2a1f6ee6a659d7ae7ca2fbc1bf4
 
 
 *** Keywords ***
