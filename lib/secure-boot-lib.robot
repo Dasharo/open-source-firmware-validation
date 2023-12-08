@@ -35,6 +35,9 @@ ${ECDSA256_TEST_SHA256}=    979f8b24cb09f6e10a71f736799340dc16a081a6e4a6d009ca65
 ${ECDSA384_TEST_NAME}=      hello_ecdsa384_test.img
 ${ECDSA384_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/dcmckksf2qx9AoD/download/hello_ecdsa384_test.img
 ${ECDSA384_TEST_SHA256}=    181c1e9f8051f80677f489aec9ac11ce311bb2a1f6ee6a659d7ae7ca2fbc1bf4
+${ECDSA521_TEST_NAME}=      hello_ecdsa521_test.img
+${ECDSA521_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/cmybRxzmKx2dATW/download/hello_ecdsa521_test.img
+${ECDSA521_TEST_SHA256}=    cbd90c85b6d4c0c59f45da600c8b63e70b858330b2a27924253e6bf014906240
 
 
 *** Keywords ***
