@@ -9,7 +9,12 @@ Upload And Mount DTS Flash ISO
 Download ISO And Mount As USB
     [Documentation]    Mounts the desired ISO as USB stick,
     ...    either via PiKVM or Qemu
-    [Arguments]    ${img_name}    ${img_url}
+    [Arguments]    ${img_name}    ${img_url}    ${img_sha256sum}
+
+    Download To Host Cache
+    ...    ${img_name}
+    ...    ${img_url}
+    ...    ${img_sha256sum}
 
     IF    "${MANUFACTURER}" == "QEMU"
         Remove Drive From Qemu
