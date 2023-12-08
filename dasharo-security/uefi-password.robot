@@ -66,7 +66,7 @@ PSW003.001 Attempt to log in with a correct password
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
     ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In The Password    ${password}
+    Type In The Password    @{password}
     # "ontinue" is a string that appears both in correct password screen
     # as well as in incorrect
     ${output}=    Read From Terminal Until    ontinue
@@ -83,7 +83,7 @@ PSW004.001 Attempt to log in with an incorrect password
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
     ${wrong_password}=    Set Variable    w    r    o    n    g
-    Type In The Password    ${wrong_password}
+    Type In The Password    @{wrong_password}
     # "ontinue" is a string that appears both in correct password screen
     # as well as in incorrect
     ${output}=    Read From Terminal Until    ontinue
@@ -101,11 +101,11 @@ PSW005.001 Attempt to log in with an incorrect password 3 times
     Read From Terminal Until    password
     ${wrong_password}=    Set Variable    w    r    o    n    g
     FOR    ${counter}    IN RANGE    0    2
-        Type In The Password    ${wrong_password}
+        Type In The Password    @{wrong_password}
         Press Key N Times    1    ${ENTER}
         Sleep    0.5s
     END
-    Type In The Password    ${wrong_password}
+    Type In The Password    @{wrong_password}
     Sleep    1s
     ${output}=    Read From Terminal
     Should Contain    ${output}    reset system
@@ -121,7 +121,7 @@ PSW006.001 Attempt to turn off setup password functionality
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
     ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In The Password    ${password}
+    Type In The Password    @{password}
     ${setup_menu}=    Get Setup Menu Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -161,7 +161,7 @@ PSW007.001 Attempt to set non-compilant password
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
     ${password}=    Set Variable    w    r    o    n    g
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    @{password}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Not Contain    ${result}    New password is updated successfully
 
@@ -185,7 +185,7 @@ PSW008.001 Attempt to set old password
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
     ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    @{password}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Not Contain    ${result}    New password is updated successfully
 
@@ -210,8 +210,8 @@ Set Password 5 Times
     ${password4}=    Set Variable    v    f    r    4    *    E    D    C
     ${password5}=    Set Variable    x    s    w    2    !    Q    A    Z
     ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    ${passwords}=    Create List    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
-    Type In New Disk Password    ${password1}
+    ${passwords}=    Create List    @{password1}    @{password2}    @{password3}    @{password4}    @{password5}
+    Type In New Disk Password    @{password1}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
     Press Key N Times    2    ${ENTER}
@@ -223,8 +223,8 @@ Set Password 5 Times
         Should Contain    ${result}    New password is updated successfully
         Press Key N Times    2    ${ENTER}
     END
-    Type In BIOS Password    ${passwords}[-1]
-    Type In New Disk Password    ${password}
+    Type In BIOS Password    @{passwords}[-1]
+    Type In New Disk Password    @{password}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
     Press Key N Times    1    ${ENTER}
