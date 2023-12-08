@@ -284,7 +284,7 @@ CPF004.006 CPU with load runs on expected frequency (Windows 11) (AC)
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU With Load Runs On Expected Frequency (Windows 11)
 
-CPF004.005 CPU with load runs on expected frequency (Ubuntu 22.04) (USB-PD)
+CPF004.007 CPU with load runs on expected frequency (Ubuntu 22.04) (USB-PD)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.007 not supported
@@ -294,7 +294,7 @@ CPF004.005 CPU with load runs on expected frequency (Ubuntu 22.04) (USB-PD)
     Skip If    not ${USB-PD_connected}    USB-PD not connected
     CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
 
-CPF004.006 CPU with load runs on expected frequency (Windows 11) (USB-PD)
+CPF004.008 CPU with load runs on expected frequency (Windows 11) (USB-PD)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.008 not supported
@@ -393,7 +393,10 @@ CPU With Load Runs On Expected Frequency (Windows 11)
     Login To Windows
     ${out}=    Run
     ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
-    Should Be Empty    ${out}
+    ${result}=    Remove String
+    ...    ${out}
+    ...    Warning: Permanently added '${DEVICE_IP}' (ED25519) to the list of known hosts.
+    Should Be Empty    ${result}
     SSHLibrary.Execute Command    .\\stress-test-windows.ps1
     # ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/${DEVICE_WINDOWS_USERNAME}
     # Should Be Empty    ${out}
