@@ -57,7 +57,7 @@ ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v0.9.1
 ${DMIDECODE_PRODUCT_NAME}=                          MS-7E06
-${DMIDECODE_RELEASE_DATE}=                          10/25/2023
+${DMIDECODE_RELEASE_DATE}=                          11/27/2023
 ${DMIDECODE_MANUFACTURER}=                          Micro-Star International Co., Ltd.
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                N/A
@@ -154,6 +154,21 @@ ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${TRUE}
+
+${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
+${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
+${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
+${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
+${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
+${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
+${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
+${HEADS_PAYLOAD_SUPPORT}=                           ${FALSE}
+${DEVICE_TREE_SUPPORT}=                             ${FALSE}
+${MINI_PC_IE_SLOT_SUPPORT}=                         ${FALSE}
+${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
+${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
+${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_DETECT_SUPPORT}=      ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
