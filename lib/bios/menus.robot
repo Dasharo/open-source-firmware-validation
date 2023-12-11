@@ -287,6 +287,10 @@ Set Option State
             Press Enter
         END
         IF    '${type}' == 'list'
+            # FIXME: Laptop EC serial workaround
+            Press Key N Times    1    ${ARROW_DOWN}
+            Press Key N Times    1    ${ARROW_UP}
+
             ${out}=    Read From Terminal Until    ---/
             ${list}=    Extract Strings From Frame    ${out}
             # TODO: Temporarily disabled due to the complexity with
