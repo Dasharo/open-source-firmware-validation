@@ -309,31 +309,10 @@ Flash MSI-PRO-Z690-A-DDR5
     ...    and set RTE relay to OFF state. Implementation must be
     ...    compatible with the theory of operation of a specific
     ...    platform.
-    Sonoff Power Cycle Off
-    Put File    ${FW_FILE}    /tmp/coreboot.rom
-    FOR    ${iterations}    IN RANGE    0    5
-        RteCtrl Power Off    ${6}
-        Sleep    2s
-    END
-    Sleep    2s
-    RteCtrl Set OC GPIO    2    high-z
-    Sleep    2s
-    RteCtrl Set OC GPIO    3    low
-    Sleep    2s
-    RteCtrl Set OC GPIO    1    low
-    Sleep    3s
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-    ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 --layout msi_z690a.layout -i bios -w /tmp/coreboot.rom 2>&1
+    ...    /home/root/flash.sh /tmp/coreboot.rom
     ...    return_rc=True
-    IF    ${rc} != 0    Fail    \nFlashrom returned status ${rc}\n
-    RteCtrl Set OC GPIO    1    high-z
-    RteCtrl Set OC GPIO    3    high-z
-    Sleep    2s
-    Sonoff Power Cycle On
-    IF    ${rc} == 3    RETURN
-    IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
-        RETURN
-    END
+    IF    ${rc} != 0    Fail    \nFlashrom returned status: ${rc}\n
     Should Contain    ${flash_result}    VERIFIED
 
 Read MSI-PRO-Z690-A-DDR5 Firmware
