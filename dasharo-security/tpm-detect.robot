@@ -26,6 +26,7 @@ TPD001.001 Detect TPM after coldboot
     ...    only with the platforms with Heads bootloader.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.001 not supported
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD001.001 not supported
+    Skip If    not ${HEADS_PAYLOAD_SUPPORT}    TPD001.001 not supported
     Set Global Variable    ${FAILED_DETECTS}    0
     @{pcrs_subsequent_boots}=    Create List
     Power On
@@ -52,6 +53,7 @@ TPD002.001 Detect TPM after warmboot
     ...    only with the platforms with Heads bootloader.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.001 not supported
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD001.001 not supported
+    Skip If    not ${HEADS_PAYLOAD_SUPPORT}    TPD001.001 not supported
     Set Global Variable    ${FAILED_DETECTS}    0
     @{pcrs_subsequent_boots}=    Create List
     Power On
@@ -78,6 +80,7 @@ TPD003.001 Detect TPM after platform reboot
     ...    only with the platforms with Heads bootloader.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.001 not supported
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD001.001 not supported
+    Skip If    not ${HEADS_PAYLOAD_SUPPORT}    TPD001.001 not supported
     Set Global Variable    ${FAILED_DETECTS}    0
     @{pcrs_subsequent_boots}=    Create List
     Power On
@@ -104,7 +107,7 @@ TPM001.002 TPM Support (Ubuntu 20.04)
     Skip If    not ${TPM_SUPPORT}    TPM001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
     Power On
-    Boot Operating System    ubuntu
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Detect Or Install Package    tpm2-tools
