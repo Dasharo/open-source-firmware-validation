@@ -3,12 +3,14 @@
 # RTE_IP alone should be enough for running the regression.
 # If for some reason, Sonoff/PiKVM IPs are not correct, they
 # should be changed in the variables.robot file
-RTE_IP=${RTE_IP:=192.168.10.55}
+RTE_IP=${RTE_IP:=192.168.10.188}
 
 # Uncomment one of these
-CONFIG=${CONFIG:=protectli-v1210}
+CONFIG=${CONFIG:=msi-pro-z690-a-ddr5}
 
-FW_FILE=${FW_FILE:=protectli-v1210.rom}
+FW_FILE=${FW_FILE:=msi_ms7d25_v1.1.3_ddr5.rom}
+
+DEVICE_IP="192.168.10.93"
 
 if [ ! -f "${FW_FILE}" ]; then
     echo "${FW_FILE} not found. Please provide correct FW_FILE value"
@@ -26,6 +28,7 @@ execute_robot() {
           -l ${CONFIG}/${_log_file} \
           -r ${CONFIG}/${_report_file} \
           -o ${CONFIG}/${_output_file} \
+          -v device_ip:${DEVICE_IP} \
           -v rte_ip:${RTE_IP} \
           -v config:${CONFIG} \
           -v fw_file:${FW_FILE} \
