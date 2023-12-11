@@ -42,9 +42,8 @@ Get CPU Frequencies In Ubuntu
     END
     RETURN    @{frequency_list}
 
-Check If CPU Not Stucks On Initial Frequency In Ubuntu
+Check If CPU Not Stuck On Initial Frequency In Ubuntu
     [Documentation]    Check that CPU not stuck on initial frequency.
-    ${is_cpu_stucks}=    Set Variable    ${FALSE}
     ${are_frequencies_equal}=    Set Variable    ${TRUE}
     @{frequencies}=    Get CPU Frequencies In Ubuntu
     ${first_frequency}=    Get From List    ${frequencies}    0
@@ -62,10 +61,10 @@ Check If CPU Not Stucks On Initial Frequency In Ubuntu
     IF    ${first_frequency}!=${INITIAL_CPU_FREQUENCY}
         Pass Execution    CPU does not stuck on initial frequency
     ELSE
-        FAIL    CPU stucks on initial frequency: ${INITIAL_CPU_FREQUENCY}
+        FAIL    CPU stuck on initial frequency: ${INITIAL_CPU_FREQUENCY}
     END
 
-Check If CPU Not Stucks On Initial Frequency In Windows
+Check If CPU Not Stuck On Initial Frequency In Windows
     [Documentation]    Check that CPU not stuck on initial frequency.
     ${out}=    Execute Command In Terminal
     ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue/100)

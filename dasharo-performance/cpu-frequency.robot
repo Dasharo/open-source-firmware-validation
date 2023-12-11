@@ -312,13 +312,13 @@ CPU Not Stuck On Initial Frequency (Ubuntu 22.04)
     Login To Linux
     Switch To Root User
     Sleep    10s
-    Check If CPU Not Stucks On Initial Frequency In Ubuntu
+    Check If CPU Not Stuck On Initial Frequency In Ubuntu
 
 CPU Not Stuck On Initial Frequency (Windows 11)
     Power On
     Login To Windows
     Sleep    10s
-    Check If CPU Not Stucks On Initial Frequency In Windows
+    Check If CPU Not Stuck On Initial Frequency In Windows
 
 CPU Not Stuck On Initial Frequency (Heads+Debian)
     Power On
@@ -329,7 +329,7 @@ CPU Not Stuck On Initial Frequency (Heads+Debian)
     Write Into Terminal    debian
     Login To Linux With Root Privileges
     Sleep    10s
-    Check If CPU Not Stucks On Initial Frequency In Ubuntu
+    Check If CPU Not Stuck On Initial Frequency In Ubuntu
 
 CPU Runs On Expected Frequency (Ubuntu 22.04)
     Power On
