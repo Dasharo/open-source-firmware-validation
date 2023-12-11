@@ -19,7 +19,7 @@ ${BAD_FORMAT_NAME}=         bad_format.img
 ${BAD_FORMAT_SHA256}=       59d17bc120dfd0f2e6948a2bfdbdf5fb06eddcb44f9a053a8e7b8f677e21858c
 ${INTERMEDIATE_URL}=        https://cloud.3mdeb.com/index.php/s/LSQ7NAJyEGbnRNk/download/intermediate_db.img
 ${INTERMEDIATE_NAME}=       intermediate_db.img
-${INTERMEDIATE_SHA256}=     5b7effc0cfdfc3bf75a022628e1f62c08028714c0c026b3cb83d0f1149ec79bc
+${INTERMEDIATE_SHA256}=     2b320620bfe1d40843a0968c0c8e6f90cf663ef9349f1490ab4c766b160fa44d
 
 
 *** Keywords ***
