@@ -30,6 +30,7 @@ UTC004.001 USB Type-C Display output (semi-automatic)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC004.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
@@ -43,6 +44,7 @@ UTC005.001 - Docking station HDMI display in OS (Ubuntu 20.04)
     Skip If    not ${DOCKING_STATION_HDMI}    UTC005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Check Docking Station HDMI In Linux
@@ -65,6 +67,7 @@ UTC006.001 - Docking station DP display in OS (Ubuntu 20.04)
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Check Docking Station DP In Linux
@@ -80,118 +83,146 @@ UTC006.002 - Docking station DP display in OS (Windows 11)
     Login To Windows
     Check Docking Station DP Windows
 
-UTC008.001 Docking station (WL-UMD05) detection after coldboot (Ubuntu 22.04)
+UTC008.001 Docking station detection after coldboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC001.008 not supported
-    Power On
-    Login To Linux
-    Switch To Root User
-    Detect Docking Station In Linux (WL-UMD05 Pro)
-    Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
-        TRY
-            Log To Console    Coldboot the DUT manually
-            # coldboot - msi ./sonoff, protectli RteCtrl -rel, novacustom ???
-            IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    60s
-            Login To Linux
-            Switch To Root User
-            Detect Docking Station In Linux (WL-UMD05 Pro)
-            Exit From Root User
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
-        END
-    END
-    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${failed_detection} iterations failed.
-    END
-    Log To Console    \nAll iterations passed.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.001 not supported
+    Docking Station Detection After Coldboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
-UTC009.001 Docking station (WL-UMD05) detection after warmboot (Ubuntu 22.04)
+UTC008.002 Docking station detection after coldboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
+    [Documentation]    Check whether he DUT properly detects the docking station
+    ...    after coldboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.002 not supported
+    Docking Station Detection After Coldboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
+
+UTC008.003 Docking station detection after coldboot (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
+    [Documentation]    Check whether he DUT properly detects the docking station
+    ...    after coldboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.003 not supported
+    Docking Station Detection After Coldboot (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
+
+UTC009.001 Docking station detection after warmboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.001 not supported
-    Power On
-    Login To Linux
-    Switch To Root User
-    Detect Docking Station In Linux (WL-UMD05 Pro)
-    Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
-        TRY
-            Log To Console    Warmboot the DUT manually
-            # warmboot - msi rte, protectli novacustom ???
-            IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    60s
-            Login To Linux
-            Switch To Root User
-            Detect Docking Station In Linux (WL-UMD05 Pro)
-            Exit From Root User
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
-        END
-    END
-    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${failed_detection} iterations failed.
-    END
-    Log To Console    \nAll iterations passed.
+    Docking Station Detection After Warmboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
-UTC010.001 Docking station (WL-UMD05) detection after reboot (Ubuntu 22.04)
+UTC009.002 Docking station detection after warmboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
+    [Documentation]    Check whether he DUT properly detects the docking station
+    ...    after warmboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.002 not supported
+    Docking Station Detection After Warmboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
+
+UTC009.003 Docking station detection after warmboot (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
+    [Documentation]    Check whether he DUT properly detects the docking station
+    ...    after warmboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.003 not supported
+    Docking Station Detection After Warmboot (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
+
+UTC010.001 Docking station detection after reboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.001 not supported
-    Power On
-    Login To Linux
-    Switch To Root User
-    Detect Docking Station In Linux (WL-UMD05 Pro)
-    Set Global Variable    ${FAILED_DETECTION}    0
-    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        TRY
-            Write Into Terminal    reboot
-            IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    45s
-            Login To Linux
-            Switch To Root User
-            Detect Docking Station In Linux (WL-UMD05 Pro)
-            Exit From Root User
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
-            Power On
-            Login To Linux
-            Switch To Root User
-            Detect Docking Station In Linux (WL-UMD05 Pro)
-        END
-    END
-    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${failed_detection} iterations failed.
-    END
-    Log To Console    \nAll iterations passed.
+    Docking Station Detection After Reboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
-UTC011.001 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04)
+UTC010.002 Docking station detection after reboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.002 not supported
+    Docking Station Detection After Reboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
+
+UTC010.003 Docking station detection after reboot (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.003 not supported
+    Docking Station Detection After Reboot (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
+
+UTC011.001 Docking station detection after suspend (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.001 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.001 not supported
-    Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)
+    Docking Station Detection After Suspend (Ubuntu 22.04)    ${EMPTY}    WL-UMD05 Pro Rev.E
 
-UTC011.002 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04) (S0ix)
+UTC011.002 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.002 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.002 not supported
     Set Platform Sleep Type    S0ix
-    Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)    S0ix
+    Docking Station Detection After Suspend (Ubuntu 22.04)    S0ix    WL-UMD05 Pro Rev.E
 
-UTC011.003 Docking station (WL-UMD05) detection after suspend (Ubuntu 22.04) (S3)
+UTC011.003 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.003 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.003 not supported
     Set Platform Sleep Type    S3
-    Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)    S3
+    Docking Station Detection After Suspend (Ubuntu 22.04)    S3    WL-UMD05 Pro Rev.E
+
+UTC011.004 Docking station detection after suspend (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.004 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.004 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.004 not supported
+    Docking Station Detection After Suspend (Ubuntu 22.04)    ${EMPTY}    WL-UMD05 Pro Rev.C1
+
+UTC011.005 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UMD05 Pro Rev.C1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.005 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.005 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.005 not supported
+    Set Platform Sleep Type    S0ix
+    Docking Station Detection After Suspend (Ubuntu 22.04)    S0ix    WL-UMD05 Pro Rev.C1
+
+UTC011.006 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UMD05 Pro Rev.C1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.006 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.006 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.006 not supported
+    Set Platform Sleep Type    S3
+    Docking Station Detection After Suspend (Ubuntu 22.04)    S3    WL-UMD05 Pro Rev.C1
+
+UTC011.007 Docking station detection after suspend (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.007 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.007 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.007 not supported
+    Docking Station Detection After Suspend (Ubuntu 22.04)    ${EMPTY}    WL-UG69PD2 Rev.A1
+
+UTC011.008 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UG69PD2 Rev.A1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.008 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.008 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.008 not supported
+    Set Platform Sleep Type    S0ix
+    Docking Station Detection After Suspend (Ubuntu 22.04)    S0ix    WL-UG69PD2 Rev.A1
+
+UTC011.009 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UG69PD2 Rev.A1)
+    [Documentation]    Check whether the DUT properly detects the docking station
+    ...    after reboot.
+    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.009 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.009 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.009 not supported
+    Set Platform Sleep Type    S3
+    Docking Station Detection After Suspend (Ubuntu 22.04)    S3    WL-UG69PD2 Rev.A1
 
 UTC012.002 USB devices recognition (Ubuntu 22.04)
     [Documentation]    Check whether the external USB devices connected to the
@@ -215,7 +246,7 @@ UTC012.003 USB devices recognition (Windows 11)
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     Should Contain    ${out}    OK${SPACE*9}DiskDrive${SPACE*8}USB${SPACE*2}SanDisk
 
-UTC002.013 USB keyboard detection (Ubuntu 22.04)
+UTC013.002 USB keyboard detection (Ubuntu 22.04)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly by the Linux OS.
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC013.002 not supported
@@ -351,9 +382,91 @@ UTC021.002 USB Type-C laptop charging (Windows 11)
 
 
 *** Keywords ***
-Docking Station (WL-UMD05) Detection After Suspend (Ubuntu 22.04)
-    [Arguments]    ${platform_sleep_type}=${EMPTY}
+Docking Station Detection After Coldboot (Ubuntu 22.04)
+    # [Arguments]    ${docking_station_model}
     Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Detect Docking Station In Linux (WL-UMD05 Pro)
+    Set Global Variable    ${FAILED_DETECTION}    0
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
+        TRY
+            Log To Console    Coldboot the DUT manually
+            # coldboot - msi ./sonoff, protectli RteCtrl -rel, novacustom ???
+            IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    60s
+            Login To Linux
+            Switch To Root User
+            Detect Docking Station In Linux (WL-UMD05 Pro)
+            Exit From Root User
+        EXCEPT
+            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+        END
+    END
+    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+        FAIL    \n ${failed_detection} iterations failed.
+    END
+    Log To Console    \nAll iterations passed.
+
+Docking Station Detection After Warmboot (Ubuntu 22.04)
+    # [Arguments]    ${docking_station_model}
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Detect Docking Station In Linux (WL-UMD05 Pro)
+    Set Global Variable    ${FAILED_DETECTION}    0
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
+        TRY
+            Log To Console    Warmboot the DUT manually
+            # warmboot - msi rte, protectli novacustom ???
+            IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    60s
+            Login To Linux
+            Switch To Root User
+            Detect Docking Station In Linux (WL-UMD05 Pro)
+            Exit From Root User
+        EXCEPT
+            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+        END
+    END
+    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+        FAIL    \n ${failed_detection} iterations failed.
+    END
+    Log To Console    \nAll iterations passed.
+
+Docking Station Detection After Reboot (Ubuntu 22.04)
+    # [Arguments]    ${docking_station_model}
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Detect Docking Station In Linux (WL-UMD05 Pro)
+    Set Global Variable    ${FAILED_DETECTION}    0
+    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        TRY
+            Write Into Terminal    reboot
+            IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    45s
+            Login To Linux
+            Switch To Root User
+            Detect Docking Station In Linux (WL-UMD05 Pro)
+            Exit From Root User
+        EXCEPT
+            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+            Power On
+            Login To Linux
+            Switch To Root User
+            Detect Docking Station In Linux (WL-UMD05 Pro)
+        END
+    END
+    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+        FAIL    \n ${failed_detection} iterations failed.
+    END
+    Log To Console    \nAll iterations passed.
+
+Docking Station Detection After Suspend (Ubuntu 22.04)
+    [Arguments]    ${platform_sleep_type}=${EMPTY}    # ${docking_station_model}
+    Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
