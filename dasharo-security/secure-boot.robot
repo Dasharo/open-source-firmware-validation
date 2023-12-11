@@ -249,9 +249,13 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    NO VOLUME LABEL
-    Select File In File Explorer    intermediate-db.crt
-    Read From Terminal Until    ERROR: Unsupported file type!
-
+    Select File In File Explorer    intermediate-db.der
+    Save Changes And Reset    3    5
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    hello.efi
+    Should Contain    ${out}    Access Denied
+    ${out}=    Execute File In UEFI Shell    signed_hello.efi
+    Should Contain    ${out}    Hello, world!
 
 *** Keywords ***
 Prepare Test Files
