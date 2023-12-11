@@ -60,7 +60,9 @@ ESP003.001 ESP Scan ignores OSes on removable media
     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP003.001 not supported
 
     Power On
-    Download ISO And Mount As USB    img_name=${DL_CACHE_DIR}/CorePlus-current.iso    img_url=${TINYCORE_URL}
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/CorePlus-current.iso
+    ...    ${TINYCORE_URL}
+    ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
     Power On Or Reboot
     Enter Boot Menu Tianocore
     ${boot_list}=    Get Boot Menu Construction
@@ -88,8 +90,9 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
 
     Power On
     Download ISO And Mount As USB
-    ...    img_name=${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
-    ...    img_url=${DTS_URL}
+    ...    ${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
+    ...    ${DTS_URL}
+    ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b 
     Power On Or Reboot
     Enter Boot Menu Tianocore
     ${boot_list}=    Get Boot Menu Construction

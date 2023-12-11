@@ -5,8 +5,6 @@ Resource            ../keywords.robot
 
 
 *** Variables ***
-${SHIMX64_URL}=         https://cloud.3mdeb.com/index.php/s/TipPHgsCj6MCZHi/download/shimx64.efi
-${GRUBX64_URL}=         https://cloud.3mdeb.com/index.php/s/e2JjYANjMsgyXtS/download/grubx64.efi
 ${TINYCORE_URL}=        https://distro.ibiblio.org/tinycorelinux/14.x/x86/release/CorePlus-14.0.iso
 ${DTS_URL}=             https://dl.3mdeb.com/open-source-firmware/DTS/v1.2.8/dts-base-image-v1.2.8.iso
 ${DISK_IMAGE_URL}=      https://cloud.3mdeb.com/index.php/s/BwLyjHT9fRncXMY/download/image.img
@@ -19,6 +17,10 @@ Prepare EFI Partition With System Files
     ...    via PiKVM
 
     IF    "${MANUFACTURER}" == "QEMU"
+        Download To Host Cache
+        ...    image.img
+        ...    ${DISK_IMAGE_URL}
+        ...    031560742d6b337ed684cfdb90d3c5eb48f13576f4751b33095e8d1566d72e83
         Add HDD To Qemu    img_name=${DL_CACHE_DIR}/image.img
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
@@ -30,7 +32,7 @@ Prepare EFI Partition With System Files
             Execute Command In Terminal    mkdir /mnt/disk_image
             Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
             Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
-            Execute Command In Terminal    cp -r /mnt/disk_image/EFI/* /boot/efi/EFI/
+            Execute Command In Terminal    rsync -a --ignore-existing /mnt/disk_image/EFI/* /boot/efi/EFI/
             Execute Command In Terminal    sync
         ELSE
             Skip    unsupported
@@ -108,8 +110,9 @@ Only N Occurrences
     Should Be Equal As Integers    ${x}    ${n}
 
 Remove All Supported Systems From Efi
+    # We do not want to remove Ubuntu or Windows bootloaders
     @{systems}=    Create List
-    ...    Fedora    Suse    opensuse    Microsoft
+    ...    Fedora    Suse    opensuse
     ...    Redhat    Centos    qubes    DTS    debian
     FOR    ${system}    IN    @{systems}
         Execute Command In Terminal    rm -r /boot/efi/EFI/${system}
