@@ -1256,6 +1256,57 @@ Detect Docking Station In Linux (WL-UMD05 Pro)
     Should Contain    ${out}    Realtek Semiconductor Corp. USB3.0 Card Reader
     Should Contain    ${out}    Fresco Logic USB3.0 Hub
 
+Detect Docking Station In Linux
+    [Documentation]    Keyword check the docking station is detected correctly.
+    [Arguments]    ${docking_station_model}
+    ${out}=    List Devices In Linux    usb
+    IF    '${docking_station_model}' == 'WL-UMD05 Pro Rev.E'
+        Should Contain    ${out}    VIA Labs, Inc. USB2.0 Hub
+        # Should Contain    ${out}    Fresco Logic USB2.0 Hub
+        Should Contain    ${out}    Fresco Logic Generic Billboard Device
+        Should Contain    ${out}    Prolific Technology, Inc. USB 2.0 Hub
+        Should Contain    ${out}    Genesys Logic, Inc. Hub
+        Should Contain    ${out}    Realtek Semiconductor Corp. USB3.0 Card Reader
+        Should Contain    ${out}    Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
+        # Should Contain    ${out}    ASIX Electronics Corp. AX88179 Gigabit Ethernet
+        Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
+        Should Contain    ${out}    Genesys Logic, Inc. USB3.2 Hub
+        # Should Contain    ${out}    Fresco Logic USB3.0 Hub
+    ELSE IF    '${docking_station_model}' == 'WL-UMD05 Pro Rev.C1'
+        Should Contain    ${out}    VIA Labs, Inc. USB2.0 Hub
+        Should Contain    ${out}    Fresco Logic USB2.0 Hub
+        # Should Contain    ${out}    Fresco Logic Generic Billboard Device
+        Should Contain    ${out}    Linux Foundation 2.0 root hub
+        Should Contain    ${out}    Prolific Technology, Inc. USB 2.0 Hub
+        Should Contain    ${out}    ASIX Electronics Corp. AX88179 Gigabit Ethernet
+        Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
+        Should Contain    ${out}    Realtek Semiconductor Corp. USB3.0 Card Reader
+        Should Contain    ${out}    Fresco Logic USB3.0 Hub
+        # Should Contain    ${out}    Genesys Logic, Inc. Hub
+        # Should Contain    ${out}    Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
+        # Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
+        # Should Contain    ${out}    Genesys Logic, Inc. USB3.2 Hub
+    ELSE IF    '${docking_station_model}' == 'WL-UG69PD2 Rev.A1'
+        # Should Contain    ${out}    VIA Labs, Inc. USB2.0 Hub
+        Should Contain    ${out}    Genesys Logic, Inc. Hub
+        Should Contain    ${out}    Fresco Logic USB2.0 Hub
+        # Should Contain    ${out}    Fresco Logic Generic Billboard Device
+        # Should Contain    ${out}    Linux Foundation 2.0 root hub
+        # Should Contain    ${out}    Prolific Technology, Inc. USB 2.0 Hub
+        # Should Contain    ${out}    ASIX Electronics Corp. AX88179 Gigabit Ethernet
+        # Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
+        # Should Contain    ${out}    Realtek Semiconductor Corp. USB3.0 Card Reader
+        Should Contain    ${out}    Genesys Logic, Inc. USB3.1 Hub
+        Should Contain    ${out}    DisplayLink USB3.0 5K Graphic Docking
+        Should Contain    ${out}    Fresco Logic USB3.0 Hub
+        # Should Contain    ${out}    Genesys Logic, Inc. Hub
+        # Should Contain    ${out}    Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
+        # Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
+        # Should Contain    ${out}    Genesys Logic, Inc. USB3.2 Hub
+    ELSE
+        Fail    unknown docking station
+    END
+
 Check If Files Are Identical In Linux
     [Documentation]    Keyword takes two files as arguments and compares them
     ...    using sha256sum in Linux OS. Returns True if both files
