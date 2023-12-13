@@ -925,6 +925,11 @@ Check DP Windows
         Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
     END
 
+Check Internal LCD Linux
+    [Documentation]    Check if internal LCD is recognized by Linux OS.
+    ${out}=    Execute Linux Command    cat /sys/devices/pci0000:00/0000:00:02.0/drm/card*/*eDP-1/status
+    Should Contain    ${out}    connected
+
 Check Internal LCD Windows
     [Documentation]    Check if internal LCD is recognized by Windows OS.
     ${out}=    Check Displays Windows
@@ -933,7 +938,8 @@ Check Internal LCD Windows
 Check External HDMI In Linux
     [Documentation]    Keyword checks if an external HDMI device is visible
     ...    in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/class/drm/card0/*HDMI*/status
+    ${out}=    Execute Linux Command    cat /sys/devices/pci0000:00/0000:00:02.0/drm/card*/*HDMI*/status
+
     Should Contain    ${out}    connected
 
 Check External DP In Linux
