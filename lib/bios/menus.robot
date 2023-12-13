@@ -28,6 +28,37 @@ Get Boot Menu Construction
     #    ENTER to select boot device
     #    ESC to exit
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
+    # The maximum number of entries in boot menu is 11 right now. When we have
+    # more, the list can be scrolled.
+    # TODO: Is there a better way of checking if the list can be scrolled?
+    # The UP/DOWN arrows are not drawn on serial on the first readout of
+    # the menu, it seems.
+    ${no_entries}=    Get Length    ${construction}
+    IF    ${no_entries} == 11
+        # 1. Remember first and last entries (last entry in the first screen)
+        ${first_entry}=    Get From List    ${construction}    0
+
+        # 2. Go down by 10 entries
+        Press Key N Times    10    ${ARROW_DOWN}
+        Sleep    1s
+        Read From Terminal
+        # 3. Keep going down one by one, until we reach the first_entry again
+        FOR    ${iter}    IN RANGE    0    100
+            Press Key N Times    1    ${ARROW_DOWN}
+            ${out}=    Read From Terminal Until Regexp    > .*
+            Log    ${out}
+            ${lines}=    Split To Lines    ${out}
+            ${entry}=    Get From List    ${lines}    -1
+            ${entry}=    Strip String    ${entry}
+            ${entry}=    Strip String    ${entry}    characters=>
+            ${entry}=    Strip String    ${entry}
+            IF    '${entry}' != '${first_entry}'
+                Append To List    ${construction}    ${entry}
+            ELSE
+                BREAK
+            END
+        END
+    END
     RETURN    ${construction}
 
 Enter Boot Menu Tianocore And Return Construction
