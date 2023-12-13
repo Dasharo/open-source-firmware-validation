@@ -14,6 +14,7 @@ Check If Platform Sleep Type Can Be Selected
     ...    ${power_menu}
     ...    Platform sleep type
     Set Suite Variable    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    ${platform_sleep_type_selectable}
+    Save Changes And Reset    2    4
 
 Set Platform Sleep Type
     [Documentation]    Set Platform sleep type to the given value
