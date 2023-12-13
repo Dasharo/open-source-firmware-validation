@@ -138,6 +138,7 @@ Parse Menu Snapshot Into Construction
     ...    F9\=Reset to Defaults F10\=Save
     ...    LCtrl+LAlt+F12\=Save screenshot
     ...    <Spacebar>Toggle Checkbox
+    ...    one adjusts to change
     RETURN    ${construction}
 
 Enter Setup Menu Tianocore And Return Construction
