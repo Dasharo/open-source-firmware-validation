@@ -21,7 +21,10 @@ Resource            ../keys.robot
 #    exactly the case right now)
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-Suite Teardown      Run Keyword
+# As a result of this suite, we might get stuck with bricked platform. Make sure
+# to flash working firmware.
+Suite Teardown      Run Keywords
+...                     Flash Firmware    ${FW_FILE}    AND
 ...                     Log Out And Close Connection
 
 
