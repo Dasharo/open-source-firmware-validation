@@ -162,6 +162,10 @@ ${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
 
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
+${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
+${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
+${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${FALSE}
+${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
