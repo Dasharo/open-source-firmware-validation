@@ -774,7 +774,7 @@ Remap Keys Variables To PiKVM
     Set Global Variable    ${ESC}    Escape
     Set Global Variable    ${ENTER}    Enter
     Set Global Variable    ${BACKSPACE}    Backspace
-    Set Global Variable    ${SPACE}    Space
+    Set Global Variable    ${KEY_SPACE}    Space
     Set Global Variable    ${DELETE}    Delete
     Set Global Variable    ${DIGIT0}    Digit0
     Set Global Variable    ${DIGIT1}    Digit1
