@@ -21,7 +21,8 @@ Resource            ../pikvm-rest-api/pikvm_comm.robot
 # exactly the case right now)
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-Suite Teardown      Run Keyword
+Suite Teardown      Run Keywords
+...                     Set Intel ME Mode    Enabled    AND
 ...                     Log Out And Close Connection
 
 
@@ -107,3 +108,14 @@ MNE006.001 Check Intel ME version (Ubuntu 22.04)
     Switch To Root User
     ${out}=    Execute Command In Terminal    cat /sys/class/mei/mei0/fw_ver
     Should Not Be Empty    ${out}
+
+
+*** Keywords ***
+Set Intel ME Mode
+    [Arguments]    ${mode}
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
+    Set Option State    ${me_menu}    Intel ME mode    ${mode}
+    Save Changes And Reset    2    4
