@@ -313,11 +313,12 @@ Flash MSI-PRO-Z690-A-DDR5
     ...    and set RTE relay to OFF state. Implementation must be
     ...    compatible with the theory of operation of a specific
     ...    platform.
+    Put File    ${FW_FILE}    /tmp/coreboot.rom
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
     ...    /home/root/flash.sh /tmp/coreboot.rom
     ...    return_rc=True
     IF    ${rc} != 0    Fail    \nFlashrom returned status: ${rc}\n
-    Should Contain    ${flash_result}    VERIFIED
+    Should Contain Any    ${flash_result}    VERIFIED    Warning: Chip content is identical to the requested image.
 
 Read MSI-PRO-Z690-A-DDR5 Firmware
     [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
