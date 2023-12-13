@@ -49,7 +49,8 @@ Prepare EFI Partition With System Files
             Execute Command In Terminal    mkdir /mnt/disk_image
             Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
             Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
-            Execute Command In Terminal    rsync -a --ignore-existing /mnt/disk_image/EFI/* /boot/efi/EFI/
+            Execute Command In Terminal
+            ...    rsync -a --ignore-existing --exclude /mnt/disk_image/EFI/Ubuntu /mnt/disk_image/EFI/Microsoft /mnt/disk_image/EFI/* /boot/efi/EFI/
             Execute Command In Terminal    sync
         ELSE
             Skip    unsupported
