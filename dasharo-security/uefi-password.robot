@@ -20,8 +20,15 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-Suite Teardown      Run Keyword
+# If this suite fails in unexpected place, we will cause the next suites to fail
+# because some password may be set.
+Suite Teardown      Run Keywords
+...                     Flash Firmware    ${FW_FILE}    AND
 ...                     Log Out And Close Connection
+
+
+*** Variables ***
+${DEFAULT_PASSWORD}=    1    q    a    z    X    S    W    @
 
 
 *** Test Cases ***
@@ -65,8 +72,7 @@ PSW003.001 Attempt to log in with a correct password
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In The Password    ${password}
+    Type In The Password    ${DEFAULT_PASSWORD}
     # "ontinue" is a string that appears both in correct password screen
     # as well as in incorrect
     ${output}=    Read From Terminal Until    ontinue
@@ -120,8 +126,7 @@ PSW006.001 Attempt to turn off setup password functionality
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In The Password    ${password}
+    Type In The Password    ${DEFAULT_PASSWORD}
     ${setup_menu}=    Get Setup Menu Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -132,7 +137,7 @@ PSW006.001 Attempt to turn off setup password functionality
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    Type In BIOS Password    ${password}
+    Type In BIOS Password    ${DEFAULT_PASSWORD}
     Press Key N Times    2    ${ENTER}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
@@ -184,8 +189,7 @@ PSW008.001 Attempt to set old password
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    ${DEFAULT_PASSWORD}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Not Contain    ${result}    New password is updated successfully
 
@@ -209,7 +213,6 @@ Set Password 5 Times
     ${password3}=    Set Variable    b    g    t    5    $    R    F    V
     ${password4}=    Set Variable    v    f    r    4    *    E    D    C
     ${password5}=    Set Variable    x    s    w    2    !    Q    A    Z
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
     ${passwords}=    Create List    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
     Type In New Disk Password    ${password1}
     ${result}=    Read From Terminal Until    ENTER to continue
@@ -224,7 +227,7 @@ Set Password 5 Times
         Press Key N Times    2    ${ENTER}
     END
     Type In BIOS Password    ${passwords}[-1]
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    ${DEFAULT_PASSWORD}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
     Press Key N Times    1    ${ENTER}
