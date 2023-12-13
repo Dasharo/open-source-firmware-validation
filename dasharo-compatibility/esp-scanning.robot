@@ -23,7 +23,9 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     Prepare Required Files For Qemu
+...                     Prepare EFI Partition With System Files
 Suite Teardown      Run Keyword
+...                     Clear Out EFI Partition
 ...                     Log Out And Close Connection
 
 
@@ -35,22 +37,13 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP001.001 not supported
 
     Power On
-    Prepare EFI Partition With System Files
-    Power On Or Reboot
-    Enter Boot Menu Tianocore
-    Check Boot Menu For All Supported Systems    normal
-
-ESP002.001 ESP Scan after deleting additional .efi files
-    [Documentation]    This test aims to verify that none of the systems linger
-    ...    on in the boot menu after we've deleted their files from /EFI/.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP002.001 not supported
-    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP002.001 not supported
-
-    Power On
-    Clear Out EFI Partition
-    Power On Or Reboot
-    Enter Boot Menu Tianocore
-    Check Boot Menu For All Supported Systems    empty
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
+        Should Contain Match    ${boot_menu}    ${system}*
+    END
+    FOR    ${system}    IN    @{SYSTEMS_ALWAYS_INSTALLED}
+        Should Contain Match    ${boot_menu}    ${system}*
+    END
 
 ESP003.001 ESP Scan ignores OSes on removable media
     [Documentation]    This test aims to verify that the bootable /EFI
@@ -60,11 +53,12 @@ ESP003.001 ESP Scan ignores OSes on removable media
     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP003.001 not supported
 
     Power On
-    Download ISO And Mount As USB    img_name=${DL_CACHE_DIR}/CorePlus-current.iso    img_url=${TINYCORE_URL}
-    Power On Or Reboot
-    Enter Boot Menu Tianocore
-    ${boot_list}=    Get Boot Menu Construction
-    Should Not Contain Match    ${boot_list}    *CorePlus*
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/CorePlus-current.iso
+    ...    ${TINYCORE_URL}
+    ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Should Not Contain Match    ${boot_menu}    *CorePlus*
 
 ESP004.001 ESP Scan does not create duplicate entries
     [Documentation]    This test aims to verify that the firmware will not
@@ -74,10 +68,9 @@ ESP004.001 ESP Scan does not create duplicate entries
     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP004.001 not supported
 
     Power On
-    Prepare EFI Partition With System Files
-    Power On Or Reboot
-    Enter Boot Menu Tianocore
-    Check Boot Menu For All Supported Systems    double_entry_check
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+
+    List Should Not Contain Duplicates    ${boot_menu}
 
 ESP005.001 ESP Scan detects Dasharo Tools Suite
     [Documentation]    This test aims to verify that the firmware detects
@@ -88,12 +81,26 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
 
     Power On
     Download ISO And Mount As USB
-    ...    img_name=${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
-    ...    img_url=${DTS_URL}
-    Power On Or Reboot
-    Enter Boot Menu Tianocore
-    ${boot_list}=    Get Boot Menu Construction
-    Should Contain Match    ${boot_list}    *Dasharo Tools Suite*
+    ...    ${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
+    ...    ${DTS_URL}
+    ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Should Contain Match    ${boot_menu}    Dasharo Tools Suite on (*
+
+ESP002.001 ESP Scan after deleting additional .efi files
+    [Documentation]    This test aims to verify that none of the systems linger
+    ...    on in the boot menu after we've deleted their files from /EFI/.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP002.001 not supported
+    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP002.001 not supported
+
+    Power On
+    Clear Out EFI Partition
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
+        Should Not Contain Match    ${boot_menu}    ${system}*
+    END
 
 
 *** Keywords ***
@@ -111,11 +118,4 @@ Prepare Required Files For Qemu
         ...    CorePlus-14.0.iso
         ...    ${TINYCORE_URL}
         ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
-    END
-
-Power On Or Reboot
-    IF    "${MANUFACTURER}" == "QEMU"
-        Power On
-    ELSE
-        Execute Reboot Command
     END
