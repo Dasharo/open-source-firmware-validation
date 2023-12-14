@@ -22,7 +22,8 @@ Resource            ../keys.robot
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-Suite Teardown      Run Keyword
+Suite Teardown      Run Keywords
+...                     Restore Secure Boot Defaults    AND
 ...                     Log Out And Close Connection
 Test Setup          Restore Initial DUT Connection Method
 
@@ -254,3 +255,17 @@ Prepare Test Files
         ...    ${BAD_FORMAT_URL}
         ...    ${BAD_FORMAT_SHA256}
     END
+
+Restore Secure Boot Defaults
+    [Documentation]    Restore SB settings to default, by resetting keys
+    ...    and disabling SB, so it does not interfere with the followup tests.
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Save Changes And Reset    3
+
+    Exit From Current Menu
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Disable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
