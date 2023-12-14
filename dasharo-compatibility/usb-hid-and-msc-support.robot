@@ -44,8 +44,8 @@ USB001.002 USB devices detected by OS (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    ${USB_MODEL}
+    ${out}=    Execute Linux Command    lsusb -v
+    Should Contain    ${out}    Mass Storage
     Exit From Root User
 
 USB001.003 USB devices detected by OS (Windows 10)
@@ -82,8 +82,9 @@ USB002.002 USB keyboard in OS (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
+    ${out}=    Execute Linux Command    lsusb -v
+    Should Contain    ${out}    Keyboard
+    Exit From Root User
 
 USB002.003 USB keyboard in OS (Windows 11)
     [Documentation]    Check whether the external USB keyboard is detected

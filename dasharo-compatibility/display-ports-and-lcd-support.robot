@@ -24,6 +24,18 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
+DSP001.002 - Internal display in OS (Ubuntu 22.04)
+    [Documentation]    Check whether an internal display is visible in
+    ...    Ubuntu.
+    Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP001.002 not supported
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Check Internal LCD Linux
+    Exit From Root User
+
 DSP001.003 - Internal display in OS (Windows 11)
     [Documentation]    Check whether an internal display is visible in
     ...    Windows OS.

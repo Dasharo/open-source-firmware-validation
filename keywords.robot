@@ -1159,6 +1159,12 @@ Check Docking Station DP Windows
     ${out}=    Check Displays Windows
     Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
 
+Check Internal LCD Linux
+    [Documentation]    Check if internal LCD is recognized by Linux OS.
+    # Assumption: Intel iGPU
+    ${out}=    Execute Linux Command    cat /sys/devices/pci0000:00/0000:00:02.0/drm/card*/*eDP-1/status
+    Should Contain    ${out}    connected
+
 Check Internal LCD Windows
     [Documentation]    Check if internal LCD is recognized by Windows OS.
     ${out}=    Check Displays Windows
@@ -1167,12 +1173,14 @@ Check Internal LCD Windows
 Check External HDMI In Linux
     [Documentation]    Keyword checks if an external HDMI device is visible
     ...    in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/class/drm/card0/*HDMI*/status
+    ${out}=    Execute Linux Command    cat /sys/devices/pci0000:00/0000:00:02.0/drm/card*/*HDMI*/status
+
     Should Contain    ${out}    connected
 
 Check Docking Station HDMI In Linux
     [Documentation]    Keyword checks if an docking station HDMI device is
     ...    visiblein Linux OS.
+    # this test is wrong, we need to check the MST topology tree
     TRY
         ${out}=    Execute Linux Command    cat /sys/class/drm/card0-DP-7/status
         Should Not Contain    ${out}    disconnected
