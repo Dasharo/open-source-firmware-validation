@@ -8,7 +8,7 @@ RTE_IP=${RTE_IP:=192.168.10.188}
 # Uncomment one of these
 CONFIG=${CONFIG:=msi-pro-z690-a-ddr5}
 
-FW_FILE=${FW_FILE:=msi_ms7d25_v1.1.3_ddr5.rom}
+FW_FILE=${FW_FILE:=msi_ms7d25_v1.1.3_ddr5_serial_enabled.rom}
 
 DEVICE_IP="192.168.10.93"
 
