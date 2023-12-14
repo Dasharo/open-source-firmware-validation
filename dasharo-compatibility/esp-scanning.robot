@@ -24,8 +24,8 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     Prepare Required Files For Qemu
 ...                     Prepare EFI Partition With System Files
-Suite Teardown      Run Keyword
-...                     Clear Out EFI Partition
+Suite Teardown      Run Keywords
+...                     Clear Out EFI Partition    AND
 ...                     Log Out And Close Connection
 
 
