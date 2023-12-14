@@ -200,7 +200,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=qemu    board-revision=1.01    env=dev
 ...                         platform_vendor=qemu
 # NovaCustom laptopts test stand -----------------------------------------------
-&{RTE49}=                   ip=192.168.4.180
+&{RTE51}=                   ip=192.168.4.180
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
 ...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
 ...                         cpuid=deadbeef001
@@ -215,6 +215,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
+...                         &{RTE51}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -415,6 +416,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG40}=                &{RTE48}
 @{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD10}
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
+@{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
