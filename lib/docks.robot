@@ -4,22 +4,20 @@ Documentation       Collection of keywords for downloading local files
 Resource            ../keywords.robot
 
 ***Keywords***
-Has DisplayLink Driver Installed Linux
-    [Documentation]    Keyword checks if package is installed
-    # Assumption: Ubuntu or Ubuntu-derived distro
-    ${out}=    Execute Linux Command    apt list
-    Should Contain    ${out}    evdi
-
 Ensure DisplayLink Driver Is Installed Linux
     [Documentation]    Keyword installs DisplayLink drivers if they're missing.
     TRY
-        Has DisplayLink Driver Installed Linux
+        ${out}=    Execute Linux Command    apt list --installed
+        Should Contain    ${out}    displaylink-driver
     EXCEPT
         Download File    https://www.synaptics.com/sites/default/files/Ubuntu/pool/stable/main/all/synaptics-repository-keyring.deb    synaptics-repository-keyring.deb
-        Execute Linux Command    apt install ./synapics-repository-keyring.deb
+        Install Package    ./synapics-repository-keyring.deb
         Execute Linux Command    apt update
-        Execute Linux Command    apt install displaylink-driver
-        Execute Linux Command    modprobe evdi
+        Install Package    displaylink-driver
+        Execute Linux Command    systemctl start displaylink-driver.service
+        Sleep    5s
+        Execute Linux Command    systemctl restart gdm.service
+        Sleep    5s
     END
 
 Check DisplayLink Dock In Linux
