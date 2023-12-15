@@ -344,9 +344,7 @@ Docking Station Detection After Coldboot (Ubuntu 22.04)
         TRY
             ${out_before_reboot}=    Execute Linux Command    uptime --since
             WHILE    '${out_before_reboot}' == '${out_after_reboot}'
-                Log To Console    Coldboot the DUT manually
-                # coldboot - msi ./sonoff, protectli RteCtrl -rel, novacustom ???
-                Pause Execution In Console    Do power cut-off, reconnect and press ENTER.
+                Power Cycle On
                 Login To Linux
                 Switch To Root User
                 ${out_after_reboot}=    Execute Linux Command    uptime --since
@@ -377,10 +375,10 @@ Docking Station Detection After Warmboot (Ubuntu 22.04)
         TRY
             ${out_before_reboot}=    Execute Linux Command    uptime --since
             WHILE    '${out_before_reboot}' == '${out_after_reboot}'
+                Configure Wake In Linux
                 Write Into Terminal    poweroff
-                Log To Console    Warmboot the DUT manually
-                # warmboot - msi rte, protectli novacustom ???
-                Pause Execution In Console    Press power button on platform and press ENTER.
+                Sleep    20s
+                Wake Up
                 Login To Linux
                 Switch To Root User
                 ${out_after_reboot}=    Execute Linux Command    uptime --since
