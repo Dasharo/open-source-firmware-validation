@@ -10,6 +10,7 @@ Resource        lib/terminal.robot
 Resource        lib/esp-scanning-lib.robot
 Resource        lib/dl-cache.robot
 Resource        lib/dmidecode-lib.robot
+Resource        lib/docks.robot
 Resource        lib/flash.robot
 Resource        lib/self-tests.robot
 Resource        lib/sleep-lib.robot
