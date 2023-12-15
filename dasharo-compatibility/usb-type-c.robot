@@ -46,7 +46,7 @@ UTC005.001 - Docking station HDMI display in OS (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Check Docking Station HDMI In Linux
+    Check PCON On MST Hub In Linux
     Exit From Root User
 
 UTC005.002 - Docking station HDMI display in OS (Windows 11)
@@ -69,7 +69,7 @@ UTC006.001 - Docking station DP display in OS (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Check Docking Station DP In Linux
+    Check DP Port On MST Hub In Linux
     Exit From Root User
 
 UTC006.002 - Docking station DP display in OS (Windows 11)
