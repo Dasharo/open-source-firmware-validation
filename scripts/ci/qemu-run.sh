@@ -11,8 +11,23 @@ if [ ! -d "$DIR" ]; then
     exit 1
 fi
 
+if ! command -v swtpm &> /dev/null
+then
+    echo "swtpm could not be found"
+    echo "Please install swtpm package first"
+    exit 1
+fi
+
 HDD_PATH="qemu-data/hdd.qcow2"
 INSTALLER_PATH="qemu-data/ubuntu.iso"
+
+TPM_DIR="/tmp/osfv/tpm"
+TPM_SOCK="${TPM_DIR}/sock"
+TPM_PID_FILE="${TPM_DIR}/pid"
+TPM_LOG_FILE="${TPM_DIR}/log"
+# We need 2.0 only right now, but swtpm supports 1.2 only which may be useful in
+# some cases.
+# TPM_VERSION="2.0"
 
 usage() {
 cat <<EOF
@@ -63,6 +78,43 @@ check_disks() {
   fi
 }
 
+tpm_start() {
+  echo "Starting swtpm..."
+  mkdir -p "${TPM_DIR}"
+  touch "${TPM_PID_FILE}" "${TPM_LOG_FILE}"
+
+  swtpm socket --tpm2 \
+    --tpmstate dir=${TPM_DIR} \
+    --ctrl type=unixio,path=${TPM_SOCK} \
+    --pid file="${TPM_PID_FILE}" \
+    --log level=5 &> "${TPM_LOG_FILE}" &
+
+  sleep 1
+
+  echo "swtpm started with PID: $(cat ${TPM_PID_FILE})"
+}
+
+tpm_stop() {
+  if [ -f "${TPM_PID_FILE}" ]; then
+    local _tpm_pid=0
+    _tpm_pid="$(cat ${TPM_PID_FILE})"
+    echo "stpoping swtpm with PID: ${_tpm_pid}"
+    kill "${_tpm_pid}"
+    echo "stopped swtpm"
+  else
+    echo "swtpm process not found"
+  fi
+  rm -f "${TPM_SOCK}" "${TPM_PID_FILE}"
+}
+
+cleanup() {
+  echo "Cleaning up..."
+  tpm_stop
+  exit 1
+}
+
+trap cleanup INT
+
 if [ $# -ne 2 ]; then
   usage
 fi
@@ -76,7 +128,10 @@ QEMU_PARAMS_BASE="-machine q35,smm=on \
   -qmp unix:/tmp/qmp-socket,server,nowait \
   -serial telnet:localhost:1234,server,nowait \
   -device virtio-scsi-pci,id=scsi \
-  -device qemu-xhci,id=usb"
+  -device qemu-xhci,id=usb \
+  -chardev socket,id=chrtpm,path=${TPM_SOCK} \
+  -tpmdev emulator,id=tpm0,chardev=chrtpm \
+  -device tpm-tis,tpmdev=tpm0"
 
 QEMU_PARAMS_OS="-smp 2 \
   -enable-kvm \
@@ -153,6 +208,7 @@ cp ./OVMF_VARS.fd /tmp/OVMF_VARS.fd
 
 echo "Running QEMU Q35 with Dasharo (UEFI) firmware ... (Ctrl+C to terminate)"
 
-qemu-system-x86_64 -m ${MEMORY} ${QEMU_PARAMS}
+tpm_start
+qemu-system-x86_64 -m ${MEMORY} ${QEMU_PARAMS} || cleanup
 
 cd $INIT_DIR || exit
