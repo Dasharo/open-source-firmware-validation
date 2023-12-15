@@ -3,14 +3,17 @@ Documentation       Collection of keywords for downloading local files
 
 Resource            ../keywords.robot
 
-***Keywords***
+
+*** Keywords ***
 Ensure DisplayLink Driver Is Installed Linux
     [Documentation]    Keyword installs DisplayLink drivers if they're missing.
     TRY
         ${out}=    Execute Linux Command    apt list --installed
         Should Contain    ${out}    displaylink-driver
     EXCEPT
-        Download File    https://www.synaptics.com/sites/default/files/Ubuntu/pool/stable/main/all/synaptics-repository-keyring.deb    synaptics-repository-keyring.deb
+        Download File
+        ...    https://www.synaptics.com/sites/default/files/Ubuntu/pool/stable/main/all/synaptics-repository-keyring.deb
+        ...    synaptics-repository-keyring.deb
         Install Package    ./synapics-repository-keyring.deb
         Execute Linux Command    apt update
         Install Package    displaylink-driver
@@ -53,7 +56,7 @@ Check Docking Station DP Windows
     ${out}=    Check Displays Windows
     Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
 
-Detect Docking Station USB devices In Linux
+Detect Docking Station USB Devices In Linux
     [Documentation]    Keyword check the docking station is detected correctly.
     [Arguments]    ${docking_station_model}
     # USB devices
