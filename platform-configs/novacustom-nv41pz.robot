@@ -1,6 +1,7 @@
 *** Settings ***
 Resource    ../os-config/ubuntu-credentials.robot
 
+
 *** Variables ***
 ${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
@@ -303,6 +304,7 @@ Power On
     Power Cycle On
 
 # TODO make these generic
+
 Configure Wake In Linux
     [Documentation]    Keyword prepares platform for wake by platform specific
     ...    wake method.
