@@ -108,5 +108,5 @@ Detect Docking Station In Linux
     [Arguments]    ${docking_station_model}
     # Workaround for full initialize docking station.
     Sleep    5s
-    Detect Docking Station USB Devices In Linux    $docking_station_model
-    Detect Docking Station Video Ports In Linux    $docking_station_model
+    Detect Docking Station USB Devices In Linux    ${docking_station_model}
+    Detect Docking Station Video Ports In Linux    ${docking_station_model}
