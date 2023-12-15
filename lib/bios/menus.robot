@@ -257,7 +257,7 @@ Press Key N Times
             # Key press time as defined in PiKVM library is 200ms. We need some
             # additional delay to make sure we can gather all input from terminal after
             # key press.
-            Sleep    1s
+            Sleep    2s
         ELSE
             Write Bare Into Terminal    ${key}
             # Escape sequences in EDK2 have 2 seconds to complete on serial.
