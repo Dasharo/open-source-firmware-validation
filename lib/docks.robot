@@ -11,7 +11,7 @@ Has DisplayLink Driver Installed Linux
     Should Contain    ${out}    evdi
 
 Ensure DisplayLink Driver Is Installed Linux
-    [Documentation]    Keyword installs drivers if they're missing.
+    [Documentation]    Keyword installs DisplayLink drivers if they're missing.
     TRY
         Has DisplayLink Driver Installed Linux
     EXCEPT
@@ -58,8 +58,6 @@ Check Docking Station DP Windows
 Detect Docking Station USB devices In Linux
     [Documentation]    Keyword check the docking station is detected correctly.
     [Arguments]    ${docking_station_model}
-    # Workaround for full initialize docking station.
-    Sleep    5s
     # USB devices
     ${out}=    List Devices In Linux    usb
     IF    '${docking_station_model}' == 'WL-UMD05 Pro Rev.E'
@@ -90,11 +88,9 @@ Detect Docking Station USB devices In Linux
         Fail    unknown docking station
     END
 
-Detect Docking Station Video Devices In Linux
+Detect Docking Station Video Ports In Linux
     [Documentation]    Keyword check the docking station is detected correctly.
     [Arguments]    ${docking_station_model}
-    # Workaround for full initialize docking station.
-    Sleep    5s
     IF    '${docking_station_model}' == 'WL-UMD05 Pro Rev.E'
         Check PCON On MST Hub In Linux
         Check DP Port On MST Hub In Linux
@@ -106,3 +102,11 @@ Detect Docking Station Video Devices In Linux
     ELSE
         Fail    unknown docking station
     END
+
+Detect Docking Station In Linux
+    [Documentation]    Keyword check the docking station is detected correctly.
+    [Arguments]    ${docking_station_model}
+    # Workaround for full initialize docking station.
+    Sleep    5s
+    Detect Docking Station USB Devices In Linux    $docking_station_model
+    Detect Docking Station Video Ports In Linux    $docking_station_model
