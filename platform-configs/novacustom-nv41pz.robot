@@ -1,7 +1,6 @@
 *** Settings ***
 Resource    ../os-config/ubuntu-credentials.robot
 
-
 *** Variables ***
 ${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
@@ -19,6 +18,7 @@ ${EDK2_IPXE_START_POS}=                             1
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             Intel(R) Core(TM) i7-1165G7 CPU
 ${POWER_CTRL}=                                      sonoff
+${WAKE_CTRL}=                                       wol
 ${INITIAL_CPU_FREQUENCY}=                           2800
 ${DRAM_SIZE}=                                       ${8192}
 ${DEF_CORES}=                                       4
@@ -32,6 +32,8 @@ ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${MAX_CPU_TEMP}=                                    77
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
 ${DEVICE_IP}=                                       192.168.4.240
+${DEVICE_MAC}=                                      d4:93:90:16:94:92
+${WOL_INTERFACE}=                                   enp46s0
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd
@@ -294,12 +296,25 @@ ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 *** Keywords ***
 Power On
     [Documentation]    Keyword clears SSH buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
+    ...    into Power On state from Mechanical Off. (coldboot) For example:
+    ...    sonoff, RTE relays.
     Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Power Cycle On
+
+# TODO make these generic
+Configure Wake In Linux
+    [Documentation]    Keyword prepares platform for wake by platform specific
+    ...    wake method.
+    # Enable wake by magic packet
+    Execute Linux Command    ethtool -s ${WOL_INTERFACE} wol g
+
+Wake Up
+    [Documentation]    Keyword wakes up DUT from sleep states, including S5
+    ...    (warmboot). For example: power button press via RTE GPIO or Wake on
+    ...    LAN.
+    # TODO Do not run `wol` on host - does not work across subnets! TODO
+    Run    wol ${DEVICE_MAC}
 
 Flash Device Via Internal Programmer
     [Documentation]    Keyword allows to flash Device Under Test firmware by
