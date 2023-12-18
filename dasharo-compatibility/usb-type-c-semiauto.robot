@@ -20,6 +20,9 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    Docking station detect tests not supported
+...                     AND
 ...                     Check If Platform Sleep Type Can Be Selected
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
@@ -29,28 +32,24 @@ Suite Teardown      Run Keyword
 UTC008.001 Docking station detection after coldboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.001 not supported
     Docking Station Detection After Coldboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
 UTC009.001 Docking station detection after warmboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.001 not supported
     Docking Station Detection After Warmboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
 UTC010.001 Docking station detection after reboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.001 not supported
     Docking Station Detection After Reboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
 UTC011.001 Docking station detection after suspend (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.001 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.001 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UMD05 Pro Rev.E and press ENTER
@@ -59,7 +58,6 @@ UTC011.001 Docking station detection after suspend (Ubuntu 22.04) (WL-UMD05 Pro 
 UTC011.002 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.002 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.002 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UMD05 Pro Rev.E and press ENTER
@@ -69,7 +67,6 @@ UTC011.002 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UMD
 UTC011.003 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.003 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.003 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UMD05 Pro Rev.E and press ENTER
@@ -79,28 +76,24 @@ UTC011.003 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UMD05
 UTC008.002 Docking station detection after coldboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.002 not supported
     Docking Station Detection After Coldboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
 
 UTC009.002 Docking station detection after warmboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.002 not supported
     Docking Station Detection After Warmboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
 
 UTC010.002 Docking station detection after reboot (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.002 not supported
     Docking Station Detection After Reboot (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
 
 UTC011.004 Docking station detection after suspend (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.004 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.004 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.004 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UMD05 Pro Rev.C1 and press ENTER
@@ -109,7 +102,6 @@ UTC011.004 Docking station detection after suspend (Ubuntu 22.04) (WL-UMD05 Pro 
 UTC011.005 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.005 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.005 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.005 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UMD05 Pro Rev.C1 and press ENTER
@@ -119,7 +111,6 @@ UTC011.005 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UMD
 UTC011.006 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.006 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.006 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.006 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UMD05 Pro Rev.C1 and press ENTER
@@ -129,28 +120,24 @@ UTC011.006 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UMD05
 UTC008.003 Docking station detection after coldboot (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.003 not supported
     Docking Station Detection After Coldboot (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
 
 UTC009.003 Docking station detection after warmboot (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.003 not supported
     Docking Station Detection After Warmboot (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
 
 UTC010.003 Docking station detection after reboot (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.003 not supported
     Docking Station Detection After Reboot (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
 
 UTC011.007 Docking station detection after suspend (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.007 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.007 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UG69PD2 Rev.A1 and press ENTER
@@ -159,7 +146,6 @@ UTC011.007 Docking station detection after suspend (Ubuntu 22.04) (WL-UG69PD2 Re
 UTC011.008 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.008 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.008 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.008 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UG69PD2 Rev.A1 and press ENTER
@@ -169,7 +155,6 @@ UTC011.008 Docking station detection after suspend (Ubuntu 22.04) (S0ix) (WL-UG6
 UTC011.009 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.009 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.009 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.009 not supported
     Pause Execution In Console    Please make sure the docking station connected is WL-UG69PD2 Rev.A1 and press ENTER
@@ -179,28 +164,24 @@ UTC011.009 Docking station detection after suspend (Ubuntu 22.04) (S3) (WL-UG69P
 UTC022.001 Docking station detection after coldboot then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.001 not supported
     Docking Station Detection After Coldboot Then Hotplug (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
 UTC023.001 Docking station detection after warmboot then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.001 not supported
     Docking Station Detection After Warmboot Then Hotplug (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
 UTC024.001 Docking station detection after reboot then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.001 not supported
     Docking Station Detection After Reboot Then Hotplug (Ubuntu 22.04)    WL-UMD05 Pro Rev.E
 
 UTC025.001 Docking station detection after suspend then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.001 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.001 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -209,7 +190,6 @@ UTC025.001 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC025.002 Docking station detection after suspend then hotplug (Ubuntu 22.04) (S0ix) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.002 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.002 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -219,7 +199,6 @@ UTC025.002 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC025.003 Docking station detection after suspend then hotplug (Ubuntu 22.04) (S3) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.003 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.003 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -229,28 +208,24 @@ UTC025.003 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC022.002 Docking station detection after coldboot then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.002 not supported
     Docking Station Detection After Coldboot Then Hotplug (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
 
 UTC023.002 Docking station detection after warmboot then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.002 not supported
     Docking Station Detection After Warmboot Then Hotplug (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
 
 UTC024.002 Docking station detection after reboot then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.002 not supported
     Docking Station Detection After Reboot Then Hotplug (Ubuntu 22.04)    WL-UMD05 Pro Rev.C1
 
 UTC025.004 Docking station detection after suspend then hotplug (Ubuntu 22.04) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.004 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.004 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.004 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -259,7 +234,6 @@ UTC025.004 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC025.005 Docking station detection after suspend then hotplug (Ubuntu 22.04) (S0ix) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.005 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.005 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.005 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -269,7 +243,6 @@ UTC025.005 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC025.006 Docking station detection after suspend then hotplug (Ubuntu 22.04) (S3) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.006 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.006 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.006 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -279,28 +252,24 @@ UTC025.006 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC022.003 Docking station detection after coldboot then hotplug (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC008.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.003 not supported
     Docking Station Detection After Coldboot Then Hotplug (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
 
 UTC023.003 Docking station detection after warmboot then hotplug (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC009.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.003 not supported
     Docking Station Detection After Warmboot Then Hotplug (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
 
 UTC024.003 Docking station detection after reboot then hotplug (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC010.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.003 not supported
     Docking Station Detection After Reboot Then Hotplug (Ubuntu 22.04)    WL-UG69PD2 Rev.A1
 
 UTC025.007 Docking station detection after suspend then hotplug (Ubuntu 22.04) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.007 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.007 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -309,7 +278,6 @@ UTC025.007 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC025.008 Docking station detection after suspend then hotplug (Ubuntu 22.04) (S0ix) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.008 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.008 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.008 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -319,7 +287,6 @@ UTC025.008 Docking station detection after suspend then hotplug (Ubuntu 22.04) (
 UTC025.009 Docking station detection after suspend then hotplug (Ubuntu 22.04) (S3) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC011.009 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.009 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.009 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
