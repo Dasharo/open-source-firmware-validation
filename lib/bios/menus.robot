@@ -274,9 +274,9 @@ Get Option State
     [Arguments]    ${menu}    ${option}
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     ${value}=    Get Value From Brackets    ${menu}[${index}]
-    IF    '${value}' == 'X'
+    IF    '${value}[0]' == 'X'
         ${state}=    Set Variable    ${TRUE}
-    ELSE IF    '${value}' == ' '
+    ELSE IF    '${value}[0]' == ' '
         ${state}=    Set Variable    ${FALSE}
     ELSE
         ${state}=    Set Variable    ${value}
