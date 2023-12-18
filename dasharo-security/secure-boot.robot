@@ -27,11 +27,12 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Restore Secure Boot Defaults
 Suite Teardown      Run Keywords
-...                     Run Keyword If     ${SECURE_BOOT_SUPPORT}    Restore Secure Boot Defaults
+...                     Run Keyword If    ${SECURE_BOOT_SUPPORT}    Set Secure Boot State To Disabled
 ...                     AND
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword
 ...                     Restore Initial DUT Connection Method
+
 
 *** Test Cases ***
 SBO001.001 Check Secure Boot default state (firmware)
@@ -77,7 +78,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    #Save Changes And Reset
+    # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
     Tianocore Reset System
 
