@@ -562,50 +562,6 @@ Get Fan Speed
     ${rpm}=    Convert To Number    ${rpm}
     RETURN    ${rpm}
 
-Flash Firmware
-    [Documentation]    Flash platform with firmware file specified in the
-    ...    argument. Keyword fails if file size doesn't match target
-    ...    chip size.
-    [Arguments]    ${fw_file}
-    ${file_size}=    Run    ls -l ${fw_file} | awk '{print $5}'
-    IF    '${file_size}'!='${FLASH_SIZE}'
-        FAIL    Image size doesn't match the flash chip's size!
-    END
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Put File    ${fw_file}    /tmp/coreboot.rom
-    END
-    Sleep    2s
-    ${platform}=    Get Current RTE Param    platform
-    IF    '${platform[:3]}' == 'apu'
-        Flash Apu
-    ELSE IF    '${platform[:13]}' == 'optiplex-7010'
-        Flash Firmware Optiplex
-    ELSE IF    '${platform[:8]}' == 'KGPE-D16'
-        Flash KGPE-D16
-    ELSE IF    '${platform[:10]}' == 'novacustom'
-        Flash Device Via Internal Programmer    ${fw_file}
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
-        Flash Protectli VP4620 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
-        Flash Protectli VP4650 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
-        Flash Protectli VP4670 External
-    ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
-        Flash Protectli VP2420 Internal
-    ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
-        Flash Protectli VP2410 External
-    ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
-        Flash MSI-PRO-Z690-A-DDR5
-    ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
-        Flash MSI-PRO-Z690-A-WiFi-DDR4
-    ELSE IF    '${platform[:46]}' == 'msi-pro-z790-p-ddr5'
-        Flash MSI-PRO-Z790-P-DDR5
-    ELSE
-        Fail    Flash firmware not implemented for platform ${platform}
-    END
-    # First boot after flashing may take longer than usual
-    Set DUT Response Timeout    180s
-
 Prepare Test Suite
     [Documentation]    Keyword prepares Test Suite by importing specific
     ...    platform configuration keywords and variables and
