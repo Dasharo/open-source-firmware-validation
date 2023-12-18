@@ -51,7 +51,7 @@ MPS001.001 Switching to XMP profile
     ${current_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
     Should Start With    ${current_profile}    JEDEC
     Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     # Verify that frequency has changed
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
@@ -77,7 +77,7 @@ MPS002.001 Switching back to JEDEC profile
     ${current_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
     Should Start With    ${current_profile}    XMP#1
     Set Option State    ${memory_menu}    Memory SPD Profile    JEDEC (safe
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     # Verify that frequency has changed
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
