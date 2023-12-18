@@ -83,7 +83,6 @@ ${DMIDECODE_FAMILY}=                                N/A
 ${DMIDECODE_TYPE}=                                  N/A
 
 ${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
-${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -194,6 +193,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
