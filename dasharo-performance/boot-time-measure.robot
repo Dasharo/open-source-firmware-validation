@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${SERIAL_BOOT_MEASURE}    Boot performance measurement tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -33,7 +35,6 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
-    Skip If    not ${SERIAL_BOOT_MEASURE}    CBMEM001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.001 not supported
     ${average}=    Set Variable    0
     Log To Console    \n
@@ -57,7 +58,6 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
-    Skip If    not ${SERIAL_BOOT_MEASURE}    CBMEM002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.001 not supported
     ${average}=    Set Variable    0
     Log To Console    \n
@@ -81,7 +81,6 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
-    Skip If    not ${SERIAL_BOOT_MEASURE}    CBMEM003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
     ${average}=    Set Variable    0
     Power On

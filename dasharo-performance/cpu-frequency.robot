@@ -21,6 +21,9 @@ Resource            ../keys-and-keywords/heads-keywords.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPU frequency measurement tests not supported
+...                     AND
 ...                     Check Power Supply
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
@@ -30,7 +33,6 @@ Suite Teardown      Run Keyword
 CPF001.001 CPU not stuck on initial frequency (Ubuntu 22.04)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.001 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Not Stuck On Initial Frequency (Ubuntu 22.04)
@@ -38,7 +40,6 @@ CPF001.001 CPU not stuck on initial frequency (Ubuntu 22.04)
 CPF001.002 CPU not stuck on initial frequency (Windows 11)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.002 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Not Stuck On Initial Frequency (Windows 11)
@@ -46,7 +47,6 @@ CPF001.002 CPU not stuck on initial frequency (Windows 11)
 CPF001.003 CPU not stuck on initial frequency (Heads+Debian)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.003 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CPF001.003 not supported
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.003 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop

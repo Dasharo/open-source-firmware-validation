@@ -621,6 +621,7 @@ Make Sure That Network Boot Is Enabled
 Make Sure That Flash Locks Are Disabled
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
     ...    any Dasharo Security Options, if they are present.
+    Return From Keyword If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -656,6 +657,7 @@ Get Firmware Version From Tianocore Setup Menu
 Disable Firmware Flashing Prevention Options
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
     ...    any Dasharo Security Options, if they are present.
+    Return From Keyword If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${index}=    Get Index Of Matching Option In Menu

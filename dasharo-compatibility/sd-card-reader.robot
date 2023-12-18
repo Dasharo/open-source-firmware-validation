@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${SD_CARD_READER_SUPPORT}    SD card reader tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 SDC001.001 SD Card reader detection (Ubuntu 20.04)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC001.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -42,7 +43,6 @@ SDC001.001 SD Card reader detection (Ubuntu 20.04)
 SDC001.002 SD Card reader detection (Windows 11)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC001.001 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.001 not supported
     Power On
     Login To Windows
@@ -54,7 +54,6 @@ SDC001.002 SD Card reader detection (Windows 11)
 SDC002.001 SD Card read/write (Ubuntu 20.04)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC002.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -70,7 +69,6 @@ SDC002.001 SD Card read/write (Ubuntu 20.04)
 SDC002.002 SD Card read/write (Windows 11)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC002.001 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.001 not supported
     Power On
     ${out}=    Run

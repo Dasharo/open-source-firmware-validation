@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${PLATFORM_STABILITY_CHECKING}    Platform satability checks are disabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -29,7 +31,6 @@ STB001.001 Verify if no reboot occurs in the firmware
     [Documentation]    This test aims to verify that the DUT booted to the BIOS
     ...    does not reset. The test is performed in multiple iterations - after
     ...    a defined time an attempt to read the same menu is repeated.
-    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    STB001.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -57,7 +58,6 @@ STB001.002 Verify if no reboot occurs in the OS (Ubuntu 22.04)
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
-    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.002 not supported
     Power On
     Boot Operating System    ubuntu
@@ -86,7 +86,6 @@ STB001.003 Verify if no reboot occurs in the OS (Windows 11)
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
-    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    STB001.002 not supported
     Power On
     Login To Windows
