@@ -28,8 +28,8 @@ Suite Teardown      Run Keyword
 BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
     [Documentation]    Check whether setting Auto Boot Time-out to 7 the value
     ...    is remembered after restart
-    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -48,8 +48,8 @@ BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
 BMM002.001 F9 resets Auto Boot Time-out to default value
     [Documentation]    Check whether pressing F9 resets Auto Boot Time-out to
     ...    default value
-    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM002.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -69,6 +69,8 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
 BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
     [Documentation]    Check whether Auto Boot Time-out accepts only numeric
     ...    values.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM003.001 not supported
+    Skip If    "${DUT_CONNECTION_METHOD}" == "pikvm"    BMM003.001 not supported with PiKVM input
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
