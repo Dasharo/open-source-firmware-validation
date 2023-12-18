@@ -49,7 +49,7 @@ SBO001.001 Check Secure Boot default state (firmware)
     ...    ${device_mgr_menu}
     ...    Secure Boot Configuration
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
-    Should Contain    ${sb_state}[0]    Disabled
+    Should Contain    ${sb_state}[0]    ${SECURE_BOOT_DEFAULT_STATE}
 
 SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     [Documentation]    This test verifies that Secure Boot can be enabled from
@@ -293,9 +293,13 @@ Restore Secure Boot Defaults
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    # Changes to Secure Boot take action immediately, so we can just continue
 
     Exit From Current Menu
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    IF   ${SECURE_BOOT_DEFAULT_STATE} == ${FALSE}
+        Disable Secure Boot    ${sb_menu}
+    ELSE
+        Enable Secure Boot    ${sb_menu}
+    END
+    # Changes to Secure Boot take action immediately, so we can just continue
