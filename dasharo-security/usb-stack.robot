@@ -40,10 +40,9 @@ USS001.001 Enable USB stack (firmware)
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
+    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
     Save Changes And Reset    2    4
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Detected
+    Fail    msg    At this point we should check USB keyboard support in FW
 
 USS002.001 Disable USB stack (firmware)
     [Documentation]    Check whether If the stack is deactivated, there will be
@@ -55,15 +54,9 @@ USS002.001 Disable USB stack (firmware)
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
-    Save Changes And Reset    2    4
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
     Save Changes And Reset    2    4
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Not Detected
+    Fail    msg    At this point we should check USB keyboard support in FW
 
 USS003.001 Enable USB Mass Storage (firmware)
     [Documentation]    Check whether If the storage support is activated, there
@@ -82,8 +75,9 @@ USS003.001 Enable USB Mass Storage (firmware)
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
     Save Changes And Reset    2    4
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Detected
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${result}=    Run Keyword And Return Status    Check That USB Devices Are Detected    ${boot_menu}
+    Should Be True    ${result}
 
 USS004.001 Disable USB Mass Storage (firmware)
     [Documentation]    Check whether If the storage support is deactivated,
@@ -95,12 +89,13 @@ USS004.001 Disable USB Mass Storage (firmware)
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
+    Set Option State    ${usb_menu}    Enable USB stack    ${TRUE}
     Save Changes And Reset    2    4
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
+    Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
     Save Changes And Reset    2    4
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Not Detected
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${result}=    Run Keyword And Return Status    Check That USB Devices Are Detected    ${boot_menu}
+    Should Not Be True    ${result}

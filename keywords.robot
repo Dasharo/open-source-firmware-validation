@@ -1818,38 +1818,20 @@ Get Current CONFIG List Param
     RETURN    @{attached_usb_list}
 
 Check That USB Devices Are Detected
-    [Documentation]    Checks if the USB devices from the config are the same as
-    ...    those visible in the boot menu. Alternatively, if we set emulated to
-    ...    True, it only probes for the PiKVM emulated USB.
-    [Arguments]    ${emulated}=${FALSE}
-    ${menu_construction}=    Read From Terminal Until    exit
+    [Documentation]    Checks if the bootable USB devices are visible in the
+    ...    boot menu. If PiKVM is connected, check for the PiKVM device. It
+    ...    assumes that a bootable image is hosted on the PiKVM already.
+    [Arguments]    ${boot_menu}
 
-    IF    ${emulated} == ${TRUE}
-        ${found}=    Run Keyword And Return Status
-        ...    Should Match    ${menu_construction}    *PiKVM*
-        IF    not ${found}
-            Press Key N Times    1    ${ARROW_UP}
-            ${menu_construction}=    Read From Terminal Until    PiKVM
-            RETURN    ${TRUE}
-        ELSE
-            RETURN    ${TRUE}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Should Contain Match    ${boot_menu}    *PiKVM*
+    ELSE
+        @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
+        FOR    ${stick}    IN    @{attached_usb_list}
+            # ${stick} should match with one element of ${menu_construction}
+
+            Should Match    ${MENU_CONSTRUCTION}    *${stick}*
         END
-    END
-
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        # ${stick} should match with one element of ${menu_construction}
-
-        Should Match    ${menu_construction}    *${stick}*
-    END
-
-Check That USB Devices Are Not Detected
-    [Documentation]    Checks if the USB devices from the config are the same as
-    ...    those visible in the boot menu.
-    ${menu_construction}=    Get Boot Menu Construction
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        Should Not Contain    ${menu_construction}    ${stick}
     END
 
 Switch To Root User In Ubuntu Server
