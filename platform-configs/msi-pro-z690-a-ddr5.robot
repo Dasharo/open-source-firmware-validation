@@ -91,7 +91,7 @@ ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 # Regression test flags
 # Test module: dasharo-compatibility
 ${COREBOOT_BASE_PORT_SUPPORT}=                      ${FALSE}
-${RESOURCE_ALLOCATOR_V4_SUPPORT}=                   ${FALSE}
+${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
