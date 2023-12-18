@@ -96,9 +96,9 @@ NBT005.001 iPXE shell works correctly
     ${out}=    Read From Terminal Until Prompt
     Should Contain    ${out}    ok
     Set DUT Response Timeout    60s
-    Write Bare Into Terminal    chain http://192.168.20.206:8000/menu.ipxe\n    0.1
-    # chain http://boot.3mdeb.com/dts.ipxe
-    Read From Terminal Until    iPXE boot menu
+    Write Bare Into Terminal    chain http://boot.dasharo.com/dts/dts.ipxe\n    0.1
+    Read From Terminal Until    http://boot.dasharo.com/dts/dts.ipxe...
+    Read From Terminal Until    ok
 
 NBT006.001 Advanced option is available
     [Documentation]    Check whether advanced option is available, and if after
@@ -134,7 +134,7 @@ NBT007.001 Change netboot URL option works correctly
     FOR    ${i}    IN RANGE    100
         Write Bare Into Terminal    ${BACKSPACE}    0.1
     END
-    Write Bare Into Terminal    http://boot.3mdeb.com/dts.ipxe    0.1
+    Write Bare Into Terminal    http://boot.dasharo.com/dts/dts.ipxe    0.1
     Press Enter
     ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=3    checkpoint=Reset to Default
     Enter Submenu From Snapshot    ${ipxe_menu}    Apply and Exit
@@ -143,4 +143,4 @@ NBT007.001 Change netboot URL option works correctly
     ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2    checkpoint=Exit
     Enter Submenu From Snapshot    ${ipxe_menu}    Change Netboot iPXE Payload URL
     ${out}=    Read From Terminal Until    Reset to Default
-    Should Contain    ${out}    http://boot.3mdeb.com/dts.ipxe
+    Should Contain    ${out}    http://boot.dasharo.com/dts/dts.ipxe
