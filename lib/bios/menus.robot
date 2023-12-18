@@ -260,9 +260,11 @@ Press Key N Times
             Sleep    1s
         ELSE
             Write Bare Into Terminal    ${key}
-            # May be useful to add sleep here when implementing test in QEMU
-            # to see how the movement looks like.
-            # Sleep    0.5s
+            # Escape sequences in EDK2 have 2 seconds to complete on serial.
+            # After 2 seconds if it is not completed, it is returned as a
+            # keystroke. So we need at least 2 seconds interval for pressing
+            # ESC for example.
+            Sleep    2s
         END
     END
 
