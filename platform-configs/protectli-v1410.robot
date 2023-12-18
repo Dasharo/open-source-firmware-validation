@@ -73,7 +73,6 @@ ${DMIDECODE_FAMILY}=                                Vault
 ${DMIDECODE_TYPE}=                                  Desktop
 
 ${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
-${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 ${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
@@ -196,6 +195,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${ME_NEUTER_SUPPORT}=                               ${FALSE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
