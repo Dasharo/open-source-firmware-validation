@@ -24,9 +24,9 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE01}=                   ip=192.168.4.197    cpuid=02c000422fc6d77e    pcb_rev=0.5.3
 ...                         platform=mDot    env=unknown
 ...                         platform_vendor=unknown    firmware_type=unknown
-#&{RTE02}=                   ip=192.168.4.198    cpuid=02c00042df7b6fc2    pcb_rev=0.5.3
-#...                         platform=lpn_gate    env=unknown
-#...                         platform_vendor=unknown    firmware_type=unknown
+# &{RTE02}=    ip=192.168.4.198    cpuid=02c00042df7b6fc2    pcb_rev=0.5.3
+# ...    platform=lpn_gate    env=unknown
+# ...    platform_vendor=unknown    firmware_type=unknown
 &{RTE03}=                   ip=192.168.4.199    cpuid=02c00042b526c2b5    pcb_rev=0.5.3
 ...                         platform=lpn_gate    env=unknown
 ...                         platform_vendor=unknown    firmware_type=unknown
@@ -284,8 +284,7 @@ ${OS_UBUNTU}=               ubuntu
 #
 &{EMMC01}=                  vendor=Samsung    volume=32GB    type=MMC_Storage
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
-@{MMC_LIST}=                 &{EMMC01}
-
+@{MMC_LIST}=                &{EMMC01}
 
 # -----------------------------------------------------------------------------
 &{USB01}=                   vendor=Kingston    volume=16GB    type=USB_Storage
