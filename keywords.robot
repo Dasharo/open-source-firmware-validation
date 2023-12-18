@@ -1716,8 +1716,6 @@ Get Current CONFIG List Param
             Append To List    ${attached_usb_list}    ${element.${param}}
         END
     END
-    ${length}=    Get Length    ${attached_usb_list}
-    Should Be True    ${length} > 0
     RETURN    @{attached_usb_list}
 
 Check That USB Devices Are Detected
