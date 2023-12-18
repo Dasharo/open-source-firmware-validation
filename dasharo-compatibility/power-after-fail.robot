@@ -34,8 +34,8 @@ PSF001.001 Check Power State After Power Failure default state (firmware)
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    ${state}=    Get Option State    ${me_menu}    Power state after power
+    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    ${state}=    Get Option State    ${pwr_menu}    Power state after power
     Should Be Equal    ${state}    ${DEFAULT_POWER_STATE_AFTER_FAIL}
 
 PSF002.001 Powered Off State Restoration Test
@@ -45,8 +45,8 @@ PSF002.001 Powered Off State Restoration Test
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${me_menu}    Power state after power    Powered Off
+    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Set Option State    ${pwr_menu}    Power state after power    Powered Off
     Save Changes And Reset    2    4
     Enter Setup Menu Tianocore
     Simulate Power Failure
@@ -61,8 +61,8 @@ PSF003.001 Powered On State Restoration Test
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${me_menu}    Power state after power    Powered On
+    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Set Option State    ${pwr_menu}    Power state after power    Powered On
     Save Changes And Reset    2    4
     Enter Setup Menu Tianocore
     Simulate Power Failure
@@ -76,8 +76,8 @@ PSF004.001 Previous Power State Restoration Test - Powered Off
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${me_menu}    Power state after power    The state at the moment of power failure
+    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Set Option State    ${pwr_menu}    Power state after power    The state at the moment of power failure
     Save Changes And Reset    2    4
     Enter Setup Menu Tianocore
     # Power button press to power off the machine
@@ -95,8 +95,8 @@ PSF004.002 Previous Power State Restoration Test - Powered On
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${me_menu}    Power state after power    The state at the moment of power failure
+    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    Set Option State    ${pwr_menu}    Power state after power    The state at the moment of power failure
     Save Changes And Reset    2    4
     Enter Setup Menu Tianocore
     Simulate Power Failure
