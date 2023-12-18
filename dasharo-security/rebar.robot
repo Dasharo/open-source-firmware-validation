@@ -7,6 +7,7 @@ Resource            ../lib/bios/menus.robot
 Resource            ../variables.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot
+Resource            ../keys.robot
 
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
