@@ -115,7 +115,7 @@ Set ME State
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    ${state}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
 Check ME State
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -123,4 +123,4 @@ Check ME State
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     ${state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${state}    ${state}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
