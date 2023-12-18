@@ -298,6 +298,25 @@ SBO009.002 Check support for rsa3k signed certificates
     ${out}=    Execute File In UEFI Shell    hello_rsa3k.efi
     Should Contain    ${out}    Hello, world!
 
+SBO009.003 Check support for rsa4k signed certificates
+    [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:4096 -subj "/CN=DB-RSA4096/" -keyout DB-RSA4096.key -out DB-RSA4096.pem -days 3650 -nodes -sha256`
+    ...    converted to DER using `openssl base64 -d -in DB-RSA4096.cer -out DB-RSA4096.der`
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${RSA4_K_TEST_NAME}    ${RSA4_K_TEST_URL}    ${RSA4_K_TEST_SHA256}
+    Power On
+
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Volume In File Explorer    RSA4K_LABEL
+    Select File In File Explorer    DB-RSA4096.der
+    Save Changes And Reset    3    5
+
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    hello_rsa4k.efi
+    Should Contain    ${out}    Hello, world!
+
 *** Keywords ***
 Prepare Test Files
     IF    "${MANUFACTURER}" == "QEMU"
