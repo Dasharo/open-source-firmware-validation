@@ -28,7 +28,6 @@ Test Setup          Restore Initial DUT Connection Method
 
 
 *** Test Cases ***
-
 SBO001.001 Check Secure Boot default state (firmware)
     [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
@@ -385,6 +384,7 @@ SBO009.006 Check support for ecdsa521 signed certificates
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello_ecdsa521.efi
     Should Contain    ${out}    Hello, world!
+
 
 *** Keywords ***
 Prepare Test Files
