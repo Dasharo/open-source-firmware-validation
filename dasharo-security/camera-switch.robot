@@ -18,8 +18,12 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${CAMERA_SWITCH_SUPPORT}    Camera switch not supported
+...                     AND
+...                     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Dasharo Security menu not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +32,6 @@ Suite Teardown      Run Keyword
 CHS001.001 Check camera enablement
     [Documentation]    This test makes sure that camera enable option
     ...    is set, hence the camera works properly
-    Skip If    not ${CAMERA_SWITCH_SUPPORT}    CHS001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -42,7 +45,6 @@ CHS001.001 Check camera enablement
 CHS002.001 Check camera disablement
     [Documentation]    This test makes sure that camera enable option
     ...    is not set, hence the camera is not detected by operating system
-    Skip If    not ${CAMERA_SWITCH_SUPPORT}    CHS002.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}

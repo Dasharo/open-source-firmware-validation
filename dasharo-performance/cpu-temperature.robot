@@ -20,6 +20,9 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPU temperature measurement tests not supported
+...                     AND
 ...                     Check Power Supply
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
@@ -30,7 +33,6 @@ CPT001.001 CPU temperature without load (Ubuntu 22.04)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.001 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Temperature Without Load (Ubuntu 22.04)

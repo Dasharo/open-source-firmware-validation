@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    Network BOot and Utilities tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 NBT001.001 Netboot is available
     [Documentation]    Check whether netboot option exist, and if after
     ...    selection proper menu apperas.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT001.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -41,7 +42,6 @@ NBT001.001 Netboot is available
 NBT002.001 OS selection & utilities is available
     [Documentation]    Check whether whether selection & utilities is available,
     ...    and if after selection proper menu apperas.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -54,7 +54,6 @@ NBT002.001 OS selection & utilities is available
 NBT003.001 iPXE boot is available
     [Documentation]    Check whether iPXE boot is available, and if after
     ...    selection iPXE menu appears.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT003.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -68,7 +67,6 @@ NBT003.001 iPXE boot is available
 NBT004.001 iPXE shell is available
     [Documentation]    Check whether iPXE shell is available, and if after
     ...    selection iPXE shell appears.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT004.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -82,7 +80,6 @@ NBT004.001 iPXE shell is available
 NBT005.001 iPXE shell works correctly
     [Documentation]    Check whether iPXE shell works correctly by configuring
     ...    network interface and booting to selected address.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT005.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -103,7 +100,6 @@ NBT005.001 iPXE shell works correctly
 NBT006.001 Advanced option is available
     [Documentation]    Check whether advanced option is available, and if after
     ...    selection proper menu apperas.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT006.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT006.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -117,7 +113,6 @@ NBT006.001 Advanced option is available
 NBT007.001 Change netboot URL option works correctly
     [Documentation]    Check whether it's possible to change netboot url, and
     ...    boot to it.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT007.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT007.001 not supported
     Power On
     Set DUT Response Timeout    60s

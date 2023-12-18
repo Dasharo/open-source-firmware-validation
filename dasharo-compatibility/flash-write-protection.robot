@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${HARDWARE_WP_SUPPORT}    Flash protection tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 HWP001.001 Hardware flash write protection support
     [Documentation]    Check whether the DUT support hardware write protection
     ...    mechanism.
-    Skip If    not ${HARDWARE_WP_SUPPORT}    HWP001.001 not supported
     Power On
     Boot From USB
     Serial Root Login Linux    debian
@@ -37,7 +38,6 @@ HWP001.001 Hardware flash write protection support
 HWP002.001 Hardware flash write protection enable / disable
     [Documentation]    Check whether there is a possibility to set and erase
     ...    hardware write protection on the DUT.
-    Skip If    not ${HARDWARE_WP_SUPPORT}    HWP001.001 not supported
     Power On
     Boot From USB
     Serial Root Login Linux    debian

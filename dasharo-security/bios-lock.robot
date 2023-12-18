@@ -18,8 +18,12 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${BIOS_LOCK_SUPPORT}    BIOS lock not supported
+...                     AND
+...                     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Dasharo Security menu not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -30,7 +34,6 @@ BLS001.001 BIOS lock support (Ubuntu 22.04)
     ...    firmware from being flashed. This test aims to verify that,
     ...    after turning on the mechanism, the BIOS region should be correctly
     ...    recognized during attempt to overwrite it by using flashrom tool.
-    Skip If    not ${BIOS_LOCK_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -51,7 +54,6 @@ BLS002.001 BIOS lock support deactivation (Ubuntu 22.04)
     ...    firmware from being flashed. This test aims to verify that, after
     ...    turning off the mechanism, the BIOS region overwriting operation is
     ...    available again.
-    Skip If    not ${BIOS_LOCK_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

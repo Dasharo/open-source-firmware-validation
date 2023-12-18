@@ -99,6 +99,15 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${TRUE}
 
 # Regression test flags
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${TRUE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                     ${TRUE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
