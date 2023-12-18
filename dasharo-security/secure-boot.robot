@@ -59,7 +59,9 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
 
     # 2. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -72,7 +74,9 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset
+    #Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
 
     # 4. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -93,7 +97,9 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
 
     # 2. Check SB state in OS
     Login To Windows
@@ -104,7 +110,9 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
 
     # 4. Check SB state in OS
     Login To Windows
@@ -125,14 +133,17 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    GOOD_KEYS
     Select File In File Explorer    DB.cer
-    Save Changes And Reset
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Tianocore Reset System
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
@@ -145,7 +156,13 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/${NOT_SIGNED_NAME}    ${NOT_SIGNED_URL}    ${NOT_SIGNED_SHA256}
+    # 1. Make sure that SB is enabled
     Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello.efi
     Should Contain    ${out}    Access Denied
@@ -157,7 +174,13 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_KEYS_NAME}    ${BAD_KEYS_URL}    ${BAD_KEYS_SHA256}
+    # 1. Make sure that SB is enabled
     Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-bad-keys.efi
     Should Contain    ${out}    Access Denied
@@ -189,14 +212,18 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    GOOD_KEYS
     Select File In File Explorer    DB.cer
-    Save Changes And Reset
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Tianocore Reset System
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
@@ -206,7 +233,9 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Tianocore Reset System
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
@@ -219,10 +248,11 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_FORMAT_NAME}    ${BAD_FORMAT_URL}    ${BAD_FORMAT_SHA256}
+    # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
+    # Changes to Secure Boot take action immediately, so we can just continue
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
@@ -233,6 +263,13 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
 
 
 *** Keywords ***
+Set Secure Boot State To Disabled
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Disable Secure Boot    ${sb_menu}
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Tianocore Reset System
+
 Prepare Test Files
     IF    "${MANUFACTURER}" == "QEMU"
         Download To Host Cache
