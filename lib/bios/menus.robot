@@ -415,7 +415,7 @@ Enter IPXE
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    IF   ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
+    IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
         ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
     ELSE
         ${ipxe_menu}=    Get IPXE Boot Menu Construction
@@ -522,7 +522,7 @@ Remove Disk Password
     Log    Select entry: Admin Revert to factory default and Disable
     Press Key N Times    1    ${ENTER}
     Press Key N Times And Enter    4    ${ARROW_DOWN}
-    Save Changes And Reset    3
+    Save Changes And Reset
     Read From Terminal Until    Unlock
     FOR    ${i}    IN RANGE    0    2
         Type In The Password    @{keys_password}
@@ -530,24 +530,33 @@ Remove Disk Password
     END
     Press Key N Times    1    ${SETUP_MENU_KEY}
 
-# TODO: calculate steps_to_reset based on the menu construction
-# Hint: Look up: "Get Relative Menu Position" kwd in git history
+Tianocore Reset System
+    # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
+    # On serial console it is ESC R ESC r ESC R.
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        FAIL    SSH not supported for interfacing with TianoCore
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Telnet.Write Bare    \x1bR\x1br\x1bR
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
+        FAIL    OpenBMC not yet supported for interfacing with TianoCore
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        # TODO: Untested yet.
+        @{reset_combo}=    AltRight    ControlRight    Delete
+        Key Combination PiKVM    ${reset_combo}
+    ELSE
+        FAIL    Unknown connection method for config: ${CONFIG}
+    END
 
 Save Changes
     [Documentation]    Saves current UEFI settings
     Press Key N Times    1    ${F10}
+    Read From Terminal Until    Save configuration changes?
     Write Bare Into Terminal    y
 
 Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...    is how deep user is currently in the settings.
-    ...    ${main_menu_steps_to_reset} means how many times should
-    ...    arrow down be pressed to get to the Reset option in main
-    ...    settings menu
-    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
+    [Documentation]    Saves current UEFI settings and restarts.
     Save Changes
-    Press Key N Times    ${nesting_level}    ${ESC}
-    Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
+    Tianocore Reset System
 
 Boot System Or From Connected Disk
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
@@ -598,7 +607,7 @@ Make Sure That Network Boot Is Enabled
         ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
         IF    ${index} != -1
             Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-            Save Changes And Reset    2    4
+            Save Changes And Reset
             Sleep    10s
         END
     END
@@ -626,7 +635,7 @@ Make Sure That Flash Locks Are Disabled
             Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
             Reenter Menu
         END
-        Save Changes And Reset    2    4
+        Save Changes And Reset
     END
 
 Get Firmware Version From Tianocore Setup Menu
@@ -660,5 +669,5 @@ Disable Firmware Flashing Prevention Options
             Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
             Reenter Menu
         END
-        Save Changes And Reset    2    4
+        Save Changes And Reset
     END

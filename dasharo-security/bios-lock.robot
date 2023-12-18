@@ -37,7 +37,7 @@ BLS001.001 BIOS lock support (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Lock the BIOS boot medium    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -58,7 +58,7 @@ BLS002.001 BIOS lock support deactivation (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Lock the BIOS boot medium    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
