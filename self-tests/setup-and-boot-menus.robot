@@ -173,3 +173,9 @@ Enter Invalid Option in Setup Menu
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Run Keyword And Return Status
     ...    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Not Existing Submenu
+
+Test TianoCore Reset System
+    Power On
+    Enter Setup Menu Tianocore And Return Construction
+    Tianocore Reset System
+    Enter Setup Menu Tianocore And Return Construction
