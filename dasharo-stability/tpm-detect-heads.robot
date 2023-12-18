@@ -13,8 +13,10 @@ Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../keys-and-keywords/heads-keywords.robot
 
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${TPM_DETECT_SUPPORT}    TPM detection tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -26,7 +28,6 @@ TPD001.004 Detect TPM after coldboot (heads)
     ...    only with the platforms with Heads bootloader.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.004 not supported
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD001.004 not supported
-    Skip If    not ${TPM_DETECT_SUPPORT}    TPD001.004 not supported
     Set Global Variable    ${FAILED_DETECTS}    0
     @{pcrs_subsequent_boots}=    Create List
     Power On
@@ -53,7 +54,6 @@ TPD002.004 Detect TPM after warmboot (heads)
     ...    only with the platforms with Heads bootloader.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD002.004 not supported
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD002.004 not supported
-    Skip If    not ${TPM_DETECT_SUPPORT}    TPD002.004 not supported
     Set Global Variable    ${FAILED_DETECTS}    0
     @{pcrs_subsequent_boots}=    Create List
     Power On
@@ -80,7 +80,6 @@ TPD003.004 Detect TPM after platform reboot (heads)
     ...    only with the platforms with Heads bootloader.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD003.004 not supported
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD003.004 not supported
-    Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.004 not supported
     Set Global Variable    ${FAILED_DETECTS}    0
     @{pcrs_subsequent_boots}=    Create List
     Power On
@@ -104,7 +103,6 @@ TPD003.004 Detect TPM after platform reboot (heads)
 TPM001.002 TPM Support (Ubuntu 20.04)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly and the PCRs can be accessed from the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -119,7 +117,6 @@ TPM001.002 TPM Support (Ubuntu 20.04)
 TPM001.003 TPM Support (Windows 11)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly and the PCRs can be accessed from the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM001.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.003 not supported
     Power On
     Login To Windows

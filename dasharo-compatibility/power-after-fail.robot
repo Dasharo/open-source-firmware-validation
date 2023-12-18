@@ -20,8 +20,10 @@ Resource            ../lib/power-after-fail-lib.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    Power after fail tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
