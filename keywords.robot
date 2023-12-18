@@ -1508,13 +1508,6 @@ Rescan Devices In Petitboot
     Write Bare Into Terminal    ${ENTER}
     # To Do: read system log
 
-Check EMMC Module
-    [Documentation]    Check the eMMC module is detected via the Operating
-    ...    System.
-    ${out}=    Execute Linux Command    parted /dev/mmcblk0 -- print
-    Should Contain    ${out}    ${E_MMC_NAME}
-    Should Contain    ${out}    ${E_MMC_PARTITION_TABLE}
-
 Coldboot Via RTE Relay
     [Documentation]    Coldboot the DUT using RTE Relay.
     RteCtrl Relay
