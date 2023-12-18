@@ -21,6 +21,8 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Skip If    not ${VERIFIED_BOOT_SUPPORT}    Vboot not supported
+...                     AND
 ...                     Flash Firmware    ${FW_FILE}
 ...                     AND
 ...                     Make Sure That Flash Locks Are Disabled
@@ -49,7 +51,6 @@ VBO006.002 Check whether the verstage was run
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO006.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.002 not supported
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep VBOOT
     Should Contain    ${out_cbmem}    VBOOT WORK
@@ -58,7 +59,6 @@ VBO007.002 Boot from RW when correctly signed firmware is flashed
     [Documentation]    Check whether the Verified Boot is proceed to boot from
     ...    Slot A/B if the signatures for firmware stored in vboot
     ...    Slot A/B are correct.
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO007.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO007.002 not supported
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -103,7 +103,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     # https://github.com/Dasharo/dasharo-issues/issues/185
     # https://github.com/Dasharo/dasharo-issues/issues/269
     # https://github.com/Dasharo/dasharo-issues/issues/320
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO011.001 not supported
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
     Variable Should Exist    ${FW_FILE}
     # 1. Start with flashing of correctly signed firmware

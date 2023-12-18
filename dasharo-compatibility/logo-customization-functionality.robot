@@ -22,6 +22,8 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Skip If    not ${CUSTOM_LOGO_SUPPORT}    Logo customization tests not supported
+...                     AND
 ...                     Make Sure That Flash Locks Are Disabled
 ...                     AND
 ...                     Make Sure That Network Boot Is Enabled
@@ -39,7 +41,6 @@ ${DASHARO_LOGO_URL}=
 LCM001.001 Ability to replace logo in existing firmware image
     [Documentation]    Check whether the DUT is configured properly to use
     ...    a custom boot logo.
-    Skip If    not ${CUSTOM_LOGO_SUPPORT}    LCM001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LCM001.001 not supported
 
     Power On
@@ -52,7 +53,6 @@ LCM001.001 Ability to replace logo in existing firmware image
 
 LCM001.002 Check replaced logo in existing firmware image
     [Documentation]    Check if the custom logo is displayed
-    Skip If    not ${CUSTOM_LOGO_SUPPORT}    LCM001.002 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LCM001.002 not supported
 
     Power On

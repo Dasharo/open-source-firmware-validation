@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    EC and SuperI/O tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 ECR001.001 Battery monitoring - charge level in OS (Ubuntu 20.04)
     [Documentation]    Check whether the battery charge level can be read
     ...    (in mAh) in Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR001.001 not supported
     Power On
     Login To Linux
@@ -41,7 +42,6 @@ ECR001.001 Battery monitoring - charge level in OS (Ubuntu 20.04)
 ECR001.002 Battery monitoring - charge level in OS (Windows 11)
     [Documentation]    Check whether battery charge level can be read in
     ...    Windows OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR001.002 not supported
     Power On
     Login To Windows
@@ -50,7 +50,6 @@ ECR001.002 Battery monitoring - charge level in OS (Windows 11)
 
 ECR002.001 Battery monitoring - charging state in OS (Ubuntu 20.04)
     [Documentation]    Check whether the battery state can be read in Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR002.001 not supported
     Power On
     Login To Linux
@@ -63,7 +62,6 @@ ECR002.001 Battery monitoring - charging state in OS (Ubuntu 20.04)
 ECR002.002 Battery monitoring - charging state in OS (Windows 11)
     [Documentation]    Check whether the battery state can be read in Windows
     ...    OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR002.002 not supported
     Power On
     Login To Windows
@@ -73,8 +71,8 @@ ECR003.001 Touchpad in OS - (Ubuntu 20.04)
     [Documentation]    Check whether touchpad is visible in Linux OS.
     ...    Touchpad steering and effect detection must be checked
     ...    manually.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR003.001 not supported
+
     Power On
     Login To Linux
     Switch To Root User
@@ -88,7 +86,6 @@ ECR003.002 Touchpad in OS - (Windows 11)
     [Documentation]    Check whether touchpad is visible in Windows OS.
     ...    Touchpad steering and effect detection must be checked
     ...    manually.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR003.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR003.002 not supported
     Power On
     Login To Windows
@@ -136,7 +133,6 @@ ECR003.002 Touchpad in OS - (Windows 11)
 ECR014.001 Keyboard (function key: brightness down) in OS (Ubuntu 20.04)
     [Documentation]    Check whether function key: brightness down works in
     ...    Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR015.001 not supported
     Power On
     Login To Linux
