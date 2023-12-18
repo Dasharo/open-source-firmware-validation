@@ -579,9 +579,15 @@ Boot System Or From Connected Disk
             ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
             ${hdd_list_length}=    Get Length    ${hdd_list}
             IF    ${hdd_list_length} == 0
-                FAIL    "System was not found and there are no disk connected"
+                ${mmc_list}=    Get Current CONFIG List Param    MMC_Storage    boot_name
+                ${mmc_list_length}=    Get Length    ${mmc_list}
+                IF    ${mmc_list_length} == 0
+                    FAIL    "System was not found and there are no disk connected"
+                END
+                ${disk_name}=    Set Variable    ${mmc_list[0]}
+            ELSE
+                ${disk_name}=    Set Variable    ${hdd_list[0]}
             END
-            ${disk_name}=    Set Variable    ${hdd_list[0]}
         ELSE
             ${disk_name}=    Set Variable    ${ssd_list[0]}
         END
