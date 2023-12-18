@@ -19,12 +19,15 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go through them and make sure they are doing what the name suggests (not
 #    exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${MEMORY_PROFILE_SUPPORT}    Memory profile tests not supported
+...                     AND
+...                     Flash Firmware    ${FW_FILE}
 # As a result of this suite, we might get stuck with bricked platform. Make sure
 # to flash working firmware.
-Suite Teardown      Run Keywords
-...                     Flash Firmware    ${FW_FILE}    AND
+Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
@@ -35,7 +38,6 @@ MPS001.001 Switching to XMP profile
     ...    advertised by its manufacturer. Enabling such profile should keep
     ...    the system operational and change memory speed to a higher one.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS001.001 not supported
-    Skip If    not ${MEMORY_PROFILE_SUPPORT}
     # Training 32 GiB of DDR5 takes longer than 3 minutes
     Telnet.Set Timeout    5 min
     # Boot and remember current memory speed
@@ -63,7 +65,6 @@ MPS002.001 Switching back to JEDEC profile
     [Documentation]    JEDEC profile is a safe default for memory configuration.
     ...    We should be able to select it again.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS002.001 not supported
-    Skip If    not ${MEMORY_PROFILE_SUPPORT}
     # Boot and remember current memory speed
     Power On
     Enter Setup Menu Tianocore

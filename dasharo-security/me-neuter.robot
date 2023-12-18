@@ -19,10 +19,15 @@ Resource            ../pikvm-rest-api/pikvm_comm.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-Suite Teardown      Run Keywords
-...                     Set Intel ME Mode    Enabled    AND
+...                     AND
+...                     Skip If    not ${ME_NEUTER_SUPPORT}    ME neutering not supported
+...                     AND
+...                     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    Dasharo Intel ME menu not supported
+...                     AND
+...                     Set Intel ME Mode    Enabled
+Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
@@ -30,7 +35,6 @@ Suite Teardown      Run Keywords
 MNE001.001 Intel ME mode option is available and has the correct default state
     [Documentation]    Check whether the Intel ME mode state after flashing the
     ...    platform with the Dasharo firmware is correct.
-    Skip If    not ${ME_NEUTER_SUPPORT}    MNE001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MNE001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -42,7 +46,6 @@ MNE001.001 Intel ME mode option is available and has the correct default state
 MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu 22.04)
     [Documentation]    Check whether the Intel ME mode option in state Enabled
     ...    works correctly.
-    Skip If    not ${ME_NEUTER_SUPPORT}    MNE002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -59,7 +62,6 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu 22.04)
 MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu 22.04)
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (Soft) works correctly
-    Skip If    not ${ME_NEUTER_SUPPORT}    MNE003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE003.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -76,7 +78,6 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu 22.04)
 MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu 22.04)
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (HAP) works correctly.
-    Skip If    not ${ME_NEUTER_SUPPORT}    MNE004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE004.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -94,7 +95,6 @@ MNE006.001 Check Intel ME version (Ubuntu 22.04)
     [Documentation]    This test aims to verify that the Intel ME version might
     ...    be read on the Operating System level. The read version should be
     ...    the same as in the release notes.
-    Skip If    not ${ME_NEUTER_SUPPORT}    MNE006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE006.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

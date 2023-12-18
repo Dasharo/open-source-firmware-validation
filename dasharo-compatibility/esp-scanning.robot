@@ -22,6 +22,9 @@ Resource            ../keys.robot
 #    closes all connections to DUT and PiKVM
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP scanning tests not supported
+...                     AND
 ...                     Prepare Required Files For Qemu
 ...                     Prepare EFI Partition With System Files
 Suite Teardown      Run Keywords
@@ -34,24 +37,27 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     [Documentation]    This test aims to verify that any properly added .efi
     ...    files will have boot menu entries created for them.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP001.001 not supported
-    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP001.001 not supported
-
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
-        Should Contain Match    ${boot_menu}    ${system}*
-    END
-    FOR    ${system}    IN    @{SYSTEMS_ALWAYS_INSTALLED}
-        Should Contain Match    ${boot_menu}    ${system}*
-    END
+    Prepare EFI Partition With System Files
+    Power On Or Reboot
+    Enter Boot Menu Tianocore
+    Check Boot Menu For All Supported Systems    normal
+
+ESP002.001 ESP Scan after deleting additional .efi files
+    [Documentation]    This test aims to verify that none of the systems linger
+    ...    on in the boot menu after we've deleted their files from /EFI/.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP002.001 not supported
+    Power On
+    Clear Out EFI Partition
+    Power On Or Reboot
+    Enter Boot Menu Tianocore
+    Check Boot Menu For All Supported Systems    empty
 
 ESP003.001 ESP Scan ignores OSes on removable media
     [Documentation]    This test aims to verify that the bootable /EFI
     ...    partitions of removable media are ignored by the scan and aren't
     ...    listed in boot menu, except for DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP003.001 not supported
-    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP003.001 not supported
-
     Power On
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/CorePlus-current.iso
     ...    ${TINYCORE_URL}
@@ -65,8 +71,6 @@ ESP004.001 ESP Scan does not create duplicate entries
     ...    create duplicate entries, for example, if both shimx64 and grubx64
     ...    are present for a single OS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
-    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP004.001 not supported
-
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
 
@@ -83,8 +87,6 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    Dasharo Tools Suite boot media and creates a corresponding boot
     ...    menu entry.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP005.001 not supported
-    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP005.001 not supported
-
     Power On
     Download ISO And Mount As USB
     ...    ${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso

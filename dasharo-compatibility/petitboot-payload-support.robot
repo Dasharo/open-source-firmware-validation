@@ -12,8 +12,10 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${PETITBOOT_PAYLOAD_SUPPORT}    Petitboot payload not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -23,7 +25,6 @@ PBT001.001 Petitboot installation
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Petitboot menu
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT001.001 not supported
-    Skip If    not ${PETITBOOT_PAYLOAD_SUPPORT}    PBT001.001 not supported
     Variable Should Exist    ${FW_FILE}
     Variable Should Exist    ${BOOTBLOCK_FILE}
     Variable Should Exist    ${PNOR_FILE}
@@ -33,7 +34,6 @@ PBT002.001 Boot into Petitboot
     [Documentation]    This test verifies that the DUT during booting procedure
     ...    reaches Petitboot menu.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT002.001 not supported
-    Skip If    not ${PETITBOOT_PAYLOAD_SUPPORT}    PBT002.001 not supported
     Power On
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
@@ -42,7 +42,6 @@ PBT003.001 Read System Information from Petitboot
     [Documentation]    This test verifies that Petitboot System Information
     ...    option is available and works correctly.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT003.001 not supported
-    Skip If    not ${PETITBOOT_PAYLOAD_SUPPORT}    PBT003.001 not supported
     Power On
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
@@ -54,7 +53,6 @@ PBT004.001 Rescan Devices by Petitboot
     [Documentation]    This test verifies that Petitboot Rescan Device option
     ...    is available and works correctly.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT004.001 not supported
-    Skip If    not ${PETITBOOT_PAYLOAD_SUPPORT}    PBT004.001 not supported
     Power On
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
