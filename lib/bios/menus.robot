@@ -324,7 +324,8 @@ Select State From List
 
 Set Option State
     [Documentation]    Gets menu construction option name, and desired state
-    ...    as arguments.
+    ...    as arguments. Return TRUE if the option was changed and FALSE if
+    ...    option was already in target state.
     [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
     IF    '${current_state}' != '${target_state}'
@@ -349,8 +350,10 @@ Set Option State
             # ...    Target state ${target_state} not available in the list
             Select State From List    ${list}    ${current_state}    ${target_state}
         END
+        RETURN    ${TRUE}
     ELSE
         Log    Nothing to do. Desired state is already set.
+        RETURN    ${FALSE}
     END
 
 Try To Insert Non-numeric Values Into Numeric Option
