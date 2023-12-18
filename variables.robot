@@ -281,6 +281,12 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sbo_name=SD card SL16G
 @{CARD_LIST}=               &{CARD01}    &{CARD02}    &{CARD03}    &{CARD04}    &{CARD05}
 ...                         &{CARD06}
+#
+&{EMMC01}=                  vendor=Samsung    volume=32GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+@{MMC_LIST}=                 &{EMMC01}
+
+
 # -----------------------------------------------------------------------------
 &{USB01}=                   vendor=Kingston    volume=16GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=2
@@ -408,9 +414,9 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD11}
 @{CONFIG33}=                &{RTE41}
 @{CONFIG34}=                &{RTE42}
-@{CONFIG35}=                &{RTE43}
-@{CONFIG36}=                &{RTE44}
-@{CONFIG37}=                &{RTE45}
+@{CONFIG35}=                &{RTE43}    &{EMMC01}
+@{CONFIG36}=                &{RTE44}    &{EMMC01}
+@{CONFIG37}=                &{RTE45}    &{EMMC01}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
 @{CONFIG39}=                &{RTE47}
 @{CONFIG40}=                &{RTE48}
