@@ -31,6 +31,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Set numerical option
     [Documentation]    Checks whether the numerical option can be set.
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}

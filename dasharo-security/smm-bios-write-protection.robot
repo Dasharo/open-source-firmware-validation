@@ -18,7 +18,12 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword    Prepare Test Suite
+Suite Setup         Run Keywords
+...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}    SMM BIOS write protection not supported
+...                     AND
+...                     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Dasharo Security menu not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -33,7 +38,6 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu 22.04)
     ...    Dasharo Security Options and, if the mechanism works correctly -
     ...    during the attempt of firmware flashing information about the
     ...    SMM protection is returned.
-    Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -57,7 +61,6 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu 22.04)
     ...    Dasharo Security Options and, if the mechanism works correctly -
     ...    during the attempt of firmware flashing information about the
     ...    SMM protection is returned.
-    Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

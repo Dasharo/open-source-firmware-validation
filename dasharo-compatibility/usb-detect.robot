@@ -19,8 +19,10 @@ Resource            ../pikvm-rest-api/pikvm_comm.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0    USB detection tests skipped
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -30,7 +32,6 @@ UDT001.001 USB detection after coldboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the coldboot (reboot realized by power supply cutting off
     ...    then cutting on).
-    Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
     Set Global Variable    ${FAILED_DETECTION}    0
     Set Local Variable    ${USB}    0
@@ -72,7 +73,6 @@ UDT002.001 USB detection after warmboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the warmboot (reboot realized by device turning off then
     ...    turning on).
-    Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
     Set Global Variable    ${FAILED_DETECTION}    0
     Set Local Variable    ${USB}    0
@@ -112,7 +112,6 @@ UDT002.001 USB detection after warmboot
 UDT003.001 USB detection after system reboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the system reboot (reboot performing by relevant command).
-    Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
     Set Local Variable    ${FAILED_DETECTION}    0
     Set Local Variable    ${USB}    0

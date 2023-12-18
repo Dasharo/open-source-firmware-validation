@@ -18,8 +18,12 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    Early boot DMA protection not supported
+...                     AND
+...                     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Dasharo Security menu not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -31,7 +35,6 @@ EDP001.001 Enable early Boot DMA Protection support
     ...    recognized by the OS
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    EDP001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP001.001 not supported
-    Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    EDP001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -51,7 +54,6 @@ EDP002.001 Disable early Boot DMA Protection support
     ...    recognized by the OS
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    EDP002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP002.001 not supported
-    Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    EDP001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
