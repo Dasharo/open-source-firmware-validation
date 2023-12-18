@@ -37,7 +37,7 @@ NBA001.001 Enable Network Boot (firmware)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -54,7 +54,7 @@ NBA002.001 Disable Network Boot (firmware)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${network_menu}    Enable network boot    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
