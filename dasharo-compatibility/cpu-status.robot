@@ -80,7 +80,7 @@ CPU003.001 Multiple CPU support (Ubuntu 22.04)
     Login To Linux
     ${cpu_info}=    Execute Linux Command    lscpu
     Set Suite Variable    ${CPU_INFO}
-    ${cpu}=    Get Lines Matching Regexp   ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
+    ${cpu}=    Get Lines Matching Regexp    ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
     Should Contain    ${cpu}    ${DEF_CPU}    Different number of CPU's than ${DEF_CPU}
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's

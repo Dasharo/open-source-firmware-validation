@@ -15,7 +15,7 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    not ${USB_TYPE-a_devices_detection_support}    USB-A devices detection tests not supported
+...                     Skip If    not ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}    USB-A devices detection tests not supported
 ...                     AND
 ...                     Skip If    ${STABILITY_DETECTION_SUSPEND_ITERATIONS} == 0    USB-A devices detection tests not supported
 ...                     AND
