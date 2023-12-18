@@ -21,7 +21,8 @@ Suite Teardown      Run Keyword
 # This must be in Test Setup, not Suite Setup, because of a known problem
 # with QEMU: https://github.com/Dasharo/open-source-firmware-validation/issues/132
 Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}    Run Keywords
-...    Make Sure That Network Boot Is Enabled    AND    Restore Initial DUT Connection Method
+...                     Make Sure That Network Boot Is Enabled    AND    Restore Initial DUT Connection Method
+
 
 *** Test Cases ***
 DTS001.001 Booting DTS from USB works correctly

@@ -320,7 +320,9 @@ Flash Device Via External Programmer
     ...    result. Implementation must be compatible with the theory
     ...    of operation of a specific platform.
     # No Operation
-    ${flash_result}    ${rc}=    SSHLibrary.Execute Command    /home/root/flash_ch341.sh /tmp/coreboot.rom    return_rc=True
+    ${flash_result}    ${rc}=    SSHLibrary.Execute Command
+    ...    /home/root/flash_ch341.sh /tmp/coreboot.rom
+    ...    return_rc=True
     IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n
     IF    ${rc} == 3    RETURN
     IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
