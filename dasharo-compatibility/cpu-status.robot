@@ -83,7 +83,7 @@ CPU003.001 Multiple CPU support (Ubuntu 22.04)
     Login To Linux
     ${cpu_info}=    Execute Linux Command    lscpu
     Set Suite Variable    ${CPU_INFO}
-    ${cpu}=    Get Line    ${CPU_INFO}    3
+    ${cpu}=    Get Lines Matching Regexp   ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
     Should Contain    ${cpu}    ${DEF_CPU}    Different number of CPU's than ${DEF_CPU}
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
@@ -134,9 +134,10 @@ CPU004.002 Multiple-core support (Windows 11)
 Check Cache Support
     [Arguments]    ${string}    ${cache}
     ${lines}=    Get Lines Containing String    ${string}    ${cache}
-    ${lines}=    Split To Lines    ${lines}
+    ${lines}=    Get Lines Containing String    ${lines}    CACHE_SIZE
+    @{lines}=    Split To Lines    ${lines}
     FOR    ${line}    IN    @{lines}
-        ${mem}=    Get Substring    ${line}    -6
-        ${mem}=    Convert To Integer    ${mem}
+        ${cache_string}    ${cache_size}=    Split String    ${line}    ${SPACE}    1
+        ${mem}=    Convert To Integer    ${cache_size}
         IF    '${mem}'=='0'    Fail    ${line}    ELSE    Log    ${line}
     END
