@@ -59,7 +59,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 2. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -72,7 +72,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 4. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -93,7 +93,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 2. Check SB state in OS
     Login To Windows
@@ -104,7 +104,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 4. Check SB state in OS
     Login To Windows
@@ -132,7 +132,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    GOOD_KEYS
     Select File In File Explorer    DB.cer
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
@@ -196,7 +196,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
     Enter Volume In File Explorer    GOOD_KEYS
     Select File In File Explorer    DB.cer
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
@@ -206,7 +206,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
