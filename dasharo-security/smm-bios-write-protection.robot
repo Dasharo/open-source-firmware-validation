@@ -40,7 +40,7 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Enable SMM BIOS write    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -64,7 +64,7 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Enable SMM BIOS write    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
