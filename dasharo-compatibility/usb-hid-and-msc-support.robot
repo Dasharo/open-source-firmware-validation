@@ -44,8 +44,9 @@ USB001.002 USB devices detected by OS (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    ${USB_MODEL}
+    ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
+    Should Contain    ${out}    Human Interface Device
+    Should Contain    ${out}    Mass Storage
     Exit From Root User
 
 USB001.003 USB devices detected by OS (Windows 10)
@@ -56,8 +57,8 @@ USB001.003 USB devices detected by OS (Windows 10)
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
-    ${drives}=    Get Lines Matching Regexp    ${out}    ^OK\\s+DiskDrive\\s+.*$
-    Should Contain    ${drives}    ${USB_MODEL}
+    Should Contain    ${out}    HIDClass
+    Should Contain    ${out}    DiskDrive
 
 USB002.001 USB keyboard detected in FW
     [Documentation]    Check whether the external USB keyboard is detected
