@@ -70,8 +70,7 @@ WLE002.002 Wi-Fi scanning (Windows 11)
     Login To Windows
     Execute Command In Terminal    Start-Service WlanSvc
     ${out}=    Execute Command In Terminal    netsh wlan show network
-    Should Contain    ${out}    3mdeb_abr
-    Should Contain    ${out}    3mdeb_abr_5GHz
+    Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
 
 WLE003.001 Bluetooth scanning (Ubuntu 20.04)
     [Documentation]    Check whether the Bluetooth functionality of card is
