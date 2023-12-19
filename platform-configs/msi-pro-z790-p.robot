@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    ../os-config/ubuntu-credentials.robot
+
+
 *** Variables ***
 # For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
 # We need to go back to the initial method (pikvm) when switching back from
@@ -47,11 +51,11 @@ ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
 ${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
 
-${DEVICE_UBUNTU_USERNAME}=                          user
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-MS-7E06:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-MS-7E06:/home/user#
-${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
+${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
+${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
+${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
+${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v0.9.1
@@ -90,7 +94,7 @@ ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 # Regression test flags
 # Test module: dasharo-compatibility
 ${COREBOOT_BASE_PORT_SUPPORT}=                      ${FALSE}
-${RESOURCE_ALLOCATOR_V4_SUPPORT}=                   ${FALSE}
+${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
@@ -151,15 +155,21 @@ ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${L3_CACHE_SUPPORT}=                                ${TRUE}
+${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${TRUE}
-
+${FW_VERSION}=                                      v1.1.2
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 ${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
+${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
+${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
+${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${FALSE}
+${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
@@ -190,11 +200,11 @@ ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${FALSE}
+${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
-${CPU_TEMPERATURE_MEASURE}=                         ${FALSE}
-${CPU_FREQUENCY_MEASURE}=                           ${FALSE}
-${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
+${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
+${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
 ${TEST_FAN_SPEED}=                                  ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
@@ -211,9 +221,9 @@ ${WINDOWS_BOOTING}=                                 ${FALSE}
 
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                          ${TRUE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
-${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
 # Supported OS installation variants
@@ -308,32 +318,12 @@ Flash MSI-PRO-Z790-P-DDR5
     ...    and set RTE relay to OFF state. Implementation must be
     ...    compatible with the theory of operation of a specific
     ...    platform.
-    Sonoff Power Cycle Off
     Put File    ${FW_FILE}    /tmp/coreboot.rom
-    FOR    ${iterations}    IN RANGE    0    5
-        RteCtrl Power Off    ${6}
-        Sleep    2s
-    END
-    Sleep    2s
-    RteCtrl Set OC GPIO    2    high-z
-    Sleep    2s
-    RteCtrl Set OC GPIO    3    low
-    Sleep    2s
-    RteCtrl Set OC GPIO    1    low
-    Sleep    3s
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-    ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 --layout msi_z690a.layout -i bios -w /tmp/coreboot.rom 2>&1
+    ...    /home/root/flash.sh /tmp/coreboot.rom
     ...    return_rc=True
-    IF    ${rc} != 0    Fail    \nFlashrom returned status ${rc}\n
-    RteCtrl Set OC GPIO    1    high-z
-    RteCtrl Set OC GPIO    3    high-z
-    Sleep    2s
-    Sonoff Power Cycle On
-    IF    ${rc} == 3    RETURN
-    IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
-        RETURN
-    END
-    Should Contain    ${flash_result}    VERIFIED
+    IF    ${rc} != 0    Fail    \nFlashrom returned status: ${rc}\n
+    Should Contain Any    ${flash_result}    VERIFIED    Warning: Chip content is identical to the requested image.
 
 Read MSI-PRO-Z790-P-DDR5 Firmware
     [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
