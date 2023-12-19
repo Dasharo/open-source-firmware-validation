@@ -23,58 +23,58 @@ Stress test Power On keyword for stability (N=1)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=2)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=3)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=4)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=5)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=6)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=7)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=8)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=9)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
 
 Stress test Power On keyword for stability (N=10)
     Power On
     Login To Linux
     Switch To Root User
-    Execute Command In Terimal    sleep 10
+    Execute Command In Terminal    sleep 10
