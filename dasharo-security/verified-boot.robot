@@ -21,9 +21,9 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Make Sure That Flash Locks Are Disabled
-...                     AND
 ...                     Flash Firmware    ${FW_FILE}
+...                     AND
+...                     Make Sure That Flash Locks Are Disabled
 ...                     AND
 ...                     Prepare Tools, Keys And Binaries
 Suite Teardown      Run Keyword
@@ -36,10 +36,10 @@ Test Setup          Run Keyword
 # TODO: Here we cannot yet use variables from platform config, as these are loaded
 # only when Prepare Test Suite is called. We could source them sooner, with robot invocation.
 # The fw_file_original is the fw_file received as an input to the test suite
-${FW_FILE_ORIGINAL}=    /home/user/test-firmware.rom
+${FW_FILE_ORIGINAL}=    /home/ubuntu/test-firmware.rom
 # # The fw_file_resigned is the fw_file resigned with newly generated keys (so
 # # booting it should trigger vboot recovery events)
-${FW_FILE_RESIGNED}=    /home/user/test-firmware_resigned.rom
+${FW_FILE_RESIGNED}=    /home/ubuntu/test-firmware_resigned.rom
 
 
 *** Test Cases ***
