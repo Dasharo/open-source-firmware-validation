@@ -42,3 +42,15 @@ def compare_mokutil_and_openssl_outputs(mokutil_file, openssl_file):
         if mokutil_content == openssl_content:
             return True
     return False
+
+@keyword("Get Linux Prompt In Directory")
+def get_linux_prompt_in_directory(directory, prompt):
+    """
+    Returns the prompt from within a directory.
+    """
+    prompt_char = '$'
+    if '#' in prompt:
+        prompt_char = '#'
+    prompt_split = prompt.split(prompt_char)
+    prompt_split[0] += f"/{directory}"
+    return prompt_char.join(prompt_split)

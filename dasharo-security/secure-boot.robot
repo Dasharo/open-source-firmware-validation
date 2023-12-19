@@ -7,7 +7,6 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Library             ../lib/secure-boot-lib.py
-
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../sonoff-rest-api/sonoff-api.robot
@@ -15,6 +14,8 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../platform-configs/qemu.robot
+
 # Resource    ../platform-configs/msi-pro-z690-a-ddr5.robot
 # Required setup keywords:
 # Prepare Test Suite - elementary setup keyword for all tests.
@@ -29,7 +30,6 @@ Test Setup          Restore Initial DUT Connection Method
 
 
 *** Test Cases ***
-
 SBO001.001 Check Secure Boot default state (firmware)
     [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
@@ -252,7 +252,7 @@ SBO009.001 Check automatic certificate provisioning
     Save Changes And Reset    3    5
     # Reboot to Automatic provisioning
     Boot Dasharo Tools Suite    USB    True
-    Boot System Or From Connected Disk      ubuntu
+    Boot System Or From Connected Disk    ubuntu
     Read From Terminal Until    Press any key to continue...
 
 SBO009.002 Check automatic certificate provisioning KEK certificate
@@ -260,19 +260,23 @@ SBO009.002 Check automatic certificate provisioning KEK certificate
     ...    provisioning installs the expected KEK certificate.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO009.002 not supported
     Power On
-    # TODO change name 
+    # TODO change name
     Boot Dasharo Tools Suite    USB
     Enter Shell In DTS
     # Get the KEK certificates
     Execute Command In Terminal    mokutil --kek > mokutil-kek
-    Execute Command In Terminal    wget https://raw.githubusercontent.com/Wind-River/meta-secure-core/master/meta-signing-key/files/uefi_sb_keys/KEK.crt
+    Execute Command In Terminal
+    ...    wget https://raw.githubusercontent.com/Wind-River/meta-secure-core/master/meta-signing-key/files/uefi_sb_keys/KEK.crt
     Execute Command In Terminal    openssl x509 -in KEK.crt -noout -text -fingerprint > kek
 
-   # mokutil and openssl-x509 have slightly different output formats. They are
-   # therefore compared using a python keyword.
+    # mokutil and openssl-x509 have slightly different output formats. They are
+    # therefore compared using a python keyword.
     ${mokutil-file}=    Execute Command In Terminal    cat mokutil-kek
     ${openssl-file}=    Execute Command In Terminal    cat kek
-    ${out}=    Run Keyword And Return Status    Compare Mokutil And OpenSSL Outputs    ${mokutil-file}    ${openssl-file}
+    ${out}=    Run Keyword And Return Status
+    ...    Compare Mokutil And OpenSSL Outputs
+    ...    ${mokutil-file}
+    ...    ${openssl-file}
     Should Be True    ${out}
 
     # Clean up
@@ -280,7 +284,60 @@ SBO009.002 Check automatic certificate provisioning KEK certificate
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu} 
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+
+SBO010.001 Enroll certificates using sbctl
+    [Documentation]    This test installs sbctl and verifies that it is possible
+    ...    to use it to enroll certificates.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.001 not supported
+    Power On
+    # Erase Secure Boot Keys
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes
+    Reenter Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
+    Save Changes And Reset    3    5
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    # Install sbctl
+    Execute Linux Command    apt install -y git util-linux binutils golang-go asciidoc make    120
+    Execute Linux Command    [ ! -d "sbctl" ] && git clone https://github.com/foxboron/sbctl.git
+    ${new_prompt}=    Get Linux Prompt In Directory    sbctl    ${DEVICE_UBUNTU_ROOT_PROMPT}
+    Set Prompt For Terminal    ${new_prompt}
+    Execute Linux Command    cd sbctl
+    Execute Linux Command    make    50
+
+    # Create and enroll keys
+    Execute Linux Command    ./sbctl create-keys
+    ${out}=    Execute Linux Command    ./sbctl enroll-keys --yes-this-might-brick-my-machine
+    Should Contain    ${out}    Enrolled keys to the EFI variables!
+
+    # Verify that it is impossible to boot Ubuntu with the keys
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
+    Boot System Or From Connected Disk    ubuntu
+    Read From Terminal Until    Press any key to continue...
+
+    # Clean up
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Save Changes And Reset    3    5
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Set Prompt For Terminal    ${new_prompt}
+    ${out}=    Execute Linux Command    cd sbctl
+    ${out}=    Execute Linux Command    rm -rf /usr/share/secureboot
+    Log To Console    ${out}\n
+
 
 *** Keywords ***
 Prepare Test Files
