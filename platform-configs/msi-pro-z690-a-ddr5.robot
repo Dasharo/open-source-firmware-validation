@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    ../os-config/ubuntu-credentials.robot
+
+
 *** Variables ***
 # For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
 # We need to go back to the initial method (pikvm) when switching back from
@@ -47,10 +51,10 @@ ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
 ${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
 
-${DEVICE_UBUNTU_USERNAME}=                          ubuntu
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@3mdeb:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/ubuntu#
+${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
+${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
+${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
@@ -69,11 +73,10 @@ ${DEVICE_AUDIO2}=                                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
 ${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${USB_MODEL}=                                       Kingston
+${USB_DEVICE}=                                      Multifunction Composite Gadget
 ${SD_CARD_VENDOR}=                                  Mass
 ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
-
-${USB_DEVICE}=                                      Multifunction Composite Gadget
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -153,16 +156,15 @@ ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${L3_CACHE_SUPPORT}=                                ${TRUE}
+${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${TRUE}
-${FW_DOWNLOAD_LINK}=
-...                                                 https://cloud.3mdeb.com/index.php/s/CiDbHRkpJWq7grw/download/msi_ms7d25_ddr5_v1.1.2_serial.rom
 ${FW_VERSION}=                                      v1.1.2
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 ${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
-
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
 ${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
@@ -198,11 +200,11 @@ ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${FALSE}
+${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
-${CPU_TEMPERATURE_MEASURE}=                         ${FALSE}
-${CPU_FREQUENCY_MEASURE}=                           ${FALSE}
-${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
+${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
+${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
 ${TEST_FAN_SPEED}=                                  ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
@@ -219,9 +221,9 @@ ${WINDOWS_BOOTING}=                                 ${FALSE}
 
 # Test module: dasharo-stab
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                          ${TRUE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
-${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
 # Supported OS installation variants
