@@ -225,6 +225,18 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu 22.04)
     Should Contain    ${out1}    hmac.out
     Should Not Contain    ${out2}    hmac.out
 
+TPMCMD012.001 Sealing and Unsealing the file without Policy (Ubuntu 22.04)
+    [Documentation]    This test verifies TPM sealing functionality.
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary.ctx    60
+    Execute Linux Command    echo "my sealed data" > seal.dat
+    ${out1}=    Execute Linux Command    cat seal.dat
+    Execute Linux Tpm2 Tools Command    tpm2_create -C primary.ctx -i seal.dat -u key.pub -r key.priv
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -c seal.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol --hierarchy owner --object-context seal.ctx -o seal.handle
+    Execute Linux Tpm2 Tools Command    tpm2_unseal -c seal.handle > unsealed.dat
+    ${out2}=    Execute Linux Command    cat unsealed.dat
+    Should Be Equal As Strings    ${out1}    ${out2}
+
 
 *** Keywords ***
 Flush TPM Contexts
