@@ -409,6 +409,48 @@ SBO011.001 Attempt to enroll expired certificate and boot signed image
     ${out}=    Execute File In UEFI Shell    hello-signed-with-expired-cert.efi
     Should Contain    ${out}    Access Denied
 
+SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
+    [Documentation]    This test verifies that OS boots after enrolling keys
+    ...    and signing system from inside
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO009.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO009.001 not supported
+
+    Power On
+    # 1. Make sure we are in Setup Mode
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
+    Exit From Current Menu
+    Save Changes And Reset    2
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+
+    # 2. Remove old keys then generate and enroll new keys
+    Remove Old Secure Boot Keys
+    ${sb_status}=    Generate Secure Boot Keys
+    Should Be True    ${sb_status}
+    ${sb_status}=    Enroll Secure Boot Keys
+    Should Be True    ${sb_status}
+
+    # 3. Sign all components
+    Sign All Boot Components
+    Execute Reboot Command
+
+    # 4. Enable Secure Boot
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
+
+    # 5. Check SB state in OS
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${sb_status}=    Check Secure Boot In Linux
+    Should Be True    ${sb_status}
+
 
 *** Keywords ***
 Prepare Test Files

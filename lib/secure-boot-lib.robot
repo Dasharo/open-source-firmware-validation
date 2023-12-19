@@ -242,3 +242,26 @@ Execute File In UEFI Shell
     Press Enter
     ${out}=    Read From Terminal Until    FS0:\\>
     RETURN    ${out}
+
+Remove Old Secure Boot Keys
+    [Documentation]    Removes all files and directories in
+    ...    `/usr/share/secureboot/keys/`
+    Execute Linux Command Without Output   rm -rf /usr/share/secureboot/keys/*
+
+Generate Secure Boot Keys
+    [Documentation]    Generates new Secure Boot keys. Returns true if succeeded.
+    ${out}=    Execute Linux Command    sbctl create-keys
+    ${sb_status}=    Run Keyword And Return Status
+    ...    Should Contain    ${out}    Secure boot keys created!
+    RETURN    ${sb_status}
+
+Enroll Secure Boot Keys
+    [Documentation]    Enrolls current keys to EFI. Returns true if succeeded.
+    ${out}=    Execute Linux Command    sbctl enroll-keys --yes-this-might-brick-my-machine
+    ${sb_status}=    Run Keyword And Return Status
+    ...    Should Contain    ${out}    Enrolled keys to the EFI variables!
+    RETURN    ${sb_status}
+
+Sign All Boot Components
+    [Documentation]    Signs boot components with current keys
+    Execute Linux Command    sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
