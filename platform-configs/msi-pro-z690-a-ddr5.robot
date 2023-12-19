@@ -51,7 +51,7 @@ ${DEVICE_UBUNTU_USERNAME}=                          ubuntu
 ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@3mdeb:~$
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/ubuntu#
-${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
+${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.1.3
