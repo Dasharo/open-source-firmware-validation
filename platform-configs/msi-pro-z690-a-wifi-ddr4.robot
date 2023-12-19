@@ -55,7 +55,7 @@ ${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
 ${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
-${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
+${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.1.3
@@ -71,12 +71,12 @@ ${DEVICE_NVME_DISK}=                                Non-Volatile memory controll
 ${DEVICE_AUDIO1}=                                   ALC897
 ${DEVICE_AUDIO2}=                                   Alderlake HDMI
 ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
+${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${USB_MODEL}=                                       Kingston
+${USB_DEVICE}=                                      Multifunction Composite Gadget
 ${SD_CARD_VENDOR}=                                  Mass
 ${SD_CARD_MODEL}=                                   Storage
 ${NO_CHECK_SONOFF}=                                 ${TRUE}
-
-${USB_DEVICE}=                                      Multifunction Composite Gadget
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -94,7 +94,7 @@ ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 # Regression test flags
 # Test module: dasharo-compatibility
 ${COREBOOT_BASE_PORT_SUPPORT}=                      ${FALSE}
-${RESOURCE_ALLOCATOR_V4_SUPPORT}=                   ${FALSE}
+${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
@@ -158,15 +158,18 @@ ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${L2_CACHE_SUPPORT}=                                ${TRUE}
 ${L3_CACHE_SUPPORT}=                                ${TRUE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${TRUE}
-
+${FW_VERSION}=                                      v1.1.2
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 ${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
+${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
+${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
+${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${FALSE}
+${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
@@ -315,11 +318,12 @@ Flash MSI-PRO-Z690-A-WiFi-DDR4
     ...    and set RTE relay to OFF state. Implementation must be
     ...    compatible with the theory of operation of a specific
     ...    platform.
+    Put File    ${FW_FILE}    /tmp/coreboot.rom
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
     ...    /home/root/flash.sh /tmp/coreboot.rom
     ...    return_rc=True
     IF    ${rc} != 0    Fail    \nFlashrom returned status: ${rc}\n
-    Should Contain    ${flash_result}    VERIFIED
+    Should Contain Any    ${flash_result}    VERIFIED    Warning: Chip content is identical to the requested image.
 
 Read MSI-PRO-Z690-A-WiFi-DDR4 Firmware
     [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
