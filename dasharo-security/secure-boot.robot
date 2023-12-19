@@ -251,8 +251,7 @@ SBO009.001 Check automatic certificate provisioning
     Erase All Secure Boot Keys    ${advanced_menu}
     Save Changes And Reset    3    5
     # Reboot to Automatic provisioning
-    # TODO: Change disk name
-    Boot System Or From Connected Disk      QEMU HARDDISK
+    Boot Dasharo Tools Suite    USB    True
     Boot System Or From Connected Disk      ubuntu
     Read From Terminal Until    Press any key to continue...
 
@@ -262,11 +261,7 @@ SBO009.002 Check automatic certificate provisioning KEK certificate
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO009.002 not supported
     Power On
     # TODO change name 
-    Boot System Or From Connected Disk      QEMU HARDDISK
-    # Boot Dasharo Tools Suite keyword does not allow entering shell here for some reason
-    Enter DTS From GRUB
-    Sleep    4s
-
+    Boot Dasharo Tools Suite    USB
     Enter Shell In DTS
     # Get the KEK certificates
     Execute Command In Terminal    mokutil --kek > mokutil-kek

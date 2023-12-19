@@ -4,8 +4,10 @@ Library    Telnet
 *** Keywords ***
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
-    ...    boot method (from USB or from iPXE) as parameter.
-    [Arguments]    ${dts_booting_method}
+    ...    boot method (from USB or from iPXE) as parameter. If you want to boot
+    ...    DTS to perform Automatic Certificate Provisioning, set
+    ...    ${certificate_provisioning} to 'True'
+    [Arguments]    ${dts_booting_method}    ${certificate_provisioning}='False'
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     IF    '${dts_booting_method}'=='USB'
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -38,9 +40,10 @@ Boot Dasharo Tools Suite
         # Spawn DTS menu on SSH console
         Write Into Terminal    dts
     END
-
-    Read From Terminal Until    Enter an option:
-    Sleep    5s
+    IF    ${certificate_provisioning} == 'False'
+        Read From Terminal Until    Enter an option:
+        Sleep    5s
+    END
 
 Check HCL Report Creation
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
