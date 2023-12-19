@@ -1,5 +1,6 @@
 *** Settings ***
 Library         Collections
+Library         OperatingSystem
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
@@ -1571,6 +1572,7 @@ Clone Git Repository
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
     [Arguments]    ${source_path}    ${target_path}
+    ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${ip_address}=    Get Hostname Ip
         Execute Command In Terminal    rm -f ${target_path}
@@ -1579,8 +1581,10 @@ Send File To DUT
         SSHLibrary.Put File    ${source_path}    ${target_path}
         SSHLibrary.Close Connection
     ELSE
-        Put File    ${source_path}    ${target_path}
+        SSHLibrary.Put File    ${source_path}    ${target_path}
     END
+    ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
+    Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
 
 Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
