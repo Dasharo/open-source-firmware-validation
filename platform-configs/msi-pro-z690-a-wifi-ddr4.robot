@@ -155,6 +155,7 @@ ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${L2_CACHE_SUPPORT}=                                ${TRUE}
 ${L3_CACHE_SUPPORT}=                                ${TRUE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
