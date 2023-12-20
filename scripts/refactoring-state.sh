@@ -11,6 +11,10 @@ kwds_to_remove=(
 "Enter Submenu In Tianocore"
 "Change Numeric Value Of Setting"
 "Enter Dasharo Submenu Snapshot"
+"iPXE DTS"
+"Launch To DTS Shell"
+"Check IPXE Appears Only Once"
+"IPXE Dhcp"
 )
 
 echo "Keywords that should not be used, but are still used:"

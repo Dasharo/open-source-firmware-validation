@@ -84,8 +84,7 @@ DTS005.001 Flash device from DTS shell by using flashrom works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS006.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS006.001 not supported
 
-    Power On
-    Disable Firmware Flashing Prevention Options
+    Make Sure That Flash Locks Are Disabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s

@@ -34,43 +34,6 @@ Serial Setup
     ...    window_size=400x100
     Telnet.Set Timeout    180s
 
-IPXE Dhcp
-    [Documentation]    Request IP address in iPXE shell
-    Write Bare Into Terminal    \n
-    # make sure we are inside iPXE shell
-    Read From Terminal Until    iPXE>
-
-IPXE DTS
-    [Documentation]    Enter DTS via iPXE.
-    Set DUT Response Timeout    180s
-    Wait Until Keyword Succeeds    3x    2s
-    ...    IPXE Dhcp
-    Write Bare Into Terminal    chain http://boot.3mdeb.com/dts.ipxe\n    0.1
-
-Check IPXE Appears Only Once
-    [Documentation]    Check the iPXE option appears only once in the boot
-    ...    option list.
-    ${menu_construction}=    Get Boot Menu Construction
-    TRY
-        Should Contain X Times    ${menu_construction}    ${IPXE_BOOT_ENTRY}    1
-    EXCEPT
-        FAIL    Test case marked as Failed\nRequested boot option: (${IPXE_BOOT_ENTRY}) appears not only once.
-    END
-
-Launch To DTS Shell
-    [Documentation]    Launch to DTS via iPXE and open Shell.
-    Enter IPXE
-    IPXE DTS
-    Set DUT Response Timeout    120s
-    Read From Terminal Until    Enter an option
-    Set DUT Response Timeout    30s
-    Write Into Terminal    9
-    Set Prompt For Terminal    bash-5.1#
-    Read From Terminal Until Prompt
-    # These could be removed once routes priorities in DTS are resolved.
-    Sleep    10
-    Remove Extra Default Route
-
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
@@ -1865,19 +1828,6 @@ Reboot In PfSense
     Write Into Terminal    5
     Read From Terminal Until    Enter an option:
     Write Into Terminal    y
-
-Remove Extra Default Route
-    [Documentation]    If two default routes are present in Linux, remove
-    ...    the one NOT pointing to the gateway in test network (192.168.10.1)
-    ${route_info}=    Execute Linux Command    ip route | grep ^default
-    ${devname}=    String.Get Regexp Matches    ${route_info}
-    ...    ^default via 172\.16\.0\.1 dev (?P<devname>\\w+)    devname
-    ${length}=    Get Length    ${devname}
-    IF    ${length} > 0
-        Execute Linux Command    ip route del default via 172.16.0.1 dev ${devname[0]}
-        ${route_info}=    Execute Linux Command    ip route | grep ^default
-        Log    Default route via 172.16.0.1 dev ${devname[0]} removed
-    END
 
 Should Contain All
     [Arguments]    ${string}    @{substrings}
