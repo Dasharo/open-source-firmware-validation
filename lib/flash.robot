@@ -35,9 +35,10 @@ Flash BIOS Region Via Internal Programmer
 Check If RW SECTION B Is Present In A Firmware File
     [Documentation]    Parses ROM with cbfstool to check if A or A + B sections are there
     [Arguments]    ${fw_file_path}
-    ${result}=    Execute Command In Terminal    cbfstool ${fw_file_path} layout -w | grep --color=never RW_SECTION_B
+    ${layout}=    Execute Command In Terminal    cbfstool ${fw_file_path} layout -w
     ${section_b_present}=    Run Keyword And Return Status
-    ...    Should Contain    ${result}    RW_SECTION_B
+    ...    Should Contain    ${layout}    RW_SECTION_B
+    Should Contain    ${layout}    RW_SECTION_A    msg=RW_SECTION_A is not present. Is the firmware image correct?
     RETURN    ${section_b_present}
 
 Flash RW Sections Via Internal Programmer
