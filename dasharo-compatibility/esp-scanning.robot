@@ -70,7 +70,13 @@ ESP004.001 ESP Scan does not create duplicate entries
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
 
-    List Should Not Contain Duplicates    ${boot_menu}
+    # In general, boot entries may be duplicated if created by other means.
+    # Here we only want to test the duplicates created by the ESP scanning features.
+    # These entries have specific format, such as:
+    # <OS> (on <DISK>)
+    # e.g. Windows Boot Manager (on INTEL SSDPEKNU512GZ)
+    ${esp_scanning_entries}=    Get Matches    ${boot_menu}    ^.* \\(on.*\\)$
+    List Should Not Contain Duplicates    ${esp_scanning_entries}
 
 ESP005.001 ESP Scan detects Dasharo Tools Suite
     [Documentation]    This test aims to verify that the firmware detects
