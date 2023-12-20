@@ -96,11 +96,10 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Save Changes And Reset    2
 
     # 2. Check SB state in OS
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
     ${sb_status}=    Check Secure Boot In Windows
     Should Be True    ${sb_status}
-    Execute Reboot Command
+    Execute Reboot Command    windows
 
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -108,9 +107,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Save Changes And Reset    2
 
     # 4. Check SB state in OS
-    Boot System Or From Connected Disk    ${OS_WINDOWS}
     Login To Windows
-    Switch To Root User
     ${sb_status}=    Check Secure Boot In Windows
     Should Not Be True    ${sb_status}
 
