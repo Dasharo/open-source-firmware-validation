@@ -156,6 +156,13 @@ Resign Existing Firmware Image With Generated Keys
     Execute Command In Terminal    rm -f ${FW_FILE_RESIGNED}
     ${out_resign}=    Execute Command In Terminal    ./dasharo-tools/vboot/resign ${FW_FILE_ORIGINAL} vboot_keys
     Should Contain    ${out_resign}    successfully saved new image to
+    Execute Command In Terminal    sync
+    ${size_original}=    Execute Command In Terminal    ls -l ${FW_FILE_ORIGINAL} | cut -d ' ' -f 5
+    ${size_resigned}=    Execute Command In Terminal    ls -l ${FW_FILE_RESIGNED} | cut -d ' ' -f 5
+    Should Be Equal As Integers
+    ...    ${size_original}
+    ...    ${size_resigned}
+    ...    msg=Size of resigned firmware is incorrect. Resigning failed.
 
 Prepare Tools, Keys And Binaries
     Power On
