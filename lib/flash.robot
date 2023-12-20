@@ -104,11 +104,11 @@ Replace Logo In Firmware
     [Documentation]    Swap to custom logo in firmware on DUT using cbfstool according
     ...    to: https://docs.dasharo.com/guides/logo-customization
     [Arguments]    ${logo_file}
-    Read FMAP And BOOTSPLASH Regions Internally    /tmp/firmware.rom
+    Execute Command In Terminal    flashrom -p internal -r /tmp/firmware.rom
     # Remove the existing logo from the firmware image
-    ${out}=    Execute Linux Command    cbfstool /tmp/firmware.rom remove -r BOOTSPLASH -n logo.bmp
+    ${out}=    Execute Command In Terminal    cbfstool /tmp/firmware.rom remove -r BOOTSPLASH -n logo.bmp
     # Add your desired bootlogo to the firmware image
-    ${out}=    Execute Linux Command
+    ${out}=    Execute Command In Terminal
     ...    cbfstool /tmp/firmware.rom add -f ${logo_file} -r BOOTSPLASH -n logo.bmp -t raw -c lzma
     Should Not Contain    ${out}    Image is missing 'BOOTSPLASH' region
     Write BOOTSPLASH Region Internally    /tmp/firmware.rom
