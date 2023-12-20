@@ -23,3 +23,5 @@ ${ENTER}=           \x0d
 ${BACKSPACE}=       \x08
 ${KEY_SPACE}=       \x20
 ${DELETE}=          \x1b\x5b\x33\x7e
+${PAGEDOWN}=        \x1b\x5b\x36\x7e
+${PAGEUP}=          \x1b\x5b\x35\x7e

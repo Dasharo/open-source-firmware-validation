@@ -67,6 +67,15 @@ TPM001.003 TPM Support (Windows 11)
     Should Contain    ${tpm_ready}    True
     Should Contain    ${tpm_enabled}    True
 
+TPM001.004 TPM Support (BIOS)
+    [Documentation]    This test aims to verify that the TPM is initialized
+    ...    correctly and the PCRs can be accessed from the firmware.
+    Skip If    not ${TPM_SUPPORT}    TPM001.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    Should Contain Any    ${menu}    Current TPM Device TPM 2.0    Current TPM Device TPM 1.2
+
 TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the firmware.
