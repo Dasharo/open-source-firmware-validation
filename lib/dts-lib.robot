@@ -26,6 +26,7 @@ Boot Dasharo Tools Suite
     # two different console in case of Linux, they are not in sync anymore as in case of firmware.
     # We have to switch to SSH connection to continue test execution on such devices.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        ${dut_connection_method}=    Set Variable    SSH
         # Wait for the menu to be loaded on serial
         Read From Terminal Until    Enter an option:
         # Enable SSH server and switch to SSH connection by writing on video console "in blind"
@@ -56,6 +57,13 @@ Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
     Write Into Terminal    9
+    Set Prompt For Terminal    bash-5.1#
+    # These could be removed once routes priorities in DTS are resolved.
+    Sleep    10
+    Press Enter
+    ${out}=    Read From Terminal
+    Log    ${out}
+    Remove Extra Default Route
 
 Run EC Transition
     [Documentation]    Keyword allows to run EC Transition procedure in the
@@ -82,4 +90,17 @@ Flash Firmware In DTS
         ...    command=flashrom --ifd -i bios -p internal -w /tmp/coreboot.rom --noverify-all
         ...    timeout=320s
         Should Contain    ${out}    identical
+    END
+
+Remove Extra Default Route
+    [Documentation]    If two default routes are present in Linux, remove
+    ...    the one NOT pointing to the gateway in test network (192.168.10.1)
+    ${route_info}=    Execute Command In Terminal    ip route | grep ^default
+    ${devname}=    String.Get Regexp Matches    ${route_info}
+    ...    ^default via 172\.16\.0\.1 dev (?P<devname>\\w+)    devname
+    ${length}=    Get Length    ${devname}
+    IF    ${length} > 0
+        Execute Command In Terminal    ip route del default via 172.16.0.1 dev ${devname[0]}
+        ${route_info}=    Execute Command In Terminal    ip route | grep ^default
+        Log    Default route via 172.16.0.1 dev ${devname[0]} removed
     END
