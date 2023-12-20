@@ -45,7 +45,7 @@ Prepare EFI Partition With System Files
             Login To Linux
             Switch To Root User
             Remove All Supported Systems From Efi
-            Execute Command In Terminal    wget ${DISK_IMAGE_URL} -O image.img
+            Execute Command In Terminal    wget ${DISK_IMAGE_URL} -O image.img    timeout=180s
             Execute Command In Terminal    mkdir /mnt/disk_image
             Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
             Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
