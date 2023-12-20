@@ -38,6 +38,9 @@ ${ECDSA384_TEST_SHA256}=    181c1e9f8051f80677f489aec9ac11ce311bb2a1f6ee6a659d7a
 ${ECDSA521_TEST_NAME}=      hello_ecdsa521_test.img
 ${ECDSA521_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/cmybRxzmKx2dATW/download/hello_ecdsa521_test.img
 ${ECDSA521_TEST_SHA256}=    cbd90c85b6d4c0c59f45da600c8b63e70b858330b2a27924253e6bf014906240
+${EXPIRED_URL}=             https://cloud.3mdeb.com/index.php/s/ReBEXy9yXTGWGyb/download/expired_cert.img
+${EXPIRED_NAME}=            expired_cert.img
+${EXPIRED_SHA256}=          831c4f0ec9bf4e40a80e15deb16d76a60524e91bd9e9ebe07847e1ea7021079a
 
 
 *** Keywords ***
