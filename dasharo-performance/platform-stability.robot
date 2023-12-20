@@ -13,6 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/linux.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -108,3 +109,13 @@ STB001.003 Verify if no reboot occurs in the OS (Windows 11)
         Sleep    ${STABILITY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
     END
+
+STB002.001 Verify if no unexpected boot errors appear in Linux logs
+    [Documentation]    This test aims to verify that there are no unexpected
+    ...    error ,essages in Linux kernel logs.
+    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.001 not supported
+    Power On
+    Boot Operating System    ubuntu
+    Login To Linux
+    Switch To Root User
+    Check Unexpected Boot Errors
