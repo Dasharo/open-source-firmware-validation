@@ -8,6 +8,7 @@ Resource        lib/esp-scanning-lib.robot
 Resource        lib/dl-cache.robot
 Resource        lib/dmidecode-lib.robot
 Resource        lib/flash.robot
+Resource        lib/tpm-support-lib.robot
 Resource        lib/self-tests.robot
 Resource        lib/ansible.robot
 Variables       platform-configs/fan-curve-config.yaml
