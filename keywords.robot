@@ -915,7 +915,15 @@ Execute Poweroff Command
     Restore Initial DUT Connection Method
 
 Execute Reboot Command
-    Write Into Terminal    reboot
+    [Documentation]    Executes reboot command in given os
+    [Arguments]    ${os}=linux
+    IF    '${os}' == 'linux'
+        Write Into Terminal    reboot
+    ELSE IF    '${os}' == 'windows'
+        Write Into Terminal    shutdown /r /f /t 0
+    ELSE
+        Fail    Unknown OS: ${os} given as an argument.
+    END
     Set DUT Response Timeout    180 seconds
     Restore Initial DUT Connection Method
 
