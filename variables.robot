@@ -244,9 +244,15 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD11}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 860 EVO M.2 250GB
+&{SSD12}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 980 PRO 250GB
+&{SSD13}=                   vendor=Samsung    volume=500GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=CT500MX500SSD1
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
-...                         &{SSD11}
+...                         &{SSD11}    &{SSD12}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -270,6 +276,8 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{CARD06}
 #
 &{EMMC01}=                  vendor=Samsung    volume=32GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+&{EMMC02}=                  vendor=Samsung    volume=8GB    type=MMC_Storage
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
 @{MMC_LIST}=                &{EMMC01}
 
@@ -394,12 +402,12 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG26}=                &{RTE34}    &{USB14}    &{SSD08}
 @{CONFIG27}=                &{RTE35}    &{USB07}    &{SSD02}    &{MODULE10}
 @{CONFIG28}=                &{RTE36}    &{USB11}    &{SSD09}
-@{CONFIG29}=                &{RTE37}    &{USB11}
+@{CONFIG29}=                &{RTE37}    &{SSD12}
 @{CONFIG30}=                &{RTE38}    &{USB11}
 @{CONFIG31}=                &{RTE39}    &{USB14}    &{SSD08}
 @{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD11}
 @{CONFIG33}=                &{RTE41}
-@{CONFIG34}=                &{RTE42}
+@{CONFIG34}=                &{RTE42}    &{SSD13}    &{EMMC02}
 @{CONFIG35}=                &{RTE43}    &{EMMC01}
 @{CONFIG36}=                &{RTE44}    &{EMMC01}
 @{CONFIG37}=                &{RTE45}    &{EMMC01}
