@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation       Collection of keywords for downloading local files
+Documentation       Collection of keywords for testing USB-C docking stations
 
 Resource            ../keywords.robot
 
@@ -74,11 +74,11 @@ Detect Docking Station USB Devices In Linux
         Should Contain    ${out}    VIA Labs, Inc. USB2.0 Hub
         Should Contain    ${out}    Fresco Logic USB2.0 Hub
         Should Contain    ${out}    Linux Foundation 2.0 root hub
-        Should Contain    ${out}    Prolific Technology, Inc. USB 2.0 Hub
         Should Contain    ${out}    ASIX Electronics Corp. AX88179 Gigabit Ethernet
         Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
         Should Contain    ${out}    Realtek Semiconductor Corp. USB3.0 Card Reader
         Should Contain    ${out}    Fresco Logic USB3.0 Hub
+        Should Contain    ${out}    JMTek, LLC. USB PnP Audio Device
     ELSE IF    '${docking_station_model}' == 'WL-UG69PD2 Rev.A1'
         Should Contain    ${out}    Genesys Logic, Inc. Hub
         Should Contain    ${out}    Fresco Logic USB2.0 Hub
