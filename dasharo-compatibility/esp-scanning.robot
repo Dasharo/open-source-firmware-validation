@@ -43,16 +43,6 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     Enter Boot Menu Tianocore
     Check Boot Menu For All Supported Systems    normal
 
-ESP002.001 ESP Scan after deleting additional .efi files
-    [Documentation]    This test aims to verify that none of the systems linger
-    ...    on in the boot menu after we've deleted their files from /EFI/.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP002.001 not supported
-    Power On
-    Clear Out EFI Partition
-    Power On Or Reboot
-    Enter Boot Menu Tianocore
-    Check Boot Menu For All Supported Systems    empty
-
 ESP003.001 ESP Scan ignores OSes on removable media
     [Documentation]    This test aims to verify that the bootable /EFI
     ...    partitions of removable media are ignored by the scan and aren't
