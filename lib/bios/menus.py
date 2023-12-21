@@ -90,8 +90,8 @@ def get_value_from_brackets(text):
         # bracket. Separate the option value by splitting the string only once
         # using last occurrence of separator and returning only left side of
         # the match.
-        value = value.rsplit(']', 1)[0]
-        value = value.rsplit('>', 1)[0]
+        value = value.rsplit("]", 1)[0]
+        value = value.rsplit(">", 1)[0]
     else:
         value = None
 
