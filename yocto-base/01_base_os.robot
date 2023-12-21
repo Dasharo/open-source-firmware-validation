@@ -16,21 +16,21 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-Booting Platform
-    [Documentation]    This test aims to see whether the device can boot.
+Y003.1 Platform boots
+    [Documentation]    This test verifies booting of the device.
     Variable Should Exist    ${DUT_PASSWORD}
     Sonoff Power Off
     Sleep    5s
     Sonoff Power On
     Serial Root Login Linux    ${DUT_PASSWORD}
 
-Basic Packages
+Y003.2 Basic Packages are installed
     [Documentation]    checks whether tar, time and chronyc utilities exist.
     Get Utility Version    tar
     Get Utility Version    time
     Get Utility Version    chronyc
 
-USB
+Y003.3 USB devices are visible
     [Documentation]    check whether we can see a USB stick that's plugged in.
     ...    Also checks whether we mount/umount it and write/read.
     ${output}=    Telnet.Execute Command    lsblk | grep sda | wc -l
@@ -46,6 +46,6 @@ USB
     Telnet.Execute Command    rm /mnt/something.txt
     Telnet.Execute Command    umount /dev/sda*
 
-Ethernet
+Y003.4 Ethernet connection is supported
     [Documentation]    tests whether we have an internet connection
     Check Internet Connection On Linux
