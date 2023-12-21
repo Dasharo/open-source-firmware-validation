@@ -20,19 +20,6 @@ ${OS_WINDOWS}=              Windows Boot Manager
 ${OS_UBUNTU}=               ubuntu
 
 # RTE database:
-# LPN Plant -----------------------------------------------------------
-&{RTE01}=                   ip=192.168.4.197    cpuid=02c000422fc6d77e    pcb_rev=0.5.3
-...                         platform=mDot    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-# &{RTE02}=    ip=192.168.4.198    cpuid=02c00042df7b6fc2    pcb_rev=0.5.3
-# ...    platform=lpn_gate    env=unknown
-# ...    platform_vendor=unknown    firmware_type=unknown
-&{RTE03}=                   ip=192.168.4.199    cpuid=02c00042b526c2b5    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE04}=                   ip=192.168.4.202    cpuid=x    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
 # Vitro Technology ----------------------------------------------------
 &{RTE05}=                   ip=192.168.4.167    cpuid=02c00042d55c19d3    pcb_rev=0.5.3
 ...                         platform=crystal    env=dev
@@ -205,7 +192,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
 ...                         cpuid=deadbeef001
 
-@{RTE_LIST}=                &{RTE01}    &{RTE03}    &{RTE04}    &{RTE05}
+@{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
 ...                         &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}    &{RTE20}
