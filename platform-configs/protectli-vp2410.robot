@@ -11,62 +11,75 @@ ${BOOT_MENU_STRING}=                                Please select boot device
 ${SETUP_MENU_STRING}=                               Select Entry
 ${PAYLOAD_STRING}=                                  ${EMPTY}
 ${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
+${EDK2_IPXE_CHECKPOINT}=                            Advanced
 ${IPXE_STRING}=                                     ${EMPTY}
 ${SOL_STRING}=                                      ${EMPTY}
 ${SN_PATTERN}=                                      ${EMPTY}
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             ${EMPTY}
 ${POWER_CTRL}=                                      RteCtrl
-${FLASH_VERIFY_METHOD}=                             none
+${FLASH_VERIFY_METHOD}=                             tianocore-shell
+${FLASH_VERIFY_OPTION}=                             UEFI Shell
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
+${WIFI_CARD}=                                       ${EMPTY}
 ${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${LTE_CARD}=                                        ${EMPTY}
-${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
+${DEF_CORES}=                                       4
+${DEF_THREADS}=                                     1
+${DEF_CPU}=                                         4
+${DEF_ONLINE_CPU}=                                  0-3
+${DEF_SOCKETS}=                                     1
+${DEVICE_USB_KEYBOARD}=                             ${EMPTY}
 ${DEVICE_NVME_DISK}=                                ${EMPTY}
 ${DEVICE_AUDIO1}=                                   ${EMPTY}
 ${DEVICE_AUDIO2}=                                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
-${INITIAL_CPU_FREQUENCY}=                           2600
+${INITIAL_CPU_FREQUENCY}=                           2000
 ${WIN_USB_STICK}=                                   ${EMPTY}
 ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${ME_INTERFACE}=                                    ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
+${MAX_CPU_TEMP}=                                    77
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
-${USB_LIVE}=                                        USB
-@{ATTACHED_USB}=                                    ${USB_LIVE}
-
 # eMMC driver support
 ${E_MMC_NAME}=                                      8GTF4R
+${E_MMC_PARTITION_TABLE}=                           gpt
 
 # Platform flashing flags
-${FLASHING_BASIC_METHOD}=                           internal
+${FLASHING_BASIC_METHOD}=                           external
 
+${USB_LIVE}=                                        USB
 ${DEVICE_USB_USERNAME}=                             user
 ${DEVICE_USB_PASSWORD}=                             ubuntu
-${DEVICE_USB_PROMPT}=                               user@user-VP2410:~$
-${DEVICE_USB_ROOT_PROMPT}=                          root@user-VP2410:/home/user#
+${DEVICE_USB_PROMPT}=                               ${DEVICE_USB_USERNAME}@3mdeb:~$
+${DEVICE_USB_ROOT_PROMPT}=                          root@3mdeb:/home/${DEVICE_USB_USERNAME}#
+@{ATTACHED_USB}=                                    @{EMPTY}
 
-${DEVICE_WINDOWS_USERNAME}=                         ${EMPTY}
-${DEVICE_WINDOWS_PASSWORD}=                         ${EMPTY}
+${DEVICE_WINDOWS_USERNAME}=                         user
+${DEVICE_WINDOWS_PASSWORD}=                         windows
 ${DEVICE_UBUNTU_USERNAME}=                          user
 ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-VP2410:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-VP2410:/home/user#
-${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
+${DEVICE_UBUNTU_USER_PROMPT}=                       ${DEVICE_UBUNTU_USERNAME}@3mdeb:~$
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/${DEVICE_UBUNTU_USERNAME}#
+${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      ${EMPTY}
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v
 ${DMIDECODE_PRODUCT_NAME}=                          VP2410
 ${DMIDECODE_RELEASE_DATE}=                          ${EMPTY}
 ${DMIDECODE_MANUFACTURER}=                          Protectli
 ${DMIDECODE_VENDOR}=                                3mdeb
-${DMIDECODE_FAMILY}=                                N/A
-${DMIDECODE_TYPE}=                                  N/A
+${DMIDECODE_FAMILY}=                                Vault Pro
+${DMIDECODE_TYPE}=                                  Desktop
 
 ${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
+
+${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
+${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
+${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -82,7 +95,7 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${FALSE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
-${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
 ${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
 ${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${FALSE}
 ${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${FALSE}
@@ -103,26 +116,26 @@ ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
 ${HEADS_PAYLOAD_SUPPORT}=                           ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
-${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
+${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${TRUE}
 ${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${FALSE}
 ${INTERNAL_LCD_DISPLAY_SUPPORT}=                    ${FALSE}
-${EXTERNAL_HDMI_DISPLAY_SUPPORT}=                   ${FALSE}
+${EXTERNAL_HDMI_DISPLAY_SUPPORT}=                   ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=                   ${FALSE}
 ${EC_AND_SUPER_IO_SUPPORT}=                         ${FALSE}
-${CUSTOM_LOGO_SUPPORT}=                             ${FALSE}
+${CUSTOM_LOGO_SUPPORT}=                             ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=                     ${FALSE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=                  ${FALSE}
 ${USB_CAMERA_DETECTION_SUPPORT}=                    ${FALSE}
 ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
-${UEFI_SHELL_SUPPORT}=                              ${FALSE}
-${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${FALSE}
+${UEFI_SHELL_SUPPORT}=                              ${TRUE}
+${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                               ${FALSE}
-${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
-${NVME_DISK_SUPPORT}=                               ${FALSE}
+${NETBOOT_UTILITIES_SUPPORT}=                       ${TRUE}
+${NVME_DISK_SUPPORT}=                               ${TRUE}
 ${SD_CARD_READER_SUPPORT}=                          ${FALSE}
-${WIRELESS_CARD_SUPPORT}=                           ${FALSE}
-${WIRELESS_CARD_WIFI_SUPPORT}=                      ${FALSE}
-${WIRELESS_CARD_BLUETOOTH_SUPPORT}=                 ${FALSE}
+${WIRELESS_CARD_SUPPORT}=                           ${TRUE}
+${WIRELESS_CARD_WIFI_SUPPORT}=                      ${TRUE}
+${WIRELESS_CARD_BLUETOOTH_SUPPORT}=                 ${TRUE}
 ${MINI_PC_IE_SLOT_SUPPORT}=                         ${FALSE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                    ${FALSE}
 ${USB_C_CHARGING_SUPPORT}=                          ${FALSE}
@@ -132,15 +145,15 @@ ${AUDIO_SUBSYSTEM_SUPPORT}=                         ${FALSE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                      ${FALSE}
 ${SERIAL_NUMBER_VERIFICATION}=                      ${FALSE}
 ${SERIAL_FROM_MAC}=                                 ${FALSE}
-${FIRMWARE_NUMBER_VERIFICATION}=                    ${FALSE}
+${FIRMWARE_NUMBER_VERIFICATION}=                    ${TRUE}
 ${FIRMWARE_FROM_BINARY}=                            ${FALSE}
-${PRODUCT_NAME_VERIFICATION}=                       ${FALSE}
-${RELEASE_DATE_VERIFICATION}=                       ${FALSE}
+${PRODUCT_NAME_VERIFICATION}=                       ${TRUE}
+${RELEASE_DATE_VERIFICATION}=                       ${TRUE}
 ${RELEASE_DATE_FROM_SOL}=                           ${FALSE}
-${MANUFACTURER_VERIFICATION}=                       ${FALSE}
-${VENDOR_VERIFICATION}=                             ${FALSE}
-${FAMILY_VERIFICATION}=                             ${FALSE}
-${TYPE_VERIFICATION}=                               ${FALSE}
+${MANUFACTURER_VERIFICATION}=                       ${TRUE}
+${VENDOR_VERIFICATION}=                             ${TRUE}
+${FAMILY_VERIFICATION}=                             ${TRUE}
+${TYPE_VERIFICATION}=                               ${TRUE}
 ${HARDWARE_WP_SUPPORT}=                             ${FALSE}
 ${DOCKING_STATION_USB_SUPPORT}=                     ${FALSE}
 ${DOCKING_STATION_KEYBOARD_SUPPORT}=                ${FALSE}
@@ -150,6 +163,10 @@ ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${EMMC_SUPPORT}=                                    ${TRUE}
 ${DTS_SUPPORT}=                                     ${FALSE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
+${CPU_TESTS_SUPPORT}=                               ${TRUE}
+${L2_CACHE_SUPPORT}=                                ${TRUE}
+${L3_CACHE_SUPPORT}=                                ${FALSE}
+${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
 ${DOCKING_STATION_DISPLAY_PORT}=                    ${FALSE}
@@ -163,22 +180,27 @@ ${THUNDERBOLT_DOCKING_STATION_NET_INTERFACE}=       ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
+${THUNDERBOLT_DOCKING_STATION_DETECT_SUPPORT}=      ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
-${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
+${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered On
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
+${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
+${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
+${DEVICE_TREE_SUPPORT}=                             ${FALSE}
+${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
 
 # Test module: dasharo-security
-${TPM_SUPPORT}=                                     ${FALSE}
+${TPM_SUPPORT}=                                     ${TRUE}
 ${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${FALSE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
-${SECURE_BOOT_SUPPORT}=                             ${FALSE}
+${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
-${USB_STACK_SUPPORT}=                               ${FALSE}
-${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
+${USB_STACK_SUPPORT}=                               ${TRUE}
+${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
 ${BIOS_LOCK_SUPPORT}=                               ${FALSE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
@@ -186,17 +208,18 @@ ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${FALSE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                             ${FALSE}
+${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
-${CPU_FREQUENCY_MEASURE}=                           ${FALSE}
-${CPU_TEMPERATURE_MEASURE}=                         ${FALSE}
-${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
+${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
+${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
 ${TEST_FAN_SPEED}=                                  ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
-${UBUNTU_BOOTING}=                                  ${FALSE}
+${UBUNTU_BOOTING}=                                  ${TRUE}
 ${DEBIAN_BOOTING}=                                  ${FALSE}
 ${UBUNTU_SERVER_BOOTING}=                           ${FALSE}
 ${PROXMOX_VE_BOOTING}=                              ${FALSE}
@@ -207,17 +230,11 @@ ${OPNSENSE_VGA_BOOTING}=                            ${FALSE}
 ${FREEBSD_BOOTING}=                                 ${FALSE}
 ${WINDOWS_BOOTING}=                                 ${FALSE}
 
-# Test module: dasharo-stability
-${M2_WIFI_SUPPORT}=                                 ${FALSE}
-${NVME_DETECTION_SUPPORT}=                          ${FALSE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
-
 # Supported OS installation variants
 ${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
 ${INSTALL_UBUNTU_USB_SUPPORT}=                      ${FALSE}
 
 # Test cases iterations number
-${ITERATIONS}=                                      5
 # Booting OS from USB stick test cases
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=                 5
 # Sticks detection test cases
@@ -229,15 +246,15 @@ ${DEVICE_BOOT_MEASURE_ITTERATIONS}=                 3
 # Cooling procedure iterations
 ${COOLING_PROCEDURE_ITERATIONS}=                    0
 # Stability tests duration in minutes
-${STABILITY_TEST_DURATION}=                         30
+${STABILITY_TEST_DURATION}=                         300
 # Interval between the following readings in stability tests
-${STABILITY_TEST_MEASURE_INTERVAL}=                 1
+${STABILITY_TEST_MEASURE_INTERVAL}=                 10
 # Frequency measure test duration
-${FREQUENCY_TEST_DURATION}=                         15
+${FREQUENCY_TEST_DURATION}=                         60
 # Interval between the following readings in frequency measure tests
 ${FREQUENCY_TEST_MEASURE_INTERVAL}=                 1
 # Temperature measure test duration
-${TEMPERATURE_TEST_DURATION}=                       30
+${TEMPERATURE_TEST_DURATION}=                       60
 # Interval between the following readings in temperature measure tests
 ${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
 # Fan control measure tests duration in minutes
@@ -298,7 +315,9 @@ Power On
     RteCtrl Power Off
     Sleep    10s
     Telnet.Read
-    RteCtrl Power On
+    # After RteCtrl Power Off, the platform cannot be powered back using the power button.
+    # Possibly bug in HW or FW.
+    Power Cycle On
 
 Flash Protectli VP2410 Internal
     Set Local Variable    ${IS_FLASH_CHIP_CONTENT_IDENTICAL}    ${FALSE}
