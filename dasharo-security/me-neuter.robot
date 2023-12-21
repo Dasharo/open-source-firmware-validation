@@ -22,8 +22,6 @@ Resource            ../pikvm-rest-api/pikvm_comm.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    not ${ME_NEUTER_SUPPORT}    ME neutering not supported
-...                     AND
 ...                     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    Dasharo Intel ME menu not supported
 ...                     AND
 ...                     Set Intel ME Mode    Enabled
