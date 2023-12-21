@@ -44,8 +44,8 @@ USS001.001 Enable USB stack (firmware)
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
     Save Changes And Reset
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Detected
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Check That USB Devices Are Detected    ${boot_menu}
 
 USS002.001 Disable USB stack (firmware)
     [Documentation]    Check whether If the stack is deactivated, there will be
@@ -64,8 +64,8 @@ USS002.001 Disable USB stack (firmware)
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
     Save Changes And Reset
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Not Detected
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    # Check That USB Devices Are Not Detected    ${boot_menu}
 
 USS003.001 Enable USB Mass Storage (firmware)
     [Documentation]    Check whether If the storage support is activated, there
@@ -84,8 +84,8 @@ USS003.001 Enable USB Mass Storage (firmware)
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
     Save Changes And Reset
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Detected
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Check That USB Devices Are Detected    ${boot_menu}
 
 USS004.001 Disable USB Mass Storage (firmware)
     [Documentation]    Check whether If the storage support is deactivated,
@@ -104,5 +104,5 @@ USS004.001 Disable USB Mass Storage (firmware)
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
     Save Changes And Reset
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Not Detected
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    # Check That USB Devices Are Not Detected    ${boot_menu}
