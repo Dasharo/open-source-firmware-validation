@@ -420,4 +420,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
-...                         @{CONFIG42}
+...                         @{CONFIG42}    @{CONFIG43}
