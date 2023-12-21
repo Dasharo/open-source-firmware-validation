@@ -144,7 +144,7 @@ Check Secure Boot In Linux
     # secureboot: Secure boot disabled
     # or just:
     # Secure boot disabled
-    ${out}=    Execute Linux Command    dmesg | grep "Secure boot"
+    ${out}=    Execute Command In Terminal    dmesg | grep "Secure boot"
     Should Contain Any    ${out}    disabled    enabled
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    enabled
