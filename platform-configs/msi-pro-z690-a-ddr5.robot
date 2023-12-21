@@ -200,7 +200,6 @@ ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
-${ME_NEUTER_SUPPORT}=                               ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
