@@ -42,13 +42,9 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        ${timestamps}=    Get Boot Timestamps
-        ${length}=    Get Length    ${timestamps}
-        Log Boot Timestamps    ${timestamps}    ${length}
-        ${duration}=    Get Duration From Timestamps    ${timestamps}    ${length}
-        ${duration_formatted}=    Evaluate    ${duration}/1000000
-        Log To Console    (${index}) Coreboot booting time: ${duration_formatted} s (${duration} ns)
-        ${average}=    Evaluate    ${average}+${duration_formatted}
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
     END
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     Log To Console    \nCoreboot average booting time: ${average} s\n
@@ -66,13 +62,9 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        ${timestamps}=    Get Boot Timestamps
-        ${length}=    Get Length    ${timestamps}
-        Log Boot Timestamps    ${timestamps}    ${length}
-        ${duration}=    Get Duration From Timestamps    ${timestamps}    ${length}
-        ${duration_formatted}=    Evaluate    ${duration}/1000000
-        Log To Console    (${index}) Coreboot booting time: ${duration_formatted} s (${duration} ns)
-        ${average}=    Evaluate    ${average}+${duration_formatted}
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
     END
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     Log To Console    \nCoreboot average booting time: ${average} s\n
@@ -83,21 +75,39 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     ...    if CPU is serial initialized.
     Skip If    not ${SERIAL_BOOT_MEASURE}    CBMEM003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
-    ${average}=    Set Variable    0
     Power On
+    ${average}=    Set Variable    0
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${ITERATIONS}
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        ${timestamps}=    Get Boot Timestamps
-        ${length}=    Get Length    ${timestamps}
-        Log Boot Timestamps    ${timestamps}    ${length}
-        ${duration}=    Get Duration From Timestamps    ${timestamps}    ${length}
-        ${duration_formatted}=    Evaluate    ${duration}/1000000
-        Log To Console    (${index}) Coreboot booting time: ${duration_formatted} s (${duration} ns)
-        ${average}=    Evaluate    ${average}+${duration_formatted}
-        Write Into Terminal    reboot
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
     END
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     Log To Console    \nCoreboot average booting time: ${average} s\n
+    Execute Reboot Command
+
+
+*** Keywords ***
+Get Boot Time From Cbmem
+    [Documentation]    Calculates boot time based on cbmem timestamps
+    # fix for LT1000 and protectli platforms (output without tabs)
+    Get Cbmem From Cloud
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
+    ${lines}=    Split To Lines    ${out_cbmem}
+    ${first_line}=    Get From List    ${lines}    0
+    ${last_line}=    Get From List    ${lines}    -1
+    ${first_timestamp}=    Get Timestamp From Cbmem Log    ${first_line}
+    ${last_timestamp}=    Get Timestamp From Cbmem Log    ${last_line}
+    ${boot_time}=    Evaluate    (${last_timestamp} - ${first_timestamp}) / 1000000
+    RETURN    ${boot_time}
+
+Get Timestamp From Cbmem Log
+    [Documentation]    Returns timestamp from a single cbmem -T log line
+    [Arguments]    ${line}
+    ${columns}=    Split String    ${line}
+    ${timestamp}=    Get From List    ${columns}    1
+    RETURN    ${timestamp}
