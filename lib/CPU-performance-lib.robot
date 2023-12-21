@@ -99,9 +99,9 @@ Check Power Supply
     Set Suite Variable    ${LAPTOP_PLATFORM}    ${laptop_platform}
     IF    ${LAPTOP_PLATFORM}
         IF    ${TESTS_IN_UBUNTU_SUPPORT}
-            ${bat0_present}    ${ac_online}    ${usb-pd_online}=    Check Power Supply On Linux
+            ${bat0_present}    ${ac_online}    ${usb_pd_online}=    Check Power Supply On Linux
         ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-            ${bat0_present}    ${ac_online}    ${usb-pd_online}=    Check Power Supply On Windows
+            ${bat0_present}    ${ac_online}    ${usb_pd_online}=    Check Power Supply On Windows
         ELSE IF    ${HEADS_PAYLOAD_SUPPORT}
             Log    Check Power Supply on Heads not implemented yet    ERROR
         ELSE
@@ -109,7 +109,7 @@ Check Power Supply
         END
         Set Suite Variable    ${BATTERY_PRESENT}    ${bat0_present}
         Set Suite Variable    ${AC_CONNECTED}    ${ac_online}
-        Set Suite Variable    ${USB-PD_CONNECTED}    ${usb-pd_online}
+        Set Suite Variable    ${USB-PD_CONNECTED}    ${usb_pd_online}
     END
 
 Check The Platform Is A Laptop
@@ -128,12 +128,12 @@ Check Power Supply On Linux
     ${ac_online}=    Run Keyword And Return Status    Should Be Equal    ${ac_online_raw}    1
 
     # FIXME: USB-PD detection is not yet possible.
-    ${usb-pd_online_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/USB-PD/online
+    ${usb_pd_online_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/USB-PD/online
     Log    'cat /sys/class/power_supply/USB-PD/online' not implemented yet, if implemented, remove #    WARN
-    # Should Not Contain    ${USB-PD_online_raw}    No such file or directory
-    ${usb-pd_online}=    Run Keyword And Return Status    Should Be Equal    ${usb-pd_online_raw}    1
+    # Should Not Contain    ${usb_pd_online_raw}    No such file or directory
+    ${usb_pd_online}=    Run Keyword And Return Status    Should Be Equal    ${usb_pd_online_raw}    1
 
-    RETURN    ${bat0_present}    ${ac_online}    ${usb-pd_online}
+    RETURN    ${bat0_present}    ${ac_online}    ${usb_pd_online}
 
 Check Power Supply On Windows
     Power On
@@ -153,9 +153,9 @@ Check Power Supply On Windows
 
     # FIXME: USB-PD detection is not yet possible.
     Log    Check power supply USB-PD not implemented yet    WARN
-    ${usb-pd_online}=    Run Keyword And Return Status
+    ${usb_pd_online}=    Run Keyword And Return Status
     ...    Should Be Equal
     ...    ${raw_output}
     ...    insert the correct USB-PD detection method here
 
-    RETURN    ${bat0_present}    ${ac_online}    ${usb-pd_online}
+    RETURN    ${bat0_present}    ${ac_online}    ${usb_pd_online}
