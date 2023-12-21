@@ -472,41 +472,6 @@ Get All USB
     ${count}=    Evaluate    ${count_usb}+${external_count}
     RETURN    ${count}
 
-Get Boot Timestamps
-    [Documentation]    Returns all boot timestamps from cbmem tool.
-    # fix for LT1000 and protectli platforms (output without tabs)
-    Get Cbmem From Cloud
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
-    ${timestamps}=    Split String    ${out_cbmem}    \n
-    ${timestamps}=    Get Slice From List    ${timestamps}    0    -1
-    RETURN    ${timestamps}
-
-Log Boot Timestamps
-    [Documentation]    Log to console formatted boot timestamps. Takes timestamp
-    ...    string and string length as an arguments.
-    [Arguments]    ${timestamps}    ${length}
-    FOR    ${number}    IN RANGE    0    ${length}
-        ${line}=    Get From List    ${timestamps}    ${number}
-        ${line}=    Split String    ${line}    \
-        ${duration}=    Get From List    ${line}    2
-        ${duration}=    Convert To Number    ${duration}
-        ${name}=    Get Slice From List    ${line}    3
-        ${name}=    Evaluate    " ".join(${name})
-        ${duration_formatted}=    Evaluate    ${duration}/1000000
-        Log    ${name}: ${duration_formatted} s (${duration} ns)
-    END
-
-Get Duration From Timestamps
-    [Documentation]    Returns number representing full boot duration. Takes
-    ...    cbmem string timestamp and string length as an arguments.
-    [Arguments]    ${timestamps}    ${length}
-    ${index}=    Evaluate    ${length}-1
-    ${line}=    Get From List    ${timestamps}    ${index}
-    ${line}=    Split String    ${line}    \
-    ${duration}=    Get From List    ${line}    1
-    ${duration}=    Convert To Number    ${duration}
-    RETURN    ${duration}
-
 Prepare Lm-sensors
     [Documentation]    Install lm-sensors and probe sensors.
     Detect Or Install Package    lm-sensors
@@ -685,6 +650,7 @@ Turn On Power Supply
 Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
+    Restore Initial DUT Connection Method
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    'sonoff' == '${pc}'
         Sonoff Power Cycle On
