@@ -239,7 +239,10 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${INTERMEDIATE_NAME}    ${INTERMEDIATE_URL}    ${INTERMEDIATE_SHA256}
+    Download ISO And Mount As USB
+    ...    ${DL_CACHE_DIR}/${INTERMEDIATE_NAME}
+    ...    ${INTERMEDIATE_URL}
+    ...    ${INTERMEDIATE_SHA256}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -254,8 +257,9 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello.efi
     Should Contain    ${out}    Access Denied
-    ${out}=    Execute File In UEFI Shell    signed_hello.efi
+    ${out}=    Execute File In UEFI Shell    signed-hello.efi
     Should Contain    ${out}    Hello, world!
+
 
 *** Keywords ***
 Prepare Test Files
