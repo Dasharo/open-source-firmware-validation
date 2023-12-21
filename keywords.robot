@@ -287,11 +287,9 @@ Get Firmware Version From Binary
 
 Get Firmware Version From UEFI Shell
     [Documentation]    Return firmware version from UEFI shell.
-    Telnet.Set Timeout    90s
-    Telnet.Read Until    Shell>
-    Telnet.Write Bare    smbiosview -t 0
-    Telnet.Write Bare    \n
-    ${output}=    Telnet.Read Until    BiosSegment
+    Set DUT Response Timeout    90s
+    Set Prompt For Terminal    Shell>
+    ${output}=    Execute Command In Terminal    smbiosview -t 0
     ${version}=    Get Lines Containing String    ${output}    BiosVersion
     RETURN    ${version.replace('BiosVersion: ', '')}
 
