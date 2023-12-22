@@ -150,6 +150,46 @@ TPM003.003 Check TPM Physical Presence Interface (Windows 11)
     ${out}=    Execute Command In Terminal    tpmtool getdeviceinformation
     Should Contain    ${out}    PPI Version: 1.3
 
+TPM004.001 Check TPM Hash Algorithm Support SHA1 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM001.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
+    Should Contain    ${hash}    SHA1
+
+TPM004.002 Check TPM Hash Algorithm Support SHA256 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM001.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
+    Should Contain    ${hash}    SHA256
+
+TPM004.003 Check TPM Hash Algorithm Support SHA384 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM001.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
+    Should Contain    ${hash}    SHA384
+
+TPM004.004 Check TPM Hash Algorithm Support SHA512 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM001.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
+    Should Contain    ${hash}    SHA512
+
 # TPM003.004 Change active PCR banks with TPM PPI (firmware)
 #    [Documentation]    This test aims to verify that the TPM Physical Presence
 #    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
