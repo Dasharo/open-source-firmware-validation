@@ -2,7 +2,6 @@
 Library     Collections
 Resource    ../keywords.robot
 
-Resource    ../keywords.robot
 
 *** Keywords ***
 Get Linux Version ID
