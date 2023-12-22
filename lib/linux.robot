@@ -1,7 +1,7 @@
 *** Settings ***
-Library    Collections
-
+Library     Collections
 Resource    ../keywords.robot
+
 
 *** Keywords ***
 Get Linux Version ID
@@ -23,6 +23,8 @@ Check Unexpected Boot Errors
     @{dmesg_err_allowlist}=    Create List
     # Harmless error on Bluetooth modules
     Append To List    ${dmesg_err_allowlist}    Bluetooth: hci0: Malformed MSFT vendor event: 0x02
+    # Not a critical error, appears on many machines
+    Append To List    ${dmesg_err_allowlist}    tpm tpm0: [Firmware Bug]: TPM interrupt not working, polling instead
     # dmesg -J requires util-linux v2.38 or newer
     ${dmesg_err_txt}=    Execute Linux Command    dmesg -t -l err,crit,alert,emerg
     @{dmesg_err_list}=    Split To Lines    ${dmesg_err_txt}
