@@ -238,6 +238,7 @@ Press Key N Times And Enter
     [Arguments]    ${n}    ${key}
     Press Key N Times    ${n}    ${key}
     Press Enter
+    Sleep    2s
 
 Press Enter
     # Before entering new menu, make sure we get rid of all leftovers
@@ -555,7 +556,9 @@ Save Changes
     [Documentation]    Saves current UEFI settings
     Press Key N Times    1    ${F10}
     Read From Terminal Until    Save configuration changes?
+    Sleep    1s
     Write Bare Into Terminal    y
+    Sleep    2s
 
 Save Changes And Reset
     [Documentation]    Saves current UEFI settings and restarts.
