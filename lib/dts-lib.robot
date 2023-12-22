@@ -1,10 +1,21 @@
 *** Keywords ***
+Boot Dasharo Tools Suite Via IPXE Shell
+    Enter IPXE
+    Write Into Terminal    dhcp net0
+    ${out}=    Read From Terminal Until Prompt
+    Should Contain    ${out}    ok
+    Set DUT Response Timeout    60s
+    Write Bare Into Terminal    chain http://boot.dasharo.com/dts/dts.ipxe\n    0.1
+    Read From Terminal Until    http://boot.dasharo.com/dts/dts.ipxe...
+    Read From Terminal Until    ok
+    Set DUT Response Timeout    5m
+
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
     ...    boot method (from USB or from iPXE) as parameter.
     [Arguments]    ${dts_booting_method}
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     IF    '${dts_booting_method}'=='USB'
+        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
         ELSE IF    '${MANUFACTURER}' == 'QEMU'
@@ -14,10 +25,15 @@ Boot Dasharo Tools Suite
             Enter Submenu From Snapshot    ${boot_menu}    ${USB_MODEL}
         END
     ELSE IF    '${dts_booting_method}'=='iPXE'
-        Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-        ${ipxe_menu}=    Get IPXE Boot Menu Construction
-        Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
-        Set DUT Response Timeout    5m
+        IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
+            Boot Dasharo Tools Suite Via IPXE Shell
+        ELSE
+            ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+            Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+            ${ipxe_menu}=    Get IPXE Boot Menu Construction
+            Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
+            Set DUT Response Timeout    5m
+        END
     ELSE
         FAIL    Unknown or improper connection method: ${dts_booting_method}
     END
