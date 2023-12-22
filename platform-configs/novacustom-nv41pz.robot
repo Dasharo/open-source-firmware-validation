@@ -31,6 +31,7 @@ ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${MAX_CPU_TEMP}=                                    77
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${TRUE}
 ${DEVICE_IP}=                                       192.168.4.240
 
 # Platform flashing flags
