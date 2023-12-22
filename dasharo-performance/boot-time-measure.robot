@@ -38,7 +38,7 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     ${average}=    Set Variable    0
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${ITERATIONS}
-        Power Cycle On
+        Power Cycle On    power_button=${TRUE}
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
