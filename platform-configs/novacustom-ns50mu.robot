@@ -21,6 +21,7 @@ ${IPXE_STRING}=                                     Network Boot Firmware
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${TRUE}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd
