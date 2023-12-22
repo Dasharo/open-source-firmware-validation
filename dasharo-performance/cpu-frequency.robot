@@ -345,9 +345,9 @@ CPU Runs On Expected Frequency (Ubuntu 22.04)
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_max} > ${frequency}
+            ...    Should Be True    ${freq_max} >= ${frequency}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_min} < ${frequency}
+            ...    Should Be True    ${freq_min} <= ${frequency}
         END
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
@@ -380,9 +380,9 @@ CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_max} > ${frequency}
+            ...    Should Be True    ${freq_max} >= ${frequency}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_min} < ${frequency}
+            ...    Should Be True    ${freq_min} <= ${frequency}
         END
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
