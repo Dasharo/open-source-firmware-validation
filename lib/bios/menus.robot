@@ -604,6 +604,7 @@ Make Sure That Network Boot Is Enabled
     [Documentation]    This keywords checks that "Enable network boot" in
     ...    "Networking Options" is enabled when present, so the network
     ...    boot tests can be executed.
+    IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
