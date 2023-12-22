@@ -297,8 +297,8 @@ Restore Secure Boot Defaults
     # Changes to Secure Boot take action immediately, so we can just continue
 
     Exit From Current Menu
-    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    IF    ${SECURE_BOOT_DEFAULT_STATE} == ${FALSE}
+    ${sb_menu}=    Reenter Menu And Return Construction
+    IF    '${SECURE_BOOT_DEFAULT_STATE}' == 'Disabled'
         Disable Secure Boot    ${sb_menu}
     ELSE
         Enable Secure Boot    ${sb_menu}
