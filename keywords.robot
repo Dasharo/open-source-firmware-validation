@@ -650,6 +650,7 @@ Turn On Power Supply
 Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
+    [Arguments]    ${power_button}=${FALSE}
     Restore Initial DUT Connection Method
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    'sonoff' == '${pc}'
@@ -659,6 +660,8 @@ Power Cycle On
     ELSE
         Rte Relay Power Cycle On
     END
+
+    IF    ${power_button}    RteCtrl Power On
 
 Rte Relay Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
