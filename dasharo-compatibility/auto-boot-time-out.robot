@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
+BMM001.001 Change Auto Boot Time-out and check after reboot
     [Documentation]    Check whether setting Auto Boot Time-out to 7 the value
     ...    is remembered after restart
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM001.001 not supported
@@ -35,7 +35,9 @@ BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
-    Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    7
+    ${boot_timeout}=    Evaluate    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE} + 1
+    ${boot_timeout}=    Convert To String    ${boot_timeout}
+    Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    ${boot_timeout}
     Save Changes And Reset
 
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -43,7 +45,7 @@ BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
     ${timeout_value}=    Get Option State    ${boot_mgr_menu}    Auto Boot Time-out
-    Should Be Equal As Integers    ${timeout_value}    7
+    Should Be Equal As Integers    ${timeout_value}    ${boot_timeout}
 
 BMM002.001 F9 resets Auto Boot Time-out to default value
     [Documentation]    Check whether pressing F9 resets Auto Boot Time-out to
@@ -55,7 +57,17 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
-    Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    7
+    ${timeout_value}=    Get Option State    ${boot_mgr_menu}    Auto Boot Time-out
+    IF    ${timeout_value} == ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}
+        ${boot_timeout}=    Evaluate    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE} + 1
+        ${boot_timeout}=    Convert To String    ${boot_timeout}
+        # Something is not right at this point. Either there is some race condition in
+        # pressing keys or soemthign else. After setting an option to different value
+        # then default, confirming it, it is changed. However pressing F9 does not restore
+        # the default for some reason (change is not saved after reboot). Performing
+        # it manually works though.
+        Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    ${boot_timeout}
+    END
     Reset To Defaults Tianocore
     Save Changes And Reset
 
