@@ -116,4 +116,4 @@ Set Intel ME Mode
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    ${mode}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
