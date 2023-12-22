@@ -85,14 +85,14 @@ Check CPU Frequency In Windows
         ${freq_current}=    Get Line    ${freq_current_info}    -1
         ${freq_current}=    Convert To Number    ${freq_current}
         Run Keyword And Continue On Failure
-        ...    Should Be True    ${freq_max} > ${freq_current}
+        ...    Should Be True    ${freq_max} >= ${freq_current}
     END
 
 Stress Test
     [Documentation]    Proceed with the stress test.
     [Arguments]    ${time}=60s
     Detect Or Install Package    stress-ng
-    Execute Command In Terminal    stress-ng --cpu 1 --timeout ${time} &> /dev/null &
+    Execute Command In Terminal    stress-ng --cpu $(nproc) --timeout ${time} &> /dev/null &
 
 Check Power Supply
     ${laptop_platform}=    Check The Platform Is A Laptop
