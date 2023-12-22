@@ -74,7 +74,8 @@ TPM001.004 TPM Support (BIOS)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    Should Contain Any    ${menu}    Current TPM Device TPM 2.0    Current TPM Device TPM 1.2
+    ${current_device}=    Get From Dictionary    ${menu}    Current TPM Device
+    Should Contain Any    ${current_device}    TPM 2.0    TPM 1.2
 
 TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
