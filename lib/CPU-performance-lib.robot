@@ -85,7 +85,7 @@ Check CPU Frequency In Windows
         ${freq_current}=    Get Line    ${freq_current_info}    -1
         ${freq_current}=    Convert To Number    ${freq_current}
         Run Keyword And Continue On Failure
-        ...    Should Be True    ${freq_max} > ${freq_current}
+        ...    Should Be True    ${freq_max} >= ${freq_current}
     END
 
 Stress Test
