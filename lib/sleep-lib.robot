@@ -34,7 +34,7 @@ Set Platform Sleep Type
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${power_menu}    Platform sleep type    ${PLATFORM_SLEEP_TYPE_TEXT}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
 Check Platform Sleep Type Is Correct On Linux
     [Documentation]    Check Platform sleep type in Linux
