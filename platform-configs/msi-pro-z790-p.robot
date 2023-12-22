@@ -44,6 +44,7 @@ ${MAX_CPU_TEMP}=                                    80
 # ${wol_interface}    enp3s0
 # ${SD_DEV_LINUX}    /dev/mmcblk0
 # ${nic_number}    ${4}
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           external
