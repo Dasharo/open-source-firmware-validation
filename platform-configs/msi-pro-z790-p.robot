@@ -32,6 +32,7 @@ ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
 ${WIFI_CARD}=                                       ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
+${MAX_CPU_TEMP}=                                    80
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
