@@ -285,6 +285,28 @@ TPMCMD013.003 Sealing and unsealing with Policy - Password and PCR (Ubuntu 22.04
     ${out2}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat+policypswd -c seal.ctx
     Should Be Equal As Strings    ${out1}    ${out2}
 
+TPMCMD014.001 Encrypt and Decrypt non-rootfs partition (Ubuntu 22.04)
+    [Documentation]    Test encrypting and decrypting non-rootfs partition using
+    ...    TPM.
+    # 1. Create sealing object:
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -Q -C o -c prim.ctx
+    Execute Linux Tpm2 Tools Command    cat key | tpm2_create -Q -g sha256 -u seal.pub -r seal.priv -i- -C prim.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_load -Q -C prim.ctx -u seal.pub -r seal.priv -n seal.name -c seal.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol -C o -c seal.ctx 0x81010001
+    Execute Linux Tpm2 Tools Command    tpm2_unseal -Q -c 0x81010001 > key
+
+    # 2. Test by checking a file stored on the partition:
+    Execute Command In Terminal    cryptsetup luksOpen ./test-partition --key-file=key test-partition
+    Execute Command In Terminal    mount /dev/mapper/test-partition /mnt
+    ${out}=    Execute Command In Terminal    ls /mnt | grep hello-world
+    Should Contain    ${out}    hello-world
+
+    # 3. Clean:
+    Execute Command In Terminal    umount /mnt
+    Execute Command In Terminal    cryptsetup luksClose test-partition
+    Execute Command In Terminal    rm -f key seal.* prim.* test-partition
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol -c 0x81010001
+
 
 *** Keywords ***
 Flush TPM Contexts
