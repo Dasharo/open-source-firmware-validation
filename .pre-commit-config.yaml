@@ -52,12 +52,12 @@ repos:
         name: isort (python)
 
   - repo: https://github.com/psf/black
-    rev: 23.12.0
+    rev: 23.12.1
     hooks:
     - id: black
 
   - repo: https://github.com/MarketSquare/robotframework-tidy
-    rev: 4.6.0
+    rev: 4.7.0
     hooks:
       - id: robotidy
 
