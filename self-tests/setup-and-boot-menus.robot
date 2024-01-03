@@ -179,3 +179,18 @@ Test TianoCore Reset System
     Enter Setup Menu Tianocore And Return Construction
     Tianocore Reset System
     Enter Setup Menu Tianocore And Return Construction
+
+Test Exit From Current Menu
+    [Documentation]    Test Exit From Current Menu kwd
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${setup_menu}    Device Manager
+
+    FOR    ${i}    IN RANGE    0    20
+        Exit From Current Menu
+        ${setup_menu}=    Get Setup Menu Construction
+        Should Not Contain    ${setup_menu}    > Secure Boot Configuration
+        Should Contain    ${setup_menu}    > Dasharo System Features
+        Should Contain    ${setup_menu}    > One Time Boot
+        Press Enter
+    END
