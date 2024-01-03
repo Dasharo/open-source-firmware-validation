@@ -238,7 +238,6 @@ Press Key N Times And Enter
     [Arguments]    ${n}    ${key}
     Press Key N Times    ${n}    ${key}
     Press Enter
-    Sleep    2s
 
 Press Enter
     # Before entering new menu, make sure we get rid of all leftovers
