@@ -186,14 +186,14 @@ Enable and Disable Secure Boot Multiple Times
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     FOR    ${index}    IN RANGE    5
-        Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+        Enable Secure Boot    ${sb_menu}
         Save Changes And Reset
 
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
         ${sb_state}=    Return Secure Boot State    ${sb_menu}
         Should Contain    ${sb_state}    Enabled
 
-        Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
+        Disable Secure Boot    ${sb_menu}
         Save Changes And Reset
 
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
