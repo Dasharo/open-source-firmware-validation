@@ -142,22 +142,22 @@ Make Sure That Keys Are Provisioned
     Erase All Secure Boot Keys    ${advanced_menu}
     Exit From Current Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
-    Should Not Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Not Contain Match    ${sb_menu}    Enable Secure Boot [*
 
     # 2. Call tke kwd and make sure that the keys are provisioned
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Contain Match    ${sb_menu}    Enable Secure Boot [*
 
     # 3. Restore default SB keys
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
     Exit From Current Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
-    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Contain Match    ${sb_menu}    Enable Secure Boot [*
 
     # 4. Call tke kwd and make sure that the keys are still provisioned
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Contain Match    ${sb_menu}    Enable Secure Boot [*
 
 Enable Secure Boot
     [Documentation]    Test Enable Secure Boot kwd
