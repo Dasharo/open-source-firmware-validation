@@ -88,6 +88,12 @@ Flash Firmware
         Flash Protectli VP2420 Internal
     ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
         Flash Protectli VP2410 External
+    ELSE IF    '${platform[:16]}' == 'protectli-v1210'
+        Flash Device Via External Programmer
+    ELSE IF    '${platform[:15]}' == 'protectli-v1410'
+        Flash Device Via External Programmer
+    ELSE IF    '${platform[:15]}' == 'protectli-v1610'
+        Flash Device Via External Programmer
     ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
         Flash MSI-PRO-Z690-A-DDR5
     ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'

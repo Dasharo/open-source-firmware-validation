@@ -50,6 +50,7 @@ ${USB_SHORT_NAME}=                                  USB
 ${ME_INTERFACE}=                                    Intel Corporation Comet Lake Management Engine Interface
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      MMC AJTD4R
@@ -83,7 +84,6 @@ ${DMIDECODE_FAMILY}=                                N/A
 ${DMIDECODE_TYPE}=                                  N/A
 
 ${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
-${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -99,6 +99,15 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${TRUE}
 
 # Regression test flags
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${TRUE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                     ${TRUE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
@@ -185,7 +194,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
-${ME_NEUTER_SUPPORT}=                               ${TRUE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}

@@ -16,9 +16,11 @@ Enter Boot Menu Tianocore
     ELSE
         Write Bare Into Terminal    ${BOOT_MENU_KEY}
     END
-    # FIXME: Laptop EC serial workaround
-    Press Key N Times    1    ${ARROW_DOWN}
-    Press Key N Times    1    ${ARROW_UP}
+    IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
+        # FIXME: Laptop EC serial workaround
+        Press Key N Times    1    ${ARROW_DOWN}
+        Press Key N Times    1    ${ARROW_UP}
+    END
 
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
@@ -336,9 +338,11 @@ Set Option State
             Press Enter
         END
         IF    '${type}' == 'list'
-            # FIXME: Laptop EC serial workaround
-            Press Key N Times    1    ${ARROW_DOWN}
-            Press Key N Times    1    ${ARROW_UP}
+            IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
+                # FIXME: Laptop EC serial workaround
+                Press Key N Times    1    ${ARROW_DOWN}
+                Press Key N Times    1    ${ARROW_UP}
+            END
 
             ${out}=    Read From Terminal Until    ---/
             ${list}=    Extract Strings From Frame    ${out}
@@ -415,23 +419,20 @@ Enter IPXE
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
+        ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    ELSE
+        ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    END
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Set Prompt For Terminal    iPXE>
     Read From Terminal Until Prompt
 
 Exit From Current Menu
     [Documentation]    Exits from current menu, refreshing screen.
-    # ESC itself does not "refresh" the data over serial. Only pressing
-    # other keys (such as arrow keys) makes the change caused by ESC
-    # (moving back one menu up) to be redrawn. Using either UP and then DOWN,
-    # or just LEFT / RIGHT (which does not impact any actual movement) should
-    # be safe to use here.
-    Press Key N Times    1    ${ESC}
     # Before entering new menu, make sure we get rid of all leftovers
-    Sleep    1s
     Read From Terminal
-    Press Key N Times    1    ${ARROW_LEFT}
+    Press Key N Times    1    ${ESC}
 
 Reenter Menu
     [Documentation]    Returns to the previous menu and enters the same one
@@ -518,7 +519,7 @@ Remove Disk Password
     Log    Select entry: Admin Revert to factory default and Disable
     Press Key N Times    1    ${ENTER}
     Press Key N Times And Enter    4    ${ARROW_DOWN}
-    Save Changes And Reset    3
+    Save Changes And Reset
     Read From Terminal Until    Unlock
     FOR    ${i}    IN RANGE    0    2
         Type In The Password    @{keys_password}
@@ -526,24 +527,35 @@ Remove Disk Password
     END
     Press Key N Times    1    ${SETUP_MENU_KEY}
 
-# TODO: calculate steps_to_reset based on the menu construction
-# Hint: Look up: "Get Relative Menu Position" kwd in git history
+Tianocore Reset System
+    # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
+    # On serial console it is ESC R ESC r ESC R.
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        FAIL    SSH not supported for interfacing with TianoCore
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Telnet.Write Bare    \x1bR\x1br\x1bR
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
+        FAIL    OpenBMC not yet supported for interfacing with TianoCore
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        # TODO: Untested yet.
+        @{reset_combo}=    AltRight    ControlRight    Delete
+        Key Combination PiKVM    ${reset_combo}
+    ELSE
+        FAIL    Unknown connection method for config: ${CONFIG}
+    END
 
 Save Changes
     [Documentation]    Saves current UEFI settings
     Press Key N Times    1    ${F10}
+    Read From Terminal Until    Save configuration changes?
+    Sleep    1s
     Write Bare Into Terminal    y
+    Sleep    2s
 
 Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...    is how deep user is currently in the settings.
-    ...    ${main_menu_steps_to_reset} means how many times should
-    ...    arrow down be pressed to get to the Reset option in main
-    ...    settings menu
-    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
+    [Documentation]    Saves current UEFI settings and restarts.
     Save Changes
-    Press Key N Times    ${nesting_level}    ${ESC}
-    Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
+    Tianocore Reset System
 
 Boot System Or From Connected Disk
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
@@ -566,9 +578,15 @@ Boot System Or From Connected Disk
             ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
             ${hdd_list_length}=    Get Length    ${hdd_list}
             IF    ${hdd_list_length} == 0
-                FAIL    "System was not found and there are no disk connected"
+                ${mmc_list}=    Get Current CONFIG List Param    MMC_Storage    boot_name
+                ${mmc_list_length}=    Get Length    ${mmc_list}
+                IF    ${mmc_list_length} == 0
+                    FAIL    "System was not found and there are no disk connected"
+                END
+                ${disk_name}=    Set Variable    ${mmc_list[0]}
+            ELSE
+                ${disk_name}=    Set Variable    ${hdd_list[0]}
             END
-            ${disk_name}=    Set Variable    ${hdd_list[0]}
         ELSE
             ${disk_name}=    Set Variable    ${ssd_list[0]}
         END
@@ -585,6 +603,7 @@ Make Sure That Network Boot Is Enabled
     [Documentation]    This keywords checks that "Enable network boot" in
     ...    "Networking Options" is enabled when present, so the network
     ...    boot tests can be executed.
+    IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -594,7 +613,7 @@ Make Sure That Network Boot Is Enabled
         ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
         IF    ${index} != -1
             Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-            Save Changes And Reset    2    4
+            Save Changes And Reset
             Sleep    10s
         END
     END
@@ -602,6 +621,7 @@ Make Sure That Network Boot Is Enabled
 Make Sure That Flash Locks Are Disabled
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
     ...    any Dasharo Security Options, if they are present.
+    IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -622,7 +642,7 @@ Make Sure That Flash Locks Are Disabled
             Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
             Reenter Menu
         END
-        Save Changes And Reset    2    4
+        Save Changes And Reset
     END
 
 Get Firmware Version From Tianocore Setup Menu
@@ -637,6 +657,7 @@ Get Firmware Version From Tianocore Setup Menu
 Disable Firmware Flashing Prevention Options
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
     ...    any Dasharo Security Options, if they are present.
+    IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${index}=    Get Index Of Matching Option In Menu
@@ -656,5 +677,5 @@ Disable Firmware Flashing Prevention Options
             Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
             Reenter Menu
         END
-        Save Changes And Reset    2    4
+        Save Changes And Reset
     END

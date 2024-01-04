@@ -41,6 +41,7 @@ ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${USB_MODEL}=                                       Kingston
 ${MAX_CPU_TEMP}=                                    95
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
@@ -76,7 +77,6 @@ ${DMIDECODE_FAMILY}=                                N/A
 ${DMIDECODE_TYPE}=                                  N/A
 
 ${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
-${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -92,6 +92,17 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${TRUE}
 
 # Regression test flags
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${FALSE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${FALSE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
+
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
@@ -175,7 +186,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
-${ME_NEUTER_SUPPORT}=                               ${FALSE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
 ${BIOS_LOCK_SUPPORT}=                               ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}

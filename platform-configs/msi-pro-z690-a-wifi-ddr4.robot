@@ -44,6 +44,7 @@ ${MAX_CPU_TEMP}=                                    80
 # ${wol_interface}    enp3s0
 # ${SD_DEV_LINUX}    /dev/mmcblk0
 # ${nic_number}    ${4}
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           external
@@ -93,6 +94,16 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${FALSE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${TRUE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_PCIE_REBAR_SUPPORT}=                      ${TRUE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                     ${TRUE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
 ${COREBOOT_BASE_PORT_SUPPORT}=                      ${FALSE}
 ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
@@ -190,7 +201,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
-${ME_NEUTER_SUPPORT}=                               ${TRUE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${USB_STACK_SUPPORT}=                               ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}

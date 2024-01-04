@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    Network BOot and Utilities tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 NBT001.001 Netboot is available
     [Documentation]    Check whether netboot option exist, and if after
     ...    selection proper menu apperas.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT001.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -41,7 +42,6 @@ NBT001.001 Netboot is available
 NBT002.001 OS selection & utilities is available
     [Documentation]    Check whether whether selection & utilities is available,
     ...    and if after selection proper menu apperas.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -54,7 +54,6 @@ NBT002.001 OS selection & utilities is available
 NBT003.001 iPXE boot is available
     [Documentation]    Check whether iPXE boot is available, and if after
     ...    selection iPXE menu appears.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT003.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -68,7 +67,6 @@ NBT003.001 iPXE boot is available
 NBT004.001 iPXE shell is available
     [Documentation]    Check whether iPXE shell is available, and if after
     ...    selection iPXE shell appears.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT004.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -82,7 +80,6 @@ NBT004.001 iPXE shell is available
 NBT005.001 iPXE shell works correctly
     [Documentation]    Check whether iPXE shell works correctly by configuring
     ...    network interface and booting to selected address.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT005.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -96,14 +93,13 @@ NBT005.001 iPXE shell works correctly
     ${out}=    Read From Terminal Until Prompt
     Should Contain    ${out}    ok
     Set DUT Response Timeout    60s
-    Write Bare Into Terminal    chain http://192.168.20.206:8000/menu.ipxe\n    0.1
-    # chain http://boot.3mdeb.com/dts.ipxe
-    Read From Terminal Until    iPXE boot menu
+    Write Bare Into Terminal    chain http://boot.dasharo.com/dts/dts.ipxe\n    0.1
+    Read From Terminal Until    http://boot.dasharo.com/dts/dts.ipxe...
+    Read From Terminal Until    ok
 
 NBT006.001 Advanced option is available
     [Documentation]    Check whether advanced option is available, and if after
     ...    selection proper menu apperas.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT006.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT006.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -117,7 +113,6 @@ NBT006.001 Advanced option is available
 NBT007.001 Change netboot URL option works correctly
     [Documentation]    Check whether it's possible to change netboot url, and
     ...    boot to it.
-    Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    NBT007.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT007.001 not supported
     Power On
     Set DUT Response Timeout    60s
@@ -134,7 +129,7 @@ NBT007.001 Change netboot URL option works correctly
     FOR    ${i}    IN RANGE    100
         Write Bare Into Terminal    ${BACKSPACE}    0.1
     END
-    Write Bare Into Terminal    http://boot.3mdeb.com/dts.ipxe    0.1
+    Write Bare Into Terminal    http://boot.dasharo.com/dts/dts.ipxe    0.1
     Press Enter
     ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=3    checkpoint=Reset to Default
     Enter Submenu From Snapshot    ${ipxe_menu}    Apply and Exit
@@ -143,4 +138,4 @@ NBT007.001 Change netboot URL option works correctly
     ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2    checkpoint=Exit
     Enter Submenu From Snapshot    ${ipxe_menu}    Change Netboot iPXE Payload URL
     ${out}=    Read From Terminal Until    Reset to Default
-    Should Contain    ${out}    http://boot.3mdeb.com/dts.ipxe
+    Should Contain    ${out}    http://boot.dasharo.com/dts/dts.ipxe

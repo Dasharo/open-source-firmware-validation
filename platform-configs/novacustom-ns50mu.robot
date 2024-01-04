@@ -21,6 +21,7 @@ ${IPXE_STRING}=                                     Network Boot Firmware
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${TRUE}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd
@@ -82,6 +83,16 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${FALSE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${FALSE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
@@ -171,6 +182,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${FALSE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${USB_STACK_SUPPORT}=                               ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}

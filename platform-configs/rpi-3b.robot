@@ -35,6 +35,8 @@ ${LTE_CARD}=                                        ${EMPTY}
 # ${wol_interface}    enp3s0
 # ${SD_DEV_LINUX}    /dev/mmcblk0
 # ${nic_number}    ${4}
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
+
 ${DEVICE_USB_KEYBOARD}=                             ${EMPTY}
 ${DEVICE_NVME_DISK}=                                ${EMPTY}
 ${DEVICE_AUDIO1}=                                   ${EMPTY}
@@ -154,7 +156,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
 ${SECURE_BOOT_SUPPORT}=                             ${FALSE}
-${ME_NEUTER_SUPPORT}=                               ${FALSE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${USB_STACK_SUPPORT}=                               ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}

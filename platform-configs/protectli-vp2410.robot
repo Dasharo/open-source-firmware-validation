@@ -33,6 +33,7 @@ ${ME_INTERFACE}=                                    ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 ${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
@@ -66,7 +67,6 @@ ${DMIDECODE_FAMILY}=                                N/A
 ${DMIDECODE_TYPE}=                                  N/A
 
 ${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
-${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -82,6 +82,17 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${FALSE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${FALSE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${FALSE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
+
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
@@ -165,7 +176,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
 ${SECURE_BOOT_SUPPORT}=                             ${FALSE}
-${ME_NEUTER_SUPPORT}=                               ${FALSE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${USB_STACK_SUPPORT}=                               ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}

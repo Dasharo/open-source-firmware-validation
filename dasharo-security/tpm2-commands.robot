@@ -20,7 +20,7 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         TPM2 Suite Setup
 Suite Teardown      Log Out And Close Connection
-Test Setup          TPM2 Test Setup
+Test Setup          Flush TPM Contexts
 
 
 *** Test Cases ***
@@ -241,13 +241,10 @@ Check If SHA1 And SHA256 Banks Are Enabled
     ...    ${out}
     ...    sha256: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
 
-TPM2 Test Setup
-    Skip If    not ${TPM_SUPPORT}    ${TEST_NAME.split()}[0] not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME.split()}[0] not supported
-    Flush TPM Contexts
-
 TPM2 Suite Setup
     Prepare Test Suite
+    Skip If    not ${TPM_SUPPORT}    TPM tests not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux

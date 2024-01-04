@@ -28,6 +28,7 @@ ${TPM_PCR_ZERO_PATTERN}=                            00 00 00 00 00 00 00 00 00 0
 ${TALOS_SONOFF_IP}=                                 192.168.10.47
 ${HEADS_PROMPT}=                                    ~ #
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
+${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           obmc
@@ -52,6 +53,16 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${FALSE}
 ${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
+${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_USB_MENU_SUPPORT}=                        ${FALSE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${FALSE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${FALSE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
+${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${FALSE}
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${TRUE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${TRUE}
@@ -139,7 +150,7 @@ ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
 ${SECURE_BOOT_SUPPORT}=                             ${FALSE}
-${ME_NEUTER_SUPPORT}=                               ${FALSE}
+${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
 ${USB_STACK_SUPPORT}=                               ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}

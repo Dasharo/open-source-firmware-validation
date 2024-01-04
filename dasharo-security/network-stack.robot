@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    Dasharo Networking menu not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -37,7 +39,7 @@ NBA001.001 Enable Network Boot (firmware)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -54,7 +56,7 @@ NBA002.001 Disable Network Boot (firmware)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${network_menu}    Enable network boot    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}

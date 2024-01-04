@@ -20,19 +20,6 @@ ${OS_WINDOWS}=              Windows Boot Manager
 ${OS_UBUNTU}=               ubuntu
 
 # RTE database:
-# LPN Plant -----------------------------------------------------------
-&{RTE01}=                   ip=192.168.4.197    cpuid=02c000422fc6d77e    pcb_rev=0.5.3
-...                         platform=mDot    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE02}=                   ip=192.168.4.198    cpuid=02c00042df7b6fc2    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE03}=                   ip=192.168.4.199    cpuid=02c00042b526c2b5    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE04}=                   ip=192.168.4.202    cpuid=x    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
 # Vitro Technology ----------------------------------------------------
 &{RTE05}=                   ip=192.168.4.167    cpuid=02c00042d55c19d3    pcb_rev=0.5.3
 ...                         platform=crystal    env=dev
@@ -205,7 +192,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
 ...                         cpuid=deadbeef001
 
-@{RTE_LIST}=                &{RTE01}    &{RTE02}    &{RTE03}    &{RTE04}    &{RTE05}
+@{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
 ...                         &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}    &{RTE20}
@@ -281,6 +268,11 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sbo_name=SD card SL16G
 @{CARD_LIST}=               &{CARD01}    &{CARD02}    &{CARD03}    &{CARD04}    &{CARD05}
 ...                         &{CARD06}
+#
+&{EMMC01}=                  vendor=Samsung    volume=32GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+@{MMC_LIST}=                &{EMMC01}
+
 # -----------------------------------------------------------------------------
 &{USB01}=                   vendor=Kingston    volume=16GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=2
@@ -408,9 +400,9 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD11}
 @{CONFIG33}=                &{RTE41}
 @{CONFIG34}=                &{RTE42}
-@{CONFIG35}=                &{RTE43}
-@{CONFIG36}=                &{RTE44}
-@{CONFIG37}=                &{RTE45}
+@{CONFIG35}=                &{RTE43}    &{EMMC01}
+@{CONFIG36}=                &{RTE44}    &{EMMC01}
+@{CONFIG37}=                &{RTE45}    &{EMMC01}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
 @{CONFIG39}=                &{RTE47}
 @{CONFIG40}=                &{RTE48}
@@ -428,4 +420,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
-...                         @{CONFIG42}
+...                         @{CONFIG42}    @{CONFIG43}

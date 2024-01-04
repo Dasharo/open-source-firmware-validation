@@ -31,18 +31,22 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Both locks are present and enabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Test Make Sure That Flash Locks Are Disabled    ${TRUE}    ${TRUE}
 
 Both locks are present and disabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Test Make Sure That Flash Locks Are Disabled    ${FALSE}    ${FALSE}
 
 BIOS lock is enabled, SMM protection is disabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Test Make Sure That Flash Locks Are Disabled    ${TRUE}    ${FALSE}
 
 BIOS lock is disabled, SMM protection is enabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Test Make Sure That Flash Locks Are Disabled    ${FALSE}    ${TRUE}
 
 
@@ -59,7 +63,7 @@ Test Make Sure That Flash Locks Are Disabled
     Save Changes
     Reenter Menu
     Set Option State    ${security_menu}    Enable SMM BIOS write    ${smm_lock_init}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Sleep    5s
 
     Make Sure That Flash Locks Are Disabled
