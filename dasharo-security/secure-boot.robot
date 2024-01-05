@@ -236,9 +236,9 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
 SBO009.001 Attempt to boot file signed for intermediate certificate
     [Documentation]    This test verifies that a file signed with an
     ...    intermediate certificate can be executed.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO009.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO009.001 not supported
     Download ISO And Mount As USB
     ...    ${DL_CACHE_DIR}/${INTERMEDIATE_NAME}
     ...    ${INTERMEDIATE_URL}
@@ -388,9 +388,9 @@ SBO010.006 Check support for ecdsa521 signed certificates
 SBO011.001 Attempt to enroll expired certificate and boot signed image
     [Documentation]    This test verifies that an expired certificate can be
     ...    used to verify booted image.
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO011.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO011.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO011.001 not supported
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/${EXPIRED_NAME}    ${EXPIRED_URL}    ${EXPIRED_SHA256}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -412,9 +412,9 @@ SBO011.001 Attempt to enroll expired certificate and boot signed image
 SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     [Documentation]    This test verifies that OS boots after enrolling keys
     ...    and signing system from inside
-    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO009.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO009.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO009.001 not supported
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO012.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO012.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO012.001 not supported
 
     Power On
     # 1. Make sure we are in Setup Mode
