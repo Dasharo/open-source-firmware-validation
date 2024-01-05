@@ -385,9 +385,9 @@ SBO010.006 Check support for ecdsa521 signed certificates
     ${out}=    Execute File In UEFI Shell    hello_ecdsa521.efi
     Should Contain    ${out}    Hello, world!
 
-SBO011.001 Attempt to enroll expired certificate
-    [Documentation]    This test verifies that an expired certificate can/cannot
-    ...    be enrolled.
+SBO011.001 Attempt to enroll expired certificate and boot signed image
+    [Documentation]    This test verifies that an expired certificate can be
+    ...    used to verify booted image.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
@@ -407,7 +407,8 @@ SBO011.001 Attempt to enroll expired certificate
     ${out}=    Execute File In UEFI Shell    hello.efi
     Should Contain    ${out}    Access Denied
     ${out}=    Execute File In UEFI Shell    hello-signed-with-expired-cert.efi
-    Should Contain    ${out}    Hello, world!
+    Should Contain    ${out}    Access Denied
+
 
 *** Keywords ***
 Prepare Test Files
