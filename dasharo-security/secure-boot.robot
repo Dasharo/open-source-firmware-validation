@@ -278,7 +278,7 @@ SBO010.001 Check support for rsa2k signed certificates
     ${out}=    Execute File In UEFI Shell    hello_rsa2k.efi
     Should Contain    ${out}    Hello, world!
 
-SBO009.002 Check support for rsa3k signed certificates
+SBO010.002 Check support for rsa3k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:3072 -subj "/CN=DB-RSA3072/" -keyout DB-RSA3072.key -out DB-RSA3072.pem -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-RSA3072.cer -out DB-RSA3072.der`
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/${RSA3_K_TEST_NAME}    ${RSA3_K_TEST_URL}    ${RSA3_K_TEST_SHA256}
@@ -297,7 +297,7 @@ SBO009.002 Check support for rsa3k signed certificates
     ${out}=    Execute File In UEFI Shell    hello_rsa3k.efi
     Should Contain    ${out}    Hello, world!
 
-SBO009.003 Check support for rsa4k signed certificates
+SBO010.003 Check support for rsa4k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:4096 -subj "/CN=DB-RSA4096/" -keyout DB-RSA4096.key -out DB-RSA4096.pem -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-RSA4096.cer -out DB-RSA4096.der`
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/${RSA4_K_TEST_NAME}    ${RSA4_K_TEST_URL}    ${RSA4_K_TEST_SHA256}
@@ -316,7 +316,7 @@ SBO009.003 Check support for rsa4k signed certificates
     ${out}=    Execute File In UEFI Shell    hello_rsa4k.efi
     Should Contain    ${out}    Hello, world!
 
-SBO009.004 Check support for ecdsa256 signed certificates
+SBO010.004 Check support for ecdsa256 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -subj "/CN=DB-ECDSA256/" -keyout DB-ECDSA256.key
     ...    -out DB-ECDSA256.crt -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA256.cer -out DB-ECDSA256.der`
@@ -339,7 +339,7 @@ SBO009.004 Check support for ecdsa256 signed certificates
     ${out}=    Execute File In UEFI Shell    hello_ecdsa256.efi
     Should Contain    ${out}    Hello, world!
 
-SBO009.005 Check support for ecdsa384 signed certificates
+SBO010.005 Check support for ecdsa384 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-384 -subj "/CN=DB-ECDSA384/" -keyout DB-ECDSA384.key
     ...    -out DB-ECDSA384.crt -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA384.cer -out DB-ECDSA384.der`
@@ -362,7 +362,7 @@ SBO009.005 Check support for ecdsa384 signed certificates
     ${out}=    Execute File In UEFI Shell    hello_ecdsa384.efi
     Should Contain    ${out}    Hello, world!
 
-SBO009.006 Check support for ecdsa521 signed certificates
+SBO010.006 Check support for ecdsa521 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-521 -subj "/CN=DB-ECDSA521/" -keyout DB-ECDSA521.key
     ...    -out DB-ECDSA521.crt -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA521.cer -out DB-ECDSA521.der`
