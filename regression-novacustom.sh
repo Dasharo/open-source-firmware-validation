@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
 # Uncomment one of these
-CONFIG="novacustom-nv41pz"
+CONFIG="novacustom-ns50mu"
+# CONFIG="novacustom-nv41pz"
 # CONFIG="novacustom-nv41mz"
+# CONFIG="novacustom-nv41mb"
 # CONFIG="novacustom-ns70mu"
 # CONFIG="novacustom-ns70pu"
 
 RTE_IP=192.168.4.180
 
-DEVICE_IP=192.168.4.225
+DEVICE_IP=192.168.4.188
 
-FW_FILE="novacustom_nv4x_adl_v1.7.1.rom"
+FW_FILE="novacustom_ns5x_tgl_v1.5.2_full.rom"
 
 if [ ! -f "${FW_FILE}" ]; then
     echo "${FW_FILE} not found. Please provide correct FW_FILE value"
@@ -42,11 +44,11 @@ handle_ctrl_c() {
 trap 'handle_ctrl_c' SIGINT
 
 compatibility_tests=(
+  # "efi"
   # "custom-boot-menu-key"
   # "uefi-shell"
   # "network-boot"
-  # "efi"
-  # "reset-to-defaults"
+  # # "reset-to-defaults"
   # "display-ports-and-lcd-support"
   # "usb-hid-and-msc-support"
   # "dmidecode"
@@ -55,11 +57,14 @@ compatibility_tests=(
   # "nvme-support"
   # "usb-camera"
   # "sd-card-reader"
+  # # "usb-type-c-semiauto"
   # "usb-type-c"
   # "cpu-status"
   # "ec-and-super-IO"
   # "platform-suspend-and-resume"
   # "firmware-bulding-locally"
+  # "logo-customization-functionality"
+  # "nvidia"
 )
 
 security_tests=(
@@ -68,30 +73,30 @@ security_tests=(
   # "uefi-password"
   # "tpm-support"
   # "measured-boot"
-  # "verified-boot"
-  # "network-stack"
-  # "me-neuter"
-  # "early-boot-dma-protection"
-  # "bios-lock"
-  # "smm-bios-write-protection"
-  # "wifi-bluetooth-switch"
-  # "camera-switch"
+  # # "verified-boot"
+  "network-stack"
+  "me-neuter"
+  "early-boot-dma-protection"
+  "bios-lock"
+  "smm-bios-write-protection"
+  "wifi-bluetooth-switch"
+  "camera-switch"
+)
+
+stability_tests=(
+  "m2-wifi"
+  "network-interface-after-suspend"
+  "nvme-detection"
+  "tpm-detect"
+  "usb-type-a-devices-detection"
 )
 
 performance_tests=(
   "platform-stability"
-  # "boot-measure"
-  # "custom-fan-curve"
-  # "cpu-temperature"
-  # "cpu-frequency"
-)
-
-stability_tests=(
-  # "m2-wifi"
-  # "network-interface-after-suspend"
-  # "nvme-detection"
-  # "tpm-detect"
-  # "usb-type-a-devices-detection"
+  "boot-time-measure"
+  "custom-fan-curve"
+  "cpu-temperature"
+  "cpu-frequency"
 )
 
 OS=ubuntu
@@ -106,12 +111,12 @@ for test in "${security_tests[@]}"; do
     execute_robot "security" "$test"
 done
 
-# Performance tests
-for test in "${performance_tests[@]}"; do
-    execute_robot "performance" "$test"
-done
-
 # Stability tests
 for test in "${stability_tests[@]}"; do
     execute_robot "stability" "$test"
+done
+
+# Performance tests
+for test in "${performance_tests[@]}"; do
+    execute_robot "performance" "$test"
 done

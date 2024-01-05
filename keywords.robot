@@ -201,11 +201,13 @@ Open Connection And Log In
     Check Provided Ip
     # FIXME: some stands do not have RTE connected, this should be better handled
     # by reworking variables.robot
-    IF    '${CONFIG}' != 'qemu' and '${CONFIG}' != 'novacustom-nv41pz'
-        SSHLibrary.Set Default Configuration    timeout=60 seconds
-        SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
-        SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-        RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
+    IF    '${CONFIG}' != 'qemu'
+        IF    not "novacustom" in "${CONFIG}"
+            SSHLibrary.Set Default Configuration    timeout=60 seconds
+            SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
+            SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
+            RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
+        END
     END
     IF    'sonoff' == '${POWER_CTRL}'
         ${sonoff_ip}=    Get Current RTE Param    sonoff_ip

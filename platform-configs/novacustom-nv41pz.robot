@@ -7,7 +7,7 @@ ${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   13541
-${FLASH_SIZE}=                                      ${16*1024*1024}
+${FLASH_SIZE}=                                      ${32*1024*1024}
 ${TIANOCORE_STRING}=                                to boot directly
 ${BOOT_MENU_KEY}=                                   F7
 ${SETUP_MENU_KEY}=                                  F2
@@ -32,8 +32,8 @@ ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${MAX_CPU_TEMP}=                                    77
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
-${DEVICE_IP}=                                       192.168.4.240
-${DEVICE_MAC}=                                      d4:93:90:16:94:92
+${DEVICE_IP}=                                       192.168.4.149
+${DEVICE_MAC}=                                      d4:93:90:10:3c:88
 ${WOL_INTERFACE}=                                   enp46s0
 
 # Platform flashing flags

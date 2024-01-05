@@ -1,14 +1,25 @@
+*** Settings ***
+Resource    ../os-config/ubuntu-credentials.robot
+
+
 *** Variables ***
-${DUT_CONNECTION_METHOD}=                           SSH
+${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
+${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
-${RTE_S2_N_PORT}=                                   ${EMPTY}
+${RTE_S2_N_PORT}=                                   13541
 ${FLASH_SIZE}=                                      ${16*1024*1024}
-${TIANOCORE_KEY}=                                   ${F2}
-${TIANOCORE_STRING}=                                ENTER
-${TIANOCORE_BOOT_MENU_KEY}=                         ${F7}
-${SETUP_MENU_KEY}=                                  ${EMPTY}
+${TIANOCORE_STRING}=                                to boot directly
+${BOOT_MENU_KEY}=                                   F7
+${SETUP_MENU_KEY}=                                  F2
+${BOOT_MENU_STRING}=                                Please select boot device:
+${SETUP_MENU_STRING}=                               Select Entry
+${IPXE_BOOT_ENTRY}=                                 iPXE Network Boot
+${EDK2_IPXE_CHECKPOINT}=                            iPXE Shell
+${EDK2_IPXE_START_POS}=                             1
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             Intel(R) Core(TM) i7-1165G7 CPU
+${POWER_CTRL}=                                      sonoff
+${WAKE_CTRL}=                                       wol
 ${INITIAL_CPU_FREQUENCY}=                           2800
 ${DRAM_SIZE}=                                       ${8192}
 ${DEF_CORES}=                                       4
@@ -16,43 +27,48 @@ ${DEF_THREADS}=                                     2
 ${DEF_CPU}=                                         8
 ${DEF_ONLINE_CPU}=                                  0-7
 ${DEF_SOCKETS}=                                     2
-${IPXE_BOOT_ENTRY}=                                 iPXE Network boot
 ${IPXE_STRING}=                                     Network Boot Firmware
 ${INITIAL_FAN_RPM}=                                 6995
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
+${MAX_CPU_TEMP}=                                    82
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
-
+${DEVICE_IP}=                                       192.168.4.188
+${DEVICE_MAC}=                                      d4:93:90:0c:23:b8
+${WOL_INTERFACE}=                                   enp46s0
 # Platform flashing flags
 ${FLASHING_BASIC_METHOD}=                           fwupd
 
 # These were added    for clevo tests
-${DEVICE_UBUNTU_USERNAME}=                          user
+${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
 ${DEVICE_WINDOWS_USERNAME}=                         user
-${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
+${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_UBUNTU_HOSTNAME}=                          NV41MZ
+${DEVICE_UBUNTU_HOSTNAME}=                          ${UBUNTU_HOSTNAME}
+${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
 ${CLEVO_BATTERY_CAPACITY}=                          3200*1000
 ${DEVICE_NVME_DISK}=                                Non-Volatile memory controller
 ${CLEVO_DISK}=                                      Samsung SSD 980 PRO
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
-${CLEVO_USB_STICK}=                                 USB SanDisk 3.2Gen1
+${USB_STICK}=                                       USB SanDisk 3.2Gen1
+${WIN_USB_STICK}=                                   ${SPACE*1}USB${SPACE*2}SanDisk 3.2Gen1
 ${CLEVO_USB_C_HUB}=                                 4-port
 ${DEVICE_AUDIO1}=                                   ALC293
 ${DEVICE_AUDIO2}=                                   Tigerlake HDMI
 ${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
-${SD_CARD_VENDOR}=                                  TS-RDF5A
-${SD_CARD_MODEL}=                                   Transcend
-${WIN_USB_STICK}=                                   ${SPACE*1}USB${SPACE*2}SanDisk 3.2Gen1
 ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Wi-Fi 6 AX201 (rev 20)
+${BLUETOOTH_CARD_UBUNTU}=                           Intel Corp. AX201 Bluetooth
+${SD_CARD_VENDOR}=                                  TS-RDF5A
+${SD_CARD_MODEL}=                                   Transcend
 ${USB_MODEL}=                                       USB Flash Memory
 ${EXTERNAL_HEADSET}=                                USB PnP Audio Device
+${WEBCAM_UBUNTU}=                                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.4.0
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.5.2
 ${DMIDECODE_PRODUCT_NAME}=                          NS50_70MU
-${DMIDECODE_RELEASE_DATE}=                          N/A
+${DMIDECODE_RELEASE_DATE}=                          12/13/2023
 ${DMIDECODE_MANUFACTURER}=                          Notebook
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                Not Applicable
@@ -63,13 +79,11 @@ ${DMIDECODE_TYPE}=                                  Notebook
 # regexp for prompt
 # prompt contains path - it can be either ~ when in home directory, or it can
 # be a full path
-${DEVICE_UBUNTU_USER_PROMPT}=                       user@user-NS50-70MU:~$
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@user-NS50-70MU:/home/user#
-${CLEVO_WINDOWS_USER_PROMPT}=                       PS C:\Users\user>
-${CLEVO_WINDOWS_ROOT_PROMPT}=                       PS C:\Users\user>
+${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@ubuntu-NS50-70MU:~$
+${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@ubuntu-NS50-70MU:/home/ubuntu#
 
 # Supported test environments
-${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
@@ -91,7 +105,7 @@ ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
 ${HEADS_PAYLOAD_SUPPORT}=                           ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
-${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${FALSE}
+${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
 ${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${FALSE}
 ${DEVICE_TREE_SUPPORT}=                             ${FALSE}
@@ -124,14 +138,14 @@ ${SERIAL_FROM_MAC}=                                 ${FALSE}
 ${FIRMWARE_NUMBER_VERIFICATION}=                    ${TRUE}
 ${FIRMWARE_FROM_BINARY}=                            ${FALSE}
 ${PRODUCT_NAME_VERIFICATION}=                       ${TRUE}
-${RELEASE_DATE_VERIFICATION}=                       ${FALSE}
+${RELEASE_DATE_VERIFICATION}=                       ${TRUE}
 ${RELEASE_DATE_FROM_SOL}=                           ${FALSE}
 ${MANUFACTURER_VERIFICATION}=                       ${TRUE}
 ${VENDOR_VERIFICATION}=                             ${TRUE}
 ${FAMILY_VERIFICATION}=                             ${TRUE}
 ${TYPE_VERIFICATION}=                               ${TRUE}
 ${HARDWARE_WP_SUPPORT}=                             ${FALSE}
-${CPU_TESTS_SUPPORT}=                               ${FALSE}
+${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${L2_CACHE_SUPPORT}=                                ${FALSE}
 ${L3_CACHE_SUPPORT}=                                ${FALSE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
@@ -159,7 +173,7 @@ ${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${TRUE}
 ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${TRUE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
@@ -170,16 +184,16 @@ ${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
-${SECURE_BOOT_SUPPORT}=                             ${FALSE}
+${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${FALSE}
-${USB_MASS_STORAGE_SUPPORT}=                        ${FALSE}
-${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
-${BIOS_LOCK_SUPPORT}=                               ${FALSE}
-${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
-${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
-${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
-${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
-${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
+${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
+${BIOS_LOCK_SUPPORT}=                               ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
+${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
+${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
+${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
+${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}
@@ -205,7 +219,7 @@ ${WINDOWS_BOOTING}=                                 ${FALSE}
 ${M2_WIFI_SUPPORT}=                                 ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                          ${TRUE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
-${TPM_DETECT_SUPPORT}=                              ${FALSE}
+${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
 # Supported OS installation variants
@@ -280,13 +294,24 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
+    Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    1s
-    RteCtrl Power Off
-    Sleep    7s
-    # read the old output
-    SSH.Read
-    RteCtrl Power On
+    Power Cycle On
+
+# TODO make these generic
+
+Configure Wake In Linux
+    [Documentation]    Keyword prepares platform for wake by platform specific
+    ...    wake method.
+    # Enable wake by magic packet
+    Execute Linux Command    ethtool -s ${WOL_INTERFACE} wol g
+
+Wake Up
+    [Documentation]    Keyword wakes up DUT from sleep states, including S5
+    ...    (warmboot). For example: power button press via RTE GPIO or Wake on
+    ...    LAN.
+    # TODO Do not run `wol` on host - does not work across subnets! TODO
+    Run    wol ${DEVICE_MAC}
 
 Flash Device Via Internal Programmer
     [Documentation]    Keyword allows to flash Device Under Test firmware by
