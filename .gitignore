@@ -1,6 +1,7 @@
 robot-venv
 robotframework
 minicom.cap
+qemu-data
 *.xml
 *.html
 *.log
