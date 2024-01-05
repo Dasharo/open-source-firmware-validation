@@ -429,14 +429,14 @@ SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     Switch To Root User
 
     # 2. Remove old keys then generate and enroll new keys
-    Remove Old Secure Boot Keys
-    ${sb_status}=    Generate Secure Boot Keys
+    Remove Old Secure Boot Keys In OS
+    ${sb_status}=    Generate Secure Boot Keys In OS
     Should Be True    ${sb_status}
-    ${sb_status}=    Enroll Secure Boot Keys
+    ${sb_status}=    Enroll Secure Boot Keys In OS
     Should Be True    ${sb_status}
 
     # 3. Sign all components
-    Sign All Boot Components
+    Sign All Boot Components In OS
     Execute Reboot Command
 
     # 4. Enable Secure Boot
