@@ -206,19 +206,19 @@ can greatly increase the development speed:
 
 ### Booting
 
-Following script assume that you have `OVMF_CODE.fd` and `OVMF_VARS.fd` in you
+Following script assume that you have `OVMF_CODE.fd` and `OVMF_VARS.fd` in your
 current working directory. If those binaries will not be found script will
 download latest release of Dasharo (UEFI) for QEMU Q35.
 
-If you want to use script in development workflow, most likely you have already built
-Dasharo (UEFI) for QEMU Q35 according to
-[this instruction](https://docs.dasharo.com/variants/qemu_q35/building-manual/).
-In that case you would like to provide directory with Dasharo (UEFI) binaries as
+If you want to use script in development workflow, most likely you have already
+built Dasharo (UEFI) for QEMU Q35 according to [this
+instruction](https://docs.dasharo.com/variants/qemu_q35/building-manual/). In
+that case you would like to provide directory with Dasharo (UEFI) binaries as
 environment variable (`DIR`).
 
 You may also decide to not use graphics user interface for QEMU. In that case
-choose mode `nographic`. If you run QEMU on a remote machine you may consider
-to use mode `vnc` with default port for graphical output being `5900`.
+choose mode `nographic`. If you run QEMU on a remote machine you may consider to
+use mode `vnc` with default port for graphical output being `5900`.
 
 Dasharo (UEFI) in QEMU can be started with:
 
@@ -227,9 +227,9 @@ Dasharo (UEFI) in QEMU can be started with:
 ```
 
 In this mode, a graphical QEMU window would popup, so you can observe the test
-flow, or control it manually. The actual testing will happen over
-serial, which is exposed via telnet. For more modes and options, please refer
-to the script's help text.
+flow, or control it manually. The actual testing will happen over serial, which
+is exposed via telnet. For more modes and options, please refer to the script's
+help text.
 
 You may also build customized Dasharo firmware for QEMU (e.g. with some Dasharo
 options enabled or disabled). In such a case, please refer to:
@@ -288,22 +288,22 @@ and add as guidelines:
 ### Code style
 
 1. It is automatically handled by
-  [robotidy](https://robotidy.readthedocs.io/en/stable/). The current rules
-  can be found
-  [here](https://github.com/Dasharo/open-source-firmware-validation/blob/main/.robotidy).
+   [robotidy](https://robotidy.readthedocs.io/en/stable/). The current rules can
+   be found
+   [here](https://github.com/Dasharo/open-source-firmware-validation/blob/main/.robotidy).
 
 ### Keywords
 
 1. No new keywords in `keywords.robot` will be accepted
 * new keywords must be placed in a logically divided modules, under `lib/`
-      directory
+  directory
     - see
         [openbmc-test-automation](https://github.com/openbmc/openbmc-test-automation/tree/master/lib)
       as a reference
 * if you need to modify something in `keywords.robot`, you should create a new
-      module under `lib/`
+  module under `lib/`
 * if you add new keyword module, you should review the `keywords.module` and
-      move related keywords there as well, if suitable
+  move related keywords there as well, if suitable
 1. If keyword from keywords.robot can be reused or improved, do that instead
    of creating a new one
    - keyword duplication will not be accepted,
