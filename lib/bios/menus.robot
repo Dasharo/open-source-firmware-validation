@@ -537,8 +537,7 @@ Tianocore Reset System
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         FAIL    OpenBMC not yet supported for interfacing with TianoCore
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        # TODO: Untested yet.
-        @{reset_combo}=    AltRight    ControlRight    Delete
+        @{reset_combo}=    Create List    AltRight    ControlRight    Delete
         Key Combination PiKVM    ${reset_combo}
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
