@@ -7,9 +7,6 @@ Resource            ../keys.robot
 
 
 *** Keywords ***
-# TODO: Most options are split in 2 lines either because name is too long or
-#    they have too many arguments. Get TCG2 Menu Construction currently
-#    returns those as different list items
 Get TCG2 Menu Construction
     [Documentation]    Get TCG2 Menu Construction.
     [Arguments]    ${checkpoint}=Esc=Exit
@@ -35,7 +32,8 @@ Get TCG2 Menu Construction
     RETURN    ${menu_dict}
 
 Enter TCG2 Menu
-    [Documentation]    This keyword enters TCG2 menu after the platform was powered on.
+    [Documentation]    This keyword enters TCG2 menu after the platform was
+    ...    powered on.
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -43,7 +41,8 @@ Enter TCG2 Menu
     Enter Submenu From Snapshot    ${device_mgr_menu}    TCG2 Configuration
 
 Enter TCG2 Menu And Return Construction
-    [Documentation]    This keyword enters TCG2 menu after the platform was powered on. Returns TCG2 menu construction.
+    [Documentation]    This keyword enters TCG2 menu after the platform was
+    ...    powered on. Returns TCG2 menu construction.
     Enter TCG2 Menu
     ${sb_menu}=    Get TCG2 Menu Construction
     RETURN    ${sb_menu}
