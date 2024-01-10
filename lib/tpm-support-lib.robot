@@ -9,6 +9,11 @@ Resource            ../keys.robot
 *** Keywords ***
 Get TCG2 Menu Construction
     [Documentation]    Get TCG2 Menu Construction.
+    # TODO: Keyword should probably work for many other menus with minimal
+    #    changes. @{additional_remove} should be argument or contain all
+    #    possible values to be removed for every menu (there are not that
+    #    many). Number of pages could be determined by presence of down
+    #    arrow.
     [Arguments]    ${checkpoint}=Esc=Exit
     @{menu}=    Create List
     @{additional_remove}=    Create List
