@@ -257,11 +257,11 @@ TPMCMD013.002 Sealing and Unsealing with Policy - PCR Only (Ubuntu 22.04)
     Execute Linux Command    echo "PCR policy sealed data" > seal.dat
     ${out1}=    Execute Linux Command    cat seal.dat
     Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
-    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3" -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
     Execute Linux Tpm2 Tools Command    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat
     Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
     Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
-    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3" -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
     ${out2}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat -c seal.ctx
     Should Be Equal As Strings    ${out1}    ${out2}
 
@@ -272,13 +272,13 @@ TPMCMD013.003 Sealing and unsealing with Policy - Password and PCR (Ubuntu 22.04
     ${out1}=    Execute Linux Command    cat seal.dat
     Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
     Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
-    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3" -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
     Execute Linux Tpm2 Tools Command
     ...    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat -p policypswd
     Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
     Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
     Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
-    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3" -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
     ${out2}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat+policypswd -c seal.ctx
     Should Be Equal As Strings    ${out1}    ${out2}
 
