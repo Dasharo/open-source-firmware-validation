@@ -237,7 +237,8 @@ TPMCMD012.001 Sealing and Unsealing the file without Policy (Ubuntu 22.04)
     ${out2}=    Execute Linux Command    cat unsealed.dat
 
 TPMCMD013.001 Sealing and Unsealing with Policy - Password Only (Ubuntu 22.04)
-    [Documentation]    Check whether the TPM supports sealing and unsealing using password policy.
+    [Documentation]    Check whether the TPM supports sealing and unsealing
+    ...    using password policy.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
     Execute Linux Command    echo "password policy sealed data" > seal.dat
     ${out1}=    Execute Linux Command    cat seal.dat
@@ -252,7 +253,8 @@ TPMCMD013.001 Sealing and Unsealing with Policy - Password Only (Ubuntu 22.04)
     Should Be Equal As Strings    ${out1}    ${out2}
 
 TPMCMD013.002 Sealing and Unsealing with Policy - PCR Only (Ubuntu 22.04)
-    [Documentation]    Check whether the TPM supports sealing and unsealing using PCR policy.
+    [Documentation]    Check whether the TPM supports sealing and unsealing
+    ...    using PCR policy.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
     Execute Linux Command    echo "PCR policy sealed data" > seal.dat
     ${out1}=    Execute Linux Command    cat seal.dat
@@ -266,7 +268,8 @@ TPMCMD013.002 Sealing and Unsealing with Policy - PCR Only (Ubuntu 22.04)
     Should Be Equal As Strings    ${out1}    ${out2}
 
 TPMCMD013.003 Sealing and unsealing with Policy - Password and PCR (Ubuntu 22.04)
-    [Documentation]    Check whether the TPM supports sealing and unsealing using PCR and password policy at the same time.
+    [Documentation]    Check whether the TPM supports sealing and unsealing
+    ...    using PCR and password policy at the same time.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
     Execute Linux Command    echo "policy sealed data" > seal.dat
     ${out1}=    Execute Linux Command    cat seal.dat
