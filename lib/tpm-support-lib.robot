@@ -112,8 +112,9 @@ Take Ownership Over TPM2 Module
 
 Check Ownership Of TPM2 Module
     [Documentation]    This keyword run set of commands to check ownership of
-    ...    TPM2 module.
-    # Check ownership
+    ...    TPM2 module. ${state} is a status of ownership, 0 means that it is
+    ...    taken, 1 means that there is no ownership.
+    [Arguments]    ${state}
     Execute Linux Command    ! tpm2_changeauth --quiet -c owner 2>/dev/null
     ${out}=    Execute Linux Command    echo $?
-    Should Be Equal    ${out}    0\n
+    Should Be Equal    ${out}    ${state}\n
