@@ -3,6 +3,7 @@ Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
 Resource    ../os-config/ubuntu-credentials.robot
 Resource    ../lib/bios/menus-dasharo.robot
 Resource    ../lib/secure-boot-lib-dasharo.robot
+Resource    ../lib/tpm-support-lib-dasharo.robot
 
 
 *** Variables ***
