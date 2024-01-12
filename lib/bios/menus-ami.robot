@@ -117,11 +117,17 @@ Boot Option
     END
     IF    ${found} == ${FALSE}    Fail    Boot option not found
 
+Boot Operating System
+    [Documentation]    Keyword allows boot operating system installed on the
+    ...    DUT. Takes as an argument operating system name.
+    [Arguments]    ${operating_system}
+    Enter Boot Menu
+    Select Ami Option    ${operating_system}    boot_frame=${TRUE}
+
 Boot System Or From Connected Disk
     [Documentation]    Tries to boot ${system_name}.
     [Arguments]    ${system_name}
-    Enter Boot Menu
-    Select Ami Option    ${system_name}    boot_frame=${TRUE}
+    Boot Operating System    ${system_name}
 
 Select Ami Option
     [Documentation]    Selects option from list of options in AMI frame.
