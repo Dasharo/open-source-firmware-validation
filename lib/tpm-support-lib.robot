@@ -100,3 +100,20 @@ Convert List Of Pairs Into List Of Strings
         Append To List    ${new_list}    ${one_string}
     END
     RETURN    ${new_list}
+
+Take Ownership Over TPM2 Module
+    [Documentation]    This keyword run set of commands to take ownership over
+    ...    TPM2 module.
+    Execute Linux Tpm2 Tools Command    tpm2_changeauth --quiet -c owner pass
+    Execute Linux Tpm2 Tools Command    tpm2_changeauth --quiet -c lockout pass
+    Execute Linux Command    tpm2_createprimary -Q --hierarchy=o --key-context=/tmp/test --key-auth=pass2 -P pass
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol -Q -C o -P pass -c /tmp/test 0x81000001
+    Execute Linux Command    rm /tmp/test
+
+Check Ownership Of TPM2 Module
+    [Documentation]    This keyword run set of commands to check ownership of
+    ...    TPM2 module.
+    # Check ownership
+    Execute Linux Command    ! tpm2_changeauth --quiet -c owner 2>/dev/null
+    ${out}=    Execute Linux Command    echo $?
+    Should Be Equal    ${out}    0\n
