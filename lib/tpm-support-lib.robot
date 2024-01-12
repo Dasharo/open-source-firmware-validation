@@ -53,6 +53,43 @@ Enter TCG2 Menu And Return Construction
     ${sb_menu}=    Get TCG2 Menu Construction
     RETURN    ${sb_menu}
 
+Search TCG2 Menu And Enter Option
+    [Documentation]    This keyword enters TCG2 menu after the platform was
+    ...    powered on and execute Enter on given option.
+    [Arguments]    ${option}    ${checkpoint}=Esc=Exit
+    @{additional_remove}=    Create List
+    ...    TPM2 Physical Presence Operation
+    ...    TCG2 Protocol Configuration
+    Enter TCG2 Menu
+    # Read screen and go to next page
+    FOR    ${i}    IN RANGE    3
+        ${out}=    Read From Terminal Until    ${checkpoint}
+        ${menu}=    Parse TCG2 Menu Snapshot Into Construction
+        ...    ${out}
+        ...    ${additional_remove}
+        @{new_menu}=    Convert List Of Pairs Into List Of Strings    ${menu}
+        ${status}    ${index}=    Run Keyword And Ignore Error
+        ...    Get Index Of Matching Option In Menu
+        ...    ${new_menu}
+        ...    ${option}
+        IF    '${status}' == 'FAIL'
+            Press Key N Times    1    ${PAGEDOWN}
+        ELSE
+            Run Keyword And Return    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+        END
+    END
+
+Run TPM Clear Procedure
+    [Documentation]    This keyword enters TCG2 menu after the platform was
+    ...    powered on. Returns TCG2 menu construction.
+    [Arguments]    ${checkpoint}=TCG2 Configuration
+    Search TCG2 Menu And Enter Option    TPM2 Operation
+    Press Key N Times And Enter    3    ${ARROW_DOWN}
+    Read From Terminal Until    ${checkpoint}
+    Save Changes And Reset    3    5
+    Read From Terminal Until    Press F12 to clear the TPM
+    Press Key N Times    1    ${F12}
+
 Convert List Of Pairs Into List Of Strings
     [Documentation]    Converts list of (key, value) pairs into list of strings
     ...    made from concatenating key and value parts: "key value"
