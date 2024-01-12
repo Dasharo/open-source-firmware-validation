@@ -1,6 +1,7 @@
 *** Settings ***
 Resource    ../lib/bios/menus-ami.robot
 Resource    ../lib/secure-boot-lib-ami.robot
+Resource    ../lib/tpm-support-lib-ami.robot
 Resource    ../os-config/ubuntu-credentials.robot
 
 
@@ -32,11 +33,9 @@ ${DTS_UEFI_SB_SUPPORT}=                     ${TRUE}
 ${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}=    ${FALSE}
 ${TPM_SUPPORT}=                             ${TRUE}
 ${TPM_DETECT_SUPPORT}=                      ${FALSE}
-${VBOOT_KEYS_GENERATING_SUPPORT}=           ${FALSE}
 ${VERIFIED_BOOT_SUPPORT}=                   ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=             ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                   ${FALSE}
-${ME_NEUTER_SUPPORT}=                       ${FALSE}
 ${USB_STACK_SUPPORT}=                       ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                ${FALSE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=          ${FALSE}
