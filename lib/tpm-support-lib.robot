@@ -8,7 +8,8 @@ Resource            ../keys.robot
 
 *** Keywords ***
 Get TCG2 Menu Construction
-    [Documentation]    Get TCG2 Menu Construction.
+    [Documentation]    Get TCG2 Menu Construction. Returns all 3 pages of menu
+    ...    options. Merges multiline options into one string.
     # TODO: Keyword should probably work for many other menus with minimal
     #    changes. @{additional_remove} should be argument or contain all
     #    possible values to be removed for every menu (there are not that
@@ -33,8 +34,8 @@ Get TCG2 Menu Construction
         Sleep    0.1
         Press Key N Times    1    ${PAGEUP}
     END
-    ${menu_dict}=    Convert List Of Pairs Into Dictionary    ${menu}
-    RETURN    ${menu_dict}
+    @{new_menu}=    Convert List Of Pairs Into List Of Strings    ${menu}
+    RETURN    ${new_menu}
 
 Enter TCG2 Menu
     [Documentation]    This keyword enters TCG2 menu after the platform was
@@ -52,11 +53,13 @@ Enter TCG2 Menu And Return Construction
     ${sb_menu}=    Get TCG2 Menu Construction
     RETURN    ${sb_menu}
 
-Convert List Of Pairs Into Dictionary
-    [Documentation]    Converts list of (key, value) into OrderedDict
+Convert List Of Pairs Into List Of Strings
+    [Documentation]    Converts list of (key, value) pairs into list of strings
+    ...    made from concatenating key and value parts: "key value"
     [Arguments]    ${list}
-    ${dict}=    Evaluate    collections.OrderedDict()    collections
+    @{new_list}=    Create List
     FOR    ${kvp}    IN    @{list}
-        Set To Dictionary    ${dict}    ${kvp}[0]    ${kvp}[1]
+        ${one_string}=    Catenate    ${kvp}[0]    ${SPACE}    ${kvp}[1]
+        Append To List    ${new_list}    ${one_string}
     END
-    RETURN    ${dict}
+    RETURN    ${new_list}
