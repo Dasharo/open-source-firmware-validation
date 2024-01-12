@@ -1,6 +1,7 @@
 *** Settings ***
 Resource    ../lib/bios/menus-dasharo.robot
 Resource    ../lib/secure-boot-lib-dasharo.robot
+Resource    ../lib/tpm-support-lib-dasharo.robot
 
 
 *** Variables ***
