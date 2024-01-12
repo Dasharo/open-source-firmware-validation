@@ -513,3 +513,17 @@ Add Boot Option
     Press Enter
     Enter Submenu From Snapshot
     ...    ${setting_bootoption_submenu}    Commit Changes and Exit
+Boot Operating System
+    [Documentation]    Keyword allows boot operating system installed on the
+    ...    DUT. Takes as an argument operating system name.
+    [Arguments]    ${operating_system}
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+    Set Local Variable    ${IS_SYSTEM_INSTALLED}    ${FALSE}
+    Enter Boot Menu
+    ${menu_construction}=    Get Boot Menu Construction
+    ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
+    IF    not ${is_system_installed}
+        FAIL    Test case marked as Failed\nRequested OS (${operating_system}) has not been installed
+    END
+    ${system_index}=    Get Index From List    ${menu_construction}    ${operating_system}
+    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}

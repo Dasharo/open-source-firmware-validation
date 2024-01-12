@@ -72,6 +72,7 @@ Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set DUT Response Timeout    60s
         Read From Terminal Until    login:
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
@@ -1710,21 +1711,6 @@ Check Internet Connection On Windows
     [Documentation]    Check internet connection on Windows.
     ${out}=    Execute Command In Terminal    ping google-public-dns-a.google.com
     Should Contain    ${out}    (0% loss)
-
-Boot Operating System
-    [Documentation]    Keyword allows boot operating system installed on the
-    ...    DUT. Takes as an argument operating system name.
-    [Arguments]    ${operating_system}
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Set Local Variable    ${IS_SYSTEM_INSTALLED}    ${FALSE}
-    Enter Boot Menu
-    ${menu_construction}=    Get Boot Menu Construction
-    ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
-    IF    not ${is_system_installed}
-        FAIL    Test case marked as Failed\nRequested OS (${operating_system}) has not been installed
-    END
-    ${system_index}=    Get Index From List    ${menu_construction}    ${operating_system}
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
 
 Remove Entry From List
     [Arguments]    ${input_list}    ${regexp}
