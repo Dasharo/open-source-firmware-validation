@@ -172,7 +172,7 @@ TPM004.001 Check TPM Clear procedure
     Switch To Root User
     Detect Or Install Package    tpm2-tools
     Take Ownership Over TPM2 Module
-    Check Ownership Of TPM2 Module
+    Check Ownership Of TPM2 Module    0
 
     Power On
     Run TPM Clear Procedure
@@ -180,4 +180,4 @@ TPM004.001 Check TPM Clear procedure
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Check Ownership Of TPM2 Module
+    Check Ownership Of TPM2 Module    1
