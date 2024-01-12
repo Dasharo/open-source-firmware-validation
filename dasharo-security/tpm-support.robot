@@ -74,8 +74,8 @@ TPM001.004 TPM Support (BIOS)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    ${current_device}=    Get From Dictionary    ${menu}    Current TPM Device
-    Should Contain Any    ${current_device}    TPM 2.0    TPM 1.2
+    ${current_device}=    Get Matches    ${menu}    Current TPM Device*
+    Should Contain Match    ${current_device}    regexp=.* (TPM 2\.0|TPM 1\.2)
 
 TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
@@ -157,8 +157,8 @@ TPM004.001 Check TPM Hash Algorithm Support SHA1 (Firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
-    Should Contain    ${hash}    SHA1
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA1*
 
 TPM004.002 Check TPM Hash Algorithm Support SHA256 (Firmware)
     [Documentation]    This test aims to verify that the TPM supports needed
@@ -167,8 +167,8 @@ TPM004.002 Check TPM Hash Algorithm Support SHA256 (Firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
-    Should Contain    ${hash}    SHA256
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA256*
 
 TPM004.003 Check TPM Hash Algorithm Support SHA384 (Firmware)
     [Documentation]    This test aims to verify that the TPM supports needed
@@ -177,8 +177,8 @@ TPM004.003 Check TPM Hash Algorithm Support SHA384 (Firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
-    Should Contain    ${hash}    SHA384
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA384*
 
 TPM004.004 Check TPM Hash Algorithm Support SHA512 (Firmware)
     [Documentation]    This test aims to verify that the TPM supports needed
@@ -187,8 +187,8 @@ TPM004.004 Check TPM Hash Algorithm Support SHA512 (Firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    ${hash}=    Get From Dictionary    ${menu}    TPM2 Hardware Supported Hash Algorithm
-    Should Contain    ${hash}    SHA512
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA512*
 
 # TPM003.004 Change active PCR banks with TPM PPI (firmware)
 #    [Documentation]    This test aims to verify that the TPM Physical Presence
