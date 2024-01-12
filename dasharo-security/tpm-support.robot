@@ -13,7 +13,6 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../platform-configs/qemu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -160,47 +159,25 @@ TPM003.003 Check TPM Physical Presence Interface (Windows 11)
 
 TPM004.001 Check TPM Clear procedure
     [Documentation]    This test aims to verify whether the TPM Clear procedure
-    ...    works properly
+    ...    works properly, starts with running TPM Clear procudure to ensure
+    ...    correct state of ownership.
     Skip If    not ${TPM_SUPPORT}    TPM004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM004.001 not supported
 
     Power On
+    Run TPM Clear Procedure
+
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Detect Or Install Package    tpm2-tools
+    Take Ownership Over TPM2 Module
+    Check Ownership Of TPM2 Module
 
-    # Take ownership
-    Execute Linux Tpm2 Tools Command    tpm2_changeauth --quiet -c owner pass
-    Execute Linux Tpm2 Tools Command    tpm2_changeauth --quiet -c lockout pass
-    Execute Linux Command    tpm2_createprimary -Q --hierarchy=o --key-context=/tmp/test --key-auth=pass2 -P pass
-    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol -Q -C o -P pass -c /tmp/test 0x81000001
-    Execute Linux Command    rm /tmp/test
-
-    # Check ownership
-    Execute Linux Command    ! tpm2_changeauth --quiet -c owner 2>/dev/null
-    ${out}=    Execute Linux Command    echo $?
-    Should Be Equal    ${out}    0\n
-
-    # Clear TPM
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${tcg2_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_menu}
-    ...    TCG2 Configuration
+    Run TPM Clear Procedure
 
-    Press Key N Times And Enter    15    ${ARROW_DOWN}
-    Press Key N Times And Enter    3    ${ARROW_DOWN}
-    Save Changes And Reset
-    Read From Terminal Until    Press F12 to clear the TPM
-    Press Key N Times    1    ${F12}
-
-    # Check ownership again
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Execute Linux Command    ! tpm2_changeauth --quiet -c owner 2>/dev/null
-    ${out}=    Execute Linux Command    echo $?
-    Should Be Equal    ${out}    1\n
+    Check Ownership Of TPM2 Module
