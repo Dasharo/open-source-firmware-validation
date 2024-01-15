@@ -8,7 +8,7 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/menus-dasharo.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot

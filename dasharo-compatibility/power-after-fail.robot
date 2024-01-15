@@ -13,7 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/menus-dasharo.robot
 Resource            ../lib/power-after-fail-lib.robot
 
 # TODO:

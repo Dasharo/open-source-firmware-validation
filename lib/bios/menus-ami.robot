@@ -153,3 +153,22 @@ Select Ami Option
         ${submenu}=    Read From Terminal Until    ---/
     END
     RETURN    ${submenu}
+
+Enter Advanced Menu
+    [Documentation]    Enters Advanced menu after the platform was
+    ...    powered on
+    ${setup_menu}=    Enter Setup Menu And Return Construction
+    # Main Menu has clock that changes every second.
+    # To read correct menu we first move 2 menus to the right read everything
+    # on serial and go back to Advanced Menu
+    Press Key N Times    2    ${ARROW_RIGHT}
+    Read From Terminal
+    Press Key N Times    1    ${ARROW_LEFT}
+
+Enter Advanced Menu And Return Construction
+    [Documentation]    Enters Advanced menu after the platform was
+    ...    powered on and returns construction.
+    Enter Advanced Menu
+    ${snapshot}=    Read From Terminal Until    ESC: Exit
+    ${menu}=    Get Ami Submenu Construction    ${snapshot}
+    RETURN    ${menu}
