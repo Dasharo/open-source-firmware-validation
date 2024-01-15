@@ -376,14 +376,7 @@ Save Changes
     Sleep    2s
 
 Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...    is how deep user is currently in the settings.
-    ...    ${main_menu_steps_to_reset} means how many times should
-    ...    arrow down be pressed to get to the Reset option in main
-    ...    settings menu
-    # robocop: disable=unused-argument
-    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
-    # robocop: enable
+    [Documentation]    Saves current UEFI settings and restarts.
     Save Changes
     Sleep    1s
     Reset System
