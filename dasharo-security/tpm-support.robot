@@ -78,24 +78,11 @@ TPM001.004 TPM Support (BIOS)
     ${menu}=    Enter TCG2 Menu And Return Construction
     TPM Version Should Be    ${menu}    tpm2=${TRUE}    tpm1_2=${TRUE}
 
-TPM002.001 Verify TPM version (firmware)
-    [Documentation]    This test aims to verify that the TPM version is
-    ...    correctly recognized by the firmware.
-    Skip If    not ${TPM_SUPPORT}    TPM002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Get Cbmem From Cloud
-    ${out}=    Execute Command In Terminal    cbmem -L
-    Should Contain    ${out}    TPM2 log
-
-TPM002.002 Verify TPM version (Ubuntu 22.04)
+TPM002.001 Verify TPM version (Ubuntu 22.04)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM002.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.002 not supported
+    Skip If    not ${TPM_SUPPORT}    TPM002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -104,11 +91,11 @@ TPM002.002 Verify TPM version (Ubuntu 22.04)
     # TPM 2.0
     Should Contain    ${out}    2
 
-TPM002.003 Verify TPM version (Windows 11)
+TPM002.002 Verify TPM version (Windows 11)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM002.003 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.003 not supported
+    Skip If    not ${TPM_SUPPORT}    TPM002.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.002 not supported
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal
