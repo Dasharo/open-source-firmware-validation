@@ -78,6 +78,6 @@ Run TPM Clear Procedure
     Search TCG2 Menu And Enter Option    TPM2 Operation
     Press Key N Times And Enter    3    ${ARROW_DOWN}
     Read From Terminal Until    ${checkpoint}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
     Read From Terminal Until    Press F12 to clear the TPM
     Press Key N Times    1    ${F12}

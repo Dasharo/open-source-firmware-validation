@@ -48,7 +48,7 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Enabled
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -65,7 +65,7 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Disabled (Soft)
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -82,7 +82,7 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Disabled (HAP)
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -100,7 +100,7 @@ MNE006.001 Check Intel ME version (Ubuntu 22.04)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Enabled
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux

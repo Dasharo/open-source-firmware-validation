@@ -37,7 +37,7 @@ EDP001.001 Enable early Boot DMA Protection support
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Early boot DMA Protection    ${TRUE}
-    Save Changes And Reset    3    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -57,7 +57,7 @@ EDP002.001 Disable early Boot DMA Protection support
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Early boot DMA Protection    ${FALSE}
-    Save Changes And Reset    3    4
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User

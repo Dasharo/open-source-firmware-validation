@@ -36,7 +36,7 @@ BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
     Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    7
-    Save Changes And Reset    2    2
+    Save Changes And Reset
 
     ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -57,7 +57,7 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     ...    Boot Maintenance Manager
     Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    7
     Reset To Defaults Tianocore
-    Save Changes And Reset    2    2
+    Save Changes And Reset
 
     ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
