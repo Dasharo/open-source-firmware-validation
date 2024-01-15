@@ -76,7 +76,7 @@ Reset To Default Secure Boot Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     Enter Secure Boot Menu
     ${out}=    Read From Terminal Until    Esc=Exit
@@ -89,7 +89,7 @@ Erase All Secure Boot Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     Enter Secure Boot Menu
     ${out}=    Read From Terminal Until    Esc=Exit
@@ -101,7 +101,7 @@ Secure Boot Menu Parsing With Default Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Should Not Contain    ${sb_menu}    Secure Boot Configuration
@@ -117,7 +117,7 @@ Secure Boot Menu Parsing With Erased Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Should Not Contain    ${sb_menu}    Secure Boot Configuration
@@ -164,7 +164,7 @@ Enable Secure Boot
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_state}=    Return Secure Boot State    ${sb_menu}
@@ -175,7 +175,7 @@ Disable Secure Boot
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_state}=    Return Secure Boot State    ${sb_menu}
@@ -187,14 +187,14 @@ Enable and Disable Secure Boot Multiple Times
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     FOR    ${index}    IN RANGE    5
         Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
-        Save Changes And Reset    2
+        Save Changes And Reset
 
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
         ${sb_state}=    Return Secure Boot State    ${sb_menu}
         Should Contain    ${sb_state}    Enabled
 
         Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
-        Save Changes And Reset    2
+        Save Changes And Reset
 
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
         ${sb_state}=    Return Secure Boot State    ${sb_menu}

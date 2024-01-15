@@ -57,7 +57,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 2. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -70,7 +70,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 4. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -91,7 +91,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 2. Check SB state in OS
     Boot System Or From Connected Disk    ${OS_WINDOWS}
@@ -103,7 +103,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     # 3. Make sure that SB is disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 4. Check SB state in OS
     Boot System Or From Connected Disk    ${OS_WINDOWS}
@@ -127,7 +127,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    GOOD_KEYS    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
     Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
 SBO004.001 Attempt to boot file without the key from Shell (firmware)
@@ -169,7 +169,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    GOOD_KEYS    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
@@ -177,7 +177,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${key_menu}=    Enter Key Management And Return Construction
     Reset To Default Secure Boot Keys    ${key_menu}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File Should Fail    signed-hello.efi    GOOD_KEYS
 
@@ -205,7 +205,7 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    INTERMED    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
     Boot Efi File Should Fail    hello.efi    GOOD_KEYS
     Reset System
     Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
@@ -222,7 +222,7 @@ SBO010.001 Check support for rsa2k signed certificates
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    RSA2048    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File    signed-hello.efi    RSA2048    Hello, world!
 
@@ -238,7 +238,7 @@ SBO010.002 Check support for rsa3k signed certificates
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    RSA3072    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File    signed-hello.efi    RSA3072    Hello, world!
 
@@ -254,7 +254,7 @@ SBO010.003 Check support for rsa4k signed certificates
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    RSA4096    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File    signed-hello.efi    RSA4096    Hello, world!
 
@@ -271,7 +271,7 @@ SBO010.004 Check support for ecdsa256 signed certificates
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    ECDSA256    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File    signed-hello.efi    ECDSA256    Hello, world!
 
@@ -288,7 +288,7 @@ SBO010.005 Check support for ecdsa384 signed certificates
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    ECDSA384    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File    signed-hello.efi    ECDSA384    Hello, world!
 
@@ -305,7 +305,7 @@ SBO010.006 Check support for ecdsa521 signed certificates
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    ECDSA521    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File    signed-hello.efi    ECDSA521    Hello, world!
 
@@ -320,7 +320,7 @@ SBO011.001 Attempt to enroll expired certificate and boot signed image
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    EXPIRED    cert.der
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     Boot Efi File Should Fail    hello.efi    EXPIRED
     Reset System

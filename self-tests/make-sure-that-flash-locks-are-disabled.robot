@@ -59,7 +59,7 @@ Test Make Sure That Flash Locks Are Disabled
     Save Changes
     Reenter Menu
     Set Option State    ${security_menu}    Enable SMM BIOS write    ${smm_lock_init}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Sleep    5s
 
     Make Sure That Flash Locks Are Disabled

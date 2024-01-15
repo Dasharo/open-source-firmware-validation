@@ -36,7 +36,7 @@ Set boolean option to true
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${networking_menu}    Enable network boot    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
     ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -52,7 +52,7 @@ Set boolean option to false
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${networking_menu}    Enable network boot    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
     ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -71,7 +71,7 @@ Toggle boolean option 3 times
         ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
         ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
         Set Option State    ${networking_menu}    Enable network boot    ${FALSE}
-        Save Changes And Reset    2    4
+        Save Changes And Reset
 
         ${setup_menu}=    Enter Setup Menu And Return Construction
         ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -81,7 +81,7 @@ Toggle boolean option 3 times
         Should Not Be True    ${state}
 
         Set Option State    ${networking_menu}    Enable network boot    ${TRUE}
-        Save Changes And Reset    2    4
+        Save Changes And Reset
 
         ${setup_menu}=    Enter Setup Menu And Return Construction
         ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -91,5 +91,5 @@ Toggle boolean option 3 times
         Should Be True    ${state}
 
         Set Option State    ${networking_menu}    Enable network boot    ${FALSE}
-        Save Changes And Reset    2    4
+        Save Changes And Reset
     END
