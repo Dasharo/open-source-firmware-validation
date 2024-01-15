@@ -13,6 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/ansible.robot
 
 # Resource    ../platform-configs/msi-pro-z690-a-ddr5.robot
 # Required setup keywords:
@@ -22,9 +23,11 @@ Resource            ../keys.robot
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     Run Ansible Playbook On Supported Operating Systems
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
-Test Setup          Restore Initial DUT Connection Method
+Test Setup          Run Keywords
+...                     Restore Initial DUT Connection Method
 
 
 *** Test Cases ***
