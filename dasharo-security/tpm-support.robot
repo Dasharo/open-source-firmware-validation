@@ -70,7 +70,7 @@ TPM001.003 TPM Support (Windows 11)
 
 TPM001.004 TPM Support (BIOS)
     [Documentation]    This test aims to verify that the TPM is initialized
-    ...    correctly and the PCRs can be accessed from the firmware.
+    ...    correctly
     Skip If    not ${TPM_SUPPORT}    TPM001.004 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
