@@ -1,0 +1,2 @@
+[qemu_ubuntu]
+127.0.0.1:5222 ansible_user=ubuntu ansible_ssh_pass=ubuntu
