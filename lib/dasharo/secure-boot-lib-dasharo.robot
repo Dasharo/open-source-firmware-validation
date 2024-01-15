@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation       Collection of Dasharo keywords related to UEFI Secure Boot
 
-Resource            ../lib/secure-boot-lib-common.robot
+Resource            ../secure-boot-lib-common.robot
 
 
 *** Variables ***
@@ -211,7 +211,3 @@ Get Secure Boot State
     [Arguments]    ${sb_menu}
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
     RETURN    ${sb_state}[0]
-
-Make Sure There Is Secure Boot Error
-    [Documentation]    Makes sure there is secure boot error.
-    Read From Terminal Until    Press any key to continue...
