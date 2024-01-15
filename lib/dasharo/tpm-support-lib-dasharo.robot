@@ -2,7 +2,7 @@
 Documentation       Collection of keywords related to dasharo UEFI TPM support
 
 Library             ./tpm-support-lib-dasharo.py
-Resource            ./tpm-support-lib-common.robot
+Resource            ../tpm-support-lib-common.robot
 
 
 *** Keywords ***
