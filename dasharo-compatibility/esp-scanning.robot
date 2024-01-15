@@ -26,6 +26,7 @@ Suite Setup         Run Keywords
 ...                     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP scanning tests not supported
 ...                     AND
 ...                     Prepare Required Files For Qemu
+...                     AND
 ...                     Prepare EFI Partition With System Files
 Suite Teardown      Run Keywords
 ...                     Clear Out EFI Partition    AND
