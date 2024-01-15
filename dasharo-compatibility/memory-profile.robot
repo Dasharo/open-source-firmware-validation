@@ -23,11 +23,11 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${MEMORY_PROFILE_SUPPORT}    Memory profile tests not supported
-...                     AND
-...                     Flash Firmware    ${FW_FILE}
 # As a result of this suite, we might get stuck with bricked platform. Make sure
 # to flash working firmware.
-Suite Teardown      Run Keyword
+Suite Teardown      Run Keywords
+...                     Flash Firmware    ${FW_FILE}
+...                     AND
 ...                     Log Out And Close Connection
 
 
