@@ -76,8 +76,7 @@ TPM001.004 TPM Support (BIOS)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    ${current_device}=    Get Matches    ${menu}    Current TPM Device*
-    Should Contain Match    ${current_device}    regexp=.* (TPM 2\.0|TPM 1\.2)
+    TPM Version Should Be    ${menu}    tpm2=${TRUE}    tpm1_2=${TRUE}
 
 TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
