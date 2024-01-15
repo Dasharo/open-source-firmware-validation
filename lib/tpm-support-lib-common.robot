@@ -40,4 +40,5 @@ Check Ownership Of TPM2 Module
     [Arguments]    ${state}
     Execute Linux Command    ! tpm2_changeauth --quiet -c owner 2>/dev/null
     ${out}=    Execute Linux Command    echo $?
-    Should Be Equal    ${out}    ${state}\n
+    ${out}=    Strip String    ${out}    mode=right    characters=\n
+    Should Be Equal    ${out}    ${state}

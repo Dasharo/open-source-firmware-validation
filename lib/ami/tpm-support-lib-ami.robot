@@ -8,16 +8,8 @@ Resource            ../tpm-support-lib-common.robot
 *** Keywords ***
 Enter TCG2 Menu
     [Documentation]    This keyword enters TCG2 menu after the platform was
-    ...    powered on. Should be called from Main Menu
-    ${setup_menu}=    Enter Setup Menu And Return Construction
-    # Main Menu has clock that changes every second.
-    # To read correct menu we first move 2 menus to the right read everything
-    # on serial and go back to Advanced Menu
-    Press Key N Times    2    ${ARROW_RIGHT}
-    Read From Terminal
-    Press Key N Times    1    ${ARROW_LEFT}
-    ${snapshot}=    Read From Terminal Until    ESC: Exit
-    ${menu}=    Get Ami Submenu Construction    ${snapshot}
+    ...    powered on.
+    ${menu}=    Enter Advanced Menu And Return Construction
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    Trusted Computing
     Press Key N Times    ${index}    ${ARROW_DOWN}
     Read From Terminal
@@ -52,3 +44,10 @@ TPM Version Should Be
     ELSE IF    ${tpm1_2} == ${TRUE}
         Should Contain    ${version}[0]    TCG_1_2
     END
+
+Run TPM Clear Procedure
+    [Documentation]    This keyword clears TPM
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    Enter Submenu From Snapshot    ${menu}    Pending operation
+    Select Ami Option    TPM Clear
+    Save Changes And Reset

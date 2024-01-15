@@ -36,6 +36,7 @@ ${TESTS_IN_FREEBSD_SUPPORT}=                ${FALSE}
 ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
 ${DTS_UEFI_SB_SUPPORT}=                     ${TRUE}
 ${TPM_SUPPORT}=                             ${TRUE}
+${TPM_FIRMWARE_CONFIG}=                     ${FALSE}
 ${TPM_DETECT_SUPPORT}=                      ${FALSE}
 ${VBOOT_KEYS_GENERATING_SUPPORT}=           ${FALSE}
 ${VERIFIED_BOOT_SUPPORT}=                   ${FALSE}
