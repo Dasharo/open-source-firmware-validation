@@ -8,6 +8,7 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
+Resource            ../lib/secure-boot-lib.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
@@ -453,6 +454,58 @@ SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     Switch To Root User
     ${sb_status}=    Check Secure Boot In Linux
     Should Be True    ${sb_status}
+
+SBO013.001 Check automatic certificate provisioning
+    [Documentation]    This test verifies that the automatic certificate
+    ...    provisioning will install custom keys which will make Ubuntu
+    ...    unbootable. Before launching test, make sure that DTS with automatic
+    ...    certificate provisioning is attached and can be booted on DUT.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO013.001 not supported
+    Skip If    not ${DTS_UEFI_SB_SUPPORT}    SBO013.001 not supported
+    Power On
+
+    # 1. Enroll certificate using automatic provisioning tool
+    Autoenroll Secure Boot Certificates
+
+    # 2. Verify by booting signed DTS:
+    Boot Dasharo Tools Suite    USB
+    Power On
+
+    # 3. Verify by booting unsigned Ubuntu:
+    Boot System Or From Connected Disk    ubuntu
+    Read From Terminal Until    Press any key to continue...
+    Power On
+
+    # 4. Clean up
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+
+SBO013.002 Check automatic certificate provisioning KEK certificate
+    [Documentation]    This test verifies that the automatic certificate
+    ...    provisioning installs the expected KEK certificate. Before launching
+    ...    test, make sure that DTS with automatic certificate provisioning is
+    ...    attached and can be booted on DUT.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO013.002 not supported
+    Skip If    not ${DTS_UEFI_SB_SUPPORT}    SBO013.002 not supported
+    Power On
+
+    # 1. Enroll certificate using automatic provisioning tool
+    Autoenroll Secure Boot Certificates
+
+    # 2. Boot DTS
+    Boot Dasharo Tools Suite    USB
+    Enter Shell In DTS
+
+    # 3. Compare the certificates
+    Compare KEK Certificate Using Mokutil In DTS
+    ...    https://cloud.3mdeb.com/index.php/s/FGdaGq2QqnGWQew/download/KEK.crt
+
+    # 4. Clean up
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
 
 
 *** Keywords ***
