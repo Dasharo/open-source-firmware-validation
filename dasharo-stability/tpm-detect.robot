@@ -28,8 +28,6 @@ TPD003.001 Detect TPM after platform reboot (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
         Boot System Or From Connected Disk    ubuntu
@@ -51,8 +49,6 @@ TPD004.001 Detect TPM after platform suspend (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Suspend Test Using FWTS
         Detect Or Install Package    tpm2-tools
