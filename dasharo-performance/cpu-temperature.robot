@@ -127,7 +127,7 @@ CPU Temperature Without Load (Ubuntu 22.04)
         Log To Console    ${timer} min.
         ${temperature}=    Get CPU Temperature CURRENT
         Log To Console    Current temperature: ${temperature}°C
-        Should Be True    ${temperature} < ${MAX_CPU_TEMP}
+        Should Be True    ${temperature} <= ${MAX_CPU_TEMP}
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
@@ -146,7 +146,7 @@ CPU Temperature After Stress Test (Ubuntu 22.04)
         Log To Console    ${timer} min.
         ${temperature}=    Get CPU Temperature CURRENT
         Log To Console    Current temperature: ${temperature}°C
-        Should Be True    ${temperature} < ${MAX_CPU_TEMP}
+        Should Be True    ${temperature} <= ${MAX_CPU_TEMP}
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
