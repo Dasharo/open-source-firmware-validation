@@ -85,6 +85,7 @@ Perform Suspend Test Using FWTS
     ...    test by using Firmware Test Suite tool
     [Arguments]    ${test_duration}=40
     ${is_suspend_performed_correctly}=    Set Variable    ${FALSE}
+    Detect Or Install FWTS
     Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
     Sleep    ${test_duration}s
     Login To Linux
@@ -106,6 +107,7 @@ Perform Hibernation Test Using FWTS
     ...    test by using Firmware Test Suite tool
     [Arguments]    ${test_duration}=40
     ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
+    Detect Or Install FWTS
     Execute Command In Terminal    fwts s4 -f -r /tmp/hibernation_test_log.log
     Sleep    ${test_duration}s
     Boot Operating System    ubuntu
