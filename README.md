@@ -97,21 +97,21 @@ When running tests on Dasharo platforms use the following commands:
 
 ```bash
 robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
--t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
+-v ansible_config:$ANSIBLE_CONFIG -t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
 ```
 
 * For running a single test suite:
 
 ```bash
 robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
-$TEST_MODULE/$TEST_SUITE
+-v ansible_config:$ANSIBLE_CONFIG $TEST_MODULE/$TEST_SUITE
 ```
 
 * For running a single test module:
 
 ```bash
 robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
-$TEST_MODULE
+-v ansible_config:$ANSIBLE_CONFIG $TEST_MODULE
 ```
 
 Parameters should be defined as follows:
@@ -131,6 +131,9 @@ Parameters should be defined as follows:
 * $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001*`).
   Note that after test case ID asterisk should be added, if you do not wish
   to provide the full test name here.
+* $ANSIBLE_CONFIG - if set to yes can run `ansible-playbook` on target to
+  prepare it for running given tests, described more in [ansible
+  configuration](#ansible-configuration) section.
 
 You can also run tests with `-v snipeit:no` in order to skip checking whether
 the platform is available on snipeit. By default, this is enabled.
@@ -318,3 +321,36 @@ and add as guidelines:
 * [Renaming keywords](https://robotidy.readthedocs.io/en/stable/transformers/RenameKeywords.html)
 * [Renaming Test Cases](https://robotidy.readthedocs.io/en/stable/transformers/RenameTestCases.html)
 * [Renaming Variables](https://robotidy.readthedocs.io/en/stable/transformers/RenameVariables.html)
+
+## Ansible configuration
+
+Setting variable $ANSIBLE_CONFIG to yes while running tests may prepare the DUT
+to execute given test suite. The use of this tool has the following
+requirements:
+
+* use of the [Run Ansible Playbook On Supported Operating
+  Systems](./lib/ansible.robot) keyword in the Suite Setup section of the
+  running test suite,
+* preparation of the IP address and port information used to connect SSH to the
+  DUT in the [ansible-roles/hosts](./ansible-roles/hosts) file, along with
+  credentials for logging into the system,
+* preparation of the relevant playbook under
+  [ansible-roles/os](./ansible-roles/os) to be executed before starting the
+  tests.
+
+With the correct configuration, `ansible-playbook` will be started from the PC
+host and perform modifications on the DUT via an SSH connection.
+
+### Known issues
+
+* Ansible playbooks can be ran only on authenticated DUT, otherwise an attempt
+  to run them will return errors. To workaround this, users can modify
+  `/etc/ansible/ansible.cfg` file on the host side by adding there the following
+  section.
+
+  ```bash
+  [defaults]
+  host_key_checking = False
+  ```
+
+  This will disable the authorisation of DUTs from running playbooks on them.
