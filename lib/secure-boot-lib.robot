@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation       Collection of keywords related to UEFI Secure Boot
 
+Library             ../lib/secure-boot-lib.py
 Resource            ../keywords.robot
 
 
@@ -267,3 +268,40 @@ Enroll Secure Boot Keys In OS
 Sign All Boot Components In OS
     [Documentation]    Signs boot components with current keys using sbctl
     Execute Linux Command    sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
+
+Autoenroll Secure Boot Certificates
+    [Documentation]    Enrolls Secure boot certificates automatically using tool
+    ...    for automatic provisioning
+    # 1. Erase Secure Boot Keys
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
+    Save Changes And Reset    3    5
+
+    # 2. Boot to Automatic provisioning tool
+    Boot Dasharo Tools Suite    USB    True
+
+    # 3. Enable SB after provisioning
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes And Reset
+
+Compare KEK Certificate Using Mokutil In DTS
+    [Documentation]    Compares two KEK certificates. It takes as argument the
+    ...    source of the certificate and acquire it. Second KEK certificate is
+    ...    taken as an output from mokutil --kek command executed in DTS.
+    [Arguments]    ${first_certificate}
+    ${is_https_link}=    Run Keyword And Return Status    Should Contain    ${first_certificate}    https://
+    IF    ${is_https_link} == ${TRUE}
+        Execute Command In Terminal    wget ${first_certificate} -O /tmp/first_certificate.crt
+        ${first_certificate_string}=    Execute Command In Terminal
+        ...    openssl x509 -in /tmp/first_certificate.crt -noout -text
+    ELSE
+        Log    Provided argument is not a link to download certificate    INFO
+        FAIL
+    END
+    ${second_certificate_string}=    Execute Command In Terminal    mokutil --kek
+    ${second_certificate_string}=    Convert Mokutil To Openssl Output    ${second_certificate_string}
+
+    # 3. Compare the certificates
+    Should Be Equal    ${first_certificate_string}    ${second_certificate_string}
