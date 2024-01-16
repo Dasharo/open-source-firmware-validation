@@ -324,6 +324,8 @@ and add as guidelines:
 
 ## Ansible configuration
 
+> Note: Ansible runs were tested on QEMU based tests only.
+
 Setting variable $ANSIBLE_CONFIG to yes while running tests may prepare the DUT
 to execute given test suite. The use of this tool has the following
 requirements:
