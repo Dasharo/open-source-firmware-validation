@@ -1,5 +1,5 @@
 *** Settings ***
-Library     ../keywords.py
+Library     ../keywords.robot
 
 
 *** Keywords ***
