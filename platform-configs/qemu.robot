@@ -136,6 +136,7 @@ ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${EMMC_SUPPORT}=                                    ${TRUE}
 ${DTS_SUPPORT}=                                     ${TRUE}
+${DTS_UEFI_SB_SUPPORT}=                             ${TRUE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
