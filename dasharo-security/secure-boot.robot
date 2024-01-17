@@ -509,8 +509,9 @@ SBO013.002 Check automatic certificate provisioning KEK certificate
     Reset To Default Secure Boot Keys    ${advanced_menu}
 
 SBO014.001 Enroll certificates using sbctl
-    [Documentation]    This test installs sbctl and verifies that it is possible
-    ...    to use it to enroll certificates.
+    [Documentation]    This test erases Secure Boot keys from the BIOS menu and
+    ...    verifies if new keys can be enrolled from operating system using
+    ...    sbctl.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO014.001 not supported
     Power On
 
