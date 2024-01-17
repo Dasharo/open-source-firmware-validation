@@ -1,0 +1,50 @@
+---
+- name: Prepare encrypted logical partition
+  hosts: qemu_ubuntu
+  become: true
+
+  vars:
+    partition_name: "test-partition"
+    test_partition: "/home/ubuntu/{{ partition_name }}"
+    key_file: "/home/ubuntu/key"
+
+  tasks:
+    - name: Check prerequisites
+      ansible.builtin.apt:
+        name:
+          - cryptsetup
+          - tpm2-tools
+        state: present
+    - name: Allocate the partition
+      shell: "fallocate -l 20MB {{ test_partition }}"
+    - name: Make a key
+      shell: "dd if=/dev/urandom bs=1 count=32 status=none > {{ key_file }}"
+    - name: Encrypt the partition
+      shell: "cryptsetup luksFormat -q --key-file={{ key_file }} {{ test_partition }}"
+    - name: Create test file on the partition
+      block:
+        - name: Open the partition
+          shell: "cryptsetup luksOpen --key-file={{ key_file }} {{ test_partition }} {{ partition_name }}"
+        - name: Make file system on the partition
+          community.general.filesystem:
+            fstype: ext4
+            dev: "/dev/mapper/{{ partition_name }}"
+            state: present
+        - name: Mount the partition
+          ansible.posix.mount:
+            fstype: ext4
+            path: /mnt
+            src: "/dev/mapper/{{ partition_name }}"
+            state: ephemeral
+        - name: Create file hello-world on the partition
+          ansible.builtin.file:
+            path: /mnt/hello-world
+            state: touch
+        - name: Unmount the partition
+          ansible.posix.mount:
+           fstype: ext4
+           src: "/dev/mapper/{{ partition_name }}"
+           path: /mnt
+           state: unmounted
+        - name: Close the partition
+          shell: "cryptsetup luksClose test-partition"
