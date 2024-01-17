@@ -1,0 +1,36 @@
+---
+- name: Install dependency packages
+  hosts: qemu_ubuntu
+  become: true
+  tasks:
+    - name: Check prerequisites
+      ansible.builtin.apt:
+        name:
+          - git
+          - make
+          - golang-go
+          - asciidoc
+        state: present
+
+- name: Fetch sbctl from GitHub
+  hosts: qemu_ubuntu
+
+  tasks:
+    - name: Fetch sbctl repository
+      git:
+        repo: https://github.com/Foxboron/sbctl
+        dest: "/tmp/sbctl"
+
+- name: Build and install sbctl
+  hosts: qemu_ubuntu
+  become: true
+
+  tasks:
+    - name: Build sbctl
+      make:
+        chdir: /tmp/sbctl
+        target: build
+    - name: Install sbctl
+      make:
+        chdir: /tmp/sbctl
+        target: install
