@@ -315,7 +315,7 @@ TPM2 Suite Setup
     Detect Or Install Package    tpm2-tools
     ${passed}=    Run Keyword And Return Status
     ...    Check If SHA1 And SHA256 Banks Are Enabled
-    IF    ${passed}    RETURN
+    Pass Execution If    ${passed}    'SHA1 And SHA256 Banks Are Disabled!'
     # Restore default allocations in case any bank was disabled and reboot
     Execute Linux Command    tpm2_pcrallocate
     Execute Reboot Command
