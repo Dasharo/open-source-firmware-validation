@@ -24,7 +24,8 @@ Resource            ../lib/ansible.robot
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     Run Ansible Playbook On Supported Operating Systems
+...                     AND
+...                     Run Ansible Playbook On Supported Operating Systems    secure-boot
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 Test Setup          Run Keywords
