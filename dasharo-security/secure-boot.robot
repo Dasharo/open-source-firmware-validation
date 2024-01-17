@@ -507,6 +507,49 @@ SBO013.002 Check automatic certificate provisioning KEK certificate
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
 
+SBO014.001 Enroll certificates using sbctl
+    [Documentation]    This test installs sbctl and verifies that it is possible
+    ...    to use it to enroll certificates.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO014.001 not supported
+    Power On
+
+    # 1. Erase Secure Boot Keys
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
+    Save Changes And Reset    3    5
+
+    # 2. Boot to Ubuntu
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+
+    # 3. Create and enroll keys
+    ${out}=    Generate Secure Boot Keys In Os
+    Should Be True    ${out}
+    ${out}=    Enroll Secure Boot Keys In Os
+    Should Be True    ${out}
+
+    # 4. Verify that it is impossible to boot Ubuntu with the keys
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes And Reset    2
+    Boot System Or From Connected Disk    ubuntu
+    Read From Terminal Until    Press any key to continue...
+
+    # 5. Clean up
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Save Changes And Reset    3    5
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Command In Terminal    rm -rf /usr/share/secureboot
+    Log To Console    ${out}\n
+
 
 *** Keywords ***
 Prepare Test Files
