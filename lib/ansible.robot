@@ -25,7 +25,10 @@ Run Ansible Playbook On Supported Operating Systems
                 Boot System Or From Connected Disk    ubuntu
                 Login To Linux
                 ${rc}    ${output}=    Run And Return RC And Output
-                ...    sh -c "ansible-playbook -i ${CURDIR}${/}..${/}ansible-roles/hosts ${CURDIR}${/}..${/}ansible-roles/os/ubuntu/test.yml"
+                ...    sh -c 'ansible-playbook
+                ...    --extra-vars "ansible_become_password=${UBUNTU_PASSWORD}"
+                ...    -i ${CURDIR}${/}..${/}ansible-roles/hosts
+                ...    ${CURDIR}${/}..${/}ansible-roles/os/ubuntu/test.yml'
                 Should Be Equal As Integers    ${rc}    0
                 Should Not Contain    ${output}    FAIL
             END
