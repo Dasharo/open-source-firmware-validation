@@ -11,7 +11,7 @@ Boot Dasharo Tools Suite
     ...    ${certificate_provisioning} to 'True' - this only work when booted
     ...    from USB.
     [Arguments]    ${dts_booting_method}    ${certificate_provisioning}='False'
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     IF    '${dts_booting_method}'=='USB'
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
