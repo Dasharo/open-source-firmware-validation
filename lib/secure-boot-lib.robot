@@ -312,3 +312,12 @@ Compare KEK Certificate Using Mokutil In DTS
 
     # 3. Compare the certificates
     Should Be Equal    ${first_certificate_string}    ${second_certificate_string}
+
+Generate Wrong Format Keys And Move Them
+    [Documentation]    Generates elliptic curve keys and moves them to the
+    ...    desired location.
+    [Arguments]    ${name}    ${location}
+    Execute Linux Command
+    ...    openssl ecparam -genkey -name secp384r1 -out ${name}.key && openssl req -new -x509 -key ${name}.key -out ${name}.pem -days 365 -subj "/CN=3mdeb_test"
+    Execute Linux Command    mv ${name}.key ${location}
+    Execute Linux Command    mv ${name}.pem ${location}
