@@ -506,6 +506,7 @@ Add Boot Option
     Press Enter
     Enter Submenu From Snapshot
     ...    ${setting_bootoption_submenu}    Commit Changes and Exit
+
 Boot Operating System
     [Documentation]    Keyword allows boot operating system installed on the
     ...    DUT. Takes as an argument operating system name.
