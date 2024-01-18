@@ -568,25 +568,3 @@ SBO015.001 Attempt to enroll the key in the incorrect format (OS)
     Generate Wrong Format Keys And Move Them    KEK    /usr/share/secureboot/keys/KEK/
     Enroll Secure Boot Keys In OS    False
     Should Be True    ${out}
-
-
-*** Keywords ***
-Prepare Test Files
-    IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    ${GOOD_KEYS_NAME}
-        ...    ${GOOD_KEYS_URL}
-        ...    ${GOOD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${NOT_SIGNED_NAME}
-        ...    ${NOT_SIGNED_URL}
-        ...    ${NOT_SIGNED_SHA256}
-        Download To Host Cache
-        ...    ${BAD_KEYS_NAME}
-        ...    ${BAD_KEYS_URL}
-        ...    ${BAD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${BAD_FORMAT_NAME}
-        ...    ${BAD_FORMAT_URL}
-        ...    ${BAD_FORMAT_SHA256}
-    END
