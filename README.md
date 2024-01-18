@@ -84,6 +84,11 @@ pip install -r requirements.txt
 source venv/bin/activate
 ```
 
+* Before running the tests from `dasharo-security/secure-boot.robot`, please run
+  the [sb-img-wrapper.sh](./scripts/secure-boot/generate-images/sb-img-wrapper.sh)
+  script. Its task is to generate ISO images with the certificates and efi files
+  used during tests.
+
 > NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
 > Go through [these
 > steps](https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli#installation)
