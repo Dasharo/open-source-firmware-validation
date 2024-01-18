@@ -31,5 +31,5 @@ CNB001.001 Only one iPXE in boot menu
     Skip If    not ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}    CNB001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CNB001.001 not supported
     Power On
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     Check IPXE Appears Only Once

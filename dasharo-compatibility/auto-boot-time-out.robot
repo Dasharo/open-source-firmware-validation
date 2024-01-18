@@ -31,14 +31,14 @@ BMM001.001 Set Auto Boot Time-out to 7 and check after reboot
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
     Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    7
     Save Changes And Reset    2    2
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -51,7 +51,7 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -59,7 +59,7 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     Reset To Defaults Tianocore
     Save Changes And Reset    2    2
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -70,7 +70,7 @@ BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
     [Documentation]    Check whether Auto Boot Time-out accepts only numeric
     ...    values.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager

@@ -37,7 +37,7 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     Power On
     Prepare EFI Partition With System Files
     Power On Or Reboot
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     Check Boot Menu For All Supported Systems    normal
 
 ESP002.001 ESP Scan after deleting additional .efi files
@@ -49,7 +49,7 @@ ESP002.001 ESP Scan after deleting additional .efi files
     Power On
     Clear Out EFI Partition
     Power On Or Reboot
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     Check Boot Menu For All Supported Systems    empty
 
 ESP003.001 ESP Scan ignores OSes on removable media
@@ -62,7 +62,7 @@ ESP003.001 ESP Scan ignores OSes on removable media
     Power On
     Download ISO And Mount As USB    img_name=${DL_CACHE_DIR}/CorePlus-current.iso    img_url=${TINYCORE_URL}
     Power On Or Reboot
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${boot_list}=    Get Boot Menu Construction
     Should Not Contain Match    ${boot_list}    *CorePlus*
 
@@ -76,7 +76,7 @@ ESP004.001 ESP Scan does not create duplicate entries
     Power On
     Prepare EFI Partition With System Files
     Power On Or Reboot
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     Check Boot Menu For All Supported Systems    double_entry_check
 
 ESP005.001 ESP Scan detects Dasharo Tools Suite
@@ -91,7 +91,7 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    img_name=${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
     ...    img_url=${DTS_URL}
     Power On Or Reboot
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${boot_list}=    Get Boot Menu Construction
     Should Contain Match    ${boot_list}    *Dasharo Tools Suite*
 

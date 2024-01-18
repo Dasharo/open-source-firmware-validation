@@ -39,7 +39,7 @@ UDT001.001 USB detection after coldboot
             ${usb}=    Evaluate    0
             Power Cycle On
             IF    '${PAYLOAD}' == 'tianocore'
-                Enter Boot Menu Tianocore
+                Enter Boot Menu
                 ${menu}=    Read From Terminal Until    ESC to exit
             ELSE IF    '${PAYLOAD}' == 'seabios'
                 ${menu}=    Enter SeaBIOS And Return Menu

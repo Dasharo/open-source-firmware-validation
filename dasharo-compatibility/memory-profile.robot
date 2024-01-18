@@ -37,7 +37,7 @@ MPS001.001 Switching to XMP profile
     Telnet.Set Timeout    5 min
     # Boot and remember current memory speed
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${old_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${old_speed}
@@ -50,7 +50,7 @@ MPS001.001 Switching to XMP profile
     Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined
     Save Changes And Reset    2    4
     # Verify that frequency has changed
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${new_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${new_speed}
@@ -63,7 +63,7 @@ MPS002.001 Switching back to JEDEC profile
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
     # Boot and remember current memory speed
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${old_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${old_speed}
@@ -76,7 +76,7 @@ MPS002.001 Switching back to JEDEC profile
     Set Option State    ${memory_menu}    Memory SPD Profile    JEDEC (safe
     Save Changes And Reset    2    4
     # Verify that frequency has changed
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${new_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${new_speed}
