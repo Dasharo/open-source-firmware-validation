@@ -614,3 +614,70 @@ Disable Firmware Flashing Prevention Options
         END
         Save Changes And Reset    2    4
     END
+
+Enter Volume In File Explorer
+    [Documentation]    Enter the given volume
+    [Arguments]    ${target_volume}
+    # 1. Read out the whole File Explorer menu
+    ${volumes}=    Get Submenu Construction    opt_only=${TRUE}
+    Log    ${volumes}
+    # 2. See if our label is within these entries
+    ${index}=    Get Index Of Matching Option In Menu    ${volumes}    ${target_volume}    ${TRUE}
+    # 3. If yes, go to the selected label
+    IF    ${index} != -1
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+        # 4. If no, get the number of entries and go that many times below
+    ELSE
+        ${volumes_no}=    Get Length    ${volumes}
+        Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
+        #    - check if the label is what we need, if yes, select
+        FOR    ${in}    IN RANGE    20
+            ${new_entry}=    Read From Terminal
+            ${status}=    Run Keyword And Return Status
+            ...    Should Contain    ${new_entry}    ${target_volume}
+            IF    ${status} == ${TRUE}    BREAK
+            IF    ${in} == 19    Fail    Volume not found
+            Press Key N Times    1    ${ARROW_DOWN}
+        END
+        Press Key N Times    1    ${ENTER}
+    END
+
+Add Boot Option
+    [Documentation]    Adds new boot option in boot menu. Has two arguments:
+    ...    EFI partition label to look for bootfile on and boot option name to
+    ...    set. Assumes that you are on main BIOS page.
+    [Arguments]    ${system_name}    ${label}    ${name}
+    @{ubuntu_file_path}=    Create List    <EFI>    <ubuntu>    shimx64.efi
+
+    # 1. Enter partition menu:
+    ${setup_menu}=    Get Setup Menu Construction
+    ${boot_manager_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}    Boot Maintenance Manager
+    ${boot_options_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${boot_manager_menu}    Boot Options
+    Enter Submenu From Snapshot    ${boot_options_menu}    Add Boot Option
+    Enter Volume In File Explorer    ${label}
+
+    # 2. Find and choose boot file:
+    IF    "${system_name}" == "ubuntu"
+        FOR    ${item}    IN    @{ubuntu_file_path}
+            # Go to EFI folder:
+            ${file_tree_submenu}=    Get Submenu Construction
+            ${index}=    Get Index Of Matching Option In Menu
+            ...    ${file_tree_submenu}    ${item}
+            # Add one to index, because of new line in file_tree_submenu:
+            Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
+        END
+    ELSE IF    "${system_name}" == "windows"
+        Log Add Boot Option For Windows Is Not Implemented Yet.
+    END
+
+    # 3. Set name for the option:
+    ${setting_bootoption_submenu}=    Get Menu Construction
+    ...    Select Entry    2
+    Enter Submenu From Snapshot
+    ...    ${setting_bootoption_submenu}    Input the description
+    Write Into Terminal    ${name}
+    Press Enter
+    Enter Submenu From Snapshot
+    ...    ${setting_bootoption_submenu}    Commit Changes and Exit
