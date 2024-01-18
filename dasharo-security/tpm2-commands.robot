@@ -19,9 +19,11 @@ Resource            ../keys.robot
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
-...                     TPM2 Suite Setup
+...                     Prepare Test Suite
 ...                     AND
 ...                     Run Ansible Playbook On Supported Operating Systems    tpm2-commands
+...                     AND
+...                     TPM2 Suite Setup
 Suite Teardown      Log Out And Close Connection
 Test Setup          TPM2 Test Setup
 
@@ -332,7 +334,6 @@ TPM2 Test Setup
     Flush TPM Contexts
 
 TPM2 Suite Setup
-    Prepare Test Suite
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
