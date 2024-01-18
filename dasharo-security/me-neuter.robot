@@ -32,7 +32,7 @@ MNE001.001 Intel ME mode option is available and has the correct default state
     Skip If    not ${ME_NEUTER_SUPPORT}    MNE001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MNE001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     ${state}=    Get Option State    ${me_menu}    Intel ME mode
@@ -44,7 +44,7 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu 22.04)
     Skip If    not ${ME_NEUTER_SUPPORT}    MNE002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Enabled
@@ -61,7 +61,7 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu 22.04)
     Skip If    not ${ME_NEUTER_SUPPORT}    MNE003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE003.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Disabled (Soft)
@@ -78,7 +78,7 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu 22.04)
     Skip If    not ${ME_NEUTER_SUPPORT}    MNE004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE004.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Disabled (HAP)
@@ -96,7 +96,7 @@ MNE006.001 Check Intel ME version (Ubuntu 22.04)
     Skip If    not ${ME_NEUTER_SUPPORT}    MNE006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE006.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Enabled

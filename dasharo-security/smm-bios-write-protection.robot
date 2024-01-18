@@ -36,7 +36,7 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu 22.04)
     Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Enable SMM BIOS write    ${TRUE}
@@ -60,7 +60,7 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu 22.04)
     Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Enable SMM BIOS write    ${FALSE}

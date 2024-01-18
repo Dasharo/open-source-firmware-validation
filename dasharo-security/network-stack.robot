@@ -33,13 +33,13 @@ NBA001.001 Enable Network Boot (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA001.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${network_menu}    Enable network boot    ${TRUE}
     Save Changes And Reset    2    4
 
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
 NBA002.001 Disable Network Boot (firmware)
@@ -50,11 +50,11 @@ NBA002.001 Disable Network Boot (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA002.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${network_menu}    Enable network boot    ${FALSE}
     Save Changes And Reset    2    4
 
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}

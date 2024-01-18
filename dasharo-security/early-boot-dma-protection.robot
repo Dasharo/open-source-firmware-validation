@@ -33,7 +33,7 @@ EDP001.001 Enable early Boot DMA Protection support
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP001.001 not supported
     Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    EDP001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Early boot DMA Protection    ${TRUE}
@@ -53,7 +53,7 @@ EDP002.001 Disable early Boot DMA Protection support
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP002.001 not supported
     Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    EDP001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Early boot DMA Protection    ${FALSE}

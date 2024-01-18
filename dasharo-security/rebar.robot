@@ -18,7 +18,7 @@ Suite Teardown      Run Keyword
 RBE001.001 Check if Resizeable BARs option is present
     [Documentation]    This test checks that Resizable BAR option is available
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${pci_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    PCI/PCIe Configuration
     Should Contain Match    ${pci_menu}    Enable PCIe Resizeable*

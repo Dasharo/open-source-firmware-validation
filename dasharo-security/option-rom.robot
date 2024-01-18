@@ -19,7 +19,7 @@ Suite Teardown      Run Keyword
 SOR001.001 Check that all options in OptionROMs are available
     [Documentation]    This test checks if all OptionROM options are available
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${menu_construction}=    Enter Dasharo Submenu    ${dasharo_menu}    PCI/PCIe Configuration
     Enter Submenu From Snapshot    ${menu_construction}    OptionROM Execution Policy

@@ -30,7 +30,7 @@ CHS001.001 Check camera enablement
     ...    is set, hence the camera works properly
     Skip If    not ${CAMERA_SWITCH_SUPPORT}    CHS001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Enable Camera    ${TRUE}
@@ -44,7 +44,7 @@ CHS002.001 Check camera disablement
     ...    is not set, hence the camera is not detected by operating system
     Skip If    not ${CAMERA_SWITCH_SUPPORT}    CHS002.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Enable Camera    ${FALSE}
