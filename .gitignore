@@ -17,3 +17,4 @@ __pycache__*
 *.fd
 dl-cache/*
 !dl-cache/.gitkeep
+scripts/secure-boot/images/*
