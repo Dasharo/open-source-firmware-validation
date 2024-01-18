@@ -20,7 +20,8 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     TPM2 Suite Setup
-...                     Run Ansible Playbook On Supported Operating Systems
+...                     AND
+...                     Run Ansible Playbook On Supported Operating Systems    tpm2-commands
 Suite Teardown      Log Out And Close Connection
 Test Setup          TPM2 Test Setup
 
