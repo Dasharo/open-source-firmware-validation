@@ -8,7 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../lib/secure-boot-lib.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
@@ -23,9 +22,9 @@ Resource            ../lib/ansible.robot
 # Required teardown keywords:
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
-...                     Check If Certificate Images For Tests Exists
-...                     AND
 ...                     Prepare Test Suite
+...                     AND
+...                     Check If Certificate Images For Tests Exists
 ...                     AND
 ...                     Run Ansible Playbook On Supported Operating Systems    secure-boot
 Suite Teardown      Run Keyword
@@ -129,7 +128,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    GOOD_KEYS    cert.der
     Save Changes And Reset    3    5
-    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
 SBO004.001 Attempt to boot file without the key from Shell (firmware)
     [Documentation]    This test verifies that Secure Boot blocks booting a file
@@ -172,11 +171,11 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Enroll DB Signature    ${key_menu}    GOOD_KEYS    cert.der
     Save Changes And Reset    3    5
 
-    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${key_menu}=    Enter Key Management And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
 
@@ -209,7 +208,7 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     Save Changes And Reset    3    5
     Boot Efi File Should Fail    hello.efi    GOOD_KEYS
     Reset System
-    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
 SBO010.001 Check support for rsa2k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:2048 -subj "/CN=DB-RSA2048/" -keyout DB-RSA2048.key -out DB-RSA2048.crt -days 3650 -nodes -sha256`
