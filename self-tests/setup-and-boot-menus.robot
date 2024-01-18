@@ -33,29 +33,29 @@ Suite Teardown      Run Keyword
 Enter Boot Menu Tianocore
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${out}=    Read From Terminal Until    exit
     Should Contain    ${out}    Please select boot device:
 
 Enter Boot Menu Tianocore And Return Construction
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    ${menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${menu}=    Enter Boot Menu And Return Construction
     List Should Not Contain Value    ${menu}    Please select boot device:
     List Should Contain Value    ${menu}    Setup
     Menu Construction Should Not Contain Control Text    ${menu}
 
-Enter Setup Menu Tianocore
+Enter Setup Menu
     [Documentation]    Test Enter Setup Menu Tianocore kwd
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    Select Entry
     Should Contain    ${out}    Select Language
 
-Enter Setup Menu Tianocore And Return Construction
+Enter Setup Menu And Return Construction
     [Documentation]    Test Get Setup Menu Construction kwd
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     # First entry should be always language selection
     Should Be Equal As Strings    ${setup_menu}[0]    Select Language <Standard English>
     # Two last entris should be: Continue, Reset
@@ -72,7 +72,7 @@ Enter Setup Menu Tianocore And Return Construction
 Enter User Password Management Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    User Password Management
     ${out}=    Read From Terminal Until    Esc=Exit
     Should Contain    ${out}    Password Management
@@ -80,7 +80,7 @@ Enter User Password Management Menu
 Parse User Password Management Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${password_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    User Password Management
@@ -93,7 +93,7 @@ Parse User Password Management Menu
 Enter Device Manager Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Device Manager
     ${out}=    Read From Terminal Until    Esc=Exit
     Should Contain    ${out}    Device Manager
@@ -104,7 +104,7 @@ Enter Device Manager Menu
 Parse Device Manager Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -116,7 +116,7 @@ Parse Device Manager Menu
 Enter Secure Boot Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -128,7 +128,7 @@ Enter Secure Boot Menu
 Enter One Time Boot Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    One Time Boot
     ${out}=    Read From Terminal Until    Esc=Exit
     Should Contain    ${out}    One Time Boot
@@ -136,7 +136,7 @@ Enter One Time Boot Menu
 Parse One Time Boot Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${otb_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    One Time Boot
@@ -146,7 +146,7 @@ Parse One Time Boot Menu
 Enter Boot Maintenance Manager Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Boot Maintenance Manager
     ${out}=    Read From Terminal Until    Esc=Exit
     Should Contain    ${out}    Boot Maintenance Manager
@@ -154,7 +154,7 @@ Enter Boot Maintenance Manager Menu
 Parse Boot Maintenance Manager Menu
     [Documentation]    Test entering into User Password Management menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -170,6 +170,6 @@ Enter Invalid Option in Setup Menu
     [Documentation]    Test if keyword fails (rather than silently continuing) when
     ...    not existing submenu was given.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Run Keyword And Return Status
     ...    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Not Existing Submenu

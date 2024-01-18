@@ -32,13 +32,13 @@ Suite Teardown      Run Keyword
 Set boolean option to true
     [Documentation]    Checks whether the boolean option can be set to TRUE.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${networking_menu}    Enable network boot    ${TRUE}
     Save Changes And Reset    2    4
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     ${state}=    Get Option State    ${networking_menu}    Enable network boot
@@ -48,13 +48,13 @@ Set boolean option to true
 Set boolean option to false
     [Documentation]    Checks whether the boolean option can be set to FALSE.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${networking_menu}    Enable network boot    ${FALSE}
     Save Changes And Reset    2    4
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     ${state}=    Get Option State    ${networking_menu}    Enable network boot
@@ -67,13 +67,13 @@ Toggle boolean option 3 times
     Power On
 
     FOR    ${iterations}    IN RANGE    0    2
-        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+        ${setup_menu}=    Enter Setup Menu And Return Construction
         ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
         ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
         Set Option State    ${networking_menu}    Enable network boot    ${FALSE}
         Save Changes And Reset    2    4
 
-        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+        ${setup_menu}=    Enter Setup Menu And Return Construction
         ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
         ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
         ${state}=    Get Option State    ${networking_menu}    Enable network boot
@@ -83,7 +83,7 @@ Toggle boolean option 3 times
         Set Option State    ${networking_menu}    Enable network boot    ${TRUE}
         Save Changes And Reset    2    4
 
-        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+        ${setup_menu}=    Enter Setup Menu And Return Construction
         ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
         ${networking_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
         ${state}=    Get Option State    ${networking_menu}    Enable network boot

@@ -32,7 +32,7 @@ Suite Teardown      Run Keyword
 Get Current State Of List Option In ME Menu
     [Documentation]    Checks whether the numerical option can be set.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     ${state}=    Get Option State    ${me_menu}    Intel ME mode
@@ -41,7 +41,7 @@ Get Current State Of List Option In ME Menu
 
 Parse Available Selections Of List Option In Me Menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Enter Submenu From Snapshot    ${me_menu}    Intel ME mode
@@ -85,7 +85,7 @@ Select State Of List Option In ME Menu (bottom-top)
 Get Current State Of List Option In Memory Menu
     [Documentation]    Checks whether the numerical option can be set.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
     ${state}=    Get Option State    ${memory_menu}    Memory SPD Profile
@@ -94,7 +94,7 @@ Get Current State Of List Option In Memory Menu
 
 Parse Available Selections Of List Option In Memory Menu
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
     Enter Submenu From Snapshot    ${memory_menu}    Memory SPD Profile
@@ -111,14 +111,14 @@ Parse Available Selections Of List Option In Memory Menu
 *** Keywords ***
 Set ME State
     [Arguments]    ${state}
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    ${state}
     Save Changes And Reset    2    4
 
 Check ME State
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     ${state}=    Get Option State    ${me_menu}    Intel ME mode
