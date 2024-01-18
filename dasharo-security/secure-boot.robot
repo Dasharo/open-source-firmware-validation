@@ -41,17 +41,10 @@ SBO001.001 Check Secure Boot default state (firmware)
     ...    correct.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-    ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
-    Should Contain    ${sb_state}[0]    Disabled
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${sb_state}=    Get Secure Boot State    ${sb_menu}
+    Should Contain    ${sb_state}    Disabled
 
 SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     [Documentation]    This test verifies that Secure Boot can be enabled from
@@ -129,281 +122,210 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ...    a signed file with a correct key.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/GOOD_KEYS.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
-    Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    GOOD_KEYS
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    GOOD_KEYS    cert.der
     Save Changes And Reset    3    5
-
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
 
 SBO004.001 Attempt to boot file without the key from Shell (firmware)
     [Documentation]    This test verifies that Secure Boot blocks booting a file
     ...    without a key.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/NOT_SIGNED.img
     Power On
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello.efi
-    Should Contain    ${out}    Access Denied
+    Boot Efi File Should Fail    hello.efi    NOT_SIGNED
 
 SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     [Documentation]    This test verifies that Secure Boot disallows booting
     ...    a signed file with a wrong-signed key.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/BAD_KEYS.img
     Power On
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Access Denied
+    Boot Efi File Should Fail    signed-hello.efi    BAD_KEYS
 
 SBO006.001 Reset Secure Boot Keys option availability (firmware)
     [Documentation]    This test verifies that the Reset Secure Boot Keys
     ...    option is available
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO006.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Should Contain    ${advanced_menu}    > Reset to default Secure Boot Keys
+    Enter Secure Boot Menu
+    ${key_menu}=    Enter Key Management And Return Construction
+    Should Contain    ${key_menu}    ${RESET_KEYS_OPTION}
 
 SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     [Documentation]    This test verifies that restoring the keys to default
     ...    removes any custom added certificates.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/GOOD_KEYS.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
-    Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    GOOD_KEYS
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    GOOD_KEYS    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction
+    Reset To Default Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Access Denied
+    Boot Efi File Should Fail    signed-hello.efi    GOOD_KEYS
 
 SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     [Documentation]    This test verifies that it is impossible to load
     ...    a certificate in the wrong file format.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/BAD_FORMAT.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
-    Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    BAD_FORMAT
-    Select File In File Explorer    cert.crt
-    Read From Terminal Until    ERROR: Unsupported file type!
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    BAD_FORMAT    cert.crt
+    Read From Terminal Until    ${INCORRECT_FORMAT_MESSAGE}
 
 SBO009.001 Attempt to boot file signed for intermediate certificate
     [Documentation]    This test verifies that a file signed with an
     ...    intermediate certificate can be executed.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO009.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO009.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO009.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/INTERMEDIATE.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
-    Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    INTERMED
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    INTERMED    cert.der
     Save Changes And Reset    3    5
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello.efi
-    Should Contain    ${out}    Access Denied
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File Should Fail    hello.efi    GOOD_KEYS
+    Reset System
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
 
 SBO010.001 Check support for rsa2k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:2048 -subj "/CN=DB-RSA2048/" -keyout DB-RSA2048.key -out DB-RSA2048.crt -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-RSA2048.cer -out DB-RSA2048.der`
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/RSA2048.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    RSA2048
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    RSA2048    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    RSA2048    Hello, world!
 
 SBO010.002 Check support for rsa3k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:3072 -subj "/CN=DB-RSA3072/" -keyout DB-RSA3072.key -out DB-RSA3072.pem -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-RSA3072.cer -out DB-RSA3072.der`
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.002 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/RSA3072.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    RSA3072
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    RSA3072    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    RSA3072    Hello, world!
 
 SBO010.003 Check support for rsa4k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:4096 -subj "/CN=DB-RSA4096/" -keyout DB-RSA4096.key -out DB-RSA4096.pem -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-RSA4096.cer -out DB-RSA4096.der`
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.003 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.003 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/RSA4096.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    RSA4096
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    RSA4096    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    RSA4096    Hello, world!
 
 SBO010.004 Check support for ecdsa256 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -subj "/CN=DB-ECDSA256/" -keyout DB-ECDSA256.key
     ...    -out DB-ECDSA256.crt -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA256.cer -out DB-ECDSA256.der`
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.004 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/ECDSA256.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    ECDSA256
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    ECDSA256    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    ECDSA256    Hello, world!
 
 SBO010.005 Check support for ecdsa384 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-384 -subj "/CN=DB-ECDSA384/" -keyout DB-ECDSA384.key
     ...    -out DB-ECDSA384.crt -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA384.cer -out DB-ECDSA384.der`
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.005 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.005 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/ECDSA384.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    ECDSA384
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    ECDSA384    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    ECDSA384    Hello, world!
 
 SBO010.006 Check support for ecdsa521 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-521 -subj "/CN=DB-ECDSA521/" -keyout DB-ECDSA521.key
     ...    -out DB-ECDSA521.crt -days 3650 -nodes -sha256`
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA521.cer -out DB-ECDSA521.der`
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.006 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.006 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/ECDSA521.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    ECDSA521
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    ECDSA521    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    ECDSA521    Hello, world!
 
 SBO011.001 Attempt to enroll expired certificate and boot signed image
     [Documentation]    This test verifies that an expired certificate can be
     ...    used to verify booted image.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO011.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO011.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO011.001 not supported
     Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/EXPIRED.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
-    Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    EXPIRED
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    EXPIRED    cert.der
     Save Changes And Reset    3    5
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello.efi
-    Should Contain    ${out}    Access Denied
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Access Denied
+
+    Boot Efi File Should Fail    hello.efi    EXPIRED
+    Reset System
+    Boot Efi File Should Fail    signed-hello.efi    EXPIRED
 
 SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     [Documentation]    This test verifies that OS boots after enrolling keys
