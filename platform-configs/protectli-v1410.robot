@@ -1,3 +1,8 @@
+*** Settings ***
+Resource    ../lib/bios/menus-dasharo.robot
+Resource    ../lib/secure-boot-lib-dasharo.robot
+
+
 *** Variables ***
 ${DUT_CONNECTION_METHOD}=                           Telnet
 ${PAYLOAD}=                                         tianocore
