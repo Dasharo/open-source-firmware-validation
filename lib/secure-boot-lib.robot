@@ -260,10 +260,17 @@ Generate Secure Boot Keys In OS
 Enroll Secure Boot Keys In OS
     [Documentation]    Enrolls current keys to EFI using sbctl.
     ...    Returns true if succeeded.
+    [Arguments]    ${result}
     ${out}=    Execute Linux Command    sbctl enroll-keys --yes-this-might-brick-my-machine
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    Enrolled keys to the EFI variables!
-    RETURN    ${sb_status}
+    IF    ${result} == True
+        ${sb_status}=    Run Keyword And Return Status
+        ...    Should Contain    ${out}    Enrolled keys to the EFI variables!
+        RETURN    ${sb_status}
+    ELSE
+        ${sb_status}=    Run Keyword And Return Status
+        ...    Should Contain    ${out}    failed to parse key
+        RETURN    ${sb_status}
+    END
 
 Sign All Boot Components In OS
     [Documentation]    Signs boot components with current keys using sbctl
