@@ -12,19 +12,6 @@ ${INCORRECT_FORMAT_MESSAGE}=    ERROR: Unsupported file type!
 
 
 *** Keywords ***
-Check If Certificate Images For Tests Exists
-    [Documentation]    This keyword generates all the necessary images
-    ...    for secure boot tests.
-    ${images_list}=    Create List    BAD_FORMAT    BAD_KEYS    ECDSA256    ECDSA384
-    ...    ECDSA521    EXPIRED    GOOD_KEYS    INTERMEDIATE    NOT_SIGNED
-    ...    RSA2048    RSA3072    RSA4096
-    FOR    ${image}    IN    @{images_list}
-        ${image_path}=    Set Variable    ${CURDIR}/../scripts/secure-boot/images/${image}.img
-        OperatingSystem.File Should Exist
-        ...    ${image_path}
-        ...    Image ${image}.img does not exist! Please run ./scripts/secure-boot/generate-images/sb-img-wrapper.sh script.
-    END
-
 Get Secure Boot Menu Construction
     [Documentation]    Secure Boot menu is very different than all
     ...    of the others so we need a special keyword for parsing it.
