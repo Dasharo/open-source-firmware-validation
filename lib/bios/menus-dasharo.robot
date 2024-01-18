@@ -3,20 +3,11 @@ Documentation       Collection of keywords related to EDK2 menus
 
 Library             Collections
 Library             String
-Library             ./menus.py
+Library             ./menus-dasharo.py
+Resource            ./menus-common.robot
 
 
 *** Keywords ***
-Enter Boot Menu Tianocore
-    [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
-    ...    keys list.
-    Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${BOOT_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${BOOT_MENU_KEY}
-    END
-
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
     ${menu}=    Read From Terminal Until    exit
@@ -29,21 +20,6 @@ Get Boot Menu Construction
     #    ESC to exit
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
     RETURN    ${construction}
-
-Enter Boot Menu Tianocore And Return Construction
-    [Documentation]    Enters boot menu, returning menu construction
-    Enter Boot Menu Tianocore
-    ${menu}=    Get Boot Menu Construction
-    RETURN    ${menu}
-
-Enter Setup Menu Tianocore
-    [Documentation]    Enter Setup Menu with key specified in platform-configs.
-    Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${SETUP_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${SETUP_MENU_KEY}
-    END
 
 Get Setup Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
@@ -109,12 +85,6 @@ Parse Menu Snapshot Into Construction
     ...    <Spacebar>Toggle Checkbox
     RETURN    ${construction}
 
-Enter Setup Menu Tianocore And Return Construction
-    [Documentation]    Enters Setup Menu and returns Setup Menu construction
-    Enter Setup Menu Tianocore
-    ${menu}=    Get Setup Menu Construction
-    RETURN    ${menu}
-
 Get Submenu Construction
     [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
     # In most cases, we need to strip two lines:
@@ -141,22 +111,6 @@ Get Submenu Construction
     END
     RETURN    ${submenu}
 
-Enter Submenu From Snapshot
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
-    [Arguments]    ${menu}    ${option}
-    ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
-    Should Not Be Equal As Integers    ${index}    -1    msg=Option ${option} not found in menu
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-
-Enter Submenu From Snapshot And Return Construction
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
-    [Arguments]    ${menu}    ${option}    ${opt_only}=${FALSE}
-    Enter Submenu From Snapshot    ${menu}    ${option}
-    ${submenu}=    Get Submenu Construction    opt_only=${opt_only}
-    RETURN    ${submenu}
-
 Save BIOS Changes
     [Documentation]    This keyword saves introduced changes
     Press Key N Times    1    ${F10}
@@ -176,114 +130,6 @@ Enter Dasharo Submenu
     ...    ${option}
     ...    opt_only=${TRUE}
     RETURN    ${submenu}
-
-Get Index Of Matching Option In Menu
-    [Documentation]    This keyword returns the index of element that matches
-    ...    one in given menu
-    [Arguments]    ${menu_construction}    ${option}    ${ignore_not_found_error}=${FALSE}
-    FOR    ${element}    IN    @{menu_construction}
-        ${matches}=    Run Keyword And Return Status
-        ...    Should Match    ${element}    *${option}*
-        IF    ${matches}
-            ${option}=    Set Variable    ${element}
-            BREAK
-        END
-    END
-    ${index}=    Get Index From List    ${menu_construction}    ${option}
-    IF    ${ignore_not_found_error} == ${FALSE}
-        Should Be True    ${index} >= 0    Option ${option} not found in the list
-    END
-    RETURN    ${index}
-
-Press Key N Times And Enter
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key and then press Enter.
-    [Arguments]    ${n}    ${key}
-    Press Key N Times    ${n}    ${key}
-    Press Enter
-
-Press Enter
-    # Before entering new menu, make sure we get rid of all leftovers
-    Sleep    1s
-    Read From Terminal
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-    ELSE
-        Press Key N Times    1    ${ENTER}
-    END
-
-Press Key N Times
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key.
-    [Arguments]    ${n}    ${key}
-    FOR    ${index}    IN RANGE    0    ${n}
-        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Single Key PiKVM    ${key}
-            # Key press time as defined in PiKVM library is 200ms. We need some
-            # additional delay to make sure we can gather all input from terminal after
-            # key press.
-            Sleep    1s
-        ELSE
-            Write Bare Into Terminal    ${key}
-            # May be useful to add sleep here when implementing test in QEMU
-            # to see how the movement looks like.
-            # Sleep    0.5s
-        END
-    END
-
-Get Option State
-    [Documentation]    Gets menu construction and option name as arguments.
-    ...    Returns option state, which can be: True, False, or numeric value.
-    [Arguments]    ${menu}    ${option}
-    ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
-    ${value}=    Get Value From Brackets    ${menu}[${index}]
-    IF    '${value}' == 'X'
-        ${state}=    Set Variable    ${TRUE}
-    ELSE IF    '${value}' == ' '
-        ${state}=    Set Variable    ${FALSE}
-    ELSE
-        ${state}=    Set Variable    ${value}
-    END
-    RETURN    ${state}
-
-Get Option Type
-    [Documentation]    Accepts option state and returns option type. Option
-    ...    type can be one of:    bool, numeric, list.
-    [Arguments]    ${state}
-    # This type of field can either be boolean ([X] or [ ]), or free entry
-    # field. At first, find out which one is it.
-    IF    '${state}' == '${TRUE}' or '${state}' == '${FALSE}'
-        ${type}=    Set Variable    bool
-    ELSE
-        ${status}=    Run Keyword And Return Status
-        ...    Convert To Integer    ${state}
-        IF    ${status} == ${TRUE}
-            ${type}=    Set Variable    numeric
-        ELSE
-            ${type}=    Set Variable    list
-        END
-    END
-    RETURN    ${type}
-
-Select State From List
-    [Documentation]    Accepts a list of option and states (current and target).
-    ...    Selects the target state.
-    [Arguments]    ${list}    ${current_state}    ${target_state}
-    # Calculate offset and direction
-    ${current_index}=    Get Index Of Matching Option In Menu    ${list}    ${current_state}
-    Should Not Be Equal As Integers    ${current_index}    -1
-    ${target_index}=    Get Index Of Matching Option In Menu    ${list}    ${target_state}
-    Should Not Be Equal As Integers    ${target_index}    -1
-    ${diff_index}=    Evaluate    ${target_index} - ${current_index}
-    IF    ${diff_index} > 0
-        ${direction}=    Set Variable    ${ARROW_DOWN}
-        ${offset}=    Set Variable    ${diff_index}
-    ELSE
-        ${direction}=    Set Variable    ${ARROW_UP}
-        ${offset}=    Evaluate    -1 * ${diff_index}
-    END
-    # Select the target state
-    Press Key N Times And Enter    ${offset}    ${direction}
 
 Set Option State
     [Documentation]    Gets menu construction option name, and desired state
@@ -369,7 +215,7 @@ Reset To Defaults Tianocore
 Enter IPXE
     [Documentation]    Enter iPXE after device power cutoff.
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
@@ -462,7 +308,7 @@ Type In Disk Password
 Remove Disk Password
     [Documentation]    Removes disk password
     [Arguments]    @{keys_password}
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -482,9 +328,6 @@ Remove Disk Password
     END
     Press Key N Times    1    ${SETUP_MENU_KEY}
 
-# TODO: calculate steps_to_reset based on the menu construction
-# Hint: Look up: "Get Relative Menu Position" kwd in git history
-
 Save Changes
     [Documentation]    Saves current UEFI settings
     Press Key N Times    1    ${F10}
@@ -496,17 +339,19 @@ Save Changes And Reset
     ...    ${main_menu_steps_to_reset} means how many times should
     ...    arrow down be pressed to get to the Reset option in main
     ...    settings menu
+    # robocop: disable=unused-argument
     [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
+    # robocop: enable
     Save Changes
-    Press Key N Times    ${nesting_level}    ${ESC}
-    Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
+    Sleep    1s
+    Reset System
 
 Boot System Or From Connected Disk
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
     ...    to boot from connected disk set up in config
     [Arguments]    ${system_name}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
+    ${menu_construction}=    Enter Boot Menu And Return Construction
     # When ESP scanning feature is there, boot entries are named differently than
     # they used to
     IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
@@ -542,7 +387,7 @@ Make Sure That Network Boot Is Enabled
     ...    "Networking Options" is enabled when present, so the network
     ...    boot tests can be executed.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${index}=    Get Index Of Matching Option In Menu    ${dasharo_menu}    Networking Options
     IF    ${index} != -1
@@ -559,7 +404,7 @@ Make Sure That Flash Locks Are Disabled
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
     ...    any Dasharo Security Options, if they are present.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${index}=    Get Index Of Matching Option In Menu
     ...    ${dasharo_menu}    Dasharo Security Options
@@ -584,7 +429,7 @@ Make Sure That Flash Locks Are Disabled
 Get Firmware Version From Tianocore Setup Menu
     [Documentation]    Keyword allows to read firmware version from Tianocore
     ...    Setup menu header.
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${output}=    Read From Terminal Until    Select Entry
     ${firmware_line}=    Get Lines Containing String    ${output}    Dasharo (coreboot+UEFI)
     ${firmware_version}=    Get Regexp Matches    ${firmware_line}    v\\d{1,}\.\\d{1,}\.\\d{1,}
@@ -593,7 +438,7 @@ Get Firmware Version From Tianocore Setup Menu
 Disable Firmware Flashing Prevention Options
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
     ...    any Dasharo Security Options, if they are present.
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${index}=    Get Index Of Matching Option In Menu
     ...    ${dasharo_menu}    Dasharo Security Options

@@ -1,8 +1,14 @@
 *** Settings ***
-Documentation       Collection of keywords related to UEFI Secure Boot
+Documentation       Collection of Dasharo keywords related to UEFI Secure Boot
 
 Library             ../lib/secure-boot-lib.py
+Resource            ../lib/secure-boot-lib-common.robot
 Resource            ../keywords.robot
+
+
+*** Variables ***
+${RESET_KEYS_OPTION}=           > Reset to default Secure Boot Keys
+${INCORRECT_FORMAT_MESSAGE}=    ERROR: Unsupported file type!
 
 
 *** Keywords ***
@@ -48,7 +54,7 @@ Get Secure Boot Menu Construction
 
 Enter Secure Boot Menu
     [Documentation]    This keyword enters Secure Boot menu after the platform was powered on.
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -73,6 +79,13 @@ Enter Advanced Secure Boot Keys Management And Return Construction
     Enter Advanced Secure Boot Keys Management    ${sb_menu}
     ${menu}=    Get Submenu Construction    opt_only=${TRUE}
     RETURN    ${menu}
+
+Enter Key Management And Return Construction
+    [Documentation]    Enters Advanced Key Management menu and returns constructions.
+    ...    Should be called from secure boot menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${key_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    RETURN    ${key_menu}
 
 Reset To Default Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Advanced Secure
@@ -106,6 +119,7 @@ Make Sure That Keys Are Provisioned
     IF    ${need_reset} == ${TRUE}
         ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
         Reset To Default Secure Boot Keys    ${advanced_menu}
+        Sleep    3s
         Exit From Current Menu
         ${sb_menu}=    Get Secure Boot Menu Construction
     END
@@ -116,32 +130,14 @@ Enable Secure Boot
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
     Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+    Save Changes
+    Reenter Menu
 
 Disable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
     Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
-
-Check Secure Boot In Linux
-    [Documentation]    Keyword checks Secure Boot state in Linux.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    ${out}=    Execute Linux Command    dmesg | grep secureboot
-    Should Contain Any    ${out}    disabled    enabled
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    enabled
-    RETURN    ${sb_status}
-
-Check Secure Boot In Windows
-    [Documentation]    Keyword checks Secure Boot state in Windows.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    ${out}=    Execute Command In Terminal    Confirm-SecureBootUEFI
-    Should Contain Any    ${out}    True    False
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    True
-    RETURN    ${sb_status}
 
 Enter Enroll DB Signature Using File In DB Options
     [Documentation]    Keyword checks Secure Boot state in Windows.
@@ -155,6 +151,14 @@ Enter Enroll DB Signature Using File In DB Options
     ...    Enroll Signature
     ...    opt_only=${FALSE}
     Enter Submenu From Snapshot    ${enroll_sig_menu}    Enroll Signature Using File
+
+Enroll DB Signature
+    [Documentation]    Enroll new DB Signature. Should be called in Advanced
+    ...    Secure Boot Keys Management or Key Management Menu
+    [Arguments]    ${key_menu}    ${volume}    ${file}
+    Enter Enroll DB Signature Using File In DB Options    ${key_menu}
+    Enter Volume In File Explorer    ${volume}
+    Select File In File Explorer    ${file}
 
 Enter Volume In File Explorer
     [Documentation]    Enter the given volume
@@ -202,7 +206,7 @@ Select File In File Explorer
 Enter UEFI Shell
     [Documentation]    Boots given .efi file from UEFI shell.
     ...    Assumes that it is located on FS0.
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
 
@@ -296,3 +300,32 @@ Generate Wrong Format Keys And Move Them
     ...    openssl ecparam -genkey -name secp384r1 -out ${name}.key && openssl req -new -x509 -key ${name}.key -out ${name}.pem -days 365 -subj "/CN=3mdeb_test"
     Execute Linux Command    mv ${name}.key ${location}
     Execute Linux Command    mv ${name}.pem ${location}
+
+Boot Efi File And Return Response
+    [Documentation]    Boots EFI file and returns response.
+    # robocop: disable=unused-argument
+    [Arguments]    ${file}    ${volume}=${EMPTY}    ${read_only_first_line}=${EMPTY}
+    # robocop: enable
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    ${file}
+    RETURN    ${out}
+
+Boot Efi File
+    [Documentation]    Boots EFI file. Fails if after booting there is no
+    ...    expected_output in terminal
+    [Arguments]    ${file}    ${volume}    ${expected_output}
+    ${out}=    Boot Efi File And Return Response    ${file}    ${volume}
+    Should Contain    ${out}    ${expected_output}    ignore_case=${TRUE}
+
+Boot Efi File Should Fail
+    [Documentation]    Attempts to boot EFI file. Succeeds if attempt results in
+    ...    Secure Boot error message
+    [Arguments]    ${file}    ${volume}
+    ${out}=    Boot Efi File And Return Response    ${file}    ${volume}
+    Should Contain Any    ${out}    Access Denied
+
+Get Secure Boot State
+    [Documentation]    Returns current state of Secure Boot.
+    [Arguments]    ${sb_menu}
+    ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
+    RETURN    ${sb_state}[0]
