@@ -258,8 +258,9 @@ Execute File In UEFI Shell
 
 Remove Old Secure Boot Keys In OS
     [Documentation]    Removes all files and directories in
-    ...    `/usr/share/secureboot/keys/`
-    Execute Linux Command Without Output    rm -rf /usr/share/secureboot/keys/*
+    ...    `/usr/share/secureboot` which is used by sbctl in the operating
+    ...    system
+    Execute Linux Command Without Output    rm -rf /usr/share/secureboot
 
 Generate Secure Boot Keys In OS
     [Documentation]    Generates new Secure Boot keys using sbctl.
