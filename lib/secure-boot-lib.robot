@@ -14,8 +14,9 @@ Check If Certificate Images For Tests Exists
     ...    RSA2048    RSA3072    RSA4096
     FOR    ${image}    IN    @{images_list}
         ${image_path}=    Set Variable    ${CURDIR}/../scripts/secure-boot/images/${image}.img
-        OperatingSystem.File Should Exist    ${image_path}
-        ...    Image ${image}.img does not exist! Please run ./scripts/secure-boot/generate-images/wrapper.sh script.
+        OperatingSystem.File Should Exist
+        ...    ${image_path}
+        ...    Image ${image}.img does not exist! Please run ./scripts/secure-boot/generate-images/sb-img-wrapper.sh script.
     END
 
 Get Secure Boot Menu Construction
