@@ -1,3 +1,8 @@
+*** Settings ***
+Resource    ../lib/bios/menus-dasharo.robot
+Resource    ../lib/secure-boot-lib-dasharo.robot
+
+
 *** Variables ***
 # For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
 # We need to go back to the initial method (pikvm) when switching back from
