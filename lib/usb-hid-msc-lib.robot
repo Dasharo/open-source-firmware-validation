@@ -33,3 +33,22 @@ Download ISO And Mount As USB
             Skip    unsupported
         END
     END
+
+Mount ISO As USB In QEMU
+    [Documentation]    Mounts an ISO file that was made during suite setup
+    ...    of secure boot tests.
+    [Arguments]    ${img_path}
+
+    ${img_dir}    ${img_name}=    Split Path    ${img_path}
+
+    IF    "${MANUFACTURER}" == "QEMU"
+        Remove Drive From Qemu
+        Add USB To Qemu    img_name=${img_path}
+    ELSE
+        IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
+            Upload Image To PiKVM    ${PIKVM_IP}    ${IMG_URL}    ${img_name}
+            Mount Image On PiKVM    ${PIKVM_IP}    ${img_name}
+        ELSE
+            Skip    unsupported
+        END
+    END
