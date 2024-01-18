@@ -148,33 +148,6 @@ Enroll DB Signature
     Enter Volume In File Explorer    ${volume}
     Select File In File Explorer    ${file}
 
-Enter Volume In File Explorer
-    [Documentation]    Enter the given volume
-    [Arguments]    ${target_volume}
-    # 1. Read out the whole File Explorer menu
-    ${volumes}=    Get Submenu Construction    opt_only=${TRUE}
-    Log    ${volumes}
-    # 2. See if our label is within these entries
-    ${index}=    Get Index Of Matching Option In Menu    ${volumes}    ${target_volume}    ${TRUE}
-    # 3. If yes, go to the selected label
-    IF    ${index} != -1
-        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-        # 4. If no, get the number of entries and go that many times below
-    ELSE
-        ${volumes_no}=    Get Length    ${volumes}
-        Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
-        #    - check if the label is what we need, if yes, select
-        FOR    ${in}    IN RANGE    20
-            ${new_entry}=    Read From Terminal
-            ${status}=    Run Keyword And Return Status
-            ...    Should Contain    ${new_entry}    ${target_volume}
-            IF    ${status} == ${TRUE}    BREAK
-            IF    ${in} == 19    Fail    Volume not found
-            Press Key N Times    1    ${ARROW_DOWN}
-        END
-        Press Key N Times    1    ${ENTER}
-    END
-
 Select File In File Explorer
     [Documentation]    Select the given file
     [Arguments]    ${target_file}
