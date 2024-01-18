@@ -1,5 +1,7 @@
 *** Settings ***
 Resource    ../../os-config/ubuntu-credentials.robot
+Resource    ../../lib/bios/menus-dasharo.robot
+Resource    ../../lib/secure-boot-lib-dasharo.robot
 
 
 *** Variables ***
