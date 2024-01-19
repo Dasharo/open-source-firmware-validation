@@ -16,8 +16,7 @@ Run Ansible Playbook On Supported Operating Systems
     IF    '${ANSIBLE_CONFIG}' != 'yes'
         Log    ANSIBLE_CONFIG not set to `Yes`, skipping configuration...    INFO
     ELSE
-        IF    '${CONFIG}' == 'qemu'
-            ${ip_address}=    Set Variable    127.0.0.1
+        IF    '${ANSIBLE_SUPPORT}' == '${TRUE}'
             IF    '${TESTS_IN_UBUNTU_SUPPORT}' == '${TRUE}'
                 Power On
                 Boot System Or From Connected Disk    ubuntu
