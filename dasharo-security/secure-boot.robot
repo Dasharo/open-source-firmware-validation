@@ -121,7 +121,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ...    a signed file with a correct key.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/GOOD_KEYS.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/GOOD_KEYS.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -135,7 +135,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     ...    without a key.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/NOT_SIGNED.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/NOT_SIGNED.img
     Power On
     Boot Efi File Should Fail    hello.efi    NOT_SIGNED
 
@@ -144,7 +144,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     ...    a signed file with a wrong-signed key.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/BAD_KEYS.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/BAD_KEYS.img
     Power On
     Boot Efi File Should Fail    signed-hello.efi    BAD_KEYS
 
@@ -163,7 +163,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ...    removes any custom added certificates.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/GOOD_KEYS.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/GOOD_KEYS.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -186,7 +186,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ...    a certificate in the wrong file format.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/BAD_FORMAT.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/BAD_FORMAT.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -199,7 +199,7 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     ...    intermediate certificate can be executed.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO009.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO009.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/INTERMEDIATE.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/INTERMEDIATE.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -215,7 +215,7 @@ SBO010.001 Check support for rsa2k signed certificates
     ...    converted to DER using `openssl base64 -d -in DB-RSA2048.cer -out DB-RSA2048.der`
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/RSA2048.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/RSA2048.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -231,7 +231,7 @@ SBO010.002 Check support for rsa3k signed certificates
     ...    converted to DER using `openssl base64 -d -in DB-RSA3072.cer -out DB-RSA3072.der`
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.002 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.002 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/RSA3072.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/RSA3072.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -247,7 +247,7 @@ SBO010.003 Check support for rsa4k signed certificates
     ...    converted to DER using `openssl base64 -d -in DB-RSA4096.cer -out DB-RSA4096.der`
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.003 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.003 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/RSA4096.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/RSA4096.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -264,7 +264,7 @@ SBO010.004 Check support for ecdsa256 signed certificates
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA256.cer -out DB-ECDSA256.der`
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.004 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.004 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/ECDSA256.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/ECDSA256.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -281,7 +281,7 @@ SBO010.005 Check support for ecdsa384 signed certificates
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA384.cer -out DB-ECDSA384.der`
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.005 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.005 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/ECDSA384.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/ECDSA384.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -298,7 +298,7 @@ SBO010.006 Check support for ecdsa521 signed certificates
     ...    converted to DER using `openssl base64 -d -in DB-ECDSA521.cer -out DB-ECDSA521.der`
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO010.006 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.006 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/ECDSA521.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/ECDSA521.img
     Power On
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -314,7 +314,7 @@ SBO011.001 Attempt to enroll expired certificate and boot signed image
     ...    used to verify booted image.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO011.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO011.001 not supported
-    Mount ISO As USB In QEMU    ${CURDIR}/../scripts/secure-boot/images/EXPIRED.img
+    Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/EXPIRED.img
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}

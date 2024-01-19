@@ -34,9 +34,10 @@ Download ISO And Mount As USB
         END
     END
 
-Mount ISO As USB In QEMU
-    [Documentation]    Mounts an ISO file that was made during suite setup
-    ...    of secure boot tests.
+Mount ISO As USB
+    [Documentation]    Mounts an ISO file from the local sources. In case of
+    ...    PiKVM we need to manually upload images to the device.
+    ...    see: https://docs.pikvm.org/msd/
     [Arguments]    ${img_path}
 
     ${img_dir}    ${img_name}=    Split Path    ${img_path}
@@ -46,7 +47,6 @@ Mount ISO As USB In QEMU
         Add USB To Qemu    img_name=${img_path}
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Upload Image To PiKVM    ${PIKVM_IP}    ${IMG_URL}    ${img_name}
             Mount Image On PiKVM    ${PIKVM_IP}    ${img_name}
         ELSE
             Skip    unsupported
