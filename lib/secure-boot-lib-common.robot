@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation       Collection of common keywords related to UEFI Secure Boot
 
+Library             ../lib/secure-boot-lib-common.py
 Resource            ../keywords.robot
 
 
@@ -99,7 +100,7 @@ Autoenroll Secure Boot Certificates
     Save Changes And Reset    3    5
 
     # 2. Boot to Automatic provisioning tool
-    Boot Dasharo Tools Suite    USB    True
+    Boot Dasharo Tools Suite    USB    ${TRUE}
 
     # 3. Enable SB after provisioning
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction

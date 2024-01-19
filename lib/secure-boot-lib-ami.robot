@@ -62,9 +62,11 @@ Erase All Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Key Management
     ...    menu already.
     [Arguments]    ${advanced_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Press Key N Times    1    ${HOME}
+    Read From Terminal
     Enter Submenu From Snapshot    ${advanced_menu}    > Reset To Setup Mode
     Select Ami Option    ${TRUE}    frame_name=Reset To Setup Mode
-    Press Enter
 
 Make Sure That Keys Are Provisioned
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
@@ -76,13 +78,17 @@ Make Sure That Keys Are Provisioned
         Press Key N Times And Enter    1    ${ARROW_DOWN}
         Press Key N Times    1    ${HOME}
     END
+    ${setup_mode}=    Run Keyword And Return Status
+    ...    Should Contain Match    ${sb_menu}    System Mode *Setup*
     ${sb_menu}=    Get Slice From List    ${sb_menu}    1
-    Reset To Default Secure Boot Keys    ${sb_menu}
-    Press Key N Times    1    ${ESC}
-    Read From Terminal
-    Press Enter
-    ${sb_menu}=    Get Secure Boot Menu Construction    checkpoint=ESC: Exit
-    ${sb_menu}=    Get Slice From List    ${sb_menu}    1
+    IF    ${setup_mode} == ${TRUE}
+        Reset To Default Secure Boot Keys    ${sb_menu}
+        Press Key N Times    1    ${ESC}
+        Read From Terminal
+        Press Enter
+        ${sb_menu}=    Get Secure Boot Menu Construction    checkpoint=ESC: Exit
+        ${sb_menu}=    Get Slice From List    ${sb_menu}    1
+    END
     RETURN    ${sb_menu}
 
 Enable Secure Boot
@@ -203,3 +209,7 @@ Get Secure Boot State
     [Arguments]    ${sb_menu}
     ${sb_state}=    Get Matches    ${sb_menu}    Secure Boot*
     RETURN    ${sb_state}[0]
+
+Make Sure There Is Secure Boot Error
+    [Documentation]    Makes sure there is secure boot error.
+    Read From Terminal Until    Secure Boot Violation

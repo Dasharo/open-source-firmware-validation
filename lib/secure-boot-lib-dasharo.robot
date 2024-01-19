@@ -1,9 +1,7 @@
 *** Settings ***
 Documentation       Collection of Dasharo keywords related to UEFI Secure Boot
 
-Library             ../lib/secure-boot-lib.py
 Resource            ../lib/secure-boot-lib-common.robot
-Resource            ../keywords.robot
 
 
 *** Variables ***
@@ -71,7 +69,7 @@ Enter Key Management And Return Construction
     [Documentation]    Enters Advanced Key Management menu and returns constructions.
     ...    Should be called from secure boot menu
     [Arguments]    ${sb_menu}=${EMPTY}
-    IF    ${sb_menu} == ${EMPTY}
+    IF    '''@{sb_menu}''' == '''@{EMPTY}'''
         ${sb_menu}=    Get Secure Boot Menu Construction
     END
     ${key_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
@@ -240,3 +238,7 @@ Get Secure Boot State
     [Arguments]    ${sb_menu}
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
     RETURN    ${sb_state}[0]
+
+Make Sure There Is Secure Boot Error
+    [Documentation]    Makes sure there is secure boot error.
+    Read From Terminal Until    Press any key to continue...

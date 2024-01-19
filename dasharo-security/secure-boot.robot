@@ -386,7 +386,7 @@ SBO013.001 Check automatic certificate provisioning
 
     # 3. Verify by booting unsigned Ubuntu:
     Boot System Or From Connected Disk    ubuntu
-    Read From Terminal Until    Press any key to continue...
+    Make Sure There Is Secure Boot Error
     Power On
 
     # 4. Clean up
@@ -451,7 +451,7 @@ SBO014.001 Enroll certificates using sbctl
     Enable Secure Boot    ${sb_menu}
     Save Changes And Reset    2
     Boot System Or From Connected Disk    ubuntu
-    Read From Terminal Until    Press any key to continue...
+    Make Sure There Is Secure Boot Error
 
     # 5. Clean up
     Power On

@@ -133,7 +133,7 @@ Select Ami Option
     ...    ${boot_frame}=${FALSE}    ${frame_name}=${EMPTY}
     ${out}=    Read From Terminal Until    ---/
     IF    '${frame_name}' != '${EMPTY}'
-        ${header}=    Extract Ami Header    ${out}
+        ${header}=    Extract Ami Frame Name    ${out}
         Should Contain    ${header}    ${frame_name}
     END
     IF    '${option}' == '${TRUE}'
