@@ -87,9 +87,8 @@ source venv/bin/activate
 * Before running the tests from `dasharo-security/secure-boot.robot`, please run
   the [sb-img-wrapper.sh](./scripts/secure-boot/generate-images/sb-img-wrapper.sh)
   script. Its task is to generate ISO images with the certificates and efi files
-  used during tests. If you are running tests with PiKVM, you need to upload
-  them manually, follow official [documentation](https://docs.pikvm.org/msd/) to
-  check how to do that.
+  used during tests. If you are running tests with PiKVM, you need to add PiKVM
+  IP as a first argument to upload generated images.
 
 > NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
 > Go through [these
