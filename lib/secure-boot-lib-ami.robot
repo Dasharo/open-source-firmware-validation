@@ -44,6 +44,9 @@ Enter Secure Boot Menu And Return Construction
 Enter Key Management And Return Construction
     [Documentation]    Enters (Advanced) Key Management menu and returns constructions.
     ...    Should be called from secure boot menu
+    # robocop: disable=unused-argument
+    [Arguments]    ${sb_menu}=${EMPTY}
+    # robocop: enable
     Press Key N Times And Enter    1    ${END}
     ${terminal}=    Read From Terminal Until    ESC: Exit
     ${key_menu}=    Get Ami Submenu Construction    ${terminal}
@@ -53,6 +56,14 @@ Reset To Default Secure Boot Keys
     [Documentation]    This keyword works in Secure Boot and Key Management Menu
     [Arguments]    ${key_menu}
     Enter Submenu From Snapshot    ${key_menu}    Restore Factory Keys
+    Press Enter
+
+Erase All Secure Boot Keys
+    [Documentation]    This keyword assumes that we are in the Key Management
+    ...    menu already.
+    [Arguments]    ${advanced_menu}
+    Enter Submenu From Snapshot    ${advanced_menu}    > Reset To Setup Mode
+    Select Ami Option    ${TRUE}    frame_name=Reset To Setup Mode
     Press Enter
 
 Make Sure That Keys Are Provisioned
@@ -78,7 +89,11 @@ Enable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    ${sb_menu}=    Get Slice From List    ${sb_menu}    1
+    ${remove_first}=    Run Keyword And Return Status    Should Contain
+    ...    ${sb_menu}[0]    System Mode
+    IF    ${remove_first} == ${TRUE}
+        ${sb_menu}=    Get Slice From List    ${sb_menu}    1
+    END
     Set Option State    ${sb_menu}    Secure Boot *\[    Enabled
 
 Disable Secure Boot

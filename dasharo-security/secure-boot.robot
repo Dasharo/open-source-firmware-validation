@@ -175,7 +175,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    ${key_menu}=    Enter Key Management And Return Construction
     Reset To Default Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
 
@@ -336,8 +336,8 @@ SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     Power On
     # 1. Make sure we are in Setup Mode
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Erase All Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${key_menu}
     Exit From Current Menu
     Save Changes And Reset    2
 
@@ -391,8 +391,8 @@ SBO013.001 Check automatic certificate provisioning
 
     # 4. Clean up
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${key_menu}
 
 SBO013.002 Check automatic certificate provisioning KEK certificate
     [Documentation]    This test verifies that the automatic certificate
@@ -417,8 +417,8 @@ SBO013.002 Check automatic certificate provisioning KEK certificate
     # 4. Clean up
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${key_menu}
 
 SBO014.001 Enroll certificates using sbctl
     [Documentation]    This test erases Secure Boot keys from the BIOS menu and
@@ -429,8 +429,8 @@ SBO014.001 Enroll certificates using sbctl
 
     # 1. Erase Secure Boot Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Erase All Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
 
     # 2. Boot to Ubuntu
@@ -456,8 +456,8 @@ SBO014.001 Enroll certificates using sbctl
     # 5. Clean up
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -474,8 +474,8 @@ SBO015.001 Attempt to enroll the key in the incorrect format (OS)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO015.001 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Erase All Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
     Boot System Or From Connected Disk    ubuntu
     Login To Linux

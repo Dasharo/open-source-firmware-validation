@@ -88,3 +88,20 @@ Check Secure Boot In Windows
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    True
     RETURN    ${sb_status}
+
+Autoenroll Secure Boot Certificates
+    [Documentation]    Enrolls Secure boot certificates automatically using tool
+    ...    for automatic provisioning
+    # 1. Erase Secure Boot Keys
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${key_menu}
+    Save Changes And Reset    3    5
+
+    # 2. Boot to Automatic provisioning tool
+    Boot Dasharo Tools Suite    USB    True
+
+    # 3. Enable SB after provisioning
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes And Reset
