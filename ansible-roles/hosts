@@ -1,2 +1,5 @@
 [qemu_ubuntu]
 127.0.0.1:5222 ansible_user=ubuntu ansible_ssh_pass=ubuntu
+
+[mpl-pip4_ubuntu]
+192.168.4.186:22 ansible_user=ubuntu ansible_ssh_pass=ubuntu

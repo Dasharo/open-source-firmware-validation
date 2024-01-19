@@ -1,6 +1,7 @@
 ---
 - name: Install dependency packages
-  hosts: qemu_ubuntu
+  hosts: all
+  ignore_unreachable: true
   become: true
   tasks:
     - name: Check prerequisites
@@ -13,8 +14,8 @@
         state: present
 
 - name: Fetch sbctl from GitHub
-  hosts: qemu_ubuntu
-
+  hosts: all
+  ignore_unreachable: true
   tasks:
     - name: Fetch sbctl repository
       git:
@@ -22,9 +23,9 @@
         dest: "/tmp/sbctl"
 
 - name: Build and install sbctl
-  hosts: qemu_ubuntu
+  hosts: all
+  ignore_unreachable: true
   become: true
-
   tasks:
     - name: Build sbctl
       make:
