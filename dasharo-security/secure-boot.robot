@@ -191,7 +191,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     ${key_menu}=    Enter Key Management And Return Construction
-    Enroll DB Signature    ${key_menu}    BAD_FORMAT    cert.crt
+    Enroll DB Signature    ${key_menu}    BAD_FORMAT    cert.der
     Read From Terminal Until    ${INCORRECT_FORMAT_MESSAGE}
 
 SBO009.001 Attempt to boot file signed for intermediate certificate

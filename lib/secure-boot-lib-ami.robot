@@ -6,7 +6,7 @@ Resource            ./secure-boot-lib-common.robot
 
 *** Variables ***
 ${RESET_KEYS_OPTION}=           > Restore Factory Keys
-${INCORRECT_FORMAT_MESSAGE}=    Security Violation
+${INCORRECT_FORMAT_MESSAGE}=    Load Error
 
 
 *** Keywords ***

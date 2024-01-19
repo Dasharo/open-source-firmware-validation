@@ -111,6 +111,7 @@ Boot Option
                 Press Enter
                 Read From Terminal Until    ---/
                 ${found}=    Set Variable    ${TRUE}
+                BREAK
             END
         END
     END
