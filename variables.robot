@@ -331,7 +331,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sbo_name=USB    name=SanDisk Ultra USB 3.0
 &{USB13}=                   vendor=Artificial    volume=1GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB    name=PiKVM Composite KVM Device
+...                         sbo_name=USB    name=PiKVM Composite KVM
 &{USB14}=                   vendor=Kingston    volume=32GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=2
 ...                         sbo_name=USB    name=USB DISK 3.0
