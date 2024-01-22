@@ -14,7 +14,7 @@ Boot Dasharo Tools Suite
     ${boot_menu}=    Enter Boot Menu And Return Construction
     IF    '${dts_booting_method}'=='USB'
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
+            Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM
         ELSE IF    '${MANUFACTURER}' == 'QEMU'
             Enter Submenu From Snapshot    ${boot_menu}    QEMU
         ELSE
@@ -30,20 +30,20 @@ Boot Dasharo Tools Suite
         FAIL    Unknown or improper connection method: ${dts_booting_method}
     END
 
-    # For PiKVM devices, we have only input on serial, not output. The video and serial consoles are
-    # two different console in case of Linux, they are not in sync anymore as in case of firmware.
-    # We have to switch to SSH connection to continue test execution on such devices.
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        # Wait for the menu to be loaded on serial
-        Read From Terminal Until    Enter an option:
-        # Enable SSH server and switch to SSH connection by writing on video console "in blind"
-        Write Into Terminal    8
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-        Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
-        # Spawn DTS menu on SSH console
-        Write Into Terminal    dts
-    END
     IF    ${certificate_provisioning} == 'False'
+        # For PiKVM devices, we have only input on serial, not output. The video and serial consoles are
+        # two different console in case of Linux, they are not in sync anymore as in case of firmware.
+        # We have to switch to SSH connection to continue test execution on such devices.
+        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+            # Wait for the menu to be loaded on serial
+            Read From Terminal Until    Enter an option:
+            # Enable SSH server and switch to SSH connection by writing on video console "in blind"
+            Write Into Terminal    8
+            Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+            Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
+            # Spawn DTS menu on SSH console
+            Write Into Terminal    dts
+        END
         Read From Terminal Until    Enter an option:
         Sleep    5s
     END
