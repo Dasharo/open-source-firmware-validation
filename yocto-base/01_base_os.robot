@@ -19,9 +19,7 @@ Suite Teardown      Log Out And Close Connection
 Y003.1 Platform boots
     [Documentation]    This test verifies booting of the device.
     Variable Should Exist    ${DUT_PASSWORD}
-    Sonoff Power Off
-    Sleep    5s
-    Sonoff Power On
+    Power Cycle On
     Serial Root Login Linux    ${DUT_PASSWORD}
 
 Y003.2 Basic Packages are installed
@@ -33,18 +31,18 @@ Y003.2 Basic Packages are installed
 Y003.3 USB devices are visible
     [Documentation]    check whether we can see a USB stick that's plugged in.
     ...    Also checks whether we mount/umount it and write/read.
-    ${output}=    Telnet.Execute Command    lsblk | grep sda | wc -l
-    ${output}=    Get Line    ${output}    0
-    Should Be Equal As Strings    ${output}    2
-    Telnet.Execute Command    mount /dev/sda1 /mnt
+    ${partition}=    Telnet.Execute Command
+    ...    dmesg | grep -F "USB Mass Storage device detected" --context=10 | grep 'sd[^[:space:]]' | tail -1 | awk '{gsub(/[\\[\\]]/, "", $5); print $5}'
+    ${partition}=    Get Line    ${partition}    0
+    Telnet.Execute Command    mount /dev/${partition}1 /mnt
     Telnet.Execute Command    echo hi > /mnt/something.txt
-    Telnet.Execute Command    umount /dev/sda*
-    Telnet.Execute Command    mount /dev/sda1 /mnt
+    Telnet.Execute Command    umount /dev/${partition}*
+    Telnet.Execute Command    mount /dev/${partition}1 /mnt
     ${output}=    Telnet.Execute Command    cat /mnt/something.txt
     ${output}=    Get Line    ${output}    0
     Should Be Equal As Strings    ${output}    hi
     Telnet.Execute Command    rm /mnt/something.txt
-    Telnet.Execute Command    umount /dev/sda*
+    Telnet.Execute Command    umount /dev/${partition}*
 
 Y003.4 Ethernet connection is supported
     [Documentation]    tests whether we have an internet connection
