@@ -30,7 +30,8 @@ Run Ansible Playbook On Supported Operating Systems
                 Should Not Contain    ${output}    FAIL
                 Switch To Root User
                 Write Into Terminal    reboot
-                Read From Terminal Until    Reached target System Reboot.
+                Restore Initial DUT Connection Method
+                Read From Terminal Until    System Reboot
             END
         ELSE
             Log    This keyword works only on QEMU...    INFO
