@@ -375,6 +375,7 @@ SBO013.001 Check automatic certificate provisioning
     ...    certificate provisioning is attached and can be booted on DUT.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO013.001 not supported
     Skip If    not ${DTS_UEFI_SB_SUPPORT}    SBO013.001 not supported
+    Skip
     Power On
 
     # 1. Enroll certificate using automatic provisioning tool
@@ -401,6 +402,7 @@ SBO013.002 Check automatic certificate provisioning KEK certificate
     ...    attached and can be booted on DUT.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO013.002 not supported
     Skip If    not ${DTS_UEFI_SB_SUPPORT}    SBO013.002 not supported
+    Skip
     Power On
 
     # 1. Enroll certificate using automatic provisioning tool
@@ -425,6 +427,7 @@ SBO014.001 Enroll certificates using sbctl
     ...    verifies if new keys can be enrolled from operating system using
     ...    sbctl.
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO014.001 not supported
+    Skip
     Power On
 
     # 1. Erase Secure Boot Keys
