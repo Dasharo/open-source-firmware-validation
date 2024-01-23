@@ -39,6 +39,19 @@ Enter Setup Menu And Return Construction
     ${menu}=    Get Setup Menu Construction
     RETURN    ${menu}
 
+Exit From Current Menu
+    [Documentation]    Exits from current menu, refreshing screen.
+    # ESC itself does not "refresh" the data over serial. Only pressing
+    # other keys (such as arrow keys) makes the change caused by ESC
+    # (moving back one menu up) to be redrawn. Using either UP and then DOWN,
+    # or just LEFT / RIGHT (which does not impact any actual movement) should
+    # be safe to use here.
+    Press Key N Times    1    ${ESC}
+    # Before entering new menu, make sure we get rid of all leftovers
+    Sleep    1s
+    Read From Terminal
+    Press Key N Times    1    ${ARROW_LEFT}
+
 Reset System
     # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
     # On serial console it is ESC R ESC r ESC R.
