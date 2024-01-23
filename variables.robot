@@ -205,7 +205,7 @@ ${OS_UBUNTU}=               ubuntu
 
 # MPL-PIP4
 &{RTE56}=                   ip=192.168.4.165    cpuid=02c00042ea42e744    pcb_rev=1.0.0
-...                         platform=mpl-pip4    sonoff_ip=mpl_sonoff.local
+...                         platform=mpl-pip4    sonoff_ip=192.168.4.222
 ...                         board-revision=x    env=dev    platform_vendor=mpl
 ...                         pikvm_ip=192.168.4.105
 
