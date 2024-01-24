@@ -97,7 +97,7 @@ Autoenroll Secure Boot Certificates
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${key_menu}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     # 2. Boot to Automatic provisioning tool
     Boot Dasharo Tools Suite    USB    ${TRUE}

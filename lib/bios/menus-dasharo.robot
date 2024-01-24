@@ -494,7 +494,7 @@ Add Boot Option
             Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
         END
     ELSE IF    "${system_name}" == "windows"
-        Log Add Boot Option For Windows Is Not Implemented Yet.
+        Fail    Add Boot Option For Windows Is Not Implemented Yet.
     END
 
     # 3. Set name for the option:

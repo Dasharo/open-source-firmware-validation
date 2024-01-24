@@ -343,7 +343,7 @@ SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${key_menu}
     Exit From Current Menu
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -363,7 +363,7 @@ SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     # 4. Enable Secure Boot
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     # 5. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -438,7 +438,7 @@ SBO014.001 Enroll certificates using sbctl
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${key_menu}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     # 2. Boot to Ubuntu
     Boot System Or From Connected Disk    ubuntu
@@ -456,7 +456,7 @@ SBO014.001 Enroll certificates using sbctl
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Make Sure There Is Secure Boot Error
 
@@ -465,7 +465,7 @@ SBO014.001 Enroll certificates using sbctl
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${key_menu}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -483,7 +483,7 @@ SBO015.001 Attempt to enroll the key in the incorrect format (OS)
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${key_menu}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
