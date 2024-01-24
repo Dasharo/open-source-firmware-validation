@@ -347,7 +347,7 @@ Flash Device Via External Programmer
     ...    result. Implementation must be compatible with the theory
     ...    of operation of a specific platform.
     [Arguments]    ${fw_file}
-    Set Local Variable    ${CMD}    ./flashrom -p ch341a_spi -c GD25B128B/GD25Q128B -w ${fw_file}
+    Set Local Variable    ${cmd}    ./flashrom -p ch341a_spi -c GD25B128B/GD25Q128B -w ${fw_file}
     # TODO:
     # - flashing via RTE does not work yet
     # ${out}=

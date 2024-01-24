@@ -25,16 +25,16 @@ Set Platform Sleep Type
     [Arguments]    ${platform_sleep_type}
     Power On
     IF    '${platform_sleep_type}' == 'S0ix'
-        Set Local Variable    ${PLATFORM_SLEEP_TYPE_TEXT}    Suspend to Idle (S0ix)
+        Set Local Variable    ${platform_sleep_type_text}    Suspend to Idle (S0ix)
     ELSE IF    '${platform_sleep_type}' == 'S3'
-        Set Local Variable    ${PLATFORM_SLEEP_TYPE_TEXT}    Suspend to RAM (S3)
+        Set Local Variable    ${platform_sleep_type_text}    Suspend to RAM (S3)
     ELSE
         Fail    Wrong Argument
     END
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${power_menu}    Platform sleep type    ${PLATFORM_SLEEP_TYPE_TEXT}
+    Set Option State    ${power_menu}    Platform sleep type    ${platform_sleep_type_text}
     Save Changes And Reset
 
 Check Platform Sleep Type Is Correct On Linux

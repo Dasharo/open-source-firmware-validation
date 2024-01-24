@@ -65,15 +65,15 @@ STB001.002 Verify if no reboot occurs in the OS (Ubuntu 22.04)
     Login To Linux
     Switch To Root User
     ${timer}=    Convert To Integer    0
-    Set Local Variable    ${DEVICE_UPTIME}    0
+    Set Local Variable    ${device_uptime}    0
     FOR    ${i}    IN RANGE    (${STABILITY_TEST_DURATION} / ${STABILITY_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
         ${uptime_output}=    Execute Command In Terminal    uptime -p
         ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
         ${current_uptime}=    Convert To Integer    ${uptime_output.split()[1]}
-        IF    ${current_uptime} >= ${DEVICE_UPTIME}
-            Set Local Variable    ${DEVICE_UPTIME}    ${current_uptime}
+        IF    ${current_uptime} >= ${device_uptime}
+            Set Local Variable    ${device_uptime}    ${current_uptime}
         ELSE
             FAIL    \n The device has been reset during the test!
         END
@@ -91,7 +91,7 @@ STB001.003 Verify if no reboot occurs in the OS (Windows 11)
     Power On
     Login To Windows
     ${timer}=    Convert To Integer    0
-    Set Local Variable    ${DEVICE_UPTIME}    0
+    Set Local Variable    ${device_uptime}    0
     FOR    ${i}    IN RANGE    (${STABILITY_TEST_DURATION} / ${STABILITY_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
@@ -99,8 +99,8 @@ STB001.003 Verify if no reboot occurs in the OS (Windows 11)
         ${network_status}=    Execute Command In Terminal    Get-NetAdapter -Name "Ethernet*"
         ${current_uptime}=    Convert To Number    ${uptime_output.split()[26]}
         ${current_uptime}=    Convert To Integer    ${current_uptime}
-        IF    ${current_uptime} >= ${DEVICE_UPTIME}
-            Set Local Variable    ${DEVICE_UPTIME}    ${current_uptime}
+        IF    ${current_uptime} >= ${device_uptime}
+            Set Local Variable    ${device_uptime}    ${current_uptime}
         ELSE
             FAIL    \n The device has been reset during the test!
         END
