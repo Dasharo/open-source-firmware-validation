@@ -927,8 +927,8 @@ Device Detection In Linux
 
 Check Charge Level In Linux
     [Documentation]    Keyword checks the charge level in Linux OS.
-    Set Local Variable    ${CMD}    cat /sys/class/power_supply/BAT0/charge_now
-    ${out}=    Execute Linux Command    ${CMD}
+    Set Local Variable    ${cmd}    cat /sys/class/power_supply/BAT0/charge_now
+    ${out}=    Execute Linux Command    ${cmd}
     # capacity in uAh
     ${capacity}=    Convert To Integer    ${out}
     Should Be True    ${capacity} <= ${CLEVO_BATTERY_CAPACITY}
@@ -991,16 +991,16 @@ Set Brightness In Linux
 Get Current Brightness In Linux
     [Documentation]    Keyword gets current brightness in Linux OS and returns
     ...    it as an integer.
-    Set Local Variable    ${CMD}    cat /sys/class/backlight/acpi_video0/brightness
-    ${out1}=    Execute Linux Command    ${CMD}
+    Set Local Variable    ${cmd}    cat /sys/class/backlight/acpi_video0/brightness
+    ${out1}=    Execute Linux Command    ${cmd}
     ${brightness}=    Convert To Integer    ${out1}
     RETURN    ${brightness}
 
 Get Maximum Brightness In Linux
     [Documentation]    Keyword gets maximum brightness in Linux OS and returns
     ...    it as an integer.
-    Set Local Variable    ${CMD}    cat /sys/class/backlight/acpi_video0/max_brightness
-    ${out1}=    Execute Linux Command    ${CMD}
+    Set Local Variable    ${cmd}    cat /sys/class/backlight/acpi_video0/max_brightness
+    ${out1}=    Execute Linux Command    ${cmd}
     ${brightness}=    Convert To Integer    ${out1}
     RETURN    ${brightness}
 
@@ -1336,8 +1336,8 @@ Read System Information In Petitboot
     Sleep    2s
     ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    System information
-    Set Local Variable    ${MOVE}    7
-    FOR    ${index}    IN RANGE    0    ${MOVE}
+    Set Local Variable    ${move}    7
+    FOR    ${index}    IN RANGE    0    ${move}
         Write Bare Into Terminal    ${ARROW_UP}
         Read From Terminal
     END
@@ -1353,8 +1353,8 @@ Rescan Devices In Petitboot
     Sleep    2s
     ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    Rescan devices
-    Set Local Variable    ${MOVE}    3
-    FOR    ${index}    IN RANGE    0    ${MOVE}
+    Set Local Variable    ${move}    3
+    FOR    ${index}    IN RANGE    0    ${move}
         Write Bare Into Terminal    ${ARROW_UP}
         Read From Terminal
     END
@@ -1498,7 +1498,7 @@ Boot Operating System
     ...    DUT. Takes as an argument operating system name.
     [Arguments]    ${operating_system}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Set Local Variable    ${IS_SYSTEM_INSTALLED}    ${FALSE}
+    Set Local Variable    ${is_system_installed}    ${FALSE}
     Enter Boot Menu Tianocore
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
@@ -1548,10 +1548,10 @@ Identify Path To USB
         ${model}=    Execute Linux Command    cat /sys/class/block/${disk}/device/model
         ${model_name}=    Fetch From Left    ${model}    \r\n
         ${model_name}=    Fetch From Right    ${model_name}    \r
-        Set Local Variable    ${USB_DISK}    ${disk}
+        Set Local Variable    ${usb_disk}    ${disk}
         IF    '${model_name}' == '${USB_MODEL}'    BREAK
     END
-    ${out}=    Execute Linux Command    lsblk | grep ${USB_DISK} | grep part | cat
+    ${out}=    Execute Linux Command    lsblk | grep ${usb_disk} | grep part | cat
     ${split}=    Split String    ${out}
     ${path_to_usb}=    Get From List    ${split}    7
     RETURN    ${path_to_usb}

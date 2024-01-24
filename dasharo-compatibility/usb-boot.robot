@@ -33,7 +33,7 @@ UBT001.001 USB detect and boot after coldboot
     ...    boots into the operating system after coldboot (reboot
     ...    realized by power supply cutting off then cutting on).
     Platform Verification
-    Set Local Variable    ${FAILED_BOOT}    0
+    Set Local Variable    ${failed_boot}    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power Cycle On
@@ -47,7 +47,7 @@ UBT001.001 USB detect and boot after coldboot
                 ...    ${DEVICE_USB_PROMPT}
             END
         EXCEPT
-            ${failed_boot}=    Evaluate    ${FAILED_BOOT} + 1
+            ${failed_boot}=    Evaluate    ${failed_boot} + 1
         END
     END
     IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
@@ -59,7 +59,7 @@ UBT002.001 USB detect and boot after warmboot
     ...    boots into the operating system after warmboot (reboot
     ...    realized by device turning off then turning on).
     Platform Verification
-    Set Local Variable    ${FAILED_BOOT}    0
+    Set Local Variable    ${failed_boot}    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power On
@@ -73,7 +73,7 @@ UBT002.001 USB detect and boot after warmboot
                 ...    ${DEVICE_USB_PROMPT}
             END
         EXCEPT
-            ${failed_boot}=    Evaluate    ${FAILED_BOOT} + 1
+            ${failed_boot}=    Evaluate    ${failed_boot} + 1
         END
     END
     IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
@@ -85,7 +85,7 @@ UBT003.001 USB detect and boot after system reboot
     ...    boots into the operating system after system reboot
     ...    (reboot performing by relevant command).
     Platform Verification
-    Set Local Variable    ${FAILED_BOOT}    0
+    Set Local Variable    ${failed_boot}    0
     Power On
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
@@ -96,7 +96,7 @@ UBT003.001 USB detect and boot after system reboot
                 Write Into Terminal    reboot
             END
         EXCEPT
-            ${failed_boot}=    Evaluate    ${FAILED_BOOT} + 1
+            ${failed_boot}=    Evaluate    ${failed_boot} + 1
         END
     END
     IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
