@@ -247,9 +247,9 @@ TPM007.001 Encrypt and Decrypt rootfs partition (Ubuntu 22.04)
     ...    with specific labels: EFI partition with label ubuntu-enc and rootfs
     ...    with label encrypted-rootfs.
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Add Boot Option    ubuntu    ubuntu-enc    ubuntu-enc-rootfs
-    Save Changes And Reset    2    2
+    Save Changes And Reset
 
     # 2. Boot to ubuntu with encrypted rootfs:
     Boot System Or From Connected Disk    ubuntu-enc-rootfs
