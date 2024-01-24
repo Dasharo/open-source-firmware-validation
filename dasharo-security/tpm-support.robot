@@ -227,6 +227,10 @@ TPM005.004 Check TPM Hash Algorithm Support SHA512 (Firmware)
 TPM006.001 Encrypt and Decrypt non-rootfs partition (Ubuntu 22.04)
     [Documentation]    Test encrypting and decrypting non-rootfs partition using
     ...    TPM.
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
     # 1. Create sealing object:
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -Q -C o -c prim.ctx
     Execute Linux Tpm2 Tools Command    cat key | tpm2_create -Q -g sha256 -u seal.pub -r seal.priv -i- -C prim.ctx
