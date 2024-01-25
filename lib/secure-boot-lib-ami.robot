@@ -129,7 +129,10 @@ Enroll DB Signature
     Select Ami Option    USB
     Select Ami Option    ${file}
     Select Ami Option    Public Key Certificate
-    Select Ami Option    ${TRUE}
+    ${status}=    Read From Terminal Until    ---/
+    Should Not Contain    ${status}    Load Error
+    Press Enter
+    Read From Terminal Until    ---/
     ${status}=    Read From Terminal Until    ---/
     IF    ${fail_on_duplicate} == ${TRUE}
         Should Contain    ${status}    Success
