@@ -206,9 +206,9 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    INTERMED    cert.der
     Save Changes And Reset    3    5
-    Boot Efi File Should Fail    hello.efi    GOOD_KEYS
+    Boot Efi File Should Fail    hello.efi    INTERMED
     Reset System
-    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
+    Boot Efi File    signed-hello.efi    INTERMED    Hello, World!
 
 SBO010.001 Check support for rsa2k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:2048 -subj "/CN=DB-RSA2048/" -keyout DB-RSA2048.key -out DB-RSA2048.crt -days 3650 -nodes -sha256`
