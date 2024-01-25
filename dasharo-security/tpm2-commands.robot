@@ -235,6 +235,7 @@ TPMCMD012.001 Sealing and Unsealing the file without Policy (Ubuntu 22.04)
     Execute Linux Tpm2 Tools Command    tpm2_evictcontrol --hierarchy owner --object-context seal.ctx -o seal.handle
     Execute Linux Tpm2 Tools Command    tpm2_unseal -c seal.handle > unsealed.dat
     ${out2}=    Execute Linux Command    cat unsealed.dat
+    Should Be Equal As Strings    ${out1}    ${out2}
 
 TPMCMD013.001 Sealing and Unsealing with Policy - Password Only (Ubuntu 22.04)
     [Documentation]    Check whether the TPM supports sealing and unsealing
