@@ -175,7 +175,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${key_menu}=    Enter Key Management And Return Construction
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${key_menu}
     Save Changes And Reset
 
