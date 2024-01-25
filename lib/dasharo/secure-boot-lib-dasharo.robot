@@ -68,7 +68,10 @@ Enter Advanced Secure Boot Keys Management And Return Construction
 Enter Key Management And Return Construction
     [Documentation]    Enters Advanced Key Management menu and returns constructions.
     ...    Should be called from secure boot menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
+    [Arguments]    ${sb_menu}=@{EMPTY}
+    IF    ${sb_menu} == @{EMPTY}
+        ${sb_menu}=    Get Secure Boot Menu Construction
+    END
     ${key_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     RETURN    ${key_menu}
 
