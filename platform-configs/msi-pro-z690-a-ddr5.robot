@@ -160,6 +160,8 @@ ${FW_VERSION}=                                      v1.1.2
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 ${DTS_FWUPD_FIRMWARE_UPDATE_SUPPORT}=               ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}
+${DCU_UUID_SUPPORT}=                                ${TRUE}
+${DCU_SERIAL_SUPPORT}=                              ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

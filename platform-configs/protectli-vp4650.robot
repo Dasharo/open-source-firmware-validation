@@ -1,8 +1,10 @@
 *** Settings ***
 Resource    ../os-config/ubuntu-credentials.robot
+Resource    ../keywords.robot
 
 
 *** Variables ***
+${INITIAL_DUT_CONNECTION_METHOD}=                   Telnet
 ${DUT_CONNECTION_METHOD}=                           Telnet
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   13541
@@ -50,6 +52,8 @@ ${USB_SHORT_NAME}=                                  ${EMPTY}
 ${INITIAL_FAN_RPM}=                                 ${EMPTY}
 ${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
+${FW_URL}=
+...                                                 https://cloud.3mdeb.com/index.php/s/opFfHRNcJK2n3Yj/download/protectli_vault_cml_v1.1.0_vp46xx.rom
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      MMC AJTD4R
@@ -178,6 +182,8 @@ ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
+${DCU_UUID_SUPPORT}=                                ${TRUE}
+${DCU_SERIAL_SUPPORT}=                              ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

@@ -54,6 +54,8 @@ ${MEMTEST_SUPPORT}=                     ${FALSE}
 ${DELETE_ALL_MBR}=                      ${FALSE}
 ${WATCHDOG_SUPPORT}=                    ${FALSE}
 ${SD_MODE_SUPPORT}=                     ${FALSE}
+${DCU_UUID_SUPPORT}=                                ${TRUE}
+${DCU_SERIAL_SUPPORT}=                              ${TRUE}
 # suite: hardware
 ${GPIO_DRIVER_SUPPORT}=                 ${FALSE}
 ${SWITCH_S1_SUPPORT}=                   ${FALSE}

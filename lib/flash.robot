@@ -80,7 +80,7 @@ Flash Firmware
     ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
         Flash Protectli VP4620 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
-        Flash Protectli VP4650 External
+        Flash BIOS Region Internally - Generic    ${fw_file}
     ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
         Flash Protectli VP4670 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
@@ -171,3 +171,17 @@ Compare Write Protection Ranges
     IF    ${set_length}!=${length}
         FAIL    Declared and currently set protection lengths are not the same
     END
+
+Flash BIOS Region Internally - Generic
+    [Documentation]    Most generic method of internal flashing. To be used
+    ...    on platforms which require no additional precautions.
+    [Arguments]    ${fw_file}
+    Power On
+    Boot Operating System    ubuntu
+    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    Login To Linux
+    Switch To Root User
+    Get Flashrom From Cloud
+    Send File To DUT    ${fw_file}    /tmp/dasharo.rom
+    Flash BIOS Region Via Internal Programmer    /tmp/dasharo.rom
+    Restore Initial DUT Connection Method
