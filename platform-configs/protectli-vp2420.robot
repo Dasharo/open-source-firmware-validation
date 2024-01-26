@@ -25,6 +25,10 @@ ${DMIDECODE_VENDOR}=                3mdeb
 ${DMIDECODE_FAMILY}=                N/A
 ${DMIDECODE_TYPE}=                  N/A
 
+${PLATFORM_CPU_SPEED}=              2.00
+${PLATFORM_RAM_SPEED}=              2933
+${PLATFORM_RAM_SIZE}=               8192
+
 ${WATCHDOG_SUPPORT}=                ${TRUE}
 
 
