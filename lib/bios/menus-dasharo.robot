@@ -67,7 +67,7 @@ Get Setup Menu Construction
 
 Get Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
-    [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
+    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=0
     ${out}=    Read From Terminal Until    ${checkpoint}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
     RETURN    ${menu}
