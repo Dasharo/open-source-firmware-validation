@@ -29,6 +29,10 @@ ${DMIDECODE_VENDOR}=                3mdeb
 ${DMIDECODE_FAMILY}=                Vault Pro
 ${DMIDECODE_TYPE}=                  Desktop
 
+${PLATFORM_CPU_SPEED}=              2.00
+${PLATFORM_RAM_SPEED}=              2400
+${PLATFORM_RAM_SIZE}=               8192
+
 
 *** Keywords ***
 Power On
