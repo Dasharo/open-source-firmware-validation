@@ -16,3 +16,4 @@ robotframework-robocop
 robotframework-tidy
 robotframework-sherlock
 pre-commit
+robotframework-faker
