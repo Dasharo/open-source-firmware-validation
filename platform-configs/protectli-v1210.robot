@@ -65,7 +65,7 @@ ${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/ubuntu#
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v0.9.2
 ${DMIDECODE_PRODUCT_NAME}=                          V1210
 ${DMIDECODE_RELEASE_DATE}=                          ${EMPTY}
 ${DMIDECODE_MANUFACTURER}=                          Protectli
