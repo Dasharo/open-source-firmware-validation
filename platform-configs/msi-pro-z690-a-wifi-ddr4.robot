@@ -14,3 +14,7 @@ ${WIFI_CARD}=                           Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIRELESS_CARD_SUPPORT}=               ${TRUE}
 ${WIRELESS_CARD_WIFI_SUPPORT}=          ${TRUE}
 ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=     ${TRUE}
+
+${PLATFORM_CPU_SPEED}=                  3.70
+${PLATFORM_RAM_SPEED}=                  3600
+${PLATFORM_RAM_SIZE}=                   32768

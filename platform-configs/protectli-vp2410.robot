@@ -38,6 +38,10 @@ ${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
 ${ME_STATICALLY_DISABLED}=              ${TRUE}
 
+${PLATFORM_CPU_SPEED}=                  2.00
+${PLATFORM_RAM_SPEED}=                  2400
+${PLATFORM_RAM_SIZE}=                   8192
+
 
 *** Keywords ***
 Power On
