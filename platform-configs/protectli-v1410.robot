@@ -189,6 +189,8 @@ ${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DEVICE_TREE_SUPPORT}=                             ${FALSE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
+${DCU_UUID_SUPPORT}=                                ${TRUE}
+${DCU_SERIAL_SUPPORT}=                              ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

@@ -193,6 +193,8 @@ ${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
 ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DETECT_SUPPORT}=      ${FALSE}
+${DCU_UUID_SUPPORT}=                                ${TRUE}
+${DCU_SERIAL_SUPPORT}=                              ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

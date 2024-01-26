@@ -42,8 +42,11 @@ ${USB_MODEL}=                                       Kingston
 ${MAX_CPU_TEMP}=                                    95
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
+${FW_URL}=
+# ...                                               https://cloud.3mdeb.com/index.php/s/Y3pxZxsALTPyDCX/download/protectli_vp2420_v1.1.0.rom
+...                                                 https://cloud.3mdeb.com/index.php/s/Y3pxZxsALTPyDCX/download/protectli_vp2420_v1.1.0.rom
 
-${USB_LIVE}=                                        USB
+${USB_LIVE}=                                        USB DISK 3.0
 @{ATTACHED_USB}=                                    ${USB_LIVE}
 
 # eMMC driver support
@@ -178,6 +181,8 @@ ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
+${DCU_UUID_SUPPORT}=                                ${TRUE}
+${DCU_SERIAL_SUPPORT}=                              ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
@@ -312,13 +317,14 @@ Power On
     RteCtrl Power On
 
 Flash Protectli VP2420 Internal
+    [Arguments]    ${fw_file}
     Power On
     # Boot operating system    ubuntu
     Boot Operating System    Samsung SSD 860 EVO M.2 250GB
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
-    Send File To DUT    ${FW_FILE}    /tmp/dasharo.rom
+    Send File To DUT    ${fw_file}    /tmp/dasharo.rom
     Flash BIOS Region Via Internal Programmer    /tmp/dasharo.rom
 
 Flash Protectli VP2420 External
