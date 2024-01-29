@@ -82,6 +82,7 @@ Reset To Default Secure Boot Keys
     Enter Submenu From Snapshot    ${advanced_menu}    Reset to default Secure Boot Keys
     Read From Terminal Until    Are you sure?
     Press Enter
+    Read From Terminal Until    Esc=Exit
 
 Erase All Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Advanced Secure
