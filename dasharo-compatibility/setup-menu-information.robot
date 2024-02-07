@@ -27,37 +27,45 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-SPD001.001
-    [Documentation]    This test case verifies that RAM speed is correctly
-    ...    indicated in setup menu.
+SET001.001 CPU clock speed displayed in setup menu
+    [Documentation]    This test case verifies that CPU clock speed is
+    ...    correctly indicated in setup menu.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.001 not supported
+
     Power On
     Enter Setup Menu Tianocore
-    ${setup_menu}=    Get Menu Construction    Select Entry    0    1
-    ${desired_line}=    Set Variable    ${EMPTY}
-    ${cpu_line}=    Set Variable    ${EMPTY}
-    FOR    ${line}    IN    @{setup_menu}
-        ${found}=    Run Keyword And Return Status    Should Contain    ${line}    MB RAM @
-        ${found_cpu}=    Run Keyword And Return Status    Should Contain    ${line}    GHz
-        IF    ${found} == ${TRUE}
-            ${desired_line}=    Set Variable    ${line}
-        END
-        IF    ${found_cpu} == ${TRUE}
-            ${cpu_line}=    Set Variable    ${line}
-        END
-    END
-    Log    ${desired_line}
-    Log    ${cpu_line}
-
-    ${freq_tmp}=    Fetch From Right    ${desired_line}    @
-    ${freq}=    Fetch From Left    ${freq_tmp}    MHz
-
-    ${ram_tmp}=    Fetch From Right    ${desired_line}    ${DMIDECODE_FIRMWARE_VERSION}
-    ${ram}=    Fetch From Left    ${ram_tmp}    MB
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${cpu_line}=    Get Lines Matching Regexp    ${out}    .*GHz
 
     ${cpu_tmp}=    Fetch From Left    ${cpu_line}    GHz
     ${cpu}=    Fetch From Right    ${cpu_tmp}    @
 
-    Should Not Be Equal As Numbers    ${freq}    0
-    Should Not Be Equal As Numbers    ${ram}    0
     Should Not Be Equal As Numbers    ${cpu}    0
+
+SET002.001 RAM speed displayed in setup menu
+    [Documentation]    This test case verifies that RAM speed is correctly
+    ...    indicated in setup menu.
+
+    Power On
+    Enter Setup Menu Tianocore
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
+
+    ${freq_tmp}=    Fetch From Right    ${ram_line}    @
+    ${freq}=    Fetch From Left    ${freq_tmp}    MHz
+
+    Should Not Be Equal As Numbers    ${freq}    0
+
+SET003.001 RAM size displayed in setup menu
+    [Documentation]    This test case verifies that RAM size is correctly
+    ...    indicated in setup menu.
+
+    Power On
+    Enter Setup Menu Tianocore
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
+
+    ${ram_tmp}=    Fetch From Right    ${ram_line}    ${DMIDECODE_FIRMWARE_VERSION}
+    ${ram}=    Fetch From Left    ${ram_tmp}    MB
+
+    Should Not Be Equal As Numbers    ${ram}    0
