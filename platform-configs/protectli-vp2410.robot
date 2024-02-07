@@ -190,6 +190,9 @@ ${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DEVICE_TREE_SUPPORT}=                             ${FALSE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
+${PLATFORM_CPU_SPEED}=                              2.00
+${PLATFORM_RAM_SPEED}=                              2400
+${PLATFORM_RAM_SIZE}=                               8192
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

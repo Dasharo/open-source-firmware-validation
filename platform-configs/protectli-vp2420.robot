@@ -178,6 +178,9 @@ ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
+${PLATFORM_CPU_SPEED}=                              2.00
+${PLATFORM_RAM_SPEED}=                              2933
+${PLATFORM_RAM_SIZE}=                               8192
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}

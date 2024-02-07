@@ -208,6 +208,9 @@ ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${FALSE}
+${PLATFORM_CPU_SPEED}=                              2.00
+${PLATFORM_RAM_SPEED}=                              2933
+${PLATFORM_RAM_SIZE}=                               16384
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
