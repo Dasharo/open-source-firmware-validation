@@ -37,8 +37,10 @@ SET001.001 CPU clock speed displayed in setup menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${cpu_line}=    Get Lines Matching Regexp    ${out}    .*GHz
 
-    ${cpu_tmp}=    Fetch From Left    ${cpu_line}    GHz
-    ${cpu}=    Fetch From Right    ${cpu_tmp}    @
+    ${clock_speed}=    Get Regexp Matches    ${cpu_line}    \\b\\d+\\.\\d{2}\\s*GHz\\b
+    Log    ${clock_speed[0]}
+
+    ${cpu}=    Fetch From Left    ${clock_speed[0]}    GHz
 
     Should Not Be Equal As Numbers    ${cpu}    0
 
@@ -69,3 +71,48 @@ SET003.001 RAM size displayed in setup menu
     ${ram}=    Fetch From Left    ${ram_tmp}    MB
 
     Should Not Be Equal As Numbers    ${ram}    0
+
+SET004.001 Expected CPU clock speed displayed in setup menu
+    [Documentation]    This test case verifies that CPU clock speed is
+    ...    correctly indicated in setup menu.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.001 not supported
+
+    Power On
+    Enter Setup Menu Tianocore
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${cpu_line}=    Get Lines Matching Regexp    ${out}    .*GHz
+
+    ${clock_speed}=    Get Regexp Matches    ${cpu_line}    \\b\\d+\\.\\d{2}\\s*GHz\\b
+    Log    ${clock_speed[0]}
+
+    ${cpu}=    Fetch From Left    ${clock_speed[0]}    GHz
+
+    Should Be Equal As Numbers    ${cpu}    ${PLATFORM_CPU_SPEED}
+
+SET005.001 Expected RAM speed displayed in setup menu
+    [Documentation]    This test case verifies that RAM speed is correctly
+    ...    indicated in setup menu.
+
+    Power On
+    Enter Setup Menu Tianocore
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
+
+    ${freq_tmp}=    Fetch From Right    ${ram_line}    @
+    ${freq}=    Fetch From Left    ${freq_tmp}    MHz
+
+    Should Be Equal As Numbers    ${freq}    ${PLATFORM_RAM_SPEED}
+
+SET006.001 Expected RAM size displayed in setup menu
+    [Documentation]    This test case verifies that RAM size is correctly
+    ...    indicated in setup menu.
+
+    Power On
+    Enter Setup Menu Tianocore
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
+
+    ${ram_tmp}=    Fetch From Right    ${ram_line}    ${DMIDECODE_FIRMWARE_VERSION}
+    ${ram}=    Fetch From Left    ${ram_tmp}    MB
+
+    Should Be Equal As Numbers    ${ram}    ${PLATFORM_RAM_SIZE}

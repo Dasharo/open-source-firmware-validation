@@ -193,6 +193,9 @@ ${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
 ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
 ${THUNDERBOLT_DOCKING_STATION_DETECT_SUPPORT}=      ${FALSE}
+${PLATFORM_CPU_SPEED}=                              3.70
+${PLATFORM_RAM_SPEED}=                              3600
+${PLATFORM_RAM_SIZE}=                               32768
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
