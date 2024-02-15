@@ -1727,9 +1727,8 @@ Check That USB Devices Are Detected
     ELSE
         @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
         FOR    ${stick}    IN    @{attached_usb_list}
-            # ${stick} should match with one element of ${menu_construction}
-
-            Should Match    ${MENU_CONSTRUCTION}    *${stick}*
+            # ${stick} should match with one element of ${boot_menu}
+            Should Contain Match    ${boot_menu}    *${stick}*
         END
     END
 
