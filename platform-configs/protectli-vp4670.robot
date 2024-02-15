@@ -40,7 +40,7 @@ ${USB_MODEL}=                                       SanDisk
 # ${SD_DEV_LINUX}    /dev/mmcblk0
 # ${nic_number}    ${4}
 ${DEVICE_USB_KEYBOARD}=                             Logitech
-${DEVICE_NVME_DISK}=                                Samsung SSD 980 PRO 1TB
+${DEVICE_NVME_DISK}=                                Non-Volatile memory controller
 ${DEVICE_AUDIO1}=                                   ${EMPTY}
 ${DEVICE_AUDIO2}=                                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
