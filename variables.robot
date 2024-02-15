@@ -250,6 +250,9 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD13}=                   vendor=Samsung    volume=500GB    type=Storage_SSD
 ...                         interface=SATA    count=1
 ...                         boot_name=CT500MX500SSD1
+&{SSD14}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 870 QVO 1TB
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}
@@ -414,7 +417,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
 @{CONFIG39}=                &{RTE47}
 @{CONFIG40}=                &{RTE48}
-@{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD10}
+@{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD14}
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
 @{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
 
