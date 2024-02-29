@@ -65,7 +65,7 @@ SET003.001 RAM size displayed in setup menu
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
-    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
+    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*MB RAM.*
 
     ${ram_tmp}=    Fetch From Right    ${ram_line}    ${DMIDECODE_FIRMWARE_VERSION}
     ${ram}=    Fetch From Left    ${ram_tmp}    MB
@@ -76,6 +76,11 @@ SET004.001 Expected CPU clock speed displayed in setup menu
     [Documentation]    This test case verifies that CPU clock speed is
     ...    correctly indicated in setup menu.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.001 not supported
+
+    ${flags}=    Get Variables
+    ${out}=    Run Keyword And Return Status
+    ...    Should Be True    "\${PLATFORM_CPU_SPEED}" in $flags
+    IF    not ${out}    Skip    Expected CPU speed undefined
 
     Power On
     Enter Setup Menu Tianocore
@@ -93,6 +98,11 @@ SET005.001 Expected RAM speed displayed in setup menu
     [Documentation]    This test case verifies that RAM speed is correctly
     ...    indicated in setup menu.
 
+    ${flags}=    Get Variables
+    ${out}=    Run Keyword And Return Status
+    ...    Should Be True    "\${PLATFORM_RAM_SPEED}" in $flags
+    IF    not ${out}    Skip    Expected RAM speed undefined
+
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
@@ -107,10 +117,15 @@ SET006.001 Expected RAM size displayed in setup menu
     [Documentation]    This test case verifies that RAM size is correctly
     ...    indicated in setup menu.
 
+    ${flags}=    Get Variables
+    ${out}=    Run Keyword And Return Status
+    ...    Should Be True    "\${PLATFORM_RAM_SIZE}" in $flags
+    IF    not ${out}    Skip    Expected RAM size undefined
+
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
-    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
+    ${ram_line}=    Get Lines Matching Regexp    ${out}    .*MB RAM.*
 
     ${ram_tmp}=    Fetch From Right    ${ram_line}    ${DMIDECODE_FIRMWARE_VERSION}
     ${ram}=    Fetch From Left    ${ram_tmp}    MB
