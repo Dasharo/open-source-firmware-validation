@@ -65,3 +65,13 @@ repos:
     rev: 5.0.1
     hooks:
       - id: robocop
+
+  - repo: local
+    hooks:
+      - id: platform-configs-var-check
+        name: platform-configs
+        description: Check for unused variables in platform-configs
+        language: script
+        entry: ./scripts/check-unused-variables.sh
+        args: [ "-f" ]
+        files: 'platform-configs/.*\.robot$'
