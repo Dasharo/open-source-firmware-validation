@@ -1,5 +1,8 @@
 # Open Source Firmware Remote Test Environment
 
+The following repository contains set of tests and other features to conduct
+Dasharo firmware validation procedures.
+
 ## Warning
 
 **!!! WARNING !!!**
@@ -9,10 +12,46 @@ you do not know what you are doing, consider not using it until at least
 appear here.
 **!!! WARNING !!!**
 
-![regression-architecture](https://cloud.3mdeb.com/index.php/s/KkERgGoniBtjfC4/preview)
+## Table of contents
 
-The following repository contains set of tests and other features to conduct
-Dasharo firmware validation procedures.
+* [Lab architecture](#lab-architecture)
+* [Test environment overview](#test-environment-overview)
+* [Supported platforms](#supported-platforms)
+* [Getting started](#getting-started)
+    - [Initializing environment](#initializing-environment)
+    - [Running tests](#running-tests)
+    - [Running tests via wrapper](#running-tests-via-wrapper)
+    - [Running regressions tests](#running-regressions-tests)
+* [QEMU workflow](#qemu-workflow)
+    - [Booting](#booting)
+* [Contributing](#contributing)
+    - [Code](#code)
+    - [Issues](#issues)
+* [Guidelines](#guidelines)
+    - [Pre-commit and CI checks](#pre-commit-and-ci-checks)
+    - [Code style](#code-style)
+    - [Keywords](#keywords)
+    - [Documentation](#documentation)
+* [Useful refactoring tools](#useful-refactoring-tools)
+* [RCS Talos II platforms](#rcs-talos-ii-platform)
+
+## Lab architecture
+
+This graphic presents a rough overview on how DUT can be connected in the
+Dasharo lab.
+
+Following mechanisms may be used for DUT power control:
+* [Sonoff WiFi smart plug](https://docs.dasharo.com/transparent-validation/sonoff/sonoff_preparation/)
+* [RTE relay](https://docs.dasharo.com/transparent-validation/rte/introduction/)
+
+Following mechanisms may be used for DUT control:
+* serial port over telnet, exposed by [ser2net](https://github.com/cminyard/ser2net)
+* [PiKVM](https://docs.dasharo.com/transparent-validation/pikvm/assembly-and-validation/)
+  with USB keyboard emulatation
+* for some platforms, a mixture of both (serial for output, PiKVM
+  keyboard for input)
+
+![regression-architecture](https://cloud.3mdeb.com/index.php/s/KkERgGoniBtjfC4/preview)
 
 ## Test environment overview
 
@@ -22,11 +61,11 @@ Dasharo OSFV consists of following modules:
 * `dasharo-performance`,
 * `dasharo-stability`.
 
-In addition, keep in mind that due to the approach to generating release files,
-for the `raptor-CS talos2` platform dedicated mechanism for testing environment
-and running tests have been implemented.
-
 ## Supported platforms
+
+This table presents platform names along with their config names from
+`platform-configs` directory. The support level (which test are supported per
+different platform) may vary.
 
 | Manufacturer | Platform             | Firmware                 |  $CONFIG                               |
 |--------------|----------------------|--------------------------|----------------------------------------|
@@ -135,51 +174,24 @@ Parameters should be defined as follows:
 You can also run tests with `-v snipeit:no` in order to skip checking whether
 the platform is available on snipeit. By default, this is enabled.
 
-When running tests on Talos2 platform use the following commands:
+### Running tests via wrapper
 
-**WARNING** The support state of this platform in the `main` branch may vary.
-We should have a single documentation for all platforms. This effort is tracked in
-[this issue](https://github.com/Dasharo/open-source-firmware-validation/issues/112).
-
-* For running a single test case:
+Test can be run directly via `robot` command, but also via the `run.sh`
+wrapper:
 
 ```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
--v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
--t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE
 ```
 
-* For running single test suite:
+### Running regression tests
+
+Regression tests involve running all OSFV tests supported by the given
+platform. The support for certain tests is indicated by the flags in the
+platform config file.
 
 ```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
--v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
-$TEST_MODULE/$TEST_SUITE
+FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh
 ```
-
-* For running single test module:
-
-```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
--v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
-./$TEST_MODULE
-```
-
-Parameters should be defined as follows:
-
-* $DEVICE_IP - OBMC IP address (currently `192.168.20.9`),
-* $FW_FILE - path to and name of the coreboot firmware file,
-* $BOOTBLOCK_FILE - path to and name of the bootblock file,
-* $ZIMAGE_FILE - path to and name of the zImage file,
-* $PNOR_FILE - path to and name of the pnor file,
-* $TEST_MODULE - name of the test module (i.e. `dasharo-compatibility`),
-* $TEST_SUITE - name of the test suite (i.e. `coreboot-base-port`),
-* $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001`).
-  Note that after test case ID asterisk should be added. This is necessary due
-  to the construction of the flag `-t` (or `--test`)
-
-You can also run tests with `-v snipeit:no` in order to skip checking whether
-the platform is available on snipeit.
 
 ## QEMU workflow
 
@@ -232,11 +244,21 @@ keep testing common keywords, to ensure of their correct operation.
 
 ## Contributing
 
+### Code
+
 * Install pre-commit hooks after cloning repository:
 
 ```bash
 pre-commit install
 ```
+
+### Issues
+
+If you are certain that the issue is related to this repository, create issue
+directly
+[here](https://github.com/Dasharo/open-source-firmware-validation/issues/new/choose).
+Otherwise, create an issue in
+[dasharo-issues repisotory](https://github.com/Dasharo/dasharo-issues/issues/new/choose).
 
 ## Guidelines
 
@@ -318,3 +340,51 @@ and add as guidelines:
 * [Renaming keywords](https://robotidy.readthedocs.io/en/stable/transformers/RenameKeywords.html)
 * [Renaming Test Cases](https://robotidy.readthedocs.io/en/stable/transformers/RenameTestCases.html)
 * [Renaming Variables](https://robotidy.readthedocs.io/en/stable/transformers/RenameVariables.html)
+
+## RCS Talos II platform
+
+When running tests on Talos II platform use the following commands:
+
+**WARNING** The support state of this platform in the `main` branch may vary.
+We should have a single documentation for all platforms. This effort is tracked in
+[this issue](https://github.com/Dasharo/open-source-firmware-validation/issues/112).
+
+* For running a single test case:
+
+```bash
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
+-v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
+-t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
+```
+
+* For running single test suite:
+
+```bash
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
+-v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
+$TEST_MODULE/$TEST_SUITE
+```
+
+* For running single test module:
+
+```bash
+robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
+-v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
+./$TEST_MODULE
+```
+
+Parameters should be defined as follows:
+
+* $DEVICE_IP - OBMC IP address (currently `192.168.20.9`),
+* $FW_FILE - path to and name of the coreboot firmware file,
+* $BOOTBLOCK_FILE - path to and name of the bootblock file,
+* $ZIMAGE_FILE - path to and name of the zImage file,
+* $PNOR_FILE - path to and name of the pnor file,
+* $TEST_MODULE - name of the test module (i.e. `dasharo-compatibility`),
+* $TEST_SUITE - name of the test suite (i.e. `coreboot-base-port`),
+* $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001`).
+  Note that after test case ID asterisk should be added. This is necessary due
+  to the construction of the flag `-t` (or `--test`)
+
+You can also run tests with `-v snipeit:no` in order to skip checking whether
+the platform is available on snipeit.
