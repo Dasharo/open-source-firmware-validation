@@ -85,7 +85,7 @@ PXE004.001 DTS option is available and works correctly
     # TODO:
     # On some targets (such as QEMU), we get option to install, not to update
     Should Contain Any    ${out}    Install Dasharo firmware    Update Dasharo firmware
-    Should Contain    ${out}    Load DES keys
+    Should Contain    ${out}    Load your DES keys
     Should Contain    ${out}    Start SSH server
     Should Contain    ${out}    Shell
     Should Contain    ${out}    Power off system
