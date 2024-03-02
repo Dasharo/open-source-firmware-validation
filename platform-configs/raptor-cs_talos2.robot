@@ -4,7 +4,6 @@ ${PAYLOAD}=                                         petitboot
 ${FLASH_SIZE}=                                      ${64*1024*1024}
 ${MANUFACTURER}=                                    Raptor Engineering, LLC
 ${CPU}=                                             IBM POWER9 v2 CPU (4-Core) CP9M31
-${DRAM_SIZE}=                                       ${8192}
 ${DEF_CORES}=                                       4
 ${DEF_THREADS}=                                     4
 ${DEF_CPU}=                                         32
@@ -13,30 +12,16 @@ ${DEF_SOCKETS}=                                     2
 ${OPEN_BMC_USERNAME}=                               root
 ${OPEN_BMC_PASSWORD}=                               openpower
 ${OPEN_BMC_ROOT_PROMPT}=                            root@talos:~#
-${OBMC_POWER_RUNNING_STATE}=                        Running
-${OBMC_POWER_STANDBY_STATE}=                        Standby
-${OBMC_POWER_IDLE_STATE}=                           Quiesced
-${OBMC_POWER_OFF_STATE}=                            Off
-${REST_USERNAME}=                                   root
-${REST_PASSWORD}=                                   openpower
 ${FLASH_VERIFY_METHOD}=                             none
-${INITIAL_FAN_RPM}=                                 6995
-${ACCEPTED_%_NEAR_INITIAL_RPM}=                     20
 ${POWER_CTRL}=                                      obmcutil
-${TPM_PCR_ZERO_PATTERN}=                            00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-${TALOS_SONOFF_IP}=                                 192.168.10.47
-${HEADS_PROMPT}=                                    ~ #
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 # Platform flashing flags
-${FLASHING_BASIC_METHOD}=                           obmc
-${FLASHING_DEV_METHOD}=                             obmc
 
 # Temporary parameter - we are not able to use the Hardware matrix
 @{ATTACHED_USB}=                                    ${USB_LIVE}
-${USB_LIVE}=                                        USB: sda2
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -44,13 +29,6 @@ ${TESTS_IN_HEADS_SUPPORT}=                          ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
-${TESTS_IN_UBUNTU_SERVER_SUPPORT}=                  ${FALSE}
-${TESTS_IN_PROXMOX_VE_SUPPORT}=                     ${FALSE}
-${TESTS_IN_PFSENSE_SERIAL_SUPPORT}=                 ${FALSE}
-${TESTS_IN_PFSENSE_VGA_SUPPORT}=                    ${FALSE}
-${TESTS_IN_OPNSENSE_SERIAL_SUPPORT}=                ${FALSE}
-${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${FALSE}
-${TESTS_IN_FREEBSD_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
@@ -62,7 +40,6 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
-${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${FALSE}
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${TRUE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${TRUE}
@@ -95,9 +72,6 @@ ${WIRELESS_CARD_WIFI_SUPPORT}=                      ${FALSE}
 ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=                 ${FALSE}
 ${MINI_PC_IE_SLOT_SUPPORT}=                         ${FALSE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                    ${FALSE}
-${USB_C_CHARGING_SUPPORT}=                          ${FALSE}
-${THUNDERBOLT_CHARGING_SUPPORT}=                    ${FALSE}
-${USB_C_DISPLAY_SUPPORT}=                           ${FALSE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                         ${FALSE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                      ${FALSE}
 ${SERIAL_NUMBER_VERIFICATION}=                      ${FALSE}
@@ -124,20 +98,10 @@ ${CPU_TESTS_SUPPORT}=                               ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
 ${DOCKING_STATION_DISPLAY_PORT}=                    ${FALSE}
-${DOCKING_STATION_UPLOAD_SUPPORT}=                  ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DEVICE_TREE_SUPPORT}=                             ${TRUE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${UPLOAD_ON_USB_SUPPORT}=                           ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_SUPPORT}=             ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_USB_SUPPORT}=         ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_KEYBOARD_SUPPORT}=    ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_UPLOAD_SUPPORT}=      ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_NET_INTERFACE}=       ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_DETECT_SUPPORT}=      ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
@@ -145,7 +109,6 @@ ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
-${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${FALSE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
@@ -163,23 +126,11 @@ ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}
-${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${FALSE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
-${TEST_FAN_SPEED}=                                  ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
-${UBUNTU_BOOTING}=                                  ${FALSE}
-${DEBIAN_BOOTING}=                                  ${FALSE}
-${UBUNTU_SERVER_BOOTING}=                           ${FALSE}
-${PROXMOX_VE_BOOTING}=                              ${FALSE}
-${PFSENSE_SERIAL_BOOTING}=                          ${FALSE}
-${PFSENSE_VGA_BOOTING}=                             ${FALSE}
-${OPNSENSE_SERIAL_BOOTING}=                         ${FALSE}
-${OPNSENSE_VGA_BOOTING}=                            ${FALSE}
-${FREEBSD_BOOTING}=                                 ${FALSE}
-${WINDOWS_BOOTING}=                                 ${FALSE}
 
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
@@ -188,8 +139,6 @@ ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${TRUE}
 
 # Supported OS installation variants
-${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
-${INSTALL_UBUNTU_USB_SUPPORT}=                      ${FALSE}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases
@@ -213,9 +162,7 @@ ${TEMPERATURE_TEST_DURATION}=                       60
 # Interval between the following readings in temperature measure tests
 ${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
 # Fan control measure tests duration in minutes
-${FAN_CONTROL_TEST_DURATION}=                       30
 # Interval between the following readings in fan control tests
-${FAN_CONTROL_MEASURE_INTERVAL}=                    3
 # Custom fan curve tests duration in minutes
 ${CUSTOM_FAN_CURVE_TEST_DURATION}=                  30
 # Interval between the following readings in custom fan curve tests
@@ -225,27 +172,16 @@ ${ALLOWED_FAILS_USB_BOOT}=                          0
 # Maximum fails during during performing test suite usb-detect.robot
 ${ALLOWED_FAILS_USB_DETECT}=                        0
 # Number of Ubuntu booting iterations
-${UBUNTU_BOOTING_ITERATIONS}=                       5
 # Number of Debian booting iterations
-${DEBIAN_BOOTING_ITERATIONS}=                       5
 # Number of Ubuntu Server booting iterations
-${UBUNTU_SERVER_BOOTING_ITERATIONS}=                5
 # Number of Proxmox VE booting iterations
-${PROXMOX_VE_BOOTING_ITERATIONS}=                   5
 # Number of pfSense (serial output) booting iterations
-${PFSENSE_SERIAL_BOOTING_ITERATIONS}=               5
 # Number of pfSense (VGA output) booting iterations
-${PFSENSE_VGA_BOOTING_ITERATIONS}=                  5
 # Number of OPNsense (serial output) booting iterations
-${OPNSENSE_SERIAL_BOOTING_ITERATIONS}=              5
 # Number of OPNsense (VGA output) booting iterations
-${OPNSENSE_VGA_BOOTING_ITERATIONS}=                 5
 # Number of FreeBSD booting iterations
-${FREEBSD_BOOTING_ITERATIONS}=                      5
 # Number of Windows booting iterations
-${WINDOWS_BOOTING_ITERATIONS}=                      5
 # Maximum fails during performing booting OS tests
-${ALLOWED_BOOTING_FAILS}=                           0
 # Maximum fails during performing docking station detect tests
 ${ALLOWED_DOCKING_STATION_DETECT_FAILS}=            0
 # Number of iterations in stability detection tests

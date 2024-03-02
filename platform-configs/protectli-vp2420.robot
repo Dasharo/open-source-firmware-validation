@@ -13,18 +13,12 @@ ${BOOT_MENU_KEY}=                                   ${F11}
 ${SETUP_MENU_KEY}=                                  ${DELETE}
 ${BOOT_MENU_STRING}=                                Please select boot device
 ${SETUP_MENU_STRING}=                               Select Entry
-${PAYLOAD_STRING}=                                  ${EMPTY}
 ${IPXE_BOOT_ENTRY}=                                 Network Boot and Utilities
 ${EDK2_IPXE_CHECKPOINT}=                            Advanced
-${EDK2_IPXE_START_POS}=                             2
-${IPXE_STRING}=                                     ${EMPTY}
-${SOL_STRING}=                                      ${EMPTY}
-${SN_PATTERN}=                                      ${EMPTY}
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             ${EMPTY}
 ${POWER_CTRL}=                                      RteCtrl
 ${FLASH_VERIFY_METHOD}=                             none
-${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Wi-Fi 6 AX200 (rev 1a)
 ${LTE_CARD}=                                        Qualcomm, Inc. MDG200
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
@@ -33,24 +27,17 @@ ${DEVICE_AUDIO1}=                                   ${EMPTY}
 ${DEVICE_AUDIO2}=                                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
 ${INITIAL_CPU_FREQUENCY}=                           2600
-${WIN_USB_STICK}=                                   ${EMPTY}
-${USB_SHORT_NAME}=                                  ${EMPTY}
-${ME_INTERFACE}=                                    Intel Corporation Device 4b70 (rev 11)
-${INITIAL_FAN_RPM}=                                 ${EMPTY}
-${ACCEPTED_%_NEAR_INITIAL_RPM}=                     ${EMPTY}
 ${USB_MODEL}=                                       Kingston
 ${MAX_CPU_TEMP}=                                    95
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
-${USB_LIVE}=                                        USB
 @{ATTACHED_USB}=                                    ${USB_LIVE}
 
 # eMMC driver support
 ${E_MMC_NAME}=                                      8GTF4R
 
 # Platform flashing flags
-${FLASHING_BASIC_METHOD}=                           internal
 
 ${DEVICE_USB_USERNAME}=                             user
 ${DEVICE_USB_PASSWORD}=                             ubuntu
@@ -76,20 +63,11 @@ ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                N/A
 ${DMIDECODE_TYPE}=                                  N/A
 
-${FLASHING_VBOOT_BADKEYS}=                          ${FALSE}
-
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
-${TESTS_IN_UBUNTU_SERVER_SUPPORT}=                  ${TRUE}
-${TESTS_IN_PROXMOX_VE_SUPPORT}=                     ${TRUE}
-${TESTS_IN_PFSENSE_SERIAL_SUPPORT}=                 ${TRUE}
-${TESTS_IN_PFSENSE_VGA_SUPPORT}=                    ${TRUE}
-${TESTS_IN_OPNSENSE_SERIAL_SUPPORT}=                ${TRUE}
-${TESTS_IN_OPNSENSE_VGA_SUPPORT}=                   ${TRUE}
-${TESTS_IN_FREEBSD_SUPPORT}=                        ${TRUE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
@@ -101,7 +79,6 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
-${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 
 # Test module: dasharo-compatibility
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
@@ -135,9 +112,6 @@ ${WIRELESS_CARD_WIFI_SUPPORT}=                      ${TRUE}
 ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=                 ${TRUE}
 ${MINI_PC_IE_SLOT_SUPPORT}=                         ${FALSE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                    ${FALSE}
-${USB_C_CHARGING_SUPPORT}=                          ${FALSE}
-${THUNDERBOLT_CHARGING_SUPPORT}=                    ${FALSE}
-${USB_C_DISPLAY_SUPPORT}=                           ${FALSE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                         ${FALSE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                      ${FALSE}
 ${SERIAL_NUMBER_VERIFICATION}=                      ${FALSE}
@@ -164,15 +138,6 @@ ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
 ${DOCKING_STATION_DISPLAY_PORT}=                    ${FALSE}
 ${UPLOAD_ON_USB_SUPPORT}=                           ${FALSE}
-${DOCKING_STATION_UPLOAD_SUPPORT}=                  ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_SUPPORT}=             ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_USB_SUPPORT}=         ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_KEYBOARD_SUPPORT}=    ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_UPLOAD_SUPPORT}=      ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_NET_INTERFACE}=       ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_HDMI}=                ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_DISPLAY_PORT}=        ${FALSE}
-${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}=       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
@@ -181,7 +146,6 @@ ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
-${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
@@ -199,23 +163,11 @@ ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
-${DEVICE_BOOT_MEASURE_SUPPORT}=                     ${FALSE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
-${TEST_FAN_SPEED}=                                  ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
-${UBUNTU_BOOTING}=                                  ${TRUE}
-${DEBIAN_BOOTING}=                                  ${TRUE}
-${UBUNTU_SERVER_BOOTING}=                           ${TRUE}
-${PROXMOX_VE_BOOTING}=                              ${TRUE}
-${PFSENSE_SERIAL_BOOTING}=                          ${TRUE}
-${PFSENSE_VGA_BOOTING}=                             ${TRUE}
-${OPNSENSE_SERIAL_BOOTING}=                         ${TRUE}
-${OPNSENSE_VGA_BOOTING}=                            ${TRUE}
-${FREEBSD_BOOTING}=                                 ${TRUE}
-${WINDOWS_BOOTING}=                                 ${FALSE}
 
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
@@ -224,8 +176,6 @@ ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${FALSE}
 
 # Supported OS installation variants
-${INSTALL_DEBIAN_USB_SUPPORT}=                      ${FALSE}
-${INSTALL_UBUNTU_USB_SUPPORT}=                      ${FALSE}
 
 # Test cases iterations number
 ${ITERATIONS}=                                      5
@@ -234,7 +184,6 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=                 5
 # Sticks detection test cases
 ${USB_DETECTION_ITERATIONS_NUMBER}=                 5
 # Platform boot measure test cases
-${DEVICE_BOOT_MEASURE_ITTERATIONS}=                 3
 
 # Other platform flags and counters
 # Cooling procedure iterations
@@ -252,9 +201,7 @@ ${TEMPERATURE_TEST_DURATION}=                       30
 # Interval between the following readings in temperature measure tests
 ${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
 # Fan control measure tests duration in minutes
-${FAN_CONTROL_TEST_DURATION}=                       30
 # Interval between the following readings in fan control tests
-${FAN_CONTROL_MEASURE_INTERVAL}=                    3
 # Custom fan curve tests duration in minutes
 ${CUSTOM_FAN_CURVE_TEST_DURATION}=                  30
 # Interval between the following readings in custom fan curve tests
@@ -268,27 +215,16 @@ ${SUSPEND_ITERATIONS_NUMBER}=                       15
 # Maximum number of fails during performing suspend and resume cycles
 ${SUSPEND_ALLOWED_FAILS}=                           0
 # Number of Ubuntu booting iterations
-${UBUNTU_BOOTING_ITERATIONS}=                       5
 # Number of Debian booting iterations
-${DEBIAN_BOOTING_ITERATIONS}=                       5
 # Number of Ubuntu Server booting iterations
-${UBUNTU_SERVER_BOOTING_ITERATIONS}=                5
 # Number of Proxmox VE booting iterations
-${PROXMOX_VE_BOOTING_ITERATIONS}=                   5
 # Number of pfSense (serial output) booting iterations
-${PFSENSE_SERIAL_BOOTING_ITERATIONS}=               5
 # Number of pfSense (VGA output) booting iterations
-${PFSENSE_VGA_BOOTING_ITERATIONS}=                  5
 # Number of OPNsense (serial output) booting iterations
-${OPNSENSE_SERIAL_BOOTING_ITERATIONS}=              5
 # Number of OPNsense (VGA output) booting iterations
-${OPNSENSE_VGA_BOOTING_ITERATIONS}=                 5
 # Number of FreeBSD booting iterations
-${FREEBSD_BOOTING_ITERATIONS}=                      5
 # Number of Windows booting iterations
-${WINDOWS_BOOTING_ITERATIONS}=                      5
 # Maximum fails during performing booting OS tests
-${ALLOWED_BOOTING_FAILS}=                           0
 # Maximum fails during performing docking station detect tests
 ${ALLOWED_DOCKING_STATION_DETECT_FAILS}=            0
 # Number of iterations in stability detection tests
