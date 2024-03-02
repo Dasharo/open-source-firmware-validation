@@ -21,8 +21,8 @@ Flash Via Internal Programmer With Args
     END
     RETURN    ${out_flash}
 
-Flash BIOS Region Via Internal Programmer
-    [Arguments]    ${fw_file_path}
+Flash Via Internal Programmer
+    [Arguments]    ${fw_file_path}    ${region}=${EMPTY}
     ${out_flashrom_probe}=    Execute Command In Terminal    flashrom -p internal
     ${read_only}=    Run Keyword And Return Status
     ...    Should Contain    ${out_flashrom_probe}    read-only
@@ -30,7 +30,14 @@ Flash BIOS Region Via Internal Programmer
     IF    ${read_only}
         Fail    Make sure that SPI locks are disabled prior flashing internally
     END
-    Flash Via Internal Programmer With Args    ${fw_file_path}    -N --ifd -i bios
+
+    # If no region is given, flash the whole binary
+    IF    ${region}
+        ${args}=    Set Variable    -N --ifd -i ${region}
+    ELSE
+        ${args}=    Set Variable    ${EMPTY}
+    END
+    Flash Via Internal Programmer With Args    ${fw_file_path}    ${args}
 
 Check If RW SECTION B Is Present In A Firmware File
     [Documentation]    Parses ROM with cbfstool to check if A or A + B sections are there
@@ -79,11 +86,11 @@ Flash Firmware
     ELSE IF    '${platform[:10]}' == 'novacustom'
         Flash Device Via Internal Programmer    ${fw_file}
     ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
-        Flash Protectli VP4620 External
+        Flash Protectli VP4630 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
         Flash Protectli VP4650 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
-        Flash Protectli VP4670 External
+        Flash Protectli VP4650 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
         Flash Protectli VP2420 Internal
     ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
