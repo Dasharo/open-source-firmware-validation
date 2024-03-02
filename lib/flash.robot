@@ -95,11 +95,11 @@ Flash Firmware
     ELSE IF    '${platform[:15]}' == 'protectli-v1610'
         Flash Device Via External Programmer
     ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
-        Flash MSI-PRO-Z690-A-DDR5
+        Flash MSI-PRO-Z690
     ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
-        Flash MSI-PRO-Z690-A-WiFi-DDR4
+        Flash MSI-PRO-Z690
     ELSE IF    '${platform[:46]}' == 'msi-pro-z790-p-ddr5'
-        Flash MSI-PRO-Z790-P-DDR5
+        Flash MSI-PRO-Z690
     ELSE
         Fail    Flash firmware not implemented for platform ${platform}
     END
