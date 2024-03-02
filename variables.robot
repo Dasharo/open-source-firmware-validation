@@ -112,7 +112,7 @@ ${OS_UBUNTU}=               ubuntu
 # MSI-PRO-Z690-A platforms (Zir-Blazer) -----------------------------
 &{RTE33}=                   ip=192.168.10.107    cpuid=02c00042a74281e6    pcb_rev=1.1.0
 ...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
-...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.21
+...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.170
 ...                         firmware_type=UEFI    pikvm_ip=192.168.10.99
 &{RTE34}=                   ip=192.168.10.199    cpuid=02c000424753a7fb    pcb_rev=1.1.0
 ...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
