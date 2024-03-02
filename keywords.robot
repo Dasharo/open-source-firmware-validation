@@ -522,7 +522,7 @@ Prepare Test Suite
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Prepare To PiKVM Connection
     ELSE
-        FAIL    Unknown connection method for config: ${CONFIG}
+        FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD} for config: ${CONFIG}
     END
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
