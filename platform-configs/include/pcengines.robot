@@ -3,15 +3,15 @@ Resource    default.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=                   telnet
+${INITIAL_DUT_CONNECTION_METHOD}=                   Telnet
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   13541
 ${FLASH_SIZE}=                                      ${8*1024*1024}
 ${FLASH_LENGTH}=                                    ${EMPTY}
-${TIANOCORE_STRING}=                                to boot directly
-${BOOT_MENU_KEY}=                                   F11
-${SETUP_MENU_KEY}=                                  Delete
+${TIANOCORE_STRING}=                                ENTER
+${BOOT_MENU_KEY}=                                   ${F11}
+${SETUP_MENU_KEY}=                                  ${DELETE}
 ${BOOT_MENU_STRING}=                                Please select boot device:
 ${SETUP_MENU_STRING}=                               Select Entry
 ${IPXE_BOOT_ENTRY}=                                 iPXE Network Boot
@@ -75,8 +75,8 @@ ${USB_DISKS_DETECTION_SUPPORT}=                     ${FALSE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=                  ${FALSE}
 ${USB_CAMERA_DETECTION_SUPPORT}=                    ${FALSE}
 ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
-${UEFI_SHELL_SUPPORT}=                              ${FALSE}
-${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${FALSE}
+${UEFI_SHELL_SUPPORT}=                              ${TRUE}
+${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                               ${FALSE}
 ${NVME_DISK_SUPPORT}=                               ${FALSE}
 ${SD_CARD_READER_SUPPORT}=                          ${FALSE}
@@ -205,3 +205,16 @@ ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
+
+*** Keywords ***
+Power On
+    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
+    ...    into Power On state using RTE OC buffers. Implementation
+    ...    must be compatible with the theory of operation of a
+    ...    specific platform.
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+    Sleep    2s
+    RteCtrl Power Off
+    Sleep    10s
+    Telnet.Read
+    RteCtrl Power On
