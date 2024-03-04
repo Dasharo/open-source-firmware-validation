@@ -66,7 +66,6 @@ ${TYPE_VERIFICATION}=                               ${TRUE}
 ${HARDWARE_WP_SUPPORT}=                             ${TRUE}
 ${DTS_SUPPORT}=                                     ${TRUE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${TRUE}
-${UPLOAD_ON_USB_SUPPORT}=                           ${TRUE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${L2_CACHE_SUPPORT}=                                ${TRUE}
@@ -74,13 +73,7 @@ ${L3_CACHE_SUPPORT}=                                ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered On
 ${ESP_SCANNING_SUPPORT}=                            ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
-${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${TRUE}
-${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${TRUE}
-${BASE_PORT_POSTCAR_SUPPORT}=                       ${TRUE}
-${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${TRUE}
 ${MINI_PC_IE_SLOT_SUPPORT}=                         ${TRUE}
-${NETBOOT_UTILITIES_SUPPORT}=                       ${TRUE}
-${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
