@@ -643,6 +643,10 @@ Remap Keys Variables To PiKVM
     Set Global Variable    ${DIGIT7}    Digit7
     Set Global Variable    ${DIGIT8}    Digit8
     Set Global Variable    ${DIGIT9}    Digit9
+    Set Global Variable    ${PAGEDOWN}    PageDown
+    Set Global Variable    ${PAGEUP}    PageUp
+    Set Global Variable    ${HOME}    Home
+    Set Global Variable    ${END}    End
 
 Remap Keys Variables From PiKVM
     [Documentation]    Updates keys variables from PiKVM ones to the ones
