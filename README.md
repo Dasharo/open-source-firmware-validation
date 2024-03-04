@@ -69,15 +69,15 @@ different platform) may vary.
 
 | Manufacturer | Platform             | Firmware                 |  $CONFIG                               |
 |--------------|----------------------|--------------------------|----------------------------------------|
-| NovaCustom   | NV41MZ               | Dasharo                  |  `novacustom-nv41mz`                   |
-| NovaCustom   | NV41MB               | Dasharo                  |  `novacustom-nv41mb`                   |
-| NovaCustom   | NS50MU               | Dasharo                  |  `novacustom-ns50mu`                   |
-| NovaCustom   | NS70MU               | Dasharo                  |  `movacustom-ns70mu`                   |
-| NovaCustom   | NV41PZ               | Dasharo                  |  `novacustom-nv41pz`                   |
-| NovaCustom   | NS50PU               | Dasharo                  |  `novacustom-ns50pu`                   |
-| NovaCustom   | NS70PU               | Dasharo                  |  `novacustom-ns70pu`                   |
-| MSI          | PRO Z690 A WIFI DDR4 | Dasharo                  |  `msi-pro-z690-a-wifi-ddr4`            |
 | MSI          | PRO Z690 A DDR5      | Dasharo                  |  `msi-pro-z690-a-ddr5`                 |
+| MSI          | PRO Z690 A WIFI DDR4 | Dasharo                  |  `msi-pro-z690-a-wifi-ddr4`            |
+| NovaCustom   | NS50MU               | Dasharo                  |  `novacustom-ns50mu`                   |
+| NovaCustom   | NS50PU               | Dasharo                  |  `novacustom-ns50pu`                   |
+| NovaCustom   | NS70MU               | Dasharo                  |  `movacustom-ns70mu`                   |
+| NovaCustom   | NS70PU               | Dasharo                  |  `novacustom-ns70pu`                   |
+| NovaCustom   | NV41MB               | Dasharo                  |  `novacustom-nv41mb`                   |
+| NovaCustom   | NV41MZ               | Dasharo                  |  `novacustom-nv41mz`                   |
+| NovaCustom   | NV41PZ               | Dasharo                  |  `novacustom-nv41pz`                   |
 | Protectli    | V1210                | Dasharo                  |  `protectli-v1210`                     |
 | Protectli    | V1410                | Dasharo                  |  `protectli-v1410`                     |
 | Protectli    | V1610                | Dasharo                  |  `protectli-v1610`                     |
@@ -86,9 +86,9 @@ different platform) may vary.
 | Protectli    | VP4630               | Dasharo                  |  `protectli-vp4630`                    |
 | Protectli    | VP4650               | Dasharo                  |  `protectli-vp4650`                    |
 | Protectli    | VP4670               | Dasharo                  |  `protectli-vp4670`                    |
+| QEMU         | Q35                  | Dasharo (UEFI)           |  `qemu`                                |
 | Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
 | Raspberry Pi | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
-| QEMU         | Q35                  | Dasharo (UEFI)           |  `qemu`                                |
 
 ## Getting started
 
