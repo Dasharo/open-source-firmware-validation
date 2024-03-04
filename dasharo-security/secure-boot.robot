@@ -461,7 +461,7 @@ SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     Remove Old Secure Boot Keys In OS
     ${sb_status}=    Generate Secure Boot Keys In OS
     Should Be True    ${sb_status}
-    ${sb_status}=    Enroll Secure Boot Keys In OS
+    ${sb_status}=    Enroll Secure Boot Keys In OS    True
     Should Be True    ${sb_status}
 
     # 3. Sign all components
@@ -553,7 +553,7 @@ SBO014.001 Enroll certificates using sbctl
     # 3. Create and enroll keys
     ${out}=    Generate Secure Boot Keys In Os
     Should Be True    ${out}
-    ${out}=    Enroll Secure Boot Keys In Os
+    ${out}=    Enroll Secure Boot Keys In Os    True
     Should Be True    ${out}
 
     # 4. Verify that it is impossible to boot Ubuntu with the keys
@@ -575,6 +575,31 @@ SBO014.001 Enroll certificates using sbctl
     Switch To Root User
     ${out}=    Execute Command In Terminal    rm -rf /usr/share/secureboot
     Log To Console    ${out}\n
+
+SBO015.001 Attempt to enroll the key in the incorrect format (OS)
+    [Documentation]    This test verifies that it is impossible to load
+    ...    a certificate in the wrong file format from the operating system
+    ...    while using sbctl.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO015.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO015.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO015.001 not supported
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${advanced_menu}
+    Save Changes And Reset    3    5
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    # recreate sbctl keys directory structure
+    Execute Linux Command    rm -rf /usr/share/secureboot
+    ${out}=    Generate Secure Boot Keys In Os
+    Should Be True    ${out}
+    Generate Wrong Format Keys And Move Them    db    /usr/share/secureboot/keys/db/
+    Generate Wrong Format Keys And Move Them    PK    /usr/share/secureboot/keys/PK/
+    Generate Wrong Format Keys And Move Them    KEK    /usr/share/secureboot/keys/KEK/
+    Enroll Secure Boot Keys In OS    False
+    Should Be True    ${out}
 
 
 *** Keywords ***
