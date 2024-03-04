@@ -42,7 +42,7 @@ PSW001.001 Check Password Setup option availability and default state
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    User Password Management
@@ -60,7 +60,7 @@ PSW002.001 Password setting mechanism correctness checking
     Power On
     Set Password 5 Times
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${output}=    Read From Terminal Until    password
     Should Contain    ${output}    Please input admin password
 
@@ -70,7 +70,7 @@ PSW003.001 Attempt to log in with a correct password
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW003.001 not supported
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Read From Terminal Until    password
     Type In The Password    ${DEFAULT_PASSWORD}
     # "ontinue" is a string that appears both in correct password screen
@@ -85,7 +85,7 @@ PSW004.001 Attempt to log in with an incorrect password
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW004.001 not supported
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Read From Terminal Until    password
     ${wrong_password}=    Set Variable    w    r    o    n    g
     Type In The Password    ${wrong_password}
@@ -101,7 +101,7 @@ PSW005.001 Attempt to log in with an incorrect password 3 times
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW005.001 not supported
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Read From Terminal Until    password
     ${wrong_password}=    Set Variable    w    r    o    n    g
     FOR    ${counter}    IN RANGE    0    2
@@ -121,7 +121,7 @@ PSW006.001 Attempt to turn off setup password functionality
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW006.001 not supported
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Read From Terminal Until    password
     Type In The Password    ${DEFAULT_PASSWORD}
     ${setup_menu}=    Get Setup Menu Construction
@@ -140,7 +140,7 @@ PSW006.001 Attempt to turn off setup password functionality
     Should Contain    ${result}    New password is updated successfully
     Press Key N Times    1    ${ENTER}
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Sleep    1s
     ${output}=    Read From Terminal
     Should Not Contain    ${output}    Please input admin password
@@ -151,7 +151,7 @@ PSW007.001 Attempt to set non-compilant password
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW007.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    User Password Management
@@ -174,7 +174,7 @@ PSW008.001 Attempt to set old password
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW008.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    User Password Management
@@ -193,7 +193,7 @@ PSW008.001 Attempt to set old password
 Set Password 5 Times
     [Documentation]    Sets the password 5 times to reset the same password
     ...    counter
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    User Password Management

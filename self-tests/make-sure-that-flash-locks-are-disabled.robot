@@ -56,7 +56,7 @@ Test Make Sure That Flash Locks Are Disabled
     ...    Accepts initial state of the BIOS lock and SMM protection as args
     [Arguments]    ${bios_lock_init}    ${smm_lock_init}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Dasharo System Features
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Lock the BIOS boot medium    ${bios_lock_init}
@@ -68,7 +68,7 @@ Test Make Sure That Flash Locks Are Disabled
 
     Make Sure That Flash Locks Are Disabled
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Dasharo System Features
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     ${bios_lock}=    Get Option State    ${security_menu}    Lock the BIOS boot medium

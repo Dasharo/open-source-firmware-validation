@@ -2,8 +2,6 @@
 Library         Collections
 Library         OperatingSystem
 Resource        pikvm-rest-api/pikvm_comm.robot
-Resource        lib/bios/menus.robot
-Resource        lib/secure-boot-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
 Resource        lib/dts-lib.robot
 Resource        lib/terminal.robot
@@ -308,7 +306,7 @@ Get Firmware Version
     IF    '${FLASH_VERIFY_METHOD}'=='iPXE-boot'
         Boot Debian From IPXE    ${PXE_IP}    ${HTTP_PORT}    ${FILENAME}    ${DEBIAN_STABLE_VER}
     ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-shell'
-        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        ${boot_menu}=    Enter Boot Menu And Return Construction
         Enter Submenu From Snapshot    ${boot_menu}    ${FLASH_VERIFY_OPTION}
     ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
         No Operation
@@ -1380,7 +1378,7 @@ Reboot Via OS Boot By Petitboot
 Reboot Via Ubuntu By Tianocore
     [Documentation]    Reboot system with Ubuntu installed on the DUT while
     ...    already logged into Tianocore.
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ubuntu
     Login To Linux
     Switch To Root User
@@ -1500,7 +1498,7 @@ Boot Operating System
     [Arguments]    ${operating_system}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Set Local Variable    ${is_system_installed}    ${FALSE}
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
     IF    not ${is_system_installed}

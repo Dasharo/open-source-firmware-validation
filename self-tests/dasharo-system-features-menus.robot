@@ -32,7 +32,7 @@ Suite Teardown      Run Keyword
 Enter Dasharo System Features Menu
     [Documentation]    Check if Dasharo System Features menu can be entered.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Dasharo System Features
     ${out}=    Read From Terminal Until    Esc=Exit
     Should Contain    ${out}    Dasharo System Features
@@ -41,7 +41,7 @@ Enter Dasharo System Features Menu
 Parse Dasharo System Features Menu
     [Documentation]    Check if Dasharo System Features menu can be parsed.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     List Should Contain Value    ${dasharo_menu}    > Serial Port Configuration
     Menu Construction Should Not Contain Control Text    ${dasharo_menu}
@@ -192,7 +192,7 @@ Enter Dasharo Submenu Verification
     ...    ${submenu_name}. Checks whether the menu can be entered properly.
     [Arguments]    ${submenu_name}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     Enter Submenu From Snapshot    ${dasharo_menu}    ${submenu_name}
     ${out}=    Read From Terminal Until    Esc=Exit
@@ -205,7 +205,7 @@ Parsing Dasharo Submenu Verification
     ...    ${submenu_name}. Returns parsed submenu construction.
     [Arguments]    ${submenu_name}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${dasharo_submenu}=    Enter Dasharo Submenu    ${dasharo_menu}    ${submenu_name}
     Log    ${dasharo_submenu}

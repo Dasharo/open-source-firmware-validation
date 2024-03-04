@@ -32,7 +32,7 @@ CBK001.001 Custom boot menu key
     Skip If    not ${CUSTOM_BOOT_MENU_KEY_SUPPORT}    CBK001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBK001.001 not supported
     Power On
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     Read From Terminal Until    ${BOOT_MENU_STRING}
 
 CBK002.001 Custom setup menu key
@@ -41,5 +41,5 @@ CBK002.001 Custom setup menu key
     Skip If    not ${CUSTOM_SETUP_MENU_KEY_SUPPORT}    CBK002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBK002.001 not supported
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Read From Terminal Until    ${SETUP_MENU_STRING}

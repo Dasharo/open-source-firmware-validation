@@ -48,7 +48,7 @@ SBO001.001 Check Secure Boot default state (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -71,7 +71,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
     # 2. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -86,7 +86,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     Disable Secure Boot    ${sb_menu}
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
     # 4. Check SB state in OS
     Boot System Or From Connected Disk    ubuntu
@@ -108,7 +108,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
     # 2. Check SB state in OS
     Login To Windows
@@ -121,7 +121,7 @@ SBO002.002 UEFI Secure Boot (Windows 11)
     Disable Secure Boot    ${sb_menu}
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
     # 4. Check SB state in OS
     Login To Windows
@@ -150,7 +150,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     Select File In File Explorer    cert.der
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    signed-hello.efi
@@ -167,7 +167,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    hello.efi
     Should Contain    ${out}    Access Denied
@@ -183,7 +183,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    signed-hello.efi
     Should Contain    ${out}    Access Denied
@@ -194,7 +194,7 @@ SBO006.001 Reset Secure Boot Keys option availability (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -223,7 +223,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Select File In File Explorer    cert.der
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    signed-hello.efi
@@ -235,7 +235,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Reset To Default Secure Boot Keys    ${advanced_menu}
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
     Enter UEFI Shell
     ${out}=    Execute File In UEFI Shell    signed-hello.efi
@@ -605,7 +605,7 @@ Set Secure Boot State To Disabled
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
     # Changes to Secure Boot menu take action immediately, so we can just reset
-    Tianocore Reset System
+    Reset System
 
 Restore Secure Boot Defaults
     [Documentation]    Restore SB settings to default, by resetting keys

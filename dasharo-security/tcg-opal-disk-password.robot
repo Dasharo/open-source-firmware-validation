@@ -30,7 +30,7 @@ DMP001.001 TCG OPAL disk password set and check
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DMP001.001 not supported
     Skip If    not ${TCG_OPAL_DISK_PASSWORD_SUPPORT}    DMP001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -50,7 +50,7 @@ DMP001.001 TCG OPAL disk password set and check
     Save Changes And Reset
     @{password}=    Set Variable    1    2    3
     Type In New Disk Password    @{password}
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Reset
     Log    Test if disk password works
     Type In Disk Password    @{password}
