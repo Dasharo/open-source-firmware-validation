@@ -258,6 +258,33 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Select File In File Explorer    DB.txt
     Read From Terminal Until    ERROR: Unsupported file type!
 
+SBO009.001 Attempt to boot file signed for intermediate certificate
+    [Documentation]    This test verifies that a file signed with an
+    ...    intermediate certificate can be executed.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+    Download ISO And Mount As USB
+    ...    ${DL_CACHE_DIR}/${INTERMEDIATE_NAME}
+    ...    ${INTERMEDIATE_URL}
+    ...    ${INTERMEDIATE_SHA256}
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes
+    Reenter Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Volume In File Explorer    NO VOLUME LABEL
+    Select File In File Explorer    intermediate-db.der
+    Save Changes And Reset    3    5
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    hello.efi
+    Should Contain    ${out}    Access Denied
+    ${out}=    Execute File In UEFI Shell    signed-hello.efi
+    Should Contain    ${out}    Hello, world!
+
 
 *** Keywords ***
 Set Secure Boot State To Disabled
