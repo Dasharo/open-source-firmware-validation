@@ -34,8 +34,9 @@ ${TESTS_IN_OPNSENSE_VGA_SUPPORT}=       ${FALSE}
 ${TESTS_IN_FREEBSD_SUPPORT}=            ${FALSE}
 
 # Test module: dasharo-security
-${SECURE_BOOT_SUPPORT}=                 ${TRUE}
-${DTS_UEFI_SB_SUPPORT}=                 ${TRUE}
+${SECURE_BOOT_SUPPORT}=                         ${TRUE}
+${DTS_UEFI_SB_SUPPORT}=                         ${TRUE}
+${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}=        ${FALSE}
 
 
 *** Keywords ***
