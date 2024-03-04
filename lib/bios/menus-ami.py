@@ -3,6 +3,31 @@ from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn
 
 
+@keyword("Extract Ami Header")
+def extract_ami_header(snapshot: str) -> str:
+    """
+    Extract Ami frame name from top border  /---- <frame name> ----\ or text
+    from ami header
+    """
+    lines: list[str] = text.splitlines()
+    try:
+        start_index = next(
+            index for index, value in enumerate(lines) if "/---" in value
+        )
+    except StopIteration:
+        msg = "Couldn't find beginning of AMI frame"
+        logger.error(msg)
+        BuiltIn().run_keyword("Fail", msg)
+
+    try:
+        # assume AMI frame with header
+        end_index = next(index for index, value in enumerate(lines) if "|---" in value)
+    except StopIteration:
+        return lines[start_index][1:-1].strip(" -")
+
+    return " ".join([line.strip("| ") for line in lines[start_index + 1 : end_index]])
+
+
 @keyword("Extract Strings From Ami Frame")
 def extract_strings_from_ami_frame(text: str):
     """

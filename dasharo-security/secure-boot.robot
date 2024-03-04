@@ -8,7 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../lib/secure-boot-lib.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
@@ -23,11 +22,11 @@ Resource            ../lib/ansible.robot
 # Required teardown keywords:
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
-...                     Check If Certificate Images For Tests Exists
-...                     AND
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot is not supported
+...                     AND
+...                     Check If Certificate Images For Tests Exists
 ...                     AND
 ...                     Run Ansible Playbook On Supported Operating Systems    secure-boot
 ...                     AND
@@ -46,17 +45,10 @@ SBO001.001 Check Secure Boot default state (firmware)
     ...    flashing the platform with the Dasharo firmware is
     ...    correct.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-    ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
-    Should Contain    ${sb_state}[0]    ${SECURE_BOOT_DEFAULT_STATE}
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${sb_state}=    Get Secure Boot State    ${sb_menu}
+    Should Contain    ${sb_state}    ${SECURE_BOOT_DEFAULT_STATE}
 
 SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     [Documentation]    This test verifies that Secure Boot can be enabled from
@@ -143,18 +135,13 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     # Save Changes
     # Changes to Secure Boot menu take action immediately, so we can just continue
     Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    GOOD_KEYS
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    GOOD_KEYS    cert.der
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Reset System
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
 
 SBO004.001 Attempt to boot file without the key from Shell (firmware)
     [Documentation]    This test verifies that Secure Boot blocks booting a file
@@ -168,9 +155,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
     Reset System
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello.efi
-    Should Contain    ${out}    Access Denied
+    Boot Efi File Should Fail    hello.efi    NOT_SIGNED
 
 SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     [Documentation]    This test verifies that Secure Boot disallows booting
@@ -184,25 +169,16 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
     Reset System
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Access Denied
+    Boot Efi File Should Fail    signed-hello.efi    BAD_KEYS
 
 SBO006.001 Reset Secure Boot Keys option availability (firmware)
     [Documentation]    This test verifies that the Reset Secure Boot Keys
     ...    option is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${device_mgr_menu}
-    ...    Secure Boot Configuration
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Should Contain    ${advanced_menu}    > Reset to default Secure Boot Keys
+    Enter Secure Boot Menu
+    ${key_menu}=    Enter Key Management And Return Construction
+    Should Contain    ${key_menu}    ${RESET_KEYS_OPTION}
 
 SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     [Documentation]    This test verifies that restoring the keys to default
@@ -225,9 +201,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Reset System
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -237,9 +211,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Reset System
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Access Denied
+    Boot Efi File Should Fail    signed-hello.efi    GOOD_KEYS
 
 SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     [Documentation]    This test verifies that it is impossible to load
@@ -254,10 +226,8 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    BAD_FORMAT
-    Select File In File Explorer    cert.crt
-    Read From Terminal Until    ERROR: Unsupported file type!
+    Enroll DB Signature    ${key_menu}    BAD_FORMAT    cert.der
+    Read From Terminal Until    ${INCORRECT_FORMAT_MESSAGE}
 
 SBO009.001 Attempt to boot file signed for intermediate certificate
     [Documentation]    This test verifies that a file signed with an
@@ -268,19 +238,12 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
-    Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    INTERMED
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    INTERMED    cert.der
     Save Changes And Reset    3    5
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello.efi
-    Should Contain    ${out}    Access Denied
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File Should Fail    hello.efi    GOOD_KEYS
+    Reset System
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
 SBO010.001 Check support for rsa2k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:2048 -subj "/CN=DB-RSA2048/" -keyout DB-RSA2048.key -out DB-RSA2048.crt -days 3650 -nodes -sha256`
@@ -292,16 +255,11 @@ SBO010.001 Check support for rsa2k signed certificates
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    RSA2048
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    RSA2048    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    RSA2048    Hello, world!
 
 SBO010.002 Check support for rsa3k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:3072 -subj "/CN=DB-RSA3072/" -keyout DB-RSA3072.key -out DB-RSA3072.pem -days 3650 -nodes -sha256`
@@ -313,16 +271,11 @@ SBO010.002 Check support for rsa3k signed certificates
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    RSA3072
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    RSA3072    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    RSA3072    Hello, world!
 
 SBO010.003 Check support for rsa4k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:4096 -subj "/CN=DB-RSA4096/" -keyout DB-RSA4096.key -out DB-RSA4096.pem -days 3650 -nodes -sha256`
@@ -334,16 +287,11 @@ SBO010.003 Check support for rsa4k signed certificates
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    RSA4096
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    RSA4096    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    RSA4096    Hello, world!
 
 SBO010.004 Check support for ecdsa256 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-256 -subj "/CN=DB-ECDSA256/" -keyout DB-ECDSA256.key
@@ -356,16 +304,11 @@ SBO010.004 Check support for ecdsa256 signed certificates
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    ECDSA256
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    ECDSA256    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    ECDSA256    Hello, world!
 
 SBO010.005 Check support for ecdsa384 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-384 -subj "/CN=DB-ECDSA384/" -keyout DB-ECDSA384.key
@@ -378,16 +321,11 @@ SBO010.005 Check support for ecdsa384 signed certificates
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    ECDSA384
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    ECDSA384    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    ECDSA384    Hello, world!
 
 SBO010.006 Check support for ecdsa521 signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:P-521 -subj "/CN=DB-ECDSA521/" -keyout DB-ECDSA521.key
@@ -400,16 +338,11 @@ SBO010.006 Check support for ecdsa521 signed certificates
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    ${sb_menu}=    Reenter Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    ECDSA521
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    ECDSA521    cert.der
     Save Changes And Reset    3    5
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Hello, world!
+    Boot Efi File    signed-hello.efi    ECDSA521    Hello, world!
 
 SBO011.001 Attempt to enroll expired certificate and boot signed image
     [Documentation]    This test verifies that an expired certificate can be
@@ -420,19 +353,13 @@ SBO011.001 Attempt to enroll expired certificate and boot signed image
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes
-    Reenter Menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    EXPIRED
-    Select File In File Explorer    cert.der
+    ${key_menu}=    Enter Key Management And Return Construction
+    Enroll DB Signature    ${key_menu}    EXPIRED    cert.der
     Save Changes And Reset    3    5
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello.efi
-    Should Contain    ${out}    Access Denied
-    ${out}=    Execute File In UEFI Shell    signed-hello.efi
-    Should Contain    ${out}    Access Denied
+
+    Boot Efi File Should Fail    hello.efi    EXPIRED
+    Reset System
+    Boot Efi File Should Fail    signed-hello.efi    EXPIRED
 
 SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     [Documentation]    This test verifies that OS boots after enrolling keys
@@ -444,8 +371,8 @@ SBO012.001 Boot OS Signed And Enrolled From Inside System (Ubuntu 22.04)
     Power On
     # 1. Make sure we are in Setup Mode
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Erase All Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${key_menu}
     Exit From Current Menu
     Save Changes And Reset    2
 
@@ -499,8 +426,8 @@ SBO013.001 Check automatic certificate provisioning
 
     # 4. Clean up
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${key_menu}
 
 SBO013.002 Check automatic certificate provisioning KEK certificate
     [Documentation]    This test verifies that the automatic certificate
@@ -525,8 +452,8 @@ SBO013.002 Check automatic certificate provisioning KEK certificate
     # 4. Clean up
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${key_menu}
 
 SBO014.001 Enroll certificates using sbctl
     [Documentation]    This test erases Secure Boot keys from the BIOS menu and
@@ -537,8 +464,8 @@ SBO014.001 Enroll certificates using sbctl
 
     # 1. Erase Secure Boot Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Erase All Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
 
     # 2. Boot to Ubuntu
@@ -564,8 +491,8 @@ SBO014.001 Enroll certificates using sbctl
     # 5. Clean up
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Reset To Default Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -582,8 +509,8 @@ SBO015.001 Attempt to enroll the key in the incorrect format (OS)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO015.001 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Erase All Secure Boot Keys    ${advanced_menu}
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Erase All Secure Boot Keys    ${key_menu}
     Save Changes And Reset    3    5
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
