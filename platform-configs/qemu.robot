@@ -30,6 +30,7 @@ ${FLASH_VERIFY_METHOD}=                             ${EMPTY}
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
 ${WIFI_CARD_UBUNTU}=                                Intel(R) Wi-Fi 6 AX200
 ${LTE_CARD}=                                        ME906s LTE
+${ANSIBLE_SUPPORT}=                                 ${TRUE}
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
@@ -166,7 +167,6 @@ ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${EMMC_SUPPORT}=                                    ${TRUE}
 ${DTS_SUPPORT}=                                     ${TRUE}
-${DTS_UEFI_SB_SUPPORT}=                             ${TRUE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_NET_INTERFACE}=                   ${FALSE}
 ${DOCKING_STATION_HDMI}=                            ${FALSE}
@@ -207,6 +207,7 @@ ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${DTS_UEFI_SB_SUPPORT}=                             ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
