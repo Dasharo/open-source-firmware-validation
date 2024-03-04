@@ -66,6 +66,7 @@ ${TYPE_VERIFICATION}=                               ${TRUE}
 ${HARDWARE_WP_SUPPORT}=                             ${TRUE}
 ${DTS_SUPPORT}=                                     ${TRUE}
 ${FIRMWARE_BUILDING_SUPPORT}=                       ${TRUE}
+${UPLOAD_ON_USB_SUPPORT}=                           ${TRUE}
 ${CPU_TESTS_SUPPORT}=                               ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${L2_CACHE_SUPPORT}=                                ${TRUE}
