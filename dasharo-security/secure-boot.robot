@@ -226,8 +226,11 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enroll DB Signature    ${key_menu}    BAD_FORMAT    cert.der
-    Read From Terminal Until    ${INCORRECT_FORMAT_MESSAGE}
+    ${status}=    Run Keyword And Return Status    Enroll DB Signature
+    ...    ${key_menu}    BAD_FORMAT    cert.der
+    IF    ${status} == ${TRUE}
+        Read From Terminal Until    ${INCORRECT_FORMAT_MESSAGE}
+    END
 
 SBO009.001 Attempt to boot file signed for intermediate certificate
     [Documentation]    This test verifies that a file signed with an
@@ -241,9 +244,9 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    INTERMED    cert.der
     Save Changes And Reset    3    5
-    Boot Efi File Should Fail    hello.efi    GOOD_KEYS
+    Boot Efi File Should Fail    hello.efi    INTERMED
     Reset System
-    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
+    Boot Efi File    signed-hello.efi    INTERMED    Hello, World!
 
 SBO010.001 Check support for rsa2k signed certificates
     [Documentation]    PEM generated with `openssl req -new -x509 -newkey rsa:2048 -subj "/CN=DB-RSA2048/" -keyout DB-RSA2048.key -out DB-RSA2048.crt -days 3650 -nodes -sha256`

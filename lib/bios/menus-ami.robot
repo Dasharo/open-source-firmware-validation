@@ -149,7 +149,8 @@ Select Ami Option
         Should Not Be Equal As Integers    ${target_index}    -1
         Press Key N Times And Enter    ${target_index}    ${ARROW_DOWN}
     END
+    ${submenu}=    Set Variable    ${EMPTY}
     IF    ${boot_frame} == ${FALSE}
         ${submenu}=    Read From Terminal Until    ---/
     END
-    RETURN    ${EMPTY}
+    RETURN    ${submenu}
