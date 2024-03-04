@@ -1,9 +1,0 @@
----
-- name: Create a file named "tmp" in the home directory with `Hello World`
-  hosts: qemu_ubuntu
-
-  tasks:
-    - name: Create the "tmp" file with content
-      ansible.builtin.copy:
-        content: "Hello World\n"
-        dest: ~/tmp
