@@ -58,6 +58,7 @@ ${DEVICE_USB_ROOT_PROMPT}=                          root@3mdeb:/home/ubuntu#
 
 ${DEVICE_WINDOWS_USERNAME}=                         user
 ${DEVICE_WINDOWS_PASSWORD}=                         windows
+${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
 ${DEVICE_UBUNTU_USERNAME}=                          ubuntu
 ${DEVICE_UBUNTU_PASSWORD}=                          ubuntu
 ${DEVICE_UBUNTU_USER_PROMPT}=                       ubuntu@3mdeb:~$
@@ -65,7 +66,7 @@ ${DEVICE_UBUNTU_ROOT_PROMPT}=                       root@3mdeb:/home/ubuntu#
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v
+${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v0.9.2
 ${DMIDECODE_PRODUCT_NAME}=                          V1210
 ${DMIDECODE_RELEASE_DATE}=                          ${EMPTY}
 ${DMIDECODE_MANUFACTURER}=                          Protectli
