@@ -10,7 +10,7 @@ Check If Platform Sleep Type Can Be Selected
         RETURN
     END
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     ${platform_sleep_type_selectable}=    Run Keyword And Return Status
@@ -31,7 +31,7 @@ Set Platform Sleep Type
     ELSE
         Fail    Wrong Argument
     END
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${power_menu}    Platform sleep type    ${platform_sleep_type_text}
