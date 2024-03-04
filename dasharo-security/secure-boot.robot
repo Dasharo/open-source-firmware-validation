@@ -27,7 +27,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot is not supported
 ...                     AND
-...                     Run Ansible Playbook On Supported Operating Systems
+...                     Run Ansible Playbook On Supported Operating Systems    secure-boot
 ...                     AND
 ...                     Restore Secure Boot Defaults
 Suite Teardown      Run Keywords
