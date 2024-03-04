@@ -209,7 +209,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         board-revision=x    env=dev    platform_vendor=mpl
 ...                         pikvm_ip=192.168.4.105
 
-@{RTE_LIST}=                &{RTE01}    &{RTE02}    &{RTE03}    &{RTE04}    &{RTE05}
+@{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
 ...                         &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}    &{RTE20}
