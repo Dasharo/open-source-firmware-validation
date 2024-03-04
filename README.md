@@ -194,6 +194,8 @@ FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/re
 
 ## Additional documents
 
+- [Adding new platforms](docs/adding-new-platforms.md) - Instructions for adding
+  support for new platforms
 - [Contributing](docs/contributing.md) - Instructions for first-time
   contributors
 - [Raptor CS Talos II](docs/raptor-talos-2.md) - Documentation specific to the
