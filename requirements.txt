@@ -4,6 +4,8 @@ robotframework-requests==0.9.4
 git+https://github.com/3mdeb/pyte@ignore_param_errors
 dbbot-sqlalchemy==0.2
 gspread==3.1.0
+ansible
+ansible-core
 oauth2client
 PyOpenSSL
 wakeonlan
