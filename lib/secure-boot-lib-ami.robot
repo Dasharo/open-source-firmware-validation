@@ -100,7 +100,14 @@ Enable Secure Boot
     IF    ${remove_first} == ${TRUE}
         ${sb_menu}=    Get Slice From List    ${sb_menu}    1
     END
-    Set Option State    ${sb_menu}    Secure Boot *\[    Enabled
+    ${state}=    Get Option State    ${sb_menu}    Secure Boot *\[
+    ${enabled}=    Run Keyword And Return Status
+    ...    Should Contain    ${state}    Enabled
+    IF    ${enabled} == ${FALSE}
+        Set Option State    ${sb_menu}    Secure Boot *\[    Enabled
+        Save Changes And Reset
+        Enter Secure Boot Menu
+    END
 
 Disable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
@@ -113,7 +120,8 @@ Enroll DB Signature
     [Documentation]    Enroll new DB Signature. Should be called in
     ...    Key Management Menu
     # robocop: disable=unused-argument
-    [Arguments]    ${key_menu}    ${volume}    ${file}
+    [Arguments]    ${key_menu}    ${volume}    ${file}    @{}
+    ...    ${fail_on_duplicate}=${FALSE}
     # robocop: enable
     Enter Submenu From Snapshot    ${key_menu}    > Authorized Signatures
     Select Ami Option    Append
@@ -121,7 +129,17 @@ Enroll DB Signature
     Select Ami Option    USB
     Select Ami Option    ${file}
     Select Ami Option    Public Key Certificate
-    Press Key N Times    2    ${ENTER}
+    ${status}=    Read From Terminal Until    ---/
+    Should Not Contain    ${status}    Load Error
+    Press Enter
+    Read From Terminal Until    ---/
+    ${status}=    Read From Terminal Until    ---/
+    IF    ${fail_on_duplicate} == ${TRUE}
+        Should Contain    ${status}    Success
+    ELSE
+        Should Contain Any    ${status}    Success    Already started
+    END
+    Press Enter
 
 Enter UEFI Shell
     [Documentation]    Boots into efi shell
@@ -149,7 +167,7 @@ Add Boot Option Ami
     [Documentation]    Add new boot option. Should be called from Main Menu.
     ...    If disk is empty then chooses first disk in menu. At the end returns
     ...    to the top of Boot menu
-    [Arguments]    ${file}    ${boot_option}    ${volume}=${EMPTY}
+    [Arguments]    ${file}    ${boot_option}    ${volume}
     Press Key N Times    2    ${ARROW_LEFT}
     Delete Boot Option Ami    ${boot_option}
     Press Key N Times    1    ${END}
@@ -159,13 +177,9 @@ Add Boot Option Ami
     Press Enter
     Write Bare Into Terminal    ${boot_option}
     Press Enter
-    Press Key N Times And Enter    1    ${ARROW_DOWN}
     Read From Terminal
-    IF    '${volume}' == '${EMPTY}'
-        Press Enter
-    ELSE
-        Select Ami Option    ${volume}
-    END
+    Press Key N Times And Enter    1    ${ARROW_DOWN}
+    Select Ami Option    ${volume}
     Select Ami Option    ${file}
     Press Key N Times And Enter    1    ${ARROW_DOWN}
     Press Enter
@@ -174,10 +188,9 @@ Add Boot Option Ami
 
 Boot Efi File And Return Response
     [Documentation]    Boots EFI file and returns response.
-    ...    If volume is empty then boots from first drive.
     ...    If read_only_first_line is true then reads only up to \r\n else
     ...    up to ---/ (end of Ami frame/menu)
-    [Arguments]    ${file}    ${volume}=${EMPTY}    ${read_only_first_line}=${TRUE}
+    [Arguments]    ${file}    ${volume}    ${read_only_first_line}=${TRUE}
     Enter Setup Menu And Return Construction
     Add Boot Option Ami    ${file}    tmp_boot    ${volume}
     Press Key N Times    1    ${ARROW_RIGHT}
