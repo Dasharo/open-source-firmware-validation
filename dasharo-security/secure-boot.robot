@@ -410,6 +410,30 @@ SBO010.006 Check support for ecdsa521 signed certificates
     ${out}=    Execute File In UEFI Shell    hello_ecdsa521.efi
     Should Contain    ${out}    Hello, world!
 
+SBO011.001 Attempt to enroll expired certificate and boot signed image
+    [Documentation]    This test verifies that an expired certificate can be
+    ...    used to verify booted image.
+    Skip If    not ${SECURE_BOOT_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${EXPIRED_NAME}    ${EXPIRED_URL}    ${EXPIRED_SHA256}
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Save Changes
+    Reenter Menu
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Volume In File Explorer    NO VOLUME LABEL
+    Select File In File Explorer    ExpiredCert.der
+    Save Changes And Reset    3    5
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    hello.efi
+    Should Contain    ${out}    Access Denied
+    ${out}=    Execute File In UEFI Shell    hello-signed-with-expired-cert.efi
+    Should Contain    ${out}    Access Denied
+
 
 *** Keywords ***
 Set Secure Boot State To Disabled
