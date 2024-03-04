@@ -1,9 +1,7 @@
 *** Settings ***
 Documentation       Collection of Dasharo keywords related to UEFI Secure Boot
 
-Library             ../lib/secure-boot-lib.py
 Resource            ../lib/secure-boot-lib-common.robot
-Resource            ../keywords.robot
 
 
 *** Variables ***
@@ -12,19 +10,6 @@ ${INCORRECT_FORMAT_MESSAGE}=    ERROR: Unsupported file type!
 
 
 *** Keywords ***
-Check If Certificate Images For Tests Exists
-    [Documentation]    This keyword generates all the necessary images
-    ...    for secure boot tests.
-    ${images_list}=    Create List    BAD_FORMAT    BAD_KEYS    ECDSA256    ECDSA384
-    ...    ECDSA521    EXPIRED    GOOD_KEYS    INTERMEDIATE    NOT_SIGNED
-    ...    RSA2048    RSA3072    RSA4096
-    FOR    ${image}    IN    @{images_list}
-        ${image_path}=    Set Variable    ${CURDIR}/../scripts/secure-boot/images/${image}.img
-        OperatingSystem.File Should Exist
-        ...    ${image_path}
-        ...    Image ${image}.img does not exist! Please run ./scripts/secure-boot/generate-images/sb-img-wrapper.sh script.
-    END
-
 Get Secure Boot Menu Construction
     [Documentation]    Secure Boot menu is very different than all
     ...    of the others so we need a special keyword for parsing it.
@@ -84,7 +69,7 @@ Enter Key Management And Return Construction
     [Documentation]    Enters Advanced Key Management menu and returns constructions.
     ...    Should be called from secure boot menu
     [Arguments]    ${sb_menu}=${EMPTY}
-    IF    ${sb_menu} == ${EMPTY}
+    IF    '''@{sb_menu}''' == '''@{EMPTY}'''
         ${sb_menu}=    Get Secure Boot Menu Construction
     END
     ${key_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
@@ -235,67 +220,6 @@ Execute File In UEFI Shell
     ${out}=    Read From Terminal Until    FS0:\\>
     RETURN    ${out}
 
-Remove Old Secure Boot Keys In OS
-    [Documentation]    Removes all files and directories in
-    ...    `/usr/share/secureboot` which is used by sbctl in the operating
-    ...    system
-    Execute Linux Command Without Output    rm -rf /usr/share/secureboot
-
-Generate Secure Boot Keys In OS
-    [Documentation]    Generates new Secure Boot keys using sbctl.
-    ...    Returns true if succeeded.
-    ${out}=    Execute Linux Command    sbctl create-keys
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    Secure boot keys created!
-    RETURN    ${sb_status}
-
-Enroll Secure Boot Keys In OS
-    [Documentation]    Enrolls current keys to EFI using sbctl.
-    ...    Returns true if succeeded.
-    [Arguments]    ${result}
-    ${out}=    Execute Linux Command    sbctl enroll-keys --yes-this-might-brick-my-machine
-    IF    ${result} == True
-        ${sb_status}=    Run Keyword And Return Status
-        ...    Should Contain    ${out}    Enrolled keys to the EFI variables!
-    ELSE
-        ${sb_status}=    Run Keyword And Return Status
-        ...    Should Contain    ${out}    failed to parse key
-    END
-    RETURN    ${sb_status}
-
-Sign All Boot Components In OS
-    [Documentation]    Signs boot components with current keys using sbctl
-    Execute Linux Command    sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
-
-Compare KEK Certificate Using Mokutil In DTS
-    [Documentation]    Compares two KEK certificates. It takes as argument the
-    ...    source of the certificate and acquire it. Second KEK certificate is
-    ...    taken as an output from mokutil --kek command executed in DTS.
-    [Arguments]    ${first_certificate}
-    ${is_https_link}=    Run Keyword And Return Status    Should Contain    ${first_certificate}    https://
-    IF    ${is_https_link} == ${TRUE}
-        Execute Command In Terminal    wget ${first_certificate} -O /tmp/first_certificate.crt
-        ${first_certificate_string}=    Execute Command In Terminal
-        ...    openssl x509 -in /tmp/first_certificate.crt -noout -text
-    ELSE
-        Log    Provided argument is not a link to download certificate    INFO
-        FAIL
-    END
-    ${second_certificate_string}=    Execute Command In Terminal    mokutil --kek
-    ${second_certificate_string}=    Convert Mokutil To Openssl Output    ${second_certificate_string}
-
-    # 3. Compare the certificates
-    Should Be Equal    ${first_certificate_string}    ${second_certificate_string}
-
-Generate Wrong Format Keys And Move Them
-    [Documentation]    Generates elliptic curve keys and moves them to the
-    ...    desired location.
-    [Arguments]    ${name}    ${location}
-    Execute Linux Command
-    ...    openssl ecparam -genkey -name secp384r1 -out ${name}.key && openssl req -new -x509 -key ${name}.key -out ${name}.pem -days 365 -subj "/CN=3mdeb_test"
-    Execute Linux Command    mv ${name}.key ${location}
-    Execute Linux Command    mv ${name}.pem ${location}
-
 Boot Efi File And Return Response
     [Documentation]    Boots EFI file and returns response.
     # robocop: disable=unused-argument
@@ -324,3 +248,7 @@ Get Secure Boot State
     [Arguments]    ${sb_menu}
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
     RETURN    ${sb_state}[0]
+
+Make Sure There Is Secure Boot Error
+    [Documentation]    Makes sure there is secure boot error.
+    Read From Terminal Until    Press any key to continue...
