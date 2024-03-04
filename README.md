@@ -209,8 +209,10 @@ requirements:
   DUT in the [ansible-roles/hosts](./ansible-roles/hosts) file, along with
   credentials for logging into the system,
 * preparation of the relevant playbook under
-  [ansible-roles/os](./ansible-roles/os) to be executed before starting the
-  tests.
+  [ansible-roles/roles](./ansible-roles/roles) to be executed before starting the
+  tests, the idea here is to store playbooks yml files under
+  `${suite_test_name}/tasks/common.yml`,
+* set `ANSIBLE_SUPPORT` to `${TRUE}` in platform config file.
 
 With the correct configuration, `ansible-playbook` will be started from the PC
 host and perform modifications on the DUT via an SSH connection.
