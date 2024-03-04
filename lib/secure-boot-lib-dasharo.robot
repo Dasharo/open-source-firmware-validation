@@ -83,7 +83,10 @@ Enter Advanced Secure Boot Keys Management And Return Construction
 Enter Key Management And Return Construction
     [Documentation]    Enters Advanced Key Management menu and returns constructions.
     ...    Should be called from secure boot menu
-    ${sb_menu}=    Get Secure Boot Menu Construction
+    [Arguments]    ${sb_menu}=${EMPTY}
+    IF    ${sb_menu} == ${EMPTY}
+        ${sb_menu}=    Get Secure Boot Menu Construction
+    END
     ${key_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     RETURN    ${key_menu}
 
@@ -254,33 +257,15 @@ Enroll Secure Boot Keys In OS
     IF    ${result} == True
         ${sb_status}=    Run Keyword And Return Status
         ...    Should Contain    ${out}    Enrolled keys to the EFI variables!
-        RETURN    ${sb_status}
     ELSE
         ${sb_status}=    Run Keyword And Return Status
         ...    Should Contain    ${out}    failed to parse key
-        RETURN    ${sb_status}
     END
+    RETURN    ${sb_status}
 
 Sign All Boot Components In OS
     [Documentation]    Signs boot components with current keys using sbctl
     Execute Linux Command    sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
-
-Autoenroll Secure Boot Certificates
-    [Documentation]    Enrolls Secure boot certificates automatically using tool
-    ...    for automatic provisioning
-    # 1. Erase Secure Boot Keys
-    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Erase All Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3    5
-
-    # 2. Boot to Automatic provisioning tool
-    Boot Dasharo Tools Suite    USB    True
-
-    # 3. Enable SB after provisioning
-    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset
 
 Compare KEK Certificate Using Mokutil In DTS
     [Documentation]    Compares two KEK certificates. It takes as argument the

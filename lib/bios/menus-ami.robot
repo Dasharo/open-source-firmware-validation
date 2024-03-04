@@ -93,6 +93,7 @@ Boot Option
     # Make sure we are at the top
     Press Key N Times    1    ${HOME}
     Read From Terminal
+    ${found}=    Set Variable    ${FALSE}
     # TODO: check if there are more options instead of setting max tries
     FOR    ${i}    IN RANGE    30
         Press Key N Times    1    ${ARROW_DOWN}
@@ -109,11 +110,12 @@ Boot Option
                 Read From Terminal Until    ---/
                 Press Enter
                 Read From Terminal Until    ---/
+                ${found}=    Set Variable    ${TRUE}
+                BREAK
             END
-            RETURN
         END
     END
-    Fail    Boot option not found
+    IF    ${found} == ${FALSE}    Fail    Boot option not found
 
 Boot System Or From Connected Disk
     [Documentation]    Tries to boot ${system_name}.
@@ -124,10 +126,16 @@ Boot System Or From Connected Disk
 Select Ami Option
     [Documentation]    Selects option from list of options in AMI frame.
     ...    Returns underlying submenu. Assumes first option is selected.
-    ...    set boot_frame if you are in Boot frame
-    [Arguments]    ${option}    ${ignore_case}=${TRUE}
-    ...    ${boot_frame}=${FALSE}
+    ...    set boot_frame if you are in Boot frame. If frame_name is not empty
+    ...    then make sure we are in correct frame by checking if top border or
+    ...    header contains frame_name
+    [Arguments]    ${option}    @{}    ${ignore_case}=${TRUE}
+    ...    ${boot_frame}=${FALSE}    ${frame_name}=${EMPTY}
     ${out}=    Read From Terminal Until    ---/
+    IF    '${frame_name}' != '${EMPTY}'
+        ${header}=    Extract Ami Header    ${out}
+        Should Contain    ${header}    ${frame_name}
+    END
     IF    '${option}' == '${TRUE}'
         Press Enter
     ELSE IF    '${option}' == '${FALSE}'
@@ -143,6 +151,5 @@ Select Ami Option
     END
     IF    ${boot_frame} == ${FALSE}
         ${submenu}=    Read From Terminal Until    ---/
-        RETURN    ${submenu}
     END
     RETURN    ${EMPTY}
