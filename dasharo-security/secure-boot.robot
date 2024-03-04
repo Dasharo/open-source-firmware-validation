@@ -13,6 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/ansible.robot
 
 # Resource    ../platform-configs/msi-pro-z690-a-ddr5.robot
 # Required setup keywords:
@@ -24,6 +25,8 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot is not supported
+...                     AND
+...                     Run Ansible Playbook On Supported Operating Systems
 ...                     AND
 ...                     Restore Secure Boot Defaults
 Suite Teardown      Run Keywords

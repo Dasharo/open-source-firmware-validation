@@ -8,6 +8,7 @@ ${MEMTEST_HEADER}=          Memtest86+ 5.01 coreboot
 ${DEBIAN_STABLE_VER}=       4.14.y
 ${TEARDOWN}=                no
 ${SNIPEIT}=                 yes
+${ANSIBLE_CONFIG}=          no
 
 ${DL_CACHE_DIR}=            ${CURDIR}/dl-cache
 
