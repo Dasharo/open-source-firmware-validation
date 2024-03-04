@@ -20,6 +20,24 @@ ${BAD_FORMAT_SHA256}=       59d17bc120dfd0f2e6948a2bfdbdf5fb06eddcb44f9a053a8e7b
 ${INTERMEDIATE_URL}=        https://cloud.3mdeb.com/index.php/s/LSQ7NAJyEGbnRNk/download/intermediate_db.img
 ${INTERMEDIATE_NAME}=       intermediate_db.img
 ${INTERMEDIATE_SHA256}=     5261340f3de5c3e70a11273c9bb94a3d01cb34302504982ba7ac179be0de4439
+${RSA2_K_TEST_NAME}=        hello_rsa2k_test.img
+${RSA2_K_TEST_URL}=         https://cloud.3mdeb.com/index.php/s/85KSa7EFaMtnJQS/download/hello_rsa2k_test.img
+${RSA2_K_TEST_SHA256}=      5007aa3051c847eca519d31e3446951012520e103b12deaee7daf29a10354ed4
+${RSA3_K_TEST_NAME}=        hello_rsa3k_test.img
+${RSA3_K_TEST_URL}=         https://cloud.3mdeb.com/index.php/s/7pwazGCojdeWDMX/download/hello_rsa3k_test.img
+${RSA3_K_TEST_SHA256}=      7f62edb71d2567ce7fcd009c274bd012bf8b60a9072a9470e11fc6d9966359d9
+${RSA4_K_TEST_NAME}=        hello_rsa4k_test.img
+${RSA4_K_TEST_URL}=         https://cloud.3mdeb.com/index.php/s/gD54FSWfrYqr2Gz/download/hello_rsa4k_test.img
+${RSA4_K_TEST_SHA256}=      abab541a7c676b40a2a1d58d22d5fe4c6a236b83c1e833d5bfd18a03b7664026
+${ECDSA256_TEST_NAME}=      hello_ecdsa256_test.img
+${ECDSA256_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/aBmETzTJGeGNg3t/download/hello_ecdsa256_test.img
+${ECDSA256_TEST_SHA256}=    979f8b24cb09f6e10a71f736799340dc16a081a6e4a6d009ca65e0cebeb890bd
+${ECDSA384_TEST_NAME}=      hello_ecdsa384_test.img
+${ECDSA384_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/dcmckksf2qx9AoD/download/hello_ecdsa384_test.img
+${ECDSA384_TEST_SHA256}=    181c1e9f8051f80677f489aec9ac11ce311bb2a1f6ee6a659d7ae7ca2fbc1bf4
+${ECDSA521_TEST_NAME}=      hello_ecdsa521_test.img
+${ECDSA521_TEST_URL}=       https://cloud.3mdeb.com/index.php/s/cmybRxzmKx2dATW/download/hello_ecdsa521_test.img
+${ECDSA521_TEST_SHA256}=    cbd90c85b6d4c0c59f45da600c8b63e70b858330b2a27924253e6bf014906240
 
 
 *** Keywords ***
