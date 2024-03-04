@@ -39,18 +39,9 @@ ${DMIDECODE_TYPE}=                                  Desktop
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
-${TESTS_IN_DEBIAN_SUPPORT}=                         ${TRUE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
-${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}
-${DASHARO_NETWORKING_MENU_SUPPORT}=                 ${TRUE}
-${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${FALSE}
-${DASHARO_CHIPSET_MENU_SUPPORT}=                    ${TRUE}
-${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
-${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
-${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
-${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
@@ -98,9 +89,6 @@ ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
-${USB_STACK_SUPPORT}=                               ${TRUE}
-${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
-${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
