@@ -40,9 +40,9 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE10}=                   ip=192.168.10.173    cpuid=02c00042a3b72a65    pcb_rev=0.5.3
 ...                         platform=apu3    board-revision=c4    env=prod
 ...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea    pcb_rev=0.5.3
+&{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea    pcb_rev=1.0.0
 ...                         platform=apu4    board-revision=4d    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
+...                         platform_vendor=PC Engines    firmware_type=UEFI
 &{RTE12}=                   ip=192.168.10.175    cpuid=02c000420334dd56    pcb_rev=0.5.3
 ...                         platform=apu5    board-revision=b    env=prod
 ...                         platform_vendor=PC Engines    firmware_type=BIOS
