@@ -10,6 +10,7 @@ Resource        lib/dl-cache.robot
 Resource        lib/dmidecode-lib.robot
 Resource        lib/docks.robot
 Resource        lib/flash.robot
+Resource        lib/tpm-support-lib.robot
 Resource        lib/self-tests.robot
 Resource        lib/sleep-lib.robot
 Resource        lib/CPU-performance-lib.robot
