@@ -168,7 +168,7 @@ TPM004.001 Check TPM Clear procedure
     Take Ownership Over TPM2 Module
     Check Ownership Of TPM2 Module    0
 
-    Power On
+    Execute Reboot Command
     Run TPM Clear Procedure
 
     Boot System Or From Connected Disk    ubuntu

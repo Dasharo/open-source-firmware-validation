@@ -75,12 +75,10 @@ Search TCG2 Menu And Enter Option
     END
 
 Run TPM Clear Procedure
-    [Documentation]    This keyword enters TCG2 menu after the platform was
-    ...    powered on. Returns TCG2 menu construction.
-    [Arguments]    ${checkpoint}=TCG2 Configuration
+    [Documentation]    This keyword clears TPM
     Search TCG2 Menu And Enter Option    TPM2 Operation
     Press Key N Times And Enter    3    ${ARROW_DOWN}
-    Read From Terminal Until    ${checkpoint}
+    Read From Terminal Until    TCG2 Configuration
     Save Changes And Reset
     Read From Terminal Until    Press F12 to clear the TPM
     Press Key N Times    1    ${F12}
