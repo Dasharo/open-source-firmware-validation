@@ -176,14 +176,14 @@ Enter Invalid Option in Setup Menu
 
 Test TianoCore Reset System
     Power On
-    Enter Setup Menu Tianocore And Return Construction
-    Tianocore Reset System
-    Enter Setup Menu Tianocore And Return Construction
+    Enter Setup Menu And Return Construction
+    Reset System
+    Enter Setup Menu And Return Construction
 
 Test Exit From Current Menu
     [Documentation]    Test Exit From Current Menu kwd
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Device Manager
 
     FOR    ${i}    IN RANGE    0    20
