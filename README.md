@@ -116,6 +116,12 @@ pip install -U -r requirements-openbmc.txt
 pip install -r requirements.txt
 ```
 
+* Install `ansible` collections:
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
 * If you initialize the environment and try to run the environment again you
   just need to use only this command:
 
