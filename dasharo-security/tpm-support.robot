@@ -181,6 +181,7 @@ TPM005.001 Check TPM Hash Algorithm Support SHA1 (Firmware)
     ...    hash algorithms
     Skip If    not ${TPM_SUPPORT}    TPM005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.001 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
     ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
@@ -191,6 +192,7 @@ TPM005.002 Check TPM Hash Algorithm Support SHA256 (Firmware)
     ...    hash algorithms
     Skip If    not ${TPM_SUPPORT}    TPM005.002 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.002 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
     ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
@@ -201,6 +203,7 @@ TPM005.003 Check TPM Hash Algorithm Support SHA384 (Firmware)
     ...    hash algorithms
     Skip If    not ${TPM_SUPPORT}    TPM005.003 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.003 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
     ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
@@ -211,6 +214,7 @@ TPM005.004 Check TPM Hash Algorithm Support SHA512 (Firmware)
     ...    hash algorithms
     Skip If    not ${TPM_SUPPORT}    TPM005.004 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.004 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
     ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
