@@ -2,7 +2,7 @@
 Documentation       Collection of keywords related to AMI UEFI TPM support
 
 Library             ./tpm-support-lib-ami.py
-Resource            ./tpm-support-lib-common.robot
+Resource            ../tpm-support-lib-common.robot
 
 
 *** Keywords ***

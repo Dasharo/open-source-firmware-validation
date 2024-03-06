@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation       Collection of Dasharo keywords related to UEFI Secure Boot
 
-Resource            ./secure-boot-lib-common.robot
+Resource            ../secure-boot-lib-common.robot
 
 
 *** Variables ***
