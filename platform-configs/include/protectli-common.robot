@@ -39,6 +39,7 @@ ${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
 
 # Test module: dasharo-compatibility
+${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=               ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=         ${TRUE}
@@ -64,6 +65,7 @@ ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=              Powered On
+${ESP_SCANNING_SUPPORT}=                        ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                 ${TRUE}
