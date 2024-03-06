@@ -274,12 +274,6 @@ Enter IPXE
     Set Prompt For Terminal    iPXE>
     Read From Terminal Until Prompt
 
-Exit From Current Menu
-    [Documentation]    Exits from current menu, refreshing screen.
-    # Before entering new menu, make sure we get rid of all leftovers
-    Read From Terminal
-    Press Key N Times    1    ${ESC}
-
 Reenter Menu
     [Documentation]    Returns to the previous menu and enters the same one
     ...    again

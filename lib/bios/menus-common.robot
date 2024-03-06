@@ -44,6 +44,12 @@ Enter Setup Menu And Return Construction
     ${menu}=    Get Setup Menu Construction
     RETURN    ${menu}
 
+Exit From Current Menu
+    [Documentation]    Exits from current menu, refreshing screen.
+    # Before entering new menu, make sure we get rid of all leftovers
+    Read From Terminal
+    Press Key N Times    1    ${ESC}
+
 Reset System
     # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
     # On serial console it is ESC R ESC r ESC R.
