@@ -24,10 +24,12 @@ Power On
     Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off    ${6}
+    # RteCtrl Power Off    ${6}
+    Sonoff Power Off
     Sleep    5s
     Telnet.Read
-    RteCtrl Power On
+    # RteCtrl Power On
+    Sonoff Power On
 
 Flash Protectli VP4630 External
     [Documentation]    Flash Device Under Test firmware, check flashing result
