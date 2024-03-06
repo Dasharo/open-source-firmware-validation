@@ -496,6 +496,17 @@ Prepare Test Suite
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
+    # Add some metadata to track test version
+    ${revision}=    Run    git describe --dirty --always --tags
+    Set Suite Metadata    OSFV revision    ${revision}
+    ${revision}=    Run    git describe --always
+    ${url}=    Run    git remote get-url origin
+    # Change SSH link to HTTPS one
+    ${url}=    Replace String    ${url}    git@github.com:    https://github.com/
+    ${url}=    Remove String Using Regexp    ${url}    .git$
+    # Relative path from repository base, assumes that directory has the same name as repository
+    ${path}=    Remove String Using Regexp    ${SUITE_SOURCE}    ^.*/${{$url.rsplit('/', 1)[1]}}/
+    Set Suite Metadata    Remote source (maybe)    ${url}/blob/${revision}/${path}
     IF    '${SNIPEIT}' == 'yes'
         Import Library    ${CURDIR}/osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
         # Import Library    snipeit_robot.py
