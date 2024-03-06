@@ -22,7 +22,6 @@ Boot Dasharo Tools Suite
     ...    ${certificate_provisioning} to 'True' - this only work when booted
     ...    from USB.
     [Arguments]    ${dts_booting_method}    ${certificate_provisioning}='False'
-    ${boot_menu}=    Enter Boot Menu And Return Construction
     IF    '${dts_booting_method}'=='USB'
         ${boot_menu}=    Enter Boot Menu And Return Construction
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -60,8 +59,10 @@ Boot Dasharo Tools Suite
             Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
             Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
             # Spawn DTS menu on SSH console
-            Write Into Terminal    dts
+            Write Into Terminal    source $(which dts-boot)
         END
+        Read From Terminal Until    Enter an option:
+        Sleep    5s
     END
 
 Check HCL Report Creation
