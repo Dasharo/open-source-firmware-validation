@@ -73,8 +73,8 @@ TPM001.004 TPM Support (BIOS)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
     ${menu}=    Enter TCG2 Menu And Return Construction
-    ${current_device}=    Get From Dictionary    ${menu}    Current TPM Device
-    Should Contain Any    ${current_device}    TPM 2.0    TPM 1.2
+    ${current_device}=    Get Matches    ${menu}    Current TPM Device*
+    Should Contain Match    ${current_device}    regexp=.* (TPM 2\.0|TPM 1\.2)
 
 TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
@@ -174,3 +174,43 @@ TPM004.001 Check TPM Clear procedure
     Login To Linux
     Switch To Root User
     Check Ownership Of TPM2 Module    1
+
+TPM005.001 Check TPM Hash Algorithm Support SHA1 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.001 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA1*
+
+TPM005.002 Check TPM Hash Algorithm Support SHA256 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.002 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA256*
+
+TPM005.003 Check TPM Hash Algorithm Support SHA384 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.003 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.003 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA384*
+
+TPM005.004 Check TPM Hash Algorithm Support SHA512 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.004 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA512*
