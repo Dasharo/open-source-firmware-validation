@@ -11,6 +11,7 @@ Resource            ../terminal.robot
 Enter Boot Menu
     [Documentation]    Enter Boot Menu with boot menu key mapped in
     ...    keys list.
+    Restore Initial DUT Connection Method
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${BOOT_MENU_KEY}
@@ -31,6 +32,7 @@ Enter Boot Menu And Return Construction
 
 Enter Setup Menu
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
+    Restore Initial DUT Connection Method
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${SETUP_MENU_KEY}
