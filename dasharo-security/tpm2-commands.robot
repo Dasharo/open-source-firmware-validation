@@ -225,6 +225,66 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu 22.04)
     Should Contain    ${out1}    hmac.out
     Should Not Contain    ${out2}    hmac.out
 
+TPMCMD012.001 Sealing and Unsealing the file without Policy (Ubuntu 22.04)
+    [Documentation]    This test verifies TPM sealing functionality.
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary.ctx    60
+    Execute Linux Command    echo "my sealed data" > seal.dat
+    ${out1}=    Execute Linux Command    cat seal.dat
+    Execute Linux Tpm2 Tools Command    tpm2_create -C primary.ctx -i seal.dat -u key.pub -r key.priv
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -c seal.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol --hierarchy owner --object-context seal.ctx -o seal.handle
+    Execute Linux Tpm2 Tools Command    tpm2_unseal -c seal.handle > unsealed.dat
+    ${out2}=    Execute Linux Command    cat unsealed.dat
+
+TPMCMD013.001 Sealing and Unsealing with Policy - Password Only (Ubuntu 22.04)
+    [Documentation]    Check whether the TPM supports sealing and unsealing
+    ...    using password policy.
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
+    Execute Linux Command    echo "password policy sealed data" > seal.dat
+    ${out1}=    Execute Linux Command    cat seal.dat
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    Execute Linux Tpm2 Tools Command
+    ...    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat -p policypswd
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    ${out2}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat+policypswd -c seal.ctx
+    Should Be Equal As Strings    ${out1}    ${out2}
+
+TPMCMD013.002 Sealing and Unsealing with Policy - PCR Only (Ubuntu 22.04)
+    [Documentation]    Check whether the TPM supports sealing and unsealing
+    ...    using PCR policy.
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
+    Execute Linux Command    echo "PCR policy sealed data" > seal.dat
+    ${out1}=    Execute Linux Command    cat seal.dat
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    ${out2}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat -c seal.ctx
+    Should Be Equal As Strings    ${out1}    ${out2}
+
+TPMCMD013.003 Sealing and unsealing with Policy - Password and PCR (Ubuntu 22.04)
+    [Documentation]    Check whether the TPM supports sealing and unsealing
+    ...    using PCR and password policy at the same time.
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
+    Execute Linux Command    echo "policy sealed data" > seal.dat
+    ${out1}=    Execute Linux Command    cat seal.dat
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    Execute Linux Tpm2 Tools Command
+    ...    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat -p policypswd
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    ${out2}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat+policypswd -c seal.ctx
+    Should Be Equal As Strings    ${out1}    ${out2}
+
 
 *** Keywords ***
 Flush TPM Contexts
