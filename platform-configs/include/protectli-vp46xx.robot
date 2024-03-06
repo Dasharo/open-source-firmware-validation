@@ -21,10 +21,11 @@ Power On
     ...    into Power On state using RTE OC buffers. Implementation
     ...    must be compatible with the theory of operation of a
     ...    specific platform.
+    Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off
-    Sleep    10s
+    RteCtrl Power Off    ${6}
+    Sleep    5s
     Telnet.Read
     RteCtrl Power On
 
