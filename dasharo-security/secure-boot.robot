@@ -141,7 +141,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Reset System
 
-    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello World!
+    Boot Efi File    signed-hello.efi    GOOD_KEYS    Hello, World!
 
 SBO004.001 Attempt to boot file without the key from Shell (firmware)
     [Documentation]    This test verifies that Secure Boot blocks booting a file
@@ -227,7 +227,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     ${status}=    Run Keyword And Return Status    Enroll DB Signature
-    ...    ${key_menu}    BAD_FORMAT    cert.der
+    ...    ${KEY_MENU}    BAD_FORMAT    cert.der
     IF    ${status} == ${TRUE}
         Read From Terminal Until    ${INCORRECT_FORMAT_MESSAGE}
     END
@@ -241,9 +241,14 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    INTERMED    cert.der
-    Save Changes And Reset    3    5
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File Should Fail    hello.efi    INTERMED
     Reset System
     Boot Efi File    signed-hello.efi    INTERMED    Hello, World!
@@ -255,13 +260,16 @@ SBO010.001 Check support for rsa2k signed certificates
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.001 not supported
     Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/RSA2048.img
     Power On
-
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    RSA2048    cert.der
-    Save Changes And Reset    3    5
-
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File    signed-hello.efi    RSA2048    Hello, world!
 
 SBO010.002 Check support for rsa3k signed certificates
@@ -271,13 +279,16 @@ SBO010.002 Check support for rsa3k signed certificates
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.002 not supported
     Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/RSA3072.img
     Power On
-
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    RSA3072    cert.der
-    Save Changes And Reset    3    5
-
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File    signed-hello.efi    RSA3072    Hello, world!
 
 SBO010.003 Check support for rsa4k signed certificates
@@ -287,13 +298,16 @@ SBO010.003 Check support for rsa4k signed certificates
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.003 not supported
     Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/RSA4096.img
     Power On
-
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    RSA4096    cert.der
-    Save Changes And Reset    3    5
-
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File    signed-hello.efi    RSA4096    Hello, world!
 
 SBO010.004 Check support for ecdsa256 signed certificates
@@ -304,13 +318,16 @@ SBO010.004 Check support for ecdsa256 signed certificates
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.004 not supported
     Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/ECDSA256.img
     Power On
-
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    ECDSA256    cert.der
-    Save Changes And Reset    3    5
-
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File    signed-hello.efi    ECDSA256    Hello, world!
 
 SBO010.005 Check support for ecdsa384 signed certificates
@@ -321,13 +338,16 @@ SBO010.005 Check support for ecdsa384 signed certificates
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.005 not supported
     Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/ECDSA384.img
     Power On
-
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    ECDSA384    cert.der
-    Save Changes And Reset    3    5
-
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File    signed-hello.efi    ECDSA384    Hello, world!
 
 SBO010.006 Check support for ecdsa521 signed certificates
@@ -338,13 +358,16 @@ SBO010.006 Check support for ecdsa521 signed certificates
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO010.006 not supported
     Mount ISO As USB    ${CURDIR}/../scripts/secure-boot/images/ECDSA521.img
     Power On
-
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    ECDSA521    cert.der
-    Save Changes And Reset    3    5
-
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File    signed-hello.efi    ECDSA521    Hello, world!
 
 SBO011.001 Attempt to enroll expired certificate and boot signed image
@@ -356,10 +379,14 @@ SBO011.001 Attempt to enroll expired certificate and boot signed image
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
+    # Save Changes
+    # Changes to Secure Boot menu take action immediately, so we can just continue
+    Reenter Menu
     ${key_menu}=    Enter Key Management And Return Construction
     Enroll DB Signature    ${key_menu}    EXPIRED    cert.der
-    Save Changes And Reset    3    5
-
+    # Save Changes And Reset
+    # Changes to Secure Boot menu take action immediately, so we can just reset
+    Reset System
     Boot Efi File Should Fail    hello.efi    EXPIRED
     Reset System
     Boot Efi File Should Fail    signed-hello.efi    EXPIRED
@@ -531,6 +558,11 @@ SBO015.001 Attempt to enroll the key in the incorrect format (OS)
     Generate Wrong Format Keys And Move Them    KEK    /usr/share/secureboot/keys/KEK/
     Enroll Secure Boot Keys In OS    False
     Should Be True    ${out}
+    # Cleanup
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${key_menu}
 
 
 *** Keywords ***
