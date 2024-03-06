@@ -3,7 +3,8 @@ Resource    default.robot
 
 
 *** Variables ***
-${DUT_CONNECTION_METHOD}=                       Telnet
+${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
+${DUT_CONNECTION_METHOD}=                       ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                     tianocore
 ${RTE_S2_N_PORT}=                               13541
 ${FLASH_LENGTH}=                                ${EMPTY}
