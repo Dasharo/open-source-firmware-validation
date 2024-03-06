@@ -32,6 +32,7 @@ ${DEVICE_USB_ROOT_PROMPT}=                      root@3mdeb:/home/${DEVICE_USB_US
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
+${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
 
 # Regression test flags
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
