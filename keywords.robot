@@ -67,11 +67,17 @@ Login To Linux Via OBMC
 Login To Windows
     [Documentation]    Universal login to Windows.
     Boot System Or From Connected Disk    ${OS_WINDOWS}
+    # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_WINDOWS_USERNAME}    ${DEVICE_WINDOWS_PASSWORD}
+    ELSE
+        Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
 
 Serial Root Login Linux
@@ -164,7 +170,10 @@ Login To Windows Via SSH
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
             Power On
-            Set Global Variable    ${DUT_CONNECTION_METHOD}    pikvm
+            # TODO: This keyword needs improved. We could simply lock the whole
+            # power on - login procedure in single keyword, and use
+            # Run Keyword Until Succeeds?
+            Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${OS_WINDOWS}
             Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         END
@@ -834,8 +843,8 @@ Restore Initial DUT Connection Method
     [Documentation]    We need to go back to pikvm control when going back from OS to firmware
     ${initial_method_defined}=    Get Variable Value    ${INITIAL_DUT_CONNECTION_METHOD}
     IF    '${initial_method_defined}' == 'None'    RETURN
+    Set Global Variable    ${DUT_CONNECTION_METHOD}    ${INITIAL_DUT_CONNECTION_METHOD}
     IF    '${INITIAL_DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    pikvm
         # We need this when going back from SSH to PiKVM
         Remap Keys Variables To PiKVM
     END
