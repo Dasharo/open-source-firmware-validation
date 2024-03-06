@@ -55,11 +55,13 @@ execute_robot() {
   local _log_file="${_logs_dir}/${_test_name}_log.html"
   local _report_file="${_logs_dir}/${_test_name}_report.html"
   local _output_file="${_logs_dir}/${_test_name}_out.xml"
+  local _debug_file="${_logs_dir}/${_test_name}_debug.log"
 
   robot -L TRACE \
         -l ${_log_file} \
         -r ${_report_file} \
         -o ${_output_file} \
+        -b ${_debug_file} \
         -v rte_ip:${RTE_IP} \
         -v config:${CONFIG} \
         ${device_ip_option} \
