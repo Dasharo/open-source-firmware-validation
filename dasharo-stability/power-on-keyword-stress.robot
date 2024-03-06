@@ -19,62 +19,45 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Stress test Power On keyword for stability (N=1)
-    Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
+Stress test Power On keyword for stability when in firmware
+    # Set DUT Response Timeout    30s
+    ${failures}=    Set Variable    0
+    FOR    ${count}    IN RANGE    10
+        Log To Console    \nIteration number: ${count}
+        ${result}=    Run Keyword And Ignore Error    Test Power On Kwd In Firmware
+        Log To Console    ${SPACE}Result: ${result}
+        IF    '${result}[0]' == 'FAIL'
+            ${failures}=    Evaluate    ${failures} + 1
+        END
+    END
+    Log To Console    \nFailures: ${failures}
+    Should Be Equal As Integers    ${failures}    0    msg=No failures were expected
 
-Stress test Power On keyword for stability (N=2)
-    Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
+Stress test Power On keyword for stability when in OS
+    # Set DUT Response Timeout    30s
+    ${failures}=    Set Variable    0
+    FOR    ${count}    IN RANGE    10
+        Log To Console    \nIteration number: ${count}
+        ${result}=    Run Keyword And Ignore Error    Test Power On Kwd In OS
+        Log To Console    ${SPACE}Result: ${result}
+        IF    '${result}[0]' == 'FAIL'
+            ${failures}=    Evaluate    ${failures} + 1
+        END
+    END
+    Log To Console    \nFailures: ${failures}
+    Should Be Equal As Integers    ${failures}    0    msg=No failures were expected
 
-Stress test Power On keyword for stability (N=3)
-    Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
 
-Stress test Power On keyword for stability (N=4)
+*** Keywords ***
+Test Power On Kwd In Firmware
     Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    Sleep    10s
 
-Stress test Power On keyword for stability (N=5)
+Test Power On Kwd In OS
     Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
-
-Stress test Power On keyword for stability (N=6)
-    Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
-
-Stress test Power On keyword for stability (N=7)
-    Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
-
-Stress test Power On keyword for stability (N=8)
-    Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
-
-Stress test Power On keyword for stability (N=9)
-    Power On
-    Login To Linux
-    Switch To Root User
-    Execute Command In Terminal    sleep 10
-
-Stress test Power On keyword for stability (N=10)
-    Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Execute Command In Terminal    sleep 10
