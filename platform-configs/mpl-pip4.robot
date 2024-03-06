@@ -1,8 +1,6 @@
 *** Settings ***
-Resource    ../lib/bios/menus-ami.robot
-Resource    ../lib/secure-boot-lib-ami.robot
-Resource    ../lib/tpm-support-lib-ami.robot
 Resource    ../os-config/ubuntu-credentials.robot
+Resource    ./include/bios/ami.robot
 
 
 *** Variables ***
