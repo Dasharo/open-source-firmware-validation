@@ -153,6 +153,7 @@ ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
+${TPM_FIRMWARE_CONFIG}=                             ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
