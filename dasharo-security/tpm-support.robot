@@ -238,3 +238,40 @@ TPM006.001 Encrypt and Decrypt non-rootfs partition (Ubuntu 22.04)
     Execute Command In Terminal    cryptsetup luksClose test-partition
     Execute Command In Terminal    rm -f key seal.* prim.* test-partition
     Execute Linux Tpm2 Tools Command    tpm2_evictcontrol -c 0x81010001
+
+TPM007.001 Encrypt and Decrypt rootfs partition (Ubuntu 22.04)
+    [Documentation]    Test encrypting and decrypting rootfs partition using
+    ...    TPM. This test assumes that there is another Ubuntu with encrypted
+    ...    rootfs connected to the system so it can be booted and two partitions
+    ...    with specific labels: EFI partition with label ubuntu-enc and rootfs
+    ...    with label encrypted-rootfs.
+    Power On
+    Enter Setup Menu Tianocore
+    Add Boot Option    ubuntu    ubuntu-enc    ubuntu-enc-rootfs
+    Save Changes And Reset    2    2
+
+    # 2. Boot to ubuntu with encrypted rootfs:
+    Boot System Or From Connected Disk    ubuntu-enc-rootfs
+    Unlock Rootfs
+    Login To Linux
+    Switch To Root User
+
+    # 3. Check needed packages on Ubuntu with encrypted rottfs:
+    Detect Or Install Package    tpm2-tools
+    Detect Or Install Package    clevis
+    Detect Or Install Package    clevis-luks
+    Detect Or Install Package    clevis-tpm2
+    Detect Or Install Package    clevis-initramfs
+
+    # 4. Bind clevis with the device:
+    Execute Command In Terminal
+    ...    echo ${UBUNTU_PASSWORD} | clevis luks bind -d /dev/disk/by-label/encrypted-rootfs tpm2 '{"pcr_ids":"0,1,2,3,7"}' -s 1
+
+    # 5. Reboot and wait for the partition to be unlocked:
+    Execute Reboot Command
+    Boot System Or From Connected Disk    ubuntu-enc-rootfs
+    Login To Linux
+    Switch To Root User
+
+    # 6. Clean:
+    Execute Command In Terminal    clevis luks unbind -d /dev/vda3 -f -s 1
