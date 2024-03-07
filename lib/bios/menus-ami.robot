@@ -73,14 +73,7 @@ Set Option State
     END
 
 Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...    is how deep user is currently in the settings.
-    ...    ${main_menu_steps_to_reset} means how many times should
-    ...    arrow down be pressed to get to the Reset option in main
-    ...    settings menu
-    # robocop: disable:unused-argument
-    [Arguments]    ${nesting_level}=${EMPTY}    ${main_menu_steps_to_reset}=${EMPTY}
-    # robocop: enable
+    [Documentation]    Saves current UEFI settings and restarts.
     Press Key N Times And Enter    1    ${F4}
     Sleep    1s
     Reset System
@@ -117,11 +110,17 @@ Boot Option
     END
     IF    ${found} == ${FALSE}    Fail    Boot option not found
 
+Boot Operating System
+    [Documentation]    Keyword allows boot operating system installed on the
+    ...    DUT. Takes as an argument operating system name.
+    [Arguments]    ${operating_system}
+    Enter Boot Menu
+    Select Ami Option    ${operating_system}    boot_frame=${TRUE}
+
 Boot System Or From Connected Disk
     [Documentation]    Tries to boot ${system_name}.
     [Arguments]    ${system_name}
-    Enter Boot Menu
-    Select Ami Option    ${system_name}    boot_frame=${TRUE}
+    Boot Operating System    ${system_name}
 
 Select Ami Option
     [Documentation]    Selects option from list of options in AMI frame.
@@ -154,3 +153,22 @@ Select Ami Option
         ${submenu}=    Read From Terminal Until    ---/
     END
     RETURN    ${submenu}
+
+Enter Advanced Menu
+    [Documentation]    Enters Advanced menu after the platform was
+    ...    powered on
+    ${setup_menu}=    Enter Setup Menu And Return Construction
+    # Main Menu has clock that changes every second.
+    # To read correct menu we first move 2 menus to the right read everything
+    # on serial and go back to Advanced Menu
+    Press Key N Times    2    ${ARROW_RIGHT}
+    Read From Terminal
+    Press Key N Times    1    ${ARROW_LEFT}
+
+Enter Advanced Menu And Return Construction
+    [Documentation]    Enters Advanced menu after the platform was
+    ...    powered on and returns construction.
+    Enter Advanced Menu
+    ${snapshot}=    Read From Terminal Until    ESC: Exit
+    ${menu}=    Get Ami Submenu Construction    ${snapshot}
+    RETURN    ${menu}

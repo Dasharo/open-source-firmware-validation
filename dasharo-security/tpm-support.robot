@@ -22,6 +22,8 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${TPM_SUPPORT}    TPM tests not supported
+...                     AND
+...                     Run Ansible Playbook On Supported Operating Systems    tpm-support
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -66,22 +68,20 @@ TPM001.003 TPM Support (Windows 11)
     Should Contain    ${tpm_ready}    True
     Should Contain    ${tpm_enabled}    True
 
-TPM002.001 Verify TPM version (firmware)
-    [Documentation]    This test aims to verify that the TPM version is
-    ...    correctly recognized by the firmware.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
+TPM001.004 TPM Support (BIOS)
+    [Documentation]    This test aims to verify that the TPM is initialized
+    ...    correctly
+    Skip If    not ${TPM_SUPPORT}    TPM001.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM001.004 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Get Cbmem From Cloud
-    ${out}=    Execute Command In Terminal    cbmem -L
-    Should Contain    ${out}    TPM2 log
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    TPM Version Should Be    ${menu}    tpm2=${TRUE}    tpm1_2=${TRUE}
 
-TPM002.002 Verify TPM version (Ubuntu 22.04)
+TPM002.001 Verify TPM version (Ubuntu 22.04)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.002 not supported
+    Skip If    not ${TPM_SUPPORT}    TPM002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -90,10 +90,11 @@ TPM002.002 Verify TPM version (Ubuntu 22.04)
     # TPM 2.0
     Should Contain    ${out}    2
 
-TPM002.003 Verify TPM version (Windows 11)
+TPM002.002 Verify TPM version (Windows 11)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.003 not supported
+    Skip If    not ${TPM_SUPPORT}    TPM002.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.002 not supported
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal
@@ -139,3 +140,135 @@ TPM003.003 Check TPM Physical Presence Interface (Windows 11)
 #    Skip If    not ${tpm_support}    TPM003.004 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    TPM003.004 not supported
 # TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
+
+TPM004.001 Check TPM Clear procedure
+    [Documentation]    This test aims to verify whether the TPM Clear procedure
+    ...    works properly, starts with running TPM Clear procudure to ensure
+    ...    correct state of ownership.
+    Skip If    not ${TPM_SUPPORT}    TPM004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM004.001 not supported
+
+    Power On
+    Run TPM Clear Procedure
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Detect Or Install Package    tpm2-tools
+    Take Ownership Over TPM2 Module
+    Check Ownership Of TPM2 Module    0
+
+    Execute Reboot Command
+    Run TPM Clear Procedure
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Check Ownership Of TPM2 Module    1
+
+TPM005.001 Check TPM Hash Algorithm Support SHA1 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.001 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA1*
+
+TPM005.002 Check TPM Hash Algorithm Support SHA256 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.002 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA256*
+
+TPM005.003 Check TPM Hash Algorithm Support SHA384 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.003 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.003 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA384*
+
+TPM005.004 Check TPM Hash Algorithm Support SHA512 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed
+    ...    hash algorithms
+    Skip If    not ${TPM_SUPPORT}    TPM005.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM005.004 not supported
+    Skip If    not ${TPM_FIRMWARE_CONFIG}    TPM005.001 not supported
+    Power On
+    ${menu}=    Enter TCG2 Menu And Return Construction
+    ${hash}=    Get Matches    ${menu}    TPM2 Hardware Supported Hash Algorithm*
+    Should Contain Match    ${hash}    *SHA512*
+
+TPM006.001 Encrypt and Decrypt non-rootfs partition (Ubuntu 22.04)
+    [Documentation]    Test encrypting and decrypting non-rootfs partition using
+    ...    TPM.
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    # 1. Create sealing object:
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -Q -C o -c prim.ctx
+    Execute Linux Tpm2 Tools Command    cat key | tpm2_create -Q -g sha256 -u seal.pub -r seal.priv -i- -C prim.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_load -Q -C prim.ctx -u seal.pub -r seal.priv -n seal.name -c seal.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol -C o -c seal.ctx 0x81010001
+    Execute Linux Tpm2 Tools Command    tpm2_unseal -Q -c 0x81010001 > key
+
+    # 2. Test by checking a file stored on the partition:
+    Execute Command In Terminal    cryptsetup luksOpen ./test-partition --key-file=key test-partition
+    Execute Command In Terminal    mount /dev/mapper/test-partition /mnt
+    ${out}=    Execute Command In Terminal    ls /mnt | grep hello-world
+    Should Contain    ${out}    hello-world
+
+    # 3. Clean:
+    Execute Command In Terminal    umount /mnt
+    Execute Command In Terminal    cryptsetup luksClose test-partition
+    Execute Command In Terminal    rm -f key seal.* prim.* test-partition
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol -c 0x81010001
+
+TPM007.001 Encrypt and Decrypt rootfs partition (Ubuntu 22.04)
+    [Documentation]    Test encrypting and decrypting rootfs partition using
+    ...    TPM. This test assumes that there is another Ubuntu with encrypted
+    ...    rootfs connected to the system so it can be booted and two partitions
+    ...    with specific labels: EFI partition with label ubuntu-enc and rootfs
+    ...    with label encrypted-rootfs.
+    Power On
+    Enter Setup Menu
+    Add Boot Option    ubuntu    ubuntu-enc    ubuntu-enc-rootfs
+    Save Changes And Reset
+
+    # 2. Boot to ubuntu with encrypted rootfs:
+    Boot System Or From Connected Disk    ubuntu-enc-rootfs
+    Unlock Rootfs
+    Login To Linux
+    Switch To Root User
+
+    # 3. Check needed packages on Ubuntu with encrypted rottfs:
+    Detect Or Install Package    tpm2-tools
+    Detect Or Install Package    clevis
+    Detect Or Install Package    clevis-luks
+    Detect Or Install Package    clevis-tpm2
+    Detect Or Install Package    clevis-initramfs
+
+    # 4. Bind clevis with the device:
+    Execute Command In Terminal
+    ...    echo ${UBUNTU_PASSWORD} | clevis luks bind -d /dev/disk/by-label/encrypted-rootfs tpm2 '{"pcr_ids":"0,1,2,3,7"}' -s 1
+
+    # 5. Reboot and wait for the partition to be unlocked:
+    Execute Reboot Command
+    Boot System Or From Connected Disk    ubuntu-enc-rootfs
+    Login To Linux
+    Switch To Root User
+
+    # 6. Clean:
+    Execute Command In Terminal    clevis luks unbind -d /dev/vda3 -f -s 1

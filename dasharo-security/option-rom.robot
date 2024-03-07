@@ -3,7 +3,7 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Resource            ../keywords.robot
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/menus-dasharo.robot
 Resource            ../variables.robot
 Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../sonoff-rest-api/sonoff-api.robot

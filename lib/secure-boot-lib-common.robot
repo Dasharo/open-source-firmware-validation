@@ -50,7 +50,7 @@ Autoenroll Secure Boot Certificates
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${key_menu}=    Enter Key Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${key_menu}
-    Save Changes And Reset    3    5
+    Save Changes And Reset
 
     # 2. Boot to Automatic provisioning tool
     Boot Dasharo Tools Suite    USB    ${TRUE}
@@ -120,3 +120,10 @@ Generate Wrong Format Keys And Move Them
     ...    openssl ecparam -genkey -name secp384r1 -out ${name}.key && openssl req -new -x509 -key ${name}.key -out ${name}.pem -days 365 -subj "/CN=3mdeb_test"
     Execute Linux Command    mv ${name}.key ${location}
     Execute Linux Command    mv ${name}.pem ${location}
+
+Unlock Rootfs
+    [Documentation]    Unlocks encrypted rootfs waiting for specific prompt on
+    ...    serial and providing UBUNTU_PASSWORD as a passphrase.
+    Read From Terminal Until    Please unlock disk
+    Write Into Terminal    ${UBUNTU_PASSWORD}
+    Press Enter

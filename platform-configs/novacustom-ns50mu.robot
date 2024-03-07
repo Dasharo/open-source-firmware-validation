@@ -1,6 +1,5 @@
 *** Settings ***
-Resource    ../lib/bios/menus-dasharo.robot
-Resource    ../lib/secure-boot-lib-dasharo.robot
+Resource    ./settings-dasharo.robot
 
 
 *** Variables ***
@@ -182,6 +181,7 @@ ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
+${TPM_FIRMWARE_CONFIG}=                             ${TRUE}
 ${VBOOT_KEYS_GENERATING_SUPPORT}=                   ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
