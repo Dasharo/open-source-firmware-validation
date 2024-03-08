@@ -1,4 +1,4 @@
-## Adding new platforms
+# Adding new platforms
 
 Depending on what type of platform you're adding, the instructions here will
 vary.
@@ -9,7 +9,7 @@ vary.
   the steps in
   [Adding new variant of an existing platform](#adding-new-variant-of-an-existing-platform)
 
-### Adding a brand new platform
+## Adding a brand new platform
 
 - Create a new file for your mainboard in `platform-configs/`. For most
   platforms this file will be called `[platform-vendor]-[platform-model].robot`.
@@ -28,38 +28,56 @@ vary.
 - Add the platform configuration to `variables.robot:
     + Create a new configuration of RTE, if you are using one, e.g.:
 
-    ```robot
-    &{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea
-    ...                         platform=apu4    platform_vendor=PC Engines
-    ```
+        ```robot
+        &{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea
+        ...                         platform=apu4    platform_vendor=PC Engines
+        ```
 
     + Add the RTE to the list:
 
-    ```robot
-    @{RTE_LIST}=                &{RTE05}
-    ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
-    ...                         &{RTE11}
-    ```
+        ```robot
+        @{RTE_LIST}=                &{RTE05}
+        ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
+        ...                         &{RTE11}
+        ```
 
     + Do the same for any modules installed in the platform
     + Create a new CONFIG containing the RTE and modules used for testing, and
       append it to the list:
 
-    ```robot
-    @{CONFIG04}=                &{RTE11}    &{SSD06}    &{CARD06}    &{USB03}
-    ...                         &{MODULE06}    &{ADAPTER01}    &{MODULE10}
+        ```robot
+        @{CONFIG04}=                &{RTE11}    &{SSD06}    &{CARD06}    &{USB03}
+        ...                         &{MODULE06}    &{ADAPTER01}    &{MODULE10}
 
-    @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
-    ```
+        @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
+        ```
 
     + Run a simple test to verify the config is working correctly - for example
-      UEFI Shell:
+      custom boot menu key:
 
-    ```robot
-    robot -v snipeit:no -L TRACE -v rte_ip:192.168.10.174 -v device_ip:0.0.0.0 -v config:pcengines-apu4 dasharo-compatibility/uefi-shell.robot
-    ```
+        ```robot
+        robot -v snipeit:no -L TRACE -v rte_ip:192.168.10.174 -v device_ip:0.0.0.0 -v config:pcengines-apu4 dasharo-compatibility/custom-boot-menu-key.robot
+        ```
 
-### Adding new variant of an existing platform
+        If everything went right, the output may look something like this
+
+        ```bash
+        ==============================================================================
+        Custom-Boot-Menu-Key
+        ==============================================================================
+        CBK001.001 Custom boot menu key :: Check whether the DUT is config... | PASS |
+        ------------------------------------------------------------------------------
+        CBK002.001 Custom setup menu key :: Check whether the DUT is confi... | PASS |
+        ------------------------------------------------------------------------------
+        Custom-Boot-Menu-Key                                                  | PASS |
+        2 tests, 2 passed, 0 failed
+        ==============================================================================
+        Output:  /home/michal/Development/Dasharo/osfv/output.xml
+        Log:     /home/michal/Development/Dasharo/osfv/log.html
+        Report:  /home/michal/Development/Dasharo/osfv/report.html
+        ```
+
+## Adding new variant of an existing platform
 
 Some boards come in multiple variants, where the majority of properties and
 features can be shared. For these cases, we have shared "base" configs in
