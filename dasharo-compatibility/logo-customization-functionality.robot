@@ -83,8 +83,8 @@ LCM004.001 Custom logo persists after firmware update
     ...    and continues to display.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    LCM004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LCM004.001 not supported
-    ${novacustom}=    Run Keyword And Return Status    Should Match    ${CONFIG}    novacustom*
-    Skip If    not ${novacustom}
+    ${laptop_platform}=    Check The Platform Is A Laptop
+    Skip If    not ${laptop_platform}    The Platform is not a Laptop
 
     Power On
     Boot Dasharo Tools Suite    iPXE

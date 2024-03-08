@@ -66,6 +66,8 @@ ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=              Powered On
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
+${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                 ${TRUE}
