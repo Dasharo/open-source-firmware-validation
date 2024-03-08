@@ -30,8 +30,7 @@ vary.
 
     ```robot
     &{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea
-    ...                         platform=apu4    board-revision=4d    env=prod
-    ...                         platform_vendor=PC Engines
+    ...                         platform=apu4    platform_vendor=PC Engines
     ```
 
     + Add the RTE to the list:
