@@ -36,19 +36,13 @@ UBT001.001 USB detect and boot after coldboot
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power Cycle On
-            Boot From USB
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'
-                Login To Linux
-            ELSE
-                Login To Linux Over Serial Console
-                ...    ${DEVICE_USB_USERNAME}
-                ...    ${DEVICE_USB_PASSWORD}
-                ...    ${DEVICE_USB_PROMPT}
-            END
+            Boot System Or From Connected Disk    ${USB_LIVE}
+            Login To Linux
         EXCEPT
             ${failed_boot}=    Evaluate    ${FAILED_BOOT} + 1
         END
     END
+    IF    ${index} > 1    LOG    Boot from USB failed ${index} times.    WARN
     IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
         Fail    Boot from USB failed too many times (${failed_boot})
     END
@@ -63,19 +57,13 @@ UBT002.001 USB detect and boot after warmboot
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power On
-            Boot From USB
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'
-                Login To Linux
-            ELSE
-                Login To Linux Over Serial Console
-                ...    ${DEVICE_USB_USERNAME}
-                ...    ${DEVICE_USB_PASSWORD}
-                ...    ${DEVICE_USB_PROMPT}
-            END
+            Boot System Or From Connected Disk    ${USB_LIVE}
+            Login To Linux
         EXCEPT
             ${failed_boot}=    Evaluate    ${FAILED_BOOT} + 1
         END
     END
+    IF    ${index} > 1    LOG    Boot from USB failed ${index} times.    WARN
     IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
         Fail    Boot from USB failed too many times (${failed_boot})
     END
@@ -90,16 +78,15 @@ UBT003.001 USB detect and boot after system reboot
     Power On
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
-            Boot From USB
-            IF    '${PLATFORM}' != 'raptor-cs_talos2'    Reboot Via Linux On USB
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'    Login To Linux
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'
-                Write Into Terminal    reboot
-            END
+            Boot System Or From Connected Disk    ${USB_LIVE}
+            Login To Linux    ${DEVICE_USB_USERNAME}    ${DEVICE_USB_PASSWORD}    ${DEVICE_USB_PROMPT}
+            Switch To Root User    prompt=DEVICE_USB_ROOT_PROMPT
+            Write Into Terminal    reboot
         EXCEPT
             ${failed_boot}=    Evaluate    ${FAILED_BOOT} + 1
         END
     END
+    IF    ${index} > 1    LOG    Boot from USB failed ${index} times.    WARN
     IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
         Fail    Boot from USB failed too many times (${failed_boot})
     END

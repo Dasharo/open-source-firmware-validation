@@ -30,7 +30,7 @@ HWP001.001 Hardware flash write protection support
     ...    mechanism.
     Skip If    not ${HARDWARE_WP_SUPPORT}    HWP001.001 not supported
     Power On
-    Boot From USB
+    Boot System Or From Connected Disk    ${USB_LIVE}
     Serial Root Login Linux    debian
     Check Write Protection Availability
 
@@ -39,7 +39,7 @@ HWP002.001 Hardware flash write protection enable / disable
     ...    hardware write protection on the DUT.
     Skip If    not ${HARDWARE_WP_SUPPORT}    HWP001.001 not supported
     Power On
-    Boot From USB
+    Boot System Or From Connected Disk    ${USB_LIVE}
     Serial Root Login Linux    debian
     Erase Write Protection
     Set Write Protection    0x00000000    ${FLASH_LENGTH}
