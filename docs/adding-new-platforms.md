@@ -29,7 +29,7 @@ vary.
     + Create a new configuration of RTE, if you are using one, e.g.:
 
     ```robot
-    &{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea    pcb_rev=1.0.0
+    &{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea
     ...                         platform=apu4    board-revision=4d    env=prod
     ...                         platform_vendor=PC Engines
     ```
