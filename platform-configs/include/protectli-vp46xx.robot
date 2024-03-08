@@ -9,7 +9,7 @@ ${FLASH_SIZE}=                  ${16*1024*1024}
 ${DEVICE_AUDIO1}=               ALC897
 ${DEVICE_AUDIO2}=               Kabylake HDMI
 ${DEVICE_AUDIO1_WIN}=           High Definition Audio Device
-${INITIAL_CPU_FREQUENCY}=       2600
+${MAX_CPU_TEMP}=                82
 
 # eMMC driver support
 ${E_MMC_NAME}=                  AJTD4R
