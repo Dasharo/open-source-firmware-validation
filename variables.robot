@@ -20,169 +20,169 @@ ${OS_UBUNTU}=               ubuntu
 
 # RTE database:
 # Vitro Technology ----------------------------------------------------
-&{RTE05}=                   ip=192.168.4.167    cpuid=02c00042d55c19d3    pcb_rev=0.5.3
+&{RTE05}=                   ip=192.168.4.167    cpuid=02c00042d55c19d3
 ...                         platform=crystal    env=dev
 ...                         platform_vendor=unknown
-&{RTE06}=                   ip=192.168.4.168    cpuid=02c000426978d2a7    pcb_rev=1.0.0
+&{RTE06}=                   ip=192.168.4.168    cpuid=02c000426978d2a7
 ...                         platform=dht-dev    env=dev
 ...                         platform_vendor=unknown
-&{RTE07}=                   ip=192.168.4.169    cpuid=02c00042fdc96eda    pcb_rev=1.0.0
+&{RTE07}=                   ip=192.168.4.169    cpuid=02c00042fdc96eda
 ...                         platform=dht-prod    env=prod
 ...                         platform_vendor=unknown
 # PCEngines production platforms ------------------------------------------------
-&{RTE08}=                   ip=192.168.10.171    cpuid=02c000429e34aeca    pcb_rev=0.5.3
+&{RTE08}=                   ip=192.168.10.171    cpuid=02c000429e34aeca
 ...                         platform=apu1    board-revision=d4    env=prod
 ...                         platform_vendor=PC Engines
-&{RTE09}=                   ip=192.168.10.172    cpuid=02c000420c4ce851    pcb_rev=0.5.3
+&{RTE09}=                   ip=192.168.10.172    cpuid=02c000420c4ce851
 ...                         platform=apu2    board-revision=c4    env=prod
 ...                         platform_vendor=PC Engines
-&{RTE10}=                   ip=192.168.10.173    cpuid=02c00042a3b72a65    pcb_rev=0.5.3
+&{RTE10}=                   ip=192.168.10.173    cpuid=02c00042a3b72a65
 ...                         platform=apu3    board-revision=c4    env=prod
 ...                         platform_vendor=PC Engines
-&{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea    pcb_rev=1.0.0
+&{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea
 ...                         platform=apu4    board-revision=4d    env=prod
 ...                         platform_vendor=PC Engines
-&{RTE12}=                   ip=192.168.10.175    cpuid=02c000420334dd56    pcb_rev=0.5.3
+&{RTE12}=                   ip=192.168.10.175    cpuid=02c000420334dd56
 ...                         platform=apu5    board-revision=b    env=prod
 ...                         platform_vendor=PC Engines
-&{RTE13}=                   ip=192.168.10.176    cpuid=02c00042c70883cf    pcb_rev=0.5.3
+&{RTE13}=                   ip=192.168.10.176    cpuid=02c00042c70883cf
 ...                         platform=apu6    board-revision=b    env=prod
 ...                         platform_vendor=PC Engines
-&{RTE14}=                   ip=192.168.10.200    cpuid=02c0004204bf6561    pcb_rev=0.5.3
+&{RTE14}=                   ip=192.168.10.200    cpuid=02c0004204bf6561
 ...                         platform=LT1000    env=prod
 ...                         platform_vendor=unknown
-&{RTE15}=                   ip=192.168.10.179    cpuid=02c0004222cfa701    pcb_rev=0.5.3
+&{RTE15}=                   ip=192.168.10.179    cpuid=02c0004222cfa701
 ...                         platform=solidpc    env=prod
 ...                         platform_vendor=unknown
-&{RTE16}=                   ip=192.168.10.180    cpuid=02c00042d455092d    pcb_rev=0.5.3
+&{RTE16}=                   ip=192.168.10.180    cpuid=02c00042d455092d
 ...                         platform=mbt_2210    env=prod
 ...                         platform_vendor=unknown
-&{RTE17}=                   ip=192.168.10.181    cpuid=02c0004200242187    pcb_rev=0.5.3
+&{RTE17}=                   ip=192.168.10.181    cpuid=02c0004200242187
 ...                         platform=mbt_4210    env=prod
 ...                         platform_vendor=unknown
-&{RTE18}=                   ip=192.168.10.XXX    cpuid=XXX    pcb_rev=XXX
+&{RTE18}=                   ip=192.168.10.XXX    cpuid=XXX
 ...                         platform=fw2b    env=prod
 ...                         platform_vendor=unknown
-&{RTE19}=                   ip=192.168.4.182    cpuid=02c001423b9f9efa    pcb_rev=1.1.0
+&{RTE19}=                   ip=192.168.4.182    cpuid=02c001423b9f9efa
 ...                         platform=fw4b    env=prod
 ...                         platform_vendor=protectli
-&{RTE20}=                   ip=192.168.4.183    cpuid=02c0004258ac3935    pcb_rev=0.5.3
+&{RTE20}=                   ip=192.168.4.183    cpuid=02c0004258ac3935
 ...                         platform=apu2    board-revision=c4    env=dev
 ...                         platform_vendor=PC Engines
-&{RTE21}=                   ip=192.168.4.157    cpuid=02c00042888f8467    pcb_rev=0.5.3
+&{RTE21}=                   ip=192.168.4.157    cpuid=02c00042888f8467
 ...                         platform=apu2    board-revision=c4    env=dev
 ...                         platform_vendor=PC Engines
-&{RTE22}=                   ip=192.168.10.162    cpuid=02c00042f3ba1188    pcb_rev=0.5.3
+&{RTE22}=                   ip=192.168.10.162    cpuid=02c00042f3ba1188
 ...                         platform=apu2    board-revision=d    env=dev
 ...                         platform_vendor=PC Engines
-&{RTE23}=                   ip=192.168.10.163    cpuid=02c00042ea860eca    pcb_rev=0.5.3
+&{RTE23}=                   ip=192.168.10.163    cpuid=02c00042ea860eca
 ...                         platform=apu3    board-revision=c    env=dev
 ...                         platform_vendor=PC Engines
-&{RTE24}=                   ip=192.168.10.71    cpuid=02c0004225f66d15    pcb_rev=0.5.3
+&{RTE24}=                   ip=192.168.10.71    cpuid=02c0004225f66d15
 ...                         platform=apu4    board-revision=a    env=dev
 ...                         platform_vendor=PC Engines
-&{RTE25}=                   ip=192.168.4.50    cpuid=02c00042e90c36f2    pcb_rev=1.1.0
+&{RTE25}=                   ip=192.168.4.50    cpuid=02c00042e90c36f2
 ...                         platform=optiplex-9010    board-revision=x    env=prod
 ...                         platform_vendor=DELL    sonoff_ip=192.168.4.134
-&{RTE26}=                   ip=192.168.4.133    cpuid=02c0014296737c0d    pcb_rev=1.1.0
+&{RTE26}=                   ip=192.168.4.133    cpuid=02c0014296737c0d
 ...                         platform=talosII    board-revision=1.01    env=dev
 ...                         platform_vendor=Raptor Engineering, LLC    sonoff_ip=192.168.4.106
-&{RTE27}=                   ip=192.168.4.223    cpuid=02c00042921d288f    pcb_rev=1.1.0
+&{RTE27}=                   ip=192.168.4.223    cpuid=02c00042921d288f
 ...                         platform=optiplex-7010    board-revision=x    env=prod
 ...                         platform_vendor=DELL    sonoff_ip=192.168.4.134
 # Immunefi --------------------------------------------------------------------
-&{RTE28}=                   ip=192.168.10.70    cpuid=02c000423e00d488    pcb_rev=1.1.0
+&{RTE28}=                   ip=192.168.10.70    cpuid=02c000423e00d488
 ...                         platform=KGPE-D16-8MB    board-revision=x    env=dev
 ...                         platform_vendor=ASUS    sonoff_ip=192.168.10.125
-&{RTE29}=                   ip=192.168.20.15    cpuid=02c0004282a2891c    pcb_rev=1.1.0
+&{RTE29}=                   ip=192.168.20.15    cpuid=02c0004282a2891c
 ...                         platform=KGPE-D16-16MB    board-revision=x    env=dev
 ...                         platform_vendor=ASUS    sonoff_ip=192.168.10.144
 # 3mdeb Protectli -----------------------------------------------------
-&{RTE30}=                   ip=192.168.4.190    cpuid=02c0014270499deb    pcb_rev=1.1.0
+&{RTE30}=                   ip=192.168.4.190    cpuid=02c0014270499deb
 ...                         platform=FW6_CML    board-revision=1.01    env=dev
 ...                         platform_vendor=fw66_cml
-&{RTE31}=                   ip=192.168.4.121    cpuid=02c000423305c959    pcb_rev=1.1.0
+&{RTE31}=                   ip=192.168.4.121    cpuid=02c000423305c959
 ...                         platform=fw6e    board-revision=1.01    env=dev
 ...                         platform_vendor=fw6e
 # PCEngines developer platforms -----------------------------------------------
-&{RTE32}=                   ip=192.168.20.6    cpuid=02c000425de69477    pcb_rev=1.0.0
+&{RTE32}=                   ip=192.168.20.6    cpuid=02c000425de69477
 ...                         platform=apu1    board-revision=d4    env=dev
 ...                         platform_vendor=PC Engines
 # MSI-PRO-Z690-A platforms (Zir-Blazer) -----------------------------
-&{RTE33}=                   ip=192.168.10.107    cpuid=02c00042a74281e6    pcb_rev=1.1.0
+&{RTE33}=                   ip=192.168.10.107    cpuid=02c00042a74281e6
 ...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.170
 ...                         pikvm_ip=192.168.10.99
-&{RTE34}=                   ip=192.168.10.199    cpuid=02c000424753a7fb    pcb_rev=1.1.0
+&{RTE34}=                   ip=192.168.10.199    cpuid=02c000424753a7fb
 ...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.169
 ...                         pikvm_ip=192.168.10.16
-&{RTE39}=                   ip=192.168.10.188    cpuid=02c0014266f49b55    pcb_rev=1.1.0
+&{RTE39}=                   ip=192.168.10.188    cpuid=02c0014266f49b55
 ...                         platform=msi-pro-z690-a-ddr5    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.69
 ...                         pikvm_ip=192.168.10.45
 # MSI-PRO-Z790-P platforms (Zir-Blazer) -----------------------------
-&{RTE46}=                   ip=192.168.10.127    cpuid=02c00142a99e60ef    pcb_rev=1.1.0
+&{RTE46}=                   ip=192.168.10.127    cpuid=02c00142a99e60ef
 ...                         platform=msi-pro-z790-p-ddr5    board-revision=1.1.0    env=dev
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.253
 ...                         pikvm_ip=192.168.10.226
 # PC Engines APU7 platform -----------------------------------------------------
-&{RTE35}=                   ip=192.168.10.177    cpuid=02c00042522d9294    pcb_rev=0.5.3
+&{RTE35}=                   ip=192.168.10.177    cpuid=02c00042522d9294
 ...                         platform=apu7    board-revision=a    env=prod
 ...                         platform_vendor=PC Engines
 # 3mdeb Protectli vp4630 -----------------------------------------------------
-&{RTE36}=                   ip=192.168.10.244    cpuid=02c0014248d5bffc    pcb_rev=1.1.0
+&{RTE36}=                   ip=192.168.10.244    cpuid=02c0014248d5bffc
 ...                         platform=protectli-vp4630    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp4670 -----------------------------------------------------
-&{RTE37}=                   ip=192.168.10.228    cpuid=02c00042b2a75f00    pcb_rev=1.1.0
+&{RTE37}=                   ip=192.168.10.228    cpuid=02c00042b2a75f00
 ...                         platform=protectli-vp4670    sonoff_ip=192.168.10.19
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp4670_2 ---------------------------------------------------
-&{RTE49}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95    pcb_rev=1.1.0
+&{RTE49}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95
 ...                         platform=protectli-vp4670    sonoff_ip=192.168.10.144
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp4650 -----------------------------------------------------
-&{RTE38}=                   ip=192.168.10.203    cpuid=02c00142076840cf    pcb_rev=1.1.0
+&{RTE38}=                   ip=192.168.10.203    cpuid=02c00142076840cf
 ...                         platform=protectli-vp4650    sonoff_ip=192.168.10.251
 ...                         board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp4650_2 ---------------------------------------------------
-&{RTE50}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb    pcb_rev=1.1.0
+&{RTE50}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb
 ...                         platform=protectli-vp4650    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp2420 -----------------------------------------------------
-&{RTE40}=                   ip=192.168.10.221    cpuid=02c00142959df458    pcb_rev=1.1.0
+&{RTE40}=                   ip=192.168.10.221    cpuid=02c00142959df458
 ...                         platform=protectli-vp2420    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli FW4C -------------------------------------------------------
-&{RTE41}=                   ip=192.168.10.168    cpuid=02c00042bd1a7dee    pcb_rev=1.1.0
+&{RTE41}=                   ip=192.168.10.168    cpuid=02c00042bd1a7dee
 ...                         platform=protectli-fw4c    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli VP2410 ------------------------------------------------------
-&{RTE42}=                   ip=192.168.10.233    cpuid=02c00042661f9013    pcb_rev=1.1.0
+&{RTE42}=                   ip=192.168.10.233    cpuid=02c00042661f9013
 ...                         platform=protectli-vp2410    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli V1210 ------------------------------------------------------
-&{RTE43}=                   ip=192.168.10.55    cpuid=02c0004278eb1b72    pcb_rev=1.1.0
+&{RTE43}=                   ip=192.168.10.55    cpuid=02c0004278eb1b72
 ...                         platform=protectli-v1210    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli V1410 ------------------------------------------------------
-&{RTE44}=                   ip=192.168.10.198    cpuid=02c00042df7b6fc2    pcb_rev=1.1.0
+&{RTE44}=                   ip=192.168.10.198    cpuid=02c00042df7b6fc2
 ...                         platform=protectli-v1410    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb Protectli V1610 ------------------------------------------------------
-&{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387    pcb_rev=1.1.0
+&{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387
 ...                         platform=protectli-v1610    board-revision=x    env=dev
 ...                         platform_vendor=protectli
 # 3mdeb RPi 3B for Yocto ------------------------------------------------------
-&{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0    pcb_rev=a22082
+&{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0
 ...                         platform=RPi-3-model-B-V1.2    sonoff_ip=192.168.10.27
 ...                         env=dev    platform_vendor=element14
 # QEMU
-&{RTE48}=                   ip=127.0.0.1    cpuid=02c0014296737c0d    pcb_rev=1.1.0
+&{RTE48}=                   ip=127.0.0.1    cpuid=02c0014296737c0d
 ...                         platform=qemu    board-revision=1.01    env=dev
 ...                         platform_vendor=qemu
 # NovaCustom laptopts test stand -----------------------------------------------
