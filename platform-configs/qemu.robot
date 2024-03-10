@@ -165,7 +165,7 @@ ${SMM_WRITE_PROTECTION_SUPPORT}=                    ${FALSE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
-${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
