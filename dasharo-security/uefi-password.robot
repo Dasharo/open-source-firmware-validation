@@ -31,7 +31,8 @@ Suite Teardown      Run Keywords
 
 
 *** Variables ***
-${DEFAULT_PASSWORD}=    1    q    a    z    X    S    W    @
+@{DEFAULT_PASSWORD}=    1    q    a    z    X    S    W    @
+@{WRONG_PASSWORD}=      w    r    o    n    g
 
 
 *** Test Cases ***
@@ -87,8 +88,7 @@ PSW004.001 Attempt to log in with an incorrect password
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${wrong_password}=    Set Variable    w    r    o    n    g
-    Type In The Password    ${wrong_password}
+    Type In The Password    ${WRONG_PASSWORD}
     # "ontinue" is a string that appears both in correct password screen
     # as well as in incorrect
     ${output}=    Read From Terminal Until    ontinue
@@ -103,13 +103,12 @@ PSW005.001 Attempt to log in with an incorrect password 3 times
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${wrong_password}=    Set Variable    w    r    o    n    g
     FOR    ${counter}    IN RANGE    0    2
-        Type In The Password    ${wrong_password}
+        Type In The Password    ${WRONG_PASSWORD}
         Press Key N Times    1    ${ENTER}
         Sleep    0.5s
     END
-    Type In The Password    ${wrong_password}
+    Type In The Password    ${WRONG_PASSWORD}
     Sleep    1s
     ${output}=    Read From Terminal
     Should Contain    ${output}    reset system
@@ -203,12 +202,12 @@ Set Password 5 Times
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    ${password1}=    Set Variable    m    j    u    7    ^    Y    H    E
-    ${password2}=    Set Variable    n    h    y    6    %    T    G    B
-    ${password3}=    Set Variable    b    g    t    5    $    R    F    V
-    ${password4}=    Set Variable    v    f    r    4    *    E    D    C
-    ${password5}=    Set Variable    x    s    w    2    !    Q    A    Z
-    ${passwords}=    Create List    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
+    @{password1}=    Create List    m    j    u    7    ^    Y    H    E
+    @{password2}=    Create List    n    h    y    6    %    T    G    B
+    @{password3}=    Create List    b    g    t    5    $    R    F    V
+    @{password4}=    Create List    v    f    r    4    *    E    D    C
+    @{password5}=    Create List    x    s    w    2    !    Q    A    Z
+    @{passwords}=    Create List    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
     Type In New Disk Password    ${password1}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
