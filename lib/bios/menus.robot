@@ -457,7 +457,7 @@ Reenter Menu And Return Construction
 
 Type In The Password
     [Documentation]    Operation for typing in the password
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     FOR    ${key}    IN    @{keys_password}
         Write Bare Into Terminal    ${key}
         Sleep    0.5s
@@ -469,7 +469,7 @@ Type In The Password
 Type In New Disk Password
     [Documentation]    Types in new disk password when prompted. The actual
     ...    password is passed as list of keys.
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     Read From Terminal Until    your new password
     Sleep    0.5s
     # FIXME: Often the TCG OPAL test fails to enter Setup Menu after typing
@@ -477,7 +477,7 @@ Type In New Disk Password
     # at this point allows to enter Setup Menu much more reliably.
     Press Key N Times    1    ${SETUP_MENU_KEY}
     FOR    ${i}    IN RANGE    0    2
-        Type In The Password    @{keys_password}
+        Type In The Password    ${keys_password}
         Sleep    1s
     END
 
@@ -485,28 +485,28 @@ Type In New Disk Password
 
 Type In BIOS Password
     [Documentation]    Types in password in general BIOS prompt
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     Read From Terminal Until    password
     Sleep    0.5s
-    Type In The Password    @{keys_password}
+    Type In The Password    ${keys_password}
 
 # This should stay, maybe improved if needed
 
 Type In Disk Password
     [Documentation]    Types in the disk password
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     Read From Terminal Until    Unlock
     Sleep    0.5s
     # FIXME: See a comment in: Type in new disk password
     Press Key N Times    1    ${SETUP_MENU_KEY}
-    Type In The Password    @{keys_password}
+    Type In The Password    ${keys_password}
     Press Key N Times    1    ${ENTER}
 
 # This should stay, maybe improved if needed
 
 Remove Disk Password
     [Documentation]    Removes disk password
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -522,7 +522,7 @@ Remove Disk Password
     Save Changes And Reset
     Read From Terminal Until    Unlock
     FOR    ${i}    IN RANGE    0    2
-        Type In The Password    @{keys_password}
+        Type In The Password    ${keys_password}
         Sleep    0.5s
     END
     Press Key N Times    1    ${SETUP_MENU_KEY}
