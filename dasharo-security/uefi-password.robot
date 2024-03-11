@@ -25,7 +25,7 @@ Suite Setup         Run Keywords
 # If this suite fails in unexpected place, we will cause the next suites to fail
 # because some password may be set.
 Suite Teardown      Run Keywords
-...                     Run Keyword If    ${UEFI_PASSWORD_SUPPORT}    Flash Firmware    ${FW_FILE}
+...                     Run Keyword If Any Tests Failed    Flash Firmware    ${FW_FILE}
 ...                     AND
 ...                     Log Out And Close Connection
 
