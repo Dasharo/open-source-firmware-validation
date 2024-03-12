@@ -147,6 +147,7 @@ ${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
 ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
 ${ME_STATICALLY_DISABLED}=                          ${FALSE}
+${APU_CONFIGURATION_MENU_SUPPORT}=                  ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${FALSE}
