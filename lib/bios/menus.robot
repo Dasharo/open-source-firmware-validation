@@ -206,6 +206,13 @@ Enter Dasharo System Features
     ...    Dasharo System Features
     RETURN    ${dasharo_menu}
 
+Enter Dasharo APU Configuration
+    [Arguments]    ${setup_menu}
+    ${apu_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Dasharo APU Configuration
+    RETURN    ${apu_menu}
+
 Enter Dasharo Submenu
     [Arguments]    ${dasharo_menu}    ${option}
     ${submenu}=    Enter Submenu From Snapshot And Return Construction
