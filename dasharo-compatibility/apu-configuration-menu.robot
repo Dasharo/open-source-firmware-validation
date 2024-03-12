@@ -21,11 +21,7 @@ Resource            ../keys.robot
 #    exactly the case right now)
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-# As a result of this suite, we might get stuck with bricked platform. Make sure
-# to flash working firmware.
 Suite Teardown      Run Keywords
-...                     Flash Firmware    ${FW_FILE}
-...                     AND
 ...                     Log Out And Close Connection
 
 
@@ -50,10 +46,34 @@ APU002.001 Enable apu2 watchdog
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     ${current_profile}=    Set Option State    ${apu_menu}    Enable watchdog
-    ...    Enabled
+    ...    ${TRUE}
     Save Changes And Reset
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     # We're in the setup menu. Now just wait until the platform resets.
     Set DUT Response Timeout    60s
     Read From Terminal Until    ${TIANOCORE_STRING}
+
+APU003.001 Disable apu2 watchdog
+    [Documentation]    Disable the watchdog after enabling it to verify it does
+    ...    not reset the platform anymore.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
+    ${current_profile}=    Set Option State    ${apu_menu}    Enable watchdog
+    ...    ${FALSE}
+    Save Changes And Reset
+    Enter Setup Menu Tianocore
+    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    # We're in the setup menu. Now just wait more than the default timeout to
+    # make sure the watchdog does not work.
+    ${platform_has_reset}=    Set Variable    ${TRUE}
+    Set DUT Response Timeout    70s
+    TRY
+        Read From Terminal Until    ${TIANOCORE_STRING}
+    EXCEPT
+        ${platform_has_reset}=    Set Variable    ${FALSE}
+    END
+    Should Be Equal    ${platform_has_reset}    ${FALSE}
