@@ -21,8 +21,6 @@ Resource            ../keys.robot
 #    exactly the case right now)
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
 # As a result of this suite, we might get stuck with bricked platform. Make sure
 # to flash working firmware.
 Suite Teardown      Run Keywords
@@ -36,7 +34,7 @@ APU001.001 Check if apu2 watchdog option is available
     [Documentation]    Check if the watchdog timer can be enabled in the apu2
     ...    configuration submenu.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU001.001 not supported
-    # Boot and remember current memory speed
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -47,7 +45,7 @@ APU002.001 Enable apu2 watchdog
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
     ...    that it resets the platform.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
-    # Boot and remember current memory speed
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
