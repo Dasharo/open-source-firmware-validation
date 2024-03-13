@@ -78,8 +78,8 @@ APU003.001 Disable apu2 watchdog
     Should Be Equal    ${platform_has_reset}    ${FALSE}
 
 APU004.001 Change apu2 watchdog timeout
-    [Documentation]    Enable apu2 watchdog with the default timeout and verify
-    ...    that it resets the platform.
+    [Documentation]    Enable apu2 watchdog with a higher timeout than default
+    ...    and verify that it resets the platform.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
