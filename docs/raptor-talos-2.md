@@ -1,4 +1,4 @@
-## RCS Talos II platform
+# RCS Talos II platform
 
 When running tests on Talos II platform use the following commands:
 
