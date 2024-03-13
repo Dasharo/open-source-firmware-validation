@@ -1,6 +1,7 @@
-## QEMU workflow
+# QEMU workflow
 
-> Make sure to proceed with [Getting started section](../README.md#getting-started) first.
+> Make sure to proceed with [Getting started section](../README.md#getting-started)
+first.
 
 Many of the test and keywords can be tested in emulation environment. This
 can greatly increase the development speed:
@@ -9,7 +10,7 @@ can greatly increase the development speed:
   problems,
 * the boot time (and responsivness in general) is much faster.
 
-### Booting
+## Booting
 
 Following script assume that you have `OVMF_CODE.fd` and `OVMF_VARS.fd` in you
 current working directory. If those binaries will not be found script will
