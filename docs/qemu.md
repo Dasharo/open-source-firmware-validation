@@ -1,6 +1,7 @@
-## QEMU workflow
+# QEMU workflow
 
-> Make sure to proceed with [Getting started section](../README.md#getting-started) first.
+> Make sure to proceed with
+[Getting started section](../README.md#getting-started) first.
 
 Many of the test and keywords can be tested in emulation environment. This
 can greatly increase the development speed:
