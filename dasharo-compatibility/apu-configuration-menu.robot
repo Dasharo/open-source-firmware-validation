@@ -34,8 +34,7 @@ APU001.001 Check if apu2 watchdog option is available
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
-    ${index}=    Get Index Of Matching Option In Menu    ${apu_menu}    Enable watchdog
-    Should Not Be Equal    '${index}'    -1    The option was not found in menu
+    Should Contain Match    ${apu_menu}    Enable watchdog*
 
 APU002.001 Enable apu2 watchdog
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
@@ -47,8 +46,7 @@ APU002.001 Enable apu2 watchdog
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     Set Option State    ${apu_menu}    Enable watchdog    ${TRUE}
     Save Changes And Reset
-    Enter Setup Menu Tianocore
-    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Now just wait until the platform resets. Some
     # non-zero time has passed since boot, so watchdog timer is at <60s now.
     Set DUT Response Timeout    60s
@@ -64,8 +62,7 @@ APU003.001 Disable apu2 watchdog
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     Set Option State    ${apu_menu}    Enable watchdog    ${FALSE}
     Save Changes And Reset
-    Enter Setup Menu Tianocore
-    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Now just wait more than the default timeout to
     # make sure the watchdog does not reset the platform.
     ${platform_has_reset}=    Set Variable    ${TRUE}
@@ -90,8 +87,7 @@ APU004.001 Change apu2 watchdog timeout
     ${apu_menu}=    Reenter Menu And Return Construction
     Set Option State    ${apu_menu}    Watchdog timeout value    120
     Save Changes And Reset
-    Enter Setup Menu Tianocore
-    ${out}=    Read From Terminal Until    <Enter>=Select Entry
+    Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Wait 60s to make sure platform does not reset
     # after the default timeout of 60s.
     ${platform_has_reset}=    Set Variable    ${TRUE}
