@@ -1,6 +1,6 @@
-## Contributing
+# Contributing
 
-### Code
+## Code
 
 * Install pre-commit hooks after cloning repository:
 
@@ -8,7 +8,7 @@
 pre-commit install
 ```
 
-### Issues
+## Issues
 
 If you are certain that the issue is related to this repository, create issue
 directly
