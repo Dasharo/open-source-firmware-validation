@@ -55,7 +55,7 @@ Flash Protectli VP4630 External
     END
     Should Contain    ${flash_result}    VERIFIED
 
-Flash Protectli VP4650 External
+Flash Protectli VP4650/VP4670 External
     [Documentation]    Flash Device Under Test firmware, check flashing result
     ...    and set RTE relay to ON state. Implementation must be
     ...    compatible with the theory of operation of a specific
@@ -71,7 +71,7 @@ Flash Protectli VP4650 External
     RteCtrl Set OC GPIO    1    low
     Sleep    2s
     Sonoff Power Off
-    Sleep    2s
+    Sleep    3s    #Sleep    2s is too short for vp4670
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
     ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25L12835F/MX25L12845E/MX25L12865E" 2>&1
     ...    return_rc=True
