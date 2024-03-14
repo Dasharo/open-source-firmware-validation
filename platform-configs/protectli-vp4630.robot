@@ -23,3 +23,8 @@ ${DMIDECODE_MANUFACTURER}=          Protectli
 ${DMIDECODE_VENDOR}=                3mdeb
 ${DMIDECODE_FAMILY}=                N/A
 ${DMIDECODE_TYPE}=                  N/A
+
+
+*** Keywords ***
+Power On
+    Rte Relay Power Cycle On
