@@ -146,6 +146,7 @@ ${MINI_PC_IE_SLOT_SUPPORT}=                         ${FALSE}
 ${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
 ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
+${ME_STATICALLY_DISABLED}=                          ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${FALSE}

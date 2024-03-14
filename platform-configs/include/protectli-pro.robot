@@ -12,3 +12,4 @@ ${BIOS_LOCK_SUPPORT}=                   ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
 ${DASHARO_CHIPSET_MENU_SUPPORT}=        ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
+${ME_STATICALLY_DISABLED}=              ${TRUE}
