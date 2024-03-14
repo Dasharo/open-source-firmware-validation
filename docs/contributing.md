@@ -1,6 +1,6 @@
-## Contributing
+# Contributing
 
-### Code
+## Code
 
 * Install pre-commit hooks after cloning repository:
 
@@ -8,7 +8,7 @@
 pre-commit install
 ```
 
-### Issues
+## Issues
 
 If you are certain that the issue is related to this repository, create issue
 directly
@@ -16,7 +16,7 @@ directly
 Otherwise, create an issue in
 [dasharo-issues repisotory](https://github.com/Dasharo/dasharo-issues/issues/new/choose).
 
-## Guidelines
+# Guidelines
 
 A list of guidelines we shall follow during transition to improve the quality
 of this repository. We start with getting rid of duplicated keywords, reducing
@@ -34,21 +34,21 @@ and add as guidelines:
   [robocop checks we cannot pass right now](https://github.com/Dasharo/open-source-firmware-validation/blob/main/robocop.toml),
 * To Be Continued.
 
-### Pre-commit and CI checks
+## Pre-commit and CI checks
 
 1. Make sure to use `pre-commit` locally. All pre-commit and other CI checks
    must pass of course, prior requesting for review. Please check the status of
    checks in your PR. If the failure is questionable, provide your arguments
    for that, rather than silently ignoring this fact.
 
-### Code style
+## Code style
 
 1. It is automatically handled by
   [robotidy](https://robotidy.readthedocs.io/en/stable/). The current rules
   can be found
   [here](https://github.com/Dasharo/open-source-firmware-validation/blob/main/.robotidy).
 
-### Keywords
+## Keywords
 
 1. No new keywords in `keywords.robot` will be accepted
 * new keywords must be placed in a logically divided modules, under `lib/`
@@ -84,7 +84,7 @@ and add as guidelines:
    reason not to. Thanks to that, your keyword will not leave floating output
    in buffer to be received by another keywords, not expecting that.
 
-### Documentation
+## Documentation
 
 * Each new (or modified) file, test, keyword, must have a `[Documentation]`
   section.
