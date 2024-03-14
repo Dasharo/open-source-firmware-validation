@@ -20,6 +20,8 @@ ${DMIDECODE_RELEASE_DATE}=          03/13/2024
 
 *** Keywords ***
 Power On
+    RteCtrl Power Off    ${6}
+    Sleep    5s
     Power Cycle On
 
 Flash Protectli VP4630 External
