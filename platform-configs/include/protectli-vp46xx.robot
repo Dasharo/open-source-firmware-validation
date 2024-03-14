@@ -4,33 +4,18 @@ Resource    protectli-common.robot
 
 
 *** Variables ***
-${FLASH_SIZE}=                  ${16*1024*1024}
+${FLASH_SIZE}=              ${16*1024*1024}
 
-${DEVICE_AUDIO1}=               ALC897
-${DEVICE_AUDIO2}=               Kabylake HDMI
-${DEVICE_AUDIO1_WIN}=           High Definition Audio Device
-${MAX_CPU_TEMP}=                82
+${DEVICE_AUDIO1}=           ALC897
+${DEVICE_AUDIO2}=           Kabylake HDMI
+${DEVICE_AUDIO1_WIN}=       High Definition Audio Device
+${MAX_CPU_TEMP}=            82
 
 # eMMC driver support
-${E_MMC_NAME}=                  AJTD4R
+${E_MMC_NAME}=              AJTD4R
 
 
 *** Keywords ***
-Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    2s
-    # RteCtrl Power Off    ${6}
-    Sonoff Power Off
-    Sleep    5s
-    Telnet.Read
-    # RteCtrl Power On
-    Sonoff Power On
-
 Flash Protectli VP4630 External
     [Documentation]    Flash Device Under Test firmware, check flashing result
     ...    and set RTE relay to ON state. Implementation must be
@@ -49,7 +34,7 @@ Flash Protectli VP4630 External
     Power Cycle Off
     Sleep    2s
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-    ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25L12835F/MX25L12845E/MX25L12865E" 2>&1
+    ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25L12833F/MX25L12835F/MX25L12845E/MX25L12865E/MX25L12873F" 2>&1
     ...    return_rc=True
     Sleep    2s
     RteCtrl Set OC GPIO    3    high-z
