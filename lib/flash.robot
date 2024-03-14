@@ -88,9 +88,9 @@ Flash Firmware
     ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
         Flash Protectli VP4630 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
-        Flash Protectli VP4650 External
+        Flash Protectli VP4650/VP4670 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
-        Flash Protectli VP4650 External
+        Flash Protectli VP4650/VP4670 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
         Flash Protectli VP2420 Internal
     ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
