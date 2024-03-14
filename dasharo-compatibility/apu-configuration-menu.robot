@@ -100,6 +100,30 @@ APU004.001 Change apu2 watchdog timeout
     Set DUT Response Timeout    70s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
+APU005.001 Check if disabling CPB decreases performance
+    [Documentation]    This Test Checks Whether Performance Changes With Core Performance Boost Disabled
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
+    Set Option State    ${apu_menu}    Core Performance Boost    ${FALSE}
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    ${first_check}=    Execute Command In Terminal
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}'
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
+    Set Option State    ${apu_menu}    Core Performance Boost    ${TRUE}
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    ${second_check}=    Execute Command In Terminal
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}'
+    ${status}=    Evaluate    ${first_check} > ${second_check}
+    Should Be True    ${status}
+
 APU005.001 Check whether disabling "Enable PCIe power management features" disables ASPM
     [Documentation]    Checks whether disabling PCIe power management features disables ASPM
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
@@ -128,3 +152,4 @@ APU005.002 Check whether enabling "Enable PCIe power management features" enable
     ${aspm_check}=    Execute Command In Terminal
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM L1 Enabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
+
