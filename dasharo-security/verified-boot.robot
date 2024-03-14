@@ -13,6 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../os-config/ubuntu-credentials.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -35,13 +36,11 @@ Test Setup          Run Keyword
 
 
 *** Variables ***
-# TODO: Here we cannot yet use variables from platform config, as these are loaded
-# only when Prepare Test Suite is called. We could source them sooner, with robot invocation.
 # The fw_file_original is the fw_file received as an input to the test suite
-${FW_FILE_ORIGINAL}=    /home/ubuntu/test-firmware.rom
+${FW_FILE_ORIGINAL}=    /home/${UBUNTU_USERNAME}/test-firmware.rom
 # # The fw_file_resigned is the fw_file resigned with newly generated keys (so
 # # booting it should trigger vboot recovery events)
-${FW_FILE_RESIGNED}=    /home/ubuntu/test-firmware_resigned.rom
+${FW_FILE_RESIGNED}=    /home/${UBUNTU_USERNAME}/test-firmware_resigned.rom
 
 
 *** Test Cases ***
