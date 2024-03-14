@@ -21,6 +21,11 @@ ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         tianocore-shell
 ${FLASH_VERIFY_OPTION}=                         UEFI Shell
 
+${DMIDECODE_SERIAL_NUMBER}=                     N/A
+${DMIDECODE_MANUFACTURER}=                      Protectli
+${DMIDECODE_VENDOR}=                            3mdeb
+${DMIDECODE_TYPE}=                              Desktop
+
 ${USB_MODEL}=                                   Kingston
 
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=            6
