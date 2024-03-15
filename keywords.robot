@@ -1491,7 +1491,8 @@ Send File To DUT
     ELSE
         SSHLibrary.Put File    ${source_path}    ${target_path}
     END
-    ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
+    ${hash_target_newline}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
+    ${hash_target}=    Fetch From Left    ${hash_target_newline}    \n
     Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
 
 Check Internet Connection On Linux
