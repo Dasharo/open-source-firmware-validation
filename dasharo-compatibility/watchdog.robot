@@ -32,7 +32,7 @@ WDT001.001 Check if watchdog option is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU001.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=      Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Should Contain Match    ${chipset_menu}    Enable watchdog*
@@ -43,15 +43,15 @@ WDT002.001 Enable watchdog
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=      Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${TRUE}
     Save Changes And Reset
     Enter Setup Menu Tianocore And Return Construction
-    # We're in the setup menu. Now just wait until the platform resets. Some
-    # non-zero time has passed since boot, so watchdog timer is at <300s now.
-    Set DUT Response Timeout    300s
+    # We're in the setup menu. Now just wait until the platform resets. Wait a
+    # little longer than the timeout to give the platform time to reset.
+    Set DUT Response Timeout    320s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
 WDT003.001 Disable watchdog
@@ -60,7 +60,7 @@ WDT003.001 Disable watchdog
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=      Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${FALSE}
@@ -69,7 +69,7 @@ WDT003.001 Disable watchdog
     # We're in the setup menu. Now just wait more than the default timeout to
     # make sure the watchdog does not reset the platform.
     ${platform_has_reset}=    Set Variable    ${TRUE}
-    Set DUT Response Timeout    310s
+    Set DUT Response Timeout    360s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
@@ -83,7 +83,7 @@ WDT004.001 Change watchdog timeout
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=       Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${TRUE}
@@ -92,16 +92,17 @@ WDT004.001 Change watchdog timeout
     Set Option State    ${chipset_menu}    Watchdog timeout value    360
     Save Changes And Reset
     Enter Setup Menu Tianocore And Return Construction
-    # We're in the setup menu. Wait 300s to make sure platform does not reset
+    # We're in the setup menu. Wait 320s to make sure platform does not reset
     # after the default timeout of 300s.
     ${platform_has_reset}=    Set Variable    ${TRUE}
-    Set DUT Response Timeout    300s
+    Set DUT Response Timeout    320s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
-    # Now wait another 60s to make sure the platform resets within 360s of boot.
+    # Now wait another 60s to make sure the platform resets within ~360s of
+    # boot.
     Set DUT Response Timeout    60s
     Read From Terminal Until    ${TIANOCORE_STRING}
