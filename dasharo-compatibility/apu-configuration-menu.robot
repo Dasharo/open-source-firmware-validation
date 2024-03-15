@@ -101,3 +101,35 @@ APU004.001 Change apu2 watchdog timeout
     # Now wait another 60s to make sure the platform resets within 120s of boot.
     Set DUT Response Timeout    60s
     Read From Terminal Until    ${TIANOCORE_STRING}
+
+APU005.001 Check whether disabling "Enable PCIe power management features" disables ASPM
+    [Documentation]    Checks whether disabling PCIe power management features disables ASPM
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
+    Set Option State    ${apu_menu}    Enable PCI Express power    ${FALSE}
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${aspm_check}=    Execute Command In Terminal
+    ...    echo -n `lspci -vv | grep "ASPM Disabled" | wc -l`
+    ${status}=    Evaluate    ${aspm_check} == 6
+    Should Be True    ${status}
+    Power On
+
+APU005.002 Check whether enabling "Enable PCIe power management features" enables ASPM
+    [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
+    Set Option State    ${apu_menu}    Enable PCI Express power    ${TRUE}
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${aspm_check}=    Execute Command In Terminal
+    ...    echo -n `lspci -vv | grep "ASPM L.* Enabled" | wc -l`
+    ${status}=    Evaluate    ${aspm_check} == 6
+    Should Be True    ${status}
