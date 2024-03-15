@@ -88,7 +88,7 @@ WDT004.001 Change watchdog timeout
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${TRUE}
     # Refresh menu, now that watchdog timeout is available
-    ${apu_menu}=    Reenter Menu And Return Construction
+    ${chipset_menu}=    Reenter Menu And Return Construction
     Set Option State    ${chipset_menu}    Watchdog timeout value    360
     Save Changes And Reset
     Enter Setup Menu Tianocore And Return Construction
