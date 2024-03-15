@@ -1,0 +1,35 @@
+@startuml
+
+title OSFV serial requirements - v0.1.0\nHigh priority (tells us whether we can execute any firmware-level tests at all, or just OS-level tests)
+
+skinparam participantBorderColor #38d430
+skinparam participantPadding 0
+skinparam SequenceParticipantBorderThickness 3
+skinparam participantBackgroundColor #white
+
+participant "Serial port present?\n(hardware interface)" as SerialPort
+participant "BIOS serial console\nredirection possible?" as BIOSConsole
+participant "RX and TX redirection\npossible?" as RXTXRedirection
+
+skinparam participantBackgroundColor #38d430
+
+participant "Use ser2net for both\ninput and output" as output1
+participant "Use ser2net for gathering output.\nUse USB keyboard emulation for input" as output2
+participant "Firmware tests based on video\noutput and USB keyboard input.\nCURRENTLY VIDEO OCR NOT SUPPORTED." as output3
+
+note right of output3
+  No firmware-level tests
+  can be executed.
+  Only tests from OS.
+end note
+
+SerialPort -> BIOSConsole: Yes
+BIOSConsole -> RXTXRedirection: Yes
+RXTXRedirection -> output1: Yes
+RXTXRedirection -> output2: TX only (MSI, laptops with serial over EC)
+RXTXRedirection -> output3: RX only (No such case so far)
+
+SerialPort --> output3: No
+BIOSConsole --> output3: No
+
+@enduml
