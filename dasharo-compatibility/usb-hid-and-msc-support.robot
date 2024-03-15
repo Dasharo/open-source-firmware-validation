@@ -32,7 +32,7 @@ USB001.001 USB devices detected in FW
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.001 not supported
     Upload And Mount DTS Flash Iso
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
 
 USB001.002 USB devices detected by OS (Ubuntu 20.04)
@@ -65,7 +65,7 @@ USB002.001 USB keyboard detected in FW
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager

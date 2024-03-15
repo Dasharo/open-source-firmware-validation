@@ -9,6 +9,8 @@ from robot.api.deco import keyword, library
 
 @library
 class QemuMonitor:
+    ROBOT_LIBRARY_SCOPE = "SUITE"
+
     def __init__(self, socket_path):
         self.sock = None
         logger.info(f"QemuMonitor init")

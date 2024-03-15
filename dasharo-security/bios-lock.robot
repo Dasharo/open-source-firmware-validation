@@ -36,7 +36,7 @@ BLS001.001 BIOS lock support (Ubuntu 22.04)
     ...    recognized during attempt to overwrite it by using flashrom tool.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Lock the BIOS boot medium    ${TRUE}
@@ -56,7 +56,7 @@ BLS002.001 BIOS lock support deactivation (Ubuntu 22.04)
     ...    available again.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Lock the BIOS boot medium    ${FALSE}

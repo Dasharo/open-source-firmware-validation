@@ -31,7 +31,7 @@ BMM001.001 Change Auto Boot Time-out and check after reboot
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -40,7 +40,7 @@ BMM001.001 Change Auto Boot Time-out and check after reboot
     Set Option State    ${boot_mgr_menu}    Auto Boot Time-out    ${boot_timeout}
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -53,7 +53,7 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM002.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -71,7 +71,7 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager
@@ -84,7 +84,7 @@ BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM003.001 not supported
     Skip If    "${DUT_CONNECTION_METHOD}" == "pikvm"    BMM003.001 not supported with PiKVM input
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Boot Maintenance Manager

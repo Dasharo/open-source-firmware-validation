@@ -1,6 +1,8 @@
 *** Settings ***
 Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
 Resource    ../os-config/ubuntu-credentials.robot
+Resource    ../lib/bios/menus-dasharo.robot
+Resource    ../lib/secure-boot-lib-dasharo.robot
 
 
 *** Variables ***
@@ -28,6 +30,7 @@ ${FLASH_VERIFY_METHOD}=                             ${EMPTY}
 ${INCORRECT_SIGNATURES_FIRMWARE}=                   ${EMPTY}
 ${WIFI_CARD_UBUNTU}=                                Intel(R) Wi-Fi 6 AX200
 ${LTE_CARD}=                                        ME906s LTE
+${ANSIBLE_SUPPORT}=                                 ${TRUE}
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
@@ -195,6 +198,7 @@ ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                             ${TRUE}
 ${SECURE_BOOT_DEFAULT_STATE}=                       Disabled
+${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}=            ${TRUE}
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                        ${TRUE}
 ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${FALSE}
@@ -204,6 +208,7 @@ ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${FALSE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
+${DTS_UEFI_SB_SUPPORT}=                             ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}

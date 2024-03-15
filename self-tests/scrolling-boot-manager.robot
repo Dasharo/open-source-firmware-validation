@@ -34,6 +34,6 @@ Enter Boot Menu Tianocore
     [Documentation]    Test Enter Boot Menu kwd
     Prepare EFI Partition With System Files
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     ${no_entries}=    Get Length    ${boot_menu}
     Should Be True    ${no_entries} > 11

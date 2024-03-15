@@ -33,13 +33,13 @@ Set numerical option
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Watchdog timeout value    600
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     ${state}=    Get Option State    ${chipset_menu}    Watchdog timeout value

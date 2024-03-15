@@ -1,22 +1,12 @@
 *** Settings ***
-Documentation       Collection of keywords related to UEFI Secure Boot
+Documentation       Collection of Dasharo keywords related to UEFI Secure Boot
 
-Resource            ../keywords.robot
+Resource            ../lib/secure-boot-lib-common.robot
 
 
 *** Variables ***
-${GOOD_KEYS_URL}=           https://cloud.3mdeb.com/index.php/s/SjM5dQGji4XDAni/download/good_keys.img
-${GOOD_KEYS_NAME}=          good_keys.img
-${GOOD_KEYS_SHA256}=        13de737ba50c8d14a88aaf5314a938fb6826e18ba8f337470ee490b17dd6bea8
-${NOT_SIGNED_URL}=          https://cloud.3mdeb.com/index.php/s/zmJXxGG4piGB2Me/download/not_signed.img
-${NOT_SIGNED_NAME}=         not_signed.img
-${NOT_SIGNED_SHA256}=       15dc0a250b73c3132b1d7c5f8e81f00cc34d899c3ddecbb838a8cd0b66c4f608
-${BAD_KEYS_URL}=            https://cloud.3mdeb.com/index.php/s/BJPbSqRH6NdbRym/download/bad_keys.img
-${BAD_KEYS_NAME}=           bad_keys.img
-${BAD_KEYS_SHA256}=         6da92bd97d4b4ca645fa98dcdfdc0c6876959e5b815a36f1f7759bc5463e7b19
-${BAD_FORMAT_URL}=          https://cloud.3mdeb.com/index.php/s/AsBnATiHTZQ6jae/download/bad_format.img
-${BAD_FORMAT_NAME}=         bad_format.img
-${BAD_FORMAT_SHA256}=       59d17bc120dfd0f2e6948a2bfdbdf5fb06eddcb44f9a053a8e7b8f677e21858c
+${RESET_KEYS_OPTION}=           > Reset to default Secure Boot Keys
+${INCORRECT_FORMAT_MESSAGE}=    ERROR: Unsupported file type!
 
 
 *** Keywords ***
@@ -49,7 +39,7 @@ Get Secure Boot Menu Construction
 
 Enter Secure Boot Menu
     [Documentation]    This keyword enters Secure Boot menu after the platform was powered on.
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
@@ -74,6 +64,16 @@ Enter Advanced Secure Boot Keys Management And Return Construction
     Enter Advanced Secure Boot Keys Management    ${sb_menu}
     ${menu}=    Get Submenu Construction    opt_only=${TRUE}
     RETURN    ${menu}
+
+Enter Key Management And Return Construction
+    [Documentation]    Enters Advanced Key Management menu and returns constructions.
+    ...    Should be called from secure boot menu
+    [Arguments]    ${sb_menu}=@{EMPTY}
+    IF    '''@{sb_menu}''' == '''@{EMPTY}'''
+        ${sb_menu}=    Get Secure Boot Menu Construction
+    END
+    ${key_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    RETURN    ${key_menu}
 
 Reset To Default Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Advanced Secure
@@ -107,6 +107,7 @@ Make Sure That Keys Are Provisioned
     IF    ${need_reset} == ${TRUE}
         ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
         Reset To Default Secure Boot Keys    ${advanced_menu}
+        Sleep    3s
         Exit From Current Menu
         ${sb_menu}=    Get Secure Boot Menu Construction
     END
@@ -136,30 +137,6 @@ Disable Secure Boot
         Press Enter
     END
 
-Check Secure Boot In Linux
-    [Documentation]    Keyword checks Secure Boot state in Linux.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    # The string in dmesg may be in two forms:
-    # secureboot: Secure boot disabled
-    # or just:
-    # Secure boot disabled
-    ${out}=    Execute Command In Terminal    dmesg | grep "Secure boot"
-    Should Contain Any    ${out}    disabled    enabled
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    enabled
-    RETURN    ${sb_status}
-
-Check Secure Boot In Windows
-    [Documentation]    Keyword checks Secure Boot state in Windows.
-    ...    Returns True when Secure Boot is enabled
-    ...    and False when disabled.
-    ${out}=    Execute Command In Terminal    Confirm-SecureBootUEFI
-    Should Contain Any    ${out}    True    False
-    ${sb_status}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    True
-    RETURN    ${sb_status}
-
 Enter Enroll DB Signature Using File In DB Options
     [Documentation]    Keyword checks Secure Boot state in Windows.
     [Arguments]    ${advanced_menu}
@@ -172,6 +149,14 @@ Enter Enroll DB Signature Using File In DB Options
     ...    Enroll Signature
     ...    opt_only=${FALSE}
     Enter Submenu From Snapshot    ${enroll_sig_menu}    Enroll Signature Using File
+
+Enroll DB Signature
+    [Documentation]    Enroll new DB Signature. Should be called in Advanced
+    ...    Secure Boot Keys Management or Key Management Menu
+    [Arguments]    ${key_menu}    ${volume}    ${file}
+    Enter Enroll DB Signature Using File In DB Options    ${key_menu}
+    Enter Volume In File Explorer    ${volume}
+    Select File In File Explorer    ${file}
 
 Enter Volume In File Explorer
     [Documentation]    Enter the given volume
@@ -219,7 +204,7 @@ Select File In File Explorer
 Enter UEFI Shell
     [Documentation]    Boots given .efi file from UEFI shell.
     ...    Assumes that it is located on FS0.
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
 
@@ -234,3 +219,36 @@ Execute File In UEFI Shell
     Press Enter
     ${out}=    Read From Terminal Until    FS0:\\>
     RETURN    ${out}
+
+Boot Efi File And Return Response
+    [Documentation]    Boots EFI file and returns response.
+    # robocop: disable=unused-argument
+    [Arguments]    ${file}    ${volume}=${EMPTY}    ${read_only_first_line}=${EMPTY}
+    # robocop: enable
+    Enter UEFI Shell
+    ${out}=    Execute File In UEFI Shell    ${file}
+    RETURN    ${out}
+
+Boot Efi File
+    [Documentation]    Boots EFI file. Fails if after booting there is no
+    ...    expected_output in terminal
+    [Arguments]    ${file}    ${volume}    ${expected_output}
+    ${out}=    Boot Efi File And Return Response    ${file}    ${volume}
+    Should Contain    ${out}    ${expected_output}    ignore_case=${TRUE}
+
+Boot Efi File Should Fail
+    [Documentation]    Attempts to boot EFI file. Succeeds if attempt results in
+    ...    Secure Boot error message
+    [Arguments]    ${file}    ${volume}
+    ${out}=    Boot Efi File And Return Response    ${file}    ${volume}
+    Should Contain Any    ${out}    Access Denied
+
+Get Secure Boot State
+    [Documentation]    Returns current state of Secure Boot.
+    [Arguments]    ${sb_menu}
+    ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
+    RETURN    ${sb_state}[0]
+
+Make Sure There Is Secure Boot Error
+    [Documentation]    Makes sure there is secure boot error.
+    Read From Terminal Until    Press any key to continue...

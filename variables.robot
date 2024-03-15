@@ -8,6 +8,7 @@ ${MEMTEST_HEADER}=          Memtest86+ 5.01 coreboot
 ${DEBIAN_STABLE_VER}=       4.14.y
 ${TEARDOWN}=                no
 ${SNIPEIT}=                 yes
+${ANSIBLE_CONFIG}=          no
 ${FIRMWARE_TYPE_VAR}=       ${EMPTY}
 
 ${DL_CACHE_DIR}=            ${CURDIR}/dl-cache
@@ -192,6 +193,12 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
 ...                         cpuid=deadbeef001
 
+# MPL-PIP4
+&{RTE52}=                   ip=192.168.4.165    cpuid=02c00042ea42e744    pcb_rev=1.0.0
+...                         platform=mpl-pip4    sonoff_ip=192.168.4.222
+...                         board-revision=x    env=dev    platform_vendor=mpl
+...                         pikvm_ip=192.168.4.105
+
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
@@ -202,7 +209,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
-...                         &{RTE51}
+...                         &{RTE51}    &{RTE52}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -324,7 +331,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sbo_name=USB    name=SanDisk Ultra USB 3.0
 &{USB13}=                   vendor=Artificial    volume=1GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB    name=PiKVM Composite KVM Device
+...                         sbo_name=USB    name=PiKVM Composite KVM
 &{USB14}=                   vendor=Kingston    volume=32GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=2
 ...                         sbo_name=USB    name=USB DISK 3.0

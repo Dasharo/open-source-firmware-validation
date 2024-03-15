@@ -1,6 +1,7 @@
 robot-venv
 robotframework
 minicom.cap
+qemu-data
 *.xml
 *.html
 *.log
@@ -16,3 +17,4 @@ __pycache__*
 *.fd
 dl-cache/*
 !dl-cache/.gitkeep
+scripts/secure-boot/images/*

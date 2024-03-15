@@ -34,14 +34,14 @@ RTD001.001 F9 resets Enable USB stack option to true
     Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD001.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     ${usb_stack_state}=    Get Option State    ${usb_menu}    Enable USB stack
@@ -53,14 +53,14 @@ RTD002.001 F9 resets Enable USB Mass Storage driver option to true
     Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD002.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     ${usb_storage_state}=    Get Option State    ${usb_menu}    Enable USB Mass Storage
@@ -72,14 +72,14 @@ RTD003.001 F9 resets Lock the BIOS boot medium option to true
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD003.001 not supported
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    RTD003.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     ${bios_lock_state}=    Get Option State    ${security_menu}    Lock the BIOS boot medium
@@ -91,14 +91,14 @@ RTD004.001 F9 resets Enable SMM BIOS write protection to false
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD004.001 not supported
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    RTD004.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Enable SMM BIOS write    ${TRUE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     ${smm_state}=    Get Option State    ${security_menu}    Enable SMM BIOS write
@@ -110,14 +110,14 @@ RTD005.001 F9 resets Early boot DMA Protection to true
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD005.001 not supported
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    RTD005.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Early boot DMA Protection    ${TRUE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     ${early_dma_state}=    Get Option State    ${security_menu}    Early boot DMA Protection
@@ -129,14 +129,14 @@ RTD007.001 F9 resets Enable network boot to false
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RTD007.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${network_menu}    Enable network boot    ${TRUE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
@@ -148,14 +148,14 @@ RTD008.001 F9 resets Intel ME mode to enabled
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    RTD008.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD008.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    Disabled (HAP)
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     ${me_mode_state}=    Get Option State    ${me_menu}    Intel ME mode
@@ -167,14 +167,14 @@ RTD009.001 F9 resets Enable PS2 Controller to enabled
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD009.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD009.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable PS2 Controller    ${FALSE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     ${ps2_state}=    Get Option State    ${chipset_menu}    Enable PS2 Controller
@@ -186,14 +186,14 @@ RTD010.001 F9 resets Enable watchdog to enabled
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD010.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD010.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${FALSE}
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     ${watchdog_state}=    Get Option State    ${chipset_menu}    Enable watchdog
@@ -205,14 +205,14 @@ RTD011.001 F9 resets Watchdog timeout value to 500
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD011.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Watchdog timeout value    400
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     ${watchdog_timeout}=    Get Option State    ${chipset_menu}    Watchdog timeout value
@@ -223,14 +223,14 @@ RTD012.001 F9 resets Fan profile to Silent
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD012.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD012.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${power_menu}    Fan profile    Performance
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     ${fan_profile}=    Get Option State    ${power_menu}    Fan profile
@@ -242,14 +242,14 @@ RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD013.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD013.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${power_menu}    Platform sleep type    Suspend to RAM (S3)
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     ${sleep_type}=    Get Option State    ${power_menu}    Platform sleep type
@@ -262,14 +262,14 @@ RTD014.001 F9 resets Memory SPD Profile to JEDEC
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
     Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
     ${memory_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
@@ -283,7 +283,7 @@ RTD015.001 F9 reset is effective across DSF
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${memory_menu}    Enable network boot    ${TRUE}
@@ -292,7 +292,7 @@ RTD015.001 F9 reset is effective across DSF
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
@@ -305,7 +305,7 @@ RTD016.001 F9 reset is globally effective
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     Set Option State    ${memory_menu}    Enable network boot    ${TRUE}
@@ -314,7 +314,7 @@ RTD016.001 F9 reset is globally effective
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
@@ -327,7 +327,7 @@ RTD016.002 F9 reset is globally effective
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${bmm_index}=    Get Index Of Matching Option In Menu    ${setup_menu}    Boot Maintenance Manager
     ${dsf_index}=    Get Index Of Matching Option In Menu    ${setup_menu}    Dasharo System Features
     ${dsf_relative_index}=    Evaluate    ${bmm_index} - ${dsf_index}
@@ -341,7 +341,7 @@ RTD016.002 F9 reset is globally effective
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${bmm_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Boot Maintenance Manager
     ${out}=    Get Option State    ${bmm_menu}    Auto Boot Time-out
     Should Not Be Equal As Integers    ${out}    123

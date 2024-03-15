@@ -123,6 +123,12 @@ pip install -r requirements.txt
 source venv/bin/activate
 ```
 
+* Before running the tests from `dasharo-security/secure-boot.robot`, please run
+  the [sb-img-wrapper.sh](./scripts/secure-boot/generate-images/sb-img-wrapper.sh)
+  script. Its task is to generate ISO images with the certificates and efi files
+  used during tests. If you are running tests with PiKVM, you need to add PiKVM
+  IP as a first argument to upload generated images.
+
 > NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
 > Go through [these
 > steps](https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli#installation)
@@ -136,21 +142,21 @@ When running tests on Dasharo platforms use the following commands:
 
 ```bash
 robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
--t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
+-v ansible_config:$ANSIBLE_CONFIG -t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
 ```
 
 * For running a single test suite:
 
 ```bash
 robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
-$TEST_MODULE/$TEST_SUITE
+-v ansible_config:$ANSIBLE_CONFIG $TEST_MODULE/$TEST_SUITE
 ```
 
 * For running a single test module:
 
 ```bash
 robot -L TRACE -v rte_ip:$RTE_IP -v config:$CONFIG -v device_ip:$DEVICE_IP \
-$TEST_MODULE
+-v ansible_config:$ANSIBLE_CONFIG $TEST_MODULE
 ```
 
 Parameters should be defined as follows:
@@ -170,6 +176,9 @@ Parameters should be defined as follows:
 * $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001*`).
   Note that after test case ID asterisk should be added, if you do not wish
   to provide the full test name here.
+* $ANSIBLE_CONFIG - if set to yes can run `ansible-playbook` on target to
+  prepare it for running given tests, described more in [ansible
+  configuration](#ansible-configuration) section.
 
 You can also run tests with `-v snipeit:no` in order to skip checking whether
 the platform is available on snipeit. By default, this is enabled.
@@ -206,19 +215,19 @@ can greatly increase the development speed:
 
 ### Booting
 
-Following script assume that you have `OVMF_CODE.fd` and `OVMF_VARS.fd` in you
+Following script assume that you have `OVMF_CODE.fd` and `OVMF_VARS.fd` in your
 current working directory. If those binaries will not be found script will
 download latest release of Dasharo (UEFI) for QEMU Q35.
 
-If you want to use script in development workflow, most likely you have already built
-Dasharo (UEFI) for QEMU Q35 according to
-[this instruction](https://docs.dasharo.com/variants/qemu_q35/building-manual/).
-In that case you would like to provide directory with Dasharo (UEFI) binaries as
+If you want to use script in development workflow, most likely you have already
+built Dasharo (UEFI) for QEMU Q35 according to [this
+instruction](https://docs.dasharo.com/variants/qemu_q35/building-manual/). In
+that case you would like to provide directory with Dasharo (UEFI) binaries as
 environment variable (`DIR`).
 
 You may also decide to not use graphics user interface for QEMU. In that case
-choose mode `nographic`. If you run QEMU on a remote machine you may consider
-to use mode `vnc` with default port for graphical output being `5900`.
+choose mode `nographic`. If you run QEMU on a remote machine you may consider to
+use mode `vnc` with default port for graphical output being `5900`.
 
 Dasharo (UEFI) in QEMU can be started with:
 
@@ -227,9 +236,9 @@ Dasharo (UEFI) in QEMU can be started with:
 ```
 
 In this mode, a graphical QEMU window would popup, so you can observe the test
-flow, or control it manually. The actual testing will happen over
-serial, which is exposed via telnet. For more modes and options, please refer
-to the script's help text.
+flow, or control it manually. The actual testing will happen over serial, which
+is exposed via telnet. For more modes and options, please refer to the script's
+help text.
 
 You may also build customized Dasharo firmware for QEMU (e.g. with some Dasharo
 options enabled or disabled). In such a case, please refer to:
@@ -288,22 +297,22 @@ and add as guidelines:
 ### Code style
 
 1. It is automatically handled by
-  [robotidy](https://robotidy.readthedocs.io/en/stable/). The current rules
-  can be found
-  [here](https://github.com/Dasharo/open-source-firmware-validation/blob/main/.robotidy).
+   [robotidy](https://robotidy.readthedocs.io/en/stable/). The current rules can
+   be found
+   [here](https://github.com/Dasharo/open-source-firmware-validation/blob/main/.robotidy).
 
 ### Keywords
 
 1. No new keywords in `keywords.robot` will be accepted
 * new keywords must be placed in a logically divided modules, under `lib/`
-      directory
+  directory
     - see
         [openbmc-test-automation](https://github.com/openbmc/openbmc-test-automation/tree/master/lib)
       as a reference
 * if you need to modify something in `keywords.robot`, you should create a new
-      module under `lib/`
+  module under `lib/`
 * if you add new keyword module, you should review the `keywords.module` and
-      move related keywords there as well, if suitable
+  move related keywords there as well, if suitable
 1. If keyword from keywords.robot can be reused or improved, do that instead
    of creating a new one
    - keyword duplication will not be accepted,
@@ -388,3 +397,40 @@ Parameters should be defined as follows:
 
 You can also run tests with `-v snipeit:no` in order to skip checking whether
 the platform is available on snipeit.
+
+## Ansible configuration
+
+> Note: Ansible runs were tested on QEMU based tests only.
+
+Setting variable $ANSIBLE_CONFIG to yes while running tests may prepare the DUT
+to execute given test suite. The use of this tool has the following
+requirements:
+
+* use of the [Run Ansible Playbook On Supported Operating
+  Systems](./lib/ansible.robot) keyword in the Suite Setup section of the
+  running test suite,
+* preparation of the IP address and port information used to connect SSH to the
+  DUT in the [ansible-roles/hosts](./ansible-roles/hosts) file, along with
+  credentials for logging into the system,
+* preparation of the relevant playbook under
+  [ansible-roles/roles](./ansible-roles/roles) to be executed before starting the
+  tests, the idea here is to store playbooks yml files under
+  `${suite_test_name}/tasks/common.yml`,
+* set `ANSIBLE_SUPPORT` to `${TRUE}` in platform config file.
+
+With the correct configuration, `ansible-playbook` will be started from the PC
+host and perform modifications on the DUT via an SSH connection.
+
+### Known issues
+
+* Ansible playbooks can be ran only on authenticated DUT, otherwise an attempt
+  to run them will return errors. To workaround this, users can modify
+  `/etc/ansible/ansible.cfg` file on the host side by adding there the following
+  section.
+
+  ```bash
+  [defaults]
+  host_key_checking = False
+  ```
+
+  This will disable the authorisation of DUTs from running playbooks on them.

@@ -52,11 +52,15 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
   Environmental variables:
     DIR         working directory, defaults to current working directory
+    DRIVE_PATH  path to file which will be added as a virtual hard drive. The file
+                should match formats described in chapter Disk Images of QEMU
+                documentation
 
 Example usage:
     ./$(basename $0) vnc firmware
     ./$(basename $0) graphic os_install
     DIR=/my/work/dir ./$(basename $0) graphic os
+    DRIVE_PATH=/path/to/image ./$(basename $0) graphic os
 
 EOF
   exit 0
@@ -67,7 +71,7 @@ check_disks() {
 
   if [ ! -f "${HDD_PATH}" ]; then
     echo "Disk at ${HDD_PATH} not found. You can create one with:"
-    echo "qemu-img create -f qcow2 qemu-data/hdd.qcow 20G"
+    echo "qemu-img create -f qcow2 qemu-data/hdd.qcow2 20G"
     exit 1
   fi
 
@@ -189,6 +193,11 @@ case "${ACTION}" in
     exit 1
 		;;
 esac
+
+# Add disk
+if [[ -v DRIVE_PATH ]]; then
+  QEMU_PARAMS="$QEMU_PARAMS -hda $DRIVE_PATH"
+fi
 
 # Check for the existence of OVMF_CODE.fd and OVMF_VARS.fs files
 if [ ! -f "OVMF_CODE.fd" ] || [ ! -f "OVMF_VARS.fd" ]; then

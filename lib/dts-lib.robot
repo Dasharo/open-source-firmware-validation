@@ -1,3 +1,8 @@
+*** Settings ***
+Library     Telnet
+Resource    terminal.robot
+
+
 *** Keywords ***
 Boot Dasharo Tools Suite Via IPXE Shell
     Enter IPXE
@@ -12,12 +17,15 @@ Boot Dasharo Tools Suite Via IPXE Shell
 
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
-    ...    boot method (from USB or from iPXE) as parameter.
-    [Arguments]    ${dts_booting_method}
+    ...    boot method (from USB or from iPXE) as parameter. If you want to boot
+    ...    DTS to perform Automatic Certificate Provisioning, set
+    ...    ${certificate_provisioning} to 'True' - this only work when booted
+    ...    from USB.
+    [Arguments]    ${dts_booting_method}    ${certificate_provisioning}='False'
     IF    '${dts_booting_method}'=='USB'
-        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        ${boot_menu}=    Enter Boot Menu And Return Construction
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
+            Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM
         ELSE IF    '${MANUFACTURER}' == 'QEMU'
             Enter Submenu From Snapshot    ${boot_menu}    QEMU
         ELSE
@@ -28,7 +36,7 @@ Boot Dasharo Tools Suite
         IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
             Boot Dasharo Tools Suite Via IPXE Shell
         ELSE
-            ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+            ${boot_menu}=    Enter Boot Menu And Return Construction
             Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
             ${ipxe_menu}=    Get IPXE Boot Menu Construction
             Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
@@ -38,23 +46,24 @@ Boot Dasharo Tools Suite
         FAIL    Unknown or improper connection method: ${dts_booting_method}
     END
 
-    # For PiKVM devices, we have only input on serial, not output. The video and serial consoles are
-    # two different console in case of Linux, they are not in sync anymore as in case of firmware.
-    # We have to switch to SSH connection to continue test execution on such devices.
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${dut_connection_method}=    Set Variable    SSH
-        # Wait for the menu to be loaded on serial
+    IF    ${certificate_provisioning} == 'False'
+        # For PiKVM devices, we have only input on serial, not output. The video and serial consoles are
+        # two different console in case of Linux, they are not in sync anymore as in case of firmware.
+        # We have to switch to SSH connection to continue test execution on such devices.
+        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+            ${dut_connection_method}=    Set Variable    SSH
+            # Wait for the menu to be loaded on serial
+            Read From Terminal Until    Enter an option:
+            # Enable SSH server and switch to SSH connection by writing on video console "in blind"
+            Write Into Terminal    8
+            Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+            Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
+            # Spawn DTS menu on SSH console
+            Write Into Terminal    source $(which dts-boot)
+        END
         Read From Terminal Until    Enter an option:
-        # Enable SSH server and switch to SSH connection by writing on video console "in blind"
-        Write Into Terminal    8
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-        Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
-        # Spawn DTS menu on SSH console
-        Write Into Terminal    dts
+        Sleep    5s
     END
-
-    Read From Terminal Until    Enter an option:
-    Sleep    5s
 
 Check HCL Report Creation
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
