@@ -10,6 +10,7 @@ ${DEVICE_AUDIO1}=               ALC897
 ${DEVICE_AUDIO2}=               Kabylake HDMI
 ${DEVICE_AUDIO1_WIN}=           High Definition Audio Device
 ${INITIAL_CPU_FREQUENCY}=       2600
+${WATCHDOG_SUPPORT}=            ${TRUE}
 
 # eMMC driver support
 ${E_MMC_NAME}=                  AJTD4R
