@@ -1,0 +1,20 @@
+@startuml
+
+title OSFV Power supply requirements - v0.1.0\nLow priority (tells us how we need to implement the connections, but does not limit the test scope)
+
+skinparam participantBorderColor #38d430
+skinparam participantPadding 0
+skinparam SequenceParticipantBorderThickness 3
+skinparam participantBackgroundColor #white
+
+participant "Power supply fits into\nRTE DC barrel jack?" as PowerSupply
+
+skinparam participantBackgroundColor #38d430
+
+participant "Use RTE relay for\npower supply control" as output1
+participant "Use Sonoff for\npower supply control" as output2
+
+PowerSupply -> output1: Yes
+PowerSupply --> output2: No
+
+@enduml

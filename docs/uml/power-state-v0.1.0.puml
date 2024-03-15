@@ -1,0 +1,28 @@
+@startuml
+
+title OSFV Power state requirements - v0.1.0\nHigh priority (tells us whether we can implement some form of automatic power control)
+
+skinparam participantBorderColor #38d430
+skinparam participantPadding 0
+skinparam SequenceParticipantBorderThickness 3
+skinparam participantBackgroundColor #white
+
+participant "Power state after\npower failure?" as PowerState
+participant "Power/reset buttons\nexposed on GPIO headers?" as PowerGPIO
+participant "Is there another way to\nconnect to those signals?" as PowerOther
+
+skinparam participantBackgroundColor #38d430
+
+participant "Connect them to\nRTE GPIO header" as output1
+participant "Power/reset buttons control is not\nmandatory (but is still useful for\ntests such as waking up from suspend)" as output2
+participant "Power control cannot be\nimplemented. Manual power\ncontrol must be used." as output3
+
+PowerState -> PowerGPIO: Powered off
+PowerGPIO -> output1: Yes
+PowerOther -> output1: Yes
+
+PowerState --> output2
+PowerGPIO --> PowerOther: No
+PowerOther --> output3: No
+
+@enduml
