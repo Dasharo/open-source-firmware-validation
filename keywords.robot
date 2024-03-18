@@ -43,7 +43,7 @@ Login To Linux
         # not have Linux prompt. We try logging in multiple times anyway, so
         # this should not be a huge problem.
         # Read From Terminal Until    login:
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
@@ -69,7 +69,10 @@ Login To Windows
     Boot System Or From Connected Disk    ${OS_WINDOWS}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
@@ -175,7 +178,7 @@ Login To Windows Via SSH
             # Run Keyword Until Succeeds?
             Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${OS_WINDOWS}
-            Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+            Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
         END
     END
     IF    ${reboot_count} >= 1
@@ -557,6 +560,8 @@ Prepare To SSH Connection
     Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     # Sonoff API Setup    ${sonoff_ip}
+    IF    '${SNIPEIT}'=='no'    RETURN
+    SnipeIt Checkout    ${RTE_IP}
 
 Prepare To Serial Connection
     [Documentation]    Keyword prepares Test Suite by opening SSH connection to
@@ -910,7 +915,7 @@ Check HDMI Windows
 Check DP Windows
     [Documentation]    Check if DP display is recognized by Windows OS.
     ${out}=    Check Displays Windows
-    IF    '${PLATFORM}' == 'protectli-vp4630'
+    IF    '${PLATFORM}' == 'protectli-vp4630' or '${PLATFORM}' == 'protectli-vp4650' or '${PLATFORM}' == 'protectli-vp4670'
         Should Contain Any
         ...    ${out}
         ...    VideoOutputTechnology : 10
@@ -1432,9 +1437,9 @@ Get Coreboot Tools From Cloud
 Get Cbmem From Cloud
     [Documentation]    Download cbmem from the cloud.
     ${cbmem_path}=    Set Variable    /usr/local/bin/cbmem
-    ${out_test}=    Execute Command In Terminal    test -x ${cbmem_path}; echo $?
-    ${exit_code}=    Convert To Integer    ${out_test}
-    IF    ${exit_code} != 0
+    ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbmem_path}
+    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    IF    '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
         Download File    https://cloud.3mdeb.com/index.php/s/C6LJMi4bWz3wzR9/download    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
     END
@@ -1442,9 +1447,9 @@ Get Cbmem From Cloud
 Get Flashrom From Cloud
     [Documentation]    Download flashrom from the cloud.
     ${flashrom_path}=    Set Variable    /usr/local/bin/flashrom
-    ${out_test}=    Execute Command InTerminal    test -x ${flashrom_path}; echo $?
-    ${exit_code}=    Convert To Integer    ${out_test}
-    IF    ${exit_code} != 0
+    ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${flashrom_path}
+    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    IF    '${sha256}' != '8e57fee6578dd31684da7f1afd6f5e5b1d964bb6db52b3a9ec038a7292802ae9'
         Download File    https://cloud.3mdeb.com/index.php/s/fsPNM8SpDjATMrW/download    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
@@ -1452,9 +1457,9 @@ Get Flashrom From Cloud
 Get Cbfstool From Cloud
     [Documentation]    Download cbfstool from the cloud
     ${cbfstool_path}=    Set Variable    /usr/local/bin/cbfstool
-    ${out_test}=    Execute Command In Terminal    test -x ${cbfstool_path}; echo $?
-    ${exit_code}=    Convert To Integer    ${out_test}
-    IF    ${exit_code} != 0
+    ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbfstool_path}
+    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    IF    '${sha256}' != 'e090051e71980620e6f2d2876532eb6fcf4346593260c0c1349a5be51181fb4f'
         Download File    https://cloud.3mdeb.com/index.php/s/ScCf8XFLZYWBE25/download    ${cbfstool_path}
         Execute Command In Terminal    chmod 777 ${cbfstool_path}
     END

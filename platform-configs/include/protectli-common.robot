@@ -21,6 +21,11 @@ ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         tianocore-shell
 ${FLASH_VERIFY_OPTION}=                         UEFI Shell
 
+${DMIDECODE_SERIAL_NUMBER}=                     N/A
+${DMIDECODE_MANUFACTURER}=                      Protectli
+${DMIDECODE_VENDOR}=                            3mdeb
+${DMIDECODE_TYPE}=                              Desktop
+
 ${USB_MODEL}=                                   Kingston
 
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=            6
@@ -66,6 +71,8 @@ ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=              Powered On
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
+${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                 ${TRUE}

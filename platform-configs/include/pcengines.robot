@@ -76,6 +76,7 @@ ${DEFAULT_POWER_STATE_AFTER_FAIL}=          Powered On
 ${ESP_SCANNING_SUPPORT}=                    ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=           ${TRUE}
 ${MINI_PC_IE_SLOT_SUPPORT}=                 ${TRUE}
+${APU_CONFIGURATION_MENU_SUPPORT}=          ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                             ${TRUE}

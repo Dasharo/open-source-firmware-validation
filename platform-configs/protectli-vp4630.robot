@@ -17,3 +17,10 @@ ${DMIDECODE_MANUFACTURER}=          Protectli
 ${DMIDECODE_VENDOR}=                3mdeb
 ${DMIDECODE_FAMILY}=                N/A
 ${DMIDECODE_TYPE}=                  N/A
+
+${INITIAL_CPU_FREQUENCY}=       2100
+${DEF_CORES}=                   2
+${DEF_THREADS}=                 2
+${DEF_CPU}=                     4
+${DEF_ONLINE_CPU}=              0-3
+${DEF_SOCKETS}=                 1
