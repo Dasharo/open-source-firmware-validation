@@ -4,14 +4,14 @@ Resource    protectli-common.robot
 
 
 *** Variables ***
-${FLASH_SIZE}=                  ${16*1024*1024}
+${FLASH_SIZE}=                      ${16*1024*1024}
 
-${DEVICE_AUDIO1}=               ALC897
-${DEVICE_AUDIO2}=               Kabylake HDMI
-${DEVICE_AUDIO1_WIN}=           High Definition Audio Device
-${INITIAL_CPU_FREQUENCY}=       2600
+${DEVICE_AUDIO1}=                   ALC897
+${DEVICE_AUDIO2}=                   Kabylake HDMI
+${DEVICE_AUDIO1_WIN}=               High Definition Audio Device
+${INITIAL_CPU_FREQUENCY}=           2600
 ${MAX_CPU_TEMP}=                    82
-${WATCHDOG_SUPPORT}=            ${TRUE}
+${WATCHDOG_SUPPORT}=                ${TRUE}
 
 # eMMC driver support
 ${E_MMC_NAME}=                      AJTD4R
@@ -83,7 +83,7 @@ Flash Protectli VP4650/VP4670 External
     RteCtrl Set OC GPIO    1    low
     Sleep    2s
     Sonoff Power Off
-    Sleep    3s    #Sleep    2s is too short for vp4670
+    Sleep    3s    # Sleep    2s is too short for vp4670
     ${flash_result}    ${rc}=    SSHLibrary.Execute Command
     ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25L12835F/MX25L12845E/MX25L12865E" 2>&1
     ...    return_rc=True

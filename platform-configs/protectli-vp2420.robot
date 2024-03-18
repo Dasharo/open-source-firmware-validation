@@ -24,6 +24,7 @@ ${DMIDECODE_MANUFACTURER}=          Protectli
 ${DMIDECODE_VENDOR}=                3mdeb
 ${DMIDECODE_FAMILY}=                N/A
 ${DMIDECODE_TYPE}=                  N/A
+
 ${WATCHDOG_SUPPORT}=                ${TRUE}
 
 

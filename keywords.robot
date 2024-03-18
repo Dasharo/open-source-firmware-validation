@@ -72,10 +72,8 @@ Login To Windows
         Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
-    END
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_WINDOWS_USERNAME}    ${DEVICE_WINDOWS_PASSWORD}
