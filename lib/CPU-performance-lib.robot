@@ -21,10 +21,7 @@ Get CPU Frequency MIN
 
 Get CPU Temperature CURRENT
     [Documentation]    Get current CPU temperature.
-    ${temperature}=    Execute Command In Terminal    sensors | grep "Package id 0"
-    ${temperature}=    Fetch From Left    ${temperature}    Â°C
-    ${temperature}=    Fetch From Right    ${temperature}    +
-    ${temperature}=    Convert To Number    ${temperature}
+    ${temperature}=    Execute Command In Terminal    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
     RETURN    ${temperature}
 
 Get CPU Frequencies In Ubuntu
