@@ -54,7 +54,7 @@ Flash Mbt
     Power Cycle Off
     IF    '${FLASH_OPT}'=='full'
         ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-        ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -w /tmp/coreboot.rom 2>&1
+        ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -c W25Q64JV-.Q -w /tmp/coreboot.rom 2>&1
         ...    return_rc=True
     ELSE
         ${flash_result}    ${rc}=    SSHLibrary.Execute Command
