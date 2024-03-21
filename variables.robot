@@ -209,22 +209,22 @@ ${OS_UBUNTU}=               ubuntu
 # -----------------------------------------------------------------------------
 &{SSD01}=                   vendor=SanDisk    volume=16GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=SATA Flash Drive ATA-11 Hard-Disk
+...                         boot_name=SATA Flash Drive ATA-11 Hard-Disk
 &{SSD02}=                   vendor=Phison    volume=16GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=SATA SSD ATA-10 Hard-Disk
+...                         boot_name=SATA SSD ATA-10 Hard-Disk
 &{SSD03}=                   vendor=Hoodisk    volume=32GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=Hoodisk SSD ATA-10 Hard-Disk
+...                         boot_name=Hoodisk SSD ATA-10 Hard-Disk
 &{SSD04}=                   vendor=Hoodisk    volume=16GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=Hoodisk SSD ATA-11 Hard-Disk
+...                         boot_name=Hoodisk SSD ATA-11 Hard-Disk
 &{SSD05}=                   vendor=Apacer    volume=30GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=30GB SATA Flash Drive ATA-11 Hard-Disk
+...                         boot_name=30GB SATA Flash Drive ATA-11 Hard-Disk
 &{SSD06}=                   vendor=Apacer    volume=60GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=60GB SATA Flash Drive ATA-11 Hard-Disk
+...                         boot_name=60GB SATA Flash Drive ATA-11 Hard-Disk
 &{SSD07}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
 ...                         interface=SATA M.2    count=1
 ...                         boot_name=SSDPR-CL100-240-G2
