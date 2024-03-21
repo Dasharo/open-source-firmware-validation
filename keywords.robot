@@ -116,7 +116,7 @@ Login To Linux Over Serial Console
     ...    ${username}
     ...    ${password}
     ...    ${device_ubuntu_user_prompt}=${device_ubuntu_user_prompt}
-    ...    ${timeout}=180
+    ...    ${timeout}=300
     Set DUT Response Timeout    ${timeout} seconds
     Telnet.Read Until    login:
     Telnet.Write    ${username}
