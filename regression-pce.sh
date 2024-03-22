@@ -65,20 +65,20 @@ compatibility_tests=(
 )
 
 security_tests=(
-  "tpm-support"
-  "measured-boot"
-  "verified-boot"
   "bios-lock"
-  "secure-boot"
-  "usb-stack"
+  "measured-boot"
   "network-stack"
-  "uefi-password"
+  "secure-boot"
+  "tpm-support"
   "tpm2-commands"
+  "uefi-password"
+  "usb-stack"
+  "verified-boot"
 )
 
 performance_tests=(
-  "cpu-temperature"
   "cpu-frequency"
+  "cpu-temperature"
   "platform-stability"
   "ubuntu-server-booting-performance-test"
 )
