@@ -15,13 +15,11 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-# TODO:
-# - document which setup/teardown keywords to use and what are they doing
-# - go through them and make sure they are doing what the name suggests (not
-#    exactly the case right now)
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
 Suite Teardown      Run Keywords
+...                     Flash Firmware    ${FW_FILE}
+...                     AND
 ...                     Log Out And Close Connection
 
 
