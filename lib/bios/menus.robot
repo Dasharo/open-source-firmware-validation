@@ -637,13 +637,13 @@ Make Sure That Flash Locks Are Disabled
         ${security_menu}=    Enter Dasharo Submenu
         ...    ${dasharo_menu}    Dasharo Security Options
         ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Lock the BIOS boot medium
+        ...    ${security_menu}    Lock the BIOS boot medium    ${TRUE}
         IF    ${index} != -1
             Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
             Reenter Menu
         END
         ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Enable SMM BIOS write
+        ...    ${security_menu}    Enable SMM BIOS write    ${TRUE}
         IF    ${index} != -1
             Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
             Reenter Menu
