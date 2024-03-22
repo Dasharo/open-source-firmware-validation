@@ -45,9 +45,9 @@ APU002.001 Enable apu2 watchdog
     Set Option State    ${apu_menu}    Enable watchdog    ${TRUE}
     Save Changes And Reset
     Enter Setup Menu Tianocore And Return Construction
-    # We're in the setup menu. Now just wait until the platform resets. Some
-    # non-zero time has passed since boot, so watchdog timer is at <60s now.
-    Set DUT Response Timeout    60s
+    # We're in the setup menu. Now just wait until the platform resets. Wait a
+    # bit longer than the timeout to give the platform to actually reset.
+    Set DUT Response Timeout    70s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
 APU003.001 Disable apu2 watchdog
@@ -62,7 +62,7 @@ APU003.001 Disable apu2 watchdog
     Save Changes And Reset
     Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Now just wait more than the default timeout to
-    # make sure the watchdog does not reset the platform.
+    # make sure the watchdog does not reset the platform anymore.
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    70s
     TRY
@@ -96,8 +96,8 @@ APU004.001 Change apu2 watchdog timeout
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
-    # Now wait another 60s to make sure the platform resets within 120s of boot.
-    Set DUT Response Timeout    60s
+    # Now wait another 70s to make sure the platform resets within 120s of boot.
+    Set DUT Response Timeout    70s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
 APU005.001 Check whether disabling "Enable PCIe power management features" disables ASPM
