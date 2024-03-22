@@ -4,7 +4,7 @@ Flash Via Internal Programmer With Args
     ...    using extra arguments.
     [Arguments]    ${fw_file_path}    ${args}    ${timeout}=3m
     ${out_flash}=    Execute Command In Terminal
-    ...    flashrom -p internal -w ${fw_file_path} ${args}
+    ...    flashrom -p internal -c ${INTERNAL_PROGRAMMER_CHIPNAME} -w ${fw_file_path} ${args}
     ...    timeout=${timeout}
     IF    "Warning: Chip content is identical to the requested image." in """${out_flash}"""
         RETURN
