@@ -110,3 +110,21 @@ Power On
     Sleep    10s
     Telnet.Read
     RteCtrl Power On
+
+Flash Apu
+    [Documentation]    Flash Device Under Test firmware, check flashing result
+    ...    and set RTE relay to ON state. Implementation must be
+    ...    compatible with the theory of operation of a specific
+    ...    platform.
+    RteCtrl Power Off
+    Sleep    1s
+    ${flash_result}    ${rc}=    SSHLibrary.Execute Command
+    ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "W25Q64JV-.Q" 2>&1
+    ...    return_rc=True
+    RteCtrl Power On
+    IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n
+    IF    ${rc} == 3    RETURN
+    IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
+        RETURN
+    END
+    Should Contain    ${flash_result}    VERIFIED
