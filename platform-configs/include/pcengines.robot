@@ -27,6 +27,7 @@ ${DEF_SOCKETS}=                             1
 ${POWER_CTRL}=                              RteCtrl
 ${FLASH_VERIFY_METHOD}=                     tianocore-shell
 ${FLASH_VERIFY_OPTION}=                     UEFI Shell
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        6
 # TODO
 ${MAX_CPU_TEMP}=                            ${EMPTY}
 
