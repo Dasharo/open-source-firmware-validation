@@ -107,16 +107,20 @@ APU005.001 Check if disabling CPB decreases performance
     Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
+    # Sleep to account for logs being printed to console while booting
+    Sleep    30s
     ${first_check}=    Execute Command In Terminal
     ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}'
     ...    300
     Power On
+    Sleep    30s
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Core Performance Boost    ${TRUE}
     Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
+    Sleep 30s
     ${second_check}=    Execute Command In Terminal
     ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}'
     ...    300
