@@ -834,9 +834,9 @@ Execute Linux Command
     ...    clear prompt to enter the command. The timeout_after
     ...    defines for how long we wait until the next prompt (until
     ...    the executed command finishes).
-    [Arguments]    ${cmd}    ${timeout_after}=30
+    [Arguments]    ${cmd}    ${timeout}=30
     Write Into Terminal    ${cmd}
-    Set DUT Response Timeout    ${timeout_after} seconds
+    Set DUT Response Timeout    ${timeout} seconds
     ${out}=    Read From Terminal Until Prompt
     RETURN    ${out}
 
@@ -848,9 +848,9 @@ Execute Linux Tpm2 Tools Command
     ...    enter the command. The timeout_after defines for how long
     ...    we wait until the next prompt (until the executed command
     ...    finishes).
-    [Arguments]    ${cmd}    ${timeout_after}=30
+    [Arguments]    ${cmd}    ${timeout}=30
     Write Into Terminal    ${cmd}
-    Set DUT Response Timeout    ${timeout_after} seconds
+    Set DUT Response Timeout    ${timeout} seconds
     ${out}=    Read From Terminal Until Prompt
     Should Not Contain Any    ${out}    WARN    ERROR
     RETURN    ${out}
