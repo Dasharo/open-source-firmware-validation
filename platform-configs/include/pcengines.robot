@@ -45,7 +45,7 @@ ${DASHARO_SECURITY_MENU_SUPPORT}=           ${TRUE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
-${EC_AND_SUPER_IO_SUPPORT}=                 ${TRUE}
+${EC_AND_SUPER_IO_SUPPORT}=                 ${FALSE}
 ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
 ${UEFI_SHELL_SUPPORT}=                      ${TRUE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=       ${TRUE}
