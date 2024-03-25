@@ -109,10 +109,10 @@ APU005.001 Check if disabling CPB decreases performance
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Stop Logging To Terminal
-    ${first_check}=    Execute Command In Terminal
-    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}'
+    Execute Command In Terminal
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)} > .dd_time'
     ...    300
+    ${first_check}=    Execute Command In Terminal    cat .dd_time
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
@@ -121,10 +121,10 @@ APU005.001 Check if disabling CPB decreases performance
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Stop Logging To Terminal
-    ${second_check}=    Execute Command In Terminal
-    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}'
+    Execute Command In Terminal
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)} > .dd_time'
     ...    300
+    ${second_check}=    Execute Command In Terminal    cat .dd_time
     ${status}=    Evaluate    ${first_check} > ${second_check}
     Should Be True    ${status}
 
