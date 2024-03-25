@@ -91,6 +91,8 @@ Read From Terminal Until Prompt
             ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
         END
     END
+    # Drop last newline, if any
+    ${output}=    Strip String    ${output}    mode=right    characters=\n\r
     RETURN    ${output}
 
 Read From Terminal Until Regexp
@@ -155,4 +157,6 @@ Execute Command In Terminal
         Write Into Terminal    ${command}
         ${output}=    Read From Terminal Until Prompt
     END
+    # Drop last newline, if any
+    ${output}=    Strip String    ${output}    mode=right    characters=\n\r
     RETURN    ${output}
