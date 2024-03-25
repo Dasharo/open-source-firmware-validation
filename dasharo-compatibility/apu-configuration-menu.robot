@@ -27,7 +27,6 @@ Suite Teardown      Run Keywords
 APU001.001 Check if apu2 watchdog option is available
     [Documentation]    Check if the watchdog timer can be enabled in the apu2
     ...    configuration submenu.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU001.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -37,7 +36,6 @@ APU001.001 Check if apu2 watchdog option is available
 APU002.001 Enable apu2 watchdog
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
     ...    that it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -53,7 +51,6 @@ APU002.001 Enable apu2 watchdog
 APU003.001 Disable apu2 watchdog
     [Documentation]    Disable the watchdog after enabling it to verify it does
     ...    not reset the platform anymore.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -75,7 +72,6 @@ APU003.001 Disable apu2 watchdog
 APU004.001 Change apu2 watchdog timeout
     [Documentation]    Enable apu2 watchdog with a higher timeout than default
     ...    and verify that it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
