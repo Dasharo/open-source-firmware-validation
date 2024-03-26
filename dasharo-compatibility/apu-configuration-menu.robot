@@ -110,7 +110,7 @@ APU005.001 Check if disabling CPB decreases performance
     Login To Linux
     Switch To Root User
     Execute Command In Terminal
-    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)} > .dd_time'
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}' > .dd_time
     ...    300
     ${first_check}=    Execute Command In Terminal    cat .dd_time
     Power On
@@ -122,7 +122,7 @@ APU005.001 Check if disabling CPB decreases performance
     Login To Linux
     Switch To Root User
     Execute Command In Terminal
-    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)} > .dd_time'
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}' > .dd_time
     ...    300
     ${second_check}=    Execute Command In Terminal    cat .dd_time
     ${status}=    Evaluate    ${first_check} > ${second_check}
