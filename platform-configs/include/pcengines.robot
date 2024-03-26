@@ -45,6 +45,7 @@ ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=           ${TRUE}
+${DASHARO_NETWORKING_MENU_SUPPORT}=         ${TRUE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
