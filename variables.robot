@@ -187,6 +187,11 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
 ...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
 ...                         cpuid=deadbeef001
+# 3mdeb Protectli VP6670 -----------------------------------------------------
+&{RTE52}=                   ip=192.168.10.110
+...                         platform=protectli-vp6670    platform_vendor=protectli
+...                         sonoff_ip=192.168.10.113
+...                         cpuid=wip
 
 # MinnowBoard Turbot
 &{RTE52}=                   ip=192.168.10.112
