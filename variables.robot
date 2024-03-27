@@ -201,6 +201,13 @@ ${OS_UBUNTU}=               ubuntu
 # MinnowBoard Turbot
 &{RTE55}=                   ip=192.168.10.112
 ...                         platform=minnowboard-turbot
+...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
+...                         cpuid=deadbeef001
+# 3mdeb Protectli VP6670 -----------------------------------------------------
+&{RTE56}=                   ip=192.168.10.110
+...                         platform=protectli-vp6670    platform_vendor=protectli
+...                         sonoff_ip=192.168.10.113
+...                         cpuid=wip
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -213,6 +220,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
+...                         &{RTE56}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -436,6 +444,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD10}
 @{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
 @{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
+@{CONFIG47}=                &{RTE55}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -448,4 +457,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
-...                         @{CONFIG46}
+...                         @{CONFIG46}    @{CONFIG47}
