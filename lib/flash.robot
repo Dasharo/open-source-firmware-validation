@@ -97,6 +97,8 @@ Flash Firmware
         Flash Protectli VP2410 External
     ELSE IF    '${platform[:16]}' == 'protectli-v1210'
         Flash Device Via External Programmer
+    ELSE IF    '${platform[:16]}' == 'protectli-vp6670'
+        Flash Device Via External Programmer
     ELSE IF    '${platform[:15]}' == 'protectli-v1410'
         Flash Device Via External Programmer
     ELSE IF    '${platform[:15]}' == 'protectli-v1610'
