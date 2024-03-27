@@ -116,7 +116,6 @@ APU005.001 Check whether disabling "Enable PCIe power management features" disab
     ${aspm_check}=    Execute Command In Terminal
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM Disabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
-    Power On
 
 APU005.002 Check whether enabling "Enable PCIe power management features" enables ASPM
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
