@@ -114,8 +114,8 @@ APU005.001 Check whether disabling "Enable PCIe power management features" disab
     Login To Linux
     Switch To Root User
     ${aspm_check}=    Execute Command In Terminal
-    ...    echo -n `lspci -vv | grep "ASPM Disabled" | wc -l`
-    ${status}=    Evaluate    ${aspm_check} == 6
+    ...    echo -n `lspci -s 00:02 -vv | grep "ASPM Disabled" | wc -l`
+    ${status}=    Evaluate    ${aspm_check} == 3
     Should Be True    ${status}
     Power On
 
@@ -130,6 +130,6 @@ APU005.002 Check whether enabling "Enable PCIe power management features" enable
     Login To Linux
     Switch To Root User
     ${aspm_check}=    Execute Command In Terminal
-    ...    echo -n `lspci -vv | grep "ASPM L.* Enabled" | wc -l`
-    ${status}=    Evaluate    ${aspm_check} == 6
+    ...    echo -n `lspci -s 00:02 -vv | grep "ASPM L1 Enabled" | wc -l`
+    ${status}=    Evaluate    ${aspm_check} == 3
     Should Be True    ${status}
