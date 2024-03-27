@@ -84,10 +84,10 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s)
         ${average}=    Evaluate    ${average}+${boot_time}
+        Execute Reboot Command
     END
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     Log To Console    \nCoreboot average booting time: ${average} s\n
-    Execute Reboot Command
 
 
 *** Keywords ***
