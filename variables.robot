@@ -187,6 +187,11 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
 ...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
 ...                         cpuid=deadbeef001
+# 3mdeb Protectli VP6670 -----------------------------------------------------
+&{RTE52}=                   ip=192.168.10.110
+...                         platform=protectli-vp6670    platform_vendor=protectli
+...                         sonoff_ip=192.168.10.113
+...                         cpuid=wip
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -198,7 +203,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
-...                         &{RTE51}
+...                         &{RTE51}    &{RTE52}
 
 # hardware database:
 # -----------------------------------------------------------------------------
