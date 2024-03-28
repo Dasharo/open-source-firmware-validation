@@ -21,8 +21,8 @@ Flash Via Internal Programmer With Args
     END
     RETURN    ${out_flash}
 
-Flash BIOS Region Via Internal Programmer
-    [Arguments]    ${fw_file_path}
+Flash Via Internal Programmer
+    [Arguments]    ${fw_file_path}    ${region}=${EMPTY}
     ${out_flashrom_probe}=    Execute Command In Terminal    flashrom -p internal
     ${read_only}=    Run Keyword And Return Status
     ...    Should Contain    ${out_flashrom_probe}    read-only
@@ -30,14 +30,22 @@ Flash BIOS Region Via Internal Programmer
     IF    ${read_only}
         Fail    Make sure that SPI locks are disabled prior flashing internally
     END
-    Flash Via Internal Programmer With Args    ${fw_file_path}    -N --ifd -i bios
+
+    # If no region is given, flash the whole binary
+    IF    ${region}
+        ${args}=    Set Variable    -N --ifd -i ${region}
+    ELSE
+        ${args}=    Set Variable    ${EMPTY}
+    END
+    Flash Via Internal Programmer With Args    ${fw_file_path}    ${args}
 
 Check If RW SECTION B Is Present In A Firmware File
     [Documentation]    Parses ROM with cbfstool to check if A or A + B sections are there
     [Arguments]    ${fw_file_path}
-    ${result}=    Execute Command In Terminal    cbfstool ${fw_file_path} layout -w | grep --color=never RW_SECTION_B
+    ${layout}=    Execute Command In Terminal    cbfstool ${fw_file_path} layout -w
     ${section_b_present}=    Run Keyword And Return Status
-    ...    Should Contain    ${result}    RW_SECTION_B
+    ...    Should Contain    ${layout}    RW_SECTION_B
+    Should Contain    ${layout}    RW_SECTION_A    msg=RW_SECTION_A is not present. Is the firmware image correct?
     RETURN    ${section_b_present}
 
 Flash RW Sections Via Internal Programmer
@@ -78,21 +86,27 @@ Flash Firmware
     ELSE IF    '${platform[:10]}' == 'novacustom'
         Flash Device Via Internal Programmer    ${fw_file}
     ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
-        Flash Protectli VP4620 External
+        Flash Protectli VP4630 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
-        Flash Protectli VP4650 External
+        Flash Protectli VP4650/VP4670 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4670'
-        Flash Protectli VP4670 External
+        Flash Protectli VP4650/VP4670 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp2420'
         Flash Protectli VP2420 Internal
     ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
         Flash Protectli VP2410 External
+    ELSE IF    '${platform[:16]}' == 'protectli-v1210'
+        Flash Device Via External Programmer
+    ELSE IF    '${platform[:15]}' == 'protectli-v1410'
+        Flash Device Via External Programmer
+    ELSE IF    '${platform[:15]}' == 'protectli-v1610'
+        Flash Device Via External Programmer
     ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
-        Flash MSI-PRO-Z690-A-DDR5
+        Flash MSI-PRO-Z690
     ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
-        Flash MSI-PRO-Z690-A-WiFi-DDR4
+        Flash MSI-PRO-Z690
     ELSE IF    '${platform[:46]}' == 'msi-pro-z790-p-ddr5'
-        Flash MSI-PRO-Z790-P-DDR5
+        Flash MSI-PRO-Z690
     ELSE
         Fail    Flash firmware not implemented for platform ${platform}
     END
@@ -103,11 +117,11 @@ Replace Logo In Firmware
     [Documentation]    Swap to custom logo in firmware on DUT using cbfstool according
     ...    to: https://docs.dasharo.com/guides/logo-customization
     [Arguments]    ${logo_file}
-    Read FMAP And BOOTSPLASH Regions Internally    /tmp/firmware.rom
+    Execute Command In Terminal    flashrom -p internal -r /tmp/firmware.rom
     # Remove the existing logo from the firmware image
-    ${out}=    Execute Linux Command    cbfstool /tmp/firmware.rom remove -r BOOTSPLASH -n logo.bmp
+    ${out}=    Execute Command In Terminal    cbfstool /tmp/firmware.rom remove -r BOOTSPLASH -n logo.bmp
     # Add your desired bootlogo to the firmware image
-    ${out}=    Execute Linux Command
+    ${out}=    Execute Command In Terminal
     ...    cbfstool /tmp/firmware.rom add -f ${logo_file} -r BOOTSPLASH -n logo.bmp -t raw -c lzma
     Should Not Contain    ${out}    Image is missing 'BOOTSPLASH' region
     Write BOOTSPLASH Region Internally    /tmp/firmware.rom

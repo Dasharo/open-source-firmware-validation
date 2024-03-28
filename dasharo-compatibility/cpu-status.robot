@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 CPU001.001 CPU works (Ubuntu 22.04)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.001 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU001.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -36,7 +37,6 @@ CPU001.001 CPU works (Ubuntu 22.04)
 CPU001.002 CPU works (Windows 11)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.002 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU001.002 not supported
     Power On
     Login To Windows
 
@@ -44,7 +44,6 @@ CPU002.001 CPU cache enabled (Ubuntu 22.04)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.001 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU002.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -61,7 +60,6 @@ CPU002.002 CPU cache enabled (Windows 11)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.002 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU002.002 not supported
     Power On
     Login To Windows
     ${mem_info}=    Execute Command In Terminal
@@ -77,13 +75,12 @@ CPU002.002 CPU cache enabled (Windows 11)
 CPU003.001 Multiple CPU support (Ubuntu 22.04)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.001 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU003.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     ${cpu_info}=    Execute Linux Command    lscpu
     Set Suite Variable    ${CPU_INFO}
-    ${cpu}=    Get Line    ${CPU_INFO}    3
+    ${cpu}=    Get Lines Matching Regexp    ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
     Should Contain    ${cpu}    ${DEF_CPU}    Different number of CPU's than ${DEF_CPU}
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
@@ -91,7 +88,6 @@ CPU003.001 Multiple CPU support (Ubuntu 22.04)
 CPU003.002 Multiple CPU support (Windows 11)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.002 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU003.002 not supported
     Power On
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
@@ -102,7 +98,6 @@ CPU003.002 Multiple CPU support (Windows 11)
 CPU004.001 Multiple-core support (Ubuntu 22.04)
     [Documentation]    Check whether the DUT has multi-core support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.001 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU004.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -117,7 +112,6 @@ CPU004.001 Multiple-core support (Ubuntu 22.04)
 CPU004.002 Multiple-core support (Windows 11)
     [Documentation]    Check whether the DUT has multi-core support.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.002 not supported
-    Skip If    not ${CPU_TESTS_SUPPORT}    CPU004.002 not supported
     Power On
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
@@ -134,9 +128,10 @@ CPU004.002 Multiple-core support (Windows 11)
 Check Cache Support
     [Arguments]    ${string}    ${cache}
     ${lines}=    Get Lines Containing String    ${string}    ${cache}
-    ${lines}=    Split To Lines    ${lines}
+    ${lines}=    Get Lines Containing String    ${lines}    CACHE_SIZE
+    @{lines}=    Split To Lines    ${lines}
     FOR    ${line}    IN    @{lines}
-        ${mem}=    Get Substring    ${line}    -6
-        ${mem}=    Convert To Integer    ${mem}
+        ${cache_string}    ${cache_size}=    Split String    ${line}    ${SPACE}    1
+        ${mem}=    Convert To Integer    ${cache_size}
         IF    '${mem}'=='0'    Fail    ${line}    ELSE    Log    ${line}
     END

@@ -26,7 +26,7 @@ Get Secure Boot Menu Construction
     ...    Return only selectable entries. If some menu option is not
     ...    selectable (grayed out) it will not be in the menu construction
     ...    list.
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1
+    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=2
     ${out}=    Read From Terminal Until    ${checkpoint}
     # At first, parse the menu as usual
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
@@ -116,19 +116,35 @@ Enable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+    ${changed}=    Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+    IF    ${changed} == ${TRUE}
+        # Changing Secure Boot state issues a special popup
+        Read From Terminal Until    Configuration changed, please reset the platform to take effect!
+        # Dismiss the popup with any key
+        Press Enter
+    END
 
 Disable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
+    ${changed}=    Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
+    IF    ${changed} == ${TRUE}
+        # Changing Secure Boot state issues a special popup
+        Read From Terminal Until    Configuration changed, please reset the platform to take effect!
+        # Dismiss the popup with any key
+        Press Enter
+    END
 
 Check Secure Boot In Linux
     [Documentation]    Keyword checks Secure Boot state in Linux.
     ...    Returns True when Secure Boot is enabled
     ...    and False when disabled.
-    ${out}=    Execute Linux Command    dmesg | grep secureboot
+    # The string in dmesg may be in two forms:
+    # secureboot: Secure boot disabled
+    # or just:
+    # Secure boot disabled
+    ${out}=    Execute Command In Terminal    dmesg | grep "Secure boot"
     Should Contain Any    ${out}    disabled    enabled
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    enabled

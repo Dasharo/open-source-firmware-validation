@@ -13,27 +13,27 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../pikvm-rest-api/pikvm_comm.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
-# - go through them and make sure they are doing what the name suggest (not
+# - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${ME_STATICALLY_DISABLED}    ME is not statically disabled for this platform
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-TDA001.001 Audio recognition (Ubuntu 22.04)
-    [Documentation]    This test aims to verify that the external headset is
-    ...    properly recognized after plugging in the 3.5 mm jack into the
-    ...    docking station.
-    Skip If    not ${THUNDERBOLT_DOCKING_STATION_AUDIO_SUPPORT}    TDAD001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TDA001.001 not supported
+MES001.001 Check if ME is statically disabled
+    [Documentation]    Check whether the Intel ME is disabled at build time.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    ${EXTERNAL_HEADSET}
-    Exit From Root User
+    ${out}=    List Devices In Linux    pci
+    Should Not Contain    ${out}    00:16.0

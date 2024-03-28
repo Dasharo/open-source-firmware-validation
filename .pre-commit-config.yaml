@@ -57,11 +57,21 @@ repos:
     - id: black
 
   - repo: https://github.com/MarketSquare/robotframework-tidy
-    rev: 4.7.0
+    rev: 4.8.1
     hooks:
       - id: robotidy
 
   - repo: https://github.com/MarketSquare/robotframework-robocop
-    rev: 4.2.2
+    rev: 5.0.1
     hooks:
       - id: robocop
+
+  - repo: local
+    hooks:
+      - id: platform-configs-var-check
+        name: platform-configs
+        description: Check for unused variables in platform-configs
+        language: script
+        entry: ./scripts/check-unused-variables.sh
+        args: [ "-f" ]
+        files: 'platform-configs/.*\.robot$'

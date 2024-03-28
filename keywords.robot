@@ -1,5 +1,6 @@
 *** Settings ***
 Library         Collections
+Library         OperatingSystem
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
@@ -9,8 +10,11 @@ Resource        lib/terminal.robot
 Resource        lib/esp-scanning-lib.robot
 Resource        lib/dl-cache.robot
 Resource        lib/dmidecode-lib.robot
+Resource        lib/docks.robot
 Resource        lib/flash.robot
 Resource        lib/self-tests.robot
+Resource        lib/sleep-lib.robot
+Resource        lib/CPU-performance-lib.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -31,49 +35,15 @@ Serial Setup
     ...    window_size=400x100
     Telnet.Set Timeout    180s
 
-IPXE Dhcp
-    [Documentation]    Request IP address in iPXE shell
-    Write Bare Into Terminal    \n
-    # make sure we are inside iPXE shell
-    Read From Terminal Until    iPXE>
-
-IPXE DTS
-    [Documentation]    Enter DTS via iPXE.
-    Set DUT Response Timeout    180s
-    Wait Until Keyword Succeeds    3x    2s
-    ...    IPXE Dhcp
-    Write Bare Into Terminal    chain http://boot.3mdeb.com/dts.ipxe\n    0.1
-
-Check IPXE Appears Only Once
-    [Documentation]    Check the iPXE option appears only once in the boot
-    ...    option list.
-    ${menu_construction}=    Get Boot Menu Construction
-    TRY
-        Should Contain X Times    ${menu_construction}    ${IPXE_BOOT_ENTRY}    1
-    EXCEPT
-        FAIL    Test case marked as Failed\nRequested boot option: (${IPXE_BOOT_ENTRY}) appears not only once.
-    END
-
-Launch To DTS Shell
-    [Documentation]    Launch to DTS via iPXE and open Shell.
-    Enter IPXE
-    IPXE DTS
-    Set DUT Response Timeout    120s
-    Read From Terminal Until    Enter an option
-    Set DUT Response Timeout    30s
-    Write Into Terminal    9
-    Set Prompt For Terminal    bash-5.1#
-    Read From Terminal Until Prompt
-    # These could be removed once routes priorities in DTS are resolved.
-    Sleep    10
-    Remove Extra Default Route
-
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems:
     ...    Ubuntu or Debian.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Read From Terminal Until    login:
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        # On laptopts, we have serial over EC from firmware only, so we will
+        # not have Linux prompt. We try logging in multiple times anyway, so
+        # this should not be a huge problem.
+        # Read From Terminal Until    login:
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
@@ -97,11 +67,17 @@ Login To Linux Via OBMC
 Login To Windows
     [Documentation]    Universal login to Windows.
     Boot System Or From Connected Disk    ${OS_WINDOWS}
+    # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_WINDOWS_USERNAME}    ${DEVICE_WINDOWS_PASSWORD}
+    ELSE
+        Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
 
 Serial Root Login Linux
@@ -154,6 +130,7 @@ Login To Linux Via SSH
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
     [Arguments]    ${username}    ${password}    ${timeout}=180    ${prompt}=${DEVICE_UBUNTU_USER_PROMPT}
+    Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
     SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
@@ -193,9 +170,12 @@ Login To Windows Via SSH
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
             Power On
-            Set Global Variable    ${DUT_CONNECTION_METHOD}    pikvm
+            # TODO: This keyword needs improved. We could simply lock the whole
+            # power on - login procedure in single keyword, and use
+            # Run Keyword Until Succeeds?
+            Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${OS_WINDOWS}
-            Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+            Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
         END
     END
     IF    ${reboot_count} >= 1
@@ -228,7 +208,9 @@ Open Connection And Log In
     ...    REST API, serial connection and checkout used asset in
     ...    SnipeIt
     Check Provided Ip
-    IF    '${CONFIG}' != 'qemu'
+    # FIXME: some stands do not have RTE connected, this should be better handled
+    # by reworking variables.robot
+    IF    '${CONFIG}' != 'qemu' and '${CONFIG}' != 'novacustom-nv41pz'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
         SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
@@ -285,31 +267,6 @@ Enter Petitboot And Return Menu
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
     RETURN    ${menu}
 
-Enter IPXE
-    [Documentation]    Enter iPXE after device power cutoff.
-    # TODO:    2 methods for entering iPXE (Ctrl-B and SeaBIOS)
-    # TODO2:    problem with iPXE string (e.g. when 3 network interfaces are available)
-
-    IF    '${PAYLOAD}' == 'seabios'
-        Enter SeaBIOS
-        Sleep    0.5s
-        ${setup}=    Telnet.Read
-        ${lines}=    Get Lines Matching Pattern    ${setup}    ${IPXE_BOOT_ENTRY}
-        Telnet.Write Bare    ${lines[0]}
-        Telnet.Read Until    ${IPXE_STRING}
-        Telnet.Write Bare    ${IPXE_KEY}
-        IPXE Wait For Prompt
-    ELSE IF    '${PAYLOAD}' == 'tianocore'
-        Enter Boot Menu Tianocore
-        Enter Submenu In Tianocore    option=${IPXE_BOOT_ENTRY}
-        Enter Submenu In Tianocore
-        ...    option=iPXE Shell
-        ...    checkpoint=${EDK2_IPXE_CHECKPOINT}
-        ...    description_lines=${EDK2_IPXE_START_POS}
-        Set Prompt For Terminal    iPXE>
-        Read From Terminal Until Prompt
-    END
-
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
     # TODO: We do not necessarily need Internet to be reachable for the internal
@@ -340,11 +297,9 @@ Get Firmware Version From Binary
 
 Get Firmware Version From UEFI Shell
     [Documentation]    Return firmware version from UEFI shell.
-    Telnet.Set Timeout    90s
-    Telnet.Read Until    Shell>
-    Telnet.Write Bare    smbiosview -t 0
-    Telnet.Write Bare    \n
-    ${output}=    Telnet.Read Until    BiosSegment
+    Set DUT Response Timeout    90s
+    Set Prompt For Terminal    Shell>
+    ${output}=    Execute Command In Terminal    smbiosview -t 0
     ${version}=    Get Lines Containing String    ${output}    BiosVersion
     RETURN    ${version.replace('BiosVersion: ', '')}
 
@@ -398,14 +353,9 @@ Get Current RTE
     [Documentation]    Returns RTE index from RTE list taken as an argument.
     ...    Returns -1 if CPU ID not found in variables.robot.
     [Arguments]    @{rte_list}
-    ${con}=    SSHLibrary.Open Connection    ${RTE_IP}
-    SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-    ${cpuid}=    SSHLibrary.Execute Command
-    ...    cat /proc/cpuinfo |grep Serial|cut -d":" -f2|tr -d " "
-    ...    connection=${con}
     ${index}=    Set Variable    ${0}
     FOR    ${item}    IN    @{rte_list}
-        IF    '${item.cpuid}' == '${cpuid}'    RETURN    ${index}
+        IF    '${item.ip}' == '${RTE_IP}'    RETURN    ${index}
         ${index}=    Set Variable    ${index+1}
     END
     RETURN    ${-1}
@@ -529,41 +479,6 @@ Get All USB
     ${count}=    Evaluate    ${count_usb}+${external_count}
     RETURN    ${count}
 
-Get Boot Timestamps
-    [Documentation]    Returns all boot timestamps from cbmem tool.
-    # fix for LT1000 and protectli platforms (output without tabs)
-    Get Cbmem From Cloud
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
-    ${timestamps}=    Split String    ${out_cbmem}    \n
-    ${timestamps}=    Get Slice From List    ${timestamps}    0    -1
-    RETURN    ${timestamps}
-
-Log Boot Timestamps
-    [Documentation]    Log to console formatted boot timestamps. Takes timestamp
-    ...    string and string length as an arguments.
-    [Arguments]    ${timestamps}    ${length}
-    FOR    ${number}    IN RANGE    0    ${length}
-        ${line}=    Get From List    ${timestamps}    ${number}
-        ${line}=    Split String    ${line}    \
-        ${duration}=    Get From List    ${line}    2
-        ${duration}=    Convert To Number    ${duration}
-        ${name}=    Get Slice From List    ${line}    3
-        ${name}=    Evaluate    " ".join(${name})
-        ${duration_formatted}=    Evaluate    ${duration}/1000000
-        Log    ${name}: ${duration_formatted} s (${duration} ns)
-    END
-
-Get Duration From Timestamps
-    [Documentation]    Returns number representing full boot duration. Takes
-    ...    cbmem string timestamp and string length as an arguments.
-    [Arguments]    ${timestamps}    ${length}
-    ${index}=    Evaluate    ${length}-1
-    ${line}=    Get From List    ${timestamps}    ${index}
-    ${line}=    Split String    ${line}    \
-    ${duration}=    Get From List    ${line}    1
-    ${duration}=    Convert To Number    ${duration}
-    RETURN    ${duration}
-
 Prepare Lm-sensors
     [Documentation]    Install lm-sensors and probe sensors.
     Detect Or Install Package    lm-sensors
@@ -584,107 +499,23 @@ Get Fan Speed
     ${rpm}=    Convert To Number    ${rpm}
     RETURN    ${rpm}
 
-Get CPU Frequency MAX
-    [Documentation]    Get max CPU Frequency.
-    ${freq}=    Execute Command In Terminal    lscpu | grep "CPU max"
-    ${freq}=    Split String    ${freq}
-    ${freq}=    Get From List    ${freq}    3
-    ${freq}=    Split String    ${freq}    separator=,
-    ${freq}=    Get From List    ${freq}    0
-    ${freq}=    Convert To Number    ${freq}
-    RETURN    ${freq}
-
-Get CPU Frequency MIN
-    [Documentation]    Get min CPU Frequency.
-    ${freq}=    Execute Command In Terminal    lscpu | grep "CPU min"
-    ${freq}=    Split String    ${freq}
-    ${freq}=    Get From List    ${freq}    3
-    ${freq}=    Split String    ${freq}    separator=,
-    ${freq}=    Get From List    ${freq}    0
-    ${freq}=    Convert To Number    ${freq}
-    RETURN    ${freq}
-
-Get CPU Temperature CURRENT
-    [Documentation]    Get current CPU temperature.
-    ${temperature}=    Execute Command In Terminal    sensors | grep "Package id 0"
-    ${temperature}=    Fetch From Left    ${temperature}    °C
-    ${temperature}=    Fetch From Right    ${temperature}    +
-    ${temperature}=    Convert To Number    ${temperature}
-    RETURN    ${temperature}
-
-Get CPU Frequencies In Ubuntu
-    [Documentation]    Get all CPU frequencies in Ubuntu OS. Keyword returns
-    ...    list of current CPU frequencies
-    @{frequency_list}=    Create List
-    ${output}=    Execute Command In Terminal    cat /proc/cpuinfo
-    ${output}=    Get Lines Containing String    ${output}    clock
-    @{frequencies}=    Split To Lines    ${output}
-    FOR    ${frequency}    IN    @{frequencies}
-        ${frequency}=    Evaluate    re.sub(r'(?s)[^0-9]*([1-9][0-9]*)[,.][0-9]+MHz', r'\\1', $frequency)
-        ${frequency}=    Convert To Number    ${frequency}
-        Append To List    ${frequency_list}    ${frequency}
-    END
-    RETURN    @{frequency_list}
-
-Check If CPU Not Stucks On Initial Frequency In Ubuntu
-    [Documentation]    Check that CPU not stuck on initial frequency.
-    ${is_cpu_stucks}=    Set Variable    ${FALSE}
-    ${are_frequencies_equal}=    Set Variable    ${TRUE}
-    @{frequencies}=    Get CPU Frequencies In Ubuntu
-    ${first_frequency}=    Get From List    ${frequencies}    0
-    FOR    ${frequency}    IN    @{frequencies}
-        IF    ${frequency} != ${first_frequency}
-            ${are_frequencies_equal}=    Set Variable    ${FALSE}
-        ELSE
-            ${are_frequencies_equal}=    Set Variable    ${NONE}
-        END
-        IF    '${are_frequencies_equal}'=='False'    BREAK
-    END
-    IF    '${are_frequencies_equal}'=='False'
-        Pass Execution    CPU does not stuck on initial frequency
-    END
-    IF    ${first_frequency}!=${INITIAL_CPU_FREQUENCY}
-        Pass Execution    CPU does not stuck on initial frequency
-    ELSE
-        FAIL    CPU stucks on initial frequency: ${INITIAL_CPU_FREQUENCY}
-    END
-
-Check If CPU Not Stucks On Initial Frequency In Windows
-    [Documentation]    Check that CPU not stuck on initial frequency.
-    ${out}=    Execute Command In Terminal
-    ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue/100)
-    FOR    ${number}    IN RANGE    0    10
-        ${out2}=    Execute Command In Terminal
-        ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue/100)
-        Should Not Be Equal    ${out}    ${out2}
-    END
-
-Check CPU Frequency In Windows
-    [Documentation]    Check that CPU is running on expected frequency.
-    ${freq_max_info}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed
-    ${freq_max}=    Get Line    ${freq_max_info}    -1
-    ${freq_max}=    Convert To Number    ${freq_max}
-    FOR    ${number}    IN RANGE    0    10
-        ${freq_current_info}=    Execute Command In Terminal
-        ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
-        ${freq_current}=    Get Line    ${freq_current_info}    -1
-        ${freq_current}=    Convert To Number    ${freq_current}
-        Run Keyword And Continue On Failure
-        ...    Should Be True    ${freq_max} > ${freq_current}
-    END
-
-Stress Test
-    [Documentation]    Proceed with the stress test.
-    [Arguments]    ${time}=60s
-    Detect Or Install Package    stress-ng
-    Execute Command In Terminal    stress-ng --cpu 1 --timeout ${time} &> /dev/null &
-
 Prepare Test Suite
     [Documentation]    Keyword prepares Test Suite by importing specific
     ...    platform configuration keywords and variables and
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
+    # Add some metadata to track test version
+    ${revision}=    Run    git describe --dirty --always --tags
+    Set Suite Metadata    OSFV revision    ${revision}
+    ${revision}=    Run    git describe --always
+    ${url}=    Run    git remote get-url origin
+    # Change SSH link to HTTPS one
+    ${url}=    Replace String    ${url}    git@github.com:    https://github.com/
+    ${url}=    Remove String Using Regexp    ${url}    .git$
+    # Relative path from repository base, assumes that directory has the same name as repository
+    ${path}=    Remove String Using Regexp    ${SUITE_SOURCE}    ^.*/${{$url.rsplit('/', 1)[1]}}/
+    Set Suite Metadata    Remote source (maybe)    ${url}/blob/${revision}/${path}
     IF    '${SNIPEIT}' == 'yes'
         Import Library    ${CURDIR}/osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
         # Import Library    snipeit_robot.py
@@ -711,7 +542,7 @@ Prepare Test Suite
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Prepare To PiKVM Connection
     ELSE
-        FAIL    Unknown connection method for config: ${CONFIG}
+        FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD} for config: ${CONFIG}
     END
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
@@ -726,6 +557,8 @@ Prepare To SSH Connection
     Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     # Sonoff API Setup    ${sonoff_ip}
+    IF    '${SNIPEIT}'=='no'    RETURN
+    SnipeIt Checkout    ${RTE_IP}
 
 Prepare To Serial Connection
     [Documentation]    Keyword prepares Test Suite by opening SSH connection to
@@ -799,7 +632,7 @@ Remap Keys Variables To PiKVM
     Set Global Variable    ${ESC}    Escape
     Set Global Variable    ${ENTER}    Enter
     Set Global Variable    ${BACKSPACE}    Backspace
-    Set Global Variable    ${SPACE}    Space
+    Set Global Variable    ${KEY_SPACE}    Space
     Set Global Variable    ${DELETE}    Delete
     Set Global Variable    ${DIGIT0}    Digit0
     Set Global Variable    ${DIGIT1}    Digit1
@@ -837,6 +670,8 @@ Turn On Power Supply
 Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
+    [Arguments]    ${power_button}=${FALSE}
+    Restore Initial DUT Connection Method
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    'sonoff' == '${pc}'
         Sonoff Power Cycle On
@@ -845,6 +680,8 @@ Power Cycle On
     ELSE
         Rte Relay Power Cycle On
     END
+
+    IF    ${power_button}    RteCtrl Power On
 
 Rte Relay Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
@@ -886,12 +723,10 @@ OBMC Power Cycle Off
 Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
     ...    Sonoff
-    Telnet.Read
     Sonoff Power Off
+    Sleep    10
+    Telnet.Read
     Sonoff Power On
-    Sleep    15
-    # Send "Power On" signal resembling power button press
-    Power On
 
 Power Cycle Off
     [Documentation]    Power cycle off power supply using the supported
@@ -1021,8 +856,8 @@ Restore Initial DUT Connection Method
     [Documentation]    We need to go back to pikvm control when going back from OS to firmware
     ${initial_method_defined}=    Get Variable Value    ${INITIAL_DUT_CONNECTION_METHOD}
     IF    '${initial_method_defined}' == 'None'    RETURN
+    Set Global Variable    ${DUT_CONNECTION_METHOD}    ${INITIAL_DUT_CONNECTION_METHOD}
     IF    '${INITIAL_DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    pikvm
         # We need this when going back from SSH to PiKVM
         Remap Keys Variables To PiKVM
     END
@@ -1033,7 +868,15 @@ Execute Poweroff Command
     Restore Initial DUT Connection Method
 
 Execute Reboot Command
-    Write Into Terminal    reboot
+    [Documentation]    Executes reboot command in given os
+    [Arguments]    ${os}=linux
+    IF    '${os}' == 'linux'
+        Write Into Terminal    reboot
+    ELSE IF    '${os}' == 'windows'
+        Write Into Terminal    shutdown /r /f /t 0
+    ELSE
+        Fail    Unknown OS: ${os} given as an argument.
+    END
     Set DUT Response Timeout    180 seconds
     Restore Initial DUT Connection Method
 
@@ -1066,16 +909,10 @@ Check HDMI Windows
     ${out}=    Check Displays Windows
     Should Contain    ${out}    VideoOutputTechnology : 5
 
-Check Docking Station HDMI Windows
-    [Documentation]    Check if docking station HDMI display is recognized by
-    ...    Windows OS.
-    ${out}=    Check Displays Windows
-    Should Contain Any    ${out}    VideoOutputTechnology : 12    VideoOutputTechnology : 10
-
 Check DP Windows
     [Documentation]    Check if DP display is recognized by Windows OS.
     ${out}=    Check Displays Windows
-    IF    '${PLATFORM}' == 'protectli-vp4630'
+    IF    '${PLATFORM}' == 'protectli-vp4630' or '${PLATFORM}' == 'protectli-vp4650' or '${PLATFORM}' == 'protectli-vp4670'
         Should Contain Any
         ...    ${out}
         ...    VideoOutputTechnology : 10
@@ -1084,12 +921,6 @@ Check DP Windows
     ELSE
         Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
     END
-
-Check Docking Station DP Windows
-    [Documentation]    Check if docking station DP display is recognized by
-    ...    Windows OS.
-    ${out}=    Check Displays Windows
-    Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
 
 Check Internal LCD Windows
     [Documentation]    Check if internal LCD is recognized by Windows OS.
@@ -1102,30 +933,10 @@ Check External HDMI In Linux
     ${out}=    Execute Linux Command    cat /sys/class/drm/card0/*HDMI*/status
     Should Contain    ${out}    connected
 
-Check Docking Station HDMI In Linux
-    [Documentation]    Keyword checks if an docking station HDMI device is
-    ...    visiblein Linux OS.
-    TRY
-        ${out}=    Execute Linux Command    cat /sys/class/drm/card0-DP-7/status
-        Should Not Contain    ${out}    disconnected
-        Should Contain    ${out}    connected
-    EXCEPT
-        ${out}=    Execute Linux Command    cat /sys/class/drm/card0-DP-1/status
-        Should Not Contain    ${out}    disconnected
-        Should Contain    ${out}    connected
-    END
-
 Check External DP In Linux
     [Documentation]    Keyword checks if an external Display Port device is
     ...    visible in Linux OS.
     ${out}=    Execute Linux Command    cat /sys/class/drm/card0-DP-1/status
-    Should Not Contain    ${out}    disconnected
-    Should Contain    ${out}    connected
-
-Check Docking Station DP In Linux
-    [Documentation]    Keyword checks if an docking station Display Port device
-    ...    is visible in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/class/drm/card0-DP-7/status
     Should Not Contain    ${out}    disconnected
     Should Contain    ${out}    connected
 
@@ -1138,8 +949,8 @@ Device Detection In Linux
 
 Check Charge Level In Linux
     [Documentation]    Keyword checks the charge level in Linux OS.
-    Set Local Variable    ${CMD}    cat /sys/class/power_supply/BAT0/charge_now
-    ${out}=    Execute Linux Command    ${CMD}
+    Set Local Variable    ${cmd}    cat /sys/class/power_supply/BAT0/charge_now
+    ${out}=    Execute Linux Command    ${cmd}
     # capacity in uAh
     ${capacity}=    Convert To Integer    ${out}
     Should Be True    ${capacity} <= ${CLEVO_BATTERY_CAPACITY}
@@ -1195,15 +1006,23 @@ Turn On ACPI CALL Module In Linux
 
 Set Brightness In Linux
     [Documentation]    Keyword sets desired brightness in Linux OS.
-    ...    Brightness value range: [0 , 48000].
+    ...    Brightness value range depends on platform.
     [Arguments]    ${brightness}
-    Execute Linux Command    echo ${brightness} > /sys/class/backlight/intel_backlight/brightness
+    Execute Linux Command    echo ${brightness} > /sys/class/backlight/acpi_video0/brightness
 
 Get Current Brightness In Linux
     [Documentation]    Keyword gets current brightness in Linux OS and returns
     ...    it as an integer.
-    Set Local Variable    ${CMD}    cat /sys/class/backlight/intel_backlight/brightness
-    ${out1}=    Execute Linux Command    ${CMD}
+    Set Local Variable    ${cmd}    cat /sys/class/backlight/acpi_video0/brightness
+    ${out1}=    Execute Linux Command    ${cmd}
+    ${brightness}=    Convert To Integer    ${out1}
+    RETURN    ${brightness}
+
+Get Maximum Brightness In Linux
+    [Documentation]    Keyword gets maximum brightness in Linux OS and returns
+    ...    it as an integer.
+    Set Local Variable    ${cmd}    cat /sys/class/backlight/acpi_video0/max_brightness
+    ${out1}=    Execute Linux Command    ${cmd}
     ${brightness}=    Convert To Integer    ${out1}
     RETURN    ${brightness}
 
@@ -1263,24 +1082,17 @@ List Devices In Linux
     ${out}=    Execute Linux Command    ls${port}
     RETURN    ${out}
 
-Detect Docking Station In Linux
-    [Documentation]    Keyword check the docking station is detected correctly.
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
-    Should Contain    ${out}    Prolific Technology, Inc. USB SD Card Reader
-    Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
-
 Check If Files Are Identical In Linux
     [Documentation]    Keyword takes two files as arguments and compares them
     ...    using sha256sum in Linux OS. Returns True if both files
     ...    have an identical content.
     [Arguments]    ${file1}    ${file2}
-    ${out1}=    Execute Linux Command    sha256sum ${file1}
-    ${out2}=    Execute Linux Command    sha256sum ${file2}
+    ${out1}=    Execute Command In Terminal    sha256sum ${file1}
+    ${out2}=    Execute Command In Terminal    sha256sum ${file2}
     ${splitted1}=    Split String    ${out1}
-    ${sha256sum1}=    Get From List    ${splitted1}    1
+    ${sha256sum1}=    Get From List    ${splitted1}    0
     ${splitted2}=    Split String    ${out2}
-    ${sha256sum2}=    Get From List    ${splitted2}    1
+    ${sha256sum2}=    Get From List    ${splitted2}    0
     ${status}=    Run Keyword And Return Status
     ...    Should Be Equal    ${sha256sum1}    ${sha256sum2}
     RETURN    ${status}
@@ -1546,8 +1358,8 @@ Read System Information In Petitboot
     Sleep    2s
     ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    System information
-    Set Local Variable    ${MOVE}    7
-    FOR    ${index}    IN RANGE    0    ${MOVE}
+    Set Local Variable    ${move}    7
+    FOR    ${index}    IN RANGE    0    ${move}
         Write Bare Into Terminal    ${ARROW_UP}
         Read From Terminal
     END
@@ -1563,21 +1375,14 @@ Rescan Devices In Petitboot
     Sleep    2s
     ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    Rescan devices
-    Set Local Variable    ${MOVE}    3
-    FOR    ${index}    IN RANGE    0    ${MOVE}
+    Set Local Variable    ${move}    3
+    FOR    ${index}    IN RANGE    0    ${move}
         Write Bare Into Terminal    ${ARROW_UP}
         Read From Terminal
     END
     Sleep    2s
     Write Bare Into Terminal    ${ENTER}
     # To Do: read system log
-
-Check EMMC Module
-    [Documentation]    Check the eMMC module is detected via the Operating
-    ...    System.
-    ${out}=    Execute Linux Command    parted /dev/mmcblk0 -- print
-    Should Contain    ${out}    ${E_MMC_NAME}
-    Should Contain    ${out}    ${E_MMC_PARTITION_TABLE}
 
 Coldboot Via RTE Relay
     [Documentation]    Coldboot the DUT using RTE Relay.
@@ -1629,9 +1434,9 @@ Get Coreboot Tools From Cloud
 Get Cbmem From Cloud
     [Documentation]    Download cbmem from the cloud.
     ${cbmem_path}=    Set Variable    /usr/local/bin/cbmem
-    ${out_test}=    Execute Command In Terminal    test -x ${cbmem_path}; echo $?
-    ${exit_code}=    Convert To Integer    ${out_test}
-    IF    ${exit_code} != 0
+    ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbmem_path}
+    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    IF    '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
         Download File    https://cloud.3mdeb.com/index.php/s/C6LJMi4bWz3wzR9/download    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
     END
@@ -1639,19 +1444,19 @@ Get Cbmem From Cloud
 Get Flashrom From Cloud
     [Documentation]    Download flashrom from the cloud.
     ${flashrom_path}=    Set Variable    /usr/local/bin/flashrom
-    ${out_test}=    Execute Command InTerminal    test -x ${flashrom_path}; echo $?
-    ${exit_code}=    Convert To Integer    ${out_test}
-    IF    ${exit_code} != 0
-        Download File    https://cloud.3mdeb.com/index.php/s/D7AQDdRZmQFTL6n/download    ${flashrom_path}
+    ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${flashrom_path}
+    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    IF    '${sha256}' != '8e57fee6578dd31684da7f1afd6f5e5b1d964bb6db52b3a9ec038a7292802ae9'
+        Download File    https://cloud.3mdeb.com/index.php/s/fsPNM8SpDjATMrW/download    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
 Get Cbfstool From Cloud
     [Documentation]    Download cbfstool from the cloud
     ${cbfstool_path}=    Set Variable    /usr/local/bin/cbfstool
-    ${out_test}=    Execute Command In Terminal    test -x ${cbfstool_path}; echo $?
-    ${exit_code}=    Convert To Integer    ${out_test}
-    IF    ${exit_code} != 0
+    ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbfstool_path}
+    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    IF    '${sha256}' != 'e090051e71980620e6f2d2876532eb6fcf4346593260c0c1349a5be51181fb4f'
         Download File    https://cloud.3mdeb.com/index.php/s/ScCf8XFLZYWBE25/download    ${cbfstool_path}
         Execute Command In Terminal    chmod 777 ${cbfstool_path}
     END
@@ -1686,6 +1491,7 @@ Clone Git Repository
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
     [Arguments]    ${source_path}    ${target_path}
+    ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${ip_address}=    Get Hostname Ip
         Execute Command In Terminal    rm -f ${target_path}
@@ -1694,8 +1500,11 @@ Send File To DUT
         SSHLibrary.Put File    ${source_path}    ${target_path}
         SSHLibrary.Close Connection
     ELSE
-        Put File    ${source_path}    ${target_path}
+        SSHLibrary.Put File    ${source_path}    ${target_path}
     END
+    ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
+    ${hash_target}=    Strip String    ${hash_target}
+    Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
 
 Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
@@ -1712,7 +1521,7 @@ Boot Operating System
     ...    DUT. Takes as an argument operating system name.
     [Arguments]    ${operating_system}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Set Local Variable    ${IS_SYSTEM_INSTALLED}    ${FALSE}
+    Set Local Variable    ${is_system_installed}    ${FALSE}
     Enter Boot Menu Tianocore
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
@@ -1762,10 +1571,10 @@ Identify Path To USB
         ${model}=    Execute Linux Command    cat /sys/class/block/${disk}/device/model
         ${model_name}=    Fetch From Left    ${model}    \r\n
         ${model_name}=    Fetch From Right    ${model_name}    \r
-        Set Local Variable    ${USB_DISK}    ${disk}
+        Set Local Variable    ${usb_disk}    ${disk}
         IF    '${model_name}' == '${USB_MODEL}'    BREAK
     END
-    ${out}=    Execute Linux Command    lsblk | grep ${USB_DISK} | grep part | cat
+    ${out}=    Execute Linux Command    lsblk | grep ${usb_disk} | grep part | cat
     ${split}=    Split String    ${out}
     ${path_to_usb}=    Get From List    ${split}    7
     RETURN    ${path_to_usb}
@@ -1820,83 +1629,6 @@ Get RPM Value From System76 Acpi
     ${speed_split}=    Split String    ${speed}
     ${rpm}=    Get From List    ${speed_split}    2
     RETURN    ${rpm}
-
-Detect Or Install FWTS
-    [Documentation]    Keyword allows to check if Firmware Test Suite (fwts)
-    ...    has been already installed on the device. Otherwise, triggers
-    ...    process of obtaining and installation.
-    [Arguments]    ${package}=fwts
-    ${is_package_installed}=    Set Variable    ${FALSE}
-    Log To Console    \nChecking if ${package} is installed...
-    ${is_package_installed}=    Check If Package Is Installed    ${package}
-    IF    ${is_package_installed}
-        Log To Console    \nPackage ${package} is installed
-        RETURN
-    ELSE
-        Log To Console    \nPackage ${package} is not installed
-    END
-    Log To Console    \nInstalling required package (${package})...
-    Get And Install FWTS
-    Sleep    10s
-    ${is_package_installed}=    Check If Package Is Installed    ${package}
-    IF    ${is_package_installed}=='False'
-        FAIL    \nRequired package (${package}) cannot be installed
-    END
-    Log To Console    \nRequired package (${package}) installed successfully
-
-Get And Install FWTS
-    [Documentation]    Keyword allows to obtain and install Firmware Test Suite
-    ...    (fwts) tool.
-    Set DUT Response Timeout    500s
-    Write Into Terminal    add-apt-repository ppa:firmware-testing-team/ppa-fwts-stable
-    Read From Terminal Until    Press [ENTER] to continue or Ctrl-c to cancel
-    Write Bare Into Terminal    ${ENTER}
-    Read From Terminal Until    Reading package lists... Done
-    Write Into Terminal    apt-get install --assume-yes fwts
-    Read From Terminal Until Prompt
-
-Perform Suspend Test Using FWTS
-    [Documentation]    Keyword allows to perform suspend and resume procedure
-    ...    test by using Firmware Test Suite tool
-    [Arguments]    ${test_duration}=40
-    ${is_suspend_performed_correctly}=    Set Variable    ${FALSE}
-    Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
-    Sleep    ${test_duration}s
-    Login To Linux
-    Switch To Root User
-    ${test_result}=    Execute Linux Command    cat /tmp/suspend_test_log.log
-    TRY
-        Should Contain    ${test_result}    0 failed
-        Should Contain    ${test_result}    0 warning
-        Should Contain    ${test_result}    0 aborted
-        Should Contain    ${test_result}    0 skipped
-        ${is_suspend_performed_correctly}=    Set Variable    ${TRUE}
-    EXCEPT
-        ${is_suspend_performed_correctly}=    Set Variable    ${FALSE}
-    END
-    RETURN    ${is_suspend_performed_correctly}
-
-Perform Hibernation Test Using FWTS
-    [Documentation]    Keyword allows to perform hibernation and resume procedure
-    ...    test by using Firmware Test Suite tool
-    [Arguments]    ${test_duration}=40
-    ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
-    Execute Command In Terminal    fwts s4 -f -r /tmp/hibernation_test_log.log
-    Sleep    ${test_duration}s
-    Boot Operating System    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${test_result}=    Execute Command In Terminal    cat /tmp/hibernation_test_log.log
-    TRY
-        Should Contain    ${test_result}    0 failed
-        Should Contain    ${test_result}    0 warning
-        Should Contain    ${test_result}    0 aborted
-        Should Contain    ${test_result}    0 skipped
-        ${is_hibernation_performed_correctly}=    Set Variable    ${TRUE}
-    EXCEPT
-        ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
-    END
-    RETURN    ${is_hibernation_performed_correctly}
 
 Disable Option In Submenu
     [Documentation]    Disables selected option in submenu provided in ${menu_construction}
@@ -2005,43 +1737,22 @@ Get Current CONFIG List Param
             Append To List    ${attached_usb_list}    ${element.${param}}
         END
     END
-    ${length}=    Get Length    ${attached_usb_list}
-    Should Be True    ${length} > 0
     RETURN    @{attached_usb_list}
 
 Check That USB Devices Are Detected
-    [Documentation]    Checks if the USB devices from the config are the same as
-    ...    those visible in the boot menu. Alternatively, if we set emulated to
-    ...    True, it only probes for the PiKVM emulated USB.
-    [Arguments]    ${emulated}=${FALSE}
-    ${menu_construction}=    Read From Terminal Until    exit
+    [Documentation]    Checks if the bootable USB devices are visible in the
+    ...    boot menu. If PiKVM is connected, check for the PiKVM device. It
+    ...    assumes that a bootable image is hosted on the PiKVM already.
+    [Arguments]    ${boot_menu}
 
-    IF    ${emulated} == ${TRUE}
-        ${found}=    Run Keyword And Return Status
-        ...    Should Match    ${menu_construction}    *PiKVM*
-        IF    not ${found}
-            Press Key N Times    1    ${ARROW_UP}
-            ${menu_construction}=    Read From Terminal Until    PiKVM
-            RETURN    ${TRUE}
-        ELSE
-            RETURN    ${TRUE}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Should Contain Match    ${boot_menu}    *PiKVM*
+    ELSE
+        @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
+        FOR    ${stick}    IN    @{attached_usb_list}
+            # ${stick} should match with one element of ${boot_menu}
+            Should Contain Match    ${boot_menu}    *${stick}*
         END
-    END
-
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        # ${stick} should match with one element of ${menu_construction}
-
-        Should Match    ${menu_construction}    *${stick}*
-    END
-
-Check That USB Devices Are Not Detected
-    [Documentation]    Checks if the USB devices from the config are the same as
-    ...    those visible in the boot menu.
-    ${menu_construction}=    Get Boot Menu Construction
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        Should Not Contain    ${menu_construction}    ${stick}
     END
 
 Switch To Root User In Ubuntu Server
@@ -2063,19 +1774,6 @@ Reboot In PfSense
     Write Into Terminal    5
     Read From Terminal Until    Enter an option:
     Write Into Terminal    y
-
-Remove Extra Default Route
-    [Documentation]    If two default routes are present in Linux, remove
-    ...    the one NOT pointing to the gateway in test network (192.168.10.1)
-    ${route_info}=    Execute Linux Command    ip route | grep ^default
-    ${devname}=    String.Get Regexp Matches    ${route_info}
-    ...    ^default via 172\.16\.0\.1 dev (?P<devname>\\w+)    devname
-    ${length}=    Get Length    ${devname}
-    IF    ${length} > 0
-        Execute Linux Command    ip route del default via 172.16.0.1 dev ${devname[0]}
-        ${route_info}=    Execute Linux Command    ip route | grep ^default
-        Log    Default route via 172.16.0.1 dev ${devname[0]} removed
-    END
 
 Should Contain All
     [Arguments]    ${string}    @{substrings}

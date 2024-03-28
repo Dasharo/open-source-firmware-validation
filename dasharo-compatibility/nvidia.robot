@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    Nvidia GPU tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 NVI001.001 NVIDIA Graphics detect (Ubuntu 20.04)
     [Documentation]    Check whether the NVIDIA graphics card is initialized
     ...    correctly and can be detected by the Linux OS.
-    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    NVI001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI001.001 not supported
     Power On
     Login To Linux
@@ -40,7 +41,6 @@ NVI001.001 NVIDIA Graphics detect (Ubuntu 20.04)
 NVI001.002 NVIDIA Graphics detect (Windows 11)
     [Documentation]    Check whether the NVIDIA graphics card is initialized
     ...    correctly and can be detected by the Windows 11.
-    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    NVI001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVI001.002 not supported
     Power On
     Login To Windows
@@ -50,7 +50,6 @@ NVI001.002 NVIDIA Graphics detect (Windows 11)
 NVI002.001 NVIDIA Graphics power management (Ubuntu 20.04)
     [Documentation]    Check whether the NVIDIA graphics power management is
     ...    functional and the card powers on only while it's used.
-    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    NVI002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI002.001 not supported
     Power On
     Login To Linux

@@ -48,10 +48,12 @@ Parse Dasharo System Features Menu
 
 Enter Dasharo Security Options
     [Documentation]    Check if Dasharo Security Options menu can be entered.
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    Dasharo Security Options
 
 Parse Dasharo Security Options
     [Documentation]    Check if Dasharo Security Options menu can be parsed.
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     ${security_menu}=    Parsing Dasharo Submenu Verification    Dasharo Security Options
     Should Match Regexp    ${security_menu}[0]    ^Lock the BIOS boot medium \\[.\\].*$
     List Should Contain Value    ${security_menu}    > Enter Firmware Update Mode
@@ -61,10 +63,12 @@ Parse Dasharo Security Options
 
 Enter Networking Options
     [Documentation]    Check if Networking Options menu can be entered.
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    Networking Options
 
 Parse Networking Options
     [Documentation]    Check if Networking Options menu can be parsed.
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     ${networking_menu}=    Parsing Dasharo Submenu Verification    Networking Options
     ${networking_entries}=    Get Length    ${networking_menu}
     Should Be Equal As Integers    ${networking_entries}    1
@@ -73,10 +77,12 @@ Parse Networking Options
 
 Enter USB Configuration
     [Documentation]    Check if USB Configuration menu can be entered.
+    Skip If    not ${DASHARO_USB_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    USB Configuration
 
 Parse USB Configuration
     [Documentation]    Check if USB Configuration menu can be parsed.
+    Skip If    not ${DASHARO_USB_MENU_SUPPORT}
     ${usb_menu}=    Parsing Dasharo Submenu Verification    USB Configuration
     ${usb_entries}=    Get Length    ${usb_menu}
     Should Be Equal As Integers    ${usb_entries}    2
@@ -88,10 +94,12 @@ Parse USB Configuration
 
 Enter Intel Management Engine Options
     [Documentation]    Check if Intel Management Engine menu can be entered.
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    Intel Management Engine Options
 
 Parse Intel Management Engine Options
     [Documentation]    Check if Intel Management Engine menu can be parsed.
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     ${me_menu}=    Parsing Dasharo Submenu Verification    Intel Management Engine Options
     ${me_entries}=    Get Length    ${me_menu}
     Should Be Equal As Integers    ${me_entries}    1
@@ -100,10 +108,12 @@ Parse Intel Management Engine Options
 
 Enter Chipset Configuration
     [Documentation]    Check if Chipset Configuration menu can be entered.
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    Chipset Configuration
 
 Parse Chipset Configuration
     [Documentation]    Check if Chipset Configuration menu can be parsed.
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
     ${chipset_menu}=    Parsing Dasharo Submenu Verification    Chipset Configuration
     ${chipset_entries}=    Get Length    ${chipset_menu}
     Should Be Equal As Integers    ${chipset_entries}    3
@@ -112,10 +122,12 @@ Parse Chipset Configuration
 
 Enter Power Management Options
     [Documentation]    Check if Power Management Options menu can be entered.
+    Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    Power Management Options
 
 Parse Power Management Options
     [Documentation]    Check if Power Management Options menu can be parsed.
+    Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}
     ${power_menu}=    Parsing Dasharo Submenu Verification    Power Management Options
     ${power_entries}=    Get Length    ${power_menu}
     Should Be Equal As Integers    ${power_entries}    5
@@ -126,10 +138,12 @@ Parse Power Management Options
 
 Enter PCI/PCIe Configuration
     [Documentation]    Check if PCI/PCIe Configuration menu can be entered.
+    Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    PCI/PCIe Configuration
 
 Parse PCI/PCIe Configuration
     [Documentation]    Check if PCI/PCIe Configuration menu can be parsed.
+    Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}
     ${pci_menu}=    Parsing Dasharo Submenu Verification    PCI/PCIe Configuration
     ${pci_entries}=    Get Length    ${pci_menu}
     Should Be Equal As Integers    ${pci_entries}    2
@@ -140,10 +154,12 @@ Parse PCI/PCIe Configuration
 
 Enter Memory Configuration
     [Documentation]    Check if Memory Configuration menu can be entered.
+    Skip If    not ${DASHARO_MEMORY_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    Memory Configuration
 
 Parse Memory Configuration
     [Documentation]    Check if Memory Configuration menu can be parsed.
+    Skip If    not ${DASHARO_MEMORY_MENU_SUPPORT}
     ${memory_menu}=    Parsing Dasharo Submenu Verification    Memory Configuration
     ${memory_entries}=    Get Length    ${memory_menu}
     Should Be Equal As Integers    ${memory_entries}    1
@@ -155,10 +171,12 @@ Parse Memory Configuration
 
 Enter Serial Port Configuration
     [Documentation]    Check if Serial Port Configuration menu can be entered.
+    Skip If    not ${DASHARO_SERIAL_PORT_MENU_SUPPORT}
     Enter Dasharo Submenu Verification    Serial Port Configuration
 
 Parse Serial Port Configuration
     [Documentation]    Check if Serial Port Configuration menu can be parsed.
+    Skip If    not ${DASHARO_SERIAL_PORT_MENU_SUPPORT}
     ${serial_menu}=    Parsing Dasharo Submenu Verification    Serial Port Configuration
     ${serial_entries}=    Get Length    ${serial_menu}
     Should Be Equal As Integers    ${serial_entries}    1

@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${TPM_SUPPORT}    TPM tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 TPM001.001 TPM Support (firmware)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly and the PCRs can be accessed from the firmware.
-    Skip If    not ${TPM_SUPPORT}    TPM001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -41,7 +42,6 @@ TPM001.001 TPM Support (firmware)
 TPM001.002 TPM Support (Ubuntu 20.04)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
-    Skip If    not ${TPM_SUPPORT}    TPM001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -55,7 +55,6 @@ TPM001.002 TPM Support (Ubuntu 20.04)
 TPM001.003 TPM Support (Windows 11)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from Windows.
-    Skip If    not ${TPM_SUPPORT}    TPM001.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.003 not supported
     Power On
     Login To Windows
@@ -70,7 +69,6 @@ TPM001.003 TPM Support (Windows 11)
 TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the firmware.
-    Skip If    not ${TPM_SUPPORT}    TPM002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -83,7 +81,6 @@ TPM002.001 Verify TPM version (firmware)
 TPM002.002 Verify TPM version (Ubuntu 22.04)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM002.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -96,7 +93,6 @@ TPM002.002 Verify TPM version (Ubuntu 22.04)
 TPM002.003 Verify TPM version (Windows 11)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM002.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.003 not supported
     Power On
     Login To Windows
@@ -107,7 +103,6 @@ TPM002.003 Verify TPM version (Windows 11)
 TPM003.001 Check TPM Physical Presence Interface (firmware)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is supported by the firmware.
-    Skip If    not ${TPM_SUPPORT}    TPM003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -121,7 +116,6 @@ TPM003.001 Check TPM Physical Presence Interface (firmware)
 TPM003.002 Check TPM Physical Presence Interface (Ubuntu 22.04)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM003.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -133,7 +127,6 @@ TPM003.002 Check TPM Physical Presence Interface (Ubuntu 22.04)
 TPM003.003 Check TPM Physical Presence Interface (Windows 11)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
-    Skip If    not ${TPM_SUPPORT}    TPM003.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM003.003 not supported
     Power On
     Login To Windows

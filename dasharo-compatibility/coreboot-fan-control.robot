@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${COREBOOT_FAN_CONTROL_SUPPORT}    coreboot fan control not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 CFN001.001 CPU temperature and fan speed can be read (Debian 11.02)
     [Documentation]    Check whether the data of CPU temperature and CPU fan
     ...    is available and can be read.
-    Skip If    not ${COREBOOT_FAN_CONTROL_SUPPORT}    CFN001.001 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CFN001.001 not supported
     Power On
     Boot From USB
@@ -40,7 +41,6 @@ CFN001.001 CPU temperature and fan speed can be read (Debian 11.02)
 CFN002.001 CPU fan speed increases if the temperature rises (Debian 11.02)
     [Documentation]    Check whether CPU fan speed increases if the CPU
     ...    temperature rises.
-    Skip If    not ${COREBOOT_FAN_CONTROL_SUPPORT}    CFN002.001 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CFN002.001 not supported
     Power On
     Boot From USB

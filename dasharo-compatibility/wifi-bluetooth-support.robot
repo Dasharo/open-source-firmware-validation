@@ -91,8 +91,7 @@ WLE002.002 Wi-Fi scanning (Windows 11)
     Login To Windows
     Execute Command In Terminal    Start-Service WlanSvc
     ${out}=    Execute Command In Terminal    netsh wlan show network
-    Should Contain    ${out}    3mdeb_abr
-    Should Contain    ${out}    3mdeb_abr_5GHz
+    Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
     ${current_card}=
     ...    Execute Command In Terminal    Get-NetAdapter -Name "Wi-Fi" | Format-List -Property "InterfaceDescription"
     Log To Console    The test passed for the ${current_card} wireless card

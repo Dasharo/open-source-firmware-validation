@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${NVME_DISK_SUPPORT}    NVMe disk tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -38,7 +40,6 @@ Suite Teardown      Run Keyword
 NVM001.002 NVMe support in OS (Ubuntu 20.04)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -51,7 +52,6 @@ NVM001.002 NVMe support in OS (Ubuntu 20.04)
 NVM001.003 NVMe support in OS (Windows 10)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVM001.003 not supported
     Power On
     Login To Windows

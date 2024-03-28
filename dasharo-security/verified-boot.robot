@@ -13,6 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../os-config/ubuntu-credentials.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -21,9 +22,11 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Make Sure That Flash Locks Are Disabled
+...                     Skip If    not ${VERIFIED_BOOT_SUPPORT}    Vboot not supported
 ...                     AND
 ...                     Flash Firmware    ${FW_FILE}
+...                     AND
+...                     Make Sure That Flash Locks Are Disabled
 ...                     AND
 ...                     Prepare Tools, Keys And Binaries
 Suite Teardown      Run Keyword
@@ -33,13 +36,11 @@ Test Setup          Run Keyword
 
 
 *** Variables ***
-# TODO: Here we cannot yet use variables from platform config, as these are loaded
-# only when Prepare Test Suite is called. We could source them sooner, with robot invocation.
 # The fw_file_original is the fw_file received as an input to the test suite
-${FW_FILE_ORIGINAL}=    /home/user/test-firmware.rom
+${FW_FILE_ORIGINAL}=    /home/${UBUNTU_USERNAME}/test-firmware.rom
 # # The fw_file_resigned is the fw_file resigned with newly generated keys (so
 # # booting it should trigger vboot recovery events)
-${FW_FILE_RESIGNED}=    /home/user/test-firmware_resigned.rom
+${FW_FILE_RESIGNED}=    /home/${UBUNTU_USERNAME}/test-firmware_resigned.rom
 
 
 *** Test Cases ***
@@ -49,7 +50,6 @@ VBO006.002 Check whether the verstage was run
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO006.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.002 not supported
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep VBOOT
     Should Contain    ${out_cbmem}    VBOOT WORK
@@ -58,7 +58,6 @@ VBO007.002 Boot from RW when correctly signed firmware is flashed
     [Documentation]    Check whether the Verified Boot is proceed to boot from
     ...    Slot A/B if the signatures for firmware stored in vboot
     ...    Slot A/B are correct.
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO007.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO007.002 not supported
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -103,7 +102,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     # https://github.com/Dasharo/dasharo-issues/issues/185
     # https://github.com/Dasharo/dasharo-issues/issues/269
     # https://github.com/Dasharo/dasharo-issues/issues/320
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO011.001 not supported
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
     Variable Should Exist    ${FW_FILE}
     # 1. Start with flashing of correctly signed firmware
@@ -156,6 +155,13 @@ Resign Existing Firmware Image With Generated Keys
     Execute Command In Terminal    rm -f ${FW_FILE_RESIGNED}
     ${out_resign}=    Execute Command In Terminal    ./dasharo-tools/vboot/resign ${FW_FILE_ORIGINAL} vboot_keys
     Should Contain    ${out_resign}    successfully saved new image to
+    Execute Command In Terminal    sync
+    ${size_original}=    Execute Command In Terminal    ls -l ${FW_FILE_ORIGINAL} | cut -d ' ' -f 5
+    ${size_resigned}=    Execute Command In Terminal    ls -l ${FW_FILE_RESIGNED} | cut -d ' ' -f 5
+    Should Be Equal As Integers
+    ...    ${size_original}
+    ...    ${size_resigned}
+    ...    msg=Size of resigned firmware is incorrect. Resigning failed.
 
 Prepare Tools, Keys And Binaries
     Power On

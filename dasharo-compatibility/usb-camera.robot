@@ -18,8 +18,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    USB Camera detection tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,7 +30,6 @@ Suite Teardown      Run Keyword
 CAM001.001 USB Camera (Ubuntu 22.04)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS.
-    Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    CAM001.001 not supportedfi
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM001.001 not supported
     Power On
     Login To Linux
@@ -51,7 +52,6 @@ CAM001.001 USB Camera (Ubuntu 22.04)
 CAM001.002 USB Camera (Windows 11)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Windows OS.
-    Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    CAM001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.002 not supported
     Power On
     Login To Windows
