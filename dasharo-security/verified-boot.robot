@@ -102,7 +102,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     # https://github.com/Dasharo/dasharo-issues/issues/185
     # https://github.com/Dasharo/dasharo-issues/issues/269
     # https://github.com/Dasharo/dasharo-issues/issues/320
-    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO011.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
     Variable Should Exist    ${FW_FILE}
     # 1. Start with flashing of correctly signed firmware
@@ -141,6 +141,16 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Recovery
     Should Contain    ${out_cbmem}    Recovery reason from previous boot: 0x0
     Should Not Contain    ${out_cbmem}    Recovery requested
+
+VBO012.001 Self-signed binary is bootable without errors
+    [Documentation]    Check whether a self-signed binary is bootable when the
+    ...    entire SPI flash is flashed. This verifies that the signing scripts
+    ...    used by the end users are correct and don't cause bricks.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO012.001 not supported
+    Power On
+    Flash Firmware    ${FW_FILE_RESIGNED}
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
 
 
 *** Keywords ***
