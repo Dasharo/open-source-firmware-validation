@@ -35,7 +35,7 @@ BI001.001 Check serial output
     Sleep    8s
     ${out}=    Read From Terminal
     Should Not Be Empty    ${out}
-    RteCtrl Relay
+    Rte Relay Toggle
     Sleep    1s
     # Clear the output
     Read From Terminal

@@ -43,37 +43,21 @@ Power On
     ...    specific platform.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    3s
-    RteCtrl Power Off
+    Rte Power Off
     Sleep    1s
     Telnet.Read
-    RteCtrl Power On
+    Rte Power On
+    Sleep    1s
 
 Flash Mbt
     [Documentation]    Flash Device Under Test firmware, check flashing result
     ...    and set RTE relay to OFF state. Implementation must be
     ...    compatible with the theory of operation of a specific
     ...    platform.
-    Sleep    1s
-    Power Cycle Off
-    ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-    ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -c W25Q64JV-.Q -w /tmp/coreboot.rom 2>&1
-    ...    return_rc=True
-    IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n
-    IF    ${rc} == 3    RETURN
-    IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
-        RETURN
-    END
-    Should Contain    ${flash_result}    VERIFIED
+    Rte Flash Write    /tmp/coreboot.rom
 
 Read Firmware Mbt
     [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
     ...    state. Implementation must be compatible with the theory
     ...    of operation of a specific platform.
-    Sleep    1s
-    Power Cycle Off
-    IF    '${FLASH_OPT}'=='full'
-        SSHLibrary.Execute Command    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -r /tmp/coreboot.rom
-    ELSE
-        SSHLibrary.Execute Command
-        ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -r /tmp/coreboot.rom --ifd -i bios
-    END
+    Rte Flash Read    /tmp/coreboot.rom

@@ -245,9 +245,9 @@ ECR020.001 Charging until 98% level in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Sonoff Power On
+    Sonoff On
     Charge Battery Until Target Level In Linux    98
-    Sonoff Power Off
+    Sonoff Off
     Check Charging State Not Charging In Linux
 
 ECR021.001 Not charging between 95% and 98% in OS (Ubuntu)
@@ -260,16 +260,16 @@ ECR021.001 Not charging between 95% and 98% in OS (Ubuntu)
     Switch To Root User
     ${percentage}=    Check Battery Percentage In Linux
     IF    ${percentage} < 95
-        Sonoff Power On
+        Sonoff On
         Charge Battery Until Target Level In Linux    96
-        Sonoff Power Off
+        Sonoff Off
         Sleep    5
-        Sonoff Power On
+        Sonoff On
         Check Charging State Not Charging In Linux
     ELSE
-        Sonoff Power Off
+        Sonoff Off
         Sleep    5
-        Sonoff Power On
+        Sonoff On
         Check Charging State Not Charging In Linux
     END
 
