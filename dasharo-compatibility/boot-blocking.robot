@@ -34,7 +34,7 @@ BBB001.001 Boot blocking (charger disconnected) (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Sonoff Power Off
+    Sonoff Off
     Discharge The Battery Until Target Level In Linux    3
     Execute Command In Terminal    reboot
 
@@ -45,7 +45,7 @@ BBB001.002 Boot blocking (charger connected) (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Sonoff Power Off
+    Sonoff Off
     Discharge The Battery Until Target Level In Linux    3
-    Sonoff Power On
+    Sonoff On
     Execute Command In Terminal    reboot

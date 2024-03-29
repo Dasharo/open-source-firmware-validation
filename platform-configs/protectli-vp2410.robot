@@ -52,10 +52,10 @@ Power On
     ...    specific platform.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off
+    Rte Power Off
     Sleep    10s
     Telnet.Read
-    # After RteCtrl Power Off, the platform cannot be powered back using the power button.
+    # After Rte Power Off, the platform cannot be powered back using the power button.
     # Possibly bug in HW or FW.
     Power Cycle On
 
@@ -76,8 +76,8 @@ Flash Protectli VP2410 Internal
     ${is_flash_chip_content_identical}=    Evaluate
     ...    'Chip content is identical to the requested image' in '''${flash_result}'''
     IF    ${is_flash_chip_content_identical}    RETURN
-    RteCtrl Set OC GPIO    3    high-z
-    RteCtrl Set OC GPIO    1    high-z
+    Rte Set Gpio    3    high-z
+    Rte Set Gpio    1    high-z
     Power Cycle On
     Should Contain    ${flash_result}    VERIFIED
 
@@ -86,28 +86,8 @@ Flash Protectli VP2410 External
     ...    and set RTE relay to ON state. Implementation must be
     ...    compatible with the theory of operation of a specific
     ...    platform.
-    Power Cycle On
-    Sleep    5s
-    RteCtrl Power Off
-    Sleep    3s
-    RteCtrl Set OC GPIO    2    high-z
-    Sleep    2s
-    RteCtrl Set OC GPIO    3    low
-    Sleep    2s
-    RteCtrl Set OC GPIO    1    low
-    Sleep    2s
-    Power Cycle Off
-    Sleep    2s
-    ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-    ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25U6435E/F" 2>&1
-    ...    return_rc=True
-    Sleep    2s
-    RteCtrl Set OC GPIO    3    high-z
-    RteCtrl Set OC GPIO    1    high-z
-    Power Cycle On
-    IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n
-    IF    ${rc} == 3    RETURN
-    IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
-        RETURN
-    END
-    Should Contain    ${flash_result}    VERIFIED
+    Rte Flash Write    /tmp/coreboot.rom
+
+Read Firmware
+    [Documentation]    Read Device Under Test firmware
+    Rte Flash Read    /tmp/coreboot.rom

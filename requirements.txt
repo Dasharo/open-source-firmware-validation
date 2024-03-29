@@ -15,5 +15,6 @@ unidecode
 robotframework-robocop
 robotframework-tidy
 robotframework-sherlock
+git+https://github.com/Dasharo/osfv-scripts.git@osfv-integration#subdirectory=osfv_cli
 pre-commit
 robotframework-faker
