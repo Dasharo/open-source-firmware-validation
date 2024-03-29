@@ -12,13 +12,13 @@ Simulate Power Failure
     # firmware behaves the same) and waiting 10 seconds doesn't produce stable
     # results.
     IF    'sonoff' == '${POWER_CTRL}'
-        Sonoff Power Off
+        Sonoff Off
         Sleep    15s
         Read From Terminal
-        Sonoff Power On
+        Sonoff On
     ELSE
-        RteCtrl Relay
+        Rte Relay Toggle
         Sleep    15s
         Read From Terminal
-        RteCtrl Relay
+        Rte Relay Toggle
     END
