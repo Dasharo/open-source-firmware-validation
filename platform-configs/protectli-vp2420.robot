@@ -41,10 +41,10 @@ Power On
     ...    specific platform.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off    ${6}
+    Rte Power Off
     Sleep    10s
     Telnet.Read
-    RteCtrl Power On
+    Rte Power On
 
 Flash Protectli VP2420 Internal
     Make Sure That Flash Locks Are Disabled
@@ -56,10 +56,3 @@ Flash Protectli VP2420 Internal
     Get Flashrom From Cloud
     Send File To DUT    ${FW_FILE}    /tmp/dasharo.rom
     Flash Via Internal Programmer    /tmp/dasharo.rom    "bios"
-
-Flash Protectli VP2420 External
-    [Documentation]    Flash Device Under Test firmware, check flashing result
-    ...    and set RTE relay to ON state. Implementation must be
-    ...    compatible with the theory of operation of a specific
-    ...    platform.
-    No Operation

@@ -5,7 +5,7 @@ Resource    include/novacustom-common.robot
 
 *** Variables ***
 # CPU
-${CPU}=                         Intel(R) Core(TM) i7-1260P
+${CPU}=                                             Intel(R) Core(TM) i7-1260P
 
 # Test configuration
 ${3_MDEB_WIFI_NETWORK}=         3mdeb_abr

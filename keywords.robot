@@ -1,6 +1,16 @@
 *** Settings ***
 Library         Collections
 Library         OperatingSystem
+# Library    osfv-scripts/osfv_cli/osfv_cli/rte_robot.py    ${RTE_IP}
+# Library    RobotRTE    ${RTE_IP}
+# Library    osfv_cli.rte_robot.RobotRTE    ${RTE_IP}
+# Library    osfv_cli    ${RTE_IP}
+# Library    osfv_cli    ${RTE_IP}
+# Library    osfv-scripts/osfv_cli/osfv_cli/rte_robot.py    ${RTE_IP}
+# Library    osfv-scripts/osfv_cli/src/osfv/rf/snipeit_robot.py    ${RTE_IP}
+# Library    osfv-scripts/osfv_cli/src/osfv/rf/rte_robot.py    ${RTE_IP}
+Library         osfv.rf.rte_robot.RobotRTE    ${RTE_IP}
+Library         osfv.rf.sonoff_robot.Sonoff    ${RTE_IP}
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
@@ -215,11 +225,9 @@ Open Connection And Log In
         SSHLibrary.Set Default Configuration    timeout=60 seconds
         SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
-        RTE REST API Setup    ${RTE_IP}    ${HTTP_PORT}
     END
     IF    'sonoff' == '${POWER_CTRL}'
-        ${sonoff_ip}=    Get Current RTE Param    sonoff_ip
-        Sonoff API Setup    ${sonoff_ip}
+        ${sonoff_ip}=    SnipeIT Get Sonoff IP    ${RTE_IP}
     END
     Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
     IF    '${SNIPEIT}'=='no'    RETURN
@@ -519,10 +527,7 @@ Prepare Test Suite
     ${dir_name}=    Get From List    ${dir_name_split}    -1
     ${path}=    Remove String Using Regexp    ${SUITE_SOURCE}    ^.*/${dir_name}/
     Set Suite Metadata    Remote source (maybe)    ${url}/blob/${revision}/${path}
-    IF    '${SNIPEIT}' == 'yes'
-        Import Library    ${CURDIR}/osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
-        # Import Library    snipeit_robot.py
-    END
+    IF    '${SNIPEIT}' == 'yes'    Import Library    osfv.rf.snipeit_robot
     IF    '${CONFIG}' == 'crystal'
         Import Resource    ${CURDIR}/platform-configs/vitro_crystal.robot
     ELSE IF    '${CONFIG}' == 'pv30'
@@ -607,7 +612,7 @@ Prepare To PiKVM Connection
     Remap Keys Variables To PiKVM
     Open Connection And Log In
     ${platform}=    Get Current RTE Param    platform
-    ${pikvm_ip}=    Get Current RTE Param    pikvm_ip
+    ${pikvm_ip}=    Snipeit Get PiKVM IP    ${RTE_IP}
     Set Global Variable    ${PIKVM_IP}
     Set Global Variable    ${PLATFORM}
     Get DUT To Start State
@@ -664,9 +669,9 @@ Get DUT To Start State
 Turn On Power Supply
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    'sonoff' == '${pc}'
-        ${state}=    Sonoff Power On
+        ${state}=    Sonoff On
     ELSE
-        ${state}=    RteCtrl Relay
+        ${state}=    Rte Relay Set    on
     END
 
 Power Cycle On
@@ -687,20 +692,20 @@ Power Cycle On
         Rte Relay Power Cycle On
     END
 
-    IF    ${power_button}    RteCtrl Power On
+    IF    ${power_button}    Rte Power On
 
 Rte Relay Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
     Telnet.Read
-    ${result}=    RteCtrl Relay
-    IF    ${result} == 0
+    ${result}=    Rte Relay Get
+    IF    ${result} == "off"
         Run Keywords
         ...    Sleep    4s
         ...    AND
         ...    Telnet.Read
         ...    AND
-        ...    RteCtrl Relay
+        ...    Rte Relay Set    on
     END
 
 OBMC Power Cycle On
@@ -729,7 +734,7 @@ OBMC Power Cycle Off
 Sonoff Power Cycle On
     [Documentation]    Clear telnet buffer and perform full power cycle with
     ...    Sonoff
-    Sonoff Power Off
+    Sonoff Off
     Sleep    10
     TRY
         Telnet.Read
@@ -756,34 +761,34 @@ Rte Relay Power Cycle Off
     [Documentation]    Performs full power cycle with RTE relay set to OFF.
     # sleep for DUT Start state in Suite Setup
     Sleep    1s
-    ${result}=    Get RTE Relay State
-    IF    '${result}' == 'high'    RteCtrl Relay
+    ${result}=    RTE Relay Get
+    IF    '${result}' == 'on'    Rte Relay    off
 
 Sonoff Power Cycle Off
-    Sonoff Power On
-    Sonoff Power Off
+    Sonoff On
+    Sonoff Off
 
 Get Relay State
     [Documentation]    Returns the power relay state depending on the supported
     ...    method.
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    'sonoff' == '${pc}'
-        ${state}=    Get Sonoff State
+        ${state}=    Sonoff Get
     ELSE
-        ${state}=    Get RTE Relay State
+        ${state}=    RTE Relay Get
     END
     RETURN    ${state}
 
-Get RTE Relay State
+RTE Relay Get
     [Documentation]    Returns the RTE relay state through REST API.
-    ${state}=    RteCtrl Get GPIO State    0
+    ${state}=    Rte Gpio Get    0
     RETURN    ${state}
 
 Get Power Supply State
     [Documentation]    Returns the power supply state.
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    '${pc}'=='sonoff'
-        ${state}=    Get Sonoff State
+        ${state}=    Sonoff Get
     ELSE
         ${state}=    Get Relay State
     END
@@ -1390,9 +1395,9 @@ Rescan Devices In Petitboot
 
 Coldboot Via RTE Relay
     [Documentation]    Coldboot the DUT using RTE Relay.
-    RteCtrl Relay
+    Rte Relay Set    off
     Sleep    5s
-    RteCtrl Relay
+    Rte Relay    on
 
 Reboot Via OS Boot By Petitboot
     [Documentation]    Reboot system with system installed on the DUT while

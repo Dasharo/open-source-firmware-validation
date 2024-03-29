@@ -120,11 +120,11 @@ Power On
     Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off    ${6}
+    Rte Power Off    ${6}
     Sleep    5s
     # read the old output
     Telnet.Read
-    RteCtrl Power On
+    Rte Power On
 
 Flash MSI-PRO-Z690
     [Documentation]    Flash Device Under Test firmware, check flashing result
@@ -132,17 +132,10 @@ Flash MSI-PRO-Z690
     ...    compatible with the theory of operation of a specific
     ...    platform.
     Put File    ${FW_FILE}    /tmp/coreboot.rom
-    ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-    ...    /home/root/flash.sh /tmp/coreboot.rom
-    ...    return_rc=True
-    IF    ${rc} != 0    Fail    \nFlashrom returned status: ${rc}\n
-    Should Contain Any    ${flash_result}    VERIFIED    Warning: Chip content is identical to the requested image.
+    Rte Flash Write    /tmp/coreboot.rom
 
 Read MSI-PRO-Z690
     [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
     ...    state. Implementation must be compatible with the theory
     ...    of operation of a specific platform.
-    Sonoff Power Cycle Off
-    Sleep    2s
-    SSHLibrary.Execute Command    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -r /tmp/coreboot.rom
-    Power Cycle Off
+    Rte Flash Read    /tmp/coreboot.rom
