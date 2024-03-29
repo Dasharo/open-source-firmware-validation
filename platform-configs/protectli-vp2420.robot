@@ -36,10 +36,10 @@ Power On
     ...    specific platform.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off
+    Rte Power Off
     Sleep    10s
     Telnet.Read
-    RteCtrl Power On
+    Rte Power On
 
 Flash Protectli VP2420 Internal
     Make Sure That Flash Locks Are Disabled
@@ -57,4 +57,4 @@ Flash Protectli VP2420 External
     ...    and set RTE relay to ON state. Implementation must be
     ...    compatible with the theory of operation of a specific
     ...    platform.
-    No Operation
+    Rte Flash Write    /tmp/coreboot.rom

@@ -226,10 +226,9 @@ Set Platform Power State
     ...    power state is understood whether the platform is connected to the
     ...    power supply. If the platform power state is off, obmc connection
     ...    will not be established.
-    Sonoff API Setup    ${TALOS_SONOFF_IP}
-    ${result}=    Get Sonoff State
+    ${result}=    Sonoff Get
     IF    '${result}'=='low'
-        Sonoff Power On
+        Sonoff On
         Sleep    120s
     END
 

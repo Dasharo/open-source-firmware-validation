@@ -83,7 +83,7 @@ PSF004.001 Previous Power State Restoration Test - Powered Off
     Save Changes And Reset
     Enter Setup Menu Tianocore
     # Power button press to power off the machine
-    RteCtrl Power On
+    Rte Power On
     Simulate Power Failure
     ${output}=    Run Keyword And Return Status
     ...    Enter Setup Menu Tianocore
