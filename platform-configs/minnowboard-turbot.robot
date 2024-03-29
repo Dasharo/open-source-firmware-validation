@@ -52,15 +52,9 @@ Flash Mbt
     ...    platform.
     Sleep    1s
     Power Cycle Off
-    IF    '${FLASH_OPT}'=='full'
-        ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-        ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -c W25Q64JV-.Q -w /tmp/coreboot.rom 2>&1
-        ...    return_rc=True
-    ELSE
-        ${flash_result}    ${rc}=    SSHLibrary.Execute Command
-        ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -w /tmp/coreboot.rom --ifd -i bios 2>&1
-        ...    return_rc=True
-    END
+    ${flash_result}    ${rc}=    SSHLibrary.Execute Command
+    ...    flashrom -f -p linux_spi:dev=/dev/spidev1.0,spispeed=8000 -c W25Q64JV-.Q -w /tmp/coreboot.rom 2>&1
+    ...    return_rc=True
     IF    ${rc} != 0    Log To Console    \nFlashrom returned status ${rc}\n
     IF    ${rc} == 3    RETURN
     IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
