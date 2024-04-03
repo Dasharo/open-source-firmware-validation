@@ -3,31 +3,39 @@ Resource    include/protectli-common.robot
 
 
 *** Variables ***
-${FLASH_SIZE}=                      ${8*1024*1024}
-${WIFI_CARD}=                       ${EMPTY}
-${WIFI_CARD_UBUNTU}=                ${EMPTY}
-${LTE_CARD}=                        ${EMPTY}
-${DEF_CORES_PER_SOCKET}=            4
-${DEF_THREADS_PER_CORE}=            1
-${DEF_THREADS_TOTAL}=               4
-${DEF_ONLINE_CPU}=                  0-3
-${DEF_SOCKETS}=                     1
-${INITIAL_CPU_FREQUENCY}=           2000
-${MAX_CPU_TEMP}=                    77
+${FLASH_SIZE}=                          ${8*1024*1024}
+${WIFI_CARD}=                           ${EMPTY}
+${WIFI_CARD_UBUNTU}=                    ${EMPTY}
+${LTE_CARD}=                            ${EMPTY}
+${DEF_CORES_PER_SOCKET}=                4
+${DEF_THREADS_PER_CORE}=                1
+${DEF_THREADS_TOTAL}=                   4
+${DEF_ONLINE_CPU}=                      0-3
+${DEF_SOCKETS}=                         1
+${INITIAL_CPU_FREQUENCY}=               2000
+${MAX_CPU_TEMP}=                        77
 
 # eMMC driver support
-${E_MMC_NAME}=                      8GTF4R
+${E_MMC_NAME}=                          8GTF4R
 
-@{ATTACHED_USB}=                    @{EMPTY}
+@{ATTACHED_USB}=                        @{EMPTY}
 
-${DMIDECODE_SERIAL_NUMBER}=         N/A
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v
-${DMIDECODE_PRODUCT_NAME}=          VP2410
-${DMIDECODE_RELEASE_DATE}=          ${EMPTY}
-${DMIDECODE_MANUFACTURER}=          Protectli
-${DMIDECODE_VENDOR}=                3mdeb
-${DMIDECODE_FAMILY}=                Vault Pro
-${DMIDECODE_TYPE}=                  Desktop
+${DMIDECODE_SERIAL_NUMBER}=             N/A
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v
+${DMIDECODE_PRODUCT_NAME}=              VP2410
+${DMIDECODE_RELEASE_DATE}=              ${EMPTY}
+${DMIDECODE_MANUFACTURER}=              Protectli
+${DMIDECODE_VENDOR}=                    3mdeb
+${DMIDECODE_FAMILY}=                    Vault Pro
+${DMIDECODE_TYPE}=                      Desktop
+
+${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
+
+# Test module: dasharo-security
+${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=        ${TRUE}
+${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
+${ME_STATICALLY_DISABLED}=              ${TRUE}
 
 
 *** Keywords ***
@@ -46,7 +54,7 @@ Power On
     Power Cycle On
 
 Flash Protectli VP2410 Internal
-    Set Local Variable    ${IS_FLASH_CHIP_CONTENT_IDENTICAL}    ${FALSE}
+    Set Local Variable    ${is_flash_chip_content_identical}    ${FALSE}
     Power On
     Boot Operating System    ubuntu
     Login To Linux
