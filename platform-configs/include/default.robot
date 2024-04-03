@@ -58,6 +58,8 @@ ${USB_DEVICE}=                                      ${EMPTY}
 ${SD_CARD_VENDOR}=                                  ${EMPTY}
 ${SD_CARD_MODEL}=                                   ${EMPTY}
 
+${FLASHROM_FLAGS}=                                  ${EMPTY}
+
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
