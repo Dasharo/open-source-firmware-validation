@@ -1321,7 +1321,7 @@ Firmware Version Verification From Binary
     [Documentation]    Check whether the DUT firmware version is the same as it
     ...    is expected by checking it with dmidecode and comparing
     ...    with a value get from binary.
-    Read Firmware    ${TEMPDIR}${/}coreboot.rom
+    Read Firmware    ${TEMPDIR}${/}coreboot.rom    ${FLASHROM_FLAGS}
     Power Cycle On
     ${version}=    Get Firmware Version
     ${coreboot_version}=    Get Firmware Version From Binary    ${TEMPDIR}${/}coreboot.rom
