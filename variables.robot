@@ -142,6 +142,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE49}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95
 ...                         platform=protectli-vp4670    sonoff_ip=192.168.10.144
 ...                         platform_vendor=protectli
+# * this RTE is currently repurposed for VP6650
 # 3mdeb Protectli vp4650 -----------------------------------------------------
 &{RTE38}=                   ip=192.168.10.203    cpuid=02c00142076840cf
 ...                         platform=protectli-vp4650    sonoff_ip=192.168.10.251
@@ -192,6 +193,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=protectli-vp6670    platform_vendor=protectli
 ...                         sonoff_ip=192.168.10.113
 ...                         cpuid=wip
+# 3mdeb Protectli VP6650 -----------------------------------------------------
+&{RTE53}=                   ip=192.168.10.14    cpuid=wip
+...                         platform=protectli-vp6650    sonoff_ip=192.168.10.119
+...                         platform_vendor=protectli
 
 # MinnowBoard Turbot
 &{RTE52}=                   ip=192.168.10.112
@@ -206,8 +211,8 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
-...                         &{RTE51}    &{RTE52}
+...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE50}
+...                         &{RTE51}    &{RTE52}    &{RTE53}
 
 # hardware database:
 # -----------------------------------------------------------------------------
