@@ -33,6 +33,7 @@ ${DEVICE_AUDIO1_WIN}=               Realtek High Definition Audio
 ${USB_MODEL}=                       USB Flash Memory
 ${EXTERNAL_HEADSET}=                USB PnP Audio Device
 ${USB_DEVICE}=                      Kingston
+${WEBCAM_UBUNTU}=                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.7.2
