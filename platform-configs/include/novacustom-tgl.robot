@@ -1,4 +1,16 @@
 *** Variables ***
+# Flash
+${FLASH_SIZE}=                      ${16*1024*1024}
+
+# CPU
+${INITIAL_CPU_FREQUENCY}=           2800
+${DEF_CORES_PER_SOCKET}=            4
+${DEF_THREADS_PER_CORE}=            2
+${DEF_THREADS_TOTAL}=               ${EMPTY}
+# TODO: remove, the value below can be inferred from the one above
+${DEF_ONLINE_CPU}=                  0-7
+${DEF_SOCKETS}=                     1
+
 # Audio
 ${DEVICE_AUDIO1}=                   ALC293
 ${DEVICE_AUDIO2}=                   Tigerlake HDMI

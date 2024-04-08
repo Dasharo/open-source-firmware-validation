@@ -4,17 +4,8 @@ Resource    include/novacustom-adl.robot
 
 
 *** Variables ***
-${FLASH_SIZE}=                  ${32*1024*1024}
-
 # CPU
 ${CPU}=                         Intel(R) Core(TM) i5-1240P CPU
-${INITIAL_CPU_FREQUENCY}=       2100
-${DEF_CORES_PER_SOCKET}=        12
-${DEF_THREADS_PER_CORE}=        2
-${DEF_THREADS_TOTAL}=           16
-# TODO: remove, the value below can be inferred from the one above
-${DEF_ONLINE_CPU}=              0-15
-${DEF_SOCKETS}=                 1
 
 # Test configuration
 ${3_MDEB_WIFI_NETWORK}=         3mdeb_abr
