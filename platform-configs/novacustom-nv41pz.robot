@@ -3,7 +3,7 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-# TODO check w/ hw
+${FLASH_SIZE}=                      ${32*1024*1024}
 ${CPU}=                             Intel(R) Core(TM) i5-1240P CPU
 ${INITIAL_CPU_FREQUENCY}=           2100
 ${DEF_CORES_PER_SOCKET}=            12
@@ -35,7 +35,7 @@ ${EXTERNAL_HEADSET}=                USB PnP Audio Device
 ${USB_DEVICE}=                      Kingston
 
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.6.0
+${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.7.2
 ${DMIDECODE_PRODUCT_NAME}=          NV4xPZ
 ${DMIDECODE_RELEASE_DATE}=          03/17/2022
 ${DMIDECODE_MANUFACTURER}=          Notebook
