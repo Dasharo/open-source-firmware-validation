@@ -10,7 +10,6 @@ ${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   13541
-${FLASH_SIZE}=                                      ${32*1024*1024}
 ${TIANOCORE_STRING}=                                to boot directly
 ${BOOT_MENU_KEY}=                                   F7
 ${SETUP_MENU_KEY}=                                  F2
