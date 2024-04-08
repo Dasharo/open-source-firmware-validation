@@ -2,6 +2,7 @@
 # Audio
 ${DEVICE_AUDIO1}=                   ALC293
 ${DEVICE_AUDIO2}=                   Tigerlake HDMI
+${DEVICE_AUDIO1_WIN}=               Realtek High Definition Audio
 
 # Connectivity
 ${WIFI_CARD}=                       Intel(R) Wi-Fi 6 AX201 160MHz
