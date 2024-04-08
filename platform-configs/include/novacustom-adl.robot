@@ -1,4 +1,16 @@
 *** Variables ***
+# Flash
+${FLASH_SIZE}=                      ${32*1024*1024}
+
+# CPU
+${INITIAL_CPU_FREQUENCY}=           2100
+${DEF_CORES_PER_SOCKET}=            12
+${DEF_THREADS_PER_CORE}=            2
+${DEF_THREADS_TOTAL}=               16
+# TODO: remove, the value below can be inferred from the one above
+${DEF_ONLINE_CPU}=                  0-15
+${DEF_SOCKETS}=                     1
+
 # Audio
 ${DEVICE_AUDIO1}=                   ALC256
 ${DEVICE_AUDIO2}=                   Alderlake-P HDMI
