@@ -7,9 +7,9 @@ ${FLASH_SIZE}=                      ${8*1024*1024}
 ${WIFI_CARD}=                       ${EMPTY}
 ${WIFI_CARD_UBUNTU}=                ${EMPTY}
 ${LTE_CARD}=                        ${EMPTY}
-${DEF_CORES}=                       4
-${DEF_THREADS}=                     1
-${DEF_CPU}=                         4
+${DEF_CORES_PER_SOCKET}=            4
+${DEF_THREADS_PER_CORE}=            1
+${DEF_THREADS_TOTAL}=               4
 ${DEF_ONLINE_CPU}=                  0-3
 ${DEF_SOCKETS}=                     1
 ${INITIAL_CPU_FREQUENCY}=           2000
@@ -46,7 +46,7 @@ Power On
     Power Cycle On
 
 Flash Protectli VP2410 Internal
-    Set Local Variable    ${is_flash_chip_content_identical}    ${FALSE}
+    Set Local Variable    ${IS_FLASH_CHIP_CONTENT_IDENTICAL}    ${FALSE}
     Power On
     Boot Operating System    ubuntu
     Login To Linux

@@ -5,9 +5,9 @@ Resource    protectli-common.robot
 *** Variables ***
 ${FLASH_SIZE}=                      ${16*1024*1024}
 
-${DEF_CORES}=                       4
-${DEF_THREADS}=                     1
-${DEF_CPU}=                         4
+${DEF_CORES_PER_SOCKET}=            4
+${DEF_THREADS_PER_CORE}=            1
+${DEF_THREADS_TOTAL}=               4
 ${DEF_ONLINE_CPU}=                  0-3
 ${DEF_SOCKETS}=                     1
 
