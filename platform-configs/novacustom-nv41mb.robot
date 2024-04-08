@@ -4,17 +4,8 @@ Resource    include/novacustom-tgl.robot
 
 
 *** Variables ***
-${FLASH_SIZE}=                      ${16*1024*1024}
-
 # CPU
 ${CPU}=                             Intel(R) Core(TM) i7-1165G7 CPU
-${INITIAL_CPU_FREQUENCY}=           2800
-${DEF_CORES_PER_SOCKET}=            4
-${DEF_THREADS_PER_CORE}=            2
-${DEF_THREADS_TOTAL}=               8
-# TODO: remove, the value below can be inferred from the one above
-${DEF_ONLINE_CPU}=                  0-7
-${DEF_SOCKETS}=                     1
 
 # Test configuration
 ${3_MDEB_WIFI_NETWORK}=             3mdeb_abr
