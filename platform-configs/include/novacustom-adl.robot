@@ -2,7 +2,7 @@
 # Flash
 ${FLASH_SIZE}=                      ${32*1024*1024}
 
-# CPU
+# CPU - all our models happen to have 4P + 8E configuration
 ${INITIAL_CPU_FREQUENCY}=           2100
 ${DEF_CORES_PER_SOCKET}=            12
 ${DEF_THREADS_PER_CORE}=            2
