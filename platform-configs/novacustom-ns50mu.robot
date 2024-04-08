@@ -8,9 +8,9 @@ ${SETUP_MENU_KEY}=                                  ${EMPTY}
 ${MANUFACTURER}=                                    ${EMPTY}
 ${CPU}=                                             Intel(R) Core(TM) i7-1165G7 CPU
 ${INITIAL_CPU_FREQUENCY}=                           2800
-${DEF_CORES}=                                       4
-${DEF_THREADS}=                                     2
-${DEF_CPU}=                                         8
+${DEF_CORES_PER_SOCKET}=                            4
+${DEF_THREADS_PER_CORE}=                            2
+${DEF_THREADS_TOTAL}=                               8
 ${DEF_ONLINE_CPU}=                                  0-7
 ${DEF_SOCKETS}=                                     2
 ${IPXE_BOOT_ENTRY}=                                 iPXE Network boot
@@ -277,7 +277,7 @@ Flash Device Via External Programmer
     ...    result. Implementation must be compatible with the theory
     ...    of operation of a specific platform.
     [Arguments]    ${fw_file}
-    Set Local Variable    ${cmd}    ./flashrom -p ch341a_spi -c GD25B128B/GD25Q128B -w ${fw_file}
+    Set Local Variable    ${CMD}    ./flashrom -p ch341a_spi -c GD25B128B/GD25Q128B -w ${fw_file}
     # TODO:
     # - flashing via RTE does not work yet
     # ${out}=
