@@ -25,7 +25,6 @@ ${CLEVO_USB_C_HUB}=             4-port
 ${3_MDEB_WIFI_NETWORK}=         3mdeb_abr
 ${SD_CARD_VENDOR}=              TS-RDF5A
 ${SD_CARD_MODEL}=               Transcend
-${DEVICE_AUDIO1_WIN}=           Realtek High Definition Audio
 ${USB_MODEL}=                   USB Flash Memory
 ${EXTERNAL_HEADSET}=            USB PnP Audio Device
 ${USB_DEVICE}=                  SanDisk
