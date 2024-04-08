@@ -188,6 +188,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
 ...                         cpuid=deadbeef001
 
+# MinnowBoard Turbot
+&{RTE52}=                   ip=192.168.10.112
+...                         platform=minnowboard-turbot
+
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
@@ -198,7 +202,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
-...                         &{RTE51}
+...                         &{RTE51}    &{RTE52}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -416,6 +420,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD14}
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
 @{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
+@{CONFIG44}=                &{RTE52}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -427,4 +432,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
-...                         @{CONFIG42}    @{CONFIG43}
+...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}
