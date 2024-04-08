@@ -15,8 +15,6 @@ ${CLEVO_USB_C_HUB}=             4-port
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=         Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=      NV4xPZ
-# TODO verify
-${DMIDECODE_RELEASE_DATE}=      03/17/2022
 ${EXTERNAL_HEADSET}=            USB PnP Audio Device
 ${SD_CARD_MODEL}=               Transcend
 ${SD_CARD_VENDOR}=              TS-RDF5A
