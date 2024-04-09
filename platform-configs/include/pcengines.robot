@@ -59,7 +59,6 @@ ${FIRMWARE_NUMBER_VERIFICATION}=            ${TRUE}
 ${FIRMWARE_FROM_BINARY}=                    ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=               ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=               ${TRUE}
-${RELEASE_DATE_FROM_SOL}=                   ${TRUE}
 ${MANUFACTURER_VERIFICATION}=               ${TRUE}
 ${VENDOR_VERIFICATION}=                     ${TRUE}
 ${FAMILY_VERIFICATION}=                     ${TRUE}

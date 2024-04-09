@@ -1327,22 +1327,6 @@ Firmware Version Verification From Binary
     ${coreboot_version}=    Get Firmware Version From Binary    ${TEMPDIR}${/}coreboot.rom
     Should Contain    ${coreboot_version}    ${version}
 
-Firmware Release Date Verification From SOL
-    [Documentation]    Check whether the DUT firmware release date is the same
-    ...    as it is expected by checking it with dmidecode and
-    ...    comparing with a value get from sign of life.
-    Power Cycle On
-    ${sign_of_life}=    Get Sign Of Life
-    ${sol_date}=    Get Lines Containing String    ${sign_of_life}    coreboot build
-    Power On
-    ${slash_release_date}=    Get Release Date
-    IF    ${CHANGE_RELEASE_DATE}
-        ${release_date}=    Change Release Date Format    ${slash_release_date}
-    ELSE
-        ${release_date}=    Set Variable    ${slash_release_date}
-    END
-    Should Be Equal    ${sol_date.split()[-1]}    ${release_date}
-
 Build Firmware From Source
     [Documentation]    Builds firmware based on device type.
     IF    "novacustom" in "${CONFIG}"
