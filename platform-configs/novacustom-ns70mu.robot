@@ -115,7 +115,6 @@ ${FIRMWARE_NUMBER_VERIFICATION}=                    ${TRUE}
 ${FIRMWARE_FROM_BINARY}=                            ${FALSE}
 ${PRODUCT_NAME_VERIFICATION}=                       ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=                       ${FALSE}
-${RELEASE_DATE_FROM_SOL}=                           ${FALSE}
 ${MANUFACTURER_VERIFICATION}=                       ${TRUE}
 ${VENDOR_VERIFICATION}=                             ${TRUE}
 ${FAMILY_VERIFICATION}=                             ${TRUE}
