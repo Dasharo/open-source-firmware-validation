@@ -83,9 +83,6 @@ DMI004.001 Verify the firmware release date
     ${out}=    Execute Linux Command    dmidecode -t bios | grep Release
     Should Contain    ${out}    ${DMIDECODE_RELEASE_DATE}
     Exit From Root User
-    IF    ${RELEASE_DATE_FROM_SOL}
-        Firmware Release Date Verification From SOL
-    END
 
 DMI005.001 Verify the firmware manufacturer
     [Documentation]    Check whether the firmware manufacturer on the DUT is
