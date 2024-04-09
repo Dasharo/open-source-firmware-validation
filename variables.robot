@@ -175,7 +175,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387
 ...                         platform=protectli-v1610
 ...                         platform_vendor=protectli
-# 3mdeb RPi 3B for Yocto ------------------------------------------------------
+# 3mdeb RPi 3B for Yocto -----------------------------------------------------
 &{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0
 ...                         platform=RPi-3-model-B-V1.2    sonoff_ip=192.168.10.27
 ...                         platform_vendor=element14
@@ -183,10 +183,10 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE48}=                   ip=127.0.0.1    cpuid=02c0014296737c0d
 ...                         platform=qemu
 ...                         platform_vendor=qemu
-# NovaCustom NV4x ADL -----------------------------------------------
+# NovaCustom NV4x ADL --------------------------------------------------------
 &{RTE51}=                   ip=0.0.0.0
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
-# NovaCustom laptopts test stand -----------------------------------------------
+# NovaCustom automated laptop testing station --------------------------------
 &{RTE52}=                   ip=192.168.4.180
 ...                         platform=novacustom-ts1    platform_vendor=3mdeb
 ...                         sonoff_ip=192.168.4.44    pikvm_ip=192.168.4.180
