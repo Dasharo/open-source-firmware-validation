@@ -80,7 +80,6 @@ ${FIRMWARE_NUMBER_VERIFICATION}=                    ${FALSE}
 ${FIRMWARE_FROM_BINARY}=                            ${FALSE}
 ${PRODUCT_NAME_VERIFICATION}=                       ${FALSE}
 ${RELEASE_DATE_VERIFICATION}=                       ${FALSE}
-${RELEASE_DATE_FROM_SOL}=                           ${FALSE}
 ${MANUFACTURER_VERIFICATION}=                       ${FALSE}
 ${VENDOR_VERIFICATION}=                             ${FALSE}
 ${FAMILY_VERIFICATION}=                             ${FALSE}
