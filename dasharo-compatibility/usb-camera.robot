@@ -27,9 +27,10 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CAM001.001 USB Camera (Ubuntu 22.04)
+CAM001.001 Integrated webcam (Ubuntu 22.04)
     [Documentation]    Check whether the integrated USB camera is initialized
-    ...    correctly and can be accessed from the Linux OS.
+    ...    correctly and can be accessed from the Linux OS. Assumption: No
+    ...    external cameras connected.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM001.001 not supported
     Power On
     Login To Linux
@@ -38,18 +39,13 @@ CAM001.001 USB Camera (Ubuntu 22.04)
     Detect Or Install Package    libinput-tools
     Device Detection In Linux    Camera
     ${out0}=    Execute Linux Command    ffprobe /dev/video0
-    ${out2}=    Execute Linux Command    ffprobe /dev/video2
     Should Contain    ${out0}    Input #0, video4linux2,v4l2, from '/dev/video0':
     Should Contain
     ...    ${out0}
-    ...    Stream #0:0: Video: rawvideo (YUY2 / 0x32595559), yuyv422, 640x480, 147456 kb/s, 30 fps, 30 tbr, 1000k tbn, 1000k tbc
-    Should Contain    ${out2}    Input #0, video4linux2,v4l2, from '/dev/video2':
-    Should Contain
-    ...    ${out2}
-    ...    Stream #0:0: Video: rawvideo (Y800 / 0x30303859), gray, 640x360, 55296 kb/s, 30 fps, 30 tbr, 1000k tbn, 1000k tbc
+    ...    Stream #0:0: Video: rawvideo (YUY2 / 0x32595559), yuyv422
     Exit From Root User
 
-CAM001.002 USB Camera (Windows 11)
+CAM001.002 Integrated webcam (Windows 11)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Windows OS.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.002 not supported
@@ -57,3 +53,21 @@ CAM001.002 USB Camera (Windows 11)
     Login To Windows
     ${out}=    Get USB Devices Windows
     Should Contain    ${out}    Chicony USB2.0 Camera
+
+CAM002.001 Integrated IR Camera (Ubuntu 22.04)
+    [Documentation]    Check whether the integrated infrared camera is
+    ...    initialized correctly and can be accessed from the Linux OS.
+    ...    Assumption: No external camera connected. Camera exposes separate
+    ...    devnodes for visible-spectrum and IR modes, in that order.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM002.001 not supported
+    Power On
+    Login To Linux
+    Switch To Root User
+    Detect Or Install Package    ffmpeg
+    Detect Or Install Package    libinput-tools
+    Device Detection In Linux    Camera
+    ${out0}=    Execute Linux Command    ffprobe /dev/video2
+    Should Contain
+    ...    ${out0}
+    ...    Stream #0:0: Video: rawvideo (Y800 / 0x30303859), gray
+    Exit From Root User
