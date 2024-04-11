@@ -32,10 +32,11 @@ BI001.001 Check serial output
     Skip If    not ${CUSTOM_BOOT_MENU_KEY_SUPPORT}    CBK001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBK001.001 not supported
     Power On
-    Sleep    3s
+    Sleep    8s
     ${out}=    Read From Terminal
     Should Not Be Empty    ${out}
     RteCtrl Relay
+    Sleep    1s
     # Clear the output
     Read From Terminal
     # Make sure that nothing is being printed after the DUT is turned off
