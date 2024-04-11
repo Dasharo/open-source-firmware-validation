@@ -18,4 +18,3 @@ ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
 
 ${DMIDECODE_PRODUCT_NAME}=      VP6670
-${PLATFORM_SPI_CHIP}=           MX25L12833F/MX25L12835F/MX25L12845E/MX25L12865E/MX25L12873F

@@ -18,4 +18,3 @@ ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
 
 ${DMIDECODE_PRODUCT_NAME}=      VP6650
-${PLATFORM_SPI_CHIP}=           MX25L12805D
