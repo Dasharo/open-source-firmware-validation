@@ -431,6 +431,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
 @{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
 @{CONFIG44}=                &{RTE52}
+@{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD07}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -442,4 +443,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
-...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}
+...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
