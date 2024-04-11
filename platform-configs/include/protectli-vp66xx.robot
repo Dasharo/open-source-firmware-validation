@@ -33,8 +33,6 @@ Flash Device Via External Programmer
     ...    platform.
     Sonoff Power On
     Sleep    5s
-    RteCtrl Power Off
-    Sleep    10s
     RteCtrl Set OC GPIO    2    low
     Sleep    3s
     RteCtrl Set OC GPIO    3    low
@@ -52,8 +50,6 @@ Flash Device Via External Programmer
     Sleep    2s
     RteCtrl Power On
     Sleep    2s
-
-    Sleep    5s
 
     IF    ${PLATFORM[:16]}' == 'protectli-vp6670'
         ${flash_result}    ${rc}=    SSHLibrary.Execute Command
