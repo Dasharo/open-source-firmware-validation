@@ -40,7 +40,7 @@ Power On
     ...    specific platform.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off
+    RteCtrl Power Off    ${6}
     Sleep    10s
     Telnet.Read
     RteCtrl Power On
