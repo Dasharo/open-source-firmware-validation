@@ -96,6 +96,10 @@ Get Boot Time From Cbmem
     # fix for LT1000 and protectli platforms (output without tabs)
     Get Cbmem From Cloud
     ${out_cbmem}=    Execute Command In Terminal    cbmem -T
+    Should Not Contain
+    ...    ${out_cbmem}
+    ...    Operation not permitted
+    ...    msg=Cannot get cbmem log. Probably Secure Boot is enabled (kernel lockdown mode).
     ${lines}=    Split To Lines    ${out_cbmem}
     ${first_line}=    Get From List    ${lines}    0
     ${last_line}=    Get From List    ${lines}    -1
