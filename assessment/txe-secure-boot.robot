@@ -33,20 +33,20 @@ TXE001.001 Check if platform is not fused
 
     Power On
     Enter UEFI Shell
+    Set Prompt For Terminal    FS2:\\>
     Write Bare Into Terminal    fs2:
     Press Enter
-    Read From Terminal Until    FS2:\\>
+    Read From Terminal Until Prompt
     Write Bare Into Terminal    ls
     Press Enter
-    ${out}=    Read From Terminal Until    FS2:\\>
+    ${out}=    Read From Terminal Until Prompt
     Should Contain    ${out}    TxeInfo.efi
     Should Contain    ${out}    FPT.efi
     Should Contain    ${out}    fparts.txt
     Write Bare Into Terminal    TxeInfo.efi -VERBOSE    0.1
     Press Enter
-    ${out}=    Read From Terminal Until    ManufacturingMode
-    ${out}=    Read From Terminal Until    \n
-    Should Contain    ${out}    Enabled
-    ${out}=    Read From Terminal Until    Global Valid FPF:
-    ${out}=    Read From Terminal Until    \n
-    Should Contain    ${out}    Invalid
+    ${out}=    Read From Terminal Until Prompt
+    ${man_mode}=    Get Lines Containing String    ${out}    ManufacturingMode:
+    Should Contain    ${man_mode}    Enabled
+    ${fpf}=    Get Lines Containing String    ${out}    Global Valid FPF:
+    Should Contain    ${fpf}    Invalid
