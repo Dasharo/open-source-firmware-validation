@@ -263,9 +263,12 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD14}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 870 QVO 1TB
+&{SSD15}=                   vendor=Samsung    volume=500GB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 980 PRO 500GB
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
-...                         &{SSD11}    &{SSD12}
+...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -430,7 +433,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD14}
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
 @{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
-@{CONFIG44}=                &{RTE52}
+@{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD15}
 @{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD07}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
