@@ -128,7 +128,7 @@ APU005.001 Check if disabling CPB decreases performance
     ${status}=    Evaluate    ${first_check} > ${second_check}
     Should Be True    ${status}
 
-APU005.001 Check whether disabling "Enable PCIe power management features" disables ASPM
+APU006.001 Check whether disabling "Enable PCIe power management features" disables ASPM
     [Documentation]    Checks whether disabling PCIe power management features disables ASPM
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
@@ -143,7 +143,7 @@ APU005.001 Check whether disabling "Enable PCIe power management features" disab
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM Disabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
 
-APU005.002 Check whether enabling "Enable PCIe power management features" enables ASPM
+APU006.002 Check whether enabling "Enable PCIe power management features" enables ASPM
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -156,4 +156,3 @@ APU005.002 Check whether enabling "Enable PCIe power management features" enable
     ${aspm_check}=    Execute Command In Terminal
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM L1 Enabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
-
