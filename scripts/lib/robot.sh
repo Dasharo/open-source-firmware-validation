@@ -12,6 +12,17 @@ check_env_variable() {
     fi
 }
 
+check_test_station_variables() {
+    if [[ $CONFIG != *"-ts"? ]]; then
+        return
+    fi
+
+    if [ -z "$INSTALLED_DUT" ]; then
+        echo "Error: This is a test station, you must specify variable INSTALLED_DUT"
+        exit 1
+    fi
+}
+
 handle_ctrl_c() {
     echo "Ctrl+C pressed. Exiting."
     # You can add cleanup tasks here if needed
@@ -51,6 +62,13 @@ execute_robot() {
       snipeit_no_option=""
   fi
 
+  # Needed only for test stations with different possible installed DUTs
+  if [ -n "${INSTALLED_DUT}" ]; then
+      installed_dut_option="-v installed_dut=${INSTALLED_DUT}"
+  else
+      installed_dut_option=""
+  fi
+
   local _logs_dir="logs/${CONFIG}/${RUN_DATE}"
   local _log_file="${_logs_dir}/${_test_name}_log.html"
   local _report_file="${_logs_dir}/${_test_name}_report.html"
@@ -67,5 +85,6 @@ execute_robot() {
         ${device_ip_option} \
         ${fw_file_option} \
         ${snipeit_no_option} \
+        ${installed_dut_option} \
         ${_test_path}
 }
