@@ -45,6 +45,7 @@ Check Unexpected Boot Errors
 Stop Logging To Terminal
     [Documentation]    This keyword stops all unwanted logging to the terminal
     ...    we're using for the shell. This prevents garbage from being logged.
-    Execute Linux Command    sed -i 's/#ForwardToConsole=no/ForwardToConsole=no/g' /etc/systemd/journald.conf
+    Execute Linux Command
+    ...    sed -i " s/'.*ForwardToConsole[::space::]*=.*'/ForwardToConsole=no/g" /etc/systemd/journald.conf
     Execute Linux Command    echo 0 > /proc/sys/kernel/printk
     Execute Linux Command    systemctl restart systemd-journald
