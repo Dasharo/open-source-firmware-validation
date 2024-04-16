@@ -7,6 +7,8 @@ source "${SCRIPT_DIR}/lib/robot.sh"
 check_env_variable "FW_FILE"
 check_env_variable "DEVICE_IP"
 
+check_test_station_variables
+
 execute_robot "dasharo-compatibility"
 execute_robot "dasharo-security"
 execute_robot "dasharo-performance"
