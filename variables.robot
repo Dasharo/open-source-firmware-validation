@@ -175,7 +175,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387
 ...                         platform=protectli-v1610
 ...                         platform_vendor=protectli
-# 3mdeb RPi 3B for Yocto ------------------------------------------------------
+# 3mdeb RPi 3B for Yocto -----------------------------------------------------
 &{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0
 ...                         platform=RPi-3-model-B-V1.2    sonoff_ip=192.168.10.27
 ...                         platform_vendor=element14
@@ -183,23 +183,23 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE48}=                   ip=127.0.0.1    cpuid=02c0014296737c0d
 ...                         platform=qemu
 ...                         platform_vendor=qemu
-# NovaCustom laptopts test stand -----------------------------------------------
-&{RTE51}=                   ip=192.168.4.180
+# NovaCustom NV4x ADL --------------------------------------------------------
+&{RTE51}=                   ip=0.0.0.0
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
-...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
-...                         cpuid=deadbeef001
+# NovaCustom automated laptop testing station --------------------------------
+&{RTE52}=                   ip=192.168.4.180
+...                         platform=novacustom-ts1    platform_vendor=3mdeb
+...                         sonoff_ip=192.168.4.44    pikvm_ip=192.168.4.180
 # 3mdeb Protectli VP6670 -----------------------------------------------------
-&{RTE52}=                   ip=192.168.10.110
+&{RTE53}=                   ip=192.168.10.110
 ...                         platform=protectli-vp6670    platform_vendor=protectli
 ...                         sonoff_ip=192.168.10.113
-...                         cpuid=wip
 # 3mdeb Protectli VP6650 -----------------------------------------------------
-&{RTE53}=                   ip=192.168.10.14    cpuid=wip
+&{RTE54}=                   ip=192.168.10.14    cpuid=wip
 ...                         platform=protectli-vp6650    sonoff_ip=192.168.10.119
 ...                         platform_vendor=protectli
-
 # MinnowBoard Turbot
-&{RTE52}=                   ip=192.168.10.112
+&{RTE55}=                   ip=192.168.10.112
 ...                         platform=minnowboard-turbot
 
 @{RTE_LIST}=                &{RTE05}
@@ -211,8 +211,8 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE50}
-...                         &{RTE51}    &{RTE52}    &{RTE53}
+...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
+...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -433,8 +433,9 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD14}
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
 @{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
-@{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD15}
-@{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD07}
+@{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD10}
+@{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
+@{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -447,3 +448,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
+...                         @{CONFIG46}

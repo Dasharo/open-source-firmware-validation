@@ -81,7 +81,7 @@ CPU003.001 Multiple CPU support (Ubuntu 22.04)
     ${cpu_info}=    Execute Linux Command    lscpu
     Set Suite Variable    ${CPU_INFO}
     ${cpu}=    Get Lines Matching Regexp    ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
-    Should Contain    ${cpu}    ${DEF_CPU}    Different number of CPU's than ${DEF_CPU}
+    Should Contain    ${cpu}    ${DEF_THREADS_TOTAL}    Different number of CPU's than ${DEF_THREADS_TOTAL}
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
 
@@ -105,9 +105,15 @@ CPU004.001 Multiple-core support (Ubuntu 22.04)
     ${sockets}=    Get Lines Containing String    ${cpu_info}    Socket(s):
     Should Contain    ${sockets}    ${DEF_SOCKETS}    Different number of sockets than ${DEF_SOCKETS}
     ${cores}=    Get Lines Containing String    ${cpu_info}    Core(s) per socket:
-    Should Contain    ${cores}    ${DEF_CORES}    Different number of cores per socket than ${DEF_CORES}
+    Should Contain
+    ...    ${cores}
+    ...    ${DEF_CORES_PER_SOCKET}
+    ...    Different number of cores per socket than ${DEF_CORES_PER_SOCKET}
     ${threads}=    Get Lines Containing String    ${cpu_info}    Thread(s) per core:
-    Should Contain    ${threads}    ${DEF_THREADS}    Different number of threads per core than ${DEF_THREADS}
+    Should Contain
+    ...    ${threads}
+    ...    ${DEF_THREADS_PER_CORE}
+    ...    Different number of threads per core than ${DEF_THREADS_PER_CORE}
 
 CPU004.002 Multiple-core support (Windows 11)
     [Documentation]    Check whether the DUT has multi-core support.

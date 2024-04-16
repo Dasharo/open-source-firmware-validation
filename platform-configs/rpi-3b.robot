@@ -21,9 +21,9 @@ ${LTE_CARD}=                                        ${EMPTY}
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
-# ${def_cores}    4
-# ${def_threads}    1
-# ${def_cpu}    4
+# ${DEF_CORES_PER_SOCKET}    4
+# ${DEF_THREADS_PER_CORE}    1
+# ${DEF_THREADS_TOTAL}    4
 # ${def_online_cpu}    0-3
 # ${def_sockets}    1
 # ${wol_interface}    enp3s0
