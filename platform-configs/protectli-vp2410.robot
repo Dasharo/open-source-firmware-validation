@@ -29,6 +29,7 @@ ${DMIDECODE_VENDOR}=                    3mdeb
 ${DMIDECODE_FAMILY}=                    Vault Pro
 ${DMIDECODE_TYPE}=                      Desktop
 
+${L3_CACHE_SUPPORT}=                    ${FALSE}
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
 
 # Test module: dasharo-security
