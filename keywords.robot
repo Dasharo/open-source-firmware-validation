@@ -1,16 +1,6 @@
 *** Settings ***
 Library         Collections
 Library         OperatingSystem
-# Library    osfv-scripts/osfv_cli/osfv_cli/rte_robot.py    ${RTE_IP}
-# Library    RobotRTE    ${RTE_IP}
-# Library    osfv_cli.rte_robot.RobotRTE    ${RTE_IP}
-# Library    osfv_cli    ${RTE_IP}
-# Library    osfv_cli    ${RTE_IP}
-# Library    osfv-scripts/osfv_cli/osfv_cli/rte_robot.py    ${RTE_IP}
-# Library    osfv-scripts/osfv_cli/src/osfv/rf/snipeit_robot.py    ${RTE_IP}
-# Library    osfv-scripts/osfv_cli/src/osfv/rf/rte_robot.py    ${RTE_IP}
-Library         osfv.rf.rte_robot.RobotRTE    ${RTE_IP}
-Library         osfv.rf.sonoff_robot.Sonoff    ${RTE_IP}
 Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
@@ -227,7 +217,13 @@ Open Connection And Log In
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
     END
     IF    'sonoff' == '${POWER_CTRL}'
-        ${sonoff_ip}=    SnipeIT Get Sonoff IP    ${RTE_IP}
+        IF    '${SNIPEIT}' == 'yes'
+            ${sonoff_ip}=    SnipeIT Get Sonoff IP    ${RTE_IP}
+        ELSE
+            # If snipeit is set to "no", it should provided in the command line
+            Variable Should Exist    ${sonoff_ip}
+        END
+        Import Library    osfv.rf.sonoff_robot.Sonoff    ${sonoff_ip}
     END
     Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
     IF    '${SNIPEIT}'=='no'    RETURN
@@ -527,7 +523,6 @@ Prepare Test Suite
     ${dir_name}=    Get From List    ${dir_name_split}    -1
     ${path}=    Remove String Using Regexp    ${SUITE_SOURCE}    ^.*/${dir_name}/
     Set Suite Metadata    Remote source (maybe)    ${url}/blob/${revision}/${path}
-    IF    '${SNIPEIT}' == 'yes'    Import Library    osfv.rf.snipeit_robot
     IF    '${CONFIG}' == 'crystal'
         Import Resource    ${CURDIR}/platform-configs/vitro_crystal.robot
     ELSE IF    '${CONFIG}' == 'pv30'
@@ -541,6 +536,7 @@ Prepare Test Suite
     ELSE
         Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
     END
+    IF    '${CONFIG}' != 'qemu'    Import Osfv Libraries
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Prepare To SSH Connection
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
@@ -553,6 +549,24 @@ Prepare Test Suite
         FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD} for config: ${CONFIG}
     END
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
+
+Import Osfv Libraries
+    [Documentation]    Import osfv_cli libraries based on config and command
+    ...    line variables
+    IF    '${SNIPEIT}' == 'yes'
+        Import Library    osfv.rf.snipeit_robot
+        Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    True
+    ELSE IF    'sonoff' == '${POWER_CTRL}'
+        Variable Should Exist    ${SONOFF_IP}
+        # The last parameter is the DUT config name. It needs to be provided if
+        # it SnipeIT is not used; otherwise the library would not be able to
+        # determine the platform type.
+        Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    False
+        ...    ${SONOFF_IP}    ${CONFIG}
+    ELSE
+        Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    False
+        ...    config=${CONFIG}
+    END
 
 Prepare To SSH Connection
     [Documentation]    Keyword prepares Test Suite by setting current platform
@@ -612,8 +626,14 @@ Prepare To PiKVM Connection
     Remap Keys Variables To PiKVM
     Open Connection And Log In
     ${platform}=    Get Current RTE Param    platform
-    ${pikvm_ip}=    Snipeit Get PiKVM IP    ${RTE_IP}
-    Set Global Variable    ${PIKVM_IP}
+    IF    '${SNIPEIT}' == 'yes'
+        ${pikvm_ip}=    Snipeit Get PiKVM IP    ${RTE_IP}
+        Set Global Variable    ${PIKVM_IP}
+    END
+    # If snipeit is set to "no", fetch it from command line
+    Variable Should Exist
+    ...    ${PIKVM_IP}
+    ...    PiKVM IP cannot be fetched from SnipeIT. Please provide it in the 'PIKVM_IP' variable
     Set Global Variable    ${PLATFORM}
     Get DUT To Start State
 
