@@ -33,8 +33,8 @@ ${L3_CACHE_SUPPORT}=                    ${FALSE}
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
 
 # Test module: dasharo-security
+${MEASURED_BOOT_SUPPORT}=               ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
-${DASHARO_CHIPSET_MENU_SUPPORT}=        ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
 ${ME_STATICALLY_DISABLED}=              ${TRUE}
 
