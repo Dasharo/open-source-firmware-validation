@@ -32,7 +32,12 @@ DTS-2 NovaCustom Dasharo v1.7.2
     Power On
     Boot Dasharo Tools Suite    iPXE
     Write Into Terminal    9
-    Read From Terminal Until Regexp    bash-\\d\\.\\d#
+    Set Prompt For Terminal    bash-5.1#
+    Read From Terminal Until Prompt
+
+    Write Into Terminal    echo hi
+    ${out}=    Read From Terminal Until Prompt
+    Log    ${out}
 
     # We have to do this so that dts-environment doesnt ruin our mock exports
     # I am putting this in a script to break up the command and escape
@@ -51,7 +56,7 @@ DTS-2 NovaCustom Dasharo v1.7.2
     Write Into Terminal    echo "" >> fix.sh
     Write Into Terminal    chmod 755 fix.sh
     Write Into Terminal    ./fix.sh
-    ${out}=    Read From Terminal Until Regexp    bash-\\d\\.\\d#
+    ${out}=    Read From Terminal Until Prompt
     Log    ${out}
 
     ${out}=    Write Into Terminal    export BOARD_VENDOR="Notebook"
@@ -62,7 +67,7 @@ DTS-2 NovaCustom Dasharo v1.7.2
     ${out}=    Write Into Terminal    export BIOS_VENDOR="3mdeb"
 
     ${out}=    Write Into Terminal    echo $BIOS_VERSION
-    ${out}=    Read From Terminal Until Regexp    bash-\\d\\.\\d#
+    ${out}=    Read From Terminal Until Prompt
     Log    ${out}
 
     ${out}=    Write Into Terminal    /usr/sbin/dts-boot
