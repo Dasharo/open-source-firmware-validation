@@ -65,7 +65,7 @@ DTS-2 NovaCustom Dasharo v1.7.2
     ${out}=    Read From Terminal Until Regexp    bash-\\d\\.\\d#
     Log    ${out}
 
-    ${out}=    Write Into Terminal    ./usr/sbin/dts-boot
+    ${out}=    Write Into Terminal    /usr/sbin/dts-boot
 
     ${out}=    Read From Terminal Until    Enter an option:
     Write Into Terminal    5
