@@ -13,12 +13,11 @@ Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../variables.robot
 
 Suite Setup         Run Keywords
-...                     Prepare Test Suite
+...                     Prepare Test Suite    AND
+...    Make Sure That Network Boot Is Enabled    AND
+...    Restore Initial DUT Connection Method
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
-# This must be in Test Setup, not Suite Setup, because of a known problem
-# with QEMU: https://github.com/Dasharo/open-source-firmware-validation/issues/132
-Test Setup          Run Keywords    Make Sure That Network Boot Is Enabled    AND    Restore Initial DUT Connection Method
 
 
 *** Test Cases ***
