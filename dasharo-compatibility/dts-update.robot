@@ -34,10 +34,6 @@ DTS-2 NovaCustom Dasharo v1.7.2
     Set Prompt For Terminal    bash-5.1#
     Read From Terminal Until Prompt
 
-    Write Into Terminal    echo hi
-    ${out}=    Read From Terminal Until Prompt
-    Log    ${out}
-
     # We have to do this so that dts-environment doesnt ruin our mock exports
     # I am putting this in a script to break up the command and escape
     # robotframeworks variable expansion. Unfortunately running this as one
