@@ -135,6 +135,10 @@ Power On
     Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Power Cycle On
+    Sleep    2s
+    RteCtrl Set OC GPIO    12    low
+    Sleep    1s
+    RteCtrl Set OC GPIO    12    high-z
 
 # TODO make these generic
 
@@ -148,8 +152,9 @@ Wake Up
     [Documentation]    Keyword wakes up DUT from sleep states, including S5
     ...    (warmboot). For example: power button press via RTE GPIO or Wake on
     ...    LAN.
-    # TODO Do not run `wol` on host - does not work across subnets! TODO
-    Run    wol ${DEVICE_MAC}
+    RteCtrl Set OC GPIO    12    low
+    Sleep    1s
+    RteCtrl Set OC GPIO    12    high-z
 
 Flash Device Via Internal Programmer
     [Documentation]    Keyword allows to flash Device Under Test firmware by
