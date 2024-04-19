@@ -30,29 +30,38 @@ DTS-2 NovaCustom Dasharo v1.7.2
 
     Power On
     Boot Dasharo Tools Suite    iPXE
+    # ssh server has to be turned on, in order to be able to scp the scripts
+    Write Into Terminal    8
+    Read From Terminal Until    Enter an option:
     Write Into Terminal    9
     Set Prompt For Terminal    bash-5.1#
     Read From Terminal Until Prompt
 
-    # We have to do this so that dts-environment doesnt ruin our mock exports
-    # I am putting this in a script to break up the command and escape
-    # robotframeworks variable expansion. Unfortunately running this as one
-    # command is impossible.
-    # This could be removed once the new dts release contains this change
-    # (PR for this is submitted already)
-    Write Into Terminal    echo -n "#" > fix.sh
-    Write Into Terminal    echo -n "!" >> fix.sh
-    Write Into Terminal    echo -n "/" >> fix.sh
-    Write Into Terminal    echo "bin/bash" >> fix.sh
-    Write Into Terminal    echo -ne "sed -i 's/^\\\\([^=[:space:]]*\\\\)=\\\\(.*\\\\)$/\\\\1=\\\\" >> fix.sh
-    Write Into Terminal    echo -n "$" >> fix.sh
-    Write Into Terminal    echo -n "{" >> fix.sh
-    Write Into Terminal    echo -ne "\\\\1:=\\\\2}/' /usr/sbin/dts-environment.sh" >> fix.sh
-    Write Into Terminal    echo "" >> fix.sh
-    Write Into Terminal    chmod 755 fix.sh
-    Write Into Terminal    ./fix.sh
-    ${out}=    Read From Terminal Until Prompt
-    Log    ${out}
+    Variable Should Exist    ${scripts}
+    # example value of scripts variable (should be passed through command line
+    # when running the test):
+    # ${scripts}=    Set Variable    /home/wgrzywacz/Desktop/DYSK/cos/yocto/meta-dts
+
+    ${arguments}=    Create List    -o
+    ...        StrictHostKeyChecking=no
+    ...        -o
+    ...        UserKnownHostsFile=/dev/null
+    ...        -O
+    ...        -P
+    ...        5222
+    ...        ${scripts}/unit_tests/dts-boot
+    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/dts-functions.sh
+    ...        ${scripts}/unit_tests/dts-environment.sh
+    ...        ${scripts}/meta-dts-distro/recipes-dts/reports/dasharo-hcl-report/dasharo-hcl-report
+    ...        ${scripts}/meta-dts-distro/recipes-dts/reports/touchpad-info/touchpad-info
+    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/cloud_list
+    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dasharo-deploy/dasharo-deploy
+    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/dts
+    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/ec_transition
+    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/dts-profile.sh
+    ...        root@127.0.0.1:/usr/sbin/
+    ${output}=    Run Process    scp    @{arguments}    shell=True
+    Log    ${output}
 
     ${out}=    Write Into Terminal    export BOARD_VENDOR="Notebook"
     ${out}=    Write Into Terminal    export SYSTEM_MODEL="NV4xPZ"
@@ -61,10 +70,6 @@ DTS-2 NovaCustom Dasharo v1.7.2
     ${out}=    Write Into Terminal    export TEST_DES=y
     ${out}=    Write Into Terminal    export BIOS_VENDOR="3mdeb"
 
-    ${out}=    Write Into Terminal    echo $BIOS_VERSION
-    ${out}=    Read From Terminal Until Prompt
-    Log    ${out}
-
     ${out}=    Write Into Terminal    /usr/sbin/dts-boot
 
     ${out}=    Read From Terminal Until    Enter an option:
@@ -72,7 +77,6 @@ DTS-2 NovaCustom Dasharo v1.7.2
     Log    ${out}
 
     ${out}=    Read From Terminal Until    Would you like to switch to Dasharo heads firmware? (Y|n)
-    # test fails here, because it doesnt have the right cloud keys
     Write Into Terminal    Y
     Log    ${out}
 
