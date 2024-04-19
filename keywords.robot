@@ -210,7 +210,7 @@ Open Connection And Log In
     Check Provided Ip
     # FIXME: some stands do not have RTE connected, this should be better handled
     # by reworking variables.robot
-    IF    '${CONFIG}' != 'qemu' and '${CONFIG}' != 'novacustom-ts1'
+    IF    '${CONFIG}' != 'qemu'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
         SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
