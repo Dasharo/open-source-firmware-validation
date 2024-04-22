@@ -336,8 +336,6 @@ CPU Runs On Expected Frequency (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${freq_max}=    Get CPU Frequency MAX
-    ${freq_min}=    Get CPU Frequency MIN
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
@@ -345,9 +343,9 @@ CPU Runs On Expected Frequency (Ubuntu 22.04)
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_max} >= ${frequency}
+            ...    Should Be True    ${CPU_MAX_FREQUENCY} >= ${frequency}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_min} <= ${frequency}
+            ...    Should Be True    ${CPU_MIN_FREQUENCY} <= ${frequency}
         END
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
@@ -370,8 +368,6 @@ CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${freq_max}=    Get CPU Frequency MAX
-    ${freq_min}=    Get CPU Frequency MIN
     Stress Test    ${FREQUENCY_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
@@ -380,9 +376,9 @@ CPU With Load Runs On Expected Frequency (Ubuntu 22.04)
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_max} >= ${frequency}
+            ...    Should Be True    ${CPU_MAX_FREQUENCY} >= ${frequency}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${freq_min} <= ${frequency}
+            ...    Should Be True    ${CPU_MIN_FREQUENCY} <= ${frequency}
         END
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
