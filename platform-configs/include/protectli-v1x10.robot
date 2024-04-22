@@ -26,3 +26,18 @@ ${DMIDECODE_TYPE}=                  Desktop
 
 ${NVME_DISK_SUPPORT}=               ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=           ${TRUE}
+
+*** Keywords ***
+Power On
+    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
+    ...    into Power On state using RTE OC buffers. Implementation
+    ...    must be compatible with the theory of operation of a
+    ...    specific platform.
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+    Sleep    2s
+    RteCtrl Power Off
+    Sleep    10s
+    Telnet.Read
+    # After RteCtrl Power Off, the platform cannot be powered back using the power button.
+    # Possibly bug in HW or FW.
+    Power Cycle On
