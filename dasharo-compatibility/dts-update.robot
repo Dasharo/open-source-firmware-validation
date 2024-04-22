@@ -37,10 +37,10 @@ DTS-2 NovaCustom Dasharo v1.7.2
     Set Prompt For Terminal    bash-5.1#
     Read From Terminal Until Prompt
 
-    # Variable Should Exist    ${scripts}
+    Variable Should Exist    ${scripts}
     # example value of scripts variable (should be passed through command line
     # when running the test):
-    ${scripts}=    Set Variable    /home/wgrzywacz/dts-scripts
+    # ${scripts}=    Set Variable    /home/wgrzywacz/dts-scripts
 
     ${arguments}=    Create List    -o
     ...        StrictHostKeyChecking=no
