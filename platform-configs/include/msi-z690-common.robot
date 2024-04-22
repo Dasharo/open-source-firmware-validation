@@ -42,6 +42,9 @@ ${USB_DEVICE}=                                  Multifunction Composite Gadget
 ${SD_CARD_VENDOR}=                              Mass
 ${SD_CARD_MODEL}=                               Storage
 
+# Configuration flags
+${ANSIBLE_SUPPORT}=                             ${TRUE}
+
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
