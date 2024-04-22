@@ -37,10 +37,10 @@ DTS-2 NovaCustom Dasharo v1.7.2
     Set Prompt For Terminal    bash-5.1#
     Read From Terminal Until Prompt
 
-    Variable Should Exist    ${scripts}
+    # Variable Should Exist    ${scripts}
     # example value of scripts variable (should be passed through command line
     # when running the test):
-    # ${scripts}=    Set Variable    /home/wgrzywacz/Desktop/DYSK/cos/yocto/meta-dts
+    ${scripts}=    Set Variable    /home/wgrzywacz/dts-scripts
 
     ${arguments}=    Create List    -o
     ...        StrictHostKeyChecking=no
@@ -49,31 +49,34 @@ DTS-2 NovaCustom Dasharo v1.7.2
     ...        -O
     ...        -P
     ...        5222
-    ...        ${scripts}/unit_tests/dts-boot
-    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/dts-functions.sh
-    ...        ${scripts}/unit_tests/dts-environment.sh
-    ...        ${scripts}/meta-dts-distro/recipes-dts/reports/dasharo-hcl-report/dasharo-hcl-report
-    ...        ${scripts}/meta-dts-distro/recipes-dts/reports/touchpad-info/touchpad-info
-    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/cloud_list
-    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dasharo-deploy/dasharo-deploy
-    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/dts
-    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/ec_transition
-    ...        ${scripts}/meta-dts-distro/recipes-dts/dts/dts/dts-profile.sh
+    ...        ${scripts}/unit-tests/dts-boot
+    ...        ${scripts}/include/dts-functions.sh
+    ...        ${scripts}/include/dts-environment.sh
+    ...        ${scripts}/reports/dasharo-hcl-report
+    ...        ${scripts}/reports/touchpad-info
+    ...        ${scripts}/scripts/cloud_list
+    ...        ${scripts}/scripts/dasharo-deploy
+    ...        ${scripts}/scripts/dts
+    ...        ${scripts}/scripts/ec_transition
+    ...        ${scripts}/dts-profile.sh
     ...        root@127.0.0.1:/usr/sbin/
     ${output}=    Run Process    scp    @{arguments}    shell=True
     Log    ${output}
 
     ${out}=    Write Into Terminal    export BOARD_VENDOR="Notebook"
+    ${out}=    Write Into Terminal    export SYSTEM_VENDOR="Notebook"
     ${out}=    Write Into Terminal    export SYSTEM_MODEL="NV4xPZ"
     ${out}=    Write Into Terminal    export BOARD_MODEL="NV4xPZ"
     ${out}=    Write Into Terminal    export BIOS_VERSION="Dasharo (coreboot+UEFI) v1.7.2"
     ${out}=    Write Into Terminal    export TEST_DES=y
     ${out}=    Write Into Terminal    export BIOS_VENDOR="3mdeb"
+    ${out}=    Write Into Terminal    export SE_credential_file="/cloud-pass"
+    ${out}=    Write Into Terminal    export HAVE_EC="false"
 
     ${out}=    Write Into Terminal    /usr/sbin/dts-boot
 
-    ${out}=    Read From Terminal Until    Enter an option:
-    Write Into Terminal    5
+    ${out}=    Read From Terminal Until    K to stop SSH server
+    Write Into Terminal    2
     Log    ${out}
 
     ${out}=    Read From Terminal Until    Would you like to switch to Dasharo heads firmware? (Y|n)
@@ -92,7 +95,11 @@ DTS-2 NovaCustom Dasharo v1.7.2
     Write Into Terminal    Y
     Log    ${out}
 
-    ${out}=    Read From Terminal Until    Press any key to continue
+    ${out}=    Read From Terminal Until    Press enter to continue
+    Write Into Terminal    1
+    Log    ${out}
+
+    ${out}=    Read From Terminal Until    Press ENTER to continue.
     Write Into Terminal    1
     Log    ${out}
 
