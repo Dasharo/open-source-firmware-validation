@@ -25,9 +25,8 @@ ${DMIDECODE_VENDOR}=                3mdeb
 ${DMIDECODE_FAMILY}=                N/A
 ${DMIDECODE_TYPE}=                  N/A
 
-${PLATFORM_CPU_SPEED}=              2.00
-${PLATFORM_RAM_SPEED}=              2933
-${PLATFORM_RAM_SIZE}=               8192
+${CPU_MAX_FREQUENCY}=               2700
+${CPU_MIN_FREQUENCY}=               300
 
 ${WATCHDOG_SUPPORT}=                ${TRUE}
 
@@ -54,7 +53,7 @@ Flash Protectli VP2420 Internal
     Switch To Root User
     Get Flashrom From Cloud
     Send File To DUT    ${FW_FILE}    /tmp/dasharo.rom
-    Flash Via Internal Programmer    /tmp/dasharo.rom
+    Flash Via Internal Programmer    /tmp/dasharo.rom    "bios"
 
 Flash Protectli VP2420 External
     [Documentation]    Flash Device Under Test firmware, check flashing result
