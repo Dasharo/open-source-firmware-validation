@@ -36,6 +36,7 @@ ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 
 # Configuration flags
 ${ANSIBLE_SUPPORT}=                                 ${TRUE}
+${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}=            ${TRUE}
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
@@ -114,6 +115,7 @@ ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
+${DTS_UEFI_SB_SUPPORT}=                             ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}

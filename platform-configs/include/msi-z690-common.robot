@@ -44,6 +44,7 @@ ${SD_CARD_MODEL}=                               Storage
 
 # Configuration flags
 ${ANSIBLE_SUPPORT}=                             ${TRUE}
+${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}=        ${TRUE}
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
@@ -60,6 +61,7 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=             ${TRUE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                 ${TRUE}
+
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=               ${TRUE}
@@ -103,6 +105,7 @@ ${BIOS_LOCK_SUPPORT}=                           ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
 ${EARLY_BOOT_DMA_SUPPORT}=                      ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                       ${TRUE}
+${DTS_UEFI_SB_SUPPORT}=                         ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}
