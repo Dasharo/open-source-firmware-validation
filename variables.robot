@@ -201,8 +201,6 @@ ${OS_UBUNTU}=               ubuntu
 # MinnowBoard Turbot
 &{RTE55}=                   ip=192.168.10.112
 ...                         platform=minnowboard-turbot
-...                         sonoff_ip=192.168.4.35    pikvm_ip=192.168.4.180
-...                         cpuid=deadbeef001
 # 3mdeb Protectli VP6670 -----------------------------------------------------
 &{RTE56}=                   ip=192.168.10.110
 ...                         platform=protectli-vp6670    platform_vendor=protectli
