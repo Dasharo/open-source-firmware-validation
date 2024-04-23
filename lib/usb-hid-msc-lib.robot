@@ -36,8 +36,8 @@ Download ISO And Mount As USB
 
 Mount ISO As USB
     [Documentation]    Mounts an ISO file from the local sources. In case of
-    ...    PiKVM we need to manually upload images to the device. This can be
-    ...    automatically done by running
+    ...    PiKVM we need to manually upload images to the device. For UEFI
+    ...    Secure Boot tests images, this can be automatically done by running
     ...    `scripts/secure-boot/generate-images/sb-img-wrapper.sh` script.
     [Arguments]    ${img_path}
 
