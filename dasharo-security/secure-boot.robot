@@ -442,6 +442,7 @@ SBO013.001 Check automatic certificate provisioning
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO013.001 not supported
     Skip If    not ${DTS_UEFI_SB_SUPPORT}    SBO013.001 not supported
     Skip If    not ${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}    SBO013.001 not supported
+    Mount ISO As USB    ${CURDIR}/../qemu-data/dts-sb.wic
     Power On
 
     # 1. Enroll certificate using automatic provisioning tool
@@ -469,6 +470,7 @@ SBO013.002 Check automatic certificate provisioning KEK certificate
     Skip If    not ${SECURE_BOOT_SUPPORT}    SBO013.002 not supported
     Skip If    not ${DTS_UEFI_SB_SUPPORT}    SBO013.002 not supported
     Skip If    not ${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}    SBO013.002 not supported
+    Mount ISO As USB    ${CURDIR}/../qemu-data/dts-sb.wic
     Power On
 
     # 1. Enroll certificate using automatic provisioning tool
