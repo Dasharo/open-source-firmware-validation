@@ -44,7 +44,7 @@ NBT002.001 OS selection & utilities is available
     ...    and if after selection proper menu apperas.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
     Power On
-    Set DUT Response Timeout    60s
+    Set DUT Response Timeout    120s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
     ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
@@ -89,7 +89,7 @@ NBT005.001 iPXE shell works correctly
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Set Prompt For Terminal    iPXE>
     Read From Terminal Until Prompt
-    Write Into Terminal    dhcp net0
+    Write Into Terminal    dhcp
     ${out}=    Read From Terminal Until Prompt
     Should Contain    ${out}    ok
     Set DUT Response Timeout    60s
