@@ -42,7 +42,7 @@ Login To Linux
         # not have Linux prompt. We try logging in multiple times anyway, so
         # this should not be a huge problem.
         # Read From Terminal Until    login:
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
@@ -68,10 +68,10 @@ Login To Windows
     Boot System Or From Connected Disk    ${OS_WINDOWS}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_WINDOWS_USERNAME}    ${DEVICE_WINDOWS_PASSWORD}
@@ -174,7 +174,7 @@ Login To Windows Via SSH
             # Run Keyword Until Succeeds?
             Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${OS_WINDOWS}
-            Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+            Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         END
     END
     IF    ${reboot_count} >= 1
