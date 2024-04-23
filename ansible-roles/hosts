@@ -3,3 +3,6 @@
 
 [mpl-pip4_ubuntu]
 192.168.4.186:22 ansible_user=ubuntu ansible_ssh_pass=ubuntu
+
+[msi-pro-z690-a-ddr5_ubuntu]
+192.168.10.48:22 ansible_user=ubuntu ansible_ssh_pass=ubuntu
