@@ -11,7 +11,7 @@ Depends On
     ...    to the test as per ```Skip`` keyword.
     [Arguments]    ${condition}    ${reason}=${NONE}
     ${line}=    Set Variable    ${TEST_NAME.split()}[0] not supported
-    IF    $reason is not None
+    IF    '${reason}' != ${NONE}
         ${line}=    Set Variable    ${line}: ${reason}
     END
     Skip If    not ${condition}    ${line}
