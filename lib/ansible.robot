@@ -8,10 +8,6 @@ Run Ansible Playbook On Supported Operating Systems
     ...    run ansible-playbook on them using SSH to prepare DUT for given Test
     ...    Suite. Argument ${ran_suite_name} should point to the suite setup
     ...    in which this KW will be executed.
-    # TODO: run different playbooks for different OSes
-    # TODO2: test on other platforms, for now only can be executed in QEMU
-    # TODO3: how we should manage ansible-roles/hosts files in cases with real
-    # hardware
     [Arguments]    ${ran_suite_name}
     IF    '${ANSIBLE_CONFIG}' != 'yes'
         Log    ANSIBLE_CONFIG not set to `Yes`, skipping configuration...    INFO
