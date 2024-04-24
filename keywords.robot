@@ -515,7 +515,9 @@ Prepare Test Suite
     ${url}=    Replace String    ${url}    git@github.com:    https://github.com/
     ${url}=    Remove String Using Regexp    ${url}    .git$
     # Relative path from repository base, assumes that directory has the same name as repository
-    ${path}=    Remove String Using Regexp    ${SUITE_SOURCE}    ^.*/${{$url.rsplit('/', 1)[1]}}/
+    ${dir_name_split}=    Split String    ${url}    /
+    ${dir_name}=    Get From List    ${dir_name_split}    -1
+    ${path}=    Remove String Using Regexp    ${SUITE_SOURCE}    ^.*/${dir_name}/
     Set Suite Metadata    Remote source (maybe)    ${url}/blob/${revision}/${path}
     IF    '${SNIPEIT}' == 'yes'
         Import Library    ${CURDIR}/osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py
