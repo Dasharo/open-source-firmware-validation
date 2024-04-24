@@ -25,13 +25,6 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                 ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                ${FALSE}
-${TESTS_IN_UBUNTU_SERVER_SUPPORT}=          ${FALSE}
-${TESTS_IN_PROXMOX_VE_SUPPORT}=             ${FALSE}
-${TESTS_IN_PFSENSE_SERIAL_SUPPORT}=         ${FALSE}
-${TESTS_IN_PFSENSE_VGA_SUPPORT}=            ${FALSE}
-${TESTS_IN_OPNSENSE_SERIAL_SUPPORT}=        ${FALSE}
-${TESTS_IN_OPNSENSE_VGA_SUPPORT}=           ${FALSE}
-${TESTS_IN_FREEBSD_SUPPORT}=                ${FALSE}
 
 # Test module: dasharo-security
 ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
