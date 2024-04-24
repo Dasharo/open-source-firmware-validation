@@ -9,7 +9,7 @@ Resource            ../terminal.robot
 
 *** Keywords ***
 Enter Boot Menu
-    [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
+    [Documentation]    Enter Boot Menu with boot menu key mapped in
     ...    keys list.
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -157,16 +157,16 @@ Get Index Of Matching Option In Menu
     RETURN    ${index}
 
 Enter Submenu From Snapshot
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
+    [Documentation]    Enter given Setup Menu option after entering
+    ...    Setup Menu
     [Arguments]    ${menu}    ${option}
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     Should Not Be Equal As Integers    ${index}    -1    msg=Option ${option} not found in menu
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Enter Submenu From Snapshot And Return Construction
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
+    [Documentation]    Enter given Setup Menu option after entering
+    ...    Setup Menu
     [Arguments]    ${menu}    ${option}    ${opt_only}=${FALSE}
     Enter Submenu From Snapshot    ${menu}    ${option}
     ${submenu}=    Get Submenu Construction    opt_only=${opt_only}

@@ -32,7 +32,7 @@ WDT001.001 Check if watchdog option is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT001.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Should Contain Match    ${chipset_menu}    Enable watchdog*
@@ -43,12 +43,12 @@ WDT002.001 Enable watchdog
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${TRUE}
     Save Changes And Reset
-    Enter Setup Menu Tianocore And Return Construction
+    Enter Setup Menu And Return Construction
     # We're in the setup menu. Now just wait until the platform resets. Wait a
     # little longer than the timeout to give the platform time to reset.
     Set DUT Response Timeout    320s
@@ -60,12 +60,12 @@ WDT003.001 Disable watchdog
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT003.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${FALSE}
     Save Changes And Reset
-    Enter Setup Menu Tianocore And Return Construction
+    Enter Setup Menu And Return Construction
     # We're in the setup menu. Now just wait more than the default timeout to
     # make sure the watchdog does not reset the platform.
     ${platform_has_reset}=    Set Variable    ${TRUE}
@@ -83,7 +83,7 @@ WDT004.001 Change watchdog timeout
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT004.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${TRUE}
@@ -91,7 +91,7 @@ WDT004.001 Change watchdog timeout
     ${chipset_menu}=    Reenter Menu And Return Construction
     Set Option State    ${chipset_menu}    Watchdog timeout value    360
     Save Changes And Reset
-    Enter Setup Menu Tianocore And Return Construction
+    Enter Setup Menu And Return Construction
     # We're in the setup menu. Wait 320s to make sure platform does not reset
     # after the default timeout of 300s.
     ${platform_has_reset}=    Set Variable    ${TRUE}
@@ -113,7 +113,7 @@ WDT005.001 Watchdog is detected by OS (Ubuntu 22.04)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Set Option State    ${chipset_menu}    Enable watchdog    ${TRUE}

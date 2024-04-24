@@ -117,7 +117,7 @@ DCU004.001 Verify SMMSTORE changes
 
     # Power On
 
-    # ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    # ${setup_menu}=    Enter Setup Menu And Return Construction
     # Should Contain Match    ${setup_menu}    *Standard English*
 
     # ${dsf_index}=    Get Index Of Matching Option In Menu    ${setup_menu}    Dasharo System Features

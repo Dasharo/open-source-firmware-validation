@@ -51,7 +51,7 @@ Stress test Power On keyword for stability when in OS
 *** Keywords ***
 Test Power On Kwd In Firmware
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     Sleep    10s
 
