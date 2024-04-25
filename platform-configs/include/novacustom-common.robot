@@ -68,6 +68,7 @@ ${WIRELESS_CARD_SUPPORT}=                           ${TRUE}
 ${WIRELESS_CARD_WIFI_SUPPORT}=                      ${TRUE}
 ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=                 ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                         ${TRUE}
+${EXTERNAL_HEADSET_SUPPORT}=                        ${TRUE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                      ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=                    ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=                       ${TRUE}

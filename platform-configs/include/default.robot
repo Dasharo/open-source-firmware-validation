@@ -101,6 +101,7 @@ ${WIRELESS_CARD_WIFI_SUPPORT}=                      ${FALSE}
 ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=                 ${FALSE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                    ${FALSE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                         ${FALSE}
+${EXTERNAL_HEADSET_SUPPORT}=                        ${FALSE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                      ${FALSE}
 ${SERIAL_NUMBER_VERIFICATION}=                      ${FALSE}
 ${SERIAL_FROM_MAC}=                                 ${FALSE}
