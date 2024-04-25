@@ -50,7 +50,11 @@ UBOS001.001 Ubuntu 22.04 is installable
     Press Key N Times And Enter    2    ${ARROW_DOWN}
 
     # Type in HTTP server ip with preseed data:
+<<<<<<< HEAD
     Write Into Terminal    ${UBUNTU_PRESEED_SERVER_ADDRESS}
+=======
+    Write Into Terminal    http://192.168.4.89
+>>>>>>> 6771e22493bb (operating-systems: ubuntu.robot: add)
     Press Enter
 
     # Wait for Ubuntu to be installed:
