@@ -1,4 +1,4 @@
-*** Settings ***
+*** Settings **
 Documentation       Collection of keywords related to EDK2 menus
 
 Library             Collections
