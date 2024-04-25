@@ -69,6 +69,7 @@ ${IPXE_BOOT_SUPPORT}=                           ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${TRUE}
 ${SD_CARD_READER_SUPPORT}=                      ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
+${EXTERNAL_HEADSET_SUPPORT}=                    ${TRUE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                  ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=                ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=                   ${TRUE}
