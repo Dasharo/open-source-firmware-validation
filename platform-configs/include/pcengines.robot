@@ -31,8 +31,8 @@ ${FLASH_VERIFY_OPTION}=                     UEFI Shell
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        6
 # TODO
 ${MAX_CPU_TEMP}=                            ${EMPTY}
-${INTERNAL_PROGRAMMER_CHIPNAME}=            W25Q64JV-.Q
-
+${CPU_MIN_FREQUENCY}=                       300
+${CPU_MAX_FREQUENCY}=                       1500
 ${DMIDECODE_MANUFACTURER}=                  PC Engines
 ${DMIDECODE_VENDOR}=                        3mdeb
 ${DMIDECODE_FAMILY}=                        N/A

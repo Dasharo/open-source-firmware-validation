@@ -18,6 +18,5 @@ ${USB_MODEL}=                   SanDisk
 
 ${DMIDECODE_PRODUCT_NAME}=      VP4670
 
-${PLATFORM_CPU_SPEED}=          1.60
-${PLATFORM_RAM_SPEED}=          2667
-${PLATFORM_RAM_SIZE}=           16384
+${CPU_MAX_FREQUENCY}=           5000
+${CPU_MIN_FREQUENCY}=           300

@@ -18,6 +18,5 @@ ${USB_MODEL}=                   SanDisk
 
 ${DMIDECODE_PRODUCT_NAME}=      VP4650
 
-${PLATFORM_CPU_SPEED}=          2.10
-${PLATFORM_RAM_SPEED}=          2400
-${PLATFORM_RAM_SIZE}=           16384
+${CPU_MAX_FREQUENCY}=           4300
+${CPU_MIN_FREQUENCY}=           300
