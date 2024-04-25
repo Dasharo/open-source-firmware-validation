@@ -175,7 +175,22 @@ Parameters should be defined as follows:
   to provide the full test name here.
 
 You can also run tests with `-v snipeit:no` in order to skip checking whether
-the platform is available on snipeit. By default, this is enabled.
+the platform is available on snipeit and fetching data from the asset page.
+By default, this is enabled. Mind that if you choose to skip you may need to
+provide the following parameters:
+
+* $SONOFF_IP - IP of the Sonoff device. Required if the DUT uses Sonoff for
+power control.
+* $PIKVM_IP - IP of PiKVM. Required if the DUT's connection method is PiKVM.
+
+The command below is an example of how to run tests without using SnipeIT on a
+platform that uses both Sonoff and PiKVM:
+
+```bash
+robot -L TRACE -v snipeit:no -v rte_ip:$RTE_IP -v config:$CONFIG \
+-v device_ip:$DEVICE_IP -v sonoff_ip:$SONOFF_IP -v pikvm_ip:$PIKVM_IP \
+$TEST_MODULE
+```
 
 ### Running tests via wrapper
 
@@ -185,6 +200,17 @@ wrapper:
 ```bash
 DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE
 ```
+
+Running tests without snipeit requires additional variables:
+
+```bash
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG SNIPEIT_NO="y" \
+SONOFF="y" SONOFF_IP=$SONOFF_IP PIKVM="y" PIKVM_IP=$PIKVM_IP
+./scripts/run.sh $TEST_SUITE
+```
+
+Mind that `SNIPEIT_NO`, `SONOFF` and `PIKVM_IP` only need to be set, meaning
+that whatever value they have, they will be treated as true.
 
 ### Running regression tests
 
@@ -196,25 +222,8 @@ platform config file.
 FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh
 ```
 
-## Run sample test
-
-Start quemu:
-
-```shell
-./scripts/ci/qemu-run.sh graphic firmware
-```
-
-Open a new terminal, activate venv and start example test:
-
-```shell
-source venv/bin/activate
-robot  -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no \
-  -t "PXE007.001*" dasharo-compatibility/network-boot.robot
-```
-
-If everything is setup correctly, you should see tests progress in quemu.
-After the test ends log files `output.xml` `log.html` and `report.html` can be
-found in `open-source-firmware-validation` folder.
+Running regression tests without snipeit works the same way as
+[running regular tests](#running-tests-via-wrapper).
 
 ## Useful refactoring tools
 
