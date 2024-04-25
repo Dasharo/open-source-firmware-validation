@@ -18,3 +18,7 @@ ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
 
 ${DMIDECODE_PRODUCT_NAME}=      VP6650
+
+${PLATFORM_CPU_SPEED}=          2.50
+${PLATFORM_RAM_SPEED}=          4200
+${PLATFORM_RAM_SIZE}=           65536
