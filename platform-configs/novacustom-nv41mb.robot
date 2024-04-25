@@ -22,3 +22,5 @@ ${USB_DEVICE}=                      SanDisk
 ${USB_MODEL}=                       USB Flash Memory
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${TRUE}
+${CPU_MAX_FREQUENCY}=           4800
+${CPU_MIN_FREQUENCY}=           300

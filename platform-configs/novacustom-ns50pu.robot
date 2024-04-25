@@ -20,3 +20,5 @@ ${SD_CARD_MODEL}=               Transcend
 ${SD_CARD_VENDOR}=              TS-RDF5A
 ${USB_DEVICE}=                  Kingston
 ${USB_MODEL}=                   USB Flash Memory
+${CPU_MAX_FREQUENCY}=           4500
+${CPU_MIN_FREQUENCY}=           300

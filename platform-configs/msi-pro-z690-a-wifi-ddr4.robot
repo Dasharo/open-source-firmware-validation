@@ -18,3 +18,5 @@ ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=     ${TRUE}
 ${PLATFORM_CPU_SPEED}=                  3.70
 ${PLATFORM_RAM_SPEED}=                  3600
 ${PLATFORM_RAM_SIZE}=                   32768
+${CPU_MAX_FREQUENCY}=                   5000
+${CPU_MIN_FREQUENCY}=                   300
