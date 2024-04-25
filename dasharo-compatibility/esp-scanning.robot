@@ -87,6 +87,15 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain Match    ${boot_menu}    Dasharo Tools Suite on (*
 
+ESP006.001 ESP Scan does not find non-block boot devices
+    [Documentation]    This test aims to verify that the firmware will not
+    ...    find non-block boot devices
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Log    ${boot_menu}
+    Should Not Contain    ${boot_menu}    on Non-Block Boot Device
+
 ESP002.001 ESP Scan after deleting additional .efi files
     [Documentation]    This test aims to verify that none of the systems linger
     ...    on in the boot menu after we've deleted their files from /EFI/.
