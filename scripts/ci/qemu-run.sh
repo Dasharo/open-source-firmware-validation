@@ -189,9 +189,9 @@ case "${ACTION}" in
     check_disks ${ACTION}
     ;;
   os_install)
-    MEMORY="4G"
-    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS} ${QEMU_PARAMS_INSTALLER}"
-    check_disks ${ACTION}
+    MEMORY="8G"
+    QEMU_PARAMS="${QEMU_PARAMS_BASE} ${QEMU_PARAMS_OS} ${QEMU_PARAMS_INSTALLER}"
+    check_disks
     ;;
   *)
     echo "Action: ${ACTION} not supported"
