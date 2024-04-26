@@ -42,13 +42,13 @@ Boot Dasharo Tools Suite
     # two different console in case of Linux, they are not in sync anymore as in case of firmware.
     # We have to switch to SSH connection to continue test execution on such devices.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${dut_connection_method}=    Set Variable    SSH
         # Wait for the menu to be loaded on serial
-        Read From Terminal Until    Enter an option:
+        ${dut_connection_method}=    Set Variable    SSH
+        Sleep    10s
         # Enable SSH server and switch to SSH connection by writing on video console "in blind"
         Write Into Terminal    8
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-        Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite
+        Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
         Write Into Terminal    dts
     END
@@ -94,8 +94,9 @@ Run EC Transition
 Flash Firmware In DTS
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
     ...    ability for flashing firmware work correctly.
+    [Arguments]    ${FW_DL_LINK}=${FW_DOWNLOAD_LINK}
     Execute Command In Terminal
-    ...    wget -O /tmp/coreboot.rom ${FW_DOWNLOAD_LINK}
+    ...    wget -O /tmp/coreboot.rom ${FW_DL_LINK}
     ${out}=    Execute Command In Terminal
     ...    command=flashrom --ifd -i bios -p internal -w /tmp/coreboot.rom --noverify-all
     ...    timeout=320s
