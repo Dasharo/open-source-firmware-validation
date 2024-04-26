@@ -14,14 +14,13 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/linux.robot
 
-# TODO:
-# - document which setup/teardown keywords to use and what are they doing
-# - go through them and make sure they are doing what the name suggests (not
-#    exactly the case right now)
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
 Suite Teardown      Run Keywords
+...                     Flash Firmware    ${FW_FILE}
+...                     AND
 ...                     Log Out And Close Connection
 
 
@@ -29,7 +28,6 @@ Suite Teardown      Run Keywords
 APU001.001 Check if apu2 watchdog option is available
     [Documentation]    Check if the watchdog timer can be enabled in the apu2
     ...    configuration submenu.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU001.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -39,7 +37,6 @@ APU001.001 Check if apu2 watchdog option is available
 APU002.001 Enable apu2 watchdog
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
     ...    that it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -47,15 +44,14 @@ APU002.001 Enable apu2 watchdog
     Set Option State    ${apu_menu}    Enable watchdog    ${TRUE}
     Save Changes And Reset
     Enter Setup Menu Tianocore And Return Construction
-    # We're in the setup menu. Now just wait until the platform resets. Some
-    # non-zero time has passed since boot, so watchdog timer is at <60s now.
-    Set DUT Response Timeout    60s
+    # We're in the setup menu. Now just wait until the platform resets. Wait a
+    # bit longer than the timeout to give the platform to actually reset.
+    Set DUT Response Timeout    70s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
 APU003.001 Disable apu2 watchdog
     [Documentation]    Disable the watchdog after enabling it to verify it does
     ...    not reset the platform anymore.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -64,7 +60,7 @@ APU003.001 Disable apu2 watchdog
     Save Changes And Reset
     Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Now just wait more than the default timeout to
-    # make sure the watchdog does not reset the platform.
+    # make sure the watchdog does not reset the platform anymore.
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    70s
     TRY
@@ -77,7 +73,6 @@ APU003.001 Disable apu2 watchdog
 APU004.001 Change apu2 watchdog timeout
     [Documentation]    Enable apu2 watchdog with a higher timeout than default
     ...    and verify that it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -98,11 +93,42 @@ APU004.001 Change apu2 watchdog timeout
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
-    # Now wait another 60s to make sure the platform resets within 120s of boot.
-    Set DUT Response Timeout    60s
+    # Now wait another 70s to make sure the platform resets within 120s of boot.
+    Set DUT Response Timeout    70s
     Read From Terminal Until    ${TIANOCORE_STRING}
+    [Teardown]    Flash Firmware    ${FW_FILE}
 
-APU005.001 Check whether disabling "Enable PCIe power management features" disables ASPM
+APU005.001 Check if disabling CPB decreases performance
+    [Documentation]    This Test Checks Whether Performance Changes With Core Performance Boost Disabled
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
+    Set Option State    ${apu_menu}    Core Performance Boost    ${FALSE}
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}' > .dd_time
+    ...    300
+    ${first_check}=    Execute Command In Terminal    cat .dd_time
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
+    Set Option State    ${apu_menu}    Core Performance Boost    ${TRUE}
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal
+    ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}' > .dd_time
+    ...    300
+    ${second_check}=    Execute Command In Terminal    cat .dd_time
+    ${status}=    Evaluate    ${first_check} > ${second_check}
+    Should Be True    ${status}
+
+APU006.001 Check whether disabling "Enable PCIe power management features" disables ASPM
     [Documentation]    Checks whether disabling PCIe power management features disables ASPM
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
@@ -117,7 +143,7 @@ APU005.001 Check whether disabling "Enable PCIe power management features" disab
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM Disabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
 
-APU005.002 Check whether enabling "Enable PCIe power management features" enables ASPM
+APU006.002 Check whether enabling "Enable PCIe power management features" enables ASPM
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

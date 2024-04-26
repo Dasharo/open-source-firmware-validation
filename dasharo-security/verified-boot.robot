@@ -51,7 +51,7 @@ VBO006.002 Check whether the verstage was run
     Login To Linux
     Switch To Root User
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.002 not supported
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep VBOOT
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -l | grep VBOOT
     Should Contain    ${out_cbmem}    VBOOT WORK
 
 VBO007.002 Boot from RW when correctly signed firmware is flashed
@@ -62,8 +62,8 @@ VBO007.002 Boot from RW when correctly signed firmware is flashed
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep "is selected"
-    Should Contain Any    ${out_cbmem}    Slot A is selected    Slot B is selected
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
 
 VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A
     [Documentation]    Check whether the information about recovery mode will be
@@ -102,7 +102,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     # https://github.com/Dasharo/dasharo-issues/issues/185
     # https://github.com/Dasharo/dasharo-issues/issues/269
     # https://github.com/Dasharo/dasharo-issues/issues/320
-    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO011.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
     Variable Should Exist    ${FW_FILE}
     # 1. Start with flashing of correctly signed firmware
@@ -117,8 +117,8 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
         Login To Linux
         Switch To Root User
     END
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep "is selected"
-    Should Contain Any    ${out_cbmem}    Slot A is selected    Slot B is selected
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
     # 2. Flash incorrectly signed firmware and boot 2 times. Recovery popup
     # should be displayed, and recovery request should be logged in cbmem.
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
@@ -129,8 +129,8 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Recovery
-        Should Contain    ${out_cbmem}    Recovery requested
+        ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+        Should Contain    ${out_vboot}    Recovery boot mode
     END
     # 3. Flash again with correctly signed firmware
     Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
@@ -138,9 +138,18 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Recovery
-    Should Contain    ${out_cbmem}    Recovery reason from previous boot: 0x0
-    Should Not Contain    ${out_cbmem}    Recovery requested
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
+
+VBO012.001 Self-signed binary is bootable without errors
+    [Documentation]    Check whether a self-signed binary is bootable when the
+    ...    entire SPI flash is flashed. This verifies that the signing scripts
+    ...    used by the end users are correct and don't cause bricks.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO012.001 not supported
+    Power On
+    Flash Firmware    ${FW_FILE_RESIGNED}
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
 
 
 *** Keywords ***
