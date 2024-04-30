@@ -146,6 +146,7 @@ Configure Wake In Linux
     [Documentation]    Keyword prepares platform for wake by platform specific
     ...    wake method.
     # Enable wake by magic packet
+    Detect Or Install Package    ethtool
     Execute Linux Command    ethtool -s ${WOL_INTERFACE} wol g
 
 Wake Up
