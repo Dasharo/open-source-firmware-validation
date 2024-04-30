@@ -139,6 +139,7 @@ APU006.001 Check whether disabling "Enable PCIe power management features" disab
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Detect Or Install Package    pciutils
     ${aspm_check}=    Execute Command In Terminal
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM Disabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
@@ -153,6 +154,7 @@ APU006.002 Check whether enabling "Enable PCIe power management features" enable
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Detect Or Install Package    pciutils
     ${aspm_check}=    Execute Command In Terminal
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM L1 Enabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
