@@ -1167,11 +1167,12 @@ Identify Disks In Linux
     [Documentation]    Check whether any disk is recognized in Linux system
     ...    and identify their vndor and model.
     ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
-    @{disks}=    Get Regexp Matches    ${out}    sd.
+    @{disks}=    Get Regexp Matches    ${out}    sd.|mmcblk\d
     ${disks_info}=    Create List
     FOR    ${disk}    IN    @{disks}
         ${vendor}=    Execute Linux Command    cat /sys/class/block/${disk}/device/vendor
         ${model}=    Execute Linux Command    cat /sys/class/block/${disk}/device/model
+        ${type}=    Execute Linux Command    cat /sys/class/block/${disk}/device/type
         ${vendor_name}=    Fetch From Left    ${vendor}    \r\n
         ${model_name}=    Fetch From Left    ${model}    \r\n
         ${vendor_name}=    Fetch From Right    ${vendor_name}    \r
@@ -1179,15 +1180,16 @@ Identify Disks In Linux
         # ${vendor_name}=    Fetch From Left    ${vendor_name}    \x20
         # ${model_name}=    Fetch From Left    ${model_name}    \x20
         Append To List    ${disks_info}    ${disk}
+        Append To List    ${disks_info}    ${type}
         Append To List    ${disks_info}    ${vendor_name}
         Append To List    ${disks_info}    ${model_name}
     END
     RETURN    ${disks_info}
 
 Identify Path To SD Card In Linux
-    [Documentation]    Check which sdX is the correct path to mounted SD card.
+    [Documentation]    Check which sdX or mmcblkX is the correct path to mounted SD card.
     ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
-    @{disks}=    Get Regexp Matches    ${out}    sd.
+    @{disks}=    Get Regexp Matches    ${out}    sd.|mmcblk\d
     @{path}=    Create List
     FOR    ${disk}    IN    @{disks}
         TRY
