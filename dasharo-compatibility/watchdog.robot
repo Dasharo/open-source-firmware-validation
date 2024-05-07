@@ -133,3 +133,35 @@ WDT005.001 Watchdog is detected by OS (Ubuntu)
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
+
+WTD006.001 Watchdog resets platform on kernel crash (Ubuntu 22.04)
+    [Documentation]    Boot into OS with the watchdog enabled, crash the kernel
+    ...    and verify that the watchdog resets the machine.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
+    Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
+    Set Option State    ${chipset_menu}    Enable watchdog    ${TRUE}
+    # Refresh menu, in case the watchdog timeout wasn't already available
+    ${chipset_menu}=    Reenter Menu And Return Construction
+    Set Option State    ${chipset_menu}    Watchdog timeout value    300
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    # Verify that there are entries from wdt or watchdog in kernel logs
+    ${out}=    Execute Command In Terminal    dmesg | grep -E 'watchdog|wdt'
+    Should Not Be Empty    ${out}
+    # Crash the kernel (use Write Into Terminal so that it doesn't wait
+    # for prompt)
+    Write Into Terminal    echo c > /proc/sysrq-trigger
+    ${platform_has_reset}=    Set Variable    ${TRUE}
+    Set DUT Response Timeout    300s
+    TRY
+        Read From Terminal Until    ${TIANOCORE_STRING}
+    EXCEPT
+        ${platform_has_reset}=    Set Variable    ${FALSE}
+    END
+    Should Be Equal    ${platform_has_reset}    ${TRUE}

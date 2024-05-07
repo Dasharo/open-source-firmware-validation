@@ -35,6 +35,7 @@ ${USB_MASS_STORAGE_SUPPORT}=            ${FALSE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=       ${FALSE}
 
 
+
 *** Keywords ***
 Power On
     [Documentation]    Keyword clears telnet buffer and sets Device Under Test
