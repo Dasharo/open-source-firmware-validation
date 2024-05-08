@@ -109,7 +109,7 @@ DTS006.001 Flash device EC firmware by using DTS built-in script works correctly
 
 DTS007.001 Update device EC firmware by using DTS works correctly
     [Documentation]    This test aims to verify whether there is the
-    ...    possibility to update the DUT EC firmware by using system76_ectool
+    ...    possibility to update the DUT EC firmware by using dasharo_ectool
     ...    in DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS009.001 not supported
