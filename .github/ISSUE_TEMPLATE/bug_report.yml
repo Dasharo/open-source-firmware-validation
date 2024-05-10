@@ -23,6 +23,13 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: tag
+    attributes:
+      label: OSFV version
+      description: The version of the OSFV infrastructure you're using (branch, commit)
+    validations:
+      required: true
 
   - type: textarea
     id: component
