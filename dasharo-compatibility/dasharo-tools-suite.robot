@@ -16,12 +16,14 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${DTS_SUPPORT}    DTS tests not supported
+...                     AND
+...                     Make Sure That Network Boot Is Enabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 # This must be in Test Setup, not Suite Setup, because of a known problem
 # with QEMU: https://github.com/Dasharo/open-source-firmware-validation/issues/132
-Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}    Run Keywords
-...                     Make Sure That Network Boot Is Enabled    AND    Restore Initial DUT Connection Method
+Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
+...                     Restore Initial DUT Connection Method
 
 
 *** Test Cases ***

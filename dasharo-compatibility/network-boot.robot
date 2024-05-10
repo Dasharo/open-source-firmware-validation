@@ -22,15 +22,11 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${IPXE_BOOT_SUPPORT}    iPXE Network Boot not supported
-# ...    AND
-# ...    Make Sure That Network Boot Is Enabled
+...                     AND
+...                     Run Keyword If    ${DASHARO_NETWORKING_MENU_SUPPORT}
+...                     Make Sure That Network Boot Is Enabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
-# TODO: It should be In Suite Setup, not in Test Setup. But when it is, at least
-# the QEMU run hangs in the first occurrence of Power On keyword in the first
-# test executed, never returning from this keyword.
-Test Setup          Run Keyword If    ${DASHARO_NETWORKING_MENU_SUPPORT}
-...                     Make Sure That Network Boot Is Enabled
 
 
 *** Test Cases ***
