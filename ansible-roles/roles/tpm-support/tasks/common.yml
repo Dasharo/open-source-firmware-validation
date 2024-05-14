@@ -1,6 +1,7 @@
 ---
 - name: Prepare encrypted logical partition
-  hosts: qemu_ubuntu
+  hosts: all
+  ignore_unreachable: true
   become: true
 
   vars:
