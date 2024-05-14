@@ -13,7 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/menus-dasharo.robot
 Resource            ../lib/power-after-fail-lib.robot
 
 # TODO:
@@ -49,7 +49,7 @@ PSF002.001 Powered Off State Restoration Test
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${pwr_menu}    Power state after power    Powered Off
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Enter Setup Menu
     Simulate Power Failure
     ${output}=    Run Keyword And Return Status
@@ -65,7 +65,7 @@ PSF003.001 Powered On State Restoration Test
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${pwr_menu}    Power state after power    Powered On
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Enter Setup Menu
     Simulate Power Failure
     Enter Setup Menu
@@ -80,7 +80,7 @@ PSF004.001 Previous Power State Restoration Test - Powered Off
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${pwr_menu}    Power state after power    The state at the moment of power failure
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Enter Setup Menu
     # Power button press to power off the machine
     RteCtrl Power On
@@ -99,7 +99,7 @@ PSF004.002 Previous Power State Restoration Test - Powered On
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     Set Option State    ${pwr_menu}    Power state after power    The state at the moment of power failure
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     Enter Setup Menu
     Simulate Power Failure
     Enter Setup Menu

@@ -376,14 +376,7 @@ Save Changes
     Sleep    2s
 
 Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...    is how deep user is currently in the settings.
-    ...    ${main_menu_steps_to_reset} means how many times should
-    ...    arrow down be pressed to get to the Reset option in main
-    ...    settings menu
-    # robocop: disable=unused-argument
-    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
-    # robocop: enable
+    [Documentation]    Saves current UEFI settings and restarts.
     Save Changes
     Sleep    1s
     Reset System
@@ -510,3 +503,85 @@ Disable Firmware Flashing Prevention Options
         END
         Save Changes And Reset
     END
+
+Enter Volume In File Explorer
+    [Documentation]    Enter the given volume
+    [Arguments]    ${target_volume}
+    # 1. Read out the whole File Explorer menu
+    ${volumes}=    Get Submenu Construction    opt_only=${TRUE}
+    Log    ${volumes}
+    # 2. See if our label is within these entries
+    ${index}=    Get Index Of Matching Option In Menu    ${volumes}    ${target_volume}    ${TRUE}
+    # 3. If yes, go to the selected label
+    IF    ${index} != -1
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+        # 4. If no, get the number of entries and go that many times below
+    ELSE
+        ${volumes_no}=    Get Length    ${volumes}
+        Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
+        #    - check if the label is what we need, if yes, select
+        FOR    ${in}    IN RANGE    20
+            ${new_entry}=    Read From Terminal
+            ${status}=    Run Keyword And Return Status
+            ...    Should Contain    ${new_entry}    ${target_volume}
+            IF    ${status} == ${TRUE}    BREAK
+            IF    ${in} == 19    Fail    Volume not found
+            Press Key N Times    1    ${ARROW_DOWN}
+        END
+        Press Key N Times    1    ${ENTER}
+    END
+
+Add Boot Option
+    [Documentation]    Adds new boot option in boot menu. Has two arguments:
+    ...    EFI partition label to look for bootfile on and boot option name to
+    ...    set. Assumes that you are on main BIOS page.
+    [Arguments]    ${system_name}    ${label}    ${name}
+    @{ubuntu_file_path}=    Create List    <EFI>    <ubuntu>    shimx64.efi
+
+    # 1. Enter partition menu:
+    ${setup_menu}=    Get Setup Menu Construction
+    ${boot_manager_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}    Boot Maintenance Manager
+    ${boot_options_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${boot_manager_menu}    Boot Options
+    Enter Submenu From Snapshot    ${boot_options_menu}    Add Boot Option
+    Enter Volume In File Explorer    ${label}
+
+    # 2. Find and choose boot file:
+    IF    "${system_name}" == "ubuntu"
+        FOR    ${item}    IN    @{ubuntu_file_path}
+            # Go to EFI folder:
+            ${file_tree_submenu}=    Get Submenu Construction
+            ${index}=    Get Index Of Matching Option In Menu
+            ...    ${file_tree_submenu}    ${item}
+            # Add one to index, because of new line in file_tree_submenu:
+            Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
+        END
+    ELSE IF    "${system_name}" == "windows"
+        Fail    Add Boot Option For Windows Is Not Implemented Yet.
+    END
+
+    # 3. Set name for the option:
+    ${setting_bootoption_submenu}=    Get Menu Construction
+    ...    Select Entry    2
+    Enter Submenu From Snapshot
+    ...    ${setting_bootoption_submenu}    Input the description
+    Write Into Terminal    ${name}
+    Press Enter
+    Enter Submenu From Snapshot
+    ...    ${setting_bootoption_submenu}    Commit Changes and Exit
+
+Boot Operating System
+    [Documentation]    Keyword allows boot operating system installed on the
+    ...    DUT. Takes as an argument operating system name.
+    [Arguments]    ${operating_system}
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+    Set Local Variable    ${is_system_installed}    ${FALSE}
+    Enter Boot Menu
+    ${menu_construction}=    Get Boot Menu Construction
+    ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
+    IF    not ${is_system_installed}
+        FAIL    Test case marked as Failed\nRequested OS (${operating_system}) has not been installed
+    END
+    ${system_index}=    Get Index From List    ${menu_construction}    ${operating_system}
+    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}

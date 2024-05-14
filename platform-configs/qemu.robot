@@ -1,8 +1,7 @@
 *** Settings ***
 Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
 Resource    ../os-config/ubuntu-credentials.robot
-Resource    ../lib/bios/menus-dasharo.robot
-Resource    ../lib/secure-boot-lib-dasharo.robot
+Resource    ./include/bios/dasharo.robot
 
 
 *** Variables ***
@@ -154,6 +153,7 @@ ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
+${TPM_FIRMWARE_CONFIG}=                             ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                           ${TRUE}

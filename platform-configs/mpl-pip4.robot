@@ -1,7 +1,6 @@
 *** Settings ***
-Resource    ../lib/bios/menus-ami.robot
-Resource    ../lib/secure-boot-lib-ami.robot
 Resource    ../os-config/ubuntu-credentials.robot
+Resource    ./include/bios/ami.robot
 
 
 *** Variables ***
@@ -30,6 +29,20 @@ ${TESTS_IN_WINDOWS_SUPPORT}=                ${FALSE}
 ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
 ${DTS_UEFI_SB_SUPPORT}=                     ${TRUE}
 ${SECURE_BOOT_CAN_REMOVE_EXTERNAL_CERT}=    ${FALSE}
+${TPM_SUPPORT}=                             ${TRUE}
+${TPM_DETECT_SUPPORT}=                      ${FALSE}
+${VERIFIED_BOOT_SUPPORT}=                   ${FALSE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=             ${FALSE}
+${MEASURED_BOOT_SUPPORT}=                   ${FALSE}
+${USB_STACK_SUPPORT}=                       ${FALSE}
+${USB_MASS_STORAGE_SUPPORT}=                ${FALSE}
+${TCG_OPAL_DISK_PASSWORD_SUPPORT}=          ${FALSE}
+${BIOS_LOCK_SUPPORT}=                       ${FALSE}
+${SMM_WRITE_PROTECTION_SUPPORT}=            ${FALSE}
+${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=      ${FALSE}
+${CAMERA_SWITCH_SUPPORT}=                   ${FALSE}
+${EARLY_BOOT_DMA_SUPPORT}=                  ${FALSE}
+${UEFI_PASSWORD_SUPPORT}=                   ${FALSE}
 
 
 *** Keywords ***

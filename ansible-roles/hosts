@@ -1,8 +1,11 @@
 [qemu_ubuntu]
 127.0.0.1:5222 ansible_user=ubuntu ansible_ssh_pass=ubuntu
 
-[mpl-pip4_ubuntu]
+[mpl_pip4_ubuntu]
 192.168.4.186:22 ansible_user=ubuntu ansible_ssh_pass=ubuntu
 
-[msi-pro-z690-a-ddr5_ubuntu]
+[msi_pro_z690_a_ddr5_ubuntu]
 192.168.10.48:22 ansible_user=ubuntu ansible_ssh_pass=ubuntu
+
+[msi_pro_z690_a_wifi_ddr4_ubuntu]
+192.168.10.206:22 ansible_user=ubuntu ansible_ssh_pass=ubuntu

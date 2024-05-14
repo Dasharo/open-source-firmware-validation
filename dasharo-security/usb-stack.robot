@@ -38,12 +38,12 @@ USS001.001 Enable USB stack (firmware)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB stack    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     ${boot_menu}=    Enter Boot Menu And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
 
@@ -58,12 +58,12 @@ USS002.001 Disable USB stack (firmware)
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     ${setup_menu}=    Enter Setup Menu And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     ${boot_menu}=    Enter Boot Menu And Return Construction
     # Check That USB Devices Are Not Detected    ${boot_menu}
 
@@ -86,7 +86,7 @@ USS003.001 Enable USB Mass Storage (firmware)
         ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     END
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     ${boot_menu}=    Enter Boot Menu And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
 
@@ -110,6 +110,6 @@ USS004.001 Disable USB Mass Storage (firmware)
         ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
     END
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
     ${boot_menu}=    Enter Boot Menu And Return Construction
     # Check That USB Devices Are Not Detected    ${boot_menu}
