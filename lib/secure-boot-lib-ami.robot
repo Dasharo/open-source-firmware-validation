@@ -24,7 +24,8 @@ Get Secure Boot Menu Construction
     RETURN    ${menu}
 
 Enter Secure Boot Menu
-    [Documentation]    This keyword enters Secure Boot menu after the platform was powered on.
+    [Documentation]    This keyword enters Secure Boot menu after the platform
+    ...    was powered on.
     Enter Setup Menu
     Read From Terminal Until    ---/
     Press Key N Times    1    ${ARROW_RIGHT}
@@ -35,15 +36,16 @@ Enter Secure Boot Menu
     Press Enter
 
 Enter Secure Boot Menu And Return Construction
-    [Documentation]    This keyword enters Secure Boot menu after the platform was powered on. Returns Secure Boot menu construction.
+    [Documentation]    This keyword enters Secure Boot menu after the platform
+    ...    was powered on. Returns Secure Boot menu construction.
     Enter Secure Boot Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${sb_menu}=    Get Slice From List    ${sb_menu}    1
     RETURN    ${sb_menu}
 
 Enter Key Management And Return Construction
-    [Documentation]    Enters (Advanced) Key Management menu and returns constructions.
-    ...    Should be called from secure boot menu
+    [Documentation]    Enters (Advanced) Key Management menu and returns
+    ...    constructions. Should be called from secure boot menu
     # robocop: disable=unused-argument
     [Arguments]    ${sb_menu}=${EMPTY}
     # robocop: enable
@@ -69,7 +71,8 @@ Erase All Secure Boot Keys
     Select Ami Option    ${TRUE}    frame_name=Reset To Setup Mode
 
 Make Sure That Keys Are Provisioned
-    [Documentation]    Expects to be executed when in Secure Boot configuration menu.
+    [Documentation]    Expects to be executed when in Secure Boot configuration
+    ...    menu.
     [Arguments]    ${sb_menu}
     ${standard_mode}=    Run Keyword And Return Status
     ...    Should Contain Match    ${sb_menu}    Secure Boot Mode *\[Standard*
@@ -92,7 +95,8 @@ Make Sure That Keys Are Provisioned
     RETURN    ${sb_menu}
 
 Enable Secure Boot
-    [Documentation]    Expects to be executed when in Secure Boot configuration menu.
+    [Documentation]    Expects to be executed when in Secure Boot configuration
+    ...    menu.
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
     ${remove_first}=    Run Keyword And Return Status    Should Contain
@@ -110,7 +114,8 @@ Enable Secure Boot
     END
 
 Disable Secure Boot
-    [Documentation]    Expects to be executed when in Secure Boot configuration menu.
+    [Documentation]    Expects to be executed when in Secure Boot configuration
+    ...    menu.
     [Arguments]    ${sb_menu}
     # ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
     ${sb_menu}=    Get Slice From List    ${sb_menu}    1

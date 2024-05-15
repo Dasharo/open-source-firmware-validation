@@ -11,7 +11,8 @@ def convert_mokutil_to_openssl_output(file_content):
     modified_content = ""
     for line in lines:
         if line.startswith("SHA1 Fingerprint"):
-            # Extract the fingerprint part, change it to uppercase and skip adding this line to modified content
+            # Extract the fingerprint part, change it to uppercase and skip
+            # adding this line to modified content
             continue
             # fingerprint = line.replace("=", ":").upper()
         elif line.startswith("[key 1]"):
