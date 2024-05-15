@@ -7,8 +7,8 @@ Resource            ../keywords.robot
 
 *** Keywords ***
 Check If Certificate Images For Tests Exists
-    [Documentation]    This keyword generates all the necessary images
-    ...    for secure boot tests.
+    [Documentation]    This keyword checks if images used in UEFI Secure Boot
+    ...    tests exists on host PC.
     ${images_list}=    Create List    BAD_FORMAT    BAD_KEYS    ECDSA256    ECDSA384
     ...    ECDSA521    EXPIRED    GOOD_KEYS    INTERMEDIATE    NOT_SIGNED
     ...    RSA2048    RSA3072    RSA4096
