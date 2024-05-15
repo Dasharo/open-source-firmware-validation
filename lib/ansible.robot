@@ -25,7 +25,7 @@ Run Ansible Playbook On Supported Operating Systems
                 Should Be Equal As Integers    ${rc}    0
                 Should Not Contain    ${output}    FAIL
                 Switch To Root User
-                Write Into Terminal    reboot
+                Execute Reboot Command
                 Restore Initial DUT Connection Method
                 Read From Terminal Until    System Reboot
             END
