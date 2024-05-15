@@ -30,6 +30,6 @@ Run Ansible Playbook On Supported Operating Systems
                 Read From Terminal Until    System Reboot
             END
         ELSE
-            Log    This keyword works only on QEMU...    INFO
+            Log    Ansible configuration is not supported...    INFO
         END
     END
