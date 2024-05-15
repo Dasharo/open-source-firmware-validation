@@ -64,12 +64,12 @@ Remove Old Secure Boot Keys In OS
     [Documentation]    Removes all files and directories in
     ...    `/usr/share/secureboot` which is used by sbctl in the operating
     ...    system
-    Execute Linux Command Without Output    rm -rf /usr/share/secureboot
+    ${out}=    Execute Command In Terminal    rm -rf /usr/share/secureboot
 
 Generate Secure Boot Keys In OS
     [Documentation]    Generates new Secure Boot keys using sbctl.
     ...    Returns true if succeeded.
-    ${out}=    Execute Linux Command    sbctl create-keys
+    ${out}=    Execute Command In Terminal    sbctl create-keys
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    Secure boot keys created!
     RETURN    ${sb_status}
@@ -78,7 +78,7 @@ Enroll Secure Boot Keys In OS
     [Documentation]    Enrolls current keys to EFI using sbctl.
     ...    Returns true if succeeded.
     [Arguments]    ${result}
-    ${out}=    Execute Linux Command    sbctl enroll-keys --yes-this-might-brick-my-machine
+    ${out}=    Execute Command In Terminal    sbctl enroll-keys --yes-this-might-brick-my-machine
     IF    ${result} == True
         ${sb_status}=    Run Keyword And Return Status
         ...    Should Contain    ${out}    Enrolled keys to the EFI variables!
@@ -90,7 +90,8 @@ Enroll Secure Boot Keys In OS
 
 Sign All Boot Components In OS
     [Documentation]    Signs boot components with current keys using sbctl
-    Execute Linux Command    sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
+    ${cmd}=    Execute Command In Terminal
+    ...    sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
 
 Compare KEK Certificate Using Mokutil In DTS
     [Documentation]    Compares two KEK certificates. It takes as argument the
@@ -99,7 +100,7 @@ Compare KEK Certificate Using Mokutil In DTS
     [Arguments]    ${first_certificate}
     ${is_https_link}=    Run Keyword And Return Status    Should Contain    ${first_certificate}    https://
     IF    ${is_https_link} == ${TRUE}
-        Execute Command In Terminal    wget ${first_certificate} -O /tmp/first_certificate.crt
+        ${cmd}=    Execute Command In Terminal    wget ${first_certificate} -O /tmp/first_certificate.crt
         ${first_certificate_string}=    Execute Command In Terminal
         ...    openssl x509 -in /tmp/first_certificate.crt -noout -text
     ELSE
@@ -116,7 +117,7 @@ Generate Wrong Format Keys And Move Them
     [Documentation]    Generates elliptic curve keys and moves them to the
     ...    desired location.
     [Arguments]    ${name}    ${location}
-    Execute Linux Command
+    ${cmd}=    Execute Command In Terminal
     ...    openssl ecparam -genkey -name secp384r1 -out ${name}.key && openssl req -new -x509 -key ${name}.key -out ${name}.pem -days 365 -subj "/CN=3mdeb_test"
-    Execute Linux Command    mv ${name}.key ${location}
-    Execute Linux Command    mv ${name}.pem ${location}
+    ${cmd}=    Execute Command In Terminal    mv ${name}.key ${location}
+    ${cmd}=    Execute Command In Terminal    mv ${name}.pem ${location}
