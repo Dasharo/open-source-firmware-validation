@@ -30,7 +30,7 @@ Download ISO And Mount As USB
             Upload Image To PiKVM    ${PIKVM_IP}    ${img_url}    ${img_name}
             Mount Image On PiKVM    ${PIKVM_IP}    ${img_name}
         ELSE
-            Skip    unsupported
+            Skip    DUT_CONNECTION_METHOD for hardware platforms is not set to pikvm.
         END
     END
 
@@ -50,6 +50,6 @@ Mount ISO As USB
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
             Mount Image On PiKVM    ${PIKVM_IP}    ${img_name}
         ELSE
-            Skip    unsupported
+            Skip    DUT_CONNECTION_METHOD for hardware platforms is not set to pikvm.
         END
     END
