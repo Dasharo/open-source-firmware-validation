@@ -21,6 +21,7 @@
       git:
         repo: https://github.com/Foxboron/sbctl
         dest: "/tmp/sbctl"
+        version: 0.13
 
 - name: Build and install sbctl
   hosts: all
