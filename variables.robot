@@ -202,12 +202,10 @@ ${OS_UBUNTU}=               ubuntu
 # MinnowBoard Turbot
 &{RTE55}=                   ip=192.168.10.112
 ...                         platform=minnowboard-turbot
-
 # MPL-PIP4
-&{RTE56}=                   ip=192.168.4.165    cpuid=02c00042ea42e744    pcb_rev=1.0.0
+&{RTE56}=                   ip=192.168.4.165    pcb_rev=1.0.0
 ...                         platform=mpl-pip4    sonoff_ip=192.168.4.222
-...                         board-revision=x    env=dev    platform_vendor=mpl
-...                         pikvm_ip=192.168.4.105
+...                         platform_vendor=mpl    pikvm_ip=192.168.4.105
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
