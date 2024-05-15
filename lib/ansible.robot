@@ -17,9 +17,9 @@ Run Ansible Playbook On Supported Operating Systems
                 Power On
                 Boot System Or From Connected Disk    ubuntu
                 Login To Linux
-                ${ansible_hosts}=    Set Variable    ${CURDIR}${/}..${/}ansible-roles${/}hosts
+                ${ansible_hosts}=    Set Variable    ${CURDIR}${/}..${/}ansible${/}hosts
                 ${ansible_role}=    Set Variable
-                ...    ${CURDIR}${/}..${/}ansible-roles${/}roles${/}${ran_suite_name}${/}tasks${/}common.yml
+                ...    ${CURDIR}${/}..${/}ansible${/}roles${/}${ran_suite_name}${/}tasks${/}common.yml
                 ${rc}    ${output}=    Run And Return RC And Output
                 ...    sh -c 'ansible-playbook --extra-vars "ansible_become_password=${UBUNTU_PASSWORD}" -i ${ansible_hosts} ${ansible_role}'
                 Should Be Equal As Integers    ${rc}    0

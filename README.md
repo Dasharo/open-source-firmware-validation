@@ -206,10 +206,10 @@ requirements:
   Systems](./lib/ansible.robot) keyword in the Suite Setup section of the
   running test suite,
 * preparation of the IP address and port information used to connect SSH to the
-  DUT in the [ansible-roles/hosts](./ansible-roles/hosts) file, along with
+  DUT in the [ansible/hosts](./ansible/hosts) file, along with
   credentials for logging into the system,
 * preparation of the relevant playbook under
-  [ansible-roles/roles](./ansible-roles/roles) to be executed before starting the
+  [ansible/roles](./ansible/roles) to be executed before starting the
   tests, the idea here is to store playbooks yml files under
   `${suite_test_name}/tasks/common.yml`,
 * set `ANSIBLE_SUPPORT` to `${TRUE}` in platform config file.
