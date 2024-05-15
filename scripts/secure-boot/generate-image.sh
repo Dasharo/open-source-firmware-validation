@@ -165,14 +165,14 @@ sign_img_and_create_iso() {
     umount "/run/media/$(whoami)/$IMAGELABEL"
     # now the image is ready, all we have to do is copy it to the desired location
     IMAGENAME=$TESTNAME$CRYP_ALG
-    cp -f image.img "$SCRIPTDIR"/../images/$IMAGENAME.img
+    cp -f image.img "$SCRIPTDIR"/images/$IMAGENAME.img
 }
 
 echo "Creating image for $TESTNAME $CRYP_ALG"
 echo ""
 
 # make sure images directory exists
-mkdir -p "$SCRIPTDIR"/../images/
+mkdir -p "$SCRIPTDIR"/images/
 error_check "Cannot create directory for images"
 
 # go into a separate directory to make cleanup easier

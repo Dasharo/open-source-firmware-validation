@@ -16,7 +16,7 @@ Check If Certificate Images For Tests Exists
         ${image_path}=    Set Variable    ${CURDIR}/../scripts/secure-boot/images/${image}.img
         OperatingSystem.File Should Exist
         ...    ${image_path}
-        ...    Image ${image}.img does not exist! Please run ./scripts/secure-boot/generate-images/sb-img-wrapper.sh script.
+        ...    Image ${image}.img does not exist! Please run ./scripts/secure-boot/sb-img-wrapper.sh script.
     END
 
 Check Secure Boot In Linux
