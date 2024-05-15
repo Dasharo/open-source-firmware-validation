@@ -117,7 +117,6 @@ Disable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration
     ...    menu.
     [Arguments]    ${sb_menu}
-    # ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
     ${sb_menu}=    Get Slice From List    ${sb_menu}    1
     Set Option State    ${sb_menu}    Secure Boot *\[    Disabled
 
