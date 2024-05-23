@@ -56,8 +56,6 @@ ${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
 ${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${USB_MODEL}=                                       ${EMPTY}
 ${USB_DEVICE}=                                      ${EMPTY}
-${SD_CARD_VENDOR}=                                  ${EMPTY}
-${SD_CARD_MODEL}=                                   ${EMPTY}
 
 ${FLASHROM_FLAGS}=                                  ${EMPTY}
 

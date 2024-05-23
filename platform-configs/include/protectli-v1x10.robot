@@ -27,6 +27,7 @@ ${DMIDECODE_TYPE}=                  Desktop
 ${NVME_DISK_SUPPORT}=               ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=           ${TRUE}
 
+
 *** Keywords ***
 Power On
     [Documentation]    Keyword clears telnet buffer and sets Device Under Test
