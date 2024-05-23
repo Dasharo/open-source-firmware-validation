@@ -39,8 +39,6 @@ ${DEVICE_AUDIO1_WIN}=                           Realtek High Definition Audio
 ${WIFI_CARD_UBUNTU}=                            ${EMPTY}
 ${USB_MODEL}=                                   Kingston
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
-${SD_CARD_VENDOR}=                              Mass
-${SD_CARD_MODEL}=                               Storage
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
