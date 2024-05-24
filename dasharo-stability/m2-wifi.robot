@@ -129,6 +129,7 @@ Wi-fi Connection After Suspension (Ubuntu 22.04)
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
+    Detect Or Install Package    pciutils
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux

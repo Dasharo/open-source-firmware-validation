@@ -34,6 +34,7 @@ NVI001.001 NVIDIA Graphics detect (Ubuntu 20.04)
     Power On
     Login To Linux
     Switch To Root User
+    Detect Or Install Package    pciutils
     ${out}=    Execute Linux Command    lspci | grep -i nvidia | cat
     Should Contain    ${out}    3D controller: NVIDIA Corporation
     Exit From Root User

@@ -40,6 +40,7 @@ WLE001.001 Wireless card detection (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Detect Or Install Package    pciutils
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Log To Console    The test passed for the ${WIFI_CARD_UBUNTU} wireless card
@@ -75,6 +76,7 @@ WLE002.001 Wi-Fi scanning (Ubuntu 20.04)
     Login To Linux
     Switch To Root User
     Scan For Wi-Fi In Linux
+    Detect Or Install Package    pciutils
     ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
     Exit From Root User
     Log To Console    The test passed for the ${current_card} wireless card
@@ -110,6 +112,7 @@ WLE003.001 Bluetooth scanning (Ubuntu 20.04)
     Login To Linux
     Switch To Root User
     Scan For Bluetooth In Linux
+    Detect Or Install Package    pciutils
     ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
     Exit From Root User
     Log To Console    The test passed for the ${current_card} wireless card
