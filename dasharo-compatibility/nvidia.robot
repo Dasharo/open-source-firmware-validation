@@ -56,5 +56,6 @@ NVI002.001 NVIDIA Graphics power management (Ubuntu 20.04)
     Login To Linux
     Switch To Root User
     Detect Or Install Package    mesa-utils
+    Detect Or Install Package    pciutils
     Check NVIDIA Power Management In Linux
     Exit From Root User
