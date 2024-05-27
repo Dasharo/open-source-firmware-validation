@@ -58,6 +58,7 @@ CHS002.001 Check camera disablement
 Check The Presence Of Webcam
     [Documentation]    Checks if webcam is visible for operating system
     ...    Returns True if presence is detected
+    Detect Or Install Package    usbtools
     ${terminal_result}=    Execute Command In Terminal    lsusb | grep '${WEBCAM_UBUNTU}'
     ${result}=    Run Keyword And Return Status
     ...    Should Not Be Empty    ${terminal_result}
