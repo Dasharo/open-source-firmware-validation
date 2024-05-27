@@ -101,6 +101,7 @@ SMW0004.001 Wi-fi connection after suspension (Ubuntu 22.04)
     Power On
     Login To Linux
     Switch To Root User
+    Detect Or Install Package    pciutils
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux
