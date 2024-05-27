@@ -37,6 +37,9 @@ WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu 22.04)
     Set Option State    ${security_menu}    Enable Wi-Fi + BT radios    ${FALSE}
     Save Changes And Reset
     Login To Linux
+    Switch To Root User
+    Detect Or Install Package    pciutils
+    Detect Or Install Package    usbutils
     ${wifi}=    Check The Presence Of WiFi Card
     Should Not Be True    ${wifi}
     ${bt}=    Check The Presence Of Bluetooth Card
@@ -54,6 +57,9 @@ WBS002.001 Wifi and Bluetooth card power switch enabled (Ubuntu 22.04)
     Set Option State    ${security_menu}    Enable Wi-Fi + BT radios    ${TRUE}
     Save Changes And Reset
     Login To Linux
+    Switch To Root User
+    Detect Or Install Package    pciutils
+    Detect Or Install Package    usbutils
     ${wifi}=    Check The Presence Of WiFi Card
     Should Be True    ${wifi}
     ${bt}=    Check The Presence Of Bluetooth Card
