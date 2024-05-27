@@ -280,11 +280,10 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR022.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR022.001 not supported
 
-    Mount Image On PiKVM    ${PIKVM_IP}    dts-v1.2.21.img
     # Flash old fw version without ec sync
     Make Sure That Flash Locks Are Disabled
-    Power On
-    Boot Dasharo Tools Suite    USB
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
     Flash Firmware In DTS    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
@@ -296,23 +295,24 @@ ECR022.001 EC sync update with power adapter connected works correctly
 
     # Make sure both coreboot and EC was flashed
     Make Sure That Flash Locks Are Disabled
-    Power On
-    Boot Dasharo Tools Suite    USB
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
     Check EC Firmware Version
     ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
 
     # Flash new fw with ec sync
+    Put File    ${FW_FILE}    /tmp/coreboot_with_ec.rom    scp=ALL
     ${flash_result}=    Execute Command In Terminal
-    ...    flashrom -p internal --ifd -i bios -w /coreboot_with_ec.rom
+    ...    flashrom -p internal --ifd -i bios -w /tmp/coreboot_with_ec.rom
     Should Contain    ${flash_result}    VERIFIED
     Write Into Terminal    reboot
     Sleep    20s
     Power On
     Execute Manual Step    Enable console redirection
-    Power On
-    Boot Dasharo Tools Suite    USB
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_EC_SYNC_VERSION}
     Check EC Firmware Version
@@ -330,12 +330,11 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS023.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS023.001 not supported
 
-    Mount Image On PiKVM    ${PIKVM_IP}    dts-v1.2.21.img
     # Flash old fw version without ec sync
     # Connect Laptop to power adapter
-    Power On
     Make Sure That Flash Locks Are Disabled
-    Boot Dasharo Tools Suite    USB
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
     Flash Firmware In DTS    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
@@ -345,15 +344,17 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Power On
     Execute Manual Step    Enable console redirection
     Make Sure That Flash Locks Are Disabled
-    Boot Dasharo Tools Suite    USB
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
     Check EC Firmware Version
     ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
 
     # Flash new fw with ec sync
+    Put File    ${FW_FILE}    /tmp/coreboot_with_ec.rom    scp=ALL
     ${flash_result}=    Execute Command In Terminal
-    ...    flashrom -p internal --ifd -i bios -w /coreboot_with_ec.rom
+    ...    flashrom -p internal --ifd -i bios -w /tmp/coreboot_with_ec.rom
     Should Contain    ${flash_result}    VERIFIED
     # Disconnect power adapter
     Sonoff Power Off
@@ -361,8 +362,8 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Sleep    20
     Power On
     Execute Manual Step    Enable console redirection
-    Power On
-    Boot Dasharo Tools Suite    USB
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_EC_SYNC_VERSION}
     Check EC Firmware Version
