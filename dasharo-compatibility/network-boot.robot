@@ -114,3 +114,18 @@ PXE006.001 iPXE shell option is available and works correctly
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Read From Terminal Until    iPXE>
+
+PXE007.001 Dasharo Network Boot over https not http
+    [Documentation]    This test aims to verify, if the boot takes place via
+    ...    https:// and not via http://.
+    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE001.001 not supported
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
+    ${out}=    Read From Terminal Until    Enter an option
+    Log    ${out}
+    Should Contain    ${out}    https://
+    Should Not Contain    ${out}    http://
