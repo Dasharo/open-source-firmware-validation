@@ -12,6 +12,7 @@ ${DEVICE_AUDIO1_WIN}=               High Definition Audio Device
 ${INITIAL_CPU_FREQUENCY}=           2600
 ${MAX_CPU_TEMP}=                    82
 ${WATCHDOG_SUPPORT}=                ${TRUE}
+${EXTERNAL_HEADSET_SUPPORT}=        ${TRUE}
 
 # eMMC driver support
 ${E_MMC_NAME}=                      AJTD4R

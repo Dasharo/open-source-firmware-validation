@@ -73,6 +73,7 @@ AUD004.001 External headset recognition (Ubuntu 20.04)
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.001 not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
