@@ -29,16 +29,16 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Execute Shell Command
+Execute UEFI Shell Command
     [Documentation]    Test Execute Shell Command kwd
     Power On
     Enter UEFI Shell
-    Execute Shell Command    map
+    Execute UEFI Shell Command    map
     ${out}=    Read From Terminal Until    Shell>
     Should Contain    ${out}    FS0:
-    Execute Shell Command    devices
+    Execute UEFI Shell Command    devices
     ${out}=    Read From Terminal Until    Shell>
     Should Contain    ${out}    Device Name
-    Execute Shell Command    bcfg boot dump
+    Execute UEFI Shell Command    bcfg boot dump
     ${out}=    Read From Terminal Until    Shell>
     Should Contain    ${out}    Optional- N

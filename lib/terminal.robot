@@ -161,7 +161,7 @@ Execute Command In Terminal
     ${output}=    Strip String    ${output}    mode=right    characters=\n\r
     RETURN    ${output}
 
-Execute Shell Command
+Execute UEFI Shell Command
     [Documentation]    Universal keyword to execute command in Shell.
     [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=3
     Set DUT Response Timeout    ${timeout}

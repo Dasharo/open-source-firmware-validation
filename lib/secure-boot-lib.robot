@@ -227,9 +227,9 @@ Execute File In UEFI Shell
     # UEFI shell has different line ending than the one we have set for the
     # Telnet connection. We cannot change it while the connection is open.
     [Arguments]    ${file}
-    Execute Shell Command    fs0:
+    Execute UEFI Shell Command    fs0:
     Read From Terminal Until    FS0:\\>
-    Execute Shell Command    ${file}
+    Execute UEFI Shell Command    ${file}
     Press Enter
     ${out}=    Read From Terminal Until    FS0:\\>
     RETURN    ${out}
