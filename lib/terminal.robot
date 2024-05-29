@@ -160,3 +160,13 @@ Execute Command In Terminal
     # Drop last newline, if any
     ${output}=    Strip String    ${output}    mode=right    characters=\n\r
     RETURN    ${output}
+
+Execute Shell Command
+    [Documentation]    Universal keyword to execute command in Shell.
+    [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=3
+    Set DUT Response Timeout    ${timeout}
+    ${length}=    Get Length    ${command}
+    ${timeout}=    Evaluate    ${length} * ${uefi_shell_input_latency}
+    Write Bare Into Terminal    ${command}
+    Sleep    ${timeout}ms
+    Press Enter
