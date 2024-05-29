@@ -124,6 +124,13 @@ source venv/bin/activate
 > steps](https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli#installation)
 > to configure the scripts
 
+* Executing manual steps require that tkinter module be installed which can't be
+done via pip
+
+```bash
+sudo dnf install python3-tkinter
+```
+
 ### Running tests
 
 When running tests on Dasharo platforms use the following commands:
