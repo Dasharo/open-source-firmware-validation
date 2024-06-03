@@ -47,7 +47,8 @@ SAT001.001 ESP Scan should contain SATA if it is present
     Should Contain    ${boot_menu}    SATA
 
 SAT001.002 SATA should be visible from OS
-    [Documentation]    This test aims to verify that SATA is detected from OS.
+    [Documentation]    This test aims to verify that SATA is detected from OS
+    ...    by using smartctl and hwinfo.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SAT001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SAT001.002 not supported
 
@@ -61,7 +62,7 @@ SAT001.002 SATA should be visible from OS
 
     ${out}=    Execute Linux Command    sudo smartctl -i $(mount | grep -E '(/|/boot) ' | awk '{print $1}' | head -1)
     Log    ${out}
-    Should Contain    ${out}    SATA Version is:  SATA
+    Should Contain    ${out}    SATA Version is:    SATA
 
     ${out}=    Execute Linux Command    sudo hwinfo --disk
     Log    ${out}
