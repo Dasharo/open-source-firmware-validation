@@ -506,8 +506,6 @@ Prepare Test Suite
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
-    Log    Library configuration:
-    Log    - options: ${OPTIONS_LIB}
     # Add some metadata to track test version
     ${revision}=    Run    git describe --dirty --always --tags
     Set Suite Metadata    OSFV revision    ${revision}
@@ -561,7 +559,7 @@ Prepare To SSH Connection
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    # Sonoff API Setup    ${sonoff_ip}
+    Open Connection And Log In
     IF    '${SNIPEIT}'=='no'    RETURN
     SnipeIt Checkout    ${RTE_IP}
 
@@ -730,7 +728,11 @@ Sonoff Power Cycle On
     ...    Sonoff
     Sonoff Power Off
     Sleep    10
-    Telnet.Read
+    TRY
+        Telnet.Read
+    EXCEPT
+        Log    Could not clear Telnet buffer
+    END
     Sonoff Power On
 
 Power Cycle Off
