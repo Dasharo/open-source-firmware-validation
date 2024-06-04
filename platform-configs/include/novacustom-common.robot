@@ -6,10 +6,9 @@ Resource    default.robot
 # For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
 # We need to go back to the initial method (pikvm) when switching back from
 # OS to firmware (e.g. when rebooting inside a single test case).
-${INITIAL_DUT_CONNECTION_METHOD}=                   pikvm
+${INITIAL_DUT_CONNECTION_METHOD}=                   SSH
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
-${RTE_S2_N_PORT}=                                   13541
 ${TIANOCORE_STRING}=                                to boot directly
 ${BOOT_MENU_KEY}=                                   F7
 ${SETUP_MENU_KEY}=                                  F2
@@ -30,11 +29,13 @@ ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                Not Applicable
 ${DMIDECODE_TYPE}=                                  Notebook
 
+${OPTIONS_LIB}=                                     dcu
+
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
 ${CLEVO_USB_C_HUB}=                                 4-port
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 # Supported test environments
-${TESTS_IN_FIRMWARE_SUPPORT}=                       ${TRUE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
 
@@ -133,7 +134,6 @@ Power On
     ...    into Power On state from Mechanical Off. (coldboot) For example:
     ...    sonoff, RTE relays.
     Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Power Cycle On
     Sleep    2s
     RteCtrl Set OC GPIO    12    low
