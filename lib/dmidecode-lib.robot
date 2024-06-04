@@ -1,9 +1,9 @@
 *** Keywords ***
 Check Firmware Version
     [Documentation]    Keyword allows to check firmware version via dmidecode
-    [Arguments]    ${EXPECTED_VERSION}=${FW_VERSION}
+    [Arguments]    ${expected_version}=${FW_VERSION}
     ${output}=    Execute Command In Terminal    dmidecode -t 0
-    Should Contain    ${output}    ${EXPECTED_VERSION}
+    Should Contain    ${output}    ${expected_version}
 
 Get Firmware UUID
     [Documentation]    Keyword allows to check firmware UUID via dmidecode

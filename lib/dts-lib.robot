@@ -94,9 +94,9 @@ Run EC Transition
 Flash Firmware In DTS
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
     ...    ability for flashing firmware work correctly.
-    [Arguments]    ${FW_DL_LINK}=${FW_DOWNLOAD_LINK}
+    [Arguments]    ${fw_dl_link}=${FW_DOWNLOAD_LINK}
     Execute Command In Terminal
-    ...    wget -O /tmp/coreboot.rom ${FW_DL_LINK}
+    ...    wget -O /tmp/coreboot.rom ${fw_dl_link}
     ${out}=    Execute Command In Terminal
     ...    command=flashrom --ifd -i bios -p internal -w /tmp/coreboot.rom --noverify-all
     ...    timeout=320s
