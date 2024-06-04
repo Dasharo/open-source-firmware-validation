@@ -506,6 +506,8 @@ Prepare Test Suite
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
+    Log    Library configuration:
+    Log    - options: ${OPTIONS_LIB}
     # Add some metadata to track test version
     ${revision}=    Run    git describe --dirty --always --tags
     Set Suite Metadata    OSFV revision    ${revision}

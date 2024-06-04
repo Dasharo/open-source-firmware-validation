@@ -1,5 +1,6 @@
 *** Settings ***
 Resource    ../../os-config/ubuntu-credentials.robot
+Resource    ../../lib/options/${OPTIONS_LIB}.robot
 
 
 *** Variables ***
@@ -26,6 +27,12 @@ ${INTERNAL_PROGRAMMER_CHIPNAME}=                    Opaque flash chip
 
 # See: https://github.com/Dasharo/dasharo-issues/issues/614
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
+
+# Library config
+# Option library: UEFI configuration variable backend.
+# - uefi-setup-menu: Will set options via the UEFI Setup menu (serial)
+# - dcu: Will use Dasharo Configuration Utility to configure options.
+${OPTIONS_LIB}=                                     uefi-setup-menu
 
 # OS config
 ${DEVICE_WINDOWS_USERNAME}=                         user
