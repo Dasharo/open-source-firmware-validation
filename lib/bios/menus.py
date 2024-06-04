@@ -128,3 +128,66 @@ def merge_lists(list1, list2):
             final_list.add(i2)
 
     return final_list
+
+
+getoptionpath = {
+    "LockBios": [
+        "Dasharo System Features",
+        "Dasharo Security Features",
+        "Lock the BIOS boot medium",
+    ],
+    "NetworkBoot": [
+        "Dasharo System Features",
+        "Networking Options",
+        "Enable network boot",
+    ],
+    "UsbDriverStack": [
+        "Dasharo System Features",
+        "USB Configuration",
+        "Enable USB stack",
+    ],
+    "UsbMassStorage": [
+        "Dasharo System Features",
+        "USB Configuration",
+        "Enable USB Mass Storage driver",
+    ],
+    "SmmBwp": [
+        "Dasharo System Features",
+        "Dasharo Security Features",
+        "Enable SMM BIOS write protection",
+    ],
+    "MeMode": [
+        "Dasharo System Features",
+        "Intel Management Engine Options",
+        "Intel ME mode",
+    ],
+    "FanCurveOption": [
+        "Dasharo System Features",
+        "Power Management Options",
+        "Fan profile",
+    ],
+    "EnableCamera": [
+        "Dasharo System Features",
+        "Dasharo Security Features",
+        "Enable Camera",
+    ],
+    "EnableWifiBt": [
+        "Dasharo System Features",
+        "Dasharo Security Features",
+        "Enable Wi-Fi + BT radios",
+    ],
+    "SerialRedirection": [
+        "Dasharo System Features",
+        "Serial Port Configuration",
+        "Enable Serial Port Console Redirection",
+    ],
+}
+
+
+@keyword("Option Name To UEFI Path")
+def option_name_to_uefi_path(name):
+    """
+    This keyword converts an option name to a UEFI menu path. This path can be
+    used to navigate to the option in the UEFI Setup Menu app.
+    """
+    return getoptionpath[name]
