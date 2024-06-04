@@ -35,7 +35,7 @@ Execute UEFI Shell Command
     Enter UEFI Shell
     Execute UEFI Shell Command    map
     ${out}=    Read From Terminal Until    Shell>
-    Should Contain    ${out}    FS0:
+    Should Contain    ${out}    Alias(s):
     Execute UEFI Shell Command    devices
     ${out}=    Read From Terminal Until    Shell>
     Should Contain    ${out}    Device Name
