@@ -95,8 +95,8 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
 # It causes "Power on AC" option to reset to disable, so we can no longer Power On using Sonoff
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
-${DTS_FIRMWARE_FLASHING_SUPPORT}                    ${TRUE}
-${DTS_EC_FLASHING_SUPPORT}                          ${TRUE}
+${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
+${DTS_EC_FLASHING_SUPPORT}=                         ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${TRUE}
