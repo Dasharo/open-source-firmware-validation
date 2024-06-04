@@ -23,9 +23,7 @@ Set UEFI Option
     Execute Linux Command    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
     SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
     # TODO error handling
-    Run    cd dcu
-    Run    ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
-    Run    cd ..
+    Run    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
     SSHLibrary.Put File    dcu/coreboot.rom    coreboot.rom
     Execute Linux Command    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
     Power On
