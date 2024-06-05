@@ -230,6 +230,5 @@ Execute File In UEFI Shell
     Execute UEFI Shell Command    fs0:
     Read From Terminal Until    FS0:\\>
     Execute UEFI Shell Command    ${file}
-    Press Enter
     ${out}=    Read From Terminal Until    FS0:\\>
     RETURN    ${out}
