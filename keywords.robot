@@ -142,7 +142,7 @@ Login To Linux Via SSH
     ...    height=100
     ...    escape_ansi=True
     ...    newline=LF
-    Wait Until Keyword Succeeds    12x    10s
+    Wait Until Keyword Succeeds    120x    1s
     ...    SSHLibrary.Login    ${username}    ${password}
 
 Login To Windows Via SSH
