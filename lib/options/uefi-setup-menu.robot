@@ -22,13 +22,14 @@ Set UEFI Option
     END
 
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${submenu_l1}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    ${option_path[0]}
-    ${submenu_l2}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${submenu_l1}
-    ...    ${option_path[1]}
-    ...    opt_only=${TRUE}
-    Set Option State    ${submenu_l2}    ${option_path[2]}    ${value}
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+
+    ${path_len}=    Get Length    ${option_path}
+    FOR    ${i}    IN RANGE    ${path_len} - 1
+        ${menu}=    Enter Submenu From Snapshot And Return Construction
+        ...    ${menu}
+        ...    ${option_path[${i}]}
+    END
+
+    Set Option State    ${menu}    ${option_path[${path_len}-1]}    ${value}
     Save Changes And Reset
