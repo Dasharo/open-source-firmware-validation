@@ -33,7 +33,7 @@ fi
 # Loop through each provided robot variable file
 for robot_variable_file in "$@"; do
     # Specify the file paths to search for variable usage
-    file_paths=("dasharo-compatibility" "dasharo-security" "dasharo-performance" "dasharo-stability" "lib" "keywords.robot")
+    file_paths=("dasharo-compatibility" "dasharo-security" "dasharo-performance" "dasharo-stability" "lib" "keywords.robot" "platform-configs")
 
     # Read variables from the specified robot variable file (only consider the leftmost variable on each line)
     mapfile -t variables < <(awk -F'=' '/^\$\{[^}]+\}=/{gsub(/[[:space:]]/, "", $1); print $1}' "$robot_variable_file" | sort -u)
