@@ -142,7 +142,7 @@ Login To Linux Via SSH
     ...    height=100
     ...    escape_ansi=True
     ...    newline=LF
-    Wait Until Keyword Succeeds    12x    10s
+    Wait Until Keyword Succeeds    120x    1s
     ...    SSHLibrary.Login    ${username}    ${password}
 
 Login To Windows Via SSH
@@ -559,7 +559,6 @@ Prepare To SSH Connection
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    # Sonoff API Setup    ${sonoff_ip}
     IF    '${SNIPEIT}'=='no'    RETURN
     SnipeIt Checkout    ${RTE_IP}
 
@@ -728,7 +727,11 @@ Sonoff Power Cycle On
     ...    Sonoff
     Sonoff Power Off
     Sleep    10
-    Telnet.Read
+    TRY
+        Telnet.Read
+    EXCEPT
+        Log    Could not clear Telnet buffer
+    END
     Sonoff Power On
 
 Power Cycle Off
