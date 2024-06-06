@@ -559,7 +559,6 @@ Prepare To SSH Connection
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
-    Open Connection And Log In
     IF    '${SNIPEIT}'=='no'    RETURN
     SnipeIt Checkout    ${RTE_IP}
 
