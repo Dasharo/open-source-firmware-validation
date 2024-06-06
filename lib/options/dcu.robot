@@ -15,7 +15,6 @@ Set UEFI Option
     Run    git clone https://github.com/Dasharo/dcu
     # TODO: Remove once smmstore support is merged
     Run    cd dcu && git checkout smmstore > /dev/null 2>&1 && cd ..
-    Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -26,4 +25,8 @@ Set UEFI Option
     Run    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
     SSHLibrary.Put File    dcu/coreboot.rom    coreboot.rom
     Execute Linux Command    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
-    Power On
+    Execute Reboot Command
+    # Assume we don't have serial to tell us that we've rebooted, so just wait
+    # 20s for shutdown to finish, to prevent subsequent kwds from running before
+    # reboot.
+    Sleep    20s
