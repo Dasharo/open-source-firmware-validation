@@ -37,7 +37,6 @@ Suite Teardown      Run Keywords
 SAT001.001 ESP Scan should contain SATA if it is present
     [Documentation]    This test aims to verify that SATA shows up in the
     ...    boot menu
-    Sleep    1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SAT001.001 not supported
     Power On
     Clear Out EFI Partition
@@ -60,28 +59,11 @@ SAT001.002 SATA should be visible from OS
     Detect Or Install Package    smartmontools
     Detect Or Install Package    hwinfo
 
-    ${out}=    Execute Linux Command    sudo smartctl -i $(mount | grep -E '(/|/boot) ' | awk '{print $1}' | head -1)
+    ${out}=    Execute Command In Terminal
+    ...    sudo smartctl -i $(mount | grep -E '(/|/boot) ' | awk '{print $1}' | head -1)
     Log    ${out}
     Should Contain    ${out}    SATA Version is:    SATA
 
-    ${out}=    Execute Linux Command    sudo hwinfo --disk
+    ${out}=    Execute Command In Terminal    sudo hwinfo --disk
     Log    ${out}
     Should Contain    ${out}    SATA controller
-
-
-*** Keywords ***
-Prepare Required Files For Qemu
-    IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    dts-base-image-v1.2.8.iso
-        ...    ${DTS_URL}
-        ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
-        Download To Host Cache
-        ...    esp-scanning.img
-        ...    ${DISK_IMAGE_URL}
-        ...    a0cf9c6cc561585b375a7416a5bdb98caad4c48d22f87098844b6e294a3c0aff
-        Download To Host Cache
-        ...    CorePlus-14.0.iso
-        ...    ${TINYCORE_URL}
-        ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
-    END
