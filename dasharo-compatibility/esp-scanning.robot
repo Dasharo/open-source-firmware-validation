@@ -111,21 +111,3 @@ ESP002.001 ESP Scan after deleting additional .efi files
     FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
         Should Not Contain Match    ${boot_menu}    ${system}*
     END
-
-
-*** Keywords ***
-Prepare Required Files For Qemu
-    IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    dts-base-image-v1.2.8.iso
-        ...    ${DTS_URL}
-        ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
-        Download To Host Cache
-        ...    esp-scanning.img
-        ...    ${DISK_IMAGE_URL}
-        ...    a0cf9c6cc561585b375a7416a5bdb98caad4c48d22f87098844b6e294a3c0aff
-        Download To Host Cache
-        ...    CorePlus-14.0.iso
-        ...    ${TINYCORE_URL}
-        ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
-    END
