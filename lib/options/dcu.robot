@@ -6,6 +6,7 @@ Documentation       Library for UEFI configuration using Dasharo Configuration
 Library             Collections
 Library             OperatingSystem
 Library             String
+Resource            ../terminal.robot
 
 
 *** Keywords ***
@@ -19,12 +20,12 @@ Set UEFI Option
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
-    Execute Linux Command    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
+    Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
     SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
     # TODO error handling
     Run    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
     SSHLibrary.Put File    dcu/coreboot.rom    coreboot.rom
-    Execute Linux Command    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
+    Execute Command In Terminal    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
     Execute Reboot Command
     # Assume we don't have serial to tell us that we've rebooted, so just wait
     # 20s for shutdown to finish, to prevent subsequent kwds from running before
