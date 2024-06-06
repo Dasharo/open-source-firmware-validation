@@ -14,8 +14,6 @@ Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     [Arguments]    ${option_name}    ${value}
     Run    git clone https://github.com/Dasharo/dcu
-    # TODO: Remove once smmstore support is merged
-    Run    cd dcu && git checkout smmstore > /dev/null 2>&1 && cd ..
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
