@@ -44,6 +44,7 @@ USB001.002 USB devices detected by OS (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Detect Or Install Package    usbutils
     ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
     Should Contain    ${out}    Human Interface Device
     Should Contain    ${out}    Mass Storage
