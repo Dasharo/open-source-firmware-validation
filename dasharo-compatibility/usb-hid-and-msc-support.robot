@@ -64,11 +64,9 @@ USB002.001 USB keyboard detected in FW
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    Save Changes And Reset
+    Enter UEFI Shell
+    ${out}=    Execute UEFI Shell Command    devices
+    Should Contain    ${out}    Usb Keyboard
 
 USB002.002 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
