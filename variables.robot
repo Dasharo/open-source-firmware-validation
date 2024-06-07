@@ -235,7 +235,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
+...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE50}
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
 ...                         &{RTE61}    &{RTE62}    &{RTE63}
@@ -456,7 +456,6 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
 @{CONFIG39}=                &{RTE47}
 @{CONFIG40}=                &{RTE48}
-@{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD14}
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
 @{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
 @{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD10}
@@ -473,6 +472,6 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG26}    @{CONFIG27}    @{CONFIG28}    @{CONFIG29}
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
-...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
+...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
 ...                         @{CONFIG46}    @{CONFIG47}
