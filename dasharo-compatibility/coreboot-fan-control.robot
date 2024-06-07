@@ -31,7 +31,7 @@ CFN001.001 CPU temperature and fan speed can be read (Debian 11.02)
     Skip If    not ${COREBOOT_FAN_CONTROL_SUPPORT}    CFN001.001 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CFN001.001 not supported
     Power On
-    Boot From USB
+    Boot System Or From Connected Disk    ${USB_LIVE}
     Serial Root Login Linux    debian
     ${rpm}    ${temperature}=    Get CPU Temperature And CPU Fan Speed
     IF    ${rpm}==${0}    FAIL    Fan speed not measured
@@ -43,7 +43,7 @@ CFN002.001 CPU fan speed increases if the temperature rises (Debian 11.02)
     Skip If    not ${COREBOOT_FAN_CONTROL_SUPPORT}    CFN002.001 not supported
     Skip If    not ${TESTS_IN_DEBIAN_SUPPORT}    CFN002.001 not supported
     Power On
-    Boot From USB
+    Boot System Or From Connected Disk    ${USB_LIVE}
     Serial Root Login Linux    debian
     # Colling procedure: sometimes before starting the test case, CPU
     # temperature or CPU's fan speed might be too high. To prevent test case

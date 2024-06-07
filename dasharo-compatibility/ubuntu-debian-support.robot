@@ -71,7 +71,7 @@ LBT001.002 Boot Debian from USB
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LBT001.002 not supported
     IF    '${PREV_TEST_STATUS}'=='FAIL'    FAIL    Install Debian FAILED
     Power On
-    Boot From USB
+    Boot System Or From Connected Disk    ${USB_LIVE}
     Serial Root Login Linux    debian
 
 LBT002.001 Ubuntu LTS installation on USB storage
@@ -126,5 +126,5 @@ LBT002.002 Boot Ubuntu from USB
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LBT002.002 not supported
     IF    '${PREV_TEST_STATUS}'=='FAIL'    FAIL    Install Ubuntu LTS FAILED
     Power On
-    Boot From USB
+    Boot System Or From Connected Disk    ${USB_LIVE}
     Serial Root Login Linux    ubuntu
