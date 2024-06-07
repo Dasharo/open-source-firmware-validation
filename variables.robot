@@ -204,6 +204,23 @@ ${OS_UBUNTU}=               ubuntu
 # NovaCustom NS5x TGL --------------------------------------------------------
 &{RTE56}=                   ip=0.0.0.0
 ...                         platform=novacustom-ns50mu    platform_vendor=Clevo
+# NovaCustom V540TND ---------------------------------------------------------
+&{RTE57}=                   ip=0.0.0.0
+...                         platform=novacustom-v540tnd    platform_vendor=Clevo
+# NovaCustom V540TU ----------------------------------------------------------
+&{RTE58}=                   ip=0.0.0.0
+...                         platform=novacustom-v540tu    platform_vendor=Clevo
+&{RTE59}=                   ip=0.0.0.0
+...                         platform=novacustom-v540tu    platform_vendor=Clevo
+# NovaCustom V560TND ----------------------------------------------------------
+&{RTE60}=                   ip=0.0.0.0
+...                         platform=novacustom-v560tnd    platform_vendor=Clevo
+# NovaCustom V560NE -----------------------------------------------------------
+&{RTE61}=                   ip=0.0.0.0
+...                         platform=novacustom-v560ne    platform_vendor=Clevo
+# NovaCustom V560TU -----------------------------------------------------------
+&{RTE62}=                   ip=0.0.0.0
+...                         platform=novacustom-v560tu    platform_vendor=Clevo
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -216,7 +233,8 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
-...                         &{RTE56}
+...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
+...                         &{RTE61}    &{RTE62}
 
 # hardware database:
 # -----------------------------------------------------------------------------

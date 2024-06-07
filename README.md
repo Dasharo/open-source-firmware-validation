@@ -68,6 +68,11 @@ different platform) may vary.
 | NovaCustom   | NV41MB               | Dasharo                  |  `novacustom-nv41mb`                   |
 | NovaCustom   | NV41MZ               | Dasharo                  |  `novacustom-nv41mz`                   |
 | NovaCustom   | NV41PZ               | Dasharo                  |  `novacustom-nv41pz`                   |
+| NovaCustom   | V540TND              | Dasharo                  |  `novacustom-v540tnd`                  |
+| NovaCustom   | V540TU               | Dasharo                  |  `novacustom-v540tu`                   |
+| NovaCustom   | V560TND              | Dasharo                  |  `novacustom-v560tnd`                  |
+| NovaCustom   | V560TNE              | Dasharo                  |  `novacustom-v560tne`                  |
+| NovaCustom   | V560TU               | Dasharo                  |  `novacustom-v560tu`                   |
 | PC Engines   | apu4                 | Dasharo                  |  `pcengines-apu4`                      |
 | Protectli    | V1210                | Dasharo                  |  `protectli-v1210`                     |
 | Protectli    | V1410                | Dasharo                  |  `protectli-v1410`                     |
