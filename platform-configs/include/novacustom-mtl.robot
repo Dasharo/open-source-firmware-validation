@@ -18,11 +18,11 @@ ${DEVICE_AUDIO1_WIN}=               Realtek High Definition Audio
 
 # Connectivity
 ${WIFI_CARD}=                       Intel(R) Wi-Fi 6 AX201 160MHz
-${WIFI_CARD_UBUNTU}=                Intel Corporation Wi-Fi 6 AX211 (rev 20)
+${WIFI_CARD_UBUNTU}=                Intel Corporation Meteor Lake PCH CNVi WiFi (rev 20)
 ${BLUETOOTH_CARD_UBUNTU}=           Intel Corp. AX211 Bluetooth
 
 # USB
-${WEBCAM_UBUNTU}=                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
+${WEBCAM_UBUNTU}=                   Bison Electronics Inc. BisonCam,NB Pro
 
 # DMI
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.5.2
