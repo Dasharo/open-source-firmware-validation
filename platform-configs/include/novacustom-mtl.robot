@@ -1,6 +1,6 @@
 *** Variables ***
 # Flash
-${FLASH_SIZE}=                      ${16*1024*1024}
+${FLASH_SIZE}=                      ${32*1024*1024}
 
 # CPU
 ${INITIAL_CPU_FREQUENCY}=           2800
