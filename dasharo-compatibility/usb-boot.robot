@@ -35,7 +35,9 @@ UBT001.001 USB detect and boot after coldboot
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power Cycle On
-            Boot From USB
+            ${usb}=    Get USB Boot Option
+            Power On
+            Boot System Or From Connected Disk    ${usb}
             IF    '${PLATFORM}' == 'raptor-cs_talos2'
                 Login To Linux
             ELSE
@@ -61,7 +63,9 @@ UBT002.001 USB detect and boot after warmboot
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power On
-            Boot From USB
+            ${usb}=    Get USB Boot Option
+            Power On
+            Boot System Or From Connected Disk    ${usb}
             IF    '${PLATFORM}' == 'raptor-cs_talos2'
                 Login To Linux
             ELSE
@@ -87,7 +91,9 @@ UBT003.001 USB detect and boot after system reboot
     Power On
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
-            Boot From USB
+            ${usb}=    Get USB Boot Option
+            Power On
+            Boot System Or From Connected Disk    ${usb}
             IF    '${PLATFORM}' != 'raptor-cs_talos2'    Reboot Via Linux On USB
             IF    '${PLATFORM}' == 'raptor-cs_talos2'    Login To Linux
             IF    '${PLATFORM}' == 'raptor-cs_talos2'
