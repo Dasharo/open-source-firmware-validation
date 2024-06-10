@@ -659,3 +659,14 @@ Get Firmware Version From Tianocore Setup Menu
     ${firmware_line}=    Get Lines Containing String    ${output}    Dasharo (coreboot+UEFI)
     ${firmware_version}=    Get Regexp Matches    ${firmware_line}    v\\d{1,}\.\\d{1,}\.\\d{1,}
     RETURN    ${firmware_version}
+
+Get USB Boot Option
+    [Documentation]    Returns the full name of the first boot option
+    ...    containing "USB"
+    ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
+    FOR    ${option}    IN    @{menu_construction}
+        ${match}=    Run Keyword And Return Status    Should Match Regexp
+        ...    ${option}    .*[Uu][Ss][Bb].*
+        IF    ${match}    RETURN    ${option}
+    END
+    FAIL    "No USB boot option found"
