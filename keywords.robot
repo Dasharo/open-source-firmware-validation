@@ -1339,7 +1339,8 @@ Coldboot Via RTE Relay
 Reboot Via OS Boot By Petitboot
     [Documentation]    Reboot system with system installed on the DUT while
     ...    already logged into Petitboot.
-    Boot From USB
+    ${usb_option}=    Get USB Boot Option
+    Boot System Or From Connected Disk    ${usb_option}
     Login To Linux
     Execute Linux Command    reboot
     Sleep    60s
