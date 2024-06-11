@@ -283,6 +283,7 @@ ECR022.001 EC sync update with power adapter connected works correctly
     # Flash old fw version without ec sync
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
+    Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
@@ -296,6 +297,7 @@ ECR022.001 EC sync update with power adapter connected works correctly
     # Make sure both coreboot and EC was flashed
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
+    Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
@@ -312,6 +314,7 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Power On
     Execute Manual Step    Enable console redirection
     Make Sure That Network Boot Is Enabled
+    Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_EC_SYNC_VERSION}
@@ -334,6 +337,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     # Connect Laptop to power adapter
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
+    Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
@@ -345,6 +349,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Execute Manual Step    Enable console redirection
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
+    Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
@@ -363,6 +368,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Power On
     Execute Manual Step    Enable console redirection
     Make Sure That Network Boot Is Enabled
+    Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_EC_SYNC_VERSION}
