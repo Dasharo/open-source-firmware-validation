@@ -279,7 +279,6 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR022.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR022.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR022.001 not supported
-
     # Flash old fw version without ec sync
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
@@ -317,9 +316,10 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
-    Check Firmware Version    ${FW_EC_SYNC_VERSION}
-    Check EC Firmware Version
-    ...    EXPECTED_VERSION=${EC_SYNC_VERSION}    TOOL=dasharo_ectool
+    Run Keyword And Expect Error    *    Check Firmware Version
+    ...    ${FW_NO_EC_SYNC_VERSION}
+    Run Keyword And Expect Error    *    Check EC Firmware Version
+    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
 
     # Make sure EC isn't flashed second time after restart
     Write Into Terminal    reboot
@@ -371,6 +371,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
-    Check Firmware Version    ${FW_EC_SYNC_VERSION}
+    Run Keyword And Expect Error    *    Check Firmware Version
+    ...    ${FW_NO_EC_SYNC_VERSION}
     Check EC Firmware Version
     ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
