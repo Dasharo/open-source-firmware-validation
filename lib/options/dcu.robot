@@ -20,8 +20,10 @@ Set UEFI Option
     Get Flashrom From Cloud
     Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
     SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
-    # TODO error handling
-    Run    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
+    ${result}=    Run Process
+    ...    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
+    ...    shell=True
+    Should Contain    ${result.stdout}    Success
     SSHLibrary.Put File    dcu/coreboot.rom    coreboot.rom
     Execute Command In Terminal    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
     Execute Reboot Command
@@ -29,3 +31,19 @@ Set UEFI Option
     # 20s for shutdown to finish, to prevent subsequent kwds from running before
     # reboot.
     Sleep    20s
+
+Get UEFI Option
+    [Documentation]    Read an UEFI option value.
+    [Arguments]    ${option_name}
+    Run    git clone https://github.com/Dasharo/dcu
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Get Flashrom From Cloud
+    Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
+    Execute Command In Terminal    chmod 666 coreboot.rom
+    SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
+    ${out}=    Run Process
+    ...    cd dcu && ./dcu v coreboot.rom --get "${option_name}"
+    ...    shell=True
+    RETURN    ${out.stdout}
