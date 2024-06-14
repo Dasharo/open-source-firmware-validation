@@ -133,6 +133,7 @@ Power On
     [Documentation]    Keyword clears SSH buffer and sets Device Under Test
     ...    into Power On state from Mechanical Off. (coldboot) For example:
     ...    sonoff, RTE relays.
+    IF    "${POWER_CTRL}"=="none"    RETURN
     Restore Initial DUT Connection Method
     Power Cycle On
     Sleep    2s
