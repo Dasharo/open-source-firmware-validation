@@ -33,6 +33,7 @@ USS001.001 Enable USB stack (firmware)
     ...    the firmware level.
     Skip If    not ${USB_STACK_SUPPORT}    USS001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS001.001 not supported
+    Skip If    "${OPTIONS_LIB}" == "dcu"
     Set UEFI Option    UsbDriverStack    Enabled
     Set UEFI Option    UsbMassStorage    Enabled
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -44,6 +45,7 @@ USS002.001 Disable USB stack (firmware)
     ...    the firmware level.
     Skip If    not ${USB_STACK_SUPPORT}    USS002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS002.001 not supported
+    Skip If    "${OPTIONS_LIB}" == "dcu"
     Set UEFI Option    UsbMassStorage    Disabled
     Set UEFI Option    UsbDriverStack    Disabled
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction

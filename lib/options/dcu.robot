@@ -5,6 +5,7 @@ Documentation       Library for UEFI configuration using Dasharo Configuration
 
 Library             Collections
 Library             OperatingSystem
+Library             Process
 Library             String
 Resource            ../terminal.robot
 

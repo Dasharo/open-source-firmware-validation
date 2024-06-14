@@ -181,6 +181,11 @@ getoptionpath = {
         "Serial Port Configuration",
         "Enable Serial Port Console Redirection",
     ],
+    "PCIeResizeableBarsEnabled": [
+        "Dasharo System Features",
+        "PCI/PCIe Configuration",
+        "Enable PCIe Resizeable",
+    ],
 }
 
 
