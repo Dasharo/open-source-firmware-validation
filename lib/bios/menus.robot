@@ -610,19 +610,7 @@ Make Sure That Network Boot Is Enabled
     ...    "Networking Options" is enabled when present, so the network
     ...    boot tests can be executed.
     IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${index}=    Get Index Of Matching Option In Menu    ${dasharo_menu}    Networking Options
-    IF    ${index} != -1
-        ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
-        ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
-        IF    ${index} != -1
-            Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-            Save Changes And Reset
-            Sleep    10s
-        END
-    END
+    Set UEFI Option    NetworkBoot    ${TRUE}
 
 Make Sure That Flash Locks Are Disabled
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
