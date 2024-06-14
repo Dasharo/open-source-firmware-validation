@@ -629,27 +629,11 @@ Make Sure That Flash Locks Are Disabled
     ...    any Dasharo Security Options, if they are present.
     IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${index}=    Get Index Of Matching Option In Menu
-    ...    ${dasharo_menu}    Dasharo Security Options
-    IF    ${index} != -1
-        ${security_menu}=    Enter Dasharo Submenu
-        ...    ${dasharo_menu}    Dasharo Security Options
-        ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Lock the BIOS boot medium    ${TRUE}
-        IF    ${index} != -1
-            Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
-            Reenter Menu
-        END
-        ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Enable SMM BIOS write    ${TRUE}
-        IF    ${index} != -1
-            Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
-            Reenter Menu
-        END
-        Save Changes And Reset
-    END
+    Login To Linux
+    Switch To Root User
+    Get Flashrom From Cloud
+    ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
+    Should Not Contain    ${out_flashrom}    read-only
 
 Get Firmware Version From Tianocore Setup Menu
     [Documentation]    Keyword allows to read firmware version from Tianocore
