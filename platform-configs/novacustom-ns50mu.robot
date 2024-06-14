@@ -20,3 +20,5 @@ ${USB_DEVICE}=                  SanDisk
 ${USB_MODEL}=                   USB Flash Memory
 ${CPU_MAX_FREQUENCY}=           4800
 ${CPU_MIN_FREQUENCY}=           300
+
+${POWER_CTRL}=                  none

@@ -20,6 +20,7 @@ Set UEFI Option
     Switch To Root User
     Get Flashrom From Cloud
     Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
+    Execute Command In Terminal    chmod 666 coreboot.rom
     SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
     ${result}=    Run Process
     ...    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
