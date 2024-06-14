@@ -21,6 +21,7 @@ ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 ${WEBCAM_UBUNTU}=                   USB2.0 Camera
 
 ${POWER_CTRL}=                      none
+${SNIPEIT}=                         no
 ${FLASH_SIZE}=                      33554432
 
 ${TESTS_IN_WINDOWS_SUPPORT}=        ${FALSE}
