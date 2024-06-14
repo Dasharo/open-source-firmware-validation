@@ -30,7 +30,7 @@ WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu 22.04)
     ...    after setting Enable Wi-Fi + BT radios option to false
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS001.001 not supported
-    Set UEFI Option    EnableWifiBt    Enabled
+    Set UEFI Option    EnableWifiBt    Disabled
     Login To Linux
     Switch To Root User
     Detect Or Install Package    pciutils
@@ -45,8 +45,7 @@ WBS002.001 Wifi and Bluetooth card power switch enabled (Ubuntu 22.04)
     ...    after setting Enable Wi-Fi + BT radios option to true
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS002.001 not supported
-    Set UEFI Option    EnableWifiBt    Disabled
-
+    Set UEFI Option    EnableWifiBt    Enabled
     Login To Linux
     Switch To Root User
     Detect Or Install Package    pciutils

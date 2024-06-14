@@ -55,14 +55,12 @@ Test Make Sure That Flash Locks Are Disabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
     ...    Accepts initial state of the BIOS lock and SMM protection as args
     [Arguments]    ${bios_lock_init}    ${smm_lock_init}
-    IF    "${smm_lock_init}"=="Enabled" and "${OPTIONS_LIB}"=="dcu"
-        Skip
-    END
-    Set UEFI Option   LockBios    ${bios_lock_init}
-    Set UEFI Option   SmmBwp    ${smm_lock_init} 
+    IF    "${smm_lock_init}"=="Enabled" and "${OPTIONS_LIB}"=="dcu"    Skip
+    Set UEFI Option    LockBios    ${bios_lock_init}
+    Set UEFI Option    SmmBwp    ${smm_lock_init}
     IF    "${bios_lock_init}"=="Enabled" or "${smm_lock_init}"=="Enabled"
         # Run Keyword And Expect Error    REGEXP:*contains*    Make Sure That Flash Locks Are Disabled
-         Run Keyword And Expect Error    *    Make Sure That Flash Locks Are Disabled
+        Run Keyword And Expect Error    *    Make Sure That Flash Locks Are Disabled
     ELSE
-        Make Sure That Flash Locks Are Disabled  
+        Make Sure That Flash Locks Are Disabled
     END
