@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    include/novacustom-common.robot
 Resource    include/novacustom-adl.robot
+Resource    include/novacustom-common.robot
 
 
 *** Variables ***
