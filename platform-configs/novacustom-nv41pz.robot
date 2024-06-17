@@ -20,3 +20,10 @@ ${USB_DEVICE}=                  Kingston
 ${USB_MODEL}=                   USB Flash Memory
 ${CPU_MAX_FREQUENCY}=           4800
 ${CPU_MIN_FREQUENCY}=           300
+
+${BLUETOOTH_CARD_UBUNTU}=       8087:0026
+
+${POWER_CTRL}=                  none
+
+${USB_STACK_SUPPORT}=           ${TRUE}
+${TESTS_IN_WINDOWS_SUPPORT}=    ${FALSE}
