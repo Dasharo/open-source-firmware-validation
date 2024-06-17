@@ -223,7 +223,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=novacustom-v560tu    platform_vendor=Clevo
 # Protectli V1211
 &{RTE63}=                   ip=192.168.10.227    cpuid=02c00042652f4120
-...                         platform=protectli-v1210
+...                         platform=protectli-v1211
 ...                         platform_vendor=protectli
 
 @{RTE_LIST}=                &{RTE05}
