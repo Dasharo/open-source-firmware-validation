@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    include/novacustom-common.robot
 Resource    include/novacustom-tgl.robot
+Resource    include/novacustom-common.robot
 
 
 *** Variables ***
