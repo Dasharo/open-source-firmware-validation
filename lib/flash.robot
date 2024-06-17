@@ -84,7 +84,7 @@ Flash Firmware
     ELSE IF    '${platform[:8]}' == 'KGPE-D16'
         Flash KGPE-D16
     ELSE IF    '${platform[:10]}' == 'novacustom'
-        Flash Device Via Internal Programmer    ${fw_file}
+        Flash Via Internal Programmer    ${fw_file}    region=bios
     ELSE IF    '${platform[:16]}' == 'protectli-vp4630'
         Flash Protectli VP4630 External
     ELSE IF    '${platform[:16]}' == 'protectli-vp4650'
