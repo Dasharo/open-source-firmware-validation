@@ -158,56 +158,6 @@ Wake Up
     Sleep    1s
     RteCtrl Set OC GPIO    12    high-z
 
-Flash Device Via Internal Programmer
-    [Documentation]    Keyword allows to flash Device Under Test firmware by
-    ...    using internal programmer and check flashing procedure
-    ...    result. Implementation must be compatible with the theory
-    ...    of operation of a specific platform.
-    [Arguments]    ${fw_file}
-    Login To Linux
-    Switch To Root User
-    Put File    ${fw_file}    /tmp/coreboot.rom
-    Get Flashrom From Cloud
-    Write Into Terminal    flashrom -p internal -w /tmp/coreboot.rom --ifd -i bios
-    ${flash_result}=    Read From Terminal Until Prompt
-    IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""
-        RETURN
-    END
-    Should Contain    ${flash_result}    VERIFIED
-
-Flash Device Via Internal Programmer With Fwupd
-    [Documentation]    Keyword allows to flash Device Under Test firmware by
-    ...    using internal programmer with fwupd and check flashing
-    ...    procedure result. Implementation must be compatible with
-    ...    the theory of operation of a specific platform.
-    Power On
-    Login To Linux
-    Switch To Root User
-    Install Fwupd And Flashrom
-    Get Embargo Configuration
-    Execute Linux Command    fwupdmgr refresh --force
-    ${output}=    Execute Linux Command    fwupdmgr update
-    Should Not Contain    ${output}    No updatable devices
-    Exit From Root User
-
-Flash Device Via External Programmer
-    [Documentation]    Keyword allows to flash Device Under Test firmware by
-    ...    using external programmer and check flashing procedure
-    ...    result. Implementation must be compatible with the theory
-    ...    of operation of a specific platform.
-    [Arguments]    ${fw_file}
-    Set Local Variable    ${cmd}    ./flashrom -p ch341a_spi -c GD25B128B/GD25Q128B -w ${fw_file}
-    # TODO:
-    # - flashing via RTE does not work yet
-    # ${out}=
-    # Should Contain    ${out}    Erase/write done
-    # Should Contain    ${out}    VERIFIED
-
-Read Firmware Clevo
-    [Documentation]    Read from the flash and save to file dump.rom
-    Write Into Terminal    flashrom -p internal -r coreboot.rom
-    Read From Terminal Until Prompt
-
 Build Coreboot
     [Documentation]    Keyword builds coreboot and save the image to
     ...    `build/coreboot.rom` directory.
