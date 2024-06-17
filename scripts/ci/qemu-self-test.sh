@@ -7,3 +7,4 @@ robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no self-tests/numer
 robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no self-tests/list-options.robot
 robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no self-tests/make-sure-that-flash-locks-are-disabled.robot
 robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no self-tests/secure-boot.robot
+robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no self-tests/terminal.robot
