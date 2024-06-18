@@ -170,3 +170,5 @@ Execute UEFI Shell Command
     Write Bare Into Terminal    ${command}
     Sleep    ${timeout}ms
     Press Enter
+    ${output}=    Read From Terminal
+    RETURN    ${output}

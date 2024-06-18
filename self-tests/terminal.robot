@@ -33,12 +33,9 @@ Execute UEFI Shell Command
     [Documentation]    Test Execute Shell Command kwd
     Power On
     Enter UEFI Shell
-    Execute UEFI Shell Command    map
-    ${out}=    Read From Terminal Until    Shell>
+    ${out}=    Execute UEFI Shell Command    map
     Should Contain    ${out}    Alias(s):
-    Execute UEFI Shell Command    devices
-    ${out}=    Read From Terminal Until    Shell>
+    ${out}=    Execute UEFI Shell Command    devices
     Should Contain    ${out}    Device Name
-    Execute UEFI Shell Command    bcfg boot dump
-    ${out}=    Read From Terminal Until    Shell>
+    ${out}=    Execute UEFI Shell Command    bcfg boot dump
     Should Contain    ${out}    Optional- N
