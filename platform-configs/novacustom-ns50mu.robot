@@ -28,4 +28,4 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ...                                 https://dl.3mdeb.com/open-source-firmware/Dasharo/novacustom_ns5x_tgl/v1.5.1/novacustom_ns5x_tgl_ec_v1.5.1.rom
 ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
-${POWER_CTRL}=                  none
+${POWER_CTRL}=                      none

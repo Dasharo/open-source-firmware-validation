@@ -51,11 +51,11 @@ Flash Device Via External Programmer
     RteCtrl Power On
     Sleep    2s
 
-    IF    ${PLATFORM[:16]}' == 'protectli-vp6670'
+    IF    '${PLATFORM[:16]}' == 'protectli-vp6670'
         ${flash_result}    ${rc}=    SSHLibrary.Execute Command
         ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25L12833F/MX25L12835F/MX25L12845E/MX25L12865E/MX25L12873F" 2>&1
         ...    return_rc=True
-    ELSE IF    ${PLATFORM[:16]}' == 'protectli-vp6650'
+    ELSE IF    '${PLATFORM[:16]}' == 'protectli-vp6650'
         ${flash_result}    ${rc}=    SSHLibrary.Execute Command
         ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -w /tmp/coreboot.rom -c "MX25L12805D" 2>&1
         ...    return_rc=True
