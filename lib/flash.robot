@@ -1,3 +1,5 @@
+*** Settings ***
+Resource    ../keywords.robot
 *** Keywords ***
 Flash Via Internal Programmer With Args
     [Documentation]    Execute flashrom write operation on the given binary,
@@ -76,6 +78,11 @@ Flash Firmware
         Put File    ${fw_file}    /tmp/coreboot.rom
     END
     Sleep    2s
+    IF    "${OPTIONS_LIB}"=="dcu"
+        Make Sure That Flash Locks Are Disabled
+        Flash Via Internal Programmer    ${fw_file}    region='bios'
+        RETURN
+    END
     ${platform}=    Get Current RTE Param    platform
     IF    '${platform[:3]}' == 'apu'
         Flash Apu

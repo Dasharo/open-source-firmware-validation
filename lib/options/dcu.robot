@@ -14,6 +14,7 @@ Resource            ../terminal.robot
 Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     [Arguments]    ${option_name}    ${value}
+    ${value}=    Convert Option Value Argument    ${value}
     Run    git clone https://github.com/Dasharo/dcu
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -49,3 +50,15 @@ Get UEFI Option
     ...    cd dcu && ./dcu v coreboot.rom --get "${option_name}"
     ...    shell=True
     RETURN    ${out.stdout}
+
+Convert Option Value Argument
+    [Arguments]    ${value}
+    IF    "${value}"=="${TRUE}"
+        RETURN    Enabled        
+    ELSE
+        IF    "${value}"=="${FALSE}"
+            RETURN    Disabled 
+        END
+    END
+    RETURN    ${value}
+
