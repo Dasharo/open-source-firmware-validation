@@ -673,6 +673,10 @@ Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
     [Arguments]    ${power_button}=${FALSE}
+    IF    "${OPTIONS_LIB}"=="dcu" and "${POWER_CTRL}"=="none"
+        Execute Reboot Command
+        RETURN
+    END
     Restore Initial DUT Connection Method
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    'sonoff' == '${pc}'
