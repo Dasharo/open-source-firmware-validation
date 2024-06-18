@@ -140,7 +140,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp4670_2 ---------------------------------------------------
 &{RTE49}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95
-...                         platform=protectli-vp4670    sonoff_ip=192.168.10.144
+...                         platform=protectli-vp6650    sonoff_ip=192.168.10.144
 ...                         platform_vendor=protectli
 # * this RTE is currently repurposed for VP6650
 # 3mdeb Protectli vp4650 -----------------------------------------------------
