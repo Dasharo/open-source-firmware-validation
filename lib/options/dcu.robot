@@ -18,6 +18,7 @@ Resource            ../cbmem.robot
 Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     [Arguments]    ${option_name}    ${value}
+    ${value}=    Convert Option Value Argument    ${value}
     Run    git clone https://github.com/Dasharo/dcu
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -124,3 +125,12 @@ Measure Average Reboot Time
 
     ${average}=    Evaluate    ${average}/${iterations}
     RETURN    ${average}
+
+Convert Option Value Argument
+    [Arguments]    ${value}
+    IF    "${value}"=="${TRUE}"
+        RETURN    Enabled
+    ELSE
+        IF    "${value}"=="${FALSE}"    RETURN    Disabled
+    END
+    RETURN    ${value}

@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    ../keywords.robot
+
+
 *** Keywords ***
 Flash Via Internal Programmer With Args
     [Documentation]    Execute flashrom write operation on the given binary,
@@ -76,8 +80,16 @@ Flash Firmware
         Put File    ${fw_file}    /tmp/coreboot.rom
     END
     Sleep    2s
+    IF    "${OPTIONS_LIB}"=="dcu"
+        Make Sure That Flash Locks Are Disabled
+        Flash Via Internal Programmer    ${fw_file}    region='bios'
+        RETURN
+    END
     ${platform}=    Get Current RTE Param    platform
-    IF    '${platform[:3]}' == 'apu'
+    ${external}=    Run Keyword And Return Status    Check If Device Is Flashed Externally    ${platform}
+    IF    "${external}"=="${TRUE}"
+        Flash Device Via External Programmer
+    ELSE IF    '${platform[:3]}' == 'apu'
         Flash Apu
     ELSE IF    '${platform[:13]}' == 'optiplex-7010'
         Flash Firmware Optiplex
@@ -95,14 +107,6 @@ Flash Firmware
         Flash Protectli VP2420 Internal
     ELSE IF    '${platform[:16]}' == 'protectli-vp2410'
         Flash Protectli VP2410 External
-    ELSE IF    '${platform[:16]}' == 'protectli-v1210'
-        Flash Device Via External Programmer
-    ELSE IF    '${platform[:16]}' == 'protectli-vp6670' or '${platform[:16]}' == 'protectli-vp6650'
-        Flash Device Via External Programmer
-    ELSE IF    '${platform[:15]}' == 'protectli-v1410'
-        Flash Device Via External Programmer
-    ELSE IF    '${platform[:15]}' == 'protectli-v1610'
-        Flash Device Via External Programmer
     ELSE IF    '${platform[:19]}' == 'msi-pro-z690-a-ddr5'
         Flash MSI-PRO-Z690
     ELSE IF    '${platform[:24]}' == 'msi-pro-z690-a-wifi-ddr4'
@@ -114,6 +118,20 @@ Flash Firmware
     END
     # First boot after flashing may take longer than usual
     Set DUT Response Timeout    180s
+
+Check If Device Is Flashed Externally
+    [Documentation]    Checks if platform name matches with those we flash
+    ...    externally. Needs to be updated with new platforms.
+    [Arguments]    ${platform_name}
+    ${status}=    Set Variable    ${FALSE}
+    ${match1}=    Run Keyword And Return Status
+    ...    Should Match Regexp    ${platform_name}    *vp66*
+    ${match2}=    Run Keyword And Return Status
+    ...    Should Match Regexp    ${platform_name}    *vp1?10
+    IF    "${match1}"=="${TRUE}" or "${match2}"=="${TRUE}"
+        ${status}=    Set Variable    ${TRUE}
+    END
+    RETURN    ${status}
 
 Replace Logo In Firmware
     [Documentation]    Swap to custom logo in firmware on DUT using cbfstool according
