@@ -186,6 +186,21 @@ getoptionpath = {
         "PCI/PCIe Configuration",
         "Enable PCIe Resizeable",
     ],
+    "HyperThreading": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Hyper-Threading",
+    ],
+    "ActiveECores": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Number of active E-cores",
+    ],
+    "ActivePCores": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Number of active P-cores",
+    ],
 }
 
 
