@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    terminal.robot
+
+
 *** Keywords ***
 Boot Dasharo Tools Suite Via IPXE Shell
     Enter IPXE
@@ -33,6 +37,8 @@ Boot Dasharo Tools Suite
             ${ipxe_menu}=    Get IPXE Boot Menu Construction
             Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
             Set DUT Response Timeout    5m
+            Read From Terminal Until    .cpio.gz...
+            Read From Terminal Until    ok
         END
     ELSE
         FAIL    Unknown or improper connection method: ${dts_booting_method}
@@ -42,11 +48,14 @@ Boot Dasharo Tools Suite
     # two different console in case of Linux, they are not in sync anymore as in case of firmware.
     # We have to switch to SSH connection to continue test execution on such devices.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        # Wait for the menu to be loaded on serial
-        ${dut_connection_method}=    Set Variable    SSH
-        Sleep    10s
+        # Should be long enough so that DTS can boot
+        ${old_timeout}=    Set Timeout    20s
+        Run Keyword And Ignore Error
+        ...    Read From Terminal Until    Enter an option:
+        Set Timeout    ${old_timeout}
         # Enable SSH server and switch to SSH connection by writing on video console "in blind"
         Write Into Terminal    8
+        ${dut_connection_method}=    Set Variable    SSH
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
