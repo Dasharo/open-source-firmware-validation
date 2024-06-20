@@ -71,7 +71,7 @@ check_disks() {
     exit 1
   fi
 
-  if [ ! -f "${INSTALLER_PATH}" ]; then
+  if [[ "$1" == "os_install" && ! -f "${INSTALLER_PATH}" ]]; then
     echo "OS installer at ${INSTALLER_PATH} not found. Please provide OS installer, to continue."
     echo "Example: https://ubuntu.task.gda.pl/ubuntu-releases/${UBUNTU_VERSION}/ubuntu-${UBUNTU_VERSION}-desktop-amd64.iso"
     exit 1
@@ -98,7 +98,7 @@ tpm_stop() {
   if [ -f "${TPM_PID_FILE}" ]; then
     local _tpm_pid=0
     _tpm_pid="$(cat ${TPM_PID_FILE})"
-    echo "stpoping swtpm with PID: ${_tpm_pid}"
+    echo "stopping swtpm with PID: ${_tpm_pid}"
     kill "${_tpm_pid}"
     echo "stopped swtpm"
   else
@@ -121,9 +121,7 @@ fi
 
 QEMU_PARAMS_BASE="-machine q35,smm=on \
   -global driver=cfi.pflash01,property=secure,value=on \
-  -drive if=pflash,format=raw,unit=0,file=./OVMF_CODE.fd,readonly=on \
-  -drive if=pflash,format=raw,unit=1,file=/tmp/OVMF_VARS.fd \
-  -debugcon file:debug.log -global isa-debugcon.iobase=0x402 \
+  -drive if=pflash,format=raw,unit=0,file=./coreboot.rom \
   -global ICH9-LPC.disable_s3=1 \
   -qmp unix:/tmp/qmp-socket,server,nowait \
   -serial telnet:localhost:1234,server,nowait \
@@ -131,20 +129,19 @@ QEMU_PARAMS_BASE="-machine q35,smm=on \
   -device qemu-xhci,id=usb \
   -chardev socket,id=chrtpm,path=${TPM_SOCK} \
   -tpmdev emulator,id=tpm0,chardev=chrtpm \
-  -device tpm-tis,tpmdev=tpm0"
-
-QEMU_PARAMS_OS="-smp 2 \
+  -device tpm-tis,tpmdev=tpm0 \
+  -smp 2 \
   -enable-kvm \
-  -mem-prealloc \
-  -device ich9-intel-hda \
+  -mem-prealloc"
+
+QEMU_PARAMS_OS="-device ich9-intel-hda \
   -device hda-duplex,audiodev=hda \
   -audiodev pa,id=hda,server=unix:/run/user/1000/pulse/native,out.frequency=44100 \
   -object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
   -device virtio-net,netdev=vmnic \
   -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
-  -smbios type=0,vendor=0vendor,version=0version,date=0date,release=0.0,uefi=on \
-  -drive file=${HDD_PATH},if=virtio"
+  -drive file=${HDD_PATH},if=ide"
 
 QEMU_PARAMS_INSTALLER="-cdrom ${INSTALLER_PATH}"
 
@@ -160,7 +157,7 @@ case "${MODE}" in
     QEMU_PARAMS="${QEMU_PARAMS_BASE} -nographic -vnc :0"
     ;;
   graphic)
-    QEMU_PARAMS="${QEMU_PARAMS_BASE} -display gtk,window-close=off -vga virtio"
+    QEMU_PARAMS="${QEMU_PARAMS_BASE} -display gtk,window-close=off"
     ;;
   *)
     echo "Mode: ${MODE} not supported"
@@ -176,13 +173,13 @@ case "${ACTION}" in
 		;;
   os)
     MEMORY="4G"
-    QEMU_PARAMS="${QEMU_PARAMS_BASE} ${QEMU_PARAMS_OS}"
-    check_disks
+    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS}"
+    check_disks ${ACTION}
     ;;
   os_install)
     MEMORY="4G"
-    QEMU_PARAMS="${QEMU_PARAMS_BASE} ${QEMU_PARAMS_OS} ${QEMU_PARAMS_INSTALLER}"
-    check_disks
+    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS} ${QEMU_PARAMS_INSTALLER}"
+    check_disks ${ACTION}
     ;;
   *)
     echo "Action: ${ACTION} not supported"
@@ -190,23 +187,22 @@ case "${ACTION}" in
 		;;
 esac
 
-# Check for the existence of OVMF_CODE.fd and OVMF_VARS.fs files
-if [ ! -f "OVMF_CODE.fd" ] || [ ! -f "OVMF_VARS.fd" ]; then
-    echo "The required files OVMF_CODE.fd and OVMF_VARS.fs are missing."
-    echo "Downloading files from the server..."
-    wget -O ./OVMF_CODE.fd https://github.com/Dasharo/edk2/releases/latest/download/OVMF_CODE_RELEASE.fd
-    wget -O ./OVMF_VARS.fd https://github.com/Dasharo/edk2/releases/latest/download/OVMF_VARS_RELEASE.fd
+# Check for the existence of coreboot.rom file
+if [ ! -f "coreboot.rom" ]; then
+    echo "The required file coreboot.rom is missing."
+    echo "Downloading from the server..."
+    wget -O ./coreboot.rom https://github.com/Dasharo/edk2/releases/latest/download/coreboot.rom
 else
-    echo "OVMF_CODE.fd and OVMF_VARS.fs files exist in the directory."
+    echo "coreboot.rom file exists in the directory."
     echo "To make sure you are using the latest version from: https://github.com/Dasharo/edk2/releases"
-    echo "simply remove them and let the script download the latest release."
+    echo "simply remove it and let the script download the latest release."
 fi
 
-echo "Copy OVMF_VARS.fd to /tmp/OVMF_VARS.fd"
+echo "Clear UEFI variables"
 echo "On each run on this script, the firmware settings would be restored to default."
-cp ./OVMF_VARS.fd /tmp/OVMF_VARS.fd
+dd if=/dev/zero of=./coreboot.rom bs=256 count=1 conv=notrunc 2> /dev/null
 
-echo "Running QEMU Q35 with Dasharo (UEFI) firmware ... (Ctrl+C to terminate)"
+echo "Running QEMU Q35 with Dasharo (coreboot+UEFI) firmware ... (Ctrl+C to terminate)"
 
 tpm_start
 qemu-system-x86_64 -m ${MEMORY} ${QEMU_PARAMS} || cleanup
