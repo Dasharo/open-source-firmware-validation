@@ -160,8 +160,7 @@ PSW007.001 Attempt to set non-compilant password
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    ${password}=    Set Variable    w    r    o    n    g
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    ${WRONG_PASSWORD}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Not Contain    ${result}    New password is updated successfully
 
