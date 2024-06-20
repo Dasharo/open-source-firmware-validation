@@ -82,6 +82,8 @@ Reset To Default Secure Boot Keys
     Enter Submenu From Snapshot    ${advanced_menu}    Reset to default Secure Boot Keys
     Read From Terminal Until    Are you sure?
     Press Enter
+    # QEMU needs a lot of time, why?
+    Sleep    15s
 
 Erase All Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Advanced Secure
@@ -90,6 +92,8 @@ Erase All Secure Boot Keys
     Enter Submenu From Snapshot    ${advanced_menu}    Erase all Secure Boot Keys
     Read From Terminal Until    Are you sure?
     Press Enter
+    # QEMU needs a lot of time, why?
+    Sleep    15s
 
 Return Secure Boot State
     [Documentation]    Returns the state of Secure Boot as reported in the Secure Boot Configuration menu
