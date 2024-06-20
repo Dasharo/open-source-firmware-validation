@@ -191,7 +191,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=novacustom-ts1    platform_vendor=3mdeb
 ...                         sonoff_ip=192.168.10.53    pikvm_ip=192.168.10.52
 # 3mdeb Protectli VP6670 -----------------------------------------------------
-&{RTE53}=                   ip=192.168.10.217
+&{RTE53}=                   ip=192.168.10.110
 ...                         platform=protectli-vp6670    platform_vendor=protectli
 ...                         sonoff_ip=192.168.10.113
 # 3mdeb Protectli VP6650 -----------------------------------------------------
