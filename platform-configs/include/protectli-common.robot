@@ -142,3 +142,16 @@ Check Coreboot Components Measurement
     Should Contain    ${out}    fallback/dsdt.aml` to PCR 2 measured
     Should Contain    ${out}    vbt.bin` to PCR 2 measured
     Should Not Contain    ${out}    Extending hash into PCR failed
+
+Flash Device Via External Programmer
+    [Documentation]    Keyword allows to flash Device Under Test firmware by
+    ...    using external programmer and check flashing procedure
+    ...    result. Implementation must be compatible with the theory
+    ...    of operation of a specific platform.
+    [Arguments]    ${fw_file}
+    Set Local Variable    ${cmd}    ./flashrom -p ch341a_spi -c GD25B128B/GD25Q128B -w ${fw_file}
+    # TODO:
+    # - flashing via RTE does not work yet
+    # ${out}=
+    # Should Contain    ${out}    Erase/write done
+    # Should Contain    ${out}    VERIFIED
