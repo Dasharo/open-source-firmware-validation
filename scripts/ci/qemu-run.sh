@@ -29,6 +29,8 @@ TPM_LOG_FILE="${TPM_DIR}/log"
 # some cases.
 # TPM_VERSION="2.0"
 
+QEMU_FW_FILE="./qemu_q35.rom"
+
 usage() {
 cat <<EOF
 Usage: ./$(basename ${0}) QEMU_MODE ACTION
@@ -121,7 +123,7 @@ fi
 
 QEMU_PARAMS_BASE="-machine q35,smm=on \
   -global driver=cfi.pflash01,property=secure,value=on \
-  -drive if=pflash,format=raw,unit=0,file=./coreboot.rom \
+  -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
   -global ICH9-LPC.disable_s3=1 \
   -qmp unix:/tmp/qmp-socket,server,nowait \
   -serial telnet:localhost:1234,server,nowait \
@@ -187,20 +189,20 @@ case "${ACTION}" in
 		;;
 esac
 
-# Check for the existence of coreboot.rom file
-if [ ! -f "coreboot.rom" ]; then
-    echo "The required file coreboot.rom is missing."
+# Check for the existence of QEMU firmware file
+if [ ! -f "${QEMU_FW_FILE}" ]; then
+    echo "The required file ${QEMU_FW_FILE} is missing."
     echo "Downloading from the server..."
-    wget -O ./coreboot.rom https://github.com/Dasharo/edk2/releases/latest/download/coreboot.rom
+    wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/coreboot/releases/download/qemu_q35_v0.2.0-rc1/qemu_q35_v0.2.0-rc1.rom
 else
-    echo "coreboot.rom file exists in the directory."
+    echo "${QEMU_FW_FILE} file exists in the directory."
     echo "To make sure you are using the latest version from: https://github.com/Dasharo/edk2/releases"
     echo "simply remove it and let the script download the latest release."
 fi
 
 echo "Clear UEFI variables"
 echo "On each run on this script, the firmware settings would be restored to default."
-dd if=/dev/zero of=./coreboot.rom bs=256 count=1 conv=notrunc 2> /dev/null
+dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null
 
 echo "Running QEMU Q35 with Dasharo (coreboot+UEFI) firmware ... (Ctrl+C to terminate)"
 
