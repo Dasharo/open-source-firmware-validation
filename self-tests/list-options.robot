@@ -53,7 +53,6 @@ Parse Available Selections Of List Option In Me Menu
     Log    ${opts}
     Should Be Equal As Strings    ${opts}[0]    Enabled
     Should Be Equal As Strings    ${opts}[1]    Disabled (Soft)
-    Should Be Equal As Strings    ${opts}[2]    Disabled (HAP)
 
 Select Invalid State Of List Option In ME Menu
     [Documentation]    Checks whether the numerical option can be set.
@@ -67,7 +66,7 @@ Select State Of List Option In ME Menu (top-bottom)
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
-    ${me_states}=    Create List    Enabled    Disabled (Soft)    Disabled (HAP)
+    ${me_states}=    Create List    Enabled    Disabled (Soft)
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
         Check ME State
@@ -77,7 +76,7 @@ Select State Of List Option In ME Menu (bottom-top)
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
-    ${me_states}=    Create List    Disabled (HAP)    Disabled (Soft)    Enabled
+    ${me_states}=    Create List    Disabled (Soft)    Enabled
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
         Check ME State
