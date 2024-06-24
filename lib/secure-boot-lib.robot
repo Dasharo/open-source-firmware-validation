@@ -236,3 +236,21 @@ Execute File In UEFI Shell
     ${out}=    Execute UEFI Shell Command    ${file}
     Should Contain    ${out}    FS0:\\>
     RETURN    ${out}
+
+Restore Secure Boot Defaults
+    [Documentation]    Restore SB settings to default, by resetting keys
+    ...    and disabling SB, so it does not interfere with the followup tests.
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    # Changes to Secure Boot take action immediately, so we can just continue
+
+    Exit From Current Menu
+    ${sb_menu}=    Reenter Menu And Return Construction
+    IF    '${SECURE_BOOT_DEFAULT_STATE}' == 'Disabled'
+        Disable Secure Boot    ${sb_menu}
+    ELSE
+        Enable Secure Boot    ${sb_menu}
+    END
+    # Changes to Secure Boot take action immediately, so we can just continue

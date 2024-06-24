@@ -27,6 +27,7 @@ Suite Teardown      Run Keyword
 MBO001.001 Measured Boot support (Ubuntu 20.04)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     Execute Command In Terminal    shopt -s extglob
     ${hashes}=    Execute Command In Terminal
     ...    grep . /sys/class/tpm/tpm0/pcr-sha@(1|256)/[0-3]
@@ -40,6 +41,7 @@ MBO001.001 Measured Boot support (Ubuntu 20.04)
 MBO002.001 Check if event log PCRs match actual values (Ubuntu 22.04)
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     ${tpm2_eventlog}=    Execute Command In Terminal
     ...    tpm2_eventlog /sys/kernel/security/tpm0/binary_bios_measurements
     FOR    ${algo}    IN    sha1    sha256
@@ -49,6 +51,45 @@ MBO002.001 Check if event log PCRs match actual values (Ubuntu 22.04)
             ${sha_hash}=    Execute Command In Terminal
             ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}
             Should Contain    ${hash}    ${sha_hash}    ignore_case=${TRUE}
+        END
+    END
+
+MBO003.001 Changing Secure Boot certificate changes only PCR-7
+    [Documentation]    Check if changes to Secure Boot certificates influence
+    ...    PCR-7 value and only PCR-7
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Restore Secure Boot Defaults
+    ${sb_menu}=    Reenter Menu And Return Construction
+    Disable Secure Boot    ${sb_menu}
+    Save Changes And Reset
+    Make Sure That Network Boot Is Enabled
+    Power On
+    # Using DTS here because Ubuntu enrolls DTX certificates
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    ${default_hashes}=    Execute Command In Terminal
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    Should Not Contain    ${default_hashes}    No such file or directory
+    ${default_hashes}=    Split To Lines    ${default_hashes}
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${sb_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction    ${sb_menu}    DBX Options
+    ${sb_menu}=    Enter Submenu From Snapshot And Return Construction    ${sb_menu}    Delete Signature
+    Enter Submenu From Snapshot    ${sb_menu}    Delete All Signature List
+    Read From Terminal Until    Press 'Y' to delete signature list
+    Write Into Terminal    Y
+    Sleep    1s
+    Save Changes And Reset
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    FOR    ${pcr_hash}    IN    @{default_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${new_hash}=    Execute Command In Terminal    cat ${pcr}
+        IF    '/7' in '${pcr}'
+            Should Not Be Equal    ${hash}    ${new_hash}
+        ELSE
+            Should Be Equal    ${hash}    ${new_hash}
         END
     END
 
@@ -90,7 +131,6 @@ Get Index From List Regexp
 Measured Boot Suite Setup
     Prepare Test Suite
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
