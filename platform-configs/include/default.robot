@@ -82,6 +82,7 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=                   ${FALSE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
 ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${FALSE}
