@@ -27,16 +27,205 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CCC001.001 CPU cores count (Ubuntu 22.04)
-    [Documentation]    Check CPU cores count.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CCC001.001 not supported
+CCC001.001 CPU Hyper-Threading disabled (Ubuntu)
+    [Documentation]    Check if Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${FALSE}
     Power On
-    #${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
-    ${cpu_info}=    Execute Linux Command    lscpu
-    Set Suite Variable    ${CPU_INFO}
-    ${cpu}=    Get Lines Matching Regexp    ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
-    Should Contain    ${cpu}    ${DEF_THREADS_TOTAL}    Different number of CPU's than ${DEF_THREADS_TOTAL}
-    ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
-    Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
+    Detect Or Install Package    util-linux
+    ${out}=    Get Threads Per Core
+    Should Contain    ${out}    1
+
+CCC001.002 CPU Hyper-Threading enabled (Ubuntu)
+    [Documentation]    Check if Hyper-Threading is enabled.
+    Set UEFI Option    HyperThreading    ${TRUE}
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux
+    ${out}=    Get Threads Per Core
+    Should Contain    ${out}    ${DEF_THREADS_PER_CORE}
+
+CCC002.001 CPU E-cores none active, Hyper-Threading enabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are disabled, all P-cores are enabled and 
+    ...    Hyper-Threading is enabled.
+    Set UEFI Option    HyperThreading    ${TRUE}
+    Set UEFI Option    ActiveECores    0
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    ${threads}=    Get Threads Per Core
+    ${core_count}=    Evaluate    ${DEF_THREADS_TOTAL} - ${DEF_CORES_PER_SOCKET}
+    ${core_count}=    Evaluate    ${core_count} * ${threads}
+    ${core_count}=    Convert To String    ${core_count}
+    Should Contain    ${out}    ${core_count}
+
+CCC002.002 CPU E-cores all active, Hyper-Threading enabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    Hyper-Threading is enabled.
+    Set UEFI Option    HyperThreading    ${TRUE}
+    Set UEFI Option    ActiveECores    All active
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    Should Contain    ${out}    ${DEF_THREADS_TOTAL}
+
+CCC002.003 CPU E-cores none active, Hyper-Threading disabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are disabled, all P-cores are enabled and 
+    ...    Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${FALSE}
+    Set UEFI Option    ActiveECores    0
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    ${threads}=    Get Threads Per Core
+    ${core_count}=    Evaluate    ${DEF_THREADS_TOTAL} - ${DEF_CORES_PER_SOCKET}
+    Should Contain    ${out}    ${core_count}
+
+CCC002.004 CPU E-cores all active, Hyper-Threading disabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${FALSE}
+    Set UEFI Option    ActiveECores    All active
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    Should Contain    ${out}    ${DEF_CORES_PER_SOCKET}
+
+CCC003.001 CPU P-cores only one active, Hyper-Threading enabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are enabled, only one P-core is enabled and 
+    ...    Hyper-Threading is enabled.
+    Set UEFI Option    HyperThreading    ${TRUE}
+    Set UEFI Option    ActivePCores    1
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    ${cores}=    Evaluate    Get Amount Of E cores + 1  
+    Should Contain    ${out}    ${cores}
+
+CCC003.002 CPU P-cores all active, Hyper-Threading enabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    Hyper-Threading is enabled.
+    Set UEFI Option    HyperThreading    ${TRUE}
+    Set UEFI Option    ActivePCores    All active
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux    
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    Should Contain    ${out}    ${DEF_THREADS_TOTAL}
+
+CCC003.003 CPU P-cores only one active, Hyper-Threading disabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are enabled, only one P-core is enabled and 
+    ...    Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${FALSE}
+    Set UEFI Option    ActivePCores    1
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    ${cores}=    Evaluate    Get Amount Of E cores + 1  
+    Should Contain    ${out}    ${cores}
+
+CCC003.004 CPU P-cores all active, Hyper-Threading disabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${FALSE}
+    Set UEFI Option    ActivePCores    All active
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux    
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
+    ${cores}=    Get Amount Of E cores + 2
+    Should Contain    ${out}    ${cores}
+
+CCC004.001 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading disabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are disabled, all P-cores are disabled and 
+    ...    Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${FALSE}
+    Set UEFI Option    ActiveECores    0
+    Set UEFI Option    ActivePCores    1
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux    
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"    
+    Should Contain    ${out}    1
+
+CCC004.002 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading enabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are disabled, all P-cores are disabled and 
+    ...    Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${TRUE}
+    Set UEFI Option    ActiveECores    0
+    Set UEFI Option    ActivePCores    1
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux    
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"    
+    Should Contain    ${out}    2
+
+CCC005.001 CPU P-cores all active, CPU E-cores all active, Hyper-Threading enabled (Ubuntu)
+    [Documentation]    Check if the correct amount of cores is active when
+    ...    all of E-cores are disabled, all P-cores are disabled and 
+    ...    Hyper-Threading is disabled.
+    Set UEFI Option    HyperThreading    ${TRUE}
+    Set UEFI Option    ActiveECores    All active
+    Set UEFI Option    ActivePCores    All active
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Detect Or Install Package    util-linux    
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"    
+    Should Contain    ${out}    2
+
+*** Keywords ***
+Get Threads Per Core
+    [Arguments]
+    ${out}=    Execute Command In Terminal    lscpu | grep "Thread(s) per core: "
+    ${threads}=    Get Last Word From String    ${out}
+    IF    '${threads[:1]}' == '1' 
+        ${count}=    Set Variable    1
+    ELSE IF    '${threads[:1]}' == '2'
+        ${count}=    Set Variable    2 
+    ELSE
+        Fail    Hyper-Threading status could not be established.
+    END
+    RETURN     ${count}
+
+Get Last Word From String
+    [Arguments]    ${str}    
+    @{out}=    Evaluate    "${str}".split(" ")
+    ${len}=    Get length    ${out}
+    ${pos}=    Evaluate    ${len}-1
+    RETURN    ${out}[${pos}]
+
+Get Amount Of E cores
+    [Arguments]
+    ${cores}=    Evaluate    ${DEF_THREADS_TOTAL}-${DEF_CORES_PER_SOCKET}
+    ${cores}=    Evaluate    ${cores}*${DEF_THREADS_PER_CORE}
+    ${cores}=    Evaluate    ${DEF_THREADS_TOTAL}-${cores}
+    RETURN    ${cores}

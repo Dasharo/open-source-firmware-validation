@@ -181,6 +181,21 @@ getoptionpath = {
         "Serial Port Configuration",
         "Enable Serial Port Console Redirection",
     ],
+    "HyperThreading": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Hyper-Threading",
+    ],
+    "ActiveECores": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Number of active E-cores",
+    ],
+    "ActivePCores": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Number of active P-cores",
+    ],
 }
 
 
