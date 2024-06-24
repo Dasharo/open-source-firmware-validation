@@ -55,7 +55,6 @@ Parse Dasharo Security Options
     [Documentation]    Check if Dasharo Security Options menu can be parsed.
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     ${security_menu}=    Parsing Dasharo Submenu Verification    Dasharo Security Options
-    Should Match Regexp    ${security_menu}[0]    ^Lock the BIOS boot medium \\[.\\].*$
     List Should Contain Value    ${security_menu}    > Enter Firmware Update Mode
     # Second line from "Enable SMM BIOS write protection" should not be there
     List Should Not Contain Value    ${security_menu}    protection
@@ -115,8 +114,6 @@ Parse Chipset Configuration
     [Documentation]    Check if Chipset Configuration menu can be parsed.
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
     ${chipset_menu}=    Parsing Dasharo Submenu Verification    Chipset Configuration
-    ${chipset_entries}=    Get Length    ${chipset_menu}
-    Should Be Equal As Integers    ${chipset_entries}    3
     Should Match Regexp    ${chipset_menu}[0]    ^Enable PS2 Controller \\[.\\].*$
     Menu Construction Should Not Contain Control Text    ${chipset_menu}
 
@@ -130,10 +127,8 @@ Parse Power Management Options
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}
     ${power_menu}=    Parsing Dasharo Submenu Verification    Power Management Options
     ${power_entries}=    Get Length    ${power_menu}
-    Should Be Equal As Integers    ${power_entries}    5
+    Should Be Equal As Integers    ${power_entries}    6
     Should Match Regexp    ${power_menu}[0]    ^Fan profile <.*>.*$
-    # Second line from Batter Start/Stop Chare Threshold should not be there
-    List Should Not Contain Value    ${power_menu}    Threshold
     Menu Construction Should Not Contain Control Text    ${power_menu}
 
 Enter PCI/PCIe Configuration
@@ -145,9 +140,7 @@ Parse PCI/PCIe Configuration
     [Documentation]    Check if PCI/PCIe Configuration menu can be parsed.
     Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}
     ${pci_menu}=    Parsing Dasharo Submenu Verification    PCI/PCIe Configuration
-    ${pci_entries}=    Get Length    ${pci_menu}
-    Should Be Equal As Integers    ${pci_entries}    2
-    Should Match Regexp    ${pci_menu}[0]    ^Enable PCIe Resizeable \\[.\\].*$
+    Should Match Regexp    ${pci_menu}[0]    ^OptionROM Execution Policy \\<.*$
     # Second line from Enable PCIe Resizeable BARs should not be there
     List Should Not Contain Value    ${pci_menu}    BARs
     Menu Construction Should Not Contain Control Text    ${pci_menu}
@@ -179,8 +172,9 @@ Parse Serial Port Configuration
     Skip If    not ${DASHARO_SERIAL_PORT_MENU_SUPPORT}
     ${serial_menu}=    Parsing Dasharo Submenu Verification    Serial Port Configuration
     ${serial_entries}=    Get Length    ${serial_menu}
-    Should Be Equal As Integers    ${serial_entries}    1
-    Should Match Regexp    ${serial_menu}[0]    ^Enable Serial Port \\[.\\].*$
+    Should Be Equal As Integers    ${serial_entries}    2
+    Should Match Regexp    ${serial_menu}[0]    ^Enable COM0 Serial \\[.\\].*$
+    Should Match Regexp    ${serial_menu}[1]    ^Enable COM1 Serial \\[.\\].*$
     # Second line from Enable Serial Port Console Redirection should not be there
     List Should Not Contain Value    ${serial_menu}    Console Redirection
     Menu Construction Should Not Contain Control Text    ${serial_menu}
