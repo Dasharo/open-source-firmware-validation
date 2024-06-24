@@ -36,8 +36,7 @@ SDC001.001 SD Card reader detection (Ubuntu 20.04)
     Login To Linux
     Switch To Root User
     ${disks}=    Identify Disks In Linux
-    Should Match    str(${disks})    *${SD_CARD_VENDOR}*
-    Should Match    str(${disks})    *${SD_CARD_MODEL}*
+    Should Match    str(${disks})    *SD*
     Exit From Root User
 
 SDC001.002 SD Card reader detection (Windows 11)

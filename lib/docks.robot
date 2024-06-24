@@ -69,7 +69,7 @@ Detect Docking Station USB Devices In Linux
         Should Contain    ${out}    Realtek Semiconductor Corp. USB3.0 Card Reader
         Should Contain    ${out}    Realtek Semiconductor Corp. RTL8153 Gigabit Ethernet Adapter
         Should Contain    ${out}    VIA Labs, Inc. USB3.0 Hub
-        Should Contain    ${out}    05e3:0620 # Genesys Logic, Inc. USB3.2 Hub
+        Should Contain    ${out}    05e3:0620    # Genesys Logic, Inc. USB3.2 Hub
     ELSE IF    '${docking_station_model}' == 'WL-UMD05 Pro Rev.C1'
         Should Contain    ${out}    VIA Labs, Inc. USB2.0 Hub
         Should Contain    ${out}    Fresco Logic USB2.0 Hub

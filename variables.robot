@@ -187,7 +187,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE51}=                   ip=0.0.0.0
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
 # NovaCustom automated laptop testing station --------------------------------
-&{RTE52}=                   ip=192.168.10.42
+&{RTE52}=                   ip=192.168.10.91
 ...                         platform=novacustom-ts1    platform_vendor=3mdeb
 ...                         sonoff_ip=192.168.10.53    pikvm_ip=192.168.10.52
 # 3mdeb Protectli VP6670 -----------------------------------------------------
