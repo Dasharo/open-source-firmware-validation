@@ -87,8 +87,7 @@ CCC002.003 CPU E-cores none active, Hyper-Threading disabled (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
-    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
-    ${threads}=    Get Threads Per Core
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"   
     ${core_count}=    Evaluate    ${DEF_THREADS_TOTAL} - ${DEF_CORES_PER_SOCKET}
     Should Contain    ${out}    ${core_count}
 
@@ -116,7 +115,9 @@ CCC003.001 CPU P-cores only one active, Hyper-Threading enabled (Ubuntu)
     Login To Linux
     Detect Or Install Package    util-linux
     ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
-    ${cores}=    Evaluate    Get Amount Of E cores + 1  
+    ${cores}=    Get Amount Of E Cores
+    ${cores}=    Evaluate    ${cores} + 1
+    ${cores}=    Convert To String    ${cores}
     Should Contain    ${out}    ${cores}
 
 CCC003.002 CPU P-cores all active, Hyper-Threading enabled (Ubuntu)
@@ -143,7 +144,9 @@ CCC003.003 CPU P-cores only one active, Hyper-Threading disabled (Ubuntu)
     Login To Linux
     Detect Or Install Package    util-linux
     ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
-    ${cores}=    Evaluate    Get Amount Of E cores + 1  
+    ${cores}=    Get Amount Of E Cores + 1
+    ${cores}=    Evaluate    ${cores} + 1
+    ${cores}=    Convert To String    ${cores}
     Should Contain    ${out}    ${cores}
 
 CCC003.004 CPU P-cores all active, Hyper-Threading disabled (Ubuntu)
@@ -157,7 +160,9 @@ CCC003.004 CPU P-cores all active, Hyper-Threading disabled (Ubuntu)
     Login To Linux
     Detect Or Install Package    util-linux    
     ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
-    ${cores}=    Get Amount Of E cores + 2
+    ${cores}=    Get Amount Of E cores
+    ${cores}=    Evaluate    ${cores} + 2
+    ${cores}=    Convert To String    ${cores}
     Should Contain    ${out}    ${cores}
 
 CCC004.001 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading disabled (Ubuntu)
@@ -200,7 +205,7 @@ CCC005.001 CPU P-cores all active, CPU E-cores all active, Hyper-Threading enabl
     Login To Linux
     Detect Or Install Package    util-linux    
     ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"    
-    Should Contain    ${out}    2
+    Should Contain    ${out}    ${DEF_THREADS_TOTAL}
 
 *** Keywords ***
 Get Threads Per Core
@@ -223,7 +228,7 @@ Get Last Word From String
     ${pos}=    Evaluate    ${len}-1
     RETURN    ${out}[${pos}]
 
-Get Amount Of E cores
+Get Amount Of E Cores
     [Arguments]
     ${cores}=    Evaluate    ${DEF_THREADS_TOTAL}-${DEF_CORES_PER_SOCKET}
     ${cores}=    Evaluate    ${cores}*${DEF_THREADS_PER_CORE}
