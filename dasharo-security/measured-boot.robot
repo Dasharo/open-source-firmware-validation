@@ -93,6 +93,110 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
         END
     END
 
+MBO004.001 Changing Dasharo Security settings changes only PCR-1
+    [Documentation]    Check if changes to Dasharo security settings influence PCR-1
+    ...    value and only PCR-1
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Tests in Dasharo Security Menu are not supported
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    ${default_hashes}=    Execute Command In Terminal
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    Should Not Contain    ${default_hashes}    No such file or directory
+    ${default_hashes}=    Split To Lines    ${default_hashes}
+
+    Power On
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${menu}=    Enter Dasharo System Features    ${menu}
+    ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
+    ${bios_lock_state}=    Get Option State    ${menu}    Lock the BIOS boot medium
+    ${new_bios_lock_state}=    Evaluate    not ${bios_lock_state}
+    Set Option State    ${menu}    Lock the BIOS boot medium    ${new_bios_lock_state}
+    Save Changes And Reset
+
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    FOR    ${pcr_hash}    IN    @{default_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${new_hash}=    Execute Command In Terminal    cat ${pcr}
+        IF    '/1' in '${pcr}'
+            Should Not Be Equal    ${hash}    ${new_hash}
+        ELSE
+            Should Be Equal    ${hash}    ${new_hash}
+        END
+    END
+
+MBO004.002 Changing Dasharo USB settings changes only PCR-1
+    [Documentation]    Check if changes to Dasharo USB settings influence PCR-1
+    ...    value and only PCR-1
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${DASHARO_USB_MENU_SUPPORT}    Tests in Dasharo USB Menu are not supported
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    ${default_hashes}=    Execute Command In Terminal
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    Should Not Contain    ${default_hashes}    No such file or directory
+    ${default_hashes}=    Split To Lines    ${default_hashes}
+
+    Power On
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${menu}=    Enter Dasharo System Features    ${menu}
+    ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
+    ${usb_storage_state}=    Get Option State    ${menu}    Enable USB Mass Storage
+    ${new_usb_storage_state}=    Evaluate    not ${usb_storage_state}
+    Set Option State    ${menu}    Enable USB Mass Storage    ${new_usb_storage_state}
+    Save Changes And Reset
+
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    FOR    ${pcr_hash}    IN    @{default_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${new_hash}=    Execute Command In Terminal    cat ${pcr}
+        IF    '/1' in '${pcr}'
+            Should Not Be Equal    ${hash}    ${new_hash}
+        ELSE
+            Should Be Equal    ${hash}    ${new_hash}
+        END
+    END
+
+MBO004.003 Changing Dasharo APU settings changes only PCR-1
+    [Documentation]    Check if changes to Dasharo APU settings influence PCR-1
+    ...    value and only PCR-1
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    Tests in Dasharo APU Menu are not supported
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    ${default_hashes}=    Execute Command In Terminal
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    Should Not Contain    ${default_hashes}    No such file or directory
+    ${default_hashes}=    Split To Lines    ${default_hashes}
+
+    Power On
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${menu}=    Enter Dasharo APU Configuration    ${menu}
+    ${core_boost_state}=    Get Option State    ${menu}    Core Performance Boost
+    ${new_core_boost_state}=    Evaluate    not ${core_boost_state}
+    Set Option State    ${menu}    Core Performance Boost    ${new_core_boost_state}
+    Save Changes And Reset
+
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    FOR    ${pcr_hash}    IN    @{default_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${new_hash}=    Execute Command In Terminal    cat ${pcr}
+        IF    '/1' in '${pcr}'
+            Should Not Be Equal    ${hash}    ${new_hash}
+        ELSE
+            Should Be Equal    ${hash}    ${new_hash}
+        END
+    END
+
 
 *** Keywords ***
 Get PCRs From Eventlog
