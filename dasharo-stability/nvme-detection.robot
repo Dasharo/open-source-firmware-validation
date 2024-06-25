@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 # Tests will work on laptops with access to the serial console and possibility
 # of remote power control
-# SNV0001.001 NVMe detection after cold boot (Ubuntu 22.04)
+# SNV0001.001 NVMe detection after cold boot (Ubuntu)
 #    [Documentation]    Check whether the NVMe disk is detected and working
 #    ...    correctly after performing a cold boot.
 #    Skip If    not ${nvme_detection_support}    SNV001.001 not supported
@@ -46,7 +46,7 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-# SNV0002.001 NVMe detection after warm boot (Ubuntu 22.04)
+# SNV0002.001 NVMe detection after warm boot (Ubuntu)
 #    [Documentation]    Check whether the NVMe disk is detected and working
 #    ...    correctly after performing a warm boot.
 #    Skip If    not ${nvme_detection_support}    SNV002.001 not supported
@@ -67,7 +67,7 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-SNV003.001 NVMe detection after reboot (Ubuntu 22.04)
+SNV003.001 NVMe detection after reboot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a reboot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.001 not supported
@@ -86,34 +86,34 @@ SNV003.001 NVMe detection after reboot (Ubuntu 22.04)
         Should Contain    ${out}    ${DEVICE_NVME_DISK}
     END
 
-SNV004.001 NVMe detection after suspension (Ubuntu 22.04)
+SNV004.001 NVMe detection after suspension (Ubuntu)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.001 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.001 not supported
-    NVMe Detection After Suspension (Ubuntu 22.04)
+    NVMe Detection After Suspension (Ubuntu)
 
-SNV004.002 NVMe detection after suspension (Ubuntu 22.04) (S0ix)
+SNV004.002 NVMe detection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.002 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.002 not supported
     Set Platform Sleep Type    S0ix
-    NVMe Detection After Suspension (Ubuntu 22.04)    S0ix
+    NVMe Detection After Suspension (Ubuntu)    S0ix
 
-SNV004.003 NVMe detection after suspension (Ubuntu 22.04) (S3)
+SNV004.003 NVMe detection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.003 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.003 not supported
     Set Platform Sleep Type    S3
-    NVMe Detection After Suspension (Ubuntu 22.04)    S3
+    NVMe Detection After Suspension (Ubuntu)    S3
 
 
 *** Keywords ***
-NVMe Detection After Suspension (Ubuntu 22.04)
+NVMe Detection After Suspension (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
     Boot System Or From Connected Disk    ubuntu

@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-BLS001.001 BIOS lock support (Ubuntu 22.04)
+BLS001.001 BIOS lock support (Ubuntu)
     [Documentation]    BIOS lock is a method to prevent a specific region of the
     ...    firmware from being flashed. This test aims to verify that,
     ...    after turning on the mechanism, the BIOS region should be correctly
@@ -44,7 +44,7 @@ BLS001.001 BIOS lock support (Ubuntu 22.04)
     ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
     Should Not Be Empty    ${pr0}
 
-BLS002.001 BIOS lock support deactivation (Ubuntu 22.04)
+BLS002.001 BIOS lock support deactivation (Ubuntu)
     [Documentation]    BIOS lock is a method to prevent a specific region of the
     ...    firmware from being flashed. This test aims to verify that, after
     ...    turning off the mechanism, the BIOS region overwriting operation is

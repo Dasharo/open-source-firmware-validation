@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-FLB001.001 Firmware locally build (Ubuntu 22.04)
+FLB001.001 Firmware locally build (Ubuntu)
     [Documentation]    This test aims to verify whether there is a possibility
     ...    to build firmware on the local machine, based on
     ...    `Build manual` procedure dedicated to the platform.
@@ -38,7 +38,7 @@ FLB001.001 Firmware locally build (Ubuntu 22.04)
     Install Docker Packages
     Build Firmware From Source
 
-FLB002.001 Flash locally built firmware (Ubuntu 22.04)
+FLB002.001 Flash locally built firmware (Ubuntu)
     [Documentation]    This test aims to verify whether there is a possibility
     ...    to flash the locally built firmware to the DUT.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FLB002.001 not supported

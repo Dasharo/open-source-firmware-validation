@@ -36,7 +36,7 @@ UTC004.001 USB Type-C Display output (semi-automatic)
     Should Contain    ${out}    ${CLEVO_USB_C_HUB}
     Exit From Root User
 
-UTC005.001 - Docking station HDMI display in OS (Ubuntu 20.04)
+UTC005.001 - Docking station HDMI display in OS (Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -49,7 +49,7 @@ UTC005.001 - Docking station HDMI display in OS (Ubuntu 20.04)
     Check PCON On MST Hub In Linux
     Exit From Root User
 
-UTC005.002 - Docking station HDMI display in OS (Windows 11)
+UTC005.002 - Docking station HDMI display in OS (Windows)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -59,7 +59,7 @@ UTC005.002 - Docking station HDMI display in OS (Windows 11)
     Login To Windows
     Check Docking Station HDMI Windows
 
-UTC006.001 - Docking station DP display in OS (Ubuntu 20.04)
+UTC006.001 - Docking station DP display in OS (Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -72,7 +72,7 @@ UTC006.001 - Docking station DP display in OS (Ubuntu 20.04)
     Check DP Port On MST Hub In Linux
     Exit From Root User
 
-UTC006.002 - Docking station DP display in OS (Windows 11)
+UTC006.002 - Docking station DP display in OS (Windows)
     [Documentation]    This test aims to verify that the display connected with
     ...    the DisplayPort cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -82,7 +82,7 @@ UTC006.002 - Docking station DP display in OS (Windows 11)
     Login To Windows
     Check Docking Station DP Windows
 
-UTC012.002 USB devices recognition (Ubuntu 22.04)
+UTC012.002 USB devices recognition (Ubuntu)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly in Linux OS.
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC012.002 not supported
@@ -94,7 +94,7 @@ UTC012.002 USB devices recognition (Ubuntu 22.04)
     Should Contain    ${out}    SanDisk
     Exit From Root User
 
-UTC012.003 USB devices recognition (Windows 11)
+UTC012.003 USB devices recognition (Windows)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly in Windows OS.
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC012.003 not supported
@@ -104,7 +104,7 @@ UTC012.003 USB devices recognition (Windows 11)
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     Should Contain    ${out}    OK${SPACE*9}DiskDrive${SPACE*8}USB${SPACE*2}SanDisk
 
-UTC013.002 USB keyboard detection (Ubuntu 22.04)
+UTC013.002 USB keyboard detection (Ubuntu)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly by the Linux OS.
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC013.002 not supported
@@ -116,7 +116,7 @@ UTC013.002 USB keyboard detection (Ubuntu 22.04)
     Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
     Exit From Root User
 
-UTC013.003 USB keyboard detection (Windows 11)
+UTC013.003 USB keyboard detection (Windows)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly by the Windows OS.
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC013.003 not supported
@@ -126,7 +126,7 @@ UTC013.003 USB keyboard detection (Windows 11)
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
     Should Contain    ${out}    Description${SPACE*17}: USB Input Device    strip_spaces=True
 
-UTC014.001 Ethernet connection (Ubuntu 22.04)
+UTC014.001 Ethernet connection (Ubuntu)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    Ubuntu 22.04.
@@ -138,7 +138,7 @@ UTC014.001 Ethernet connection (Ubuntu 22.04)
     Check Internet Connection On Linux
     Exit From Root User
 
-UTC014.001 Ethernet connection (Windows 11)
+UTC014.001 Ethernet connection (Windows)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    Windows 11.
@@ -148,7 +148,7 @@ UTC014.001 Ethernet connection (Windows 11)
     Login To Windows
     Check Internet Connection On Windows
 
-UTC015.001 Audio recognition (Ubuntu 22.04)
+UTC015.001 Audio recognition (Ubuntu)
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into the
     ...    docking station.
@@ -161,7 +161,7 @@ UTC015.001 Audio recognition (Ubuntu 22.04)
     Should Contain    ${out}    ${EXTERNAL_HEADSET}
     Exit From Root User
 
-UTC18.001 Docking Station SD Card reader detection (Ubuntu 20.04)
+UTC18.001 Docking Station SD Card reader detection (Ubuntu)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC18.001 not supported
@@ -173,7 +173,7 @@ UTC18.001 Docking Station SD Card reader detection (Ubuntu 20.04)
     Should Match    str(${disks})    pattern=*SD*
     Exit From Root User
 
-UTC018.002 Docking Station SD Card reader detection (Windows 11)
+UTC018.002 Docking Station SD Card reader detection (Windows)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC018.001 not supported
@@ -192,7 +192,7 @@ UTC018.002 Docking Station SD Card reader detection (Windows 11)
         END
     END
 
-UTC019.001 Docking Station SD Card read/write (Ubuntu 20.04)
+UTC019.001 Docking Station SD Card read/write (Ubuntu)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC019.001 not supported
@@ -206,7 +206,7 @@ UTC019.001 Docking Station SD Card read/write (Ubuntu 20.04)
     END
     Exit From Root User
 
-UTC019.002 Docking Station SD Card read/write (Windows 11)
+UTC019.002 Docking Station SD Card read/write (Windows)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC019.001 not supported
@@ -216,7 +216,7 @@ UTC019.002 Docking Station SD Card read/write (Windows 11)
     ${drive_letter}=    Identify Path To SD Card In Windows
     Check Read Write To External Drive In Windows    ${drive_letter}
 
-UTC021.001 USB Type-C laptop charging (Ubuntu 22.04)
+UTC021.001 USB Type-C laptop charging (Ubuntu)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port.
@@ -228,7 +228,7 @@ UTC021.001 USB Type-C laptop charging (Ubuntu 22.04)
     Check Charging State In Linux
     Exit From Root User
 
-UTC021.002 USB Type-C laptop charging (Windows 11)
+UTC021.002 USB Type-C laptop charging (Windows)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port.

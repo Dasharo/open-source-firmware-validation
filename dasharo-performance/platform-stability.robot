@@ -55,7 +55,7 @@ STB001.001 Verify if no reboot occurs in the firmware
         ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
     END
 
-STB001.002 Verify if no reboot occurs in the OS (Ubuntu 22.04)
+STB001.002 Verify if no reboot occurs in the OS (Ubuntu)
     [Documentation]    This test aims to verify that the DUT booted to the
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
@@ -85,7 +85,7 @@ STB001.002 Verify if no reboot occurs in the OS (Ubuntu 22.04)
         ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
     END
 
-STB001.003 Verify if no reboot occurs in the OS (Windows 11)
+STB001.003 Verify if no reboot occurs in the OS (Windows)
     [Documentation]    This test aims to verify that the DUT booted to the
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of

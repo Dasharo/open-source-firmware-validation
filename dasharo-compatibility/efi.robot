@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-EFI001.001 Boot into UEFI OS (Ubuntu 20.04)
+EFI001.001 Boot into UEFI OS (Ubuntu)
     [Documentation]    Boot into Linux OS and check whether there is a
     ...    possibility to identify the system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.001 not supported
@@ -38,7 +38,7 @@ EFI001.001 Boot into UEFI OS (Ubuntu 20.04)
     ${out}=    Execute Command In Terminal    cat /etc/os-release
     Should Contain    ${out}    Ubuntu
 
-EFI001.002 Boot into UEFI OS (Windows 11)
+EFI001.002 Boot into UEFI OS (Windows)
     [Documentation]    Boot into Windows 11 OS and check whether there is a
     ...    possibility to identify the system
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.002 not supported

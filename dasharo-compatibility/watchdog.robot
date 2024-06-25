@@ -107,7 +107,7 @@ WDT004.001 Change watchdog timeout
     Set DUT Response Timeout    60s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
-WDT005.001 Watchdog is detected by OS (Ubuntu 22.04)
+WDT005.001 Watchdog is detected by OS (Ubuntu)
     [Documentation]    Boot into an OS with the watchdog enabled and verify
     ...    that the OS detects and stops the watchdog.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported

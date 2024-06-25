@@ -37,7 +37,7 @@ Suite Teardown      Run Keyword
 #    Enter One Time Boot in Tianocore
 #    Telnet.Read Until    ${clevo_disk}
 
-NVM001.002 NVMe support in OS (Ubuntu 20.04)
+NVM001.002 NVMe support in OS (Ubuntu)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.002 not supported
@@ -49,7 +49,7 @@ NVM001.002 NVMe support in OS (Ubuntu 20.04)
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     Exit From Root User
 
-NVM001.003 NVMe support in OS (Windows 10)
+NVM001.003 NVMe support in OS (Windows)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVM001.003 not supported

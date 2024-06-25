@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-SDC001.001 SD Card reader detection (Ubuntu 20.04)
+SDC001.001 SD Card reader detection (Ubuntu)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC001.001 not supported
@@ -39,7 +39,7 @@ SDC001.001 SD Card reader detection (Ubuntu 20.04)
     Should Match    str(${disks})    *SD*
     Exit From Root User
 
-SDC001.002 SD Card reader detection (Windows 11)
+SDC001.002 SD Card reader detection (Windows)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.001 not supported
@@ -50,7 +50,7 @@ SDC001.002 SD Card reader detection (Windows 11)
     Should Contain    ${out}    DiskDrive
     # Exit from root user
 
-SDC002.001 SD Card read/write (Ubuntu 20.04)
+SDC002.001 SD Card read/write (Ubuntu)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC002.001 not supported
@@ -65,7 +65,7 @@ SDC002.001 SD Card read/write (Ubuntu 20.04)
     Should Be True    ${result}
     Exit From Root User
 
-SDC002.002 SD Card read/write (Windows 11)
+SDC002.002 SD Card read/write (Windows)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.001 not supported

@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-SMM001.001 SMM BIOS write protection enabling (Ubuntu 22.04)
+SMM001.001 SMM BIOS write protection enabling (Ubuntu)
     [Documentation]    SMM BIOS write protection is the method to prevent a
     ...    specific region of the firmware from being flashed - when enabled
     ...    allows only SMM code (the privileged code installed by the firmware
@@ -53,7 +53,7 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu 22.04)
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    SMM protection is enabled
 
-SMM002.001 SMM BIOS write protection disabling (Ubuntu 22.04)
+SMM002.001 SMM BIOS write protection disabling (Ubuntu)
     [Documentation]    SMM BIOS write protection is the method to prevent a
     ...    specific region of the firmware from being flashed - when enabled
     ...    allows only SMM code (the privileged code installed by the firmware
