@@ -23,11 +23,14 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
+*** Variables ***
+${PCRS_TO_CHECK}=       [0-9]|14
+
+
 *** Test Cases ***
 MBO001.001 Measured Boot support (Ubuntu 20.04)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     Execute Command In Terminal    shopt -s extglob
     ${hashes}=    Execute Command In Terminal
     ...    grep . /sys/class/tpm/tpm0/pcr-sha@(1|256)/[0-3]
@@ -41,7 +44,6 @@ MBO001.001 Measured Boot support (Ubuntu 20.04)
 MBO002.001 Check if event log PCRs match actual values (Ubuntu 22.04)
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     ${tpm2_eventlog}=    Execute Command In Terminal
     ...    tpm2_eventlog /sys/kernel/security/tpm0/binary_bios_measurements
     FOR    ${algo}    IN    sha1    sha256
@@ -58,19 +60,21 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
     [Documentation]    Check if changes to Secure Boot certificates influence
     ...    PCR-7 value and only PCR-7
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot tests are not supported
     Restore Secure Boot Defaults
     ${sb_menu}=    Reenter Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
     Save Changes And Reset
-    Make Sure That Network Boot Is Enabled
-    Power On
-    # Using DTS here because Ubuntu enrolls DTX certificates
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal    shopt -s extglob
     ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
     Should Not Contain    ${default_hashes}    No such file or directory
     ${default_hashes}=    Split To Lines    ${default_hashes}
+
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
@@ -81,8 +85,10 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
     Write Into Terminal    Y
     Sleep    1s
     Save Changes And Reset
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -98,14 +104,15 @@ MBO004.001 Changing Dasharo Security settings changes only PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Tests in Dasharo Security Menu are not supported
-    Make Sure That Network Boot Is Enabled
     Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal    shopt -s extglob
     ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
     Should Not Contain    ${default_hashes}    No such file or directory
-    ${default_hashes}=    Split To Lines    ${default_hashes}
+    @{default_hashes}=    Split To Lines    ${default_hashes}
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -116,8 +123,9 @@ MBO004.001 Changing Dasharo Security settings changes only PCR-1
     Set Option State    ${menu}    Lock the BIOS boot medium    ${new_bios_lock_state}
     Save Changes And Reset
 
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -133,14 +141,15 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${DASHARO_USB_MENU_SUPPORT}    Tests in Dasharo USB Menu are not supported
-    Make Sure That Network Boot Is Enabled
     Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal    shopt -s extglob
     ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
     Should Not Contain    ${default_hashes}    No such file or directory
-    ${default_hashes}=    Split To Lines    ${default_hashes}
+    @{default_hashes}=    Split To Lines    ${default_hashes}
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -151,8 +160,9 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Set Option State    ${menu}    Enable USB Mass Storage    ${new_usb_storage_state}
     Save Changes And Reset
 
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -168,14 +178,15 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    Tests in Dasharo APU Menu are not supported
-    Make Sure That Network Boot Is Enabled
     Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal    shopt -s extglob
     ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
     Should Not Contain    ${default_hashes}    No such file or directory
-    ${default_hashes}=    Split To Lines    ${default_hashes}
+    @{default_hashes}=    Split To Lines    ${default_hashes}
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -185,8 +196,9 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     Set Option State    ${menu}    Core Performance Boost    ${new_core_boost_state}
     Save Changes And Reset
 
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -201,7 +213,6 @@ MBO005.001 Multiple reset to defaults results in identical measurements
     [Documentation]    Resetting Dasharo configuration twice will give the same
     ...    PCRs measurements
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     ${default_hashes}=    Get Default PCRs State
 
     Restore Secure Boot Defaults
@@ -340,8 +351,9 @@ Get Default PCRs State
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
+        Execute Command In Terminal    shopt -s extglob
         ${default_hashes}=    Execute Command In Terminal
-        ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+        ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
         Should Not Contain    ${default_hashes}    No such file or directory
         ${default_pcr_state}=    Split To Lines    ${default_hashes}
         Set Suite Variable    $DEFAULT_PCR_STATE_SUITE    ${default_pcr_state}
@@ -351,6 +363,7 @@ Get Default PCRs State
 Measured Boot Suite Setup
     Prepare Test Suite
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
