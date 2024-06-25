@@ -20,7 +20,7 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-SUSP005.001 Cyclic platform suspend and resume (Ubuntu 22.04)
+SUSP005.001 Cyclic platform suspend and resume (Ubuntu)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
     Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.001 not supported
@@ -28,7 +28,7 @@ SUSP005.001 Cyclic platform suspend and resume (Ubuntu 22.04)
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.001 not supported
     Cyclic Platform Suspend And Resume (Ubuntu 22.04)
 
-SUSP005.002 Cyclic platform suspend and resume (Ubuntu 22.04) (S0ix)
+SUSP005.002 Cyclic platform suspend and resume (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
     Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.002 not supported
@@ -37,7 +37,7 @@ SUSP005.002 Cyclic platform suspend and resume (Ubuntu 22.04) (S0ix)
     Set Platform Sleep Type    S0ix
     Cyclic Platform Suspend And Resume (Ubuntu 22.04)    S0ix
 
-SUSP005.003 Cyclic platform suspend and resume (Ubuntu 22.04) (S3)
+SUSP005.003 Cyclic platform suspend and resume (Ubuntu) (S3)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
     Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.003 not supported
@@ -48,7 +48,7 @@ SUSP005.003 Cyclic platform suspend and resume (Ubuntu 22.04) (S3)
 
 
 *** Keywords ***
-Cyclic Platform Suspend And Resume (Ubuntu 22.04)
+Cyclic Platform Suspend And Resume (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     ${suspend_detected_fails}=    Set Variable    ${0}
     Power On

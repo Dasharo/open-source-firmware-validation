@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-MMC001.001 eMMC support (Ubuntu 22.04)
+MMC001.001 eMMC support (Ubuntu)
     [Documentation]    Check whether the eMMC driver is detected via the
     ...    Operating System.
     Skip If    not ${EMMC_SUPPORT}    MMC001.001 not supported

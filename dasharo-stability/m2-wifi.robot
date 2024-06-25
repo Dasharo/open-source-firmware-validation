@@ -22,7 +22,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 # Tests will work on laptops with access to the serial console and possibility
 # of remote power control
-# SMW001.001 Wi-fi connection after cold boot (Ubuntu 22.04)
+# SMW001.001 Wi-fi connection after cold boot (Ubuntu)
 #    [Documentation]    Check whether the Wi-Fi card is detected and working
 #    ...    correctly after performing a cold boot.
 #    Skip If    not ${m2_wifi_support}    SMW001.001 not supported
@@ -46,7 +46,7 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-# SMW002.001 Wi-fi connection after warm boot (Ubuntu 22.04)
+# SMW002.001 Wi-fi connection after warm boot (Ubuntu)
 #    [Documentation]    Check whether the Wi-Fi card is detected and working
 #    ...    correctly after performing a warm boot.
 #    Skip If    not ${m2_wifi_support}    SMW002.001 not supported
@@ -70,7 +70,7 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-# SMW003.001 Wi-fi connection after reboot (Ubuntu 22.04)
+# SMW003.001 Wi-fi connection after reboot (Ubuntu)
 #    [Documentation]    Check whether the Wi-Fi card is detected and working
 #    ...    correctly after performing a reboot.
 #    Skip If    not ${m2_wifi_support}    SMW003.001 not supported
@@ -94,7 +94,7 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-SMW004.001 Wi-fi connection after suspension (Ubuntu 22.04)
+SMW004.001 Wi-fi connection after suspension (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.001 not supported
@@ -102,7 +102,7 @@ SMW004.001 Wi-fi connection after suspension (Ubuntu 22.04)
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.001 not supported
     Wi-fi Connection After Suspension (Ubuntu 22.04)
 
-SMW004.002 Wi-fi connection after suspension (Ubuntu 22.04) (S0ix)
+SMW004.002 Wi-fi connection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.002 not supported
@@ -111,7 +111,7 @@ SMW004.002 Wi-fi connection after suspension (Ubuntu 22.04) (S0ix)
     Set Platform Sleep Type    S0ix
     Wi-fi Connection After Suspension (Ubuntu 22.04)    S0ix
 
-SMW004.003 Wi-fi connection after suspension (Ubuntu 22.04) (S3)
+SMW004.003 Wi-fi connection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.003 not supported
@@ -122,7 +122,7 @@ SMW004.003 Wi-fi connection after suspension (Ubuntu 22.04) (S3)
 
 
 *** Keywords ***
-Wi-fi Connection After Suspension (Ubuntu 22.04)
+Wi-fi Connection After Suspension (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
     Boot System Or From Connected Disk    ubuntu

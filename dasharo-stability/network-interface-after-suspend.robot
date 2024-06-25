@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-NET003.001 Net controller after reboot (Ubuntu 22.04)
+NET003.001 Net controller after reboot (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
@@ -46,32 +46,32 @@ NET003.001 Net controller after reboot (Ubuntu 22.04)
         Should Contain    ${network_status}    UP
     END
 
-NET004.001 NET controller after suspend (Ubuntu 22.04)
+NET004.001 NET controller after suspend (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.001 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.001 not supported
-    NET Controller After Suspend (Ubuntu 22.04)
+    NET Controller After Suspend (Ubuntu)
 
-NET004.002 NET controller after suspend (Ubuntu 22.04) (S0ix)
+NET004.002 NET controller after suspend (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.002 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.002 not supported
     Set Platform Sleep Type    S0ix
-    NET Controller After Suspend (Ubuntu 22.04)    S0ix
+    NET Controller After Suspend (Ubuntu)    S0ix
 
-NET004.003 NET controller after suspend (Ubuntu 22.04) (S3)
+NET004.003 NET controller after suspend (Ubuntu) (S3)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.003 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.003 not supported
     Set Platform Sleep Type    S3
-    NET Controller After Suspend (Ubuntu 22.04)    S3
+    NET Controller After Suspend (Ubuntu)    S3
 
 
 *** Keywords ***
-NET Controller After Suspend (Ubuntu 22.04)
+NET Controller After Suspend (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
     Boot System Or From Connected Disk    ubuntu

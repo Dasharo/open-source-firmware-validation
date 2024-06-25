@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-NVI001.001 NVIDIA Graphics detect (Ubuntu 20.04)
+NVI001.001 NVIDIA Graphics detect (Ubuntu)
     [Documentation]    Check whether the NVIDIA graphics card is initialized
     ...    correctly and can be detected by the Linux OS.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI001.001 not supported
@@ -39,7 +39,7 @@ NVI001.001 NVIDIA Graphics detect (Ubuntu 20.04)
     Should Contain    ${out}    3D controller: NVIDIA Corporation
     Exit From Root User
 
-NVI001.002 NVIDIA Graphics detect (Windows 11)
+NVI001.002 NVIDIA Graphics detect (Windows)
     [Documentation]    Check whether the NVIDIA graphics card is initialized
     ...    correctly and can be detected by the Windows 11.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVI001.002 not supported
@@ -48,7 +48,7 @@ NVI001.002 NVIDIA Graphics detect (Windows 11)
     ${out}=    Get Video Controllers Windows
     Should Contain    ${out}    NVIDIA GeForce
 
-NVI002.001 NVIDIA Graphics power management (Ubuntu 20.04)
+NVI002.001 NVIDIA Graphics power management (Ubuntu)
     [Documentation]    Check whether the NVIDIA graphics power management is
     ...    functional and the card powers on only while it's used.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI002.001 not supported

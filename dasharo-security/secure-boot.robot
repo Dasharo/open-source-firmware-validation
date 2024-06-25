@@ -52,7 +52,7 @@ SBO001.001 Check Secure Boot default state (firmware)
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
     Should Contain    ${sb_state}[0]    ${SECURE_BOOT_DEFAULT_STATE}
 
-SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
+SBO002.001 UEFI Secure Boot (Ubuntu)
     [Documentation]    This test verifies that Secure Boot can be enabled from
     ...    boot menu and, after the DUT reset, it is seen from
     ...    the OS.
@@ -89,7 +89,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu 22.04)
     ${sb_status}=    Check Secure Boot In Linux
     Should Not Be True    ${sb_status}
 
-SBO002.002 UEFI Secure Boot (Windows 11)
+SBO002.002 UEFI Secure Boot (Windows)
     [Documentation]    This test verifies that Secure Boot can be enabled from
     ...    boot menu and, after the DUT reset, it is seen from
     ...    the OS.
