@@ -29,15 +29,15 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CPT001.001 CPU temperature without load (Ubuntu 22.04)
+CPT001.001 CPU temperature without load (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.001 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU Temperature Without Load (Ubuntu 22.04)
+    CPU Temperature Without Load (Ubuntu)
 
-CPT001.002 CPU temperature without load (Ubuntu 22.04) (battery)
+CPT001.002 CPU temperature without load (Ubuntu) (battery)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
@@ -47,9 +47,9 @@ CPT001.002 CPU temperature without load (Ubuntu 22.04) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Temperature Without Load (Ubuntu 22.04)
+    CPU Temperature Without Load (Ubuntu)
 
-CPT001.003 CPU temperature without load (Ubuntu 22.04) (AC)
+CPT001.003 CPU temperature without load (Ubuntu) (AC)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
@@ -58,9 +58,9 @@ CPT001.003 CPU temperature without load (Ubuntu 22.04) (AC)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Temperature Without Load (Ubuntu 22.04)
+    CPU Temperature Without Load (Ubuntu)
 
-CPT001.004 CPU temperature without load (Ubuntu 22.04) (USB-PD)
+CPT001.004 CPU temperature without load (Ubuntu) (USB-PD)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
@@ -69,18 +69,18 @@ CPT001.004 CPU temperature without load (Ubuntu 22.04) (USB-PD)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    CPU Temperature Without Load (Ubuntu 22.04)
+    CPU Temperature Without Load (Ubuntu)
 
-CPT002.001 CPU temperature after stress test (Ubuntu 22.04)
+CPT002.001 CPU temperature after stress test (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT002.001 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU Temperature After Stress Test (Ubuntu 22.04)
+    CPU Temperature After Stress Test (Ubuntu)
 
-CPT002.002 CPU temperature after stress test (Ubuntu 22.04) (battery)
+CPT002.002 CPU temperature after stress test (Ubuntu) (battery)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
@@ -90,9 +90,9 @@ CPT002.002 CPU temperature after stress test (Ubuntu 22.04) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Temperature After Stress Test (Ubuntu 22.04)
+    CPU Temperature After Stress Test (Ubuntu)
 
-CPT002.003 CPU temperature after stress test (Ubuntu 22.04) (AC)
+CPT002.003 CPU temperature after stress test (Ubuntu) (AC)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
@@ -101,9 +101,9 @@ CPT002.003 CPU temperature after stress test (Ubuntu 22.04) (AC)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Temperature After Stress Test (Ubuntu 22.04)
+    CPU Temperature After Stress Test (Ubuntu)
 
-CPT002.004 CPU temperature after stress test (Ubuntu 22.04) (USB-PD)
+CPT002.004 CPU temperature after stress test (Ubuntu) (USB-PD)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
@@ -112,11 +112,11 @@ CPT002.004 CPU temperature after stress test (Ubuntu 22.04) (USB-PD)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
-    CPU Temperature After Stress Test (Ubuntu 22.04)
+    CPU Temperature After Stress Test (Ubuntu)
 
 
 *** Keywords ***
-CPU Temperature Without Load (Ubuntu 22.04)
+CPU Temperature Without Load (Ubuntu)
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -140,7 +140,7 @@ CPU Temperature Without Load (Ubuntu 22.04)
     Log To Console    Average temperature: ${temperature}°C
     Should Be True    ${average} < ${MAX_CPU_TEMP}
 
-CPU Temperature After Stress Test (Ubuntu 22.04)
+CPU Temperature After Stress Test (Ubuntu)
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux

@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-WLE001.001 Wireless card detection (Ubuntu 20.04)
+WLE001.001 Wireless card detection (Ubuntu)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
     Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.001 not supported
@@ -47,7 +47,7 @@ WLE001.001 Wireless card detection (Ubuntu 20.04)
     Log    The test passed for the ${WIFI_CARD_UBUNTU} wireless card    WARN
     Exit From Root User
 
-WLE001.002 Wireless card detection (Windows 11)
+WLE001.002 Wireless card detection (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
     Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.002 not supported
@@ -63,7 +63,7 @@ WLE001.002 Wireless card detection (Windows 11)
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
 
-WLE002.001 Wi-Fi scanning (Ubuntu 20.04)
+WLE002.001 Wi-Fi scanning (Ubuntu)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system..
@@ -82,7 +82,7 @@ WLE002.001 Wi-Fi scanning (Ubuntu 20.04)
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
 
-WLE002.002 Wi-Fi scanning (Windows 11)
+WLE002.002 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
     Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.002 not supported
@@ -99,7 +99,7 @@ WLE002.002 Wi-Fi scanning (Windows 11)
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
 
-WLE003.001 Bluetooth scanning (Ubuntu 20.04)
+WLE003.001 Bluetooth scanning (Ubuntu)
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.

@@ -39,7 +39,7 @@ TPM001.001 TPM Support (firmware)
     ${out}=    Execute Command In Terminal    cbmem -L
     Should Contain    ${out}    TPM2 log
 
-TPM001.002 TPM Support (Ubuntu 20.04)
+TPM001.002 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
@@ -52,7 +52,7 @@ TPM001.002 TPM Support (Ubuntu 20.04)
     Should Contain    ${out}    sha1:
     Should Contain    ${out}    sha256:
 
-TPM001.003 TPM Support (Windows 11)
+TPM001.003 TPM Support (Windows)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from Windows.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.003 not supported
@@ -78,7 +78,7 @@ TPM002.001 Verify TPM version (firmware)
     ${out}=    Execute Command In Terminal    cbmem -L
     Should Contain    ${out}    TPM2 log
 
-TPM002.002 Verify TPM version (Ubuntu 22.04)
+TPM002.002 Verify TPM version (Ubuntu)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.002 not supported
@@ -90,7 +90,7 @@ TPM002.002 Verify TPM version (Ubuntu 22.04)
     # TPM 2.0
     Should Contain    ${out}    2
 
-TPM002.003 Verify TPM version (Windows 11)
+TPM002.003 Verify TPM version (Windows)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.003 not supported
@@ -113,7 +113,7 @@ TPM003.001 Check TPM Physical Presence Interface (firmware)
     Should Contain    ${out}    PPI: Pending OS request
     Should Contain    ${out}    PPI: OS response
 
-TPM003.002 Check TPM Physical Presence Interface (Ubuntu 22.04)
+TPM003.002 Check TPM Physical Presence Interface (Ubuntu)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.002 not supported
@@ -124,7 +124,7 @@ TPM003.002 Check TPM Physical Presence Interface (Ubuntu 22.04)
     ${out}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/ppi/version
     Should Contain    ${out}    1.3
 
-TPM003.003 Check TPM Physical Presence Interface (Windows 11)
+TPM003.003 Check TPM Physical Presence Interface (Windows)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM003.003 not supported

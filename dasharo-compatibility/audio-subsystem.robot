@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-AUD001.001 Audio subsystem detection (Ubuntu 20.04)
+AUD001.001 Audio subsystem detection (Ubuntu)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Linux OS.
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.001 not supported
@@ -40,7 +40,7 @@ AUD001.001 Audio subsystem detection (Ubuntu 20.04)
     Should Contain    ${out}    ${DEVICE_AUDIO2}
     Exit From Root User
 
-AUD001.002 Audio subsystem detection (Windows 11)
+AUD001.002 Audio subsystem detection (Windows)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Windows 11.
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.002 not supported
@@ -52,7 +52,7 @@ AUD001.002 Audio subsystem detection (Windows 11)
     Should Contain    ${out}    OK
 
 # PI-KVM necessary
-# AUD002.001 Audio playback (Ubuntu 20.04)
+# AUD002.001 Audio playback (Ubuntu)
 #    [Documentation]    Check whether the audio subsystem is able to playback
 #    ...    audio recordings.
 #    Execute Linux command    pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo    0
@@ -69,7 +69,7 @@ AUD001.002 Audio subsystem detection (Windows 11)
 #    [Documentation]    Check whether the audio subsystem is able to capture
 #    ...    audio.
 
-AUD004.001 External headset recognition (Ubuntu 20.04)
+AUD004.001 External headset recognition (Ubuntu)
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.001 not supported
@@ -84,7 +84,7 @@ AUD004.001 External headset recognition (Ubuntu 20.04)
     Exit From Root User
 
 # Work in progress
-# AUD004.002 External headset recognition (Windows 11)
+# AUD004.002 External headset recognition (Windows)
 #    [Documentation]    Check whether the external headset is recognized
 #    ...    properly after plugging in micro jack into slot.
 #    Skip If    not ${audio_subsystem_support}    AUD004.002 not supported

@@ -19,7 +19,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-TPD003.001 Detect TPM after platform reboot (Ubuntu 22.04)
+TPD003.001 Detect TPM after platform reboot (Ubuntu)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.001 not supported
@@ -42,7 +42,7 @@ TPD003.001 Detect TPM after platform reboot (Ubuntu 22.04)
     END
     Exit From Root User
 
-TPD004.001 Detect TPM after platform suspend (Ubuntu 22.04)
+TPD004.001 Detect TPM after platform suspend (Ubuntu)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.    Skip If    not ${tests_in_firmware_support}    TPD001.001 not supported
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD001.001 not supported

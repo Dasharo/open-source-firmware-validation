@@ -27,20 +27,20 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CPU001.001 CPU works (Ubuntu 22.04)
+CPU001.001 CPU works (Ubuntu)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
 
-CPU001.002 CPU works (Windows 11)
+CPU001.002 CPU works (Windows)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.002 not supported
     Power On
     Login To Windows
 
-CPU002.001 CPU cache enabled (Ubuntu 22.04)
+CPU002.001 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.001 not supported
@@ -56,7 +56,7 @@ CPU002.001 CPU cache enabled (Ubuntu 22.04)
     Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
     Check Cache Support    ${mem_info}    LEVEL4
 
-CPU002.002 CPU cache enabled (Windows 11)
+CPU002.002 CPU cache enabled (Windows)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.002 not supported
@@ -72,7 +72,7 @@ CPU002.002 CPU cache enabled (Windows 11)
     Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
     Should Contain    ${mem_info}    CACHE4
 
-CPU003.001 Multiple CPU support (Ubuntu 22.04)
+CPU003.001 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.001 not supported
     Power On
@@ -85,7 +85,7 @@ CPU003.001 Multiple CPU support (Ubuntu 22.04)
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
 
-CPU003.002 Multiple CPU support (Windows 11)
+CPU003.002 Multiple CPU support (Windows)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.002 not supported
     Power On
@@ -95,7 +95,7 @@ CPU003.002 Multiple CPU support (Windows 11)
     ${cpu_count}=    Convert To Number    ${cpu_count}
     Should Be True    ${cpu_count} > 1
 
-CPU004.001 Multiple-core support (Ubuntu 22.04)
+CPU004.001 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.001 not supported
     Power On
@@ -115,7 +115,7 @@ CPU004.001 Multiple-core support (Ubuntu 22.04)
     ...    ${DEF_THREADS_PER_CORE}
     ...    Different number of threads per core than ${DEF_THREADS_PER_CORE}
 
-CPU004.002 Multiple-core support (Windows 11)
+CPU004.002 Multiple-core support (Windows)
     [Documentation]    Check whether the DUT has multi-core support.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.002 not supported
     Power On

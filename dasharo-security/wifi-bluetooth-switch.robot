@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu 22.04)
+WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu)
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to false
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
@@ -40,7 +40,7 @@ WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu 22.04)
     ${bt}=    Check The Presence Of Bluetooth Card
     Should Not Be True    ${bt}
 
-WBS002.001 Wifi and Bluetooth card power switch enabled (Ubuntu 22.04)
+WBS002.001 Wifi and Bluetooth card power switch enabled (Ubuntu)
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to true
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}

@@ -24,7 +24,7 @@ Test Setup          Flush TPM Contexts
 
 
 *** Test Cases ***
-TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu 22.04)
+TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)
     [Documentation]    This test aims to verify that `PCRALLOCATE` function
     ...    works properly. It allows the user to specify a PCR
     ...    allocation for the TPM.
@@ -32,7 +32,7 @@ TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu 22.04)
     Should Be True    ${SHA1_ENABLED}
     Should Be True    ${SHA256_ENABLED}
 
-TPMCMD002.001 PCRREAD Function Verification (Ubuntu 22.04)
+TPMCMD002.001 PCRREAD Function Verification (Ubuntu)
     [Documentation]    This test aims to verify that PCRREAD function works
     ...    properly. Function reads contains of PCR banks and
     ...    returns it to the terminal.
@@ -43,7 +43,7 @@ TPMCMD002.001 PCRREAD Function Verification (Ubuntu 22.04)
     Should Contain    ${out}    0x0000000000000000000000000000000000000000
     Should Contain    ${out}    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
-TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu 22.04)
+TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu)
     [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
     ...    functions are working properly.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
@@ -77,7 +77,7 @@ TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu 22.04)
         Should Contain    ${out3}    23: 0x${sha256_0s}
     END
 
-TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu 22.04)
+TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu)
     [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
     ...    functions are working properly when trying to modify protected PCRs.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
@@ -90,7 +90,7 @@ TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu 22
     Should Contain    ${out2}    tpm:warn(2.0): bad locality
     Should Contain    ${out3}    18: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
-TPMCMD004.001 PCREVENT Function (Ubuntu 22.04)
+TPMCMD004.001 PCREVENT Function (Ubuntu)
     [Documentation]    This test aims to verify that PCREVENT function is
     ...    working properly.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
@@ -125,7 +125,7 @@ TPMCMD004.001 PCREVENT Function (Ubuntu 22.04)
         Should Contain    ${out}    23: 0x${sha256.upper()}
     END
 
-TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu 22.04)
+TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu)
     [Documentation]    This test aims to verify that CREATEPRIMARY function
     ...    works as expected. This command is used to create a
     ...    primary object under one of the hierarchies: Owner,
@@ -136,7 +136,7 @@ TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu 22.04)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|restricted|decrypt
     Should Contain    ${out}    bits: 2048
 
-TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu 22.04)
+TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu)
     [Documentation]    This test aims to verify that NVDEFINE and NVUNDEFINE
     ...    functions are working as expected. Those functions are
     ...    used to define and undefine a TPM Non-Volatile index.
@@ -151,7 +151,7 @@ TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu 22.04)
     Should Contain    ${out1}=    nvtest
     Should Contain    ${out2}=    ERROR: Unable to run tpm2_nvread
 
-TPMCMD007.001 CREATE Function (Ubuntu 22.04)
+TPMCMD007.001 CREATE Function (Ubuntu)
     [Documentation]    This test aims to verify that CREATE function works as
     ...    expected. It will create an object using all the default
     ...    values and store the TPM sealed private and public
@@ -164,7 +164,7 @@ TPMCMD007.001 CREATE Function (Ubuntu 22.04)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
     Should Contain    ${out}    bits: 2048
 
-TPMCMD007.002 CREATELOADED Function (Ubuntu 22.04)
+TPMCMD007.002 CREATELOADED Function (Ubuntu)
     [Documentation]    This test aims to verify that CREATELOADED function works
     ...    as expected. It will create an object using all the
     ...    default values and store key context to the path
@@ -176,7 +176,7 @@ TPMCMD007.002 CREATELOADED Function (Ubuntu 22.04)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
     Should Contain    ${out}    bits: 2048
 
-TPMCMD008.001 Signing the file (Ubuntu 22.04)
+TPMCMD008.001 Signing the file (Ubuntu)
     [Documentation]    Check whether the TPM supports file signing.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
@@ -188,7 +188,7 @@ TPMCMD008.001 Signing the file (Ubuntu 22.04)
     Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
 
-TPMCMD009.001 Encryption and Decryption of the file (Ubuntu 22.04)
+TPMCMD009.001 Encryption and Decryption of the file (Ubuntu)
     [Documentation]    Check whether the TPM supports the encryption and
     ...    decryption of the file.
     ${out}=    Execute Linux Tpm2 Tools Command    tpm2_getcap commands
@@ -210,7 +210,7 @@ TPMCMD009.001 Encryption and Decryption of the file (Ubuntu 22.04)
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx secret.enc secret.dec secret.data iv.bin
     Should Contain    ${out}    my secret
 
-TPMCMD010.001 Hashing the file (Ubuntu 22.04)
+TPMCMD010.001 Hashing the file (Ubuntu)
     [Documentation]    Check whether the TPM supports file hashing.
     Execute Linux Command    echo "my secret" > secret.data
     Execute Linux Tpm2 Tools Command    tpm2_hash -o hash.out -t ticket.out secret.data
@@ -223,7 +223,7 @@ TPMCMD010.001 Hashing the file (Ubuntu 22.04)
     Should Not Contain    ${out2}    hash.out
     Should Not Contain    ${out3}    ticket.out
 
-TPMCMD011.001 Performing HMAC operation on the file (Ubuntu 22.04)
+TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
     [Documentation]    Check whether the TPM supports HMAC operation.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx -G hmac
