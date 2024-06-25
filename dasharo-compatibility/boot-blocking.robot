@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-BBB001.001 Boot blocking (charger disconnected) (Ubuntu 22.04)
+BBB001.001 Boot blocking (charger disconnected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
     ...    blocked.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported
@@ -38,7 +38,7 @@ BBB001.001 Boot blocking (charger disconnected) (Ubuntu 22.04)
     Discharge The Battery Until Target Level In Linux    3
     Execute Command In Terminal    reboot
 
-BBB001.002 Boot blocking (charger connected) (Ubuntu 22.04)
+BBB001.002 Boot blocking (charger connected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
     ...    blocked.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported

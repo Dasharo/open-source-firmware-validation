@@ -100,7 +100,7 @@ TPD003.004 Detect TPM after platform reboot (heads)
     END
     Check TPM PCRs Correctness Between Subsequent Boots    ${pcrs_subsequent_boots}
 
-TPM001.002 TPM Support (Ubuntu 20.04)
+TPM001.002 TPM Support (Ubuntu)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly and the PCRs can be accessed from the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
@@ -114,7 +114,7 @@ TPM001.002 TPM Support (Ubuntu 20.04)
     Should Contain    ${out}    sha256:
     Exit From Root User
 
-TPM001.003 TPM Support (Windows 11)
+TPM001.003 TPM Support (Windows)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly and the PCRs can be accessed from the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.003 not supported

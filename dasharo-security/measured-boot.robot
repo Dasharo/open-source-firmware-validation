@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-MBO001.001 Measured Boot support (Ubuntu 20.04)
+MBO001.001 Measured Boot support (Ubuntu)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.a.
     Skip If    not ${MEASURED_BOOT_SUPPORT}    MBO001.001 not supported

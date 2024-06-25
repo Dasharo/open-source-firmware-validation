@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CAM001.001 Integrated webcam (Ubuntu 22.04)
+CAM001.001 Integrated webcam (Ubuntu)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
@@ -45,7 +45,7 @@ CAM001.001 Integrated webcam (Ubuntu 22.04)
     ...    Stream #0:0: Video: rawvideo (YUY2 / 0x32595559), yuyv422
     Exit From Root User
 
-CAM001.002 Integrated webcam (Windows 11)
+CAM001.002 Integrated webcam (Windows)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Windows OS.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.002 not supported
@@ -54,7 +54,7 @@ CAM001.002 Integrated webcam (Windows 11)
     ${out}=    Get USB Devices Windows
     Should Contain    ${out}    Chicony USB2.0 Camera
 
-CAM002.001 Integrated IR Camera (Ubuntu 22.04)
+CAM002.001 Integrated IR Camera (Ubuntu)
     [Documentation]    Check whether the integrated infrared camera is
     ...    initialized correctly and can be accessed from the Linux OS.
     ...    Assumption: No external camera connected. Camera exposes separate

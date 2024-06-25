@@ -41,7 +41,7 @@ MNE001.001 Intel ME mode option is available and has the correct default state
     ${state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${state}    Enabled
 
-MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu 22.04)
+MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state Enabled
     ...    works correctly.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
@@ -52,7 +52,7 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu 22.04)
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    00:16.0
 
-MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu 22.04)
+MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (Soft) works correctly
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE003.001 not supported
@@ -63,7 +63,7 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu 22.04)
     ${out}=    List Devices In Linux    pci
     Should Not Contain    ${out}    00:16.0
 
-MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu 22.04)
+MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (HAP) works correctly.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE004.001 not supported
@@ -74,7 +74,7 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu 22.04)
     ${out}=    List Devices In Linux    pci
     Should Not Contain    ${out}    00:16.0
 
-MNE006.001 Check Intel ME version (Ubuntu 22.04)
+MNE006.001 Check Intel ME version (Ubuntu)
     [Documentation]    This test aims to verify that the Intel ME version might
     ...    be read on the Operating System level. The read version should be
     ...    the same as in the release notes.

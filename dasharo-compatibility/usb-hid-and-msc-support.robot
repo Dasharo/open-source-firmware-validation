@@ -35,7 +35,7 @@ USB001.001 USB devices detected in FW
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
 
-USB001.002 USB devices detected by OS (Ubuntu 20.04)
+USB001.002 USB devices detected by OS (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Linux OS.
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.002 not supported
@@ -50,7 +50,7 @@ USB001.002 USB devices detected by OS (Ubuntu 20.04)
     Should Contain    ${out}    Mass Storage
     Exit From Root User
 
-USB001.003 USB devices detected by OS (Windows 10)
+USB001.003 USB devices detected by OS (Windows)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Windows OS.
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.003 not supported
@@ -72,7 +72,7 @@ USB002.001 USB keyboard detected in FW
     ...    Device Manager
     Save Changes And Reset
 
-USB002.002 USB keyboard in OS (Ubuntu 20.04)
+USB002.002 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Linux OS and all basic keys work
     ...    according to their labels.
@@ -87,7 +87,7 @@ USB002.002 USB keyboard in OS (Ubuntu 20.04)
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
 
-USB002.003 USB keyboard in OS (Windows 11)
+USB002.003 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Windows OS.
     IF    not ${USB_KEYBOARD_DETECTION_SUPPORT}
@@ -100,7 +100,7 @@ USB002.003 USB keyboard in OS (Windows 11)
     ${keyboard}=    Get Lines Matching Regexp    ${out}    ^CreationClassName\\s+:\\sWin32_Keyboard.*$
     Should Not Be Empty    ${keyboard}
 
-USB003.001 Upload 1GB file on USB storage (Ubuntu 22.04)
+USB003.001 Upload 1GB file on USB storage (Ubuntu)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
     IF    not ${UPLOAD_ON_USB_SUPPORT}    SKIP    USB003.001 not supported
@@ -116,7 +116,7 @@ USB003.001 Upload 1GB file on USB storage (Ubuntu 22.04)
     Execute Linux Command    rm test_file.txt ${path_to_usb}/test_file.txt
     Exit From Root User
 
-USB003.002 Upload 1GB file on USB storage (Windows 11)
+USB003.002 Upload 1GB file on USB storage (Windows)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
     IF    not ${UPLOAD_ON_USB_SUPPORT}    SKIP    USB003.002 not supported
