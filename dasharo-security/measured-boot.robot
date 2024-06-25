@@ -195,6 +195,100 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
         END
     END
 
+MBO005.001 Multiple reset to defaults results in identical measurements
+    [Documentation]    Resetting Dasharo configuration twice will give the same
+    ...    PCRs measurements
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
+    ${default_hashes}=    Get Default PCRs State
+
+    Restore Secure Boot Defaults
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    FOR    ${pcr_hash}    IN    @{default_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${new_hash}=    Execute Command In Terminal    cat ${pcr}
+        Should Be Equal    ${hash}    ${new_hash}
+    END
+
+MBO005.002 Identical configuration results in identical measurements
+    [Documentation]    Check if same configuration state results in same PCR
+    ...    values regardless how this state was achieved
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
+    ...    Platform doesn't support neither Security or USB menu tests
+    ${default_hashes}=    Get Default PCRs State
+
+    Restore Secure Boot Defaults
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${menu}=    Enter Dasharo System Features    ${menu}
+    IF    ${DASHARO_SECURITY_MENU_SUPPORT}
+        ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
+        ${option}=    Set Variable    Enable USB Mass Storage
+    ELSE
+        ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
+        ${option}=    Set Variable    Lock the BIOS boot medium
+    END
+    ${option_state}=    Get Option State    ${menu}    ${option}
+    ${new_option_state}=    Evaluate    not ${option_state}
+    Set Option State    ${menu}    ${option}    ${new_option_state}
+    Save Changes
+    Set Option State    ${menu}    ${option}    ${option_state}
+    Save Changes And Reset
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    FOR    ${pcr_hash}    IN    @{default_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${new_hash}=    Execute Command In Terminal    cat ${pcr}
+        Should Be Equal    ${hash}    ${new_hash}
+    END
+
+MBO005.003 Identical configuration after reset results in identical measurements
+    [Documentation]    Check if same configuration state achieved by resetting
+    ...    state to default results in same PCR values
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
+    ...    Platform doesn't support neither Security or USB menu tests
+    ${default_hashes}=    Get Default PCRs State
+
+    Restore Secure Boot Defaults
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${menu}=    Enter Dasharo System Features    ${menu}
+    IF    ${DASHARO_SECURITY_MENU_SUPPORT}
+        ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
+        ${option}=    Set Variable    Enable USB Mass Storage
+    ELSE
+        ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
+        ${option}=    Set Variable    Lock the BIOS boot medium
+    END
+    ${option_state}=    Get Option State    ${menu}    ${option}
+    ${new_option_state}=    Evaluate    not ${option_state}
+    Set Option State    ${menu}    ${option}    ${new_option_state}
+    Save Changes
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    FOR    ${pcr_hash}    IN    @{default_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${new_hash}=    Execute Command In Terminal    cat ${pcr}
+        Should Be Equal    ${hash}    ${new_hash}
+    END
+
 
 *** Keywords ***
 Get PCRs From Eventlog
@@ -230,6 +324,28 @@ Get Index From List Regexp
     END
     RETURN    -1
 
+Get Default PCRs State
+    [Documentation]    First time this keyword is called it resets platform
+    ...    configuration to default and then returns PCRs values. Next call
+    ...    return values measured in first call.
+    IF    not ${TESTS_IN_UBUNTU_SUPPORT}    Fail
+    ${default_pcr_state}=    Get Variable Value    $DEFAULT_PCR_STATE_SUITE
+    IF    ${default_pcr_state} is ${NONE}
+        Restore Secure Boot Defaults
+        Reset To Defaults Tianocore
+        Save Changes And Reset
+
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${default_hashes}=    Execute Command In Terminal
+        ...    grep . /sys/class/tpm/tpm0/pcr-sha*/*
+        Should Not Contain    ${default_hashes}    No such file or directory
+        ${default_pcr_state}=    Split To Lines    ${default_hashes}
+        Set Suite Variable    $DEFAULT_PCR_STATE_SUITE    ${default_pcr_state}
+    END
+    RETURN    ${default_pcr_state}
+
 Measured Boot Suite Setup
     Prepare Test Suite
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
@@ -238,3 +354,4 @@ Measured Boot Suite Setup
     Login To Linux
     Switch To Root User
     Detect Or Install Package    tpm2-tools
+    Execute Command In Terminal    systemctl disable secureboot-db.service
