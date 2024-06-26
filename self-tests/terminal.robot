@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation       This suite verifies the correct operation of keywords
-...                 getting and setting state of numerical options.
+...                 entering and parsing UEFI shell commands
 
 Library             Collections
 Library             OperatingSystem
@@ -29,22 +29,13 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Set numerical option
-    [Documentation]    Checks whether the numerical option can be set.
-    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
+Execute UEFI Shell Command
+    [Documentation]    Test Execute Shell Command kwd
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${boot_manager}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Boot Maintenance Manager
-    Set Option State    ${boot_manager}    Auto Boot Time-out    5
-    Save Changes And Reset
-
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${boot_manager}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Boot Maintenance Manager
-    Set Option State    ${boot_manager}    Auto Boot Time-out    5
-    ${state}=    Get Option State    ${boot_manager}    Auto Boot Time-out
-    Log    ${state}
-    Should Be Equal As Integers    ${state}    5
+    Enter UEFI Shell
+    ${out}=    Execute UEFI Shell Command    map
+    Should Contain    ${out}    Alias(s):
+    ${out}=    Execute UEFI Shell Command    devices
+    Should Contain    ${out}    Device Name
+    ${out}=    Execute UEFI Shell Command    bcfg boot dump
+    Should Contain    ${out}    Optional- N

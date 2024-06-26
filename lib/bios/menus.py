@@ -196,6 +196,11 @@ getoptionpath = {
         "CPU Configuration",
         "Number of active P-cores",
     ],
+    "PCIeResizeableBarsEnabled": [
+        "Dasharo System Features",
+        "PCI/PCIe Configuration",
+        "Enable PCIe Resizeable",
+    ],
 }
 
 

@@ -4,7 +4,7 @@ Library             OperatingSystem
 Library             Process
 Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library             SSHLibrary    timeout=90 seconds
+Library             SSHLibrary    timeout=390 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases

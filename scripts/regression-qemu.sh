@@ -11,11 +11,16 @@ compatibility_tests=(
   "dasharo-compatibility/custom-boot-menu-key.robot"
   "dasharo-compatibility/uefi-shell.robot"
   "dasharo-compatibility/network-boot.robot"
+  "dasharo-compatibility/dmidecode.robot"
+  # FIXME: unsafe to enable https://github.com/Dasharo/dasharo-issues/issues/887
+  #"dasharo-compatibility/reset-to-defaults.robot"
 )
 
 security_tests=(
   "dasharo-security/network-stack.robot"
   "dasharo-security/secure-boot.robot"
+  "dasharo-security/measured-boot.robot"
+  "dasharo-security/uefi-password.robot"
 )
 
 # Compatibility tests

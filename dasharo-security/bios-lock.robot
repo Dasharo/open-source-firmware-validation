@@ -35,12 +35,7 @@ BLS001.001 BIOS lock support (Ubuntu 22.04)
     ...    after turning on the mechanism, the BIOS region should be correctly
     ...    recognized during attempt to overwrite it by using flashrom tool.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
-    Set Option State    ${network_menu}    Lock the BIOS boot medium    ${TRUE}
-    Save Changes And Reset
+    Set UEFI Option    LockBios    Enabled
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -55,12 +50,7 @@ BLS002.001 BIOS lock support deactivation (Ubuntu 22.04)
     ...    turning off the mechanism, the BIOS region overwriting operation is
     ...    available again.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
-    Set Option State    ${network_menu}    Lock the BIOS boot medium    ${FALSE}
-    Save Changes And Reset
+    Set UEFI Option    LockBios    Disabled
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User

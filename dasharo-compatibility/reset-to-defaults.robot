@@ -70,7 +70,7 @@ RTD003.001 F9 resets Lock the BIOS boot medium option to true
     [Documentation]    Check whether pressing F9 resets Lock the BIOS boot
     ...    medium driver option to be enabled
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD003.001 not supported
-    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    RTD003.001 not supported
+    Skip If    not ${BIOS_LOCK_SUPPORT}    RTD003.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -89,7 +89,7 @@ RTD004.001 F9 resets Enable SMM BIOS write protection to false
     [Documentation]    Check whether pressing F9 resets Enable SMM BIOS write
     ...    protection option to be disabled
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD004.001 not supported
-    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    RTD004.001 not supported
+    Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}    RTD004.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -108,7 +108,7 @@ RTD005.001 F9 resets Early boot DMA Protection to true
     [Documentation]    Check whether pressing F9 resets Early boot DMA
     ...    Protection option to be enabled
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD005.001 not supported
-    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    RTD005.001 not supported
+    Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    RTD005.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
