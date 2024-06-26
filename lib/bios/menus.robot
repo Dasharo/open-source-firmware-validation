@@ -652,10 +652,29 @@ Get Firmware Version From Tianocore Setup Menu
 Get USB Boot Option
     [Documentation]    Returns the full name of the first boot option
     ...    containing "USB"
-    ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
-    FOR    ${option}    IN    @{menu_construction}
-        ${match}=    Run Keyword And Return Status    Should Match Regexp
-        ...    ${option}    .*[Uu][Ss][Bb].*
-        IF    ${match}    RETURN    ${option}
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${menu}
+    ...    One Time Boot
+    Press Key N Times    1    ${ARROW_DOWN}
+    Read From Terminal
+    Press Key N Times    1    ${ARROW_UP}
+    FOR    ${menu_option}    IN    @{menu}
+        ${screen}=    Read From Terminal
+        ${start}=    Call Method    ${screen}    index    Device Path :
+        ${end}=    Call Method    ${screen}    index    F9\=Reset
+        ${screen}=    Get Substring    ${screen}    ${start}    ${end}
+        @{screen_lines}=    Split To Lines    ${screen}
+        ${side_text}=    Set Variable    ${EMPTY}
+        FOR    ${index}    ${line}    IN ENUMERATE    @{screen_lines}
+            ${len}=    Get Length    ${line}
+            IF    ${len} < 54    CONTINUE
+            ${side_text}=    Catenate    ${side_text}    ${line}[-25:]
+        END
+        ${side_text}=    Remove String    ${side_text}    \n    ${SPACE}
+        ${is_usb}=    Run Keyword And Return Status
+        ...    Should Contain    ${side_text}    USB    ignore_case=${TRUE}
+        IF    ${is_usb}    RETURN    ${menu_option}
+        Press Key N Times    1    ${ARROW_DOWN}
     END
     FAIL    "No USB boot option found"
