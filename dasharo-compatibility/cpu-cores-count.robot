@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 CCC001.001 CPU Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if Hyper-Threading is disabled.
-    Set UEFI Option    HyperThreading    ${FALSE}    
+    Set UEFI Option    HyperThreading    ${FALSE}
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
@@ -38,7 +38,7 @@ CCC001.001 CPU Hyper-Threading disabled (Ubuntu)
 
 CCC001.002 CPU Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if Hyper-Threading is enabled.
-    Set UEFI Option    HyperThreading    ${TRUE}    
+    Set UEFI Option    HyperThreading    ${TRUE}
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
@@ -47,13 +47,13 @@ CCC001.002 CPU Hyper-Threading enabled (Ubuntu)
 
 CCC002.001 CPU E-cores none active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are disabled, all P-cores are enabled and 
+    ...    all of E-cores are disabled, all P-cores are enabled and
     ...    Hyper-Threading is enabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
-    Set UEFI Option    ActiveECores    0    
+    Set UEFI Option    ActiveECores    0
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
@@ -65,13 +65,13 @@ CCC002.001 CPU E-cores none active, Hyper-Threading enabled (Ubuntu)
 
 CCC002.002 CPU E-cores all active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    all of E-cores are enabled, all P-cores are enabled and
     ...    Hyper-Threading is enabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
-    Set UEFI Option    ActiveECores    All active    
+    Set UEFI Option    ActiveECores    All active
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
@@ -80,32 +80,32 @@ CCC002.002 CPU E-cores all active, Hyper-Threading enabled (Ubuntu)
 
 CCC002.003 CPU E-cores none active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are disabled, all P-cores are enabled and 
+    ...    all of E-cores are disabled, all P-cores are enabled and
     ...    Hyper-Threading is disabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
-    Set UEFI Option    ActiveECores    0    
+    Set UEFI Option    ActiveECores    0
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
-    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "Core(s) per socket:"   
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "Core(s) per socket:"
     ${core_count}=    Evaluate    ${DEF_THREADS_TOTAL} - ${DEF_CORES_PER_SOCKET}
     ${core_count}=    Convert To String    ${core_count}
     Should Contain    ${out}    ${core_count}
 
 CCC002.004 CPU E-cores all active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    all of E-cores are enabled, all P-cores are enabled and
     ...    Hyper-Threading is disabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActiveECores    All active
-    Set UEFI Option    HyperThreading    ${FALSE}    
+    Set UEFI Option    HyperThreading    ${FALSE}
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
@@ -114,13 +114,13 @@ CCC002.004 CPU E-cores all active, Hyper-Threading disabled (Ubuntu)
 
 CCC003.001 CPU P-cores only one active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are enabled, only one P-core is enabled and 
+    ...    all of E-cores are enabled, only one P-core is enabled and
     ...    Hyper-Threading is enabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
-    Set UEFI Option    ActivePCores    1    
+    Set UEFI Option    ActivePCores    1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
@@ -132,29 +132,29 @@ CCC003.001 CPU P-cores only one active, Hyper-Threading enabled (Ubuntu)
 
 CCC003.002 CPU P-cores all active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    all of E-cores are enabled, all P-cores are enabled and
     ...    Hyper-Threading is enabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
-    Set UEFI Option    ActivePCores    All active    
+    Set UEFI Option    ActivePCores    All active
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
-    Detect Or Install Package    util-linux    
+    Detect Or Install Package    util-linux
     ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
     Should Contain    ${out}    ${DEF_THREADS_TOTAL}
 
 CCC003.003 CPU P-cores only one active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are enabled, only one P-core is enabled and 
+    ...    all of E-cores are enabled, only one P-core is enabled and
     ...    Hyper-Threading is disabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
-    Set UEFI Option    ActivePCores    1    
+    Set UEFI Option    ActivePCores    1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Detect Or Install Package    util-linux
@@ -166,26 +166,26 @@ CCC003.003 CPU P-cores only one active, Hyper-Threading disabled (Ubuntu)
 
 CCC003.004 CPU P-cores all active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are enabled, all P-cores are enabled and 
+    ...    all of E-cores are enabled, all P-cores are enabled and
     ...    Hyper-Threading is disabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
-    Set UEFI Option    ActivePCores    All active    
+    Set UEFI Option    ActivePCores    All active
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
-    Detect Or Install Package    util-linux    
+    Detect Or Install Package    util-linux
     ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "Core(s) per socket:"
-    ${cores}=    Get Amount Of E cores
+    ${cores}=    Get Amount Of E Cores
     ${cores}=    Evaluate    ${cores} + 2
     ${cores}=    Convert To String    ${cores}
     Should Contain    ${out}    ${cores}
 
 CCC004.001 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are disabled, all P-cores are disabled and 
+    ...    all of E-cores are disabled, all P-cores are disabled and
     ...    Hyper-Threading is disabled.
     Power On
     Enter Setup Menu Tianocore
@@ -193,66 +193,65 @@ CCC004.001 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading di
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActiveECores    0
-    Set UEFI Option    ActivePCores    1    
+    Set UEFI Option    ActivePCores    1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
-    Detect Or Install Package    util-linux    
-    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"    
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
     Should Contain    ${out}    1
 
 CCC004.002 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are disabled, all P-cores are disabled and 
+    ...    all of E-cores are disabled, all P-cores are disabled and
     ...    Hyper-Threading is disabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActiveECores    0
-    Set UEFI Option    ActivePCores    1    
+    Set UEFI Option    ActivePCores    1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
-    Detect Or Install Package    util-linux    
-    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"    
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
     Should Contain    ${out}    2
 
 CCC005.001 CPU P-cores all active, CPU E-cores all active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
-    ...    all of E-cores are disabled, all P-cores are disabled and 
+    ...    all of E-cores are disabled, all P-cores are disabled and
     ...    Hyper-Threading is disabled.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
-    Save Changes And Reset    
+    Save Changes And Reset
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
-    Detect Or Install Package    util-linux    
-    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"    
+    Detect Or Install Package    util-linux
+    ${out}=    Execute Command In Terminal    lscpu | grep -v "NUMA" | grep "CPU(s):"
     Should Contain    ${out}    ${DEF_THREADS_TOTAL}
+
 
 *** Keywords ***
 Get Threads Per Core
-    [Arguments]
     ${out}=    Execute Command In Terminal    lscpu | grep "Thread(s) per core: "
     ${threads}=    Get Last Word From String    ${out}
-    IF    '${threads[:1]}' == '1' 
+    IF    '${threads[:1]}' == '1'
         ${count}=    Set Variable    1
     ELSE IF    '${threads[:1]}' == '2'
-        ${count}=    Set Variable    2 
+        ${count}=    Set Variable    2
     ELSE
         Fail    Hyper-Threading status could not be established.
     END
-    RETURN     ${count}
+    RETURN    ${count}
 
 Get Last Word From String
-    [Arguments]    ${str}    
+    [Arguments]    ${str}
     @{out}=    Evaluate    "${str}".split(" ")
-    ${len}=    Get length    ${out}
+    ${len}=    Get Length    ${out}
     ${pos}=    Evaluate    ${len}-1
     RETURN    ${out}[${pos}]
 
 Get Amount Of E Cores
-    [Arguments]
     ${cores}=    Evaluate    ${DEF_THREADS_TOTAL}-${DEF_CORES_PER_SOCKET}
     ${cores}=    Evaluate    ${cores}*${DEF_THREADS_PER_CORE}
     ${cores}=    Evaluate    ${DEF_THREADS_TOTAL}-${cores}
