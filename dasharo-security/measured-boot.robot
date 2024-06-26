@@ -97,11 +97,11 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
         END
     END
 
-MBO004.001 Changing Dasharo Security settings changes only PCR-1
+MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     [Documentation]    Check if changes to Dasharo security settings influence PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Tests in Dasharo Security Menu are not supported
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    Tests in Dasharo Networking Menu are not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -115,10 +115,10 @@ MBO004.001 Changing Dasharo Security settings changes only PCR-1
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
-    ${bios_lock_state}=    Get Option State    ${menu}    Lock the BIOS boot medium
-    ${new_bios_lock_state}=    Evaluate    not ${bios_lock_state}
-    Set Option State    ${menu}    Lock the BIOS boot medium    ${new_bios_lock_state}
+    ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
+    ${network_boot_state}=    Get Option State    ${menu}    Enable network boot
+    ${new_network_boot_state}=    Evaluate    not ${network_boot_state}
+    Set Option State    ${menu}    Enable network boot    ${new_network_boot_state}
     Save Changes And Reset
 
     Boot System Or From Connected Disk    ubuntu
@@ -127,7 +127,7 @@ MBO004.001 Changing Dasharo Security settings changes only PCR-1
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
-        IF    '/1' in '${pcr}'
+        IF    ${{'${pcr}'.endswith('/1')}}
             Should Not Be Equal    ${hash}    ${new_hash}
         ELSE
             Should Be Equal    ${hash}    ${new_hash}
@@ -164,7 +164,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
-        IF    '/1' in '${pcr}'
+        IF    ${{'${pcr}'.endswith('/1')}}
             Should Not Be Equal    ${hash}    ${new_hash}
         ELSE
             Should Be Equal    ${hash}    ${new_hash}
@@ -200,7 +200,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
-        IF    '/1' in '${pcr}'
+        IF    ${{'${pcr}'.endswith('/1')}}
             Should Not Be Equal    ${hash}    ${new_hash}
         ELSE
             Should Be Equal    ${hash}    ${new_hash}
@@ -230,8 +230,8 @@ MBO005.002 Identical configuration results in identical measurements
     [Documentation]    Check if same configuration state results in same PCR
     ...    values regardless how this state was achieved
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
-    ...    Platform doesn't support neither Security or USB menu tests
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
+    ...    Platform doesn't support neither Networking or USB menu tests
     ${default_hashes}=    Get Default PCRs State
 
     Restore Secure Boot Defaults
@@ -240,17 +240,18 @@ MBO005.002 Identical configuration results in identical measurements
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    IF    ${DASHARO_SECURITY_MENU_SUPPORT}
+    IF    ${DASHARO_USB_MENU_SUPPORT}
         ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
         ${option}=    Set Variable    Enable USB Mass Storage
     ELSE
-        ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
-        ${option}=    Set Variable    Lock the BIOS boot medium
+        ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
+        ${option}=    Set Variable    Enable network boot
     END
     ${option_state}=    Get Option State    ${menu}    ${option}
     ${new_option_state}=    Evaluate    not ${option_state}
     Set Option State    ${menu}    ${option}    ${new_option_state}
     Save Changes
+    ${menu}=    Reenter Menu And Return Construction
     Set Option State    ${menu}    ${option}    ${option_state}
     Save Changes And Reset
 
@@ -267,7 +268,7 @@ MBO005.003 Identical configuration after reset results in identical measurements
     [Documentation]    Check if same configuration state achieved by resetting
     ...    state to default results in same PCR values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
     ...    Platform doesn't support neither Security or USB menu tests
     ${default_hashes}=    Get Default PCRs State
 
@@ -277,12 +278,12 @@ MBO005.003 Identical configuration after reset results in identical measurements
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    IF    ${DASHARO_SECURITY_MENU_SUPPORT}
+    IF    ${DASHARO_USB_MENU_SUPPORT}
         ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
         ${option}=    Set Variable    Enable USB Mass Storage
     ELSE
-        ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
-        ${option}=    Set Variable    Lock the BIOS boot medium
+        ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
+        ${option}=    Set Variable    Enable network boot
     END
     ${option_state}=    Get Option State    ${menu}    ${option}
     ${new_option_state}=    Evaluate    not ${option_state}
@@ -338,8 +339,8 @@ Get Index From List Regexp
 Get Default PCRs State
     [Documentation]    First time this keyword is called it resets platform
     ...    configuration to default and then returns PCRs values. Next call
-    ...    return values measured in first call.
-    IF    not ${TESTS_IN_UBUNTU_SUPPORT}    Fail
+    ...    return values measured in first call (remembers value in whole
+    ...    Test Suite).
     ${default_pcr_state}=    Get Variable Value    $DEFAULT_PCR_STATE_SUITE
     IF    ${default_pcr_state} is ${NONE}
         Restore Secure Boot Defaults
