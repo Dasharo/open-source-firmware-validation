@@ -24,6 +24,8 @@ ${DMIDECODE_RELEASE_DATE}=          04/03/2024
 
 ${HYPER_THREADING_SUPPORT}=         ${TRUE}
 ${INTEL_HYBRID_ARCH_SUPPORT}=       ${TRUE}
+@{ETH_PERF_PAIR_2_G}=               enp5s0    enp6s0
+@{ETH_PERF_PAIR_10_G}=              enp2s0f0    enp2s0f1
 
 
 *** Keywords ***
