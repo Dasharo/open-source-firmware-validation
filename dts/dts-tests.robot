@@ -39,7 +39,10 @@ PC Engines DES initial deployment (legacy -> UEFI) - no credentials
     ${out}=    Read From Terminal Until    Enter an option:
     Should Contain
     ...    ${out}
-    ...    DES version available, if you are interested, please visit https://shop.3mdeb.com/product-category/dasharo-entry-subscription/
+    ...    DES version (coreboot + UEFI) available, if you are interested, please visit https://shop.3mdeb.com/product-category/dasharo-entry-subscription/
+    Should Contain
+    ...    ${out}
+    ...    DES version (coreboot + SeaBIOS) available, if you are interested, please visit https://shop.3mdeb.com/product-category/dasharo-entry-subscription/
     Log    ${out}
     Write Into Terminal    b
 
@@ -59,7 +62,7 @@ PC Engines DES initial deployment (legacy -> UEFI)
     Log    ${out}
 
     ${out}=    Read From Terminal Until    Enter an option:
-    Should Contain    ${out}    DES version
+    Should Contain    ${out}    d) DES version (coreboot + UEFI)
     Log    ${out}
     Write Into Terminal    d
 
@@ -79,7 +82,7 @@ PC Engines DES initial deployment (legacy -> SeaBIOS)
     ...    on PC Engines. We start from legacy firmware and insert correct DES keys
     ...    for UEFI variant.
 
-    Fail    msg=DES SeaBIOS must be supported in DTS first
+    # Fail    msg=DES SeaBIOS must be supported in DTS first
     Power On And Enter DTS Shell
 
     # TODO: Pass this from command line when running test?
@@ -94,7 +97,7 @@ PC Engines DES initial deployment (legacy -> SeaBIOS)
     Log    ${output}
 
     Execute Command In Terminal    export BOARD_VENDOR="PC Engines" SYSTEM_MODEL="APU2" BOARD_MODEL="APU2"
-    Execute Command In Terminal    export BIOS_VERSION="v4.19.0.1" TEST_DES=y DES_TYPE="SeaBIOS"
+    Execute Command In Terminal    export BIOS_VERSION="v4.19.0.1" TEST_DES=y DES_TYPE="seabios"
     Write Into Terminal    dts-boot
 
     ${out}=    Read From Terminal Until    Enter an option:
@@ -102,9 +105,9 @@ PC Engines DES initial deployment (legacy -> SeaBIOS)
     Log    ${out}
 
     ${out}=    Read From Terminal Until    Enter an option:
-    Should Contain    ${out}    d) DES version
+    Should Contain    ${out}    s) DES version (coreboot + SeaBIOS)
     Log    ${out}
-    Write Into Terminal    d
+    Write Into Terminal    s
 
     ${out}=    Read From Terminal Until    Does it match your actual specification? (Y|n)
     Write Into Terminal    Y
