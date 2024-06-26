@@ -41,6 +41,8 @@ ${PLATFORM_CPU_SPEED}=                  2.00
 ${PLATFORM_RAM_SPEED}=                  2400
 ${PLATFORM_RAM_SIZE}=                   8192
 
+@{ETH_PERF_PAIR_1_G}=                   enp2s0    enp3s0
+
 
 *** Keywords ***
 Power On
