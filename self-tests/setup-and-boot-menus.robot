@@ -194,3 +194,14 @@ Test Exit From Current Menu
         Should Contain    ${setup_menu}    > One Time Boot
         Press Enter
     END
+
+Test Reenter Menu
+    [Documentation]    Test Reenter Menu kwd
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${setup_menu}    Device Manager
+    FOR    ${i}    IN RANGE    0    20
+        Reenter Menu
+        ${menu}=    Get Submenu Construction
+        Should Contain    ${menu}    > Secure Boot Configuration
+    END
