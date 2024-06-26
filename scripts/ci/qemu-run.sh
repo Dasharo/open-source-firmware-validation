@@ -199,10 +199,10 @@ esac
 if [ ! -f "${QEMU_FW_FILE}" ]; then
     echo "The required file ${QEMU_FW_FILE} is missing."
     echo "Downloading from the server..."
-    wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/coreboot/releases/download/qemu_q35_v0.2.0-rc1/qemu_q35_v0.2.0-rc1.rom
+    wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/coreboot/releases/latest/download/qemu_q35_all_menus.rom
 else
     echo "${QEMU_FW_FILE} file exists in the directory."
-    echo "To make sure you are using the latest version from: https://github.com/Dasharo/edk2/releases"
+    echo "To make sure you are using the latest version from: https://github.com/Dasharo/coreboot/releases"
     echo "simply remove it and let the script download the latest release."
 fi
 
