@@ -30,6 +30,8 @@ ${CPU_MIN_FREQUENCY}=               300
 
 ${WATCHDOG_SUPPORT}=                ${TRUE}
 
+@{ETH_PERF_PAIR_2_G}=               enp3s0    enp4s0
+
 
 *** Keywords ***
 Power On

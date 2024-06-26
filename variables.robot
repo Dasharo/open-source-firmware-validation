@@ -149,7 +149,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp4650_2 ---------------------------------------------------
 &{RTE50}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb
-...                         platform=protectli-vp4650
+...                         platform=protectli-vp4650    sonoff_ip=192.168.10.32
 ...                         platform_vendor=protectli
 # 3mdeb Protectli vp2420 -----------------------------------------------------
 &{RTE40}=                   ip=192.168.10.221    cpuid=02c00142959df458
