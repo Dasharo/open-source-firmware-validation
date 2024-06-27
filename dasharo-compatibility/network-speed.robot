@@ -108,5 +108,5 @@ Extract Nic Name
     ${words}=    Split String    ${str}    ${SPACE}
     ${out}=    Get From List    ${words}    1
     ${out}=    Get Substring    ${out}    0    -1
-    #Should Contain    ${out}    enp
+    # Should Contain    ${out}    enp
     RETURN    ${out}
