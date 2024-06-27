@@ -65,6 +65,7 @@ ${SCRIPT_TEXT}=     \#/bin/bash${ENTER}
 
 *** Test Cases ***
 NETSPD001.001 Check Network Speed (Ubuntu)
+    [Documentation]    This test aims to verify the speed of ethernet connection
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
