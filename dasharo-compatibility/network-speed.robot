@@ -80,7 +80,11 @@ NETSPD001.001 Check Network Speed (Ubuntu)
     ${nic_name_1}=    Extract Nic Name    ${splitted_lines}[0]
     ${nic_name_2}=    Extract Nic Name    ${splitted_lines}[1]
     ${out}=    Execute Command In Terminal    source /home/ubuntu/Desktop/iperf-test.sh ${nic_name_1} ${nic_name_2}
-    Log    ${out}
+    ${sender_speed}=    Extract Nic Speed    ${out}    sender
+    ${receiver_speed}=    Extract Nic Speed    ${out}    receiver
+
+    Log To Console    \nSender: ${sender_speed}\n
+    Log To Console    \nReciever: ${receiver_speed}\n
 
 
 *** Keywords ***
@@ -88,7 +92,6 @@ Create Iperf3 Script File
     ${out}=    Execute Command In Terminal    ls /home/ubuntu/Desktop/iperf-test.sh
     ${condition}=    Run Keyword And Return Status    Should Contain    ${out}    No such file or directory
     IF    ${condition} == ${FALSE}
-        Log To Console    /home/ubuntu/Desktop/iperf-test.sh file found and removed to be replaced.
         Execute Command In Terminal    rm /home/ubuntu/Desktop/iperf-test.sh
     END
     Create File    /home/ubuntu/Desktop/iperf-test.sh    ${SCRIPT_TEXT}
@@ -101,12 +104,19 @@ Create File
     Write Into Terminal    ${file_contents}
     Press Key N Times    1    ${ESC}
     Execute Command In Terminal    :wq
-    Log To Console    ${file_name} file created.
 
 Extract Nic Name
     [Arguments]    ${str}
     ${words}=    Split String    ${str}    ${SPACE}
     ${out}=    Get From List    ${words}    1
     ${out}=    Get Substring    ${out}    0    -1
-    # Should Contain    ${out}    enp
+    RETURN    ${out}
+
+Extract Nic Speed
+    [Arguments]    ${str}    ${search_for}
+    ${out}=    Get Lines Containing String    ${str}    ${search_for}
+    ${out}=    Split To Lines    ${out}    -1
+    ${out}=    Convert To String    ${out}
+    ${out}=    Split String    ${out}    ${SPACE}
+    ${out}=    Get From List    ${out}    12
     RETURN    ${out}
