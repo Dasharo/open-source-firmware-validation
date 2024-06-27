@@ -385,12 +385,7 @@ CPU With Load Runs On Expected Frequency (Ubuntu)
 CPU With Load Runs On Expected Frequency (Windows)
     Power On
     Login To Windows
-    ${out}=    Run
-    ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
-    ${result}=    Remove String
-    ...    ${out}
-    ...    Warning: Permanently added '${DEVICE_IP}' (ED25519) to the list of known hosts.
-    Should Be Empty    ${result}
+    SSHLibrary.Put File    stress-test-windows.ps1    /C:/Users/user
     SSHLibrary.Execute Command    .\\stress-test-windows.ps1
     # ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp stress-test-windows.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/${DEVICE_WINDOWS_USERNAME}
     # Should Be Empty    ${out}
