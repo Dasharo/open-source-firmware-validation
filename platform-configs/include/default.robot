@@ -159,6 +159,7 @@ ${APU_CONFIGURATION_MENU_SUPPORT}=                  ${FALSE}
 ${WATCHDOG_SUPPORT}=                                ${FALSE}
 ${DCU_UUID_SUPPORT}=                                ${FALSE}
 ${DCU_SERIAL_SUPPORT}=                              ${FALSE}
+${NIC_LOOP_SUPPORT}=                                ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${FALSE}

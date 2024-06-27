@@ -19,3 +19,5 @@ ${DMIDECODE_PRODUCT_NAME}=      VP4630
 
 ${CPU_MAX_FREQUENCY}=           4200
 ${CPU_MIN_FREQUENCY}=           300
+
+${NIC_LOOP_SUPPORT}=            ${TRUE}

@@ -41,6 +41,8 @@ ${PLATFORM_CPU_SPEED}=                  2.00
 ${PLATFORM_RAM_SPEED}=                  2400
 ${PLATFORM_RAM_SIZE}=                   8192
 
+${NIC_LOOP_SUPPORT}=                    ${TRUE}
+
 
 *** Keywords ***
 Power On

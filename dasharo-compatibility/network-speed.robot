@@ -20,6 +20,8 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${NIC_LOOP_SUPPORT}    NIC Loop not installed
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -76,8 +78,6 @@ NETSPD001.001 Check Network Speed (Ubuntu)
     ${splitted_lines}=    Split String    ${out}    \n
     ${nic_name_1}=    Extract Nic Name    ${splitted_lines}[0]
     ${nic_name_2}=    Extract Nic Name    ${splitted_lines}[1]
-    Log To Console    \n1st NIC name identified as: ${nic_name_1}
-    Log To Console    2nd NIC name identified as: ${nic_name_2}
     ${out}=    Execute Command In Terminal    source /home/ubuntu/Desktop/iperf-test.sh ${nic_name_1} ${nic_name_2}
     Log    ${out}
 

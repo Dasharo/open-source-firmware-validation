@@ -30,6 +30,8 @@ ${CPU_MIN_FREQUENCY}=               300
 
 ${WATCHDOG_SUPPORT}=                ${TRUE}
 
+${NIC_LOOP_SUPPORT}=                ${TRUE}
+
 
 *** Keywords ***
 Power On
