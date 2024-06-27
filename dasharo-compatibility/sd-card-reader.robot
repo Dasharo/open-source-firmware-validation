@@ -70,9 +70,7 @@ SDC002.002 SD Card read/write (Windows 11)
     ...    and can be used from the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.001 not supported
     Power On
-    ${out}=    Run
-    ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp drive_letters.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
-    Should Be Empty    ${out}
+    SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     Login To Windows
     ${drive_letter}=    Identify Path To SD Card In Windows
     Check Read Write To External Drive In Windows    ${drive_letter}

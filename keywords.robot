@@ -1224,9 +1224,7 @@ Check Read Write To External Drive In Linux
 
 Identify Path To SD Card In Windows
     [Documentation]    Check thecorrect path to mounted SD card.
-    ${out}=    Run
-    ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp drive_letters.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
-    Should Be Empty    ${out}
+    SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     ${result}=    Execute Command In Terminal    .\\drive_letters.ps1
     ${lines}=    Get Lines Matching Pattern    ${result}    *SD*
     ${drive_letter}=    Evaluate    $lines[0:2]
