@@ -72,7 +72,7 @@ NETSPD001.001 Check Network Speed (Ubuntu)
     Detect Or Install Package    iperf3
     Create Iperf3 Script File
     ${working_nic_desc}=    Execute Command In Terminal
-    ...    ip addr | grep -B 2 "global dynamic noprefixroute" | grep -v "link/ether" | grep -v "dynamic noprefixroute"
+    ...    ip addr | grep -B 2 "noprefixroute" | grep -v "link/ether" | grep -v "noprefixroute"
     ${working_nic_desc}=    Extract Nic Name    ${working_nic_desc}
     ${out}=    Execute Command In Terminal    ip addr | grep -v ${working_nic_desc} | grep -v "NO-CARRIER" | grep "enp"
     ${splitted_lines}=    Split String    ${out}    \n
@@ -107,4 +107,5 @@ Extract Nic Name
     ${words}=    Split String    ${str}    ${SPACE}
     ${out}=    Get From List    ${words}    1
     ${out}=    Get Substring    ${out}    0    -1
+    #Should Contain    ${out}    enp
     RETURN    ${out}
