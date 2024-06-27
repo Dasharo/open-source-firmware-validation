@@ -234,7 +234,8 @@ CCC005.001 CPU P-cores all active, CPU E-cores all active, Hyper-Threading enabl
 *** Keywords ***
 Get Threads Per Core
     ${out}=    Execute Command In Terminal    lscpu | grep "Thread(s) per core: "
-    ${threads}=    Get Last Word From String    ${out}
+    ${words}=    Split String    ${out}    ${SPACE}
+    ${threads}=    Get From List    ${words}    -1
     IF    '${threads[:1]}' == '1'
         ${count}=    Set Variable    1
     ELSE IF    '${threads[:1]}' == '2'
@@ -243,13 +244,6 @@ Get Threads Per Core
         Fail    Hyper-Threading status could not be established.
     END
     RETURN    ${count}
-
-Get Last Word From String
-    [Arguments]    ${str}
-    @{out}=    Evaluate    "${str}".split(" ")
-    ${len}=    Get Length    ${out}
-    ${pos}=    Evaluate    ${len}-1
-    RETURN    ${out}[${pos}]
 
 Get Amount Of E Cores
     ${cores}=    Evaluate    ${DEF_THREADS_TOTAL}-${DEF_CORES_PER_SOCKET}
