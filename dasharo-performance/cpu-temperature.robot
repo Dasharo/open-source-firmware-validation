@@ -147,7 +147,7 @@ CPU Temperature After Stress Test (Ubuntu 22.04)
     Switch To Root User
     Detect Or Install Package    lm-sensors
     Execute Command In Terminal    sensors-detect --auto
-    Stress Test    ${TEMPERATURE_TEST_DURATION}m
+    Stress Test    ${TEMPERATURE_TEST_DURATION}s
     ${timer}=    Convert To Integer    0
     @{temperature_list}=    Create List
     ${sum}=    Convert To Integer    0
