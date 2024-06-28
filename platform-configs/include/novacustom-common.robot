@@ -122,6 +122,7 @@ ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${TRUE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${TRUE}
+${TEMPERATURE_TEST_DURATION}=                       3600
 
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${TRUE}
