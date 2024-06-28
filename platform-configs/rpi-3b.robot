@@ -169,7 +169,7 @@ ${FREQUENCY_TEST_DURATION}=                         60
 # Interval between the following readings in frequency measure tests
 ${FREQUENCY_TEST_MEASURE_INTERVAL}=                 1
 # Temperature measure test duration
-${TEMPERATURE_TEST_DURATION}=                       60
+${TEMPERATURE_TEST_DURATION}=                       3600
 # Interval between the following readings in temperature measure tests
 ${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
 # Fan control measure tests duration in minutes
