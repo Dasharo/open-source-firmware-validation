@@ -81,10 +81,13 @@ NETSPD001.001 Check Network Speed (Ubuntu)
     ${nic_name_2}=    Extract Nic Name    ${splitted_lines}[1]
     ${out}=    Execute Command In Terminal    source /home/ubuntu/Desktop/iperf-test.sh ${nic_name_1} ${nic_name_2}
     ${sender_speed}=    Extract Nic Speed    ${out}    sender
+    ${sender_speed}=    Convert To Number    ${sender_speed}
+    ${result}=    Should Be Larger Than    ${sender_speed}    ${MIN_ACCEPTED_NET_SPEED}
+    Should Be True    ${result}
     ${receiver_speed}=    Extract Nic Speed    ${out}    receiver
-
-    Log To Console    \nSender: ${sender_speed}\n
-    Log To Console    \nReciever: ${receiver_speed}\n
+    ${receiver_speed}=    Convert To Number    ${receiver_speed}
+    ${result}=    Should Be Larger Than    ${receiver_speed}    ${MIN_ACCEPTED_NET_SPEED}
+    Should Be True    ${result}
 
 
 *** Keywords ***
@@ -120,3 +123,12 @@ Extract Nic Speed
     ${out}=    Split String    ${out}    ${SPACE}
     ${out}=    Get From List    ${out}    12
     RETURN    ${out}
+
+Should Be Larger Than
+    [Arguments]    ${value_1}    ${value_2}
+    IF    ${value_1} <= ${value_2}
+        Fail    ${value_1} is not larger than ${value_2}
+        RETURN    ${FALSE}
+    ELSE
+        RETURN    ${TRUE}
+    END

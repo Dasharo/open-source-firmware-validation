@@ -24,6 +24,7 @@ ${FLASH_VERIFY_METHOD}=                             ${EMPTY}
 ${WIFI_CARD}=                                       ${EMPTY}
 ${MAX_CPU_TEMP}=                                    ${EMPTY}
 ${INTERNAL_PROGRAMMER_CHIPNAME}=                    Opaque flash chip
+${MIN_ACCEPTED_NET_SPEED}=                          2.32
 
 # See: https://github.com/Dasharo/dasharo-issues/issues/614
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
