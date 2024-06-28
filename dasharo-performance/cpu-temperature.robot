@@ -126,7 +126,7 @@ CPU Temperature Without Load (Ubuntu 22.04)
     ${timer}=    Convert To Integer    0
     @{temperature_list}=    Create List
     ${sum}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} * 60 / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
+    FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer}s
         ${temperature}=    Get CPU Temperature CURRENT
@@ -136,7 +136,7 @@ CPU Temperature Without Load (Ubuntu 22.04)
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}s
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
-    ${average}=    Evaluate    ${sum} / (${TEMPERATURE_TEST_DURATION} * 60)
+    ${average}=    Evaluate    ${sum} / ${TEMPERATURE_TEST_DURATION}
     Log To Console    Average temperature: ${temperature}°C
     Should Be True    ${average} < ${MAX_CPU_TEMP}
 
@@ -151,7 +151,7 @@ CPU Temperature After Stress Test (Ubuntu 22.04)
     ${timer}=    Convert To Integer    0
     @{temperature_list}=    Create List
     ${sum}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} * 60 / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
+    FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer}s
         ${temperature}=    Get CPU Temperature CURRENT
@@ -161,6 +161,6 @@ CPU Temperature After Stress Test (Ubuntu 22.04)
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}s
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
-    ${average}=    Evaluate    ${sum} / (${TEMPERATURE_TEST_DURATION} * 60)
+    ${average}=    Evaluate    ${sum} / ${TEMPERATURE_TEST_DURATION}
     Log To Console    Average temperature: ${temperature}°C
     Should Be True    ${average} < ${MAX_CPU_TEMP}
