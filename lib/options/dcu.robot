@@ -48,3 +48,12 @@ Get UEFI Option
     ...    cd dcu && ./dcu v coreboot.rom --get "${option_name}"
     ...    shell=True
     RETURN    ${out.stdout}
+
+Get UEFI Boot Manager Entries
+    [Documentation]    Read list of UEFI boot manager
+
+    Login To Linux
+    Switch To Root User
+
+    ${boot_menu}=    SSHLibrary.Execute Command    efibootmgr
+    RETURN    ${boot_menu}
