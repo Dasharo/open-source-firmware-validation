@@ -7,7 +7,9 @@ Library             Collections
 Library             OperatingSystem
 Library             Process
 Library             String
+Library             SSHLibrary
 Resource            ../terminal.robot
+Resource            ../../keywords.robot
 
 
 *** Keywords ***
@@ -81,3 +83,52 @@ Get Timestamp From Cbmem Log
     ${columns}=    Split String    ${line}
     ${timestamp}=    Get From List    ${columns}    1
     RETURN    ${timestamp}
+
+Measure Average Reboot Time Verbose
+    [Documentation]    Performs a measurement of average reboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    ${average}=    Set Variable    0
+    Log To Console    \n
+
+    Login To Linux
+    Switch To Root User
+    Execute Reboot Command
+    Sleep    10s
+
+    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
+        Execute Reboot Command
+        Sleep    10s
+    END
+
+    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    RETURN    ${average}
+
+Measure Average Reboot Time
+    [Documentation]    Performs a measurement of average reboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    ${average}=    Set Variable    0
+
+    Login To Linux
+    Switch To Root User
+
+    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+        Login To Linux
+        Switch To Root User
+        Execute Reboot Command
+        Sleep    10s
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        ${average}=    Evaluate    ${average}+${boot_time}
+    END
+    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    RETURN    ${average}
