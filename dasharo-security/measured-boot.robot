@@ -138,7 +138,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     [Documentation]    Check if changes to Dasharo USB settings influence PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_USB_MENU_SUPPORT}    Tests in Dasharo USB Menu are not supported
+    Skip If    not ${USB_MASS_STORAGE_SUPPORT}    Tests in Dasharo USB Menu are not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -211,6 +211,7 @@ MBO005.001 Multiple reset to defaults results in identical measurements
     [Documentation]    Resetting Dasharo configuration twice will give the same
     ...    PCRs measurements
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
     Restore Secure Boot Defaults
@@ -230,8 +231,9 @@ MBO005.002 Identical configuration results in identical measurements
     [Documentation]    Check if same configuration state results in same PCR
     ...    values regardless how this state was achieved
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${USB_MASS_STORAGE_SUPPORT}
     ...    Platform doesn't support neither Networking or USB menu tests
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
     Restore Secure Boot Defaults
@@ -240,7 +242,7 @@ MBO005.002 Identical configuration results in identical measurements
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    IF    ${DASHARO_USB_MENU_SUPPORT}
+    IF    ${USB_MASS_STORAGE_SUPPORT}
         ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
         ${option}=    Set Variable    Enable USB Mass Storage
     ELSE
@@ -268,8 +270,9 @@ MBO005.003 Identical configuration after reset results in identical measurements
     [Documentation]    Check if same configuration state achieved by resetting
     ...    state to default results in same PCR values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${DASHARO_USB_MENU_SUPPORT}
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${USB_MASS_STORAGE_SUPPORT}
     ...    Platform doesn't support neither Security or USB menu tests
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
     Restore Secure Boot Defaults
@@ -278,7 +281,7 @@ MBO005.003 Identical configuration after reset results in identical measurements
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    IF    ${DASHARO_USB_MENU_SUPPORT}
+    IF    ${USB_MASS_STORAGE_SUPPORT}
         ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
         ${option}=    Set Variable    Enable USB Mass Storage
     ELSE
