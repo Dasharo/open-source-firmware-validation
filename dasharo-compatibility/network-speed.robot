@@ -28,19 +28,6 @@ Suite Teardown      Run Keyword
 
 *** Variables ***
 ${SCRIPT_TEXT}=     \#/bin/bash${ENTER}
-...                 ${BACKSPACE}${ENTER}
-...                 ${BACKSPACE}\#echo $1${ENTER}
-...                 ${BACKSPACE}\#echo $2${ENTER}
-...                 ${BACKSPACE}${ENTER}
-...                 ${BACKSPACE}\# Use ip -d link list to see maxmtu value of interface${ENTER}
-...                 ${BACKSPACE}\# maximum transmission unit (MTU) is a measurement representing the
-...                 ${BACKSPACE}largest data packet that a network-connected device will accept.${ENTER}
-...                 ${BACKSPACE}\#ip link set $1 mtu 9000${ENTER}
-...                 ${BACKSPACE}\#ip link set $2 mtu 9000${ENTER}
-...                 ${BACKSPACE}\# ----${ENTER}
-...                 ${BACKSPACE}${ENTER}
-...                 ${BACKSPACE}${ENTER}
-...                 ${BACKSPACE}\#echo Thanks${ENTER}
 ...                 ${BACKSPACE}ip netns add ns_server${ENTER}
 ...                 ${BACKSPACE}ip netns add ns_client${ENTER}
 ...                 ${BACKSPACE}ip link set $1 netns ns_server${ENTER}
@@ -49,6 +36,7 @@ ${SCRIPT_TEXT}=     \#/bin/bash${ENTER}
 ...                 ${BACKSPACE}ip netns exec ns_client ip addr add dev $2 10.1.1.2/24${ENTER}
 ...                 ${BACKSPACE}ip netns exec ns_server ip link set dev $1 up${ENTER}
 ...                 ${BACKSPACE}ip netns exec ns_client ip link set dev $2 up${ENTER}
+...                 ${BACKSPACE}${ENTER}
 ...                 ${BACKSPACE}ip netns exec ns_server iperf3 -s &${ENTER}
 ...                 ${BACKSPACE}ip netns exec ns_client iperf3 -c 10.1.1.1${ENTER}
 ...                 ${BACKSPACE}${ENTER}
@@ -80,14 +68,34 @@ NETSPD001.001 Check Network Speed (Ubuntu)
     ${nic_name_1}=    Extract Nic Name    ${splitted_lines}[0]
     ${nic_name_2}=    Extract Nic Name    ${splitted_lines}[1]
     ${out}=    Execute Command In Terminal    source /home/ubuntu/Desktop/iperf-test.sh ${nic_name_1} ${nic_name_2}
+
+    Sleep    5s
+    Detect Or Install Package    ethtool
+    ${speed_out}=    Execute Command In Terminal    ethtool ${nic_name_1} | grep baseT    
+    ${nic_1_max_supported_speed}=    Extract Nic Max Speed    ${speed_out}
+    ${speed_out}=    Execute Command In Terminal    ethtool ${nic_name_2} | grep baseT
+    ${nic_2_max_supported_speed}=    Extract Nic Max Speed    ${speed_out}  
+    
+    ${nic_1_max_aprooved_speed}=    Evaluate    (${nic_1_max_supported_speed} * ${ACCEPTED_NET_SPEED_FACTOR}) / 1000
+    ${nic_2_max_aprooved_speed}=    Evaluate    (${nic_2_max_supported_speed} * ${ACCEPTED_NET_SPEED_FACTOR}) / 1000
+
     ${sender_speed}=    Extract Nic Speed    ${out}    sender
     ${sender_speed}=    Convert To Number    ${sender_speed}
-    ${result}=    Should Be Larger Than    ${sender_speed}    ${MIN_ACCEPTED_NET_SPEED}
+    ${result}=    Should Be Larger Than    ${sender_speed}    ${nic_1_max_aprooved_speed}
     Should Be True    ${result}
+    Log    NIC_1 speed: ${sender_speed}
+
     ${receiver_speed}=    Extract Nic Speed    ${out}    receiver
     ${receiver_speed}=    Convert To Number    ${receiver_speed}
-    ${result}=    Should Be Larger Than    ${receiver_speed}    ${MIN_ACCEPTED_NET_SPEED}
+    ${result}=    Should Be Larger Than    ${receiver_speed}    ${nic_2_max_aprooved_speed}
     Should Be True    ${result}
+    Log    NIC_2 speed: ${receiver_speed}
+
+NETXXX Check Network Speed (Ubuntu)
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
 
 
 *** Keywords ***
@@ -123,6 +131,27 @@ Extract Nic Speed
     ${out}=    Split String    ${out}    ${SPACE}
     ${out}=    Get From List    ${out}    12
     RETURN    ${out}
+
+Extract Nic Max Speed
+    [Arguments]    ${str}
+    ${out}=    Split String    ${str}
+    ${out}=    Get From List    ${out}    -1
+    ${out}=    Extract Number From Line    ${out}
+    ${out}=    Convert To Number    ${out}
+    RETURN    ${out}
+
+Extract Number From Line
+    [Arguments]    ${str}
+    @{str}=    Split String To Characters    ${str}
+    ${digits}=    Create List
+    FOR    ${char}    IN    @{str}
+        ${is_digit}=    Evaluate    '${char}'.isdigit()
+        IF    ${is_digit}
+            Append To List    ${digits}    ${char}
+        END
+    END
+    ${out}=    Evaluate    ''.join(${digits})
+    [Return]    ${out}
 
 Should Be Larger Than
     [Arguments]    ${value_1}    ${value_2}
