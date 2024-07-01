@@ -29,6 +29,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 CCC001.001 CPU Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Set UEFI Option    HyperThreading    ${FALSE}
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -38,6 +39,7 @@ CCC001.001 CPU Hyper-Threading disabled (Ubuntu)
 
 CCC001.002 CPU Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if Hyper-Threading is enabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Set UEFI Option    HyperThreading    ${TRUE}
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
