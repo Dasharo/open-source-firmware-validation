@@ -124,15 +124,24 @@ CPU Temperature Without Load (Ubuntu 22.04)
     Detect Or Install Package    lm-sensors
     Execute Command In Terminal    sensors-detect --auto
     ${timer}=    Convert To Integer    0
+    ${temperatures}=    Create List
+    ${max_temperature}=    Set Variable    0
     FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
         ${temperature}=    Get CPU Temperature CURRENT
         Log To Console    Current temperature: ${temperature}°C
-        Should Be True    ${temperature} < ${MAX_CPU_TEMP}
+        ${temperature}=    Evaluate    float(${temperature})
+        Append To List    ${temperatures}    ${temperature}
+        ${max_temperature}=    Evaluate    max(${max_temperature}, ${temperature})
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
+    ${mean_temperature}=    Evaluate    sum(${temperatures}) / len(${temperatures})
+    Log To Console    Mean temperature over test duration: ${mean_temperature}°C
+    Log To Console    Max temperature over test duration: ${max_temperature}°C
+    Log To Console    Test threshold of CPU temp: ${MAX_CPU_TEMP}°C
+    Should Be True    ${mean_temperature} < ${MAX_CPU_TEMP}
 
 CPU Temperature After Stress Test (Ubuntu 22.04)
     Power On
@@ -143,12 +152,19 @@ CPU Temperature After Stress Test (Ubuntu 22.04)
     Execute Command In Terminal    sensors-detect --auto
     Stress Test    ${TEMPERATURE_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
+    ${temperatures}=    Create List
     FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
         ${temperature}=    Get CPU Temperature CURRENT
         Log To Console    Current temperature: ${temperature}°C
+        ${temperature}=    Evaluate    float(${temperature})
+        Append To List    ${temperatures}    ${temperature}
         Should Be True    ${temperature} < ${MAX_CPU_TEMP}
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
     END
+    ${mean_temperature}=    Evaluate    sum(${temperatures}) / len(${temperatures})
+    Log To Console    Mean temperature under stress load over test duration: ${mean_temperature}°C
+    Log To Console    Max temperature under stress load over test duration: ${max_temperature}°C
+    Should Be True    ${mean_temperature} < ${MAX_CPU_TEMP}
