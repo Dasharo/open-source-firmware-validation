@@ -57,7 +57,7 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     ...    CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.001 not supported
 
-    ${average}=    Measure Average Warmboot Time Verbose    $iterations
+    ${average}=    Measure Average Warmboot Time Verbose    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
 
