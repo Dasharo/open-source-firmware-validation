@@ -93,7 +93,7 @@ Get Timestamp From Cbmem Log
     ${timestamp}=    Get From List    ${columns}    1
     RETURN    ${timestamp}
 
-Perform Warmboot Time Measure Verbose
+Measure Average Warmboot Time Verbose
     [Documentation]    Performs a measurement of average warmboot
     ...    boot time
     [Arguments]    ${iterations}
