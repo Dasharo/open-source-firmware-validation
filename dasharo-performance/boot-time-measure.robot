@@ -13,6 +13,7 @@ Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource    ../lib/options/uefi-setup-menu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -55,18 +56,9 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.001 not supported
-    ${average}=    Set Variable    0
-    Log To Console    \n
-    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
-        Power On
-        Boot System Or From Connected Disk    ubuntu
-        Login To Linux
-        Switch To Root User
-        ${boot_time}=    Get Boot Time From Cbmem
-        Log To Console    (${index}) Boot time: ${boot_time} s)
-        ${average}=    Evaluate    ${average}+${boot_time}
-    END
-    ${average}=    Evaluate    ${average}/${ITERATIONS}
+
+    ${average}=    Measure Average Warmboot Time Verbose    $iterations
+
     Log To Console    \nCoreboot average booting time: ${average} s\n
 
 CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
@@ -74,18 +66,8 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
-    Power On
-    ${average}=    Set Variable    0
-    Log To Console    \n
-    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
-        Boot System Or From Connected Disk    ubuntu
-        Login To Linux
-        Switch To Root User
-        ${boot_time}=    Get Boot Time From Cbmem
-        Log To Console    (${index}) Boot time: ${boot_time} s)
-        ${average}=    Evaluate    ${average}+${boot_time}
-        Execute Reboot Command
-    END
-    ${average}=    Evaluate    ${average}/${ITERATIONS}
+
+    ${average}=    Measure Average Reboot Time Verbose    ${ITERATIONS}
+
     Log To Console    \nCoreboot average booting time: ${average} s\n
 
