@@ -92,3 +92,77 @@ Get Timestamp From Cbmem Log
     ${columns}=    Split String    ${line}
     ${timestamp}=    Get From List    ${columns}    1
     RETURN    ${timestamp}
+
+Perform Warmboot Time Measure Verbose
+    [Documentation]    Performs a measurement of average warmboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    ${average}=    Set Variable    0
+    Log To Console    \n
+    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+        Power On
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
+    END
+    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    RETURN    ${average}
+
+Measure Average Warmboot Time
+    [Documentation]    Performs a measurement of average warmboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    ${average}=    Set Variable    0
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        Power On
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        ${average}=    Evaluate    ${average}+${boot_time}
+    END
+    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    RETURN    ${average}
+
+Measure Average Reboot Time Verbose
+    [Documentation]    Performs a measurement of average reboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    Power On
+    ${average}=    Set Variable    0
+    Log To Console    \n
+    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
+        Execute Reboot Command
+    END
+    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    RETURN    ${average}
+
+Measure Average Reboot Time
+    [Documentation]    Performs a measurement of average reboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    Power On
+    ${average}=    Set Variable    0
+    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        ${average}=    Evaluate    ${average}+${boot_time}
+        Execute Reboot Command
+    END
+    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    RETURN    ${average}
