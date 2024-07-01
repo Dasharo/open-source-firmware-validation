@@ -65,4 +65,6 @@ Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
 
     Power On
+    
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    RETURN ${boot_menu}
