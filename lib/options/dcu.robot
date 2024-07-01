@@ -10,6 +10,7 @@ Library             String
 Library             SSHLibrary
 Resource            ../terminal.robot
 Resource            ../../keywords.robot
+Resource    ../../platform-configs/include/novacustom-common.robot
 
 
 *** Keywords ***
@@ -84,29 +85,27 @@ Get Timestamp From Cbmem Log
     ${timestamp}=    Get From List    ${columns}    1
     RETURN    ${timestamp}
 
-Measure Average Reboot Time Verbose
-    [Documentation]    Performs a measurement of average reboot
+Measure Average Warmboot Time
+    [Documentation]    Performs a measurement of average warmboot
     ...    boot time
     [Arguments]    ${iterations}
 
     ${average}=    Set Variable    0
     Log To Console    \n
 
-    Login To Linux
-    Switch To Root User
-    Execute Reboot Command
-    Sleep    10s
-
     FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+        Login To Linux
+        Switch To Root User
+
+        Write    rtcwake -m off -s 5
+        Sleep    15s
+
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s)
         ${average}=    Evaluate    ${average}+${boot_time}
-        Execute Reboot Command
-        Sleep    10s
     END
-
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     RETURN    ${average}
 
@@ -116,19 +115,22 @@ Measure Average Reboot Time
     [Arguments]    ${iterations}
 
     ${average}=    Set Variable    0
-
-    Login To Linux
-    Switch To Root User
+    Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${ITERATIONS}
         Login To Linux
         Switch To Root User
+
         Execute Reboot Command
         Sleep    10s
+
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
         ${average}=    Evaluate    ${average}+${boot_time}
+
     END
+
     ${average}=    Evaluate    ${average}/${ITERATIONS}
     RETURN    ${average}
