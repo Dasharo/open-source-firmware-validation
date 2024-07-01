@@ -60,11 +60,10 @@ Get UEFI Option
     ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}    ${VALUE}
     RETURN    ${state}
 
-
 Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
 
     Power On
-    
+
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    RETURN ${boot_menu}
+    RETURN    ${boot_menu}
