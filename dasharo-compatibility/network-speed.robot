@@ -71,11 +71,11 @@ NETSPD001.001 Check Network Speed (Ubuntu)
 
     Sleep    5s
     Detect Or Install Package    ethtool
-    ${speed_out}=    Execute Command In Terminal    ethtool ${nic_name_1} | grep baseT    
+    ${speed_out}=    Execute Command In Terminal    ethtool ${nic_name_1} | grep baseT
     ${nic_1_max_supported_speed}=    Extract Nic Max Speed    ${speed_out}
     ${speed_out}=    Execute Command In Terminal    ethtool ${nic_name_2} | grep baseT
-    ${nic_2_max_supported_speed}=    Extract Nic Max Speed    ${speed_out}  
-    
+    ${nic_2_max_supported_speed}=    Extract Nic Max Speed    ${speed_out}
+
     ${nic_1_max_aprooved_speed}=    Evaluate    (${nic_1_max_supported_speed} * ${ACCEPTED_NET_SPEED_FACTOR}) / 1000
     ${nic_2_max_aprooved_speed}=    Evaluate    (${nic_2_max_supported_speed} * ${ACCEPTED_NET_SPEED_FACTOR}) / 1000
 
@@ -146,12 +146,10 @@ Extract Number From Line
     ${digits}=    Create List
     FOR    ${char}    IN    @{str}
         ${is_digit}=    Evaluate    '${char}'.isdigit()
-        IF    ${is_digit}
-            Append To List    ${digits}    ${char}
-        END
+        IF    ${is_digit}    Append To List    ${digits}    ${char}
     END
     ${out}=    Evaluate    ''.join(${digits})
-    [Return]    ${out}
+    RETURN    ${out}
 
 Should Be Larger Than
     [Arguments]    ${value_1}    ${value_2}
