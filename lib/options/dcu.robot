@@ -97,8 +97,12 @@ Measure Average Warmboot Time
         Login To Linux
         Switch To Root User
 
-        Write    rtcwake -m off -s 5
-        Sleep    15s
+        # Using "Execute Command In Terimal" will cause the test to wait
+        # for command prompt to appear before continuing but the prompt
+        # will not appear again until we Login after reboot, so the test
+        # would hang here and fail.
+        Write    rtcwake -m off -s 20
+        Set DUT Response Timeout    60s
 
         Login To Linux
         Switch To Root User
