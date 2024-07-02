@@ -101,7 +101,7 @@ Measure Average Warmboot Time
         # for command prompt to appear before continuing but the prompt
         # will not appear again until we Login after reboot, so the test
         # would hang here and fail.
-        Write    rtcwake -m off -s 20
+        Write Into Terminal    rtcwake -m off -s 20
         Set DUT Response Timeout    60s
 
         Login To Linux
