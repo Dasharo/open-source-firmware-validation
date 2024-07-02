@@ -56,7 +56,7 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     ...    CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.001 not supported
 
-    ${average}=    Measure Average Warmboot Time Verbose    ${ITERATIONS}
+    ${average}=    Measure Average Warmboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
 
@@ -66,7 +66,8 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     ...    if CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
 
-    ${average}=    Measure Average Reboot Time Verbose    ${ITERATIONS}
+    Get UEFI Option    NetworkBoot
+    ${average}=    Measure Average Reboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
 
