@@ -90,6 +90,16 @@ DDET004.001 Usb Devices Detected In Firmware Suspension
     Should Contain    ${out}    new device connected
     ...    ignore_case=True
 
+DDET005.001 NET Controller Detected After Reboot
+    [Documentation]    Test if a network controller is detected on an PCI lane
 
+    Login To Linux With Root Privileges
+    Execute Reboot Command
+    Login To Linux With Root Privileges
 
+    ${out}=    Execute Command In Terminal
+    ...    lspci | grep -i 'net'
+
+    Should Contain Any    ${out}    Network Controller    Ethernet Controller
+    ...    ignore_case=True
 
