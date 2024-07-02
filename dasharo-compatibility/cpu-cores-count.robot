@@ -50,7 +50,7 @@ CCC001.002 CPU Hyper-Threading enabled (Ubuntu)
 CCC002.001 CPU E-cores none active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are disabled, all P-cores are enabled and
-    ...    Hyper-Threading is enabled.
+    ...    Hyper-Threading is enabled or Hyper-Threading not supported.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -68,7 +68,7 @@ CCC002.001 CPU E-cores none active, Hyper-Threading enabled (Ubuntu)
 CCC002.002 CPU E-cores all active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are enabled, all P-cores are enabled and
-    ...    Hyper-Threading is enabled.
+    ...    Hyper-Threading is enabled or Hyper-Threading not supported.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -84,6 +84,7 @@ CCC002.003 CPU E-cores none active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are disabled, all P-cores are enabled and
     ...    Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -102,6 +103,7 @@ CCC002.004 CPU E-cores all active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are enabled, all P-cores are enabled and
     ...    Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -117,7 +119,7 @@ CCC002.004 CPU E-cores all active, Hyper-Threading disabled (Ubuntu)
 CCC003.001 CPU P-cores only one active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are enabled, only one P-core is enabled and
-    ...    Hyper-Threading is enabled.
+    ...    Hyper-Threading is enabled or Hyper-Threading not supported.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -135,7 +137,7 @@ CCC003.001 CPU P-cores only one active, Hyper-Threading enabled (Ubuntu)
 CCC003.002 CPU P-cores all active, Hyper-Threading enabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are enabled, all P-cores are enabled and
-    ...    Hyper-Threading is enabled.
+    ...    Hyper-Threading is enabled or Hyper-Threading not supported.
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -151,6 +153,7 @@ CCC003.003 CPU P-cores only one active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are enabled, only one P-core is enabled and
     ...    Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -170,6 +173,7 @@ CCC003.004 CPU P-cores all active, Hyper-Threading disabled (Ubuntu)
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are enabled, all P-cores are enabled and
     ...    Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -189,6 +193,7 @@ CCC004.001 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading di
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are disabled, all P-cores are disabled and
     ...    Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -206,6 +211,7 @@ CCC004.002 CPU P-cores only one active, CPU E-cores disabled, Hyper-Threading en
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are disabled, all P-cores are disabled and
     ...    Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
@@ -222,6 +228,7 @@ CCC005.001 CPU P-cores all active, CPU E-cores all active, Hyper-Threading enabl
     [Documentation]    Check if the correct amount of cores is active when
     ...    all of E-cores are disabled, all P-cores are disabled and
     ...    Hyper-Threading is disabled.
+    Skip If    ${DEF_THREADS_PER_CORE}==    1
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
