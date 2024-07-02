@@ -233,3 +233,5 @@ found in 'open-source-firmware-validation' folder.
 * [Raptor CS Talos II](docs/raptor-talos-2.md) - Documentation specific to the
   Raptor Computing Systems Talos II mainboard
 * [QEMU](docs/qemu.md) - Documentation for running tests in QEMU
+* [NovaCustom](docs/novacustom.md) - Documentation for running tests on
+  NovaCustom laptops

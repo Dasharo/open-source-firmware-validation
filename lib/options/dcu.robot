@@ -14,12 +14,14 @@ Resource            ../terminal.robot
 Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     [Arguments]    ${option_name}    ${value}
+    ${value}=    Convert Option Value Argument    ${value}
     Run    git clone https://github.com/Dasharo/dcu
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
     Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
+    Execute Command In Terminal    chmod 666 coreboot.rom
     SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
     ${result}=    Run Process
     ...    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
@@ -48,3 +50,12 @@ Get UEFI Option
     ...    cd dcu && ./dcu v coreboot.rom --get "${option_name}"
     ...    shell=True
     RETURN    ${out.stdout}
+
+Convert Option Value Argument
+    [Arguments]    ${value}
+    IF    "${value}"=="${TRUE}"
+        RETURN    Enabled
+    ELSE
+        IF    "${value}"=="${FALSE}"    RETURN    Disabled
+    END
+    RETURN    ${value}

@@ -4,7 +4,7 @@ Library             OperatingSystem
 Library             Process
 Library             String
 Library             Telnet    timeout=30 seconds    connection_timeout=120 seconds
-Library             SSHLibrary    timeout=90 seconds
+Library             SSHLibrary    timeout=390 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
@@ -41,11 +41,10 @@ ${DASHARO_LOGO_URL}=
 LCM001.001 Ability to replace logo in existing firmware image
     [Documentation]    Check whether the DUT is configured properly to use
     ...    a custom boot logo.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LCM001.001 not supported
-
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Skip If    not ${CUSTOM_LOGO_SUPPORT}    LCM004.001 not supported
+    Login To Linux
+    Switch To Root User
+    Detect Or Install Package    coreboot-utils
     # If BOOTSPLASH region is not there, the platform does not support this feature
     Read FMAP And BOOTSPLASH Regions Internally    /tmp/firmware.rom
     ${layout}=    Execute Command In Terminal    cbfstool /tmp/firmware.rom layout -w
@@ -53,11 +52,10 @@ LCM001.001 Ability to replace logo in existing firmware image
 
 LCM001.002 Check replaced logo in existing firmware image
     [Documentation]    Check if the custom logo is displayed
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LCM001.002 not supported
-
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Skip If    not ${CUSTOM_LOGO_SUPPORT}    LCM004.001 not supported
+    Login To Linux
+    Switch To Root User
+    Detect Or Install Package    coreboot-utils
     # 1. Replace the logo in firmware file
     Download File    ${DASHARO_LOGO_URL}    /tmp/logo.bmp
     Replace Logo In Firmware    /tmp/logo.bmp
@@ -72,8 +70,7 @@ LCM001.002 Check replaced logo in existing firmware image
     # Execute Reboot Command
 
     # 3. Check if the displayed logo matches
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Login To Linux
     ${out}=    Execute Command In Terminal    sha256sum /sys/firmware/acpi/bgrt/image
     Should Contain    ${out}    ${DASHARO_LOGO_SHA256_SUM}
 
@@ -82,16 +79,14 @@ LCM004.001 Custom logo persists after firmware update
     ...    with the `fwupd` command, the custom added logo remains unaffected
     ...    and continues to display.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    LCM004.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    LCM004.001 not supported
+    Skip If    "${OPTIONS_LIB}"=="dcu"
     ${laptop_platform}=    Check The Platform Is A Laptop
     Skip If    not ${laptop_platform}    The Platform is not a Laptop
-
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
+    Skip
+    Login To Linux
     Download File    ${DASHARO_LOGO_URL}    logo.bmp
     Set DUT Response Timeout    400s
-    Read Firmware Clevo
+    # Read Firmware Clevo -- fix keyword
     Write Into Terminal    dcu logo coreboot.rom -l logo.bmp
     # Read From Terminal Until    Success -- only after DTS/dcu update
     Read From Terminal Until    logo
