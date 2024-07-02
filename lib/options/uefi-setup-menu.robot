@@ -93,7 +93,7 @@ Measure Average Warmboot Time
 
     ${average}=    Set Variable    0
     Log To Console    \n
-    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+    FOR    ${index}    IN RANGE    0    ${iterations}
         Power On
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
@@ -102,7 +102,7 @@ Measure Average Warmboot Time
         Log To Console    (${index}) Boot time: ${boot_time} s)
         ${average}=    Evaluate    ${average}+${boot_time}
     END
-    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    ${average}=    Evaluate    ${average}/${iterations}
     RETURN    ${average}
 
 Measure Average Reboot Time
@@ -113,7 +113,7 @@ Measure Average Reboot Time
     Power On
     ${average}=    Set Variable    0
     Log To Console    \n
-    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+    FOR    ${index}    IN RANGE    0    ${iterations}
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
@@ -122,5 +122,5 @@ Measure Average Reboot Time
         ${average}=    Evaluate    ${average}+${boot_time}
         Execute Reboot Command
     END
-    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    ${average}=    Evaluate    ${average}/${iterations}
     RETURN    ${average}
