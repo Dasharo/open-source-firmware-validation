@@ -101,9 +101,10 @@ Measure Average Warmboot Time
         # for command prompt to appear before continuing but the prompt
         # will not appear again until we Login after reboot, so the test
         # would hang here and fail.
-        Write Into Terminal    rtcwake -m off -s 20
+        # Sometimes it may take long to shutdown all systemd services,
+        # so the waiting times have to be excessive to avoid false negatives.
+        Write Into Terminal    rtcwake -m off -s 60
 
-        # Sometimes it may take long to shutdown all systemd services.
         Set DUT Response Timeout    300s
 
         Login To Linux
