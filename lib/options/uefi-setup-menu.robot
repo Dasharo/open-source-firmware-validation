@@ -5,6 +5,7 @@ Documentation       Library for UEFI configuration using the UEFI setup menu
 Library             Collections
 Library             String
 Resource            ../bios/menus.robot
+Resource            ../../keywords.robot
 
 
 *** Keywords ***
@@ -59,3 +60,67 @@ Get UEFI Option
 
     ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}    ${VALUE}
     RETURN    ${state}
+
+
+Get Boot Time From Cbmem
+    [Documentation]    Calculates boot time based on cbmem timestamps
+    # fix for LT1000 and protectli platforms (output without tabs)
+    Get Cbmem From Cloud
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
+    Should Not Contain
+    ...    ${out_cbmem}
+    ...    Operation not permitted
+    ...    msg=Cannot get cbmem log. Probably Secure Boot is enabled (kernel lockdown mode).
+    ${lines}=    Split To Lines    ${out_cbmem}
+    ${first_line}=    Get From List    ${lines}    0
+    ${last_line}=    Get From List    ${lines}    -1
+    ${first_timestamp}=    Get Timestamp From Cbmem Log    ${first_line}
+    ${last_timestamp}=    Get Timestamp From Cbmem Log    ${last_line}
+    ${boot_time}=    Evaluate    (${last_timestamp} - ${first_timestamp}) / 1000000
+    RETURN    ${boot_time}
+
+Get Timestamp From Cbmem Log
+    [Documentation]    Returns timestamp from a single cbmem -T log line
+    [Arguments]    ${line}
+    ${columns}=    Split String    ${line}
+    ${timestamp}=    Get From List    ${columns}    1
+    RETURN    ${timestamp}
+
+Measure Average Warmboot Time
+    [Documentation]    Performs a measurement of average warmboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    ${average}=    Set Variable    0
+    Log To Console    \n
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        Power On
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
+    END
+    ${average}=    Evaluate    ${average}/${iterations}
+    RETURN    ${average}
+
+Measure Average Reboot Time
+    [Documentation]    Performs a measurement of average reboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    Power On
+    ${average}=    Set Variable    0
+    Log To Console    \n
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
+        Execute Reboot Command
+    END
+    ${average}=    Evaluate    ${average}/${iterations}
+    RETURN    ${average}
