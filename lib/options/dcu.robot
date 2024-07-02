@@ -10,7 +10,7 @@ Library             String
 Library             SSHLibrary
 Resource            ../terminal.robot
 Resource            ../../keywords.robot
-Resource    ../../platform-configs/include/novacustom-common.robot
+Resource            ../../platform-configs/include/novacustom-common.robot
 
 
 *** Keywords ***
@@ -93,7 +93,7 @@ Measure Average Warmboot Time
     ${average}=    Set Variable    0
     Log To Console    \n
 
-    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+    FOR    ${index}    IN RANGE    0    ${iterations}
         Login To Linux
         Switch To Root User
 
@@ -113,7 +113,7 @@ Measure Average Warmboot Time
         Log To Console    (${index}) Boot time: ${boot_time} s)
         ${average}=    Evaluate    ${average}+${boot_time}
     END
-    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    ${average}=    Evaluate    ${average}/${iterations}
     RETURN    ${average}
 
 Measure Average Reboot Time
@@ -124,7 +124,7 @@ Measure Average Reboot Time
     ${average}=    Set Variable    0
     Log To Console    \n
 
-    FOR    ${index}    IN RANGE    0    ${ITERATIONS}
+    FOR    ${index}    IN RANGE    0    ${iterations}
         Login To Linux
         Switch To Root User
 
@@ -136,8 +136,7 @@ Measure Average Reboot Time
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s)
         ${average}=    Evaluate    ${average}+${boot_time}
-
     END
 
-    ${average}=    Evaluate    ${average}/${ITERATIONS}
+    ${average}=    Evaluate    ${average}/${iterations}
     RETURN    ${average}

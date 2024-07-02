@@ -69,4 +69,3 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     ${average}=    Measure Average Reboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
-
