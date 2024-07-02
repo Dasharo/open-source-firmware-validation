@@ -33,25 +33,6 @@ Suite Teardown      Run Keywords
 ${TEST_BOOT_ENTRY_NAME}=    dasharo-compatibility_efibootmgr-custom-boot-entry
 
 
-*** Keywords ***
-Login And Remove Test Boot Entry
-    Login To Linux
-    Switch To Root User
-    Remove Test Boot Entry Return Bootorder
-
-Remove Test Boot Entry Return Bootorder
-    [Documentation]    Removes the custom boot entry which name is defined in ***Variables***
-    ${id}=    Set Variable
-    ...    $(efibootmgr | grep "${TEST_BOOT_ENTRY_NAME}" | cut -d" " -f1 | grep -Eo '[0-9A-F]{4}' | grep -Eo '[^0][0-9A-F]{0,3}|0$')
-    ${out}=    Execute Command In Terminal    efibootmgr -b ${id} -B
-    RETURN    ${out}
-
-Find Test Boot Entry Id
-    [Documentation]    Returns the Id of custom boot entry
-    ${id}=    Set Variable
-    ...    $(efibootmgr | grep "${TEST_BOOT_ENTRY_NAME}" | cut -d" " -f1 | grep -Eo '[0-9A-F]{4}' | grep -Eo '[^0][0-9A-F]{0,3}|0$')
-    RETURN    ${id}
-
 *** Test Cases ***
 EBM001.001 Network Boot enable
     [Documentation]    Test if enabling network boot entry works.
@@ -103,7 +84,6 @@ EBM003.001 Custom Boot Order Add
     # because the entry is not valid
     # Execute Command In Terminal    efibootmgr -A -b ${id}
 
-
     # Check if entry was added
     Should Contain    ${out}    ${TEST_BOOT_ENTRY_NAME}
 
@@ -135,3 +115,23 @@ EBM004.001 Custom Boot Order Remove
 
     ${out}=    Execute Command In Terminal    efibootmgr
     Should Not Contain    ${out}    ${TEST_BOOT_ENTRY_NAME}
+
+
+*** Keywords ***
+Login And Remove Test Boot Entry
+    Login To Linux
+    Switch To Root User
+    Remove Test Boot Entry Return Bootorder
+
+Remove Test Boot Entry Return Bootorder
+    [Documentation]    Removes the custom boot entry which name is defined in ***Variables***
+    ${id}=    Set Variable
+    ...    $(efibootmgr | grep "${TEST_BOOT_ENTRY_NAME}" | cut -d" " -f1 | grep -Eo '[0-9A-F]{4}' | grep -Eo '[^0][0-9A-F]{0,3}|0$')
+    ${out}=    Execute Command In Terminal    efibootmgr -b ${id} -B
+    RETURN    ${out}
+
+Find Test Boot Entry Id
+    [Documentation]    Returns the Id of custom boot entry
+    ${id}=    Set Variable
+    ...    $(efibootmgr | grep "${TEST_BOOT_ENTRY_NAME}" | cut -d" " -f1 | grep -Eo '[0-9A-F]{4}' | grep -Eo '[^0][0-9A-F]{0,3}|0$')
+    RETURN    ${id}
