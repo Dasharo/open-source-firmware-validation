@@ -63,3 +63,33 @@ Suite Teardown      Run Keywords
 
 #     Should Contain    ${out}    usb bus started
 #     ...    ignore_case=True
+
+DDET003.001 Usb Devices Detected In Firmware Warmboot
+    [Documentation]    Test if USB devices are detected after a warmboot
+
+    Login To Linux With Root Privileges
+    Execute Warmboot Command
+    Login To Linux With Root Privileges
+
+    ${out}=    Execute Command In Terminal
+    ...    cbmem -1 | grep -i 'UsbEnumeratePort'
+
+    Should Contain    ${out}    new device connected
+    ...    ignore_case=True
+
+DDET004.001 Usb Devices Detected In Firmware Suspension
+    [Documentation]    Test if USB devices are detected after a warmboot
+
+    Login To Linux With Root Privileges
+    Execute Suspend And Wake Command
+    Login To Linux With Root Privileges
+
+    ${out}=    Execute Command In Terminal
+    ...    cbmem -1 | grep -i 'UsbEnumeratePort'
+
+    Should Contain    ${out}    new device connected
+    ...    ignore_case=True
+
+
+
+
