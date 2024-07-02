@@ -102,7 +102,9 @@ Measure Average Warmboot Time
         # will not appear again until we Login after reboot, so the test
         # would hang here and fail.
         Write Into Terminal    rtcwake -m off -s 20
-        Set DUT Response Timeout    60s
+
+        # Sometimes it may take long to shutdown all systemd services.
+        Set DUT Response Timeout    300s
 
         Login To Linux
         Switch To Root User
