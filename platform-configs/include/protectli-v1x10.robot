@@ -27,6 +27,10 @@ ${DMIDECODE_TYPE}=                  Desktop
 ${NVME_DISK_SUPPORT}=               ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=           ${TRUE}
 
+${DASHARO_USB_MENU_SUPPORT}=        ${FALSE}
+${USB_STACK_SUPPORT}=               ${FALSE}
+${USB_MASS_STORAGE_SUPPORT}=        ${FALSE}
+
 
 *** Keywords ***
 Power On
