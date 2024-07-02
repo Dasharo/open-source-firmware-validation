@@ -66,7 +66,6 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     ...    if CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
 
-    Get UEFI Option    NetworkBoot
     ${average}=    Measure Average Reboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
