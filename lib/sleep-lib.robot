@@ -124,3 +124,29 @@ Perform Hibernation Test Using FWTS
         ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
     END
     RETURN    ${is_hibernation_performed_correctly}
+
+Perform Warmboot Using Rtcwake
+    [Documentation]    Executes a command that will cause a warmboot
+
+    # Using "Execute Command In Terimal" will cause the test to wait
+    # for command prompt to appear before continuing but the prompt
+    # will not appear again until we Login after reboot, so the test
+    # would hang here and fail.
+    # Sometimes it may take long to shutdown all systemd services,
+    # so the waiting times have to be excessive to avoid false negatives.
+    Write Into Terminal    rtcwake -m off -s 20
+    Set DUT Response Timeout    300s
+    Sleep    20s
+
+Perform Suspend And Wake Using Rtcwake
+    [Documentation]    Suspends and then wakes up the device after some time
+
+    # Using "Execute Command In Terimal" will cause the test to wait
+    # for command prompt to appear before continuing but the prompt
+    # will not appear again until we Login after reboot, so the test
+    # would hang here and fail.
+    # Sometimes it may take long to shutdown all systemd services,
+    # so the waiting times have to be excessive to avoid false negatives.
+    Write Into Terminal    rtcwake -m ram -s 20
+    Set DUT Response Timeout    300s
+    Sleep    20s
