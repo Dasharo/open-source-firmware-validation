@@ -68,7 +68,7 @@ DDET003.001 Usb Devices Detected In Firmware Warmboot
     [Documentation]    Test if USB devices are detected after a warmboot
 
     Login To Linux With Root Privileges
-    Execute Warmboot Command
+    Perform Warmboot Using Rtcwake
     Login To Linux With Root Privileges
 
     ${out}=    Execute Command In Terminal
@@ -81,7 +81,7 @@ DDET004.001 Usb Devices Detected In Firmware Suspension
     [Documentation]    Test if USB devices are detected after a warmboot
 
     Login To Linux With Root Privileges
-    Execute Suspend And Wake Command
+    Perform Suspend And Wake Using Rtcwake
     Login To Linux With Root Privileges
 
     ${out}=    Execute Command In Terminal
