@@ -50,10 +50,10 @@ UBT001.001 USB detect and boot after coldboot
             END
         EXCEPT
             ${failed_boot}=    Evaluate    ${failed_boot} + 1
+            IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
+                Fail    Boot from USB failed too many times (${failed_boot})
+            END
         END
-    END
-    IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
-        Fail    Boot from USB failed too many times (${failed_boot})
     END
 
 UBT002.001 USB detect and boot after warmboot
@@ -78,10 +78,10 @@ UBT002.001 USB detect and boot after warmboot
             END
         EXCEPT
             ${failed_boot}=    Evaluate    ${failed_boot} + 1
+            IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
+                Fail    Boot from USB failed too many times (${failed_boot})
+            END
         END
-    END
-    IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
-        Fail    Boot from USB failed too many times (${failed_boot})
     END
 
 UBT003.001 USB detect and boot after system reboot
@@ -97,16 +97,16 @@ UBT003.001 USB detect and boot after system reboot
             Power On
             Boot System Or From Connected Disk    ${usb}
             IF    '${PLATFORM}' != 'raptor-cs_talos2'    Reboot Via Linux On USB
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'    Login To Linux
             IF    '${PLATFORM}' == 'raptor-cs_talos2'
+                Login To Linux
                 Write Into Terminal    reboot
             END
         EXCEPT
             ${failed_boot}=    Evaluate    ${failed_boot} + 1
+            IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
+                Fail    Boot from USB failed too many times (${failed_boot})
+            END
         END
-    END
-    IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
-        Fail    Boot from USB failed too many times (${failed_boot})
     END
 
 
