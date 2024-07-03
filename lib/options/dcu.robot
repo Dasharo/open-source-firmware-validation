@@ -62,6 +62,13 @@ Get UEFI Boot Manager Entries
     ${boot_menu}=    SSHLibrary.Execute Command    efibootmgr
     RETURN    ${boot_menu}
 
+Measure Average Coldboot Time
+    [Documentation]    Performs a measurement of average coldboot
+    ...    boot time
+    [Arguments]    ${iterations}
+
+    Skip    Coldboot not supported without serial connection
+
 Measure Average Warmboot Time
     [Documentation]    Performs a measurement of average warmboot
     ...    boot time
