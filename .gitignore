@@ -9,7 +9,7 @@ minicom.cap
 *.md5
 *.js
 *.pyc
-credentials.py
+spreadsheet-creds.json
 downstream_job_parameters.txt
 openbmc-test-automation/
 __pycache__*
