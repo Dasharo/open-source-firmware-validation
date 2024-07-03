@@ -5,7 +5,6 @@ Resource            ../keywords.robot
 
 
 *** Keywords ***
-
 Get Boot Time From Cbmem
     [Documentation]    Calculates boot time based on cbmem timestamps
     # fix for LT1000 and protectli platforms (output without tabs)
