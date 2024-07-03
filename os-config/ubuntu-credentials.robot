@@ -5,7 +5,7 @@
 # we needed to change them in prompts as well.
 ${UBUNTU_USERNAME}=         ubuntu
 ${UBUNTU_PASSWORD}=         ubuntu
-${UBUNTU_HOSTNAME}=         ubuntu-V54x-6x-TU
+${UBUNTU_HOSTNAME}=         3mdeb
 
 ${UBUNTU_USER_PROMPT}=      ${UBUNTU_USERNAME}@${UBUNTU_HOSTNAME}:~$
 ${UBUNTU_ROOT_PROMPT}=      root@${UBUNTU_HOSTNAME}:/home/${UBUNTU_USERNAME}#
