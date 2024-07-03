@@ -39,16 +39,7 @@ UDT001.001 USB detection after coldboot
         TRY
             ${usb}=    Evaluate    0
             Power Cycle On
-            IF    '${PAYLOAD}' == 'tianocore'
-                Enter Boot Menu Tianocore
-                ${menu}=    Read From Terminal Until    ESC to exit
-            ELSE IF    '${PAYLOAD}' == 'seabios'
-                ${menu}=    Enter SeaBIOS And Return Menu
-            ELSE IF    '${PAYLOAD}' == 'petitboot'
-                ${menu}=    Enter Petitboot And Return Menu
-            ELSE
-                ${menu}=    FAIL    Unknown payload: ${PAYLOAD}
-            END
+            ${menu}=    Enter Boot Menu Tianocore And Return Construction
             FOR    ${stick}    IN    @{ATTACHED_USB}
                 ${usb_tmp}=    Get Count    ${menu}    ${stick}
                 ${usb}=    Evaluate    ${usb} + ${usb_tmp}
@@ -80,15 +71,7 @@ UDT002.001 USB detection after warmboot
         TRY
             ${usb}=    Evaluate    0
             Power On
-            IF    '${PAYLOAD}' == 'tianocore'
-                ${menu}=    Enter Tianocore And Return Menu
-            ELSE IF    '${PAYLOAD}' == 'seabios'
-                ${menu}=    Enter SeaBIOS And Return Menu
-            ELSE IF    '${PAYLOAD}' == 'petitboot'
-                ${menu}=    Enter Petitboot And Return Menu
-            ELSE
-                ${menu}=    FAIL    Unknown payload: ${PAYLOAD}
-            END
+            ${menu}=    Enter Boot Menu Tianocore And Return Construction
             FOR    ${stick}    IN    @{ATTACHED_USB}
                 ${usb_tmp}=    Get Count    ${menu}    ${stick}
                 ${usb}=    Evaluate    ${usb} + ${usb_tmp}
@@ -128,15 +111,7 @@ UDT003.001 USB detection after system reboot
             ELSE
                 FAIL    Unknown payload: ${PAYLOAD}
             END
-            IF    '${PAYLOAD}' == 'tianocore'
-                ${menu}=    Enter Tianocore And Return Menu
-            ELSE IF    '${PAYLOAD}' == 'seabios'
-                ${menu}=    Enter SeaBIOS And Return Menu
-            ELSE IF    '${PAYLOAD}' == 'petitboot'
-                ${menu}=    Enter Petitboot And Return Menu
-            ELSE
-                ${menu}=    FAIL    Unknown payload: ${PAYLOAD}
-            END
+            ${menu}=    Enter Boot Menu Tianocore And Return Construction
             FOR    ${stick}    IN    @{ATTACHED_USB}
                 ${usb_tmp}=    Get Count    ${menu}    ${stick}
                 ${usb}=    Evaluate    ${usb} + ${usb_tmp}
