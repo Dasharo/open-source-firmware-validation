@@ -16,8 +16,9 @@ Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../lib/linux.robot
 
-Suite Setup         Run Keyword
-...                     Prepare Test Suite
+Suite Setup         Run Keywords
+...                     Prepare Test Suite    AND
+...                     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
 Suite Teardown      Run Keywords
 ...                     Flash Firmware    ${FW_FILE}
 ...                     AND
@@ -28,7 +29,6 @@ Suite Teardown      Run Keywords
 APU001.001 Check if apu2 watchdog option is available
     [Documentation]    Check if the watchdog timer can be enabled in the apu2
     ...    configuration submenu.
-    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -37,7 +37,6 @@ APU001.001 Check if apu2 watchdog option is available
 APU002.001 Enable apu2 watchdog
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
     ...    that it resets the platform.
-    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -52,7 +51,6 @@ APU002.001 Enable apu2 watchdog
 APU003.001 Disable apu2 watchdog
     [Documentation]    Disable the watchdog after enabling it to verify it does
     ...    not reset the platform anymore.
-    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -73,7 +71,6 @@ APU003.001 Disable apu2 watchdog
 APU004.001 Change apu2 watchdog timeout
     [Documentation]    Enable apu2 watchdog with a higher timeout than default
     ...    and verify that it resets the platform.
-    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -100,7 +97,6 @@ APU004.001 Change apu2 watchdog timeout
 
 APU005.001 Check if disabling CPB decreases performance
     [Documentation]    This Test Checks Whether Performance Changes With Core Performance Boost Disabled
-    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
@@ -130,7 +126,6 @@ APU005.001 Check if disabling CPB decreases performance
 
 APU006.001 Check whether disabling "Enable PCIe power management features" disables ASPM
     [Documentation]    Checks whether disabling PCIe power management features disables ASPM
-    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
@@ -146,7 +141,6 @@ APU006.001 Check whether disabling "Enable PCIe power management features" disab
 
 APU006.002 Check whether enabling "Enable PCIe power management features" enables ASPM
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
-    Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Enable PCI Express power    ${TRUE}
