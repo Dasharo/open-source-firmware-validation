@@ -65,7 +65,6 @@ Get UEFI Boot Manager Entries
 Measure Average Coldboot Time
     [Documentation]    Performs a measurement of average coldboot
     ...    boot time
-    [Arguments]    ${iterations}
 
     Skip    Coldboot not supported without serial connection
 
