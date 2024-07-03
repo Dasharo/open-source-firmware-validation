@@ -221,6 +221,10 @@ ${OS_UBUNTU}=               ubuntu
 # NovaCustom V560TU -----------------------------------------------------------
 &{RTE62}=                   ip=0.0.0.0
 ...                         platform=novacustom-v560tu    platform_vendor=Clevo
+# Protectli V1211
+&{RTE63}=                   ip=192.168.10.227
+...                         platform=protectli-v1211
+...                         platform_vendor=protectli
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -234,7 +238,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
-...                         &{RTE61}    &{RTE62}
+...                         &{RTE61}    &{RTE62}    &{RTE63}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -458,6 +462,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD10}
 @{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
 @{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
+@{CONFIG47}=                &{RTE63}    &{EMMC01}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -470,4 +475,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
-...                         @{CONFIG46}
+...                         @{CONFIG46}    @{CONFIG47}
