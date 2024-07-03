@@ -28,7 +28,9 @@ USB001.001 USB devices detected in FW
     [Documentation]    Check whether USB devices are detected in Tianocore
     ...    (edk2).
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.001 not supported
-    Upload And Mount DTS Flash Iso
+    IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
+        Upload And Mount DTS Flash Iso
+    END
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
