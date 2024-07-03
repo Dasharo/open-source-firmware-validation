@@ -18,7 +18,7 @@ Resource            ../keys.robot
 # Required teardown keywords:
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keyword
-...                     Prepare Test Suite
+...                     Prepare USB HID Test Suite
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -45,7 +45,7 @@ USB001.002 USB devices detected by OS (Ubuntu)
     Switch To Root User
     Detect Or Install Package    usbutils
     ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
-    Should Contain    ${out}    Human Interface Device
+    IF    ${HAS_KEYBOARD}    Should Contain    ${out}    Human Interface Device
     Should Contain    ${out}    Mass Storage
     Exit From Root User
 
@@ -56,8 +56,9 @@ USB001.003 USB devices detected by OS (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    USB001.003 not supported
     Power On
     Login To Windows
-    ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
-    Should Contain    ${out}    HIDClass
+    ${out}=    Execute Command In Terminal
+    ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
+    IF    ${HAS_KEYBOARD}    Should Contain    ${out}    HIDClass
     Should Contain    ${out}    DiskDrive
 
 USB002.001 USB keyboard detected in FW
@@ -66,6 +67,7 @@ USB002.001 USB keyboard detected in FW
     ...    according to their labels.
     [Tags]    minimal-regression
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Skip If    not ${HAS_KEYBOARD}    USB002.001 not supported
     Power On
     Enter UEFI Shell
     ${out}=    Execute UEFI Shell Command    devices
@@ -73,12 +75,10 @@ USB002.001 USB keyboard detected in FW
 
 USB002.002 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
-    ...    correctly by the Linux OS and all basic keys work
-    ...    according to their labels.
-    IF    not ${USB_KEYBOARD_DETECTION_SUPPORT}
-        SKIP    USB002.002 not supported
-    END
-    IF    not ${TESTS_IN_UBUNTU_SUPPORT}    SKIP    USB002.002 not supported
+    ...    correctly by the Linux OS.
+    Skip If    not ${USB_KEYBOARD_DETECTION_SUPPORT}    USB002.002 not supported
+    Skip If    "${DEVICE_USB_KEYBOARD}" == "${EMPTY}"    USB002.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    USB002.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -89,10 +89,9 @@ USB002.002 USB keyboard in OS (Ubuntu)
 USB002.003 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Windows OS.
-    IF    not ${USB_KEYBOARD_DETECTION_SUPPORT}
-        SKIP    USB002.003 not supported
-    END
-    IF    not ${TESTS_IN_WINDOWS_SUPPORT}    SKIP    USB002.003 not supported
+    Skip If    not ${USB_KEYBOARD_DETECTION_SUPPORT}    USB002.003 not supported
+    Skip If    not ${HAS_KEYBOARD}    USB002.003 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    USB002.003 not supported
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
@@ -131,3 +130,14 @@ USB003.002 Upload 1GB file on USB storage (Windows)
     Execute Command In Terminal    Remove-Item -Path C:\\Users\\user\\test_file.txt
     Execute Command In Terminal    Remove-Item -Path ${drive_letter}:\\test_file.txt
     Should Be Equal    ${hash1}    ${hash2}
+
+
+*** Keywords ***
+Prepare USB HID Test Suite
+    [Documentation]    Prepare this test suite
+    Prepare Test Suite
+    IF    "${DEVICE_USB_KEYBOARD}" != "${EMPTY}" or "${DUT_CONNECTION_METHOD}" == "pikvm"
+        Set Suite Variable    $HAS_KEYBOARD    ${TRUE}
+    ELSE
+        Set Suite Variable    $HAS_KEYBOARD    ${FALSE}
+    END
