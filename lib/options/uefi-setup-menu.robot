@@ -93,6 +93,23 @@ Get Timestamp From Cbmem Log
     ${timestamp}=    Get From List    ${columns}    1
     RETURN    ${timestamp}
 
+Measure Average Coldboot Time
+    [Documentation]    Performs a measurement of average coldboot
+    ...    boot time
+    [Arguments]    ${iterations}
+    ${average}=    Set Variable    0
+    Log To Console    \n
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        Power Cycle On    power_button=${TRUE}
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s)
+        ${average}=    Evaluate    ${average}+${boot_time}
+    END
+    ${average}=    Evaluate    ${average}/${iterations}
+
 Measure Average Warmboot Time
     [Documentation]    Performs a measurement of average warmboot
     ...    boot time
