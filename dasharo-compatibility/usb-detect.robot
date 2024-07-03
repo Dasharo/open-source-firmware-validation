@@ -54,10 +54,10 @@ UDT001.001 USB detection after coldboot
             Should Be Equal As Integers    ${usb}    ${usb_count}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+            IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
+                Fail    Detection failed too many times (${failed_detection})
+            END
         END
-    END
-    IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
-        Fail    Detection failed too many times (${failed_detection})
     END
 
 UDT002.001 USB detection after warmboot
@@ -86,10 +86,10 @@ UDT002.001 USB detection after warmboot
             Should Be Equal As Integers    ${usb}    ${usb_count}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+            IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
+                Fail    Detection failed too many times (${failed_detection})
+            END
         END
-    END
-    IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
-        Fail    Detection failed too many times (${failed_detection})
     END
 
 UDT003.001 USB detection after system reboot
@@ -126,10 +126,10 @@ UDT003.001 USB detection after system reboot
             Should Be Equal As Integers    ${usb}    ${usb_count}
         EXCEPT
             ${failed_detection}=    Evaluate    ${failed_detection} + 1
+            IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
+                Fail    Detection failed too many times (${failed_detection})
+            END
         END
-    END
-    IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
-        Fail    Detection failed too many times (${failed_detection})
     END
 
 
