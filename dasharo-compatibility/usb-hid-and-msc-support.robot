@@ -28,9 +28,7 @@ USB001.001 USB devices detected in FW
     [Documentation]    Check whether USB devices are detected in Tianocore
     ...    (edk2).
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.001 not supported
-    IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-        Upload And Mount DTS Flash Iso
-    END
+    Skip If    not ${HAS_USB_STORAGE}    USB001.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
@@ -47,7 +45,7 @@ USB001.002 USB devices detected by OS (Ubuntu)
     Detect Or Install Package    usbutils
     ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    Human Interface Device
-    Should Contain    ${out}    Mass Storage
+    IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    Mass Storage
     Exit From Root User
 
 USB001.003 USB devices detected by OS (Windows)
@@ -60,7 +58,7 @@ USB001.003 USB devices detected by OS (Windows)
     ${out}=    Execute Command In Terminal
     ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    HIDClass
-    Should Contain    ${out}    DiskDrive
+    IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    DiskDrive
 
 USB002.001 USB keyboard detected in FW
     [Documentation]    Check whether the external USB keyboard is detected
@@ -101,8 +99,9 @@ USB002.003 USB keyboard in OS (Windows)
 USB003.001 Upload 1GB file on USB storage (Ubuntu)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    IF    not ${UPLOAD_ON_USB_SUPPORT}    SKIP    USB003.001 not supported
-    IF    not ${TESTS_IN_UBUNTU_SUPPORT}    SKIP    USB003.001 not supported
+    Skip If    not ${UPLOAD_ON_USB_SUPPORT}    USB003.001 not supported
+    Skip If    not ${HAS_USB_STORAGE}    USB003.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    USB003.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -117,8 +116,9 @@ USB003.001 Upload 1GB file on USB storage (Ubuntu)
 USB003.002 Upload 1GB file on USB storage (Windows)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    IF    not ${UPLOAD_ON_USB_SUPPORT}    SKIP    USB003.002 not supported
-    IF    not ${TESTS_IN_WINDOWS_SUPPORT}    SKIP    USB003.002 not supported
+    Skip If    not ${UPLOAD_ON_USB_SUPPORT}    USB003.002 not supported
+    Skip If    not ${HAS_USB_STORAGE}    USB003.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    USB003.002 not supported
     Power On
     Login To Windows
     Generate 1GB File In Windows
@@ -141,3 +141,16 @@ Prepare USB HID Test Suite
     ELSE
         Set Suite Variable    $HAS_KEYBOARD    ${FALSE}
     END
+    ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
+    ${has_storage}=    Evaluate    "USB_Storage" in """${conf}"""
+    IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
+        Upload And Mount DTS Flash Iso
+        ${has_storage}=    Set Variable    ${TRUE}
+    END
+    IF    "${ATTACHED_USB}" != "${EMPTY}" or ${has_storage}
+        Set Suite Variable    $HAS_USB_STORAGE    ${TRUE}
+    ELSE
+        Set Suite Variable    $HAS_USB_STORAGE    ${FALSE}
+    END
+    Skip If    not ${HAS_KEYBOARD} and not ${HAS_USB_STORAGE}
+    ...    Platform doesn't have USB keyboard or USB storage attached
