@@ -1,0 +1,38 @@
+name: Auto Docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python3 -m venv robot-venv
+        source robot-venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Generate documentation
+      run: |
+        chmod +x scripts/create-docs.sh
+        scripts/create-docs.sh
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        publish_branch: gh-pages
+        destination_dir: docs
