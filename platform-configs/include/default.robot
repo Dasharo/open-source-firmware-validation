@@ -66,6 +66,7 @@ ${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
 ${WIFI_CARD_UBUNTU}=                                ${EMPTY}
 ${USB_MODEL}=                                       ${EMPTY}
 ${USB_DEVICE}=                                      ${EMPTY}
+@{ATTACHED_USB}=                                    ${EMPTY}
 
 ${FLASHROM_FLAGS}=                                  ${EMPTY}
 

@@ -17,8 +17,6 @@ ${CPU_MIN_FREQUENCY}=                   300
 # eMMC driver support
 ${E_MMC_NAME}=                          8GTF4R
 
-@{ATTACHED_USB}=                        @{EMPTY}
-
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v
 ${DMIDECODE_PRODUCT_NAME}=              VP2410
