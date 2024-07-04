@@ -26,7 +26,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-UBOS001.001 Ubuntu 22.04 is installable
+UBOS001.001 Ubuntu 24.04 is installable
     [Documentation]    Try to install ubuntu via netboot.xyz with custom
     ...    preseed.
     Power On
@@ -44,8 +44,8 @@ UBOS001.001 Ubuntu 22.04 is installable
     Sleep    10s
     # 2. Choose Ubuntu installation
     Press Key N Times And Enter    27    ${ARROW_DOWN}
-    # 3. Chose Ubuntu 22.04:
-    Press Key N Times And Enter    2    ${ARROW_DOWN}
+    # 3. Chose Ubuntu 24.04:
+    Press Enter
     # 4. Choose Ubuntu installation with preseed
     Press Key N Times And Enter    2    ${ARROW_DOWN}
 
