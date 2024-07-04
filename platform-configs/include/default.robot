@@ -69,6 +69,7 @@ ${DEVICE_AUDIO1_WIN}=                               ${TBD}
 ${WIFI_CARD_UBUNTU}=                                ${TBD}
 ${USB_MODEL}=                                       ${TBD}
 ${USB_DEVICE}=                                      ${TBD}
+@{ATTACHED_USB}=                                    ${TBD}
 
 ${FLASHROM_FLAGS}=                                  ${TBD}
 
