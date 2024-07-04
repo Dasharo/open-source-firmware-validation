@@ -209,7 +209,38 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
         END
     END
 
-MBO005.001 Multiple reset to defaults results in identical measurements
+MBO005.001 Flashing firmware and reset to defaults results in same measurement
+    [Documentation]    Reset to defaults results in the same measurements as the
+    ...    one done after flashing
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
+    ${fw}=    Get Variable Value    $FW_FILE    ${EMPTY}
+    Skip If    "${fw}" == "${EMPTY}"
+    Flash Firmware    ${FW_FILE}
+
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal    shopt -s extglob
+    ${default_hashes}=    Execute Command In Terminal
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
+    ${default_pcr_state}=    Split To Lines    ${default_hashes}
+
+    Restore Secure Boot Defaults
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal    shopt -s extglob
+    ${reset_hashes}=    Execute Command In Terminal
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
+    ${reset_pcr_state}=    Split To Lines    ${reset_hashes}
+    Lists Should Be Equal    ${default_pcr_state}    ${reset_pcr_state}
+
+MBO005.002 Multiple reset to defaults results in identical measurements
     [Documentation]    Resetting Dasharo configuration twice will give the same
     ...    PCRs measurements
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -229,7 +260,7 @@ MBO005.001 Multiple reset to defaults results in identical measurements
         Should Be Equal    ${hash}    ${new_hash}
     END
 
-MBO005.002 Identical configuration results in identical measurements
+MBO005.003 Identical configuration results in identical measurements
     [Documentation]    Check if same configuration state results in same PCR
     ...    values regardless how this state was achieved
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -268,7 +299,7 @@ MBO005.002 Identical configuration results in identical measurements
         Should Be Equal    ${hash}    ${new_hash}
     END
 
-MBO005.003 Identical configuration after reset results in identical measurements
+MBO005.004 Identical configuration after reset results in identical measurements
     [Documentation]    Check if same configuration state achieved by resetting
     ...    state to default results in same PCR values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
