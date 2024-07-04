@@ -124,11 +124,13 @@ USB003.002 Upload 1GB file on USB storage (Windows)
     Generate 1GB File In Windows
     # Work only with one attached USB storage
     ${drive_letter}=    Get Drive Letter Of USB
-    Execute Command In Terminal    Copy-Item -Path C:\\Users\\user\\test_file.txt ${drive_letter}:
+    Execute Command In Terminal
+    ...    Copy-Item -Path C:\\Users\\user\\test_file.txt ${drive_letter}:    120
     ${hash1}=    Get Hash Of File    test_file.txt
     ${hash2}=    Get Hash Of File    ${drive_letter}:\\test_file.txt
     Execute Command In Terminal    Remove-Item -Path C:\\Users\\user\\test_file.txt
-    Execute Command In Terminal    Remove-Item -Path ${drive_letter}:\\test_file.txt
+    Execute Command In Terminal
+    ...    Remove-Item -Path ${drive_letter}:\\test_file.txt    120
     Should Be Equal    ${hash1}    ${hash2}
 
 
