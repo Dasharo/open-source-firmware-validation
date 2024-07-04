@@ -1462,22 +1462,34 @@ Remove Entry From List
 
 Generate 1GB File In Windows
     [Documentation]    Generates 1G file in Windows in .txt format.
+    Execute Command In Terminal
+    ...    if (Test-Path test_file.txt) { Remove-Item test_file.txt }
     ${out}=    Execute Command In Terminal    fsutil file createnew test_file.txt 1073741824
     Should Contain    ${out}    is created
 
 Get Drive Letter Of USB
-    [Documentation]    Gets drive letter of attached USB, work with only one USB
-    ...    attached.
-    ${drive_letter}=    Execute Command In Terminal
-    ...    (Get-Volume | where drivetype -eq removable | where filesystemtype -eq FAT32).driveletter
-    ${drive_letter}=    Fetch From Left    ${drive_letter}    \r
+    [Documentation]    Gets drive letter of attached USB, returns first letter
+    ...    on list.
+    ${drive_letter_cmd}=    Set Variable
+    ...    (Get-Volume | where DriveType -eq removable | where FileSystemType -eq FAT32).DriveLetter
+    ${drive_count}=    Execute Command In Terminal    ${drive_letter_cmd}.Count
+    ${drive_count}=    Fetch From Right    ${drive_count}    \n
+    IF    ${drive_count} > 0
+        ${drive_letter}=    Execute Command In Terminal
+        ...    ${drive_letter_cmd}\[0\]
+    ELSE
+        Fail    Couldn't find any USB drive letter
+    END
+    ${drive_letter}=    Fetch From Right    ${drive_letter}    \n
     RETURN    ${drive_letter}
 
 Get Hash Of File
     [Documentation]    Gets line with hash of file.
     [Arguments]    ${path_file}
     ${out}=    Execute Command In Terminal    Get-FileHash -Path ${path_file} | Format-List
-    ${hash}=    Get Lines Containing String    ${out}    Hash
+    ${start_index}=    Call Method    ${out}    rindex    Hash
+    ${hash}=    Get Substring    ${out}    ${start_index}
+    ${hash}=    Fetch From Left    ${hash}    \r
     RETURN    ${hash}
 
 Identify Path To USB
@@ -1493,9 +1505,10 @@ Identify Path To USB
         Set Local Variable    ${usb_disk}    ${disk}
         IF    '${model_name}' == '${USB_MODEL}'    BREAK
     END
-    ${out}=    Execute Linux Command    lsblk | grep ${usb_disk} | grep part | cat
+    ${out}=    Execute Linux Command
+    ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk} | grep part
     ${split}=    Split String    ${out}
-    ${path_to_usb}=    Get From List    ${split}    7
+    ${path_to_usb}=    Get From List    ${split}    2
     RETURN    ${path_to_usb}
 
 Get Intel ME Mode State
