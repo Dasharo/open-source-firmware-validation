@@ -58,36 +58,3 @@ Power On
     # After Rte Power Off, the platform cannot be powered back using the power button.
     # Possibly bug in HW or FW.
     Power Cycle On
-
-Flash Protectli VP2410 Internal
-    Set Local Variable    ${is_flash_chip_content_identical}    ${FALSE}
-    Power On
-    Boot Operating System    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${device_ip}=    Get Hostname Ip
-    # Get and build flashrom - currently we don't have such a keyword
-    SSHLibrary.Write    scp -o StrictHostKeyChecking=no /tmp/coreboot.rom user@${device_ip}:/tmp/dasharo.rom
-    SSHLibrary.Read Until    password:
-    SSHLibrary.Write    ubuntu
-    SSHLibrary.Read Until Prompt
-    Write Into Terminal    ./flashrom -p internal -w /tmp/dasharo.rom --ifd -i bios
-    ${flash_result}=    Read From Terminal Until Prompt
-    ${is_flash_chip_content_identical}=    Evaluate
-    ...    'Chip content is identical to the requested image' in '''${flash_result}'''
-    IF    ${is_flash_chip_content_identical}    RETURN
-    Rte Set Gpio    3    high-z
-    Rte Set Gpio    1    high-z
-    Power Cycle On
-    Should Contain    ${flash_result}    VERIFIED
-
-Flash Protectli VP2410 External
-    [Documentation]    Flash Device Under Test firmware, check flashing result
-    ...    and set RTE relay to ON state. Implementation must be
-    ...    compatible with the theory of operation of a specific
-    ...    platform.
-    Rte Flash Write    /tmp/coreboot.rom
-
-Read Firmware
-    [Documentation]    Read Device Under Test firmware
-    Rte Flash Read    /tmp/coreboot.rom
