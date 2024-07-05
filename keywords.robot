@@ -761,7 +761,7 @@ Sonoff Power Cycle On
     EXCEPT
         Log    Could not clear Telnet buffer
     END
-    Sonoff Power On
+    Sonoff On
 
 Power Cycle Off
     [Documentation]    Power cycle off power supply using the supported
