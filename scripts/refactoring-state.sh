@@ -15,6 +15,17 @@ kwds_to_remove=(
 "Launch To DTS Shell"
 "Check IPXE Appears Only Once"
 "IPXE Dhcp"
+"RteCtrl Power On"
+"RteCtrl Power Off"
+"RteCtrl Relay"
+"Get RTE Relay State"
+"Sonoff API Setup"
+"Sonoff Power Off"
+"Sonoff Power On"
+"Get Sonoff State"
+"RTE REST APU Setup"
+"RTE REST APU Setup"
+"RteCtrl Get GPIO State"
 )
 
 echo "Keywords that should not be used, but are still used:"
