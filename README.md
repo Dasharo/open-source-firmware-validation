@@ -205,12 +205,12 @@ Running tests without snipeit requires additional variables:
 
 ```bash
 DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG SNIPEIT_NO="y" \
-SONOFF="y" SONOFF_IP=$SONOFF_IP PIKVM="y" PIKVM_IP=$PIKVM_IP
+SONOFF_IP=$SONOFF_IP PIKVM_IP=$PIKVM_IP
 ./scripts/run.sh $TEST_SUITE
 ```
 
-Mind that `SNIPEIT_NO`, `SONOFF` and `PIKVM_IP` only need to be set, meaning
-that whatever value they have, they will be treated as true.
+Mind that `SNIPEIT_NO`, only need to be set, meaning that whatever value it
+has, it will be treated as true.
 
 ### Running regression tests
 
@@ -227,7 +227,7 @@ Running regression tests without snipeit works the same way as
 
 ```bash
 DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG SNIPEIT_NO="y" \
-SONOFF="y" SONOFF_IP=$SONOFF_IP PIKVM="y" PIKVM_IP=$PIKVM_IP
+SONOFF_IP=$SONOFF_IP PIKVM_IP=$PIKVM_IP
 ./scripts/regression.sh
 ```
 
