@@ -3,7 +3,6 @@ Resource    include/protectli-vp66xx.robot
 
 
 *** Variables ***
-${SNIPEIT}=                     no
 ${INITIAL_CPU_FREQUENCY}=       1100
 ${DEF_CORES_PER_SOCKET}=        10
 ${DEF_THREADS_PER_CORE}=        2
