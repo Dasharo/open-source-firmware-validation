@@ -362,7 +362,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     ...    flashrom -p internal --ifd -i bios -w /tmp/coreboot_with_ec.rom
     Should Contain    ${flash_result}    VERIFIED
     # Disconnect power adapter
-    Sonoff Power Off
+    Sonoff Off
     Write Into Terminal    reboot
     Sleep    20
     Power On
