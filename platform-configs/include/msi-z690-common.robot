@@ -126,17 +126,3 @@ Power On
     # read the old output
     Telnet.Read
     Rte Power On
-
-Flash MSI-PRO-Z690
-    [Documentation]    Flash Device Under Test firmware, check flashing result
-    ...    and set RTE relay to OFF state. Implementation must be
-    ...    compatible with the theory of operation of a specific
-    ...    platform.
-    Put File    ${FW_FILE}    /tmp/coreboot.rom
-    Rte Flash Write    /tmp/coreboot.rom
-
-Read MSI-PRO-Z690
-    [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
-    ...    state. Implementation must be compatible with the theory
-    ...    of operation of a specific platform.
-    Rte Flash Read    /tmp/coreboot.rom

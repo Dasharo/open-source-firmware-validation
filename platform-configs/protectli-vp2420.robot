@@ -10,6 +10,7 @@ ${LTE_CARD}=                        Qualcomm, Inc. MDG200
 ${DEVICE_USB_KEYBOARD}=             Logitech, Inc. Keyboard K120
 ${INITIAL_CPU_FREQUENCY}=           2600
 ${MAX_CPU_TEMP}=                    95
+${FLASHING_METHOD}=                 internal
 
 # eMMC driver support
 ${E_MMC_NAME}=                      8GTF4R
