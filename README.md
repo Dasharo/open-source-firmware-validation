@@ -200,21 +200,21 @@ FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/re
 
 Start quemu:
 
-'''
+```shell
 ./scripts/ci/qemu-run.sh graphic firmware
-'''
+```
 
 Open a new terminal, activate venv and start example test:
 
-'''
+```shell
 source venv/bin/activate
 robot  -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no \
--t "PXE007.001*" dasharo-compatibility/network-boot.robot
-'''
+  -t "PXE007.001*" dasharo-compatibility/network-boot.robot
+```
 
 If everything is setup correctly, you should see tests progress in quemu.
-After the test ends log files 'output.xml' 'log.html' and 'report.html' can be
-found in 'open-source-firmware-validation' folder.
+After the test ends log files `output.xml` `log.html` and `report.html` can be
+found in `open-source-firmware-validation` folder.
 
 ## Useful refactoring tools
 
