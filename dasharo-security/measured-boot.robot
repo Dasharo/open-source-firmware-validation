@@ -215,10 +215,10 @@ MBO005.001 Flashing firmware and reset to defaults results in same measurement
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${fw}=    Get Variable Value    $FW_FILE    ${EMPTY}
-    Skip If    "${fw}" == "${EMPTY}"
+    Skip If    "${fw}" == "${EMPTY}"    No firmware to flash
     Flash Firmware    ${FW_FILE}
 
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
