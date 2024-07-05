@@ -25,6 +25,7 @@ ${WIFI_CARD}=                                       ${EMPTY}
 ${MAX_CPU_TEMP}=                                    ${EMPTY}
 ${INTERNAL_PROGRAMMER_CHIPNAME}=                    "Opaque flash chip"
 ${FLASHING_METHOD}=                                 external
+${SNIPEIT}=                                         yes
 
 # See: https://github.com/Dasharo/dasharo-issues/issues/614
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
