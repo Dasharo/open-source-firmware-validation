@@ -16,6 +16,8 @@ ${MAX_CPU_TEMP}=                        77
 
 ${E_MMC_NAME}=                          BJTD4R
 
+${DEVICE_AUDIO1}=                       Jasperlake HDMI
+
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v
 ${DMIDECODE_RELEASE_DATE}=              ${EMPTY}
