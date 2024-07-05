@@ -36,6 +36,9 @@ AUD001.001 Audio subsystem detection (Ubuntu)
     Switch To Root User
     Detect Or Install Package    alsa-utils
     ${out}=    Execute Linux Command    cat /sys/class/sound/card0/hwC0D*/chip_name
+    Should Not Be Empty
+    ...    ${DEVICE_AUDIO1}
+    ...    msg=At least DEVICE_AUDIO01 must be defined in platform config if audio suite is enabled
     Should Contain    ${out}    ${DEVICE_AUDIO1}
     Should Contain    ${out}    ${DEVICE_AUDIO2}
     Exit From Root User
