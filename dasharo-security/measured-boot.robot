@@ -69,11 +69,7 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Execute Command In Terminal    shopt -s extglob
-    ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
-    Should Not Contain    ${default_hashes}    No such file or directory
-    ${default_hashes}=    Split To Lines    ${default_hashes}
+    ${default_hashes}=    Get PCRs State From Linux
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -108,11 +104,7 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Execute Command In Terminal    shopt -s extglob
-    ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
-    Should Not Contain    ${default_hashes}    No such file or directory
-    @{default_hashes}=    Split To Lines    ${default_hashes}
+    @{default_hashes}=    Get PCRs State From Linux
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -145,11 +137,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Execute Command In Terminal    shopt -s extglob
-    ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
-    Should Not Contain    ${default_hashes}    No such file or directory
-    @{default_hashes}=    Split To Lines    ${default_hashes}
+    @{default_hashes}=    Get PCRs State From Linux
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -182,11 +170,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Execute Command In Terminal    shopt -s extglob
-    ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
-    Should Not Contain    ${default_hashes}    No such file or directory
-    @{default_hashes}=    Split To Lines    ${default_hashes}
+    @{default_hashes}=    Get PCRs State From Linux
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -222,10 +206,7 @@ MBO005.001 Flashing firmware and reset to defaults results in same measurement
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Execute Command In Terminal    shopt -s extglob
-    ${default_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
-    ${default_pcr_state}=    Split To Lines    ${default_hashes}
+    ${default_pcr_state}=    Get PCRs State From Linux
 
     Restore Secure Boot Defaults
     Reset To Defaults Tianocore
@@ -234,10 +215,7 @@ MBO005.001 Flashing firmware and reset to defaults results in same measurement
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Execute Command In Terminal    shopt -s extglob
-    ${reset_hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
-    ${reset_pcr_state}=    Split To Lines    ${reset_hashes}
+    ${reset_pcr_state}=    Get PCRs State From Linux
     Lists Should Be Equal    ${default_pcr_state}    ${reset_pcr_state}
 
 MBO005.002 Multiple reset to defaults results in identical measurements
@@ -386,14 +364,20 @@ Get Default PCRs State
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        Execute Command In Terminal    shopt -s extglob
-        ${default_hashes}=    Execute Command In Terminal
-        ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
-        Should Not Contain    ${default_hashes}    No such file or directory
-        ${default_pcr_state}=    Split To Lines    ${default_hashes}
+        ${default_pcr_state}=    Get PCRs State From Linux
         Set Suite Variable    $DEFAULT_PCR_STATE_SUITE    ${default_pcr_state}
     END
     RETURN    ${default_pcr_state}
+
+Get PCRs State From Linux
+    [Documentation]    Returns list of strings containing
+    ...    ["<path_to_pcr>:<hash>"]. Should be called when logged in Linux
+    Execute Command In Terminal    shopt -s extglob
+    ${hashes}=    Execute Command In Terminal
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
+    Should Not Contain    ${hashes}    No such file or directory
+    ${pcr_state}=    Split To Lines    ${hashes}
+    RETURN    ${pcr_state}
 
 Measured Boot Suite Setup
     Prepare Test Suite
