@@ -111,4 +111,4 @@ Power On
     Rte Power Off
     Sleep    10s
     Telnet.Read
-    RteCtrl Power On
+    Rte Power On
