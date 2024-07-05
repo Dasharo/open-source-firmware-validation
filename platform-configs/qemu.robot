@@ -11,6 +11,7 @@ ${BOOT_MENU_KEY}=                           ${ESC}
 ${SETUP_MENU_KEY}=                          ${F2}
 ${MANUFACTURER}=                            QEMU
 ${POWER_CTRL}=                              RteCtrl
+${FLASHING_METHOD}=                         none
 
 ${DMIDECODE_SERIAL_NUMBER}=                 N/A
 ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) v0.2.0
