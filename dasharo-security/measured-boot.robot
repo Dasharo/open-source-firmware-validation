@@ -46,6 +46,7 @@ MBO002.001 Check if event log PCRs match actual values (Ubuntu 22.04)
     ...    actual PCRs values
     ${tpm2_eventlog}=    Execute Command In Terminal
     ...    tpm2_eventlog /sys/kernel/security/tpm0/binary_bios_measurements
+    Should Not Contain    ${tpm2_eventlog}    ERROR: Unable to run tpm2_eventlog
     FOR    ${algo}    IN    sha1    sha256
         ${eventlog_pcrs}=    Get PCRs From Eventlog    ${tpm2_eventlog}    ${algo}
         FOR    ${pcr_element}    IN    @{eventlog_pcrs}
