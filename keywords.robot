@@ -889,7 +889,6 @@ Execute Reboot Command
     END
     Set DUT Response Timeout    180 seconds
     Restore Initial DUT Connection Method
-    Sleep    20s
 
 Check Displays Windows
     [Documentation]    Check and return all displays with PowerShell in Windows.
