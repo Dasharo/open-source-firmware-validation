@@ -55,28 +55,16 @@ execute_robot() {
       device_ip_option=""
   fi
 
-  additional_options=""
+  extra_options=""
   # By default use snipeit, if SNIPEIT_NO is not set
   if [ -n "${SNIPEIT_NO}" ]; then
-      snipeit_no_option="-v snipeit:no"
-      # By default assume sonoff is not used, unless SONOFF is set
-      if [ -n "${SONOFF}" ]; then
-        if [ -z "${SONOFF_IP}" ]; then
-          echo "Error: SONOFF is set, you must provide specify SONOFF_IP variable"
-          exit 1
-        fi
-         additional_options="-v sonoff_ip:${SONOFF_IP}"
-       fi
-        # By default assume PiKVM is not used, unless PIKVM is set
-      if [ -n "${PIKVM}" ]; then
-        if [ -z "${PIKVM_IP}" ]; then
-          echo "Error: PIKVM is set, you must provide specify PIKVM_IP variable"
-          exit 1
-        fi
-        additional_options="${additional_options} -v pikvm_ip:${PIKVM_IP}"
+      extra_options="-v snipeit:no"
+      if [ -n "${SONOFF_IP}" ]; then
+          extra_options="${extra_options} -v sonoff_ip:${SONOFF_IP}"
       fi
-  else
-      snipeit_no_option=""
+      if [ -n "${PIKVM_IP}" ]; then
+          extra_options="${extra_options} -v pikvm_ip:${PIKVM_IP}"
+      fi
   fi
 
   # Needed only for test stations with different possible installed DUTs
@@ -101,8 +89,7 @@ execute_robot() {
         -v config:${CONFIG} \
         ${device_ip_option} \
         ${fw_file_option} \
-        ${snipeit_no_option} \
         ${installed_dut_option} \
-        ${additional_options} \
+        ${extra_options} \
         ${_test_path}
 }
