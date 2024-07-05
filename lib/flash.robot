@@ -170,16 +170,13 @@ Compare Write Protection Ranges
 
 Read Firmware
     [Documentation]    Read platform firmware to file specified in the argument.
-    [Arguments]    ${file}    ${flags}=""
+    [Arguments]    ${file}
 
-    ${platform}=    Get Current RTE Param    platform
-    IF    '${platform[:3]}' == 'apu'
-        RteCtrl Power Off
-        Sleep    2s
-        SSHLibrary.Execute Command
-        ...    flashrom -p linux_spi:dev=/dev/spidev1.0,spispeed=16000 -r /tmp/coreboot.rom ${flags}
-        SSHLibrary.Get File    /tmp/coreboot.rom    ${file}
+    IF    '${FLASHING_METHOD}' == 'external'
+        Rte Flash Read    ${file}
+    ELSE IF    '${FLASHING_METHOD}' == 'internal'
+        # TODO
+        Fail    Read firmware not implemented for platform config ${CONFIG}
     ELSE
-        # https://github.com/Dasharo/open-source-firmware-validation/issues/257
-        FAIL    Keyword not yet supported on this platform!
+        Fail    Read firmware not implemented for platform config ${CONFIG}
     END
