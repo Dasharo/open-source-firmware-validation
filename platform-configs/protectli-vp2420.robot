@@ -51,8 +51,7 @@ Power On
 Flash Protectli VP2420 Internal
     Make Sure That Flash Locks Are Disabled
     Power On
-    # Boot operating system    ubuntu
-    Boot Operating System    Samsung SSD 860 EVO M.2 250GB
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
