@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
-Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../variables.robot
 
 Suite Setup         Run Keywords
