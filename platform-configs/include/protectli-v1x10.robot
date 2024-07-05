@@ -43,10 +43,10 @@ Power On
     ...    specific platform.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
-    RteCtrl Power Off
+    Rte Power Off
     Sleep    10s
     Telnet.Read
-    # After RteCtrl Power Off, the platform cannot be powered back using the power button.
+    # After Rte Power Off, the platform cannot be powered back using the power button.
     # Possibly bug in HW or FW.
     Power Cycle On
 
