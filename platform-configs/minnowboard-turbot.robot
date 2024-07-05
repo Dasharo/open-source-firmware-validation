@@ -48,16 +48,3 @@ Power On
     Telnet.Read
     Rte Power On
     Sleep    1s
-
-Flash Mbt
-    [Documentation]    Flash Device Under Test firmware, check flashing result
-    ...    and set RTE relay to OFF state. Implementation must be
-    ...    compatible with the theory of operation of a specific
-    ...    platform.
-    Rte Flash Write    /tmp/coreboot.rom
-
-Read Firmware Mbt
-    [Documentation]    Read Device Under Test firmware and set RTE relay to OFF
-    ...    state. Implementation must be compatible with the theory
-    ...    of operation of a specific platform.
-    Rte Flash Read    /tmp/coreboot.rom
