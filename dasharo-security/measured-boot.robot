@@ -387,4 +387,5 @@ Measured Boot Suite Setup
     Login To Linux
     Switch To Root User
     Detect Or Install Package    tpm2-tools
+    # Disable service that adds dbx certificates which could interfere with tests
     Execute Command In Terminal    systemctl disable secureboot-db.service
