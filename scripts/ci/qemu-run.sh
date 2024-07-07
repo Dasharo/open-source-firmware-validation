@@ -19,6 +19,7 @@ then
 fi
 
 HDD_PATH=${HDD_PATH:-qemu-data/hdd.qcow2}
+PULSE_SERVER=${PULSE_SERVER:-unix:/run/user/$(id -u)/pulse/native}
 INSTALLER_PATH="qemu-data/ubuntu.iso"
 
 TPM_DIR="/tmp/osfv/tpm"
@@ -138,7 +139,7 @@ QEMU_PARAMS_BASE="-machine q35,smm=on \
 
 QEMU_PARAMS_OS="-device ich9-intel-hda \
   -device hda-duplex,audiodev=hda \
-  -audiodev pa,id=hda,server=unix:/run/user/1000/pulse/native,out.frequency=44100 \
+  -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100 \
   -object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
   -device virtio-net,netdev=vmnic \
