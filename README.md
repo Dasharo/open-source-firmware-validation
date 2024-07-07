@@ -198,7 +198,7 @@ FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/re
 
 ## Run sample test
 
-Start quemu:
+Start qemu:
 
 '''
 ./scripts/ci/qemu-run.sh graphic firmware
@@ -212,7 +212,7 @@ robot  -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v snipeit:no \
 -t "PXE007.001*" dasharo-compatibility/network-boot.robot
 '''
 
-If everything is setup correctly, you should see tests progress in quemu.
+If everything is setup correctly, you should see tests progress in qemu.
 After the test ends log files 'output.xml' 'log.html' and 'report.html' can be
 found in 'open-source-firmware-validation' folder.
 
