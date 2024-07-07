@@ -18,7 +18,7 @@ then
     exit 1
 fi
 
-HDD_PATH="qemu-data/hdd.qcow2"
+HDD_PATH=${HDD_PATH:-qemu-data/hdd.qcow2}
 INSTALLER_PATH="qemu-data/ubuntu.iso"
 
 TPM_DIR="/tmp/osfv/tpm"
@@ -69,7 +69,7 @@ check_disks() {
 
   if [ ! -f "${HDD_PATH}" ]; then
     echo "Disk at ${HDD_PATH} not found. You can create one with:"
-    echo "qemu-img create -f qcow2 qemu-data/hdd.qcow 20G"
+    echo "qemu-img create -f qcow2 '${HDD_PATH}' 20G"
     exit 1
   fi
 
