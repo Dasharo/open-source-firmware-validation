@@ -251,7 +251,7 @@ MBO006.002 Identical configuration after reset results in identical measurements
     ...    state to default results in same PCR values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${USB_MASS_STORAGE_SUPPORT}
-    ...    Platform doesn't support neither Security or USB menu tests
+    ...    Platform supports neither Networking nor USB menu tests
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
