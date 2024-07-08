@@ -31,15 +31,13 @@ ${PCRS_TO_CHECK}=       [0-9]|14
 MBO001.001 Measured Boot support (Ubuntu 20.04)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
-    Execute Command In Terminal    shopt -s extglob
-    ${hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha@(1|256)/[0-3]
-    Should Not Contain Any    ${hashes}
-    ...    0000000000000000000000000000000000000000
-    ...    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    ...    No such file or directory
-    ...    error
-    ...    ignore_case=${TRUE}
+    ${pcr_hashes}=    Get PCRs State From Linux    [0-3]
+    FOR    ${pcr_hash}    IN    @{pcr_hashes}
+        ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
+        ${unique_values_str}=    Evaluate    ''.join(set("${hash}"))
+        Should Not Be Equal    ${unique_values_str}    F    ignore_case=${TRUE}
+        Should Not Be Equal    ${unique_values_str}    0    ignore_case=${TRUE}
+    END
 
 MBO002.001 Check if event log PCRs match actual values (Ubuntu 22.04)
     [Documentation]    Check whether PCRs values calculated from event log match
@@ -373,9 +371,10 @@ Get Default PCRs State
 Get PCRs State From Linux
     [Documentation]    Returns list of strings containing
     ...    ["<path_to_pcr>:<hash>"]. Should be called when logged in Linux
+    [Arguments]    ${pcr_glob}=${PCRS_TO_CHECK}
     Execute Command In Terminal    shopt -s extglob
     ${hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${PCRS_TO_CHECK})
+    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${pcr_glob})
     Should Not Contain    ${hashes}    No such file or directory
     ${pcr_state}=    Split To Lines    ${hashes}
     RETURN    ${pcr_state}
