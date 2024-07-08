@@ -228,7 +228,7 @@ Set Platform Power State
     ...    will not be established.
     ${result}=    Sonoff Get
     IF    '${result}'=='low'
-        Sonoff On
+        Sonoff Power On
         Sleep    120s
     END
 
