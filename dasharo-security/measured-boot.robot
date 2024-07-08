@@ -28,7 +28,7 @@ ${PCRS_TO_CHECK}=       [0-9]|14
 
 
 *** Test Cases ***
-MBO001.001 Measured Boot support (Ubuntu 20.04)
+MBO001.001 Measured Boot support
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
     ${pcr_hashes}=    Get PCRs State From Linux    [0-3]
@@ -39,7 +39,7 @@ MBO001.001 Measured Boot support (Ubuntu 20.04)
         Should Not Be Equal    ${unique_values_str}    0    ignore_case=${TRUE}
     END
 
-MBO002.001 Check if event log PCRs match actual values (Ubuntu 22.04)
+MBO002.001 Check if event log PCRs match actual values
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
     ${tpm2_eventlog}=    Execute Command In Terminal
