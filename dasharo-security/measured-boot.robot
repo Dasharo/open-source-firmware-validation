@@ -101,7 +101,7 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    @{default_hashes}=    Get PCRs State From Linux
+    @{hashes_before_changes}=    Get PCRs State From Linux
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -115,7 +115,7 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    FOR    ${pcr_hash}    IN    @{default_hashes}
+    FOR    ${pcr_hash}    IN    @{hashes_before_changes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
         IF    ${{'${pcr}'.endswith('/1')}}
@@ -134,7 +134,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    @{default_hashes}=    Get PCRs State From Linux
+    @{hashes_before_changes}=    Get PCRs State From Linux
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -148,7 +148,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    FOR    ${pcr_hash}    IN    @{default_hashes}
+    FOR    ${pcr_hash}    IN    @{hashes_before_changes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
         IF    ${{'${pcr}'.endswith('/1')}}
@@ -167,7 +167,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    @{default_hashes}=    Get PCRs State From Linux
+    @{hashes_before_changes}=    Get PCRs State From Linux
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -180,7 +180,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    FOR    ${pcr_hash}    IN    @{default_hashes}
+    FOR    ${pcr_hash}    IN    @{hashes_before_changes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
         IF    ${{'${pcr}'.endswith('/1')}}
@@ -235,7 +235,7 @@ MBO005.002 Multiple reset to defaults results in identical measurements
         Should Be Equal    ${hash}    ${new_hash}
     END
 
-MBO005.003 Identical configuration results in identical measurements
+MBO006.001 Identical configuration results in identical measurements
     [Documentation]    Check if same configuration state results in same PCR
     ...    values regardless how this state was achieved
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -274,7 +274,7 @@ MBO005.003 Identical configuration results in identical measurements
         Should Be Equal    ${hash}    ${new_hash}
     END
 
-MBO005.004 Identical configuration after reset results in identical measurements
+MBO006.002 Identical configuration after reset results in identical measurements
     [Documentation]    Check if same configuration state achieved by resetting
     ...    state to default results in same PCR values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
