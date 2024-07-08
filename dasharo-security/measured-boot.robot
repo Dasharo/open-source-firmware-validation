@@ -65,9 +65,7 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
     Disable Secure Boot    ${sb_menu}
     Save Changes And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     ${default_hashes}=    Get PCRs State From Linux
 
     Power On
@@ -81,9 +79,7 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
     Sleep    1s
     Save Changes And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -100,9 +96,7 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    Tests in Dasharo Networking Menu are not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     @{hashes_before_changes}=    Get PCRs State From Linux
 
     Power On
@@ -114,9 +108,7 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     Set Option State    ${menu}    Enable network boot    ${new_network_boot_state}
     Save Changes And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     FOR    ${pcr_hash}    IN    @{hashes_before_changes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -133,9 +125,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${USB_MASS_STORAGE_SUPPORT}    Tests in Dasharo USB Menu are not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     @{hashes_before_changes}=    Get PCRs State From Linux
 
     Power On
@@ -147,9 +137,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Set Option State    ${menu}    Enable USB Mass Storage    ${new_usb_storage_state}
     Save Changes And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     FOR    ${pcr_hash}    IN    @{hashes_before_changes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -166,9 +154,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    Tests in Dasharo APU Menu are not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     @{hashes_before_changes}=    Get PCRs State From Linux
 
     Power On
@@ -179,9 +165,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     Set Option State    ${menu}    Core Performance Boost    ${new_core_boost_state}
     Save Changes And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     FOR    ${pcr_hash}    IN    @{hashes_before_changes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -202,18 +186,12 @@ MBO005.001 Flashing firmware and reset to defaults results in same measurement
     Flash Firmware    ${FW_FILE}
 
     Power Cycle On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     ${default_pcr_state}=    Get PCRs State From Linux
 
-    Restore Secure Boot Defaults
-    Reset To Defaults Tianocore
-    Save Changes And Reset
+    Restore SB And Tianocore Defaults And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     ${reset_pcr_state}=    Get PCRs State From Linux
     Lists Should Be Equal    ${default_pcr_state}    ${reset_pcr_state}
 
@@ -224,13 +202,9 @@ MBO005.002 Multiple reset to defaults results in identical measurements
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
-    Restore Secure Boot Defaults
-    Reset To Defaults Tianocore
-    Save Changes And Reset
+    Restore SB And Tianocore Defaults And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -246,9 +220,7 @@ MBO006.001 Identical configuration results in identical measurements
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
-    Restore Secure Boot Defaults
-    Reset To Defaults Tianocore
-    Save Changes And Reset
+    Restore SB And Tianocore Defaults And Reset
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
@@ -267,9 +239,7 @@ MBO006.001 Identical configuration results in identical measurements
     Set Option State    ${menu}    ${option}    ${option_state}
     Save Changes And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -285,9 +255,7 @@ MBO006.002 Identical configuration after reset results in identical measurements
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
-    Restore Secure Boot Defaults
-    Reset To Defaults Tianocore
-    Save Changes And Reset
+    Restore SB And Tianocore Defaults And Reset
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
@@ -305,9 +273,7 @@ MBO006.002 Identical configuration after reset results in identical measurements
     Reset To Defaults Tianocore
     Save Changes And Reset
 
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     FOR    ${pcr_hash}    IN    @{default_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:
         ${new_hash}=    Execute Command In Terminal    cat ${pcr}
@@ -356,13 +322,8 @@ Get Default PCRs State
     ...    Test Suite).
     ${default_pcr_state}=    Get Variable Value    $DEFAULT_PCR_STATE_SUITE
     IF    ${default_pcr_state} is ${NONE}
-        Restore Secure Boot Defaults
-        Reset To Defaults Tianocore
-        Save Changes And Reset
-
-        Boot System Or From Connected Disk    ubuntu
-        Login To Linux
-        Switch To Root User
+        Restore SB And Tianocore Defaults And Reset
+        Boot Ubuntu And Login To Root
         ${default_pcr_state}=    Get PCRs State From Linux
         Set Suite Variable    $DEFAULT_PCR_STATE_SUITE    ${default_pcr_state}
     END
@@ -382,14 +343,25 @@ Get PCRs State From Linux
     ${pcr_state}=    Split To Lines    ${hashes}
     RETURN    ${pcr_state}
 
+Boot Ubuntu And Login To Root
+    [Documentation]    Boots Ubuntu and logins as root
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+
+Restore SB And Tianocore Defaults And Reset
+    [Documentation]    Restores Secure Boot and Tianocore to defaults and then
+    ...    restarts
+    Restore Secure Boot Defaults
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
 Measured Boot Suite Setup
     Prepare Test Suite
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Boot Ubuntu And Login To Root
     Detect Or Install Package    tpm2-tools
     # Disable service that adds dbx certificates which could interfere with tests
     Execute Command In Terminal    systemctl disable secureboot-db.service
