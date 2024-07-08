@@ -20,7 +20,10 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported
-Suite Teardown      Run Keyword
+Suite Teardown      Run Keywords
+...                     Power On    AND
+...                     Enter Setup Menu Tianocore    AND
+...                     Reset To Defaults Tianocore    AND
 ...                     Log Out And Close Connection
 
 
