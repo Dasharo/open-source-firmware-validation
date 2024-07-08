@@ -133,7 +133,7 @@ def merge_lists(list1, list2):
 getoptionpath = {
     "LockBios": [
         "Dasharo System Features",
-        "Dasharo Security Features",
+        "Dasharo Security Options",
         "Lock the BIOS boot medium",
     ],
     "NetworkBoot": [
@@ -149,11 +149,11 @@ getoptionpath = {
     "UsbMassStorage": [
         "Dasharo System Features",
         "USB Configuration",
-        "Enable USB Mass Storage driver",
+        "Enable USB Mass Storage",
     ],
     "SmmBwp": [
         "Dasharo System Features",
-        "Dasharo Security Features",
+        "Dasharo Security Options",
         "Enable SMM BIOS write protection",
     ],
     "MeMode": [
@@ -168,12 +168,12 @@ getoptionpath = {
     ],
     "EnableCamera": [
         "Dasharo System Features",
-        "Dasharo Security Features",
+        "Dasharo Security Options",
         "Enable Camera",
     ],
     "EnableWifiBt": [
         "Dasharo System Features",
-        "Dasharo Security Features",
+        "Dasharo Security Options",
         "Enable Wi-Fi + BT radios",
     ],
     "SerialRedirection": [
