@@ -35,7 +35,7 @@ Get CPU Frequencies In Ubuntu
     @{frequencies}=    Split To Lines    ${output}
     FOR    ${frequency}    IN    @{frequencies}
         ${frequency}=    Fetch From Right    ${frequency}    :
-        ${frequency}=    Evaluate    re.sub(r'(?s)[^0-9]*([1-9][0-9]*)[,.][0-9]+MHz', r'\\1', $frequency)
+        # ${frequency}=    Evaluate    re.sub(r'(?s)[^0-9]*([1-9][0-9]*)[,.][0-9]+MHz', r'\\1', $frequency)
         ${frequency}=    Convert To Number    ${frequency}
         Append To List    ${frequency_list}    ${frequency}
     END
