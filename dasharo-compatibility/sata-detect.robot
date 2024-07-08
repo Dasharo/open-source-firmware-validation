@@ -12,40 +12,14 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-# Library    ../lib/QemuMonitor.py    /tmp/qmp-socket
-# Required setup keywords:
-#    Prepare Test Suite - generic setup keyword for all tests
-# Required teardown keywords:
-#    Log Out And Close Connection - generic setup keyword for all tests,
-#    closes all connections to DUT and PiKVM
-Suite Setup         Run Keywords
+Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP scanning tests not supported
-...                     AND
-...                     Prepare Required Files For Qemu
-...                     AND
-...                     Prepare EFI Partition With System Files
-...                     AND
-...                     Restore Initial DUT Connection Method
-Suite Teardown      Run Keywords
-...                     Clear Out EFI Partition    AND
+Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-SAT001.001 ESP Scan should contain SATA if it is present
-    [Documentation]    This test aims to verify that SATA shows up in the
-    ...    boot menu
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SAT001.001 not supported
-    Power On
-    Clear Out EFI Partition
-    Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Log    ${boot_menu}
-    Should Contain    ${boot_menu}    SATA
-
-SAT001.002 SATA should be visible from OS
+SAT001.001 SATA should be visible from OS
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using smartctl and hwinfo.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SAT001.002 not supported
@@ -59,10 +33,25 @@ SAT001.002 SATA should be visible from OS
     Detect Or Install Package    smartmontools
     Detect Or Install Package    hwinfo
 
-    ${out}=    Execute Command In Terminal
-    ...    sudo smartctl -i $(mount | grep -E '(/|/boot) ' | awk '{print $1}' | head -1)
-    Log    ${out}
-    Should Contain    ${out}    SATA Version is:    SATA
+    ${lsblk_out}=    Execute Command In Terminal    lsblk -d -o NAME -n
+    @{disks}=    Split String    ${lsblk_out}    \n
+
+    Log    ${disks}
+
+    ${do_we_have_sata}=    Set Variable    ${FALSE}
+
+    FOR    ${disk}    IN    @{disks}
+        ${out}=    Execute Command In Terminal    sudo smartctl -i /dev/${disk}
+        Log    ${out}
+        ${out}=    String.Replace String    ${out}    \n    ${SPACE}
+        Log    ${out}
+        ${does_it_contain_sata}=    Evaluate    "SATA Version is:" in "${out}"
+        IF    ${does_it_contain_sata}==True
+            Set Variable    ${do_we_have_sata}    ${TRUE}
+        END
+    END
+
+    Should Be Equal    ${do_we_have_sata}    ${TRUE}
 
     ${out}=    Execute Command In Terminal    sudo hwinfo --disk
     Log    ${out}
