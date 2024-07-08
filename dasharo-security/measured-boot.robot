@@ -371,8 +371,11 @@ Get PCRs State From Linux
     ...    ["<path_to_pcr>:<hash>"]. Should be called when logged in Linux
     [Arguments]    ${pcr_glob}=${PCRS_TO_CHECK}
     Execute Command In Terminal    shopt -s extglob
+    # grep returns file path and it's content i.e.
+    # "/sys/class/tpm/tpm0/pcr-sha1/0:", each in
+    # new line
     ${hashes}=    Execute Command In Terminal
-    ...    grep . /sys/class/tpm/tpm0/pcr-sha*/@(${pcr_glob})
+    ...    grep -H . /sys/class/tpm/tpm0/pcr-sha*/@(${pcr_glob})
     Should Not Contain    ${hashes}    No such file or directory
     ${pcr_state}=    Split To Lines    ${hashes}
     RETURN    ${pcr_state}
