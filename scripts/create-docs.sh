@@ -12,7 +12,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-cp "$TEMP_DIR/all-keywords.html" .
+cp "$TEMP_DIR/all-keywords.html" ./docs
 
 rm "$TEMP_DIR/all-keywords.robot"
 rm "$TEMP_DIR/all-keywords.html"
