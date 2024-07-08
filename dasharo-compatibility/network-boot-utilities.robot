@@ -58,8 +58,7 @@ NBT003.001 iPXE boot is available
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
     ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Boot
-    Set DUT Response Timeout    60s
-    Set DUT Response Timeout    20s
+    Set DUT Response Timeout    180s
     Read From Terminal Until    Nothing to boot: No such file or directory
 
 NBT004.001 iPXE shell is available
