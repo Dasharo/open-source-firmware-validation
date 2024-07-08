@@ -378,12 +378,12 @@ Get Current CONFIG Start Index
     ...    specified in the argument required for slicing list.
     ...    Returns -1 if CONFIG not found in variables.robot.
     [Arguments]    ${config_list}
-    ${rte_cpuid}=    Get Current RTE Param    cpuid
-    Should Not Be Equal    ${rte_cpuid}    ${-1}    msg=RTE not found in hw-matrix
+    ${rte_ip}=    Get Current RTE Param    ip
+    Should Not Be Equal    ${rte_ip}    ${-1}    msg=RTE not found in hw-matrix
     ${index}=    Set Variable    ${0}
     FOR    ${config}    IN    @{config_list}
-        ${result}=    Evaluate    ${config}.get("cpuid")
-        IF    '${result}'=='${rte_cpuid}'    RETURN    ${index}
+        ${result}=    Evaluate    ${config}.get("ip")
+        IF    '${result}'=='${rte_ip}'    RETURN    ${index}
         ${index}=    Set Variable    ${index+1}
     END
     RETURN    ${-1}
@@ -396,7 +396,7 @@ Get Current CONFIG Stop Index
     ${length}=    Get Length    ${config_list}
     ${index}=    Set Variable    ${start+1}
     FOR    ${config}    IN    @{config_list[${index}:]}
-        ${result}=    Evaluate    ${config}.get("cpuid")
+        ${result}=    Evaluate    ${config}.get("ip")
         IF    '${result}'!='None'    RETURN    ${index}
         IF    '${index}'=='${length-1}'    RETURN    ${index+1}
         ${index}=    Set Variable    ${index+1}
