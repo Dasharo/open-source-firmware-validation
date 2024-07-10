@@ -123,19 +123,37 @@ CPU Temperature Without Load (Ubuntu)
     Execute Command In Terminal    sensors-detect --auto
     ${timer}=    Convert To Integer    0
     @{temperature_list}=    Create List
+    ${max_temperature}=    Set Variable    0
+    ${min_temperature}=    Set Variable    999
     ${sum}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer}s
+    ${sum_previous}=    Convert To Integer    0
+    ${total_intervals}=    Evaluate    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
+    ${minute_counter}=    Set Variable    0
+    Log To Console    \nStarting Test...
+    FOR    ${i}    IN RANGE    ${total_intervals}
         ${temperature}=    Get CPU Temperature CURRENT
         Append To List    ${temperature_list}    ${temperature}
+        ${max_temperature}=    Evaluate    max(${max_temperature}, ${temperature})
+        ${min_temperature}=    Evaluate    min(${min_temperature}, ${temperature})
         ${sum}=    Evaluate    ${sum} + ${temperature}
-        Log To Console    Current temperature: ${temperature}°C
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}s
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
+        ${minute_counter}=    Evaluate    ${minute_counter} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
+        IF    ${minute_counter} >= 60
+            ${mean_last_minute_temperature}=    Evaluate    ((${sum} - ${sum_previous}) / 60)
+            ${sum_previous}=    Set Variable    ${sum}
+            Log To Console    \n----------------------------------------------------------------
+            Log To Console    ${timer}/${TEMPERATURE_TEST_DURATION} seconds passed.
+            Log To Console    Mean temperature over last minute: ${mean_last_minute_temperature}°C
+            ${minute_counter}=    Set Variable    0
+        END
     END
     ${average}=    Evaluate    ${sum} / ${TEMPERATURE_TEST_DURATION}
-    Log To Console    Average temperature: ${temperature}°C
+    Log To Console    \n----------------------------------------------------------------
+    Log To Console    Mean temperature over test duration: ${average}°C
+    Log To Console    Max temperature over test duration: ${max_temperature}°C
+    Log To Console    Min temperature over test duration: ${min_temperature}°C
+    Log To Console    Test threshold of CPU temp: ${MAX_CPU_TEMP}°C
     Should Be True    ${average} < ${MAX_CPU_TEMP}
 
 CPU Temperature After Stress Test (Ubuntu)
@@ -148,17 +166,35 @@ CPU Temperature After Stress Test (Ubuntu)
     Stress Test    ${TEMPERATURE_TEST_DURATION}s
     ${timer}=    Convert To Integer    0
     @{temperature_list}=    Create List
+    ${max_temperature}=    Set Variable    0
+    ${min_temperature}=    Set Variable    999
     ${sum}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer}s
+    ${sum_previous}=    Convert To Integer    0
+    ${total_intervals}=    Evaluate    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
+    ${minute_counter}=    Set Variable    0
+    Log To Console    \nStarting Test...
+    FOR    ${i}    IN RANGE    ${total_intervals}
         ${temperature}=    Get CPU Temperature CURRENT
         Append To List    ${temperature_list}    ${temperature}
+        ${max_temperature}=    Evaluate    max(${max_temperature}, ${temperature})
+        ${min_temperature}=    Evaluate    min(${min_temperature}, ${temperature})
         ${sum}=    Evaluate    ${sum} + ${temperature}
-        Log To Console    Current temperature: ${temperature}°C
         Sleep    ${TEMPERATURE_TEST_MEASURE_INTERVAL}s
         ${timer}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
+        ${minute_counter}=    Evaluate    ${minute_counter} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
+        IF    ${minute_counter} >= 60
+            ${mean_last_minute_temperature}=    Evaluate    ((${sum} - ${sum_previous}) / 60)
+            ${sum_previous}=    Set Variable    ${sum}
+            Log To Console    \n----------------------------------------------------------------
+            Log To Console    ${timer}/${TEMPERATURE_TEST_DURATION} seconds passed.
+            Log To Console    Mean temperature over last minute: ${mean_last_minute_temperature}°C
+            ${minute_counter}=    Set Variable    0
+        END
     END
     ${average}=    Evaluate    ${sum} / ${TEMPERATURE_TEST_DURATION}
-    Log To Console    Average temperature: ${temperature}°C
+    Log To Console    \n----------------------------------------------------------------
+    Log To Console    Mean temperature under stress over test duration: ${average}°C
+    Log To Console    Max temperature under stress over test duration: ${max_temperature}°C
+    Log To Console    Min temperature over test duration: ${min_temperature}°C
+    Log To Console    Test threshold of CPU temp: ${MAX_CPU_TEMP}°C
     Should Be True    ${average} < ${MAX_CPU_TEMP}
