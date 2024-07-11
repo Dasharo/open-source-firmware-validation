@@ -684,7 +684,7 @@ Get DUT To Start State
     Telnet.Read
     IF    '${CONFIG}' != 'qemu'
         ${result}=    Get Power Supply State
-        IF    '${result}'=='low'    Turn On Power Supply
+        IF    '${result}'=='off'    Turn On Power Supply
     END
 
 Turn On Power Supply
@@ -718,16 +718,14 @@ Power Cycle On
 Rte Relay Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
-    Telnet.Read
-    ${result}=    Rte Relay Get
-    IF    ${result} == "off"
-        Run Keywords
-        ...    Sleep    4s
-        ...    AND
-        ...    Telnet.Read
-        ...    AND
-        ...    Rte Relay Set    on
+    Rte Relay Set    off
+    Sleep    10
+    TRY
+        Telnet.Read
+    EXCEPT
+        Log    Could not clear Telnet buffer
     END
+    Rte Relay Set    on
 
 OBMC Power Cycle On
     [Documentation]    Clears obmc-console-client buffer and perform full power
