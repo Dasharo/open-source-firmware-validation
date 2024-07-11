@@ -45,7 +45,7 @@ DDET001.001 USB Stack disable
    ${out}=    Execute Command In Terminal
    ...    cbmem -1 | grep "UsbBusStart:"
 
-   Should Contain    ${out}    usb bus started
+   Should Not Contain    ${out}    usb bus started
    ...    ignore_case=True
 
 DDET002.001 USB Stack enable
