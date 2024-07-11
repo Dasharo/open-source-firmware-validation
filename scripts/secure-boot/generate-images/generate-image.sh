@@ -31,14 +31,11 @@ check_using_pkg_mng() {
         debian|ubuntu)
             PKG_MNG="apt"
             ;;
-        redhat|centos|fedora)
+        fedora)
             PKG_MNG="dnf"
             ;;
         arch)
             PKG_MNG="pacman"
-            ;;
-        openbsd)
-            PKG_MNG="pkg"
             ;;
         gentoo)
             PKG_MNG="emerge"
@@ -60,9 +57,15 @@ check_using_pkg_mng() {
 }
 
 install_deps() {
-    deps_list="sbsigntools faketime"
     echo "Installing dependencies"
     check_using_pkg_mng
+
+    # Distros may have different names for packages:
+    if [ "$DISTRO"  == "fedora" ] || [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "gentoo" ]; then
+        deps_list="sbsigntools libfaketime"
+    elif [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ]; then
+        deps_list="sbsigntool faketime"
+    fi
 
     if [ $DISTRO == "arch" ]; then
         sudo $PKG_MNG -S $deps_list 2>&1
