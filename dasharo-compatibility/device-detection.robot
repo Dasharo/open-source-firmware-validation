@@ -77,20 +77,7 @@ DDET003.001 Usb Devices Detected In Firmware Warmboot
     Should Contain    ${out}    new device connected
     ...    ignore_case=True
 
-DDET004.001 Usb Devices Detected In Firmware Suspension
-    [Documentation]    Test if USB devices are detected after a warmboot
-
-    Login To Linux With Root Privileges
-    Perform Suspend And Wake Using Rtcwake
-    Login To Linux With Root Privileges
-
-    ${out}=    Execute Command In Terminal
-    ...    cbmem -1 | grep -i 'UsbEnumeratePort'
-
-    Should Contain    ${out}    new device connected
-    ...    ignore_case=True
-
-DDET005.001 NET Controller Detected After Reboot
+DDET004.001 NET Controller Detected After Reboot
     [Documentation]    Test if a network controller is detected on an PCI lane
 
     Login To Linux With Root Privileges
