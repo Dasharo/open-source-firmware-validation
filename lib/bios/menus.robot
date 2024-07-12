@@ -617,6 +617,7 @@ Make Sure That Flash Locks Are Disabled
     ...    any Dasharo Security Options, if they are present.
     IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
