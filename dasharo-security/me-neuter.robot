@@ -47,8 +47,8 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Contain    ${out}    00:16.0
+    ${result}=    Check ME State
+    Should Be Equal As Strings    ${result}    Enabled
 
 MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state
@@ -58,8 +58,8 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Not Contain    ${out}    00:16.0
+    ${result}=    Check ME State
+    Should Be Equal As Strings    ${result}    Disabled (Soft)
 
 MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state
@@ -69,8 +69,8 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Not Contain    ${out}    00:16.0
+    ${result}=    Check ME State
+    Should Be Equal As Strings    ${result}    Disabled (HAP)
 
 MNE006.001 Check Intel ME version (Ubuntu)
     [Documentation]    This test aims to verify that the Intel ME version might
