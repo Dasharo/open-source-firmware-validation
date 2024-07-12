@@ -89,7 +89,7 @@ create_iso_image() {
 
     dd if=/dev/zero of=image.img bs=1M count=8 > /dev/null 2>&1
     error_check "Cannot create empty image file to store created certs and efi files"
-    mkfs.fat -F 12 image.img -n $IMAGELABEL > /dev/null 2>&1
+    sudo mkfs.fat -F 12 image.img -n $IMAGELABEL > /dev/null 2>&1
     error_check "Cannot assign label: $IMAGELABEL"
 }
 
