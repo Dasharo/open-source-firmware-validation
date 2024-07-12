@@ -25,6 +25,7 @@ ${DMIDECODE_TYPE}=                          Desktop
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
+${TESTS_IN_METATB_SUPPORT}=                 ${TRUE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=           ${TRUE}
@@ -73,6 +74,9 @@ ${SERIAL_BOOT_MEASURE}=                     ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                   ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                 ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=             ${TRUE}
+
+# Test module: trenchboot
+${TRENCHBOOT_SUPPORT}=                      ${TRUE}
 
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
 
