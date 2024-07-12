@@ -14,6 +14,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
+Resource            me-keyword.resource
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -35,5 +36,4 @@ MES001.001 Check if ME is statically disabled
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    Run Process    /usr/sbin/setpci    -s    16.0    40.L
-    Should Not Be Equal As Strings    ${out.stdout}[3]    0
+    Check If ME Is Disabled

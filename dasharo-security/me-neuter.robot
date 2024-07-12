@@ -14,6 +14,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
+Resource            me-keyword.resource
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -49,8 +50,7 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    Run Process    /usr/sbin/setpci    -s    16.0    40.L
-    Should Not Be Equal As Strings    ${out.stdout}[3]    0
+    Check If ME Is Disabled
 
 MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state
@@ -60,8 +60,7 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    Run Process    /usr/sbin/setpci    -s    16.0    40.L
-    Should Not Be Equal As Strings    ${out.stdout}[3]    0
+    Check If ME Is Disabled
 
 MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state
@@ -71,8 +70,7 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    Run Process    /usr/sbin/setpci    -s    16.0    40.L
-    Should Not Be Equal As Strings    ${out.stdout}[3]    0
+    Check If ME Is Disabled
 
 MNE006.001 Check Intel ME version (Ubuntu)
     [Documentation]    This test aims to verify that the Intel ME version might
