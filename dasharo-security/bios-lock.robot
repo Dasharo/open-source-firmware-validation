@@ -33,7 +33,8 @@ BLS001.001 BIOS lock support (Ubuntu)
     ...    after turning on the mechanism, the BIOS region should be correctly
     ...    recognized during attempt to overwrite it by using flashrom tool.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.001 not supported
-    Set UEFI Option    LockBios    Enabled
+    # The option to enable Lock is "Checked" when "Disabled" is given
+    Set UEFI Option    LockBios    Disabled
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -48,7 +49,8 @@ BLS002.001 BIOS lock support deactivation (Ubuntu)
     ...    turning off the mechanism, the BIOS region overwriting operation is
     ...    available again.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.001 not supported
-    Set UEFI Option    LockBios    Disabled
+    # The option to enable Lock is "Unchecked" when "Enabled" is given
+    Set UEFI Option    LockBios    Enabled
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
