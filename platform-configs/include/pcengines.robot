@@ -42,6 +42,7 @@ ${DMIDECODE_TYPE}=                          Desktop
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
+${TESTS_IN_METATB_SUPPORT}=                 ${TRUE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=           ${TRUE}
@@ -98,6 +99,9 @@ ${PLATFORM_STABILITY_CHECKING}=             ${TRUE}
 # Test module: dasharo-stab
 ${TPM_DETECT_SUPPORT}=                      ${TRUE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=    ${TRUE}
+
+# Test module: trenchboot
+${TRENCHBOOT_SUPPORT}=                      ${TRUE}
 
 
 *** Keywords ***

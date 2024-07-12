@@ -76,6 +76,7 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
+${TESTS_IN_METATB_SUPPORT}=                         ${FALSE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
@@ -212,6 +213,9 @@ ${TPM_DETECT_SUPPORT}=                              ${FALSE}
 ${NVME_DETECTION_SUPPORT}=                          ${FALSE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${FALSE}
+
+# Test module: trenchboot
+${TRENCHBOOT_SUPPORT}=                              ${FALSE}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases
