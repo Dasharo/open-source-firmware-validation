@@ -3,7 +3,7 @@
 # across installations. At least hostname has been defined, and
 # username and hostname variables are used in the prompts. Before,
 # we needed to change them in prompts as well.
-${UBUNTU_USERNAME}=         user
+${UBUNTU_USERNAME}=         ubuntu
 ${UBUNTU_PASSWORD}=         ubuntu
 ${UBUNTU_HOSTNAME}=         ubuntu-V54x-6x-TU
 
