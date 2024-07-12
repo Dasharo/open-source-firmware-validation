@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/tpm.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -40,18 +41,7 @@ MBO001.001 Measured Boot support
 MBO002.001 Check if event log PCRs match actual values
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
-    ${tpm2_eventlog}=    Execute Command In Terminal
-    ...    tpm2_eventlog /sys/kernel/security/tpm0/binary_bios_measurements
-    Should Not Contain    ${tpm2_eventlog}    ERROR: Unable to run tpm2_eventlog
-    FOR    ${algo}    IN    sha1    sha256
-        ${eventlog_pcrs}=    Get PCRs From Eventlog    ${tpm2_eventlog}    ${algo}
-        FOR    ${pcr_element}    IN    @{eventlog_pcrs}
-            ${pcr}    ${hash}=    Split String    ${pcr_element}    separator=:
-            ${sha_hash}=    Execute Command In Terminal
-            ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}
-            Should Contain    ${hash}    ${sha_hash}    ignore_case=${TRUE}
-        END
-    END
+    Validate PCRs Against Event Log    /sys/kernel/security/tpm0/binary_bios_measurements
 
 MBO003.001 Changing Secure Boot certificate changes only PCR-7
     [Documentation]    Check if changes to Secure Boot certificates influence
@@ -64,7 +54,7 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
     Save Changes And Reset
 
     Boot Ubuntu And Login To Root
-    ${default_hashes}=    Get PCRs State From Linux
+    ${default_hashes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -95,7 +85,7 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    Tests in Dasharo Networking Menu are not supported
     Power On
     Boot Ubuntu And Login To Root
-    @{hashes_before_changes}=    Get PCRs State From Linux
+    @{hashes_before_changes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -124,7 +114,7 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Skip If    not ${USB_MASS_STORAGE_SUPPORT}    Tests in Dasharo USB Menu are not supported
     Power On
     Boot Ubuntu And Login To Root
-    @{hashes_before_changes}=    Get PCRs State From Linux
+    @{hashes_before_changes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -153,7 +143,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    Tests in Dasharo APU Menu are not supported
     Power On
     Boot Ubuntu And Login To Root
-    @{hashes_before_changes}=    Get PCRs State From Linux
+    @{hashes_before_changes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -185,12 +175,12 @@ MBO005.001 Flashing firmware and reset to defaults results in same measurement
 
     Power Cycle On
     Boot Ubuntu And Login To Root
-    ${default_pcr_state}=    Get PCRs State From Linux
+    ${default_pcr_state}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
     Restore SB And Tianocore Defaults And Reset
 
     Boot Ubuntu And Login To Root
-    ${reset_pcr_state}=    Get PCRs State From Linux
+    ${reset_pcr_state}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
     Lists Should Be Equal    ${default_pcr_state}    ${reset_pcr_state}
 
 MBO005.002 Multiple reset to defaults results in identical measurements
@@ -280,39 +270,6 @@ MBO006.002 Identical configuration after reset results in identical measurements
 
 
 *** Keywords ***
-Get PCRs From Eventlog
-    [Documentation]    Returns PCRs from Eventlog as a list of strings:
-    ...    ["<pcr>:<hash>"] with spaces removed
-    [Arguments]    ${eventlog}    ${sha}
-    @{eventlog}=    Split To Lines    ${eventlog}
-    ${sha_index_start}=    Get Index From List Regexp
-    ...    ${eventlog}    ${sha}:
-    Run Keyword And Return If    ${sha_index_start} == -1    Create List
-    ${sha_index_start}=    Evaluate    ${sha_index_start} + 1
-    ${sha_index_end}=    Get Index From List Regexp
-    ...    ${eventlog}    sha[0-9]+:    start=${sha_index_start}
-    IF    ${sha_index_end} == -1
-        ${sha_index_end}=    Set Variable    ${NONE}
-    END
-    ${pcrs}=    Get Slice From List
-    ...    ${eventlog}    ${sha_index_start}    ${sha_index_end}
-    FOR    ${index}    ${element}    IN ENUMERATE    @{pcrs}
-        ${stripped_element}=    Remove String    ${element}    ${SPACE}
-        Set List Value    ${pcrs}    ${index}    ${stripped_element}
-    END
-    RETURN    ${pcrs}
-
-Get Index From List Regexp
-    [Documentation]    Same as "Get Index From List" but with regexp
-    [Arguments]    ${list}    ${regexp}    ${start}=0    ${end}=None
-    ${list}=    Get Slice From List    ${list}    ${start}    ${end}
-    FOR    ${index}    ${element}    IN ENUMERATE    @{list}    start=${start}
-        ${found}=    Run Keyword And Return Status
-        ...    Should Match Regexp    ${element}    ${regexp}
-        IF    ${found} == ${TRUE}    RETURN    ${index}
-    END
-    RETURN    -1
-
 Get Default PCRs State
     [Documentation]    First time this keyword is called it resets platform
     ...    configuration to default and then returns PCRs values. Next call
@@ -322,24 +279,10 @@ Get Default PCRs State
     IF    ${default_pcr_state} is ${NONE}
         Restore SB And Tianocore Defaults And Reset
         Boot Ubuntu And Login To Root
-        ${default_pcr_state}=    Get PCRs State From Linux
+        ${default_pcr_state}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
         Set Suite Variable    $DEFAULT_PCR_STATE_SUITE    ${default_pcr_state}
     END
     RETURN    ${default_pcr_state}
-
-Get PCRs State From Linux
-    [Documentation]    Returns list of strings containing
-    ...    ["<path_to_pcr>:<hash>"]. Should be called when logged in Linux
-    [Arguments]    ${pcr_glob}=${PCRS_TO_CHECK}
-    Execute Command In Terminal    shopt -s extglob
-    # grep returns file path and it's content i.e.
-    # "/sys/class/tpm/tpm0/pcr-sha1/0:", each in
-    # new line
-    ${hashes}=    Execute Command In Terminal
-    ...    grep -H . /sys/class/tpm/tpm0/pcr-sha*/@(${pcr_glob})
-    Should Not Contain    ${hashes}    No such file or directory
-    ${pcr_state}=    Split To Lines    ${hashes}
-    RETURN    ${pcr_state}
 
 Boot Ubuntu And Login To Root
     [Documentation]    Boots Ubuntu and logins as root
