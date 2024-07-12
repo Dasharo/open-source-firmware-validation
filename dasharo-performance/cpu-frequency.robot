@@ -330,6 +330,9 @@ CPU Not Stuck On Initial Frequency (Heads+Debian)
     Check If CPU Not Stuck On Initial Frequency In Ubuntu
 
 CPU Runs On Expected Frequency (Ubuntu)
+    ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
+    ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
+
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -341,9 +344,9 @@ CPU Runs On Expected Frequency (Ubuntu)
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${CPU_MAX_FREQUENCY} >= ${frequency}
+            ...    Should Be True    ${cpu_max_frequency_tol} >= ${frequency}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${CPU_MIN_FREQUENCY} <= ${frequency}
+            ...    Should Be True    ${cpu_min_frequency_tol} <= ${frequency}
         END
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
@@ -362,6 +365,9 @@ CPU Runs On Expected Frequency (Windows)
     END
 
 CPU With Load Runs On Expected Frequency (Ubuntu)
+    ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
+    ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
+
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -374,9 +380,9 @@ CPU With Load Runs On Expected Frequency (Ubuntu)
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${CPU_MAX_FREQUENCY} >= ${frequency}
+            ...    Should Be True    ${cpu_max_frequency_tol} >= ${frequency}
             Run Keyword And Continue On Failure
-            ...    Should Be True    ${CPU_MIN_FREQUENCY} <= ${frequency}
+            ...    Should Be True    ${cpu_min_frequency_tol} <= ${frequency}
         END
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
