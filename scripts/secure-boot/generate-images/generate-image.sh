@@ -153,19 +153,21 @@ sign_img_and_create_iso() {
     # copy all things to the image
     udisksctl loop-setup -f image.img
     error_check "Cannot run udisksctl to create iso"
-    while [ ! -d "/run/media/$(whoami)/$IMAGELABEL" ]; do
+    MOUNT_POINT=$(mount | grep $IMAGELABEL | awk '{print $3}')
+    while [ ! -d "$MOUNT_POINT" ]; do
         echo "Mounting $IMAGELABEL..."
         sleep 0.2
+        MOUNT_POINT=$(mount | grep $IMAGELABEL | awk '{print $3}')
     done
     # copy everything to the image (except for the image itself)
     for file in *; do
 
         if [ "$file" != "image.img" ]; then
-            cp $file "/run/media/$(whoami)/$IMAGELABEL/"
+            cp $file "$MOUNT_POINT/"
         fi
 
     done
-    umount "/run/media/$(whoami)/$IMAGELABEL"
+    umount "$MOUNT_POINT"
     # now the image is ready, all we have to do is copy it to the desired location
     IMAGENAME=$TESTNAME$CRYP_ALG
     cp -f image.img "$SCRIPTDIR"/../images/$IMAGENAME.img
