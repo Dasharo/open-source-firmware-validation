@@ -337,12 +337,11 @@ CPU Runs On Expected Frequency (Ubuntu)
     Login To Linux
     Switch To Root User
     ${timer}=    Convert To Integer    0
+    ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
+    ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        @{frequencies}=    Get CPU Frequencies In Ubuntu
-        ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
-        ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
@@ -373,11 +372,11 @@ CPU With Load Runs On Expected Frequency (Ubuntu)
     Switch To Root User
     Stress Test    ${FREQUENCY_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
+    ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
+    ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
-        ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
         @{frequencies}=    Get CPU Frequencies In Ubuntu
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
