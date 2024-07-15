@@ -113,12 +113,18 @@ pip install -r requirements.txt
 ```
 
 * If you initialize the environment and try to run the environment again you
-  just need to use only this command:
+    need to install requirements.txt:
 
 ```bash
 python3 -m virtualenv venv
 source venv/bin/activate
 pip install -r ./requirements.txt
+```
+
+Or just create an alias:
+
+```bash
+alias penv="python3 -m virtualenv venv && source venv/bin/activate && pip install -r ./requirements.txt"
 ```
 
 > NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
