@@ -124,3 +124,30 @@ Measure Average Reboot Time
     END
     ${average}=    Evaluate    ${average}/${iterations}
     RETURN    ${average}
+
+Make Sure That Flash Locks Are Disabled
+    [Documentation]    Keyword makes sure firmware flashing is not prevented by
+    ...    any Dasharo Security Options, if they are present.
+    IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${index}=    Get Index Of Matching Option In Menu
+    ...    ${dasharo_menu}    Dasharo Security Options
+    IF    ${index} != -1
+        ${security_menu}=    Enter Dasharo Submenu
+        ...    ${dasharo_menu}    Dasharo Security Options
+        ${index}=    Get Index Of Matching Option In Menu
+        ...    ${security_menu}    Lock the BIOS boot medium    ${TRUE}
+        IF    ${index} != -1
+            Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
+            Reenter Menu
+        END
+        ${index}=    Get Index Of Matching Option In Menu
+        ...    ${security_menu}    Enable SMM BIOS write    ${TRUE}
+        IF    ${index} != -1
+            Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
+            Reenter Menu
+        END
+        Save Changes And Reset
+    END

@@ -134,3 +134,14 @@ Convert Option Value Argument
         IF    "${value}"=="${FALSE}"    RETURN    Disabled
     END
     RETURN    ${value}
+
+Make Sure That Flash Locks Are Disabled
+    [Documentation]    Keyword makes sure firmware flashing is not prevented by
+    ...    any Dasharo Security Options, if they are present.
+    IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
+    Power On
+    Login To Linux
+    Switch To Root User
+    Get Flashrom From Cloud
+    ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
+    Should Not Contain    ${out_flashrom}    read-only
