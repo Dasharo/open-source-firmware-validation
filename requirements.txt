@@ -22,7 +22,7 @@ MarkupSafe==2.1.5
 mdurl==0.1.2
 nodeenv==1.8.0
 oauth2client==4.1.3
-osfv @ git+https://github.com/Dasharo/osfv-scripts.git@d45acd2253d90833ec08efb3845ea172e3b00d67#subdirectory=osfv_cli
+osfv @ git+https://github.com/Dasharo/osfv-scripts.git@5352d0e4e31f0d46a21148fca5e4d78f0a51995d#subdirectory=osfv_cli
 paramiko==3.4.0
 pathspec==0.9.0
 pexpect==4.9.0
