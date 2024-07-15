@@ -112,8 +112,8 @@ pip install -U -r requirements-openbmc.txt
 pip install -r requirements.txt
 ```
 
-* If you initialize the environment and try to run the environment again you
-    need to install requirements.txt:
+* If you try to run the environment again after the first initialization
+  you must reinstall requirements.txt for it to work properly:
 
 ```bash
 python3 -m virtualenv venv
@@ -121,7 +121,7 @@ source venv/bin/activate
 pip install -r ./requirements.txt
 ```
 
-Or just create an alias:
+* Or just create an alias:
 
 ```bash
 alias penv="python3 -m virtualenv venv && source venv/bin/activate && pip install -r ./requirements.txt"
