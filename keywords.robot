@@ -227,7 +227,8 @@ Open Connection And Log In
     END
     Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
     IF    '${SNIPEIT}'=='no'    RETURN
-    SnipeIt Checkout    ${RTE_IP}
+    ${already_checked_out_manually}=    SnipeIt Checkout    ${RTE_IP}
+    Set Global Variable    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}    ${already_checked_out_manually}
 
 Check Provided Ip
     [Documentation]    Check the correctness of the provided ip address, if the
@@ -257,7 +258,15 @@ Log Out And Close Connection
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
     IF    '${PLATFORM}'=='raptor-cs_talos2'    RETURN
-    IF    '${SNIPEIT}'=='yes'    SnipeIt Checkin    ${RTE_IP}
+    IF    '${SNIPEIT}'=='no'    RETURN
+    IF    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY} == ${TRUE}
+        Log To Console
+        ...    Since the asset has been checkout manually by you prior running this script, it will NOT be checked in automatically. Please return the device when work is finished.
+    ELSE
+        Log To Console
+        ...    The asset has been checked out automatically. It is now automatically checked in as well. If you want to keep using it, reserve it manually first.
+        SnipeIt Checkin    ${RTE_IP}
+    END
 
 Enter Petitboot And Return Menu
     [Documentation]    Keyword allows to enter the petitboot menu and returns
@@ -580,7 +589,6 @@ Prepare To SSH Connection
     Set Global Variable    ${PLATFORM}    ${CONFIG}
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN
-    SnipeIt Checkout    ${RTE_IP}
 
 Prepare To Serial Connection
     [Documentation]    Keyword prepares Test Suite by opening SSH connection to
