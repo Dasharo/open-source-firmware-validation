@@ -40,7 +40,7 @@ EBM001.001 Network Boot enable
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
-    Set UEFI Option    NetworkBoot    Enabled
+    Set UEFI Option    NetworkBoot    ${TRUE}
     Login To Linux
     Switch To Root User
 
@@ -55,7 +55,7 @@ EBM002.001 Network Boot disable
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
-    Set UEFI Option    NetworkBoot    Disabled
+    Set UEFI Option    NetworkBoot    ${FALSE}
     Login To Linux
     Switch To Root User
 

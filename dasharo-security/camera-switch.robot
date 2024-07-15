@@ -30,7 +30,7 @@ Suite Teardown      Run Keyword
 CHS001.001 Check camera enablement
     [Documentation]    This test makes sure that camera enable option
     ...    is set, hence the camera works properly
-    Set UEFI Option    EnableCamera    Enabled
+    Set UEFI Option    EnableCamera    ${TRUE}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    usbutils
@@ -40,7 +40,7 @@ CHS001.001 Check camera enablement
 CHS002.001 Check camera disablement
     [Documentation]    This test makes sure that camera enable option
     ...    is not set, hence the camera is not detected by operating system
-    Set UEFI Option    EnableCamera    Disabled
+    Set UEFI Option    EnableCamera    ${FALSE}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    usbutils

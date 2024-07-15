@@ -32,7 +32,7 @@ NBA001.001 Enable Network Boot (firmware)
     ...    will appear.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA001.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
-    Set UEFI Option    NetworkBoot    Enabled
+    Set UEFI Option    NetworkBoot    ${TRUE}
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -44,7 +44,7 @@ NBA002.001 Disable Network Boot (firmware)
     ...    will be hidden.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA002.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
-    Set UEFI Option    NetworkBoot    Disabled
+    Set UEFI Option    NetworkBoot    ${FALSE}
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
