@@ -26,60 +26,42 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-BPS001.001 Power Control
-    [Documentation]    This test verifies if the power control
-    ...    works, depending on the power control method
-#    IF    '${POWER_CTRL}' == 'RteCtrl'
-#        IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-#        Sleep    2s
-#        RteCtrl Power Off
-#        Sleep    10s
-#        Telnet.Read
-#        RteCtrl Power On
-
-#    ELSE IF    '${POWER_CTRL}' == 'sonoff'
-#        IF    "${POWER_CTRL}"=="none"    RETURN
-#        Restore Initial DUT Connection Method
-#        Power Cycle On
-#        Sleep    2s
-#        RteCtrl Set OC GPIO    12    low
-#        Sleep    1s
-#        RteCtrl Set OC GPIO    12    high-z
-
-#    ELSE IF    '${POWER_CTRL}' == 'obmcutil'
-#        Variable Should Exist    ${OPENBMC_HOST}
-#        Set Global Variable    ${AUTH_URI}    https://${OPENBMC_HOST}${AUTH_SUFFIX}
-#        ${host_state}=    Get Host State
-#        IF    '${host_state}' != 'Off'    Initiate Host PowerOff
-#        ${host_state}=    Get Host State
-#        Should Be True    '${host_state}' == 'Off'
-#        Read From Terminal
-#        Initiate Host Boot    0
-#
-#    ELSE
-#        FAIL    Unknown Power Control Method
-#    END
-
+BPS001.001 Power Control - Power On and Serial output
+    [Documentation]    Verifies if the DUT can be turned On and if the serial output can be read.
     Power On
+    Sleep    60s
+    ${out}=    Read From Terminal
+    Should Not Be Empty    ${out}
+
+BPS001.002 Power Control - Power Off
+    [Documentation]    This test verifies if the DUT can be powered down.
+    Power On
+    Sleep    60s
+    ${out}=    Read From Terminal
+    Should Not Be Empty    ${out}
+    Power Cycle Off
     Sleep    30s
-    IF    '${SETUP_MENU_KEY}' == '${DELETE}'
-        ${option}    Set Variable    DEL
-    ELSE IF    '${SETUP_MENU_KEY}' == '${F2}'
-        ${option}    Set Variable    F2
-    ELSE
-        ${option}    Set Variable    Boot
-    END
+    ${out}=    Read From Terminal
+    Should Be Empty    ${out}
 
-    ${out}=    Read From Terminal Until    ${option}    
-
-BPS002.001 Serial
-    [Documentation]
+BPS002.001 Boot to OS - Ubuntu
+    [Documentation]    This test verifies if platform can be booted to Ubunto and if correct credentials are set.
     Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+
+BPS002.002 Boot to OS - Windows
+    [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
+    Power On
+    Login To Windows
 
 BPS003.001 External flashing
-    [Documentation]
+    [Documentation]    This test verifies if flashrom can detect the die.
     Power On
-
-BPS004.001 Boot to OS
-    [Documentation]
-    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Get Flashrom From Cloud
+    ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
+    Should Contain    ${out_flashrom}    Found chipset
