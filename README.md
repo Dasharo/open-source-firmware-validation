@@ -116,7 +116,9 @@ pip install -r requirements.txt
   just need to use only this command:
 
 ```bash
+python3 -m virtualenv venv
 source venv/bin/activate
+pip install -r ./requirements.txt
 ```
 
 > NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
