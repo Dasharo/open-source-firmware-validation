@@ -24,7 +24,7 @@ Suite Teardown      Run Keyword
 
 
 *** Variables ***
-${PCRS_TO_CHECK}=       [0-9]|14
+${PCRS_TO_CHECK}=       [0-79]|14
 
 
 *** Test Cases ***
