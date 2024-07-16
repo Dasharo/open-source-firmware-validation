@@ -5,7 +5,7 @@ TEMP_DIR=$(mktemp -d)
 cat keywords.robot > "$TEMP_DIR/all-keywords.robot"
 find lib -name "*.robot" -exec cat {} + >> "$TEMP_DIR/all-keywords.robot"
 
-python3 robot-venv/bin/libdoc "$TEMP_DIR/all-keywords.robot" "$TEMP_DIR/all-keywords.html" >/dev/null 2>&1
+libdoc "$TEMP_DIR/all-keywords.robot" "$TEMP_DIR/all-keywords.html" >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
   echo "libdoc command failed"

@@ -23,9 +23,6 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Activate virtual environment
-      run: cd ${GITHUB_WORKSPACE}/ && source robot-venv/bin/activate
-
     - name: Generate documentation
       run: cd ${GITHUB_WORKSPACE}/ && bash scripts/create-docs.sh
 
