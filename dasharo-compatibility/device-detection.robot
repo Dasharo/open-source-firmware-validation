@@ -32,37 +32,37 @@ Suite Teardown      Run Keywords
 
 *** Test Cases ***
 DDET001.001 USB Stack disable
-   [Documentation]    Test disabling the USB stack
+    [Documentation]    Test disabling the USB stack
 
-   Login To Linux With Root Privileges
-   Set UEFI Option    UsbDriverStack    Disabled
+    Login To Linux With Root Privileges
+    Set UEFI Option    UsbDriverStack    Disabled
 
-   Execute Reboot Command
-   Sleep    10s
+    Execute Reboot Command
+    Sleep    10s
 
-   Set DUT Response Timeout    30s
-   Login To Linux With Root Privileges
-   ${out}=    Execute Command In Terminal
-   ...    cbmem -1 | grep "UsbBusStart:"
+    Set DUT Response Timeout    30s
+    Login To Linux With Root Privileges
+    ${out}=    Execute Command In Terminal
+    ...    cbmem -1 | grep "UsbBusStart:"
 
-   Should Not Contain    ${out}    usb bus started
-   ...    ignore_case=True
+    Should Not Contain    ${out}    usb bus started
+    ...    ignore_case=True
 
 DDET002.001 USB Stack enable
-   [Documentation]    Test enabling the USB stack
+    [Documentation]    Test enabling the USB stack
 
-   Login To Linux With Root Privileges
-   Set UEFI Option    UsbDriverStack    Enabled
-   Execute Reboot Command
-   Sleep    10s
+    Login To Linux With Root Privileges
+    Set UEFI Option    UsbDriverStack    Enabled
+    Execute Reboot Command
+    Sleep    10s
 
-   Set DUT Response Timeout    30s
-   Login To Linux With Root Privileges
-   ${out}=    Execute Command In Terminal
-   ...    cbmem -1 | grep "UsbBusStart"
+    Set DUT Response Timeout    30s
+    Login To Linux With Root Privileges
+    ${out}=    Execute Command In Terminal
+    ...    cbmem -1 | grep "UsbBusStart"
 
-   Should Contain    ${out}    usb bus started
-   ...    ignore_case=True
+    Should Contain    ${out}    usb bus started
+    ...    ignore_case=True
 
 DDET003.001 Usb Devices Detected In Firmware Warmboot
     [Documentation]    Test if USB devices are detected after a warmboot
