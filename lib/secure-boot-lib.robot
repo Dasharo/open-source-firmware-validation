@@ -221,8 +221,8 @@ Select File In File Explorer
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Enter UEFI Shell
-    [Documentation]    Boots given .efi file from UEFI shell.
-    ...    Assumes that it is located on FS0.
+    [Documentation]    Boots into UEFI Shell. Should be called after Power On or
+    ...    reboot
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
