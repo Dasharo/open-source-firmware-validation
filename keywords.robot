@@ -608,7 +608,6 @@ Prepare To Serial Connection
     Get DUT To Start State
     # the following TRY/EXCEPT exposes telnet connection error pre-emptively
     TRY
-        Telnet.Set Timeout    1
         Telnet.Read
     EXCEPT    EOFError: telnet connection closed
         ${err_msg}=    Catenate    SEPARATOR=\n
@@ -617,7 +616,6 @@ Prepare To Serial Connection
         ...    - stop minicom processes on RTE, restart ser2net service (systemctl restart ser2net)
         Fail    ${err_msg}
     END
-    Telnet.Set Timeout    300
 
 Prepare To OBMC Connection
     [Documentation]    Keyword prepares Test Suite by opening open-bmc
