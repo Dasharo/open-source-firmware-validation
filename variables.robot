@@ -84,7 +84,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE25}=                   ip=192.168.4.50    cpuid=02c00042e90c36f2
 ...                         platform=optiplex-9010
 ...                         platform_vendor=DELL    sonoff_ip=192.168.4.134
-&{RTE26}=                   ip=192.168.4.133    cpuid=02c0014296737c0d
+&{RTE26}=                   ip=192.168.4.133
 ...                         platform=talosII
 ...                         platform_vendor=Raptor Engineering, LLC    sonoff_ip=192.168.4.106
 &{RTE27}=                   ip=192.168.4.223    cpuid=02c00042921d288f
