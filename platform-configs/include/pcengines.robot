@@ -49,6 +49,7 @@ ${DASHARO_NETWORKING_MENU_SUPPORT}=         ${TRUE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
+${CPU_THROTTLING_SUPPORT}=                  ${TRUE}
 ${EC_AND_SUPER_IO_SUPPORT}=                 ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
 ${UEFI_SHELL_SUPPORT}=                      ${TRUE}

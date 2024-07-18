@@ -58,6 +58,7 @@ ${DASHARO_MEMORY_MENU_SUPPORT}=                 ${TRUE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=               ${TRUE}
+${CPU_THROTTLING_SUPPORT}=                      ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                         ${TRUE}
