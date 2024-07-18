@@ -153,7 +153,8 @@ BPS002.005 RTE Reset
         ${out}=    Read From Terminal
         IF    '${out_temp}' == '${out}'    BREAK
     END
-    Rte Reset    5
+    Rte Reset    ${5}
+    # RteCtrl Reset
     FOR    ${i}    IN RANGE    120
         ${out}=    Read From Terminal
         ${var}=    Check If Empty    ${out}
