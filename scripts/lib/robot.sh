@@ -34,7 +34,7 @@ execute_robot() {
   #   - path to directory containing a set of .robot files
   #   - path to a single .robot file
   local _test_path=$1
-  local _robot_args=${@:2}
+  local _robot_args=${*:2}
   local _test_name=""
   _test_name="$(basename ${_test_path%.robot})"
 
