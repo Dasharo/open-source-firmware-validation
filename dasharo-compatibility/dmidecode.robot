@@ -42,6 +42,7 @@ DMI001.001 Verify the device serial number
 DMI002.001 Verify the firmware version
     [Documentation]    Check whether the firmware version on the DUT is the
     ...    same as it is expected.
+    [Tags]    minimal-regression
     Skip If    not ${FIRMWARE_NUMBER_VERIFICATION}    DMI002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DMI001.002 not supported
     Power On
@@ -57,6 +58,7 @@ DMI002.001 Verify the firmware version
 DMI003.001 Verify the firmware product name
     [Documentation]    Check whether the DUT product name is the same as it is
     ...    expected.
+    [Tags]    minimal-regression
     Skip If    not ${PRODUCT_NAME_VERIFICATION}    DMI003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DMI003.001 not supported
     Power On
