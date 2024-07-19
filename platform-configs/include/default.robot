@@ -1,4 +1,5 @@
 *** Settings ***
+Resource    ../../os-config/windows-credentials.robot
 Resource    ../../os-config/ubuntu-credentials.robot
 Resource    ../../lib/options/${OPTIONS_LIB}.robot
 
@@ -37,9 +38,9 @@ ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 ${OPTIONS_LIB}=                                     uefi-setup-menu
 
 # OS config
-${DEVICE_WINDOWS_USERNAME}=                         user
-${DEVICE_WINDOWS_PASSWORD}=                         windows
-${DEVICE_WINDOWS_USER_PROMPT}=                      PS C:\\Users\\user>
+${DEVICE_WINDOWS_USERNAME}=                         ${WINDOWS_USERNAME}
+${DEVICE_WINDOWS_PASSWORD}=                         ${WINDOWS_PASSWORD}
+${DEVICE_WINDOWS_USER_PROMPT}=                      ${WINDOWS_USER_PROMPT}
 
 ${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
 ${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
