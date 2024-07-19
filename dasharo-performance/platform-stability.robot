@@ -120,6 +120,7 @@ STB001.003 Verify if no reboot occurs in the OS (Windows)
 STB002.001 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
+    [Tags]    minimal-regression
     Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.001 not supported
 
     Power On

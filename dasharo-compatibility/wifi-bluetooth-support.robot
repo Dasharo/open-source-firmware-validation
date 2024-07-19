@@ -65,6 +65,7 @@ WLE002.001 Wi-Fi scanning (Ubuntu)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system..
+    [Tags]    minimal-regression
     Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE002.001 not supported
     Log To Console    Remember to test all variants of wireless cards.

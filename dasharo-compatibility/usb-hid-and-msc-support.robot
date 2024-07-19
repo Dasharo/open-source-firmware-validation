@@ -63,6 +63,7 @@ USB002.001 USB keyboard detected in FW
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
+    [Tags]    minimal-regression
     Power On
     Enter UEFI Shell
     ${out}=    Execute UEFI Shell Command    devices

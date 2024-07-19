@@ -79,6 +79,7 @@ TPM002.001 Verify TPM version (firmware)
 TPM002.002 Verify TPM version (Ubuntu)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
+    [Tags]    minimal-regression
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
