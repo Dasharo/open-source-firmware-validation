@@ -30,72 +30,72 @@ handle_ctrl_c() {
 }
 
 execute_robot() {
-  # _test_path can be either
-  #   - path to directory containing a set of .robot files
-  #   - path to a single .robot file
-  local _test_path=$1
-  local _robot_args=${*:2}
-  local _test_name=""
-  _test_name="$(basename ${_test_path%.robot})"
+    # _test_path can be either
+    #   - path to directory containing a set of .robot files
+    #   - path to a single .robot file
+    local _test_path=$1
+    local _robot_args=${*:2}
+    local _test_name=""
+    _test_name="$(basename ${_test_path%.robot})"
 
-  # Check if the required environment variables are set
-  check_env_variable "RTE_IP"
-  check_env_variable "CONFIG"
+    # Check if the required environment variables are set
+    check_env_variable "RTE_IP"
+    check_env_variable "CONFIG"
 
-  # FW_FILE environment variable is optional for some tests
-  if [ -n "${FW_FILE}" ]; then
-      fw_file_option="-v fw_file:${FW_FILE}"
-  else
-      fw_file_option=""
-  fi
+    # FW_FILE environment variable is optional for some tests
+    if [ -n "${FW_FILE}" ]; then
+        fw_file_option="-v fw_file:${FW_FILE}"
+    else
+        fw_file_option=""
+    fi
 
-  # DEVICE_IP environment variable is optional for some tests/platforms
-  if [ -n "${DEVICE_IP}" ]; then
-      device_ip_option="-v device_ip:${DEVICE_IP}"
-  else
-      device_ip_option=""
-  fi
+    # DEVICE_IP environment variable is optional for some tests/platforms
+    if [ -n "${DEVICE_IP}" ]; then
+        device_ip_option="-v device_ip:${DEVICE_IP}"
+    else
+        device_ip_option=""
+    fi
 
-  extra_options=""
-  # By default use snipeit, if SNIPEIT_NO is not set
-  if [ -n "${SNIPEIT_NO}" ]; then
-      extra_options="-v snipeit:no"
-      if [ -n "${SONOFF_IP}" ]; then
-          extra_options="${extra_options} -v sonoff_ip:${SONOFF_IP}"
-      fi
-      if [ -n "${PIKVM_IP}" ]; then
-          extra_options="${extra_options} -v pikvm_ip:${PIKVM_IP}"
-      fi
-  fi
+    extra_options=""
+    # By default use snipeit, if SNIPEIT_NO is not set
+    if [ -n "${SNIPEIT_NO}" ]; then
+        extra_options="-v snipeit:no"
+        if [ -n "${SONOFF_IP}" ]; then
+            extra_options="${extra_options} -v sonoff_ip:${SONOFF_IP}"
+        fi
+        if [ -n "${PIKVM_IP}" ]; then
+            extra_options="${extra_options} -v pikvm_ip:${PIKVM_IP}"
+        fi
+    fi
 
-  # Needed only for test stations with different possible installed DUTs
-  if [ -n "${INSTALLED_DUT}" ]; then
-      installed_dut_option="-v installed_dut=${INSTALLED_DUT}"
-  else
-      installed_dut_option=""
-  fi
+    # Needed only for test stations with different possible installed DUTs
+    if [ -n "${INSTALLED_DUT}" ]; then
+        installed_dut_option="-v installed_dut=${INSTALLED_DUT}"
+    else
+        installed_dut_option=""
+    fi
 
-  local _logs_dir="logs/${CONFIG}/${RUN_DATE}"
-  local _log_file="${_logs_dir}/${_test_name}_log.html"
-  local _report_file="${_logs_dir}/${_test_name}_report.html"
-  local _output_file="${_logs_dir}/${_test_name}_out.xml"
-  local _debug_file="${_logs_dir}/${_test_name}_debug.log"
+    local _logs_dir="logs/${CONFIG}/${RUN_DATE}"
+    local _log_file="${_logs_dir}/${_test_name}_log.html"
+    local _report_file="${_logs_dir}/${_test_name}_report.html"
+    local _output_file="${_logs_dir}/${_test_name}_out.xml"
+    local _debug_file="${_logs_dir}/${_test_name}_debug.log"
 
-command="
-  robot -L TRACE \
-        -l ${_log_file} \
-        -r ${_report_file} \
-        -o ${_output_file} \
-        -b ${_debug_file} \
-        -v rte_ip:${RTE_IP} \
-        -v config:${CONFIG} \
-        ${device_ip_option} \
-        ${fw_file_option} \
-        ${installed_dut_option} \
-        ${extra_options} \
-        ${_robot_args} \
-        ${_test_path}
-        "
-    echo $command
-    eval $command
+    command="
+      robot -L TRACE \
+            -l ${_log_file} \
+            -r ${_report_file} \
+            -o ${_output_file} \
+            -b ${_debug_file} \
+            -v rte_ip:${RTE_IP} \
+            -v config:${CONFIG} \
+            ${device_ip_option} \
+            ${fw_file_option} \
+            ${installed_dut_option} \
+            ${extra_options} \
+            ${_robot_args} \
+            ${_test_path}
+            "
+      echo $command
+      eval $command
 }
