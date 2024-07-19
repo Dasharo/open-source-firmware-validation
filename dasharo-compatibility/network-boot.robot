@@ -67,6 +67,7 @@ PXE003.001 Autoboot option is available and works correctly
 PXE004.001 DTS option is available and works correctly
     [Documentation]    This test aims to verify that the Dasharo Tools Suite
     ...    option in Dasharo Network Boot Menu allows booting into DTS.
+    [Tags]    minimal-regression
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE004.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
