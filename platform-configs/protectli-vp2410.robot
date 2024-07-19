@@ -4,9 +4,9 @@ Resource    include/protectli-common.robot
 
 *** Variables ***
 ${FLASH_SIZE}=                          ${8*1024*1024}
-${WIFI_CARD}=                           ${EMPTY}
-${WIFI_CARD_UBUNTU}=                    ${EMPTY}
-${LTE_CARD}=                            ${EMPTY}
+${WIFI_CARD}=                           ${TBD}
+${WIFI_CARD_UBUNTU}=                    ${TBD}
+${LTE_CARD}=                            ${TBD}
 ${DEF_ONLINE_CPU}=                      0-3
 ${DEF_SOCKETS}=                         1
 ${INITIAL_CPU_FREQUENCY}=               2000
@@ -22,7 +22,7 @@ ${E_MMC_NAME}=                          8GTF4R
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v
 ${DMIDECODE_PRODUCT_NAME}=              VP2410
-${DMIDECODE_RELEASE_DATE}=              ${EMPTY}
+${DMIDECODE_RELEASE_DATE}=              ${TBD}
 ${DMIDECODE_MANUFACTURER}=              Protectli
 ${DMIDECODE_VENDOR}=                    3mdeb
 ${DMIDECODE_FAMILY}=                    Vault Pro

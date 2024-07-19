@@ -1,23 +1,23 @@
 *** Variables ***
 ${DUT_CONNECTION_METHOD}=                           Telnet
-${PAYLOAD}=                                         ${EMPTY}
+${PAYLOAD}=                                         ${TBD}
 ${RTE_S2_N_PORT}=                                   13541
-${FLASH_SIZE}=                                      ${EMPTY}
-${FLASH_LENGTH}=                                    ${EMPTY}
-${TIANOCORE_STRING}=                                ${EMPTY}
-${BOOT_MENU_KEY}=                                   ${EMPTY}
-${SETUP_MENU_KEY}=                                  ${EMPTY}
-${BOOT_MENU_STRING}=                                ${EMPTY}
-${SETUP_MENU_STRING}=                               ${EMPTY}
-${IPXE_BOOT_ENTRY}=                                 ${EMPTY}
-${EDK2_IPXE_CHECKPOINT}=                            ${EMPTY}
-${MANUFACTURER}=                                    ${EMPTY}
-${CPU}=                                             ${EMPTY}
+${FLASH_SIZE}=                                      ${TBD}
+${FLASH_LENGTH}=                                    ${TBD}
+${TIANOCORE_STRING}=                                ${TBD}
+${BOOT_MENU_KEY}=                                   ${TBD}
+${SETUP_MENU_KEY}=                                  ${TBD}
+${BOOT_MENU_STRING}=                                ${TBD}
+${SETUP_MENU_STRING}=                               ${TBD}
+${IPXE_BOOT_ENTRY}=                                 ${TBD}
+${EDK2_IPXE_CHECKPOINT}=                            ${TBD}
+${MANUFACTURER}=                                    ${TBD}
+${CPU}=                                             ${TBD}
 ${POWER_CTRL}=                                      sonoff
 ${FLASH_VERIFY_METHOD}=                             none
-${WIFI_CARD}=                                       ${EMPTY}
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
-${LTE_CARD}=                                        ${EMPTY}
+${WIFI_CARD}=                                       ${TBD}
+${WIFI_CARD_UBUNTU}=                                ${TBD}
+${LTE_CARD}=                                        ${TBD}
 # ${ecc_string}    Single-bit ECC
 # ${IOMMU_string}    (XEN) AMD-Vi: IOMMU 0 Enable
 # ${dram_size}    ${4096}
@@ -31,19 +31,19 @@ ${LTE_CARD}=                                        ${EMPTY}
 # ${nic_number}    ${4}
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
-${DEVICE_USB_KEYBOARD}=                             ${EMPTY}
-${DEVICE_NVME_DISK}=                                ${EMPTY}
-${DEVICE_AUDIO1}=                                   ${EMPTY}
-${DEVICE_AUDIO2}=                                   ${EMPTY}
-${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
-${INITIAL_CPU_FREQUENCY}=                           ${EMPTY}
+${DEVICE_USB_KEYBOARD}=                             ${TBD}
+${DEVICE_NVME_DISK}=                                ${TBD}
+${DEVICE_AUDIO1}=                                   ${TBD}
+${DEVICE_AUDIO2}=                                   ${TBD}
+${DEVICE_AUDIO1_WIN}=                               ${TBD}
+${INITIAL_CPU_FREQUENCY}=                           ${TBD}
 
 # SD Wire config
 ${SD_WIRES_CONNECTED}=                              ${1}
 ${SD_WIRE_SERIAL1}=                                 sd-wire_01-80
 
 # eMMC driver support
-${E_MMC_NAME}=                                      ${EMPTY}
+${E_MMC_NAME}=                                      ${TBD}
 
 # Platform flashing flags
 
