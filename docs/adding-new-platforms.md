@@ -37,7 +37,7 @@ automatically generated variables as another input to the cases described below.
     + Create a new configuration of RTE, if you are using one, e.g.:
 
         ```robot
-        &{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea
+        &{RTE11}=                   ip=192.168.10.174
         ...                         platform=apu4    platform_vendor=PC Engines
         ```
 
