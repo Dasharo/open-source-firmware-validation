@@ -11,7 +11,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-added-large-files
       - id: check-merge-conflict
@@ -22,25 +22,25 @@ repos:
       - id: mixed-line-ending
 
   - repo: https://github.com/talos-systems/conform
-    rev: v0.1.0-alpha.27
+    rev: v0.1.0-alpha.30
     hooks:
       - id: conform
         stages:
           - commit-msg
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.38.0
+    rev: v0.41.0
     hooks:
       - id: markdownlint
       - id: markdownlint-fix
 
   - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.9.0
+    rev: v0.10.0
     hooks:
     -   id: shellcheck
         args: ["--severity=warning"]
@@ -52,17 +52,17 @@ repos:
         name: isort (python)
 
   - repo: https://github.com/psf/black
-    rev: 23.12.1
+    rev: 24.4.2
     hooks:
     - id: black
 
   - repo: https://github.com/MarketSquare/robotframework-tidy
-    rev: 4.8.1
+    rev: 4.13.0
     hooks:
       - id: robotidy
 
   - repo: https://github.com/MarketSquare/robotframework-robocop
-    rev: 5.0.1
+    rev: 5.3.0
     hooks:
       - id: robocop
 
