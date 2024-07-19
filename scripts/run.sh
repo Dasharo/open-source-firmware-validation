@@ -27,4 +27,4 @@ if [ "$#" -eq 0 ] || [ ! -e "$1" ]; then
   exit 1
 fi
 
-execute_robot "$1"
+execute_robot "$1" "${@:2}"
