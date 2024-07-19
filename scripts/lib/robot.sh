@@ -34,6 +34,7 @@ execute_robot() {
   #   - path to directory containing a set of .robot files
   #   - path to a single .robot file
   local _test_path=$1
+  local _robot_args=${@:2}
   local _test_name=""
   _test_name="$(basename ${_test_path%.robot})"
 
@@ -80,6 +81,7 @@ execute_robot() {
   local _output_file="${_logs_dir}/${_test_name}_out.xml"
   local _debug_file="${_logs_dir}/${_test_name}_debug.log"
 
+command="
   robot -L TRACE \
         -l ${_log_file} \
         -r ${_report_file} \
@@ -91,5 +93,9 @@ execute_robot() {
         ${fw_file_option} \
         ${installed_dut_option} \
         ${extra_options} \
+        ${_robot_args} \
         ${_test_path}
+        "
+    echo $command
+    eval $command
 }
