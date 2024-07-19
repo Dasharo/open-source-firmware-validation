@@ -203,6 +203,9 @@ $TEST_MODULE
 Any additional parameters to `robot` can be passed using the wrapper by giving
 them as the second and further arguments to the script.
 
+Any additional parameters to `robot` can be passed using the wrapper by giving
+them as the second and further arguments to the script.
+
 ### Running tests via wrapper
 
 Test can be run directly via `robot` command, but also via the `run.sh`
@@ -212,21 +215,8 @@ wrapper:
 DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE
 ```
 
-Running tests without snipeit requires additional variables:
-
-```bash
-DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG SNIPEIT_NO="y" \
-SONOFF_IP=$SONOFF_IP PIKVM_IP=$PIKVM_IP
-./scripts/run.sh $TEST_SUITE
-```
-
-Mind that `SNIPEIT_NO`, only need to be set, meaning that whatever value it
-has, it will be treated as true.
-
 ### Running tests with additional arguments
-
 For example: specifying the tests to perform by giving a tag name:
-
 ```bash
 DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE --include "minimal-regression"
 ```
