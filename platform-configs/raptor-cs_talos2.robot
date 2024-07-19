@@ -15,7 +15,7 @@ ${OPEN_BMC_ROOT_PROMPT}=                            root@talos:~#
 ${FLASH_VERIFY_METHOD}=                             none
 ${POWER_CTRL}=                                      obmcutil
 
-${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${EMPTY}
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${TBD}
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 # Platform flashing flags

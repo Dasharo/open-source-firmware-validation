@@ -12,7 +12,7 @@ ${DEF_SOCKETS}=                 1
 
 ${POWER_CTRL}=                  sonoff
 ${WIFI_CARD_UBUNTU}=            Qualcomm Atheros QCA6174
-${LTE_CARD}=                    ${EMPTY}
+${LTE_CARD}=                    ${TBD}
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
 

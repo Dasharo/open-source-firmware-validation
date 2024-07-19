@@ -9,7 +9,7 @@ ${DUT_CONNECTION_METHOD}=                   ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                 tianocore
 ${RTE_S2_N_PORT}=                           13541
 ${FLASH_SIZE}=                              ${8*1024*1024}
-${FLASH_LENGTH}=                            ${EMPTY}
+${FLASH_LENGTH}=                            ${TBD}
 ${TIANOCORE_STRING}=                        ENTER
 ${BOOT_MENU_KEY}=                           ${F10}
 ${SETUP_MENU_KEY}=                          ${DELETE}
@@ -30,7 +30,7 @@ ${FLASH_VERIFY_METHOD}=                     tianocore-shell
 ${FLASH_VERIFY_OPTION}=                     UEFI Shell
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        6
 # TODO
-${MAX_CPU_TEMP}=                            ${EMPTY}
+${MAX_CPU_TEMP}=                            ${TBD}
 ${CPU_MIN_FREQUENCY}=                       300
 ${CPU_MAX_FREQUENCY}=                       1500
 ${DMIDECODE_MANUFACTURER}=                  PC Engines

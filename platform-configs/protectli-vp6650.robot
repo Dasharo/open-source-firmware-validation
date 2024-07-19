@@ -11,8 +11,8 @@ ${DEF_ONLINE_CPU}=              0-11
 ${DEF_SOCKETS}=                 1
 
 ${POWER_CTRL}=                  sonoff
-${WIFI_CARD_UBUNTU}=            ${EMPTY}
-${LTE_CARD}=                    ${EMPTY}
+${WIFI_CARD_UBUNTU}=            ${TBD}
+${LTE_CARD}=                    ${TBD}
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
 
