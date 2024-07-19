@@ -3,8 +3,8 @@ Resource    ../../os-config/windows-credentials.robot
 Resource    ../../os-config/ubuntu-credentials.robot
 Resource    ../../lib/options/${OPTIONS_LIB}.robot
 
-
 *** Variables ***
+${TBD}=                                             03626549a59abf648ee59163b3b8acbf66c36513cb1e76d6e277bc044c926e30
 ${INITIAL_DUT_CONNECTION_METHOD}=                   ${EMPTY}
 ${DUT_CONNECTION_METHOD}=                           ${EMPTY}
 ${PAYLOAD}=                                         tianocore
