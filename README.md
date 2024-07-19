@@ -216,7 +216,9 @@ DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE
 ```
 
 ### Running tests with additional arguments
+
 For example: specifying the tests to perform by giving a tag name:
+
 ```bash
 DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE --include "minimal-regression"
 ```
