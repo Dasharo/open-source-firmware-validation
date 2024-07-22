@@ -9,6 +9,14 @@ vary.
   the steps in
   [Adding new variant of an existing platform](#adding-new-variant-of-an-existing-platform)
 
+## Generating config variables
+
+To simplify filling in variables in config, you can use
+`scripts/get-robot-variables.sh` on the target device. Remember to fill in the
+hardware slots (such as WiFi) with the peripherals to be used during tests. It
+is assumed that this script is executed on the Ubuntu OS. You can use these
+automatically generated variables as another input to the cases described below.
+
 ## Adding a brand new platform
 
 - Create a new file for your mainboard in `platform-configs/`. For most
