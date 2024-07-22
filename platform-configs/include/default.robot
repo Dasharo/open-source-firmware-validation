@@ -4,7 +4,7 @@ Resource    ../../os-config/ubuntu-credentials.robot
 Resource    ../../lib/options/${OPTIONS_LIB}.robot
 
 *** Variables ***
-${TBD}=                                             03626549a59abf648ee59163b3b8acbf66c36513cb1e76d6e277bc044c926e30
+${TBD}=                                             TBD_variable_not_set_03626549a59abf648ee59163b3b8acbf66c36513cb1e76d6e277bc044c926e30
 ${INITIAL_DUT_CONNECTION_METHOD}=                   ${TBD}
 ${DUT_CONNECTION_METHOD}=                           ${TBD}
 ${PAYLOAD}=                                         tianocore
