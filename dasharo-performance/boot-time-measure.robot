@@ -80,7 +80,7 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     Log To Console    \nCoreboot shortest booting time: ${min} s\n
     Log To Console    \nCoreboot longest booting time: ${max} s\n
     Log To Console    \nCoreboot booting time std dev: ${stddev} s\n
-    
+
     Should Be True    ${average} < ${MAX_ACCEPTABLE_AVERAGE_REBOOT_TIME_S}
     Should Be True    ${max} < ${MAX_ACCEPTABLE_REBOOT_TIME_S}
     Should Be True    ${stddev} < ${MAX_ACCEPTABLE_REBOOT_TIME_STD_DEV_S}
