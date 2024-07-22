@@ -5,12 +5,12 @@ Resource    ../../lib/options/${OPTIONS_LIB}.robot
 
 *** Variables ***
 ${TBD}=                                             03626549a59abf648ee59163b3b8acbf66c36513cb1e76d6e277bc044c926e30
-${INITIAL_DUT_CONNECTION_METHOD}=                   ${EMPTY}
-${DUT_CONNECTION_METHOD}=                           ${EMPTY}
+${INITIAL_DUT_CONNECTION_METHOD}=                   ${TBD}
+${DUT_CONNECTION_METHOD}=                           ${TBD}
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   13541
-${FLASH_SIZE}=                                      ${EMPTY}
-${FLASH_LENGTH}=                                    ${EMPTY}
+${FLASH_SIZE}=                                      ${TBD}
+${FLASH_LENGTH}=                                    ${TBD}
 ${TIANOCORE_STRING}=                                to boot directly
 ${BOOT_MENU_KEY}=                                   F11
 ${SETUP_MENU_KEY}=                                  Delete
@@ -18,12 +18,12 @@ ${BOOT_MENU_STRING}=                                Please select boot device:
 ${SETUP_MENU_STRING}=                               Select Entry
 ${IPXE_BOOT_ENTRY}=                                 iPXE Network Boot
 ${EDK2_IPXE_CHECKPOINT}=                            iPXE Shell
-${MANUFACTURER}=                                    ${EMPTY}
-${CPU}=                                             ${EMPTY}
-${POWER_CTRL}=                                      ${EMPTY}
-${FLASH_VERIFY_METHOD}=                             ${EMPTY}
-${WIFI_CARD}=                                       ${EMPTY}
-${MAX_CPU_TEMP}=                                    ${EMPTY}
+${MANUFACTURER}=                                    ${TBD}
+${CPU}=                                             ${TBD}
+${POWER_CTRL}=                                      ${TBD}
+${FLASH_VERIFY_METHOD}=                             ${TBD}
+${WIFI_CARD}=                                       ${TBD}
+${MAX_CPU_TEMP}=                                    ${TBD}
 ${INTERNAL_PROGRAMMER_CHIPNAME}=                    "Opaque flash chip"
 ${FLASHING_METHOD}=                                 external
 ${SNIPEIT}=                                         yes
@@ -48,26 +48,26 @@ ${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
 ${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
-${FW_VERSION}=                                      ${EMPTY}
-${DMIDECODE_SERIAL_NUMBER}=                         ${EMPTY}
-${DMIDECODE_FIRMWARE_VERSION}=                      ${EMPTY}
-${DMIDECODE_PRODUCT_NAME}=                          ${EMPTY}
-${DMIDECODE_RELEASE_DATE}=                          ${EMPTY}
-${DMIDECODE_MANUFACTURER}=                          ${EMPTY}
-${DMIDECODE_VENDOR}=                                ${EMPTY}
-${DMIDECODE_FAMILY}=                                ${EMPTY}
-${DMIDECODE_TYPE}=                                  ${EMPTY}
+${FW_VERSION}=                                      ${TBD}
+${DMIDECODE_SERIAL_NUMBER}=                         ${TBD}
+${DMIDECODE_FIRMWARE_VERSION}=                      ${TBD}
+${DMIDECODE_PRODUCT_NAME}=                          ${TBD}
+${DMIDECODE_RELEASE_DATE}=                          ${TBD}
+${DMIDECODE_MANUFACTURER}=                          ${TBD}
+${DMIDECODE_VENDOR}=                                ${TBD}
+${DMIDECODE_FAMILY}=                                ${TBD}
+${DMIDECODE_TYPE}=                                  ${TBD}
 
-${DEVICE_USB_KEYBOARD}=                             ${EMPTY}
-${DEVICE_NVME_DISK}=                                ${EMPTY}
-${DEVICE_AUDIO1}=                                   ${EMPTY}
-${DEVICE_AUDIO2}=                                   ${EMPTY}
-${DEVICE_AUDIO1_WIN}=                               ${EMPTY}
-${WIFI_CARD_UBUNTU}=                                ${EMPTY}
-${USB_MODEL}=                                       ${EMPTY}
-${USB_DEVICE}=                                      ${EMPTY}
+${DEVICE_USB_KEYBOARD}=                             ${TBD}
+${DEVICE_NVME_DISK}=                                ${TBD}
+${DEVICE_AUDIO1}=                                   ${TBD}
+${DEVICE_AUDIO2}=                                   ${TBD}
+${DEVICE_AUDIO1_WIN}=                               ${TBD}
+${WIFI_CARD_UBUNTU}=                                ${TBD}
+${USB_MODEL}=                                       ${TBD}
+${USB_DEVICE}=                                      ${TBD}
 
-${FLASHROM_FLAGS}=                                  ${EMPTY}
+${FLASHROM_FLAGS}=                                  ${TBD}
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
