@@ -1311,6 +1311,8 @@ Detect Or Install Package
     END
     IF    ${is_package_installed}    RETURN
     Log To Console    \nInstalling required package (${package})...
+    Wait Until Keyword Succeeds    10x    5s
+    ...    Check Internet Connection On Linux
     Install Package    ${package}
     Sleep    10s
     ${is_package_installed}=    Check If Package Is Installed    ${package}
