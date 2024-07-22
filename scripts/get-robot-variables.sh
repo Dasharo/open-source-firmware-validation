@@ -51,6 +51,13 @@ DEVICE_USB_KEYBOARD="$(lsusb | grep -iE "Keyboard|Nano" | awk '{for (i=7; i<=NF;
 # Collect NVMe disk information using lspci command
 DEVICE_NVME_DISK="$(lspci | grep "Non-Volatile"| awk -F ": " '{print $2}')"
 
+# Collect eMMC information from sysfs
+
+EMMC_PATH="/sys/class/block/mmcblk0/device/name"
+if [ -f "${EMMC_PATH}" ]; then
+    E_MMC_NAME="$(cat ${EMMC_PATH})"
+fi
+
 # Collect LTE card information
 LTE_CARDS=$(lsusb | grep -iv 'wired\|hub\|bluetooth\|ethernet\|dock\|camera\|receiver\|audio\|usb3' | awk '{print $NF}')
 NMCLI_OUTPUT=$(nmcli | grep -iv '${LTE_CARDS}')
@@ -136,6 +143,8 @@ read PLATFORM_RAM_SPEED PLATFORM_RAM_SIZE < <(get_ram_info)
 DMIDECODE_MANUFACTURER=$(sudo dmidecode -t baseboard | grep "Manufacturer:" | awk -F": " '{print $2}')
 DMIDECODE_SERIAL_NUMBER=$(sudo dmidecode -t baseboard | grep "Serial Number:" | awk -F": " '{print $2}')
 DMIDECODE_PRODUCT_NAME=$(sudo dmidecode -t baseboard | grep "Product Name:" | awk -F": " '{print $2}')
+DMIDECODE_FAMILY=$(sudo dmidecode -t system | grep Family | awk -F ":" '{print $2}')
+DMIDECODE_TYPE=$(sudo dmidecode -t chassis | grep Type | awk -F ":" '{print $2}')
 
 # Collecting Audio device information
 audio_device_names=$(aplay -l 2>/dev/null | awk -F'[][]' '/card [0-9]+: / {print $2}' | sort -u)
@@ -163,6 +172,9 @@ if [ "$PRINT" = true ]; then
     echo "-----------------------NVMe Disk--------------------"
     echo "\${DEVICE_NVME_DISK}= ${DEVICE_NVME_DISK}"
     echo
+    echo "-----------------------eMMC-------------------------"
+    echo "\${E_MMC_NAME}= ${E_MMC_NAME}"
+    echo
     echo "-----------------------LTE Card---------------------"
     echo "\${LTE_CARD}= ${LTE_CARD}"
     echo
@@ -179,6 +191,8 @@ if [ "$PRINT" = true ]; then
     echo "\${DMIDECODE_MANUFACTURER}= ${DMIDECODE_MANUFACTURER}"
     echo "\${DMIDECODE_SERIAL_NUMBER}= ${DMIDECODE_SERIAL_NUMBER}"
     echo "\${DMIDECODE_PRODUCT_NAME}= ${DMIDECODE_PRODUCT_NAME}"
+    echo "\${DMIDECODE_FAMILY}= ${DMIDECODE_FAMILY}"
+    echo "\${DMIDECODE_TYPE}= ${DMIDECODE_TYPE}"
     echo
     echo "-----------------------Defaults----------------------"
     echo "\${DEF_THREADS_TOTAL}= ${DEF_THREADS_TOTAL}"
@@ -241,10 +255,13 @@ fi
     [[ -n "$BLUETOOTH_CARD_UBUNTU" ]] && echo "\${BLUETOOTH_CARD_UBUNTU}=                           $BLUETOOTH_CARD_UBUNTU"
     [[ -n "$DEVICE_USB_KEYBOARD" ]] && echo "\${DEVICE_USB_KEYBOARD}=                             $DEVICE_USB_KEYBOARD"
     [[ -n "$DEVICE_NVME_DISK" ]] && echo "\${DEVICE_NVME_DISK}=                                $DEVICE_NVME_DISK"
+    [[ -n "$E_MMC_NAME" ]] && echo "\${E_MMC_NAME}=                                      $E_MMC_NAME"
     [[ -n "$CPU" ]] && echo "\${CPU}=                                             $CPU"
     [[ -n "$DMIDECODE_MANUFACTURER" ]] && echo "\${DMIDECODE_MANUFACTURER}=                          $DMIDECODE_MANUFACTURER"
     [[ -n "$DMIDECODE_SERIAL_NUMBER" ]] && echo "\${DMIDECODE_SERIAL_NUMBER}=                         $DMIDECODE_SERIAL_NUMBER"
     [[ -n "$DMIDECODE_PRODUCT_NAME" ]] && echo "\${DMIDECODE_PRODUCT_NAME}=                          $DMIDECODE_PRODUCT_NAME"
+    [[ -n "$DMIDECODE_FAMILY" ]] && echo "\${DMIDECODE_FAMILY}=                               $DMIDECODE_FAMILY"
+    [[ -n "$DMIDECODE_TYPE" ]] && echo "\${DMIDECODE_TYPE}=                                 $DMIDECODE_TYPE"
     [[ -n "$DEF_THREADS_TOTAL" ]] && echo "\${DEF_THREADS_TOTAL}=                               $DEF_THREADS_TOTAL"
     [[ -n "$DEF_THREADS_PER_CORE" ]] && echo "\${DEF_THREADS_PER_CORE}=                            $DEF_THREADS_PER_CORE"
     [[ -n "$DEF_CORES_PER_SOCKET" ]] && echo "\${DEF_CORES_PER_SOCKET}=                            $DEF_CORES_PER_SOCKET"
@@ -264,8 +281,9 @@ fi
     awk -v keys="\
         INITIAL_CPU_FREQUENCY PLATFORM_CPU_SPEED CPU_MIN_FREQUENCY CPU_MAX_FREQUENCY \
         PLATFORM_RAM_SPEED PLATFORM_RAM_SIZE WIFI_CARD_UBUNTU WEBCAM_UBUNTU \
-        BLUETOOTH_CARD_UBUNTU DEVICE_USB_KEYBOARD DEVICE_NVME_DISK CPU \
+        BLUETOOTH_CARD_UBUNTU DEVICE_USB_KEYBOARD DEVICE_NVME_DISK E_MMC_NAME CPU \
         DMIDECODE_MANUFACTURER DMIDECODE_SERIAL_NUMBER DMIDECODE_PRODUCT_NAME \
+        DMIDECODE_FAMILY DMIDECODE_TYPE \
         DEF_THREADS_TOTAL DEF_THREADS_PER_CORE DEF_CORES_PER_SOCKET DEF_SOCKETS \
         DEF_ONLINE_CPU DEVICE_AUDIO1 DEVICE_AUDIO2 DEVICE_AUDIO3" \
         '
