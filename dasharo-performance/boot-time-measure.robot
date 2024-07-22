@@ -37,7 +37,7 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.001 not supported
     Skip If    "${OPTIONS_LIB}" == "dcu"    CBMEM001.001 not supported
 
-    ${average}    ${min}    ${max}    ${stddev}=
+    ${min}    ${max}    ${average}    ${stddev}=
     ...    Measure Coldboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
@@ -55,7 +55,7 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     ...    CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.001 not supported
 
-    ${average}    ${min}    ${max}    ${stddev}=
+    ${min}    ${max}    ${average}    ${stddev}=
     ...    Measure Warmboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
@@ -73,7 +73,7 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     ...    if CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
 
-    ${average}    ${min}    ${max}    ${stddev}=
+    ${min}    ${max}    ${average}    ${stddev}=
     ...    Measure Reboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
