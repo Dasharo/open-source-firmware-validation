@@ -70,12 +70,12 @@ Measure Average Coldboot Time
 
     Skip    Coldboot not supported without serial connection
 
-Measure Average Warmboot Time
-    [Documentation]    Performs a measurement of average warmboot
+Measure Warmboot Time
+    [Documentation]    Performs a measurement of warmboot
     ...    boot time
     [Arguments]    ${iterations}
 
-    ${average}=    Set Variable    0
+    ${durations}=    Create List
     Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${iterations}
@@ -96,17 +96,18 @@ Measure Average Warmboot Time
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s)
-        ${average}=    Evaluate    ${average}+${boot_time}
+        Append To List    ${durations}    ${boot_time}
     END
-    ${average}=    Evaluate    ${average}/${iterations}
-    RETURN    ${average}
+    ${min}    ${max}    ${average}    ${stddev}=
+    ...    Calculate Boot Time Statistics    ${durations}
+    RETURN    ${min}    ${max}    ${average}    ${stddev}
 
-Measure Average Reboot Time
-    [Documentation]    Performs a measurement of average reboot
+Measure Reboot Time
+    [Documentation]    Performs a measurement of reboot
     ...    boot time
     [Arguments]    ${iterations}
-
-    ${average}=    Set Variable    0
+    
+    ${durations}=    Create List
     Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${iterations}
@@ -120,11 +121,12 @@ Measure Average Reboot Time
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s)
-        ${average}=    Evaluate    ${average}+${boot_time}
+        Append To List    ${durations}    ${boot_time}s
     END
 
-    ${average}=    Evaluate    ${average}/${iterations}
-    RETURN    ${average}
+    ${min}    ${max}    ${average}    ${stddev}=
+    ...    Calculate Boot Time Statistics    ${durations}
+    RETURN    ${min}    ${max}    ${average}    ${stddev}
 
 Convert Option Value Argument
     [Arguments]    ${value}
