@@ -9,8 +9,7 @@ Check EC Firmware Version
 Flash EC Firmware
     [Documentation]    Keyword allows flashing EC firmware via the
     ...    dasharo_ectool info utility.
-    [Arguments]
-    ...    ${ec_fw_download_link}=https://3mdeb.com/open-source-firmware/Dasharo/${EC_BINARY_LOCATION}
+    [Arguments]    ${ec_fw_download_link}=https://3mdeb.com/open-source-firmware/Dasharo/${EC_BINARY_LOCATION}
     ...    ${tool}=dasharo_ectool
     Execute Command In Terminal
     ...    command=wget -O /tmp/ec.rom ${ec_fw_download_link}

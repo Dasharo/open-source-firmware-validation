@@ -112,8 +112,7 @@ Login To Linux Over Serial Console
     ...    arguments as username and password respectively. The
     ...    optional timeout parameter can be used to specify how
     ...    long we want to wait for the login prompt.
-    [Arguments]
-    ...    ${username}
+    [Arguments]    ${username}
     ...    ${password}
     ...    ${device_ubuntu_user_prompt}=${device_ubuntu_user_prompt}
     ...    ${timeout}=300
@@ -253,7 +252,7 @@ Establish Host Connection
     Write Into Terminal    obmc-console-client
 
 Log Out And Close Connection
-    [Documentation]    Close all opened SSH, serial connections and checkin used
+    [Documentation]    Close all opened SSH, serial connections and check in used
     ...    asset in SnipeIt.
     SSHLibrary.Close All Connections
     Telnet.Close All Connections
