@@ -95,7 +95,7 @@ Measure Warmboot Time
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
-        Log To Console    (${index}) Boot time: ${boot_time} s)
+        Log To Console    (${index}) Boot time: ${boot_time} s
         Append To List    ${durations}    ${boot_time}
     END
     ${min}    ${max}    ${average}    ${stddev}=
@@ -120,7 +120,7 @@ Measure Reboot Time
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
-        Log To Console    (${index}) Boot time: ${boot_time} s)
+        Log To Console    (${index}) Boot time: ${boot_time} s
         Append To List    ${durations}    ${boot_time}s
     END
 
