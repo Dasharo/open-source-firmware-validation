@@ -45,6 +45,10 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     Log To Console    \nCoreboot longest booting time: ${max} s\n
     Log To Console    \nCoreboot booting time std dev: ${stddev} s\n
 
+    Should Be True    ${average} < ${MAX_ACCEPTABLE_AVERAGE_COLDBOOT_TIME_S}
+    Should Be True    ${max} < ${MAX_ACCEPTABLE_COLDBOOT_TIME_S}
+    Should Be True    ${stddev} < ${MAX_ACCEPTABLE_COLDBOOT_TIME_STD_DEV_S}
+
 CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after warmboot if
@@ -59,6 +63,10 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     Log To Console    \nCoreboot longest booting time: ${max} s\n
     Log To Console    \nCoreboot booting time std dev: ${stddev} s\n
 
+    Should Be True    ${average} < ${MAX_ACCEPTABLE_AVERAGE_WARMBOOT_TIME_S}
+    Should Be True    ${max} < ${MAX_ACCEPTABLE_WARMBOOT_TIME_S}
+    Should Be True    ${stddev} < ${MAX_ACCEPTABLE_WARMBOOT_TIME_STD_DEV_S}
+
 CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after system reboot
@@ -72,4 +80,7 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     Log To Console    \nCoreboot shortest booting time: ${min} s\n
     Log To Console    \nCoreboot longest booting time: ${max} s\n
     Log To Console    \nCoreboot booting time std dev: ${stddev} s\n
-
+    
+    Should Be True    ${average} < ${MAX_ACCEPTABLE_AVERAGE_REBOOT_TIME_S}
+    Should Be True    ${max} < ${MAX_ACCEPTABLE_REBOOT_TIME_S}
+    Should Be True    ${stddev} < ${MAX_ACCEPTABLE_REBOOT_TIME_STD_DEV_S}
