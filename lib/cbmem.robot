@@ -41,17 +41,21 @@ Calculate Boot Time Statistics
 
     FOR    ${index}    IN RANGE    0    ${iterations}
         ${duration}=    Get From List    ${samples}    ${index}
-        ${min}=    Evaluate    ${min} if float(${min}) < float(${duration}) else ${duration}
-        ${max}=    Evaluate    ${max} if float(${max}) > float(${duration}) else ${duration}
+        ${min}=    Evaluate
+        ...    ${min} if float(${min}) < float(${duration}) else ${duration}
+        ${max}=    Evaluate
+        ...    ${max} if float(${max}) > float(${duration}) else ${duration}
         ${average}=    Evaluate    ${average} + ${duration}
     END
     ${average}=    Evaluate    ${average}/${iterations}
 
     FOR    ${index}    IN RANGE    0    ${iterations}
         ${duration}=    Get From List    ${samples}    ${index}
-        ${diff}=    Evaluate    ${duration} - ${average}
-        ${diff}=    Evaluate    ${diff}**2
+        ${diff}=    Evaluate    (${duration} - ${average})
+        ${diff}=    Evaluate    ${diff}*${diff}
         ${standard_deviation}=    Evaluate    ${standard_deviation} + ${diff}
     END
+    ${standard_deviation}=    Evaluate
+    ...    math.sqrt(${standard_deviation} / ${iterations})
 
     RETURN    ${min}    ${max}    ${average}    ${standard_deviation}
