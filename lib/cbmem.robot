@@ -41,8 +41,8 @@ Calculate Boot Time Statistics
 
     FOR    ${index}    IN RANGE    0    ${iterations}
         ${duration}=    Get From List    ${samples}    ${index}
-        ${min}=    Evaluate    ${min} if ${min} < ${duration} else ${duration}
-        ${max}=    Evaluate    ${max} if ${max} > ${duration} else ${duration}
+        ${min}=    Evaluate    ${min} if float(${min}) < float(${duration}) else ${duration}
+        ${max}=    Evaluate    ${max} if float(${max}) > float(${duration}) else ${duration}
         ${average}=    Evaluate    ${average} + ${duration}
     END
     ${average}=    Evaluate    ${average}/${iterations}
