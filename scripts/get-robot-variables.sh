@@ -226,9 +226,6 @@ else
 fi
 
 {
-    echo "*** Settings ***"
-    echo "Resource    /include/ubuntu-credentials.robot"
-    echo
     echo "*** Variables ***"
     echo
     echo "# Automatically found variables"
