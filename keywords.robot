@@ -496,7 +496,7 @@ Get All USB
 Prepare Lm-sensors
     [Documentation]    Install lm-sensors and probe sensors.
     Detect Or Install Package    lm-sensors
-    Execute Command In Terminal    yes | sudo sensors-detect
+    Execute Command In Terminal    sudo sensors-detect --auto
     IF    '${PLATFORM}' == 'raptor-cs_talos2'
         Execute Command In Terminal    modprobe w83795
     END
