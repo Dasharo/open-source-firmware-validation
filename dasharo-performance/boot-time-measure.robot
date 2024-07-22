@@ -37,9 +37,13 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.001 not supported
     Skip If    "${OPTIONS_LIB}" == "dcu"    CBMEM001.001 not supported
 
-    ${average}=    Measure Average Coldboot Time    ${ITERATIONS}
+    ${average}    ${min}    ${max}    ${stddev}=
+    ...    Measure Coldboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
+    Log To Console    \nCoreboot shortest booting time: ${min} s\n
+    Log To Console    \nCoreboot longest booting time: ${max} s\n
+    Log To Console    \nCoreboot booting time std dev: ${stddev} s\n
 
 CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     [Documentation]    Check whether the DUT boots after coldboot and how
@@ -47,9 +51,13 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     ...    CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.001 not supported
 
-    ${average}=    Measure Average Warmboot Time    ${ITERATIONS}
+    ${average}    ${min}    ${max}    ${stddev}=
+    ...    Measure Warmboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
+    Log To Console    \nCoreboot shortest booting time: ${min} s\n
+    Log To Console    \nCoreboot longest booting time: ${max} s\n
+    Log To Console    \nCoreboot booting time std dev: ${stddev} s\n
 
 CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     [Documentation]    Check whether the DUT boots after coldboot and how
@@ -57,6 +65,11 @@ CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
     ...    if CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
 
-    ${average}=    Measure Average Reboot Time    ${ITERATIONS}
+    ${average}    ${min}    ${max}    ${stddev}=
+    ...    Measure Reboot Time    ${ITERATIONS}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
+    Log To Console    \nCoreboot shortest booting time: ${min} s\n
+    Log To Console    \nCoreboot longest booting time: ${max} s\n
+    Log To Console    \nCoreboot booting time std dev: ${stddev} s\n
+
