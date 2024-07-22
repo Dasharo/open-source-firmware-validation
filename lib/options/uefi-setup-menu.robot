@@ -6,6 +6,7 @@ Library             Collections
 Library             String
 Resource            ../bios/menus.robot
 Resource            ../../keywords.robot
+Resource            ../cbmem.robot
 
 
 *** Keywords ***
@@ -69,11 +70,11 @@ Get UEFI Boot Manager Entries
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     RETURN    ${boot_menu}
 
-Measure Average Coldboot Time
-    [Documentation]    Performs a measurement of average coldboot
+Measure Coldboot Time
+    [Documentation]    Performs a measurement of coldboot
     ...    boot time
     [Arguments]    ${iterations}
-    ${average}=    Set Variable    0
+    ${durations}=    Create List
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${iterations}
         Power Cycle On    power_button=${TRUE}
@@ -81,17 +82,18 @@ Measure Average Coldboot Time
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
-        Log To Console    (${index}) Boot time: ${boot_time} s)
-        ${average}=    Evaluate    ${average}+${boot_time}
+        Log To Console    (${index}) Boot time: ${boot_time} s
+        Append To List    ${durations}    ${boot_time}
     END
-    ${average}=    Evaluate    ${average}/${iterations}
+    ${min}    ${max}    ${average}    ${stddev}=
+    ...    Calculate Boot Time Statistics    ${durations}
+    RETURN    ${min}    ${max}    ${average}    ${stddev}
 
-Measure Average Warmboot Time
-    [Documentation]    Performs a measurement of average warmboot
+Measure Warmboot Time
+    [Documentation]    Performs a measurement of warmboot
     ...    boot time
     [Arguments]    ${iterations}
-
-    ${average}=    Set Variable    0
+    ${durations}=    Create List
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${iterations}
         Power On
@@ -99,14 +101,15 @@ Measure Average Warmboot Time
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
-        Log To Console    (${index}) Boot time: ${boot_time} s)
-        ${average}=    Evaluate    ${average}+${boot_time}
+        Log To Console    (${index}) Boot time: ${boot_time} s
+        Append To List    ${durations}    ${boot_time}
     END
-    ${average}=    Evaluate    ${average}/${iterations}
-    RETURN    ${average}
+    ${min}    ${max}    ${average}    ${stddev}=
+    ...    Calculate Boot Time Statistics    ${durations}
+    RETURN    ${min}    ${max}    ${average}    ${stddev}
 
-Measure Average Reboot Time
-    [Documentation]    Performs a measurement of average reboot
+Measure Reboot Time
+    [Documentation]    Performs a measurement of reboot
     ...    boot time
     [Arguments]    ${iterations}
 
@@ -118,7 +121,7 @@ Measure Average Reboot Time
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
-        Log To Console    (${index}) Boot time: ${boot_time} s)
+        Log To Console    (${index}) Boot time: ${boot_time} s
         ${average}=    Evaluate    ${average}+${boot_time}
         Execute Reboot Command
     END
