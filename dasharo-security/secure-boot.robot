@@ -120,7 +120,7 @@ SBO002.002 UEFI Secure Boot (Windows)
     ${sb_status}=    Check Secure Boot In Windows
     Should Not Be True    ${sb_status}
 
-# TODO: These must be imrpoved (never worked reliably), and adjusted to both
+# TODO: These must be improved (never worked reliably), and adjusted to both
 # keywords and menu layout changes.
 #
 
