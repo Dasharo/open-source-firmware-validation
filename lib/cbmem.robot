@@ -30,7 +30,7 @@ Get Timestamp From Cbmem Log
     RETURN    ${timestamp}
 
 Calculate Boot Time Statistics
-    [Documentation]    Calculates the standard deviation, min, max of 
+    [Documentation]    Calculates the standard deviation, min, max of
     ...    boot time measurements
     [Arguments]    ${samples}
     ${iterations}=    Get Length    ${samples}
@@ -49,7 +49,7 @@ Calculate Boot Time Statistics
 
     FOR    ${index}    IN RANGE    0    ${iterations}
         ${duration}=    Get From List    ${samples}    ${index}
-        ${diff}=    Evaluate   ${duration} - ${average} 
+        ${diff}=    Evaluate    ${duration} - ${average}
         ${diff}=    Evaluate    ${diff}**2
         ${standard_deviation}=    Evaluate    ${standard_deviation} + ${diff}
     END

@@ -106,7 +106,7 @@ Measure Reboot Time
     [Documentation]    Performs a measurement of reboot
     ...    boot time
     [Arguments]    ${iterations}
-    
+
     ${durations}=    Create List
     Log To Console    \n
 
