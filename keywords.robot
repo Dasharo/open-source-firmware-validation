@@ -562,9 +562,7 @@ Prepare Test Suite
 Import Osfv Libraries
     [Documentation]    Import osfv_cli libraries based on config and command
     ...    line variables
-    IF    '${OPTIONS_LIB}'=='dcu'
-        RETURN
-    END
+    IF    '${OPTIONS_LIB}'=='dcu'    RETURN
     Log    ${SNIPEIT}
     IF    '${SNIPEIT}' == 'yes'
         Import Library    osfv.rf.snipeit_robot
