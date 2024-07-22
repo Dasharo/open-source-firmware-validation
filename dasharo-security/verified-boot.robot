@@ -144,7 +144,7 @@ VBO012.001 Self-signed binary is bootable without errors
     ...    entire SPI flash is flashed. This verifies that the signing scripts
     ...    used by the end users are correct and don't cause bricks.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO012.001 not supported
-    Power On    
+    Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
