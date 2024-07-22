@@ -28,3 +28,30 @@ Get Timestamp From Cbmem Log
     ${columns}=    Split String    ${line}
     ${timestamp}=    Get From List    ${columns}    1
     RETURN    ${timestamp}
+
+Calculate Boot Time Statistics
+    [Documentation]    Calculates the standard deviation, min, max of 
+    ...    boot time measurements
+    [Arguments]    ${samples}
+    ${iterations}=    Get Length    ${samples}
+    ${standard_deviation}=    Set Variable    0
+    ${min}=    Set Variable    99999999
+    ${max}=    Set Variable    0
+    ${average}=    Set Variable    0
+
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        ${duration}=    Get From List    ${samples}    ${index}
+        ${min}=    Evaluate    ${min} if ${min} < ${duration} else ${duration}
+        ${max}=    Evaluate    ${max} if ${max} > ${duration} else ${duration}
+        ${average}=    Evaluate    ${average} + ${duration}
+    END
+    ${average}=    Evaluate    ${average}/${iterations}
+
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        ${duration}=    Get From List    ${samples}    ${index}
+        ${diff}=    Evaluate   ${duration} - ${average} 
+        ${diff}=    Evaluate    ${diff}**2
+        ${standard_deviation}=    Evaluate    ${standard_deviation} + ${diff}
+    END
+
+    RETURN    ${min}    ${max}    ${average}    ${standard_deviation}
