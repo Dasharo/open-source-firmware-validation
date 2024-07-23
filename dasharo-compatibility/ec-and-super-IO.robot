@@ -284,7 +284,7 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
-    Flash Firmware In DTS    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Flash Via Internal Programmer    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
     Flash EC Firmware
     ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
     Sleep    15s
@@ -339,7 +339,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
-    Flash Firmware In DTS    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Flash Via Internal Programmer    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
     Flash EC Firmware
     ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
     Sleep    15s
