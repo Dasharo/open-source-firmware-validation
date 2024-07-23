@@ -36,7 +36,7 @@ Flash Via Internal Programmer
     END
 
     # If no region is given, flash the whole binary
-    IF    ${region}
+    IF    "${region}" != "${EMPTY}"
         ${args}=    Set Variable    -N --ifd -i ${region}
     ELSE
         ${args}=    Set Variable    ${EMPTY}
