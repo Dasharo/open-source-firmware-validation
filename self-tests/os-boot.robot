@@ -33,42 +33,42 @@ BOT001.001 Boot To Ubuntu Multiple Times
     Log To Console    \n
     FOR    ${i}    IN RANGE    10
         ${index}=    Evaluate    ${i} + 1
-        Log To Console    Iteration: ${index} 
+        Log To Console    Iteration: ${index}
         Power On
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
-        Switch To Root User        
+        Switch To Root User
     END
 
 BOT002.001 Boot To Windows Multiple Times
     Log To Console    \n
     FOR    ${i}    IN RANGE    10
         ${index}=    Evaluate    ${i} + 1
-        Log To Console    Iteration: ${index} 
+        Log To Console    Iteration: ${index}
         Power On
         Login To Windows
-        ${out}=    Execute Command In Terminal    ls  
+        ${out}=    Execute Command In Terminal    ls
     END
 
 BOT003.001 Boot To Ubuntu Then Boot To Windows
     Log To Console    \n
     FOR    ${i}    IN RANGE    5
         ${index}=    Evaluate    ${i} + 1
-        Log To Console    Iteration: ${index} 
+        Log To Console    Iteration: ${index}
         Power On
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         Power On
         Login To Windows
-        Execute Command In Terminal    ls        
+        Execute Command In Terminal    ls
     END
 
 BOT004.001 Power On Test
     Log To Console    \n
     FOR    ${i}    IN RANGE    10
         ${index}=    Evaluate    ${i} + 1
-        Log To Console    Iteration: ${index} 
+        Log To Console    Iteration: ${index}
         Power On
         ${result}=    Wait For Serial Output
     END
