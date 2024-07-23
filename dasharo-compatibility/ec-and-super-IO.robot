@@ -284,7 +284,8 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
-    Flash Firmware In DTS    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Flash Via Internal Programmer    /tmp/coreboot.rom
     Flash EC Firmware
     ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
     Sleep    15s
@@ -300,7 +301,6 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
     Check EC Firmware Version
     ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
-
     # Flash new fw with ec sync
     Put File    ${FW_FILE}    /tmp/coreboot_with_ec.rom    scp=ALL
     ${flash_result}=    Execute Command In Terminal
@@ -339,7 +339,8 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
-    Flash Firmware In DTS    ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Flash Via Internal Programmer    /tmp/coreboot.rom
     Flash EC Firmware
     ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
     Sleep    15s
