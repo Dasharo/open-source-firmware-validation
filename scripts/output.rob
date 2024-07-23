@@ -1,7 +1,8 @@
-${DEFAULT_POWER_STATE_AFTER_FAIL}=    The state at the moment of power failure
-${VERIFIED_BOOT_SUPPORT}=    ${TRUE}
-${TPM_SUPPORT}=    ${TRUE}
-${SERIAL_BOOT_MEASURE}=    ${FALSE}
-${SECURE_BOOT_SUPPORT}=    ${FALSE}
-${IPXE_BOOT_ENTRY}=    iPXE Network Boot
-${DMIDECODE_PRODUCT_NAME}=    V54x_6x_TU
+${DEFAULT_POWER_STATE_AFTER_FAIL}=                The state at the moment of power failure
+${VERIFIED_BOOT_SUPPORT}=                         y
+${TPM_SUPPORT}=                                   y
+${SERIAL_BOOT_MEASURE}=                           n
+${SECURE_BOOT_SUPPORT}=                           n
+${IPXE_BOOT_ENTRY}=                               iPXE Network Boot
+${DMIDECODE_PRODUCT_NAME}=                        V54x_6x_TU
+${OPTIONS_LIB}=                                   dcu
