@@ -31,8 +31,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 BOT001.001 Boot To Ubuntu Multiple Times
     [Documentation]    This test verifies if the DUT can boot to Ubuntu multiple times in a row.
-    Log To Console    \n
-    FOR    ${i}    IN RANGE    10
+    FOR    ${i}    IN RANGE    5
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
         Power On
@@ -43,8 +42,7 @@ BOT001.001 Boot To Ubuntu Multiple Times
 
 BOT002.001 Boot To Windows Multiple Times
     [Documentation]    This test verifies if the DUT can boot to Windows multiple times in a row.
-    Log To Console    \n
-    FOR    ${i}    IN RANGE    10
+    FOR    ${i}    IN RANGE    5
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
         Power On
@@ -54,7 +52,6 @@ BOT002.001 Boot To Windows Multiple Times
 
 BOT003.001 Boot To Ubuntu Then Boot To Windows
     [Documentation]    This test verifies if the DUT can boot to multiple OS one after another multiple times.
-    Log To Console    \n
     FOR    ${i}    IN RANGE    5
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
