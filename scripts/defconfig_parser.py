@@ -15,7 +15,7 @@ def load_mappings(mapping_file):
 
 def map_value(key, value, mappings):
     # Default mappings for 'Y' and 'N'
-    default_value_mappings = {"y": "${TRUE}", "n": "${FALSE}"}
+    default_value_mappings = {"Y": "${TRUE}", "N": "${FALSE}"}
     # Check if there is a specific mapping for the key
     if key in mappings["values"]:
         mapped_value = mappings["values"][key].get(value, None)
@@ -31,6 +31,21 @@ def map_value(key, value, mappings):
     else:
         # Apply default mapping or return original value if not 'Y' or 'N'
         return default_value_mappings.get(value, value.strip('"'))
+
+
+def list_unmapped_options(input_file, mappings):
+    unmapped_options = []
+    with open(input_file, "r") as infile:
+        for line in infile:
+            if "=" in line:
+                key, _ = line.strip().split("=", 1)
+                if key not in mappings["options"]:
+                    unmapped_options.append(key)
+    if unmapped_options:
+        print("The following options are not included in the lib/mappings.json file:")
+        for option in unmapped_options:
+            print(f"  - {option}")
+        print("\nYou could extend the lib/mappings.json file to include these options.")
 
 
 def convert_config(input_file, output_file, mappings):
@@ -64,13 +79,20 @@ def main():
         "-m",
         "--mapping-file",
         default="lib/mappings.json",
-        help="Path to the mappings JSON file (default: lib/mappings.json)",
+        help="Path to the mappings JSON file (default: mappings.json)",
+    )
+    parser.add_argument(
+        "--check-unmapped",
+        action="store_true",
+        help="List options not included in the mappings.json file",
     )
 
     args = parser.parse_args()
 
     mappings = load_mappings(args.mapping_file)
     if mappings:
+        if args.check_unmapped:
+            list_unmapped_options(args.input_file, mappings)
         convert_config(args.input_file, args.output_file, mappings)
     else:
         print("Failed to load mappings. Please check the JSON file.")
