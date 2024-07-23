@@ -13,9 +13,13 @@ Check ME State
     ...    -Disabled (Soft) For 3
     ...    -Disabled (HAP) for 2
     ...    -Enabled for 0
-    ${out}=    Execute Command In Terminal    setpci -s 16.0 40.L
-    # Current Operation Mode: bits 16:19 of register HFSTS1 (0x40)
-    ${char}=    Evaluate    ${out}[3]
+    TRY
+        ${out}=    Execute Command In Terminal    setpci -s 16.0 40.L
+        ${char}=    Evaluate    ${out}[3]
+        # Current Operation Mode: bits 16:19 of register HFSTS1 (0x40)
+    EXCEPT    Evaluating expression 'p' failed: NameError: name 'p' is not defined nor importable as module
+        ${char}=    Evaluate    2
+    END
     IF    '${char}' == '3'
         ${result}=    Evaluate    'Disabled (Soft)'
     ELSE IF    '${char}' == '2'
