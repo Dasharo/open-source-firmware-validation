@@ -83,7 +83,7 @@ DTS005.001 Flash device from DTS shell by using flashrom works correctly
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
-    Flash Firmware In DTS
+    Flash Via Internal Programmer
     Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
