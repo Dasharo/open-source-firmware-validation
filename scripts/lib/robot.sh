@@ -59,13 +59,17 @@ execute_robot() {
         device_ip_option=""
     fi
 
+    extra_options=""
     # By default use snipeit, if SNIPEIT_NO is not set
     if [ -n "${SNIPEIT_NO}" ]; then
-        snipeit_no_option="-v snipeit:no"
-    else
-        snipeit_no_option=""
+        extra_options="-v snipeit:no"
+        if [ -n "${SONOFF_IP}" ]; then
+            extra_options="${extra_options} -v sonoff_ip:${SONOFF_IP}"
+        fi
+        if [ -n "${PIKVM_IP}" ]; then
+            extra_options="${extra_options} -v pikvm_ip:${PIKVM_IP}"
+        fi
     fi
-
     # Needed only for test stations with different possible installed DUTs
     if [ -n "${INSTALLED_DUT}" ]; then
         installed_dut_option="-v installed_dut=${INSTALLED_DUT}"
@@ -89,8 +93,8 @@ execute_robot() {
                 -v config:${CONFIG} \
                 ${device_ip_option} \
                 ${fw_file_option} \
-                ${snipeit_no_option} \
                 ${installed_dut_option} \
+                ${extra_options} \
                 ${_robot_args} \
                 ${_test_path}
                 "
