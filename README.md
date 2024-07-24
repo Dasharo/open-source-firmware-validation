@@ -215,6 +215,17 @@ wrapper:
 DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE
 ```
 
+Running tests without snipeit requires additional variables:
+
+```bash
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG SNIPEIT_NO="y" \
+SONOFF_IP=$SONOFF_IP PIKVM_IP=$PIKVM_IP
+./scripts/run.sh $TEST_SUITE
+```
+
+Mind that `SNIPEIT_NO`, only need to be set, meaning that whatever value it
+has, it will be treated as true.
+
 ### Running tests with additional arguments
 
 For example: specifying the tests to perform by giving a tag name:
