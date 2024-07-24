@@ -67,3 +67,30 @@ BOT003.001 Boot To Ubuntu Then Boot To Windows
         Login To Windows
         Execute Command In Terminal    ls
     END
+
+BOT004.001 Power On Test
+    Log To Console    \n
+    FOR    ${i}    IN RANGE    10
+        ${index}=    Evaluate    ${i} + 1
+        Log To Console    Iteration: ${index}
+        Power On
+        ${result}=    Wait For Serial Output
+    END
+
+TEST
+    Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+    Login To Windows Via SSH    ${DEVICE_WINDOWS_USERNAME}    ${DEVICE_WINDOWS_PASSWORD}
+
+    #Power On
+    #Login To Windows
+
+    Log To Console    \nOUT1 START\n
+    ${out1}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
+    #${out1}=    Execute Command In Terminal    ls    
+    Log To Console    \nOUT1:\n${out1}
+
+    Log To Console    \nOUT2 START\n
+    ${out2}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
+    #${out2}=    Execute Command In Terminal    ls
+        Log To Console    \nOUT2:\n${out2}
+    Should Be Equal As Strings    ${out1}    ${out2}

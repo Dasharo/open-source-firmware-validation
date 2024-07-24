@@ -120,7 +120,8 @@ Write Into Terminal
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Write    ${text}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        SSHLibrary.Write    ${text}
+        SSHLibrary.WriteBare    ${text}
+        SSHLibrary.WriteBare    ${ENTER}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         SSHLibrary.Write    ${text}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -157,10 +158,12 @@ Execute Command In Terminal
         ${output}=    SSHLibrary.Execute Command    ${command}
     ELSE
         Write Into Terminal    ${command}
+        Sleep    5s        
         ${output}=    Read From Terminal Until Prompt
     END
     # Drop last newline, if any
     ${output}=    Strip String    ${output}    mode=right    characters=\n\r
+    ${output}=    Remove Command From Output    ${output}    ${command}
     RETURN    ${output}
 
 Execute UEFI Shell Command
@@ -174,3 +177,37 @@ Execute UEFI Shell Command
     Press Enter
     ${output}=    Read From Terminal
     RETURN    ${output}
+
+Remove Command From Output
+    [Arguments]    ${output}    ${command}
+    
+    ${is_list}=    Run Keyword And Return Status    Is List    ${output}
+    Run Keyword If    ${is_list}    ${output}=    Convert List To String    ${output}    
+   
+    @{lines}=    Split To Lines    ${output}
+    ${filtered_lines}=    Create List
+    
+    Set Test Variable    ${add}    ${FALSE}
+    
+    FOR    ${line}    IN    @{lines}    
+        Run Keyword If    ${add}    Append To List    ${filtered_lines}    ${line}
+        Run Keyword If    ${add}    Log To Console    Added line: ${line}
+        
+        IF    ${add} == ${FALSE}
+            Log To Console    \nSTRING CONTAINS:
+            Log To Console    Line: ${line}
+            Log To Console    Command: ${command}
+            ${contains_command}=    Run Keyword And Return Status    String Should Contain    ${line}    ${command}
+            Run Keyword If    ${contains_command}    Set Test Variable    ${add}    ${TRUE}
+            Log To Console    ADD: ${add}
+        END
+    END
+    ${filtered_output}=    Catenate    SEPARATOR=\n    @{filtered_lines}
+    
+    Log To Console    Filtered Output: ${filtered_output}    
+    RETURN    ${filtered_output}
+
+Is List
+    [Arguments]    ${value}
+    ${is_list}=    Evaluate    isinstance(${value}, list)
+    RETURN    ${is_list}
