@@ -90,7 +90,7 @@ ${DOCKING_STATION_NET_INTERFACE}=                   ${TRUE}
 ${DOCKING_STATION_HDMI}=                            ${TRUE}
 ${DOCKING_STATION_DISPLAY_PORT}=                    ${TRUE}
 ${UPLOAD_ON_USB_SUPPORT}=                           ${TRUE}
-${FAN_SPEED_MEASURE_SUPPORT}=                       ${TRUE}
+${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
@@ -122,8 +122,8 @@ ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
-${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${TRUE}
-${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${TRUE}
+${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
+${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
 ${TEMPERATURE_TEST_DURATION}=                       3600
 
 # Test module: dasharo-stability
