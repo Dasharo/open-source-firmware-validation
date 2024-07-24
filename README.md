@@ -201,9 +201,6 @@ $TEST_MODULE
 ```
 
 Any additional parameters to `robot` can be passed using the wrapper by giving
-them as the second and further arguments to the script.
-
-Any additional parameters to `robot` can be passed using the wrapper by giving
 them after a separator '--'.
 
 ### Running tests via wrapper
