@@ -33,7 +33,6 @@ execute_robot() {
     # _test_path can be either
     #   - path to directory containing a set of .robot files
     #   - path to a single .robot file
-    local split_substring='--'
     local _test_path=${*}
     _test_path=${_test_path%%--*}
     local _robot_args=${*}
