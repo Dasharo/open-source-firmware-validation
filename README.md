@@ -204,7 +204,7 @@ Any additional parameters to `robot` can be passed using the wrapper by giving
 them as the second and further arguments to the script.
 
 Any additional parameters to `robot` can be passed using the wrapper by giving
-them as the second and further arguments to the script.
+them after a separator '--'.
 
 ### Running tests via wrapper
 
@@ -220,7 +220,7 @@ DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE
 For example: specifying the tests to perform by giving a tag name:
 
 ```bash
-DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE --include "minimal-regression"
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE -- --include "minimal-regression"
 ```
 
 ### Running regression tests
