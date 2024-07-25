@@ -226,6 +226,7 @@ Enter UEFI Shell
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
+    Sleep    1s
 
 Execute File In UEFI Shell
     # UEFI shell has different line ending than the one we have set for the
