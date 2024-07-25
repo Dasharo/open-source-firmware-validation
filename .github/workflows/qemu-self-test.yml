@@ -43,3 +43,11 @@ jobs:
     - name: Start keywords self-tests with QEMU
       run: |
         ./scripts/ci/qemu-self-test.sh
+
+    - name: Save artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: "qemu-logs"
+        path: |
+           ./artifacts/
+        retention-days: 30
