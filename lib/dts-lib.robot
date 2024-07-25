@@ -23,7 +23,7 @@ Boot Dasharo Tools Suite
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
         ELSE IF    '${MANUFACTURER}' == 'QEMU'
-            Enter Submenu From Snapshot    ${boot_menu}    QEMU
+            Enter Submenu From Snapshot    ${boot_menu}    Dasharo Tools Suite (on QEMU HARDDISK)
         ELSE
             # Requires specifying the USB model in the platform's config
             Enter Submenu From Snapshot    ${boot_menu}    ${USB_MODEL}
