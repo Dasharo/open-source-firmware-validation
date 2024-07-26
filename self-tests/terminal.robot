@@ -37,3 +37,35 @@ Execute UEFI Shell Command
     Should Contain    ${out}    Device Name
     ${out}=    Execute UEFI Shell Command    bcfg boot dump
     Should Contain    ${out}    Optional- N
+
+
+
+TEST Testy test of tests
+    Power On
+    Enter Setup Menu Tianocore
+    FOR    ${i}    IN    50
+        ${setup_menu}=    Get Boot Menu Construction
+        Log To Console    \nMenu Tianocore:\n
+        FOR    ${line}    IN    @{setup_menu}
+            Log To Console    ${line}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    <This section will>
+        END
+
+        Log To Console    \n\nDevice Manager:\n
+        ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Device Manager
+        FOR    ${line}    IN    @{device_mgr_menu}
+            Log To Console    ${line}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    Devices List
+        END
+
+        Log To Console    \n\nSecure Boot Configuration:\n
+        ${sb_menu}=    Enter Submenu From Snapshot And Return Construction    ${device_mgr_menu}    Secure Boot Configuration
+        FOR    ${line}    IN    @{sb_menu}
+            Log To Console    ${line}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    state: enabled or
+        END
+        Log To Console    \n\n
+
+        Exit From Current Menu
+        Exit From Current Menu
+    END
