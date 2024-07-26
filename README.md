@@ -223,7 +223,7 @@ has, it will be treated as true.
 ### Running tests with additional arguments
 
 Any additional parameters to `robot` can be passed using the wrapper by giving
-them after a separator '--'.
+them after a separator '--'. The arguments can be anything that `robot` accepts.
 For example: specifying the tests to perform by giving a test case ID and
 reducing the output verbosity:
 
