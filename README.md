@@ -200,9 +200,6 @@ robot -L TRACE -v snipeit:no -v rte_ip:$RTE_IP -v config:$CONFIG \
 $TEST_MODULE
 ```
 
-Any additional parameters to `robot` can be passed using the wrapper by giving
-them after a separator '--'.
-
 ### Running tests via wrapper
 
 Test can be run directly via `robot` command, but also via the `run.sh`
@@ -225,10 +222,13 @@ has, it will be treated as true.
 
 ### Running tests with additional arguments
 
-For example: specifying the tests to perform by giving a tag name:
+Any additional parameters to `robot` can be passed using the wrapper by giving
+them after a separator '--'.
+For example: specifying the tests to perform by giving a test case ID and
+reducing the output verbosity:
 
 ```bash
-DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE -- --include "minimal-regression"
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE -- -t $TEST_CASE_ID --quiet
 ```
 
 ### Running regression tests
@@ -243,6 +243,15 @@ FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/re
 
 Running regression tests without snipeit works the same way as
 [running regular tests](#running-tests-via-wrapper).
+
+### Running regression tests with additional arguments
+
+Giving additional arguments to `robot` can be done in the same way as in `run.sh`.
+Example: running only minimal regression tests with given test ID and reduced verbosity:
+
+```bash
+FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh -- --include "minimal-regression" -t "BMM*" --quiet
+```
 
 ## Useful refactoring tools
 
