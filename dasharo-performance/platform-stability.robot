@@ -69,7 +69,7 @@ STB001.002 Verify if no reboot occurs in the OS (Ubuntu)
     FOR    ${i}    IN RANGE    (${STABILITY_TEST_DURATION} / ${STABILITY_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
+        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno'
         ${uptime_output}=    Execute Command In Terminal    cat /proc/uptime
         ${uptime_list}=    Split String    ${uptime_output}    ${SPACE}
         ${current_uptime}=    Convert To Number    ${uptime_list}[0]
