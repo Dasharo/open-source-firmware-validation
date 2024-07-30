@@ -37,9 +37,11 @@ execute_robot() {
   _test_path=${_test_path%%--*}
   local _robot_args=${*}
   _robot_args=${_robot_args#*--}
-
-  local _test_name=""
-  _test_name="$(basename ${_test_path%.robot})"
+  if [[ "$_test_path" != *"--"* ]]; then
+    _robot_args=""
+  fi
+  local _test_name
+  _test_name="$(echo "$_test_path" | sed -e 's/\ /_/' | awk '{$1=$1};$1')"
 
   # Check if the required environment variables are set
   check_env_variable "RTE_IP"
