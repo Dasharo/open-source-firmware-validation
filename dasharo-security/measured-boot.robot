@@ -107,11 +107,11 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
         END
     END
 
-MBO004.002 Changing Dasharo USB settings changes only PCR-1
-    [Documentation]    Check if changes to Dasharo USB settings influence PCR-1
+MBO004.002 Changing Dasharo security settings changes only PCR-1
+    [Documentation]    Check if changes to Dasharo Security settings influence PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${USB_MASS_STORAGE_SUPPORT}    Tests in Dasharo USB Menu are not supported
+    Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}    Tests in Dasharo Security Menu are not supported
     Power On
     Boot Ubuntu And Login To Root
     @{hashes_before_changes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
@@ -119,10 +119,10 @@ MBO004.002 Changing Dasharo USB settings changes only PCR-1
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
-    ${usb_storage_state}=    Get Option State    ${menu}    Enable USB Mass Storage
-    ${new_usb_storage_state}=    Evaluate    not ${usb_storage_state}
-    Set Option State    ${menu}    Enable USB Mass Storage    ${new_usb_storage_state}
+    ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
+    ${smm_protection_state}=    Get Option State    ${menu}    Enable SMM BIOS write
+    ${new_smm_protection_state}=    Evaluate    not ${smm_protection_state}
+    Set Option State    ${menu}    Enable SMM BIOS write    ${new_smm_protection_state}
     Save Changes And Reset
 
     Boot Ubuntu And Login To Root
@@ -203,8 +203,8 @@ MBO006.001 Identical configuration results in identical measurements
     [Documentation]    Check if same configuration state results in same PCR
     ...    values regardless how this state was achieved
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${USB_MASS_STORAGE_SUPPORT}
-    ...    Platform doesn't support neither Networking or USB menu tests
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${SMM_WRITE_PROTECTION_SUPPORT}
+    ...    Platform doesn't support neither Networking or Security menu tests
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
@@ -212,9 +212,9 @@ MBO006.001 Identical configuration results in identical measurements
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    IF    ${USB_MASS_STORAGE_SUPPORT}
-        ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
-        ${option}=    Set Variable    Enable USB Mass Storage
+    IF    ${SMM_WRITE_PROTECTION_SUPPORT}
+        ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
+        ${option}=    Set Variable    Enable SMM BIOS write
     ELSE
         ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
         ${option}=    Set Variable    Enable network boot
@@ -238,8 +238,8 @@ MBO006.002 Identical configuration after reset results in identical measurements
     [Documentation]    Check if same configuration state achieved by resetting
     ...    state to default results in same PCR values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${USB_MASS_STORAGE_SUPPORT}
-    ...    Platform supports neither Networking nor USB menu tests
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT} and not ${SMM_WRITE_PROTECTION_SUPPORT}
+    ...    Platform supports neither Networking nor Security menu tests
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    Tests with "Reset to defaults" are not supported
     ${default_hashes}=    Get Default PCRs State
 
@@ -247,9 +247,9 @@ MBO006.002 Identical configuration after reset results in identical measurements
 
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
-    IF    ${USB_MASS_STORAGE_SUPPORT}
-        ${menu}=    Enter Dasharo Submenu    ${menu}    USB Configuration
-        ${option}=    Set Variable    Enable USB Mass Storage
+    IF    ${SMM_WRITE_PROTECTION_SUPPORT}
+        ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
+        ${option}=    Set Variable    Enable SMM BIOS write
     ELSE
         ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
         ${option}=    Set Variable    Enable network boot
