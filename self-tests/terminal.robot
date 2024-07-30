@@ -38,34 +38,51 @@ Execute UEFI Shell Command
     ${out}=    Execute UEFI Shell Command    bcfg boot dump
     Should Contain    ${out}    Optional- N
 
-
-
 TEST Testy test of tests
-    Power On
-    Enter Setup Menu Tianocore
-    FOR    ${i}    IN    50
-        ${setup_menu}=    Get Boot Menu Construction
-        Log To Console    \nMenu Tianocore:\n
-        FOR    ${line}    IN    @{setup_menu}
-            Log To Console    ${line}
+    FOR    ${i}    IN RANGE    50
+        Power On
+        Enter Setup Menu Tianocore
+
+        Log To Console    \nIteration: ${i}
+
+        ${menu}=    Get Setup Menu Construction
+        Log To Console    Menu Tianocore:\n
+        FOR    ${line}    IN    @{menu}
+            Log To Console    Line: ${line}
             Run Keyword And Continue On Failure    Should Not Contain    ${line}    <This section will>
         END
+        Run Keyword And Continue On Failure    Should Contain    ${menu}    Device Manager
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${menu}
 
-        Log To Console    \n\nDevice Manager:\n
-        ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Device Manager
+        Log To Console    \nDevice Manager:\n
+        ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction    ${menu}    Device Manager
         FOR    ${line}    IN    @{device_mgr_menu}
-            Log To Console    ${line}
+            Log To Console    Line: ${line}
             Run Keyword And Continue On Failure    Should Not Contain    ${line}    Devices List
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    Selecto to manage
         END
+        Run Keyword And Continue On Failure    Should Contain    ${device_mgr_menu}    Secure Boot Configuration
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${device_mgr_menu}
 
-        Log To Console    \n\nSecure Boot Configuration:\n
-        ${sb_menu}=    Enter Submenu From Snapshot And Return Construction    ${device_mgr_menu}    Secure Boot Configuration
+        Log To Console    \nSecure Boot Configuration:\n
+        ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
+        ...    ${device_mgr_menu}
+        ...    Secure Boot Configuration
         FOR    ${line}    IN    @{sb_menu}
-            Log To Console    ${line}
+            Log To Console    Line: ${line}
             Run Keyword And Continue On Failure    Should Not Contain    ${line}    state: enabled or
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    disabled.
         END
-        Log To Console    \n\n
+        Run Keyword And Continue On Failure    Should Contain    ${sb_menu}    Secure Boot Configuration
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${sb_menu}
 
-        Exit From Current Menu
-        Exit From Current Menu
+        # Sleep    1s
+        # Exit From Current Menu
+        # Sleep    1s
+        # Exit From Current Menu
+        # Sleep    1s
+        # Write Into Terminal    ${ARROW_UP}
+        # Sleep    1s
+        # Write Into Terminal    ${ARROW_UP}
+        # Sleep    1s
     END
