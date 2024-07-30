@@ -34,7 +34,7 @@ DCU001.001 Change the UUID
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU001.001 not supported
 
     ${uuid}=    Uuid 4
-    ${result}=    Run Process    bash    -c    ./dcu/dcuc smbios -u ${uuid} ./dcu/coreboot.rom
+    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -u ${uuid} ./coreboot.rom
     Log    ${result.stdout}
     Log    ${result.stderr}
     Should Contain    ${result.stdout}    Success
@@ -54,7 +54,7 @@ DCU002.001 Change the serial number
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU002.001 not supported
 
     ${serial_no}=    Random Int    min=10000000    max=99999999
-    ${result}=    Run Process    bash    -c    ./dcu/dcuc smbios -s ${serial_no} ./dcu/coreboot.rom
+    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -s ${serial_no} ./coreboot.rom
     Log    ${result.stdout}
     Log    ${result.stderr}
     Should Contain    ${result.stdout}    Success
@@ -76,7 +76,7 @@ DCU003.001 Change the bootsplash logo
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU003.001 not supported
 
     ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
-    ${result}=    Run Process    bash    -c    ./dcu/dcuc logo -l ./dcu/logo.bmp ./dcu/coreboot.rom
+    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo -l ./logo.bmp ./coreboot.rom
     Log    ${result.stdout}
     Log    ${result.stderr}
     Should Contain    ${result.stdout}    Success
