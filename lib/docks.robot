@@ -49,6 +49,19 @@ Check DP Port On MST Hub In Linux
     # Either a normal SST sink, or MST hub downstream, means the port is OK.
     Should Contain    ${out}    SST SINK    MST BRANCHING
 
+Check Display Port On Hub In Linux
+    [Documentation]    Check if a monitor is connected to a docking station (ignoring eDP)
+    [Arguments]    ${target}
+    Log    Please ensure that all external monitors are exclusively connected to    WARN
+    Log    the docking station to eliminate false positives    WARN
+    ${content}=    Execute Command In Terminal    cat ../../../sys/kernel/debug/dri/1/i915_display_info
+    ${dock_connected}=    Check Docking Connection    ${content}    ${target}
+    IF    ${dock_connected}
+        Log    Monitor is connected to docking station
+    ELSE
+        Fail    No monitor connected to docking station or only eDP connected
+    END
+
 Check Docking Station DP Windows
     [Documentation]    Check if docking station DP display is recognized by
     ...    Windows OS.
@@ -111,3 +124,35 @@ Detect Docking Station In Linux
     Sleep    5s
     Detect Docking Station USB Devices In Linux    ${docking_station_model}
     Detect Docking Station Video Ports In Linux    ${docking_station_model}
+
+Check Docking Connection
+    [Documentation]    Returns True if a monitor is connected to a docking station, False otherwise.
+    [Arguments]    ${content}    ${target}
+    ${lines}=    Split To Lines    ${content}
+    ${dock_connected}=    Evaluate    'False'
+    ${check_for_hdmi}=    Evaluate    'False'
+    FOR    ${line}    IN    @{lines}
+        ${line}=    Strip String    ${line}
+        # at first we ignore that condition, it' ll become relevant once we find connector
+        IF    ${check_for_hdmi}
+            ${is_hdmi}=    Evaluate    "'Type: HDMI' in '''${line}'''"
+            IF    ${is_hdmi}
+                ${dock_connected}=    Set Variable    True
+                ${check_for_hdmi}=    Set Variable    False
+            END
+        ELSE
+            # we start by finding non eDP display
+            ${contains}=    Evaluate    "status: connected" in """${line}"""
+            IF    ${contains}
+                IF    "eDP" not in "${line}"
+                    # since HDMI screens are listed as DP connector we need to look more clues
+                    IF    "${target}" == "HDMI"
+                        ${check_for_hdmi}=    Set Variable    True
+                    ELSE IF    "${target}" == "DP"
+                        ${dock_connected}=    Set Variable    True
+                    END
+                END
+            END
+        END
+    END
+    RETURN    ${dock_connected}
