@@ -203,3 +203,39 @@ Test Reenter Menu
         ${menu}=    Get Submenu Construction
         Should Contain    ${menu}    > Secure Boot Configuration
     END
+
+Get Menu Construction Stress Test
+    Set Test Variable    ${MENU_TEST}    Device manager
+    Set Test Variable    ${DEVICE_MGR_MENU_TEST}    Secure Boot Configuration
+    Set Test Variable    ${SB_MENU_TEST}    Current Secure Boot State
+
+    FOR    ${i}    IN RANGE    50
+        Log To Console    Iteration: ${i}
+        Power On
+        Enter Setup Menu Tianocore
+
+        ${menu}=    Get Setup Menu Construction
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${menu}
+
+        FOR    ${line}    IN    @{menu}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    <This section will>
+        END
+
+        ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction    ${menu}    Device Manager
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${device_mgr_menu}
+
+        FOR    ${line}    IN    @{device_mgr_menu}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    Devices List
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    Select to manage
+        END
+
+        ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
+        ...    ${device_mgr_menu}
+        ...    Secure Boot Configuration
+
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${sb_menu}
+        FOR    ${line}    IN    @{sb_menu}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    state: enabled or
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    disabled.
+        END
+    END
