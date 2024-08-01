@@ -49,5 +49,5 @@ jobs:
       with:
         name: "qemu-logs"
         path: |
-           ./artifacts/
+           ./logs/
         retention-days: 30
