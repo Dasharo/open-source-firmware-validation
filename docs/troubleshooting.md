@@ -13,6 +13,5 @@ enabled. Otherwise every time firmware is flashed by the test the DUT setup
 will be broken. To prepare a modified fw file use:
 
 ```
-./dcu variable ./test/data/firmware.rom --set
-SerialRedirection --value Enabled
+./dcu variable ./test/data/firmware.rom --set SerialRedirection --value Enabled
 ```
