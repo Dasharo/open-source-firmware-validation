@@ -16,3 +16,11 @@ ${CPU_MAX_FREQUENCY}=               4800
 ${CPU_MIN_FREQUENCY}=               300
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${TRUE}
+
+${POWER_CTRL}=                      none
+${FLASH_SIZE}=                      ${32*1024*1024}
+${SNIPEIT}=                         no
+${TESTS_IN_WINDOWS_SUPPORT}=        ${FALSE}
+${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE}
+${USB_STACK_SUPPORT}=               ${TRUE}
+${DEVICE_AUDIO1}=                   ALC245
