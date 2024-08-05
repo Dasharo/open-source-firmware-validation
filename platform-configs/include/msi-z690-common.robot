@@ -25,6 +25,7 @@ ${POWER_CTRL}=                                  sonoff
 ${FLASH_VERIFY_METHOD}=                         none
 ${WIFI_CARD}=                                   ${EMPTY}
 ${MAX_CPU_TEMP}=                                80
+${WDT_DEFAULT}=                                 500
 
 ${DMIDECODE_MANUFACTURER}=                      Micro-Star International Co., Ltd.
 ${DMIDECODE_VENDOR}=                            3mdeb
