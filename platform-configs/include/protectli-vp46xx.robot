@@ -24,7 +24,6 @@ ${DMIDECODE_RELEASE_DATE}=          03/13/2024
 
 *** Keywords ***
 Power On
-<<<<<<< HEAD
     Restore Initial DUT Connection Method
     Rte Power Off
     Sleep    5s
