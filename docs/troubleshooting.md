@@ -12,6 +12,6 @@ tests that flash firmware need to have the fw file modified to have the serial
 enabled. Otherwise every time firmware is flashed by the test the DUT setup
 will be broken. To prepare a modified fw file use:
 
-```
+```shell
 ./dcu variable ./test/data/firmware.rom --set SerialRedirection --value Enabled
 ```
