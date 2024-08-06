@@ -34,8 +34,8 @@ ${TEST_BOOT_ENTRY_NAME}=    dasharo-compatibility_efibootmgr-custom-boot-entry
 *** Test Cases ***
 EBM001.001 Network Boot enable
     [Documentation]    Test if enabling network boot entry works.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NCN001.001 not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    NCN001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM0001.001 not supported
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM001.001 not supported
 
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -49,8 +49,8 @@ EBM001.001 Network Boot enable
 
 EBM002.001 Network Boot disable
     [Documentation]    Test if disabling network boot entry works.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NCN001.001 not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    NCN001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM002.001 not supported
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM002.001 not supported
 
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -64,6 +64,8 @@ EBM002.001 Network Boot disable
 
 EBM003.001 Custom Boot Order Add
     [Documentation]    Test if adding a custom boot entry works.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM003.001 not supported
+    Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM003.001 not supported
 
     Login To Linux
     Switch To Root User
@@ -95,6 +97,8 @@ EBM003.001 Custom Boot Order Add
 
 EBM004.001 Custom Boot Order Remove
     [Documentation]    Test if removing a custom boot entry works.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM004.001 not supported
+    Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM004.001 not supported
 
     Login To Linux
     Switch To Root User
