@@ -91,6 +91,7 @@ ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${FALSE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${FALSE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
+${CUSTOM_BOOT_ORDER_SUPPORT}=                       ${FALSE}
 ${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${FALSE}
 ${INTERNAL_LCD_DISPLAY_SUPPORT}=                    ${FALSE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=                   ${FALSE}
