@@ -159,7 +159,7 @@ VBO012.001 Self-signed binary is bootable without errors
 Generate Verified Boot Keys
     Clone Git Repository    https://github.com/Dasharo/dasharo-tools.git
     Execute Command In Terminal    rm -rf vboot_keys
-    ${out_genkey}=    Execute Command In Terminal    ./dasharo-tools/vboot/generate_keys vboot_keys    timeout=5m
+    ${out_genkey}=    Execute Command In Terminal    ./dasharo-tools/vboot/generate_keys vboot_keys    timeout=20m
     Should Contain    ${out_genkey}    The Verified Boot keys were generated into following directory
 
 Resign Existing Firmware Image With Generated Keys
