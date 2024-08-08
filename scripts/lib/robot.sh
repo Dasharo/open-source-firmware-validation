@@ -37,7 +37,7 @@ execute_robot() {
   _test_path=${_test_path%%--*}
   local _robot_args=${*}
   _robot_args=${_robot_args#*--}
-  if [[ "$_test_path" != *"--"* ]]; then
+  if ! echo "${*}" | grep " -- "; then
     _robot_args=""
   fi
   local _test_name
