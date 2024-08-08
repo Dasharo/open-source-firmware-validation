@@ -1530,8 +1530,8 @@ Clone Git Repository
     END
     Execute Command In Terminal    rm -rf ${repo_path}
     ${out_clone}=    Execute Command In Terminal    git clone ${repo_url} ${location}
-    Should Contain    ${out_clone}    Receiving objects: 100%
-    Should Contain    ${out_clone}    Resolving deltas: 100%
+    Should Contain    ${out_clone}    Unpacking objects: 100%
+    Should Contain    ${out_clone}    Checking connectivity... done.
 
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
