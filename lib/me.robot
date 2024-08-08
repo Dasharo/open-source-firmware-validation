@@ -15,7 +15,7 @@ ${EXPECTED}=    00:16.0
 Check ME Out
     [Documentation]    Keyword Runs Lspci To Check Whether The ME Device
     ...    Exists Or Not
-    ${out}=    List Devices In Linux    pci
+    ${out}=    Execute Command In Terminal    lspci
     ${condition}=    Evaluate    '${EXPECTED}' in """${out}"""
     IF    ${condition}
         ${out_data}=    Check ME State
