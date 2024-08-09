@@ -38,7 +38,7 @@ ${SERIAL_NUMBER_VERIFICATION}=              ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=            ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=               ${TRUE}
 ${UEFI_SHELL_SUPPORT}=                      ${TRUE}
-${EXTERNAL_HDMI_DISPLAY_SUPPORT}=           ${FALSE}
+${EXTERNAL_HDMI_DISPLAY_SUPPORT}=           ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                    ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                       ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                     ${TRUE}
@@ -70,9 +70,9 @@ ${UEFI_PASSWORD_SUPPORT}=                   ${TRUE}
 ${DASHARO_SECURITY_MENU_SUPPORT}=           ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                ${TRUE}
 ${DASHARO_NETWORKING_MENU_SUPPORT}=         ${TRUE}
-${DASHARO_INTEL_ME_MENU_SUPPORT}=           ${TRUE}
-${DASHARO_CHIPSET_MENU_SUPPORT}=            ${TRUE}
-${MEASURED_BOOT_SUPPORT}=                   ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=           ${FALSE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=            ${FALSE}
+${MEASURED_BOOT_SUPPORT}=                   ${FALSE}
 ${PLATFORM_STABILITY_CHECKING}=             ${TRUE}
 ${DEF_SOCKETS}=                             1
 ${DEF_CORES_PER_SOCKET}=                    4
@@ -94,5 +94,4 @@ Power On
     Sleep    1s
     Telnet.Read
     Rte Relay Set    on
-    Rte Power On
     Sleep    1s
