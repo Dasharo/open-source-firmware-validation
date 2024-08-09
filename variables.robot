@@ -306,6 +306,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 980 PRO 500GB
 <<<<<<< HEAD
+<<<<<<< HEAD
 &{SSD16}=                   vendor=Silicon Power    volume=128GB    type=Storage_SSD
 ...                         interface=SATA    count=1
 ...                         boot_name=SPCC Solid State Disk
@@ -321,6 +322,9 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{SSD16}    &{SSD17}
 =======
 &{SSD16}=                   vendor=tbd    volume=128GB    type=Storage_SSD
+=======
+&{SSD16}=                   vendor=Silicon Power    volume=120GB    type=Storage_SSD
+>>>>>>> 52e97d5 (variables.robot: update Turbot config)
 ...                         interface=SATA    count=1
 ...                         boot_name=SPCC Solid State Disk
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
@@ -496,12 +500,16 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
 <<<<<<< HEAD
+<<<<<<< HEAD
 @{CONFIG48}=                &{RTE64}    &{SSD17}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
 @{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
 =======
 @{CONFIG48}=                &{RTE55}    &{SSD16}
 >>>>>>> 4207804 (variables.robot: add MinnowBoard SSD config)
+=======
+@{CONFIG48}=                &{RTE55}    &{SSD16}    &{USB12}    ${CARD06}
+>>>>>>> 52e97d5 (variables.robot: update Turbot config)
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
