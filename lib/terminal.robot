@@ -153,8 +153,6 @@ Execute Command In Terminal
     Set DUT Response Timeout    ${timeout}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        ${output}=    SSHLibrary.Execute Command    ${command}
     ELSE
         Write Into Terminal    ${command}
         ${output}=    Read From Terminal Until Prompt
