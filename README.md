@@ -257,6 +257,12 @@ $ python3 ./robot-venv/lib/python3.11/site-packages/robot/testdoc.py dasharo-com
 $ firefox test.html
 ```
 
+[This website](https://dasharo.github.io/open-source-firmware-validation/) shows
+the current state of all keywords from all libraries as they appear right now on
+the `develop` branch. It works by utilizing a workflow, so remember that local
+changes that are made won't show up there, until they are pushed to `develop`
+branch.
+
 ## Additional documents
 
 * [Adding new platforms](docs/adding-new-platforms.md) - Instructions for adding
