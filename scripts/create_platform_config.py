@@ -27,10 +27,8 @@ def help():
 
 
 def get_variable_pairs(file: str) -> list[tuple[str, str]]:
-    # read file
     with open(file, "r") as f:
         file_content = f.read()
-    # print(file_content)
 
     file_lines = file_content.split("\n")
 
@@ -50,7 +48,6 @@ def get_variable_pairs(file: str) -> list[tuple[str, str]]:
     variable_pairs = []
     i = 0
     for line in file_lines_w_vars:
-        # print(f"{i}: {line}\n\r")
         i += 1
         # separator is at least 4 spaces
         variable_name, variable_value = re.split(r"\s{4,}", line)
@@ -86,9 +83,6 @@ if __name__ == "__main__":
     for include in vendor_includes_names:
         include_path = f"{PLATFORM_INCLUDES_PATH}/{include}.robot"
         includes_variable_pairs += get_variable_pairs(include_path)
-
-    # print_variables(default_variable_pairs)
-    # print_variables(includes_variable_pairs)
 
     # find if some variables were not defined
     undefined_variables = [
