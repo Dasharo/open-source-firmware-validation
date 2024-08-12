@@ -22,20 +22,6 @@ Variables       platform-configs/fan-curve-config.yaml
 *** Keywords ***
 # TODO: split this file into some manageable modules
 
-Test Keyword
-    [Documentation]    This keyword is being added temporarily to test the
-    ...    automatic deployment of keyword related documentation.
-    [Arguments]    ${host}    ${s2n_port}
-    # provide ser2net port where serial was redirected
-    Telnet.Open Connection
-    ...    ${host}
-    ...    port=${s2n_port}
-    ...    newline=LF
-    ...    terminal_emulation=True
-    ...    terminal_type=vt100
-    ...    window_size=400x100
-    Telnet.Set Timeout    180s
-
 Serial Setup
     [Documentation]    Setup serial communication via telnet. Takes host and
     ...    ser2net port as an arguments.
