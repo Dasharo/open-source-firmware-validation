@@ -30,6 +30,10 @@ jobs:
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
+        publish_dir: ./docs
         publish_branch: gh-pages
-        destination_dir: docs
+        destination_dir: .
+        allow_empty_commit: false
+        keep_files: true
+        add: true
+        force_orphan: true
