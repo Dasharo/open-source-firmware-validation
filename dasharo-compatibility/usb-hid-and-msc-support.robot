@@ -65,7 +65,7 @@ USB002.001 USB keyboard detected in FW
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
     [Tags]    minimal-regression
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USB002.001 not supported
     Power On
     Enter UEFI Shell
     ${out}=    Execute UEFI Shell Command    devices
