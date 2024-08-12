@@ -12,10 +12,10 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-cp "$TEMP_DIR/all-keywords.html" ./docs
+cp "$TEMP_DIR/all-keywords.html" ./docs/index.html
 
 rm "$TEMP_DIR/all-keywords.robot"
 rm "$TEMP_DIR/all-keywords.html"
 rmdir "$TEMP_DIR"
 
-echo "Documentation generated and saved as all-keywords.html"
+echo "Documentation generated and saved as ./docs/index.html"
