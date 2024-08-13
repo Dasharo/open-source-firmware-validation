@@ -227,6 +227,8 @@ found in 'open-source-firmware-validation' folder.
 
 ## Generating documentation
 
+Keywords documentation (Develop) deploy status: ![Build Status]([![pages-build-deployment](https://github.com/Dasharo/open-source-firmware-validation/actions/workflows/pages/pages-build-deployment/badge.svg?branch=develop)](https://github.com/Dasharo/open-source-firmware-validation/actions/workflows/pages/pages-build-deployment))
+
 Documentation in the form of auto-generated html documents can be created using
 `libdoc` and `testdoc`. In order to generate a document for a resource file
 containing keywords, use these commands:
