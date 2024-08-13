@@ -23,6 +23,7 @@ appear here.
     - [Running tests via wrapper](#running-tests-via-wrapper)
     - [Running regressions tests](#running-regressions-tests)
 * [Useful refactoring tools](#useful-refactoring-tools)
+* [Generating documentation](#generating-documentation)
 * [Additional documents](#additional-documents)
 
 ## Lab architecture
@@ -260,6 +261,46 @@ FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/re
 * [Renaming keywords](https://robotidy.readthedocs.io/en/stable/transformers/RenameKeywords.html)
 * [Renaming Test Cases](https://robotidy.readthedocs.io/en/stable/transformers/RenameTestCases.html)
 * [Renaming Variables](https://robotidy.readthedocs.io/en/stable/transformers/RenameVariables.html)
+
+## Generating documentation
+
+Keywords documentation (Develop) deploy status: ![Build Status](https://github.com/Dasharo/open-source-firmware-validation/actions/workflows/pages/pages-build-deployment/badge.svg)
+
+Documentation in the form of auto-generated html documents can be created using
+`libdoc` and `testdoc`. In order to generate a document for a resource file
+containing keywords, use these commands:
+
+```bash
+$ python3 robot-venv/bin/libdoc keywords.robot keywords.html
+$ firefox keywords.html
+```
+
+Or use the provided `create-docs.sh` script, which automatically concatenates
+all of the keyword-containing libraries from `lib/` directory with
+`keywords.robot`, and generates one big html file containing all the keywords
+within this repo:
+
+```bash
+$ ./scripts/create-docs.sh
+Documentation generated and saved as all-keywords.html
+$ firefox all-keywords.html
+```
+
+In order to generate documentation regarding a specific test, `testdoc` has to
+be used, for example if we want documentation regarding the
+`dasharo-compatibility/dasharo-tools-suite.robot` test, these commands would
+need to be executed:
+
+```bash
+$ python3 ./robot-venv/lib/python3.11/site-packages/robot/testdoc.py dasharo-compatibility/dasharo-tools-suite.robot test.html
+$ firefox test.html
+```
+
+[This website](https://dasharo.github.io/open-source-firmware-validation/) shows
+the current state of all keywords from all libraries as they appear right now on
+the `develop` branch. It works by utilizing a workflow, so remember that local
+changes that are made won't show up there, until they are pushed to `develop`
+branch.
 
 ## Additional documents
 
