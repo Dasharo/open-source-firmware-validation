@@ -300,13 +300,17 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD15}=                   vendor=Samsung    volume=500GB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 980 PRO 500GB
-&{SSD16}=                   vendor=tbd    volume=128GB    type=Storage_SSD
+&{SSD16}=                   vendor=Silicon Power    volume=128GB    type=Storage_SSD
 ...                         interface=SATA    count=1
 ...                         boot_name=SPCC Solid State Disk
+&{SSD17}=                   vendor=Goodram    volume=240GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=SSDPR-CL100-240-G2
+
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
-...                         &{SSD16}
+...                         &{SSD16}    &{SSD17}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -474,8 +478,8 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
 @{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
-@{CONFIG48}=                &{RTE64}    &{SSD16}
-@{CONFIG49}=                &{RTE65}
+@{CONFIG48}=                &{RTE64}    &{SSD17}
+@{CONFIG49}=                &{RTE65}    &{SSD17}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
