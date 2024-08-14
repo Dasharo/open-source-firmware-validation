@@ -44,6 +44,10 @@ Following mechanisms may be used for DUT control:
 
 ![regression-architecture](https://cloud.3mdeb.com/index.php/s/KkERgGoniBtjfC4/preview)
 
+### Current osfv_cli purpose
+
+![](./docs/img/osfv_cli_after.png)
+
 ## Test environment overview
 
 Dasharo OSFV consists of following modules:
