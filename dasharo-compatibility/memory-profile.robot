@@ -49,6 +49,7 @@ MPS001.001 Switching to XMP profile
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
     ${current_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
+    ${current_profile}=    Convert To String    ${current_profile}
     Should Start With    ${current_profile}    JEDEC
     Set Option State    ${memory_menu}    Memory SPD Profile    XMP#1 (predefined
     Save Changes And Reset
@@ -74,6 +75,7 @@ MPS002.001 Switching back to JEDEC profile
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
     ${current_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
+    ${current_profile}=    Convert To String    ${current_profile}
     Should Start With    ${current_profile}    XMP#1
     Set Option State    ${memory_menu}    Memory SPD Profile    JEDEC (safe
     Save Changes And Reset
