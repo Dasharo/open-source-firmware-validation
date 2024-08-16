@@ -1480,11 +1480,12 @@ Get Cbmem From Cloud
     [Documentation]    Download cbmem from the cloud.
     ${cbmem_path}=    Set Variable    /usr/local/bin/cbmem
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbmem_path}
-    ${sha256}=    Set Variable    null
     IF    len(${out_sha256sum.split()}) != 0
         ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    ELSE
+        ${sha256}=    Set Variable    null
     END
-    IF        '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
+    IF    '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
         Download File    https://cloud.3mdeb.com/index.php/s/C6LJMi4bWz3wzR9/download    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
     END
