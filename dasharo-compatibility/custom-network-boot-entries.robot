@@ -26,7 +26,7 @@ Suite Teardown      Run Keyword
 CNB001.001 Only one iPXE in boot menu
     [Documentation]    Check whether the network boot option with iPXE appears
     ...    only once in the boot option list.
-    # Skip If    not ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}    CNB001.001 not supported
+    Skip If    not ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}    CNB001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CNB001.001 not supported
 
     ${boot_menu}=    Get UEFI Boot Manager Entries
