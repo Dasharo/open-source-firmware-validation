@@ -34,7 +34,7 @@ NVI001.001 NVIDIA Graphics detect (Ubuntu)
     Switch To Root User
     Detect Or Install Package    pciutils
     ${out}=    Execute Linux Command    lspci | grep -i nvidia | cat
-    Should Contain    ${out}    3D controller: NVIDIA Corporation
+    Should Contain Any    ${out}    3D controller: NVIDIA Corporation    VGA compatible controller: NVIDIA Corporation
     Exit From Root User
 
 NVI001.002 NVIDIA Graphics detect (Windows)
