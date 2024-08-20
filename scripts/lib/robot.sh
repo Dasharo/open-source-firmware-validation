@@ -33,15 +33,29 @@ execute_robot() {
   # _test_path can be either
   #   - path to directory containing a set of .robot files
   #   - path to a single .robot file
-  local _test_path=${*}
-  _test_path=${_test_path%%--*}
-  local _robot_args=${*}
-  _robot_args=${_robot_args#*--}
-  if ! echo "${*}" | grep " -- "; then
-    _robot_args=""
-  fi
-  local _test_name
-  _test_name="$(echo "$_test_path" | sed -e 's/\ /_/' | awk '{$1=$1};$1')"
+  local _args=("$@")
+  local _test_path=()
+  local _seperator_idx=-1
+  local _args_len=${#_args[@]}
+  _test_path=()
+
+  for ((i=0;i<_args_len;i++)); do
+    if [[ ${_args[$i]} == *"--"* ]]; then
+      _seperator_idx=$i
+      break
+    fi
+    _test_path+=("${_args[$i]}")
+  done;
+
+  local _robot_args=()
+  _seperator_idx=$_seperator_idx+1
+  for ((i=_seperator_idx;i<_args_len;i++)); do
+    if [[ ${_args[$i]} =~ \  ]]; then
+      _args[i]=\"${_args[i]}\"      
+    fi
+    _robot_args+=("${_args[$i]}")
+  done
+
 
   # Check if the required environment variables are set
   check_env_variable "RTE_IP"
@@ -97,9 +111,9 @@ execute_robot() {
               ${fw_file_option} \
               ${installed_dut_option} \
               ${extra_options} \
-              ${_robot_args} \
-              ${_test_path}
+              ${_robot_args[*]} \
+              ${_test_path[*]}
               "
-  echo $command
-  eval $command
+  #echo "$command"
+  eval "$command"
 }
