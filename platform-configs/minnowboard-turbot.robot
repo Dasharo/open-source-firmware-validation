@@ -21,7 +21,9 @@ ${POWER_CTRL}=                              RteCtrl
 ${FLASH_VERIFY_METHOD}=                     tianocore-shell
 ${FLASH_VERIFY_OPTION}=                     UEFI Shell
 ${WIFI_CARD}=                               ${EMPTY}
-${MAX_CPU_TEMP}=                            ${EMPTY}
+${CPU_MAX_FREQUENCY}=                       2000
+${CPU_MIN_FREQUENCY}=                       400
+${MAX_CPU_TEMP}=                            110
 
 ${DEVICE_USB_KEYBOARD}=                     Logitech, Inc. Keyboard K120
 
@@ -78,6 +80,7 @@ ${DEF_SOCKETS}=                             1
 ${DEF_CORES_PER_SOCKET}=                    4
 ${DEF_THREADS_PER_CORE}=                    1
 ${DEF_THREADS_TOTAL}=                       4
+${DEF_ONLINE_CPU}=                          0-3
 ${L2_CACHE_SUPPORT}=                        ${TRUE}
 
 
