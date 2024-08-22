@@ -44,9 +44,18 @@ Following mechanisms may be used for DUT control:
 
 ![regression-architecture](https://cloud.3mdeb.com/index.php/s/KkERgGoniBtjfC4/preview)
 
-### Current osfv_cli purpose
+### Current OSFV architecture
 
 ![](./docs/img/osfv_cli_after.png)
+Because of that the:</br>
+    - <https://github.com/3mdeb/sonoff-rest-api> </br>
+    - <https://github.com/3mdeb/rtectrl-rest-api> </br>
+repositories were replaced by common libraries such as those contained here:</br>
+    <https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli/src/osfv/libs></br>
+    these and robot framework libraries (found here
+    <https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli/src/osfv/rf>)
+are attached to the environment itself via `requirements.txt` which needs to be
+kept up to date to serve its purpose.
 
 ## Test environment overview
 
