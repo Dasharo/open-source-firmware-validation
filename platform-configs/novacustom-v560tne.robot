@@ -14,7 +14,6 @@ ${DMIDECODE_PRODUCT_NAME}=              V5xTNC_TND_TNE
 ${EXTERNAL_HEADSET}=                    USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
-${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=        ${TRUE}
 
 ${POWER_CTRL}=                          none
@@ -25,4 +24,5 @@ ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the bo
 ${USB_STACK_SUPPORT}=                   ${TRUE}
 
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
+${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
