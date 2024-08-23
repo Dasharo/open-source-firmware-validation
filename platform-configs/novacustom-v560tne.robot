@@ -25,3 +25,5 @@ ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the bo
 ${USB_STACK_SUPPORT}=                   ${TRUE}
 
 ${USB_DETECTION_ITERATIONS_NUMBER}=     1
+${BOOT_FROM_USB_ITERATIONS_NUMBER}=     1
+${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
