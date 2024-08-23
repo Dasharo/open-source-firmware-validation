@@ -31,7 +31,9 @@ Set UEFI Option
     ...    shell=True
     Should Contain    ${result.stdout}    Success
     SSHLibrary.Put File    dcu/coreboot.rom    coreboot.rom
-    Execute Command In Terminal    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
+    ${result}=    Execute Command In Terminal
+    ...    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
+    Should Contain    ${result}    VERIFIED
     Execute Reboot Command
     # Assume we don't have serial to tell us that we've rebooted, so just wait
     # 20s for shutdown to finish, to prevent subsequent kwds from running before
