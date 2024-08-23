@@ -986,7 +986,7 @@ Check Internal LCD Windows
 Check External HDMI In Linux
     [Documentation]    Keyword checks if an external HDMI device is visible
     ...    in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/devices/pci0000:00/0000:00:02.0/drm/card*/*HDMI*/status
+    ${out}=    Execute Linux Command    cat /sys/class/drm/card*/*
 
     Should Contain    ${out}    connected
 
