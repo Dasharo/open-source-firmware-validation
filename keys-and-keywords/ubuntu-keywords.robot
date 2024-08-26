@@ -41,11 +41,6 @@ Install Package
     Read From Terminal Until Prompt
     Set DUT Response Timeout    30s
 
-Stop Logging To Terminal
-    [Documentation]    This keyword stops all unwanted logging to the terminal
-    ...    we are using for the shell. This prevents garbage from being logged.
-    Set Logging Level    0
-
 Get Logging Level
     [Documentation]    This keyword returns TRUE if logging is disabled and
     ...    FALSE if it is not.
@@ -56,6 +51,7 @@ Get Logging Level
 Set Logging Level
     [Documentation]    This keyword sets the logging level to given value [0; 7]
     [Arguments]    ${level}
-    Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" > /etc/sysctl.d/10-console-messages.conf
+    Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" > /etc/sysctl/d/10-console-messages.conf
+    Execute Linux Command    sed -i '/kernel\.printk =/d' /etc/sysctl.conf
     Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" >> /etc/sysctl.conf
     Execute Linux Command    sysctl --system
