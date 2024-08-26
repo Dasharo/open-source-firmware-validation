@@ -221,10 +221,18 @@ ${OS_UBUNTU}=               ubuntu
 # NovaCustom V560TU -----------------------------------------------------------
 &{RTE62}=                   ip=0.0.0.0
 ...                         platform=novacustom-v560tu    platform_vendor=Clevo
-# Protectli V1211
+# Protectli V1211 -------------------------------------------------------------
 &{RTE63}=                   ip=192.168.10.227
 ...                         platform=protectli-v1211
 ...                         platform_vendor=protectli
+# Dell OptiPlex 7010 ----------------------------------------------------------
+&{RTE64}=                   ip=192.168.10.225
+...                         platform=optiplex-7010
+...                         platform_vendor=DELL    sonoff_ip=192.168.10.125
+# Dell OptiPlex 7010 2 --------------------------------------------------------
+&{RTE65}=                   ip=192.168.10.54
+...                         platform=optiplex-7010
+...                         platform_vendor=DELL    sonoff_ip=192.168.10.250
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -238,7 +246,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE50}
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
-...                         &{RTE61}    &{RTE62}    &{RTE63}
+...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -292,9 +300,17 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD15}=                   vendor=Samsung    volume=500GB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 980 PRO 500GB
+&{SSD16}=                   vendor=Silicon Power    volume=128GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=SPCC Solid State Disk
+&{SSD17}=                   vendor=Goodram    volume=240GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=SSDPR-CL100-240-G2
+
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
+...                         &{SSD16}    &{SSD17}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -462,6 +478,8 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
 @{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
+@{CONFIG48}=                &{RTE64}    &{SSD17}
+@{CONFIG49}=                &{RTE65}    &{SSD17}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -474,4 +492,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
-...                         @{CONFIG46}    @{CONFIG47}
+...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
