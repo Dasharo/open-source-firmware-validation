@@ -36,20 +36,37 @@ CUP001.001 Test
     Login To Linux
     Switch To Root User
 
-    Install Docker Packages
-    Detect Or Install Package    git
-    Detect Or Install Package    unzip
-    Detect Or Install Package    wget
-    ${out}=    Execute Command In Terminal    rm -f coreboot
-    Clone Git Repository    https://github.com/Dasharo/coreboot.git -b ${COREBOOT_REVISION} --depth 1
+    # Install Docker Packages
+    # Detect Or Install Package    git
+    # Detect Or Install Package    unzip
+    # Detect Or Install Package    wget
 
-    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home/${UBUNTU_USERNAME}/coreboot#
-    Execute Command In Terminal    cd coreboot
-    Execute Command In Terminal    echo "CONFIG_DRIVERS_EFI_FW_INFO=y" >> configs/${COREBOOT_CONFIG_FILE}
-    Execute Command In Terminal    echo "CONFIG_DRIVERS_EFI_UPDATE_CAPSULES=y" >> configs/${COREBOOT_CONFIG_FILE}
-    Execute Command In Terminal
-    ...    sed -i 's/CONFIG_LOCALVERSION="v[^"]*"/CONFIG_LOCALVERSION="v99.99.99"/' configs/${COREBOOT_CONFIG_FILE}
-    Execute Command In Terminal    ./build.sh ${COREBOOT_BUILD_PARAM}
+    # Execute Command In Terminal    rm -r coreboot
+    # Clone Git Repository    https://github.com/Dasharo/coreboot.git -b ${COREBOOT_REVISION} --depth 1
+
+    # Execute Command In Terminal    chmod 777 coreboot
+    # Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home/${UBUNTU_USERNAME}/coreboot#
+    # Execute Command In Terminal    cd coreboot
+    # Execute Command In Terminal    echo "CONFIG_DRIVERS_EFI_FW_INFO=y" >> configs/${COREBOOT_CONFIG_FILE}
+    # Execute Command In Terminal    echo "CONFIG_DRIVERS_EFI_UPDATE_CAPSULES=y" >> configs/${COREBOOT_CONFIG_FILE}
+    # Execute Command In Terminal
+    # ...    sed -i 's/CONFIG_LOCALVERSION="v[^"]*"/CONFIG_LOCALVERSION="v99.99.99"/' configs/${COREBOOT_CONFIG_FILE}
+    # ${out}=    Execute Command In Terminal    ./build.sh ${COREBOOT_BUILD_PARAM}    7m
+    # Should Not Contain    ${out}    failed to register layer
+    # Log To Console    ${out}
+
+    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home/#
+    Execute Command In Terminal    cd ..
+    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/#
+    Execute Command In Terminal    cd ..
+    Execute Command In Terminal    rm -r capsule_testing
+    Execute Command In Terminal    mkdir capsule_testing
+    Execute Command In Terminal    chmod 777 capsule_testing
+
+    Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
+    Send File To DUT
+    ...    ./dasharo-stability/capsule-update-files/qemu_q35_v99.99.99.rom
+    ...    /capsule_testing/qemu_q35_v99.99.99.rom
 
 
 *** Keywords ***
