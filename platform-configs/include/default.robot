@@ -212,6 +212,7 @@ ${TPM_DETECT_SUPPORT}=                              ${FALSE}
 ${NVME_DETECTION_SUPPORT}=                          ${FALSE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${FALSE}
+${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases

@@ -35,6 +35,7 @@ ${DASHARO_CHIPSET_MENU_SUPPORT}=            ${TRUE}
 ${DASHARO_POWER_MGMT_MENU_SUPPORT}=         ${TRUE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=           ${TRUE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=             ${TRUE}
+
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
@@ -75,6 +76,13 @@ ${CPU_TEMPERATURE_MEASURE}=                 ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=             ${TRUE}
 
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
+
+# Test module: dasharo-stability
+${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
+
+${COREBOOT_REVISION}=                       uefi-capsules
+${COREBOOT_CONFIG_FILE}=                    config.emulation_qemu_x86_q35_uefi
+${COREBOOT_BUILD_PARAM}=                    qemu
 
 
 *** Keywords ***
