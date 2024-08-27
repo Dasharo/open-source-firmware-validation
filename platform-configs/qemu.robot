@@ -80,6 +80,9 @@ ${TRENCHBOOT_SUPPORT}=                      ${TRUE}
 
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
 
+# Test module: dasharo-stability
+${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
+
 
 *** Keywords ***
 Power On
