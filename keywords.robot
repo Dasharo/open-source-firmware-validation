@@ -289,7 +289,7 @@ Get Hostname Ip
     ...    Check Internet Connection On Linux
     ${out_hostname}=    Execute Command In Terminal    hostname -I
     Should Not Contain    ${out_hostname}    link is not ready
-    ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b192\\.168\\.\\d{1,3}\\.\\d{1,3}\\b
+    ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b(?:192\\.168|10\\.0)\\.\\d{1,3}\\.\\d{1,3}\\b
     Should Not Be Empty    ${ip_address}
     RETURN    ${ip_address[0]}
 
@@ -1538,9 +1538,15 @@ Send File To DUT
     [Arguments]    ${source_path}    ${target_path}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${ip_address}=    Get Hostname Ip
+        IF    '${CONFIG}' == 'qemu'
+            Set Test Variable    ${IP_ADDRESS}    localhost
+            Set Test Variable    ${PORT}    5222
+        ELSE
+            ${ip_address}=    Get Hostname Ip
+            Set Test Variable    ${PORT}    22
+        END
         Execute Command In Terminal    rm -f ${target_path}
-        SSHLibrary.Open Connection    ${ip_address}
+        SSHLibrary.Open Connection    ${ip_address}    port=${PORT}
         SSHLibrary.Login    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
         SSHLibrary.Put File    ${source_path}    ${target_path}
         SSHLibrary.Close Connection
