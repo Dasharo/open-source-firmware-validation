@@ -54,6 +54,7 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${TRUE}
+${CPU_THROTTLING_SUPPORT}=                          ${TRUE}
 ${INTERNAL_LCD_DISPLAY_SUPPORT}=                    ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=                   ${TRUE}
 ${EC_AND_SUPER_IO_SUPPORT}=                         ${TRUE}

@@ -36,10 +36,12 @@ Prepare Platform
         Log Out And Close Connection
         Should Be Equal    ${fw_ver_file}    ${fw_ver_bootblock}
         Should Be Equal    ${fw_ver_bootblock}    ${fw_ver_romstage}
+    ELSE IF    "${CONFIG}" == "qemu"
+        Prepare Test Suite
     ELSE
         Variable Should Exist    ${FW_FILE}
         Prepare Test Suite
-        Flash Firmware    ${FW_FILE}
+        IF    "${CONFIG}" != "qemu"    Flash Firmware    ${FW_FILE}
         Power Cycle On
         ${version}=    Get Firmware Version
         ${coreboot_version}=    Get Firmware Version From Binary    ${FW_FILE}

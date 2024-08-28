@@ -44,6 +44,7 @@ ${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${TRUE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${TRUE}
 ${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
+${CPU_THROTTLING_SUPPORT}=                          ${TRUE}
 ${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${TRUE}
 ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${PETITBOOT_PAYLOAD_SUPPORT}=                       ${FALSE}

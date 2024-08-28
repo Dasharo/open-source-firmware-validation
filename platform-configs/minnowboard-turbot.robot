@@ -33,6 +33,7 @@ ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 
 # Regression test flags
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=        ${TRUE}
+${CPU_THROTTLING_SUPPORT}=              ${TRUE}
 
 
 *** Keywords ***
