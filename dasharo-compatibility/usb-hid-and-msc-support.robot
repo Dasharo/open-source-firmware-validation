@@ -28,6 +28,7 @@ USB001.001 USB devices detected in FW
     [Documentation]    Check whether USB devices are detected in Tianocore
     ...    (edk2).
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Upload And Mount DTS Flash Iso
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -64,6 +65,7 @@ USB002.001 USB keyboard detected in FW
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
     [Tags]    minimal-regression
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Power On
     Enter UEFI Shell
     ${out}=    Execute UEFI Shell Command    devices
