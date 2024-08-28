@@ -29,33 +29,14 @@ Suite Teardown      Run Keywords
 
 
 *** Test Cases ***
-CUP001.001 Test
-    [Documentation]    This test aims to verify...
+CUP001.001 Capsule Update (Ubuntu)
+    [Documentation]    This test aims to verify if Capsule Update process works.
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
 
-    # Install Docker Packages
-    # Detect Or Install Package    git
-    # Detect Or Install Package    unzip
-    # Detect Or Install Package    wget
-
-    # Execute Command In Terminal    rm -r coreboot
-    # Clone Git Repository    https://github.com/Dasharo/coreboot.git -b ${COREBOOT_REVISION} --depth 1
-
-    # Execute Command In Terminal    chmod 777 coreboot
-    # Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home/${UBUNTU_USERNAME}/coreboot#
-    # Execute Command In Terminal    cd coreboot
-    # Execute Command In Terminal    echo "CONFIG_DRIVERS_EFI_FW_INFO=y" >> configs/${COREBOOT_CONFIG_FILE}
-    # Execute Command In Terminal    echo "CONFIG_DRIVERS_EFI_UPDATE_CAPSULES=y" >> configs/${COREBOOT_CONFIG_FILE}
-    # Execute Command In Terminal
-    # ...    sed -i 's/CONFIG_LOCALVERSION="v[^"]*"/CONFIG_LOCALVERSION="v99.99.99"/' configs/${COREBOOT_CONFIG_FILE}
-    # ${out}=    Execute Command In Terminal    ./build.sh ${COREBOOT_BUILD_PARAM}    7m
-    # Should Not Contain    ${out}    failed to register layer
-    # Log To Console    ${out}
-
-    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home/#
+    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home#
     Execute Command In Terminal    cd ..
     Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/#
     Execute Command In Terminal    cd ..
@@ -64,11 +45,52 @@ CUP001.001 Test
     Execute Command In Terminal    chmod 777 capsule_testing
 
     Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
-    Send File To DUT
-    ...    ./dasharo-stability/capsule-update-files/qemu_q35_v99.99.99.rom
-    ...    /capsule_testing/qemu_q35_v99.99.99.rom
+    Send File To DUT    ${CAPSULE_FW_FILE}    /capsule_testing/dasharo.cap
+
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
+
+    ${out}=    Execute UEFI Shell Command    smbiosview -t 0
+    ${original_bios_version}=    Extract BIOS Version    ${out}
+    Execute UEFI Shell Command    FS0:
+    Execute UEFI Shell Command    cd capsule_testing
+    Execute UEFI Shell Command    CapsuleApp.efi dasharo.cap
+
+    ${out}=    Read From Terminal Until    seconds.)
+
+    ${digit}=    Get Key To Press    ${out}
+    Write Bare Into Terminal    ${digit}
+
+    Set DUT Response Timeout    120s
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
+    ${out}=    Execute UEFI Shell Command    smbiosview -t 0
+    ${updated_bios_version}=    Extract BIOS Version    ${out}
+
+    Should Not Be Equal    ${original_bios_version}    ${updated_bios_version}
 
 
 *** Keywords ***
 Flash Firmware If Not QEMU
     IF    '${CONFIG}' != 'qemu'    Flash Firmware    ${FW_FILE}
+
+Get Key To Press
+    [Arguments]    ${text}
+    ${matches}=    Get Regexp Matches    ${text}    [0-9]
+    ${digit}=    Set Variable    ${matches[0]}
+    Log    Found digit: ${digit}
+    RETURN    ${digit}
+
+Extract BIOS Version
+    [Arguments]    ${text}
+    ${lines}=    Split To Lines    ${text}
+    ${bios_version}=    Set Variable    None
+    FOR    ${line}    IN    @{lines}
+        IF    'BIOS Version' in '${line}'
+            ${bios_version}=    Set Variable    ${line}
+        END
+    END
+    RETURN    ${bios_version}

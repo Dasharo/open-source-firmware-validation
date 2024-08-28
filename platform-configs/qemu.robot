@@ -80,10 +80,6 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
 # Test module: dasharo-stability
 ${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
 
-${COREBOOT_REVISION}=                       uefi-capsules
-${COREBOOT_CONFIG_FILE}=                    config.emulation_qemu_x86_q35_uefi
-${COREBOOT_BUILD_PARAM}=                    qemu
-
 
 *** Keywords ***
 Power On
