@@ -10,7 +10,7 @@ ${FLASH_SIZE}=                              ${8*1024*1024}
 ${BOOT_MENU_KEY}=                           ${ESC}
 ${SETUP_MENU_KEY}=                          ${F2}
 ${MANUFACTURER}=                            QEMU
-${POWER_CTRL}=                              RteCtrl
+${POWER_CTRL}=                              none
 ${FLASHING_METHOD}=                         none
 
 ${DMIDECODE_SERIAL_NUMBER}=                 N/A

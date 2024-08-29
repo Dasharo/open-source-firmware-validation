@@ -16,6 +16,7 @@ Resource        lib/self-tests.robot
 Resource        lib/sleep-lib.robot
 Resource        lib/CPU-performance-lib.robot
 Resource        lib/framework.robot
+Resource        platform-configs/qemu.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -717,6 +718,11 @@ Power Cycle On
     [Documentation]    Clears telnet buffer and perform full power cycle with
     ...    RTE relay set to ON.
     [Arguments]    ${power_button}=${FALSE}
+    IF    "${CONFIG}" == "qemu"
+        Power On
+        RETURN
+    END
+
     IF    "${OPTIONS_LIB}"=="dcu" and "${POWER_CTRL}"=="none"
         Execute Reboot Command
         RETURN
