@@ -28,3 +28,6 @@ ${WEBCAM_UBUNTU}=                   Bison Electronics Inc. BisonCam,NB Pro
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.5.2
 # TODO verify
 ${DMIDECODE_RELEASE_DATE}=          03/17/2022
+
+## Only S0ix is available on MTL
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=    ${FALSE}
