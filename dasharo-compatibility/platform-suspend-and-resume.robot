@@ -60,6 +60,7 @@ Cyclic Platform Suspend And Resume (Ubuntu)
         IF    not ${is_suspend_performed_correctly}
             ${suspend_detected_fails}=    Evaluate    ${suspend_detected_fails} + 1
         END
+        Log To Console    ${index} / ${SUSPEND_ITERATIONS_NUMBER}
     END
     Log To Console
     ...    \n${SUSPEND_ITERATIONS_NUMBER} iterations were performed to check the suspend procedure. \n${suspend_detected_fails} iterations have failed.
