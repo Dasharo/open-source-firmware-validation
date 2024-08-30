@@ -24,6 +24,29 @@ BaseTools/BinWrappers/PosixLike/GenerateCapsule \
     --decode ../open-source-firmware-validation/$cleaned_capsule_path \
     --output decoded \
 
+# Extracting data
+json_file="decoded.json"
+
+dependencies=$(jq -r '.Payloads[0].Dependencies' "$json_file")
+fw_version=$(jq -r '.Payloads[0].FwVersion' "$json_file")
+guid=$(jq -r '.Payloads[0].Guid' "$json_file")
+hardware_instance=$(jq -r '.Payloads[0].HardwareInstance' "$json_file")
+lowest_supported_version=$(jq -r '.Payloads[0].LowestSupportedVersion' "$json_file")
+monotonic_count=$(jq -r '.Payloads[0].MonotonicCount' "$json_file")
+payload=$(jq -r '.Payloads[0].Payload' "$json_file")
+update_image_index=$(jq -r '.Payloads[0].UpdateImageIndex' "$json_file")
+
+echo
+echo "\"Dependencies\": \"$dependencies\""
+echo "\"FwVersion\": \"$fw_version\""
+echo "\"Guid\": \"$guid\""
+echo "\"HardwareInstance\": \"$hardware_instance\""
+echo "\"LowestSupportedVersion\": \"$lowest_supported_version\""
+echo "\"MonotonicCount\": \"$monotonic_count\""
+echo "\"Payload\": \"$payload\""
+echo "\"UpdateImageIndex\": \"$update_image_index\""
+echo
+
 # Create json config files with capsule configs
 echo "---CREATING CAPSULE WITH MAX POSSIBLE VERSION NUMBER---"
 
@@ -34,7 +57,6 @@ if [ -f $output_file ]; then
     rm $output_file
 fi
 
-echo "---CREATING JSON FILE---"
 # There might be an issue if more than one driver is present
 content=$(cat <<EOF
 {
@@ -45,10 +67,10 @@ content=$(cat <<EOF
   ],
   "Payloads": [
     {
-      "Payload": "decoded.Payload.1.bin",
-      "Guid": "00112233-4455-6677-8899-aabbccddeeff",
+      "Payload": "$payload",
+      "Guid": "$guid",
       "FwVersion": "0x99999999",
-      "LowestSupportedVersion": "0x00080000",
+      "LowestSupportedVersion": "$lowest_supported_version",
       "OpenSslSignerPrivateCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestCert.pem",
       "OpenSslOtherPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestSub.pub.pem",
       "OpenSslTrustedPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestRoot.pub.pem"
@@ -58,7 +80,6 @@ content=$(cat <<EOF
 EOF
 )
 
-echo "---FILLING JSON WITH DATA---"
 echo "$content" > "$output_file"
 
 echo "Json file: $output_file"
@@ -95,7 +116,6 @@ if [ ! -f $invalid_root_file ]; then
     echo "!!!WARNING!!! Root file not found!"
 fi
 
-echo "---CREATING JSON FILE---"
 # There might be an issue if more than one driver is present
 content=$(cat <<EOF
 {
@@ -106,10 +126,10 @@ content=$(cat <<EOF
   ],
   "Payloads": [
     {
-      "Payload": "decoded.Payload.1.bin",
-      "Guid": "00112233-4455-6677-8899-aabbccddeeff",
-      "FwVersion": "0x99999999",
-      "LowestSupportedVersion": "0x00080000",
+      "Payload": "$payload",
+      "Guid": "$guid",
+      "FwVersion": "$fw_version",
+      "LowestSupportedVersion": "$lowest_supported_version",
       "OpenSslSignerPrivateCertFile": "$invalid_cert_file",
       "OpenSslOtherPublicCertFile": "$invalid_sub_file",
       "OpenSslTrustedPublicCertFile": "$invalid_root_file"
@@ -119,7 +139,6 @@ content=$(cat <<EOF
 EOF
 )
 
-echo "---FILLING JSON WITH DATA---"
 echo "$content" > "$output_file"
 
 BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
@@ -137,7 +156,6 @@ if [ -f $output_file ]; then
     rm $output_file
 fi
 
-echo "---CREATING JSON FILE---"
 # There might be an issue if more than one driver is present
 content=$(cat <<EOF
 {
@@ -148,10 +166,10 @@ content=$(cat <<EOF
   ],
   "Payloads": [
     {
-      "Payload": "decoded.Payload.1.bin",
+      "Payload": "$payload",
       "Guid": "11111111-2222-3333-4444-abcdefabcdef",
-      "FwVersion": "0x99999999",
-      "LowestSupportedVersion": "0x00080000",
+      "FwVersion": "$fw_version",
+      "LowestSupportedVersion": "$lowest_supported_version",
       "OpenSslSignerPrivateCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestCert.pem",
       "OpenSslOtherPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestSub.pub.pem",
       "OpenSslTrustedPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestRoot.pub.pem"
@@ -161,7 +179,6 @@ content=$(cat <<EOF
 EOF
 )
 
-echo "---FILLING JSON WITH DATA---"
 echo "$content" > "$output_file"
 
 echo "Json file: $output_file"
