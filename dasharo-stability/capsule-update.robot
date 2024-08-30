@@ -23,7 +23,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Flash Firmware If Not QEMU
 ...                     AND
-...                     Upload Required Files
+...                     Upload Required Files                   
 Suite Teardown      Run Keywords
 ...                     Flash Firmware If Not QEMU
 ...                     AND
@@ -31,8 +31,8 @@ Suite Teardown      Run Keywords
 
 
 *** Test Cases ***
-CUP001.001 Capsule Update
-    [Documentation]    This test aims to verify if Capsule Update process works.
+CUP001.001 Capsule Update With Wrong Keys
+    [Documentation]    This test aims to verify...
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
@@ -41,7 +41,54 @@ CUP001.001 Capsule Update
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${original_bios_version}=    Extract BIOS Version    ${out}
 
-    Start Update Process
+    Start Update Process    wrong_cert.cap
+    Sleep    60s
+
+    Execute UEFI Shell Command    reset
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
+    ${out}=    Execute UEFI Shell Command    smbiosview -t 0
+    ${updated_bios_version}=    Extract BIOS Version    ${out}
+
+    Should Be Equal    ${original_bios_version}    ${updated_bios_version}
+
+
+CUP001.001 Capsule Update With Wrong GUID
+    [Documentation]    This test aims to verify...
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
+
+    ${out}=    Execute UEFI Shell Command    smbiosview -t 0
+    ${original_bios_version}=    Extract BIOS Version    ${out}
+
+    Start Update Process    invalid_guid.cap
+    Sleep    60s
+    
+    Execute UEFI Shell Command    reset
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
+    ${out}=    Execute UEFI Shell Command    smbiosview -t 0
+    ${updated_bios_version}=    Extract BIOS Version    ${out}
+
+    Should Be Equal    ${original_bios_version}    ${updated_bios_version}
+
+CUP003.001 Capsule Update
+    [Documentation]    This test aims to verify if Capsule Update process works.
+
+    
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
+
+    ${out}=    Execute UEFI Shell Command    smbiosview -t 0
+    ${original_bios_version}=    Extract BIOS Version    ${out}
+
+    Start Update Process    max_fw_ver.cap
 
     ${out}=    Read From Terminal Until
     ...    (The platform will automatically reboot and disable Firmware Update Mode automatically in
@@ -57,14 +104,6 @@ CUP001.001 Capsule Update
     ${updated_bios_version}=    Extract BIOS Version    ${out}
 
     Should Not Be Equal    ${original_bios_version}    ${updated_bios_version}
-
-CUP002.001 Capsule Update With Wrong Keys
-    [Documentation]    This test aims to verify...
-    Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
-    Read From Terminal Until    Shell>
-
 
 *** Keywords ***
 Flash Firmware If Not QEMU
@@ -89,6 +128,12 @@ Extract BIOS Version
     RETURN    ${bios_version}
 
 Upload Required Files
+    ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE} 
+
+    Check If Capsule File Exists    ../edk2/${file_name}_max_fw_ver.cap
+    Check If Capsule File Exists    ../edk2/${file_name}_wrong_cert.cap 
+    Check If Capsule File Exists    ../edk2/${file_name}_invalid_guid.cap
+
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -102,10 +147,38 @@ Upload Required Files
     Execute Command In Terminal    mkdir capsule_testing
     Execute Command In Terminal    chmod 777 capsule_testing
 
+    Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
     Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
-    Send File To DUT    ${CAPSULE_FW_FILE}    /capsule_testing/dasharo.cap
+    Sleep    300s
+    Log To Console    Sending ../edk2/${file_name}_max_fw_ver.cap
+    Send File To DUT    ../edk2/${file_name}_max_fw_ver.cap    /capsule_testing/max_fw_ver.cap
+    Sleep    300s
+    Log To Console    Sending ../edk2/${file_name}_wrong_cert.cap
+    Send File To DUT    ../edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
+    Sleep    300s
+    Log To Console    Sending ../edk2/${file_name}_invalid_guid.cap 
+    Send File To DUT    ../edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
+    Sleep    300s
 
 Start Update Process
+    [Arguments]    ${capsule_file}
     Execute UEFI Shell Command    FS0:
-    Execute UEFI Shell Command    cd capsule_testing
-    Execute UEFI Shell Command    CapsuleApp.efi dasharo.cap
+    ${out}=    Execute UEFI Shell Command    cd capsule_testing
+    Should Not Contain    ${out}   is not a directory.
+    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi ${capsule_file}
+    Should Not Contain    ${out}   is not recognised
+    Should Not Contain    ${out}   Command Error Status
+    Should Not Contain    ${out}   is not a valid capsule.
+
+Get File Name Without Extension
+    [Arguments]    ${file_path}
+    ${base_name}   Split String    ${file_path}    /
+    ${file_name}   Get From List    ${base_name}    -1
+    ${file_name}   Split String    ${file_name}    .
+    ${result}      Get From List    ${file_name}    0
+    [Return]       ${result}
+
+Check If Capsule File Exists
+    [Arguments]    ${file_path}
+    ${file_exists}=    OperatingSystem.File Should Exist    ${file_path}
+    Run Keyword If    '${file_exists}' == 'False'    Fail    File ${file_path} does not exist!/nTo create capsule files required for this test run: 'sudo bash ./scripts/capsules/capsule_update_tests.sh <capsule_file>' and start the test again.
