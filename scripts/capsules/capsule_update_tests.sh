@@ -15,13 +15,8 @@ else
 fi
 
 # Decoding the capsule
-echo "---DECODING PAYLOAD---"
-
-
-cleaned_capsule_path=$(echo "$capsule" | cut -c 3-) # Removes ./ from file path
-
 BaseTools/BinWrappers/PosixLike/GenerateCapsule \
-    --decode ../open-source-firmware-validation/$cleaned_capsule_path \
+    --decode ../open-source-firmware-validation/$capsule \
     --output decoded \
 
 # Extracting data
@@ -48,7 +43,7 @@ echo "\"UpdateImageIndex\": \"$update_image_index\""
 echo
 
 # Create json config files with capsule configs
-echo "---CREATING CAPSULE WITH MAX POSSIBLE VERSION NUMBER---"
+echo "--- CREATING CAPSULE WITH MAX POSSIBLE VERSION NUMBER ---"
 
 file_descriptor="_max_fw_ver"
 output_file="$capsule_name$file_descriptor.json"
@@ -92,7 +87,7 @@ BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
                                                 --output $capsule_name$file_descriptor.cap
 
 
-echo "---CREATING CAPSULE WITH WRONG CERTIFICATES---"
+echo "--- REATING CAPSULE WITH WRONG CERTIFICATES ---"
 
 file_descriptor="_wrong_cert"
 
@@ -102,12 +97,13 @@ if [ -f $output_file ]; then
     rm $output_file
 fi
 
-invalid_cert_file="../open-source-firmware-validation/scripts/capsules/InvalidTestCert.pem"
-invalid_sub_file="../open-source-firmware-validation/scripts/capsules/InvalidTestSub.pub.pem"
-invalid_root_file="../open-source-firmware-validation/scripts/capsules/InvalidTestRoot.pub.pem"
+invalid_cert_file="../open-source-firmware-validation/scripts/capsules/sign.p12"
+invalid_sub_file="../open-source-firmware-validation/scripts/capsules/sub.pub.pem"
+invalid_root_file="../open-source-firmware-validation/scripts/capsules/root.pub.pem"
 
 if [ ! -f $invalid_cert_file ]; then
     echo "!!!WARNING!!! Cert file not found!"
+    echo "check if '../open-source-firmware-validation/scripts/capsules/InvalidTestCert.pem' exists."
 fi
 if [ ! -f $invalid_sub_file ]; then
     echo "!!!WARNING!!! Sub file not found!"
@@ -147,7 +143,7 @@ BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
                                                 --json-file $output_file \
                                                 --output $capsule_name$file_descriptor.cap
 
-echo "---CREATING CAPSULE WITH WRONG GUID---"
+echo "--- CREATING CAPSULE WITH WRONG GUID ---"
 
 file_descriptor="_invalid_guid"
 output_file="$capsule_name$file_descriptor.json"
