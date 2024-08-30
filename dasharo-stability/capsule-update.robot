@@ -22,6 +22,8 @@ Suite Setup         Run Keywords
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 ...                     AND
 ...                     Flash Firmware If Not QEMU
+...                     AND
+...                     Upload Required Files
 Suite Teardown      Run Keywords
 ...                     Flash Firmware If Not QEMU
 ...                     AND
@@ -29,24 +31,8 @@ Suite Teardown      Run Keywords
 
 
 *** Test Cases ***
-CUP001.001 Capsule Update (Ubuntu)
+CUP001.001 Capsule Update
     [Documentation]    This test aims to verify if Capsule Update process works.
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-
-    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home#
-    Execute Command In Terminal    cd ..
-    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/#
-    Execute Command In Terminal    cd ..
-    Execute Command In Terminal    rm -r capsule_testing
-    Execute Command In Terminal    mkdir capsule_testing
-    Execute Command In Terminal    chmod 777 capsule_testing
-
-    Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
-    Send File To DUT    ${CAPSULE_FW_FILE}    /capsule_testing/dasharo.cap
-
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
@@ -54,11 +40,11 @@ CUP001.001 Capsule Update (Ubuntu)
 
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${original_bios_version}=    Extract BIOS Version    ${out}
-    Execute UEFI Shell Command    FS0:
-    Execute UEFI Shell Command    cd capsule_testing
-    Execute UEFI Shell Command    CapsuleApp.efi dasharo.cap
 
-    ${out}=    Read From Terminal Until    seconds.)
+    Start Update Process
+
+    ${out}=    Read From Terminal Until
+    ...    (The platform will automatically reboot and disable Firmware Update Mode automatically in
 
     ${digit}=    Get Key To Press    ${out}
     Write Bare Into Terminal    ${digit}
@@ -71,6 +57,13 @@ CUP001.001 Capsule Update (Ubuntu)
     ${updated_bios_version}=    Extract BIOS Version    ${out}
 
     Should Not Be Equal    ${original_bios_version}    ${updated_bios_version}
+
+CUP002.001 Capsule Update With Wrong Keys
+    [Documentation]    This test aims to verify...
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
 
 
 *** Keywords ***
@@ -94,3 +87,25 @@ Extract BIOS Version
         END
     END
     RETURN    ${bios_version}
+
+Upload Required Files
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+
+    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/home#
+    Execute Command In Terminal    cd ..
+    Set Prompt For Terminal    root@${UBUNTU_HOSTNAME}:/#
+    Execute Command In Terminal    cd ..
+    Execute Command In Terminal    rm -r capsule_testing
+    Execute Command In Terminal    mkdir capsule_testing
+    Execute Command In Terminal    chmod 777 capsule_testing
+
+    Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
+    Send File To DUT    ${CAPSULE_FW_FILE}    /capsule_testing/dasharo.cap
+
+Start Update Process
+    Execute UEFI Shell Command    FS0:
+    Execute UEFI Shell Command    cd capsule_testing
+    Execute UEFI Shell Command    CapsuleApp.efi dasharo.cap
