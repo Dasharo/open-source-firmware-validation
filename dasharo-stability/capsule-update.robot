@@ -148,16 +148,14 @@ Upload Required Files
 
     Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
     Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
-    Sleep    300s
     Log To Console    Sending ../edk2/${file_name}_max_fw_ver.cap
     Send File To DUT    ../edk2/${file_name}_max_fw_ver.cap    /capsule_testing/max_fw_ver.cap
-    Sleep    300s
     Log To Console    Sending ../edk2/${file_name}_wrong_cert.cap
     Send File To DUT    ../edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
-    Sleep    300s
     Log To Console    Sending ../edk2/${file_name}_invalid_guid.cap
     Send File To DUT    ../edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
-    Sleep    300s
+
+    Execute Command In Terminal    sync
 
 Start Update Process
     [Arguments]    ${capsule_file}
