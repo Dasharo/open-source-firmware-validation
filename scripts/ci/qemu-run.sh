@@ -65,18 +65,23 @@ EOF
   exit 0
 }
 
+esc() {
+    printf %q "$@"
+}
+
 check_disks() {
   UBUNTU_VERSION="22.04.4"
 
   if [ ! -f "${HDD_PATH}" ]; then
     echo "Disk at ${HDD_PATH} not found. You can create one with:"
-    echo "qemu-img create -f qcow2 '${HDD_PATH}' 20G"
+    echo "qemu-img create -f qcow2 $(esc "${HDD_PATH}") 20G"
     exit 1
   fi
 
   if [[ "$1" == "os_install" && ! -f "${INSTALLER_PATH}" ]]; then
     echo "OS installer at ${INSTALLER_PATH} not found. Please provide OS installer, to continue."
-    echo "Example: https://ubuntu.task.gda.pl/ubuntu-releases/${UBUNTU_VERSION}/ubuntu-${UBUNTU_VERSION}-desktop-amd64.iso"
+    echo "Example:"
+    echo "wget -O $(esc "$INSTALLER_PATH") $(esc "http://cdn.releases.ubuntu.com/jammy/ubuntu-${UBUNTU_VERSION}-desktop-amd64.iso")"
     exit 1
   fi
 }
