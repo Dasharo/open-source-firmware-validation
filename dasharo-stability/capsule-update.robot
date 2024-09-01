@@ -169,10 +169,10 @@ Start Update Process
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
-    ${base_name}=    Split String    ${file_path}    /
-    ${file_name}=    Get From List    ${base_name}    -1
-    ${file_name}=    Split String    ${file_name}    .
-    ${result}=    Get From List    ${file_name}    0
+    ${path_components}=    Split String    ${file_path}    /
+    ${base_name}=    Get From List    ${path_components}    -1
+    ${name_parts}=    Split String From Right    ${base_name}    .    1
+    ${result}=    Get From List    ${name_parts}    0
     RETURN    ${result}
 
 Check If Capsule File Exists
