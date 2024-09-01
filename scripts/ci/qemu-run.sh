@@ -65,7 +65,7 @@ EOF
 }
 
 check_disks() {
-  UBUNTU_VERSION="22.04.3"
+  UBUNTU_VERSION="22.04.4"
 
   if [ ! -f "${HDD_PATH}" ]; then
     echo "Disk at ${HDD_PATH} not found. You can create one with:"
