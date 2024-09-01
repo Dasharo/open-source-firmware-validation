@@ -89,7 +89,7 @@ CUP003.001 Capsule Update
     Start Update Process    max_fw_ver.cap
 
     ${out}=    Read From Terminal Until
-    ...    (The platform will automatically reboot and disable Firmware Update Mode automatically in
+    ...    (The platform will automatically reboot and disable Firmware Update Mode
 
     ${digit}=    Get Key To Press    ${out}
     Write Bare Into Terminal    ${digit}
