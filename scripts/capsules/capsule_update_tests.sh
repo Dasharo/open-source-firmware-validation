@@ -1,6 +1,8 @@
 #!/bin/bash
 
-capsule=$1
+here=$(realpath "$(dirname "$0")")
+
+capsule=$(realpath "$1")
 capsule_name=$(basename "$capsule")
 capsule_name="${capsule_name%.*}"
 
@@ -16,7 +18,7 @@ fi
 
 # Decoding the capsule
 BaseTools/BinWrappers/PosixLike/GenerateCapsule \
-    --decode ../open-source-firmware-validation/$capsule \
+    --decode $capsule \
     --output decoded \
 
 # Extracting data
@@ -97,13 +99,13 @@ if [ -f $output_file ]; then
     rm $output_file
 fi
 
-invalid_cert_file="../open-source-firmware-validation/scripts/capsules/sign.p12"
-invalid_sub_file="../open-source-firmware-validation/scripts/capsules/sub.pub.pem"
-invalid_root_file="../open-source-firmware-validation/scripts/capsules/root.pub.pem"
+invalid_cert_file="$here/capsules/sign.p12"
+invalid_sub_file="$here/capsules/sub.pub.pem"
+invalid_root_file="$here/capsules/root.pub.pem"
 
 if [ ! -f $invalid_cert_file ]; then
     echo "!!!WARNING!!! Cert file not found!"
-    echo "check if '../open-source-firmware-validation/scripts/capsules/InvalidTestCert.pem' exists."
+    echo "check if '$here/capsules/InvalidTestCert.pem' exists."
 fi
 if [ ! -f $invalid_sub_file ]; then
     echo "!!!WARNING!!! Sub file not found!"
