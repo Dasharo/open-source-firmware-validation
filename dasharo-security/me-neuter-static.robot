@@ -33,5 +33,5 @@ MES001.001 Check if ME is statically disabled
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Not Contain    ${out}    00:16.0
+    ${result}=    Check ME Out
+    Should Not Be Equal As Strings    ${result}    Enabled
