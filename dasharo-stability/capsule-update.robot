@@ -23,8 +23,8 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Check If CAPSULE FW FILE Is Present
 ...                     AND
-# ...                Flash Firmware If Not QEMU
-# ...                AND
+...                     Flash Firmware If Not QEMU
+...                     AND
 ...                     Upload Required Files
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
@@ -45,9 +45,10 @@ CUP001.001 Capsule Update With Wrong Keys
     ${out}=    Start Update Process    wrong_cert.cap
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
     Should Not Contain    ${out}    failed to query capsule capability
+    Should Contain    ${out}    CapsuleApp: creating capsule descriptors at
 
-    Set DUT Response Timeout    2m
     ${out}=    Execute UEFI Shell Command    reset
+    Sleep    30s
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -73,9 +74,10 @@ CUP002.001 Capsule Update With Wrong GUID
     ${out}=    Start Update Process    invalid_guid.cap
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
     Should Not Contain    ${out}    failed to query capsule capability
+    Should Contain    ${out}    CapsuleApp: creating capsule descriptors at
 
-    Set DUT Response Timeout    2m
     ${out}=    Execute UEFI Shell Command    reset
+    Sleep    30s
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -87,9 +89,8 @@ CUP002.001 Capsule Update With Wrong GUID
     Log To Console    \nUpdated BIOS Ver: ${updated_bios_version}
     Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
-CUP003.001 Capsule Update
+CUP050.001 Capsule Update
     [Documentation]    This test aims to verify if Capsule Update process works.
-
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
@@ -102,15 +103,10 @@ CUP003.001 Capsule Update
     ${out}=    Start Update Process    max_fw_ver.cap
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
     Should Not Contain    ${out}    failed to query capsule capability
+    Should Contain    ${out}    CapsuleApp: creating capsule descriptors at
 
     Execute UEFI Shell Command    reset
-    ${out}=    Read From Terminal Until
-    ...    (The platform will automatically reboot and disable Firmware Update Mode
-
-    ${digit}=    Get Key To Press    ${out}
-    Write Bare Into Terminal    ${digit}
-
-    Set DUT Response Timeout    2m
+    Sleep    45s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
@@ -192,7 +188,7 @@ Start Update Process
     END
     ${out}=    Execute UEFI Shell Command    cd capsule_testing
     Should Not Contain    ${out}    is not a directory.
-    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -NR ${capsule_file}
+    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi ${capsule_file} -NR
     Should Not Contain    ${out}    is not recognised
     Should Not Contain    ${out}    Command Error Status
     Should Not Contain    ${out}    is not a valid capsule.
