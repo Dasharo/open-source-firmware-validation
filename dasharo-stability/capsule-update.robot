@@ -21,8 +21,10 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 ...                     AND
-...                     Flash Firmware If Not QEMU
+...                     Check If CAPSULE FW FILE Is Present
 ...                     AND
+# ...                Flash Firmware If Not QEMU
+# ...                AND
 ...                     Upload Required Files
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
@@ -190,7 +192,7 @@ Start Update Process
     END
     ${out}=    Execute UEFI Shell Command    cd capsule_testing
     Should Not Contain    ${out}    is not a directory.
-    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi ${capsule_file}
+    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -NR ${capsule_file}
     Should Not Contain    ${out}    is not recognised
     Should Not Contain    ${out}    Command Error Status
     Should Not Contain    ${out}    is not a valid capsule.
@@ -211,4 +213,10 @@ Check If Capsule File Exists
         Fail
         ...    File ${file_path} does not exist!/nTo create capsule files required for this test run: 'sudo bash
         ...    ./scripts/capsules/capsule_update_tests.sh <capsule_file>' and start the test again.
+    END
+
+Check If CAPSULE FW FILE Is Present
+    IF    '${CAPSULE_FW_FILE}' == '${EMPTY}'
+        Log To Console    capsule_fw_file parameter missing
+        Fail
     END
