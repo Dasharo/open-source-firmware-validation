@@ -21,12 +21,12 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 ...                     AND
-...                     Flash Firmware If Not QEMU
-...                     AND
+# ...               Flash Firmware If Not QEMU
+# ...               AND
 ...                     Upload Required Files
 Suite Teardown      Run Keywords
-...                     Flash Firmware If Not QEMU
-...                     AND
+# ...               Flash Firmware If Not QEMU
+# ...               AND
 ...                     Log Out And Close Connection
 
 
@@ -152,6 +152,11 @@ Upload Required Files
 
     Power On
     Boot System Or From Connected Disk    ubuntu
+
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+
     Login To Linux
     Switch To Root User
 
@@ -176,7 +181,11 @@ Upload Required Files
 
 Start Update Process
     [Arguments]    ${capsule_file}
-    Execute UEFI Shell Command    FS0:
+    IF    '${CONFIG}' == 'qemu'
+        Execute UEFI Shell Command    FS0:
+    ELSE
+        Execute UEFI Shell Command    FS1:
+    END
     ${out}=    Execute UEFI Shell Command    cd capsule_testing
     Should Not Contain    ${out}    is not a directory.
     ${out}=    Execute UEFI Shell Command    CapsuleApp.efi ${capsule_file}
