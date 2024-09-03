@@ -16,3 +16,9 @@
 [submodule "osfv-test-data"]
 	path = osfv-test-data
 	url = git@github.com:Dasharo/osfv-test-data.git
+[submodule "dcu"]
+	path = dcu
+	url = https://github.com/Dasharo/dcu.git
+[submodule "osfv-test-data"]
+	path = osfv-test-data
+	url = git@github.com:Dasharo/osfv-test-data.git
