@@ -1539,11 +1539,11 @@ Send File To DUT
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         IF    '${CONFIG}' == 'qemu'
-            Set Test Variable    ${IP_ADDRESS}    localhost
-            Set Test Variable    ${PORT}    5222
+            Set Local Variable    ${ip_address}    localhost
+            Set Local Variable    ${PORT}    5222
         ELSE
             ${ip_address}=    Get Hostname Ip
-            Set Test Variable    ${PORT}    22
+            Set Local Variable    ${PORT}    22
         END
         Execute Command In Terminal    rm -f ${target_path}
         SSHLibrary.Open Connection    ${ip_address}    port=${PORT}
