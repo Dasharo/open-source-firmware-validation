@@ -21,12 +21,10 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 ...                     AND
-# ...               Flash Firmware If Not QEMU
-# ...               AND
+...                     Flash Firmware If Not QEMU
+...                     AND
 ...                     Upload Required Files
 Suite Teardown      Run Keywords
-# ...               Flash Firmware If Not QEMU
-# ...               AND
 ...                     Log Out And Close Connection
 
 
@@ -43,8 +41,8 @@ CUP001.001 Capsule Update With Wrong Keys
     Log To Console    \nOriginal BIOS Ver: ${original_bios_version}
 
     ${out}=    Start Update Process    wrong_cert.cap
-    Should Not Contain    ${out}    creating capsule
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
+    Should Not Contain    ${out}    failed to query capsule capability
 
     Set DUT Response Timeout    2m
     ${out}=    Execute UEFI Shell Command    reset
@@ -71,8 +69,8 @@ CUP002.001 Capsule Update With Wrong GUID
     Log To Console    \nOriginal BIOS Ver: ${original_bios_version}
 
     ${out}=    Start Update Process    invalid_guid.cap
-    Should Not Contain    ${out}    creating capsule
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
+    Should Not Contain    ${out}    failed to query capsule capability
 
     Set DUT Response Timeout    2m
     ${out}=    Execute UEFI Shell Command    reset
@@ -100,8 +98,8 @@ CUP003.001 Capsule Update
     Log To Console    \nOriginal BIOS Ver: ${original_bios_version}
 
     ${out}=    Start Update Process    max_fw_ver.cap
-    Should Not Contain    ${out}    creating capsule
     Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
+    Should Not Contain    ${out}    failed to query capsule capability
 
     Execute UEFI Shell Command    reset
     ${out}=    Read From Terminal Until
@@ -136,8 +134,12 @@ Extract BIOS Version
     [Arguments]    ${text}
     ${lines}=    Split To Lines    ${text}
     ${bios_version}=    Set Variable    None
+    ${line_to_look_for}=    Set Variable    BIOS Version
+    IF    '${CONFIG}' != 'qemu'
+        ${line_to_look_for}=    Set Variable    BiosVersion
+    END
     FOR    ${line}    IN    @{lines}
-        IF    'BIOS Version' in '${line}'
+        IF    '${line_to_look_for}' in '${line}'
             ${bios_version}=    Set Variable    ${line}
         END
     END
