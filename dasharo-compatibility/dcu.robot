@@ -119,7 +119,7 @@ DCU004.001 Verify SMMSTORE changes
 Prepare DCU Test Environment
     Download To Host Cache
     ...    logo.bmp
-    ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download
+    ...    https://github.com/Dasharo/osfv-test-data/blob/main/coreboot_logo_convert.bmp
     ...    6e5a6722955e4f78d947654630f27ff833703fbc04776ffed963c96617f6bb2a
 
     Run    cp ${FW_FILE} ${FW_COPY}
