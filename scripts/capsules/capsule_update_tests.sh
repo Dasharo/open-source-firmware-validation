@@ -89,7 +89,7 @@ BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
                                                 --output $capsule_name$file_descriptor.cap
 
 
-echo "--- REATING CAPSULE WITH WRONG CERTIFICATES ---"
+echo "--- CREATING CAPSULE WITH WRONG CERTIFICATES ---"
 
 file_descriptor="_wrong_cert"
 
@@ -99,14 +99,13 @@ if [ -f $output_file ]; then
     rm $output_file
 fi
 
-invalid_cert_file="$here/capsules/sign.p12"
-invalid_sub_file="$here/capsules/sub.pub.pem"
-invalid_root_file="$here/capsules/root.pub.pem"
+invalid_cert_file="$here/sign.p12"
+invalid_sub_file="$here/sub.pub.pem"
+invalid_root_file="$here/root.pub.pem"
 
 if [ ! -f $invalid_cert_file ]; then
     echo "!!!WARNING!!! Cert file not found!"
-    echo "check if '$here/capsules/InvalidTestCert.pem' exists."
-fi
+    fi
 if [ ! -f $invalid_sub_file ]; then
     echo "!!!WARNING!!! Sub file not found!"
 fi
