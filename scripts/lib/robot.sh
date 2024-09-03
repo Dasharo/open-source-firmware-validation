@@ -51,7 +51,7 @@ execute_robot() {
   _seperator_idx=$_seperator_idx+1
   for ((i=_seperator_idx;i<_args_len;i++)); do
     if [[ ${_args[$i]} =~ \  ]]; then
-      _args[i]=\"${_args[i]}\"      
+      _args[i]=\"${_args[i]}\"
     fi
     _robot_args+=("${_args[$i]}")
   done
@@ -93,27 +93,29 @@ execute_robot() {
     installed_dut_option=""
   fi
 
-  local _logs_dir="logs/${CONFIG}/${RUN_DATE}"
-  local _log_file="${_logs_dir}/${_test_name}_log.html"
-  local _report_file="${_logs_dir}/${_test_name}_report.html"
-  local _output_file="${_logs_dir}/${_test_name}_out.xml"
-  local _debug_file="${_logs_dir}/${_test_name}_debug.log"
+  for _test_name in "${_test_path[@]}"; do
+    local _logs_dir="logs/${CONFIG}/${RUN_DATE}"
+    local _log_file="${_logs_dir}/${_test_name}_log.html"
+    local _report_file="${_logs_dir}/${_test_name}_report.html"
+    local _output_file="${_logs_dir}/${_test_name}_out.xml"
+    local _debug_file="${_logs_dir}/${_test_name}_debug.log"
 
-  command="
-        robot -L TRACE \
-              -l ${_log_file} \
-              -r ${_report_file} \
-              -o ${_output_file} \
-              -b ${_debug_file} \
-              -v rte_ip:${RTE_IP} \
-              -v config:${CONFIG} \
-              ${device_ip_option} \
-              ${fw_file_option} \
-              ${installed_dut_option} \
-              ${extra_options} \
-              ${_robot_args[*]} \
-              ${_test_path[*]}
-              "
-  #echo "$command"
-  eval "$command"
+    command="
+          robot -L TRACE \
+                -l ${_log_file} \
+                -r ${_report_file} \
+                -o ${_output_file} \
+                -b ${_debug_file} \
+                -v rte_ip:${RTE_IP} \
+                -v config:${CONFIG} \
+                ${device_ip_option} \
+                ${fw_file_option} \
+                ${installed_dut_option} \
+                ${extra_options} \
+                ${_robot_args[*]} \
+                ${_test_name}
+                "
+    #echo "$command"
+    eval "$command"
+  done
 }
