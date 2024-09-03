@@ -24,7 +24,7 @@ Variables       platform-configs/fan-curve-config.yaml
 *** Variables ***
 ${FLASHROM_LINK}=       https://github.com/Dasharo/osfv-test-data/raw/main/coreboot-tools/flashrom
 ${CBMEM_LINK}=          https://github.com/Dasharo/osfv-test-data/raw/main/coreboot-tools/cbmem
-${CBFSTOOL_LINK}=       ${EMPTY}
+${CBFSTOOL_LINK}=       https://github.com/Dasharo/osfv-test-data/raw/main/coreboot-tools/cbfstool
 
 
 *** Keywords ***
