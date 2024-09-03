@@ -32,7 +32,7 @@ Suite Teardown      Run Keywords
 
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
-    [Documentation]    This test aims to verify...
+    [Documentation]    This test aims to verify if the DUT will reject flashed using Capsule Update with capsule signed with invalid certificates.
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
@@ -40,21 +40,27 @@ CUP001.001 Capsule Update With Wrong Keys
 
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${original_bios_version}=    Extract BIOS Version    ${out}
+    Log To Console    \nOriginal BIOS Ver: ${original_bios_version}
 
-    Start Update Process    wrong_cert.cap
-    Sleep    60s
+    ${out}=    Start Update Process    wrong_cert.cap
+    Should Not Contain    ${out}    creating capsule
+    Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
 
-    Execute UEFI Shell Command    reset
+    Set DUT Response Timeout    2m
+    ${out}=    Execute UEFI Shell Command    reset
+    Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
+
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${updated_bios_version}=    Extract BIOS Version    ${out}
+    Log To Console    \nUpdated BIOS Ver: ${updated_bios_version}
 
     Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
-CUP001.001 Capsule Update With Wrong GUID
-    [Documentation]    This test aims to verify...
+CUP002.001 Capsule Update With Wrong GUID
+    [Documentation]    This test aims to verify if the DUT will reject flashed using Capsule Update with capsule with invalid GUID.
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
@@ -62,17 +68,23 @@ CUP001.001 Capsule Update With Wrong GUID
 
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${original_bios_version}=    Extract BIOS Version    ${out}
+    Log To Console    \nOriginal BIOS Ver: ${original_bios_version}
 
-    Start Update Process    invalid_guid.cap
-    Sleep    60s
+    ${out}=    Start Update Process    invalid_guid.cap
+    Should Not Contain    ${out}    creating capsule
+    Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
 
-    Execute UEFI Shell Command    reset
+    Set DUT Response Timeout    2m
+    ${out}=    Execute UEFI Shell Command    reset
+    Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
+
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${updated_bios_version}=    Extract BIOS Version    ${out}
 
+    Log To Console    \nUpdated BIOS Ver: ${updated_bios_version}
     Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
 CUP003.001 Capsule Update
@@ -85,22 +97,27 @@ CUP003.001 Capsule Update
 
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${original_bios_version}=    Extract BIOS Version    ${out}
+    Log To Console    \nOriginal BIOS Ver: ${original_bios_version}
 
-    Start Update Process    max_fw_ver.cap
+    ${out}=    Start Update Process    max_fw_ver.cap
+    Should Not Contain    ${out}    creating capsule
+    Should Not Contain    ${out}    (The platform will automatically reboot and disable Firmware Update Mode
 
+    Execute UEFI Shell Command    reset
     ${out}=    Read From Terminal Until
     ...    (The platform will automatically reboot and disable Firmware Update Mode
 
     ${digit}=    Get Key To Press    ${out}
     Write Bare Into Terminal    ${digit}
 
-    Set DUT Response Timeout    120s
+    Set DUT Response Timeout    2m
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${updated_bios_version}=    Extract BIOS Version    ${out}
 
+    Log To Console    \nUpdated BIOS Ver: ${updated_bios_version}
     Should Not Be Equal    ${original_bios_version}    ${updated_bios_version}
 
 
@@ -166,6 +183,7 @@ Start Update Process
     Should Not Contain    ${out}    is not recognised
     Should Not Contain    ${out}    Command Error Status
     Should Not Contain    ${out}    is not a valid capsule.
+    RETURN    ${out}
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
