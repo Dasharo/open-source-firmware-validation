@@ -35,21 +35,41 @@ execute_robot() {
   #   - path to a single .robot file
   local _args=("$@")
   local _test_path=()
-  local _seperator_idx=-1
+  local _separator_idx=-1
   local _args_len=${#_args[@]}
-  _test_path=()
 
+  # Move all arguments from _args list before "--" to _test_path list
+  # using a loop and an iterator to save at which position the "--" separator
+  # appeared.
+  #
+  # Only things like path to directory containing .robot files
+  # or paths to a single .robot file should be given in the command
+  # before the first "--" sequence
+  #
+  # It is solved in this way to easily differentiante between the test
+  # scope and additional arguments to robot which need to be separated
+  # when calling robot
   for ((i=0;i<_args_len;i++)); do
     if [[ ${_args[$i]} == *"--"* ]]; then
-      _seperator_idx=$i
+      _separator_idx=$i
       break
     fi
     _test_path+=("${_args[$i]}")
   done;
 
+  # Move all arguments after "--" to _robot_args list using the position of "--"
+  # saved in _separator_idx
   local _robot_args=()
-  _seperator_idx=$_seperator_idx+1
-  for ((i=_seperator_idx;i<_args_len;i++)); do
+  _separator_idx=$_separator_idx+1
+  for ((i=_separator_idx;i<_args_len;i++)); do
+    # Some arguments may contain spaces. Bash removes quotation marks
+    # from command arguments. Because we need to pass them again to
+    # another command the quotation marks need to be restored or the arguments
+    # containing spacebars will be split into multiple arguments when
+    # concatenating the list into a string to use in eval
+    #
+    # If an arguments from _args list contains a spacebar, quotation marks are
+    # added around it.
     if [[ ${_args[$i]} =~ \  ]]; then
       _args[i]=\"${_args[i]}\"
     fi
@@ -93,6 +113,12 @@ execute_robot() {
     installed_dut_option=""
   fi
 
+  # To save the logs from test modules into separate files robot is called
+  # multiple times.
+  #
+  # Thanks to detecting spacebars in arguments before _robot_args can now
+  # safely be concatenated into a string and these arguments will still be
+  # passed correctly.
   for _test_name in "${_test_path[@]}"; do
     local _logs_dir="logs/${CONFIG}/${RUN_DATE}"
     local _log_file="${_logs_dir}/${_test_name}_log.html"
