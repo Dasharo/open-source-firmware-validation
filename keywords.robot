@@ -22,9 +22,9 @@ Variables       platform-configs/fan-curve-config.yaml
 
 
 *** Variables ***
-${FLASHROM_LINK}=       https://github.com/Dasharo/osfv-test-data/raw/main/coreboot-tools/flashrom
-${CBMEM_LINK}=          https://github.com/Dasharo/osfv-test-data/raw/main/coreboot-tools/cbmem
-${CBFSTOOL_LINK}=       https://github.com/Dasharo/osfv-test-data/raw/main/coreboot-tools/cbfstool
+${FLASHROM_SUBMODULE}=      osfv-test-data/coreboot-tools/flashrom
+${CBMEM_SUBMODULE}=         osfv-test-data/coreboot-tools/cbmem
+${CBFSTOOL_SUBMODULE}=      osfv-test-data/coreboot-tools/cbfstool
 
 
 *** Keywords ***
@@ -1400,7 +1400,7 @@ Get Flashrom From Cloud
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${flashrom_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '8e57fee6578dd31684da7f1afd6f5e5b1d964bb6db52b3a9ec038a7292802ae9'
-        Download File    ${FLASHROM_LINK}    ${flashrom_path}
+        Copy File    ${FLASHROM_LINK}    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
