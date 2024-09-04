@@ -7,7 +7,7 @@ Resource            ../keywords.robot
 *** Variables ***
 ${TINYCORE_URL}=                https://distro.ibiblio.org/tinycorelinux/14.x/x86/release/CorePlus-14.0.iso
 ${DTS_URL}=                     https://dl.3mdeb.com/open-source-firmware/DTS/v1.2.8/dts-base-image-v1.2.8.iso
-${DISK_IMAGE_URL}=              https://github.com/Dasharo/osfv-test-data/raw/main/image.img
+${DISK_IMAGE_PATH}=             ../osfv-test-data/image.img
 
 # These are always installed, used in many different testing. We do not want
 # to remove them during the ESP scanning testing.
@@ -34,10 +34,7 @@ Prepare EFI Partition With System Files
 
     Power On
     IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    image.img
-        ...    ${DISK_IMAGE_URL}
-        ...    031560742d6b337ed684cfdb90d3c5eb48f13576f4751b33095e8d1566d72e83
+        Copy File    ${DISK_IMAGE_PATH}    ${CURDIR}/../dl-cache/image.img
         Add HDD To Qemu    img_name=${DL_CACHE_DIR}/image.img
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
@@ -45,7 +42,7 @@ Prepare EFI Partition With System Files
             Login To Linux
             Switch To Root User
             Remove All Supported Systems From Efi
-            Execute Command In Terminal    wget ${DISK_IMAGE_URL} -O image.img    timeout=180s
+            Copy File    ${DISK_IMAGE_PATH}    ${CURDIR}
             Execute Command In Terminal    mkdir /mnt/disk_image
             Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
             Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
