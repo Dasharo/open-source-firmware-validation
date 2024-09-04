@@ -7,11 +7,7 @@ Resource            ../keywords.robot
 *** Variables ***
 ${TINYCORE_URL}=                https://distro.ibiblio.org/tinycorelinux/14.x/x86/release/CorePlus-14.0.iso
 ${DTS_URL}=                     https://dl.3mdeb.com/open-source-firmware/DTS/v1.2.8/dts-base-image-v1.2.8.iso
-<<<<<<< HEAD
 ${DISK_IMAGE_PATH}=             ../osfv-test-data/image.img
-=======
-${DISK_IMAGE_URL}=              https://github.com/Dasharo/osfv-test-data/raw/main/image.img
->>>>>>> 71330910 (change cloud links to those from submodule)
 
 # These are always installed, used in many different testing. We do not want
 # to remove them during the ESP scanning testing.
