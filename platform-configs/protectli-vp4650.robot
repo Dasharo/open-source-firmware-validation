@@ -27,3 +27,6 @@ ${CPU_MIN_FREQUENCY}=           300
 ...                             64-62-66-21-42-8e
 ...                             64-62-66-21-42-8d
 ...                             64-62-66-21-42-8c
+
+${TPM_EXPECTED_VERSION}=        2
+${TPM_EXPECTED_CHIP}=           SLB9665

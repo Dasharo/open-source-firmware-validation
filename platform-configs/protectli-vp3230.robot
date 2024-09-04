@@ -43,3 +43,6 @@ ${CLEVO_DISK}=                      N/A
 
 @{ETH_PORTS}=                       64-62-66-23-8f-19
 ...                                 64-62-66-23-8f-1a
+
+${TPM_EXPECTED_VERSION}=            2
+${TPM_EXPECTED_CHIP}=               SLB9670
