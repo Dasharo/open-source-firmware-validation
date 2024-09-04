@@ -35,3 +35,6 @@ ${CLEVO_USB_C_HUB}=                             Thunderbolt 4 Dock
 ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=      ${TRUE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=               ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}
+
+${TPM_EXPECTED_VERSION}=                        2
+${TPM_EXPECTED_CHIP}=                           SLB9672

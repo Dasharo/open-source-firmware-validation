@@ -178,6 +178,8 @@ ${ROMHOLE_SUPPORT}=                                 ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                     ${FALSE}
+${TPM_EXPECTED_CHIP}=                               FILL_WITH_CORRECT_VALUE_BEFORE_TESTING
+${TPM_EXPECTED_VERSION}=                            0
 ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}

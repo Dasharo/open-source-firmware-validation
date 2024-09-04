@@ -29,6 +29,9 @@ ${WATCHDOG_SUPPORT}=                ${TRUE}
 
 ${ETHERNET_ID}=                     8086:15f3
 
+${TPM_EXPECTED_VERSION}=            2
+${TPM_EXPECTED_CHIP}=               SLB9670
+
 
 *** Keywords ***
 Flash Protectli VP2420 Internal

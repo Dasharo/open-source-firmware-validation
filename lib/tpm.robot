@@ -67,3 +67,40 @@ Validate PCRs Against Event Log
             Should Contain    ${hash}    ${sha_hash}    ignore_case=${TRUE}
         END
     END
+
+Validate Expected TPM Version Via Sysfs
+    [Documentation]    Checks if detected major TPM version matches the expected
+    ...    value.
+    ${tpm_ver}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/tpm_version_major
+    IF    '${TPM_EXPECTED_VERSION}' != '${tpm_ver}'
+        Fail    Platform TPM version mismatch
+    END
+
+Validate Expected TPM Chip Via Cbmem
+    [Documentation]    Check that correct TPM chip is found while FW boots
+    Get Cbmem From Cloud
+    ${tpm_chip_found}=    Execute Command In Terminal    cbmem -1 | grep -i "Found TPM"
+    Should Contain    ${tpm_chip_found}    ${TPM_EXPECTED_CHIP}
+
+Validate Expected TPM Version Via Cbmem Log
+    [Documentation]    Check if appropriate log is created by FW
+    Get Cbmem From Cloud
+    ${out}=    Execute Command In Terminal    cbmem -L
+    IF    '${TPM_EXPECTED_VERSION}' == '1'
+        Should Contain    ${out}    TCPA log
+    ELSE IF    '${TPM_EXPECTED_VERSION}' == '2'
+        Should Contain    ${out}    TPM2 log
+    ELSE
+        Fail    Invalid expected version, please verify config
+    END
+
+Verify Presence Of TPM Via Sysfs
+    [Documentation]    Use sysfs interface to detect presence of TPM
+    ...    in the system.
+    ${tpm_presence}=    Execute Command In Terminal    test -d /sys/class/tpm/tpm0 && echo "Found TPM"
+    Should Contain    ${tpm_presence}    Found TPM
+
+Verify Presence Of Any PCRs Via Sysfs
+    [Documentation]    Check sysfs interface for presence of any PCR
+    ${pcr_state}=    Execute Command In Terminal    ls /sys/class/tpm/tpm0/pcr-sha* &>/dev/null && echo "Found PCRs"
+    Should Contain    ${pcr_state}    Found PCRs

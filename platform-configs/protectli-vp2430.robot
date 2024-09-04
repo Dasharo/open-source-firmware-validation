@@ -49,3 +49,6 @@ ${BLUETOOTH_CARD_UBUNTU}=           Intel Corp. AX200 Bluetooth
 ...                                 00-e0-97-1b-00-4a
 
 ${ETHERNET_ID}=                     8086:125c
+
+${TPM_EXPECTED_VERSION}=            2
+${TPM_EXPECTED_CHIP}=               SLB9670
