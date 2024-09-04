@@ -35,7 +35,7 @@ TPM001.001 TPM Support (firmware)
     Switch To Root User
     Get Cbmem From Cloud
     ${out}=    Execute Command In Terminal    cbmem -L
-    Should Contain    ${out}    TPM2 log
+    Should Contain Any    ${out}    TPM2 log    TCPA log
 
 TPM001.002 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
@@ -45,10 +45,7 @@ TPM001.002 TPM Support (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    tpm2-tools
-    ${out}=    Execute Command In Terminal    tpm2_pcrread
-    Should Contain    ${out}    sha1:
-    Should Contain    ${out}    sha256:
+    Validate Any TPM
 
 TPM001.003 TPM Support (Windows)
     [Documentation]    Check whether the TPM is initialized correctly and the
@@ -74,7 +71,7 @@ TPM002.001 Verify TPM version (firmware)
     Switch To Root User
     Get Cbmem From Cloud
     ${out}=    Execute Command In Terminal    cbmem -L
-    Should Contain    ${out}    TPM2 log
+    Should Contain Any    ${out}    TPM2 log    TCPA log
 
 TPM002.002 Verify TPM version (Ubuntu)
     [Documentation]    This test aims to verify that the TPM version is
@@ -86,8 +83,8 @@ TPM002.002 Verify TPM version (Ubuntu)
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/tpm_version_major
-    # TPM 2.0
-    Should Contain    ${out}    2
+    # TPM 2.0 and 1.2
+    Should Contain Any    ${out}    1    2
 
 TPM002.003 Verify TPM version (Windows)
     [Documentation]    This test aims to verify that the TPM version is
@@ -121,7 +118,7 @@ TPM003.002 Check TPM Physical Presence Interface (Ubuntu)
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/ppi/version
-    Should Contain    ${out}    1.3
+    Should Contain Any    ${out}    1.2    1.3
 
 TPM003.003 Check TPM Physical Presence Interface (Windows)
     [Documentation]    This test aims to verify that the TPM Physical Presence
@@ -138,3 +135,21 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
 #    Skip If    not ${tpm_support}    TPM003.004 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    TPM003.004 not supported
 # TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
+
+
+*** Keywords ***
+Validate Any TPM
+    [Documentation]    Checks for TPM major version, and validates it.
+    ${tpm_ver}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/tpm_version_major
+    IF    '${tpm_ver}' == '2'
+        Detect Or Install Package    tpm2-tools
+        ${out}=    Execute Command In Terminal    tpm2_pcrread
+        Should Contain    ${out}    sha1:
+        Should Contain    ${out}    sha256:
+    ELSE IF    '${tpm_ver}' == '1'
+        Detect Or Install Package    tpm-tools
+        ${out}=    Execute Command In Terminal    tpm_selftest
+        Should Contain    ${out}    TPM Test Results:
+    ELSE
+        Fail    No valid TPM version available.
+    END
