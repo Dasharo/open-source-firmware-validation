@@ -24,6 +24,7 @@ ${FLASH_VERIFY_METHOD}=                             none
 ${MAX_CPU_TEMP}=                                    82
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${FLASHING_METHOD}=                                 internal
+${TPM_EXPECTED_VERSION}=                            2
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_MANUFACTURER}=                          Notebook
@@ -114,6 +115,7 @@ ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
+${TPM_EXPECTED_CHIP}=                               N/A
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
