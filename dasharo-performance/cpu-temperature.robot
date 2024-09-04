@@ -148,7 +148,7 @@ CPU Temperature Without Load (Ubuntu)
             ${minute_counter}=    Set Variable    0
         END
     END
-    ${average}=    Evaluate    ${sum} / ${TEMPERATURE_TEST_DURATION}
+    ${average}=    Evaluate    ${sum} / ${total_intervals}
     Log To Console    \n----------------------------------------------------------------
     Log To Console    Mean temperature over test duration: ${average}°C
     Log To Console    Max temperature over test duration: ${max_temperature}°C
@@ -191,7 +191,7 @@ CPU Temperature After Stress Test (Ubuntu)
             ${minute_counter}=    Set Variable    0
         END
     END
-    ${average}=    Evaluate    ${sum} / ${TEMPERATURE_TEST_DURATION}
+    ${average}=    Evaluate    ${sum} / ${total_intervals}
     Log To Console    \n----------------------------------------------------------------
     Log To Console    Mean temperature under stress over test duration: ${average}°C
     Log To Console    Max temperature under stress over test duration: ${max_temperature}°C
