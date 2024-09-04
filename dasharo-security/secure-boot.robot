@@ -267,22 +267,10 @@ Set Secure Boot State To Disabled
 
 Prepare Test Files
     IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    ${GOOD_KEYS_NAME}
-        ...    ${GOOD_KEYS_URL}
-        ...    ${GOOD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${NOT_SIGNED_NAME}
-        ...    ${NOT_SIGNED_URL}
-        ...    ${NOT_SIGNED_SHA256}
-        Download To Host Cache
-        ...    ${BAD_KEYS_NAME}
-        ...    ${BAD_KEYS_URL}
-        ...    ${BAD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${BAD_FORMAT_NAME}
-        ...    ${BAD_FORMAT_URL}
-        ...    ${BAD_FORMAT_SHA256}
+        Copy File    ../osfv-test-data/secure-boot-files/good_keys.img    ${CURDIR}/../dl-cache/good_keys.img
+        Copy File    ../osfv-test-data/secure-boot-files/not_signed.img    ${CURDIR}/../dl-cache/not_signed.img
+        Copy File    ../osfv-test-data/secure-boot-files/bad_keys.img    ${CURDIR}/../dl-cache/bad_keys.img
+        Copy File    ../osfv-test-data/secure-boot-files/bad_format.img    ${CURDIR}/../dl-cache/bad_format.img
     END
 
 Restore Secure Boot Defaults

@@ -6,15 +6,19 @@ Resource            ../keywords.robot
 
 *** Variables ***
 ${GOOD_KEYS_URL}=           https://github.com/Dasharo/osfv-test-data/raw/main/secure-boot-files/good_keys.img
+${GOOD_KEYS_PATH}=          ../osfv-test-data/secure-boot-files/good_keys.img
 ${GOOD_KEYS_NAME}=          good_keys.img
 ${GOOD_KEYS_SHA256}=        13de737ba50c8d14a88aaf5314a938fb6826e18ba8f337470ee490b17dd6bea8
 ${NOT_SIGNED_URL}=          https://github.com/Dasharo/osfv-test-data/raw/main/secure-boot-files/not_signed.img
+${NOT_SIGNED_PATH}=         ../osfv-test-data/secure-boot-files/not_signed.img
 ${NOT_SIGNED_NAME}=         not_signed.img
 ${NOT_SIGNED_SHA256}=       15dc0a250b73c3132b1d7c5f8e81f00cc34d899c3ddecbb838a8cd0b66c4f608
 ${BAD_KEYS_URL}=            https://github.com/Dasharo/osfv-test-data/raw/main/secure-boot-files/bad_keys.img
+${BAD_KEYS_PATH}=           ../osfv-test-data/secure-boot-files/bad_keys.img
 ${BAD_KEYS_NAME}=           bad_keys.img
 ${BAD_KEYS_SHA256}=         6da92bd97d4b4ca645fa98dcdfdc0c6876959e5b815a36f1f7759bc5463e7b19
 ${BAD_FORMAT_URL}=          https://github.com/Dasharo/osfv-test-data/raw/main/secure-boot-files/bad_format.img
+${BAD_FORMAT_PATH}=         ../osfv-test-data/secure-boot-files/bad_format.img
 ${BAD_FORMAT_NAME}=         bad_format.img
 ${BAD_FORMAT_SHA256}=       59d17bc120dfd0f2e6948a2bfdbdf5fb06eddcb44f9a053a8e7b8f677e21858c
 
