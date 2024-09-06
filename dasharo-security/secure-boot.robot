@@ -130,7 +130,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ...    a signed file with a correct key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
-    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_PATH}    ${GOOD_KEYS_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_PATH}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -155,7 +155,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     ...    without a key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${NOT_SIGNED_NAME}    ${NOT_SIGNED_PATH}    ${NOT_SIGNED_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${NOT_SIGNED_NAME}    ${NOT_SIGNED_PATH}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -172,7 +172,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     ...    a signed file with a wrong-signed key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
-    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_KEYS_NAME}    ${BAD_KEYS_PATH}    ${BAD_KEYS_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_KEYS_NAME}    ${BAD_KEYS_PATH}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -205,7 +205,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ...    removes any custom added certificates.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
-    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_PATH}    ${GOOD_KEYS_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_PATH}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -243,7 +243,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ...    a certificate in the wrong file format.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
-    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_FORMAT_NAME}    ${BAD_FORMAT_PATH}    ${BAD_FORMAT_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_FORMAT_NAME}    ${BAD_FORMAT_PATH}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
