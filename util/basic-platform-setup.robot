@@ -15,6 +15,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
+Resource            ../keys-and-keywords/ubuntu-keywords.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -132,6 +133,13 @@ BPS004.001 Boot to OS - Ubuntu
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    ${logging}=    Get Logging Level
+    IF    ${logging} != 0
+        Log To Console    Changing logging level from ${logging} to 0
+        Set Logging Level    0
+    END
+    ${logging}=    Get Logging Level
+    Should Be Equal As Integers    ${logging}    0
 
 BPS004.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
