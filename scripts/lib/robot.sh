@@ -60,21 +60,23 @@ execute_robot() {
   # Move all arguments after "--" to _robot_args list using the position of "--"
   # saved in _separator_idx
   local _robot_args=()
-  _separator_idx=$_separator_idx+1
-  for ((i=_separator_idx;i<_args_len;i++)); do
-    # Some arguments may contain spaces. Bash removes quotation marks
-    # from command arguments. Because we need to pass them again to
-    # another command the quotation marks need to be restored or the arguments
-    # containing spacebars will be split into multiple arguments when
-    # concatenating the list into a string to use in eval
-    #
-    # If an arguments from _args list contains a spacebar, quotation marks are
-    # added around it.
-    if [[ ${_args[$i]} =~ \  ]]; then
-      _args[i]=\"${_args[i]}\"
-    fi
-    _robot_args+=("${_args[$i]}")
-  done
+  if [[ $_separator_idx -gt 0 ]]; then
+    _separator_idx=$_separator_idx+1
+    for ((i=_separator_idx;i<_args_len;i++)); do
+      # Some arguments may contain spaces. Bash removes quotation marks
+      # from command arguments. Because we need to pass them again to
+      # another command the quotation marks need to be restored or the arguments
+      # containing spacebars will be split into multiple arguments when
+      # concatenating the list into a string to use in eval
+      #
+      # If an arguments from _args list contains a spacebar, quotation marks are
+      # added around it.
+      if [[ ${_args[$i]} =~ \  ]]; then
+        _args[i]=\"${_args[i]}\"
+      fi
+      _robot_args+=("${_args[$i]}")
+    done
+  fi
 
 
   # Check if the required environment variables are set
