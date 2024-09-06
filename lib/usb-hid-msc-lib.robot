@@ -33,3 +33,24 @@ Download ISO And Mount As USB
             Skip    unsupported
         END
     END
+
+Copy ISO And Mount As USB
+    [Documentation]    Mounts the desired ISO as USB stick,
+    ...    either via PiKVM or Qemu
+    [Arguments]    ${img_path}    ${img_file}
+
+    ${img_dir}    ${img_name}=    Split Path    ${img_path}
+
+    Copy File    ${img_file}    ${CURDIR}/../dl-cache/bad_format.img
+
+    IF    "${MANUFACTURER}" == "QEMU"
+        Remove Drive From Qemu
+        Add USB To Qemu    img_name=${img_path}
+    ELSE
+        IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
+            Copy Image To PiKVM    ${PIKVM_IP}    ${img_file}    ${img_name}
+            Mount Image On PiKVM    ${PIKVM_IP}    ${img_name}
+        ELSE
+            Skip    unsupported
+        END
+    END
