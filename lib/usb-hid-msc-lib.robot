@@ -41,8 +41,6 @@ Copy ISO And Mount As USB
 
     ${img_dir}    ${img_name}=    Split Path    ${img_path}
 
-    Copy File    ${img_file}    ${CURDIR}/../dl-cache/${img_name}
-
     IF    "${MANUFACTURER}" == "QEMU"
         Remove Drive From Qemu
         Add USB To Qemu    img_name=${img_path}
