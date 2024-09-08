@@ -12,9 +12,15 @@ Send File To DUT
     [Arguments]    ${source_path}    ${target_path}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${ip_address}=    Get Hostname Ip
+        IF    '${CONFIG}' == 'qemu'
+            Set Local Variable    ${ip_address}    localhost
+            Set Local Variable    ${port}    5222
+        ELSE
+            ${ip_address}=    Get Hostname Ip
+            Set Local Variable    ${port}    22
+        END
         Execute Command In Terminal    rm -f ${target_path}
-        SSHLibrary.Open Connection    ${ip_address}
+        SSHLibrary.Open Connection    ${ip_address}    port=${port}
         SSHLibrary.Login    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
         SSHLibrary.Put File    ${source_path}    ${target_path}
         SSHLibrary.Close Connection
