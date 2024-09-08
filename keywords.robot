@@ -17,6 +17,7 @@ Resource        lib/sleep-lib.robot
 Resource        lib/CPU-performance-lib.robot
 Resource        lib/framework.robot
 Resource        lib/me.robot
+Resource        lib/network.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -280,21 +281,6 @@ Enter Petitboot And Return Menu
     Sleep    2s
     ${menu}=    Read From Terminal Until    Processing DHCP lease response
     RETURN    ${menu}
-
-Get Hostname Ip
-    [Documentation]    Returns local IP address of the DUT.
-    # TODO: We do not necessarily need Internet to be reachable for the internal
-    # addresses to be assigned. But if it is, the local IPs are definitely
-    # already in place.
-    Wait Until Keyword Succeeds    5x    1s
-    ...    Check Internet Connection On Linux
-    ${out_hostname}=    Execute Command In Terminal    hostname -I
-    Should Not Contain    ${out_hostname}    link is not ready
-    ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b192\\.168\\.\\d{1,3}\\.\\d{1,3}\\b
-    Should Not Be Empty    ${ip_address}
-    RETURN    ${ip_address[0]}
-
-    # [Return]    ${ip_address.partition("\n")[0]}
 
 Get Firmware Version From Binary
     [Documentation]    Return firmware version from local firmware binary file.
@@ -1157,26 +1143,6 @@ Check If Files Are Identical In Linux
     ...    Should Be Equal    ${sha256sum1}    ${sha256sum2}
     RETURN    ${status}
 
-Scan For Wi-Fi In Linux
-    [Documentation]    Turn on Wi-Fi then scan in search of company network.
-    Execute Linux Command Without Output    nmcli radio wifi on
-    Write Into Terminal    nmcli device wifi rescan
-    Set DUT Response Timeout    60 seconds
-    Write Into Terminal    nmcli device wifi list
-    Read From Terminal Until    ${3_MDEB_WIFI_NETWORK}
-    Write Into Terminal    q
-
-Scan For Bluetooth In Linux
-    [Documentation]    Turn on Bluetooth then scan in search of company network.
-    ${out}=    Execute Linux Command    bluetoothctl power on
-    Should Contain    ${out}    Changing power on succeeded
-    Set DUT Response Timeout    60 seconds
-    Write Into Terminal    bluetoothctl scan on
-    Sleep    60s
-    Write Bare Into Terminal    ${CTRL_C}
-    ${out}=    Read From Terminal Until Prompt
-    Should Contain    ${out}    Discovery started
-
 Get Video Controllers Windows
     [Documentation]    Get and return all video controllers on the device using
     ...    PowerShell on Windows OS.
@@ -1533,34 +1499,6 @@ Clone Git Repository
     ${out_clone}=    Execute Command In Terminal    git clone ${repo_url} ${location}
     Should Contain    ${out_clone}    Receiving objects: 100%
     Should Contain    ${out_clone}    Resolving deltas: 100%
-
-Send File To DUT
-    [Documentation]    Sends file DUT and saves it at given location
-    [Arguments]    ${source_path}    ${target_path}
-    ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${ip_address}=    Get Hostname Ip
-        Execute Command In Terminal    rm -f ${target_path}
-        SSHLibrary.Open Connection    ${ip_address}
-        SSHLibrary.Login    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
-        SSHLibrary.Put File    ${source_path}    ${target_path}
-        SSHLibrary.Close Connection
-    ELSE
-        SSHLibrary.Put File    ${source_path}    ${target_path}
-    END
-    ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
-    ${hash_target}=    Strip String    ${hash_target}
-    Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
-
-Check Internet Connection On Linux
-    [Documentation]    Check internet connection on Linux.
-    ${out}=    Execute Linux Command    ping -c 4 google-public-dns-a.google.com
-    Should Contain    ${out}    , 0% packet loss
-
-Check Internet Connection On Windows
-    [Documentation]    Check internet connection on Windows.
-    ${out}=    Execute Command In Terminal    ping google-public-dns-a.google.com
-    Should Contain    ${out}    (0% loss)
 
 Boot Operating System
     [Documentation]    Keyword allows boot operating system installed on the
