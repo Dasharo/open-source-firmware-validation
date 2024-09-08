@@ -34,11 +34,9 @@ Get Hostname Ip
     ...    Check Internet Connection On Linux
     ${out_hostname}=    Execute Command In Terminal    hostname -I
     Should Not Contain    ${out_hostname}    link is not ready
-    ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b192\\.168\\.\\d{1,3}\\.\\d{1,3}\\b
+    ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b(?:192\\.168|10\\.0)\\.\\d{1,3}\\.\\d{1,3}\\b
     Should Not Be Empty    ${ip_address}
     RETURN    ${ip_address[0]}
-
-    # [Return]    ${ip_address.partition("\n")[0]}
 
 Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
