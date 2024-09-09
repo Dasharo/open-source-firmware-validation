@@ -194,12 +194,12 @@ Enter Volume In File Explorer
         ${volumes_no}=    Get Length    ${volumes}
         Press Key N Times    ${volumes_no}    ${ARROW_DOWN}
         #    - check if the label is what we need, if yes, select
-        FOR    ${in}    IN RANGE    20
+        FOR    ${in}    IN RANGE    40
             ${new_entry}=    Read From Terminal
             ${status}=    Run Keyword And Return Status
             ...    Should Contain    ${new_entry}    ${target_volume}
             IF    ${status} == ${TRUE}    BREAK
-            IF    ${in} == 19    Fail    Volume not found
+            IF    ${in} == 39    Fail    Volume not found
             Press Key N Times    1    ${ARROW_DOWN}
         END
         Press Key N Times    1    ${ENTER}
