@@ -212,7 +212,7 @@ Open Connection And Log In
     Check Provided Ip
     # FIXME: some stands do not have RTE connected, this should be better handled
     # by reworking variables.robot
-    IF    '${CONFIG}' != 'qemu'
+    IF    '${MANUFACTURER}' != 'QEMU'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
         SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
@@ -531,7 +531,7 @@ Prepare Test Suite
     ELSE
         Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
     END
-    IF    '${CONFIG}' != 'qemu'    Import Osfv Libraries
+    IF    '${MANUFACTURER}' != 'QEMU'    Import Osfv Libraries
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Prepare To SSH Connection
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
@@ -585,7 +585,7 @@ Prepare To Serial Connection
     ...    sections if the communication with the platform based on
     ...    the serial connection
     Open Connection And Log In
-    IF    '${CONFIG}' == 'qemu'
+    IF    '${MANUFACTURER}' == 'QEMU'
         Set Global Variable    ${PLATFORM}    qemu
     ELSE
         ${platform}=    Get Current RTE Param    platform
@@ -687,7 +687,7 @@ Get DUT To Start State
     [Documentation]    Clears telnet buffer and get Device Under Test to start
     ...    state (RTE Relay On).
     Telnet.Read
-    IF    '${CONFIG}' != 'qemu'
+    IF    '${MANUFACTURER}' != 'QEMU'
         ${result}=    Get Power Supply State
         IF    '${result}'=='off'    Turn On Power Supply
     END
