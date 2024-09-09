@@ -12,7 +12,7 @@ Send File To DUT
     [Arguments]    ${source_path}    ${target_path}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        IF    '${CONFIG}' == 'qemu'
+        IF    '${MANUFACTURER}' == 'QEMU'
             Set Local Variable    ${ip_address}    localhost
             Set Local Variable    ${port}    5222
         ELSE
