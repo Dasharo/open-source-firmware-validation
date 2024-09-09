@@ -194,7 +194,7 @@ Perform Capsule Update
     Should Contain    ${out}    :\\capsule_testing\\>
 
     # Reset the system manually
-    Execute UEFI Shell Command    reset    3m
+    Execute UEFI Shell Command    reset    5m
 
     # Confirm update by following instructions of Firmware Update Mode dialog
     Read From Terminal Until    ${FUM_DIALOG_TOP}
