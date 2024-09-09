@@ -142,9 +142,9 @@ Get BIOS Version
 Upload Required Files
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
 
-    Check If Capsule File Exists    ../edk2/${file_name}_max_fw_ver.cap
-    Check If Capsule File Exists    ../edk2/${file_name}_wrong_cert.cap
-    Check If Capsule File Exists    ../edk2/${file_name}_invalid_guid.cap
+    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_max_fw_ver.cap
+    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_wrong_cert.cap
+    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
 
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -165,12 +165,12 @@ Upload Required Files
     Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
     Log To Console    Sending ${CAPSULE_FW_FILE}
     Send File To DUT    ${CAPSULE_FW_FILE}    /capsule_testing/valid_capsule.cap
-    Log To Console    Sending ../edk2/${file_name}_max_fw_ver.cap
-    Send File To DUT    ../edk2/${file_name}_max_fw_ver.cap    /capsule_testing/max_fw_ver.cap
-    Log To Console    Sending ../edk2/${file_name}_wrong_cert.cap
-    Send File To DUT    ../edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
-    Log To Console    Sending ../edk2/${file_name}_invalid_guid.cap
-    Send File To DUT    ../edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
+    Log To Console    Sending ./dl-cache/edk2/${file_name}_max_fw_ver.cap
+    Send File To DUT    ./dl-cache/edk2/${file_name}_max_fw_ver.cap    /capsule_testing/max_fw_ver.cap
+    Log To Console    Sending ./dl-cache/edk2/${file_name}_wrong_cert.cap
+    Send File To DUT    ./dl-cache/edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
+    Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
+    Send File To DUT    ./dl-cache/edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
 
     # Move the directory to ESP partition so the tests work even if root
     # file-system is part of LVM
