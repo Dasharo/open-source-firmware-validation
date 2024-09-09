@@ -2,13 +2,13 @@
 
 # Define an array of commands
 commands=(
-  "robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/setup-and-boot-menus -v snipeit:no self-tests/setup-and-boot-menus.robot"
-  "robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/dasharo-system-features-menus -v snipeit:no self-tests/dasharo-system-features-menus.robot"
-  "robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/boolean-options -v snipeit:no self-tests/boolean-options.robot"
-  "robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/numerical-options -v snipeit:no self-tests/numerical-options.robot"
-  "robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/list-options -v snipeit:no self-tests/list-options.robot"
-  "robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/secure-boot -v snipeit:no self-tests/secure-boot.robot"
-  "robot -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/self-tests -v snipeit:no self-tests/terminal.robot"
+  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/setup-and-boot-menus -v snipeit:no self-tests/setup-and-boot-menus.robot"
+  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/dasharo-system-features-menus -v snipeit:no self-tests/dasharo-system-features-menus.robot"
+  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/boolean-options -v snipeit:no self-tests/boolean-options.robot"
+  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/numerical-options -v snipeit:no self-tests/numerical-options.robot"
+  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/list-options -v snipeit:no self-tests/list-options.robot"
+  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/secure-boot -v snipeit:no self-tests/secure-boot.robot"
+  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/self-tests -v snipeit:no self-tests/terminal.robot"
 )
 
 # Initialize a variable to track overall success
