@@ -6,10 +6,9 @@ capsule=$(realpath "$1")
 capsule_name=$(basename "$capsule")
 capsule_name="${capsule_name%.*}"
 
-cd ..
+cd dl-cache
 if [ ! -d "./edk2" ]; then
     git clone --depth 1 --branch osfv-capsule-tests https://github.com/Dasharo/edk2.git
-    chmod 777 edk2
 fi
 
 cd edk2 || exit
@@ -134,6 +133,9 @@ EOF
 )
 
 echo "$content" > "$output_file"
+
+echo "Json file: $output_file"
+echo "Output file: $capsule_name$file_descriptor.cap"
 
 BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
                                                 --capflag PersistAcrossReset \
