@@ -72,4 +72,4 @@ Scan For Bluetooth In Linux
     Sleep    60s
     Write Bare Into Terminal    ${CTRL_C}
     ${out}=    Read From Terminal Until Prompt
-    Should Contain    ${out}    Discovery started
+    Should Contain Any    ${out}    Discovery started    SetDiscoveryFilter success
