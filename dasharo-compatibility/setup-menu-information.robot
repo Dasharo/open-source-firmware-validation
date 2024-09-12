@@ -20,6 +20,8 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}    UEFI interface tests not supported
+...                     AND
+...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
