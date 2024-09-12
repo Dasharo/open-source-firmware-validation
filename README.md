@@ -313,3 +313,6 @@ branch.
 * [QEMU](docs/qemu.md) - Documentation for running tests in QEMU
 * [NovaCustom](docs/novacustom.md) - Documentation for running tests on
   NovaCustom laptops
+* [Config parser](docs/config-parser.md) - Instructions for the
+  `scripts/config-parser.py` utility for parsing coreboot config files into
+  .robot platform configs for OSFV
