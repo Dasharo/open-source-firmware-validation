@@ -79,6 +79,7 @@ Flash Firmware
 
     IF    "${OPTIONS_LIB}"=="dcu"
         Make Sure That Flash Locks Are Disabled
+        Send File To DUT    ${fw_file}    ${fw_file}
         Flash Via Internal Programmer    ${fw_file}    region='bios'
         RETURN
     END
