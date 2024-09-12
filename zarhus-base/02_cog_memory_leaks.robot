@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -18,11 +19,11 @@ Resource            ../keys.robot
 # Required teardown keywords:
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
+...                     Set Up Platform
+...                     AND
 ...                     Prepare Test Suite
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
-# Before the tests are executed the platform must be booted into Linux and have
-# Weston running in the background. The user should be logged in as root.
 
 
 *** Test Cases ***
@@ -98,7 +99,9 @@ COG002.001 Check for memory leaks using Heaptrack
 
 
 *** Keywords ***
-Clean Up
-    Set Prompt For Terminal    root@zarhus-machine-cm3:~#
-    Execute Command In Terminal    cd ~
-    Execute Command In Terminal    rm -rf memory
+Set Up Platform
+    Pause Execution    Boot Linux and press OK to conitnue.
+    Pause Execution    Log in as root and press OK to continue.
+    Pause Execution    If Weston is not running, run in the background with "weston &" and press OK to conitnue.
+    Pause Execution    Navigate to the working directory of your choice and press OK to continue.
+    Pause Execution    Close the serial connection and press OK to continue
