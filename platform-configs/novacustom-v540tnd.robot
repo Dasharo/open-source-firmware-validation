@@ -24,3 +24,4 @@ ${TESTS_IN_WINDOWS_SUPPORT}=        ${FALSE} # change windows/ubuntu support dep
 ${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE} # on which OS is first in the boot order
 ${USB_STACK_SUPPORT}=               ${TRUE}
 ${DEVICE_AUDIO1}=                   ALC245
+${WIFI_CARD_UBUNTU}=                00:14.3 Network controller: Intel Corporation Meteor Lake PCH CNVi WiFi (rev 20)
