@@ -1297,7 +1297,7 @@ Check If Package Is Installed
     ...    test case, has already been installed on the system.
     [Arguments]    ${package}
     ${output}=    Execute Command In Terminal    dpkg --list ${package} | cat
-    IF    "no packages found matching" in """${output}""" or "<none>" in """${output}"""
+    IF    "no packages found matching" in """${output}""" or "<none>" in """${output}""" or "dpkg was interrupted" in """${output}"""
         ${is_installed}=    Set Variable    ${FALSE}
     ELSE
         ${is_installed}=    Set Variable    ${TRUE}
