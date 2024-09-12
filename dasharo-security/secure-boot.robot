@@ -21,11 +21,13 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in Firmware not supported
+...                     AND
 ...                     Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot is not supported
 ...                     AND
 ...                     Restore Secure Boot Defaults
 Suite Teardown      Run Keywords
-...                     Run Keyword If    ${SECURE_BOOT_SUPPORT}    Set Secure Boot State To Disabled
+...                     Run Keyword If    ${SECURE_BOOT_SUPPORT} and ${TESTS_IN_FIRMWARE_SUPPORT}    Set Secure Boot State To Disabled
 ...                     AND
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword
