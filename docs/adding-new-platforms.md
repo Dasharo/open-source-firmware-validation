@@ -17,6 +17,10 @@ hardware slots (such as WiFi) with the peripherals to be used during tests. It
 is assumed that this script is executed on the Ubuntu OS. You can use these
 automatically generated variables as another input to the cases described below.
 
+Also, if there already is a Dasharo FW binary for the platform, you
+might want to extract the `.config` from the binary and try to run it through
+our [config parser](config-parser.md) to get at least some flags automatically.
+
 ## Adding a brand new platform
 
 - Create a new file for your mainboard in `platform-configs/`. For most
