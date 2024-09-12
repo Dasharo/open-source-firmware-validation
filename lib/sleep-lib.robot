@@ -5,6 +5,10 @@ Documentation       Collection of keywords related to System Sleep States
 *** Keywords ***
 Check If Platform Sleep Type Can Be Selected
     [Documentation]    Check if there is a Platform sleep type option
+    IF    not ${TESTS_IN_FIRMWARE_SUPPORT}
+        Set Suite Variable    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    ${FALSE}
+        RETURN
+    END
     IF    ${DASHARO_POWER_MGMT_MENU_SUPPORT} == ${FALSE}
         Set Suite Variable    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    ${FALSE}
         RETURN
