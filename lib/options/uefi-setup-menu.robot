@@ -62,6 +62,13 @@ Get UEFI Option
     ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}    ${VALUE}
     RETURN    ${state}
 
+Reset UEFI Options to Defaults
+    [Documentation]    Resets all UEFI options to defaults
+    Power On
+    Enter Setup Menu Tianocore
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
 Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
 

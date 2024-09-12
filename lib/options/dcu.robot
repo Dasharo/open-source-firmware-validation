@@ -55,6 +55,10 @@ Get UEFI Option
     ...    shell=True
     RETURN    ${out.stdout}
 
+Reset UEFI Options to Defaults
+    [Documentation]    Resets all UEFI options to defaults
+    Flash Firmware    ${FW_FILE}
+
 Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
 
