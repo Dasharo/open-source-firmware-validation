@@ -91,6 +91,7 @@ CUPXX3.001 Verifying UUID
     Should Be Equal    ${original_uuid}    ${updated_uuid}
 
     Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
+    Turn Off Active ME
 
 CUPXX4.001 Verifying Serial Number
     [Documentation]    Check if serial number didn't change after Capsule Update.
@@ -113,6 +114,25 @@ CUPXX4.001 Verifying Serial Number
     Should Be Equal    ${original_serial}    ${updated_serial}
 
     Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
+    Turn Off Active ME
+
+CUPXX5.001 Verifying If Custom Logo Persists Across updates
+    [Documentation]    Check if Logo didn't change after Capsule Update.
+    Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
+
+    Prepare DUT For Logo Persistence Test
+
+    Power On
+    Boot Into UEFI Shell
+    Perform Capsule Update    max_fw_ver.cap
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+
+    ${out}=    Execute Command In Terminal    sha256sum /sys/firmware/acpi/bgrt/image
+
+    ${unplugged}=    Run Keyword And Return Status    Should Not Contain    ${out}    No such file
 
 CUP999.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
@@ -322,3 +342,27 @@ Display Preparation Instructions
     Log To Console    Without it, a successful flash of DUT will prevent tests from working
     Log To Console    correctly.
     Log To Console    \n******************************************************************************
+
+Prepare DUT For Logo Persistence Test
+    IF    '${MANUFACTURER}' != 'QEMU'
+        Run    rm -rf dcu
+        Run    git clone https://github.com/Dasharo/dcu
+        Run    cp ${FW_FILE} dcu/coreboot.rom
+
+        Download To Host Cache
+        ...    logo.bmp
+        ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download
+        ...    6e5a6722955e4f78d947654630f27ff833703fbc04776ffed963c96617f6bb2a
+
+        ${local_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
+        Run    cp ${local_path} dcu/logo.bmp
+
+        ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo ./coreboot.rom -l ./logo.bmp
+
+        Log    ${result.stdout}
+        Log    ${result.stderr}
+        Should Contain    ${result.stdout}    Success
+
+        Flash Firmware    ./dcu/coreboot.rom
+        Turn Off Active ME
+    END
