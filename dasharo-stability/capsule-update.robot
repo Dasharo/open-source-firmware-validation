@@ -90,8 +90,7 @@ CUPXX3.001 Verifying UUID
 
     Should Be Equal    ${original_uuid}    ${updated_uuid}
 
-    Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
-    Turn Off Active ME
+    Restore DUT Initial State
 
 CUPXX4.001 Verifying Serial Number
     [Documentation]    Check if serial number didn't change after Capsule Update.
@@ -113,8 +112,7 @@ CUPXX4.001 Verifying Serial Number
 
     Should Be Equal    ${original_serial}    ${updated_serial}
 
-    Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
-    Turn Off Active ME
+    Restore DUT Initial State
 
 CUPXX5.001 Verifying If Custom Logo Persists Across updates
     [Documentation]    Check if Logo didn't change after Capsule Update.
@@ -122,7 +120,6 @@ CUPXX5.001 Verifying If Custom Logo Persists Across updates
 
     Prepare DUT For Logo Persistence Test
 
-    Power On
     Boot Into UEFI Shell
     Perform Capsule Update    max_fw_ver.cap
 
@@ -133,6 +130,31 @@ CUPXX5.001 Verifying If Custom Logo Persists Across updates
     ${out}=    Execute Command In Terminal    sha256sum /sys/firmware/acpi/bgrt/image
 
     ${unplugged}=    Run Keyword And Return Status    Should Not Contain    ${out}    No such file
+
+CUPXX6.001 Verifying BIOS Settings Persistence After Update
+    [Documentation]    Check if BIOS settings didn't change after Capsule Update.
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${net_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+
+    Set Option State    ${net_menu}    Enable network boot    ${TRUE}
+
+    ${original_state}=    Set Test Variable    ${TRUE}
+
+    Save Changes And Reset
+    Select UEFI Shell Boot Option
+    Perform Capsule Update    max_fw_ver.cap
+
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+
+    ${updated_state}=    Get Option State    ${net_menu}    Enable network boot
+
+    Should Be Equal    ${original_state}    ${updated_state}
+
+    Restore DUT Initial State
 
 CUP999.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
@@ -366,3 +388,7 @@ Prepare DUT For Logo Persistence Test
         Flash Firmware    ./dcu/coreboot.rom
         Turn Off Active ME
     END
+
+Restore DUT Initial State
+    Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
+    Turn Off Active ME
