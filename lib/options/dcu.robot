@@ -68,7 +68,7 @@ Get UEFI Boot Manager Entries
     ${boot_menu}=    SSHLibrary.Execute Command    efibootmgr
     RETURN    ${boot_menu}
 
-Measure Average Coldboot Time
+Measure Coldboot Time
     [Documentation]    Performs a measurement of average coldboot
     ...    boot time
 
@@ -125,7 +125,7 @@ Measure Reboot Time
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s
-        Append To List    ${durations}    ${boot_time}s
+        Append To List    ${durations}    ${boot_time}
     END
 
     ${min}    ${max}    ${average}    ${stddev}=
