@@ -29,7 +29,7 @@ Suite Teardown      Run Keywords
 
 
 *** Test Cases ***
-COG001.001 Check memory usage on heavy application
+COG001.001 Check memory usage on resource-intensive application
     [Documentation]    This test measures memory usage while running a
     ...    memory-heavy web application in Cog browser.
     ${cmd_timeout}=    Evaluate    int(${TIME}) + 500
@@ -45,7 +45,7 @@ COG001.001 Check memory usage on heavy application
     Set Prompt For Terminal    root@${HOSTNAME}:${WORKDIR}#
     Execute Command In Terminal    cd ..
 
-COG001.002 Check memory usage on light application
+COG001.002 Check memory usage on lightweight application
     [Documentation]    This test measures memory usage while running a
     ...    memory-light web application in Cog browser.
     ${cmd_timeout}=    Evaluate    int($TIME) + 500
