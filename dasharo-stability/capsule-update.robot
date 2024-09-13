@@ -70,6 +70,50 @@ CUP002.001 Capsule Update With Wrong GUID
     ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
     Should Contain    ${out}    Capsule Status: Not Ready
 
+CUPXX3.001 Verifying UUID
+    [Documentation]    Check if UUID didn't change after Capsule Update.
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${original_uuid}=    Get Firmware UUID
+    Log To Console    \n[before update] ${original_uuid}
+
+    Boot Into UEFI Shell
+    Perform Capsule Update    max_fw_ver.cap
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${updated_uuid}=    Get Firmware UUID
+    Log To Console    \n[after update] ${updated_uuid}
+
+    Should Be Equal    ${original_uuid}    ${updated_uuid}
+
+    Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
+
+CUPXX4.001 Verifying Serial Number
+    [Documentation]    Check if serial number didn't change after Capsule Update.
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${original_serial}=    Get Firmware Serial Number
+    Log To Console    \n[before update] ${original_serial}
+
+    Boot Into UEFI Shell
+    Perform Capsule Update    max_fw_ver.cap
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${updated_serial}=    Get Firmware Serial Number
+    Log To Console    \n[after update] ${updated_serial}
+
+    Should Be Equal    ${original_serial}    ${updated_serial}
+
+    Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
+
 CUP999.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
