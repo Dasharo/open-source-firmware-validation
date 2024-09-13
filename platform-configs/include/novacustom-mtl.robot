@@ -28,3 +28,8 @@ ${WEBCAM_UBUNTU}=                   Bison Electronics Inc. BisonCam,NB Pro
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.5.2
 # TODO verify
 ${DMIDECODE_RELEASE_DATE}=          03/17/2022
+
+# Not supported until we release the Dasharo System Driver
+${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
+${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
+${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
