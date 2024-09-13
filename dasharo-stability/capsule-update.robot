@@ -77,6 +77,7 @@ CUPXX3.001 Verifying UUID
     Login To Linux
     Switch To Root User
     ${original_uuid}=    Get Firmware UUID
+    Log To Console    \n[before update] ${original_uuid}
 
     Boot Into UEFI Shell
     Perform Capsule Update    max_fw_ver.cap
@@ -85,6 +86,7 @@ CUPXX3.001 Verifying UUID
     Login To Linux
     Switch To Root User
     ${updated_uuid}=    Get Firmware UUID
+    Log To Console    \n[after update] ${updated_uuid}
 
     Should Be Equal    ${original_uuid}    ${updated_uuid}
 
@@ -97,6 +99,7 @@ CUPXX4.001 Verifying Serial
     Login To Linux
     Switch To Root User
     ${original_serial}=    Get Firmware Serial Number
+    Log To Console    \n[before update] ${original_serial}
 
     Boot Into UEFI Shell
     Perform Capsule Update    max_fw_ver.cap
@@ -105,6 +108,7 @@ CUPXX4.001 Verifying Serial
     Login To Linux
     Switch To Root User
     ${updated_serial}=    Get Firmware Serial Number
+    Log To Console    \n[after update] ${updated_serial}
 
     Should Be Equal    ${original_serial}    ${updated_serial}
 
