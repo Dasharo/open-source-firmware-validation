@@ -92,7 +92,7 @@ CUPXX3.001 Verifying UUID
 
     Restore DUT Initial State
 
-CUPXX4.001 Verifying Serial
+CUPXX4.001 Verifying Serial Number
     [Documentation]    Check if serial number didn't change after Capsule Update.
     Power On
     Boot System Or From Connected Disk    ubuntu
