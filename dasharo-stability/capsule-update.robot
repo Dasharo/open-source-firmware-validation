@@ -25,9 +25,11 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Check If CAPSULE FW FILE Is Present
 ...                     AND
+...                     Upload Required Files
+...                     AND
 ...                     Flash Firmware If Not QEMU
 ...                     AND
-...                     Upload Required Files
+...                     Get System Values
 ...                     AND
 ...                     Turn Off Active ME
 Suite Teardown      Run Keywords
@@ -70,50 +72,6 @@ CUP002.001 Capsule Update With Wrong GUID
     ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
     Should Contain    ${out}    Capsule Status: Not Ready
 
-CUPXX3.001 Verifying UUID
-    [Documentation]    Check if UUID didn't change after Capsule Update.
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${original_uuid}=    Get Firmware UUID
-    Log To Console    \n[before update] ${original_uuid}
-
-    Boot Into UEFI Shell
-    Perform Capsule Update    max_fw_ver.cap
-
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${updated_uuid}=    Get Firmware UUID
-    Log To Console    \n[after update] ${updated_uuid}
-
-    Should Be Equal    ${original_uuid}    ${updated_uuid}
-
-    Restore DUT Initial State
-
-CUPXX4.001 Verifying Serial Number
-    [Documentation]    Check if serial number didn't change after Capsule Update.
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${original_serial}=    Get Firmware Serial Number
-    Log To Console    \n[before update] ${original_serial}
-
-    Boot Into UEFI Shell
-    Perform Capsule Update    max_fw_ver.cap
-
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${updated_serial}=    Get Firmware Serial Number
-    Log To Console    \n[after update] ${updated_serial}
-
-    Should Be Equal    ${original_serial}    ${updated_serial}
-
-    Restore DUT Initial State
-
 CUPXX5.001 Verifying If Custom Logo Persists Across updates
     [Documentation]    Check if Logo didn't change after Capsule Update.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
@@ -154,9 +112,7 @@ CUPXX6.001 Verifying BIOS Settings Persistence After Update
 
     Should Be Equal    ${original_state}    ${updated_state}
 
-    Restore DUT Initial State
-
-CUP999.001 Capsule Update
+CUP150.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
@@ -174,6 +130,22 @@ CUP999.001 Capsule Update
     ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
     Should Contain    ${out}    CapsuleMax
     Should Not Contain    ${out}    CapsuleLast
+
+CUP160.001 Verifying UUID
+    [Documentation]    Check if UUID didn't change after Capsule Update.
+    Go To Ubuntu Prompt
+    ${updated_uuid}=    Get Firmware UUID
+    Log To Console    \n[UUID After Update] ${updated_uuid}
+
+    Should Be Equal    ${ORIGINAL_UUID}    ${updated_uuid}
+
+CUP170.001 Verifying Serial Number
+    [Documentation]    Check if serial number didn't change after Capsule Update.
+    Go To Ubuntu Prompt
+    ${updated_serial}=    Get Firmware Serial Number
+    Log To Console    \n[Serial Number After Update] ${updated_serial}
+
+    Should Be Equal    ${ORIGINAL_SERIAL}    ${updated_serial}
 
 
 *** Keywords ***
@@ -389,6 +361,28 @@ Prepare DUT For Logo Persistence Test
         Turn Off Active ME
     END
 
-Restore DUT Initial State
-    Flash Firmware If Not QEMU    # Restore FW to Initial state (reset FW Ver)
-    Turn Off Active ME
+Go To Ubuntu Prompt
+    Write Into Terminal    ${ENTER}
+    ${out}=    Read From Terminal
+    ${out}=    Replace String    ${out}    \n    \\n
+
+    IF    '${UBUNTU_ROOT_PROMPT}' in '${out}'
+        Log To Console    Ubuntu prompt found
+    ELSE
+        Log To Console    Ubuntu prompt not found - Rebooting
+        Power On
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+    END
+
+Get System Values
+    Go To Ubuntu Prompt
+
+    ${temp_serial}=    Get Firmware Serial Number
+    Set Suite Variable    ${ORIGINAL_SERIAL}    ${temp_serial}
+    Log To Console    \n[Serial Number Before Update] ${ORIGINAL_SERIAL}
+
+    ${temp_uuid}=    Get Firmware UUID
+    Set Suite Variable    ${ORIGINAL_UUID}    ${temp_uuid}
+    Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
