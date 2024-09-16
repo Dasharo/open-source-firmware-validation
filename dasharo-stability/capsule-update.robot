@@ -89,28 +89,14 @@ CUPXX5.001 Verifying If Custom Logo Persists Across updates
 
     ${unplugged}=    Run Keyword And Return Status    Should Not Contain    ${out}    No such file
 
-CUPXX6.001 Verifying BIOS Settings Persistence After Update
+CUP140.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${net_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
+    ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
 
-    Set Option State    ${net_menu}    Enable network boot    ${TRUE}
-
-    ${original_state}=    Set Test Variable    ${TRUE}
-
+    Set Option State    ${boot_menu}    Auto Boot Time-out    32123
     Save Changes And Reset
-    Select UEFI Shell Boot Option
-    Perform Capsule Update    max_fw_ver.cap
-
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
-
-    ${updated_state}=    Get Option State    ${net_menu}    Enable network boot
-
-    Should Be Equal    ${original_state}    ${updated_state}
 
 CUP150.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
@@ -146,6 +132,16 @@ CUP170.001 Verifying Serial Number
     Log To Console    \n[Serial Number After Update] ${updated_serial}
 
     Should Be Equal    ${ORIGINAL_SERIAL}    ${updated_serial}
+
+CUP180.001 Verifying BIOS Settings Persistence After Update - PART 2
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
+
+    ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
+
+    Log To Console    UPDATED STATE: ${updated_state}
+    Should Be Equal    32123    ${updated_state}
 
 
 *** Keywords ***
