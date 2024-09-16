@@ -5,17 +5,17 @@ Resource    include/default.robot
 *** Variables ***
 ${INITIAL_DUT_CONNECTION_METHOD}=       pikvm
 ${DUT_CONNECTION_METHOD}=               pikvm
-${FLASH_SIZE}=                          ${TBD}
+${FLASH_SIZE}=                          ${16*1024*1024}
 ${FLASH_LENGTH}=                        ${TBD}
 ${MANUFACTURER}=                        Hardkernel
 ${CPU}=                                 Intel(R) N97
 ${POWER_CTRL}=                          RteCtrl
-${FLASH_VERIFY_METHOD}=                 ${TBD}
+${FLASH_VERIFY_METHOD}=                 tianocore-shell
 ${WIFI_CARD}=                           ${TBD}
 ${MAX_CPU_TEMP}=                        ${TBD}
 ${FW_VERSION}=                          ${TBD}
 ${DMIDECODE_SERIAL_NUMBER}=             123456789
-${DMIDECODE_FIRMWARE_VERSION}=          ${TBD}
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v0.9.0-rc1
 ${DMIDECODE_PRODUCT_NAME}=              ODROID-H4
 ${DMIDECODE_RELEASE_DATE}=              ${TBD}
 ${DMIDECODE_MANUFACTURER}=              HARDKERNEL
@@ -48,6 +48,16 @@ ${DEF_THREADS_PER_CORE}=                1
 ${DEF_CORES_PER_SOCKET}=                4
 ${DEF_SOCKETS}=                         1
 ${DEF_ONLINE_CPU}=                      0-3
+${FLASH_VERIFY_OPTION}=                 UEFI Shell    # Selected One Time Boot option
+${RESET_TO_DEFAULTS_SUPPORT}=           ${TRUE}
+${TPM_SUPPORT}=                         ${TRUE}
+${IPXE_BOOT_SUPPORT}=                   ${TRUE}
+${FIRMWARE_NUMBER_VERIFICATION}=        ${TRUE}
+${PRODUCT_NAME_VERIFICATION}=           ${TRUE}
+${WIRELESS_CARD_WIFI_SUPPORT}=          ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=         ${TRUE}
+${ONLY_FLASH_BIOS}=                     ${TRUE}
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=    2
 
 
 *** Keywords ***
