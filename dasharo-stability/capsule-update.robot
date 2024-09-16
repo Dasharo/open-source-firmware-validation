@@ -25,6 +25,8 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Check If CAPSULE FW FILE Is Present
 ...                     AND
+...                     Prepare For Logo Persistence Test
+...                     AND
 ...                     Upload Required Files
 ...                     AND
 ...                     Flash Firmware If Not QEMU
@@ -39,6 +41,7 @@ Suite Teardown      Run Keywords
 *** Variables ***
 ${FUM_DIALOG_TOP}=          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=       The platform will automatically reboot and disable Firmware Update Mode
+${CUSTOM_LOGO_SUPPORT}=     ${FALSE}
 
 
 *** Test Cases ***
@@ -71,23 +74,6 @@ CUP002.001 Capsule Update With Wrong GUID
     Enter Capsule Testing Folder
     ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
     Should Contain    ${out}    Capsule Status: Not Ready
-
-CUPXX5.001 Verifying If Custom Logo Persists Across updates
-    [Documentation]    Check if Logo didn't change after Capsule Update.
-    Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
-
-    Prepare DUT For Logo Persistence Test
-
-    Boot Into UEFI Shell
-    Perform Capsule Update    max_fw_ver.cap
-
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-
-    ${out}=    Execute Command In Terminal    sha256sum /sys/firmware/acpi/bgrt/image
-
-    ${unplugged}=    Run Keyword And Return Status    Should Not Contain    ${out}    No such file
 
 CUP140.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
@@ -139,15 +125,33 @@ CUP180.001 Verifying BIOS Settings Persistence After Update - PART 2
     ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
 
     ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
-
-    Log To Console    UPDATED STATE: ${updated_state}
     Should Be Equal    32123    ${updated_state}
+
+CUP190.001 Verifying If Custom Logo Persists Across updates
+    [Documentation]    Check if Logo didn't change after Capsule Update.
+    Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+
+    ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
+
+    ${out}=    Execute Command In Terminal
+    ...    sha256sum /sys/firmware/acpi/bgrt/image
+    ${unplugged}=    Run Keyword And Return Status
+    ...    Should Contain    ${out}    No such file
+    IF    ${unplugged} == ${TRUE}
+        Fail    Please make sure that a display device is connected to the DUT
+    END
+    Should Contain    ${out}    ${img_sum}
 
 
 *** Keywords ***
 Flash Firmware If Not QEMU
+    Log To Console    PREPARE: Flashing Firmware
     IF    '${MANUFACTURER}' != 'QEMU'
-        Flash Firmware    ${FW_FILE}
+        Flash Firmware    ./dcu/coreboot.rom
         Power Cycle On
     END
 
@@ -194,6 +198,8 @@ Get BIOS Version
     RETURN    ${bios_version}
 
 Upload Required Files
+    Log To Console    PREPARE: Upload Files
+
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
 
     Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_max_fw_ver.cap
@@ -298,6 +304,7 @@ Get FS From Uefi Shell
     RETURN    ${fss}
 
 Turn Off Active ME
+    Log To Console    PREPARE: Turn Off Active ME
     IF    ${DASHARO_INTEL_ME_MENU_SUPPORT} == ${TRUE}
         Power On
         ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -333,12 +340,18 @@ Display Preparation Instructions
     Log To Console    correctly.
     Log To Console    \n******************************************************************************
 
-Prepare DUT For Logo Persistence Test
-    IF    '${MANUFACTURER}' != 'QEMU'
-        Run    rm -rf dcu
-        Run    git clone https://github.com/Dasharo/dcu
-        Run    cp ${FW_FILE} dcu/coreboot.rom
+Prepare For Logo Persistence Test
+    Log To Console    PREPARE: Logo persistence test
 
+    Run    rm -rf dcu
+    Run    git clone https://github.com/Dasharo/dcu
+    Run    cp ${FW_FILE} dcu/coreboot.rom
+
+    ${out}=    Run
+    ...    cbfstool ./dcu/coreboot.rom layout -w | grep BOOTSPLASH > /dev/null && echo "Custom logo supported" || echo "Custom logo not supported"
+
+    IF    'Custom logo supported' in '${out}'
+        Set Global Variable    ${CUSTOM_LOGO_SUPPORT}    ${TRUE}
         Download To Host Cache
         ...    logo.bmp
         ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download
@@ -352,9 +365,6 @@ Prepare DUT For Logo Persistence Test
         Log    ${result.stdout}
         Log    ${result.stderr}
         Should Contain    ${result.stdout}    Success
-
-        Flash Firmware    ./dcu/coreboot.rom
-        Turn Off Active ME
     END
 
 Go To Ubuntu Prompt
@@ -373,6 +383,7 @@ Go To Ubuntu Prompt
     END
 
 Get System Values
+    Log To Console    PREPARE: Get System Values
     Go To Ubuntu Prompt
 
     ${temp_serial}=    Get Firmware Serial Number
