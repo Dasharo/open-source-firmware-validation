@@ -1,4 +1,4 @@
-Get-WmiObject -Query "SELECT * FROM Win32_DiskDrive WHERE InterfaceType='USB'" | ForEach-Object {
+Get-WmiObject -Query "SELECT * FROM Win32_DiskDrive" | ForEach-Object {
     $disk = $_
     $partitions = "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='$($disk.DeviceID)'} WHERE AssocClass = Win32_DiskDriveToDiskPartition"
     Get-WmiObject -Query $partitions | ForEach-Object {
