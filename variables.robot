@@ -311,6 +311,8 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD17}=                   vendor=Goodram    volume=240GB    type=Storage_SSD
 ...                         interface=SATA    count=1
 ...                         boot_name=SSDPR-CL100-240-G2
+&{SSD18}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         boot_name=Samsung SSD 990 PRO 1TB
 
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
@@ -485,7 +487,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
 @{CONFIG48}=                &{RTE64}    &{SSD17}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
-@{CONFIG50}=                &{RTE66}    &{SSD10}    # Borrowed from NV41PZ
+@{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
