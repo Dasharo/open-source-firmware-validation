@@ -31,7 +31,6 @@ STB001.001 Verify if no reboot occurs in the firmware
     ...    does not reset. The test is performed in multiple iterations - after
     ...    a defined time an attempt to read the same menu is repeated.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    STB001.001 not supported
-    Skip
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
@@ -90,7 +89,6 @@ STB001.003 Verify if no reboot occurs in the OS (Windows)
     ...    specific commands confirming the stability of work is repeated.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    STB001.002 not supported
     Power On
-    Skip
     Login To Windows
     ${timer}=    Convert To Integer    0
     Set Local Variable    ${device_uptime}    0
@@ -122,6 +120,7 @@ STB002.001 Verify if no unexpected boot errors appear in Linux logs
     ...    error ,essages in Linux kernel logs.
     [Tags]    minimal-regression
     Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
 
     Power On
     Boot System Or From Connected Disk    ubuntu
