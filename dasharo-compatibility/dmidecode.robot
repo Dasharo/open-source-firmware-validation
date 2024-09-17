@@ -34,7 +34,7 @@ DMI001.001 Verify the device serial number
     Login To Linux
     Switch To Root User
     Detect Or Install Package    dmidecode
-    ${out}=    Execute Linux Command    dmidecode -t bios | grep Serial
+    ${out}=    Execute Linux Command    dmidecode -t system | grep Serial
     Should Contain    ${out}    ${DMIDECODE_SERIAL_NUMBER}
     IF    ${SERIAL_FROM_MAC}    Compare Serial Number From MAC    ${out}
     Exit From Root User
