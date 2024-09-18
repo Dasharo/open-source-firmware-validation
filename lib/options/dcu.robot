@@ -150,4 +150,4 @@ Make Sure That Flash Locks Are Disabled
     Switch To Root User
     Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
-    Should Not Contain    ${out_flashrom}    read-only
+    Should Not Contain    ${out_flashrom}    read-only    Flash Locks are Enabled!
