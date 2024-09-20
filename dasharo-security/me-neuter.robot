@@ -60,7 +60,7 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
     Switch To Root User
     ${result}=    Check ME Out
     IF    '${result}' == 'Disabled'
-        Log    'ME Device Is Disabled (HAP/Soft) Or Does Not Exist'
+        Log    'ME Device Is Disabled (HAP/Soft) Or Does Not Exist'    WARN
     ELSE
         Should Be Equal As Strings    ${result}    Disabled (Soft)
     END
@@ -75,7 +75,7 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     Switch To Root User
     ${result}=    Check ME State
     IF    '${result}' == 'Disabled'
-        Log    'ME Device Is Disabled (HAP/Soft) Or Does Not Exist'
+        Log    'ME Device Is Disabled (HAP/Soft) Or Does Not Exist'    WARN
     ELSE
         Should Be Equal As Strings    ${result}    Disabled (HAP)
     END
