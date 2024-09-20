@@ -134,9 +134,9 @@ Perform Warmboot Using Rtcwake
     # would hang here and fail.
     # Sometimes it may take long to shutdown all systemd services,
     # so the waiting times have to be excessive to avoid false negatives.
-    Write Into Terminal    rtcwake -m off -s 20
+    Write Into Terminal    rtcwake -m off -s 60
     Set DUT Response Timeout    300s
-    Sleep    20s
+    Sleep    60s
 
 Perform Suspend And Wake Using Rtcwake
     [Documentation]    Suspends and then wakes up the device after some time
