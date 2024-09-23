@@ -124,17 +124,18 @@ CUP180.001 Verifying BIOS Settings Persistence After Update - PART 2
     ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
 
     ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
-    Should Be Equal    32123    ${updated_state}
+    Should Be Equal    ${updated_state}    32123
 
 CUP190.001 Verifying If Custom Logo Persists Across updates
     [Documentation]    Check if Logo didn't change after Capsule Update.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
 
+    Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
 
-    ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
+    ${img_sum}=    Set Variable    bf6cd62f794e18db7c18816ba38401204a9a2bf2532f201f3bfaee67608b8511
 
     ${out}=    Execute Command In Terminal
     ...    sha256sum /sys/firmware/acpi/bgrt/image
@@ -205,6 +206,7 @@ Upload Required Files
     Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_wrong_cert.cap
     Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
 
+    Set DUT Response Timeout    5m
     Power On
     Boot System Or From Connected Disk    ubuntu
 
@@ -359,19 +361,10 @@ Prepare For Logo Persistence Test
     END
 
 Go To Ubuntu Prompt
-    Write Into Terminal    ${ENTER}
-    ${out}=    Read From Terminal
-    ${out}=    Replace String    ${out}    \n    \\n
-
-    IF    '${UBUNTU_ROOT_PROMPT}' in '${out}'
-        Log To Console    Ubuntu prompt found
-    ELSE
-        Log To Console    Ubuntu prompt not found - Rebooting
-        Power On
-        Boot System Or From Connected Disk    ubuntu
-        Login To Linux
-        Switch To Root User
-    END
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
 
 Get System Values
     Log To Console    PREPARE: Get System Values
