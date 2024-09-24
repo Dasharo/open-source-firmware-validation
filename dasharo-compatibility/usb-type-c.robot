@@ -11,6 +11,8 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/me.robot
+Resource            ../lib/docks.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -30,6 +32,36 @@ UTC004.001 USB Type-C Display output (semi-automatic)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    ${out}=    List Devices In Linux    usb
+    Should Contain    ${out}    ${CLEVO_USB_C_HUB}
+    Exit From Root User
+
+UTC004.002 USB Type-C Display output With Me Disabled(semi-automatic)
+    [Documentation]    Check whether the DUT can detect the USB Type-C hub
+    ...    when Intel ME is disabled
+    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC004.002 not supported
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    Dasharo Intel ME menu not supported
+    Set UEFI Option    MeMode    Disabled (HAP)
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${result}=    Check ME Out
+    Should Not Be Equal As Strings    ${result}    Enabled
+    ${out}=    List Devices In Linux    usb
+    Should Contain    ${out}    ${CLEVO_USB_C_HUB}
+    Exit From Root User
+
+UTC004.003 USB Type-C Display output With Me Enabled (semi-automatic)
+    [Documentation]    Check whether the DUT can detect the USB Type-C hub
+    ...    when Intel ME is enabled
+    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    TMD004.003 not supported
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    Dasharo Intel ME menu not supported
+    Set UEFI Option    MeMode    Enabled
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${result}=    Check ME Out
+    Should Be Equal As Strings    ${result}    Enabled
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${CLEVO_USB_C_HUB}
     Exit From Root User
@@ -61,12 +93,42 @@ UTC005.003 - Docking station HDMI display in OS (Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    Skip If    not ${DOCKING_STATION_HDMI}    UTC005.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.001 not supported
+    Skip If    not ${DOCKING_STATION_HDMI}    UTC005.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.003 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Check Display Port On Hub In Linux    HDMI
+    Exit From Root User
+
+UTC005.005 Docking station HDMI display in OS with Me Disabled (Alt Mode) (Ubuntu)
+    [Documentation]    This test aims to verify that the display connected with
+    ...    the HDMI cable to the docking station is correctly
+    ...    recognized by the OPERATING_SYSTEM.
+    Skip If    not ${DOCKING_STATION_HDMI}    UTC005.005 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.005 not supported
+    Set UEFI Option    MeMode    Disabled (HAP)
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${result}=    Check ME Out
+    Should Not Be Equal As Strings    ${result}    Enabled
+    Check Display Port On Hub In Linux    HDMI
+    Exit From Root User
+
+UTC005.007 Docking station HDMI display in OS with Me Enabled (Ubuntu)
+    [Documentation]    This test aims to verify that the display connected with
+    ...    the HDMI cable to the docking station is correctly
+    ...    recognized by the OPERATING_SYSTEM.
+    Skip If    not ${DOCKING_STATION_HDMI}    UTC005.007 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.007 not supported
+    Set UEFI Option    MeMode    Enabled
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${result}=    Check ME Out
+    Should Be Equal As Strings    ${result}    Enabled
     Check Display Port On Hub In Linux    HDMI
     Exit From Root User
 
@@ -97,12 +159,42 @@ UTC006.003 - Docking station DP display in OS (Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.001 not supported
+    Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.003 not supported
     Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
+    Check Display Port On Hub In Linux    DP
+    Exit From Root User
+
+UTC006.005 Docking station DP display in OS with Me Disabled (Ubuntu)
+    [Documentation]    This test aims to verify that the display connected with
+    ...    the HDMI cable to the docking station is correctly
+    ...    recognized by the OPERATING_SYSTEM.
+    Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.005 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.005 not supported
+    Set UEFI Option    MeMode    Disabled (HAP)
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${result}=    Check ME Out
+    Should Not Be Equal As Strings    ${result}    Enabled
+    Check Display Port On Hub In Linux    DP
+    Exit From Root User
+
+UTC006.007 Docking station DP display in OS with Me Enabled (Ubuntu)
+    [Documentation]    This test aims to verify that the display connected with
+    ...    the HDMI cable to the docking station is correctly
+    ...    recognized by the OPERATING_SYSTEM.
+    Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.007 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.007 not supported
+    Set UEFI Option    MeMode    Disabled (HAP)
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${result}=    Check ME Out
+    Should Be Equal As Strings    ${result}    Enabled
     Check Display Port On Hub In Linux    DP
     Exit From Root User
 
@@ -162,7 +254,7 @@ UTC014.001 Ethernet connection (Ubuntu)
     Check Internet Connection On Linux
     Exit From Root User
 
-UTC014.001 Ethernet connection (Windows)
+UTC014.002 Ethernet connection (Windows)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    Windows 11.
