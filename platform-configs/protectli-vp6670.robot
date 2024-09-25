@@ -23,3 +23,10 @@ ${CPU_MAX_FREQUENCY}=           4700
 ${PLATFORM_CPU_SPEED}=          2.60
 ${PLATFORM_RAM_SPEED}=          4200
 ${PLATFORM_RAM_SIZE}=           32768
+
+# List of ethernet interfaces
+@{ETH_PORTS}=                   64-62-66-22-89-99
+...                             64-62-66-22-89-9a
+...                             64-62-66-22-89-9b
+...                             64-62-66-22-89-9c
+${ETHERNET_ID}=                 8086:125c

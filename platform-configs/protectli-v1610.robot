@@ -12,3 +12,12 @@ ${PLATFORM_RAM_SPEED}=          2933
 ${PLATFORM_RAM_SIZE}=           16384
 
 @{ETH_PERF_PAIR_2_G}=           enp4s0    enp5s0
+
+# List of ethernet interfaces
+@{ETH_PORTS}=                   64-62-66-2f-09-f0
+...                             64-62-66-2f-09-f1
+...                             64-62-66-2f-09-f2
+...                             64-62-66-2f-09-f3
+...                             64-62-66-2f-09-f4
+...                             64-62-66-2f-09-f5
+${ETHERNET_ID}=                 8086:125c
