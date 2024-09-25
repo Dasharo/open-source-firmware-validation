@@ -42,7 +42,6 @@ Suite Teardown      Run Keywords
 ${FUM_DIALOG_TOP}=          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=       The platform will automatically reboot and disable Firmware Update Mode
 ${CUSTOM_LOGO_SUPPORT}=     ${FALSE}
-${CUSTOM_LOGO_SHA}=         ${EMPTY}
 
 
 *** Test Cases ***
@@ -84,24 +83,6 @@ CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
 
     Set Option State    ${boot_menu}    Auto Boot Time-out    32123
     Save Changes And Reset
-
-CUP140.001 Verifying If Custom Logo Persists Across updates - PART 1
-    [Documentation]    Check if Logo didn't change after Capsule Update.
-    Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-
-    ${out}=    Execute Command In Terminal
-    ...    sha256sum /sys/firmware/acpi/bgrt/image
-    ${unplugged}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    No such file
-    IF    ${unplugged} == ${TRUE}
-        Fail    Please make sure that a display device is connected to the DUT
-    END
-    Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
 
 CUP150.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
@@ -406,3 +387,12 @@ Get System Values
     ${temp_uuid}=    Get Firmware UUID
     Set Suite Variable    ${ORIGINAL_UUID}    ${temp_uuid}
     Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
+
+    ${out}=    Execute Command In Terminal
+    ...    sha256sum /sys/firmware/acpi/bgrt/image
+    ${unplugged}=    Run Keyword And Return Status
+    ...    Should Contain    ${out}    No such file
+    IF    ${unplugged} == ${TRUE}
+        Fail    Please make sure that a display device is connected to the DUT
+    END
+    Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
