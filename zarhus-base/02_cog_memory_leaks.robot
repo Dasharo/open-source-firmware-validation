@@ -19,11 +19,14 @@ Resource            ../keys.robot
 # Required teardown keywords:
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
-...                     Set Up Platform
+...                     Pause Execution
+...                     Log in as root and close the serial connection, then press OK to conitnue.
 ...                     AND
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Set Up Variables
+...                     AND
+...                     Set Up Platform
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
@@ -48,7 +51,7 @@ COG001.001 Check memory usage on resource-intensive application
 COG001.002 Check memory usage on lightweight application
     [Documentation]    This test measures memory usage while running a
     ...    memory-light web application in Cog browser.
-    ${cmd_timeout}=    Evaluate    int($TIME) + 500
+    ${cmd_timeout}=    Evaluate    int(${TIME}) + 500
     Execute Command In Terminal    mkdir memory_light && cd memory_light
     ${environment}=    Catenate
     ...    COG_PLATFORM_WL_VIEW_HEIGHT=720 COG_PLATFORM_WL_VIEW_WIDTH=1280
@@ -63,7 +66,7 @@ COG001.002 Check memory usage on lightweight application
 COG002.001 Check for memory leaks using Heaptrack
     [Documentation]    This test uses Heaptrack to check for memory leaks in Cog
     ...    browser.
-    ${cmd_timeout}=    Evaluate    int($TIME) + 30
+    ${cmd_timeout}=    Evaluate    int(${TIME}) + 500
     Execute Command In Terminal    mkdir memleaks && cd memleaks
     ${environment}=    Catenate
     ...    COG_PLATFORM_WL_VIEW_HEIGHT=720 COG_PLATFORM_WL_VIEW_WIDTH=1280
@@ -82,11 +85,10 @@ COG002.001 Check for memory leaks using Heaptrack
 
 *** Keywords ***
 Set Up Platform
-    Pause Execution    Boot Linux and press OK to conitnue.
-    Pause Execution    Log in as root and press OK to continue.
-    Pause Execution    If Weston is not running, run in the background with "weston &" and press OK to conitnue.
-    Pause Execution    Navigate to the working directory of your choice and press OK to continue.
-    Pause Execution    Close the serial connection and press OK to continue
+    Execute Command In Terminal    kill $(pgrep weston | head -n 1)
+    Execute Command In Terminal    weston &
+    Set Prompt For Terminal    root@${HOSTNAME}:${WORKDIR}#
+    Execute Command In Terminal    mkdir ${WORKDIR} && cd ${WORKDIR}
 
 Set Up Variables
     ${out}=    Run Keyword And Return Status    Variable Should Exist    ${TIME}
@@ -95,4 +97,4 @@ Set Up Variables
     END
     Variable Should Exist    ${HOSTNAME}
     Variable Should Exist    ${WORKDIR}
-    Set Prompt For Terminal    root@${HOSTNAME}:${WORKDIR}/memory_light#
+    Set Prompt For Terminal    root@${HOSTNAME}:~#
