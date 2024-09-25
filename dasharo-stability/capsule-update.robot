@@ -74,7 +74,7 @@ CUP002.001 Capsule Update With Wrong GUID
     ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
     Should Contain    ${out}    Capsule Status: Not Ready
 
-CUP140.001 Verifying BIOS Settings Persistence After Update - PART 1
+CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -126,7 +126,7 @@ CUP180.001 Verifying BIOS Settings Persistence After Update - PART 2
     ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
     Should Be Equal    ${updated_state}    32123
 
-CUP190.001 Verifying If Custom Logo Persists Across updates
+CUP190.001 Verifying If Custom Logo Persists Across updates - PART 2
     [Documentation]    Check if Logo didn't change after Capsule Update.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
 
@@ -135,8 +135,6 @@ CUP190.001 Verifying If Custom Logo Persists Across updates
     Login To Linux
     Switch To Root User
 
-    ${img_sum}=    Set Variable    bf6cd62f794e18db7c18816ba38401204a9a2bf2532f201f3bfaee67608b8511
-
     ${out}=    Execute Command In Terminal
     ...    sha256sum /sys/firmware/acpi/bgrt/image
     ${unplugged}=    Run Keyword And Return Status
@@ -144,7 +142,7 @@ CUP190.001 Verifying If Custom Logo Persists Across updates
     IF    ${unplugged} == ${TRUE}
         Fail    Please make sure that a display device is connected to the DUT
     END
-    Should Contain    ${out}    ${img_sum}
+    Should Contain    ${out}    ${CUSTOM_LOGO_SHA}
 
 
 *** Keywords ***
@@ -363,6 +361,9 @@ Prepare For Logo Persistence Test
 Go To Ubuntu Prompt
     Power On
     Boot System Or From Connected Disk    ubuntu
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
     Login To Linux
     Switch To Root User
 
@@ -377,3 +378,14 @@ Get System Values
     ${temp_uuid}=    Get Firmware UUID
     Set Suite Variable    ${ORIGINAL_UUID}    ${temp_uuid}
     Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
+
+    IF    $CUSTOM_LOGO_SUPPORT == $TRUE
+        ${out}=    Execute Command In Terminal
+        ...    sha256sum /sys/firmware/acpi/bgrt/image
+        ${unplugged}=    Run Keyword And Return Status
+        ...    Should Contain    ${out}    No such file
+        IF    ${unplugged} == ${TRUE}
+            Fail    Please make sure that a display device is connected to the DUT
+        END
+        Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
+    END
