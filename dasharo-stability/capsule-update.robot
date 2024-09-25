@@ -27,9 +27,9 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Prepare For Logo Persistence Test
 ...                     AND
-...                     Upload Required Files
-...                     AND
 ...                     Flash Firmware If Not QEMU
+...                     AND
+...                     Upload Required Files
 ...                     AND
 ...                     Get System Values
 ...                     AND
@@ -127,7 +127,7 @@ CUP180.001 Verifying BIOS Settings Persistence After Update - PART 2
     ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
     Should Be Equal    ${updated_state}    32123
 
-CUP190.001 Verifying If Custom Logo Persists Across updates - PART 2
+CUP190.001 Verifying If Custom Logo Persists Across updates
     [Documentation]    Check if Logo didn't change after Capsule Update.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
 
@@ -378,7 +378,6 @@ Go To Ubuntu Prompt
 
 Get System Values
     Log To Console    PREPARE: Get System Values
-    Go To Ubuntu Prompt
 
     ${temp_serial}=    Get Firmware Serial Number
     Set Suite Variable    ${ORIGINAL_SERIAL}    ${temp_serial}
