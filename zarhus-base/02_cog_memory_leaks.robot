@@ -75,7 +75,7 @@ COG002.001 Check for memory leaks using Heaptrack
     ${url}=    Set Variable    https://pixijs.com/8.x/examples/mesh-and-shaders/instanced-geometry
     Execute Command In Terminal    export ${environment}
     #    Heaptrack cannot run in the background
-    Write Into Terminal    heap_analyze "cog ${url}"
+    Write Into Terminal    heaptrack cog ${url}
     Press Enter
     Sleep    ${TIME}
     Press Key N Times    1    ${CTRL_C}
