@@ -27,6 +27,8 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Prepare For Logo Persistence Test
 ...                     AND
+...                     Prepare For ROMHOLE Persistence Test
+...                     AND
 ...                     Flash Firmware If Not QEMU
 ...                     AND
 ...                     Upload Required Files
@@ -48,12 +50,12 @@ ${CUSTOM_LOGO_SUPPORT}=     ${FALSE}
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
     Boot Into UEFI Shell
-    ${original_bios_version}=    Get BIOS Version    before update
+    ${original_bios_version}=    Get BIOS Version    Before update
 
     Perform Capsule Update    wrong_cert.cap
 
     Select UEFI Shell Boot Option
-    ${updated_bios_version}=    Get BIOS Version    after update
+    ${updated_bios_version}=    Get BIOS Version    After update
     Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
     Enter Capsule Testing Folder
@@ -63,12 +65,12 @@ CUP001.001 Capsule Update With Wrong Keys
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
     Boot Into UEFI Shell
-    ${original_bios_version}=    Get BIOS Version    before update
+    ${original_bios_version}=    Get BIOS Version    Before Update
 
     Perform Capsule Update    invalid_guid.cap
 
     Select UEFI Shell Boot Option
-    ${updated_bios_version}=    Get BIOS Version    after update
+    ${updated_bios_version}=    Get BIOS Version    After Update
     Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
     Enter Capsule Testing Folder
@@ -90,12 +92,12 @@ CUP150.001 Capsule Update
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
     Boot Into UEFI Shell
-    ${original_bios_version}=    Get BIOS Version    before update
+    ${original_bios_version}=    Get BIOS Version    Before Update
 
     Perform Capsule Update    max_fw_ver.cap
 
     Select UEFI Shell Boot Option
-    ${updated_bios_version}=    Get BIOS Version    after update
+    ${updated_bios_version}=    Get BIOS Version    After Update
     Should Not Be Equal    ${original_bios_version}    ${updated_bios_version}
 
     Enter Capsule Testing Folder
@@ -106,16 +108,22 @@ CUP150.001 Capsule Update
 CUP160.001 Verifying UUID
     [Documentation]    Check if UUID didn't change after Capsule Update.
     Go To Ubuntu Prompt
+    Log To Console    \n[Before Update] ${ORIGINAL_UUID}
     ${updated_uuid}=    Get Firmware UUID
-    Log To Console    \n[UUID After Update] ${updated_uuid}
+    Log To Console    \n[After Update] ${updated_uuid}
 
     Should Be Equal    ${ORIGINAL_UUID}    ${updated_uuid}
+    IF    ${ROMHOLE_SUPPORT} == ${TRUE}
+        Should Be Equal    ${ORIGINAL_UUID}    00112233-4455-6677-8899-aabbccddeeff
+        Should Be Equal    ${updated_uuid}    00112233-4455-6677-8899-aabbccddeeff
+    END
 
 CUP170.001 Verifying Serial Number
     [Documentation]    Check if serial number didn't change after Capsule Update.
     Go To Ubuntu Prompt
+    Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
     ${updated_serial}=    Get Firmware Serial Number
-    Log To Console    \n[Serial Number After Update] ${updated_serial}
+    Log To Console    \n[After Update] ${updated_serial}
 
     Should Be Equal    ${ORIGINAL_SERIAL}    ${updated_serial}
 
@@ -341,7 +349,7 @@ Display Preparation Instructions
     Log To Console    \n******************************************************************************
 
 Prepare For Logo Persistence Test
-    Log To Console    PREPARE: Logo persistence test
+    Log To Console    PREPARE: Logo Persistence Test
 
     Run    rm -rf dcu
     Run    git clone https://github.com/Dasharo/dcu
@@ -395,3 +403,13 @@ Get System Values
         Fail    Please make sure that a display device is connected to the DUT
     END
     Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
+
+Prepare For ROMHOLE Persistence Test
+    Log To Console    PREPARE: ROMHOLE Persistence Test
+
+    IF    ${ROMHOLE_SUPPORT} == ${TRUE}
+        Run
+        ...    ./dasharo-stability/capsule-update-files/cbfstool ./dcu/coreboot.rom write -r ROMHOLE -f ./dasharo-stability/capsule-update-files/romhole
+    ELSE
+        Log To Console    ROMHOLE not supported - skipping
+    END
