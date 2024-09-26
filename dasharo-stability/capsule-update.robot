@@ -105,7 +105,15 @@ CUP150.001 Capsule Update
     Should Contain    ${out}    CapsuleMax
     Should Not Contain    ${out}    CapsuleLast
 
-CUP160.001 Verifying UUID
+CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
+
+    ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
+    Should Be Equal    ${updated_state}    32123
+
+CUP170.001 Verifying UUID
     [Documentation]    Check if UUID didn't change after Capsule Update.
     Go To Ubuntu Prompt
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -118,7 +126,7 @@ CUP160.001 Verifying UUID
         Should Be Equal    ${updated_uuid}    00112233-4455-6677-8899-aabbccddeeff
     END
 
-CUP170.001 Verifying Serial Number
+CUP180.001 Verifying Serial Number
     [Documentation]    Check if serial number didn't change after Capsule Update.
     Go To Ubuntu Prompt
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -127,23 +135,10 @@ CUP170.001 Verifying Serial Number
 
     Should Be Equal    ${ORIGINAL_SERIAL}    ${updated_serial}
 
-CUP180.001 Verifying BIOS Settings Persistence After Update - PART 2
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
-
-    ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
-    Should Be Equal    ${updated_state}    32123
-
 CUP190.001 Verifying If Custom Logo Persists Across updates
     [Documentation]    Check if Logo didn't change after Capsule Update.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-
+    Go To Ubuntu Prompt
     ${out}=    Execute Command In Terminal
     ...    sha256sum /sys/firmware/acpi/bgrt/image
     ${unplugged}=    Run Keyword And Return Status
