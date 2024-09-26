@@ -395,14 +395,16 @@ Get System Values
     Set Suite Variable    ${ORIGINAL_UUID}    ${temp_uuid}
     Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
 
-    ${out}=    Execute Command In Terminal
-    ...    sha256sum /sys/firmware/acpi/bgrt/image
-    ${unplugged}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    No such file
-    IF    ${unplugged} == ${TRUE}
-        Fail    Please make sure that a display device is connected to the DUT
+    IF    $CUSTOM_LOGO_SUPPORT == $TRUE
+        ${out}=    Execute Command In Terminal
+        ...    sha256sum /sys/firmware/acpi/bgrt/image
+        ${unplugged}=    Run Keyword And Return Status
+        ...    Should Contain    ${out}    No such file
+        IF    ${unplugged} == ${TRUE}
+            Fail    Please make sure that a display device is connected to the DUT
+        END
+        Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
     END
-    Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
 
 Prepare For ROMHOLE Persistence Test
     Log To Console    PREPARE: ROMHOLE Persistence Test
