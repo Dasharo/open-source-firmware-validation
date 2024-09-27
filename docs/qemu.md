@@ -47,3 +47,16 @@ to see which test have been proven to work on QEMU so far.
 
 You may also refer to the `./scripts/ci/qemu-self-test.sh`, where we aim to
 keep testing common keywords, to ensure of their correct operation.
+
+## Running tests
+
+Here is an example command for running tests on QEMU (make sure that you are in
+Python virtual environment):
+
+```bash
+robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -t "*" dts/dts-tests.robot
+```
+
+> Note: You do not have to reserve QEMU via `snipeit` therefore `-v snipeit:no`
+> is being used. Use QEMU config `-v config:qemu`, and, as a RTE IP, use
+> `127.0.0.1`. Test suite `dts/dts-tests.robot` is shown here as an example.
