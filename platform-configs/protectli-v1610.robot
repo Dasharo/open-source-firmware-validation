@@ -14,7 +14,7 @@ ${PLATFORM_RAM_SIZE}=           16384
 @{ETH_PERF_PAIR_2_G}=           enp4s0    enp5s0
 
 # List of ethernet interfaces
-${ETH_PORTS}=                   eno0:=64-62-66-2f-09-f0
+&{ETH_PORTS}=                   eno0:=64-62-66-2f-09-f0
 ...                             eno1:=64-62-66-2f-09-f1
 ...                             eno2:=64-62-66-2f-09-f2
 ...                             eno3:=64-62-66-2f-09-f3

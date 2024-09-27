@@ -12,5 +12,5 @@ ${PLATFORM_RAM_SPEED}=          2933
 ${PLATFORM_RAM_SIZE}=           4096
 
 # List of ethernet interfaces
-${ETH_PORTS}=                   eno0:=64-62-66-2f-00-12
+&{ETH_PORTS}=                   eno0:=64-62-66-2f-00-12
 ...                             eno1:=64-62-66-2f-00-13
