@@ -385,10 +385,12 @@ Get System Values (Ubuntu)
     IF    '${var}'=='${EMPTY}'
         Log To Console    PREPARE: Get System Values
 
-        Set Suite Variable    ${ORIGINAL_SERIAL}    Get Firmware Serial Number
+        ${temp}=    Get Firmware Serial Number
+        Set Suite Variable    ${ORIGINAL_SERIAL}    ${temp}
         Log To Console    \n[Serial Number Before Update] ${ORIGINAL_SERIAL}
 
-        Set Suite Variable    ${ORIGINAL_UUID}    Get Firmware Serial Number
+        ${temp}=    Get Firmware UUID
+        Set Suite Variable    ${ORIGINAL_UUID}    ${temp}
         Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
 
         IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
@@ -410,8 +412,7 @@ Prepare For ROMHOLE Persistence Test
     Log To Console    PREPARE: ROMHOLE Persistence Test
 
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
-        Run
-        ...    ./dasharo-stability/capsule-update-files/cbfstool ./dcu/coreboot.rom write -r ROMHOLE -f ./dasharo-stability/capsule-update-files/romhole
+        Run    dd if=dasharo-stability/capsule-update-files/romhole of=dcu/coreboot.rom seek=24903680 bs=1 conv=notrunc
     ELSE
-        Log To Console    ROMHOLE not supported - skipping
+        Log To Console    \ \ \ \ ROMHOLE not supported - skipping
     END
