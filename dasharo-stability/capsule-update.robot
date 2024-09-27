@@ -32,9 +32,9 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Flash Firmware If Not QEMU
 ...                     AND
-...                     Upload Required Files (Ubuntu)
+...                     Get System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
 ...                     AND
-...                     Get System Values (Ubuntu)
+...                     Upload Required Files
 ...                     AND
 ...                     Turn Off Active ME
 Suite Teardown      Run Keywords
@@ -116,20 +116,27 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
 
 CUP170.001 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
-    Go To Ubuntu Prompt
+    ${result}=    Run Keyword And Ignore Error    Variable Should Exist    ${UPDATED_UUID}
+    IF    '${result}[0]' == 'FAIL'
+        Get System Values    $UPDATED_UUID    $UPDATED_SERIAL    $UPDATED_LOGO_SHA256
+    END
+
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
     ${updated_uuid}=    Get Firmware UUID
     Log To Console    \n[After Update] ${updated_uuid}
 
     Should Be Equal    ${ORIGINAL_UUID}    ${updated_uuid}
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
-        Should Be Equal    ${ORIGINAL_UUID}    00112233-4455-6677-8899-aabbccddeeff
         Should Be Equal    ${updated_uuid}    00112233-4455-6677-8899-aabbccddeeff
     END
 
 CUP180.001 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
-    Go To Ubuntu Prompt
+    ${result}=    Run Keyword And Ignore Error    Variable Should Exist    ${UPDATED_SERIAL}
+    IF    '${result}[0]' == 'FAIL'
+        Get System Values    $UPDATED_UUID    $UPDATED_SERIAL    $UPDATED_LOGO_SHA256
+    END
+
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
     ${updated_serial}=    Get Firmware Serial Number
     Log To Console    \n[After Update] ${updated_serial}
@@ -138,16 +145,12 @@ CUP180.001 Verifying Serial Number (Ubuntu)
 
 CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
-    Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
-    Go To Ubuntu Prompt
-    ${out}=    Execute Command In Terminal
-    ...    sha256sum /sys/firmware/acpi/bgrt/image
-    ${unplugged}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    No such file
-    IF    ${unplugged} == ${TRUE}
-        Fail    Please make sure that a display device is connected to the DUT
+    ${result}=    Run Keyword And Ignore Error    Variable Should Exist    ${UPDATED_LOGO_SHA256}
+    IF    '${result}[0]' == 'FAIL'
+        Get System Values    $UPDATED_UUID    $UPDATED_SERIAL    $UPDATED_LOGO_SHA256
     END
-    Should Contain    ${out}    ${CUSTOM_LOGO_SHA}
+
+    Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
 
 *** Keywords ***
@@ -200,7 +203,7 @@ Get BIOS Version
     Log To Console    \n[${label}] ${bios_version}
     RETURN    ${bios_version}
 
-Upload Required Files (Ubuntu)
+Upload Required Files
     Log To Console    PREPARE: Upload Files
 
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
@@ -210,15 +213,6 @@ Upload Required Files (Ubuntu)
     Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
 
     Set DUT Response Timeout    5m
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-    END
-
-    Login To Linux
-    Switch To Root User
 
     # Send File To DUT uses regular user, so prepare target directory in as root
     Execute Command In Terminal    rm -r /capsule_testing
@@ -380,31 +374,25 @@ Go To Ubuntu Prompt
     Login To Linux
     Switch To Root User
 
-Get System Values (Ubuntu)
-    [Arguments]    ${var}=${EMPTY}
-    IF    '${var}'=='${EMPTY}'
-        Log To Console    PREPARE: Get System Values
+Get System Values
+    [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
+    Go To Ubuntu Prompt
 
-        ${temp}=    Get Firmware Serial Number
-        Set Suite Variable    ${ORIGINAL_SERIAL}    ${temp}
-        Log To Console    \n[Serial Number Before Update] ${ORIGINAL_SERIAL}
+    ${temp}=    Get Firmware Serial Number
+    Set Suite Variable    ${VAR_SERIAL}    ${temp}
 
-        ${temp}=    Get Firmware UUID
-        Set Suite Variable    ${ORIGINAL_UUID}    ${temp}
-        Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
+    ${temp}=    Get Firmware UUID
+    Set Suite Variable    ${VAR_UUID}    ${temp}
 
-        IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
-            ${out}=    Execute Command In Terminal
-            ...    sha256sum /sys/firmware/acpi/bgrt/image
-            ${unplugged}=    Run Keyword And Return Status
-            ...    Should Contain    ${out}    No such file
-            IF    ${unplugged} == ${TRUE}
-                Fail    Please make sure that a display device is connected to the DUT
-            END
-            Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
+    IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
+        ${out}=    Execute Command In Terminal
+        ...    sha256sum /sys/firmware/acpi/bgrt/image
+        ${unplugged}=    Run Keyword And Return Status
+        ...    Should Contain    ${out}    No such file
+        IF    ${unplugged} == ${TRUE}
+            Fail    Please make sure that a display device is connected to the DUT
         END
-    ELSE
-        RETURN    ${var}
+        Set Suite Variable    ${VAR_LOGO_SHA256}    ${out}
     END
 
 Prepare For ROMHOLE Persistence Test
