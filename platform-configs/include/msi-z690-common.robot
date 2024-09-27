@@ -111,6 +111,7 @@ ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
 ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=     ${TRUE}
 ${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
+${ROMHOLE_SUPPORT}=                             ${TRUE}
 
 
 *** Keywords ***
