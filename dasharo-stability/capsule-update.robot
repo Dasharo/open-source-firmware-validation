@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../dasharo-performance/cpu-frequency.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -27,13 +28,13 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Prepare For Logo Persistence Test
 ...                     AND
-...                     Prepare For ROMHOLE Persistence Test
+...                     Prepare For ROMHOLE Persistence Test    # MSI Only
 ...                     AND
 ...                     Flash Firmware If Not QEMU
 ...                     AND
-...                     Upload Required Files
+...                     Upload Required Files (Ubuntu)
 ...                     AND
-...                     Get System Values
+...                     Get System Values (Ubuntu)
 ...                     AND
 ...                     Turn Off Active ME
 Suite Teardown      Run Keywords
@@ -113,7 +114,7 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
     Should Be Equal    ${updated_state}    32123
 
-CUP170.001 Verifying UUID
+CUP170.001 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     Go To Ubuntu Prompt
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -126,7 +127,7 @@ CUP170.001 Verifying UUID
         Should Be Equal    ${updated_uuid}    00112233-4455-6677-8899-aabbccddeeff
     END
 
-CUP180.001 Verifying Serial Number
+CUP180.001 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
     Go To Ubuntu Prompt
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -135,7 +136,7 @@ CUP180.001 Verifying Serial Number
 
     Should Be Equal    ${ORIGINAL_SERIAL}    ${updated_serial}
 
-CUP190.001 Verifying If Custom Logo Persists Across updates
+CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    not supported
     Go To Ubuntu Prompt
@@ -199,7 +200,7 @@ Get BIOS Version
     Log To Console    \n[${label}] ${bios_version}
     RETURN    ${bios_version}
 
-Upload Required Files
+Upload Required Files (Ubuntu)
     Log To Console    PREPARE: Upload Files
 
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
@@ -379,29 +380,33 @@ Go To Ubuntu Prompt
     Login To Linux
     Switch To Root User
 
-Get System Values
-    Log To Console    PREPARE: Get System Values
+Get System Values (Ubuntu)
+    [Arguments]    ${var}=${EMPTY}
+    IF    '${var}'=='${EMPTY}'
+        Log To Console    PREPARE: Get System Values
 
-    ${temp_serial}=    Get Firmware Serial Number
-    Set Suite Variable    ${ORIGINAL_SERIAL}    ${temp_serial}
-    Log To Console    \n[Serial Number Before Update] ${ORIGINAL_SERIAL}
+        Set Suite Variable    ${ORIGINAL_SERIAL}    Get Firmware Serial Number
+        Log To Console    \n[Serial Number Before Update] ${ORIGINAL_SERIAL}
 
-    ${temp_uuid}=    Get Firmware UUID
-    Set Suite Variable    ${ORIGINAL_UUID}    ${temp_uuid}
-    Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
+        Set Suite Variable    ${ORIGINAL_UUID}    Get Firmware Serial Number
+        Log To Console    [UUID Before Update] ${ORIGINAL_UUID}\n
 
-    IF    $CUSTOM_LOGO_SUPPORT == $TRUE
-        ${out}=    Execute Command In Terminal
-        ...    sha256sum /sys/firmware/acpi/bgrt/image
-        ${unplugged}=    Run Keyword And Return Status
-        ...    Should Contain    ${out}    No such file
-        IF    ${unplugged} == ${TRUE}
-            Fail    Please make sure that a display device is connected to the DUT
+        IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
+            ${out}=    Execute Command In Terminal
+            ...    sha256sum /sys/firmware/acpi/bgrt/image
+            ${unplugged}=    Run Keyword And Return Status
+            ...    Should Contain    ${out}    No such file
+            IF    ${unplugged} == ${TRUE}
+                Fail    Please make sure that a display device is connected to the DUT
+            END
+            Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
         END
-        Set Suite Variable    ${CUSTOM_LOGO_SHA}    ${out}
+    ELSE
+        RETURN    ${var}
     END
 
 Prepare For ROMHOLE Persistence Test
+    [Documentation]    This is a part which works only on MSI platforms.
     Log To Console    PREPARE: ROMHOLE Persistence Test
 
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
