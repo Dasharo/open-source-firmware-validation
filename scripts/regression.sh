@@ -7,6 +7,11 @@ source "${SCRIPT_DIR}/lib/robot.sh"
 check_env_variable "FW_FILE"
 check_env_variable "DEVICE_IP"
 
+if [ ! -f "$FW_FILE" ]; then
+    echo "Error: Environment variable FW_FILE doesn't point to a file."
+    exit 1
+fi
+
 check_test_station_variables
 
 execute_robot "dasharo-compatibility" "${@}"
