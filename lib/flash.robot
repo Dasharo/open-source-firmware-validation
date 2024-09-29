@@ -73,7 +73,7 @@ Flash Firmware
     ...    chip size.
     [Arguments]    ${fw_file}
     ${file_size}=    Run    ls -l ${fw_file} | awk '{print $5}'
-    IF    '${file_size}'!='${FLASH_SIZE}'
+    IF    '''${file_size}''' != '''${FLASH_SIZE}'''
         FAIL    Image size doesn't match the flash chip's size!
     END
 
