@@ -135,7 +135,7 @@ Check Docking Connection
         ${line}=    Strip String    ${line}
         # at first we ignore that condition, it' ll become relevant once we find connector
         IF    ${check_for_hdmi}
-            ${is_hdmi}=    Evaluate    "'Type: HDMI' in '''${line}'''"
+            ${is_hdmi}=    Evaluate    "Type: HDMI" in """${line}"""
             IF    ${is_hdmi}
                 ${dock_connected}=    Set Variable    True
                 ${check_for_hdmi}=    Set Variable    False

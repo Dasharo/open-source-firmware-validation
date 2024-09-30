@@ -189,7 +189,7 @@ UTC006.007 Docking station DP display in OS with Me Enabled (Ubuntu)
     ...    recognized by the OPERATING_SYSTEM.
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.007 not supported
-    Set UEFI Option    MeMode    Disabled (HAP)
+    Set UEFI Option    MeMode    Enabled
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
