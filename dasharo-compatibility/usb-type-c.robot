@@ -36,7 +36,7 @@ UTC004.001 USB Type-C Display output (semi-automatic)
     Should Contain    ${out}    ${CLEVO_USB_C_HUB}
     Exit From Root User
 
-UTC004.002 USB Type-C Display output With Me Disabled(semi-automatic)
+UTC004.005 USB Type-C Display output With Me Disabled(semi-automatic)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub
     ...    when Intel ME is disabled
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC004.002 not supported
@@ -51,7 +51,7 @@ UTC004.002 USB Type-C Display output With Me Disabled(semi-automatic)
     Should Contain    ${out}    ${CLEVO_USB_C_HUB}
     Exit From Root User
 
-UTC004.003 USB Type-C Display output With Me Enabled (semi-automatic)
+UTC004.006 USB Type-C Display output With Me Enabled (semi-automatic)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub
     ...    when Intel ME is enabled
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    TMD004.003 not supported
