@@ -17,11 +17,6 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
-*** Variables ***
-${LSPCI_CMD}=       lspci -vv
-${IP_LINK_CMD}=     ip link
-
-
 *** Test Cases ***
 Sort000.000 Port Order and PCIe Switching
     [Documentation]    This test automates the verification of port order based on PCIe bus numbers and checks PCIe switching.
@@ -38,7 +33,7 @@ Sort000.000 Port Order and PCIe Switching
 *** Keywords ***
 Get PCIe Bus Info With MACs
     [Documentation]    Extract PCIe bus numbers and MAC addresses from lspci output.
-    ${lspci_output}=    Execute Command In Terminal    ${LSPCI_CMD}
+    ${lspci_output}=    Execute Command In Terminal    lspci -vv
     ${lines}=    Split String    ${lspci_output}    \n
     ${pci_devices}=    Create Dictionary
     ${current_device}=    Set Variable    None
