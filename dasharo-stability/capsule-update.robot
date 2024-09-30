@@ -116,40 +116,40 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
 
 CUP170.001 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
-    ${result}=    Run Keyword And Ignore Error    Variable Should Exist    ${UPDATED_UUID}
-    IF    '${result}[0]' == 'FAIL'
-        Get System Values    $UPDATED_UUID    $UPDATED_SERIAL    $UPDATED_LOGO_SHA256
+    ${tmp}=    Get Variable Value    $UPDATED_UUID
+    IF    $tmp is None
+        Go To Ubuntu Prompt
+        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
-    ${updated_uuid}=    Get Firmware UUID
-    Log To Console    \n[After Update] ${updated_uuid}
+    Log To Console    \n[After Update] ${UPDATED_UUID}
 
-    Should Be Equal    ${ORIGINAL_UUID}    ${updated_uuid}
+    Should Be Equal    ${ORIGINAL_UUID}    ${UPDATED_UUID}
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
-        Should Be Equal    ${updated_uuid}    00112233-4455-6677-8899-aabbccddeeff
+        Should Be Equal    ${UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
     END
 
 CUP180.001 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
-    ${result}=    Run Keyword And Ignore Error    Variable Should Exist    ${UPDATED_SERIAL}
-    IF    '${result}[0]' == 'FAIL'
-        Get System Values    $UPDATED_UUID    $UPDATED_SERIAL    $UPDATED_LOGO_SHA256
+    ${tmp}=    Get Variable Value    $UPDATED_SERIAL
+    IF    $tmp is None
+        Go To Ubuntu Prompt
+        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
-    ${updated_serial}=    Get Firmware Serial Number
-    Log To Console    \n[After Update] ${updated_serial}
+    Log To Console    \n[After Update] ${UPDATED_SERIAL}
 
-    Should Be Equal    ${ORIGINAL_SERIAL}    ${updated_serial}
+    Should Be Equal    ${ORIGINAL_SERIAL}    ${UPDATED_SERIAL}
 
 CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
-    ${result}=    Run Keyword And Ignore Error    Variable Should Exist    ${UPDATED_LOGO_SHA256}
-    IF    '${result}[0]' == 'FAIL'
-        Get System Values    $UPDATED_UUID    $UPDATED_SERIAL    $UPDATED_LOGO_SHA256
+    ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
+    IF    $tmp is None
+        Go To Ubuntu Prompt
+        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
-
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
 
@@ -378,11 +378,11 @@ Get System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
     Go To Ubuntu Prompt
 
-    ${temp}=    Get Firmware Serial Number
-    Set Suite Variable    ${VAR_SERIAL}    ${temp}
+    ${serial}=    Get Firmware Serial Number
+    Set Suite Variable    ${VAR_SERIAL}    ${serial}
 
-    ${temp}=    Get Firmware UUID
-    Set Suite Variable    ${VAR_UUID}    ${temp}
+    ${uuid}=    Get Firmware UUID
+    Set Suite Variable    ${VAR_UUID}    ${uuid}
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
         ${out}=    Execute Command In Terminal
