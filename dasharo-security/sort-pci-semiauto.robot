@@ -18,9 +18,9 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Sort000.000 Port Order and PCIe Switching
-    [Documentation]    This test automates the verification of port order based on PCIe bus numbers and checks PCIe switching.
-
+SPS001.001 Ethernet ports are in order
+    [Documentation]    This test automates the verification of port order based
+    ...    on PCIe bus numbers and checks PCIe switching.
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -35,40 +35,26 @@ Get PCIe Bus Info With MACs
     [Documentation]    Extract PCIe bus numbers and MAC addresses from lspci output.
     ${lspci_output}=    Execute Command In Terminal    lspci -vv
     ${lines}=    Split String    ${lspci_output}    \n
-    ${pci_devices}=    Create Dictionary
-    ${current_device}=    Set Variable    None
+    ${pci_devices}=    Create List
     FOR    ${line}    IN    @{lines}
-        ${is_device_line}=    Evaluate    'Ethernet controller' in '${line}'
-        IF    ${is_device_line}
-            ${current_device}=    Get Device Bus Info    ${line}
-        END
         ${is_mac_line}=    Evaluate    'Device Serial Number' in '${line}'
-        IF    ${is_mac_line}
-            Append PCIe MAC    ${line}    ${pci_devices}    ${current_device}
-        END
+        IF    ${is_mac_line}    Append PCIe MAC    ${line}    ${pci_devices}
     END
     RETURN    ${pci_devices}
 
-Get Device Bus Info
-    [Arguments]    ${line}
-    ${bus}=    Evaluate    '${line}'.split()[0]
-    RETURN    ${bus}
-
 Append PCIe MAC
-    [Arguments]    ${line}    ${pci_devices}    ${current_device}
+    [Arguments]    ${line}    ${pci_devices}
     ${serial}=    Evaluate    '${line}'.split()[-1]
     ${mac}=    Replace String    ${serial}    ff-ff-    ${EMPTY}
     IF    '00-00-00-00-00-00' not in '${mac}'
-        Set To Dictionary    ${pci_devices}    ${current_device}    ${mac}
+        Append To List    ${pci_devices}    ${mac}
     END
 
 Compare Interface And PCIe Bus Order
     [Arguments]    ${pci_devices}
-    ${pci_devices_val}=    Get Dictionary Values    ${pci_devices}
-    ${interfaces_val}=    Get Dictionary Values    ${ETH_PORTS}
-    Log    Sorted interfaces: ${interfaces_val}
-    Log    Sorted PCIe devices: ${pci_devices_val}
+    Log    Sorted interfaces: ${ETH_PORTS}
+    Log    Sorted PCIe devices: ${pci_devices}
     Should Be Equal As Strings
-    ...    ${interfaces_val}
-    ...    ${pci_devices_val}
+    ...    ${ETH_PORTS}
+    ...    ${pci_devices}
     ...    The interfaces and PCIe buses do not match the expected order!
