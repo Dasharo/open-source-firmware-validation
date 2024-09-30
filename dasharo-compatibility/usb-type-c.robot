@@ -102,7 +102,7 @@ UTC005.003 - Docking station HDMI display in OS (Ubuntu)
     Check Display Port On Hub In Linux    HDMI
     Exit From Root User
 
-UTC005.005 Docking station HDMI display in OS with Me Disabled (Alt Mode) (Ubuntu)
+UTC005.005 USB Type-C docking station HDMI display with ME disabled(Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -117,7 +117,7 @@ UTC005.005 Docking station HDMI display in OS with Me Disabled (Alt Mode) (Ubunt
     Check Display Port On Hub In Linux    HDMI
     Exit From Root User
 
-UTC005.007 Docking station HDMI display in OS with Me Enabled (Ubuntu)
+UTC005.007 USB Type-C docking station HDMI display with ME enabled(Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -168,7 +168,7 @@ UTC006.003 - Docking station DP display in OS (Ubuntu)
     Check Display Port On Hub In Linux    DP
     Exit From Root User
 
-UTC006.005 Docking station DP display in OS with Me Disabled (Ubuntu)
+UTC006.005 USB Type-C docking station DP display with ME disabled(Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -183,7 +183,7 @@ UTC006.005 Docking station DP display in OS with Me Disabled (Ubuntu)
     Check Display Port On Hub In Linux    DP
     Exit From Root User
 
-UTC006.007 Docking station DP display in OS with Me Enabled (Ubuntu)
+UTC006.007 USB Type-C docking station DP display with ME enabled(Ubuntu)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
