@@ -31,9 +31,9 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Flash Firmware If Not QEMU
 ...                     AND
-...                     Get System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
-...                     AND
 ...                     Upload Required Files
+...                     AND
+...                     Get System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
 ...                     AND
 ...                     Turn Off Active ME
 Suite Teardown      Run Keywords
