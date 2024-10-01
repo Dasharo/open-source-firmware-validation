@@ -43,7 +43,6 @@ Suite Teardown      Run Keywords
 *** Variables ***
 ${FUM_DIALOG_TOP}=          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=       The platform will automatically reboot and disable Firmware Update Mode
-${CUSTOM_LOGO_SUPPORT}=     ${FALSE}
 
 
 *** Test Cases ***
@@ -144,6 +143,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
 
 CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
+    Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
@@ -340,7 +340,6 @@ Display Preparation Instructions
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
-
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
         Run    rm -rf dcu
         Run    git clone https://github.com/Dasharo/dcu
