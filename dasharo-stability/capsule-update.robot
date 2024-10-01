@@ -340,28 +340,10 @@ Display Preparation Instructions
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
 
-    Run    rm -rf dcu
-    Run    git clone https://github.com/Dasharo/dcu
-    Run    cp ${FW_FILE} dcu/coreboot.rom
-
-    ${out}=    Run
-    ...    cbfstool ./dcu/coreboot.rom layout -w | grep BOOTSPLASH > /dev/null && echo "Custom logo supported" || echo "Custom logo not supported"
-
-    IF    'Custom logo supported' in '${out}'
-        Set Global Variable    ${CUSTOM_LOGO_SUPPORT}    ${TRUE}
-        Download To Host Cache
-        ...    logo.bmp
-        ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download
-        ...    6e5a6722955e4f78d947654630f27ff833703fbc04776ffed963c96617f6bb2a
-
-        ${local_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
-        Run    cp ${local_path} dcu/logo.bmp
-
-        ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo ./coreboot.rom -l ./logo.bmp
-
-        Log    ${result.stdout}
-        Log    ${result.stderr}
-        Should Contain    ${result.stdout}    Success
+    IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
+        Run    rm -rf dcu
+        Run    git clone https://github.com/Dasharo/dcu
+        Run    cp ${FW_FILE} dcu/coreboot.rom
     END
 
 Go To Ubuntu Prompt
