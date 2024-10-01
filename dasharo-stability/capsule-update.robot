@@ -104,6 +104,29 @@ CUP150.001 Capsule Update
     Should Contain    ${out}    CapsuleMax
     Should Not Contain    ${out}    CapsuleLast
 
+CUP150.002 Capsule Update Progress Bar - Dasharo Logo
+    [Documentation]    Verify that the Capsule Update screen looks as expected
+    ...    and the progress bar is scaled properly using the default Dasharo
+    ...    logo.
+    # flashes the image with the default logo
+    Flash Firmware If Not QEMU    default
+    Boot Into UEFI Shell
+    Perform Capsule Update    max_fw_ver.cap
+
+    # DIALOG BOX prompting to see if it's as expected
+    # and confirm with y/n
+
+CUP150.002 Capsule Update Progress Bar - Custom Logo
+    [Documentation]    Verify that the Capsule Update screen looks as expected
+    ...    and the progress bar is scaled properly using a custom, narrow logo.
+    # flashes the image with the custom logo
+    Flash Firmware If Not QEMU    custom
+    Boot Into UEFI Shell
+    Perform Capsule Update    max_fw_ver.cap
+
+    # DIALOG BOX prompting to see if it's as expected
+    # and confirm with y/n
+
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -154,9 +177,14 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
 
 *** Keywords ***
 Flash Firmware If Not QEMU
+    [Arguments]    ${logo_type}=custom
     Log To Console    PREPARE: Flashing Firmware
     IF    '${MANUFACTURER}' != 'QEMU'
-        Flash Firmware    ./dcu/coreboot.rom
+        IF    '${logo_type}' == 'default'
+            Flash Firmware    ${FW_FILE}
+        ELSE IF    '${logo_type}' == 'custom'
+            Flash Firmware    ./dcu/coreboot.rom
+        END
         Power Cycle On
     END
 
