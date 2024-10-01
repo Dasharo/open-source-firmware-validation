@@ -212,6 +212,7 @@ Upload Required Files
     Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
 
     Set DUT Response Timeout    5m
+    Go To Ubuntu Prompt
 
     # Send File To DUT uses regular user, so prepare target directory in as root
     Execute Command In Terminal    rm -r /capsule_testing
