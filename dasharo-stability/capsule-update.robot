@@ -369,11 +369,21 @@ Go To Ubuntu Prompt
 Get System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
-    ${serial}=    Get Firmware Serial Number
-    Set Suite Variable    ${VAR_SERIAL}    ${serial}
+    # Disable checking for variable case. Here, the first argument to 'Set Suite
+    # Variable' keyword is a _local_ variable holding the _name_ of the global
+    # one. As such, it should be lower-case, but both robotidy and robocop
+    # detect this as error. On top of that, 'robotidy: off' is ignored in top
+    # level keywords (bug?), so dummy conditional was added to make it work.
+    #
+    # robocop: off=non-local-variables-should-be-uppercase
+    # robotidy: off=RenameVariables
+    IF    ${TRUE}
+        ${serial}=    Get Firmware Serial Number
+        Set Suite Variable    ${var_serial}    ${serial}
 
-    ${uuid}=    Get Firmware UUID
-    Set Suite Variable    ${VAR_UUID}    ${uuid}
+        ${uuid}=    Get Firmware UUID
+        Set Suite Variable    ${var_uuid}    ${uuid}
+    END
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
         ${out}=    Execute Command In Terminal
@@ -383,7 +393,7 @@ Get System Values
         IF    ${unplugged} == ${TRUE}
             Fail    Please make sure that a display device is connected to the DUT
         END
-        Set Suite Variable    ${VAR_LOGO_SHA256}    ${out}
+        Set Suite Variable    ${var_logo_sha256}    ${out}
     END
 
 Prepare For ROMHOLE Persistence Test
