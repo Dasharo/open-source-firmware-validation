@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -108,24 +109,20 @@ CUP150.002 Capsule Update Progress Bar - Dasharo Logo
     [Documentation]    Verify that the Capsule Update screen looks as expected
     ...    and the progress bar is scaled properly using the default Dasharo
     ...    logo.
-    # flashes the image with the default logo
+    # Ensure we're running FW with the default logo
     Flash Firmware If Not QEMU    default
     Boot Into UEFI Shell
     Perform Capsule Update    max_fw_ver.cap
-
-    # DIALOG BOX prompting to see if it's as expected
-    # and confirm with y/n
+    Check The Update Screen For The Correct UX
 
 CUP150.002 Capsule Update Progress Bar - Custom Logo
     [Documentation]    Verify that the Capsule Update screen looks as expected
     ...    and the progress bar is scaled properly using a custom, narrow logo.
-    # flashes the image with the custom logo
+    # Ensure we're running FW with the custom logo
     Flash Firmware If Not QEMU    custom
     Boot Into UEFI Shell
     Perform Capsule Update    max_fw_ver.cap
-
-    # DIALOG BOX prompting to see if it's as expected
-    # and confirm with y/n
+    Check The Update Screen For The Correct UX
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     Power On
@@ -186,7 +183,23 @@ Flash Firmware If Not QEMU
             Flash Firmware    ./dcu/coreboot.rom
         END
         Power Cycle On
+    ELSE
+        ${message}=    Catenate    SEPARATOR=
+        ...    Please make sure QEMU is running firmware with
+        ...    \ the ${logo_type} logo. The default logo binary should be
+        ...    \ ${FW_FILE}, the custom logo binary has been prepared in
+        ...    \ dcu/coreboot.rom.
+        Execute Manual Step    ${message}
     END
+
+Check The Update Screen For The Correct UX
+    ${message}=    Catenate    SEPARATOR=
+    ...    Please check the platform screen now, and verify that the UX is the
+    ...    \ same as expected in the docs. Most importantly, the progress bar
+    ...    \ should be exactly the same width regardless of whether the default
+    ...    \ Dasharo logo or a custom one is set. See the screenshot at
+    ...    \ https://docs.dasharo.com/guides/capsule-update for reference.
+    Execute Manual Step    ${message}
 
 Get Key To Press
     [Arguments]    ${text}
