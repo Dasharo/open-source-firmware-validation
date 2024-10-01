@@ -116,7 +116,7 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
 CUP170.001 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     ${tmp}=    Get Variable Value    $UPDATED_UUID
-    IF    $tmp is None
+    IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
         Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
@@ -132,7 +132,7 @@ CUP170.001 Verifying UUID (Ubuntu)
 CUP180.001 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
-    IF    $tmp is None
+    IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
         Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
@@ -145,7 +145,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
 CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
-    IF    $tmp is None
+    IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
         Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
@@ -357,7 +357,6 @@ Go To Ubuntu Prompt
 
 Get System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
-    Go To Ubuntu Prompt
 
     ${serial}=    Get Firmware Serial Number
     Set Suite Variable    ${VAR_SERIAL}    ${serial}
