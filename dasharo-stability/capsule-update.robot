@@ -95,6 +95,7 @@ CUP150.001 Capsule Update
     ${original_bios_version}=    Get BIOS Version    Before Update
 
     Perform Capsule Update    valid_capsule.cap
+    Check The Update Screen For The Correct UX
 
     Select UEFI Shell Boot Option
     ${updated_bios_version}=    Get BIOS Version    After Update
@@ -104,25 +105,6 @@ CUP150.001 Capsule Update
     ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
     Should Contain    ${out}    CapsuleMax
     Should Not Contain    ${out}    CapsuleLast
-
-CUP150.002 Capsule Update Progress Bar - Dasharo Logo
-    [Documentation]    Verify that the Capsule Update screen looks as expected
-    ...    and the progress bar is scaled properly using the default Dasharo
-    ...    logo.
-    # Ensure we're running FW with the default logo
-    Flash Firmware If Not QEMU    default
-    Boot Into UEFI Shell
-    Perform Capsule Update    max_fw_ver.cap
-    Check The Update Screen For The Correct UX
-
-CUP150.002 Capsule Update Progress Bar - Custom Logo
-    [Documentation]    Verify that the Capsule Update screen looks as expected
-    ...    and the progress bar is scaled properly using a custom, narrow logo.
-    # Ensure we're running FW with the custom logo
-    Flash Firmware If Not QEMU    custom
-    Boot Into UEFI Shell
-    Perform Capsule Update    max_fw_ver.cap
-    Check The Update Screen For The Correct UX
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     Power On
@@ -173,6 +155,18 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
         Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
+
+CUP250.001 Capsule Update Progress Bar - Default Logo
+    [Documentation]    Verify that the Capsule Update screen looks as expected
+    ...    and the progress bar is scaled properly using a default logo.
+    # Ensure we're running FW with the default logo
+    Flash Firmware If Not QEMU    default
+    # Bump the timeout for memory training
+    Set DUT Response Timeout    5m
+    Turn Off Active ME
+    Boot Into UEFI Shell
+    Perform Capsule Update    valid_capsule.cap
+    Check The Update Screen For The Correct UX
 
 
 *** Keywords ***
