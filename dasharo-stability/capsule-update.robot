@@ -191,8 +191,10 @@ Flash Firmware If Not QEMU
         ...    Please make sure QEMU is running firmware with
         ...    \ the ${logo_type} logo. The default logo binary should be
         ...    \ ${FW_FILE}, the custom logo binary has been prepared in
-        ...    \ dcu/coreboot.rom.
-        Execute Manual Step    ${message}
+        ...    \ dcu/coreboot.rom. Afterwards, please click OK to continue.
+        Log Out And Close Connection
+        Pause Execution    ${message}
+        Prepare To Serial Connection
     END
 
 Check The Update Screen For The Correct UX
