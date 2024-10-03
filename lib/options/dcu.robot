@@ -28,7 +28,7 @@ Set UEFI Option
     Execute Command In Terminal    chmod 666 coreboot.rom
     SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
     ${result}=    Run Process
-    ...    cd dcu && ./dcu v coreboot.rom --set "${option_name}" --value "${value}"
+    ...    cd dcu && ./dcuc v coreboot.rom --set "${option_name}" --value "${value}"
     ...    shell=True
     Should Contain    ${result.stdout}    Success
     SSHLibrary.Put File    dcu/coreboot.rom    coreboot.rom
@@ -51,7 +51,7 @@ Get UEFI Option
     Execute Command In Terminal    chmod 666 coreboot.rom
     SSHLibrary.Get File    coreboot.rom    dcu/coreboot.rom
     ${out}=    Run Process
-    ...    cd dcu && ./dcu v coreboot.rom --get "${option_name}"
+    ...    cd dcu && ./dcuc v coreboot.rom --get "${option_name}"
     ...    shell=True
     RETURN    ${out.stdout}
 
