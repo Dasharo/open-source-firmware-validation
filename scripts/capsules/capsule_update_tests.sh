@@ -13,6 +13,9 @@ fi
 
 cd edk2 || exit
 
+# Clear files from previous invocation
+rm -rf decoded* *.json *.cap
+
 # Decoding the capsule
 BaseTools/BinWrappers/PosixLike/GenerateCapsule \
     --decode "$capsule" \
@@ -41,6 +44,18 @@ echo "\"Payload\": \"$payload\""
 echo "\"UpdateImageIndex\": \"$update_image_index\""
 echo
 
+# This works for up to 9 drivers, after that the order gets mixed because of
+# alphabetical ordering of filenames found through pattern
+drivers=$(for f in decoded.EmbeddedDriver* ; do cat <<EOF
+        {
+            "Driver": "$f"
+        },
+EOF
+done)
+
+# Remove final comma, GenerateCapsule can't handle it
+drivers=${drivers%,}
+
 # Create json config files with capsule configs
 echo "--- CREATING CAPSULE WITH MAX POSSIBLE VERSION NUMBER ---"
 
@@ -55,9 +70,7 @@ fi
 content=$(cat <<EOF
 {
   "EmbeddedDrivers": [
-    {
-      "Driver": "decoded.EmbeddedDriver.1.efi"
-    }
+$drivers
   ],
   "Payloads": [
     {
@@ -113,9 +126,7 @@ fi
 content=$(cat <<EOF
 {
   "EmbeddedDrivers": [
-    {
-      "Driver": "decoded.EmbeddedDriver.1.efi"
-    }
+$drivers
   ],
   "Payloads": [
     {
@@ -155,9 +166,7 @@ fi
 content=$(cat <<EOF
 {
   "EmbeddedDrivers": [
-    {
-      "Driver": "decoded.EmbeddedDriver.1.efi"
-    }
+$drivers
   ],
   "Payloads": [
     {
