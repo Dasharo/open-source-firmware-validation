@@ -23,7 +23,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 ...                     AND
-...                     Check If CAPSULE FW FILE Is Present
+...                     Check If Capsule Files Are Present
 ...                     AND
 ...                     Prepare For Logo Persistence Test
 ...                     AND
@@ -207,9 +207,6 @@ Upload Required Files
 
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
 
-    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_wrong_cert.cap
-    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
-
     Set DUT Response Timeout    5m
     Go To Ubuntu Prompt
 
@@ -267,19 +264,24 @@ Get File Name Without Extension
 
 Check If Capsule File Exists
     [Arguments]    ${file_path}
-    ${file_exists}=    OperatingSystem.File Should Exist    ${file_path}
-    IF    '${file_exists}' == 'False'
-        Fail
-        ...    File ${file_path} does not exist!/nTo create capsule files required for this test run: 'sudo bash
-        ...    ./scripts/capsules/capsule_update_tests.sh ${CAPSULE_FW_FILE}' and start the test again.
-    END
+    ${msg}=    Catenate    File ${file_path} does not exist!
+    ...    \nTo create capsule files required for this test run:
+    ...    \n'bash ./scripts/capsules/capsule_update_tests.sh ${CAPSULE_FW_FILE}'
+    ...    \nand start the test again.
+    OperatingSystem.File Should Exist    ${file_path}    ${msg}
 
-Check If CAPSULE FW FILE Is Present
-    IF    '${CAPSULE_FW_FILE}' == '${EMPTY}'
-        Log To Console    capsule_fw_file parameter missing.
-        ...    Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
-        Fail
-    END
+Check If Capsule Files Are Present
+    Variable Should Exist
+    ...    ${CAPSULE_FW_FILE}
+    ...    capsule_fw_file parameter missing. Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
+
+    OperatingSystem.File Should Exist
+    ...    ${CAPSULE_FW_FILE}
+    ...    capsule_fw_file parameter incorrect. Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
+
+    ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
+    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_wrong_cert.cap
+    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
 
 Enter Capsule Testing Folder
     ${fss}=    Get FS From Uefi Shell
