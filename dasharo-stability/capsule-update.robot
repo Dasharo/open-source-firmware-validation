@@ -93,7 +93,7 @@ CUP150.001 Capsule Update
     Boot Into UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before Update
 
-    Perform Capsule Update    max_fw_ver.cap
+    Perform Capsule Update    valid_capsule.cap
 
     Select UEFI Shell Boot Option
     ${updated_bios_version}=    Get BIOS Version    After Update
@@ -207,7 +207,6 @@ Upload Required Files
 
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
 
-    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_max_fw_ver.cap
     Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_wrong_cert.cap
     Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
 
@@ -223,8 +222,6 @@ Upload Required Files
     Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
     Log To Console    Sending ${CAPSULE_FW_FILE}
     Send File To DUT    ${CAPSULE_FW_FILE}    /capsule_testing/valid_capsule.cap
-    Log To Console    Sending ./dl-cache/edk2/${file_name}_max_fw_ver.cap
-    Send File To DUT    ./dl-cache/edk2/${file_name}_max_fw_ver.cap    /capsule_testing/max_fw_ver.cap
     Log To Console    Sending ./dl-cache/edk2/${file_name}_wrong_cert.cap
     Send File To DUT    ./dl-cache/edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
     Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap

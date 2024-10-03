@@ -57,47 +57,6 @@ done)
 drivers=${drivers%,}
 
 # Create json config files with capsule configs
-echo "--- CREATING CAPSULE WITH MAX POSSIBLE VERSION NUMBER ---"
-
-file_descriptor="_max_fw_ver"
-output_file="$capsule_name$file_descriptor.json"
-
-if [ -f $output_file ]; then
-    rm $output_file
-fi
-
-# There might be an issue if more than one driver is present
-content=$(cat <<EOF
-{
-  "EmbeddedDrivers": [
-$drivers
-  ],
-  "Payloads": [
-    {
-      "Payload": "$payload",
-      "Guid": "$guid",
-      "FwVersion": "0x99999999",
-      "LowestSupportedVersion": "$lowest_supported_version",
-      "OpenSslSignerPrivateCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestCert.pem",
-      "OpenSslOtherPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestSub.pub.pem",
-      "OpenSslTrustedPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestRoot.pub.pem"
-    }
-  ]
-}
-EOF
-)
-
-echo "$content" > "$output_file"
-
-echo "Json file: $output_file"
-echo "Output file: $capsule_name$file_descriptor.cap"
-
-BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
-                                                --capflag PersistAcrossReset \
-                                                --json-file $output_file \
-                                                --output $capsule_name$file_descriptor.cap
-
-
 echo "--- CREATING CAPSULE WITH WRONG CERTIFICATES ---"
 
 file_descriptor="_wrong_cert"
