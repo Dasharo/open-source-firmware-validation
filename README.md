@@ -99,6 +99,13 @@ different platform) may vary.
 | Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
 | Raspberry Pi | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
 
+## DCU
+
+The osfv uses the
+[Dasharo Configuration Utility](https://github.com/Dasharo/dcu?tab=readme-ov-file#dasharo-configuration-container),
+ it lets you set firmware settings directly in binary file.
+![](./docs/img/osfv_dcu_integration.png)
+
 ## Getting started
 
 ### Initializing environment
