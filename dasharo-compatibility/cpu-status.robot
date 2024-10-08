@@ -11,7 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource    ../lib/options/dcu.robot
+Resource            ../lib/options/dcu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -22,7 +22,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported
 ...                     AND
-...                     Run Keyword If    ${TESTS_IN_UBUNTU_SUPPORT}    Reset UEFI Options to Defaults
+...                     Run Keyword If    ${TESTS_IN_UBUNTU_SUPPORT}    Reset UEFI Options To Defaults
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
