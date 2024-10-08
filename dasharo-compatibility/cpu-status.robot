@@ -138,6 +138,9 @@ Check Cache Support
     @{lines}=    Split To Lines    ${lines}
     FOR    ${line}    IN    @{lines}
         ${cache_string}    ${cache_size}=    Split String    ${line}    ${SPACE}    1
+        IF    '${cache_size}' == ''
+            Fail    Cahe size can't be empty
+        END
         ${mem}=    Convert To Integer    ${cache_size}
         IF    '${mem}'=='0'    Fail    ${line}    ELSE    Log    ${line}
     END
