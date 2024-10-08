@@ -166,7 +166,7 @@ UTC023.001 Docking station detection after warmboot then hotplug (Ubuntu) (WL-UM
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC023.001 not supported
     Docking Station Detection After Warmboot Then Hotplug (Ubuntu)    WL-UMD05 Pro Rev.E
 
-UTC023.001 Docking station detection after reboot then hotplug (Ubuntu) (WL-UMD05 Pro Rev.E)
+UTC024.001 Docking station detection after reboot then hotplug (Ubuntu) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC023.001 not supported

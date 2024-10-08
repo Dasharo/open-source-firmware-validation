@@ -48,48 +48,48 @@ Suite Teardown      Run Keyword
 SMW002.001 Wi-fi connection after warm boot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
-    Skip If    not ${m2_wifi_support}    SMW002.001 not supported
-    Skip If    not ${tests_in_ubuntu_support}    SMW002.001 not supported
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW002.001 not supported
     Power On
-    Boot operating system    ubuntu
-    Login to Linux
-    Switch to root user
+    Boot Operating System    ubuntu
+    Login To Linux
+    Switch To Root User
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-    Should Match    ${out}    *${wifi_card_ubuntu}*
-    Scan for Wi-Fi in Linux
-    Detect or install FWTS
-    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
+    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+    Scan For Wi-Fi In Linux
+    Detect Or Install FWTS
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
-        Boot operating system    ubuntu
-        Login to Linux
-        Switch to root user
+        Boot Operating System    ubuntu
+        Login To Linux
+        Switch To Root User
         ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-        Should Match    ${out}    *${wifi_card_ubuntu}*
-        Scan for Wi-Fi in Linux
+        Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+        Scan For Wi-Fi In Linux
     END
-    Exit from root user
+    Exit From Root User
 
 SMW003.001 Wi-fi connection after reboot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a reboot.
-    Skip If    not ${m2_wifi_support}    SMW003.001 not supported
-    Skip If    not ${tests_in_ubuntu_support}    SMW003.001 not supported
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW003.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW003.001 not supported
     Power On
-    Boot operating system    ubuntu
-    Login to Linux
-    Switch to root user
+    Boot Operating System    ubuntu
+    Login To Linux
+    Switch To Root User
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-    Should Match    ${out}    *${wifi_card_ubuntu}*
-    Scan for Wi-Fi in Linux
-    Detect or install FWTS
-    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
+    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+    Scan For Wi-Fi In Linux
+    Detect Or Install FWTS
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
-        Boot operating system    ubuntu
-        Login to Linux
-        Switch to root user
+        Boot Operating System    ubuntu
+        Login To Linux
+        Switch To Root User
         ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-        Should Match    ${out}    *${wifi_card_ubuntu}*
-        Scan for Wi-Fi in Linux
+        Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+        Scan For Wi-Fi In Linux
     END
 
 SMW004.001 Wi-fi connection after suspension (Ubuntu)

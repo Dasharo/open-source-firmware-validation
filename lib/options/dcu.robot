@@ -55,7 +55,7 @@ Get UEFI Option
     ...    shell=True
     RETURN    ${out.stdout}
 
-Reset UEFI Options to Defaults
+Reset UEFI Options To Defaults
     [Documentation]    Resets all UEFI options to defaults
     Flash Firmware    ${FW_FILE}
 

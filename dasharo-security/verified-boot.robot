@@ -6,7 +6,6 @@ Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
-
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../variables.robot
@@ -222,7 +221,6 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Switch To Root User
     ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
     Should Contain    ${out_vboot}    Normal boot mode
-
 
 VBO012.001 Self-signed binary is bootable without errors
     [Documentation]    Check whether a self-signed binary is bootable when the

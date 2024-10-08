@@ -49,7 +49,12 @@ Login To Linux
         Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Wait Until Keyword Succeeds    3x    0    Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        Wait Until Keyword Succeeds
+        ...    3x
+        ...    0
+        ...    Login To Linux Via SSH
+        ...    ${DEVICE_UBUNTU_USERNAME}
+        ...    ${DEVICE_UBUNTU_PASSWORD}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
@@ -921,9 +926,7 @@ Execute Reboot Command
     ELSE
         Fail    Unknown OS: ${os} given as an argument.
     END
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Sleep    30s
-    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    30s
     Set DUT Response Timeout    180 seconds
     Restore Initial DUT Connection Method
 
