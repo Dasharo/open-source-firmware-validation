@@ -9,7 +9,7 @@ ${CPU}=                             Intel(R) Core(TM) Ultra 7 155H
 
 ${3_MDEB_WIFI_NETWORK}=             3mdeb_abr
 ${DEVICE_NVME_DISK}=                Non-Volatile memory controller
-${DEVICE_USB_KEYBOARD}=             Logitech, Inc. Keyboard K120
+${DEVICE_USB_KEYBOARD}=             Keyboard
 ${DMIDECODE_PRODUCT_NAME}=          V5xTNC_TND_TNE
 ${EXTERNAL_HEADSET}=                USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=               4800
@@ -33,4 +33,5 @@ ${USB_DEVICE}=                      SanDisk
 ${ME_STATICALLY_DISABLED}=          ${TRUE}
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.1-rc5
 ${DMIDECODE_RELEASE_DATE}=          09/10/2024
-${TPM_DETECT_SUPPORT}=               ${TRUE}
+${TPM_DETECT_SUPPORT}=              ${TRUE}
+${CLEVO_USB_C_HUB}=                 Thunderbolt 4 Dock
