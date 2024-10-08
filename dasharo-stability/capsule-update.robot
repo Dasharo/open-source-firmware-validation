@@ -131,6 +131,22 @@ CUP170.001 Verifying UUID (Ubuntu)
         Should Be Equal    ${UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
     END
 
+CUP170.002 Verifying UUID (Windows)
+    [Documentation]    Check if UUID didn't change after Capsule Update.
+    ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
+    IF    '${tmp}' == 'None'
+        Go To Windows Prompt
+        Get Windows System Values    $WIN_UPDATED_SERIAL    $WIN_UPDATED_UUID
+    END
+
+    Log To Console    \n[Before Update] ${ORIGINAL_UUID}
+    Log To Console    \n[After Update] ${WIN_UPDATED_UUID}
+
+    Should Be Equal    ${ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
+    IF    ${ROMHOLE_SUPPORT} == ${TRUE}
+        Should Be Equal    ${WIN_UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
+    END
+
 CUP180.001 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
@@ -144,6 +160,19 @@ CUP180.001 Verifying Serial Number (Ubuntu)
     Log To Console    \n[After Update] ${UPDATED_SERIAL}
 
     Should Be Equal    ${ORIGINAL_SERIAL}    ${UPDATED_SERIAL}
+
+CUP180.002 Verifying Serial Number (Windows)
+    [Documentation]    Check if serial number didn't change after Capsule Update.
+    ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
+    IF    '${tmp}' == 'None'
+        Go To Windows Prompt
+        Get Windows System Values    $WIN_UPDATED_SERIAL    $WIN_UPDATED_UUID
+    END
+
+    Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
+    Log To Console    \n[After Update] ${WIN_UPDATED_SERIAL}
+
+    Should Be Equal    ${ORIGINAL_SERIAL}    ${WIN_UPDATED_SERIAL}
 
 CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
@@ -405,6 +434,10 @@ Go To Ubuntu Prompt
     Login To Linux
     Switch To Root User
 
+Go To Windows Prompt
+    Power On
+    Login To Windows
+
 Get System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
@@ -435,6 +468,25 @@ Get System Values
         Set Suite Variable    ${var_logo_sha256}    ${out}
     END
 
+Get Windows System Values
+    [Arguments]    ${var_serial}    ${var_uuid}
+
+    # Disable checking for variable case. Here, the first argument to 'Set Suite
+    # Variable' keyword is a _local_ variable holding the _name_ of the global
+    # one. As such, it should be lower-case, but both robotidy and robocop
+    # detect this as error. On top of that, 'robotidy: off' is ignored in top
+    # level keywords (bug?), so dummy conditional was added to make it work.
+    #
+    # robocop: off=non-local-variables-should-be-uppercase
+    # robotidy: off=RenameVariables
+    IF    ${TRUE}
+        ${serial}=    Get Firmware Serial Number (Windows)
+        Set Suite Variable    ${var_serial}    ${serial}
+
+        ${uuid}=    Get Firmware UUID (Windows)
+        Set Suite Variable    ${var_uuid}    ${uuid}
+    END
+
 Prepare For ROMHOLE Persistence Test
     [Documentation]    This is a part which works only on MSI platforms.
     Log To Console    PREPARE: ROMHOLE Persistence Test
@@ -444,3 +496,12 @@ Prepare For ROMHOLE Persistence Test
     ELSE
         Log To Console    \ \ \ \ ROMHOLE not supported - skipping
     END
+
+Get Firmware UUID (Windows)
+    ${uuid}=    Execute Command In Terminal    wmic path win32_computersystemproduct get UUID
+    RETURN    ${uuid}
+
+Get Firmware Serial Number (Windows)
+    ${serial}=    Execute Command In Terminal    wmic bios get serialnumber
+    ${serial}=    Split To Lines    ${serial}
+    RETURN    ${serial}[1]
