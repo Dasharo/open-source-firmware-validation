@@ -26,3 +26,6 @@ ${USB_STACK_SUPPORT}=               ${TRUE}
 ${DEVICE_AUDIO1}=                   ALC245
 ${WIFI_CARD_UBUNTU}=                00:14.3 Network controller: Intel Corporation Meteor Lake PCH CNVi WiFi (rev 20)
 ${WEBCAM_UBUNTU}=                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
+${MINI_PC_IE_SLOT_SUPPORT}=         ${TRUE}
+${WIFI_CARD}=                       Network controller: Intel Corporation Meteor Lake PCH CNVi WiFi (rev 20)
+${CPU_TESTS_SUPPORT}=               ${TRUE}
