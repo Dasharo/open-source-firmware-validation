@@ -23,7 +23,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Power On    AND
 ...                     Enter Setup Menu Tianocore    AND
-...                     Reset To Defaults Tianocore    AND
+# ...               Reset To Defaults Tianocore    AND
 ...                     Save Changes And Reset
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
@@ -141,9 +141,8 @@ Check Cache Support
     @{lines}=    Split To Lines    ${lines}
     FOR    ${line}    IN    @{lines}
         ${cache_string}    ${cache_size}=    Split String    ${line}    ${SPACE}    1
-        IF    '${cache_size}' == ''
-            Fail    Cahe size can't be empty
-        END
+        ${cache_size}=    Replace String    ${cache_size}    ${SPACE}    ${EMPTY}
+        IF    '${cache_size}' == ''    Fail    Cache size can't be empty
         ${mem}=    Convert To Integer    ${cache_size}
         IF    '${mem}'=='0'    Fail    ${line}    ELSE    Log    ${line}
     END
