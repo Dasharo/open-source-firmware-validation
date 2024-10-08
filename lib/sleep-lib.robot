@@ -70,7 +70,7 @@ Detect Or Install FWTS
     Get And Install FWTS
     Sleep    10s
     ${is_package_installed}=    Check If Package Is Installed    ${package}
-    IF    ${is_package_installed}=='False'
+    IF    not ${is_package_installed}
         FAIL    \nRequired package (${package}) cannot be installed
     END
     Log To Console    \nRequired package (${package}) installed successfully
