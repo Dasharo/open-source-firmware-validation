@@ -28,6 +28,7 @@ Suite Teardown      Run Keyword
 UTC004.001 USB Type-C Display output (semi-automatic)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC004.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -202,7 +203,7 @@ UTC012.002 USB devices recognition (Ubuntu)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly in Linux OS.
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC012.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC001.012 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC012.002 not supported
     Power On
     Login To Linux
     Switch To Root User
