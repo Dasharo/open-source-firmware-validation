@@ -31,7 +31,6 @@ DCU001.001 Change the UUID
     [Documentation]    This test case verifies that the UUID encoded in the DMI
     ...    table of an image can be changed using DCU.
     Skip If    not ${DCU_UUID_SUPPORT}    DCU001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU001.001 not supported
 
     ${uuid}=    Uuid 4
     ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -u ${uuid} ./coreboot.rom
@@ -51,16 +50,15 @@ DCU002.001 Change the serial number
     [Documentation]    This test case verifies that the serial number encoded
     ...    in the DMI table of an image can be changed using DCU.
     Skip If    not ${DCU_SERIAL_SUPPORT}    DCU002.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU002.001 not supported
 
     ${serial_no}=    Random Int    min=10000000    max=99999999
-    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -s ${serial_no} ./coreboot.rom
+    ${result}=    Execute Command In Terminal    cd ./dcu; ./dcuc smbios -s ${serial_no} ./coreboot.rom; cd ..;
     Log    ${result.stdout}
     Log    ${result.stderr}
     Should Contain    ${result.stdout}    Success
     Flash Firmware    ./dcu/coreboot.rom
 
-    Power On
+    Execute Reboot Command
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -73,7 +71,6 @@ DCU003.001 Change the bootsplash logo
     ...    PLEASE NOTE that a display device needs to be physically connected
     ...    to the DUT for this test to work.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    DCU003.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU003.001 not supported
 
     ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
     ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo -l ./logo.bmp ./coreboot.rom
@@ -82,7 +79,7 @@ DCU003.001 Change the bootsplash logo
     Should Contain    ${result.stdout}    Success
     Flash Firmware    ./dcu/coreboot.rom
 
-    Power On
+    Execute Reboot Command
     Boot System Or From Connected Disk    ubuntu
     Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     Login To Linux
