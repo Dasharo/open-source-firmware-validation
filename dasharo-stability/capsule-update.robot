@@ -18,24 +18,15 @@ Resource            ../keys.robot
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
-...                     Display Preparation Instructions
-...                     AND
-...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
-...                     AND
-...                     Check If Capsule Files Are Present
-...                     AND
-...                     Prepare For Logo Persistence Test
-...                     AND
-...                     Prepare For ROMHOLE Persistence Test    # MSI Only
-...                     AND
-...                     Flash Firmware If Not QEMU
-...                     AND
-...                     Upload Required Files
-...                     AND
-...                     Get System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
-...                     AND
+...                     Display Preparation Instructions    AND
+...                     Prepare Test Suite    AND
+...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported    AND
+...                     Check If Capsule Files Are Present    AND
+...                     Prepare For Logo Persistence Test    AND
+...                     Prepare For ROMHOLE Persistence Test    AND    # MSI Only
+...                     Flash Firmware If Not QEMU    AND
+...                     Upload Required Files    AND
+...                     Get System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256    AND
 ...                     Turn Off Active ME
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
@@ -499,9 +490,15 @@ Prepare For ROMHOLE Persistence Test
 
 Get Firmware UUID (Windows)
     ${uuid}=    Execute Command In Terminal    wmic path win32_computersystemproduct get UUID
-    RETURN    ${uuid}
+    @{uuid}=    Split To Lines    ${uuid}
+    Set Local Variable    ${var}    ${uuid}[-1]
+    ${var}=    Strip String    ${var}
+    ${var}=    Convert To Lower Case    ${var}
+    RETURN    ${var}
 
 Get Firmware Serial Number (Windows)
     ${serial}=    Execute Command In Terminal    wmic bios get serialnumber
-    ${serial}=    Split To Lines    ${serial}
-    RETURN    ${serial}[1]
+    @{serial}=    Split To Lines    ${serial}
+    Set Local Variable    ${var}    ${serial}[-1]
+    ${var}=    Strip String    ${var}
+    RETURN    ${var}
