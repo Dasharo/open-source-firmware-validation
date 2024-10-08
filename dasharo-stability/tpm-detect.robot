@@ -28,12 +28,12 @@ TPD003.001 Detect TPM after platform reboot (Ubuntu)
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    Detect Or Install Package    tpm2-tools
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        Detect Or Install Package    tpm2-tools
         ${out}=    Execute Command In Terminal    tpm2_pcrread
         Should Contain    ${out}    sha1:
         Should Contain    ${out}    sha256:
@@ -51,9 +51,9 @@ TPD004.001 Detect TPM after platform suspend (Ubuntu)
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    Detect Or Install Package    tpm2-tools
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Suspend Test Using FWTS
-        Detect Or Install Package    tpm2-tools
         ${out}=    Execute Command In Terminal    tpm2_pcrread
         Should Contain    ${out}    sha1:
         Should Contain    ${out}    sha256:

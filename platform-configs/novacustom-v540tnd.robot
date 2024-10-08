@@ -33,3 +33,4 @@ ${USB_DEVICE}=                      SanDisk
 ${ME_STATICALLY_DISABLED}=          ${TRUE}
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.1-rc5
 ${DMIDECODE_RELEASE_DATE}=          09/10/2024
+${TPM_DETECT_SUPPORT}=               ${TRUE}
