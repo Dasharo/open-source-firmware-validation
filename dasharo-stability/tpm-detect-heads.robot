@@ -26,6 +26,7 @@ TPD001.004 Detect TPM after coldboot (heads)
     ...    only with the platforms with Heads bootloader.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.004 not supported
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD001.004 not supported
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     Set Global Variable    ${FAILED_DETECTS}    0
     @{pcrs_subsequent_boots}=    Create List
     Power On

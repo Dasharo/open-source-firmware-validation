@@ -25,6 +25,7 @@ Suite Teardown      Run Keyword
 #    ...    correctly after performing a cold boot.
 #    Skip If    not ${m2_wifi_support}    SMW001.001 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    SMW001.001 not supported
+#    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
 #    Power On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -44,53 +45,52 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-# SMW002.001 Wi-fi connection after warm boot (Ubuntu)
-#    [Documentation]    Check whether the Wi-Fi card is detected and working
-#    ...    correctly after performing a warm boot.
-#    Skip If    not ${m2_wifi_support}    SMW002.001 not supported
-#    Skip If    not ${tests_in_ubuntu_support}    SMW002.001 not supported
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-#    Should Match    ${out}    *${wifi_card_ubuntu}*
-#    Scan for Wi-Fi in Linux
-#    Detect or install FWTS
-#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-#    Should Match    ${out}    *${wifi_card_ubuntu}*
-#    Scan for Wi-Fi in Linux
-#    END
-#    Exit from root user
+SMW002.001 Wi-fi connection after warm boot (Ubuntu)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a warm boot.
+    Skip If    not ${m2_wifi_support}    SMW002.001 not supported
+    Skip If    not ${tests_in_ubuntu_support}    SMW002.001 not supported
+    Power On
+    Boot operating system    ubuntu
+    Login to Linux
+    Switch to root user
+    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+    Should Match    ${out}    *${wifi_card_ubuntu}*
+    Scan for Wi-Fi in Linux
+    Detect or install FWTS
+    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
+        Perform Warmboot Using Rtcwake
+        Boot operating system    ubuntu
+        Login to Linux
+        Switch to root user
+        ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+        Should Match    ${out}    *${wifi_card_ubuntu}*
+        Scan for Wi-Fi in Linux
+    END
+    Exit from root user
 
-# SMW003.001 Wi-fi connection after reboot (Ubuntu)
-#    [Documentation]    Check whether the Wi-Fi card is detected and working
-#    ...    correctly after performing a reboot.
-#    Skip If    not ${m2_wifi_support}    SMW003.001 not supported
-#    Skip If    not ${tests_in_ubuntu_support}    SMW003.001 not supported
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-#    Should Match    ${out}    *${wifi_card_ubuntu}*
-#    Scan for Wi-Fi in Linux
-#    Detect or install FWTS
-#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
-#    Write Into Terminal    reboot
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-#    Should Match    ${out}    *${wifi_card_ubuntu}*
-#    Scan for Wi-Fi in Linux
-#    END
-#    Exit from root user
+SMW003.001 Wi-fi connection after reboot (Ubuntu)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a reboot.
+    Skip If    not ${m2_wifi_support}    SMW003.001 not supported
+    Skip If    not ${tests_in_ubuntu_support}    SMW003.001 not supported
+    Power On
+    Boot operating system    ubuntu
+    Login to Linux
+    Switch to root user
+    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+    Should Match    ${out}    *${wifi_card_ubuntu}*
+    Scan for Wi-Fi in Linux
+    Detect or install FWTS
+    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
+        Execute Reboot Command
+        Boot operating system    ubuntu
+        Login to Linux
+        Switch to root user
+        ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+        Should Match    ${out}    *${wifi_card_ubuntu}*
+        Scan for Wi-Fi in Linux
+    END
 
 SMW004.001 Wi-fi connection after suspension (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working

@@ -30,6 +30,7 @@ Suite Teardown      Run Keyword
 #    ...    correctly after a cold boot.
 #    Skip If    not ${usb_type-a_devices_detection_support}    SUD001.001 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    SUD001.001 not supported
+#    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
 #    Power On
 #    Boot operating system    ubuntu
 #    Login to Linux
@@ -46,27 +47,27 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-# SUD002.001 USB devices detection after warm boot (Ubuntu)
-#    [Documentation]    Check whether the external USB devices are detected
-#    ...    correctly after a warm boot.
-#    Skip If    not ${usb_type-a_devices_detection_support}    SUD002.001 not supported
-#    Skip If    not ${tests_in_ubuntu_support}    SUD002.001 not supported
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    List devices in Linux    usb
-#    Should Contain    ${out}    ${usb_device}
-#    Detect or install FWTS
-#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_warmboot_iterations}
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    List devices in Linux    usb
-#    Should Contain    ${out}    ${usb_device}
-#    END
-#    Exit from root user
+SUD002.001 USB devices detection after warm boot (Ubuntu)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after a warm boot.
+    Skip If    not ${usb_type-a_devices_detection_support}    SUD002.001 not supported
+    Skip If    not ${tests_in_ubuntu_support}    SUD002.001 not supported
+    Power On
+    Boot operating system    ubuntu
+    Login to Linux
+    Switch to root user
+    ${out}=    List devices in Linux    usb
+    Should Contain    ${out}    ${usb_device}
+    Detect or install FWTS
+    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_warmboot_iterations}
+        Perform Warmboot Using Rtcwake
+        Boot operating system    ubuntu
+        Login to Linux
+        Switch to root user
+        ${out}=    List devices in Linux    usb
+        Should Contain    ${out}    ${usb_device}
+    END
+    Exit from root user
 
 SUD003.001 USB devices detection after reboot (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
