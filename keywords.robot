@@ -710,6 +710,7 @@ Power Cycle On
     [Arguments]    ${power_button}=${FALSE}
     IF    "${OPTIONS_LIB}"=="dcu" and "${POWER_CTRL}"=="none"
         Execute Reboot Command
+        Sleep    5s
         RETURN
     END
     Restore Initial DUT Connection Method
@@ -919,6 +920,9 @@ Execute Reboot Command
         Write Into Terminal    shutdown /r /f /t 0
     ELSE
         Fail    Unknown OS: ${os} given as an argument.
+    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        Sleep    30s
     END
     Set DUT Response Timeout    180 seconds
     Restore Initial DUT Connection Method
