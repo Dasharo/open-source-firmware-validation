@@ -133,6 +133,8 @@ ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
 ${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 
+${L2_CACHE_SUPPORT}=                                ${TRUE}
+
 
 *** Keywords ***
 Power On
