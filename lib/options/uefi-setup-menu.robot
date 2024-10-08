@@ -81,6 +81,7 @@ Measure Coldboot Time
     [Documentation]    Performs a measurement of coldboot
     ...    boot time
     [Arguments]    ${iterations}
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     ${durations}=    Create List
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${iterations}
