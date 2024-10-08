@@ -98,7 +98,7 @@ SMW004.001 Wi-fi connection after suspension (Ubuntu)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.001 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.001 not supported
-    Wi-fi Connection After Suspension (Ubuntu 22.04)
+    Wi-fi Connection After Suspension (Ubuntu)
 
 SMW004.002 Wi-fi connection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the Wi-Fi card is detected and working
@@ -107,7 +107,7 @@ SMW004.002 Wi-fi connection after suspension (Ubuntu) (S0ix)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.002 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.002 not supported
     Set Platform Sleep Type    S0ix
-    Wi-fi Connection After Suspension (Ubuntu 22.04)    S0ix
+    Wi-fi Connection After Suspension (Ubuntu)    S0ix
 
 SMW004.003 Wi-fi connection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the Wi-Fi card is detected and working
@@ -116,7 +116,7 @@ SMW004.003 Wi-fi connection after suspension (Ubuntu) (S3)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.003 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.002 not supported
     Set Platform Sleep Type    S3
-    Wi-fi Connection After Suspension (Ubuntu 22.04)    S3
+    Wi-fi Connection After Suspension (Ubuntu)    S3
 
 
 *** Keywords ***
