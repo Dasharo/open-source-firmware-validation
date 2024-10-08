@@ -14,7 +14,6 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
-Resource            ../lib/options/dcu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
