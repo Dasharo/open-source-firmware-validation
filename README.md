@@ -99,6 +99,12 @@ different platform) may vary.
 | Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
 | Raspberry Pi | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
 
+`platform-configs` has recently been reworked- by using the tree
+topology to group platforms by more generic settings up above and the
+ more specific flags and settings much lower down to an exact platform
+  model. Example:
+![](./docs/img/platform-configs-protectli.png)
+
 ## DCU
 
 The osfv uses the
