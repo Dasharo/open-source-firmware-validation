@@ -31,6 +31,7 @@ Execute UEFI Shell Command
     [Documentation]    Test Execute Shell Command kwd
     Power On
     Enter UEFI Shell
+    Set Prompt For Terminal    Shell>
     FOR    ${iteration}    IN RANGE    1    50
         Log To Console    Iteration: ${iteration}
         ${out}=    Execute UEFI Shell Command    map
