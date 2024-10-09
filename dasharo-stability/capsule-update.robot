@@ -429,6 +429,9 @@ Go To Ubuntu Prompt
 
 Go To Windows Prompt
     Power On
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
     Login To Windows
 
 Get System Values
@@ -442,23 +445,36 @@ Get System Values
     #
     # robocop: off=non-local-variables-should-be-uppercase
     # robotidy: off=RenameVariables
-    IF    ${TRUE}
-        ${serial}=    Get Firmware Serial Number
+
+    IF    ${TESTS_IN_UBUNTU_SUPPORT}
+        IF    ${TRUE}
+            ${serial}=    Get Firmware Serial Number
+            Set Suite Variable    ${var_serial}    ${serial}
+
+            ${uuid}=    Get Firmware UUID
+            Set Suite Variable    ${var_uuid}    ${uuid}
+        END
+
+        IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
+            ${out}=    Execute Command In Terminal
+            ...    sha256sum /sys/firmware/acpi/bgrt/image
+            ${unplugged}=    Run Keyword And Return Status
+            ...    Should Contain    ${out}    No such file
+            IF    ${unplugged} == ${TRUE}
+                Fail    Please make sure that a display device is connected to the DUT
+            END
+            Set Suite Variable    ${var_logo_sha256}    ${out}
+        END
+    ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
+        Power On
+        Go To Windows Prompt
+        ${serial}=    Get Firmware Serial Number (Windows)
         Set Suite Variable    ${var_serial}    ${serial}
 
-        ${uuid}=    Get Firmware UUID
+        ${uuid}=    Get Firmware UUID (Windows)
         Set Suite Variable    ${var_uuid}    ${uuid}
-    END
-
-    IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
-        ${out}=    Execute Command In Terminal
-        ...    sha256sum /sys/firmware/acpi/bgrt/image
-        ${unplugged}=    Run Keyword And Return Status
-        ...    Should Contain    ${out}    No such file
-        IF    ${unplugged} == ${TRUE}
-            Fail    Please make sure that a display device is connected to the DUT
-        END
-        Set Suite Variable    ${var_logo_sha256}    ${out}
+    ELSE
+        Fail    No Windows nor Ubuntu support available
     END
 
 Get Windows System Values
