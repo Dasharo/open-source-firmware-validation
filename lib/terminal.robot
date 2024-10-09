@@ -163,9 +163,8 @@ Execute Command In Terminal
 
 Execute UEFI Shell Command
     [Documentation]    Universal keyword to execute command in Shell.
-    [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=3
+    [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=10
     Set DUT Response Timeout    ${timeout}
-    Set Prompt For Terminal    Shell>
     ${length}=    Get Length    ${command}
     ${timeout}=    Evaluate    ${length} * ${uefi_shell_input_latency}
     Write Bare Into Terminal    ${command}
