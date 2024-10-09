@@ -124,6 +124,7 @@ CUP170.001 Verifying UUID (Ubuntu)
 
 CUP170.002 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Windows Prompt
@@ -154,6 +155,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
 
 CUP180.002 Verifying Serial Number (Windows)
     [Documentation]    Check if serial number didn't change after Capsule Update.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
     IF    '${tmp}' == 'None'
         Go To Windows Prompt
