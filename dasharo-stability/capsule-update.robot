@@ -26,7 +26,7 @@ Suite Setup         Run Keywords
 ...                     Prepare For ROMHOLE Persistence Test    AND    # MSI Only
 ...                     Flash Firmware If Not QEMU    AND
 ...                     Upload Required Files    AND
-...                     Get System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256    AND
+...                     Get System Values    AND
 ...                     Turn Off Active ME
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
@@ -111,7 +111,7 @@ CUP170.001 Verifying UUID (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -145,7 +145,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -435,6 +435,17 @@ Go To Windows Prompt
     Login To Windows
 
 Get System Values
+    IF    ${TESTS_IN_UBUNTU_SUPPORT}
+        Get Ubuntu System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
+    ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
+        Power On
+        Go To Windows Prompt
+        Get Windows System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID
+    ELSE
+        Fail    No Windows nor Ubuntu support available
+    END
+
+Get Ubuntu System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
     # Disable checking for variable case. Here, the first argument to 'Set Suite
@@ -446,35 +457,23 @@ Get System Values
     # robocop: off=non-local-variables-should-be-uppercase
     # robotidy: off=RenameVariables
 
-    IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        IF    ${TRUE}
-            ${serial}=    Get Firmware Serial Number
-            Set Suite Variable    ${var_serial}    ${serial}
-
-            ${uuid}=    Get Firmware UUID
-            Set Suite Variable    ${var_uuid}    ${uuid}
-        END
-
-        IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
-            ${out}=    Execute Command In Terminal
-            ...    sha256sum /sys/firmware/acpi/bgrt/image
-            ${unplugged}=    Run Keyword And Return Status
-            ...    Should Contain    ${out}    No such file
-            IF    ${unplugged} == ${TRUE}
-                Fail    Please make sure that a display device is connected to the DUT
-            END
-            Set Suite Variable    ${var_logo_sha256}    ${out}
-        END
-    ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-        Power On
-        Go To Windows Prompt
-        ${serial}=    Get Firmware Serial Number (Windows)
+    IF    ${TRUE}
+        ${serial}=    Get Firmware Serial Number
         Set Suite Variable    ${var_serial}    ${serial}
 
-        ${uuid}=    Get Firmware UUID (Windows)
+        ${uuid}=    Get Firmware UUID
         Set Suite Variable    ${var_uuid}    ${uuid}
-    ELSE
-        Fail    No Windows nor Ubuntu support available
+    END
+
+    IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
+        ${out}=    Execute Command In Terminal
+        ...    sha256sum /sys/firmware/acpi/bgrt/image
+        ${unplugged}=    Run Keyword And Return Status
+        ...    Should Contain    ${out}    No such file
+        IF    ${unplugged} == ${TRUE}
+            Fail    Please make sure that a display device is connected to the DUT
+        END
+        Set Suite Variable    ${var_logo_sha256}    ${out}
     END
 
 Get Windows System Values
