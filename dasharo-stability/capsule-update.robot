@@ -294,7 +294,7 @@ Upload Required Files
         Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
         SSHLibrary.Put File
         ...    ./dasharo-stability/capsule-update-files/CapsuleApp.efi
-        ...    B:\\capsule_testing\\CapsuleApp.efi
+        ...    C:\\capsule_testing\\CapsuleApp.efi
         Log To Console    Sending ${CAPSULE_FW_FILE}
         SSHLibrary.Put File    ${CAPSULE_FW_FILE}    C:\\capsule_testing\\valid_capsule.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_wrong_cert.cap
