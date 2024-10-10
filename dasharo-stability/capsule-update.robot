@@ -277,7 +277,6 @@ Upload Required Files
         Execute Command In Terminal    rm -r /capsule_testing
         Execute Command In Terminal    mkdir /capsule_testing
         Execute Command In Terminal    chmod 777 /capsule_testing
-
         Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
         Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
         Log To Console    Sending ${CAPSULE_FW_FILE}
@@ -286,28 +285,28 @@ Upload Required Files
         Send File To DUT    ./dl-cache/edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         Send File To DUT    ./dl-cache/edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
-
         # Move the directory to ESP partition so the tests work even if root
         # file-system is part of LVM
         Execute Command In Terminal    rm -r /boot/efi/capsule_testing
         Execute Command In Terminal    mv /capsule_testing /boot/efi
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
         Go To Windows Prompt
-        Set Prompt    C:\>
-        Execute Command In Terminal    cd \
-        Execute Command In Terminal    rmdir capsule_testing
-        Execute Command In Terminal    mkdir capsule_testing
-
         Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
         SSHLibrary.Put File
         ...    ./dasharo-stability/capsule-update-files/CapsuleApp.efi
-        ...    C:\\capsule_testing\\CapsuleApp.efi
+        ...    B:\\capsule_testing\\CapsuleApp.efi
         Log To Console    Sending ${CAPSULE_FW_FILE}
         SSHLibrary.Put File    ${CAPSULE_FW_FILE}    C:\\capsule_testing\\valid_capsule.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_wrong_cert.cap
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_wrong_cert.cap    C:\\capsule_testing\\wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_invalid_guid.cap    C:\\capsule_testing\\invalid_guid.cap
+        Execute Command In Terminal    mountvol b: /s
+        Set Prompt For Terminal    PS B:\\>
+        Execute Command In Terminal    b:
+        Execute Command In Terminal    rmdir /q .\\capsule_testing\\
+        Execute Command In Terminal    mkdir capsule_testing
+        Execute Command In Terminal    copy C:\\capsule_testing\\*.* B:\\capsule_testing
     ELSE
         Fail    No Ubuntu nor Windows support.
     END
