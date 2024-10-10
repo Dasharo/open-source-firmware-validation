@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: MIT
+
 Get-WmiObject -Query "SELECT * FROM Win32_DiskDrive WHERE InterfaceType='USB'" | ForEach-Object {
     $disk = $_
     $partitions = "ASSOCIATORS OF {Win32_DiskDrive.DeviceID='$($disk.DeviceID)'} WHERE AssocClass = Win32_DiskDriveToDiskPartition"

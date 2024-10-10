@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: MIT
+
 bcrypt==4.1.2
 certifi==2024.2.2
 cffi==1.16.0
@@ -10,6 +14,7 @@ dbbot-sqlalchemy==0.2
 distlib==0.3.8
 Faker==24.11.0
 filelock==3.13.4
+git-cliff==2.6.1
 greenlet==3.0.3
 gspread==3.1.0
 httplib2==0.22.0

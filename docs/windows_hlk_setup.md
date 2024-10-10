@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 # Windows HLK - overview
 
 The Windows HLK (Hardware Lab Kit) is a test framework used to test hardware

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 # RCS Talos II platform
 
 When running tests on Talos II platform use the following commands:

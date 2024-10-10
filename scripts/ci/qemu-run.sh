@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: MIT
+
 INIT_DIR="$(pwd)"
 
 # Optionally, accept DIR as environmental variable. If not given, use current directory.

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: MIT
+
 temperature_curve_silent:
   - range: [0, 65]
     evaluation: [20, 25]

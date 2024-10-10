@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 # Open Source Firmware Remote Test Environment
 
 The following repository contains set of tests and other features to conduct
@@ -262,6 +268,95 @@ FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/re
 * [Renaming Test Cases](https://robotidy.readthedocs.io/en/stable/transformers/RenameTestCases.html)
 * [Renaming Variables](https://robotidy.readthedocs.io/en/stable/transformers/RenameVariables.html)
 
+## git-cliff - Automating changelog generation
+
+The OSFV uses `git-cliff` to automate the generation of changelogs based on commit messages, following 
+the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification. `git-cliff` helps
+maintain a clear history of changes by categorizing them into sections.
+
+`git-cliff` is already included in the project's dependencies, so it will be installed automatically when
+setting up the environment by running the appropriate `php install` command for your platform.
+
+The configuration file `cliff.toml` is located in the repository and defines the rules for how commit messages are
+grouped in the changelog.
+
+### Generating changelogs
+
+To generate a changelog for a specific tag (e.g., v0.2.0), run the following command:
+
+```bash
+git cliff --tag v0.2.0 > CHANGELOG_NAME.md
+```
+
+This command generates a changelog for all commits from the previous tag to v0.2.0 and
+ saves it to a `CHANGELOG_NAME.md` file.
+
+### Example usage
+
+You are also able to generate a changelog for a specific range of commits between two tags. For example:
+
+```bash
+git cliff --range v0.1.0..v0.2.0 > CHANGELOG_v0.2.0.md
+```
+
+### Customizing change categories 
+
+Commit messages are grouped based on the rules defined in the cliff.toml file. To adjust these
+ rules, you can modify the file to add custom commit categories or tweak existing patterns.
+
+
+## reuse - Automating license compliance
+
+To ensure the project complies with licensing requirements, OSFV uses the reuse tool. This tool helps automate the process of adding license headers and ensures all files in the repository are compliant with SPDX license standards.
+
+reuse is already included in the project’s dependencies, so it will be automatically installed when you set up the environment by running the appropriate install command for your platform.
+
+
+### Adding license headers
+
+After adding new files to the repository, ensure they have proper license headers. You can do this manually or automate the process using reuse. Here are some examples:
+
+1. **For files that support comments (e.g., .py, .sh):**
+
+   To add license headers to files like Python scripts, use the following command:
+   
+   ```
+   reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="MIT" <file.py>
+    ``` 
+
+
+2. **For files that don’t support comments (e.g., binary files):**
+
+    For files that cannot contain comment-based license headers (such as `.pem` or `.bin` files), add a     `.license` file next to them:
+
+    ``` 
+    reuse annotate --force-dot-license <file.bin>
+    ```
+    
+3. **Adding license headers in bulk:** 
+
+    If you want to add license headers to multiple files at once, you can use the `find` command. For example, to add headers to all `.sh` files:
+    
+    ```
+    find . -type f -name "*.sh" -exec reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="MIT" {} \;
+    ```
+    
+### Checking license compliance
+After adding or modyfing files, before releasing a new version of the project, run the reuse lint tool to check if all files are compliant with license requirements:
+
+```
+reuse lint
+```
+
+This command will generate a rpeort indicating any files missing proper license headers or other licensing issues. based on this report, you can make the necessary corrections.
+
+### Example usage
+1. Add new files or make changes to existing ones.
+2. use `reuse annotate` to add license headers to the new files.
+3. Run `reuse lint` to ensure the project is compliant with licensing requirements.
+4. Adress any issues reported by the tool.
+5. Commit the changes and prepare the release.
+
 ## Generating documentation
 
 Keywords documentation (Develop) deploy status: ![Build Status](https://github.com/Dasharo/open-source-firmware-validation/actions/workflows/pages/pages-build-deployment/badge.svg)
@@ -316,3 +411,5 @@ branch.
 * [Config parser](docs/config-parser.md) - Instructions for the
   `scripts/config-parser.py` utility for parsing coreboot config files into
   .robot platform configs for OSFV
+
+##
