@@ -412,6 +412,18 @@ Reset To Defaults Tianocore
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Write Bare Into Terminal    ${ARROW_DOWN}
+        Write Bare Into Terminal    ${ARROW_UP}
+        ${menu}=    Get Setup Menu Construction
+        ${dasharo_menu}=    Enter Dasharo System Features    ${menu}
+        ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
+        ${serial_state}=    Get Option State    ${serial_menu}    Enable COM0 Serial
+        IF    ${serial_state} != ${TRUE}
+            Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
+        END
+    END
+
 # TODO:
 # The SeaBIOS part can be removed.
 # The implementation should probably be replaced by a keyword selecting
