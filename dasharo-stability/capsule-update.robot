@@ -310,7 +310,7 @@ Upload Required Files
         Execute Command In Terminal    mkdir capsule_testing
         Execute Command In Terminal    copy C:\\capsule_testing\\*.* B:\\capsule_testing
         # Make sure file-system data is pushed to disks before resetting a platform
-        Execute Command In Terminal    mountvol b: /d
+        Execute Command In Terminal    dir
     ELSE
         Fail    No Ubuntu nor Windows support.
     END
