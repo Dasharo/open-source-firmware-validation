@@ -313,11 +313,13 @@ ${OS_UBUNTU}=               ubuntu
 ...                         boot_name=SSDPR-CL100-240-G2
 &{SSD18}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
 ...                         boot_name=Samsung SSD 990 PRO 1TB
+&{SSD19}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         boot_name=SD Device
 
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
-...                         &{SSD16}    &{SSD17}
+...                         &{SSD16}    &{SSD17}    &{SSD19}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -433,7 +435,7 @@ ${OS_UBUNTU}=               ubuntu
 # hardware configurations:
 @{CONFIG01}=                &{RTE08}    &{MODULE10}    &{SSD04}    &{USB04}
 ...                         &{CARD03}    &{ADAPTER01}    &{EXPANDER02}
-@{CONFIG02}=                &{RTE09}    &{SSD05}    &{CARD05}    &{USB03}
+@{CONFIG02}=                &{RTE09}    &{SSD19}    &{CARD05}    &{USB03}
 ...                         &{MODULE08}    &{MODULE10}    &{MODULE06}    &{ADAPTER01}
 @{CONFIG03}=                &{RTE10}    &{HDD01}    &{CARD02}    &{USB01}
 ...                         &{MODULE01}    &{MODULE02}    &{MODULE04}    &{EXPANDER01}
