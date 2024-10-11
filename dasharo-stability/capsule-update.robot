@@ -289,6 +289,8 @@ Upload Required Files
         # file-system is part of LVM
         Execute Command In Terminal    rm -r /boot/efi/capsule_testing
         Execute Command In Terminal    mv /capsule_testing /boot/efi
+        # Make sure file-system data is pushed to disks before resetting a platform
+        Execute Command In Terminal    sync
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
         Go To Windows Prompt
         Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
@@ -307,12 +309,11 @@ Upload Required Files
         Execute Command In Terminal    rmdir /q .\\capsule_testing\\
         Execute Command In Terminal    mkdir capsule_testing
         Execute Command In Terminal    copy C:\\capsule_testing\\*.* B:\\capsule_testing
+        # Make sure file-system data is pushed to disks before resetting a platform
+        Execute Command In Terminal    mountvol b: /d
     ELSE
         Fail    No Ubuntu nor Windows support.
     END
-
-    # Make sure file-system data is pushed to disks before resetting a platform
-    Execute Command In Terminal    sync
 
 Perform Capsule Update
     [Arguments]    ${capsule_file}
