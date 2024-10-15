@@ -131,3 +131,4 @@ Power On
     # read the old output
     Telnet.Read
     Rte Power On
+    Power Cycle On
