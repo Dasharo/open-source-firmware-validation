@@ -266,9 +266,7 @@ Get BIOS Version
 
 Upload Required Files
     Log To Console    PREPARE: Upload Files
-
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
-
     Set DUT Response Timeout    5m
 
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
@@ -309,6 +307,9 @@ Upload Required Files
         Execute Command In Terminal    rmdir /q .\\capsule_testing\\
         Execute Command In Terminal    mkdir capsule_testing
         Execute Command In Terminal    copy C:\\capsule_testing\\*.* B:\\capsule_testing
+        Set Prompt For Terminal    PS C:\\>
+        Execute Command In Terminal    c:
+        Execute Command In Terminal    rmdir /q .\\capsule_testing\\
         # Make sure file-system data is pushed to disks before resetting a platform
         Execute Command In Terminal    dir
     ELSE
