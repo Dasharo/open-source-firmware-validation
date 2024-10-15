@@ -58,7 +58,7 @@ CCC003.001 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActiveECores    0
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -76,7 +76,7 @@ CCC004.001 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActiveECores    All active
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -95,7 +95,7 @@ CCC005.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActiveECores    0
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -113,7 +113,7 @@ CCC006.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    ActiveECores    0
     Set UEFI Option    HyperThreading    ${FALSE}
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -130,7 +130,7 @@ CCC007.001 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActivePCores    1
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -149,7 +149,7 @@ CCC008.001 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActivePCores    1
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -168,7 +168,7 @@ CCC009.001 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
     Set UEFI Option    HyperThreading    ${TRUE}
     Set UEFI Option    ActivePCores    1
     Set UEFI Option    ActiveECores    1
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -188,7 +188,7 @@ CCC010.001 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActivePCores    1
     Set UEFI Option    ActiveECores    1
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -206,7 +206,7 @@ CCC011.001 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${TRUE}
     Set UEFI Option    ActiveECores    1
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -225,7 +225,7 @@ CCC012.001 Check core count (HT Disabled, P: A, E: 1) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActiveECores    1
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
