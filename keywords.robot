@@ -790,7 +790,7 @@ Rte Relay Power Cycle Off
     # sleep for DUT Start state in Suite Setup
     Sleep    1s
     ${result}=    RTE Relay Get
-    IF    '${result}' == 'on'    Rte Relay    off
+    IF    '${result}' == 'high'    Rte Relay Set    off
 
 Sonoff Power Cycle Off
     Sonoff On

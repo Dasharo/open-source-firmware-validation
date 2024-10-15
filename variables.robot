@@ -313,11 +313,12 @@ ${OS_UBUNTU}=               ubuntu
 ...                         boot_name=SSDPR-CL100-240-G2
 &{SSD18}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
 ...                         boot_name=Samsung SSD 990 PRO 1TB
-
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
 ...                         &{SSD16}    &{SSD17}
+...                         interface=SATA    count=1
+...                         boot_name=SPCC Solid State Disk
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -485,7 +486,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
 @{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
-@{CONFIG48}=                &{RTE64}    &{SSD17}
+@{CONFIG48}=                &{RTE55}    &{SSD16}    &{USB12}    ${CARD06}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
 @{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
 
