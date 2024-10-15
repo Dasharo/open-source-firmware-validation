@@ -4,6 +4,7 @@ Documentation       Collection of keywords related to EDK2 menus
 Library             Collections
 Library             String
 Library             ./menus.py
+Resource            ../terminal.robot
 
 
 *** Keywords ***
@@ -407,21 +408,21 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
+    ${menu}=    Get Setup Menu Construction
+
     Read From Terminal
     Press Key N Times    1    ${F9}
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Write Bare Into Terminal    ${ARROW_DOWN}
-        Write Bare Into Terminal    ${ARROW_UP}
-        ${menu}=    Get Setup Menu Construction
         ${dasharo_menu}=    Enter Dasharo System Features    ${menu}
         ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
         ${serial_state}=    Get Option State    ${serial_menu}    Enable COM0 Serial
         IF    ${serial_state} != ${TRUE}
             Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
         END
+        Press Key N Times    3    ${ESC}
     END
 
 # TODO:
