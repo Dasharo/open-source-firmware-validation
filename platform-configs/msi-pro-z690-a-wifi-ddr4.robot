@@ -17,3 +17,13 @@ ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=     ${TRUE}
 
 ${CPU_MAX_FREQUENCY}=                   5000
 ${CPU_MIN_FREQUENCY}=                   300
+
+${DEVICE_AUDIO2}=                       Raptorlake HDMI
+
+${DEF_THREADS_PER_CORE}=                2
+${DEF_THREADS_TOTAL}=                   28
+${DEF_ONLINE_CPU}=                      0-20
+${DEF_SOCKETS}=                         1
+
+${CPU_P_CORES_MAX}=                     8
+${CPU_E_CORES_MAX}=                     12
