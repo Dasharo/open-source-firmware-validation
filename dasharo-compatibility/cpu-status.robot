@@ -21,10 +21,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported
 ...                     AND
-...                     Power On    AND
-...                     Enter Setup Menu Tianocore    AND
-...                     Reset To Defaults Tianocore    AND
-...                     Save Changes And Reset
+...                     Run Keyword If    ${TESTS_IN_UBUNTU_SUPPORT}    Reset UEFI Options To Defaults
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 

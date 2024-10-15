@@ -63,12 +63,29 @@ VBO007.002 Boot from RW when correctly signed firmware is flashed
     ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
     Should Contain    ${out_vboot}    Normal boot mode
 
+VBO008.001 Booting from recovery
+    [Documentation]    Check whether the information about recovery mode will be
+    ...    displayed after flash firmware with wrong vboot keys. The boot should
+    ...    continue automatically after a 30s delay.
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO008.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO008.002 not supported
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    Execute Reboot Command
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Command In Terminal    cbmem -c | grep -i recovery
+    Should Contain    ${out}    Recovery requested
+
 VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A
     [Documentation]    Check whether the information about recovery mode will be
     ...    displayed after flash firmware with wrong vboot keys. The boot should
     ...    continue automatically after a 30s delay.
     Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO009.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    VBO009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO009.001 not supported
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -82,6 +99,17 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
 
+VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A (Semi-auto)
+    [Documentation]    Check whether the information about recovery mode will be
+    ...    displayed after flash firmware with wrong vboot keys. The boot should
+    ...    continue automatically after a 30s delay.
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO009.001 not supported
+    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}    VBO009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO009.002 not supported
+    Log To Console    This test is semi-automatic, performed manually during VBO008.
+    Log To Console    Assume PASS if the recovery pop-up appeared in the logs
+    Skip
+
 VBO010.001 Recovery boot popup can be skipped
     [Documentation]    Check whether the functionality of confirming the popup:
     ...    If we press Enter, we should immediately move to the next
@@ -92,6 +120,16 @@ VBO010.001 Recovery boot popup can be skipped
     Write Into Terminal    ${ENTER}
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
+
+VBO010.001 Recovery boot popup can be skipped (Semi-auto)
+    [Documentation]    Check whether the functionality of confirming the popup:
+    ...    If we press Enter, we should immediately move to the next
+    ...    stages of booting.
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
+    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}    VBO010.001 not supported
+    Log To Console    This test is semi-automatic, performed manually during VBO008.
+    Log To Console    Assume PASS if the recovery pop-up could be skipped
+    Skip
 
 VBO011.001 Recovery popup is not displayed when correctly signed firmware is flashed in RW_A
     [Documentation]    Check whether after flashing the DUT with the valid
@@ -124,6 +162,51 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
         Execute Reboot Command
         Read From Terminal Until    Press ENTER key to continue
         Write Into Terminal    ${ENTER}
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+        Should Contain    ${out_vboot}    Recovery boot mode
+    END
+    # 3. Flash again with correctly signed firmware
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
+    Execute Reboot Command
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
+
+VBO011.001 Recovery popup is not displayed when correctly signed firmware is flashed in RW_A (no TESTS_IN_FIRMWARE_SUPPORT)
+    [Documentation]    Check whether after flashing the DUT with the valid
+    ...    binary, the DUT will boot correctly from the default slot.
+    # Relevant issues:
+    # https://github.com/Dasharo/dasharo-issues/issues/185
+    # https://github.com/Dasharo/dasharo-issues/issues/269
+    # https://github.com/Dasharo/dasharo-issues/issues/320
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO011.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
+    Variable Should Exist    ${FW_FILE}
+    # 1. Start with flashing of correctly signed firmware
+    Set DUT Response Timeout    180s
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
+    FOR    ${index}    IN RANGE    2
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+    END
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
+    # 2. Flash incorrectly signed firmware and boot 2 times. Recovery popup
+    # should be displayed, and recovery request should be logged in cbmem.
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    FOR    ${index}    IN RANGE    2
+        Execute Reboot Command
+        Sleep    15s    # Wait for the pop-up to disappear automatically
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User

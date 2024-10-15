@@ -30,6 +30,7 @@ Suite Teardown      Run Keyword
 UTC008.001 Docking station detection after coldboot (Ubuntu) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
+    Skip If    '${POWER_CTRL}' == 'none'    UTC008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.001 not supported
     Docking Station Detection After Coldboot (Ubuntu)    WL-UMD05 Pro Rev.E
 
@@ -71,6 +72,7 @@ UTC011.003 Docking station detection after suspend (Ubuntu) (S3) (WL-UMD05 Pro R
 UTC008.002 Docking station detection after coldboot (Ubuntu) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
+    Skip If    '${POWER_CTRL}' == 'none'    UTC008.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.002 not supported
     Docking Station Detection After Coldboot (Ubuntu)    WL-UMD05 Pro Rev.C1
 
@@ -112,6 +114,7 @@ UTC011.006 Docking station detection after suspend (Ubuntu) (S3) (WL-UMD05 Pro R
 UTC008.003 Docking station detection after coldboot (Ubuntu) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
+    Skip If    '${POWER_CTRL}' == 'none'    UTC008.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.003 not supported
     Docking Station Detection After Coldboot (Ubuntu)    WL-UG69PD2 Rev.A1
 
@@ -153,26 +156,27 @@ UTC011.009 Docking station detection after suspend (Ubuntu) (S3) (WL-UG69PD2 Rev
 UTC022.001 Docking station detection after coldboot then hotplug (Ubuntu) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.001 not supported
+    Skip If    '${POWER_CTRL}' == 'none'    UTC022.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC022.001 not supported
     Docking Station Detection After Coldboot Then Hotplug (Ubuntu)    WL-UMD05 Pro Rev.E
 
 UTC023.001 Docking station detection after warmboot then hotplug (Ubuntu) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC023.001 not supported
     Docking Station Detection After Warmboot Then Hotplug (Ubuntu)    WL-UMD05 Pro Rev.E
 
 UTC024.001 Docking station detection after reboot then hotplug (Ubuntu) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC010.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC023.001 not supported
     Docking Station Detection After Reboot Then Hotplug (Ubuntu)    WL-UMD05 Pro Rev.E
 
 UTC025.001 Docking station detection after suspend then hotplug (Ubuntu) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC011.001 not supported
-    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC011.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC025.001 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC025.001 not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
     Docking Station Detection After Suspend Then Hotplug (Ubuntu)    WL-UMD05 Pro Rev.E
 
@@ -197,6 +201,7 @@ UTC025.003 Docking station detection after suspend then hotplug (Ubuntu) (S3) (W
 UTC022.002 Docking station detection after coldboot then hotplug (Ubuntu) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.002 not supported
     Docking Station Detection After Coldboot Then Hotplug (Ubuntu)    WL-UMD05 Pro Rev.C1
 
@@ -241,6 +246,7 @@ UTC025.006 Docking station detection after suspend then hotplug (Ubuntu) (S3) (W
 UTC022.003 Docking station detection after coldboot then hotplug (Ubuntu) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.003 not supported
     Docking Station Detection After Coldboot Then Hotplug (Ubuntu)    WL-UG69PD2 Rev.A1
 
@@ -286,6 +292,7 @@ UTC025.009 Docking station detection after suspend then hotplug (Ubuntu) (S3) (W
 *** Keywords ***
 Docking Station Detection After Coldboot (Ubuntu)
     [Arguments]    ${docking_station_model}
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     Pause Execution In Console
     ...    Please make sure the docking station connected is ${docking_station_model} and press ENTER
     Power On
@@ -329,10 +336,7 @@ Docking Station Detection After Warmboot (Ubuntu)
         TRY
             ${out_before_reboot}=    Execute Linux Command    uptime --since
             WHILE    '${out_before_reboot}' == '${out_after_reboot}'
-                Configure Wake In Linux
-                Write Into Terminal    poweroff
-                Sleep    20s
-                Wake Up
+                Perform Warmboot Using Rtcwake
                 Login To Linux
                 Switch To Root User
                 ${out_after_reboot}=    Execute Linux Command    uptime --since
@@ -358,8 +362,7 @@ Docking Station Detection After Reboot (Ubuntu)
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Log To Console    Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
-            Write Into Terminal    reboot
-            IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    45s
+            Execute Reboot Command
             Boot System Or From Connected Disk    ubuntu
             Login To Linux
             Switch To Root User
@@ -409,6 +412,7 @@ Pause Execution In Console
 
 Docking Station Detection After Coldboot Then Hotplug (Ubuntu)
     [Arguments]    ${docking_station_model}
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -461,9 +465,7 @@ Docking Station Detection After Warmboot Then Hotplug (Ubuntu)
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${docking_station_model}
     Set Global Variable    ${FAILED_DETECTION}    0
     WHILE    '${out_before_reboot}' == '${out_after_reboot}'
-        Write Into Terminal    poweroff
-        Log To Console    Warmboot the DUT manually
-        # warmboot - msi rte, protectli novacustom ???
+        Perform Warmboot Using Rtcwake
         Pause Execution In Console    Press power button on platform and press ENTER.
         Login To Linux
         Switch To Root User
@@ -501,8 +503,7 @@ Docking Station Detection After Reboot Then Hotplug (Ubuntu)
     Switch To Root User
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${docking_station_model}
     Set Global Variable    ${FAILED_DETECTION}    0
-    Write Into Terminal    reboot
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    45s
+    Execute Reboot Command
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User

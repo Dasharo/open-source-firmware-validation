@@ -21,6 +21,8 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0    USB detection tests skipped
+...                     AND
+...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 

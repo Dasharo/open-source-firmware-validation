@@ -55,6 +55,10 @@ Get UEFI Option
     ...    shell=True
     RETURN    ${out.stdout}
 
+Reset UEFI Options To Defaults
+    [Documentation]    Resets all UEFI options to defaults
+    Flash Firmware    ${FW_FILE}
+
 Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
 
@@ -64,7 +68,7 @@ Get UEFI Boot Manager Entries
     ${boot_menu}=    SSHLibrary.Execute Command    efibootmgr
     RETURN    ${boot_menu}
 
-Measure Average Coldboot Time
+Measure Coldboot Time
     [Documentation]    Performs a measurement of average coldboot
     ...    boot time
 
@@ -121,7 +125,7 @@ Measure Reboot Time
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s
-        Append To List    ${durations}    ${boot_time}s
+        Append To List    ${durations}    ${boot_time}
     END
 
     ${min}    ${max}    ${average}    ${stddev}=
@@ -146,4 +150,4 @@ Make Sure That Flash Locks Are Disabled
     Switch To Root User
     Get Flashrom From Cloud
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
-    Should Not Contain    ${out_flashrom}    read-only
+    Should Not Contain    ${out_flashrom}    read-only    Flash Locks are Enabled!

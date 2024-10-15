@@ -49,7 +49,12 @@ Login To Linux
         Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        Wait Until Keyword Succeeds
+        ...    3x
+        ...    0
+        ...    Login To Linux Via SSH
+        ...    ${DEVICE_UBUNTU_USERNAME}
+        ...    ${DEVICE_UBUNTU_PASSWORD}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
@@ -710,6 +715,7 @@ Power Cycle On
     [Arguments]    ${power_button}=${FALSE}
     IF    "${OPTIONS_LIB}"=="dcu" and "${POWER_CTRL}"=="none"
         Execute Reboot Command
+        Sleep    5s
         RETURN
     END
     Restore Initial DUT Connection Method
@@ -920,6 +926,7 @@ Execute Reboot Command
     ELSE
         Fail    Unknown OS: ${os} given as an argument.
     END
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    30s
     Set DUT Response Timeout    180 seconds
     Restore Initial DUT Connection Method
 
@@ -1243,7 +1250,7 @@ Identify Path To SD Card In Windows
     SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     ${result}=    Execute Command In Terminal    .\\drive_letters.ps1
     ${lines}=    Get Lines Matching Pattern    ${result}    *SD*
-    ${drive_letter}=    Evaluate    $lines[0:2]
+    ${drive_letter}=    Set Variable    ${lines[0:2]}
     RETURN    ${drive_letter}
 
 Check Read Write To External Drive In Windows
@@ -1297,7 +1304,7 @@ Check If Package Is Installed
     ...    test case, has already been installed on the system.
     [Arguments]    ${package}
     ${output}=    Execute Command In Terminal    dpkg --list ${package} | cat
-    IF    "no packages found matching" in """${output}""" or "<none>" in """${output}"""
+    IF    "no packages found matching" in """${output}""" or "<none>" in """${output}""" or "dpkg was interrupted" in """${output}"""
         ${is_installed}=    Set Variable    ${FALSE}
     ELSE
         ${is_installed}=    Set Variable    ${TRUE}

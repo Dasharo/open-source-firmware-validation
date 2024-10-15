@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 MES001.001 Check if ME is statically disabled
     [Documentation]    Check whether the Intel ME is disabled at build time.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
-    Power Cycle On
+    Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User

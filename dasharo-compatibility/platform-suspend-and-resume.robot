@@ -24,7 +24,7 @@ SUSP005.001 Cyclic platform suspend and resume (Ubuntu)
     Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.001 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.001 not supported
-    Cyclic Platform Suspend And Resume (Ubuntu 22.04)
+    Cyclic Platform Suspend And Resume (Ubuntu)
 
 SUSP005.002 Cyclic platform suspend and resume (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the DUT platform suspend
@@ -33,7 +33,7 @@ SUSP005.002 Cyclic platform suspend and resume (Ubuntu) (S0ix)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.002 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.002 not supported
     Set Platform Sleep Type    S0ix
-    Cyclic Platform Suspend And Resume (Ubuntu 22.04)    S0ix
+    Cyclic Platform Suspend And Resume (Ubuntu)    S0ix
 
 SUSP005.003 Cyclic platform suspend and resume (Ubuntu) (S3)
     [Documentation]    This test aims to verify that the DUT platform suspend
@@ -42,7 +42,7 @@ SUSP005.003 Cyclic platform suspend and resume (Ubuntu) (S3)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.003 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.003 not supported
     Set Platform Sleep Type    S3
-    Cyclic Platform Suspend And Resume (Ubuntu 22.04)    S3
+    Cyclic Platform Suspend And Resume (Ubuntu)    S3
 
 
 *** Keywords ***

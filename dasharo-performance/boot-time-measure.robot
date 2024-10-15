@@ -35,7 +35,7 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.001 not supported
-    Skip If    "${OPTIONS_LIB}" == "dcu"    CBMEM001.001 not supported
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
 
     ${min}    ${max}    ${average}    ${stddev}=
     ...    Measure Coldboot Time    ${ITERATIONS}
@@ -50,7 +50,7 @@ CBMEM001.001 Serial boot time measure: coreboot booting time after coldboot
     Should Be True    ${stddev} < ${MAX_ACCEPTABLE_COLDBOOT_TIME_STD_DEV_S}
 
 CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
-    [Documentation]    Check whether the DUT boots after coldboot and how
+    [Documentation]    Check whether the DUT boots after warmboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.001 not supported
@@ -68,7 +68,7 @@ CBMEM002.001 Serial boot time measure: coreboot booting time after warmboot
     Should Be True    ${stddev} < ${MAX_ACCEPTABLE_WARMBOOT_TIME_STD_DEV_S}
 
 CBMEM003.001 Serial boot time measure: coreboot booting time after system reboot
-    [Documentation]    Check whether the DUT boots after coldboot and how
+    [Documentation]    Check whether the DUT boots after system reboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported

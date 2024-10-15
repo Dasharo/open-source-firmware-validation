@@ -62,6 +62,13 @@ Get UEFI Option
     ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}    ${VALUE}
     RETURN    ${state}
 
+Reset UEFI Options To Defaults
+    [Documentation]    Resets all UEFI options to defaults
+    Power On
+    Enter Setup Menu Tianocore
+    Reset To Defaults Tianocore
+    Save Changes And Reset
+
 Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
 
@@ -74,6 +81,7 @@ Measure Coldboot Time
     [Documentation]    Performs a measurement of coldboot
     ...    boot time
     [Arguments]    ${iterations}
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     ${durations}=    Create List
     Log To Console    \n
     FOR    ${index}    IN RANGE    0    ${iterations}
