@@ -20,6 +20,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keywords
 ...                     Flash Firmware    ${FW_FILE}
 ...                     AND
+...                     Turn On Power Supply
+...                     AND
 ...                     Log Out And Close Connection
 
 
