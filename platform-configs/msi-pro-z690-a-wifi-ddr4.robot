@@ -10,6 +10,7 @@ ${DMIDECODE_PRODUCT_NAME}=              MS-7D25
 ${DMIDECODE_RELEASE_DATE}=              11/27/2023
 
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6 AX201 160MHz
+${WIFI_CARD_UBUNTU}=                    Intel Corporation Alder Lake-S PCH CNVi WiFi (rev 11)
 
 ${WIRELESS_CARD_SUPPORT}=               ${TRUE}
 ${WIRELESS_CARD_WIFI_SUPPORT}=          ${TRUE}
