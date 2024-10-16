@@ -31,7 +31,7 @@ SPS001.001 Ethernet ports are in order
 
 
 *** Keywords ***
-Get PCIe Bus Info With MACs
+Get MACs
     [Documentation]    Extract PCIe bus numbers and MAC addresses from lspci output.
     ${lspci_output}=    Execute Command In Terminal    lspci -vv
     ${lines}=    Split String    ${lspci_output}    \n
@@ -50,7 +50,7 @@ Append PCIe MAC
         Append To List    ${pci_devices}    ${mac}
     END
 
-Compare Interface And PCIe Bus Order
+Compare Interfaces
     [Arguments]    ${pci_devices}
     Log    Sorted interfaces: ${ETH_PORTS}
     Log    Sorted PCIe devices: ${pci_devices}
