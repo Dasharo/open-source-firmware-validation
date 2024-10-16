@@ -148,7 +148,7 @@ Check Secure Boot In Linux
     # secureboot: Secure boot disabled
     # or just:
     # Secure boot disabled
-    ${out}=    Execute Command In Terminal    dmesg | grep "Secure boot"
+    ${out}=    Execute Command In Terminal    dmesg | grep "Secure boot" | grep -v "Bluetooth"
     Should Contain Any    ${out}    disabled    enabled
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    enabled
