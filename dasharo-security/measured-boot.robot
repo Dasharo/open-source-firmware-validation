@@ -287,6 +287,9 @@ Get Default PCRs State
 Boot Ubuntu And Login To Root
     [Documentation]    Boots Ubuntu and logins as root
     Boot System Or From Connected Disk    ubuntu
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
     Login To Linux
     Switch To Root User
 
