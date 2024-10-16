@@ -25,20 +25,30 @@ SPS001.001 Ethernet ports are in order
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${pci_devices}=    Get PCIe Bus Info With MACs
+    ${pci_devices}=    Get MACs
     Log    PCIe devices and their MACs: ${pci_devices}
-    Compare Interface And PCIe Bus Order    ${pci_devices}
+    Compare Interfaces    ${pci_devices}
 
 
 *** Keywords ***
 Get MACs
-    [Documentation]    Extract PCIe bus numbers and MAC addresses from lspci output.
+    [Documentation]    Extract MAC addresses from lspci output.
     ${lspci_output}=    Execute Command In Terminal    lspci -vv
     ${lines}=    Split String    ${lspci_output}    \n
     ${pci_devices}=    Create List
+    ${sfp_flag}=    Set Variable    ${TRUE}
     FOR    ${line}    IN    @{lines}
+        IF    'Ethernet controller' in '${line}' and 'SFP' in '${line}'
+            ${sfp_flag}=    Set Variable    ${FALSE}
+        END
         ${is_mac_line}=    Evaluate    'Device Serial Number' in '${line}'
-        IF    ${is_mac_line}    Append PCIe MAC    ${line}    ${pci_devices}
+        IF    ${is_mac_line}
+            IF    ${sfp_flag}
+                Append PCIe MAC    ${line}    ${pci_devices}
+            ELSE
+                ${sfp_flag}=    Set Variable    ${TRUE}
+            END
+        END
     END
     RETURN    ${pci_devices}
 
