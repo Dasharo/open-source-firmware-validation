@@ -1,5 +1,6 @@
 *** Settings ***
 Resource    default.robot
+Resource    ../../keys.robot
 
 
 *** Variables ***
