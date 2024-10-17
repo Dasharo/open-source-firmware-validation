@@ -10,3 +10,6 @@
 [submodule "osfv-scripts"]
 	path = osfv-scripts
 	url = https://github.com/Dasharo/osfv-scripts.git
+[submodule "osfv-test-data"]
+	path = osfv-test-data
+	url = git@github.com:Dasharo/osfv-test-data.git
