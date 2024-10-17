@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: MIT
+-->
+
 # QEMU workflow
 
 > Make sure to proceed with [Getting started section](../README.md#getting-started)
