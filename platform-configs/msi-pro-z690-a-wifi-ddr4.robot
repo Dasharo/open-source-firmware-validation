@@ -7,7 +7,7 @@ ${FW_VERSION}=                          v1.1.4-rc1
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.1.4-rc1
 ${DMIDECODE_PRODUCT_NAME}=              MS-7D25
-${DMIDECODE_RELEASE_DATE}=              11/27/2023
+${DMIDECODE_RELEASE_DATE}=              10/07/2024
 
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                    Intel Corporation Alder Lake-S PCH CNVi WiFi (rev 11)
