@@ -27,6 +27,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Prepare EFI Partition With System Files
 Suite Teardown      Run Keywords
+...                     Power On    AND
 ...                     Clear Out EFI Partition    AND
 ...                     Log Out And Close Connection
 
@@ -83,7 +84,7 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Should Contain Match    ${boot_menu}    Dasharo Tools Suite on (*
+    Should Contain Match    ${boot_menu}    Dasharo Tools Suite (on
 
 ESP006.001 ESP Scan does not find non-block boot devices
     [Documentation]    This test aims to verify that the firmware will not
