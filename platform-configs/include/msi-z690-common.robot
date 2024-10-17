@@ -40,6 +40,9 @@ ${WIFI_CARD_UBUNTU}=                            ${TBD}
 ${USB_MODEL}=                                   Kingston
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
 
+${INTEL_HYBRID_ARCH_SUPPORT}=                   ${FALSE}
+${HYPER_THREADING_SUPPORT}=                     ${FALSE}
+
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
@@ -55,6 +58,7 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=             ${TRUE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                 ${TRUE}
+
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=               ${TRUE}
@@ -86,6 +90,7 @@ ${MEMORY_PROFILE_SUPPORT}=                      ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
 ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
+${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                 ${TRUE}
@@ -128,3 +133,4 @@ Power On
     # read the old output
     Telnet.Read
     Rte Power On
+    Sleep    1s

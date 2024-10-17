@@ -27,6 +27,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Prepare EFI Partition With System Files
 Suite Teardown      Run Keywords
+...                     Power On    AND
 ...                     Clear Out EFI Partition    AND
 ...                     Log Out And Close Connection
 
@@ -83,7 +84,7 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Should Contain Match    ${boot_menu}    Dasharo Tools Suite on (*
+    Should Contain Match    ${boot_menu}    Dasharo Tools Suite (on
 
 ESP006.001 ESP Scan does not find non-block boot devices
     [Documentation]    This test aims to verify that the firmware will not
@@ -125,4 +126,11 @@ Prepare Required Files For Qemu
         ...    CorePlus-14.0.iso
         ...    ${TINYCORE_URL}
         ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
+    END
+
+Power On Or Reboot
+    IF    "${MANUFACTURER}" == "QEMU"
+        Power On
+    ELSE
+        Execute Reboot Command
     END
