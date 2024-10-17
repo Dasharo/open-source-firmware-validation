@@ -9,8 +9,6 @@ Library             RequestsLibrary
 Library             ../keys-and-keywords/totp.py
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -22,6 +20,8 @@ Resource            ../keys-and-keywords/heads-keywords.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    heads payload not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -45,7 +45,6 @@ HDS001.001 Heads installation
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Heads bootloader
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS001.001 not supported
-    Skip If    not ${HEADS_PAYLOAD_SUPPORT}    HDS001.001 not supported
     Power On
     # Factory reset. Additional window if /boot already has Heads stuff in it.
     ${output}=    Read From Terminal Until    ┘
@@ -93,7 +92,6 @@ HDS002.001 Boot into Heads
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Heads bootloader
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS001.001 not supported
-    Skip If    not ${HEADS_PAYLOAD_SUPPORT}    HDS001.001 not supported
     Power On
     ${output}=    Detect Heads Main Menu
     ${totp_dut}=    Get Regexp Matches    ${output}    TOTP: (......)    1

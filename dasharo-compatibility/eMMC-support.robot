@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -25,7 +23,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-MMC001.001 eMMC support (Ubuntu 22.04)
+MMC001.001 eMMC support (Ubuntu)
     [Documentation]    Check whether the eMMC driver is detected via the
     ...    Operating System.
     Skip If    not ${EMMC_SUPPORT}    MMC001.001 not supported
@@ -34,5 +32,6 @@ MMC001.001 eMMC support (Ubuntu 22.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Check EMMC Module
+    ${out}=    Execute Command In Terminal    cat /sys/class/block/mmcblk0/device/name
+    Should Contain    ${out}    ${E_MMC_NAME}
     Exit From Root User

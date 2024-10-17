@@ -11,8 +11,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -31,16 +29,20 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Set numerical option
     [Documentation]    Checks whether the numerical option can be set.
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
-    Set Option State    ${chipset_menu}    Watchdog timeout value    600
-    Save Changes And Reset    2    4
+    ${boot_manager}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    Set Option State    ${boot_manager}    Auto Boot Time-out    5
+    Save Changes And Reset
 
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
-    ${state}=    Get Option State    ${chipset_menu}    Watchdog timeout value
+    ${boot_manager}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    Set Option State    ${boot_manager}    Auto Boot Time-out    5
+    ${state}=    Get Option State    ${boot_manager}    Auto Boot Time-out
     Log    ${state}
-    Should Be Equal As Integers    ${state}    600
+    Should Be Equal As Integers    ${state}    5

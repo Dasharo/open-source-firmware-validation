@@ -10,8 +10,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -76,7 +74,7 @@ Reset To Default Secure Boot Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     Enter Secure Boot Menu
     ${out}=    Read From Terminal Until    Esc=Exit
@@ -89,7 +87,7 @@ Erase All Secure Boot Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     Enter Secure Boot Menu
     ${out}=    Read From Terminal Until    Esc=Exit
@@ -101,7 +99,7 @@ Secure Boot Menu Parsing With Default Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Should Not Contain    ${sb_menu}    Secure Boot Configuration
@@ -117,7 +115,7 @@ Secure Boot Menu Parsing With Erased Keys
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${advanced_menu}
-    Save Changes And Reset    3
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Should Not Contain    ${sb_menu}    Secure Boot Configuration
@@ -142,29 +140,29 @@ Make Sure That Keys Are Provisioned
     Erase All Secure Boot Keys    ${advanced_menu}
     Exit From Current Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
-    Should Not Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Not Contain Match    ${sb_menu}    Enable Secure Boot [*
 
     # 2. Call tke kwd and make sure that the keys are provisioned
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Contain Match    ${sb_menu}    Enable Secure Boot [*
 
     # 3. Restore default SB keys
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
     Exit From Current Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
-    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Contain Match    ${sb_menu}    Enable Secure Boot [*
 
     # 4. Call tke kwd and make sure that the keys are still provisioned
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Should Contain Any    ${sb_menu}    Enable Secure Boot [ ]    Enable Secure Boot [X]
+    Should Contain Match    ${sb_menu}    Enable Secure Boot [*
 
 Enable Secure Boot
     [Documentation]    Test Enable Secure Boot kwd
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_state}=    Return Secure Boot State    ${sb_menu}
@@ -175,7 +173,7 @@ Disable Secure Boot
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
-    Save Changes And Reset    2
+    Save Changes And Reset
 
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_state}=    Return Secure Boot State    ${sb_menu}
@@ -186,15 +184,15 @@ Enable and Disable Secure Boot Multiple Times
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     FOR    ${index}    IN RANGE    5
-        Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
-        Save Changes And Reset    2
+        Enable Secure Boot    ${sb_menu}
+        Save Changes And Reset
 
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
         ${sb_state}=    Return Secure Boot State    ${sb_menu}
         Should Contain    ${sb_state}    Enabled
 
-        Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
-        Save Changes And Reset    2
+        Disable Secure Boot    ${sb_menu}
+        Save Changes And Reset
 
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
         ${sb_state}=    Return Secure Boot State    ${sb_menu}

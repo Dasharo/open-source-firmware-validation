@@ -1,18 +1,20 @@
 *** Keywords ***
 Check EC Firmware Version
     [Documentation]    Keyword allows checking EC firmware version via the
-    ...    system76_ectool info utility.
-    ${output}=    Execute Command In Terminal    system76_ectool info
-    Should Contain    ${output}    ${EC_VERSION}
+    ...    dasharo_ectool info utility.
+    [Arguments]    ${expected_version}=${EC_VERSION}    ${tool}=dasharo_ectool
+    ${output}=    Execute Command In Terminal    ${tool} info
+    Should Contain    ${output}    ${expected_version}
 
 Flash EC Firmware
     [Documentation]    Keyword allows flashing EC firmware via the
-    ...    system76_ectool info utility.
+    ...    dasharo_ectool info utility.
+    [Arguments]    ${ec_fw_download_link}=https://3mdeb.com/open-source-firmware/Dasharo/${EC_BINARY_LOCATION}
+    ...    ${tool}=dasharo_ectool
     Execute Command In Terminal
-    ...    command=wget -0 /tmp/ec.rom https://3mdeb.com/open-source-firmware/Dasharo/${EC_BINARY_LOCATION}
+    ...    command=wget -O /tmp/ec.rom ${ec_fw_download_link}
     ...    timeout=320s
-    ${output}=    Execute Command In Terminal
-    ...    command=system76_ectool flash ec.rom
-    ...    timeout=320s
-    Should Contain    ${output}    Successfully programmed SPI ROM
+    Write Into Terminal    ${tool} flash /tmp/ec.rom
+    Press Enter
+    Read From Terminal Until    Successfully programmed SPI ROM
     Sleep    10s

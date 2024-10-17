@@ -45,7 +45,6 @@ configure = [
     "RenameKeywords:ignore_library=False",
     "RenameVariables:settings_section_case=upper",
     "RenameVariables:variables_section_case=upper",
-    "RenameVariables:variables_section_case=upper",
     "RenameVariables:variable_separator=underscore",
     "SplitTooLongLine:split_single_value=True",
     "SplitTooLongLine:align_new_line=True",

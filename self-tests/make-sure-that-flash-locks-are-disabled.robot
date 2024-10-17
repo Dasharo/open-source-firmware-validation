@@ -11,8 +11,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -31,19 +29,23 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Both locks are present and enabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
-    Test Make Sure That Flash Locks Are Disabled    ${TRUE}    ${TRUE}
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
+    Test Make Sure That Flash Locks Are Disabled    Enabled    Enabled
 
 Both locks are present and disabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
-    Test Make Sure That Flash Locks Are Disabled    ${FALSE}    ${FALSE}
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
+    Test Make Sure That Flash Locks Are Disabled    Disabled    Disabled
 
 BIOS lock is enabled, SMM protection is disabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
-    Test Make Sure That Flash Locks Are Disabled    ${TRUE}    ${FALSE}
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
+    Test Make Sure That Flash Locks Are Disabled    Enabled    Disabled
 
 BIOS lock is disabled, SMM protection is enabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
-    Test Make Sure That Flash Locks Are Disabled    ${FALSE}    ${TRUE}
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
+    Test Make Sure That Flash Locks Are Disabled    Disabled    Enabled
 
 
 *** Keywords ***
@@ -51,23 +53,12 @@ Test Make Sure That Flash Locks Are Disabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
     ...    Accepts initial state of the BIOS lock and SMM protection as args
     [Arguments]    ${bios_lock_init}    ${smm_lock_init}
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Dasharo System Features
-    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
-    Set Option State    ${security_menu}    Lock the BIOS boot medium    ${bios_lock_init}
-    Save Changes
-    Reenter Menu
-    Set Option State    ${security_menu}    Enable SMM BIOS write    ${smm_lock_init}
-    Save Changes And Reset    2    4
-    Sleep    5s
-
-    Make Sure That Flash Locks Are Disabled
-
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Dasharo System Features
-    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
-    ${bios_lock}=    Get Option State    ${security_menu}    Lock the BIOS boot medium
-    ${smm_lock}=    Get Option State    ${security_menu}    Enable SMM BIOS write
-    Should Not Be True    ${bios_lock}
-    Should Not Be True    ${smm_lock}
+    IF    "${smm_lock_init}"=="Enabled" and "${OPTIONS_LIB}"=="dcu"    Skip
+    Set UEFI Option    LockBios    ${bios_lock_init}
+    Set UEFI Option    SmmBwp    ${smm_lock_init}
+    IF    "${bios_lock_init}"=="Enabled" or "${smm_lock_init}"=="Enabled"
+        # Run Keyword And Expect Error    REGEXP:*contains*    Make Sure That Flash Locks Are Disabled
+        Run Keyword And Expect Error    *    Make Sure That Flash Locks Are Disabled
+    ELSE
+        Make Sure That Flash Locks Are Disabled
+    END

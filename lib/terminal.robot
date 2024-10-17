@@ -91,6 +91,8 @@ Read From Terminal Until Prompt
             ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
         END
     END
+    # Drop last newline, if any
+    ${output}=    Strip String    ${output}    mode=right    characters=\n\r
     RETURN    ${output}
 
 Read From Terminal Until Regexp
@@ -155,4 +157,19 @@ Execute Command In Terminal
         Write Into Terminal    ${command}
         ${output}=    Read From Terminal Until Prompt
     END
+    # Drop last newline, if any
+    ${output}=    Strip String    ${output}    mode=right    characters=\n\r
+    RETURN    ${output}
+
+Execute UEFI Shell Command
+    [Documentation]    Universal keyword to execute command in Shell.
+    [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=3
+    Set DUT Response Timeout    ${timeout}
+    ${length}=    Get Length    ${command}
+    ${timeout}=    Evaluate    ${length} * ${uefi_shell_input_latency}
+    Write Bare Into Terminal    ${command}
+    Sleep    ${timeout}ms
+    Press Enter
+    Sleep    1s
+    ${output}=    Read From Terminal
     RETURN    ${output}

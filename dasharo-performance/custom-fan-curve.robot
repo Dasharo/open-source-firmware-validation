@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -26,7 +24,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CFC001.001 Custom fan curve silent profile measure (Ubuntu 22.04)
+CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
@@ -50,7 +48,7 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu 22.04)
         ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
     END
 
-CFC002.001 Custom fan curve performance profile measure (Ubuntu 22.04)
+CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.

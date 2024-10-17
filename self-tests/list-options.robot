@@ -11,8 +11,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -31,6 +29,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Get Current State Of List Option In ME Menu
     [Documentation]    Checks whether the numerical option can be set.
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -40,6 +39,7 @@ Get Current State Of List Option In ME Menu
     Should Match Regexp    ${state}    ^[A-Z][\\w()\\s-]+\\S$
 
 Parse Available Selections Of List Option In Me Menu
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -51,10 +51,10 @@ Parse Available Selections Of List Option In Me Menu
     Log    ${opts}
     Should Be Equal As Strings    ${opts}[0]    Enabled
     Should Be Equal As Strings    ${opts}[1]    Disabled (Soft)
-    Should Be Equal As Strings    ${opts}[2]    Disabled (HAP)
 
 Select Invalid State Of List Option In ME Menu
     [Documentation]    Checks whether the numerical option can be set.
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
     ${status}=    Run Keyword And Return Status
     ...    Set ME State    Fake State
@@ -62,8 +62,9 @@ Select Invalid State Of List Option In ME Menu
 
 Select State Of List Option In ME Menu (top-bottom)
     [Documentation]    Checks whether the numerical option can be set.
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
-    ${me_states}=    Create List    Enabled    Disabled (Soft)    Disabled (HAP)
+    ${me_states}=    Create List    Enabled    Disabled (Soft)
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
         Check ME State
@@ -71,8 +72,9 @@ Select State Of List Option In ME Menu (top-bottom)
 
 Select State Of List Option In ME Menu (bottom-top)
     [Documentation]    Checks whether the numerical option can be set.
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
-    ${me_states}=    Create List    Disabled (HAP)    Disabled (Soft)    Enabled
+    ${me_states}=    Create List    Disabled (Soft)    Enabled
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
         Check ME State
@@ -84,6 +86,7 @@ Select State Of List Option In ME Menu (bottom-top)
 
 Get Current State Of List Option In Memory Menu
     [Documentation]    Checks whether the numerical option can be set.
+    Skip If    not ${DASHARO_MEMORY_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -93,6 +96,7 @@ Get Current State Of List Option In Memory Menu
     Should Match Regexp    ${state}    ^[A-Z][\\w()\\s-]+\\S$
 
 Parse Available Selections Of List Option In Memory Menu
+    Skip If    not ${DASHARO_MEMORY_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -115,7 +119,7 @@ Set ME State
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     Set Option State    ${me_menu}    Intel ME mode    ${state}
-    Save Changes And Reset    2    4
+    Save Changes And Reset
 
 Check ME State
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -123,4 +127,4 @@ Check ME State
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
     ${state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${state}    ${state}
-    Save Changes And Reset    2    4
+    Save Changes And Reset

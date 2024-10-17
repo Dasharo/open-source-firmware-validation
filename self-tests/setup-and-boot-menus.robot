@@ -12,8 +12,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -173,3 +171,71 @@ Enter Invalid Option in Setup Menu
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Run Keyword And Return Status
     ...    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Not Existing Submenu
+
+Test TianoCore Reset System
+    Power On
+    Enter Setup Menu Tianocore And Return Construction
+    Tianocore Reset System
+    Enter Setup Menu Tianocore And Return Construction
+
+Test Exit From Current Menu
+    [Documentation]    Test Exit From Current Menu kwd
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${setup_menu}    Device Manager
+
+    FOR    ${i}    IN RANGE    0    20
+        Exit From Current Menu
+        ${setup_menu}=    Get Setup Menu Construction
+        Should Not Contain    ${setup_menu}    > Secure Boot Configuration
+        Should Contain    ${setup_menu}    > Dasharo System Features
+        Should Contain    ${setup_menu}    > One Time Boot
+        Press Enter
+    END
+
+Test Reenter Menu
+    [Documentation]    Test Reenter Menu kwd
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${setup_menu}    Device Manager
+    FOR    ${i}    IN RANGE    0    20
+        Reenter Menu
+        ${menu}=    Get Submenu Construction
+        Should Contain    ${menu}    > Secure Boot Configuration
+    END
+
+Get Menu Construction Stress Test
+    Set Test Variable    ${MENU_TEST}    Device manager
+    Set Test Variable    ${DEVICE_MGR_MENU_TEST}    Secure Boot Configuration
+    Set Test Variable    ${SB_MENU_TEST}    Current Secure Boot State
+
+    FOR    ${i}    IN RANGE    50
+        Log To Console    Iteration: ${i}
+        Power On
+        Enter Setup Menu Tianocore
+
+        ${menu}=    Get Setup Menu Construction
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${menu}
+
+        FOR    ${line}    IN    @{menu}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    <This section will>
+        END
+
+        ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction    ${menu}    Device Manager
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${device_mgr_menu}
+
+        FOR    ${line}    IN    @{device_mgr_menu}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    Devices List
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    Select to manage
+        END
+
+        ${sb_menu}=    Enter Submenu From Snapshot And Return Construction
+        ...    ${device_mgr_menu}
+        ...    Secure Boot Configuration
+
+        Run Keyword And Continue On Failure    Should Not Be Empty    ${sb_menu}
+        FOR    ${line}    IN    @{sb_menu}
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    state: enabled or
+            Run Keyword And Continue On Failure    Should Not Contain    ${line}    disabled.
+        END
+    END
