@@ -81,7 +81,7 @@ Check HCL Report Creation
 Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
-    Write Into Terminal    9
+    Write Into Terminal    s
     Set Prompt For Terminal    bash-5.1#
     # These could be removed once routes priorities in DTS are resolved.
     Sleep    10
