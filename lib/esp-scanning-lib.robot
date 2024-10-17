@@ -42,6 +42,7 @@ Prepare EFI Partition With System Files
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
             Boot System Or From Connected Disk    ubuntu
+            Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
             Login To Linux
             Switch To Root User
             Remove All Supported Systems From Efi
