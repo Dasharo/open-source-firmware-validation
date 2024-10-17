@@ -408,21 +408,51 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
-    ${menu}=    Get Setup Menu Construction
-
     Read From Terminal
     Press Key N Times    1    ${F9}
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
+    # For platforms using PiKVM there is a need to turn on Serial Redirection otherwise most of tests might break.
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${dasharo_menu}=    Enter Dasharo System Features    ${menu}
+        ${menu}=    Read From Terminal Until    Save screenshot
+        IF    '''Continue''' not in '''${menu}'''
+            ${menu}=    Go To Dasharo Main Screen
+        END
+        ${main_menu}=    Parse Menu Snapshot Into Construction    ${menu}    3    1
+        ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
         ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
         ${serial_state}=    Get Option State    ${serial_menu}    Enable COM0 Serial
         IF    ${serial_state} != ${TRUE}
             Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
         END
         Press Key N Times    3    ${ESC}
+    END
+
+Go To Dasharo Main Screen
+    [Documentation]    This keyword will press ESC until it will detect the main Dasharo main screen.
+    FOR    ${i}    IN RANGE    0    10
+        ${menu}=    Read From Terminal Until    Save screenshot
+
+        IF    '''Continue''' in '''${menu}'''
+            Return Highlight To Default Position In Setup Menu    ${menu}
+            RETURN    ${menu}
+        ELSE
+            Press Key N Times    1    ${ESC}
+            Sleep    1s
+        END
+    END
+
+Return Highlight To Default Position In Setup Menu
+    [Documentation]    This keyword resets highlight to default position on Dasharo main screen.
+    [Arguments]    ${menu}
+    FOR    ${i}    IN RANGE    0    15
+        IF    '''the language for the''' in '''${menu}'''
+            BREAK
+        ELSE
+            Press Key N Times    1    ${ARROW_UP}
+        END
+        ${menu}=    Read From Terminal Until    Save screenshot
     END
 
 # TODO:
@@ -558,8 +588,9 @@ Tianocore Reset System
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         FAIL    OpenBMC not yet supported for interfacing with TianoCore
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        @{reset_combo}=    Create List    AltRight    ControlRight    Delete
-        Key Combination PiKVM    ${reset_combo}
+        # @{reset_combo}=    Create List    AltLeft    ControlLeft    Delete
+        # Key Combination PiKVM    ${reset_combo}
+        Power On
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
     END
