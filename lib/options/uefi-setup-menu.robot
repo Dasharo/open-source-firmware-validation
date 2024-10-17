@@ -59,7 +59,7 @@ Get UEFI Option
         ...    ${option_path[${i}]}
     END
 
-    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}    ${VALUE}
+    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}
     RETURN    ${state}
 
 Get UEFI Boot Manager Entries

@@ -20,4 +20,4 @@ RBE001.001 Check if Resizeable BARs option is present
     Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}    RBE001.001 not supported
     Skip If    not ${DASHARO_PCIE_REBAR_SUPPORT}    RBE001.001 not supported
     ${out}=    Get UEFI Option    PCIeResizeableBarsEnabled
-    Should Contain    "${out}"    abled
+    IF    '${out}' not in ['True', 'False']    Fail    Option not found
