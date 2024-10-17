@@ -131,7 +131,7 @@ Only N Occurrences
 
 Remove All Supported Systems From Efi
     @{systems}=    Create List
-    ...    Fedora    Suse    opensuse    Microsoft
+    ...    Fedora    Suse    opensuse
     ...    Redhat    Centos    qubes    DTS    debian
     FOR    ${system}    IN    @{systems}
         Execute Command In Terminal    rm -r /boot/efi/EFI/${system}
