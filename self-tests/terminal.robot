@@ -31,12 +31,18 @@ Execute UEFI Shell Command
     [Documentation]    Test Execute Shell Command kwd
     Power On
     Enter UEFI Shell
-    ${out}=    Execute UEFI Shell Command    map
-    Should Contain    ${out}    Alias(s):
-    ${out}=    Execute UEFI Shell Command    devices
-    Should Contain    ${out}    Device Name
-    ${out}=    Execute UEFI Shell Command    bcfg boot dump
-    Should Contain    ${out}    Optional- N
+    Set Prompt For Terminal    Shell>
+    FOR    ${iteration}    IN RANGE    1    50
+        Log To Console    Iteration: ${iteration}
+        ${out}=    Execute UEFI Shell Command    map
+        Should Contain    ${out}    Alias(s):
+        ${out}=    Execute UEFI Shell Command    devices
+        Should Contain    ${out}    Device Name
+        ${out}=    Execute UEFI Shell Command    bcfg boot dump
+        Should Contain    ${out}    Optional- N
+        ${out}=    Execute UEFI Shell Command    dmpstore    # this command prints data for a long time
+        Should Contain    ${out}    GlobalVariable
+    END
 
 Execute Command In Terminal over SSH (Windows)
     [Documentation]    Test Execute Command In Terminal keyword over SSH. This is related

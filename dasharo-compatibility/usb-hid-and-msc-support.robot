@@ -66,6 +66,7 @@ USB002.001 USB keyboard detected in FW
     [Tags]    minimal-regression
     Power On
     Enter UEFI Shell
+    Set Prompt For Terminal    Shell>
     ${out}=    Execute UEFI Shell Command    devices
     Should Contain    ${out}    Usb Keyboard
 
