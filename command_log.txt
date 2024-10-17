@@ -1,0 +1,290 @@
+==============================================================================
+20240627 15:56:47.762 - INFO - + START SUITE: Cpu-Frequency [ ]
+==============================================================================
+20240627 15:56:47.762 - INFO - +- START SETUP: BuiltIn.Run Keywords [ Prepare Test Suite | AND | Skip If | not ${CPU_FREQUENCY_MEASURE} | CPU frequency measurement tests not supported | AND | Check Power Supply ]
+20240627 15:56:47.763 - INFO - +-- START KEYWORD: keywords.Prepare Test Suite [ ]
+20240627 15:56:47.763 - INFO - +--- START KEYWORD: OperatingSystem.Run [ git describe --dirty --always --tags ]
+20240627 15:56:47.763 - INFO - Running command 'git describe --dirty --always --tags 2>&1'.
+20240627 15:56:47.781 - INFO - ${revision} = v0.2.0-608-g57aca8b11903-dirty
+20240627 15:56:47.782 - INFO - +--- END KEYWORD: OperatingSystem.Run (18)
+20240627 15:56:47.782 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Metadata [ OSFV revision | ${revision} ]
+20240627 15:56:47.782 - INFO - Set suite metadata 'OSFV revision' to value 'v0.2.0-608-g57aca8b11903-dirty'.
+20240627 15:56:47.782 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Metadata (0)
+20240627 15:56:47.782 - INFO - +--- START KEYWORD: OperatingSystem.Run [ git describe --always ]
+20240627 15:56:47.782 - INFO - Running command 'git describe --always 2>&1'.
+20240627 15:56:47.790 - INFO - ${revision} = 57aca8b11903
+20240627 15:56:47.790 - INFO - +--- END KEYWORD: OperatingSystem.Run (8)
+20240627 15:56:47.790 - INFO - +--- START KEYWORD: OperatingSystem.Run [ git remote get-url origin ]
+20240627 15:56:47.791 - INFO - Running command 'git remote get-url origin 2>&1'.
+20240627 15:56:47.793 - INFO - ${url} = git@github.com:Dasharo/open-source-firmware-validation.git
+20240627 15:56:47.793 - INFO - +--- END KEYWORD: OperatingSystem.Run (3)
+20240627 15:56:47.793 - INFO - +--- START KEYWORD: String.Replace String [ ${url} | git@github.com: | https://github.com/ ]
+20240627 15:56:47.794 - INFO - ${url} = https://github.com/Dasharo/open-source-firmware-validation.git
+20240627 15:56:47.794 - INFO - +--- END KEYWORD: String.Replace String (1)
+20240627 15:56:47.794 - INFO - +--- START KEYWORD: String.Remove String Using Regexp [ ${url} | .git$ ]
+20240627 15:56:47.794 - INFO - ${url} = https://github.com/Dasharo/open-source-firmware-validation
+20240627 15:56:47.794 - INFO - +--- END KEYWORD: String.Remove String Using Regexp (0)
+20240627 15:56:47.794 - INFO - +--- START KEYWORD: String.Split String [ ${url} | / ]
+20240627 15:56:47.794 - INFO - ${dir_name_split} = ['https:', '', 'github.com', 'Dasharo', 'open-source-firmware-validation']
+20240627 15:56:47.794 - INFO - +--- END KEYWORD: String.Split String (0)
+20240627 15:56:47.794 - INFO - +--- START KEYWORD: Collections.Get From List [ ${dir_name_split} | -1 ]
+20240627 15:56:47.795 - INFO - ${dir_name} = open-source-firmware-validation
+20240627 15:56:47.795 - INFO - +--- END KEYWORD: Collections.Get From List (1)
+20240627 15:56:47.795 - INFO - +--- START KEYWORD: String.Remove String Using Regexp [ ${SUITE_SOURCE} | ^.*/${dir_name}/ ]
+20240627 15:56:47.795 - INFO - ${path} = dasharo-performance/cpu-frequency.robot
+20240627 15:56:47.795 - INFO - +--- END KEYWORD: String.Remove String Using Regexp (0)
+20240627 15:56:47.795 - INFO - +--- START KEYWORD: BuiltIn.Set Suite Metadata [ Remote source (maybe) | ${url}/blob/${revision}/${path} ]
+20240627 15:56:47.796 - INFO - Set suite metadata 'Remote source (maybe)' to value 'https://github.com/Dasharo/open-source-firmware-validation/blob/57aca8b11903/dasharo-performance/cpu-frequency.robot'.
+20240627 15:56:47.796 - INFO - +--- END KEYWORD: BuiltIn.Set Suite Metadata (1)
+20240627 15:56:47.796 - INFO - +--- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.796 - INFO - +---- START IF: '${SNIPEIT}' == 'yes' [ ]
+20240627 15:56:47.796 - INFO - +----- START KEYWORD: BuiltIn.Import Library [ /home/danillklimuk/Projects/Dasharo/open-source-firmware-validation/osfv-scripts/osfv_cli/osfv_cli/snipeit_robot.py ]
+20240627 15:56:47.796 - INFO - +----- END KEYWORD: BuiltIn.Import Library (0)
+20240627 15:56:47.796 - INFO - +---- END IF: '${SNIPEIT}' == 'yes' (0)
+20240627 15:56:47.796 - INFO - +--- END IF/ELSE ROOT:  (0)
+20240627 15:56:47.796 - INFO - +--- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.796 - INFO - +---- START IF: '${CONFIG}' == 'crystal' [ ]
+20240627 15:56:47.796 - INFO - +----- START KEYWORD: BuiltIn.Import Resource [ /home/danillklimuk/Projects/Dasharo/open-source-firmware-validation/platform-configs/vitro_crystal.robot ]
+20240627 15:56:47.796 - INFO - +----- END KEYWORD: BuiltIn.Import Resource (0)
+20240627 15:56:47.796 - INFO - +---- END IF: '${CONFIG}' == 'crystal' (0)
+20240627 15:56:47.796 - INFO - +---- START ELSE IF: '${CONFIG}' == 'pv30' [ ]
+20240627 15:56:47.797 - INFO - +----- START KEYWORD: BuiltIn.Import Resource [ /home/danillklimuk/Projects/Dasharo/open-source-firmware-validation/dev-tests/operon/configs/pv30.robot ]
+20240627 15:56:47.797 - INFO - +----- END KEYWORD: BuiltIn.Import Resource (0)
+20240627 15:56:47.797 - INFO - +---- END ELSE IF: '${CONFIG}' == 'pv30' (1)
+20240627 15:56:47.797 - INFO - +---- START ELSE IF: '${CONFIG}' == 'yocto' [ ]
+20240627 15:56:47.797 - INFO - +----- START KEYWORD: BuiltIn.Import Resource [ /home/danillklimuk/Projects/Dasharo/open-source-firmware-validation/dev-tests/operon/configs/yocto.robot ]
+20240627 15:56:47.797 - INFO - +----- END KEYWORD: BuiltIn.Import Resource (0)
+20240627 15:56:47.797 - INFO - +---- END ELSE IF: '${CONFIG}' == 'yocto' (0)
+20240627 15:56:47.797 - INFO - +---- START ELSE IF: '${CONFIG}' == 'raspbian' [ ]
+20240627 15:56:47.797 - INFO - +----- START KEYWORD: BuiltIn.Import Resource [ /home/danillklimuk/Projects/Dasharo/open-source-firmware-validation/dev-tests/operon/configs/raspbian.robot ]
+20240627 15:56:47.797 - INFO - +----- END KEYWORD: BuiltIn.Import Resource (0)
+20240627 15:56:47.797 - INFO - +---- END ELSE IF: '${CONFIG}' == 'raspbian' (0)
+20240627 15:56:47.797 - INFO - +---- START ELSE IF: '${CONFIG}' == 'rpi-3b' [ ]
+20240627 15:56:47.797 - INFO - +----- START KEYWORD: BuiltIn.Import Resource [ /home/danillklimuk/Projects/Dasharo/open-source-firmware-validation/platform-configs/rpi-3b.robot ]
+20240627 15:56:47.797 - INFO - +----- END KEYWORD: BuiltIn.Import Resource (0)
+20240627 15:56:47.797 - INFO - +---- END ELSE IF: '${CONFIG}' == 'rpi-3b' (0)
+20240627 15:56:47.797 - INFO - +---- START ELSE: None [ ]
+20240627 15:56:47.798 - INFO - +----- START KEYWORD: BuiltIn.Import Resource [ /home/danillklimuk/Projects/Dasharo/open-source-firmware-validation/platform-configs/${CONFIG}.robot ]
+20240627 15:56:47.811 - INFO - +----- END KEYWORD: BuiltIn.Import Resource (13)
+20240627 15:56:47.811 - INFO - +---- END ELSE: None (14)
+20240627 15:56:47.811 - INFO - +--- END IF/ELSE ROOT:  (15)
+20240627 15:56:47.811 - INFO - +--- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.811 - INFO - +---- START IF: '${DUT_CONNECTION_METHOD}' == 'SSH' [ ]
+20240627 15:56:47.811 - INFO - +----- START KEYWORD: keywords.Prepare To SSH Connection [ ]
+20240627 15:56:47.811 - INFO - +----- END KEYWORD: keywords.Prepare To SSH Connection (0)
+20240627 15:56:47.811 - INFO - +---- END IF: '${DUT_CONNECTION_METHOD}' == 'SSH' (0)
+20240627 15:56:47.811 - INFO - +---- START ELSE IF: '${DUT_CONNECTION_METHOD}' == 'Telnet' [ ]
+20240627 15:56:47.811 - INFO - +----- START KEYWORD: keywords.Prepare To Serial Connection [ ]
+20240627 15:56:47.811 - INFO - +----- END KEYWORD: keywords.Prepare To Serial Connection (0)
+20240627 15:56:47.811 - INFO - +---- END ELSE IF: '${DUT_CONNECTION_METHOD}' == 'Telnet' (0)
+20240627 15:56:47.811 - INFO - +---- START ELSE IF: '${DUT_CONNECTION_METHOD}' == 'open-bmc' [ ]
+20240627 15:56:47.811 - INFO - +----- START KEYWORD: keywords.Prepare To OBMC Connection [ ]
+20240627 15:56:47.812 - INFO - +----- END KEYWORD: keywords.Prepare To OBMC Connection (1)
+20240627 15:56:47.812 - INFO - +---- END ELSE IF: '${DUT_CONNECTION_METHOD}' == 'open-bmc' (1)
+20240627 15:56:47.812 - INFO - +---- START ELSE IF: '${DUT_CONNECTION_METHOD}' == 'pikvm' [ ]
+20240627 15:56:47.812 - INFO - +----- START KEYWORD: keywords.Prepare To PiKVM Connection [ ]
+20240627 15:56:47.812 - INFO - +------ START KEYWORD: keywords.Remap Keys Variables To PiKVM [ ]
+20240627 15:56:47.812 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${ARROW_UP} | ArrowUp ]
+20240627 15:56:47.812 - INFO - ${ARROW_UP} = ArrowUp
+20240627 15:56:47.812 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.812 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${ARROW_DOWN} | ArrowDown ]
+20240627 15:56:47.812 - INFO - ${ARROW_DOWN} = ArrowDown
+20240627 15:56:47.812 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.812 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${ARROW_RIGHT} | ArrowRight ]
+20240627 15:56:47.813 - INFO - ${ARROW_RIGHT} = ArrowRight
+20240627 15:56:47.813 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (1)
+20240627 15:56:47.813 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${ARROW_LEFT} | ArrowLeft ]
+20240627 15:56:47.813 - INFO - ${ARROW_LEFT} = ArrowLeft
+20240627 15:56:47.813 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.813 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F1} | F1 ]
+20240627 15:56:47.813 - INFO - ${F1} = F1
+20240627 15:56:47.813 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.813 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F2} | F2 ]
+20240627 15:56:47.813 - INFO - ${F2} = F2
+20240627 15:56:47.813 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.813 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F3} | F3 ]
+20240627 15:56:47.813 - INFO - ${F3} = F3
+20240627 15:56:47.813 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.813 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F4} | F4 ]
+20240627 15:56:47.814 - INFO - ${F4} = F4
+20240627 15:56:47.814 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (1)
+20240627 15:56:47.814 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F5} | F5 ]
+20240627 15:56:47.814 - INFO - ${F5} = F5
+20240627 15:56:47.814 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.814 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F6} | F6 ]
+20240627 15:56:47.814 - INFO - ${F6} = F6
+20240627 15:56:47.814 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.814 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F7} | F7 ]
+20240627 15:56:47.814 - INFO - ${F7} = F7
+20240627 15:56:47.814 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.814 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F8} | F8 ]
+20240627 15:56:47.814 - INFO - ${F8} = F8
+20240627 15:56:47.814 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.814 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F9} | F9 ]
+20240627 15:56:47.814 - INFO - ${F9} = F9
+20240627 15:56:47.815 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.815 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F10} | F10 ]
+20240627 15:56:47.815 - INFO - ${F10} = F10
+20240627 15:56:47.815 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.815 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F11} | F11 ]
+20240627 15:56:47.815 - INFO - ${F11} = F11
+20240627 15:56:47.815 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.815 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${F12} | F12 ]
+20240627 15:56:47.815 - INFO - ${F12} = F12
+20240627 15:56:47.815 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.815 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${ESC} | Escape ]
+20240627 15:56:47.815 - INFO - ${ESC} = Escape
+20240627 15:56:47.815 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.815 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${ENTER} | Enter ]
+20240627 15:56:47.815 - INFO - ${ENTER} = Enter
+20240627 15:56:47.815 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.815 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${BACKSPACE} | Backspace ]
+20240627 15:56:47.816 - INFO - ${BACKSPACE} = Backspace
+20240627 15:56:47.816 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (1)
+20240627 15:56:47.816 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${KEY_SPACE} | Space ]
+20240627 15:56:47.816 - INFO - ${KEY_SPACE} = Space
+20240627 15:56:47.816 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.816 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DELETE} | Delete ]
+20240627 15:56:47.816 - INFO - ${DELETE} = Delete
+20240627 15:56:47.816 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.816 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT0} | Digit0 ]
+20240627 15:56:47.819 - INFO - ${DIGIT0} = Digit0
+20240627 15:56:47.819 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (3)
+20240627 15:56:47.819 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT1} | Digit1 ]
+20240627 15:56:47.821 - INFO - ${DIGIT1} = Digit1
+20240627 15:56:47.821 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (2)
+20240627 15:56:47.821 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT2} | Digit2 ]
+20240627 15:56:47.824 - INFO - ${DIGIT2} = Digit2
+20240627 15:56:47.824 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (3)
+20240627 15:56:47.824 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT3} | Digit3 ]
+20240627 15:56:47.826 - INFO - ${DIGIT3} = Digit3
+20240627 15:56:47.826 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (2)
+20240627 15:56:47.826 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT4} | Digit4 ]
+20240627 15:56:47.829 - INFO - ${DIGIT4} = Digit4
+20240627 15:56:47.829 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (3)
+20240627 15:56:47.829 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT5} | Digit5 ]
+20240627 15:56:47.831 - INFO - ${DIGIT5} = Digit5
+20240627 15:56:47.831 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (2)
+20240627 15:56:47.831 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT6} | Digit6 ]
+20240627 15:56:47.834 - INFO - ${DIGIT6} = Digit6
+20240627 15:56:47.834 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (3)
+20240627 15:56:47.834 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT7} | Digit7 ]
+20240627 15:56:47.836 - INFO - ${DIGIT7} = Digit7
+20240627 15:56:47.836 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (2)
+20240627 15:56:47.836 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT8} | Digit8 ]
+20240627 15:56:47.839 - INFO - ${DIGIT8} = Digit8
+20240627 15:56:47.839 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (3)
+20240627 15:56:47.839 - INFO - +------- START KEYWORD: BuiltIn.Set Global Variable [ ${DIGIT9} | Digit9 ]
+20240627 15:56:47.841 - INFO - ${DIGIT9} = Digit9
+20240627 15:56:47.841 - INFO - +------- END KEYWORD: BuiltIn.Set Global Variable (2)
+20240627 15:56:47.841 - INFO - +------ END KEYWORD: keywords.Remap Keys Variables To PiKVM (29)
+20240627 15:56:47.841 - INFO - +------ START KEYWORD: keywords.Open Connection And Log In [ ]
+20240627 15:56:47.842 - INFO - +------- START KEYWORD: keywords.Check Provided Ip [ ]
+20240627 15:56:47.842 - INFO - +-------- START KEYWORD: BuiltIn.Set Variable [ ${0} ]
+20240627 15:56:47.843 - INFO - ${index} = 0
+20240627 15:56:47.843 - INFO - +-------- END KEYWORD: BuiltIn.Set Variable (1)
+20240627 15:56:47.843 - INFO - +-------- START FOR: ${item} IN [ @{RTE_LIST} ] [ ]
+20240627 15:56:47.843 - INFO - +--------- START ITERATION: ${item} = {'ip': '192.168.4.167', 'cpuid': '02c00042d55c19d3', 'platform': 'crystal', 'platform_vendor': 'unknown'} [ ]
+20240627 15:56:47.843 - INFO - +---------- START KEYWORD: BuiltIn.Evaluate [ ${item}.get("ip") ]
+20240627 15:56:47.843 - INFO - ${result} = 192.168.4.167
+20240627 15:56:47.843 - INFO - +---------- END KEYWORD: BuiltIn.Evaluate (0)
+20240627 15:56:47.843 - INFO - +---------- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.846 - INFO - +----------- START IF: '${result}'=='${RTE_IP}' [ ]
+20240627 15:56:47.846 - INFO - +------------ START RETURN:  [ ]
+20240627 15:56:47.846 - INFO - +------------ END RETURN:  (0)
+20240627 15:56:47.846 - FAIL - Evaluating IF condition failed: Variable '${RTE_IP}' not found. Did you mean:
+    ${RTE_LIST}
+20240627 15:56:47.846 - INFO - +----------- END IF: '${result}'=='${RTE_IP}' (0)
+20240627 15:56:47.846 - INFO - +---------- END IF/ELSE ROOT:  (3)
+20240627 15:56:47.846 - INFO - +---------- START KEYWORD: BuiltIn.Set Variable [ ${index+1} ]
+20240627 15:56:47.846 - INFO - +---------- END KEYWORD: BuiltIn.Set Variable (0)
+20240627 15:56:47.846 - INFO - +--------- END ITERATION: ${item} = {'ip': '192.168.4.167', 'cpuid': '02c00042d55c19d3', 'platform': 'crystal', 'platform_vendor': 'unknown'} (3)
+20240627 15:56:47.846 - INFO - +-------- END FOR: ${item} IN [ @{RTE_LIST} ] (3)
+20240627 15:56:47.846 - INFO - +-------- START KEYWORD: BuiltIn.Fail [ rte_ip:${RTE_IP} not found in the hardware configuration. ]
+20240627 15:56:47.846 - INFO - +-------- END KEYWORD: BuiltIn.Fail (0)
+20240627 15:56:47.846 - INFO - +------- END KEYWORD: keywords.Check Provided Ip (5)
+20240627 15:56:47.846 - INFO - +------- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.846 - INFO - +-------- START IF: '${CONFIG}' != 'qemu' [ ]
+20240627 15:56:47.846 - INFO - +--------- START KEYWORD: SSHLibrary.Set Default Configuration [ timeout=60 seconds ]
+20240627 15:56:47.846 - INFO - +--------- END KEYWORD: SSHLibrary.Set Default Configuration (0)
+20240627 15:56:47.846 - INFO - +--------- START KEYWORD: SSHLibrary.Open Connection [ ${RTE_IP} | prompt=~# ]
+20240627 15:56:47.846 - INFO - +--------- END KEYWORD: SSHLibrary.Open Connection (0)
+20240627 15:56:47.846 - INFO - +--------- START KEYWORD: SSHLibrary.Login [ ${USERNAME} | ${PASSWORD} ]
+20240627 15:56:47.846 - INFO - +--------- END KEYWORD: SSHLibrary.Login (0)
+20240627 15:56:47.846 - INFO - +--------- START KEYWORD: rtectrl.RTE REST API Setup [ ${RTE_IP} | ${HTTP_PORT} ]
+20240627 15:56:47.846 - INFO - +--------- END KEYWORD: rtectrl.RTE REST API Setup (0)
+20240627 15:56:47.846 - INFO - +-------- END IF: '${CONFIG}' != 'qemu' (0)
+20240627 15:56:47.846 - INFO - +------- END IF/ELSE ROOT:  (0)
+20240627 15:56:47.846 - INFO - +------- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.846 - INFO - +-------- START IF: 'sonoff' == '${POWER_CTRL}' [ ]
+20240627 15:56:47.846 - INFO - +--------- START KEYWORD: keywords.Get Current RTE Param [ sonoff_ip ]
+20240627 15:56:47.846 - INFO - +--------- END KEYWORD: keywords.Get Current RTE Param (0)
+20240627 15:56:47.847 - INFO - +--------- START KEYWORD: sonoff-api.Sonoff API Setup [ ${sonoff_ip} ]
+20240627 15:56:47.847 - INFO - +--------- END KEYWORD: sonoff-api.Sonoff API Setup (0)
+20240627 15:56:47.847 - INFO - +-------- END IF: 'sonoff' == '${POWER_CTRL}' (1)
+20240627 15:56:47.847 - INFO - +------- END IF/ELSE ROOT:  (1)
+20240627 15:56:47.847 - INFO - +------- START KEYWORD: keywords.Serial Setup [ ${RTE_IP} | ${RTE_S2_N_PORT} ]
+20240627 15:56:47.847 - INFO - +------- END KEYWORD: keywords.Serial Setup (0)
+20240627 15:56:47.847 - INFO - +------- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.847 - INFO - +-------- START IF: '${SNIPEIT}'=='no' [ ]
+20240627 15:56:47.847 - INFO - +--------- START RETURN:  [ ]
+20240627 15:56:47.847 - INFO - +--------- END RETURN:  (0)
+20240627 15:56:47.847 - INFO - +-------- END IF: '${SNIPEIT}'=='no' (0)
+20240627 15:56:47.847 - INFO - +------- END IF/ELSE ROOT:  (0)
+20240627 15:56:47.850 - INFO - +------- START KEYWORD: SnipeIt Checkout [ ${RTE_IP} ]
+20240627 15:56:47.850 - INFO - +------- END KEYWORD: SnipeIt Checkout (0)
+20240627 15:56:47.850 - INFO - +------ END KEYWORD: keywords.Open Connection And Log In (9)
+20240627 15:56:47.850 - INFO - +------ START KEYWORD: keywords.Get Current RTE Param [ platform ]
+20240627 15:56:47.850 - INFO - +------ END KEYWORD: keywords.Get Current RTE Param (0)
+20240627 15:56:47.850 - INFO - +------ START KEYWORD: keywords.Get Current RTE Param [ pikvm_ip ]
+20240627 15:56:47.850 - INFO - +------ END KEYWORD: keywords.Get Current RTE Param (0)
+20240627 15:56:47.850 - INFO - +------ START KEYWORD: BuiltIn.Set Global Variable [ ${PIKVM_IP} ]
+20240627 15:56:47.850 - INFO - +------ END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.850 - INFO - +------ START KEYWORD: BuiltIn.Set Global Variable [ ${PLATFORM} ]
+20240627 15:56:47.850 - INFO - +------ END KEYWORD: BuiltIn.Set Global Variable (0)
+20240627 15:56:47.850 - INFO - +------ START KEYWORD: keywords.Get DUT To Start State [ ]
+20240627 15:56:47.850 - INFO - +------ END KEYWORD: keywords.Get DUT To Start State (0)
+20240627 15:56:47.850 - INFO - +----- END KEYWORD: keywords.Prepare To PiKVM Connection (38)
+20240627 15:56:47.851 - INFO - +---- END ELSE IF: '${DUT_CONNECTION_METHOD}' == 'pikvm' (39)
+20240627 15:56:47.851 - INFO - +---- START ELSE: None [ ]
+20240627 15:56:47.851 - INFO - +----- START KEYWORD: BuiltIn.Fail [ Unknown connection method: ${DUT_CONNECTION_METHOD} for config: ${CONFIG} ]
+20240627 15:56:47.851 - INFO - +----- END KEYWORD: BuiltIn.Fail (0)
+20240627 15:56:47.851 - INFO - +---- END ELSE: None (0)
+20240627 15:56:47.851 - INFO - +--- END IF/ELSE ROOT:  (40)
+20240627 15:56:47.851 - INFO - +--- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.851 - INFO - +---- START IF: '${CONFIG}' == 'rpi-3b' [ ]
+20240627 15:56:47.853 - INFO - +----- START KEYWORD: Verify Number Of Connected SD Wire Devices [ ]
+20240627 15:56:47.854 - INFO - +----- END KEYWORD: Verify Number Of Connected SD Wire Devices (1)
+20240627 15:56:47.854 - INFO - +---- END IF: '${CONFIG}' == 'rpi-3b' (3)
+20240627 15:56:47.854 - INFO - +--- END IF/ELSE ROOT:  (3)
+20240627 15:56:47.854 - INFO - +-- END KEYWORD: keywords.Prepare Test Suite (91)
+20240627 15:56:47.854 - INFO - +- END SETUP: BuiltIn.Run Keywords (92)
+------------------------------------------------------------------------------
+20240627 15:56:47.854 - INFO - +- START TEST: CPF004.002 CPU with load runs on expected frequency (Windows 11) [ ]
+------------------------------------------------------------------------------
+20240627 15:56:47.854 - INFO - +- END TEST: CPF004.002 CPU with load runs on expected frequency (Windows 11) (0)
+------------------------------------------------------------------------------
+20240627 15:56:47.855 - INFO - +- START TEARDOWN: BuiltIn.Run Keyword [ Log Out And Close Connection ]
+20240627 15:56:47.855 - INFO - +-- START KEYWORD: keywords.Log Out And Close Connection [ ]
+20240627 15:56:47.855 - INFO - +--- START KEYWORD: SSHLibrary.Close All Connections [ ]
+20240627 15:56:47.855 - INFO - +--- END KEYWORD: SSHLibrary.Close All Connections (0)
+20240627 15:56:47.855 - INFO - +--- START KEYWORD: Telnet.Close All Connections [ ]
+20240627 15:56:47.855 - INFO - +--- END KEYWORD: Telnet.Close All Connections (0)
+20240627 15:56:47.855 - INFO - +--- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.857 - INFO - +---- START IF: '${PLATFORM}'=='raptor-cs_talos2' [ ]
+20240627 15:56:47.858 - INFO - +----- START RETURN:  [ ]
+20240627 15:56:47.858 - INFO - +----- END RETURN:  (1)
+20240627 15:56:47.858 - FAIL - Evaluating IF condition failed: Variable '${PLATFORM}' not found.
+20240627 15:56:47.858 - INFO - +---- END IF: '${PLATFORM}'=='raptor-cs_talos2' (1)
+20240627 15:56:47.858 - INFO - +--- END IF/ELSE ROOT:  (3)
+20240627 15:56:47.858 - INFO - +--- START IF/ELSE ROOT:  [ ]
+20240627 15:56:47.858 - INFO - +---- START IF: '${SNIPEIT}'=='yes' [ ]
+20240627 15:56:47.861 - INFO - +----- START KEYWORD: SnipeIt Checkin [ ${RTE_IP} ]
+20240627 15:56:47.862 - INFO - +----- END KEYWORD: SnipeIt Checkin (1)
+20240627 15:56:47.862 - INFO - +---- END IF: '${SNIPEIT}'=='yes' (4)
+20240627 15:56:47.862 - INFO - +--- END IF/ELSE ROOT:  (4)
+20240627 15:56:47.862 - INFO - +-- END KEYWORD: keywords.Log Out And Close Connection (7)
+20240627 15:56:47.862 - INFO - +- END TEARDOWN: BuiltIn.Run Keyword (8)
+==============================================================================
+20240627 15:56:47.862 - INFO - + END SUITE: Cpu-Frequency (307)
+==============================================================================
