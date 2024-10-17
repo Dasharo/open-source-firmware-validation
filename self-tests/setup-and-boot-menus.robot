@@ -239,3 +239,15 @@ Get Menu Construction Stress Test
             Run Keyword And Continue On Failure    Should Not Contain    ${line}    disabled.
         END
     END
+
+Tianocore Reset System Stress Test
+    FOR    ${i}    IN RANGE    1    50
+        Log To Console    Run: ${i}
+        Power On
+        ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+        Enable Secure Boot    ${sb_menu}
+        Save Changes And Reset
+        # Tianocore Reset System
+        # Boot System Or From Connected Disk    ubuntu
+        # Login To Linux
+    END
