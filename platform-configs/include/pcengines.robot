@@ -39,6 +39,9 @@ ${DMIDECODE_FAMILY}=                        N/A
 # TODO
 ${DMIDECODE_TYPE}=                          Desktop
 
+# TPM
+${TPM_EXPECTED_VERSION}=                    2
+
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
