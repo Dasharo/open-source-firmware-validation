@@ -126,3 +126,10 @@ Prepare Required Files For Qemu
         ...    ${TINYCORE_URL}
         ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
     END
+
+Power On Or Reboot
+    IF    "${MANUFACTURER}" == "QEMU"
+        Power On
+    ELSE
+        Execute Reboot Command
+    END
