@@ -2,15 +2,31 @@
 Resource    terminal.robot
 
 
+*** Variables ***
+# Default DTS link for iPXE boot, can be overwritten by CMD:
+${DTS_IPXE_LINK}=       http://boot.dasharo.com/dts/dts.ipxe
+
+
 *** Keywords ***
 Boot Dasharo Tools Suite Via IPXE Shell
+    [Documentation]    Boots DTS via iPXE shell by chaining script. Arguments:
+    ...    dts_chain_link: link to the script to chain. This is useful in case
+    ...    the version of the DTS being booted has not been released yet or if
+    ...    a test version is being used. If no link is given - the standard one
+    ...    is being used, that is: http://boot.dasharo.com/dts/dts.ipxe
+    [Arguments]    ${dts_chain_link}
+    # 1) Enter iPXE:
     Enter IPXE
+
+    # 2) Set up net card:
     Write Into Terminal    dhcp net0
     ${out}=    Read From Terminal Until Prompt
     Should Contain    ${out}    ok
     Set DUT Response Timeout    60s
-    Write Bare Into Terminal    chain http://boot.dasharo.com/dts/dts.ipxe\n    0.1
-    Read From Terminal Until    http://boot.dasharo.com/dts/dts.ipxe...
+
+    # 3) Try to boot via the link:
+    Write Bare Into Terminal    chain ${dts_chain_link}\n
+    Read From Terminal Until    ${dts_chain_link}...
     Read From Terminal Until    ok
     Set DUT Response Timeout    5m
 
@@ -23,14 +39,16 @@ Boot Dasharo Tools Suite
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
         ELSE IF    '${MANUFACTURER}' == 'QEMU'
-            Enter Submenu From Snapshot    ${boot_menu}    QEMU
+            Enter Submenu From Snapshot    ${boot_menu}    Dasharo Tools Suite (on QEMU HARDDISK)
         ELSE
             # Requires specifying the USB model in the platform's config
             Enter Submenu From Snapshot    ${boot_menu}    ${USB_MODEL}
         END
     ELSE IF    '${dts_booting_method}'=='iPXE'
         IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
-            Boot Dasharo Tools Suite Via IPXE Shell
+            # DTS_IPXE_LINK can be defined before running tests, e.g. via CMD or
+            # some file:
+            Boot Dasharo Tools Suite Via IPXE Shell    ${DTS_IPXE_LINK}
         ELSE
             ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
             Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -81,7 +99,7 @@ Check HCL Report Creation
 Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
-    Write Into Terminal    9
+    Write Into Terminal    s
     Set Prompt For Terminal    bash-5.1#
     # These could be removed once routes priorities in DTS are resolved.
     Sleep    10
