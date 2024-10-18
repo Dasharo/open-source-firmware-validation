@@ -24,8 +24,8 @@ Suite Teardown      Run Keywords
 ...                     Power On    AND
 ...                     Enter Setup Menu Tianocore    AND
 ...                     Reset To Defaults Tianocore    AND
-...                     Log Out And Close Connection    AND
-...                     Save Changes And Reset
+...                     Save Changes And Reset    AND
+...                     Log Out And Close Connection
 
 
 *** Test Cases ***

@@ -6,6 +6,10 @@ Library             String
 Library             ./menus.py
 
 
+*** Variables ***
+${EDK2_MENU_CHECKPOINT}=    Save screenshot
+
+
 *** Keywords ***
 Enter Boot Menu Tianocore
     [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
@@ -96,7 +100,7 @@ Get Setup Menu Construction
 
 Get Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
-    [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
+    [Arguments]    ${checkpoint}=${EDK2_MENU_CHECKPOINT}    ${lines_top}=1    ${lines_bot}=0
     Sleep    1s
     ${out}=    Read From Terminal Until    ${checkpoint}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
@@ -154,7 +158,7 @@ Enter Setup Menu Tianocore And Return Construction
     RETURN    ${menu}
 
 Get Submenu Construction
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
+    [Arguments]    ${checkpoint}=${EDK2_MENU_CHECKPOINT}    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
     # In most cases, we need to strip two lines:
     #    TOP:
     #    Title line, such as:    Dasharo System Features
@@ -415,6 +419,39 @@ Reset To Defaults Tianocore
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
+Go To Dasharo Main Screen
+    [Documentation]    This keyword will check if we are in the main menu
+    ...    already. If not, it will press ESC until it will detect it.
+    ...    It returns menu construction of the main screen.
+
+    Refresh Screen
+
+    FOR    ${i}    IN RANGE    0    10
+        ${out}=    Read From Terminal Until    ${EDK2_MENU_CHECKPOINT}
+
+        IF    '''Continue''' in '''${out}'''
+            Return Highlight To Default Position In Setup Menu    ${out}
+            ${menu}=    Parse Menu Snapshot Into Construction    ${out}    3    1
+            RETURN    ${menu}
+        ELSE
+            Press Key N Times    1    ${ESC}
+            Sleep    3s
+        END
+    END
+
+Return Highlight To Default Position In Setup Menu
+    [Documentation]    This keyword resets highlight to default (top) position
+    ...    on Dasharo main screen.
+    [Arguments]    ${out}
+    FOR    ${i}    IN RANGE    0    15
+        IF    '''the language for the''' in '''${out}'''
+            BREAK
+        ELSE
+            Press Key N Times    1    ${ARROW_UP}
+        END
+        ${out}=    Read From Terminal Until    ${EDK2_MENU_CHECKPOINT}
+    END
+
 # TODO:
 # The SeaBIOS part can be removed.
 # The implementation should probably be replaced by a keyword selecting
@@ -553,6 +590,14 @@ Tianocore Reset System
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
     END
+
+Refresh Screen
+    [Documentation]    Saves current UEFI settings
+    Press Key N Times    1    ${F10}
+    Read From Terminal Until    Save configuration changes?
+    Sleep    1s
+    Write Bare Into Terminal    n
+    Sleep    2s
 
 Save Changes
     [Documentation]    Saves current UEFI settings

@@ -40,6 +40,9 @@ ${WIFI_CARD_UBUNTU}=                            ${TBD}
 ${USB_MODEL}=                                   Kingston
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
 
+${INTEL_HYBRID_ARCH_SUPPORT}=                   ${TRUE}
+${HYPER_THREADING_SUPPORT}=                     ${TRUE}
+
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}

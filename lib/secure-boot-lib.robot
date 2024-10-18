@@ -26,7 +26,7 @@ Get Secure Boot Menu Construction
     ...    Return only selectable entries. If some menu option is not
     ...    selectable (grayed out) it will not be in the menu construction
     ...    list.
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=2
+    [Arguments]    ${checkpoint}=${EDK2_MENU_CHECKPOINT}    ${lines_top}=1    ${lines_bot}=2
     ${out}=    Read From Terminal Until    ${checkpoint}
     # At first, parse the menu as usual
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
