@@ -79,7 +79,11 @@ ${VENDOR_VERIFICATION}=                         ${TRUE}
 ${TYPE_VERIFICATION}=                           ${TRUE}
 ${DTS_SUPPORT}=                                 ${TRUE}
 ${UPLOAD_ON_USB_SUPPORT}=                       ${TRUE}
-${CPU_TESTS_SUPPORT}=                           ${TRUE}
+# FIXME
+# https://github.com/Dasharo/open-source-firmware-validation/issues/540
+# These tests require Reset To Defaults kwd, which
+# currently breaks testing on MSI (disables serial redirection)
+${CPU_TESTS_SUPPORT}=                           ${FALSE}
 ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                      ${TRUE}
