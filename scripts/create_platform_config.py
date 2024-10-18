@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: MIT
+
 import os
 import re
 import sys

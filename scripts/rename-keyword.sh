@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: MIT
+
 usage() {
   echo "This scripts renames keywords across the project from \"old_name\" to\"new_name\""
   echo "Usage: $0 old_name new_name"
