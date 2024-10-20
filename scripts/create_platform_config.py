@@ -95,15 +95,21 @@ if __name__ == "__main__":
     # create the content of new config file
     # include default.robot and vendor includes
     new_config_content = f"""*** Settings ***
-    Resource    include/{DEFAULT_ROBOT}
-    """
+Resource    include/{DEFAULT_ROBOT}
+"""
+    longest_var = max([len(v[0]) for v in undefined_variables])
+    print(longest_var)
+
     for vendor_include in vendor_includes_names:
         new_config_content += f"Resource    include/{vendor_include}\n"
 
     # add all variables that may need to be defined
-    new_config_content += "\n*** Variables ***\n"
+    new_config_content += "\n\n*** Variables ***\n"
     for var in undefined_variables:
-        new_config_content += f"{var[0]}    {UNDEFINED_VARIABLE_VALUE}\n"
+        new_config_line = f"${{{var[0]}}}="
+        new_config_line += " " * (4 + (longest_var - len(var[0])))
+        new_config_line += f"{UNDEFINED_VARIABLE_VALUE}\n"
+        new_config_content += new_config_line
 
     # write new config file
     new_config_path = f"{PLATFORM_CONFIGS_PATH}/{new_config_name}.robot"
