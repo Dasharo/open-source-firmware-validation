@@ -16,6 +16,7 @@ ${SETUP_MENU_KEY}=                              ${F2}
 ${IPXE_BOOT_ENTRY}=                             Network Boot and Utilities
 ${POWER_CTRL}=                                  sonoff
 ${MAX_CPU_TEMP}=                                80
+${TPM_EXPECTED_VERSION}=                        1
 
 ${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_FAMILY}=                            N/A

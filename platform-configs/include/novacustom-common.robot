@@ -24,6 +24,7 @@ ${FLASH_VERIFY_METHOD}=                             none
 ${MAX_CPU_TEMP}=                                    82
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${FLASHING_METHOD}=                                 internal
+${TPM_EXPECTED_VERSION}=                            2
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_MANUFACTURER}=                          Notebook
