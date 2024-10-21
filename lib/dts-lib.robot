@@ -15,16 +15,19 @@ Boot Dasharo Tools Suite Via IPXE Shell
     ...    a test version is being used. If no link is given - the standard one
     ...    is being used, that is: http://boot.dasharo.com/dts/dts.ipxe
     [Arguments]    ${dts_chain_link}
-    # 1) Enter iPXE:
+    # 1) Check and enable network boot, it is disabled by default:
+    Make Sure That Network Boot Is Enabled
+
+    # 2) Enter iPXE:
     Enter IPXE
 
-    # 2) Set up net card:
+    # 3) Set up net card:
     Write Into Terminal    dhcp net0
     ${out}=    Read From Terminal Until Prompt
     Should Contain    ${out}    ok
     Set DUT Response Timeout    60s
 
-    # 3) Try to boot via the link:
+    # 4) Try to boot via the link:
     Write Bare Into Terminal    chain ${dts_chain_link}\n    0.1
     Read From Terminal Until    ${dts_chain_link}...
     Read From Terminal Until    ok
