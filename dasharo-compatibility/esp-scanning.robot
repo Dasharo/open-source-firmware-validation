@@ -37,10 +37,13 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     ...    files will have boot menu entries created for them.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP001.001 not supported
     Power On
-    Prepare EFI Partition With System Files
-    Power On Or Reboot
-    Enter Boot Menu Tianocore
-    Check Boot Menu For All Supported Systems    normal
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
+        Should Contain Match    ${boot_menu}    ${system}*
+    END
+    FOR    ${system}    IN    @{SYSTEMS_ALWAYS_INSTALLED}
+        Should Contain Match    ${boot_menu}    ${system}*
+    END
 
 ESP003.001 ESP Scan ignores OSes on removable media
     [Documentation]    This test aims to verify that the bootable /EFI
