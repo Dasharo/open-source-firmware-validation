@@ -291,7 +291,7 @@ Power On
     RteCtrl Power On
 
 Flash Protectli VP2410 Internal
-    Set Local Variable    ${IS_FLASH_CHIP_CONTENT_IDENTICAL}    ${FALSE}
+    Set Local Variable    ${is_flash_chip_content_identical}    ${FALSE}
     Power On
     Boot Operating System    ubuntu
     Login To Linux

@@ -243,7 +243,7 @@ CPF005.002 CPU with load runs on expected frequency (Windows 11, battery)
 *** Keywords ***
 Check Battery Backup
     [Documentation]    Check if the current platform is equipped with a battery.
-    Set Local Variable    ${IS_BATTERY}    ${FALSE}
+    Set Local Variable    ${is_battery}    ${FALSE}
     IF    '${PLATFORM}'== 'novacustom-ns50'
         RETURN
     ELSE IF    '${PLATFORM}' == 'tuxedo-ns50'

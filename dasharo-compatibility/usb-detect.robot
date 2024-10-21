@@ -33,7 +33,7 @@ UDT001.001 USB detection after coldboot
     Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
     Set Global Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${USB}    0
+    Set Local Variable    ${usb}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         TRY
             ${usb}=    Evaluate    0
@@ -75,7 +75,7 @@ UDT002.001 USB detection after warmboot
     Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
     Set Global Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${USB}    0
+    Set Local Variable    ${usb}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         TRY
             ${usb}=    Evaluate    0
@@ -114,8 +114,8 @@ UDT003.001 USB detection after system reboot
     ...    the system reboot (reboot performing by relevant command).
     Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
-    Set Local Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${USB}    0
+    Set Local Variable    ${failed_detection}    0
+    Set Local Variable    ${usb}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         TRY
             ${usb}=    Evaluate    0
@@ -151,7 +151,7 @@ UDT003.001 USB detection after system reboot
             ${usb_count}=    Get All USB
             Should Be Equal As Integers    ${usb}    ${usb_count}
         EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+            ${failed_detection}=    Evaluate    ${failed_detection} + 1
         END
     END
     IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
