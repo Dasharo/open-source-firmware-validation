@@ -422,10 +422,7 @@ Reset To Defaults Tianocore
         ${main_menu}=    Parse Menu Snapshot Into Construction    ${menu}    3    1
         ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
         ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
-        ${serial_state}=    Get Option State    ${serial_menu}    Enable COM0 Serial
-        IF    ${serial_state} != ${TRUE}
-            Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
-        END
+        Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
         Press Key N Times    3    ${ESC}
     END
 
