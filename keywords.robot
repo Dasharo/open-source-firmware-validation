@@ -697,8 +697,8 @@ Get DUT To Start State
     ...    state (RTE Relay On).
     Telnet.Read
     IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
-        ${result}=    Get Power Supply State
-        IF    '${result}'=='off'    Turn On Power Supply
+        ${state}=    Get Power Supply State
+        IF    '${state}'=='OFF'    Turn On Power Supply
     END
 
 Turn On Power Supply
