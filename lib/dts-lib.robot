@@ -83,19 +83,6 @@ Boot Dasharo Tools Suite
     Read From Terminal Until    Enter an option:
     Sleep    5s
 
-Check HCL Report Creation
-    [Documentation]    Keyword allows to check if the Dasharo Tools Suite
-    ...    option for creating HCL report works correctly.
-    Enter Shell In DTS
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
-    Execute Command In Terminal    cd /
-    ${logs}=    Execute Command In Terminal
-    ...    command=/usr/bin/env DEPLOY_REPORT=false SEND_LOGS=true /usr/sbin/dasharo-hcl-report
-    ...    timeout=210s
-    Should Contain    ${logs}    Thank you
-    Should Contain    ${logs}    exited without errors
-    Should Contain    ${logs}    send completed
-
 Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
@@ -107,34 +94,6 @@ Enter Shell In DTS
     ${out}=    Read From Terminal
     Log    ${out}
     Remove Extra Default Route
-
-Run EC Transition
-    [Documentation]    Keyword allows to run EC Transition procedure in the
-    ...    Dasharo Tools Suite.
-    Write Into Terminal    6
-    Read From Trminal Until    Enter an option:
-    Write Into Terminal    1
-    ${output}=    Read From Terminal Until    shut down
-    Should Contain X Times    ${output}    VERIFIED    2
-    Sleep    10s
-
-Flash Firmware In DTS
-    [Documentation]    Keyword allows to check if the Dasharo Tools Suite
-    ...    ability for flashing firmware work correctly.
-    [Arguments]    ${fw_dl_link}=${FW_DOWNLOAD_LINK}
-    Execute Command In Terminal
-    ...    wget -O /tmp/coreboot.rom ${fw_dl_link}
-    ${out}=    Execute Command In Terminal
-    ...    command=flashrom --ifd -i bios -p internal -w /tmp/coreboot.rom --noverify-all
-    ...    timeout=320s
-    ${verified}=    Run Keyword And Return Status
-    ...    Should Contain    ${out}    VERIFIED
-    IF    ${verified} == ${FALSE}
-        ${out}=    Execute Command In Terminal
-        ...    command=flashrom --ifd -i bios -p internal -w /tmp/coreboot.rom --noverify-all
-        ...    timeout=320s
-        Should Contain    ${out}    identical
-    END
 
 Remove Extra Default Route
     [Documentation]    If two default routes are present in Linux, remove
