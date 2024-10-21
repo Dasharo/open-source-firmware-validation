@@ -46,7 +46,7 @@ Login To Linux
         # not have Linux prompt. We try logging in multiple times anyway, so
         # this should not be a huge problem.
         # Read From Terminal Until    login:
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Wait Until Keyword Succeeds
