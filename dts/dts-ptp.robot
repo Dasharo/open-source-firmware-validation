@@ -1719,26 +1719,6 @@ PTP006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
     # 6) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
 
-DTS DPP package
-    [Documentation]    TBD
-
-    Fail    TBD: We need to manually enter keys here
-    # Power On And Enter DTS Shell
-
-    # Execute Command In Terminal    export DPP_TYPE="dts-pkg"
-    # Write Into Terminal    dts-boot
-
-    # ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    # Write Into Terminal    2
-    # Log    ${out}
-
-    # ${out}=    Read From Terminal Until    No update available for your machine
-    # Should Contain    ${out}    Dasharo heads firmware version is available. If you are interested,
-    # Should Contain    ${out}    please provide your subscription credentials in the main DTS menu
-    # Should Contain    ${out}    and select 'Update Dasharo firmware' again to check if you are eligible.
-    # Log    ${out}
-
-
 *** Keywords ***
 Power On And Enter DTS Shell
     # Check how user wants to boot DTS, options: USB, iPXE. The way to boot DTS
