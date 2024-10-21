@@ -92,7 +92,7 @@ DCU003.001 Change the bootsplash logo
     END
     Should Contain    ${out}    ${img_sum}
 
-DCU004.001 Verify SMMSTORE changes
+DCU004.001 Verify SMMSTORE changes (FW)
     [Documentation]    This test case verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in Setup menu.
     Skip If    '''${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}''' == '''${EMPTY}'''    DCU004.001 Verify SMMSTORE changes not supported
