@@ -13,6 +13,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
+Resource            ../lib/options/dcu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -94,54 +95,51 @@ DCU003.001 Change the bootsplash logo
     END
     Should Contain    ${out}    ${img_sum}
 
-DCU004.001 Verify SMMSTORE changes
+DCU004.001 Verify SMMSTORE changes (FW)
     [Documentation]    This test case verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in EDK2.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU004.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Write SMMSTORE State 1
 
-    #
-    #    Section where the SMMSTORE gets edited via (yet unknown) DCU commands
-    #    and the resulting image gets flashed onto the DUT
-    #
-    #    We expect to set:
-    #    bool
-    #    SerialRedirection -> true
-    #    NetworkBoot -> true
-    #    uint16
-    #    Timeout -> 8
-    #    uint8
-    #    PowerFailureState -> 1
-    #    ascii
-    #    Lang -> eng //actually french, check correct code
-    #    PlatformLang -> en
-    #
+    Power On
+    Check SMMSTORE State 1 (FW)
 
-    # Power On
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Write SMMSTORE State 2
+    
+    Power On
+    Check SMMSTORE State 2 (FW)
 
-    # ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    # Should Contain Match    ${setup_menu}    *Standard English*
+DCU004.001 Verify SMMSTORE changes (Self-test)
+   [Documentation]    This test case verifies that changes made to the
+    ...    SMMSTORE via DCU are properly applied and retrievable via DCU.
+    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Power On
 
-    # ${dsf_index}=    Get Index Of Matching Option In Menu    ${setup_menu}    Dasharo System Features
-    # ${bmm_index}=    Get Index Of Matching Option In Menu    ${setup_menu}    Boot Maintenance Manager
-    # ${rel_index}=    Evaluate    ${bmm_index}-${dsf_index}
-    # ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    # ${sp_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
-    # ${state}=    Get Option State    ${sp_menu}    Enable Serial Port
-    # Should Be Equal    ${state}    ${TRUE}
-    # Press Key N Times    2    ${ESC}
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Write SMMSTORE State 1
 
-    # Press Key N Times And Enter    ${rel_index}    ${ARROW_DOWN}
-    # ${bmm_menu}=    Get Submenu Construction
-    # ${state}=    Get Option State    ${bmm_menu}    Auto Boot Time-out
-    # Should Be Equal    ${state}    8
-    # Press Key N Times    2    ${ESC}
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Check SMMSTORE State 1 (DCU)
+    Write SMMSTORE State 2
 
-    # Press Key N Times And Enter    ${rel_index}    ${ARROW_UP}
-    # ${dasharo_menu}=    Get Submenu Construction
-    # ${pmo_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    # ${state}=    Get Option State    ${pmo_menu}    Power state after power
-    # Should Be Equal    ${state}    Powered On
-    Skip    smmstoretool ins not yet supported in DCU
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Check SMMSTORE State 2 (DCU)
 
 
 *** Keywords ***
@@ -155,5 +153,47 @@ Prepare DCU Test Environment
     ...    6e5a6722955e4f78d947654630f27ff833703fbc04776ffed963c96617f6bb2a
 
     Run    cp ${FW_FILE} dcu/coreboot.rom
+    Run    chmod -R a+rw dcu
     ${local_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
     Run    cp ${local_path} dcu/logo.bmp
+
+
+Write SMMSTORE State 1
+    dcu.Set UEFI Option    NetworkBoot    Disabled
+
+Check SMMSTORE State 1 (FW)
+    @{option_path}=    Option Name To UEFI Path    NetworkBoot
+    Power On
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${path_len}=    Get Length    ${option_path}
+    FOR    ${i}    IN RANGE    ${path_len} - 1
+        ${menu}=    Enter Submenu From Snapshot And Return Construction
+        ...    ${menu}
+        ...    ${option_path[${i}]}
+    END
+    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}
+    Should Be Equal    ${state}    ${False}
+
+Check SMMSTORE State 1 (DCU)
+    ${result}=    dcu.Get UEFI Option    NetworkBoot
+    Should Be Equal    ${result}    Disabled
+
+Write SMMSTORE State 2
+   dcu.Set UEFI Option    NetworkBoot    Enabled
+
+Check SMMSTORE State 2 (FW)
+    @{option_path}=    Option Name To UEFI Path    NetworkBoot
+    Power On
+    ${menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${path_len}=    Get Length    ${option_path}
+    FOR    ${i}    IN RANGE    ${path_len} - 1
+        ${menu}=    Enter Submenu From Snapshot And Return Construction
+        ...    ${menu}
+        ...    ${option_path[${i}]}
+    END
+    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}
+    Should Be Equal    ${state}    ${True}
+
+Check SMMSTORE State 2 (DCU)
+    ${result}=    dcu.Get UEFI Option    NetworkBoot
+    Should Be Equal    ${result}    Enabled
