@@ -508,11 +508,8 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG49}=                &{RTE65}    &{SSD17}
 @{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
 @{CONFIG51}=                &{RTE67}    &{USB11}
-<<<<<<< HEAD
 @{CONFIG52}=                &{RTE68}    &{USB12}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
-=======
->>>>>>> ed9992c9 (variables.robot: Added pendrive to config to fix USS tests)
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
