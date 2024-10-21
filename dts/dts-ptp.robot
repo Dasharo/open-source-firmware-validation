@@ -838,7 +838,6 @@ PTP003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - communit
     ...    more inf.. Therefore to test update via capsules - you have to
     ...    provide credentials with access to capsules.
 
-
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -874,7 +873,6 @@ PTP003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DP
     ...    Capsule Update, check choose_version in dasharo-deploy script for
     ...    more inf.. Therefore to test update via capsules - you have to
     ...    provide credentials with access to capsules.
-
 
     # 1) Get into DTS
     Power On And Enter DTS Shell
@@ -916,7 +914,6 @@ PTP003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     ...    Capsule Update, check choose_version in dasharo-deploy script for
     ...    more inf.. Therefore to test update via capsules - you have to
     ...    provide credentials with access to capsules.
-
 
     # 1) Get into DTS
     Power On And Enter DTS Shell
@@ -1571,6 +1568,7 @@ PTP005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
 ################################################################################
 # Odroid tests:
 ################################################################################
+
 PTP006.001 Odroid H4 initial deployment (legacy -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4
@@ -1718,6 +1716,7 @@ PTP006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
 
     # 6) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
+
 
 *** Keywords ***
 Power On And Enter DTS Shell
