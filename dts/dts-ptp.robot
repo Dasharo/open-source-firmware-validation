@@ -18,7 +18,7 @@ Suite Teardown      Run Keyword
 
 
 *** Variables ***
-# TODO: We should extend our keyword lybs with keywords for DTS UI, these are
+# TODO: We should extend our keyword libs with keywords for DTS UI, these are
 # first candidates. But before doing so - we need to establish some UI rules in
 # DTS itself.
 ${DTS_CHECKPOINT}=                  Enter an option:
