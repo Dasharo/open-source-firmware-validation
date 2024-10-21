@@ -17,3 +17,4 @@ __pycache__*
 dl-cache/*
 !dl-cache/.gitkeep
 qemu-data/
+command_log.txt
