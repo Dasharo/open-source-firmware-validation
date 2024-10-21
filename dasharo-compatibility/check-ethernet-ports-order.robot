@@ -39,7 +39,7 @@ Get MACs
 
     ${sfp_flag}=    Set Variable    ${FALSE}
     FOR    ${line}    IN    @{lines}
-        IF    'Ethernet controller' in '${line}' and '[8086:125c]' in '${line}'
+        IF    '[8086:125c]' in '${line}'
             ${sfp_flag}=    Set Variable    ${TRUE}
         END
         ${is_mac_line}=    Evaluate    'Device Serial Number' in '${line}'
