@@ -68,8 +68,7 @@ Scan For Bluetooth In Linux
     ${out}=    Execute Linux Command    bluetoothctl power on
     Should Contain    ${out}    Changing power on succeeded
     Set DUT Response Timeout    60 seconds
-    Write Into Terminal    bluetoothctl scan on
-    Sleep    60s
-    Write Bare Into Terminal    ${CTRL_C}
+    Write Into Terminal    bluetoothctl --timeout 60 scan on
+    Sleep    5
     ${out}=    Read From Terminal Until Prompt
     Should Contain Any    ${out}    Discovery started    SetDiscoveryFilter success
