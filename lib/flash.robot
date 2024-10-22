@@ -34,6 +34,7 @@ Flash Via Internal Programmer
     IF    ${read_only}
         Fail    Make sure that SPI locks are disabled prior flashing internally
     END
+    Send File To DUT    ${fw_file_path}    /tmp/${fw_file_path}
 
     # If no region is given, flash the whole binary
     IF    "${region}" != "${EMPTY}"
@@ -41,7 +42,7 @@ Flash Via Internal Programmer
     ELSE
         ${args}=    Set Variable    ${EMPTY}
     END
-    Flash Via Internal Programmer With Args    ${fw_file_path}    ${args}
+    Flash Via Internal Programmer With Args    /tmp/${fw_file_path}    ${args}
 
 Check If RW SECTION B Is Present In A Firmware File
     [Documentation]    Parses ROM with cbfstool to check if A or A + B sections are there
