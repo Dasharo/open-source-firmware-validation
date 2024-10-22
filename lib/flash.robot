@@ -30,6 +30,8 @@ Flash Via Internal Programmer
     ${out_flashrom_probe}=    Execute Command In Terminal    flashrom -p internal
     ${read_only}=    Run Keyword And Return Status
     ...    Should Contain    ${out_flashrom_probe}    read-only
+
+    Send File To DUT    ${fw_file_path}    /tmp/${fw_file_path}
     # TODO: automatically check and seck locs - reuse keywords from this suite, but it does not exist it seems
     IF    ${read_only}
         Fail    Make sure that SPI locks are disabled prior flashing internally
@@ -41,7 +43,7 @@ Flash Via Internal Programmer
     ELSE
         ${args}=    Set Variable    ${EMPTY}
     END
-    Flash Via Internal Programmer With Args    ${fw_file_path}    ${args}
+    Flash Via Internal Programmer With Args    /tmp/${fw_file_path}    ${args}
 
 Check If RW SECTION B Is Present In A Firmware File
     [Documentation]    Parses ROM with cbfstool to check if A or A + B sections are there
@@ -79,7 +81,6 @@ Flash Firmware
 
     IF    "${OPTIONS_LIB}"=="dcu"
         Make Sure That Flash Locks Are Disabled
-        Send File To DUT    ${fw_file}    ${fw_file}
         Flash Via Internal Programmer    ${fw_file}    region='bios'
         RETURN
     END
