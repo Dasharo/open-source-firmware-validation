@@ -10,7 +10,6 @@ Library             String
 Library             SSHLibrary
 Resource            ../terminal.robot
 Resource            ../../keywords.robot
-Resource            ../../platform-configs/include/novacustom-common.robot
 Resource            ../cbmem.robot
 
 
