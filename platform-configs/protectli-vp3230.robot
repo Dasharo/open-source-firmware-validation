@@ -4,6 +4,7 @@ Resource    include/protectli-vp32xx.robot
 
 *** Variables ***
 # Automatically found variables
+${POWER_CTRL}=                  sonoff
 ${INITIAL_CPU_FREQUENCY}=       800
 ${PLATFORM_CPU_SPEED}=          3,80
 ${CPU_MIN_FREQUENCY}=           800
