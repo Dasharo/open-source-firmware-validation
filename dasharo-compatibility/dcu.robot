@@ -113,12 +113,12 @@ DCU004.001 Verify SMMSTORE changes (FW)
     Login To Linux
     Switch To Root User
     Write SMMSTORE State 2
-    
+
     Power On
     Check SMMSTORE State 2 (FW)
 
 DCU004.001 Verify SMMSTORE changes (Self-test)
-   [Documentation]    This test case verifies that changes made to the
+    [Documentation]    This test case verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and retrievable via DCU.
     Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}
     Power On
@@ -157,9 +157,8 @@ Prepare DCU Test Environment
     ${local_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
     Run    cp ${local_path} dcu/logo.bmp
 
-
 Write SMMSTORE State 1
-    dcu.Set UEFI Option    NetworkBoot    Disabled
+    Dcu.Set UEFI Option    NetworkBoot    Disabled
 
 Check SMMSTORE State 1 (FW)
     @{option_path}=    Option Name To UEFI Path    NetworkBoot
@@ -175,11 +174,11 @@ Check SMMSTORE State 1 (FW)
     Should Be Equal    ${state}    ${False}
 
 Check SMMSTORE State 1 (DCU)
-    ${result}=    dcu.Get UEFI Option    NetworkBoot
+    ${result}=    Dcu.Get UEFI Option    NetworkBoot
     Should Be Equal    ${result}    Disabled
 
 Write SMMSTORE State 2
-   dcu.Set UEFI Option    NetworkBoot    Enabled
+    Dcu.Set UEFI Option    NetworkBoot    Enabled
 
 Check SMMSTORE State 2 (FW)
     @{option_path}=    Option Name To UEFI Path    NetworkBoot
@@ -195,5 +194,5 @@ Check SMMSTORE State 2 (FW)
     Should Be Equal    ${state}    ${True}
 
 Check SMMSTORE State 2 (DCU)
-    ${result}=    dcu.Get UEFI Option    NetworkBoot
+    ${result}=    Dcu.Get UEFI Option    NetworkBoot
     Should Be Equal    ${result}    Enabled
