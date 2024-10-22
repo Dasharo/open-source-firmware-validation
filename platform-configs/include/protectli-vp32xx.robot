@@ -4,7 +4,7 @@ Resource    protectli-common.robot
 
 *** Variables ***
 ${FLASH_SIZE}=                  ${16*1024*1024}
-${VERIFIED_BOOT_SUPPORT}=       y
+${VERIFIED_BOOT_SUPPORT}=       ${TRUE}
 ${IPXE_BOOT_ENTRY}=             Network Boot and Utilities
 
 
