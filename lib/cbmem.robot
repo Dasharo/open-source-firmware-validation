@@ -39,7 +39,7 @@ Calculate Boot Time Statistics
     ${max}=    Set Variable    0
     ${average}=    Set Variable    0
 
-    FOR    ${index}    IN RANGE    1    ${iterations}
+    FOR    ${index}    IN RANGE    0    ${iterations}
         ${duration}=    Get From List    ${samples}    ${index}
         ${min}=    Evaluate
         ...    ${min} if float(${min}) < float(${duration}) else ${duration}
@@ -47,9 +47,9 @@ Calculate Boot Time Statistics
         ...    ${max} if float(${max}) > float(${duration}) else ${duration}
         ${average}=    Evaluate    ${average} + ${duration}
     END
-    ${average}=    Evaluate    ${average}/(${iterations}-1)
+    ${average}=    Evaluate    ${average}/${iterations}
 
-    FOR    ${index}    IN RANGE    1    ${iterations}
+    FOR    ${index}    IN RANGE    0    ${iterations}
         ${duration}=    Get From List    ${samples}    ${index}
         ${diff}=    Evaluate    (${duration} - ${average})
         ${diff}=    Evaluate    ${diff}*${diff}

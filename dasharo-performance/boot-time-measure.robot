@@ -26,7 +26,7 @@ Suite Teardown      Run Keyword
 
 
 *** Variables ***
-${ITERATIONS}=      6
+${ITERATIONS}=      5
 
 
 *** Test Cases ***
