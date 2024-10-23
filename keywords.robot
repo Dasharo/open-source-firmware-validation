@@ -1736,8 +1736,7 @@ Get Current CONFIG List Param
 
 Check That USB Devices Are Detected
     [Documentation]    Checks if the bootable USB devices are visible in the
-    ...    boot menu. If PiKVM is connected, check for the PiKVM device. It
-    ...    assumes that a bootable image is hosted on the PiKVM already.
+    ...    boot menu.
     [Arguments]    ${boot_menu}
 
     @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
