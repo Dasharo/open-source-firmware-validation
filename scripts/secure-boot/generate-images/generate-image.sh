@@ -22,6 +22,7 @@ check_using_pkg_mng() {
     # Get the distribution name
     distribution_name=$(lsb_release -is 2>/dev/null || cat /etc/*-release | grep '^ID=' | awk -F= '{print $2}' | tr -d '"')
     error_check "Cannot read information about distribution"
+    distribution_name=$(echo "$distribution_name" | tr '[:upper:]' '[:lower:]')
 
     # Initialize the variable to an empty string
     PKG_MNG=""
