@@ -1740,14 +1740,10 @@ Check That USB Devices Are Detected
     ...    assumes that a bootable image is hosted on the PiKVM already.
     [Arguments]    ${boot_menu}
 
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Should Contain Match    ${boot_menu}    *PiKVM*
-    ELSE
-        @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-        FOR    ${stick}    IN    @{attached_usb_list}
-            # ${stick} should match with one element of ${boot_menu}
-            Should Contain Match    ${boot_menu}    *${stick}*
-        END
+    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
+    FOR    ${stick}    IN    @{attached_usb_list}
+        # ${stick} should match with one element of ${boot_menu}
+        Should Contain Match    ${boot_menu}    *${stick}*
     END
 
 Switch To Root User In Ubuntu Server

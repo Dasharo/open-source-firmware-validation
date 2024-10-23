@@ -59,7 +59,7 @@ Get UEFI Option
         ...    ${option_path[${i}]}
     END
 
-    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}    ${VALUE}
+    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}
     RETURN    ${state}
 
 Reset UEFI Options To Defaults
@@ -137,3 +137,18 @@ Measure Reboot Time
     ${min}    ${max}    ${average}    ${stddev}=
     ...    Calculate Boot Time Statistics    ${durations}
     RETURN    ${min}    ${max}    ${average}    ${stddev}
+
+Make Sure That Flash Locks Are Disabled
+    [Documentation]    Keyword makes sure firmware flashing is not prevented by
+    ...    any Dasharo Security Options, if they are present.
+    IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+    Login To Linux
+    Switch To Root User
+    Get Flashrom From Cloud
+    ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
+    Should Not Contain    ${out_flashrom}    read-only
