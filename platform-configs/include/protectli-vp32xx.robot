@@ -12,6 +12,7 @@ ${IPXE_BOOT_ENTRY}=                 Network Boot and Utilities
 # Test module: dasharo-security
 ${VERIFIED_BOOT_POPUP_SUPPORT}=     ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=           ${TRUE}
+${ME_STATICALLY_DISABLED}=          ${TRUE}
 
 
 *** Keywords ***
