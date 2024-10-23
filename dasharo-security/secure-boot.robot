@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../pikvm-rest-api/pikvm_comm.robot
 
 # Resource    ../platform-configs/msi-pro-z690-a-ddr5.robot
 # Required setup keywords:
@@ -131,7 +132,7 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ...    a signed file with a correct key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}    ${GOOD_KEYS_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_PATH}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -156,7 +157,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     ...    without a key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${NOT_SIGNED_NAME}    ${NOT_SIGNED_URL}    ${NOT_SIGNED_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${NOT_SIGNED_NAME}    ${NOT_SIGNED_PATH}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -173,7 +174,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     ...    a signed file with a wrong-signed key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_KEYS_NAME}    ${BAD_KEYS_URL}    ${BAD_KEYS_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_KEYS_NAME}    ${BAD_KEYS_PATH}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -206,7 +207,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ...    removes any custom added certificates.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}    ${GOOD_KEYS_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_PATH}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -244,7 +245,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ...    a certificate in the wrong file format.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_FORMAT_NAME}    ${BAD_FORMAT_URL}    ${BAD_FORMAT_SHA256}
+    Copy ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_FORMAT_NAME}    ${BAD_FORMAT_PATH}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -269,20 +270,8 @@ Set Secure Boot State To Disabled
 
 Prepare Test Files
     IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    ${GOOD_KEYS_NAME}
-        ...    ${GOOD_KEYS_URL}
-        ...    ${GOOD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${NOT_SIGNED_NAME}
-        ...    ${NOT_SIGNED_URL}
-        ...    ${NOT_SIGNED_SHA256}
-        Download To Host Cache
-        ...    ${BAD_KEYS_NAME}
-        ...    ${BAD_KEYS_URL}
-        ...    ${BAD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${BAD_FORMAT_NAME}
-        ...    ${BAD_FORMAT_URL}
-        ...    ${BAD_FORMAT_SHA256}
+        Copy File    ${GOOD_KEYS_PATH}    ${CURDIR}/../dl-cache/good_keys.img
+        Copy File    ${NOT_SIGNED_PATH}    ${CURDIR}/../dl-cache/not_signed.img
+        Copy File    ${BAD_KEYS_PATH}    ${CURDIR}/../dl-cache/bad_keys.img
+        Copy File    ${BAD_FORMAT_PATH}    ${CURDIR}/../dl-cache/bad_format.img
     END
