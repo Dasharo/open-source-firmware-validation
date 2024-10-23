@@ -35,7 +35,7 @@ ${DTS_BOOT_TYPE}=                   iPXE
 
 
 *** Test Cases ***
-PTP001.001 HCL Report test
+E2E001.001 HCL Report test
     [Documentation]    Verify that HCL Report is being executed with all
     ...    expected messages. The report should not fail even if it failed to
     ...    collect some data, because it is responsible only for collecting.
@@ -70,7 +70,7 @@ PTP001.001 HCL Report test
 # NovaCustom tests:
 ################################################################################
 
-PTP002.001 NCM NV4XMB,ME,MZ initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.001 NCM NV4XMB,ME,MZ initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NV4XMB,ME,MZ. This deployment
     ...    should pass without credentials.
@@ -114,7 +114,7 @@ PTP002.001 NCM NV4XMB,ME,MZ initial deployment (legacy -> Coreboot + UEFI) - com
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP002.002 NCM NS50_70MU initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.002 NCM NS50_70MU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NS50_70MU. This deployment
     ...    should pass without credentials.
@@ -158,7 +158,7 @@ PTP002.002 NCM NS50_70MU initial deployment (legacy -> Coreboot + UEFI) - commun
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP002.003 NCM NS5x_NS7xPU initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.003 NCM NS5x_NS7xPU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NS5x_NS7xPU. This deployment
     ...    should pass without credentials.
@@ -202,7 +202,7 @@ PTP002.003 NCM NS5x_NS7xPU initial deployment (legacy -> Coreboot + UEFI) - comm
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP002.004 NCM NV4xPZ initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.004 NCM NV4xPZ initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NV4xPZ. This deployment
     ...    should pass without credentials.
@@ -246,7 +246,7 @@ PTP002.004 NCM NV4xPZ initial deployment (legacy -> Coreboot + UEFI) - community
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP002.005 NCM NV4xPZ transition (Coreboot + UEFI -> Coreboot + Heads) - DPP version, without credentials
+E2E002.005 NCM NV4xPZ transition (Coreboot + UEFI -> Coreboot + Heads) - DPP version, without credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on
     ...    NovaCustom NV4X ADL. We start from Dasharo (coreboot + UEFI) firmware
     ...    with version that should allow for the transition. We insert no DPP
@@ -273,7 +273,7 @@ PTP002.005 NCM NV4xPZ transition (Coreboot + UEFI -> Coreboot + Heads) - DPP ver
     Should Contain    ${out}    Dasharo Heads firmware version is available
     Log    ${out}
 
-PTP002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with credentials
+E2E002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on NovaCustom NV4X ADL.
     ...    We start from Dasharo (coreboot + UEFI) firmware with version that should
     ...    allow for the transition. We insert correct DPP keys for heads variant.
@@ -320,7 +320,7 @@ PTP002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with 
     # EC firm. has been updated:
     ${out}=    Read From Terminal Until    Updating EC...
 
-PTP002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V540_6x_TU. This deployment
     ...    should pass without credentials.
@@ -365,7 +365,7 @@ PTP002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V560_6x_TU. This deployment
     ...    should pass without credentials.
@@ -410,7 +410,7 @@ PTP002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V540TNC_TND_TNE. This deployment
     ...    should pass without credentials.
@@ -470,7 +470,7 @@ PTP002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V560TNC_TND_TNE. This deployment
     ...    should pass without credentials.
@@ -540,7 +540,7 @@ PTP002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
 # leave this tests for future.
 ################################################################################
 
-PTP003.001 MSI PRO Z690-A DDR4 initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E003.001 MSI PRO Z690-A DDR4 initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    WIFI DDR4(MS-7D25). This deployment should pass without credentials.
@@ -584,7 +584,7 @@ PTP003.001 MSI PRO Z690-A DDR4 initial deployment (legacy -> Coreboot + UEFI) - 
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP003.002 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - community version
+E2E003.002 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI (MS-7D25)/PRO Z690-A
     ...    (MS-7D25). This deployment should pass without credentials.
@@ -628,7 +628,7 @@ PTP003.002 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - commu
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP003.003 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
+E2E003.003 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    (MS-7D25). This deployment should not pass without credentials.
@@ -662,7 +662,7 @@ PTP003.003 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     Log    ${out}
     Write Into Terminal    b
 
-PTP003.004 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
+E2E003.004 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    DDR 4(MS-7D25). This deployment should not pass without credentials.
@@ -696,7 +696,7 @@ PTP003.004 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP v
     Log    ${out}
     Write Into Terminal    b
 
-PTP003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) - DPP version, with credentials
+E2E003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) - DPP version, with credentials
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    (MS-7D25). This deployment should pass with credentials.
@@ -745,7 +745,7 @@ PTP003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP version, with credentials
+E2E003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP version, with credentials
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    DDR 4(MS-7D25). This deployment should pass with credentials.
@@ -794,7 +794,7 @@ PTP003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP v
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP003.007 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - community version
+E2E003.007 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - community version
     [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
     ...    Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A DDR4(MS-7D25). We start from
     ...    Dasharo (coreboot + UEFI) firmware with version that should allow for
@@ -829,7 +829,7 @@ PTP003.007 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - co
     # 5) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
 
-PTP003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - community version
+E2E003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - community version
     [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
     ...    Z690-A WIFI(MS-7D25)/PRO Z690-A(MS-7D25). We start from Dasharo
     ...    (coreboot + UEFI) firmware with version that should allow for the
@@ -865,7 +865,7 @@ PTP003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - communit
     # 5) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
 
-PTP003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DPP version, with credentials
+E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DPP version, with credentials
     [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
     ...    Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A DDR4(MS-7D25). We start from
     ...    Dasharo (coreboot + UEFI) firmware with version that should allow for
@@ -906,7 +906,7 @@ PTP003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DP
     # 6) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
 
-PTP003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP version, with credentials
+E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP version, with credentials
     [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
     ...    Z690-A WIFI(MS-7D25)/PRO Z690-A(MS-7D25). We start from Dasharo
     ...    (coreboot + UEFI) firmware with version that should allow for the
@@ -947,7 +947,7 @@ PTP003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     # 6) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
 
-PTP003.011 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - without credentials
+E2E003.011 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - without credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on
     ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
     ...    UEFI) firmware with version that should allow for the transition. We
@@ -974,7 +974,7 @@ PTP003.011 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - without c
     Should Contain    ${out}    Dasharo Heads firmware version is available
     Log    ${out}
 
-PTP003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with credentials
+E2E003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on
     ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
     ...    UEFI) firmware with version that should allow for the transition. We
@@ -1021,7 +1021,7 @@ PTP003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with cred
     # 8) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
 
-PTP003.013 MSI PRO Z690-A transition (UEFI -> heads) - without credentials
+E2E003.013 MSI PRO Z690-A transition (UEFI -> heads) - without credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on
     ...    NovaCustom MSI PRO Z690-A. We start from Dasharo (coreboot +
     ...    UEFI) firmware with version that should allow for the transition. We
@@ -1048,7 +1048,7 @@ PTP003.013 MSI PRO Z690-A transition (UEFI -> heads) - without credentials
     Should Contain    ${out}    Dasharo Heads firmware version is available
     Log    ${out}
 
-PTP003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
+E2E003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on
     ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
     ...    UEFI) firmware with version that should allow for the transition. We
@@ -1099,7 +1099,7 @@ PTP003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
 # Dell tests:
 ################################################################################
 
-PTP004.001 Dell OptiPlex 7010 DPP initial deployment (legacy -> Coreboot + UEFI) - without credentials
+E2E004.001 Dell OptiPlex 7010 DPP initial deployment (legacy -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 without credentials provided. User should not have access and
@@ -1134,7 +1134,7 @@ PTP004.001 Dell OptiPlex 7010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Log    ${out}
     Write Into Terminal    b
 
-PTP004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
+E2E004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 with credentials provided. User should have access, and firmware
@@ -1184,7 +1184,7 @@ PTP004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI)
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP004.003 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
+E2E004.003 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 without credentials provided. User should not have access and
@@ -1210,7 +1210,7 @@ PTP004.003 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Should Contain    ${out}    Dasharo Subscription firmware version is available
     Log    ${out}
 
-PTP004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
+E2E004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 with credentials provided. User should have access, and firmware
@@ -1247,7 +1247,7 @@ PTP004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     # 6) The final step is rebooting:
     ${out}=    Read From Terminal Until    Rebooting
 
-PTP004.005 Dell OptiPlex 9010 DPP initial deployment (legacy -> Coreboot + UEFI) - without credentials
+E2E004.005 Dell OptiPlex 9010 DPP initial deployment (legacy -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 without credentials provided. User should not have access and
@@ -1282,7 +1282,7 @@ PTP004.005 Dell OptiPlex 9010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Log    ${out}
     Write Into Terminal    b
 
-PTP004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
+E2E004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 with credentials provided. User should have access, and firmware
@@ -1332,7 +1332,7 @@ PTP004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI)
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP004.007 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
+E2E004.007 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 without credentials provided. User should not have access and
@@ -1358,7 +1358,7 @@ PTP004.007 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Should Contain    ${out}    Dasharo Subscription firmware version is available
     Log    ${out}
 
-PTP004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
+E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 with credentials provided. User should have access, and firmware
@@ -1400,7 +1400,7 @@ PTP004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
 # configuration, but different links, so testing them is not necessary:
 ################################################################################
 
-PTP005.001 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - no credentials
+E2E005.001 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - no credentials
     [Documentation]    Verify DPP (coreboot + UEFI) and (coreboot + SeaBIOS)
     ...    initial deployment logic on PC Engines. We emulate legacy firmware
     ...    and do not provide DPP credentials. There should be no access granted
@@ -1437,7 +1437,7 @@ PTP005.001 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - no cr
     Log    ${out}
     Write Into Terminal    b
 
-PTP005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
+E2E005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
     [Documentation]    Verify DPP (coreboot + UEFI) initial deployment logic on
     ...    PC Engines with credentials provided (these should be provided via
     ...    CMD).
@@ -1485,7 +1485,7 @@ PTP005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with 
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP005.003 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - without credentials
+E2E005.003 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - without credentials
     [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
     ...    on PC Engines. We start from legacy firmware and insert correct DPP keys
     ...    for UEFI variant.
@@ -1518,7 +1518,7 @@ PTP005.003 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     Log    ${out}
     Write Into Terminal    b
 
-PTP005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - with credentials
+E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - with credentials
     [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
     ...    on PC Engines. We start from legacy firmware and insert correct DPP
     ...    keys for UEFI variant.
@@ -1569,7 +1569,7 @@ PTP005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
 # Odroid tests:
 ################################################################################
 
-PTP006.001 Odroid H4 initial deployment (legacy -> Coreboot + UEFI) - without credentials
+E2E006.001 Odroid H4 initial deployment (legacy -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4
     ...    without credentials provided. User should not have access and DTS
@@ -1604,7 +1604,7 @@ PTP006.001 Odroid H4 initial deployment (legacy -> Coreboot + UEFI) - without cr
     Log    ${out}
     Write Into Terminal    b
 
-PTP006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
+E2E006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4 with
     ...    credentials provided. User should have access, and firmware should be
@@ -1654,7 +1654,7 @@ PTP006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with c
     ${out}=    Read From Terminal Until    Rebooting
     Log    ${out}
 
-PTP006.003 Odroid H4 update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
+E2E006.003 Odroid H4 update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4
     ...    without credentials provided. User should not have access and DTS
@@ -1680,7 +1680,7 @@ PTP006.003 Odroid H4 update (Coreboot + UEFI -> Coreboot + UEFI) - without crede
     Should Contain    ${out}    Dasharo Subscription firmware version is available
     Log    ${out}
 
-PTP006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
+E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 with credentials provided. User should have access, and firmware

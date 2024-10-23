@@ -54,7 +54,7 @@ Here is an example command for running tests on QEMU (make sure that you are in
 Python virtual environment):
 
 ```bash
-robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -t "*" dts/dts-tests.robot
+robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -t "*" dts/dts-e2e.robot
 ```
 
 > Note: You do not have to reserve QEMU via `snipeit` therefore `-v snipeit:no`
