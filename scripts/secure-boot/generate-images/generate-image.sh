@@ -20,7 +20,7 @@ error_check() {
 
 check_using_pkg_mng() {
     # Get the distribution name
-    distribution_name=$(lsb_release -is 2>/dev/null || cat /etc/*-release | grep '^ID=' | awk -F= '{print $2}' | tr -d '"')
+    distribution_name=$(lsb_release -is 2>/dev/null | tr '[:upper:]' '[:lower:]' || cat /etc/*-release | grep 'ID=' | awk -F= '{print $2}' | tr -d '"')
     error_check "Cannot read information about distribution"
 
     # Initialize the variable to an empty string
@@ -31,14 +31,11 @@ check_using_pkg_mng() {
         debian|ubuntu)
             PKG_MNG="apt"
             ;;
-        redhat|centos|fedora)
+        fedora)
             PKG_MNG="dnf"
             ;;
         arch)
             PKG_MNG="pacman"
-            ;;
-        openbsd)
-            PKG_MNG="pkg"
             ;;
         gentoo)
             PKG_MNG="emerge"
@@ -60,9 +57,15 @@ check_using_pkg_mng() {
 }
 
 install_deps() {
-    deps_list="sbsigntools faketime"
     echo "Installing dependencies"
     check_using_pkg_mng
+
+    # Distros may have different names for packages:
+    if [ "$DISTRO"  == "fedora" ] || [ "$DISTRO" == "arch" ] || [ "$DISTRO" == "gentoo" ]; then
+        deps_list="sbsigntools libfaketime"
+    elif [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ]; then
+        deps_list="sbsigntool faketime"
+    fi
 
     if [ $DISTRO == "arch" ]; then
         sudo $PKG_MNG -S $deps_list 2>&1
@@ -86,7 +89,7 @@ create_iso_image() {
 
     dd if=/dev/zero of=image.img bs=1M count=8 > /dev/null 2>&1
     error_check "Cannot create empty image file to store created certs and efi files"
-    mkfs.fat -F 12 image.img -n $IMAGELABEL > /dev/null 2>&1
+    sudo mkfs.fat -F 12 image.img -n $IMAGELABEL > /dev/null 2>&1
     error_check "Cannot assign label: $IMAGELABEL"
 }
 
@@ -140,6 +143,7 @@ create_expired_cert() {
 }
 
 sign_img_and_create_iso() {
+    local _object_to_mount
     # sign hello.efi
     cp "$SCRIPTDIR"/hello.efi .
     error_check "Cannot copy hello.efi"
@@ -147,22 +151,30 @@ sign_img_and_create_iso() {
         sbsign --key cert.key --cert cert.crt --output signed-hello.efi hello.efi
         error_check "Cannot sign hello.efi"
     fi
-    # copy all things to the image
-    udisksctl loop-setup -f image.img
-    error_check "Cannot run udisksctl to create iso"
-    while [ ! -d "/run/media/$(whoami)/$IMAGELABEL" ]; do
+    # Copy all things to the image.
+    # Extract loop* from udisksctl output:
+    _object_to_mount="$(udisksctl loop-setup -f image.img | grep -o 'loop[0-9]\+' | sed 's/\.$//')"
+    error_check "Cannot run udisksctl to create ISO"
+    MOUNT_POINT=$(mount | grep $IMAGELABEL | awk '{print $3}')
+    while [ ! -d "$MOUNT_POINT" ]; do
         echo "Mounting $IMAGELABEL..."
+        udisksctl mount -p "block_devices/$_object_to_mount"
+        error_check "Cannot mount created ISO"
         sleep 0.2
+        MOUNT_POINT=$(mount | grep $IMAGELABEL | awk '{print $3}')
     done
     # copy everything to the image (except for the image itself)
     for file in *; do
 
         if [ "$file" != "image.img" ]; then
-            cp $file "/run/media/$(whoami)/$IMAGELABEL/"
+            cp $file "$MOUNT_POINT/"
         fi
 
     done
-    umount "/run/media/$(whoami)/$IMAGELABEL"
+    umount "$MOUNT_POINT"
+    error_check "Cannot unmount /dev/$_object_to_mount."
+    sudo losetup -d /dev/$_object_to_mount
+    error_check "Cannot delete /dev/$_object_to_mount."
     # now the image is ready, all we have to do is copy it to the desired location
     IMAGENAME=$TESTNAME$CRYP_ALG
     cp -f image.img "$SCRIPTDIR"/../images/$IMAGENAME.img
