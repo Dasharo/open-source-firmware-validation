@@ -1,2 +1,3 @@
   -device hda-duplex,audiodev=hda \
   -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100 \
+${DEVICE_AUDIO1}=               HDA Intel PCH
