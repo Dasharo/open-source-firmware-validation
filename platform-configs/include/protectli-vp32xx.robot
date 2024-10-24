@@ -2,6 +2,7 @@
 Resource    protectli-pro.robot
 Resource    protectli-pro.robot
 Resource    protectli-common.robot
+Resource    protectli-pro.robot
 
 
 *** Variables ***
