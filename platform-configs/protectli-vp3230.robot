@@ -33,5 +33,5 @@ ${DEF_SOCKETS}=                 1
 ${DEF_ONLINE_CPU}=              0-7
 ${DEVICE_AUDIO1}=               Alderlake-P HDMI
 
-${DEVICE_NVME_DISK}=            ${EMPTY}
-${CLEVO_DISK}=                  ${EMPTY}
+${DEVICE_NVME_DISK}=            N/A
+${CLEVO_DISK}=                  N/A
