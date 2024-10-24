@@ -25,15 +25,13 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-# NVM001.001 NVMe support in firmware
-#    [Documentation]    Check whether the firmware is able to correctly detect
-#    ...    NVMe disk in M.2 slot.
-#    Skip If    not ${nvme_disk_support}    NVM001.001 not supported
-#    Power On
-#    Enter Tianocore
-#    Telnet.Set Timeout    30s
-#    Enter One Time Boot in Tianocore
-#    Telnet.Read Until    ${clevo_disk}
+NVM001.001 NVMe support in firmware
+    [Documentation]    Check whether the firmware is able to correctly detect
+    ...    NVMe disk in M.2 slot.
+    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.001 not supported
+    Power On
+    ${out}=    Enter Boot Menu Tianocore And Return Construction
+    Should Contain    ${out}    ${CLEVO_DISK}
 
 NVM001.002 NVMe support in OS (Ubuntu)
     [Documentation]    Check whether the Operating System can boot from NVMe
