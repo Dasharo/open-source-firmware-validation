@@ -143,6 +143,7 @@ create_expired_cert() {
 }
 
 sign_img_and_create_iso() {
+    local _object_to_mount
     # sign hello.efi
     cp "$SCRIPTDIR"/hello.efi .
     error_check "Cannot copy hello.efi"
@@ -150,12 +151,15 @@ sign_img_and_create_iso() {
         sbsign --key cert.key --cert cert.crt --output signed-hello.efi hello.efi
         error_check "Cannot sign hello.efi"
     fi
-    # copy all things to the image
-    udisksctl loop-setup -f image.img
-    error_check "Cannot run udisksctl to create iso"
+    # Copy all things to the image.
+    # Extract loop* from udisksctl output:
+    _object_to_mount="$(udisksctl loop-setup -f image.img | grep -o 'loop[0-9]\+' | sed 's/\.$//')"
+    error_check "Cannot run udisksctl to create ISO"
     MOUNT_POINT=$(mount | grep $IMAGELABEL | awk '{print $3}')
     while [ ! -d "$MOUNT_POINT" ]; do
         echo "Mounting $IMAGELABEL..."
+        udisksctl mount -p "block_devices/$_object_to_mount"
+        error_check "Cannot mount created ISO"
         sleep 0.2
         MOUNT_POINT=$(mount | grep $IMAGELABEL | awk '{print $3}')
     done
