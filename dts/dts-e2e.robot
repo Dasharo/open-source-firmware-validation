@@ -21,6 +21,7 @@ Suite Teardown      Run Keyword
 # TODO: We should extend our keyword libs with keywords for DTS UI, these are
 # first candidates. But before doing so - we need to establish some UI rules in
 # DTS itself.
+# DTS checkpoints:
 ${DTS_CHECKPOINT}=                  Enter an option:
 ${DTS_CONFIRM_CHECKPOINT}=          Press any key to continue
 ${HCL_REPORT_CHECKPOINT}=           Thank you for contributing to the "Hardware for Linux" project!
@@ -30,8 +31,23 @@ ${DTS_SPECIFICATION_WARN}=          Does it match your actual specification? (Y|
 ${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware on your platform (Y|n)
 ${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
 ${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
+# DTS initial deployment menupoints:
+${DTS_DCR_UEFI_MENUPOINT}=          Community version
+${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
+${DTS_DPP_SEA_MENUPOINT}=           DPP version (coreboot + SeaBIOS)
 # Default DTS boot type, can be overwritten by CMD:
 ${DTS_BOOT_TYPE}=                   iPXE
+# DTS options:
+${DTS_HCL_OPT}=                     1
+${DTS_DEPLOY_OPT}=                  2
+${DTS_CREDENTIALS_OPT}=             4
+${DTS_DCR_UEFI_OPT}=                c
+${DTS_DPP_UEFI_OPT}=                d
+${DTS_DPP_SEA_OPT}=                 s
+# DTS subscription checkpoints:
+${DTS_NOACCESS_DPP_UEFI}=
+${DTS_NOACCESS_DPP_HEADS}=
+...                                 Dasharo Heads firmware version is available, but your\nsubscription does not give you the access
 
 
 *** Test Cases ***
@@ -47,24 +63,18 @@ E2E001.001 HCL Report test
     Write Into Terminal    dts-boot
 
     # 3) Launch HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    1
-    Log    ${out}
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_HCL_OPT}
 
     # 4) Check out all HCL Report questions:
-    ${out}=    Read From Terminal Until    ${HCL_REPORT_SENDINGLOGS}
-    Sleep    2s
-    Write Into Terminal    N
+    Wait For Checkpoint And Write    ${HCL_REPORT_SENDINGLOGS}    N
     # Wait for HCL report to do its work, might take some time:
     Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
+    # Reject hw-probe question from HCL report:
+    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    N
     Set DUT Response Timeout    30s
 
     # 5) Wait for final HCL Report checkpoint:
-    Read From Terminal Until    ${HCL_REPORT_CHECKPOINT}
+    Wait For Checkpoint    ${HCL_REPORT_CHECKPOINT}
 
 ################################################################################
 # NovaCustom tests:
@@ -85,34 +95,10 @@ E2E002.001 NCM NV4XMB,ME,MZ initial deployment (legacy -> Coreboot + UEFI) - com
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E002.002 NCM NS50_70MU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -129,34 +115,10 @@ E2E002.002 NCM NS50_70MU initial deployment (legacy -> Coreboot + UEFI) - commun
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E002.003 NCM NS5x_NS7xPU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -173,34 +135,10 @@ E2E002.003 NCM NS5x_NS7xPU initial deployment (legacy -> Coreboot + UEFI) - comm
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E002.004 NCM NV4xPZ initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -217,34 +155,10 @@ E2E002.004 NCM NV4xPZ initial deployment (legacy -> Coreboot + UEFI) - community
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E002.005 NCM NV4xPZ transition (Coreboot + UEFI -> Coreboot + Heads) - DPP version, without credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on
@@ -264,14 +178,10 @@ E2E002.005 NCM NV4xPZ transition (Coreboot + UEFI -> Coreboot + Heads) - DPP ver
     Write Into Terminal    dts-boot
 
     # 3) Start update:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 4) User should not have access to Heads update without proper credentials:
-    ${out}=    Read From Terminal Until    but your\nsubscription does not give you the access to this firmware
-    Should Contain    ${out}    Dasharo Heads firmware version is available
-    Log    ${out}
+    Wait For Checkpoint    ${DTS_NOACCESS_DPP_HEDS}
 
 E2E002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with credentials
     [Documentation]    Verify DPP (coreboot + heads) transition logic on NovaCustom NV4X ADL.
@@ -290,35 +200,14 @@ E2E002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
+    Go Through Heads Transition
 
-    # 6) Check out all warnings and questions:
-    ${out}=    Read From Terminal Until    ${DTS_HEADS_SWITCH_QUESTION}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 7) Check for Heads firmware deployment success:
-    ${out}=    Read From Terminal Until    ${DTS_CONFIRM_CHECKPOINT}
-    Should Contain    ${out}    Successfully switched to Dasharo Heads firmware
-    Write Into Terminal    1
-    Log    ${out}
-
-    # 8) The final step is rebooting, in this case it is done emmidiately after
+    # 5) The final step is rebooting, in this case it is done emmidiately after
     # EC firm. has been updated:
-    ${out}=    Read From Terminal Until    Updating EC...
+    Wait For Checkpoint    Updating EC...
 
 E2E002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -336,34 +225,10 @@ E2E002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -381,34 +246,10 @@ E2E002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -427,48 +268,37 @@ E2E002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
     # 3) This platform board model cannot be manually detected, a message to
     # choose the model appears, and the possible choices are: "0. None below"
     # "1: V540TNx", "2: V560TNx":
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    1: V540TNx
-    Write Into Terminal    1
+    Wait For Checkpoint    1: V540TNx
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    1
 
-    # 4) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
+    # 4) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 5) Wait for HCL report to do its work, might take some time:
     Set DUT Response Timeout    5m
     # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
+    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
+    Set DUT Response Timeout    30s
 
     # This is printed inside board_config function, which is called twice in
     # this workflow: at the beginning of dts and dasharo-deploy scripts, so we
     # see this message twice, this should be fixed from DTS side (FIXME)
-    # 5) This platform board model cannot be manually detected, a message to
+    # 6) This platform board model cannot be manually detected, a message to
     # choose the model appears, and the possible choices are: "0. None below"
     # "1: V540TNx", "2: V560TNx":
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    1: V540TNx
-    Write Into Terminal    1
+    Wait For Checkpoint    1: V540TNx
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    1
 
-    # 6) Choose update to Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
+    # 7) Choose update to Dasharo:
+    Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
 
-    # 7) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
+    # 8) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
-    # 8) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 9) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -487,49 +317,37 @@ E2E002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
     # 3) This platform board model cannot be manually detected, a message to
     # choose the model appears, and the possible choices are: "0. None below"
     # "1: V540TNx", "2: V560TNx":
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    2: V560TNx
-    Write Into Terminal    2
+    Wait For Checkpoint    2: V560TNx
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    2
 
-    # 4) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
+    # 4) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 5) Wait for HCL report to do its work, might take some time:
     Set DUT Response Timeout    5m
     # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
+    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
     Set DUT Response Timeout    30s
 
     # This is printed inside board_config function, which is called twice in
     # this workflow: at the beginning of dts and dasharo-deploy scripts, so we
     # see this message twice, this should be fixed from DTS side (FIXME)
-    # 5) This platform board model cannot be manually detected, a message to
+    # 6) This platform board model cannot be manually detected, a message to
     # choose the model appears, and the possible choices are: "0. None below"
     # "1: V540TNx", "2: V560TNx":
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    2: V560TNx
-    Write Into Terminal    2
+    Wait For Checkpoint    2: V560TNx
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    2
 
-    # 6) Choose update to Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
+    # 7) Choose update to Dasharo:
+    Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
 
-    # 7) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
+    # 8) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
-    # 8) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 9) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 ################################################################################
 # MSI tests:
@@ -555,34 +373,10 @@ E2E003.001 MSI PRO Z690-A DDR4 initial deployment (legacy -> Coreboot + UEFI) - 
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E003.002 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - community version
     [Documentation]    Verify logic for initial deployment of community version
@@ -599,34 +393,10 @@ E2E003.002 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - commu
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    Go Through Initial Deployment    DCR UEFI
 
-    # 4) Choose install Dasharo:
-    ${out}=    Read From Terminal Until    Enter an option:
-    Should Contain    ${out}    c) Community version
-    Log    ${out}
-    Write Into Terminal    c
-
-    # 5) Check out all warnings:
-    ${out}=    Read From Terminal Until    ${DTS_SPECIFICATION_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-    ${out}=    Read From Terminal Until    ${DTS_DEPLOY_WARN}
-    Write Into Terminal    Y
-    Log    ${out}
-
-    # 6) The final step is rebooting:
-    ${out}=    Read From Terminal Until    Rebooting
-    Log    ${out}
+    # 4) The final step is rebooting:
+    Wait For Checkpoint    Rebooting
 
 E2E003.003 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
     [Documentation]    Verify logic for initial deployment of DPP version
@@ -642,25 +412,11 @@ E2E003.003 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
     Write Into Terminal    dts-boot
 
-    # 3) Start initial deployment:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-    # Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    ${out}=    Read From Terminal Until    ${DTS_HW_PROBE_WARN}
-    Sleep    2s
-    Write Into Terminal    Y
-    Set DUT Response Timeout    30s
+    # 3) Start update:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
-    # 4) Check whether DTS informs a user about missing access:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Should Contain
-    ...    ${out}
-    ...    DPP version (coreboot + UEFI) available but you don't have access
-    Log    ${out}
-    Write Into Terminal    b
+    # 4) User should not have access to Heads update without proper credentials:
+    Wait For Checkpoint    ${DTS_NOACCESS_DPP_HEDS}
 
 E2E003.004 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
     [Documentation]    Verify logic for initial deployment of DPP version
@@ -711,8 +467,6 @@ E2E003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start initial deployment:
@@ -760,8 +514,6 @@ E2E003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP v
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start initial deployment:
@@ -886,8 +638,6 @@ E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DP
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
@@ -927,8 +677,6 @@ E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
@@ -992,8 +740,6 @@ E2E003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with cred
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
@@ -1066,8 +812,6 @@ E2E003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
@@ -1150,8 +894,6 @@ E2E004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start initial deployment:
@@ -1227,8 +969,6 @@ E2E004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
@@ -1298,8 +1038,6 @@ E2E004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start initial deployment:
@@ -1375,8 +1113,6 @@ E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
@@ -1451,8 +1187,6 @@ E2E005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start initial deployment:
@@ -1532,8 +1266,6 @@ E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start initial deployment:
@@ -1620,8 +1352,6 @@ E2E006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with c
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start initial deployment:
@@ -1697,8 +1427,6 @@ E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    4
     Provide DPP Credentials
 
     # 4) Start update:
@@ -1720,8 +1448,9 @@ E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
 
 *** Keywords ***
 Power On And Enter DTS Shell
-    # Check how user wants to boot DTS, options: USB, iPXE. The way to boot DTS
-    # Should be defined before running tests, e.g. via CMD or some file, using
+    [Documentation]    This KW boots DTS using the method defined by user via
+    ...    DTS_BOOT_TYPE or the default one. After booting DTS shell is being
+    ...    entered.
     # 1) Boot up to DTS UI:
     Power On
     Boot Dasharo Tools Suite    ${DTS_BOOT_TYPE}
@@ -1733,6 +1462,11 @@ Power On And Enter DTS Shell
     Set DUT Response Timeout    90s
 
 Provide DPP Credentials
+    [Documentation]    This KW automatically writes DPP credentials into DTS UI.
+    ...    The credentials should be set via CMD or file.
+    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
+    Write Into Terminal    ${DTS_CREDENTIALS_OPT}
+
     # Enter logs key:
     Variable Should Exist    ${DPP_LOGS_KEY}
     Write Into Terminal    ${DPP_LOGS_KEY}
@@ -1742,3 +1476,68 @@ Provide DPP Credentials
     # Enter password:
     Variable Should Exist    ${DPP_PASSWORD}
     Write Into Terminal    ${DPP_PASSWORD}
+
+Wait For Checkpoint
+    [Documentation]    This KW waits for checkpoint (first argument) and logs
+    ...    everything read up to the checkpoint.
+    [Arguments]    ${checkpoint}
+    ${out}=    Read From Terminal Until    ${checkpoint}
+    Log    ${out}
+
+Wait For Checkpoint And Write
+    [Documentation]    This KW waits for checkpoint (first argument)
+    ...    and writes specified answer (second argument), with logging all
+    ...    output before the checkpoint.
+    [Arguments]    ${checkpoint}    ${to_write}
+    Wait For Checkpoint    ${checkpoint}
+    Sleep    1s
+    Write Into Terminal    ${to_write}
+
+Go Through Initial Deployment
+    [Documentation]    This KW goes through standard Dasharo initial deployment
+    ...    choosing all needed menu options and answering all questions. The
+    ...    only thing which needs to be specified - the Dasharo version to
+    ...    deploy (first argument), available versions: DCR UEFI, DPP UEFI, DPP
+    ...    SeaBIOS.
+    [Arguments]    ${dasharo_version}
+    # 1) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 2) Wait for HCL report to do its work, might take some time:
+    Set DUT Response Timeout    5m
+    # Accept hw-probe question from HCL report:
+    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
+    Set DUT Response Timeout    30s
+
+    # 3) Choose version to install:
+    IF    '${dasharo_version}' == 'DCR UEFI'
+        Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
+    ELSE IF    '${dasharo_version}' == 'DPP UEFI'
+        Wait For Checkpoint    ${DTS_DPP_UEFI_OPT}) ${DTS_DPP_UEFI_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_UEFI_OPT}
+    ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
+        Wait For Checkpoint    ${DTS_DPP_SEA_OPT}) ${DTS_DPP_SEA_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_SEA_OPT}
+    ELSE
+        Fail    No Dasharo version for initial deployment provided!
+    END
+
+    # 4) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+
+Go Through Heads Transition
+    [Documentation]    This KW goes through transition to Dasharo Heads choosing
+    ...    all needed menu options and answering all questions.
+    # 1) Start update:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 2) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    Y
+
+    # 3) Check for Heads firmware deployment success:
+    Wait For Checkpoint    Successfully switched to Dasharo Heads firmware
+    Wait For Checkpoint And Write    ${DTS_CONFIRM_CHECKPOINT}    1
