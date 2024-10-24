@@ -13,6 +13,7 @@ ${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
 ${ME_STATICALLY_DISABLED}=              ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
+${NVME_DISK_SUPPORT}=                   ${TRUE}
 
 
 *** Keywords ***
