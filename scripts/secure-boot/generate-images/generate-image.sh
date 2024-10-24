@@ -172,6 +172,9 @@ sign_img_and_create_iso() {
 
     done
     umount "$MOUNT_POINT"
+    error_check "Cannot unmount /dev/$_object_to_mount."
+    sudo losetup -d /dev/$_object_to_mount
+    error_check "Cannot delete /dev/$_object_to_mount."
     # now the image is ready, all we have to do is copy it to the desired location
     IMAGENAME=$TESTNAME$CRYP_ALG
     cp -f image.img "$SCRIPTDIR"/../images/$IMAGENAME.img
