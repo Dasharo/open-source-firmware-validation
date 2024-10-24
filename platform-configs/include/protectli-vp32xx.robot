@@ -5,14 +5,14 @@ Resource    protectli-pro.robot
 
 
 *** Variables ***
-${FLASH_SIZE}=                      ${16*1024*1024}
-${VERIFIED_BOOT_SUPPORT}=           ${TRUE}
-${IPXE_BOOT_ENTRY}=                 Network Boot and Utilities
+${FLASH_SIZE}=                          ${16*1024*1024}
 
 # Test module: dasharo-security
-${VERIFIED_BOOT_POPUP_SUPPORT}=     ${TRUE}
-${UEFI_PASSWORD_SUPPORT}=           ${TRUE}
-${ME_STATICALLY_DISABLED}=          ${TRUE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=         ${TRUE}
+${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
+${ME_STATICALLY_DISABLED}=              ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
+${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
 
 
 *** Keywords ***
