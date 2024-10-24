@@ -495,7 +495,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG48}=                &{RTE64}    &{SSD17}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
 @{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
-@{CONFIG51}=                &{RTE67}
+@{CONFIG51}=                &{RTE67}    &{USB11}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
