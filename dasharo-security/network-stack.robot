@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -18,8 +16,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    Dasharo Networking menu not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -32,12 +32,7 @@ NBA001.001 Enable Network Boot (firmware)
     ...    will appear.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA001.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
-    Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-    Save Changes And Reset    2    4
+    Set UEFI Option    NetworkBoot    ${TRUE}
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -49,12 +44,7 @@ NBA002.001 Disable Network Boot (firmware)
     ...    will be hidden.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA002.001 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
-    Set Option State    ${network_menu}    Enable network boot    ${FALSE}
-    Save Changes And Reset    2    4
+    Set UEFI Option    NetworkBoot    ${FALSE}
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}

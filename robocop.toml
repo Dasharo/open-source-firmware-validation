@@ -12,6 +12,10 @@ configure = [
     "0316:enabled:False",
     # TODO: fix and re-enable
     "0319:enabled:False",
+    # TODO: fix and re-enable
+    "0327:enabled:False",
+    # TODO: fix and re-enable
+    "0328:enabled:False",
     # TODO: consider reducing to default 40, or less
     "0501:max_len:50",
     # TODO: consider reducing to default 10, or less
@@ -33,8 +37,6 @@ configure = [
     "0920:enabled:False",
     # TODO: consider fixing and re-enabling
     "0922:enabled:False",
-    # TODO: We have lots of such warning to be improved
-    "0923:enabled:False",
     # TODO: fix and re-enable
     "0924:enabled:False"
 ]

@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -47,11 +45,11 @@ DMP001.001 TCG OPAL disk password set and check
     Press Key N Times    1    ${ENTER}
     Log    Enable Feature
     Press Key N Times And Enter    2    ${ARROW_DOWN}
-    Save Changes And Reset    3
+    Save Changes And Reset
     @{password}=    Set Variable    1    2    3
-    Type In New Disk Password    @{password}
+    Type In New Disk Password    ${password}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Reset
     Log    Test if disk password works
-    Type In Disk Password    @{password}
-    Remove Disk Password    @{password}
+    Type In Disk Password    ${password}
+    Remove Disk Password    ${password}

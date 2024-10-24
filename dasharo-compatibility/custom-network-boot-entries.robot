@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -30,6 +28,6 @@ CNB001.001 Only one iPXE in boot menu
     ...    only once in the boot option list.
     Skip If    not ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}    CNB001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CNB001.001 not supported
-    Power On
-    Enter Boot Menu Tianocore
-    Check IPXE Appears Only Once
+
+    ${boot_menu}=    Get UEFI Boot Manager Entries
+    Should Contain X Times    ${boot_menu}    ${IPXE_BOOT_ENTRY}    1

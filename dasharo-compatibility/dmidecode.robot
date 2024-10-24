@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -36,7 +34,7 @@ DMI001.001 Verify the device serial number
     Login To Linux
     Switch To Root User
     Detect Or Install Package    dmidecode
-    ${out}=    Execute Linux Command    dmidecode -t bios | grep Serial
+    ${out}=    Execute Linux Command    dmidecode -t system | grep Serial
     Should Contain    ${out}    ${DMIDECODE_SERIAL_NUMBER}
     IF    ${SERIAL_FROM_MAC}    Compare Serial Number From MAC    ${out}
     Exit From Root User
@@ -44,6 +42,7 @@ DMI001.001 Verify the device serial number
 DMI002.001 Verify the firmware version
     [Documentation]    Check whether the firmware version on the DUT is the
     ...    same as it is expected.
+    [Tags]    minimal-regression
     Skip If    not ${FIRMWARE_NUMBER_VERIFICATION}    DMI002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DMI001.002 not supported
     Power On
@@ -59,6 +58,7 @@ DMI002.001 Verify the firmware version
 DMI003.001 Verify the firmware product name
     [Documentation]    Check whether the DUT product name is the same as it is
     ...    expected.
+    [Tags]    minimal-regression
     Skip If    not ${PRODUCT_NAME_VERIFICATION}    DMI003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DMI003.001 not supported
     Power On
@@ -83,9 +83,6 @@ DMI004.001 Verify the firmware release date
     ${out}=    Execute Linux Command    dmidecode -t bios | grep Release
     Should Contain    ${out}    ${DMIDECODE_RELEASE_DATE}
     Exit From Root User
-    IF    ${RELEASE_DATE_FROM_SOL}
-        Firmware Release Date Verification From SOL
-    END
 
 DMI005.001 Verify the firmware manufacturer
     [Documentation]    Check whether the firmware manufacturer on the DUT is

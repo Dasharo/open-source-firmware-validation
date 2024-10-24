@@ -26,7 +26,7 @@ Get Secure Boot Menu Construction
     ...    Return only selectable entries. If some menu option is not
     ...    selectable (grayed out) it will not be in the menu construction
     ...    list.
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1
+    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=2
     ${out}=    Read From Terminal Until    ${checkpoint}
     # At first, parse the menu as usual
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
@@ -82,6 +82,8 @@ Reset To Default Secure Boot Keys
     Enter Submenu From Snapshot    ${advanced_menu}    Reset to default Secure Boot Keys
     Read From Terminal Until    Are you sure?
     Press Enter
+    # QEMU needs a lot of time, why?
+    Sleep    15s
 
 Erase All Secure Boot Keys
     [Documentation]    This keyword assumes that we are in the Advanced Secure
@@ -90,6 +92,8 @@ Erase All Secure Boot Keys
     Enter Submenu From Snapshot    ${advanced_menu}    Erase all Secure Boot Keys
     Read From Terminal Until    Are you sure?
     Press Enter
+    # QEMU needs a lot of time, why?
+    Sleep    15s
 
 Return Secure Boot State
     [Documentation]    Returns the state of Secure Boot as reported in the Secure Boot Configuration menu
@@ -116,19 +120,36 @@ Enable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+    ${changed}=    Set Option State    ${sb_menu}    Enable Secure Boot    ${TRUE}
+    IF    ${changed} == ${TRUE}
+        # Changing Secure Boot state issues a special popup
+        Read From Terminal Until    Configuration changed, please reset the platform to take effect!
+        # Dismiss the popup with any key
+        Press Enter
+    END
 
 Disable Secure Boot
     [Documentation]    Expects to be executed when in Secure Boot configuration menu.
     [Arguments]    ${sb_menu}
     ${sb_menu}=    Make Sure That Keys Are Provisioned    ${sb_menu}
-    Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
+    ${changed}=    Set Option State    ${sb_menu}    Enable Secure Boot    ${FALSE}
+    IF    ${changed} == ${TRUE}
+        # Changing Secure Boot state issues a special popup
+        Read From Terminal Until    Configuration changed, please reset the platform to take effect!
+        # Dismiss the popup with any key
+        Press Enter
+    END
 
 Check Secure Boot In Linux
     [Documentation]    Keyword checks Secure Boot state in Linux.
     ...    Returns True when Secure Boot is enabled
     ...    and False when disabled.
-    ${out}=    Execute Linux Command    dmesg | grep secureboot
+    # The string in dmesg may be in two forms:
+    # secureboot: Secure boot disabled
+    # or just:
+    # Secure boot disabled
+    # Lines containing "Bluetooth" are ignored as they are not the target of this check and may cause false result.
+    ${out}=    Execute Command In Terminal    dmesg | grep "Secure boot" | grep -v "Bluetooth"
     Should Contain Any    ${out}    disabled    enabled
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    enabled
@@ -201,20 +222,37 @@ Select File In File Explorer
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Enter UEFI Shell
-    [Documentation]    Boots given .efi file from UEFI shell.
-    ...    Assumes that it is located on FS0.
+    [Documentation]    Boots into UEFI Shell. Should be called after Power On or
+    ...    reboot
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
+    Sleep    1s
 
 Execute File In UEFI Shell
     # UEFI shell has different line ending than the one we have set for the
     # Telnet connection. We cannot change it while the connection is open.
     [Arguments]    ${file}
-    Write Bare Into Terminal    fs0:
-    Press Enter
-    Read From Terminal Until    FS0:\\>
-    Write Bare Into Terminal    ${file}
-    Press Enter
-    ${out}=    Read From Terminal Until    FS0:\\>
+    ${out}=    Execute UEFI Shell Command    fs0:
+    Should Contain    ${out}    FS0:\\>
+    ${out}=    Execute UEFI Shell Command    ${file}
+    Should Contain    ${out}    FS0:\\>
     RETURN    ${out}
+
+Restore Secure Boot Defaults
+    [Documentation]    Restore SB settings to default, by resetting keys
+    ...    and disabling SB, so it does not interfere with the followup tests.
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    # Changes to Secure Boot take action immediately, so we can just continue
+
+    Exit From Current Menu
+    ${sb_menu}=    Reenter Menu And Return Construction
+    IF    '${SECURE_BOOT_DEFAULT_STATE}' == 'Disabled'
+        Disable Secure Boot    ${sb_menu}
+    ELSE
+        Enable Secure Boot    ${sb_menu}
+    END
+    # Changes to Secure Boot take action immediately, so we can just continue

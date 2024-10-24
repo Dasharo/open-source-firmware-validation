@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -18,10 +16,21 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-Suite Teardown      Run Keyword
+...                     AND
+...                     Skip If    not ${UEFI_PASSWORD_SUPPORT}    UEFI setup password not supported
+# If this suite fails in unexpected place, we will cause the next suites to fail
+# because some password may be set.
+Suite Teardown      Run Keywords
+...                     Run Keyword If Any Tests Failed    Flash Firmware    ${FW_FILE}
+...                     AND
 ...                     Log Out And Close Connection
+
+
+*** Variables ***
+@{DEFAULT_PASSWORD}=    1    q    a    z    X    S    W    @
+@{WRONG_PASSWORD}=      w    r    o    n    g
 
 
 *** Test Cases ***
@@ -31,7 +40,6 @@ PSW001.001 Check Password Setup option availability and default state
     ...    correct default state.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW001.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -48,7 +56,6 @@ PSW002.001 Password setting mechanism correctness checking
     ...    displayed
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW002.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     Set Password 5 Times
     Power On
@@ -61,12 +68,10 @@ PSW003.001 Attempt to log in with a correct password
     ...    correct Setup password, the Setup menu will be displayed.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW003.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In The Password    ${password}
+    Type In The Password    ${DEFAULT_PASSWORD}
     # "ontinue" is a string that appears both in correct password screen
     # as well as in incorrect
     ${output}=    Read From Terminal Until    ontinue
@@ -78,12 +83,10 @@ PSW004.001 Attempt to log in with an incorrect password
     ...    re-entering the password will be displayed.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW004.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${wrong_password}=    Set Variable    w    r    o    n    g
-    Type In The Password    ${wrong_password}
+    Type In The Password    ${WRONG_PASSWORD}
     # "ontinue" is a string that appears both in correct password screen
     # as well as in incorrect
     ${output}=    Read From Terminal Until    ontinue
@@ -95,17 +98,15 @@ PSW005.001 Attempt to log in with an incorrect password 3 times
     ...    re-entering the password will be displayed.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW005.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${wrong_password}=    Set Variable    w    r    o    n    g
     FOR    ${counter}    IN RANGE    0    2
-        Type In The Password    ${wrong_password}
+        Type In The Password    ${WRONG_PASSWORD}
         Press Key N Times    1    ${ENTER}
         Sleep    0.5s
     END
-    Type In The Password    ${wrong_password}
+    Type In The Password    ${WRONG_PASSWORD}
     Sleep    1s
     ${output}=    Read From Terminal
     Should Contain    ${output}    reset system
@@ -116,12 +117,10 @@ PSW006.001 Attempt to turn off setup password functionality
     ...    empty password.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW006.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In The Password    ${password}
+    Type In The Password    ${DEFAULT_PASSWORD}
     ${setup_menu}=    Get Setup Menu Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -132,7 +131,7 @@ PSW006.001 Attempt to turn off setup password functionality
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    Type In BIOS Password    ${password}
+    Type In BIOS Password    ${DEFAULT_PASSWORD}
     Press Key N Times    2    ${ENTER}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
@@ -148,7 +147,6 @@ PSW007.001 Attempt to set non-compilant password
     ...    a non-compilant password will be rejected.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW007.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -160,8 +158,7 @@ PSW007.001 Attempt to set non-compilant password
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    ${password}=    Set Variable    w    r    o    n    g
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    ${WRONG_PASSWORD}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Not Contain    ${result}    New password is updated successfully
 
@@ -172,7 +169,6 @@ PSW008.001 Attempt to set old password
     ...    set old password again will be rejected.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW008.001 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -184,8 +180,7 @@ PSW008.001 Attempt to set old password
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    ${DEFAULT_PASSWORD}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Not Contain    ${result}    New password is updated successfully
 
@@ -204,13 +199,12 @@ Set Password 5 Times
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    ${password1}=    Set Variable    m    j    u    7    ^    Y    H    E
-    ${password2}=    Set Variable    n    h    y    6    %    T    G    B
-    ${password3}=    Set Variable    b    g    t    5    $    R    F    V
-    ${password4}=    Set Variable    v    f    r    4    *    E    D    C
-    ${password5}=    Set Variable    x    s    w    2    !    Q    A    Z
-    ${password}=    Set Variable    1    q    a    z    X    S    W    @
-    ${passwords}=    Create List    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
+    @{password1}=    Create List    m    j    u    7    ^    Y    H    E
+    @{password2}=    Create List    n    h    y    6    %    T    G    B
+    @{password3}=    Create List    b    g    t    5    $    R    F    V
+    @{password4}=    Create List    v    f    r    4    *    E    D    C
+    @{password5}=    Create List    x    s    w    2    !    Q    A    Z
+    @{passwords}=    Create List    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
     Type In New Disk Password    ${password1}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
@@ -224,7 +218,7 @@ Set Password 5 Times
         Press Key N Times    2    ${ENTER}
     END
     Type In BIOS Password    ${passwords}[-1]
-    Type In New Disk Password    ${password}
+    Type In New Disk Password    ${DEFAULT_PASSWORD}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
     Press Key N Times    1    ${ENTER}

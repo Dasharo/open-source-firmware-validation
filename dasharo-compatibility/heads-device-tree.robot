@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -19,8 +17,10 @@ Resource            ../keys-and-keywords/heads-keywords.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${DEVICE_TREE_SUPPORT}    heads devicetree tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -29,7 +29,6 @@ Suite Teardown      Run Keyword
 DVT001.001 Node with coreboot existst
     [Documentation]    Check whether the node with the coreboot exists in
     ...    Device Tree.
-    Skip If    not ${DEVICE_TREE_SUPPORT}    DVT001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT001.001 not supported
     Power On
     Detect Heads Main Menu
@@ -39,7 +38,6 @@ DVT001.001 Node with coreboot existst
 
 DVT002.001 Memory for coreboot is reserved
     [Documentation]    Check whether the memory for coreboot is reserved.
-    Skip If    not ${DEVICE_TREE_SUPPORT}    DVT002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT002.001 not supported
     Power On
     Detect Heads Main Menu

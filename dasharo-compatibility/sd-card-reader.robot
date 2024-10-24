@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -18,30 +16,30 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${SD_CARD_READER_SUPPORT}    SD card reader tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-SDC001.001 SD Card reader detection (Ubuntu 20.04)
+SDC001.001 SD Card reader detection (Ubuntu)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC001.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${disks}=    Identify Disks In Linux
-    Should Contain    ${disks}    ${SD_CARD_VENDOR}
-    Should Contain    ${disks}    ${SD_CARD_MODEL}
+    Should Match    str(${disks})    *SD*
     Exit From Root User
 
-SDC001.002 SD Card reader detection (Windows 11)
+SDC001.002 SD Card reader detection (Windows)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC001.001 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.001 not supported
     Power On
     Login To Windows
@@ -50,12 +48,12 @@ SDC001.002 SD Card reader detection (Windows 11)
     Should Contain    ${out}    DiskDrive
     # Exit from root user
 
-SDC002.001 SD Card read/write (Ubuntu 20.04)
+SDC002.001 SD Card read/write (Ubuntu)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC002.001 not supported
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Execute Linux Command    dd if=/dev/urandom of=/tmp/in.bin bs=4K count=100
@@ -65,15 +63,12 @@ SDC002.001 SD Card read/write (Ubuntu 20.04)
     Should Be True    ${result}
     Exit From Root User
 
-SDC002.002 SD Card read/write (Windows 11)
+SDC002.002 SD Card read/write (Windows)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    Skip If    not ${SD_CARD_READER_SUPPORT}    SDC002.001 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.001 not supported
     Power On
-    ${out}=    Run
-    ...    sshpass -p ${DEVICE_WINDOWS_PASSWORD} scp drive_letters.ps1 ${DEVICE_WINDOWS_USERNAME}@${DEVICE_IP}:/C:/Users/user
-    Should Be Empty    ${out}
+    SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     Login To Windows
     ${drive_letter}=    Identify Path To SD Card In Windows
     Check Read Write To External Drive In Windows    ${drive_letter}

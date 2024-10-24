@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -18,43 +16,44 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    Nvidia GPU tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-NVI001.001 NVIDIA Graphics detect (Ubuntu 20.04)
+NVI001.001 NVIDIA Graphics detect (Ubuntu)
     [Documentation]    Check whether the NVIDIA graphics card is initialized
     ...    correctly and can be detected by the Linux OS.
-    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    NVI001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI001.001 not supported
     Power On
     Login To Linux
     Switch To Root User
+    Detect Or Install Package    pciutils
     ${out}=    Execute Linux Command    lspci | grep -i nvidia | cat
-    Should Contain    ${out}    3D controller: NVIDIA Corporation
+    Should Contain Any    ${out}    3D controller: NVIDIA Corporation    VGA compatible controller: NVIDIA Corporation
     Exit From Root User
 
-NVI001.002 NVIDIA Graphics detect (Windows 11)
+NVI001.002 NVIDIA Graphics detect (Windows)
     [Documentation]    Check whether the NVIDIA graphics card is initialized
     ...    correctly and can be detected by the Windows 11.
-    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    NVI001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVI001.002 not supported
     Power On
     Login To Windows
     ${out}=    Get Video Controllers Windows
     Should Contain    ${out}    NVIDIA GeForce
 
-NVI002.001 NVIDIA Graphics power management (Ubuntu 20.04)
+NVI002.001 NVIDIA Graphics power management (Ubuntu)
     [Documentation]    Check whether the NVIDIA graphics power management is
     ...    functional and the card powers on only while it's used.
-    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    NVI002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI002.001 not supported
     Power On
     Login To Linux
     Switch To Root User
     Detect Or Install Package    mesa-utils
+    Detect Or Install Package    pciutils
     Check NVIDIA Power Management In Linux
     Exit From Root User
