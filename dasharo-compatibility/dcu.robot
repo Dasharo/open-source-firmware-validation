@@ -13,7 +13,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
-Resource            ../lib/options/dcu.robot
+Resource            ../lib/dcu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -34,11 +34,8 @@ DCU001.001 Change the UUID
     Skip If    not ${DCU_UUID_SUPPORT}    DCU001.001 not supported
 
     ${uuid}=    Uuid 4
-    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -u ${uuid} ./coreboot.rom
-    Log    ${result.stdout}
-    Log    ${result.stderr}
-    Should Contain    ${result.stdout}    Success
-    Flash Firmware    ./dcu/coreboot.rom
+    DCU Smbios Set UUID In File    coreboot.rom    ${uuid}
+    Flash Firmware    coreboot.rom
 
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -53,11 +50,8 @@ DCU002.001 Change the serial number
     Skip If    not ${DCU_SERIAL_SUPPORT}    DCU002.001 not supported
 
     ${serial_no}=    Random Int    min=10000000    max=99999999
-    ${result}=    Execute Command In Terminal    cd ./dcu; ./dcuc smbios -s ${serial_no} ./coreboot.rom; cd ..;
-    Log    ${result.stdout}
-    Log    ${result.stderr}
-    Should Contain    ${result.stdout}    Success
-    Flash Firmware    ./dcu/coreboot.rom
+    DCU Smbios Set Serial In File    coreboot.rom    ${serial_no}
+    Flash Firmware    coreboot.rom
 
     Execute Reboot Command
     Boot System Or From Connected Disk    ubuntu
@@ -74,11 +68,9 @@ DCU003.001 Change the bootsplash logo
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    DCU003.001 not supported
 
     ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
-    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo -l ./logo.bmp ./coreboot.rom
-    Log    ${result.stdout}
-    Log    ${result.stderr}
-    Should Contain    ${result.stdout}    Success
-    Flash Firmware    ./dcu/coreboot.rom
+    ${logo_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
+    DCU Logo Set In File    coreboot.rom    ${logo_path}
+    Flash Firmware    coreboot.rom
 
     Execute Reboot Command
     Boot System Or From Connected Disk    ubuntu
@@ -95,51 +87,16 @@ DCU003.001 Change the bootsplash logo
     END
     Should Contain    ${out}    ${img_sum}
 
-DCU004.001 Verify SMMSTORE changes (FW)
+DCU004.001 Verify SMMSTORE changes
     [Documentation]    This test case verifies that changes made to the
-    ...    SMMSTORE via DCU are properly applied and visible in EDK2.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DCU004.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Write SMMSTORE State 1
-
-    Power On
-    Check SMMSTORE State 1 (FW)
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Write SMMSTORE State 2
-
-    Power On
-    Check SMMSTORE State 2 (FW)
-
-DCU004.001 Verify SMMSTORE changes (Self-test)
-    [Documentation]    This test case verifies that changes made to the
-    ...    SMMSTORE via DCU are properly applied and retrievable via DCU.
-    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}
-    Power On
-
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Write SMMSTORE State 1
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Check SMMSTORE State 1 (DCU)
-    Write SMMSTORE State 2
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Check SMMSTORE State 2 (DCU)
+    ...    SMMSTORE via DCU are properly applied and visible in Setup menu.
+    IF    "${OPTIONS_LIB}"=="uefi-setup-menu"
+        Verify SMMSTORE Changes (Setup Menu)
+    ELSE IF    "${OPTIONS_LIB}"=="dcu"
+        Verify SMMSTORE Changes (DCU)
+    ELSE
+        Fail    Unsupported $OPTIONS_LIB: ${OPTIONS_LIB}
+    END
 
 
 *** Keywords ***
@@ -154,45 +111,53 @@ Prepare DCU Test Environment
 
     Run    cp ${FW_FILE} dcu/coreboot.rom
     Run    chmod -R a+rw dcu
-    ${local_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
-    Run    cp ${local_path} dcu/logo.bmp
 
-Write SMMSTORE State 1
-    Dcu.Set UEFI Option    NetworkBoot    Disabled
+Verify SMMSTORE Changes (Setup Menu)
+    [Documentation]    This keyword verifies that changes made to the
+    ...    SMMSTORE via DCU are properly applied and visible in Setup menu.
 
-Check SMMSTORE State 1 (FW)
-    @{option_path}=    Option Name To UEFI Path    NetworkBoot
+    ${initial_value}=    Get UEFI Option    NetworkBoot
+    ${new_value}=    Evaluate    not ${initial_value}
+
     Power On
-    ${menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${path_len}=    Get Length    ${option_path}
-    FOR    ${i}    IN RANGE    ${path_len} - 1
-        ${menu}=    Enter Submenu From Snapshot And Return Construction
-        ...    ${menu}
-        ...    ${option_path[${i}]}
-    END
-    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}
-    Should Be Equal    ${state}    ${False}
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    DCU Variable Set UEFI Option In DUT    NetworkBoot    ${new_value}
 
-Check SMMSTORE State 1 (DCU)
-    ${result}=    Dcu.Get UEFI Option    NetworkBoot
-    Should Be Equal    ${result}    Disabled
+    ${value}=    Get UEFI Option    NetworkBoot
+    Should Be Equal    ${value}    ${new_value}
 
-Write SMMSTORE State 2
-    Dcu.Set UEFI Option    NetworkBoot    Enabled
-
-Check SMMSTORE State 2 (FW)
-    @{option_path}=    Option Name To UEFI Path    NetworkBoot
     Power On
-    ${menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${path_len}=    Get Length    ${option_path}
-    FOR    ${i}    IN RANGE    ${path_len} - 1
-        ${menu}=    Enter Submenu From Snapshot And Return Construction
-        ...    ${menu}
-        ...    ${option_path[${i}]}
-    END
-    ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}
-    Should Be Equal    ${state}    ${True}
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    DCU Variable Set UEFI Option In DUT    NetworkBoot    ${initial_value}
 
-Check SMMSTORE State 2 (DCU)
-    ${result}=    Dcu.Get UEFI Option    NetworkBoot
-    Should Be Equal    ${result}    Enabled
+    ${value}=    Get UEFI Option    NetworkBoot
+    Should Be Equal    ${value}    ${initial_value}
+
+Verify SMMSTORE Changes (DCU)
+    [Documentation]    This keyword verifies that changes made to the
+    ...    SMMSTORE via DCU are properly applied and visible in DCU.
+
+    # Initial value cannot be checked and restored using DCU because the
+    # variable store may not be initialized yet.
+    ${initial_value}=    Set Variable    ${FALSE}
+    ${new_value}=    Set Variable    ${TRUE}
+
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    DCU Variable Set UEFI Option In DUT    NetworkBoot    ${new_value}
+
+    Login To Linux
+    Switch To Root User
+    ${value}=    DCU Variable Get UEFI Option From DUT    NetworkBoot
+    Should Be Equal    ${value}    ${new_value}
+    DCU Variable Set UEFI Option In Dut    NetworkBoot    ${initial_value}
+
+    Login To Linux
+    Switch To Root User
+    ${value}=    DCU Variable Get UEFI Option From DUT    NetworkBoot
+    Should Be Equal    ${value}    ${initial_value}
