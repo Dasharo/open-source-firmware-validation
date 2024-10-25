@@ -47,11 +47,10 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Boot Dasharo Tools Suite    iPXE
     Write Into Terminal    1
     Read From Terminal Until
-    ...    Do you want to support Dasharo development by sending us logs with hardware configuration?
+    ...    Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
     Write Into Terminal    N
     Set DUT Response Timeout    5m
-    ${out}=    Read From Terminal Until    Enter an option:
-    Should Contain    ${out}    Done! Logs saved to:
+    Read From Terminal Until    Done! Logs saved to:
 
 DTS003.001 DTS option reboot DUT works correctly
     [Documentation]    This test aims to verify that the option Reboot system
@@ -59,7 +58,7 @@ DTS003.001 DTS option reboot DUT works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    11
+    Write Into Terminal    R
     # Switch back to serial on PiKVM devices
     Restore Initial DUT Connection Method
     Enter Setup Menu Tianocore
@@ -70,7 +69,7 @@ DTS004.001 DTS accessing shell works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    9
+    Write Into Terminal    S
     Read From Terminal Until Regexp    bash-\\d\\.\\d#
 
 DTS005.001 Flash device from DTS shell by using flashrom works correctly
@@ -127,7 +126,7 @@ DTS008.001 DTS option power-off DUT works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    10
+    Write Into Terminal    P
     Set DUT Response Timeout    30s
     ${status}=    Run Keyword And Return Status    Enter Setup Menu Tianocore
     Should Not Be True    ${status}

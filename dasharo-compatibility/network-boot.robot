@@ -77,11 +77,11 @@ PXE004.001 DTS option is available and works correctly
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
     Should Contain    ${out}    Dasharo HCL report
-    Should Contain    ${out}    Load your DES keys
-    Should Contain    ${out}    Start SSH server
-    Should Contain    ${out}    Shell
-    Should Contain    ${out}    Power off system
-    Should Contain    ${out}    Reboot system
+    Should Contain    ${out}    Load your DPP keys
+    Should Contain    ${out}    launch SSH server
+    Should Contain    ${out}    enter shell
+    Should Contain    ${out}    poweroff
+    Should Contain    ${out}    reboot
 
 PXE005.001 OS installation option is available and works correctly
     [Documentation]    This test aims to verify that the OS installation option
