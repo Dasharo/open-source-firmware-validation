@@ -8,7 +8,8 @@ Resource    include/default.robot
 
 
 *** Variables ***
-${DUT_CONNECTION_METHOD}=                   Telnet
+${INITIAL_DUT_CONNECTION_METHOD}=           Telnet
+${DUT_CONNECTION_METHOD}=                   ${INITIAL_DUT_CONNECTION_METHOD}
 ${RTE_S2_N_PORT}=                           1234
 ${FLASH_SIZE}=                              ${8*1024*1024}
 ${BOOT_MENU_KEY}=                           ${ESC}
