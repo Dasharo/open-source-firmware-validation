@@ -244,6 +244,11 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=protectli
 ...                         sonoff_ip=192.168.10.27
 
+# 3mdeb Protectli VP2430 -----------------------------------------------------
+&{RTE68}=                   ip=192.168.10.18
+...                         platform=protectli-vp2430
+...                         platform_vendor=protectli
+
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
@@ -257,7 +262,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
 ...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
-...                         &{RTE66}    &{RTE67}
+...                         &{RTE66}    &{RTE67}    &{RTE68}
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
@@ -320,11 +325,13 @@ ${OS_UBUNTU}=               ubuntu
 ...                         boot_name=Samsung SSD 990 PRO 1TB
 &{SSD19}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
 ...                         boot_name=SD Device
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 870 EVO 1TB
 
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
-...                         &{SSD16}    &{SSD17}    &{SSD19}
+...                         &{SSD16}    &{SSD17}    &{SSD18}    &{SSD19}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -496,6 +503,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG49}=                &{RTE65}    &{SSD17}
 @{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
 @{CONFIG51}=                &{RTE67}    &{USB11}
+@{CONFIG52}=                &{RTE68}    &{USB12}    &{SSD18}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
