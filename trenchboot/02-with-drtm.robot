@@ -100,7 +100,54 @@ WTD005.001 DRTM event log has DRTM entries (AMD)
 WTD006.001 DRTM log aligns with PCR values
     [Documentation]    Verify that all DRTM measurements are correctly reflected
     ...    in DRTM event log
-    Validate PCRs Against Event Log    /sys/kernel/security/slaunch/eventlog
+    Execute Command In Terminal
+    ...    tpm2_eventlog /sys/kernel/security/slaunch/eventlog > /tmp/event-log
+    # This extracts hashes for a combination of a PCR (first parameter) and an
+    # algorithm (second parameter). The printed line have the form
+    #    {event data length}-{digest}
+    # to make it possible to ignore some events based on a combination of these
+    # fields.
+    #
+    # Backslash in front of some dollar signs is escaping AWK fields while
+    # unescaped ones are parameters of this function that get embedded into
+    # AWK script. The escaping is doubled because Robot Framework also
+    # interprets escapes.
+    ${hashes_func}=    Catenate    SEPARATOR=${SPACE}    function hashes() {
+    ...    awk "/PCRIndex:/{ pcr = \\$2; alg = \\"\\"; digest = \\"\\" }
+    ...    /- AlgorithmId:/{ alg = \\$3 }
+    ...    /Digest:/{ if (alg == \\"$2\\") digest = substr(\\$2, 2, length(\\$2) - 2) }
+    ...    /EventSize:/{ if (pcr == $1 && length(digest) != 0) print \\$2 \\"-\\" digest }"
+    ...    /tmp/event-log;
+    ...    }
+    Execute Command In Terminal    ${hashes_func}
+
+    Execute Command In Terminal
+    ...    function extend() { pcr=$(echo -n "$pcr$2" | xxd -r -p | $1sum | cut -f1 -d' '); }
+    FOR    ${algo}    IN    sha1    sha256
+        ${algo_present}=    Execute Command In Terminal
+        ...    test -d /sys/class/tpm/tpm0/pcr-${algo} && echo y
+        IF    '''${algo_present}''' != 'y'    CONTINUE
+
+        FOR    ${pcr}    IN    17    18
+            # Replaying the log skips digests of no data. These correspond to
+            # informational markers which don't extend PCRs.
+            ${replay_pcr}=    Catenate    SEPARATOR=${SPACE}
+            ...    empty=$(${algo}sum < /dev/null | cut -f1 -d' ');
+            ...    pcr=\${empty//?/0};
+            ...    for line in $(hashes ${pcr} ${algo}); do
+            ...    len=\${line%-*};
+            ...    hash=\${line#*-};
+            ...    if [ "\${hash^^*}" != "\${empty^^*}" -o "$len" -ne 0 ]; then extend ${algo} "$hash"; fi;
+            ...    done;
+            ...    echo "$pcr"
+            ${expected}=    Execute Command In Terminal    ${replay_pcr}
+            ${actual}=    Execute Command In Terminal
+            ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}
+            Should Be Equal As Strings    ${actual}    ${expected}
+            ...    PCR-${pcr} ${algo} doesn't match
+            ...    ignore_case=${TRUE}
+        END
+    END
 
 WTD007.001 SRTM log aligns with PCR values
     [Documentation]    Verify that all SRTM measurements are correctly reflected
