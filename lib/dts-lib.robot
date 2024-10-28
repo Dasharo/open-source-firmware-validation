@@ -82,7 +82,6 @@ Boot Dasharo Tools Suite
         # Spawn DTS menu on SSH console
         Write Into Terminal    dts
     END
-
     Read From Terminal Until    Enter an option:
     Sleep    5s
 
