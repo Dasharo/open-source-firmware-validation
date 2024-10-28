@@ -86,14 +86,16 @@ WTD005.001 DRTM event log has DRTM entries (AMD)
     ...    find_event 17 "DLME"
     Should Be Equal As Strings    ${match}    MATCH    No "DLME" entry
 
+    # XXX: No part of SLRT is measured on AMD platforms.
     # Early TPM code doesn't identify SLRT measurement event in any way.
-    ${match}=    Execute Command In Terminal
-    ...    find_event 18 ""
-    Should Be Equal As Strings    ${match}    MATCH    No SLRT entry
+    # ${match}=    Execute Command In Terminal
+    # ...    find_event 18 ""
+    # Should Be Equal As Strings    ${match}    MATCH    No SLRT entry
 
-    ${match}=    Execute Command In Terminal
-    ...    find_event 17 "Measured MB2 module"
-    Should Be Equal As Strings    ${match}    MATCH\nMATCH    No "Measured MB2 module" entries
+    # XXX: This is only for Multiboot2 protocol.
+    # ${match}=    Execute Command In Terminal
+    # ...    find_event 17 "Measured MB2 module"
+    # Should Be Equal As Strings    ${match}    MATCH\nMATCH    No "Measured MB2 module" entries
 
 WTD006.001 DRTM log aligns with PCR values
     [Documentation]    Verify that all DRTM measurements are correctly reflected
