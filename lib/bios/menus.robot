@@ -572,6 +572,15 @@ Boot System Or From Connected Disk
     ...    to boot from connected disk set up in config
     [Arguments]    ${system_name}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+
+    IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
+        Read From Terminal Until    Press F10 key now for boot menu
+        Write Bare Into Terminal    ${F10}
+        Read From Terminal Until    Select boot device
+        Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
+        RETURN
+    END
+
     ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
     # When ESP scanning feature is there, boot entries are named differently than
     # they used to
