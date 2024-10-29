@@ -4,7 +4,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/robot.sh"
 
 print_help() {
-  echo "Usage: $0 [test_file | directory_path]"
+  echo "Usage: $0 (test_file | directory_path)... [-- arbitrary robot args...]"
   echo
   echo "This script is used to execute OSFV Robot Framework tests."
   echo "You can specify either a single test or a whole directory of tests."
