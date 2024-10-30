@@ -233,7 +233,6 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE65}=                   ip=192.168.10.54
 ...                         platform=optiplex-7010
 ...                         platform_vendor=DELL    sonoff_ip=192.168.10.250
-
 # Odroid-H4 Plus
 &{RTE66}=                   ip=192.168.10.193    platform=odroid-h4-Plus
 ...                         platform_vendor=Hardkernel
@@ -243,7 +242,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=protectli-vp3230
 ...                         platform_vendor=protectli
 ...                         sonoff_ip=192.168.10.27
-
+# 3mdeb Protectli VP2430 -----------------------------------------------------
+&{RTE68}=                   ip=192.168.10.18
+...                         platform=protectli-vp2430
+...                         platform_vendor=protectli
 # 3mdeb Protectli VP2430 -----------------------------------------------------
 &{RTE68}=                   ip=192.168.10.18
 ...                         platform=protectli-vp2430
