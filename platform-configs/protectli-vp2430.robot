@@ -23,7 +23,7 @@ ${DMIDECODE_PRODUCT_NAME}=          VP2430
 ${DMIDECODE_RELEASE_DATE}=          N/A
 ${DMIDECODE_MANUFACTURER}=          Protectli
 ${DMIDECODE_VENDOR}=                3mdeb
-${DMIDECODE_FAMILY}=                N/A
+${DMIDECODE_FAMILY}=                Vault Pro
 ${DMIDECODE_TYPE}=                  N/A
 
 ${CPU_MAX_FREQUENCY}=               3400
