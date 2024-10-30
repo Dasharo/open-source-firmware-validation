@@ -97,6 +97,7 @@ Measure Warmboot Time
     [Arguments]    ${iterations}
     ${durations}=    Create List
     Log To Console    \n
+    # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
         Power On
         Boot System Or From Connected Disk    ubuntu
@@ -104,6 +105,7 @@ Measure Warmboot Time
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s
+        # Skip appending first result, as it may be the first boot which is longer
         IF    ${index} > 0    Append To List    ${durations}    ${boot_time}
     END
     ${min}    ${max}    ${average}    ${stddev}=
@@ -119,12 +121,14 @@ Measure Reboot Time
     ${average}=    Set Variable    0
     ${durations}=    Create List
     Log To Console    \n
+    # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
         Log To Console    (${index}) Boot time: ${boot_time} s
+        # Skip appending first result, as it may be the first boot which is longer
         IF    ${index} > 0    Append To List    ${durations}    ${boot_time}
         Execute Reboot Command
     END
