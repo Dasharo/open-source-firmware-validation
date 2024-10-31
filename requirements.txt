@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 #
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Apache-2.0
 
 bcrypt==4.1.2
 certifi==2024.2.2
@@ -46,6 +46,7 @@ pyte @ git+https://github.com/3mdeb/pyte@b81646ec9f754aab34ed671b3c852b01cc72bdb
 python-dateutil==2.9.0.post0
 pytz==2024.1
 PyYAML==6.0.1
+reuse==4.0.3
 requests==2.31.0
 rich==13.7.1
 rich-click==1.7.4

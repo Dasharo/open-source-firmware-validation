@@ -1,7 +1,7 @@
 <!--
 SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: Apache-2.0
 -->
 
 # Open Source Firmware Remote Test Environment
@@ -321,7 +321,7 @@ After adding new files to the repository, ensure they have proper license header
    To add license headers to files like Python scripts, use the following command:
    
    ```
-   reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="MIT" <file.py>
+   reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="Apache-2.0" <file.py>
     ``` 
 
 
@@ -338,8 +338,22 @@ After adding new files to the repository, ensure they have proper license header
     If you want to add license headers to multiple files at once, you can use the `find` command. For example, to add headers to all `.sh` files:
     
     ```
-    find . -type f -name "*.sh" -exec reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="MIT" {} \;
+    find . -type f -name "*.sh" -exec reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="Apache-2.0" {} \;
     ```
+    
+
+### Commands used for repository-wide compliance
+The following example commands were used to apply the license headers throughout the repository during the initial `reuse` setup:
+
+```    
+   # Add  license headers to all .robot files with Python-style comments:
+   find . -name "*.robot" -exec reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="Apache-2.0" --style="python" {} \;
+   
+   # Add a license header to variables.robot with Python-style comments:
+   reuse annotate --copyright="3mdeb <contact@3mdeb.com>" --license="Apache-2.0" --style="python" variables.robot
+
+``` 
+While most files were annotated using reuse, some files required manual adjustments. For example, files that cannot support in-line comments, such as binary files or assets, had .license files created alongside them to ensure reuse compatibility. This approach allows for license tracking even in non-standard formats, ensuring comprehensive compliance across all files.
     
 ### Checking license compliance
 After adding or modyfing files, before releasing a new version of the project, run the reuse lint tool to check if all files are compliant with license requirements:
