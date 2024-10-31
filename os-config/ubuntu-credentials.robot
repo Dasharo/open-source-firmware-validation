@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Variables ***
 # TODO: we still cannot have stable username/password/hostname
 # across installations. At least hostname has been defined, and

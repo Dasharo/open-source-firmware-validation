@@ -9,11 +9,10 @@ minicom.cap
 *.md5
 *.js
 *.pyc
-spreadsheet-creds.json
+credentials.py
 downstream_job_parameters.txt
 openbmc-test-automation/
 __pycache__*
 *.fd
 dl-cache/*
 !dl-cache/.gitkeep
-qemu-data/

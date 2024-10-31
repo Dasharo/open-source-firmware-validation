@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Variables ***
 ${ARROW_UP}=        \x1b\x5b\x41
 ${ARROW_DOWN}=      \x1b\x5b\x42

@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 #
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Apache-2.0
 
 Get-WmiObject -Query "SELECT * FROM Win32_DiskDrive WHERE InterfaceType='USB'" | ForEach-Object {
     $disk = $_

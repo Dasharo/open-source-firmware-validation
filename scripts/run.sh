@@ -2,7 +2,7 @@
 
 # SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 #
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Apache-2.0
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/robot.sh"

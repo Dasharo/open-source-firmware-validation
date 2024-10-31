@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Variables ***
 ${PXE_IP}=                  192.168.20.206
 ${HTTP_PORT}=               8000

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Settings ***
 Documentation       Library for UEFI configuration using Dasharo Configuration
 ...                 Utility tool. Commonly used when serial port is not

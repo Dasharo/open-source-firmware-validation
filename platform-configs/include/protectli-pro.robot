@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Variables ***
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}

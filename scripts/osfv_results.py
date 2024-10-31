@@ -2,7 +2,11 @@
 
 # SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 #
+<<<<<<< HEAD
 # SPDX-License-Identifier: MIT
+=======
+# SPDX-License-Identifier: Apache-2.0
+>>>>>>> 1d6dc6fb9413 (Add license headers for compliance with reuse tool)
 
 import argparse
 import time

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Settings ***
 Documentation       This suite verifies the correct operation of the keyword making
 ...                 sure that flash locks are disabled in various starting scenarios.

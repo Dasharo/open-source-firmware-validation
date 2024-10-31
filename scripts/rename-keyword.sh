@@ -2,7 +2,7 @@
 
 # SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 #
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Apache-2.0
 
 usage() {
   echo "This scripts renames keywords across the project from \"old_name\" to\"new_name\""

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Keywords ***
 Get CPU Frequency MAX
     [Documentation]    Get max CPU Frequency.

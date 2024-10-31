@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Settings ***
 Library     Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Resource    terminal.robot
