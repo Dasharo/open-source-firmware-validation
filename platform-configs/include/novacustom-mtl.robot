@@ -33,3 +33,5 @@ ${DMIDECODE_RELEASE_DATE}=                          03/17/2022
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+
+${L3_CACHE_SUPPORT}=                                ${TRUE}
