@@ -143,6 +143,7 @@ ${CPU_TESTS_SUPPORT}=                               ${FALSE}
 ${HYPER_THREADING_SUPPORT}=                         ${FALSE}
 ${INTEL_HYBRID_ARCH_SUPPORT}=                       ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+${L2_CACHE_SUPPORT}=                                ${FALSE}
 ${L3_CACHE_SUPPORT}=                                ${FALSE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
@@ -259,5 +260,3 @@ ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
-
-${L2_CACHE_SUPPORT}=                                ${TBD}
