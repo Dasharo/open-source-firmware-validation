@@ -236,15 +236,6 @@ Get Key To Press
     Log    Found digit: ${digit}
     RETURN    ${digit}
 
-Select UEFI Shell Boot Option
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
-    Read From Terminal Until    Shell>
-
-Boot Into UEFI Shell
-    Power On
-    Select UEFI Shell Boot Option
-
 Extract BIOS Version
     [Arguments]    ${text}
     ${lines}=    Split To Lines    ${text}
