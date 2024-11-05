@@ -3,7 +3,7 @@ Resource    include/msi-z690-common.robot
 
 
 *** Variables ***
-${FW_VERSION}=                      v0.9.1
+${FW_VERSION}=                      v0.9.2-rc3
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.1
 ${DMIDECODE_PRODUCT_NAME}=          MS-7E06
