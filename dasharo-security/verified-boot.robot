@@ -74,6 +74,7 @@ VBO008.001 Booting from recovery
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
     Execute Reboot Command
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cbmem -c | grep -i recovery
