@@ -19,7 +19,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-SAT001.001 SATA should be visible from OS
+SAT001.001 SATA should be visible from OS using smartctl
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using smartctl.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SAT001.002 not supported
@@ -41,7 +41,7 @@ SAT001.001 SATA should be visible from OS
         Pass Execution If    '${sata_present}' == 'TRUE'    'SATA disk found, passing test'
     END
 
-SAT001.002 SATA should be visible from OS
+SAT001.002 SATA should be visible from OS using hwinfo
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using hwinfo.
 
