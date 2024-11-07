@@ -41,6 +41,8 @@ SAT001.001 SATA should be visible from OS using smartctl
         Pass Execution If    '${sata_present}' == 'TRUE'    'SATA disk found, passing test'
     END
 
+    Fail    No SATA disk was found, failing test
+
 SAT001.002 SATA should be visible from OS using hwinfo
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using hwinfo.
