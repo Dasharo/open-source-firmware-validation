@@ -1,4 +1,9 @@
 *** Settings ***
+Documentation       This test suite is supported on Protectli releases with a
+...                 custom network boot menu. It is incompatible with the PXE
+...                 test suite. For most other releases the PXE test suite
+...                 should be used instead.
+
 Library             Collections
 Library             OperatingSystem
 Library             Process
