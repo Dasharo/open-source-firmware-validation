@@ -30,7 +30,7 @@ TPM_LOG_FILE="${TPM_DIR}/log"
 # some cases.
 # TPM_VERSION="2.0"
 
-QEMU_FW_FILE="./qemu_q35.rom"
+QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
 
 usage() {
 cat <<EOF
