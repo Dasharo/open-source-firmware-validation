@@ -139,8 +139,11 @@ QEMU_PARAMS_BASE="-machine q35,smm=on \
   -tpmdev emulator,id=tpm0,chardev=chrtpm \
   -device tpm-tis,tpmdev=tpm0 \
   -smp 2 \
-  -enable-kvm \
   -mem-prealloc"
+
+if [ "$(egrep -c '(vmx|svm)' /proc/cpuinfo)" -gt 0 ]; then
+  QEMU_PARAMS_BASE="${QEMU_PARAMS_BASE} -enable-kvm"
+fi
 
 QEMU_PARAMS_OS="-device ich9-intel-hda \
   -device hda-duplex,audiodev=hda \
