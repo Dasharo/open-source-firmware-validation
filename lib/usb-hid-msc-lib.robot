@@ -46,7 +46,7 @@ Copy ISO And Mount As USB
         Add USB To Qemu    img_name=${img_destination}
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Copy Image To PiKVM    ${PIKVM_IP}    ${img_source}    ${img_name}
+            Upload Local Image To PiKVM    ${PIKVM_IP}    ${img_source}    ${img_name}
             Mount Image On PiKVM    ${PIKVM_IP}    ${img_name}
         ELSE
             Skip    unsupported
