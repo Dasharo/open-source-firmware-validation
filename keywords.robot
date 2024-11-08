@@ -2,7 +2,6 @@
 Library         Collections
 Library         OperatingSystem
 Resource        pikvm-rest-api/pikvm_comm.robot
-Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
 Resource        lib/dts-lib.robot
