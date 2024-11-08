@@ -1,7 +1,6 @@
 *** Settings ***
 Resource    ../../os-config/windows-credentials.robot
 Resource    ../../os-config/ubuntu-credentials.robot
-Resource    ../../lib/options/${OPTIONS_LIB}.robot
 
 
 *** Variables ***
