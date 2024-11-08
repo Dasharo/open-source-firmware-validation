@@ -151,11 +151,10 @@ Execute Command In Terminal
     ...    used method of connection to the DUT (Telnet or SSH).
     [Arguments]    ${command}    ${timeout}=30s
     Set DUT Response Timeout    ${timeout}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        ${output}=    SSHLibrary.Execute Command    ${command}    strip_prompt=True
     ELSE
-        Write Into Terminal    ${command}
-        ${output}=    Read From Terminal Until Prompt
+        ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
     END
     # Drop last newline, if any
     ${output}=    Strip String    ${output}    mode=right    characters=\n\r
