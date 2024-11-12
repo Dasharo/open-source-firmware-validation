@@ -44,9 +44,13 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     graphic      graphic output is available in QEMU process window
 
   Available ACTIONS:
-    firmware     a machine with lower resources assigned will be spawned and no disk
-                 will be connected; suitable for firmware validation, but not for OS
-                 booting
+
+    uefi         a machine with lower resources assigned will be spawned and no
+                 disk will be connected; suitable for Dasharo (coreboot+UEFI)
+                 validation, but not for OS booting
+    seabios      a machine with lower resources assigned will be spawned and no
+                 disk will be connected; suitable for Dasharo (coreboot+SeaBIOS)
+                 validation, but not for OS booting
     os           a machine with more resources assigned will be spawned and HDD from
                  $HDD_PATH will be connected; suitable for firmware and OS validation,
                  if some OS is already installed on the disk image, it can be booted
@@ -57,7 +61,8 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     DIR         working directory, defaults to current working directory
 
 Example usage:
-    ./$(basename $0) vnc firmware
+    ./$(basename $0) vnc uefi
+    ./$(basename $0) nographic seabios
     ./$(basename $0) graphic os_install
     DIR=/my/work/dir ./$(basename $0) graphic os
 
@@ -128,8 +133,7 @@ if [ $# -ne 2 ]; then
 fi
 
 QEMU_PARAMS_BASE="-machine q35,smm=on \
-  -global driver=cfi.pflash01,property=secure,value=on \
-  -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
+  -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE}
   -global ICH9-LPC.disable_s3=1 \
   -qmp unix:/tmp/qmp-socket,server,nowait \
   -serial telnet:localhost:1234,server,nowait \
@@ -179,8 +183,17 @@ esac
 ACTION="$2"
 
 case "${ACTION}" in
-  firmware)
+  uefi)
     MEMORY="1G"
+    QEMU_UEFI_PARAMS="-global driver=cfi.pflash01,property=secure,value=on"
+    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_UEFI_PARAMS}"
+		;;
+  seabios)
+    MEMORY="1G"
+    QEMU_SEABIOS_PARAMS="-device e1000,netdev=net0,romfile="" \
+      -netdev user,id=net0 \
+      -monitor tcp:127.0.0.1:55555,server,nowait"
+    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_SEABIOS_PARAMS}"
 		;;
   os)
     MEMORY="4G"
@@ -199,21 +212,28 @@ case "${ACTION}" in
 esac
 
 # Check for the existence of QEMU firmware file
-if [ ! -f "${QEMU_FW_FILE}" ]; then
+if [ ! -f "${QEMU_FW_FILE}" ] && [ "${ACTION}" == "uefi" ]; then
     echo "The required file ${QEMU_FW_FILE} is missing."
     echo "Downloading from the server..."
     wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/coreboot/releases/latest/download/qemu_q35_all_menus.rom
+elif [ ! -f "${QEMU_FW_FILE}" ] && [ "${ACTION}" == "seabios" ]; then
+    echo "The required file ${QEMU_FW_FILE} is missing."
+    echo "Downloading from the server..."
+    wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/dasharo-pq/releases/download/24.08.00.01-rc1/qemu_q35_24.08.00.01.rom
 else
     echo "${QEMU_FW_FILE} file exists in the directory."
     echo "To make sure you are using the latest version from: https://github.com/Dasharo/coreboot/releases"
     echo "simply remove it and let the script download the latest release."
 fi
 
-echo "Clear UEFI variables"
-echo "On each run on this script, the firmware settings would be restored to default."
-dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null
-
-echo "Running QEMU Q35 with Dasharo (coreboot+UEFI) firmware ... (Ctrl+C to terminate)"
+if [ "${ACTION}" == "uefi" ]; then
+    echo "Clear UEFI variables"
+    echo "On each run on this script, the firmware settings would be restored to default."
+    dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null
+    echo "Running QEMU Q35 with Dasharo (coreboot+UEFI) firmware ... (Ctrl+C to terminate)"
+else
+    echo "Running QEMU Q35 with Dasharo (coreboot+SeaBIOS) firmware ... (Ctrl+C to terminate)"
+fi
 
 tpm_start
 qemu-system-x86_64 -m ${MEMORY} ${QEMU_PARAMS} || cleanup

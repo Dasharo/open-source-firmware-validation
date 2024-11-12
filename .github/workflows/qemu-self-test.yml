@@ -1,4 +1,4 @@
-name: Keywords self-tests with QEMU
+name: Keywords self-tests for Dasharo (coreboot+UEFI) on QEMU Q35
 
 on: [push, pull_request]
 
@@ -28,7 +28,7 @@ jobs:
 
     - name: Start QEMU in background
       run: |
-        ./scripts/ci/qemu-run.sh nographic firmware &
+        ./scripts/ci/qemu-run.sh nographic uefi &
 
     - name: Set up Python
       uses: actions/setup-python@v2
