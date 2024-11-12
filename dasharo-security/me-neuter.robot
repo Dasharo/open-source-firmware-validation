@@ -73,7 +73,7 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${result}=    Check ME State
+    ${result}=    Check ME Out
     IF    '${result}' == 'Disabled'
         Log    ME Device Is Disabled (HAP/Soft) Or Does Not Exist    WARN
     ELSE
