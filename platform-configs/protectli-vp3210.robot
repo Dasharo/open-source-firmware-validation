@@ -4,6 +4,7 @@ Resource    include/protectli-vp32xx.robot
 
 *** Variables ***
 ${DMIDECODE_PRODUCT_NAME}=      VP3210
+${POWER_CTRL}=                  sonoff
 
 ${INITIAL_CPU_FREQUENCY}=       800
 ${PLATFORM_CPU_SPEED}=          3,80
