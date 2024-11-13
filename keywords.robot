@@ -968,8 +968,6 @@ Check DP Windows
         ...    VideoOutputTechnology : 10
         ...    VideoOutputTechnology : 11
         ...    VideoOutputTechnology : 2147483648
-    ELSE IF    '${PLATFORM}' == 'protectli-vp3230'
-        Should Contain    ${out}    VideoOutputTechnology : 5
     ELSE
         Should Contain Any    ${out}    VideoOutputTechnology : 10    VideoOutputTechnology : 11
     END

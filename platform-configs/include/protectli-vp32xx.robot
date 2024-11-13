@@ -1,8 +1,5 @@
 *** Settings ***
 Resource    protectli-pro.robot
-Resource    protectli-pro.robot
-Resource    protectli-pro.robot
-Resource    protectli-pro.robot
 Resource    protectli-common.robot
 
 
