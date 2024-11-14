@@ -18,3 +18,4 @@ dl-cache/*
 !dl-cache/.gitkeep
 qemu-data/
 dcu/
+/logs
