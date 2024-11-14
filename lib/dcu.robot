@@ -9,11 +9,14 @@ Library             SSHLibrary
 Resource            ../keywords.robot
 
 
+*** Variables ***
+${DCU_REPO}=    https://github.com/Dasharo/dcu
+
 *** Keywords ***
 DCU Smbios Set UUID In File
     [Documentation]    Use DCU to set the UUID in a firmware file
     [Arguments]    ${fw_file}    ${uuid}
-    Run    git clone https://github.com/Dasharo/dcu
+    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
     ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -u ${uuid} ./coreboot.rom
@@ -25,7 +28,7 @@ DCU Smbios Set UUID In File
 DCU Smbios Set Serial In File
     [Documentation]    Use DCU to set the Serial number in a firmware file
     [Arguments]    ${fw_file}    ${serial}
-    Run    git clone https://github.com/Dasharo/dcu
+    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
     ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -s ${serial} ./coreboot.rom
@@ -37,7 +40,7 @@ DCU Smbios Set Serial In File
 DCU Logo Set In File
     [Documentation]    Use DCU to set the bootsplash logo in a firmware file
     [Arguments]    ${fw_file}    ${logo_file}
-    Run    git clone https://github.com/Dasharo/dcu
+    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     ${logo_path}    ${logo_filename}=    Split Path    ${logo_file}
     Run    cp ${fw_file} dcu/${filename}
@@ -54,7 +57,7 @@ DCU Logo Set In File
 DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
     [Arguments]    ${out_file}
-    Run    git clone https://github.com/Dasharo/dcu
+    Run    git clone ${DCU_REPO}
     Get Flashrom From Cloud
     Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
     Execute Command In Terminal    chmod 666 coreboot.rom
