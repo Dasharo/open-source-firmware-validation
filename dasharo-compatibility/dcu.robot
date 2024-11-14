@@ -26,6 +26,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+*** Variables ***
+${FW_COPY}=    coreboot.rom
 
 *** Test Cases ***
 DCU001.001 Change the UUID
@@ -34,8 +36,9 @@ DCU001.001 Change the UUID
     Skip If    not ${DCU_UUID_SUPPORT}    DCU001.001 not supported
 
     ${uuid}=    Uuid 4
-    DCU Smbios Set UUID In File    coreboot.rom    ${uuid}
-    Flash Firmware    coreboot.rom
+    DCU Smbios Set UUID In File    ${FW_COPY}    ${uuid}
+    Flash Firmware    ${FW_COPY}
+    Make Sure New Firmware Is Booted After Flashing
 
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -50,10 +53,11 @@ DCU002.001 Change the serial number
     Skip If    not ${DCU_SERIAL_SUPPORT}    DCU002.001 not supported
 
     ${serial_no}=    Random Int    min=10000000    max=99999999
-    DCU Smbios Set Serial In File    coreboot.rom    ${serial_no}
-    Flash Firmware    coreboot.rom
+    DCU Smbios Set Serial In File    ${FW_COPY}    ${serial_no}
+    Flash Firmware    ${FW_COPY}
+    Make Sure New Firmware Is Booted After Flashing
 
-    Execute Reboot Command
+    Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -69,10 +73,11 @@ DCU003.001 Change the bootsplash logo
 
     ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
     ${logo_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
-    DCU Logo Set In File    coreboot.rom    ${logo_path}
-    Flash Firmware    coreboot.rom
+    DCU Logo Set In File    ${FW_COPY}    ${logo_path}
+    Flash Firmware    ${FW_COPY}
+    Make Sure New Firmware Is Booted After Flashing
 
-    Execute Reboot Command
+    Power On
     Boot System Or From Connected Disk    ubuntu
     Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     Login To Linux
@@ -109,7 +114,7 @@ Prepare DCU Test Environment
     ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download
     ...    6e5a6722955e4f78d947654630f27ff833703fbc04776ffed963c96617f6bb2a
 
-    Run    cp ${FW_FILE} dcu/coreboot.rom
+    Run    cp ${FW_FILE} ${FW_COPY}
     Run    chmod -R a+rw dcu
 
 Verify SMMSTORE Changes (Setup Menu)
@@ -161,3 +166,16 @@ Verify SMMSTORE Changes (DCU)
     Switch To Root User
     ${value}=    DCU Variable Get UEFI Option From DUT    NetworkBoot
     Should Be Equal    ${value}    ${initial_value}
+
+Make Sure New Firmware Is Booted After Flashing
+    [Documentation]    Makes sure the platforms loads the newly flashed FW.
+    ...    Platforms without POWER_CTRL typically do nothing
+    ...    as an implementation of Power On etc. and they need a reboot after
+    ...    flashing
+    IF    '''${POWER_CTRL}''' == '''NONE'''
+        Power On
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        Execute Reboot Command
+    END
