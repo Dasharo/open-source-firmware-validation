@@ -128,6 +128,9 @@ execute_robot() {
     local _output_file="${_logs_dir}/${_test_name}_out.xml"
     local _debug_file="${_logs_dir}/${_test_name}_debug.log"
 
+    echo "Logs will be saved at ${_logs_dir}"
+    echo "Watch \"${_debug_file}\" to monitor the progress of the test"
+
     command="
           robot -L TRACE \
                 -l ${_log_file} \
