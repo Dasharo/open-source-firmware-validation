@@ -19,11 +19,12 @@ DCU Smbios Set UUID In File
     Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
-    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -u ${uuid} ./coreboot.rom
-    Run    cp dcu/${filename} ${fw_file}
-    Log    ${result.stdout}
-    Log    ${result.stderr}
-    Should Contain    ${result.stdout}    Success
+
+    ${result}=    Run    cd dcu; ./dcuc smbios -u ${uuid} ./coreboot.rom; cd ..
+
+    Log    ${result}
+    Run    mv dcu/${filename} ${fw_file}
+    Should Contain    ${result}    Success
 
 DCU Smbios Set Serial In File
     [Documentation]    Use DCU to set the Serial number in a firmware file
@@ -31,11 +32,12 @@ DCU Smbios Set Serial In File
     Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
-    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc smbios -s ${serial} ./coreboot.rom
-    Run    cp dcu/${filename} ${fw_file}
-    Log    ${result.stdout}
-    Log    ${result.stderr}
-    Should Contain    ${result.stdout}    Success
+
+    ${result}=    Run    cd dcu; ./dcuc smbios -s ${serial} ./coreboot.rom; cd ..
+
+    Log    ${result}
+    Run    mv dcu/${filename} ${fw_file}
+    Should Contain    ${result}    Success
 
 DCU Logo Set In File
     [Documentation]    Use DCU to set the bootsplash logo in a firmware file
@@ -45,14 +47,12 @@ DCU Logo Set In File
     ${logo_path}    ${logo_filename}=    Split Path    ${logo_file}
     Run    cp ${fw_file} dcu/${filename}
     Run    cp ${logo_file} dcu/${logo_filename}
-    Run    chmod a+rwx dcu/${logo_filename}
-    Log    ${logo_file}
-    Log    ${fw_file}
-    ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo -l ${logo_filename} ${fw_file}
+
+    ${result}=    Run    cd dcu; ./dcuc logo -l ${logo_filename} ${fw_file}; cd ..
+
+    Log    ${result}
     Run    cp dcu/${filename} ${fw_file}
-    Log    ${result.stdout}
-    Log    ${result.stderr}
-    Should Contain    ${result.stdout}    Success
+    Should Contain    ${result}    Success
 
 DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
@@ -72,27 +72,29 @@ DCU Variable Flash SMMSTORE
 DCU Variable Get UEFI Option From File
     [Documentation]    Read an UEFI option value from FW file.
     [Arguments]    ${fw_file}    ${option_name}
-    Run    git clone https://github.com/Dasharo/dcu
+    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
-    ${out}=    Run Process
-    ...    cd dcu && ./dcuc v ${filename} --get "${option_name}"
-    ...    shell=True
-    Run    cp dcu/${filename} ${fw_file}
-    RETURN    ${out.stdout}
+
+    ${result}=    Run    cd dcu; ./dcuc v ${filename} --get "${option_name}"
+
+    Log    ${result}
+    RETURN    ${result}
 
 DCU Variable Set UEFI Option In File
     [Documentation]    Write an UEFI option value to FW file.
     [Arguments]    ${fw_file}    ${option_name}    ${value}
-    Run    git clone https://github.com/Dasharo/dcu
+    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
     ${value}=    Convert Option Value To DCU Format    ${value}
-    ${result}=    Run Process
-    ...    cd dcu && ./dcuc v ${filename} --set "${option_name}" --value "${value}"
-    ...    shell=True
+    
+    ${result}=    Run    cd dcu; ./dcuc v ${filename} --set "${option_name}" --value "${value}"
+
+    Log    ${result.stdout}
+    Log    ${result.stderr}
+    Run    cp dcu/${filename} ${fw_file}
     Should Contain    ${result.stdout}    Success
-    Run    cp dcu/${fw_file} ${fw_file}
 
 DCU Variable Set UEFI Option In DUT
     [Documentation]    Read, modify and flash the firmware with a new value of
