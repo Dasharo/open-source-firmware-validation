@@ -106,8 +106,11 @@ Measure Reboot Time
     RETURN    ${min}    ${max}    ${average}    ${stddev}
 
 Make Sure That Flash Locks Are Disabled
-    [Documentation]    Keyword makes sure firmware flashing is not prevented by
-    ...    any Dasharo Security Options, if they are present.
+    [Documentation]    The keyword checks if there are any flash locks enabled,
+    ...    which would interfere with the tests. Here, in the case of DCU-only
+    ...    platforms, it can only provide a warning, since it can't reflash the
+    ...    platform to disable the locks. The name is the same as the in UEFI
+    ...    menu options for compatibility's sake.
     IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
     Power On
     Login To Linux
