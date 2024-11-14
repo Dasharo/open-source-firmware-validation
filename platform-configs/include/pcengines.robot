@@ -38,6 +38,7 @@ ${DMIDECODE_VENDOR}=                        3mdeb
 ${DMIDECODE_FAMILY}=                        N/A
 # TODO
 ${DMIDECODE_TYPE}=                          Desktop
+${INTERNAL_PROGRAMMER_CHIPNAME}=            W25Q64BV/W25Q64CV/W25Q64FV
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
