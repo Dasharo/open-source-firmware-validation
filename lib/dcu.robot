@@ -1,8 +1,6 @@
 *** Settings ***
-Documentation       Library for UEFI configuration using Dasharo Configuration
-...                 Utility tool. Commonly used when serial port is not
-...                 available.
-
+Documentation       Library for using the Dasharo Configuration
+...                 Utility tool to manage a firmware binary file.
 Library             Collections
 Library             OperatingSystem
 Library             Process
