@@ -35,7 +35,7 @@ ${DEF_SOCKETS}=                     1
 ${DEF_ONLINE_CPU}=                  0-7
 ${DEVICE_AUDIO1}=                   Alderlake-P HDMI
 ${DEVICE_AUDIO2}=                   ${EMPTY}
-${DEVICE_AUDIO1_WIN}=               N/A
+${DEVICE_AUDIO1_WIN}=               High Definition Audio Controller
 
 ${DEVICE_NVME_DISK}=                N/A
 ${CLEVO_DISK}=                      N/A
