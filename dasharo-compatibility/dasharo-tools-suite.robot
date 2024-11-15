@@ -140,7 +140,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
-    Power On
+    Set UEFI Option    LockBios    ${FALSE}
     Boot Dasharo Tools Suite    USB
     Update Dasharo In DTS
 
@@ -151,6 +151,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
+    Set UEFI Option    LockBios    ${FALSE}
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Update Dasharo In DTS
