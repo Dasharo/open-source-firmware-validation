@@ -15,7 +15,7 @@ ${CPU_MAX_FREQUENCY}=               3800
 ${PLATFORM_RAM_SPEED}=              4800
 ${PLATFORM_RAM_SIZE}=               16384
 
-${WIFI_CARD_UBUNTU}=                Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 30)
+${WIFI_CARD_UBUNTU}=                Qualcomm Atheros AR9462 Wireless Network Adapter (rev 01)
 ${BLUETOOTH_CARD_UBUNTU}=           Qualcomm Atheros Communications AR3012 Bluetooth 4.0
 
 ${E_MMC_NAME}=                      BJTD4R
@@ -35,6 +35,7 @@ ${DEF_SOCKETS}=                     1
 ${DEF_ONLINE_CPU}=                  0-7
 ${DEVICE_AUDIO1}=                   Alderlake-P HDMI
 ${DEVICE_AUDIO2}=                   ${EMPTY}
+${DEVICE_AUDIO1_WIN}=               N/A
 
 ${DEVICE_NVME_DISK}=                N/A
 ${CLEVO_DISK}=                      N/A
