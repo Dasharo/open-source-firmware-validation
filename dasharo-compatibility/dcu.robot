@@ -95,10 +95,14 @@ DCU003.001 Change the bootsplash logo
 DCU004.001 Verify SMMSTORE changes
     [Documentation]    This test case verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in Setup menu.
+    ...    Verified using Setup menu where possible. When tested on a device
+    ...    which uses DCU for accessing Setup variables the results might not
+    ...    be trustworthy.
     Skip If    '''${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}''' == '''${EMPTY}'''    DCU004.001 Verify SMMSTORE changes not supported
     IF    "${OPTIONS_LIB}"=="uefi-setup-menu"
         Verify SMMSTORE Changes (Setup Menu)
     ELSE IF    "${OPTIONS_LIB}"=="dcu"
+        Log To Console    Verifying DCU possible only using on this device DCU. The test may not be trustworthy.    WARN
         Verify SMMSTORE Changes (DCU)
     ELSE
         Fail    Unsupported $OPTIONS_LIB: ${OPTIONS_LIB}
