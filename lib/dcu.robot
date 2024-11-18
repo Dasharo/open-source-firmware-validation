@@ -91,10 +91,9 @@ DCU Variable Set UEFI Option In File
     
     ${result}=    Run    cd dcu; ./dcuc v ${filename} --set "${option_name}" --value "${value}"
 
-    Log    ${result.stdout}
-    Log    ${result.stderr}
+    Log    ${result}
     Run    cp dcu/${filename} ${fw_file}
-    Should Contain    ${result.stdout}    Success
+    Should Contain    ${result}    Success
 
 DCU Variable Set UEFI Option In DUT
     [Documentation]    Read, modify and flash the firmware with a new value of
