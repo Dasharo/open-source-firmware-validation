@@ -1,6 +1,6 @@
 bcrypt==4.1.2
 certifi==2024.2.2
-cffi==1.16.0
+cffi==1.17.1
 cfgv==3.4.0
 charset-normalizer==3.3.2
 click==8.1.7
@@ -10,7 +10,7 @@ dbbot-sqlalchemy==0.2
 distlib==0.3.8
 Faker==24.11.0
 filelock==3.13.4
-greenlet==3.0.3
+greenlet==3.1.1
 gspread==3.1.0
 httplib2==0.22.0
 identify==2.5.36
