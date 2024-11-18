@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation       Library for using the Dasharo Configuration
 ...                 Utility tool to manage a firmware binary file.
+
 Library             Collections
 Library             OperatingSystem
 Library             Process
@@ -11,6 +12,7 @@ Resource            ../keywords.robot
 
 *** Variables ***
 ${DCU_REPO}=    https://github.com/Dasharo/dcu
+
 
 *** Keywords ***
 DCU Smbios Set UUID In File
@@ -88,7 +90,7 @@ DCU Variable Set UEFI Option In File
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
     ${value}=    Convert Option Value To DCU Format    ${value}
-    
+
     ${result}=    Run    cd dcu; ./dcuc v ${filename} --set "${option_name}" --value "${value}"
 
     Log    ${result}

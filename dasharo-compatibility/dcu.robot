@@ -26,8 +26,10 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+
 *** Variables ***
-${FW_COPY}=    coreboot.rom
+${FW_COPY}=     coreboot.rom
+
 
 *** Test Cases ***
 DCU001.001 Change the UUID
@@ -98,11 +100,15 @@ DCU004.001 Verify SMMSTORE changes
     ...    Verified using Setup menu where possible. When tested on a device
     ...    which uses DCU for accessing Setup variables the results might not
     ...    be trustworthy.
-    Skip If    '''${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}''' == '''${EMPTY}'''    DCU004.001 Verify SMMSTORE changes not supported
+    Skip If
+    ...    '''${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}''' == '''${EMPTY}'''
+    ...    DCU004.001 Verify SMMSTORE changes not supported
     IF    "${OPTIONS_LIB}"=="uefi-setup-menu"
         Verify SMMSTORE Changes (Setup Menu)
     ELSE IF    "${OPTIONS_LIB}"=="dcu"
-        Log To Console    Verifying DCU possible only using on this device DCU. The test may not be trustworthy.    WARN
+        Log To Console
+        ...    Verifying DCU possible only using on this device DCU. The test may not be trustworthy.
+        ...    WARN
         Verify SMMSTORE Changes (DCU)
     ELSE
         Fail    Unsupported $OPTIONS_LIB: ${OPTIONS_LIB}
