@@ -14,17 +14,24 @@ appear here.
 
 ## Table of contents
 
-* [Lab architecture](#lab-architecture)
-* [Test environment overview](#test-environment-overview)
-* [Supported platforms](#supported-platforms)
-* [Getting started](#getting-started)
-    - [Initializing environment](#initializing-environment)
-    - [Running tests](#running-tests)
-    - [Running tests via wrapper](#running-tests-via-wrapper)
-    - [Running regressions tests](#running-regressions-tests)
-* [Useful refactoring tools](#useful-refactoring-tools)
-* [Generating documentation](#generating-documentation)
-* [Additional documents](#additional-documents)
+1. [Open Source Firmware Remote Test Environment](#open-source-firmware-remote-test-environment)
+   1. [Warning](#warning)
+   2. [Table of contents](#table-of-contents)
+   3. [Lab architecture](#lab-architecture)
+      1. [Current OSFV architecture](#current-osfv-architecture)
+   4. [Test environment overview](#test-environment-overview)
+   5. [Supported platforms](#supported-platforms)
+   6. [DCU](#dcu)
+   7. [Getting started](#getting-started)
+      1. [Initializing environment](#initializing-environment)
+      2. [Running tests](#running-tests)
+      3. [Running tests via wrapper](#running-tests-via-wrapper)
+      4. [Running tests with additional arguments](#running-tests-with-additional-arguments)
+      5. [Running regression tests](#running-regression-tests)
+      6. [Running regression tests with additional arguments](#running-regression-tests-with-additional-arguments)
+   8. [Useful refactoring tools](#useful-refactoring-tools)
+   9. [Generating documentation](#generating-documentation)
+   10. [Additional documents](#additional-documents)
 
 ## Lab architecture
 
@@ -318,12 +325,28 @@ $ firefox keywords.html
 
 Or use the provided `create-docs.sh` script, which automatically concatenates
 all of the keyword-containing libraries from `lib/` directory with
-`keywords.robot`, and generates one big html file containing all the keywords
-within this repo:
+`keywords.robot`, and generates one big html file containing all the
+keywords within this repo.
+
+It also allows to choose the version of the
+documentation, which basically decides if you want to perform the UEFI
+configuration via "UEFI setup app" (`UEFI`) or via "Dasharo Config
+Utility tool" (`DCU`):
 
 ```bash
-$ ./scripts/create-docs.sh
-Documentation generated and saved as docs/index.html
+$ ./scripts/create-docs.sh UEFI
+Generating UEFI version of the documentation
+Documentation generated and saved as all-keywords.html
+$ firefox all-keywords.html
+```
+
+Or
+
+```bash
+$ ./scripts/create-docs.sh DCU
+Generating DCU version of the documentation
+Documentation generated and saved as all-keywords.html
+$ firefox all-keywords.html
 ```
 
 The resulting file can be opened in any web-browser:
