@@ -95,6 +95,7 @@ DCU003.001 Change the bootsplash logo
 DCU004.001 Verify SMMSTORE changes
     [Documentation]    This test case verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in Setup menu.
+    Skip If    '''${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}''' == '''${EMPTY}'''    DCU004.001 Verify SMMSTORE changes not supported
     IF    "${OPTIONS_LIB}"=="uefi-setup-menu"
         Verify SMMSTORE Changes (Setup Menu)
     ELSE IF    "${OPTIONS_LIB}"=="dcu"
@@ -121,25 +122,25 @@ Verify SMMSTORE Changes (Setup Menu)
     [Documentation]    This keyword verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in Setup menu.
 
-    ${initial_value}=    Get UEFI Option    NetworkBoot
+    ${initial_value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     ${new_value}=    Evaluate    not ${initial_value}
 
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    DCU Variable Set UEFI Option In DUT    NetworkBoot    ${new_value}
+    DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_value}
 
-    ${value}=    Get UEFI Option    NetworkBoot
+    ${value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     Should Be Equal    ${value}    ${new_value}
 
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    DCU Variable Set UEFI Option In DUT    NetworkBoot    ${initial_value}
+    DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${initial_value}
 
-    ${value}=    Get UEFI Option    NetworkBoot
+    ${value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     Should Be Equal    ${value}    ${initial_value}
 
 Verify SMMSTORE Changes (DCU)
@@ -154,17 +155,17 @@ Verify SMMSTORE Changes (DCU)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    DCU Variable Set UEFI Option In DUT    NetworkBoot    ${new_value}
+    DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_value}
 
     Login To Linux
     Switch To Root User
-    ${value}=    DCU Variable Get UEFI Option From DUT    NetworkBoot
+    ${value}=    DCU Variable Get UEFI Option From DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     Should Be Equal    ${value}    ${new_value}
-    DCU Variable Set UEFI Option In Dut    NetworkBoot    ${initial_value}
+    DCU Variable Set UEFI Option In Dut    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${initial_value}
 
     Login To Linux
     Switch To Root User
-    ${value}=    DCU Variable Get UEFI Option From DUT    NetworkBoot
+    ${value}=    DCU Variable Get UEFI Option From DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     Should Be Equal    ${value}    ${initial_value}
 
 Make Sure New Firmware Is Booted After Flashing

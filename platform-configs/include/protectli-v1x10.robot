@@ -34,6 +34,7 @@ ${USB_STACK_SUPPORT}=                   ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=            ${FALSE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=       ${FALSE}
 
+${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=    ${EMPTY}
 
 *** Keywords ***
 Power On
