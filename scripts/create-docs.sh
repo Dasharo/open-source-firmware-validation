@@ -3,7 +3,12 @@
 TEMP_DIR=$(mktemp -d)
 
 cat keywords.robot > "$TEMP_DIR/all-keywords.robot"
-find lib -name "*.robot" -exec cat {} + >> "$TEMP_DIR/all-keywords.robot"
+find lib -name "*.robot" -type f | while read -r file; do
+    if [[ $(basename "$file") == "dcu.robot" ]]; then
+        continue
+    fi
+    cat "$file" >> "$TEMP_DIR/all-keywords.robot"
+done
 
 libdoc "$TEMP_DIR/all-keywords.robot" "$TEMP_DIR/all-keywords.html" >/dev/null 2>&1
 
