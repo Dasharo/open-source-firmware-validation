@@ -21,8 +21,9 @@ This approach, however, needs some prerequisites to be satisfied:
     bootmenu in the Setup menu.
         * Change the bootorder in the Setup menu, read the firmware image with a
     custom bootorder and use this image to flash the device in the future.
-* Remember to **turn off any flash write protection** - DCU changes UEFI
-  options by reading, modifying and writing back SMMSTORE.
+* Remember to use DCU to **turn off any flash write protection** in the firmware
+image used for testing using. Flashing the laptops can only be performed via the
+internal programmer. If any locks are present the flashing will fail.
 * Run tests with the target platform **powered on** and the target OS
 **booted**.
 * When adding a new laptop platform, make sure that `${OPTIONS_LIB}` is set to
