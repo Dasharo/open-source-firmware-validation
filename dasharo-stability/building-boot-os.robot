@@ -18,39 +18,48 @@ Resource            ../keys.robot
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
-...                     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-...                     Build And Flash
+...                     Prepare Test Suite
+...                     Skip If    not ${BUILD_ON_NEWLY_INSTALLED_OS_SUPPORT}
+...                     Install Ubuntu From Connected Drive
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
 *** Test Cases ***
-BBO001.001 Build and Boot (Ubuntu)
+BNO001.001 Build on a Newly installed OS (Ubuntu)
     [Documentation]    Check if the binary will be built and work properly
-    ...    on Ubuntu
+    ...    on a fresh install of Ubuntu
+
     Power On
     Boot System Or From Connected Disk    ubuntu
-    Flash Firmware    /tmp/coreboot.rom
+
+    Execute Command In Terminal    git clone https://github.com/Dasharo/coreboot
+    ${out}=    Execute Command In Terminal    cd coreboot; ./build.sh ${COREBOOT_BUILD_WRAPPER_SUBCOMMAND}; cd ..;
+
+    # The cbfs map being printed should implies that the build was successful  
+    Should Contain   ${out}    FMAP REGION: COREBOOT
+
+BBO001.002 Boot with firmare built from source (Ubuntu)
+    [Documentation]    Check if the binary will be built and work properly
+    ...    on Windows
+
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Flash Firmware    ./coreboot/coreboot.rom
     Execute Reboot Command
 
     Login To Linux
 
-BBO001.002 Build and Boot (Windows)
-    [Documentation]    Check if the binary will be built and work properly
-    ...    on Windows
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Flash Firmware    /tmp/coreboot.rom
-    Execute Reboot Command
-
-    Login To Windows
-    
 
 *** Keywords ***
-Build And Flash
-    Run    git clone https://github.com/Dasharo/dasharo-tools.git
-    Run    cd coreboot; ./build.sh ${COREBOOT_BUILD_WRAPPER_SUBCOMMAND}; cd ..;
+Install Ubuntu From Connected Drive
+    [Documentation]    Installs ubuntu from a drive connected by `scripts/ci/run_qemu.sh os_install`
+    ...    which is called in `scripts/ci/qemu-build-test.sh`
 
-
+    Power On
+    Enter UEFI Shell
+    Execute UEFI Shell Command    FS0:
+    Execute UEFI Shell Command    cd EFI
+    Execute UEFI Shell Command    cd boot
+    Execute UEFI Shell Command    grubx64.efi
+    Sleep     600s    # wait for the installation to complete
     
