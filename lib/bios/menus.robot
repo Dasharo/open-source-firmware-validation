@@ -410,10 +410,20 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
+    Tianocore Reset System
+    ${main_menu}=    Enter Setup Menu Tianocore And Return Construction
     Read From Terminal
     Press Key N Times    1    ${F9}
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
+
+    ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
+    ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
+    TRY
+        Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
+    EXCEPT
+        Set Option State    ${serial_menu}    Enable Serial Port    ${TRUE}
+    END
 
 # TODO:
 # The SeaBIOS part can be removed.
