@@ -17,7 +17,7 @@ keyword_pattern = re.compile(
     r"\n(?:(?!Library|Resource|Variables|Documentation)[A-Z][a-z0-9_]+[\ ]+.*)"
 )
 
-delimiter = "."  # Between filename and
+delimiter = "."  # Between filename and the keyword
 
 # Create the combined resource file with prefixed keywords
 with open(output_resource, "w", encoding="utf8") as res_file:
