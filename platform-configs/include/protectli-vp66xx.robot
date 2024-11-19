@@ -14,7 +14,6 @@ ${MAX_CPU_TEMP}=                    82
 ${CPU_P_CORES_MAX}=                 2
 ${CPU_E_CORES_MAX}=                 8
 
-${WDT_DEFAULT}=                     500
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.0
 ${DMIDECODE_RELEASE_DATE}=          07/01/2024
 
