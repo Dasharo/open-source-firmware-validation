@@ -31,4 +31,3 @@ ${DEF_CORES_PER_SOCKET}=                20
 
 ${CPU_P_CORES_MAX}=                     8
 ${CPU_E_CORES_MAX}=                     12
-${WDT_DEFAULT}=                         600
