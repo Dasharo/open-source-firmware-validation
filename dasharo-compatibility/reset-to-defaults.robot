@@ -197,7 +197,7 @@ RTD010.001 F9 resets Enable watchdog to enabled
     ${watchdog_state}=    Get Option State    ${chipset_menu}    Enable watchdog
     Should Be True    ${watchdog_state}
 
-RTD011.001 F9 resets Watchdog timeout value to 500
+RTD011.001 F9 resets Watchdog timeout value to default
     [Documentation]    Check whether pressing F9 resets Watchdog timeout value
     ...    to 500
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD011.001 not supported
@@ -214,7 +214,7 @@ RTD011.001 F9 resets Watchdog timeout value to 500
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     ${watchdog_timeout}=    Get Option State    ${chipset_menu}    Watchdog timeout value
-    Should Be Equal As Integers    ${watchdog_timeout}    500
+    Should Be Equal As Integers    ${watchdog_timeout}    ${WDT_DEFAULT}
 
 RTD012.001 F9 resets Fan profile to Silent
     [Documentation]    Check whether pressing F9 resets Fan profile to Silent
