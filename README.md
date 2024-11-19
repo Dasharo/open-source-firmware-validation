@@ -321,25 +321,10 @@ all of the keyword-containing libraries from `lib/` directory with
 `keywords.robot`, and generates one big html file containing all the
 keywords within this repo.
 
-It also allows to choose the version of the
-documentation, which basically decides if you want to perform the UEFI
-configuration via "UEFI setup app" (`UEFI`) or via "Dasharo Config
-Utility tool" (`DCU`):
-
 ```bash
-$ ./scripts/create-docs.sh UEFI
-Generating UEFI version of the documentation
-Documentation generated and saved as all-keywords.html
-$ firefox all-keywords.html
-```
-
-Or
-
-```bash
-$ ./scripts/create-docs.sh DCU
-Generating DCU version of the documentation
-Documentation generated and saved as all-keywords.html
-$ firefox all-keywords.html
+$(venv) ./scripts/create-docs.sh
+Documentation generated and saved as ./docs/index.html
+$ firefox ./docs/index.html
 ```
 
 The resulting file can be opened in any web-browser:
