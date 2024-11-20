@@ -17,7 +17,7 @@ for root, dirs, files in os.walk(lib_dir):
 # Regex pattern to detect keyword definitions
 keyword_pattern = re.compile(
     r"^(?:(?!Library|Resource|Variables|Documentation)[A-Z][a-z0-9_]+[\ ]+.*)",
-    re.MULTILINE
+    re.MULTILINE,
 )
 
 delimiter = "."  # Between filename and the keyword
