@@ -29,17 +29,9 @@ with open(output_resource, "w", encoding="utf8") as res_file:
         file_prefix = os.path.splitext(os.path.basename(robot_file))[0] + delimiter
         index_offset = 0
 
-        with open(robot_file, "r", encoding="utf8") as file:
-            text = file.read()
-
-            for m in re.finditer(keyword_pattern, text):
-                start = m.start(0)
-                text = (
-                    text[: start + index_offset]
-                    + file_prefix
-                    + text[start + index_offset :]
-                )
-                index_offset += len(file_prefix)
-            text += "\n"
-
-            res_file.write(text)
+        with open(robot_file, "r", encoding="utf8") as read_file:
+            for line in read_file:
+                if re.match(keyword_pattern, line):
+                    res_file.write(file_prefix + line)
+                else:
+                    res_file.write(line)
