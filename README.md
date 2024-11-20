@@ -318,12 +318,13 @@ $ firefox keywords.html
 
 Or use the provided `create-docs.sh` script, which automatically concatenates
 all of the keyword-containing libraries from `lib/` directory with
-`keywords.robot`, and generates one big html file containing all the keywords
-within this repo:
+`keywords.robot`, and generates one big html file containing all the
+keywords within this repo.
 
 ```bash
-$ ./scripts/create-docs.sh
-Documentation generated and saved as docs/index.html
+$(venv) ./scripts/create-docs.sh
+Documentation generated and saved as ./docs/index.html
+$ firefox ./docs/index.html
 ```
 
 The resulting file can be opened in any web-browser:

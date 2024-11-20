@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 TEMP_DIR=$(mktemp -d)
+FILE_NAME="$TEMP_DIR/all-keywords.robot"
 
-cat keywords.robot > "$TEMP_DIR/all-keywords.robot"
-find lib -name "*.robot" -exec cat {} + >> "$TEMP_DIR/all-keywords.robot"
+python3 scripts/create-docs.py $FILE_NAME
 
 libdoc "$TEMP_DIR/all-keywords.robot" "$TEMP_DIR/all-keywords.html" >/dev/null 2>&1
 
