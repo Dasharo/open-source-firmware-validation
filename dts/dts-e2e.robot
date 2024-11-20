@@ -23,14 +23,16 @@ Suite Teardown      Run Keyword
 # DTS itself.
 # DTS checkpoints:
 ${DTS_CHECKPOINT}=                  Enter an option:
-${DTS_CONFIRM_CHECKPOINT}=          Press any key to continue
-${HCL_REPORT_CHECKPOINT}=           Thank you for contributing to the "Hardware for Linux" project!
+${DTS_CONFIRM_CHECKPOINT}=          Press enter to continue
+${HCL_REPORT_CHECKPOINT}=           Please consider contributing to the "Hardware for Linux" project in the future.
 ${HCL_REPORT_SENDINGLOGS}=
 ...                                 Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
 ${DTS_SPECIFICATION_WARN}=          Does it match your actual specification? (Y|n)
 ${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware on your platform (Y|n)
 ${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
 ${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
+${DPP_PACKAGES_CHECKPOINT}=
+...                                 If you did not buy any DPP\npackages - feel free to continue.\n${DTS_CONFIRM_CHECKPOINT}
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=          Community version
 ${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
@@ -200,7 +202,7 @@ E2E002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start update:
     Go Through Heads Transition
@@ -221,7 +223,7 @@ E2E002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="V54x_6x_TU" TEST_BOARD_MODEL="V540TU"
     Execute Command In Terminal
     ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Execute Command In Terminal    export TEST_NOVACUSTOM_MODEL="v540tu"
+    Execute Command In Terminal    export TEST_NOVACUSTOM_MODEL="v540tu" TEST_USING_OPENSOURCE_EC_FIRM="true"
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
@@ -242,7 +244,7 @@ E2E002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="V54x_6x_TU" TEST_BOARD_MODEL="V560TU"
     Execute Command In Terminal
     ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Execute Command In Terminal    export TEST_NOVACUSTOM_MODEL="v560tu"
+    Execute Command In Terminal    export TEST_NOVACUSTOM_MODEL="v560tu" TEST_USING_OPENSOURCE_EC_FIRM="true"
     Write Into Terminal    dts-boot
 
     # 3) Start initial deployment:
@@ -265,39 +267,30 @@ E2E002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
     ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
     Write Into Terminal    dts-boot
 
-    # 3) This platform board model cannot be manually detected, a message to
-    # choose the model appears, and the possible choices are: "0. None below"
-    # "1: V540TNx", "2: V560TNx":
-    Wait For Checkpoint    1: V540TNx
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    1
-
-    # 4) Select initial deployment:
+    # 3) Select initial deployment:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
-    # 5) Wait for HCL report to do its work, might take some time:
+    # 4) Wait for HCL report to do its work, might take some time:
     Set DUT Response Timeout    5m
     # Accept hw-probe question from HCL report:
     Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
     Set DUT Response Timeout    30s
 
-    # This is printed inside board_config function, which is called twice in
-    # this workflow: at the beginning of dts and dasharo-deploy scripts, so we
-    # see this message twice, this should be fixed from DTS side (FIXME)
-    # 6) This platform board model cannot be manually detected, a message to
+    # 5) This platform board model cannot be manually detected, a message to
     # choose the model appears, and the possible choices are: "0. None below"
     # "1: V540TNx", "2: V560TNx":
     Wait For Checkpoint    1: V540TNx
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    1
 
-    # 7) Choose update to Dasharo:
+    # 6) Choose update to Dasharo:
     Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
 
-    # 8) Check out all warnings:
+    # 7) Check out all warnings:
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
-    # 9) The final step is rebooting:
+    # 8) The final step is rebooting:
     Wait For Checkpoint    Rebooting
 
 E2E002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
@@ -314,39 +307,30 @@ E2E002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
     ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
     Write Into Terminal    dts-boot
 
-    # 3) This platform board model cannot be manually detected, a message to
-    # choose the model appears, and the possible choices are: "0. None below"
-    # "1: V540TNx", "2: V560TNx":
-    Wait For Checkpoint    2: V560TNx
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    2
-
-    # 4) Select initial deployment:
+    # 3) Select initial deployment:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
-    # 5) Wait for HCL report to do its work, might take some time:
+    # 4) Wait for HCL report to do its work, might take some time:
     Set DUT Response Timeout    5m
     # Accept hw-probe question from HCL report:
     Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
     Set DUT Response Timeout    30s
 
-    # This is printed inside board_config function, which is called twice in
-    # this workflow: at the beginning of dts and dasharo-deploy scripts, so we
-    # see this message twice, this should be fixed from DTS side (FIXME)
-    # 6) This platform board model cannot be manually detected, a message to
+    # 5) This platform board model cannot be manually detected, a message to
     # choose the model appears, and the possible choices are: "0. None below"
     # "1: V540TNx", "2: V560TNx":
     Wait For Checkpoint    2: V560TNx
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    2
 
-    # 7) Choose update to Dasharo:
+    # 6) Choose update to Dasharo:
     Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
 
-    # 8) Check out all warnings:
+    # 7) Check out all warnings:
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
-    # 9) The final step is rebooting:
+    # 8) The final step is rebooting:
     Wait For Checkpoint    Rebooting
 
 ################################################################################
@@ -465,7 +449,7 @@ E2E003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -488,7 +472,7 @@ E2E003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP v
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -567,7 +551,7 @@ E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DP
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start update:
     Go Through Update
@@ -596,7 +580,7 @@ E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start update:
     ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
@@ -650,7 +634,7 @@ E2E003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with cred
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start update:
     Go Through Heads Transition
@@ -699,7 +683,7 @@ E2E003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start update:
     Go Through Heads Transition
@@ -754,7 +738,7 @@ E2E004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -801,7 +785,7 @@ E2E004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start update:
     Go Through Update
@@ -852,7 +836,7 @@ E2E004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -899,7 +883,7 @@ E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start update:
     Go Through Update
@@ -952,7 +936,7 @@ E2E005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -999,7 +983,7 @@ E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP SeaBIOS
@@ -1054,7 +1038,7 @@ E2E006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with c
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -1101,7 +1085,7 @@ E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials
+    Provide DPP Credentials Without Packages
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -1141,6 +1125,14 @@ Provide DPP Credentials
     Variable Should Exist    ${DPP_PASSWORD}
     Write Into Terminal    ${DPP_PASSWORD}
 
+Provide DPP Credentials Without Packages
+    [Documentation]    This KW automatically writes DPP credentials that do not
+    ...    have access to DPP packages into DTS UI and checks out a DPP package
+    ...    warning.
+    Provide DPP Credentials
+
+    Wait For Checkpoint And Press Enter    ${DPP_PACKAGES_CHECKPOINT}
+
 Wait For Checkpoint
     [Documentation]    This KW waits for checkpoint (first argument) and logs
     ...    everything read up to the checkpoint.
@@ -1156,6 +1148,14 @@ Wait For Checkpoint And Write
     Wait For Checkpoint    ${checkpoint}
     Sleep    1s
     Write Into Terminal    ${to_write}
+
+Wait For Checkpoint And Press Enter
+    [Documentation]    This KW waits for checkpoint (first argument)
+    ...    and preses enter, with logging all output before the checkpoint.
+    [Arguments]    ${checkpoint}
+    Wait For Checkpoint    ${checkpoint}
+    Sleep    1s
+    Write Bare Into Terminal    \r\n
 
 Go Through Initial Deployment
     [Documentation]    This KW goes through standard Dasharo initial deployment

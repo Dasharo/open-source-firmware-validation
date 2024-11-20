@@ -594,10 +594,8 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
         Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
         RETURN
     END
-
     ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
-    # When ESP scanning feature is there, boot entries are named differently than
-    # they used to
+    # With ESP scanning feature boot entries are named differently:
     IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
         IF    "${system_name}" == "ubuntu"
             ${system_name}=    Set Variable    Ubuntu
