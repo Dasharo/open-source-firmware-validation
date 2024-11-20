@@ -16,7 +16,8 @@ for root, dirs, files in os.walk(lib_dir):
 
 # Regex pattern to detect keyword definitions
 keyword_pattern = re.compile(
-    r"\n(?:(?!Library|Resource|Variables|Documentation)[A-Z][a-z0-9_]+[\ ]+.*)"
+    r"^(?:(?!Library|Resource|Variables|Documentation)[A-Z][a-z0-9_]+[\ ]+.*)",
+    re.MULTILINE
 )
 
 delimiter = "."  # Between filename and the keyword
@@ -26,7 +27,7 @@ with open(output_resource, "w", encoding="utf8") as res_file:
 
     for robot_file in robot_files:
         file_prefix = os.path.splitext(os.path.basename(robot_file))[0] + delimiter
-        index_offset = 1  # Initial value = length of \n
+        index_offset = 0
 
         with open(robot_file, "r", encoding="utf8") as file:
             text = file.read()
