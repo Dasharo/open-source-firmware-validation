@@ -29,7 +29,7 @@ ${MAX_CPU_TEMP}=                                    ${TBD}
 ${INTERNAL_PROGRAMMER_CHIPNAME}=                    "Opaque flash chip"
 ${FLASHING_METHOD}=                                 external
 ${SNIPEIT}=                                         yes
-${SEABIOS_BOOT_DEVICE}=
+${SEABIOS_BOOT_DEVICE}=                             ${EMPTY}
 
 # See: https://github.com/Dasharo/dasharo-issues/issues/614
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
