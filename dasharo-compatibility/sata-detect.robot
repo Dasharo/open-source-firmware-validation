@@ -22,8 +22,9 @@ Suite Teardown      Run Keyword
 SAT001.001 SATA should be visible from OS using smartctl
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using smartctl.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SAT001.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SAT001.002 not supported
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Depends On    ${SATA_SUPPORT}
 
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -47,8 +48,9 @@ SAT001.002 SATA should be visible from OS using hwinfo
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using hwinfo.
 
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SAT001.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SAT001.002 not supported
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Depends On    ${SATA_SUPPORT}
 
     Power On
     Boot System Or From Connected Disk    ubuntu

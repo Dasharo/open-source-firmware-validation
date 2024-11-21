@@ -88,6 +88,7 @@ ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                      ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
+${SATA_SUPPORT}=                                ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                 ${TRUE}
