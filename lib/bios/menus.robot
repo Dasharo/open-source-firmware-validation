@@ -417,12 +417,14 @@ Reset To Defaults Tianocore
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
 
-    ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
-    ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
-    TRY
-        Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
-    EXCEPT
-        Set Option State    ${serial_menu}    Enable Serial Port    ${TRUE}
+    IF    ${DASHARO_SERIAL_PORT_MENU_SUPPORT}
+        ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
+        ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
+        TRY
+            Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
+        EXCEPT
+            Set Option State    ${serial_menu}    Enable Serial Port    ${TRUE}
+        END
     END
 
 # TODO:
