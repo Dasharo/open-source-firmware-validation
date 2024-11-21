@@ -567,7 +567,7 @@ Save Changes And Reset
     Save Changes
     Tianocore Reset System
 
-Boot System Or From Connected Disk
+Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
     ...    to boot from connected disk set up in config
     [Arguments]    ${system_name}
