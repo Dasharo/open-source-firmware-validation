@@ -17,7 +17,10 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-SAT001.001 SATA should be visible from OS using smartctl
+# TODO
+# SAT001.001 SATA support in firmware
+
+SAT001.002 SATA support in OS (Ubuntu)
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using smartctl.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
@@ -42,20 +45,5 @@ SAT001.001 SATA should be visible from OS using smartctl
 
     Fail    No SATA disk was found, failing test
 
-SAT001.002 SATA should be visible from OS using hwinfo
-    [Documentation]    This test aims to verify that SATA is detected from OS
-    ...    by using hwinfo.
-
-    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
-    Depends On    ${SATA_SUPPORT}
-
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Detect Or Install Package    hwinfo
-
-    ${out}=    Execute Command In Terminal    sudo hwinfo --disk --short
-    Log    ${out}
-    Should Contain    ${out}    SATA
+# TODO
+# SAT001.003 SATA support in OS (Windows)
