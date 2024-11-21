@@ -24,18 +24,19 @@ Suite Teardown      Run Keywords
 ...                     Login And Remove Test Boot Entry
 ...                     AND
 ...                     Log Out And Close Connection
-
+ 
 
 *** Variables ***
 ${TEST_BOOT_ENTRY_NAME}=    dasharo-compatibility_efibootmgr-custom-boot-entry
 
-
+  
 *** Test Cases ***
 EBM001.001 Network Boot enable
     [Documentation]    Test if enabling network boot entry works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM0001.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM001.001 not supported
 
+    Power Cycle On
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
@@ -45,6 +46,7 @@ EBM001.001 Network Boot enable
 
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    Exit From Root User
 
 EBM002.001 Network Boot disable
     [Documentation]    Test if disabling network boot entry works.

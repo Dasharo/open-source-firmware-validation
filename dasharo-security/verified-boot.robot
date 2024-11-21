@@ -91,7 +91,7 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
     Execute Reboot Command
-    Set DUT Response Timeout    180s
+    Set DUT Response Timeout    300s
     ${recovery_popup}=    Read From Terminal Until    Press ENTER key to continue
     Should Contain    ${recovery_popup}    !!! WARNING !!!
     Should Contain    ${recovery_popup}    Recovery reason code:

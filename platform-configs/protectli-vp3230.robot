@@ -9,7 +9,7 @@ ${POWER_CTRL}=                      sonoff
 ${DEVICE_USB_KEYBOARD}=             Logitech, Inc. Keyboard K120
 
 ${INITIAL_CPU_FREQUENCY}=           800
-${PLATFORM_CPU_SPEED}=              3,80
+${PLATFORM_CPU_SPEED}=              3.80
 ${CPU_MIN_FREQUENCY}=               800
 ${CPU_MAX_FREQUENCY}=               3800
 ${PLATFORM_RAM_SPEED}=              4800
@@ -39,3 +39,5 @@ ${DEVICE_AUDIO1_WIN}=               High Definition Audio Controller
 
 ${DEVICE_NVME_DISK}=                N/A
 ${CLEVO_DISK}=                      N/A
+
+# Test

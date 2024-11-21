@@ -57,7 +57,7 @@ DCU002.001 Change the serial number
     Log    ${result.stderr}
     Should Contain    ${result.stdout}    Success
     Flash Firmware    ./dcu/coreboot.rom
-
+    Sleep    1 Minute
     Execute Reboot Command
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -78,7 +78,7 @@ DCU003.001 Change the bootsplash logo
     Log    ${result.stderr}
     Should Contain    ${result.stdout}    Success
     Flash Firmware    ./dcu/coreboot.rom
-
+    Sleep    1 Minute
     Execute Reboot Command
     Boot System Or From Connected Disk    ubuntu
     Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
