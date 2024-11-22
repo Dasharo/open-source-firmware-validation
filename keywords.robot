@@ -551,6 +551,18 @@ Prepare Test Suite
         FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD} for config: ${CONFIG}
     END
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
+    Import BIOS Libraries
+
+Import BIOS Libraries
+    [Documentation]    Import BIOS libraries based on config and command
+    ...    line variables
+    IF    '${BIOS_LIB}' == 'uefi'
+        Import Resource    ${CURDIR}/lib/bios/menus.robot
+    ELSE IF    '${BIOS_LIB}' == 'seabios'
+        Import Resource    ${CURDIR}/lib/bios/seabios.robot
+    ELSE
+        FAIL    Unknown BIOS library: ${BIOS_LIB}
+    END
 
 Import Osfv Libraries
     [Documentation]    Import osfv_cli libraries based on config and command
