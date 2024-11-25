@@ -246,10 +246,6 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE68}=                   ip=192.168.10.18
 ...                         platform=protectli-vp2430
 ...                         platform_vendor=protectli
-# 3mdeb Protectli VP2430 -----------------------------------------------------
-&{RTE68}=                   ip=192.168.10.18
-...                         platform=protectli-vp2430
-...                         platform_vendor=protectli
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
