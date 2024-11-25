@@ -19,3 +19,4 @@ dl-cache/*
 qemu-data/
 command_log.txt
 ipxe/
+/logs
