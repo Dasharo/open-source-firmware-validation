@@ -1,4 +1,6 @@
 *** Variables ***
+${POWER_CTRL}=                                      none
+
 # Flash
 ${FLASH_SIZE}=                                      ${32*1024*1024}
 
@@ -23,6 +25,7 @@ ${BLUETOOTH_CARD_UBUNTU}=                           Intel Corp. AX211 Bluetooth
 
 # USB
 ${WEBCAM_UBUNTU}=                                   Bison Electronics Inc. BisonCam,NB Pro
+${USB_STACK_SUPPORT}=                               ${TRUE}
 
 # DMI
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.5.2
@@ -36,5 +39,5 @@ ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
 
 ${L3_CACHE_SUPPORT}=                                ${TRUE}
 
-## Only S0ix is available on MTL
-${DASHARO_POWER_MGMT_MENU_SUPPORT}=    ${FALSE}
+# Only S0ix is available on MTL
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
