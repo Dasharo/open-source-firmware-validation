@@ -23,7 +23,7 @@ Suite Teardown      Run Keyword
 # DTS itself.
 # DTS checkpoints:
 ${DTS_CHECKPOINT}=                  Enter an option:
-${DTS_CONFIRM_CHECKPOINT}=          Press enter to continue
+${DTS_CONFIRM_CHECKPOINT}=          Press Enter to continue.
 ${HCL_REPORT_CHECKPOINT}=           Please consider contributing to the "Hardware for Linux" project in the future.
 ${HCL_REPORT_SENDINGLOGS}=
 ...                                 Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
@@ -86,6 +86,7 @@ E2E002.001 NCM NV4XMB,ME,MZ initial deployment (legacy -> Coreboot + UEFI) - com
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NV4XMB,ME,MZ. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -106,6 +107,7 @@ E2E002.002 NCM NS50_70MU initial deployment (legacy -> Coreboot + UEFI) - commun
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NS50_70MU. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -126,6 +128,7 @@ E2E002.003 NCM NS5x_NS7xPU initial deployment (legacy -> Coreboot + UEFI) - comm
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NS5x_NS7xPU. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -146,6 +149,7 @@ E2E002.004 NCM NV4xPZ initial deployment (legacy -> Coreboot + UEFI) - community
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom NV4xPZ. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -168,6 +172,7 @@ E2E002.005 NCM NV4xPZ transition (Coreboot + UEFI -> Coreboot + Heads) - DPP ver
     ...    with version that should allow for the transition. We insert no DPP
     ...    keys, so we expect no update will be provided, but a message
     ...    encouraging subscription purchase should be visible.
+    [Tags]    novacustom_heads
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -189,6 +194,7 @@ E2E002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with 
     [Documentation]    Verify DPP (coreboot + heads) transition logic on NovaCustom NV4X ADL.
     ...    We start from Dasharo (coreboot + UEFI) firmware with version that should
     ...    allow for the transition. We insert correct DPP keys for heads variant.
+    [Tags]    novacustom_heads
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -215,6 +221,7 @@ E2E002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V540_6x_TU. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -236,6 +243,7 @@ E2E002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - commu
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V560_6x_TU. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -257,6 +265,7 @@ E2E002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V540TNC_TND_TNE. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -297,6 +306,7 @@ E2E002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - 
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for NovaCustom V560TNC_TND_TNE. This deployment
     ...    should pass without credentials.
+    [Tags]    novacustom_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -346,6 +356,7 @@ E2E003.001 MSI PRO Z690-A DDR4 initial deployment (legacy -> Coreboot + UEFI) - 
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    WIFI DDR4(MS-7D25). This deployment should pass without credentials.
+    [Tags]    msi_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -366,6 +377,7 @@ E2E003.002 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - commu
     [Documentation]    Verify logic for initial deployment of community version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI (MS-7D25)/PRO Z690-A
     ...    (MS-7D25). This deployment should pass without credentials.
+    [Tags]    msi_comm
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -386,6 +398,7 @@ E2E003.003 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    (MS-7D25). This deployment should not pass without credentials.
+    [Tags]    msi_dpp
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -412,6 +425,7 @@ E2E003.004 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP v
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    DDR 4(MS-7D25). This deployment should not pass without credentials.
+    [Tags]    msi_dpp
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -438,6 +452,7 @@ E2E003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    (MS-7D25). This deployment should pass with credentials.
+    [Tags]    msi_dpp
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -461,6 +476,7 @@ E2E003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP v
     [Documentation]    Verify logic for initial deployment of DPP version
     ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
     ...    DDR 4(MS-7D25). This deployment should pass with credentials.
+    [Tags]    msi_dpp
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -488,6 +504,7 @@ E2E003.007 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - co
     ...    Capsule Update, check choose_version in dasharo-deploy script for
     ...    more inf.. Therefore to test update via capsules - you have to
     ...    provide credentials with access to capsules.
+    [Tags]    msi_comm
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -513,6 +530,7 @@ E2E003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - communit
     ...    Capsule Update, check choose_version in dasharo-deploy script for
     ...    more inf.. Therefore to test update via capsules - you have to
     ...    provide credentials with access to capsules.
+    [Tags]    msi_comm
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -538,6 +556,7 @@ E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DP
     ...    Capsule Update, check choose_version in dasharo-deploy script for
     ...    more inf.. Therefore to test update via capsules - you have to
     ...    provide credentials with access to capsules.
+    [Tags]    msi_dpp
 
     # 1) Get into DTS
     Power On And Enter DTS Shell
@@ -567,6 +586,7 @@ E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     ...    Capsule Update, check choose_version in dasharo-deploy script for
     ...    more inf.. Therefore to test update via capsules - you have to
     ...    provide credentials with access to capsules.
+    [Tags]    msi_dpp
 
     # 1) Get into DTS
     Power On And Enter DTS Shell
@@ -599,6 +619,7 @@ E2E003.011 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - without c
     ...    UEFI) firmware with version that should allow for the transition. We
     ...    insert no DPP keys, so we expect no update will be provided, but a
     ...    message encouraging subscription purchase should be visible.
+    [Tags]    msi_heads
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -621,6 +642,7 @@ E2E003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with cred
     ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
     ...    UEFI) firmware with version that should allow for the transition. We
     ...    insert correct DPP keys for heads variant.
+    [Tags]    msi_heads
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -648,6 +670,7 @@ E2E003.013 MSI PRO Z690-A transition (UEFI -> heads) - without credentials
     ...    UEFI) firmware with version that should allow for the transition. We
     ...    insert no DPP keys, so we expect no update will be provided, but a
     ...    message encouraging subscription purchase should be visible.
+    [Tags]    msi_heads
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -670,6 +693,7 @@ E2E003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
     ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
     ...    UEFI) firmware with version that should allow for the transition. We
     ...    insert correct DPP keys for heads variant.
+    [Tags]    msi_heads
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -700,6 +724,7 @@ E2E004.001 Dell OptiPlex 7010 DPP initial deployment (legacy -> Coreboot + UEFI)
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 without credentials provided. User should not have access and
     ...    DTS should inform about it.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -727,6 +752,7 @@ E2E004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI)
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 with credentials provided. User should have access, and firmware
     ...    should be deployed.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -751,6 +777,7 @@ E2E004.003 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 without credentials provided. User should not have access and
     ...    DTS should inform about it.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -773,6 +800,7 @@ E2E004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    7010 with credentials provided. User should have access, and firmware
     ...    should be deployed.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -798,6 +826,7 @@ E2E004.005 Dell OptiPlex 9010 DPP initial deployment (legacy -> Coreboot + UEFI)
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 without credentials provided. User should not have access and
     ...    DTS should inform about it.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -825,6 +854,7 @@ E2E004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI)
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 with credentials provided. User should have access, and firmware
     ...    should be deployed.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -849,6 +879,7 @@ E2E004.007 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 without credentials provided. User should not have access and
     ...    DTS should inform about it.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -871,6 +902,7 @@ E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 with credentials provided. User should have access, and firmware
     ...    should be deployed.
+    [Tags]    optiplex_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -901,6 +933,7 @@ E2E005.001 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - no cr
     ...    initial deployment logic on PC Engines. We emulate legacy firmware
     ...    and do not provide DPP credentials. There should be no access granted
     ...    for the firmware without credentials.
+    [Tags]    pcengines_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -926,6 +959,7 @@ E2E005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with 
     [Documentation]    Verify DPP (coreboot + UEFI) initial deployment logic on
     ...    PC Engines with credentials provided (these should be provided via
     ...    CMD).
+    [Tags]    pcengines_dpp
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -948,6 +982,7 @@ E2E005.003 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
     ...    on PC Engines. We start from legacy firmware and insert correct DPP keys
     ...    for UEFI variant.
+    [Tags]    pcengines_dpp
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -973,6 +1008,7 @@ E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
     ...    on PC Engines. We start from legacy firmware and insert correct DPP
     ...    keys for UEFI variant.
+    [Tags]    pcengines_dpp
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -1000,6 +1036,7 @@ E2E006.001 Odroid H4 initial deployment (legacy -> Coreboot + UEFI) - without cr
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4
     ...    without credentials provided. User should not have access and DTS
     ...    should inform about it.
+    [Tags]    odroid_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -1027,6 +1064,7 @@ E2E006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with c
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4 with
     ...    credentials provided. User should have access, and firmware should be
     ...    deployed.
+    [Tags]    odroid_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -1051,6 +1089,7 @@ E2E006.003 Odroid H4 update (Coreboot + UEFI -> Coreboot + UEFI) - without crede
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4
     ...    without credentials provided. User should not have access and DTS
     ...    should inform about it.
+    [Tags]    odroid_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
@@ -1073,6 +1112,7 @@ E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
     ...    9010 with credentials provided. User should have access, and firmware
     ...    should be deployed.
+    [Tags]    odroid_dpp
     # 1) Get into DTS
     Power On And Enter DTS Shell
 
