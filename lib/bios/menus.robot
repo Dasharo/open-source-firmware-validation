@@ -420,6 +420,8 @@ Reset To Defaults Tianocore
     IF    ${DASHARO_SERIAL_PORT_MENU_SUPPORT}
         ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
         ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
+        # The Serial Redirection option is called differently in some versions of Dasharo
+        # MSI z690-ddr5 v1.1.3 has "Enable Serial Port", v1.1.4 has "Enable COM0 Serial"
         TRY
             Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
         EXCEPT

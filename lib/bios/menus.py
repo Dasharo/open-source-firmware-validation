@@ -176,6 +176,8 @@ getoptionpath = {
         "Dasharo Security Options",
         "Enable Wi-Fi + BT radios",
     ],
+    # The Serial Redirection option is called differently in some versions of Dasharo
+    # MSI z690-ddr5 v1.1.3 has "Enable Serial Port", v1.1.4 has "Enable COM0 Serial"
     "SerialRedirection": [
         "Dasharo System Features",
         "Serial Port Configuration",
