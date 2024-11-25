@@ -754,11 +754,12 @@ Get Power Supply State
 Get Sound Devices Windows
     [Documentation]    Get and return all sound devices in Windows OS using
     ...    PowerShell
-    ${out}=    Execute Command In Terminal    Get-WmiObject -class Win32_SoundDevice
+    ${out}=    Execute Command In Terminal
+    ...    Get-PnpDevice -PresentOnly | Where-Object {$_.Class -match "Audio" -or $_.Name -match "Audio"} | Select-Object Name, Status
     RETURN    ${out}
 
 Get USB Devices Windows
-    [Documentation]    Get and return all sound devices in Windows OS using
+    [Documentation]    Get and return all USB devices in Windows OS using
     ...    PowerShell
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     RETURN    ${out}
