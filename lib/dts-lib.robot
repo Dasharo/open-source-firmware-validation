@@ -2,11 +2,6 @@
 Resource    terminal.robot
 
 
-*** Variables ***
-# Default DTS link for iPXE boot, can be overwritten by CMD:
-${DTS_IPXE_LINK}=       http://boot.dasharo.com/dts/dts.ipxe
-
-
 *** Keywords ***
 Boot Dasharo Tools Suite Via IPXE Shell
     [Documentation]    Boots DTS via iPXE shell by chaining script. Arguments:
@@ -18,7 +13,7 @@ Boot Dasharo Tools Suite Via IPXE Shell
     # 1) Check and enable network boot, it is disabled by default:
     Make Sure That Network Boot Is Enabled
 
-    # 2) Enter iPXE:
+    # 2) Enter iPXE shell:
     Enter IPXE
 
     # 3) Set up net card:
@@ -32,6 +27,22 @@ Boot Dasharo Tools Suite Via IPXE Shell
     Read From Terminal Until    ${dts_chain_link}...
     Read From Terminal Until    ok
     Set DUT Response Timeout    5m
+
+Boot Dasharo Tools Suite Via IPXE Menu
+    [Documentation]    Boots DTS via option available in Dasharo iPXE menu.
+    # 1) Check and enable network boot, it is disabled by default:
+    Make Sure That Network Boot Is Enabled
+
+    # 2) Enter iPXE menu:
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+
+    # 3) Boot DTS:
+    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
+    Set DUT Response Timeout    5m
+    Read From Terminal Until    .cpio.gz...
+    Read From Terminal Until    ok
 
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
@@ -48,18 +59,12 @@ Boot Dasharo Tools Suite
             Enter Submenu From Snapshot    ${boot_menu}    ${USB_MODEL}
         END
     ELSE IF    '${dts_booting_method}'=='iPXE'
-        IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
+        IF    ${BOOT_DTS_FROM_IPXE_SHELL} == ${TRUE} or ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
             # DTS_IPXE_LINK can be defined before running tests, e.g. via CMD or
             # some file:
             Boot Dasharo Tools Suite Via IPXE Shell    ${DTS_IPXE_LINK}
         ELSE
-            ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-            Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-            ${ipxe_menu}=    Get IPXE Boot Menu Construction
-            Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
-            Set DUT Response Timeout    5m
-            Read From Terminal Until    .cpio.gz...
-            Read From Terminal Until    ok
+            Boot Dasharo Tools Suite Via IPXE Menu
         END
     ELSE
         FAIL    Unknown or improper connection method: ${dts_booting_method}

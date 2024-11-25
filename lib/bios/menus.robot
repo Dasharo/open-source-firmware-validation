@@ -445,7 +445,7 @@ Enter IPXE
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
-        ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=1
+        ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
     ELSE
         ${ipxe_menu}=    Get IPXE Boot Menu Construction
     END

@@ -228,6 +228,11 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=                 0
 # Sticks detection test cases
 ${USB_DETECTION_ITERATIONS_NUMBER}=                 0
 
+# DTS
+# Default DTS link for iPXE boot, can be overwritten by CMD:
+${DTS_IPXE_LINK}=                                   http://boot.dasharo.com/dts/dts.ipxe
+${BOOT_DTS_FROM_IPXE_SHELL}=                        ${FALSE}
+
 # Other platform flags and counters
 # Cooling procedure iterations
 ${COOLING_PROCEDURE_ITERATIONS}=                    0

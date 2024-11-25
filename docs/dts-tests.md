@@ -32,7 +32,7 @@ Control variables:
 Launching example:
 
 ```bash
-robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v netboot_utilities_support:True -v dts_ipxe_link:http://192.168.0.102:8080/ipxe -v dpp_logs_key:'LOGS_KEY' -v dpp_download_key:'DOWNLOAD_KEY' -v dpp_password:'PASSWORD' -t "E2E006.002*" dts/dts-e2e.robot
+robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v boot_dts_from_ipxe_shell:True -v dts_ipxe_link:http://192.168.0.102:8080/ipxe -v dpp_logs_key:'LOGS_KEY' -v dpp_download_key:'DOWNLOAD_KEY' -v dpp_password:'PASSWORD' -t "E2E006.002*" dts/dts-e2e.robot
 ```
 
 > Note: replace `LOGS_KEY`, `DOWNLOAD_KEY` and `PASSWORD` with appropriate
