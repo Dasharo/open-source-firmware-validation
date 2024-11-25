@@ -79,16 +79,15 @@ ${VENDOR_VERIFICATION}=                         ${TRUE}
 ${TYPE_VERIFICATION}=                           ${TRUE}
 ${DTS_SUPPORT}=                                 ${TRUE}
 ${UPLOAD_ON_USB_SUPPORT}=                       ${TRUE}
-# FIXME
-# https://github.com/Dasharo/open-source-firmware-validation/issues/540
-# These tests require Reset To Defaults kwd, which
-# currently breaks testing on MSI (disables serial redirection)
-${CPU_TESTS_SUPPORT}=                           ${FALSE}
+${CPU_TESTS_SUPPORT}=                           ${TRUE}
 ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
+${INTEL_HYBRID_ARCH_SUPPORT}=                   ${TRUE}
+${HYPER_THREADING_SUPPORT}=                     ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                      ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
 ${SATA_SUPPORT}=                                ${TRUE}
+${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORT}=                                 ${TRUE}
