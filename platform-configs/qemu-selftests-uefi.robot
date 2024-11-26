@@ -4,8 +4,8 @@ This config targets QEMU firmware with as many menus enabled as possible.
 
 *** Settings ***
 Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
-Resource    include/default.robot
 Resource    qemu.robot
+Resource    include/default.robot
 
 
 *** Variables ***
