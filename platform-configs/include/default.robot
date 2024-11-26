@@ -38,6 +38,7 @@ ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 # - uefi-setup-menu: Will set options via the UEFI Setup menu (serial)
 # - dcu: Will use Dasharo Configuration Utility to configure options.
 ${OPTIONS_LIB}=                                     uefi-setup-menu
+${BIOS_LIB}=                                        uefi
 
 # OS config
 ${DEVICE_WINDOWS_USERNAME}=                         ${WINDOWS_USERNAME}

@@ -43,6 +43,7 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=     ${TRUE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=       ${TRUE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=         ${TRUE}
 
+${BIOS_LIB}=                            seabios
 
 *** Keywords ***
 Power On
