@@ -18,7 +18,7 @@ Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     [Arguments]    ${option_name}    ${value}
     ${value}=    Convert Option Value Argument    ${value}
-    Run    git clone https://github.com/Dasharo/dcu
+
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -44,7 +44,7 @@ Set UEFI Option
 Get UEFI Option
     [Documentation]    Read an UEFI option value.
     [Arguments]    ${option_name}
-    Run    git clone https://github.com/Dasharo/dcu
+
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User

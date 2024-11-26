@@ -17,4 +17,3 @@ __pycache__*
 dl-cache/*
 !dl-cache/.gitkeep
 qemu-data/
-dcu/
