@@ -556,7 +556,6 @@ Import BIOS Libraries
     [Documentation]    Import BIOS libraries based on config and command
     ...    line variables
     IF    '${BIOS_LIB}' == 'uefi'
-        Import Resource    ${CURDIR}/lib/bios/menus.robot
         Import Resource    ${CURDIR}/lib/options/${OPTIONS_LIB}.robot
     ELSE IF    '${BIOS_LIB}' == 'seabios'
         Import Resource    ${CURDIR}/lib/bios/seabios.robot
