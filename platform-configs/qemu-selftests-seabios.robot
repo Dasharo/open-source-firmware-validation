@@ -4,6 +4,7 @@ This config targets QEMU firmware with as many menus enabled as possible.
 
 *** Settings ***
 Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
+Resource    qemu.robot
 Resource    include/default.robot
 
 
@@ -44,12 +45,3 @@ ${DASHARO_PCI_PCIE_MENU_SUPPORT}=       ${TRUE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=         ${TRUE}
 
 ${BIOS_LIB}=                            seabios
-
-*** Keywords ***
-Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Read From Terminal
-    Qemu Monitor.System Reset
