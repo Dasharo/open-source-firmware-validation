@@ -117,9 +117,6 @@ DCU004.001 Verify SMMSTORE changes
 
 *** Keywords ***
 Prepare DCU Test Environment
-    Run    rm -rf dcu
-    Run    git clone https://github.com/Dasharo/dcu
-
     Download To Host Cache
     ...    logo.bmp
     ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download

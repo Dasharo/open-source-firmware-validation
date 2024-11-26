@@ -424,7 +424,7 @@ Display Preparation Instructions
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
     Run    rm -rf dcu
-    Run    git clone https://github.com/Dasharo/dcu
+
     Run    cp ${FW_FILE} dcu/coreboot.rom
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}

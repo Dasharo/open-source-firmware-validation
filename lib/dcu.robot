@@ -11,14 +11,11 @@ Resource            ../keywords.robot
 
 
 *** Variables ***
-${DCU_REPO}=    https://github.com/Dasharo/dcu
-
 
 *** Keywords ***
 DCU Smbios Set UUID In File
     [Documentation]    Use DCU to set the UUID in a firmware file
     [Arguments]    ${fw_file}    ${uuid}
-    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
 
@@ -31,7 +28,6 @@ DCU Smbios Set UUID In File
 DCU Smbios Set Serial In File
     [Documentation]    Use DCU to set the Serial number in a firmware file
     [Arguments]    ${fw_file}    ${serial}
-    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
 
@@ -44,7 +40,6 @@ DCU Smbios Set Serial In File
 DCU Logo Set In File
     [Documentation]    Use DCU to set the bootsplash logo in a firmware file
     [Arguments]    ${fw_file}    ${logo_file}
-    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     ${logo_path}    ${logo_filename}=    Split Path    ${logo_file}
     Run    cp ${fw_file} dcu/${filename}
@@ -59,7 +54,6 @@ DCU Logo Set In File
 DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
     [Arguments]    ${out_file}
-    Run    git clone ${DCU_REPO}
     Get Flashrom From Cloud
     Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
     Execute Command In Terminal    chmod 666 coreboot.rom
@@ -74,7 +68,6 @@ DCU Variable Flash SMMSTORE
 DCU Variable Get UEFI Option From File
     [Documentation]    Read an UEFI option value from FW file.
     [Arguments]    ${fw_file}    ${option_name}
-    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
 
@@ -86,7 +79,6 @@ DCU Variable Get UEFI Option From File
 DCU Variable Set UEFI Option In File
     [Documentation]    Write an UEFI option value to FW file.
     [Arguments]    ${fw_file}    ${option_name}    ${value}
-    Run    git clone ${DCU_REPO}
     ${path}    ${filename}=    Split Path    ${fw_file}
     Run    cp ${fw_file} dcu/${filename}
     ${value}=    Convert Option Value To DCU Format    ${value}
