@@ -48,6 +48,7 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     uefi         a machine with lower resources assigned will be spawned and no
                  disk will be connected; suitable for Dasharo (coreboot+UEFI)
                  validation, but not for OS booting
+    firmware     same as uefi - kept for backward compatibility
     seabios      a machine with lower resources assigned will be spawned and no
                  disk will be connected; suitable for Dasharo (coreboot+SeaBIOS)
                  validation, but not for OS booting
@@ -183,7 +184,7 @@ esac
 ACTION="$2"
 
 case "${ACTION}" in
-  uefi)
+  firmware|uefi)
     MEMORY="1G"
     QEMU_UEFI_PARAMS="-global driver=cfi.pflash01,property=secure,value=on"
     QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_UEFI_PARAMS}"
@@ -212,7 +213,7 @@ case "${ACTION}" in
 esac
 
 # Check for the existence of QEMU firmware file
-if [ ! -f "${QEMU_FW_FILE}" ] && [ "${ACTION}" == "uefi" ]; then
+if [ ! -f "${QEMU_FW_FILE}" ] && [ "${ACTION}" == "uefi" ] || [ "${ACTION}" == "firmware" ] ; then
     echo "The required file ${QEMU_FW_FILE} is missing."
     echo "Downloading from the server..."
     wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/coreboot/releases/latest/download/qemu_q35_all_menus.rom
@@ -226,7 +227,7 @@ else
     echo "simply remove it and let the script download the latest release."
 fi
 
-if [ "${ACTION}" == "uefi" ]; then
+if [ "${ACTION}" == "uefi" ] || [ "${ACTION}" == "firmware" ]; then
     echo "Clear UEFI variables"
     echo "On each run on this script, the firmware settings would be restored to default."
     dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null

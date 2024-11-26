@@ -26,16 +26,28 @@ You may also decide to not use graphics user interface for QEMU. In that case
 choose mode `nographic`. If you run QEMU on a remote machine you may consider
 to use mode `vnc` with default port for graphical output being `5900`.
 
-Dasharo (UEFI) in QEMU can be started with:
+Dasharo (coreboot+UEFI) in QEMU can be started with:
 
 ```bash
-./scripts/ci/qemu-run.sh graphic firmware
+./scripts/ci/qemu-run.sh graphic uefi
 ```
 
 In this mode, a graphical QEMU window would popup, so you can observe the test
-flow, or control it manually. The actual testing will happen over
-serial, which is exposed via telnet. For more modes and options, please refer
-to the script's help text.
+flow, or control it manually. The actual testing will happen over serial, which
+is exposed via telnet. For more modes and options, please refer to the script's
+help text.
+
+Please note `uefi` is a machine with lower resources assigned and no disk will
+be connected; suitable for Dasharo (coreboot+UEFI) validation, but not for OS
+booting. The `firmware` option is the same as `uefi` and is kept for backward
+compatibility.
+
+Instead of `uefi` you can use `seabios` option, which is a machine with lower
+resources assigned and no disk will be connected; suitable for Dasharo
+(coreboot+SeaBIOS) validation, but not for OS booting.
+
+There are some more intrinsic difference between `uefi` and `seabios` for
+details please inspect the script.
 
 You may also build customized Dasharo firmware for QEMU (e.g. with some Dasharo
 options enabled or disabled). In such a case, please refer to:
