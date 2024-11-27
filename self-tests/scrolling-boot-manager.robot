@@ -28,7 +28,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Enter Boot Menu Tianocore
+Enter Boot Menu
     [Documentation]    Test Enter Boot Menu kwd
     Prepare EFI Partition With System Files
     Power On

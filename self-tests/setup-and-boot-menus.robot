@@ -28,10 +28,10 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Enter Boot Menu Tianocore
+Enter Boot Menu
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${out}=    Read From Terminal Until    exit
     Should Contain    ${out}    Please select boot device:
 

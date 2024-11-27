@@ -4,24 +4,10 @@ Documentation       Collection of keywords related to EDK2 menus
 Library             Collections
 Library             String
 Library             ./menus.py
+Resource            common.robot
 
 
 *** Keywords ***
-Enter Boot Menu Tianocore
-    [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
-    ...    keys list.
-    Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${BOOT_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${BOOT_MENU_KEY}
-    END
-    IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
-        # FIXME: Laptop EC serial workaround
-        Press Key N Times    1    ${ARROW_DOWN}
-        Press Key N Times    1    ${ARROW_UP}
-    END
-
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
     ${menu}=    Read From Terminal Until    exit
@@ -68,7 +54,7 @@ Get Boot Menu Construction
 
 Enter Boot Menu Tianocore And Return Construction
     [Documentation]    Enters boot menu, returning menu construction
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
     RETURN    ${menu}
 

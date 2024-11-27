@@ -7,24 +7,10 @@ Documentation       Collection of keywords related to SeaBIOS.
 #
 Library             Collections
 Library             String
+Resource            common.robot
 
 
 *** Keywords ***
-Enter Boot Menu SeaBIOS
-    [Documentation]    Enter Boot Menu with SeaBIOS boot menu key mapped in
-    ...    keys list.
-    Read From Terminal Until    ${SEABIOS_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${BOOT_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${BOOT_MENU_KEY}
-    END
-    IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
-        # FIXME: Laptop EC serial workaround
-        Press Key N Times    1    ${ARROW_DOWN}
-        Press Key N Times    1    ${ARROW_UP}
-    END
-
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
     ${menu}=    Read From Terminal Until    TPM Configuration
@@ -42,13 +28,13 @@ Get Boot Menu Construction
 
 Enter Boot Menu SeaBIOS And Return Construction
     [Documentation]    Enters boot menu, returning menu construction
-    Enter Boot Menu SeaBIOS
+    Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
     RETURN    ${menu}
 
 Enter Sortbootorder
     [Documentation]    Enter sortbootorder with Boot Menu Construction.
-    Enter Boot Menu SeaBIOS
+    Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
     Enter Menu From Snapshot    ${menu}    \[setup\]
 
@@ -293,13 +279,13 @@ Enable Network/PXE Boot
 
 Enter TPM Configuration
     [Documentation]    Enter TPM Configuration with Boot Menu Construction.
-    Enter Boot Menu SeaBIOS
+    Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
     Enter Menu From Snapshot    ${menu}    TPM Configuration
 
 Enter IPXE
     [Documentation]    Enter iPXE with Boot Menu Construction.
     Enable Network/PXE Boot
-    Enter Boot Menu SeaBIOS
+    Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
     Enter Menu From Snapshot    ${menu}    iPXE

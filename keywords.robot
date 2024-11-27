@@ -1451,7 +1451,7 @@ Boot Operating System
     [Arguments]    ${operating_system}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Set Local Variable    ${is_system_installed}    ${FALSE}
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
     IF    not ${is_system_installed}

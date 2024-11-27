@@ -28,10 +28,10 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Enter Boot Menu SeaBIOS
+Enter Boot Menu
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    Enter Boot Menu SeaBIOS
+    Enter Boot Menu
     ${out}=    Read From Terminal Until    [memtest]
     Should Contain    ${out}    Select boot device:
 
