@@ -23,7 +23,7 @@ Suite Teardown      Run Keyword
 # DTS itself.
 # DTS checkpoints:
 ${DTS_CHECKPOINT}=                  Enter an option:
-${DTS_CONFIRM_CHECKPOINT}=          Press Enter to continue.
+${DTS_CONFIRM_CHECKPOINT}=          Press Enter to continue
 ${HCL_REPORT_CHECKPOINT}=           Please consider contributing to the "Hardware for Linux" project in the future.
 ${HCL_REPORT_SENDINGLOGS}=
 ...                                 Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
@@ -1153,7 +1153,7 @@ Provide DPP Credentials
     [Documentation]    This KW automatically writes DPP credentials into DTS UI.
     ...    The credentials should be set via CMD or file.
     ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    ${DTS_CREDENTIALS_OPT}
+    Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
 
     # Enter logs key:
     Variable Should Exist    ${DPP_LOGS_KEY}
