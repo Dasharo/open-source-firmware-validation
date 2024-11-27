@@ -35,10 +35,10 @@ Enter Boot Menu
     ${out}=    Read From Terminal Until    [memtest]
     Should Contain    ${out}    Select boot device:
 
-Enter Boot Menu SeaBIOS And Return Construction
+Enter Boot Menu And Return Construction
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    ${menu}=    Enter Boot Menu SeaBIOS And Return Construction
+    ${menu}=    Enter Boot Menu And Return Construction
     List Should Not Contain Value    ${menu}    Select boot device:
     List Should Contain Value    ${menu}    1. DVD/CD [AHCI/2: QEMU DVD-ROM ATAPI-4 DVD/CD]
     List Should Contain Value    ${menu}    2. Payload [setup]

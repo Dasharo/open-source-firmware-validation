@@ -32,7 +32,7 @@ STB001.001 Verify if no reboot occurs in the firmware
     ...    a defined time an attempt to read the same menu is repeated.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    STB001.001 not supported
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    other key to continue
     Set Prompt For Terminal    Shell>

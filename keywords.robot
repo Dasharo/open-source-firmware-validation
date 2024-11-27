@@ -320,7 +320,7 @@ Get Firmware Version
     IF    '${FLASH_VERIFY_METHOD}'=='iPXE-boot'
         Boot Debian From IPXE    ${PXE_IP}    ${HTTP_PORT}    ${FILENAME}    ${DEBIAN_STABLE_VER}
     ELSE IF    '${FLASH_VERIFY_METHOD}'=='tianocore-shell'
-        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        ${boot_menu}=    Enter Boot Menu And Return Construction
         Enter Submenu From Snapshot    ${boot_menu}    ${FLASH_VERIFY_OPTION}
     ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
         No Operation
@@ -1358,7 +1358,7 @@ Reboot Via OS Boot By Petitboot
 Reboot Via Ubuntu By Tianocore
     [Documentation]    Reboot system with Ubuntu installed on the DUT while
     ...    already logged into Tianocore.
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ubuntu
     Login To Linux
     Switch To Root User

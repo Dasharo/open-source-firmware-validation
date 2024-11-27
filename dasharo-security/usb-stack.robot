@@ -34,7 +34,7 @@ USS001.001 Enable USB stack (firmware)
     Skip If    "${OPTIONS_LIB}" == "dcu"
     Set UEFI Option    UsbDriverStack    ${TRUE}
     Set UEFI Option    UsbMassStorage    ${TRUE}
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
 
 USS002.001 Disable USB stack (firmware)
@@ -46,7 +46,7 @@ USS002.001 Disable USB stack (firmware)
     Skip If    "${OPTIONS_LIB}" == "dcu"
     Set UEFI Option    UsbMassStorage    ${FALSE}
     Set UEFI Option    UsbDriverStack    ${FALSE}
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     # Check That USB Devices Are Not Detected    ${boot_menu}
 
 USS003.001 Enable USB Mass Storage (firmware)
@@ -70,7 +70,7 @@ USS003.001 Enable USB Mass Storage (firmware)
     END
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
     Save Changes And Reset
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
 
 USS004.001 Disable USB Mass Storage (firmware)
@@ -95,5 +95,5 @@ USS004.001 Disable USB Mass Storage (firmware)
     END
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
     Save Changes And Reset
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     # Check That USB Devices Are Not Detected    ${boot_menu}

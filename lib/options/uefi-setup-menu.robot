@@ -74,7 +74,7 @@ Get UEFI Boot Manager Entries
 
     Power On
 
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     RETURN    ${boot_menu}
 
 Measure Coldboot Time

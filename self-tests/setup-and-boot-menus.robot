@@ -35,10 +35,10 @@ Enter Boot Menu
     ${out}=    Read From Terminal Until    exit
     Should Contain    ${out}    Please select boot device:
 
-Enter Boot Menu Tianocore And Return Construction
+Enter Boot Menu And Return Construction
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    ${menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${menu}=    Enter Boot Menu And Return Construction
     List Should Not Contain Value    ${menu}    Please select boot device:
     List Should Contain Value    ${menu}    Setup
     Menu Construction Should Not Contain Control Text    ${menu}

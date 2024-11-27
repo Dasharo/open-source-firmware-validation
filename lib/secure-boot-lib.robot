@@ -224,7 +224,7 @@ Select File In File Explorer
 Enter UEFI Shell
     [Documentation]    Boots into UEFI Shell. Should be called after Power On or
     ...    reboot
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
     Sleep    1s

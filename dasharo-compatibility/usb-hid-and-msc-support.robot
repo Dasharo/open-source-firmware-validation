@@ -31,7 +31,7 @@ USB001.001 USB devices detected in FW
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Upload And Mount DTS Flash Iso
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Check That USB Devices Are Detected    ${boot_menu}
 
 USB001.002 USB devices detected by OS (Ubuntu)
