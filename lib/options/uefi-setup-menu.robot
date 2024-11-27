@@ -4,7 +4,7 @@ Documentation       Library for UEFI configuration using the UEFI setup menu
 
 Library             Collections
 Library             String
-Resource            ../bios/menus.robot
+Resource            ../bios/edk2.robot
 Resource            ../../keywords.robot
 Resource            ../cbmem.robot
 

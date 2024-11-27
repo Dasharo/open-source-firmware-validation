@@ -11,7 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/edk2.robot
 Resource            ../lib/power-after-fail-lib.robot
 
 # TODO:

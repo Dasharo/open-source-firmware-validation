@@ -8,7 +8,7 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/edk2.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot

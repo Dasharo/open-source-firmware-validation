@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation       Collection of keywords related to SeaBIOS.
 
-# Here is comparison of terms with lib/bios/menus.robot
+# Here is comparison of terms with lib/bios/edk2.robot
 # Tianocore -> SeaBIOS
 # Setup Menu -> sortbootorder
 #
