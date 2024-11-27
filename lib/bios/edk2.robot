@@ -74,7 +74,7 @@ Enter Boot Menu Tianocore And Return Construction
 
 Enter Setup Menu Tianocore
     [Documentation]    Enter Setup Menu with key specified in platform-configs.
-    Read From Terminal Until    ${TIANOCORE_STRING}
+    Read From Terminal Until    ${FW_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${SETUP_MENU_KEY}
     ELSE

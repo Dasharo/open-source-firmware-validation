@@ -10,7 +10,7 @@ Resource    ../../lib/novacustom-lib.robot
 ${INITIAL_DUT_CONNECTION_METHOD}=                   SSH
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
-${TIANOCORE_STRING}=                                to boot directly
+${FW_STRING}=                                       to boot directly
 ${BOOT_MENU_KEY}=                                   ${F7}
 ${SETUP_MENU_KEY}=                                  ${F2}
 ${BOOT_MENU_STRING}=                                Please select boot device:
