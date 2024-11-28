@@ -36,6 +36,7 @@ Flash Via Internal Programmer
     IF    ${read_only}
         Fail    Make sure that SPI locks are disabled prior flashing internally
     END
+    Send File To DUT    ${fw_file_path}    /tmp/${fw_file_path}
 
     # If no region is given, flash the whole binary
     IF    "${region}" != "${EMPTY}"

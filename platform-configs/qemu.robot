@@ -84,6 +84,9 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
 # Test module: dasharo-stability
 ${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
 
+${BUILD_ON_NEWLY_INSTALLED_OS_SUPPORT}=     ${TRUE}
+${COREBOOT_BUILD_WRAPPER_SUBCOMMAND}=       qemu
+
 
 *** Keywords ***
 Power On
