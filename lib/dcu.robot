@@ -10,8 +10,6 @@ Library             SSHLibrary
 Resource            ../keywords.robot
 
 
-*** Variables ***
-
 *** Keywords ***
 DCU Smbios Set UUID In File
     [Documentation]    Use DCU to set the UUID in a firmware file
