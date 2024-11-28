@@ -850,9 +850,10 @@ Execute Reboot Command
     ELSE
         Fail    Unknown OS: ${os} given as an argument.
     END
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    30s
-    Set DUT Response Timeout    180 seconds
+    # We do not want to sleep if we switched to SSH only temporarily.
     Restore Initial DUT Connection Method
+    Set DUT Response Timeout    180 seconds
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    30s
 
 Check Displays Windows
     [Documentation]    Check and return all displays with PowerShell in Windows.

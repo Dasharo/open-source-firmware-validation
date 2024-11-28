@@ -27,21 +27,18 @@ Suite Teardown      Run Keyword
 USB001.001 USB devices detected in FW
     [Documentation]    Check whether USB devices are detected in Tianocore
     ...    (edk2).
-    Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.001 not supported
-    Skip If    not ${HAS_USB_STORAGE}    USB001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
-    IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-        Upload And Mount DTS Flash Iso
-    END
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
+    Depends On    ${HAS_USB_STORAGE}
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Check That USB Devices Are Detected    ${boot_menu}
+    Check USB Stick Detection in Edk2    ${boot_menu}
 
 USB001.002 USB devices detected by OS (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Linux OS.
-    Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    USB001.002 not supported
+    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -55,8 +52,8 @@ USB001.002 USB devices detected by OS (Ubuntu)
 USB001.003 USB devices detected by OS (Windows)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Windows OS.
-    Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.003 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    USB001.003 not supported
+    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
+    Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal
@@ -69,8 +66,8 @@ USB002.001 USB keyboard detected in FW
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
     [Tags]    minimal-regression
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
-    Skip If    not ${HAS_KEYBOARD}    USB002.001 not supported
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${HAS_KEYBOARD}
     Power On
     Enter UEFI Shell
     ${out}=    Execute UEFI Shell Command    devices
@@ -79,9 +76,9 @@ USB002.001 USB keyboard detected in FW
 USB002.002 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Linux OS.
-    Skip If    not ${USB_KEYBOARD_DETECTION_SUPPORT}    USB002.002 not supported
-    Skip If    "${DEVICE_USB_KEYBOARD}" == "${EMPTY}"    USB002.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    USB002.002 not supported
+    Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
+    Depends On    "${DEVICE_USB_KEYBOARD}" == "${EMPTY}"
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -92,9 +89,9 @@ USB002.002 USB keyboard in OS (Ubuntu)
 USB002.003 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Windows OS.
-    Skip If    not ${USB_KEYBOARD_DETECTION_SUPPORT}    USB002.003 not supported
-    Skip If    not ${HAS_KEYBOARD}    USB002.003 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    USB002.003 not supported
+    Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
+    Depends On    ${HAS_KEYBOARD}
+    Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
@@ -104,9 +101,9 @@ USB002.003 USB keyboard in OS (Windows)
 USB003.001 Upload 1GB file on USB storage (Ubuntu)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    Skip If    not ${UPLOAD_ON_USB_SUPPORT}    USB003.001 not supported
-    Skip If    not ${HAS_USB_STORAGE}    USB003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    USB003.001 not supported
+    Depends On    ${UPLOAD_ON_USB_SUPPORT}
+    Depends On    ${HAS_USB_STORAGE}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -121,9 +118,9 @@ USB003.001 Upload 1GB file on USB storage (Ubuntu)
 USB003.002 Upload 1GB file on USB storage (Windows)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    Skip If    not ${UPLOAD_ON_USB_SUPPORT}    USB003.002 not supported
-    Skip If    not ${HAS_USB_STORAGE}    USB003.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    USB003.002 not supported
+    Depends On    ${UPLOAD_ON_USB_SUPPORT}
+    Depends On    ${HAS_USB_STORAGE}
+    Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
     Login To Windows
     Generate 1GB File In Windows
