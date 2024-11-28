@@ -8,9 +8,6 @@ ${FLASHING_METHOD}=                 internal
 
 # eMMC driver support
 ${E_MMC_NAME}=                      8GTF4R
-
-@{ATTACHED_USB}=                    ${TBD}
-
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.2.0
 ${DMIDECODE_PRODUCT_NAME}=          VP2420
