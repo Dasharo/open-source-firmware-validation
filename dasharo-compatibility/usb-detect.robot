@@ -32,28 +32,14 @@ UDT001.001 USB detection after coldboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the coldboot (reboot realized by power supply cutting off
     ...    then cutting on).
-    Platform Verification
-    Set Global Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${usb}    0
+    Set Local Variable    ${failed_detection}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
-        TRY
-            ${usb}=    Evaluate    0
-            Power Cycle On
-            ${menu}=    Enter Boot Menu Tianocore And Return Construction
-            FOR    ${stick}    IN    @{ATTACHED_USB}
-                ${usb_tmp}=    Get Count    ${menu}    ${stick}
-                ${usb}=    Evaluate    ${usb} + ${usb_tmp}
-            END
-            IF    '${PLATFORM}' in ['apu1', 'apu5']
-                ${usb}=    Evaluate
-                ...    ${usb} - sum([1 for line in """${menu}""".splitlines() if 'Multiple Card' in line])
-            ELSE
-                ${usb}=    Evaluate    '${usb}'
-            END
-            ${usb_count}=    Get All USB
-            Should Be Equal As Integers    ${usb}    ${usb_count}
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+        Power Cycle On
+        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        ${found}=    Check USB Stick Detection in Edk2    ${boot_menu}
+
+        IF    '${found}' != '${TRUE}'
+            ${failed_detection}=    Evaluate    ${failed_detection} + 1
             IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
                 Fail    Detection failed too many times (${failed_detection})
             END
@@ -64,28 +50,14 @@ UDT002.001 USB detection after warmboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the warmboot (reboot realized by device turning off then
     ...    turning on).
-    Platform Verification
-    Set Global Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${usb}    0
+    Set Local Variable    ${failed_detection}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
-        TRY
-            ${usb}=    Evaluate    0
-            Power On
-            ${menu}=    Enter Boot Menu Tianocore And Return Construction
-            FOR    ${stick}    IN    @{ATTACHED_USB}
-                ${usb_tmp}=    Get Count    ${menu}    ${stick}
-                ${usb}=    Evaluate    ${usb} + ${usb_tmp}
-            END
-            IF    '${PLATFORM}' in ['apu1', 'apu5']
-                ${usb}=    Evaluate
-                ...    ${usb} - sum([1 for line in """${menu}""".splitlines() if 'Multiple Card' in line])
-            ELSE
-                ${usb}=    Evaluate    '${usb}'
-            END
-            ${usb_count}=    Get All USB
-            Should Be Equal As Integers    ${usb}    ${usb_count}
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+        Power On
+        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        ${found}=    Check USB Stick Detection in Edk2    ${boot_menu}
+
+        IF    '${found}' != '${TRUE}'
+            ${failed_detection}=    Evaluate    ${failed_detection} + 1
             IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
                 Fail    Detection failed too many times (${failed_detection})
             END
@@ -95,49 +67,21 @@ UDT002.001 USB detection after warmboot
 UDT003.001 USB detection after system reboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the system reboot (reboot performing by relevant command).
-    Platform Verification
     Set Local Variable    ${failed_detection}    0
-    Set Local Variable    ${usb}    0
+
+    Power On
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
-        TRY
-            ${usb}=    Evaluate    0
-            Power On
-            IF    '${PAYLOAD}' == 'tianocore'
-                Reboot Via Ubuntu By Tianocore
-            ELSE IF    '${PAYLOAD}' == 'seabios'
-                Reboot Via IPXE Boot By SeaBIOS
-            ELSE IF    '${PAYLOAD}' == 'petitboot'
-                Reboot Via OS Boot By Petitboot
-            ELSE
-                FAIL    Unknown payload: ${PAYLOAD}
-            END
-            ${menu}=    Enter Boot Menu Tianocore And Return Construction
-            FOR    ${stick}    IN    @{ATTACHED_USB}
-                ${usb_tmp}=    Get Count    ${menu}    ${stick}
-                ${usb}=    Evaluate    ${usb} + ${usb_tmp}
-            END
-            IF    '${PLATFORM}' in ['apu1', 'apu5']
-                ${usb}=    Evaluate
-                ...    ${usb} - sum([1 for line in """${menu}""".splitlines() if 'Multiple Card' in line])
-            ELSE
-                ${usb}=    Evaluate    '${usb}'
-            END
-            ${usb_count}=    Get All USB
-            Should Be Equal As Integers    ${usb}    ${usb_count}
-        EXCEPT
+        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        ${found}=    Check USB Stick Detection in Edk2    ${boot_menu}
+        Boot System Or From Connected Disk    ubuntu    boot_menu=${boot_menu}
+        Login To Linux
+        Switch To Root User
+        Execute Reboot Command
+
+        IF    '${found}' != '${TRUE}'
             ${failed_detection}=    Evaluate    ${failed_detection} + 1
             IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'
                 Fail    Detection failed too many times (${failed_detection})
             END
         END
     END
-
-
-*** Keywords ***
-Platform Verification
-    [Documentation]    Check whether according to hardware matrix, any USB
-    ...    stick is connected to the platform.
-    IF    '${PLATFORM}' == 'raptor-cs_talos2'    RETURN
-    ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${result}=    Evaluate    "USB_Storage" in """${conf}"""
-    IF    not ${result}    SKIP    Platform doesn't have USB storage attached.

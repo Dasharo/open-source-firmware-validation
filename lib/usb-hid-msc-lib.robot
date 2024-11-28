@@ -1,6 +1,21 @@
 *** Settings ***
 Library     OperatingSystem
 
+*** Variables ***
+
+# A list of USB boot device entries that may appear in the Dasharo edk2 boot
+# menu. This way we do not care that much which particular stick is connected
+# to the DUT. This is not perfect, as we might lose some information there,
+# but it's been really problmatic so far to track the USB devices in platform
+# configs. What is more, we may have one platform config and multiple instances
+# of the same physical devices setup in the lab, with slightly different USB
+# sticks.
+#
+# We may also decide that we always put DTS stick, and test booting with that.
+# Thanks to ESP scanning, we always generate similar entry like:
+# "Dasharo Tools Suite (on USB XXXX)"
+
+@{USB_DEVICES_IN_EDK2}    Dasharo Tools Suite
 
 *** Keywords ***
 Upload And Mount DTS Flash ISO
@@ -33,3 +48,21 @@ Download ISO And Mount As USB
             Skip    unsupported
         END
     END
+
+Check USB Stick Detection in Edk2
+    [Documentation]    Checks if the bootable USB devices are visible in the
+    ...    boot menu.
+    [Arguments]    ${boot_menu}
+    Set Local Variable    ${found}    ${FALSE}
+
+    FOR    ${stick}    IN    @{USB_DEVICES_IN_EDK2}
+        ${found}=    Run Keyword And Return Status    Should Contain Match    ${boot_menu}    *${stick}*
+        IF    '${found}' == '${TRUE}'    BREAK
+    END
+
+    IF    '${found}' == '${FALSE}'
+        Log To Console    None of the known USB sticks have been found in the boot menu. If a stick is connected, you might need to update USB_DEVICES_IN_EDK2 variable.
+        Log    ${boot_menu}
+    END
+
+    RETURN    ${found}

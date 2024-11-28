@@ -21,6 +21,7 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    ${BOOT_FROM_USB_ITERATIONS_NUMBER} == 0    USB booting tests skipped
+...                     AND
 ...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
@@ -31,22 +32,11 @@ UBT001.001 USB detect and boot after coldboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after coldboot (reboot
     ...    realized by power supply cutting off then cutting on).
-    Platform Verification
     Set Local Variable    ${failed_boot}    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power Cycle On
-            ${usb}=    Get USB Boot Option
-            Power On
-            Boot System Or From Connected Disk    ${usb}
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'
-                Login To Linux
-            ELSE
-                Login To Linux Over Serial Console
-                ...    ${DEVICE_USB_USERNAME}
-                ...    ${DEVICE_USB_PASSWORD}
-                ...    ${DEVICE_USB_PROMPT}
-            END
+            Boot Dasharo Tools Suite    USB
         EXCEPT
             ${failed_boot}=    Evaluate    ${failed_boot} + 1
             IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
@@ -59,22 +49,11 @@ UBT002.001 USB detect and boot after warmboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after warmboot (reboot
     ...    realized by device turning off then turning on).
-    Platform Verification
     Set Local Variable    ${failed_boot}    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power On
-            ${usb}=    Get USB Boot Option
-            Power On
-            Boot System Or From Connected Disk    ${usb}
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'
-                Login To Linux
-            ELSE
-                Login To Linux Over Serial Console
-                ...    ${DEVICE_USB_USERNAME}
-                ...    ${DEVICE_USB_PASSWORD}
-                ...    ${DEVICE_USB_PROMPT}
-            END
+            Boot Dasharo Tools Suite    USB
         EXCEPT
             ${failed_boot}=    Evaluate    ${failed_boot} + 1
             IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
@@ -87,37 +66,16 @@ UBT003.001 USB detect and boot after system reboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after system reboot
     ...    (reboot performing by relevant command).
-    Platform Verification
     Set Local Variable    ${failed_boot}    0
     Power On
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
-            ${usb}=    Get USB Boot Option
-            Power On
-            Boot System Or From Connected Disk    ${usb}
-            IF    '${PLATFORM}' != 'raptor-cs_talos2'    Reboot Via Linux On USB
-            IF    '${PLATFORM}' == 'raptor-cs_talos2'
-                Login To Linux
-                Write Into Terminal    reboot
-            END
+            Boot Dasharo Tools Suite    USB
+            Execute Reboot Command
         EXCEPT
             ${failed_boot}=    Evaluate    ${failed_boot} + 1
             IF    '${failed_boot}' > '${ALLOWED_FAILS_USB_BOOT}'
                 Fail    Boot from USB failed too many times (${failed_boot})
             END
         END
-    END
-
-
-*** Keywords ***
-Platform Verification
-    [Documentation]    Check whether according to hardware matrix, any USB
-    ...    stick is connected to the platform.
-    IF    '${PLATFORM}' == 'raptor-cs_talos2'    RETURN
-    ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${result}=    Evaluate    "USB_Storage" in """${conf}"""
-    IF    not ${result}
-        SKIP    \nPlatform doesn't have USB storage attached.
-    ELSE
-        Log    Selected platform is correct.
     END

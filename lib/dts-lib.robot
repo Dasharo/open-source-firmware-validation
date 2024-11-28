@@ -49,15 +49,10 @@ Boot Dasharo Tools Suite
     ...    boot method (from USB or from iPXE) as parameter.
     [Arguments]    ${dts_booting_method}
     IF    '${dts_booting_method}'=='USB'
+        # Assuming ESP scanning works as supposed to, DTS on USB stick
+        # should generate such entry
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
-        ELSE IF    '${MANUFACTURER}' == 'QEMU'
-            Enter Submenu From Snapshot    ${boot_menu}    Dasharo Tools Suite (on QEMU HARDDISK)
-        ELSE
-            # Requires specifying the USB model in the platform's config
-            Enter Submenu From Snapshot    ${boot_menu}    ${USB_MODEL}
-        END
+        Enter Submenu From Snapshot    ${boot_menu}    Dasharo Tools Suite
     ELSE IF    '${dts_booting_method}'=='iPXE'
         IF    ${BOOT_DTS_FROM_IPXE_SHELL} == ${TRUE} or ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
             # DTS_IPXE_LINK can be defined before running tests, e.g. via CMD or
@@ -67,7 +62,7 @@ Boot Dasharo Tools Suite
             Boot Dasharo Tools Suite Via IPXE Menu
         END
     ELSE
-        FAIL    Unknown or improper connection method: ${dts_booting_method}
+        FAIL    Unknown DTS boot method: ${dts_booting_method}
     END
 
     # For PiKVM devices, we have only input on serial, not output. The video and serial consoles are
