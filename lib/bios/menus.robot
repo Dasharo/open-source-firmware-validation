@@ -584,7 +584,7 @@ Save Changes And Reset
 Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
     ...    to boot from connected disk set up in config
-    [Arguments]    ${system_name}
+    [Arguments]    ${system_name}    ${boot_menu}=NOT_SET
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
 
     IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
@@ -594,8 +594,17 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
         Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
         RETURN
     END
-    ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
-    # With ESP scanning feature boot entries are named differently:
+
+    # Allow providing boot menu construction, if we are already in boot menu screen
+    # and want to boot into OS from there
+    IF    '''${boot_menu}''' == 'NOT_SET'
+        ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
+    ELSE
+        ${menu_construction}=    Set Variable    @{boot_menu}
+    END
+
+    # When ESP scanning feature is there, boot entries are named differently than
+    # they used to
     IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
         IF    "${system_name}" == "ubuntu"
             ${system_name}=    Set Variable    Ubuntu

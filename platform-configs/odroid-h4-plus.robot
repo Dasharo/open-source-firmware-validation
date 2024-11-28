@@ -81,6 +81,8 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=             ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                  ${TRUE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=            2
+${USB_DETECTION_ITERATIONS_NUMBER}=             5
+${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
 # Dasharo performance
 ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
