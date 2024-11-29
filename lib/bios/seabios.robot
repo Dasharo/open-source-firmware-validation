@@ -46,32 +46,6 @@ Enter Setup Menu SeaBIOS And Return Construction
     ${menu}=    Get Setup Menu Construction
     RETURN    ${menu}
 
-Get RTC Clock Submenu Construction
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
-    # In most cases, we need to strip two lines:
-    #    TOP:
-    #    Title line, such as:    Dasharo System Features
-    #    BOTTOM:
-    #    Help line, such as:    F9=Reset to Defaults    Esc=Exit
-    ${submenu}=    Get Menu Construction    ${checkpoint}    ${lines_top}    ${lines_bot}
-    # Handling of additional exceptions appearing in submenus:
-    #    1. Drop unselectable strings from Device Manager
-    Remove Values From List    ${submenu}    Devices List
-
-    IF    ${opt_only} == ${TRUE}
-        # Handling exceptions caused by some options splitting into multiple lines.
-        # For Dasharo System Features options, we can assume that each entry has
-        # either ">", or "[ ]", or "< >". For other edk2 menus, this is not always
-        # the case (yet?).
-        FOR    ${entry}    IN    @{submenu}
-            ${status}=    Check If Menu Line Is An Option    ${entry}
-            IF    ${status} != ${TRUE}
-                Remove Values From List    ${submenu}    ${entry}
-            END
-        END
-    END
-    RETURN    ${submenu}
-
 Get Option State
     [Documentation]    Gets menu construction and option name as arguments.
     ...    Returns option state, which can be: True or False.
