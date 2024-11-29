@@ -26,24 +26,12 @@ Get Boot Menu Construction
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    0
     RETURN    ${construction}
 
-Enter Sortbootorder
-    [Documentation]    Enter sortbootorder with Boot Menu Construction.
-    Enter Boot Menu
-    ${menu}=    Get Boot Menu Construction
-    Enter Menu From Snapshot    ${menu}    \[setup\]
-
 Get Sortbootorder Menu Construction
     [Documentation]    Keyword allows to get and return sortbootorder menu construction.
     [Arguments]    ${checkpoint}=Save configuration and exit
     # Lines to strip:
     ${out}=    Read From Terminal Until    ${checkpoint}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    7    0
-    RETURN    ${menu}
-
-Enter Setup Menu SeaBIOS And Return Construction
-    [Documentation]    Enters Setup Menu and returns Setup Menu construction
-    Enter Setup Menu SeaBIOS
-    ${menu}=    Get Setup Menu Construction
     RETURN    ${menu}
 
 Get Option State
@@ -185,7 +173,7 @@ Save Sortbootorder Changes
 
 Enable Network/PXE Boot
     [Documentation]    Enable Network/PXE Boot and save.
-    Enter Sortbootorder
+    Enter Setup Menu
     ${menu}=    Get Sortbootorder Menu Construction
     ${menu}=    Set Option State And Return Construction    ${menu}    Network/PXE boot    Enabled
     List Should Contain Value    ${menu}    n Network/PXE boot - Currently Enabled

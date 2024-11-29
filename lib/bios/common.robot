@@ -27,6 +27,19 @@ Enter Boot Menu And Return Construction
     ${menu}=    Get Boot Menu Construction
     RETURN    ${menu}
 
+Enter Setup Menu
+    [Documentation]    Enter Setup Menu with key specified in platform-configs.
+    Read From Terminal Until    ${FW_STRING}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Single Key PiKVM    ${SETUP_MENU_KEY}
+    ELSE
+        Write Bare Into Terminal    ${SETUP_MENU_KEY}
+        IF    '${BIOS_LIB}' == 'seabios'
+            ${menu}=    Get Boot Menu Construction
+            Enter Menu From Snapshot    ${menu}    \[setup\]
+        END
+    END
+
 Parse Menu Snapshot Into Construction
     [Documentation]    Breaks grabbed menu data into lines.
     [Arguments]    ${menu}    ${lines_top}    ${lines_bot}

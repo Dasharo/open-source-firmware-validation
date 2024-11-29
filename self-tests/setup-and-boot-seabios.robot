@@ -36,7 +36,7 @@ Enter Boot Menu
     Should Contain    ${out}    Select boot device:
 
 Enter Boot Menu And Return Construction
-    [Documentation]    Test Enter Boot Menu kwd
+    [Documentation]    Test Enter Boot Menu And Return Construction kwd
     Power On
     ${menu}=    Enter Boot Menu And Return Construction
     List Should Not Contain Value    ${menu}    Select boot device:
@@ -46,17 +46,17 @@ Enter Boot Menu And Return Construction
     List Should Contain Value    ${menu}    t. TPM Configuration
     Menu Construction Should Not Contain Control Text    ${menu}
 
-Enter sortbootorder
-    [Documentation]    Test Enter sortbootorder kwd
+Enter Setup Menu
+    [Documentation]    Test Enter Setup Menu kwd
     Power On
-    Enter Sortbootorder
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    Save configuration and exit
     Should Contain    ${out}    PC Engines QEMU x86 q35/ich9 setup
 
 Get sortbootorder Menu Construction
     [Documentation]    Get sortbootorder Menu Construction kwd
     Power On
-    Enter Sortbootorder
+    Enter Setup Menu
     ${menu}=    Get Sortbootorder Menu Construction
     List Should Not Contain Value    ${menu}    Boot order
     List Should Contain Value    ${menu}    r Restore boot order defaults
@@ -83,7 +83,7 @@ Get sortbootorder Menu Construction
 Get Option State
     [Documentation]    Test Get Option State kwd
     Power On
-    Enter Sortbootorder
+    Enter Setup Menu
     ${menu}=    Get Sortbootorder Menu Construction
     ${state}=    Get Option State    ${menu}    Network/PXE boot
     Should Contain    ${state}    Disabled
@@ -91,7 +91,7 @@ Get Option State
 Enter Menu From Snapshot and Return sortbootorder Construction
     [Documentation]    Test Enter Menu From Snapshot and Return sortbootorder Construction kwd
     Power On
-    Enter Sortbootorder
+    Enter Setup Menu
     ${menu}=    Get Sortbootorder Menu Construction
     ${menu}=    Enter Menu From Snapshot And Return Sortbootorder Construction    ${menu}    Network/PXE boot
     List Should Not Contain Value    ${menu}    Boot order
@@ -127,7 +127,7 @@ Enable Network Boot
     [Documentation]    Test Enable Network/PXE boot
     Power On
     Enable Network/PXE Boot
-    Enter Sortbootorder
+    Enter Setup Menu
     ${menu}=    Get Sortbootorder Menu Construction
     List Should Contain Value    ${menu}    n Network/PXE boot - Currently Enabled
 

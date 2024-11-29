@@ -32,7 +32,7 @@ SET001.001 CPU clock speed displayed in setup menu
     ...    correctly indicated in setup menu.
 
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${cpu_line}=    Get Lines Matching Regexp    ${out}    .*GHz
     Should Not Be Empty    ${cpu_line}    CPU clock speed not found
@@ -45,7 +45,7 @@ SET002.001 RAM speed displayed in setup menu
     ...    indicated in setup menu.
 
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${ram_line}    RAM speed not found
@@ -58,7 +58,7 @@ SET003.001 RAM size displayed in setup menu
     ...    indicated in setup menu.
 
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*MB RAM.*
     Should Not Be Empty    ${ram_line}    RAM size not found
@@ -72,7 +72,7 @@ SET004.001 Expected CPU clock speed displayed in setup menu
     Depends On Variable    \${PLATFORM_CPU_SPEED}
 
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${cpu_line}=    Get Lines Matching Regexp    ${out}    .*GHz
     Should Not Be Empty    ${cpu_line}    CPU clock speed not found
@@ -86,7 +86,7 @@ SET005.001 Expected RAM speed displayed in setup menu
     Depends On Variable    \${PLATFORM_RAM_SPEED}
 
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${ram_line}    RAM speed not found
@@ -100,7 +100,7 @@ SET006.001 Expected RAM size displayed in setup menu
     Depends On Variable    \${PLATFORM_RAM_SIZE}
 
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*MB RAM.*
     Should Not Be Empty    ${ram_line}    RAM size not found

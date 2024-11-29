@@ -65,7 +65,7 @@ Get UEFI Option
 Reset UEFI Options To Defaults
     [Documentation]    Resets all UEFI options to defaults
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Reset To Defaults Tianocore
     Save Changes And Reset
 

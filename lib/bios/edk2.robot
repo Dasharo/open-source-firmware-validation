@@ -52,15 +52,6 @@ Get Boot Menu Construction
     END
     RETURN    ${construction}
 
-Enter Setup Menu Tianocore
-    [Documentation]    Enter Setup Menu with key specified in platform-configs.
-    Read From Terminal Until    ${FW_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${SETUP_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${SETUP_MENU_KEY}
-    END
-
 Get Setup Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
     [Arguments]    ${checkpoint}=Select Entry
@@ -84,7 +75,7 @@ Get Menu Construction
 
 Enter Setup Menu Tianocore And Return Construction
     [Documentation]    Enters Setup Menu and returns Setup Menu construction
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${menu}=    Get Setup Menu Construction
     RETURN    ${menu}
 
@@ -578,7 +569,7 @@ Make Sure That Network Boot Is Enabled
 Get Firmware Version From Tianocore Setup Menu
     [Documentation]    Keyword allows to read firmware version from Tianocore
     ...    Setup menu header.
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${output}=    Read From Terminal Until    Select Entry
     ${firmware_line}=    Get Lines Containing String    ${output}    Dasharo (coreboot+UEFI)
     ${firmware_version}=    Get Regexp Matches    ${firmware_line}    v\\d{1,}\.\\d{1,}\.\\d{1,}
