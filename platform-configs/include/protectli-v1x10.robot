@@ -38,21 +38,6 @@ ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
 
 
 *** Keywords ***
-Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    2s
-    Rte Power Off
-    Sleep    10s
-    Telnet.Read
-    # After Rte Power Off, the platform cannot be powered back using the power button.
-    # Possibly bug in HW or FW.
-    Power Cycle On
-
 Flash Device Via External Programmer
     [Documentation]    Keyword allows to flash Device Under Test firmware by
     ...    using external programmer and check flashing procedure

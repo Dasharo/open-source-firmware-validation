@@ -263,3 +263,18 @@ ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
+
+
+*** Keywords ***
+Power On Default
+    [Documentation]    Keyword clears terminal buffer and sets Device Under Test
+    ...    into Power On state using RTE OC buffers. Implementation
+    ...    must be compatible with the theory of operation of a
+    ...    specific platform.
+    Restore Initial DUT Connection Method
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+    Sleep    2s
+    Rte Power Off
+    Sleep    10s
+    Read From Terminal
+    Power Cycle On

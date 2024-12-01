@@ -118,15 +118,4 @@ ${ROMHOLE_SUPPORT}=                             ${TRUE}
 
 *** Keywords ***
 Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    2s
-    Rte Power Off    ${6}
-    Sleep    5s
-    # read the old output
-    Telnet.Read
-    Rte Power On
+    Power On Default

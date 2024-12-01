@@ -702,45 +702,37 @@ Get DUT To Start State
     END
 
 Turn On Power Supply
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
-        ${state}=    Sonoff On
-    ELSE
-        ${state}=    Rte Relay Set    on
-    END
+    Rte Psu On
 
 Power Cycle On
-    [Documentation]    Clears telnet buffer and perform full power cycle with
-    ...    RTE relay set to ON.
-    [Arguments]    ${power_button}=${FALSE}
+    [Documentation]    Clears telnet buffer and performs full power cycle
+    ...    by setting power supply to OFF, and then to ON. If platform needs
+    ...    additional power button press, it will be used as well, so at the
+    ...    end of this keyword platform starts booting. This is controlled via
+    ...    the DEFAULT_POWER_STATE_AFTER_FAIL variable defined in platform config.
+
+    Variable Should Exist    ${DEFAULT_POWER_STATE_AFTER_FAIL}
     IF    "${OPTIONS_LIB}"=="dcu" and "${POWER_CTRL}"=="none"
         Execute Reboot Command
         Sleep    5s
         RETURN
     END
+
     Restore Initial DUT Connection Method
     ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
-        Sonoff Power Cycle On
-    ELSE IF    'obmcutil' == '${pc}'
+    IF    'obmcutil' == '${pc}'
         OBMC Power Cycle On
     ELSE
-        Rte Relay Power Cycle On
+        Rte Psu Off
+        Sleep    10
+        TRY
+            Read From Terminal
+        EXCEPT
+            Log    Could not clear terminal buffer
+        END
+        Rte Psu On
     END
-
-    IF    ${power_button}    Rte Power On
-
-Rte Relay Power Cycle On
-    [Documentation]    Clears telnet buffer and perform full power cycle with
-    ...    RTE relay set to ON.
-    Rte Relay Set    off
-    Sleep    10
-    TRY
-        Telnet.Read
-    EXCEPT
-        Log    Could not clear Telnet buffer
-    END
-    Rte Relay Set    on
+    IF    '${DEFAULT_POWER_STATE_AFTER_FAIL}' == 'Powered Off'    Rte Power On
 
 OBMC Power Cycle On
     [Documentation]    Clears obmc-console-client buffer and perform full power
@@ -754,78 +746,9 @@ OBMC Power Cycle On
     Read From Terminal
     Power On
 
-OBMC Power Cycle Off
-    [Documentation]    Clears obmc-console-client buffer and perform full power
-    ...    cycle with Chassis and Host State Control
-    ${host_state}=    Get Host State
-    ${chassis_state}=    Get Chassis Power State
-    IF    '${host_state.lower()}'=='on' or '${chassis_state.lower()}'=='on'
-        Set Chassis Power State    off
-        Sleep    15s
-    END
-    Read From Terminal
-
-Sonoff Power Cycle On
-    [Documentation]    Clear telnet buffer and perform full power cycle with
-    ...    Sonoff
-    Sonoff Off
-    Sleep    10
-    TRY
-        Telnet.Read
-    EXCEPT
-        Log    Could not clear Telnet buffer
-    END
-    Sonoff On
-
-Power Cycle Off
-    [Documentation]    Power cycle off power supply using the supported
-    ...    method.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
-        Sonoff Power Cycle Off
-    ELSE IF    'obmcutil' == '${pc}'
-        OBMC Power Cycle Off
-    ELSE
-        Rte Relay Power Cycle Off
-    END
-    Telnet.Close All Connections
-    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
-
-Rte Relay Power Cycle Off
-    [Documentation]    Performs full power cycle with RTE relay set to OFF.
-    # sleep for DUT Start state in Suite Setup
-    Sleep    1s
-    ${result}=    RTE Relay Get
-    IF    '${result}' == 'on'    Rte Relay    off
-
-Sonoff Power Cycle Off
-    Sonoff On
-    Sonoff Off
-
-Get Relay State
-    [Documentation]    Returns the power relay state depending on the supported
-    ...    method.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    'sonoff' == '${pc}'
-        ${state}=    Sonoff Get
-    ELSE
-        ${state}=    RTE Relay Get
-    END
-    RETURN    ${state}
-
-RTE Relay Get
-    [Documentation]    Returns the RTE relay state through REST API.
-    ${state}=    Rte Gpio Get    0
-    RETURN    ${state}
-
 Get Power Supply State
     [Documentation]    Returns the power supply state.
-    ${pc}=    Get Variable Value    ${POWER_CTRL}
-    IF    '${pc}'=='sonoff'
-        ${state}=    Sonoff Get
-    ELSE
-        ${state}=    Get Relay State
-    END
+    ${state}=    Rte Psu Get
     RETURN    ${state}
 
 Get Sound Devices Windows

@@ -96,6 +96,4 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 
 *** Keywords ***
 Power On
-    Sonoff Power Cycle On
-    Sleep    2s
-    Rte Power On
+    Power On Default

@@ -62,14 +62,4 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=    2
 
 *** Keywords ***
 Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Restore Initial DUT Connection Method
-    Sleep    2s
-    Rte Relay Power Cycle Off
-    Sleep    5s
-    # read the old output
-    Telnet.Read
-    Rte Relay Power Cycle On
+    Power On Default

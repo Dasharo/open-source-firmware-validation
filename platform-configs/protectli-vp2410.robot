@@ -42,20 +42,3 @@ ${PLATFORM_RAM_SPEED}=                  2400
 ${PLATFORM_RAM_SIZE}=                   8192
 
 @{ETH_PERF_PAIR_1_G}=                   enp2s0    enp3s0
-
-
-*** Keywords ***
-Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    2s
-    Rte Power Off
-    Sleep    10s
-    Telnet.Read
-    # After Rte Power Off, the platform cannot be powered back using the power button.
-    # Possibly bug in HW or FW.
-    Power Cycle On

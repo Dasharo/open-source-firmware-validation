@@ -134,6 +134,9 @@ ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
 
 
 *** Keywords ***
+Power On
+    Power On Default
+
 Check Coreboot Components Measurement
     [Documentation]    Check whether the hashes of the coreboot components
     ...    measurements have been stored in the TPM PCR registers.

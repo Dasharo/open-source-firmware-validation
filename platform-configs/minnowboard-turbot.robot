@@ -37,15 +37,4 @@ ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=        ${TRUE}
 
 *** Keywords ***
 Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    3s
-    Rte Power Off
-    Sleep    1s
-    Telnet.Read
-    Rte Power On
-    Sleep    1s
+    Power On Default
