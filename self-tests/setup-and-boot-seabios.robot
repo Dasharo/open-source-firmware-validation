@@ -53,11 +53,11 @@ Enter Setup Menu
     ${out}=    Read From Terminal Until    Save configuration and exit
     Should Contain    ${out}    PC Engines QEMU x86 q35/ich9 setup
 
-Get sortbootorder Menu Construction
-    [Documentation]    Get sortbootorder Menu Construction kwd
+Get Menu Construction
+    [Documentation]    Get Menu Construction kwd
     Power On
     Enter Setup Menu
-    ${menu}=    Get Sortbootorder Menu Construction
+    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
     List Should Not Contain Value    ${menu}    Boot order
     List Should Contain Value    ${menu}    r Restore boot order defaults
     List Should Contain Value    ${menu}    n Network/PXE boot - Currently Disabled
@@ -84,7 +84,7 @@ Get Option State
     [Documentation]    Test Get Option State kwd
     Power On
     Enter Setup Menu
-    ${menu}=    Get Sortbootorder Menu Construction
+    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
     ${state}=    Get Option State    ${menu}    Network/PXE boot
     Should Contain    ${state}    Disabled
 
@@ -92,7 +92,7 @@ Enter Menu From Snapshot and Return sortbootorder Construction
     [Documentation]    Test Enter Menu From Snapshot and Return sortbootorder Construction kwd
     Power On
     Enter Setup Menu
-    ${menu}=    Get Sortbootorder Menu Construction
+    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
     ${menu}=    Enter Menu From Snapshot And Return Sortbootorder Construction    ${menu}    Network/PXE boot
     List Should Not Contain Value    ${menu}    Boot order
     List Should Contain Value    ${menu}    r Restore boot order defaults
@@ -128,7 +128,7 @@ Enable Network Boot
     Power On
     Enable Network/PXE Boot
     Enter Setup Menu
-    ${menu}=    Get Sortbootorder Menu Construction
+    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
     List Should Contain Value    ${menu}    n Network/PXE boot - Currently Enabled
 
 Enter iPXE

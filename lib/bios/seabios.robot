@@ -26,14 +26,6 @@ Get Boot Menu Construction
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    0
     RETURN    ${construction}
 
-Get Sortbootorder Menu Construction
-    [Documentation]    Keyword allows to get and return sortbootorder menu construction.
-    [Arguments]    ${checkpoint}=Save configuration and exit
-    # Lines to strip:
-    ${out}=    Read From Terminal Until    ${checkpoint}
-    ${menu}=    Parse Menu Snapshot Into Construction    ${out}    7    0
-    RETURN    ${menu}
-
 Get Option State
     [Documentation]    Gets menu construction and option name as arguments.
     ...    Returns option state, which can be: True or False.
@@ -136,7 +128,7 @@ Enter Menu From Snapshot And Return Sortbootorder Construction
     [Arguments]    ${menu}    ${option}
     ${key}=    Extract Sortbootorder Menu Key    ${menu}    ${option}
     Write Bare Into Terminal    ${key}
-    ${menu}=    Get Sortbootorder Menu Construction
+    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
     RETURN    ${menu}
 
 Extract Menu Key
@@ -174,7 +166,7 @@ Save Sortbootorder Changes
 Enable Network/PXE Boot
     [Documentation]    Enable Network/PXE Boot and save.
     Enter Setup Menu
-    ${menu}=    Get Sortbootorder Menu Construction
+    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
     ${menu}=    Set Option State And Return Construction    ${menu}    Network/PXE boot    Enabled
     List Should Contain Value    ${menu}    n Network/PXE boot - Currently Enabled
     Save Sortbootorder Changes

@@ -86,3 +86,11 @@ Parse Menu Snapshot Into Construction
     ...    Select boot device:
     ...    , N for PXE boot
     RETURN    ${construction}
+
+Get Menu Construction
+    [Documentation]    Keyword allows to get and return setup menu construction.
+    [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
+    Sleep    1s
+    ${out}=    Read From Terminal Until    ${checkpoint}
+    ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
+    RETURN    ${menu}
