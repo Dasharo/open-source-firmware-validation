@@ -88,12 +88,13 @@ Get Option State
     ${state}=    Get Option State    ${menu}    Network/PXE boot
     Should Contain    ${state}    Disabled
 
-Enter Menu From Snapshot and Return sortbootorder Construction
+Enter Menu From Snapshot
     [Documentation]    Test Enter Menu From Snapshot and Return sortbootorder Construction kwd
     Power On
     Enter Setup Menu
     ${menu}=    Get Menu Construction    Save configuration and exit    7    0
-    ${menu}=    Enter Menu From Snapshot And Return Sortbootorder Construction    ${menu}    Network/PXE boot
+    Enter Menu From Snapshot    ${menu}    Network/PXE boot
+    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
     List Should Not Contain Value    ${menu}    Boot order
     List Should Contain Value    ${menu}    r Restore boot order defaults
     List Should Contain Value    ${menu}    n Network/PXE boot - Currently Enabled

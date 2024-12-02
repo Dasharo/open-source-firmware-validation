@@ -35,17 +35,18 @@ Get Option State
 
     RETURN    ${value}[0]
 
-Set Option State And Return Construction
-    [Documentation]    Sets option to desired state and return construction.
-    [Arguments]    ${menu}    ${option}    ${desired_state}
+Set Option State
+    [Documentation]    Gets menu construction option name, and desired state
+    ...    as arguments. Return TRUE if the option was changed and FALSE if
+    ...    option was already in target state.
+    [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
-
-    IF    '${current_state}' == '${desired_state}'
-        RETURN    ${menu}
+    IF    '${current_state}' != '${target_state}'
+        ${menu}=    Enter Menu From Snapshot    ${menu}    ${option}
+        RETURN    ${TRUE}
     ELSE
-        ${menu}=    Enter Menu From Snapshot And Return Sortbootorder Construction    ${menu}    ${option}
+        RETURN    ${FALSE}
     END
-    RETURN    ${menu}
 
 Get Index Of Matching Option In Menu
     [Documentation]    This keyword returns the index of element that matches
@@ -65,22 +66,20 @@ Get Index Of Matching Option In Menu
     END
     RETURN    ${index}
 
-Enter Menu From Snapshot
+Enter Boot Menu From Snapshot
     [Documentation]    Enter given Menu option
+    [Arguments]    ${menu}    ${option}
+    ${key}=    Extract Boot Menu Key    ${menu}    ${option}
+    Write Bare Into Terminal    ${key}
+
+Enter Menu From Snapshot
+    [Documentation]    Enter given Menu option and return construction
     [Arguments]    ${menu}    ${option}
     ${key}=    Extract Menu Key    ${menu}    ${option}
     Write Bare Into Terminal    ${key}
 
-Enter Menu From Snapshot And Return Sortbootorder Construction
-    [Documentation]    Enter given sortbootorder Menu option and return construction
-    [Arguments]    ${menu}    ${option}
-    ${key}=    Extract Sortbootorder Menu Key    ${menu}    ${option}
-    Write Bare Into Terminal    ${key}
-    ${menu}=    Get Menu Construction    Save configuration and exit    7    0
-    RETURN    ${menu}
-
-Extract Menu Key
-    [Documentation]    Extract key which should be hit to enter given Menu in SeaBIOS
+Extract Boot Menu Key
+    [Documentation]    Extract boot menu which should be hit to enter given Menu in SeaBIOS
     [Arguments]    ${menu}    ${option}
     FOR    ${item}    IN    @{menu}
         ${matches}=    Run Keyword And Return Status
@@ -93,7 +92,7 @@ Extract Menu Key
     ${key}=    Set Variable    ${option.split('.')[0]}
     RETURN    ${key}
 
-Extract Sortbootorder Menu Key
+Extract Menu Key
     [Documentation]    Extract key which should be hit to toggle given sortbootorder Menu option
     [Arguments]    ${menu}    ${option}
     FOR    ${item}    IN    @{menu}
@@ -107,7 +106,7 @@ Extract Sortbootorder Menu Key
     ${key}=    Set Variable    ${option.split()[0]}
     RETURN    ${key}
 
-Save Sortbootorder Changes
+Save Changes
     [Documentation]    This keyword saves introduced changes
     Write Bare Into Terminal    s
 
@@ -115,9 +114,8 @@ Enable Network/PXE Boot
     [Documentation]    Enable Network/PXE Boot and save.
     Enter Setup Menu
     ${menu}=    Get Menu Construction    Save configuration and exit    7    0
-    ${menu}=    Set Option State And Return Construction    ${menu}    Network/PXE boot    Enabled
-    List Should Contain Value    ${menu}    n Network/PXE boot - Currently Enabled
-    Save Sortbootorder Changes
+    Set Option State    ${menu}    Network/PXE boot    Enabled
+    Save Changes
 
 Enter TPM Configuration
     [Documentation]    Enter TPM Configuration with Boot Menu Construction.
