@@ -65,13 +65,6 @@ Get Setup Menu Construction
     ${menu}=    Get Menu Construction    ${checkpoint}    3    1
     RETURN    ${menu}
 
-Get Menu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
-    [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
-    Sleep    1s
-    ${out}=    Read From Terminal Until    ${checkpoint}
-    ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
-    RETURN    ${menu}
 
 Enter Setup Menu Tianocore And Return Construction
     [Documentation]    Enters Setup Menu and returns Setup Menu construction
