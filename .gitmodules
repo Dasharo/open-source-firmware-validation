@@ -12,4 +12,4 @@
 	url = https://github.com/Dasharo/osfv-scripts.git
 [submodule "dcu"]
 	path = dcu
-	url = https://github.com/Dasharo/dcu
+	url = https://github.com/Dasharo/dcu.git
