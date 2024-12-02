@@ -94,3 +94,21 @@ Get Menu Construction
     ${out}=    Read From Terminal Until    ${checkpoint}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
     RETURN    ${menu}
+
+Get Index Of Matching Option In Menu
+    [Documentation]    This keyword returns the index of element that matches
+    ...    one in given menu
+    [Arguments]    ${menu_construction}    ${option}    ${ignore_not_found_error}=${FALSE}
+    FOR    ${element}    IN    @{menu_construction}
+        ${matches}=    Run Keyword And Return Status
+        ...    Should Match    ${element}    *${option}*
+        IF    ${matches}
+            ${option}=    Set Variable    ${element}
+            BREAK
+        END
+    END
+    ${index}=    Get Index From List    ${menu_construction}    ${option}
+    IF    ${ignore_not_found_error} == ${FALSE}
+        Should Be True    ${index} >= 0    Option ${option} not found in the list
+    END
+    RETURN    ${index}
