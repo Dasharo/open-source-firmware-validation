@@ -46,6 +46,8 @@ Get Hostname Ip
 
 Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
+    ${out}=    Execute Linux Command    sudo systemctl restart systemd-resolved.service
+    Sleep    30s
     ${out}=    Execute Linux Command    ping -c 4 google-public-dns-a.google.com
     Should Contain    ${out}    , 0% packet loss
 

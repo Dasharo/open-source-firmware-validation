@@ -242,7 +242,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=protectli-vp3230
 ...                         platform_vendor=protectli
 ...                         sonoff_ip=192.168.10.27
-...    
+
 # 3mdeb Protectli VP2430 -----------------------------------------------------
 &{RTE68}=                   ip=192.168.10.18
 ...                         platform=protectli-vp2430

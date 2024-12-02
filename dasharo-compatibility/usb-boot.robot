@@ -21,6 +21,7 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    ${BOOT_FROM_USB_ITERATIONS_NUMBER} == 0    USB booting tests skipped
+...                     AND
 ...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection

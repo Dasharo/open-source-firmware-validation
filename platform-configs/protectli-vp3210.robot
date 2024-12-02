@@ -25,4 +25,5 @@ ${DEF_THREADS_PER_CORE}=        1
 ${DEF_CORES_PER_SOCKET}=        8
 ${DEF_SOCKETS}=                 1
 ${DEF_ONLINE_CPU}=              0-7
-${DEVICE_AUDIO1}=               HDA Intel PCH
+${DEVICE_AUDIO1}=               Alderlake-P HDMI
+${FLASH_SIZE}=                  ${16*1024*1024}
