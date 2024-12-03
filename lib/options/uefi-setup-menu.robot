@@ -31,6 +31,7 @@ Set UEFI Option
         ${menu}=    Enter Submenu From Snapshot And Return Construction
         ...    ${menu}
         ...    ${option_path[${i}]}
+        ...    ${TRUE}
     END
 
     Set Option State    ${menu}    ${option_path[${path_len}-1]}    ${value}
@@ -57,6 +58,7 @@ Get UEFI Option
         ${menu}=    Enter Submenu From Snapshot And Return Construction
         ...    ${menu}
         ...    ${option_path[${i}]}
+        ...    ${TRUE}
     END
 
     ${state}=    Get Option State    ${menu}    ${option_path[${path_len}-1]}
