@@ -21,4 +21,4 @@ imgfetch --name file_kernel bzImage\n
 imgfetch --name file_initrd $DTS_IMAGE_FILENAME\n
 kernel file_kernel root=/dev/nfs initrd=file_initrd\n
 boot" > $IPXE_PATH/dts.ipxe
-cd $IPXE_PATH && python3 -m http.server 4321 &
+cd $IPXE_PATH && python3 -m http.server 4321
