@@ -136,5 +136,7 @@ Enter iPXE
     [Documentation]    Test Enter iPXE kwd
     Power On
     Enter IPXE
-    ${out}=    Read From Terminal Until    autoboot
-    Should Contain    ${out}    ipxe shell
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
+    Set Prompt For Terminal    iPXE>
+    Read From Terminal Until Prompt
