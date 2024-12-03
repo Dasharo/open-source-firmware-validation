@@ -36,7 +36,7 @@ Enter Setup Menu
         Write Bare Into Terminal    ${SETUP_MENU_KEY}
         IF    '${BIOS_LIB}' == 'seabios'
             ${menu}=    Get Boot Menu Construction
-            Enter Menu From Snapshot    ${menu}    \[setup\]
+            Enter Submenu From Snapshot    ${menu}    \[setup\]
         END
     END
 

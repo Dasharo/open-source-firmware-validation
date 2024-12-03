@@ -42,7 +42,7 @@ Set Option State
     [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
     IF    '${current_state}' != '${target_state}'
-        ${menu}=    Enter Menu From Snapshot    ${menu}    ${option}
+        ${menu}=    Enter Submenu From Snapshot    ${menu}    ${option}
         RETURN    ${TRUE}
     ELSE
         RETURN    ${FALSE}
@@ -54,7 +54,7 @@ Enter Boot Menu From Snapshot
     ${key}=    Extract Boot Menu Key    ${menu}    ${option}
     Write Bare Into Terminal    ${key}
 
-Enter Menu From Snapshot
+Enter Submenu From Snapshot
     [Documentation]    Enter given Menu option and return construction
     [Arguments]    ${menu}    ${option}
     ${key}=    Extract Menu Key    ${menu}    ${option}
@@ -103,14 +103,14 @@ Enter TPM Configuration
     [Documentation]    Enter TPM Configuration with Boot Menu Construction.
     Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
-    Enter Menu From Snapshot    ${menu}    TPM Configuration
+    Enter Submenu From Snapshot    ${menu}    TPM Configuration
 
 Enter IPXE
     [Documentation]    Enter iPXE with Boot Menu Construction.
     Enable Network/PXE Boot
     Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
-    Enter Menu From Snapshot    ${menu}    iPXE
+    Enter Submenu From Snapshot    ${menu}    iPXE
 
 # robocop: disable=unused-argument
 
