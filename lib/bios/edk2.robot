@@ -140,44 +140,6 @@ Enter Dasharo Submenu
     ...    opt_only=${TRUE}
     RETURN    ${submenu}
 
-Press Key N Times And Enter
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key and then press Enter.
-    [Arguments]    ${n}    ${key}
-    Press Key N Times    ${n}    ${key}
-    Press Enter
-
-Press Enter
-    # Before entering new menu, make sure we get rid of all leftovers
-    Sleep    1s
-    Read From Terminal
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-    ELSE
-        Press Key N Times    1    ${ENTER}
-    END
-
-Press Key N Times
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key.
-    [Arguments]    ${n}    ${key}
-    FOR    ${index}    IN RANGE    0    ${n}
-        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Single Key PiKVM    ${key}
-            # Key press time as defined in PiKVM library is 200ms. We need some
-            # additional delay to make sure we can gather all input from terminal after
-            # key press.
-            Sleep    2s
-        ELSE
-            Write Bare Into Terminal    ${key}
-            # Escape sequences in EDK2 have 2 seconds to complete on serial.
-            # After 2 seconds if it is not completed, it is returned as a
-            # keystroke. So we need at least 2 seconds interval for pressing
-            # ESC for example.
-            Sleep    2s
-        END
-    END
-
 Get Option State
     [Documentation]    Gets menu construction and option name as arguments.
     ...    Returns option state, which can be: True, False, or numeric value.
@@ -290,13 +252,6 @@ Try To Insert Non-numeric Values Into Numeric Option
     ELSE
         Fail    Wrong option type (not accept numeric value)
     END
-
-Get IPXE Boot Menu Construction
-    [Documentation]    Keyword allows to get and return iPXE menu construction.
-    [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
-    ${menu}=    Read From Terminal Until    ${checkpoint}
-    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
-    RETURN    ${construction}
 
 ############################################################################
 ### Below keywords still must be reviewed and reworked. We should reuse the
@@ -481,12 +436,125 @@ Save Changes And Reset
     Save Changes
     Tianocore Reset System
 
+<<<<<<< HEAD
 Make Sure That Network Boot Is Enabled
     [Documentation]    This keywords checks that "Enable network boot" in
     ...    "Networking Options" is enabled when present, so the network
     ...    boot tests can be executed.
     IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
     Set UEFI Option    NetworkBoot    ${TRUE}
+
+||||||| parent of 00399ede531f (lib/bios: move some keywords to common lib)
+Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
+    [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
+    ...    to boot from connected disk set up in config
+    [Arguments]    ${system_name}
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+
+    IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
+        Read From Terminal Until    Press F10 key now for boot menu
+        Write Bare Into Terminal    ${F10}
+        Read From Terminal Until    Select boot device
+        Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
+        RETURN
+    END
+    ${menu_construction}=    Enter Boot Menu And Return Construction
+    # With ESP scanning feature boot entries are named differently:
+    IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
+        IF    "${system_name}" == "ubuntu"
+            ${system_name}=    Set Variable    Ubuntu
+        END
+        IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
+            ${system_name}=    Set Variable    QEMU HARDDISK
+        END
+    END
+    ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
+    IF    not ${is_system_present}
+        ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
+        ${ssd_list_length}=    Get Length    ${ssd_list}
+        IF    ${ssd_list_length} == 0
+            ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
+            ${hdd_list_length}=    Get Length    ${hdd_list}
+            IF    ${hdd_list_length} == 0
+                ${mmc_list}=    Get Current CONFIG List Param    MMC_Storage    boot_name
+                ${mmc_list_length}=    Get Length    ${mmc_list}
+                IF    ${mmc_list_length} == 0
+                    FAIL    "System was not found and there are no disk connected"
+                END
+                ${disk_name}=    Set Variable    ${mmc_list[0]}
+            ELSE
+                ${disk_name}=    Set Variable    ${hdd_list[0]}
+            END
+        ELSE
+            ${disk_name}=    Set Variable    ${ssd_list[0]}
+        END
+        ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
+        IF    ${system_index} == -1
+            Fail    Disk: ${disk_name} not found in Boot Menu
+        END
+    ELSE
+        ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
+    END
+    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+
+Make Sure That Network Boot Is Enabled
+    [Documentation]    This keywords checks that "Enable network boot" in
+    ...    "Networking Options" is enabled when present, so the network
+    ...    boot tests can be executed.
+    IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
+    Set UEFI Option    NetworkBoot    ${TRUE}
+
+Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
+    [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
+    ...    to boot from connected disk set up in config
+    [Arguments]    ${system_name}
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+
+    IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
+        Read From Terminal Until    Press F10 key now for boot menu
+        Write Bare Into Terminal    ${F10}
+        Read From Terminal Until    Select boot device
+        Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
+        RETURN
+    END
+    ${menu_construction}=    Enter Boot Menu And Return Construction
+    # With ESP scanning feature boot entries are named differently:
+    IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
+        IF    "${system_name}" == "ubuntu"
+            ${system_name}=    Set Variable    Ubuntu
+        END
+        IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
+            ${system_name}=    Set Variable    QEMU HARDDISK
+        END
+    END
+    ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
+    IF    not ${is_system_present}
+        ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
+        ${ssd_list_length}=    Get Length    ${ssd_list}
+        IF    ${ssd_list_length} == 0
+            ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
+            ${hdd_list_length}=    Get Length    ${hdd_list}
+            IF    ${hdd_list_length} == 0
+                ${mmc_list}=    Get Current CONFIG List Param    MMC_Storage    boot_name
+                ${mmc_list_length}=    Get Length    ${mmc_list}
+                IF    ${mmc_list_length} == 0
+                    FAIL    "System was not found and there are no disk connected"
+                END
+                ${disk_name}=    Set Variable    ${mmc_list[0]}
+            ELSE
+                ${disk_name}=    Set Variable    ${hdd_list[0]}
+            END
+        ELSE
+            ${disk_name}=    Set Variable    ${ssd_list[0]}
+        END
+        ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
+        IF    ${system_index} == -1
+            Fail    Disk: ${disk_name} not found in Boot Menu
+        END
+    ELSE
+        ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
+    END
+    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
 
 Get Firmware Version From Tianocore Setup Menu
     [Documentation]    Keyword allows to read firmware version from Tianocore

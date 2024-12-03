@@ -167,3 +167,60 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
         ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
     END
     Select Boot Menu Option    ${system_index}    ${ARROW_DOWN}
+
+Make Sure That Network Boot Is Enabled
+    [Documentation]    This keywords checks that "Enable network boot" in
+    ...    "Networking Options" is enabled when present, so the network
+    ...    boot tests can be executed.
+    IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
+    IF    '${BIOS_LIB}' == 'seabios'
+        Power On
+        Enable Network/PXE Boot
+    ELSE
+        Set UEFI Option    NetworkBoot    ${TRUE}
+    END
+
+Get IPXE Boot Menu Construction
+    [Documentation]    Keyword allows to get and return iPXE menu construction.
+    [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
+    ${menu}=    Read From Terminal Until    ${checkpoint}
+    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
+    RETURN    ${construction}
+
+Press Key N Times And Enter
+    [Documentation]    Enter specified in the first argument times the specified
+    ...    in the second argument key and then press Enter.
+    [Arguments]    ${n}    ${key}
+    Press Key N Times    ${n}    ${key}
+    Press Enter
+
+Press Key N Times
+    [Documentation]    Enter specified in the first argument times the specified
+    ...    in the second argument key.
+    [Arguments]    ${n}    ${key}
+    FOR    ${index}    IN RANGE    0    ${n}
+        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+            Single Key PiKVM    ${key}
+            # Key press time as defined in PiKVM library is 200ms. We need some
+            # additional delay to make sure we can gather all input from terminal after
+            # key press.
+            Sleep    2s
+        ELSE
+            Write Bare Into Terminal    ${key}
+            # Escape sequences in EDK2 have 2 seconds to complete on serial.
+            # After 2 seconds if it is not completed, it is returned as a
+            # keystroke. So we need at least 2 seconds interval for pressing
+            # ESC for example.
+            Sleep    2s
+        END
+    END
+
+Press Enter
+    # Before entering new menu, make sure we get rid of all leftovers
+    Sleep    1s
+    Read From Terminal
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Single Key PiKVM    Enter
+    ELSE
+        Press Key N Times    1    ${ENTER}
+    END
