@@ -15,10 +15,10 @@ mkdir -p "$IPXE_PATH"
 ln -srf "$DTS_IMAGE_PATH" "$IPXE_PATH"/"$DTS_IMAGE_FILENAME"
 ln -srf "$BZ_IMAGE_PATH" "$IPXE_PATH"/"$BZ_IMAGE_FILENAME"
 
-echo -e "\n
-#!ipxe\n
-imgfetch --name file_kernel $BZ_IMAGE_FILENAME\n
-imgfetch --name file_initrd $DTS_IMAGE_FILENAME\n
-kernel file_kernel root=/dev/nfs initrd=file_initrd\n
-boot" > "$IPXE_PATH"/dts.ipxe
+echo "
+#!ipxe
+imgfetch --name file_kernel $BZ_IMAGE_FILENAME
+imgfetch --name file_initrd $DTS_IMAGE_FILENAME
+kernel file_kernel root=/dev/nfs initrd=file_initrd
+boot" > "$IPXE_PATH/dts.ipxe"
 cd "$IPXE_PATH" && python3 -m http.server 4321
