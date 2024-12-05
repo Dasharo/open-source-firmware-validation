@@ -12,8 +12,8 @@ BZ_IMAGE_FILENAME=$( basename "$BZ_IMAGE_PATH" )
 IPXE_PATH=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)/../../ipxe
 
 mkdir -p "$IPXE_PATH"
-ln -sf "$DTS_IMAGE_PATH" "$IPXE_PATH"/"$DTS_IMAGE_FILENAME"
-ln -sf "$BZ_IMAGE_PATH" "$IPXE_PATH"/"$BZ_IMAGE_FILENAME"
+ln -srf "$DTS_IMAGE_PATH" "$IPXE_PATH"/"$DTS_IMAGE_FILENAME"
+ln -srf "$BZ_IMAGE_PATH" "$IPXE_PATH"/"$BZ_IMAGE_FILENAME"
 
 echo -e "\n
 #!ipxe\n
