@@ -156,11 +156,14 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
         ELSE
             ${disk_name}=    Set Variable    ${ssd_list[0]}
         END
-        ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
+        # Search the menu for disk name occurrence
+        ${system_index}=    Set Variable    -1
+        ${system_index}=    Evaluate
+        ...    next((i for i, entry in enumerate(${menu_construction}) if "${disk_name}" in entry), -1)
         IF    ${system_index} == -1
             Fail    Disk: ${disk_name} not found in Boot Menu
         END
     ELSE
         ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
     END
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+    Select Boot Menu Option    ${system_index}    ${ARROW_DOWN}

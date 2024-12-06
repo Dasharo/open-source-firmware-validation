@@ -496,3 +496,8 @@ Get Firmware Version From Tianocore Setup Menu
     ${firmware_line}=    Get Lines Containing String    ${output}    Dasharo (coreboot+UEFI)
     ${firmware_version}=    Get Regexp Matches    ${firmware_line}    v\\d{1,}\.\\d{1,}\.\\d{1,}
     RETURN    ${firmware_version}
+
+Select Boot Menu Option
+    [Documentation]    Select the boot menu option using the given index.
+    [Arguments]    ${index}    ${key}
+    Press Key N Times    ${index}    ${key}
