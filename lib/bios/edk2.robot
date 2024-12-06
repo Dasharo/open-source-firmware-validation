@@ -481,58 +481,6 @@ Save Changes And Reset
     Save Changes
     Tianocore Reset System
 
-Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
-    [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
-    ...    to boot from connected disk set up in config
-    [Arguments]    ${system_name}
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-
-    IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
-        Read From Terminal Until    Press F10 key now for boot menu
-        Write Bare Into Terminal    ${F10}
-        Read From Terminal Until    Select boot device
-        Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
-        RETURN
-    END
-    ${menu_construction}=    Enter Boot Menu And Return Construction
-    # With ESP scanning feature boot entries are named differently:
-    IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
-        IF    "${system_name}" == "ubuntu"
-            ${system_name}=    Set Variable    Ubuntu
-        END
-        IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
-            ${system_name}=    Set Variable    QEMU HARDDISK
-        END
-    END
-    ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
-    IF    not ${is_system_present}
-        ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
-        ${ssd_list_length}=    Get Length    ${ssd_list}
-        IF    ${ssd_list_length} == 0
-            ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
-            ${hdd_list_length}=    Get Length    ${hdd_list}
-            IF    ${hdd_list_length} == 0
-                ${mmc_list}=    Get Current CONFIG List Param    MMC_Storage    boot_name
-                ${mmc_list_length}=    Get Length    ${mmc_list}
-                IF    ${mmc_list_length} == 0
-                    FAIL    "System was not found and there are no disk connected"
-                END
-                ${disk_name}=    Set Variable    ${mmc_list[0]}
-            ELSE
-                ${disk_name}=    Set Variable    ${hdd_list[0]}
-            END
-        ELSE
-            ${disk_name}=    Set Variable    ${ssd_list[0]}
-        END
-        ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
-        IF    ${system_index} == -1
-            Fail    Disk: ${disk_name} not found in Boot Menu
-        END
-    ELSE
-        ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
-    END
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-
 Make Sure That Network Boot Is Enabled
     [Documentation]    This keywords checks that "Enable network boot" in
     ...    "Networking Options" is enabled when present, so the network
