@@ -242,10 +242,17 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=protectli-vp3230
 ...                         platform_vendor=protectli
 ...                         sonoff_ip=192.168.10.27
+
 # 3mdeb Protectli VP2430 -----------------------------------------------------
 &{RTE68}=                   ip=192.168.10.18
 ...                         platform=protectli-vp2430
 ...                         platform_vendor=protectli
+
+# Protectli VP3210
+&{RTE69}=                   ip=192.168.10.211
+...                         platform=protectli-vp3210
+...                         platform_vendor=protectli
+...                         sonoff_ip=192.168.10.195
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -260,7 +267,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
 ...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
-...                         &{RTE66}    &{RTE67}    &{RTE68}
+...                         &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
@@ -502,6 +509,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
 @{CONFIG51}=                &{RTE67}    &{USB11}
 @{CONFIG52}=                &{RTE68}    &{USB12}    &{SSD18}
+@{CONFIG53}=                &{RTE69}    &{USB11}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -515,4 +523,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
 ...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
-...                         @{CONFIG50}    @{CONFIG51}
+...                         @{CONFIG50}    @{CONFIG51}    @{CONFIG52}    @{CONFIG53}
