@@ -54,12 +54,10 @@ WLE001.002 Wireless card detection (Windows)
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
     Login To Windows
-    ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
+    ${out}=    Execute Command In Terminal    Get-PnpDevice | Where-Object {$_.Class -eq "Net" -and $_.FriendlyName -match "Wireless|Wi-Fi" -and $_.FriendlyName -notmatch "Virtual|Tunnel|TAP"}
     Should Match    ${out}    *${WIFI_CARD}*
-    ${current_card}=
-    ...    Execute Command In Terminal    Get-NetAdapter -Name "Wi-Fi" | Format-List -Property "InterfaceDescription"
-    Log To Console    The test passed for the ${current_card} wireless card
-    Log    The test passed for the ${current_card} wireless card    WARN
+    Log To Console    The test passed for the ${WIFI_CARD} wireless card
+    Log    The test passed for the ${WIFI_CARD} wireless card    WARN
 
 WLE002.001 Wi-Fi scanning (Ubuntu)
     [Documentation]    Check whether the Wi-Fi functionality of card is
