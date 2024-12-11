@@ -1,5 +1,8 @@
 # Open Source Firmware Remote Test Environment
 
+The following repository contains set of tests and other features to conduct
+Dasharo firmware validation procedures.
+
 ## Warning
 
 **!!! WARNING !!!**
@@ -9,10 +12,49 @@ you do not know what you are doing, consider not using it until at least
 appear here.
 **!!! WARNING !!!**
 
+## Table of contents
+
+* [Lab architecture](#lab-architecture)
+* [Test environment overview](#test-environment-overview)
+* [Supported platforms](#supported-platforms)
+* [Getting started](#getting-started)
+    - [Initializing environment](#initializing-environment)
+    - [Running tests](#running-tests)
+    - [Running tests via wrapper](#running-tests-via-wrapper)
+    - [Running regressions tests](#running-regressions-tests)
+* [Useful refactoring tools](#useful-refactoring-tools)
+* [Generating documentation](#generating-documentation)
+* [Additional documents](#additional-documents)
+
+## Lab architecture
+
+This graphic presents a rough overview on how DUT can be connected in the
+Dasharo lab.
+
+Following mechanisms may be used for DUT power control:
+* [Sonoff WiFi smart plug](https://docs.dasharo.com/transparent-validation/sonoff/sonoff_preparation/)
+* [RTE relay](https://docs.dasharo.com/transparent-validation/rte/introduction/)
+
+Following mechanisms may be used for DUT control:
+* serial port over telnet, exposed by [ser2net](https://github.com/cminyard/ser2net)
+* [PiKVM](https://docs.dasharo.com/transparent-validation/pikvm/assembly-and-validation/)
+  with USB keyboard emulatation
+* for some platforms, a mixture of both (serial for output, PiKVM
+  keyboard for input)
+
 ![regression-architecture](https://cloud.3mdeb.com/index.php/s/KkERgGoniBtjfC4/preview)
 
-The following repository contains set of tests and other features to conduct
-Dasharo firmware validation procedures.
+### Current OSFV architecture
+
+![](./docs/img/osfv_cli_after.png)
+Because of that the:
+* [3mdeb/sonoff-rest-api](https://github.com/3mdeb/sonoff-rest-api)
+* [3mdeb/rte-ctrl-rest-api](https://github.com/3mdeb/rtectrl-rest-api)
+
+repositories were replaced by common libraries such as those contained [here](https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli/src/osfv/libs).
+These and robot framework libraries (found [here](https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli/src/osfv/rf))
+are attached to the environment itself via `requirements.txt` which needs to be
+kept up to date to serve its purpose.
 
 ## Test environment overview
 
@@ -22,23 +64,29 @@ Dasharo OSFV consists of following modules:
 * `dasharo-performance`,
 * `dasharo-stability`.
 
-In addition, keep in mind that due to the approach to generating release files,
-for the `raptor-CS talos2` platform dedicated mechanism for testing environment
-and running tests have been implemented.
-
 ## Supported platforms
+
+This table presents platform names along with their config names from
+`platform-configs` directory. The support level (which test are supported per
+different platform) may vary.
 
 | Manufacturer | Platform             | Firmware                 |  $CONFIG                               |
 |--------------|----------------------|--------------------------|----------------------------------------|
-| NovaCustom   | NV41MZ               | Dasharo                  |  `novacustom-nv41mz`                   |
-| NovaCustom   | NV41MB               | Dasharo                  |  `novacustom-nv41mb`                   |
-| NovaCustom   | NS50MU               | Dasharo                  |  `novacustom-ns50mu`                   |
-| NovaCustom   | NS70MU               | Dasharo                  |  `movacustom-ns70mu`                   |
-| NovaCustom   | NV41PZ               | Dasharo                  |  `novacustom-nv41pz`                   |
-| NovaCustom   | NS50PU               | Dasharo                  |  `novacustom-ns50pu`                   |
-| NovaCustom   | NS70PU               | Dasharo                  |  `novacustom-ns70pu`                   |
-| MSI          | PRO Z690 A WIFI DDR4 | Dasharo                  |  `msi-pro-z690-a-wifi-ddr4`            |
 | MSI          | PRO Z690 A DDR5      | Dasharo                  |  `msi-pro-z690-a-ddr5`                 |
+| MSI          | PRO Z690 A WIFI DDR4 | Dasharo                  |  `msi-pro-z690-a-wifi-ddr4`            |
+| NovaCustom   | NS50MU               | Dasharo                  |  `novacustom-ns50mu`                   |
+| NovaCustom   | NS50PU               | Dasharo                  |  `novacustom-ns50pu`                   |
+| NovaCustom   | NS70MU               | Dasharo                  |  `movacustom-ns70mu`                   |
+| NovaCustom   | NS70PU               | Dasharo                  |  `novacustom-ns70pu`                   |
+| NovaCustom   | NV41MB               | Dasharo                  |  `novacustom-nv41mb`                   |
+| NovaCustom   | NV41MZ               | Dasharo                  |  `novacustom-nv41mz`                   |
+| NovaCustom   | NV41PZ               | Dasharo                  |  `novacustom-nv41pz`                   |
+| NovaCustom   | V540TND              | Dasharo                  |  `novacustom-v540tnd`                  |
+| NovaCustom   | V540TU               | Dasharo                  |  `novacustom-v540tu`                   |
+| NovaCustom   | V560TND              | Dasharo                  |  `novacustom-v560tnd`                  |
+| NovaCustom   | V560TNE              | Dasharo                  |  `novacustom-v560tne`                  |
+| NovaCustom   | V560TU               | Dasharo                  |  `novacustom-v560tu`                   |
+| PC Engines   | apu4                 | Dasharo                  |  `pcengines-apu4`                      |
 | Protectli    | V1210                | Dasharo                  |  `protectli-v1210`                     |
 | Protectli    | V1410                | Dasharo                  |  `protectli-v1410`                     |
 | Protectli    | V1610                | Dasharo                  |  `protectli-v1610`                     |
@@ -47,9 +95,22 @@ and running tests have been implemented.
 | Protectli    | VP4630               | Dasharo                  |  `protectli-vp4630`                    |
 | Protectli    | VP4650               | Dasharo                  |  `protectli-vp4650`                    |
 | Protectli    | VP4670               | Dasharo                  |  `protectli-vp4670`                    |
+| QEMU         | Q35                  | Dasharo (UEFI)           |  `qemu`                                |
 | Raptor-CS    | TalosII              | Dasharo                  |  `raptor-cs_talos2`                    |
 | Raspberry Pi | RaspberryPi 3B       | Yocto                    |  `rpi-3b`                              |
-| QEMU         | Q35                  | Dasharo (UEFI)           |  `qemu`                                |
+
+`platform-configs` has recently been reworked- by using the tree
+topology to group platforms by more generic settings up above and the
+ more specific flags and settings much lower down to an exact platform
+  model. Example:
+![](./docs/img/platform-configs-protectli.png)
+
+## DCU
+
+The osfv uses the
+[Dasharo Configuration Utility](https://github.com/Dasharo/dcu?tab=readme-ov-file#dasharo-configuration-container),
+ it lets you set firmware settings directly in binary file.
+![](./docs/img/osfv_dcu_integration.png)
 
 ## Getting started
 
@@ -77,17 +138,32 @@ pip install -U -r requirements-openbmc.txt
 pip install -r requirements.txt
 ```
 
-* If you initialize the environment and try to run the environment again you
-  just need to use only this command:
+* If you try to run the environment again after the first initialization
+  you must reinstall requirements.txt for it to work properly:
 
 ```bash
+python3 -m virtualenv venv
 source venv/bin/activate
+pip install -r ./requirements.txt
+```
+
+* Or just create an alias:
+
+```bash
+alias penv="python3 -m virtualenv venv && source venv/bin/activate && pip install -r ./requirements.txt"
 ```
 
 > NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
 > Go through [these
 > steps](https://github.com/Dasharo/osfv-scripts/tree/main/osfv_cli#installation)
 > to configure the scripts
+
+* Executing manual steps require that tkinter module be installed which can't be
+done via pip
+
+```bash
+sudo dnf install python3-tkinter
+```
 
 ### Running tests
 
@@ -133,183 +209,75 @@ Parameters should be defined as follows:
   to provide the full test name here.
 
 You can also run tests with `-v snipeit:no` in order to skip checking whether
-the platform is available on snipeit. By default, this is enabled.
+the platform is available on snipeit and fetching data from the asset page.
+By default, this is enabled. Mind that if you choose to skip you may need to
+provide the following parameters:
 
-When running tests on Talos2 platform use the following commands:
+* $SONOFF_IP - IP of the Sonoff device. Required if the DUT uses Sonoff for
+power control.
+* $PIKVM_IP - IP of PiKVM. Required if the DUT's connection method is PiKVM.
 
-**WARNING** The support state of this platform in the `main` branch may vary.
-We should have a single documentation for all platforms. This effort is tracked in
-[this issue](https://github.com/Dasharo/open-source-firmware-validation/issues/112).
-
-* For running a single test case:
-
-```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
--v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
--t $TEST_CASE_ID $TEST_MODULE/$TEST_SUITE
-```
-
-* For running single test suite:
+The command below is an example of how to run tests without using SnipeIT on a
+platform that uses both Sonoff and PiKVM:
 
 ```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
--v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
-$TEST_MODULE/$TEST_SUITE
+robot -L TRACE -v snipeit:no -v rte_ip:$RTE_IP -v config:$CONFIG \
+-v device_ip:$DEVICE_IP -v sonoff_ip:$SONOFF_IP -v pikvm_ip:$PIKVM_IP \
+$TEST_MODULE
 ```
 
-* For running single test module:
+### Running tests via wrapper
+
+Test can be run directly via `robot` command, but also via the `run.sh`
+wrapper:
 
 ```bash
-robot -L TRACE -v device_ip:$DEVICE_IP -v config:raptor-cs_talos2 -v fw_file:$FW_FILE \
--v bootblock_file:$BOOTBLOCK_FILE -v zImage_file:$ZIMAGE_FILE -v pnor_file:$PNOR_FILE \
-./$TEST_MODULE
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE
 ```
 
-Parameters should be defined as follows:
-
-* $DEVICE_IP - OBMC IP address (currently `192.168.20.9`),
-* $FW_FILE - path to and name of the coreboot firmware file,
-* $BOOTBLOCK_FILE - path to and name of the bootblock file,
-* $ZIMAGE_FILE - path to and name of the zImage file,
-* $PNOR_FILE - path to and name of the pnor file,
-* $TEST_MODULE - name of the test module (i.e. `dasharo-compatibility`),
-* $TEST_SUITE - name of the test suite (i.e. `coreboot-base-port`),
-* $TEST_CASE_ID - ID of the requested to run test case (i.e. `CBP001.001`).
-  Note that after test case ID asterisk should be added. This is necessary due
-  to the construction of the flag `-t` (or `--test`)
-
-You can also run tests with `-v snipeit:no` in order to skip checking whether
-the platform is available on snipeit.
-
-## QEMU workflow
-
-> Make sure to proceed with [Getting started section](#getting-started) first.
-
-Many of the test and keywords can be tested in emulation environment. This
-can greatly increase the development speed:
-* there is no need to acquire hardware,
-* there is no need to flash hardware, or resolve other hardware-related
-  problems,
-* the boot time (and responsivness in general) is much faster.
-
-### Booting
-
-Following script assume that you have `OVMF_CODE.fd` and `OVMF_VARS.fd` in you
-current working directory. If those binaries will not be found script will
-download latest release of Dasharo (UEFI) for QEMU Q35.
-
-If you want to use script in development workflow, most likely you have already built
-Dasharo (UEFI) for QEMU Q35 according to
-[this instruction](https://docs.dasharo.com/variants/qemu_q35/building-manual/).
-In that case you would like to provide directory with Dasharo (UEFI) binaries as
-environment variable (`DIR`).
-
-You may also decide to not use graphics user interface for QEMU. In that case
-choose mode `nographic`. If you run QEMU on a remote machine you may consider
-to use mode `vnc` with default port for graphical output being `5900`.
-
-Dasharo (UEFI) in QEMU can be started with:
+Running tests without snipeit requires additional variables:
 
 ```bash
-./scripts/ci/qemu-run.sh graphic firmware
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG SNIPEIT_NO="y" \
+SONOFF_IP=$SONOFF_IP PIKVM_IP=$PIKVM_IP
+./scripts/run.sh $TEST_SUITE
 ```
 
-In this mode, a graphical QEMU window would popup, so you can observe the test
-flow, or control it manually. The actual testing will happen over
-serial, which is exposed via telnet. For more modes and options, please refer
-to the script's help text.
+Mind that `SNIPEIT_NO`, only need to be set, meaning that whatever value it
+has, it will be treated as true.
 
-You may also build customized Dasharo firmware for QEMU (e.g. with some Dasharo
-options enabled or disabled). In such a case, please refer to:
-* [Building Manual in Dasharo for QEMU documentation](https://docs.dasharo.com/variants/qemu_q35/building-manual/)
-* [Development section in Dasharo for QEMU documentation](https://docs.dasharo.com/variants/qemu_q35/development/)
+### Running tests with additional arguments
 
-Refer to the [latest releases](https://github.com/Dasharo/edk2/releases/latest/)
-to see which test have been proven to work on QEMU so far.
-
-You may also refer to the `./scripts/ci/qemu-self-test.sh`, where we aim to
-keep testing common keywords, to ensure of their correct operation.
-
-## Contributing
-
-* Install pre-commit hooks after cloning repository:
+Any additional parameters to `robot` can be passed using the wrapper by giving
+them after a separator '--'. The arguments can be anything that `robot` accepts.
+For example: specifying the tests to perform by giving a test case ID and
+reducing the output verbosity:
 
 ```bash
-pre-commit install
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/run.sh $TEST_SUITE -- -t $TEST_CASE_ID --quiet
 ```
 
-## Guidelines
+### Running regression tests
 
-A list of guidelines we shall follow during transition to improve the quality
-of this repository. We start with getting rid of duplicated keywords, reducing
-the size of `keywords.robot` file, and improving their overall quality.
+Regression tests involve running all OSFV tests supported by the given
+platform. The support for certain tests is indicated by the flags in the
+platform config file.
 
-There are other areas of interest that we will look into in the next steps
-and add as guidelines:
-* variables (use Python/YAML, not robot syntax),
-* platform-configs (get rid of duplication, and unused data),
-* separate test for different OS into different suites,
-* prepare the OS for running test suite via some dedicated tools (e.g. Ansible),
-  rather than implementing keywords for that from scratch,
-* reduce the number of unnecessary power events, so tests can finish quicker,
-* improve overall code quality by enabling back more
-  [robocop checks we cannot pass right now](https://github.com/Dasharo/open-source-firmware-validation/blob/main/robocop.toml),
-* To Be Continued.
+```bash
+FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh
+```
 
-### Pre-commit and CI checks
+Running regression tests without snipeit works the same way as
+[running regular tests](#running-tests-via-wrapper).
 
-1. Make sure to use `pre-commit` locally. All pre-commit and other CI checks
-   must pass of course, prior requesting for review. Please check the status of
-   checks in your PR. If the failure is questionable, provide your arguments
-   for that, rather than silently ignoring this fact.
+### Running regression tests with additional arguments
 
-### Code style
+Giving additional arguments to `robot` can be done in the same way as in `run.sh`.
+Example: running only minimal regression tests with given test ID and reduced verbosity:
 
-1. It is automatically handled by
-  [robotidy](https://robotidy.readthedocs.io/en/stable/). The current rules
-  can be found
-  [here](https://github.com/Dasharo/open-source-firmware-validation/blob/main/.robotidy).
-
-### Keywords
-
-1. No new keywords in `keywords.robot` will be accepted
-* new keywords must be placed in a logically divided modules, under `lib/`
-      directory
-    - see
-        [openbmc-test-automation](https://github.com/openbmc/openbmc-test-automation/tree/master/lib)
-      as a reference
-* if you need to modify something in `keywords.robot`, you should create a new
-      module under `lib/`
-* if you add new keyword module, you should review the `keywords.module` and
-      move related keywords there as well, if suitable
-1. If keyword from keywords.robot can be reused or improved, do that instead
-   of creating a new one
-   - keyword duplication will not be accepted,
-   - you will be asked to use/improve existing keywords instead.
-1. You are encouraged to use Python for more sophisticaed or complex keywords
-   (e.g. more convoluted data parsing and processing). We are not forced to use
-   RF for all keywords. Especially when it is simply easier to use Python.
-1. For reading from terminal (no matter if it is Telnet, or SSH),
-   following keywords must be used:
-   - `Read From Terminal Until Prompt`
-   - `Read From Terminal Until`
-   - `Read From Terminal`
-   Usage of other keywords is prohibited. Whenever you modify a test/keyword,
-   you should rework it to use one of the above.
-1. For writing into terminal, following keywords must be used:
-   - `Execute Command In Terminal`
-   - `Write Into Terminal`
-   - `Write Bare Into Terminal`
-   Usage of other keywords is prohibited. Whenever you modify a test/keyword,
-   you should rework it to use one of the above.
-   You should use `Execute Command In Terminal` unless you have a very good
-   reason not to. Thanks to that, your keyword will not leave floating output
-   in buffer to be received by another keywords, not expecting that.
-
-### Documentation
-
-* Each new (or modified) file, test, keyword, must have a `[Documentation]`
-  section.
+```bash
+FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh -- --include "minimal-regression" -t "BMM*" --quiet
+```
 
 ## Useful refactoring tools
 
@@ -318,3 +286,80 @@ and add as guidelines:
 * [Renaming keywords](https://robotidy.readthedocs.io/en/stable/transformers/RenameKeywords.html)
 * [Renaming Test Cases](https://robotidy.readthedocs.io/en/stable/transformers/RenameTestCases.html)
 * [Renaming Variables](https://robotidy.readthedocs.io/en/stable/transformers/RenameVariables.html)
+
+## Generating documentation
+
+Keywords documentation (Develop) deploy status: ![Build Status](https://github.com/Dasharo/open-source-firmware-validation/actions/workflows/pages/pages-build-deployment/badge.svg)
+
+Documentation in the form of auto-generated html documents can be created using
+`libdoc` and `testdoc`.
+
+Note: you should be in your python virtual environment. If you haven't
+created any, please refer to [Getting Started](#getting-started)
+
+To generate a document for a resource file
+containing keywords, use these commands:
+
+```bash
+$(venv) libdoc keywords.robot keywords.html
+```
+
+Or in more general form:
+
+```bash
+$(venv) libdoc <file-with-keywords> <output filename>
+```
+
+The output file can be opened in any web-browser like so:
+
+```bash
+$ firefox keywords.html
+```
+
+Or use the provided `create-docs.sh` script, which automatically concatenates
+all of the keyword-containing libraries from `lib/` directory with
+`keywords.robot`, and generates one big html file containing all the
+keywords within this repo.
+
+```bash
+$(venv) ./scripts/create-docs.sh
+Documentation generated and saved as ./docs/index.html
+$ firefox ./docs/index.html
+```
+
+The resulting file can be opened in any web-browser:
+
+```bash
+$ firefox docs/index.html
+```
+
+To generate documentation regarding a specific test, `testdoc` has to
+be used, for example if we want documentation regarding the
+`dasharo-compatibility/dasharo-tools-suite.robot` test, these commands would
+need to be executed:
+
+```bash
+$ python3 robot.testdoc dasharo-compatibility/dasharo-tools-suite.robot test.html
+$ firefox test.html
+```
+
+[This website](https://dasharo.github.io/open-source-firmware-validation/) shows
+the current state of all keywords from all libraries as they appear right now on
+the `develop` branch. It works by utilizing a workflow, so remember that local
+changes that are made won't show up there, until they are pushed to the `develop`
+branch.
+
+## Additional documents
+
+* [Adding new platforms](docs/adding-new-platforms.md) - Instructions for adding
+  support for new platforms
+* [Contributing](docs/contributing.md) - Instructions for first-time
+  contributors
+* [Raptor CS Talos II](docs/raptor-talos-2.md) - Documentation specific to the
+  Raptor Computing Systems Talos II mainboard
+* [QEMU](docs/qemu.md) - Documentation for running tests in QEMU
+* [NovaCustom](docs/novacustom.md) - Documentation for running tests on
+  NovaCustom laptops
+* [Config parser](docs/config-parser.md) - Instructions for the
+  `scripts/config-parser.py` utility for parsing coreboot config files into
+  .robot platform configs for OSFV

@@ -5,8 +5,6 @@ Library             RequestsLibrary
 Resource            ../keywords.robot
 Resource            ../lib/bios/menus.robot
 Resource            ../variables.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
-Resource            ../sonoff-rest-api/sonoff-api.robot
 Resource            ../keys.robot
 
 Suite Setup         Run Keyword
@@ -18,6 +16,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 SOR001.001 Check that all options in OptionROMs are available
     [Documentation]    This test checks if all OptionROM options are available
+    Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}    SOR001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}

@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -18,17 +16,18 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}    UEFI interface tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-EFI001.001 Boot into UEFI OS (Ubuntu 20.04)
+EFI001.001 Boot into UEFI OS (Ubuntu)
     [Documentation]    Boot into Linux OS and check whether there is a
     ...    possibility to identify the system.
-    Skip If    not ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}    EFI001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -37,10 +36,9 @@ EFI001.001 Boot into UEFI OS (Ubuntu 20.04)
     ${out}=    Execute Command In Terminal    cat /etc/os-release
     Should Contain    ${out}    Ubuntu
 
-EFI001.002 Boot into UEFI OS (Windows 11)
+EFI001.002 Boot into UEFI OS (Windows)
     [Documentation]    Boot into Windows 11 OS and check whether there is a
     ...    possibility to identify the system
-    Skip If    not ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}    EFI001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.002 not supported
     Power On
     Login To Windows

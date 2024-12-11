@@ -15,12 +15,12 @@ Download ISO And Mount As USB
     ...    either via PiKVM or Qemu
     [Arguments]    ${img_path}    ${img_url}    ${img_sha256sum}
 
+    ${img_dir}    ${img_name}=    Split Path    ${img_path}
+
     Download To Host Cache
-    ...    ${img_path}
+    ...    ${img_name}
     ...    ${img_url}
     ...    ${img_sha256sum}
-
-    ${img_dir}    ${img_name}=    Split Path    ${img_path}
 
     IF    "${MANUFACTURER}" == "QEMU"
         Remove Drive From Qemu

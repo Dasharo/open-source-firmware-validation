@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -19,8 +17,12 @@ Resource            ../pikvm-rest-api/pikvm_comm.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0    USB detection tests skipped
+...                     AND
+...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -30,10 +32,9 @@ UDT001.001 USB detection after coldboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the coldboot (reboot realized by power supply cutting off
     ...    then cutting on).
-    Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
     Set Global Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${USB}    0
+    Set Local Variable    ${usb}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         TRY
             ${usb}=    Evaluate    0
@@ -72,10 +73,9 @@ UDT002.001 USB detection after warmboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the warmboot (reboot realized by device turning off then
     ...    turning on).
-    Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
     Set Global Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${USB}    0
+    Set Local Variable    ${usb}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         TRY
             ${usb}=    Evaluate    0
@@ -112,10 +112,9 @@ UDT002.001 USB detection after warmboot
 UDT003.001 USB detection after system reboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the system reboot (reboot performing by relevant command).
-    Skip If    ${USB_DETECTION_ITERATIONS_NUMBER} == 0
     Platform Verification
-    Set Local Variable    ${FAILED_DETECTION}    0
-    Set Local Variable    ${USB}    0
+    Set Local Variable    ${failed_detection}    0
+    Set Local Variable    ${usb}    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         TRY
             ${usb}=    Evaluate    0
@@ -151,7 +150,7 @@ UDT003.001 USB detection after system reboot
             ${usb_count}=    Get All USB
             Should Be Equal As Integers    ${usb}    ${usb_count}
         EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+            ${failed_detection}=    Evaluate    ${failed_detection} + 1
         END
     END
     IF    '${failed_detection}' > '${ALLOWED_FAILS_USB_DETECT}'

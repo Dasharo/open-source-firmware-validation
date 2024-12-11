@@ -4,12 +4,10 @@ Library             OperatingSystem
 Library             Process
 Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library             SSHLibrary    timeout=90 seconds
+Library             SSHLibrary    timeout=390 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -20,29 +18,33 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         TPM2 Suite Setup
 Suite Teardown      Log Out And Close Connection
-Test Setup          TPM2 Test Setup
+Test Setup          Flush TPM Contexts
 
 
 *** Test Cases ***
-TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu 22.04)
+TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)
     [Documentation]    This test aims to verify that `PCRALLOCATE` function
     ...    works properly. It allows the user to specify a PCR
     ...    allocation for the TPM.
-    Check If SHA1 And SHA256 Banks Are Enabled
+    Skip If    ${SHA1_ENABLED} != ${SHA256_ENABLED}    Only one bank is enabled
+    Should Be True    ${SHA1_ENABLED}
+    Should Be True    ${SHA256_ENABLED}
 
-TPMCMD002.001 PCRREAD Function Verification (Ubuntu 22.04)
+TPMCMD002.001 PCRREAD Function Verification (Ubuntu)
     [Documentation]    This test aims to verify that PCRREAD function works
     ...    properly. Function reads contains of PCR banks and
     ...    returns it to the terminal.
+    Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
     ${out}=    Execute Linux Command    tpm2_pcrread
     Should Contain    ${out}    sha1:
     Should Contain    ${out}    sha256:
     Should Contain    ${out}    0x0000000000000000000000000000000000000000
     Should Contain    ${out}    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
-TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu 22.04)
+TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu)
     [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
     ...    functions are working properly.
+    Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
     ${sha1}=    Set Variable    f1d2d2f924e986ac86fdf7b36c94bcdf32beec15
     ${sha256}=    Set Variable    b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c
     ${sha1_0s}=    Evaluate    "0" * 40
@@ -62,16 +64,21 @@ TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu 22.04)
     ${sha256}=    Execute Linux Command    echo -n ${sha256} | xxd -r -p | sha256sum
     ${sha256}=    Set Variable    ${sha256.split()}[0]
     # Compare with PCR values reported by TPM
-    Should Contain    ${out1}    23: 0x${sha1_0s}
-    Should Contain    ${out1}    23: 0x${sha256_0s}
-    Should Contain    ${out2}    23: 0x${sha1.upper()}
-    Should Contain    ${out2}    23: 0x${sha256.upper()}
-    Should Contain    ${out3}    23: 0x${sha1_0s}
-    Should Contain    ${out3}    23: 0x${sha256_0s}
+    IF    ${SHA1_ENABLED}
+        Should Contain    ${out1}    23: 0x${sha1_0s}
+        Should Contain    ${out2}    23: 0x${sha1.upper()}
+        Should Contain    ${out3}    23: 0x${sha1_0s}
+    END
+    IF    ${SHA256_ENABLED}
+        Should Contain    ${out1}    23: 0x${sha256_0s}
+        Should Contain    ${out2}    23: 0x${sha256.upper()}
+        Should Contain    ${out3}    23: 0x${sha256_0s}
+    END
 
-TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu 22.04)
+TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu)
     [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
     ...    functions are working properly when trying to modify protected PCRs.
+    Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
     ${sha1}=    Generate Random String    40    [NUMBERS]abcdef
     ${sha256}=    Generate Random String    64    [NUMBERS]abcdef
     ${out1}=    Execute Linux Command    tpm2_pcrreset 18
@@ -81,15 +88,16 @@ TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu 22
     Should Contain    ${out2}    tpm:warn(2.0): bad locality
     Should Contain    ${out3}    18: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
-TPMCMD004.001 PCREVENT Function (Ubuntu 22.04)
+TPMCMD004.001 PCREVENT Function (Ubuntu)
     [Documentation]    This test aims to verify that PCREVENT function is
     ...    working properly.
+    Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
     Execute Linux Command    tpm2_pcrreset 23
     ${out}=    Execute Linux Command    tpm2_pcrread
     ${sha1}=    Evaluate    "0" * 40
     ${sha256}=    Evaluate    "0" * 64
-    Should Contain    ${out}    23: 0x${sha1}
-    Should Contain    ${out}    23: 0x${sha256}
+    IF    ${SHA1_ENABLED}    Should Contain    ${out}    23: 0x${sha1}
+    IF    ${SHA256_ENABLED}    Should Contain    ${out}    23: 0x${sha256}
     Execute Linux Command    echo "foo" > data
     ${out}=    Execute Linux Command    tpm2_pcrevent 23 data
     # Calculate file shasums and compare with result of tpm2_pcrevent
@@ -98,8 +106,8 @@ TPMCMD004.001 PCREVENT Function (Ubuntu 22.04)
     ${sha256}=    Execute Linux Command    sha256sum data
     ${sha256}=    Set Variable    ${sha256.split()}[0]
     Execute Linux Command    rm -f data
-    Should Contain    ${out}    sha1: ${sha1}
-    Should Contain    ${out}    sha256: ${sha256}
+    IF    ${SHA1_ENABLED}    Should Contain    ${out}    sha1: ${sha1}
+    IF    ${SHA256_ENABLED}    Should Contain    ${out}    sha256: ${sha256}
     # Append shasum to default PCR value of all 0s
     ${sha1}=    Evaluate    "0" * 40 + "${sha1}"
     ${sha256}=    Evaluate    "0" * 64 + "${sha256}"
@@ -110,10 +118,12 @@ TPMCMD004.001 PCREVENT Function (Ubuntu 22.04)
     ${sha256}=    Set Variable    ${sha256.split()}[0]
     # Compare with PCR values reported by TPM
     ${out}=    Execute Linux Command    tpm2_pcrread
-    Should Contain    ${out}    23: 0x${sha1.upper()}
-    Should Contain    ${out}    23: 0x${sha256.upper()}
+    IF    ${SHA1_ENABLED}    Should Contain    ${out}    23: 0x${sha1.upper()}
+    IF    ${SHA256_ENABLED}
+        Should Contain    ${out}    23: 0x${sha256.upper()}
+    END
 
-TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu 22.04)
+TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu)
     [Documentation]    This test aims to verify that CREATEPRIMARY function
     ...    works as expected. This command is used to create a
     ...    primary object under one of the hierarchies: Owner,
@@ -124,7 +134,7 @@ TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu 22.04)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|restricted|decrypt
     Should Contain    ${out}    bits: 2048
 
-TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu 22.04)
+TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu)
     [Documentation]    This test aims to verify that NVDEFINE and NVUNDEFINE
     ...    functions are working as expected. Those functions are
     ...    used to define and undefine a TPM Non-Volatile index.
@@ -139,7 +149,7 @@ TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu 22.04)
     Should Contain    ${out1}=    nvtest
     Should Contain    ${out2}=    ERROR: Unable to run tpm2_nvread
 
-TPMCMD007.001 CREATE Function (Ubuntu 22.04)
+TPMCMD007.001 CREATE Function (Ubuntu)
     [Documentation]    This test aims to verify that CREATE function works as
     ...    expected. It will create an object using all the default
     ...    values and store the TPM sealed private and public
@@ -152,7 +162,7 @@ TPMCMD007.001 CREATE Function (Ubuntu 22.04)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
     Should Contain    ${out}    bits: 2048
 
-TPMCMD007.002 CREATELOADED Function (Ubuntu 22.04)
+TPMCMD007.002 CREATELOADED Function (Ubuntu)
     [Documentation]    This test aims to verify that CREATELOADED function works
     ...    as expected. It will create an object using all the
     ...    default values and store key context to the path
@@ -164,7 +174,7 @@ TPMCMD007.002 CREATELOADED Function (Ubuntu 22.04)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
     Should Contain    ${out}    bits: 2048
 
-TPMCMD008.001 Signing the file (Ubuntu 22.04)
+TPMCMD008.001 Signing the file (Ubuntu)
     [Documentation]    Check whether the TPM supports file signing.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
@@ -176,7 +186,7 @@ TPMCMD008.001 Signing the file (Ubuntu 22.04)
     Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
 
-TPMCMD009.001 Encryption and Decryption of the file (Ubuntu 22.04)
+TPMCMD009.001 Encryption and Decryption of the file (Ubuntu)
     [Documentation]    Check whether the TPM supports the encryption and
     ...    decryption of the file.
     ${out}=    Execute Linux Tpm2 Tools Command    tpm2_getcap commands
@@ -198,7 +208,7 @@ TPMCMD009.001 Encryption and Decryption of the file (Ubuntu 22.04)
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx secret.enc secret.dec secret.data iv.bin
     Should Contain    ${out}    my secret
 
-TPMCMD010.001 Hashing the file (Ubuntu 22.04)
+TPMCMD010.001 Hashing the file (Ubuntu)
     [Documentation]    Check whether the TPM supports file hashing.
     Execute Linux Command    echo "my secret" > secret.data
     Execute Linux Tpm2 Tools Command    tpm2_hash -o hash.out -t ticket.out secret.data
@@ -211,7 +221,7 @@ TPMCMD010.001 Hashing the file (Ubuntu 22.04)
     Should Not Contain    ${out2}    hash.out
     Should Not Contain    ${out3}    ticket.out
 
-TPMCMD011.001 Performing HMAC operation on the file (Ubuntu 22.04)
+TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
     [Documentation]    Check whether the TPM supports HMAC operation.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx -G hmac
@@ -232,22 +242,28 @@ Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -l
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -s
 
-Check If SHA1 And SHA256 Banks Are Enabled
+Check Which TPM2 Banks Are Enabled
+    [Documentation]    Checks which Bank is enabled, returns tuple (bool, bool)
     ${out}=    Execute Linux Command    tpm2_getcap pcrs
-    Should Contain
+    ${sha1}=    Run Keyword And Return Status
+    ...    Should Contain
     ...    ${out}
     ...    sha1: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
-    Should Contain
+    ${sha256}=    Run Keyword And Return Status
+    ...    Should Contain
     ...    ${out}
     ...    sha256: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
+    RETURN    ${sha1}    ${sha256}
 
-TPM2 Test Setup
-    Skip If    not ${TPM_SUPPORT}    ${TEST_NAME.split()}[0] not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME.split()}[0] not supported
-    Flush TPM Contexts
+Check If SHA1 And SHA256 Banks Are Enabled
+    ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
+    Should Be True    ${sha1}
+    Should Be True    ${sha256}
 
 TPM2 Suite Setup
     Prepare Test Suite
+    Skip If    not ${TPM_SUPPORT}    TPM tests not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -255,10 +271,14 @@ TPM2 Suite Setup
     Detect Or Install Package    tpm2-tools
     ${passed}=    Run Keyword And Return Status
     ...    Check If SHA1 And SHA256 Banks Are Enabled
-    IF    ${passed}    RETURN
-    # Restore default allocations in case any bank was disabled and reboot
-    Execute Linux Command    tpm2_pcrallocate
-    Execute Reboot Command
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    IF    not ${passed}
+        # Restore default allocations in case any bank was disabled and reboot
+        Execute Linux Command    tpm2_pcrallocate
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+    END
+    ${sha1_enabled}    ${sha256_enabled}=    Check Which TPM2 Banks Are Enabled
+    Set Suite Variable    $SHA1_ENABLED    ${sha1_enabled}
+    Set Suite Variable    $SHA256_ENABLED    ${sha256_enabled}

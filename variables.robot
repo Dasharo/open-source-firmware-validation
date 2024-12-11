@@ -8,7 +8,6 @@ ${MEMTEST_HEADER}=          Memtest86+ 5.01 coreboot
 ${DEBIAN_STABLE_VER}=       4.14.y
 ${TEARDOWN}=                no
 ${SNIPEIT}=                 yes
-${FIRMWARE_TYPE_VAR}=       ${EMPTY}
 
 ${DL_CACHE_DIR}=            ${CURDIR}/dl-cache
 
@@ -20,187 +19,235 @@ ${OS_WINDOWS}=              Windows Boot Manager
 ${OS_UBUNTU}=               ubuntu
 
 # RTE database:
-# LPN Plant -----------------------------------------------------------
-&{RTE01}=                   ip=192.168.4.197    cpuid=02c000422fc6d77e    pcb_rev=0.5.3
-...                         platform=mDot    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE02}=                   ip=192.168.4.198    cpuid=02c00042df7b6fc2    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE03}=                   ip=192.168.4.199    cpuid=02c00042b526c2b5    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE04}=                   ip=192.168.4.202    cpuid=x    pcb_rev=0.5.3
-...                         platform=lpn_gate    env=unknown
-...                         platform_vendor=unknown    firmware_type=unknown
 # Vitro Technology ----------------------------------------------------
-&{RTE05}=                   ip=192.168.4.167    cpuid=02c00042d55c19d3    pcb_rev=0.5.3
-...                         platform=crystal    env=dev
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE06}=                   ip=192.168.4.168    cpuid=02c000426978d2a7    pcb_rev=1.0.0
-...                         platform=dht-dev    env=dev
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE07}=                   ip=192.168.4.169    cpuid=02c00042fdc96eda    pcb_rev=1.0.0
-...                         platform=dht-prod    env=prod
-...                         platform_vendor=unknown    firmware_type=unknown
+&{RTE05}=                   ip=192.168.4.167
+...                         platform=crystal
+...                         platform_vendor=unknown
+&{RTE06}=                   ip=192.168.4.168
+...                         platform=dht-dev
+...                         platform_vendor=unknown
+&{RTE07}=                   ip=192.168.4.169
+...                         platform=dht-prod
+...                         platform_vendor=unknown
 # PCEngines production platforms ------------------------------------------------
-&{RTE08}=                   ip=192.168.10.171    cpuid=02c000429e34aeca    pcb_rev=0.5.3
-...                         platform=apu1    board-revision=d4    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE09}=                   ip=192.168.10.172    cpuid=02c000420c4ce851    pcb_rev=0.5.3
-...                         platform=apu2    board-revision=c4    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE10}=                   ip=192.168.10.173    cpuid=02c00042a3b72a65    pcb_rev=0.5.3
-...                         platform=apu3    board-revision=c4    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE11}=                   ip=192.168.10.174    cpuid=02c000426621f7ea    pcb_rev=0.5.3
-...                         platform=apu4    board-revision=4d    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE12}=                   ip=192.168.10.175    cpuid=02c000420334dd56    pcb_rev=0.5.3
-...                         platform=apu5    board-revision=b    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE13}=                   ip=192.168.10.176    cpuid=02c00042c70883cf    pcb_rev=0.5.3
-...                         platform=apu6    board-revision=b    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE14}=                   ip=192.168.10.200    cpuid=02c0004204bf6561    pcb_rev=0.5.3
-...                         platform=LT1000    env=prod
-...                         platform_vendor=unknown    firmware_type=BIOS
-&{RTE15}=                   ip=192.168.10.179    cpuid=02c0004222cfa701    pcb_rev=0.5.3
-...                         platform=solidpc    env=prod
-...                         platform_vendor=unknown    firmware_type=unknown
-&{RTE16}=                   ip=192.168.10.180    cpuid=02c00042d455092d    pcb_rev=0.5.3
-...                         platform=mbt_2210    env=prod
-...                         platform_vendor=unknown    firmware_type=BIOS
-&{RTE17}=                   ip=192.168.10.181    cpuid=02c0004200242187    pcb_rev=0.5.3
-...                         platform=mbt_4210    env=prod
-...                         platform_vendor=unknown    firmware_type=BIOS
-&{RTE18}=                   ip=192.168.10.XXX    cpuid=XXX    pcb_rev=XXX
-...                         platform=fw2b    env=prod
-...                         platform_vendor=unknown    firmware_type=BIOS
-&{RTE19}=                   ip=192.168.4.182    cpuid=02c001423b9f9efa    pcb_rev=1.1.0
-...                         platform=fw4b    env=prod
-...                         platform_vendor=protectli    firmware_type=BIOS
-&{RTE20}=                   ip=192.168.4.183    cpuid=02c0004258ac3935    pcb_rev=0.5.3
-...                         platform=apu2    board-revision=c4    env=dev
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE21}=                   ip=192.168.4.157    cpuid=02c00042888f8467    pcb_rev=0.5.3
-...                         platform=apu2    board-revision=c4    env=dev
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE22}=                   ip=192.168.10.162    cpuid=02c00042f3ba1188    pcb_rev=0.5.3
-...                         platform=apu2    board-revision=d    env=dev
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE23}=                   ip=192.168.10.163    cpuid=02c00042ea860eca    pcb_rev=0.5.3
-...                         platform=apu3    board-revision=c    env=dev
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE24}=                   ip=192.168.10.71    cpuid=02c0004225f66d15    pcb_rev=0.5.3
-...                         platform=apu4    board-revision=a    env=dev
-...                         platform_vendor=PC Engines    firmware_type=BIOS
-&{RTE25}=                   ip=192.168.4.50    cpuid=02c00042e90c36f2    pcb_rev=1.1.0
-...                         platform=optiplex-9010    board-revision=x    env=prod
-...                         platform_vendor=DELL    sonoff_ip=192.168.4.134    firmware_type=UEFI
-&{RTE26}=                   ip=192.168.4.133    cpuid=02c0014296737c0d    pcb_rev=1.1.0
-...                         platform=talosII    board-revision=1.01    env=dev
+&{RTE08}=                   ip=192.168.10.171
+...                         platform=apu1
+...                         platform_vendor=PC Engines
+&{RTE09}=                   ip=192.168.10.172
+...                         platform=apu2
+...                         platform_vendor=PC Engines
+&{RTE10}=                   ip=192.168.10.173
+...                         platform=apu3
+...                         platform_vendor=PC Engines
+&{RTE11}=                   ip=192.168.10.174
+...                         platform=apu4
+...                         platform_vendor=PC Engines
+&{RTE12}=                   ip=192.168.10.175
+...                         platform=apu5
+...                         platform_vendor=PC Engines
+&{RTE13}=                   ip=192.168.10.176
+...                         platform=apu6
+...                         platform_vendor=PC Engines
+&{RTE14}=                   ip=192.168.10.200
+...                         platform=LT1000
+...                         platform_vendor=unknown
+&{RTE15}=                   ip=192.168.10.179
+...                         platform=solidpc
+...                         platform_vendor=unknown
+&{RTE16}=                   ip=192.168.10.180
+...                         platform=mbt_2210
+...                         platform_vendor=unknown
+&{RTE17}=                   ip=192.168.10.181
+...                         platform=mbt_4210
+...                         platform_vendor=unknown
+&{RTE18}=                   ip=192.168.10.XXX
+...                         platform=fw2b
+...                         platform_vendor=unknown
+&{RTE19}=                   ip=192.168.4.182
+...                         platform=fw4b
+...                         platform_vendor=protectli
+&{RTE20}=                   ip=192.168.4.183
+...                         platform=apu2
+...                         platform_vendor=PC Engines
+&{RTE21}=                   ip=192.168.4.157
+...                         platform=apu2
+...                         platform_vendor=PC Engines
+&{RTE22}=                   ip=192.168.10.162
+...                         platform=apu2
+...                         platform_vendor=PC Engines
+&{RTE23}=                   ip=192.168.10.163
+...                         platform=apu3
+...                         platform_vendor=PC Engines
+&{RTE24}=                   ip=192.168.10.71
+...                         platform=apu4
+...                         platform_vendor=PC Engines
+&{RTE25}=                   ip=192.168.4.50
+...                         platform=optiplex-9010
+...                         platform_vendor=DELL    sonoff_ip=192.168.4.134
+&{RTE26}=                   ip=192.168.4.133
+...                         platform=talosII
 ...                         platform_vendor=Raptor Engineering, LLC    sonoff_ip=192.168.4.106
-&{RTE27}=                   ip=192.168.4.223    cpuid=02c00042921d288f    pcb_rev=1.1.0    firmware_type=unknown
-...                         platform=optiplex-7010    board-revision=x    env=prod
-...                         platform_vendor=DELL    sonoff_ip=192.168.4.134    firmware_type=UEFI
+&{RTE27}=                   ip=192.168.4.223
+...                         platform=optiplex-7010
+...                         platform_vendor=DELL    sonoff_ip=192.168.4.134
 # Immunefi --------------------------------------------------------------------
-&{RTE28}=                   ip=192.168.10.70    cpuid=02c000423e00d488    pcb_rev=1.1.0
-...                         platform=KGPE-D16-8MB    board-revision=x    env=dev
-...                         platform_vendor=ASUS    sonoff_ip=192.168.10.125    firmware_type=BIOS
-&{RTE29}=                   ip=192.168.20.15    cpuid=02c0004282a2891c    pcb_rev=1.1.0
-...                         platform=KGPE-D16-16MB    board-revision=x    env=dev
-...                         platform_vendor=ASUS    sonoff_ip=192.168.10.144    firmware_type=BIOS
+&{RTE28}=                   ip=192.168.10.70
+...                         platform=KGPE-D16-8MB
+...                         platform_vendor=ASUS    sonoff_ip=192.168.10.125
+&{RTE29}=                   ip=192.168.20.15
+...                         platform=KGPE-D16-16MB
+...                         platform_vendor=ASUS    sonoff_ip=192.168.10.144
 # 3mdeb Protectli -----------------------------------------------------
-&{RTE30}=                   ip=192.168.4.190    cpuid=02c0014270499deb    pcb_rev=1.1.0
-...                         platform=FW6_CML    board-revision=1.01    env=dev
-...                         platform_vendor=fw66_cml    firmware_type=BIOS
-&{RTE31}=                   ip=192.168.4.121    cpuid=02c000423305c959    pcb_rev=1.1.0
-...                         platform=fw6e    board-revision=1.01    env=dev
-...                         platform_vendor=fw6e    firmware_type=BIOS
+&{RTE30}=                   ip=192.168.4.190
+...                         platform=FW6_CML
+...                         platform_vendor=fw66_cml
+&{RTE31}=                   ip=192.168.4.121
+...                         platform=fw6e
+...                         platform_vendor=fw6e
 # PCEngines developer platforms -----------------------------------------------
-&{RTE32}=                   ip=192.168.20.6    cpuid=02c000425de69477    pcb_rev=1.0.0
-...                         platform=apu1    board-revision=d4    env=dev
-...                         platform_vendor=PC Engines    firmware_type=BIOS
+&{RTE32}=                   ip=192.168.20.6
+...                         platform=apu1
+...                         platform_vendor=PC Engines
 # MSI-PRO-Z690-A platforms (Zir-Blazer) -----------------------------
-&{RTE33}=                   ip=192.168.10.107    cpuid=02c00042a74281e6    pcb_rev=1.1.0
-...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
-...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.21
-...                         firmware_type=UEFI    pikvm_ip=192.168.10.116
-&{RTE34}=                   ip=192.168.10.199    cpuid=02c000424753a7fb    pcb_rev=1.1.0
-...                         platform=msi-pro-z690-a-wifi-ddr4    board-revision=1.1.0    env=dev
+&{RTE33}=                   ip=192.168.10.107
+...                         platform=msi-pro-z690-a-wifi-ddr4
+...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.170
+...                         pikvm_ip=192.168.10.99
+&{RTE34}=                   ip=192.168.10.199
+...                         platform=msi-pro-z690-a-wifi-ddr4
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.169
-...                         firmware_type=UEFI    pikvm_ip=192.168.10.16
-&{RTE39}=                   ip=192.168.10.188    cpuid=02c0014266f49b55    pcb_rev=1.1.0
-...                         platform=msi-pro-z690-a-ddr5    board-revision=1.1.0    env=dev
+...                         pikvm_ip=192.168.10.16
+&{RTE39}=                   ip=192.168.10.188
+...                         platform=msi-pro-z690-a-ddr5
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.69
-...                         firmware_type=UEFI    pikvm_ip=192.168.10.45
+...                         pikvm_ip=192.168.10.45
 # MSI-PRO-Z790-P platforms (Zir-Blazer) -----------------------------
-&{RTE46}=                   ip=192.168.10.127    cpuid=02c00142a99e60ef    pcb_rev=1.1.0
-...                         platform=msi-pro-z790-p-ddr5    board-revision=1.1.0    env=dev
+&{RTE46}=                   ip=192.168.10.127
+...                         platform=msi-pro-z790-p-ddr5
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.253
-...                         firmware_type=UEFI    pikvm_ip=192.168.10.226
+...                         pikvm_ip=192.168.10.226
 # PC Engines APU7 platform -----------------------------------------------------
-&{RTE35}=                   ip=192.168.10.177    cpuid=02c00042522d9294    pcb_rev=0.5.3
-...                         platform=apu7    board-revision=a    env=prod
-...                         platform_vendor=PC Engines    firmware_type=BIOS
+&{RTE35}=                   ip=192.168.10.177
+...                         platform=apu7
+...                         platform_vendor=PC Engines
 # 3mdeb Protectli vp4630 -----------------------------------------------------
-&{RTE36}=                   ip=192.168.10.244    cpuid=02c0014248d5bffc    pcb_rev=1.1.0
-...                         platform=protectli-vp4630    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE36}=                   ip=192.168.10.244
+...                         platform=protectli-vp4630
+...                         platform_vendor=protectli
 # 3mdeb Protectli vp4670 -----------------------------------------------------
-&{RTE37}=                   ip=192.168.10.228    cpuid=02c00042b2a75f00    pcb_rev=1.1.0
+&{RTE37}=                   ip=192.168.10.228
 ...                         platform=protectli-vp4670    sonoff_ip=192.168.10.19
-...                         board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+...                         platform_vendor=protectli
 # 3mdeb Protectli vp4670_2 ---------------------------------------------------
-&{RTE49}=                   ip=192.168.10.14    cpuid=02c00042f1d72c95    pcb_rev=1.1.0
-...                         platform=protectli-vp4670    sonoff_ip=192.168.10.144
-...                         board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE49}=                   ip=192.168.10.14
+...                         platform=protectli-vp6650    sonoff_ip=192.168.10.144
+...                         platform_vendor=protectli
+# * this RTE is currently repurposed for VP6650
 # 3mdeb Protectli vp4650 -----------------------------------------------------
-&{RTE38}=                   ip=192.168.10.203    cpuid=02c00142076840cf    pcb_rev=1.1.0
+&{RTE38}=                   ip=192.168.10.203
 ...                         platform=protectli-vp4650    sonoff_ip=192.168.10.251
-...                         board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+...                         platform_vendor=protectli
 # 3mdeb Protectli vp4650_2 ---------------------------------------------------
-&{RTE50}=                   ip=192.168.10.160    cpuid=02c000421dfebcdb    pcb_rev=1.1.0
-...                         platform=protectli-vp4650    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE50}=                   ip=192.168.10.160
+...                         platform=protectli-vp4650    sonoff_ip=192.168.10.32
+...                         platform_vendor=protectli
 # 3mdeb Protectli vp2420 -----------------------------------------------------
-&{RTE40}=                   ip=192.168.10.221    cpuid=02c00142959df458    pcb_rev=1.1.0
-...                         platform=protectli-vp2420    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE40}=                   ip=192.168.10.221
+...                         platform=protectli-vp2420
+...                         platform_vendor=protectli
 # 3mdeb Protectli FW4C -------------------------------------------------------
-&{RTE41}=                   ip=192.168.10.168    cpuid=02c00042bd1a7dee    pcb_rev=1.1.0
-...                         platform=protectli-fw4c    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE41}=                   ip=192.168.10.168
+...                         platform=protectli-fw4c
+...                         platform_vendor=protectli
 # 3mdeb Protectli VP2410 ------------------------------------------------------
-&{RTE42}=                   ip=192.168.10.233    cpuid=02c00042661f9013    pcb_rev=1.1.0
-...                         platform=protectli-vp2410    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE42}=                   ip=192.168.10.233
+...                         platform=protectli-vp2410
+...                         platform_vendor=protectli
 # 3mdeb Protectli V1210 ------------------------------------------------------
-&{RTE43}=                   ip=192.168.10.55    cpuid=02c0004278eb1b72    pcb_rev=1.1.0
-...                         platform=protectli-v1210    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE43}=                   ip=192.168.10.55
+...                         platform=protectli-v1210
+...                         platform_vendor=protectli
 # 3mdeb Protectli V1410 ------------------------------------------------------
-&{RTE44}=                   ip=192.168.10.198    cpuid=02c00042df7b6fc2    pcb_rev=1.1.0
-...                         platform=protectli-v1410    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
+&{RTE44}=                   ip=192.168.10.198
+...                         platform=protectli-v1410
+...                         platform_vendor=protectli
 # 3mdeb Protectli V1610 ------------------------------------------------------
-&{RTE45}=                   ip=192.168.10.218    cpuid=02c00142033c4387    pcb_rev=1.1.0
-...                         platform=protectli-v1610    board-revision=x    env=dev
-...                         platform_vendor=protectli    firmware_type=UEFI
-# 3mdeb RPi 3B for Yocto ------------------------------------------------------
-&{RTE47}=                   ip=192.168.10.65    cpuid=02c00042a0dd0cd0    pcb_rev=a22082
+&{RTE45}=                   ip=192.168.10.218
+...                         platform=protectli-v1610
+...                         platform_vendor=protectli
+# 3mdeb RPi 3B for Yocto -----------------------------------------------------
+&{RTE47}=                   ip=192.168.10.65
 ...                         platform=RPi-3-model-B-V1.2    sonoff_ip=192.168.10.27
-...                         env=dev    platform_vendor=element14    firmware_type=yocto
+...                         platform_vendor=element14
 # QEMU
-&{RTE48}=                   ip=127.0.0.1    cpuid=02c0014296737c0d    pcb_rev=1.1.0
-...                         platform=qemu    board-revision=1.01    env=dev
+&{RTE48}=                   ip=127.0.0.1
+...                         platform=qemu
 ...                         platform_vendor=qemu
+# NovaCustom NV4x ADL --------------------------------------------------------
+&{RTE51}=                   ip=0.0.0.0
+...                         platform=novacustom-nv41pz    platform_vendor=Clevo
+# NovaCustom automated laptop testing station --------------------------------
+&{RTE52}=                   ip=192.168.10.91
+...                         platform=novacustom-ts1    platform_vendor=3mdeb
+...                         sonoff_ip=192.168.10.53    pikvm_ip=192.168.10.52
+# 3mdeb Protectli VP6670 -----------------------------------------------------
+&{RTE53}=                   ip=192.168.10.110
+...                         platform=protectli-vp6670    platform_vendor=protectli
+...                         sonoff_ip=192.168.10.113
+# 3mdeb Protectli VP6650 -----------------------------------------------------
+&{RTE54}=                   ip=192.168.10.14
+...                         platform=protectli-vp6650    sonoff_ip=192.168.10.119
+...                         platform_vendor=protectli
+# MinnowBoard Turbot
+&{RTE55}=                   ip=192.168.10.112
+...                         platform=minnowboard-turbot
+# NovaCustom NS5x TGL --------------------------------------------------------
+&{RTE56}=                   ip=0.0.0.0
+...                         platform=novacustom-ns50mu    platform_vendor=Clevo
+# NovaCustom V540TND ---------------------------------------------------------
+&{RTE57}=                   ip=0.0.0.0
+...                         platform=novacustom-v540tnd    platform_vendor=Clevo
+# NovaCustom V540TU ----------------------------------------------------------
+&{RTE58}=                   ip=0.0.0.0
+...                         platform=novacustom-v540tu    platform_vendor=Clevo
+&{RTE59}=                   ip=0.0.0.0
+...                         platform=novacustom-v540tu    platform_vendor=Clevo
+# NovaCustom V560TND ----------------------------------------------------------
+&{RTE60}=                   ip=0.0.0.0
+...                         platform=novacustom-v560tnd    platform_vendor=Clevo
+# NovaCustom V560NE -----------------------------------------------------------
+&{RTE61}=                   ip=0.0.0.0
+...                         platform=novacustom-v560ne    platform_vendor=Clevo
+# NovaCustom V560TU -----------------------------------------------------------
+&{RTE62}=                   ip=0.0.0.0
+...                         platform=novacustom-v560tu    platform_vendor=Clevo
+# Protectli V1211 -------------------------------------------------------------
+&{RTE63}=                   ip=192.168.10.227
+...                         platform=protectli-v1211
+...                         platform_vendor=protectli
+# Dell OptiPlex 7010 ----------------------------------------------------------
+&{RTE64}=                   ip=192.168.10.225
+...                         platform=optiplex-7010
+...                         platform_vendor=DELL    sonoff_ip=192.168.10.125
+# Dell OptiPlex 7010 2 --------------------------------------------------------
+&{RTE65}=                   ip=192.168.10.54
+...                         platform=optiplex-7010
+...                         platform_vendor=DELL    sonoff_ip=192.168.10.250
+# Odroid-H4 Plus
+&{RTE66}=                   ip=192.168.10.193    platform=odroid-h4-Plus
+...                         platform_vendor=Hardkernel
+...                         pikvm_ip=192.168.10.120
+# Protectli VP3230
+&{RTE67}=                   ip=192.168.10.35
+...                         platform=protectli-vp3230
+...                         platform_vendor=protectli
+...                         sonoff_ip=192.168.10.27
+# 3mdeb Protectli VP2430 -----------------------------------------------------
+&{RTE68}=                   ip=192.168.10.18
+...                         platform=protectli-vp2430
+...                         platform_vendor=protectli
 
-@{RTE_LIST}=                &{RTE01}    &{RTE02}    &{RTE03}    &{RTE04}    &{RTE05}
+@{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
 ...                         &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}    &{RTE20}
@@ -209,8 +256,11 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
 ...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
 ...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
-
+...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE50}
+...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
+...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
+...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
+...                         &{RTE66}    &{RTE67}    &{RTE68}
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
@@ -220,22 +270,22 @@ ${OS_UBUNTU}=               ubuntu
 # -----------------------------------------------------------------------------
 &{SSD01}=                   vendor=SanDisk    volume=16GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=SATA Flash Drive ATA-11 Hard-Disk
+...                         boot_name=SATA Flash Drive ATA-11 Hard-Disk
 &{SSD02}=                   vendor=Phison    volume=16GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=SATA SSD ATA-10 Hard-Disk
+...                         boot_name=SATA SSD ATA-10 Hard-Disk
 &{SSD03}=                   vendor=Hoodisk    volume=32GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=Hoodisk SSD ATA-10 Hard-Disk
+...                         boot_name=Hoodisk SSD ATA-10 Hard-Disk
 &{SSD04}=                   vendor=Hoodisk    volume=16GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=Hoodisk SSD ATA-11 Hard-Disk
+...                         boot_name=Hoodisk SSD ATA-11 Hard-Disk
 &{SSD05}=                   vendor=Apacer    volume=30GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=30GB SATA Flash Drive ATA-11 Hard-Disk
+...                         boot_name=30GB SATA Flash Drive ATA-11 Hard-Disk
 &{SSD06}=                   vendor=Apacer    volume=60GB    type=Storage_SSD
 ...                         interface=mSATA    count=1
-...                         sbo_name=60GB SATA Flash Drive ATA-11 Hard-Disk
+...                         boot_name=60GB SATA Flash Drive ATA-11 Hard-Disk
 &{SSD07}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
 ...                         interface=SATA M.2    count=1
 ...                         boot_name=SSDPR-CL100-240-G2
@@ -251,9 +301,35 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD11}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 860 EVO M.2 250GB
+&{SSD12}=                   vendor=Samsung    volume=250GB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 980 PRO 250GB
+&{SSD13}=                   vendor=Samsung    volume=500GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=CT500MX500SSD1
+&{SSD14}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 870 QVO 1TB
+&{SSD15}=                   vendor=Samsung    volume=500GB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 980 PRO 500GB
+&{SSD16}=                   vendor=Silicon Power    volume=128GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=SPCC Solid State Disk
+&{SSD17}=                   vendor=Goodram    volume=240GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=SSDPR-CL100-240-G2
+&{SSD18}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         boot_name=Samsung SSD 990 PRO 1TB
+&{SSD19}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         boot_name=SD Device
+...                         interface=NVME    count=1
+...                         boot_name=Samsung SSD 870 EVO 1TB
+
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
-...                         &{SSD11}
+...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
+...                         &{SSD16}    &{SSD17}    &{SSD18}    &{SSD19}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -275,6 +351,13 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sbo_name=SD card SL16G
 @{CARD_LIST}=               &{CARD01}    &{CARD02}    &{CARD03}    &{CARD04}    &{CARD05}
 ...                         &{CARD06}
+#
+&{EMMC01}=                  vendor=Samsung    volume=32GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+&{EMMC02}=                  vendor=Samsung    volume=8GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+@{MMC_LIST}=                &{EMMC01}
+
 # -----------------------------------------------------------------------------
 &{USB01}=                   vendor=Kingston    volume=16GB    type=USB_Storage
 ...                         protocol=3.0    interface=USB    count=2
@@ -362,7 +445,7 @@ ${OS_UBUNTU}=               ubuntu
 # hardware configurations:
 @{CONFIG01}=                &{RTE08}    &{MODULE10}    &{SSD04}    &{USB04}
 ...                         &{CARD03}    &{ADAPTER01}    &{EXPANDER02}
-@{CONFIG02}=                &{RTE09}    &{SSD05}    &{CARD05}    &{USB03}
+@{CONFIG02}=                &{RTE09}    &{SSD19}    &{CARD05}    &{USB03}
 ...                         &{MODULE08}    &{MODULE10}    &{MODULE06}    &{ADAPTER01}
 @{CONFIG03}=                &{RTE10}    &{HDD01}    &{CARD02}    &{USB01}
 ...                         &{MODULE01}    &{MODULE02}    &{MODULE04}    &{EXPANDER01}
@@ -396,20 +479,29 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG26}=                &{RTE34}    &{USB14}    &{SSD08}
 @{CONFIG27}=                &{RTE35}    &{USB07}    &{SSD02}    &{MODULE10}
 @{CONFIG28}=                &{RTE36}    &{USB11}    &{SSD09}
-@{CONFIG29}=                &{RTE37}    &{USB11}
+@{CONFIG29}=                &{RTE37}    &{SSD12}
 @{CONFIG30}=                &{RTE38}    &{USB11}
 @{CONFIG31}=                &{RTE39}    &{USB14}    &{SSD08}
 @{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD11}
 @{CONFIG33}=                &{RTE41}
-@{CONFIG34}=                &{RTE42}
-@{CONFIG35}=                &{RTE43}
-@{CONFIG36}=                &{RTE44}
-@{CONFIG37}=                &{RTE45}
+@{CONFIG34}=                &{RTE42}    &{SSD13}    &{EMMC02}
+@{CONFIG35}=                &{RTE43}    &{EMMC01}
+@{CONFIG36}=                &{RTE44}    &{EMMC01}
+@{CONFIG37}=                &{RTE45}    &{EMMC01}
 @{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
 @{CONFIG39}=                &{RTE47}
 @{CONFIG40}=                &{RTE48}
-@{CONFIG41}=                &{RTE49}    &{USB11}    &{SSD10}
 @{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
+@{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
+@{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD10}
+@{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
+@{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
+@{CONFIG47}=                &{RTE63}    &{EMMC01}
+@{CONFIG48}=                &{RTE64}    &{SSD17}
+@{CONFIG49}=                &{RTE65}    &{SSD17}
+@{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
+@{CONFIG51}=                &{RTE67}    &{USB11}
+@{CONFIG52}=                &{RTE68}    &{USB12}    &{SSD18}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -420,5 +512,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG26}    @{CONFIG27}    @{CONFIG28}    @{CONFIG29}
 ...                         @{CONFIG30}    @{CONFIG31}    @{CONFIG32}    @{CONFIG33}
 ...                         @{CONFIG34}    @{CONFIG35}    @{CONFIG36}    @{CONFIG37}
-...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}    @{CONFIG41}
-...                         @{CONFIG42}
+...                         @{CONFIG38}    @{CONFIG39}    @{CONFIG40}
+...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
+...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
+...                         @{CONFIG50}    @{CONFIG51}

@@ -1,12 +1,15 @@
 [submodule "rtectrl-rest-api"]
 	path = rtectrl-rest-api
-	url = git@github.com:3mdeb/rtectrl-rest-api.git
+	url = https://github.com/3mdeb/rtectrl-rest-api.git
 [submodule "sonoff-rest-api"]
 	path = sonoff-rest-api
-	url = git@github.com:3mdeb/sonoff-rest-api.git
+	url = https://github.com/3mdeb/sonoff-rest-api.git
 [submodule "pikvm-rest-api"]
 	path = pikvm-rest-api
-	url = git@github.com:3mdeb/pikvm-rest-api.git
+	url = https://github.com/3mdeb/pikvm-rest-api.git
 [submodule "osfv-scripts"]
 	path = osfv-scripts
 	url = https://github.com/Dasharo/osfv-scripts.git
+[submodule "dcu"]
+	path = dcu
+	url = https://github.com/Dasharo/dcu.git

@@ -40,3 +40,18 @@ Install Package
     Write Into Terminal    apt-get install --assume-yes ${package}
     Read From Terminal Until Prompt
     Set DUT Response Timeout    30s
+
+Get Logging Level
+    [Documentation]    This keyword returns TRUE if logging is disabled and
+    ...    FALSE if it is not.
+    ${ret}=    Execute Linux Command    cut -f1 /proc/sys/kernel/printk
+
+    RETURN    ${ret}
+
+Set Logging Level
+    [Documentation]    This keyword sets the logging level to given value [0; 7]
+    [Arguments]    ${level}
+    Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" > /etc/sysctl/d/10-console-messages.conf
+    Execute Linux Command    sed -i '/kernel\.printk =/d' /etc/sysctl.conf
+    Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" >> /etc/sysctl.conf
+    Execute Linux Command    sysctl --system

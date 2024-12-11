@@ -8,11 +8,10 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../os-config/ubuntu-credentials.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -21,9 +20,11 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Make Sure That Flash Locks Are Disabled
+...                     Skip If    not ${VERIFIED_BOOT_SUPPORT}    Vboot not supported
 ...                     AND
 ...                     Flash Firmware    ${FW_FILE}
+...                     AND
+...                     Make Sure That Flash Locks Are Disabled
 ...                     AND
 ...                     Prepare Tools, Keys And Binaries
 Suite Teardown      Run Keyword
@@ -33,13 +34,11 @@ Test Setup          Run Keyword
 
 
 *** Variables ***
-# TODO: Here we cannot yet use variables from platform config, as these are loaded
-# only when Prepare Test Suite is called. We could source them sooner, with robot invocation.
 # The fw_file_original is the fw_file received as an input to the test suite
-${FW_FILE_ORIGINAL}=    /home/user/test-firmware.rom
+${FW_FILE_ORIGINAL}=    /home/${UBUNTU_USERNAME}/test-firmware.rom
 # # The fw_file_resigned is the fw_file resigned with newly generated keys (so
 # # booting it should trigger vboot recovery events)
-${FW_FILE_RESIGNED}=    /home/user/test-firmware_resigned.rom
+${FW_FILE_RESIGNED}=    /home/${UBUNTU_USERNAME}/test-firmware_resigned.rom
 
 
 *** Test Cases ***
@@ -49,22 +48,37 @@ VBO006.002 Check whether the verstage was run
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO006.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.002 not supported
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep VBOOT
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -l | grep VBOOT
     Should Contain    ${out_cbmem}    VBOOT WORK
 
 VBO007.002 Boot from RW when correctly signed firmware is flashed
     [Documentation]    Check whether the Verified Boot is proceed to boot from
     ...    Slot A/B if the signatures for firmware stored in vboot
     ...    Slot A/B are correct.
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO007.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO007.002 not supported
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep "is selected"
-    Should Contain Any    ${out_cbmem}    Slot A is selected    Slot B is selected
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
+
+VBO008.001 Booting from recovery
+    [Documentation]    Check whether the information about recovery mode will be
+    ...    displayed after flash firmware with wrong vboot keys. The boot should
+    ...    continue automatically after a 30s delay.
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO008.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO008.002 not supported
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    Execute Reboot Command
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Command In Terminal    cbmem -c | grep -i recovery
+    Should Contain    ${out}    Recovery requested
 
 VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A
     [Documentation]    Check whether the information about recovery mode will be
@@ -72,6 +86,7 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     ...    continue automatically after a 30s delay.
     Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO009.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    VBO009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO009.001 not supported
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -85,6 +100,17 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
 
+VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A (Semi-auto)
+    [Documentation]    Check whether the information about recovery mode will be
+    ...    displayed after flash firmware with wrong vboot keys. The boot should
+    ...    continue automatically after a 30s delay.
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO009.001 not supported
+    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}    VBO009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO009.002 not supported
+    Log To Console    This test is semi-automatic, performed manually during VBO008.
+    Log To Console    Assume PASS if the recovery pop-up appeared in the logs
+    Skip
+
 VBO010.001 Recovery boot popup can be skipped
     [Documentation]    Check whether the functionality of confirming the popup:
     ...    If we press Enter, we should immediately move to the next
@@ -96,6 +122,16 @@ VBO010.001 Recovery boot popup can be skipped
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
 
+VBO010.001 Recovery boot popup can be skipped (Semi-auto)
+    [Documentation]    Check whether the functionality of confirming the popup:
+    ...    If we press Enter, we should immediately move to the next
+    ...    stages of booting.
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
+    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}    VBO010.001 not supported
+    Log To Console    This test is semi-automatic, performed manually during VBO008.
+    Log To Console    Assume PASS if the recovery pop-up could be skipped
+    Skip
+
 VBO011.001 Recovery popup is not displayed when correctly signed firmware is flashed in RW_A
     [Documentation]    Check whether after flashing the DUT with the valid
     ...    binary, the DUT will boot correctly from the default slot.
@@ -103,7 +139,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     # https://github.com/Dasharo/dasharo-issues/issues/185
     # https://github.com/Dasharo/dasharo-issues/issues/269
     # https://github.com/Dasharo/dasharo-issues/issues/320
-    Skip If    not ${VERIFIED_BOOT_SUPPORT}    VBO011.001 not supported
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO011.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
     Variable Should Exist    ${FW_FILE}
     # 1. Start with flashing of correctly signed firmware
@@ -118,8 +154,8 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
         Login To Linux
         Switch To Root User
     END
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep "is selected"
-    Should Contain Any    ${out_cbmem}    Slot A is selected    Slot B is selected
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
     # 2. Flash incorrectly signed firmware and boot 2 times. Recovery popup
     # should be displayed, and recovery request should be logged in cbmem.
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
@@ -130,8 +166,8 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
-        ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Recovery
-        Should Contain    ${out_cbmem}    Recovery requested
+        ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+        Should Contain    ${out_vboot}    Recovery boot mode
     END
     # 3. Flash again with correctly signed firmware
     Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
@@ -139,16 +175,75 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Recovery
-    Should Contain    ${out_cbmem}    Recovery reason from previous boot: 0x0
-    Should Not Contain    ${out_cbmem}    Recovery requested
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
+
+VBO011.001 Recovery popup is not displayed when correctly signed firmware is flashed in RW_A (no TESTS_IN_FIRMWARE_SUPPORT)
+    [Documentation]    Check whether after flashing the DUT with the valid
+    ...    binary, the DUT will boot correctly from the default slot.
+    # Relevant issues:
+    # https://github.com/Dasharo/dasharo-issues/issues/185
+    # https://github.com/Dasharo/dasharo-issues/issues/269
+    # https://github.com/Dasharo/dasharo-issues/issues/320
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO011.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
+    Variable Should Exist    ${FW_FILE}
+    # 1. Start with flashing of correctly signed firmware
+    Set DUT Response Timeout    180s
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
+    FOR    ${index}    IN RANGE    2
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+    END
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
+    # 2. Flash incorrectly signed firmware and boot 2 times. Recovery popup
+    # should be displayed, and recovery request should be logged in cbmem.
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    FOR    ${index}    IN RANGE    2
+        Execute Reboot Command
+        Sleep    15s    # Wait for the pop-up to disappear automatically
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+        Should Contain    ${out_vboot}    Recovery boot mode
+    END
+    # 3. Flash again with correctly signed firmware
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
+    Execute Reboot Command
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
+    Should Contain    ${out_vboot}    Normal boot mode
+
+VBO012.001 Self-signed binary is bootable without errors
+    [Documentation]    Check whether a self-signed binary is bootable when the
+    ...    entire SPI flash is flashed. This verifies that the signing scripts
+    ...    used by the end users are correct and don't cause bricks.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO012.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    Execute Reboot Command
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
 
 
 *** Keywords ***
 Generate Verified Boot Keys
     Clone Git Repository    https://github.com/Dasharo/dasharo-tools.git
     Execute Command In Terminal    rm -rf vboot_keys
-    ${out_genkey}=    Execute Command In Terminal    ./dasharo-tools/vboot/generate_keys vboot_keys    timeout=5m
+    ${out_genkey}=    Execute Command In Terminal    ./dasharo-tools/vboot/generate_keys vboot_keys    timeout=20m
     Should Contain    ${out_genkey}    The Verified Boot keys were generated into following directory
 
 Resign Existing Firmware Image With Generated Keys
@@ -156,6 +251,13 @@ Resign Existing Firmware Image With Generated Keys
     Execute Command In Terminal    rm -f ${FW_FILE_RESIGNED}
     ${out_resign}=    Execute Command In Terminal    ./dasharo-tools/vboot/resign ${FW_FILE_ORIGINAL} vboot_keys
     Should Contain    ${out_resign}    successfully saved new image to
+    Execute Command In Terminal    sync
+    ${size_original}=    Execute Command In Terminal    ls -l ${FW_FILE_ORIGINAL} | cut -d ' ' -f 5
+    ${size_resigned}=    Execute Command In Terminal    ls -l ${FW_FILE_RESIGNED} | cut -d ' ' -f 5
+    Should Be Equal As Integers
+    ...    ${size_original}
+    ...    ${size_resigned}
+    ...    msg=Size of resigned firmware is incorrect. Resigning failed.
 
 Prepare Tools, Keys And Binaries
     Power On

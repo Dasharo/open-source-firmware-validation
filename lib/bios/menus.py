@@ -86,6 +86,12 @@ def get_value_from_brackets(text):
 
     if matches:
         value = matches[0].strip("<>[]")
+        # Sometimes a part of help text may be returned after the closing
+        # bracket. Separate the option value by splitting the string only once
+        # using last occurrence of separator and returning only left side of
+        # the match.
+        value = value.rsplit("]", 1)[0]
+        value = value.rsplit(">", 1)[0]
     else:
         value = None
 
@@ -122,3 +128,88 @@ def merge_lists(list1, list2):
             final_list.add(i2)
 
     return final_list
+
+
+getoptionpath = {
+    "LockBios": [
+        "Dasharo System Features",
+        "Dasharo Security Options",
+        "Lock the BIOS boot medium",
+    ],
+    "NetworkBoot": [
+        "Dasharo System Features",
+        "Networking Options",
+        "Enable network boot",
+    ],
+    "UsbDriverStack": [
+        "Dasharo System Features",
+        "USB Configuration",
+        "Enable USB stack",
+    ],
+    "UsbMassStorage": [
+        "Dasharo System Features",
+        "USB Configuration",
+        "Enable USB Mass Storage",
+    ],
+    "SmmBwp": [
+        "Dasharo System Features",
+        "Dasharo Security Options",
+        "Enable SMM BIOS write protection",
+    ],
+    "MeMode": [
+        "Dasharo System Features",
+        "Intel Management Engine Options",
+        "Intel ME mode",
+    ],
+    "FanCurveOption": [
+        "Dasharo System Features",
+        "Power Management Options",
+        "Fan profile",
+    ],
+    "EnableCamera": [
+        "Dasharo System Features",
+        "Dasharo Security Options",
+        "Enable Camera",
+    ],
+    "EnableWifiBt": [
+        "Dasharo System Features",
+        "Dasharo Security Options",
+        "Enable Wi-Fi + BT radios",
+    ],
+    # The Serial Redirection option is called differently in some versions of Dasharo
+    # MSI z690-ddr5 v1.1.3 has "Enable Serial Port", v1.1.4 has "Enable COM0 Serial"
+    "SerialRedirection": [
+        "Dasharo System Features",
+        "Serial Port Configuration",
+        "Enable Serial Port Console Redirection",
+    ],
+    "PCIeResizeableBarsEnabled": [
+        "Dasharo System Features",
+        "PCI/PCIe Configuration",
+        "Enable PCIe Resizeable",
+    ],
+    "HyperThreading": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Hyper-Threading",
+    ],
+    "ActiveECores": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Number of active E-cores",
+    ],
+    "ActivePCores": [
+        "Dasharo System Features",
+        "CPU Configuration",
+        "Number of active P-cores",
+    ],
+}
+
+
+@keyword("Option Name To UEFI Path")
+def option_name_to_uefi_path(name):
+    """
+    This keyword converts an option name to a UEFI menu path. This path can be
+    used to navigate to the option in the UEFI Setup Menu app.
+    """
+    return getoptionpath[name]

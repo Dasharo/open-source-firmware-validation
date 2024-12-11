@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../pikvm-rest-api/pikvm_comm.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
@@ -30,12 +28,13 @@ USB001.001 USB devices detected in FW
     [Documentation]    Check whether USB devices are detected in Tianocore
     ...    (edk2).
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Upload And Mount DTS Flash Iso
     Power On
-    Enter Boot Menu Tianocore
-    Check That USB Devices Are Detected    ${TRUE}
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Check That USB Devices Are Detected    ${boot_menu}
 
-USB001.002 USB devices detected by OS (Ubuntu 20.04)
+USB001.002 USB devices detected by OS (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Linux OS.
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.002 not supported
@@ -44,11 +43,13 @@ USB001.002 USB devices detected by OS (Ubuntu 20.04)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    ${USB_MODEL}
+    Detect Or Install Package    usbutils
+    ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
+    Should Contain    ${out}    Human Interface Device
+    Should Contain    ${out}    Mass Storage
     Exit From Root User
 
-USB001.003 USB devices detected by OS (Windows 10)
+USB001.003 USB devices detected by OS (Windows)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Windows OS.
     Skip If    not ${USB_DISKS_DETECTION_SUPPORT}    USB001.003 not supported
@@ -56,21 +57,21 @@ USB001.003 USB devices detected by OS (Windows 10)
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
-    ${drives}=    Get Lines Matching Regexp    ${out}    ^OK\\s+DiskDrive\\s+.*$
-    Should Contain    ${drives}    ${USB_MODEL}
+    Should Contain    ${out}    HIDClass
+    Should Contain    ${out}    DiskDrive
 
 USB002.001 USB keyboard detected in FW
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
+    [Tags]    minimal-regression
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USB002.001 not supported
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${setup_menu}
-    ...    Device Manager
-    Save Changes And Reset
+    Enter UEFI Shell
+    ${out}=    Execute UEFI Shell Command    devices
+    Should Contain    ${out}    Usb Keyboard
 
-USB002.002 USB keyboard in OS (Ubuntu 20.04)
+USB002.002 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Linux OS and all basic keys work
     ...    according to their labels.
@@ -85,7 +86,7 @@ USB002.002 USB keyboard in OS (Ubuntu 20.04)
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
 
-USB002.003 USB keyboard in OS (Windows 11)
+USB002.003 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Windows OS.
     IF    not ${USB_KEYBOARD_DETECTION_SUPPORT}
@@ -98,7 +99,7 @@ USB002.003 USB keyboard in OS (Windows 11)
     ${keyboard}=    Get Lines Matching Regexp    ${out}    ^CreationClassName\\s+:\\sWin32_Keyboard.*$
     Should Not Be Empty    ${keyboard}
 
-USB003.001 Upload 1GB file on USB storage (Ubuntu 22.04)
+USB003.001 Upload 1GB file on USB storage (Ubuntu)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
     IF    not ${UPLOAD_ON_USB_SUPPORT}    SKIP    USB003.001 not supported
@@ -114,7 +115,7 @@ USB003.001 Upload 1GB file on USB storage (Ubuntu 22.04)
     Execute Linux Command    rm test_file.txt ${path_to_usb}/test_file.txt
     Exit From Root User
 
-USB003.002 Upload 1GB file on USB storage (Windows 11)
+USB003.002 Upload 1GB file on USB storage (Windows)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
     IF    not ${UPLOAD_ON_USB_SUPPORT}    SKIP    USB003.002 not supported

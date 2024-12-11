@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -20,14 +18,13 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-# ...    AND
-# ...    Make Sure That Network Boot Is Enabled
+...                     AND
+...                     Skip If    not ${IPXE_BOOT_SUPPORT}    iPXE Network Boot not supported
+...                     AND
+...                     Run Keyword If    ${DASHARO_NETWORKING_MENU_SUPPORT}
+...                     Make Sure That Network Boot Is Enabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
-# TODO: It should be In Suite Setup, not in Test Setup. But when it is, at least
-# the QEMU run hangs in the first occurrence of Power On keyword in the first
-# test executed, never returning from this keyword.
-Test Setup          Make Sure That Network Boot Is Enabled
 
 
 *** Test Cases ***
@@ -35,7 +32,6 @@ PXE001.001 Dasharo Network Boot is available
     [Documentation]    This test aims to verify, that the iPXE Network boot
     ...    is bootable in the boot menu and whether, after selecting this boot
     ...    option, Dasharo Network Boot Menu is displayed.
-    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE001.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -46,7 +42,6 @@ PXE001.001 Dasharo Network Boot is available
 PXE002.001 Dasharo network boot menu boot options order is correct
     [Documentation]    This test aims to verify that Dasharo Network Boot Menu
     ...    contains all of the needed options which are in the correct order.
-    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE002.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -60,7 +55,6 @@ PXE002.001 Dasharo network boot menu boot options order is correct
 PXE003.001 Autoboot option is available and works correctly
     [Documentation]    This test aims to verify that the Autoboot option in
     ...    Dasharo Network Boot Menu works correctly.
-    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE003.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -73,7 +67,7 @@ PXE003.001 Autoboot option is available and works correctly
 PXE004.001 DTS option is available and works correctly
     [Documentation]    This test aims to verify that the Dasharo Tools Suite
     ...    option in Dasharo Network Boot Menu allows booting into DTS.
-    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE004.001 not supported
+    [Tags]    minimal-regression
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE004.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -83,19 +77,15 @@ PXE004.001 DTS option is available and works correctly
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
     Should Contain    ${out}    Dasharo HCL report
-    # TODO:
-    # On some targets (such as QEMU), we get option to install, not to update
-    Should Contain Any    ${out}    Install Dasharo firmware    Update Dasharo firmware
-    Should Contain    ${out}    Load DES keys
-    Should Contain    ${out}    Start SSH server
-    Should Contain    ${out}    Shell
-    Should Contain    ${out}    Power off system
-    Should Contain    ${out}    Reboot system
+    Should Contain    ${out}    Load your DPP keys
+    Should Contain    ${out}    launch SSH server
+    Should Contain    ${out}    enter shell
+    Should Contain    ${out}    poweroff
+    Should Contain    ${out}    reboot
 
 PXE005.001 OS installation option is available and works correctly
     [Documentation]    This test aims to verify that the OS installation option
     ...    in Dasharo Network Boot Menu allows booting into netboot.xyz server.
-    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE005.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE005.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -113,7 +103,6 @@ PXE005.001 OS installation option is available and works correctly
 PXE006.001 iPXE shell option is available and works correctly
     [Documentation]    This test aims to verify that the iPXE Shell option in
     ...    Dasharo Network Boot Menu works correctly.
-    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE006.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE006.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -121,3 +110,18 @@ PXE006.001 iPXE shell option is available and works correctly
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Read From Terminal Until    iPXE>
+
+PXE007.001 Dasharo Network Boot over https not http
+    [Documentation]    This test aims to verify, if the boot takes place via
+    ...    https:// and not via http://.
+    Skip If    not ${IPXE_BOOT_SUPPORT}    PXE007.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE007.001 not supported
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
+    ${out}=    Read From Terminal Until    Enter an option
+    Log    ${out}
+    Should Contain    ${out}    https://
+    Should Not Contain    ${out}    http://

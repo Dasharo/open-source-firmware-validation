@@ -16,6 +16,11 @@ Enter Boot Menu Tianocore
     ELSE
         Write Bare Into Terminal    ${BOOT_MENU_KEY}
     END
+    IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
+        # FIXME: Laptop EC serial workaround
+        Press Key N Times    1    ${ARROW_DOWN}
+        Press Key N Times    1    ${ARROW_UP}
+    END
 
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
@@ -28,6 +33,37 @@ Get Boot Menu Construction
     #    ENTER to select boot device
     #    ESC to exit
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
+    # The maximum number of entries in boot menu is 11 right now. When we have
+    # more, the list can be scrolled.
+    # TODO: Is there a better way of checking if the list can be scrolled?
+    # The UP/DOWN arrows are not drawn on serial on the first readout of
+    # the menu, it seems.
+    ${no_entries}=    Get Length    ${construction}
+    IF    ${no_entries} == 11
+        # 1. Remember first and last entries (last entry in the first screen)
+        ${first_entry}=    Get From List    ${construction}    0
+
+        # 2. Go down by 10 entries
+        Press Key N Times    10    ${ARROW_DOWN}
+        Sleep    1s
+        Read From Terminal
+        # 3. Keep going down one by one, until we reach the first_entry again
+        FOR    ${iter}    IN RANGE    0    100
+            Press Key N Times    1    ${ARROW_DOWN}
+            ${out}=    Read From Terminal Until Regexp    > .*
+            Log    ${out}
+            ${lines}=    Split To Lines    ${out}
+            ${entry}=    Get From List    ${lines}    -1
+            ${entry}=    Strip String    ${entry}
+            ${entry}=    Strip String    ${entry}    characters=>
+            ${entry}=    Strip String    ${entry}
+            IF    '${entry}' != '${first_entry}'
+                Append To List    ${construction}    ${entry}
+            ELSE
+                BREAK
+            END
+        END
+    END
     RETURN    ${construction}
 
 Enter Boot Menu Tianocore And Return Construction
@@ -61,6 +97,7 @@ Get Setup Menu Construction
 Get Menu Construction
     [Documentation]    Keyword allows to get and return setup menu construction.
     [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
+    Sleep    1s
     ${out}=    Read From Terminal Until    ${checkpoint}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
     RETURN    ${menu}
@@ -107,6 +144,7 @@ Parse Menu Snapshot Into Construction
     ...    F9\=Reset to Defaults F10\=Save
     ...    LCtrl+LAlt+F12\=Save screenshot
     ...    <Spacebar>Toggle Checkbox
+    ...    one adjusts to change
     RETURN    ${construction}
 
 Enter Setup Menu Tianocore And Return Construction
@@ -169,6 +207,13 @@ Enter Dasharo System Features
     ...    Dasharo System Features
     RETURN    ${dasharo_menu}
 
+Enter Dasharo APU Configuration
+    [Arguments]    ${setup_menu}
+    ${apu_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Dasharo APU Configuration
+    RETURN    ${apu_menu}
+
 Enter Dasharo Submenu
     [Arguments]    ${dasharo_menu}    ${option}
     ${submenu}=    Enter Submenu From Snapshot And Return Construction
@@ -222,12 +267,14 @@ Press Key N Times
             # Key press time as defined in PiKVM library is 200ms. We need some
             # additional delay to make sure we can gather all input from terminal after
             # key press.
-            Sleep    1s
+            Sleep    2s
         ELSE
             Write Bare Into Terminal    ${key}
-            # May be useful to add sleep here when implementing test in QEMU
-            # to see how the movement looks like.
-            # Sleep    0.5s
+            # Escape sequences in EDK2 have 2 seconds to complete on serial.
+            # After 2 seconds if it is not completed, it is returned as a
+            # keystroke. So we need at least 2 seconds interval for pressing
+            # ESC for example.
+            Sleep    2s
         END
     END
 
@@ -237,12 +284,15 @@ Get Option State
     [Arguments]    ${menu}    ${option}
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     ${value}=    Get Value From Brackets    ${menu}[${index}]
-    IF    '${value}' == 'X'
-        ${state}=    Set Variable    ${TRUE}
-    ELSE IF    '${value}' == ' '
-        ${state}=    Set Variable    ${FALSE}
-    ELSE
-        ${state}=    Set Variable    ${value}
+    ${len}=    Get Length    ${value}
+
+    ${state}=    Set Variable    ${value}
+    IF    ${len} == 1
+        IF    '${value}[0]' == 'X'
+            ${state}=    Set Variable    ${TRUE}
+        ELSE IF    '${value}[0]' == ' '
+            ${state}=    Set Variable    ${FALSE}
+        END
     END
     RETURN    ${state}
 
@@ -287,7 +337,8 @@ Select State From List
 
 Set Option State
     [Documentation]    Gets menu construction option name, and desired state
-    ...    as arguments.
+    ...    as arguments. Return TRUE if the option was changed and FALSE if
+    ...    option was already in target state.
     [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
     IF    '${current_state}' != '${target_state}'
@@ -298,6 +349,12 @@ Set Option State
             Press Enter
         END
         IF    '${type}' == 'list'
+            IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
+                # FIXME: Laptop EC serial workaround
+                Press Key N Times    1    ${ARROW_DOWN}
+                Press Key N Times    1    ${ARROW_UP}
+            END
+
             ${out}=    Read From Terminal Until    ---/
             ${list}=    Extract Strings From Frame    ${out}
             # TODO: Temporarily disabled due to the complexity with
@@ -308,8 +365,10 @@ Set Option State
             # ...    Target state ${target_state} not available in the list
             Select State From List    ${list}    ${current_state}    ${target_state}
         END
+        RETURN    ${TRUE}
     ELSE
         Log    Nothing to do. Desired state is already set.
+        RETURN    ${FALSE}
     END
 
 Try To Insert Non-numeric Values Into Numeric Option
@@ -351,10 +410,24 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
+    Tianocore Reset System
+    ${main_menu}=    Enter Setup Menu Tianocore And Return Construction
     Read From Terminal
     Press Key N Times    1    ${F9}
     Read From Terminal Until    ignore.
     Write Bare Into Terminal    y
+
+    IF    ${DASHARO_SERIAL_PORT_MENU_SUPPORT}
+        ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
+        ${serial_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Serial Port Configuration
+        # The Serial Redirection option is called differently in some versions of Dasharo
+        # MSI z690-ddr5 v1.1.3 has "Enable Serial Port", v1.1.4 has "Enable COM0 Serial"
+        TRY
+            Set Option State    ${serial_menu}    Enable COM0 Serial    ${TRUE}
+        EXCEPT
+            Set Option State    ${serial_menu}    Enable Serial Port    ${TRUE}
+        END
+    END
 
 # TODO:
 # The SeaBIOS part can be removed.
@@ -371,23 +444,20 @@ Enter IPXE
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
+        ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+    ELSE
+        ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    END
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Set Prompt For Terminal    iPXE>
     Read From Terminal Until Prompt
 
 Exit From Current Menu
     [Documentation]    Exits from current menu, refreshing screen.
-    # ESC itself does not "refresh" the data over serial. Only pressing
-    # other keys (such as arrow keys) makes the change caused by ESC
-    # (moving back one menu up) to be redrawn. Using either UP and then DOWN,
-    # or just LEFT / RIGHT (which does not impact any actual movement) should
-    # be safe to use here.
-    Press Key N Times    1    ${ESC}
     # Before entering new menu, make sure we get rid of all leftovers
-    Sleep    1s
     Read From Terminal
-    Press Key N Times    1    ${ARROW_LEFT}
+    Press Key N Times    1    ${ESC}
 
 Reenter Menu
     [Documentation]    Returns to the previous menu and enters the same one
@@ -412,7 +482,7 @@ Reenter Menu And Return Construction
 
 Type In The Password
     [Documentation]    Operation for typing in the password
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     FOR    ${key}    IN    @{keys_password}
         Write Bare Into Terminal    ${key}
         Sleep    0.5s
@@ -424,7 +494,7 @@ Type In The Password
 Type In New Disk Password
     [Documentation]    Types in new disk password when prompted. The actual
     ...    password is passed as list of keys.
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     Read From Terminal Until    your new password
     Sleep    0.5s
     # FIXME: Often the TCG OPAL test fails to enter Setup Menu after typing
@@ -432,7 +502,7 @@ Type In New Disk Password
     # at this point allows to enter Setup Menu much more reliably.
     Press Key N Times    1    ${SETUP_MENU_KEY}
     FOR    ${i}    IN RANGE    0    2
-        Type In The Password    @{keys_password}
+        Type In The Password    ${keys_password}
         Sleep    1s
     END
 
@@ -440,28 +510,28 @@ Type In New Disk Password
 
 Type In BIOS Password
     [Documentation]    Types in password in general BIOS prompt
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     Read From Terminal Until    password
     Sleep    0.5s
-    Type In The Password    @{keys_password}
+    Type In The Password    ${keys_password}
 
 # This should stay, maybe improved if needed
 
 Type In Disk Password
     [Documentation]    Types in the disk password
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     Read From Terminal Until    Unlock
     Sleep    0.5s
     # FIXME: See a comment in: Type in new disk password
     Press Key N Times    1    ${SETUP_MENU_KEY}
-    Type In The Password    @{keys_password}
+    Type In The Password    ${keys_password}
     Press Key N Times    1    ${ENTER}
 
 # This should stay, maybe improved if needed
 
 Remove Disk Password
     [Documentation]    Removes disk password
-    [Arguments]    @{keys_password}
+    [Arguments]    ${keys_password}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -474,44 +544,64 @@ Remove Disk Password
     Log    Select entry: Admin Revert to factory default and Disable
     Press Key N Times    1    ${ENTER}
     Press Key N Times And Enter    4    ${ARROW_DOWN}
-    Save Changes And Reset    3
+    Save Changes And Reset
     Read From Terminal Until    Unlock
     FOR    ${i}    IN RANGE    0    2
-        Type In The Password    @{keys_password}
+        Type In The Password    ${keys_password}
         Sleep    0.5s
     END
     Press Key N Times    1    ${SETUP_MENU_KEY}
 
-# TODO: calculate steps_to_reset based on the menu construction
-# Hint: Look up: "Get Relative Menu Position" kwd in git history
+Tianocore Reset System
+    # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
+    # On serial console it is ESC R ESC r ESC R.
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        FAIL    SSH not supported for interfacing with TianoCore
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Telnet.Write Bare    \x1bR\x1br\x1bR
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
+        FAIL    OpenBMC not yet supported for interfacing with TianoCore
+    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        @{reset_combo}=    Create List    AltRight    ControlRight    Delete
+        Key Combination PiKVM    ${reset_combo}
+    ELSE
+        FAIL    Unknown connection method for config: ${CONFIG}
+    END
 
 Save Changes
     [Documentation]    Saves current UEFI settings
     Press Key N Times    1    ${F10}
+    Read From Terminal Until    Save configuration changes?
+    Sleep    1s
     Write Bare Into Terminal    y
+    Sleep    2s
 
 Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts. ${nesting_level}
-    ...    is how deep user is currently in the settings.
-    ...    ${main_menu_steps_to_reset} means how many times should
-    ...    arrow down be pressed to get to the Reset option in main
-    ...    settings menu
-    [Arguments]    ${nesting_level}=2    ${main_menu_steps_to_reset}=5
+    [Documentation]    Saves current UEFI settings and restarts.
     Save Changes
-    Press Key N Times    ${nesting_level}    ${ESC}
-    Press Key N Times And Enter    ${main_menu_steps_to_reset}    ${ARROW_DOWN}
+    Tianocore Reset System
 
-Boot System Or From Connected Disk
+Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
     ...    to boot from connected disk set up in config
     [Arguments]    ${system_name}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+
+    IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
+        Read From Terminal Until    Press F10 key now for boot menu
+        Write Bare Into Terminal    ${F10}
+        Read From Terminal Until    Select boot device
+        Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
+        RETURN
+    END
     ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
-    # When ESP scanning feature is there, boot entries are named differently than
-    # they used to
+    # With ESP scanning feature boot entries are named differently:
     IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
         IF    "${system_name}" == "ubuntu"
             ${system_name}=    Set Variable    Ubuntu
+        END
+        IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
+            ${system_name}=    Set Variable    QEMU HARDDISK
         END
     END
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
@@ -522,9 +612,15 @@ Boot System Or From Connected Disk
             ${hdd_list}=    Get Current CONFIG List Param    HDD_Storage    boot_name
             ${hdd_list_length}=    Get Length    ${hdd_list}
             IF    ${hdd_list_length} == 0
-                FAIL    "System was not found and there are no disk connected"
+                ${mmc_list}=    Get Current CONFIG List Param    MMC_Storage    boot_name
+                ${mmc_list_length}=    Get Length    ${mmc_list}
+                IF    ${mmc_list_length} == 0
+                    FAIL    "System was not found and there are no disk connected"
+                END
+                ${disk_name}=    Set Variable    ${mmc_list[0]}
+            ELSE
+                ${disk_name}=    Set Variable    ${hdd_list[0]}
             END
-            ${disk_name}=    Set Variable    ${hdd_list[0]}
         ELSE
             ${disk_name}=    Set Variable    ${ssd_list[0]}
         END
@@ -541,45 +637,8 @@ Make Sure That Network Boot Is Enabled
     [Documentation]    This keywords checks that "Enable network boot" in
     ...    "Networking Options" is enabled when present, so the network
     ...    boot tests can be executed.
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${index}=    Get Index Of Matching Option In Menu    ${dasharo_menu}    Networking Options
-    IF    ${index} != -1
-        ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Networking Options
-        ${index}=    Get Index Of Matching Option In Menu    ${network_menu}    Enable network boot
-        IF    ${index} != -1
-            Set Option State    ${network_menu}    Enable network boot    ${TRUE}
-            Save Changes And Reset    2    4
-            Sleep    10s
-        END
-    END
-
-Make Sure That Flash Locks Are Disabled
-    [Documentation]    Keyword makes sure firmware flashing is not prevented by
-    ...    any Dasharo Security Options, if they are present.
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${index}=    Get Index Of Matching Option In Menu
-    ...    ${dasharo_menu}    Dasharo Security Options
-    IF    ${index} != -1
-        ${security_menu}=    Enter Dasharo Submenu
-        ...    ${dasharo_menu}    Dasharo Security Options
-        ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Lock the BIOS boot medium
-        IF    ${index} != -1
-            Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
-            Reenter Menu
-        END
-        ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Enable SMM BIOS write
-        IF    ${index} != -1
-            Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
-            Reenter Menu
-        END
-        Save Changes And Reset    2    4
-    END
+    IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
+    Set UEFI Option    NetworkBoot    ${TRUE}
 
 Get Firmware Version From Tianocore Setup Menu
     [Documentation]    Keyword allows to read firmware version from Tianocore
@@ -589,28 +648,3 @@ Get Firmware Version From Tianocore Setup Menu
     ${firmware_line}=    Get Lines Containing String    ${output}    Dasharo (coreboot+UEFI)
     ${firmware_version}=    Get Regexp Matches    ${firmware_line}    v\\d{1,}\.\\d{1,}\.\\d{1,}
     RETURN    ${firmware_version}
-
-Disable Firmware Flashing Prevention Options
-    [Documentation]    Keyword makes sure firmware flashing is not prevented by
-    ...    any Dasharo Security Options, if they are present.
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${index}=    Get Index Of Matching Option In Menu
-    ...    ${dasharo_menu}    Dasharo Security Options
-    IF    ${index} != -1
-        ${security_menu}=    Enter Dasharo Submenu
-        ...    ${dasharo_menu}    Dasharo Security Options
-        ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Lock the BIOS boot medium
-        IF    ${index} != -1
-            Set Option State    ${security_menu}    Lock the BIOS boot medium    ${FALSE}
-            Reenter Menu
-        END
-        ${index}=    Get Index Of Matching Option In Menu
-        ...    ${security_menu}    Enable SMM BIOS write
-        IF    ${index} != -1
-            Set Option State    ${security_menu}    Enable SMM BIOS write    ${FALSE}
-            Reenter Menu
-        END
-        Save Changes And Reset    2    4
-    END

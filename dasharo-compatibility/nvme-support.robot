@@ -8,8 +8,6 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../sonoff-rest-api/sonoff-api.robot
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -18,27 +16,26 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${NVME_DISK_SUPPORT}    NVMe disk tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-# NVM001.001 NVMe support in firmware
-#    [Documentation]    Check whether the firmware is able to correctly detect
-#    ...    NVMe disk in M.2 slot.
-#    Skip If    not ${nvme_disk_support}    NVM001.001 not supported
-#    Power On
-#    Enter Tianocore
-#    Telnet.Set Timeout    30s
-#    Enter One Time Boot in Tianocore
-#    Telnet.Read Until    ${clevo_disk}
+NVM001.001 NVMe support in firmware
+    [Documentation]    Check whether the firmware is able to correctly detect
+    ...    NVMe disk in M.2 slot.
+    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.001 not supported
+    Power On
+    ${out}=    Enter Boot Menu Tianocore And Return Construction
+    Should Contain    ${out}    ${CLEVO_DISK}
 
-NVM001.002 NVMe support in OS (Ubuntu 20.04)
+NVM001.002 NVMe support in OS (Ubuntu)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.002 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -48,10 +45,9 @@ NVM001.002 NVMe support in OS (Ubuntu 20.04)
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     Exit From Root User
 
-NVM001.003 NVMe support in OS (Windows 10)
+NVM001.003 NVMe support in OS (Windows)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.003 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVM001.003 not supported
     Power On
     Login To Windows
