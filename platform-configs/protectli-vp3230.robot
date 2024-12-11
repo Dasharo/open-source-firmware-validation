@@ -15,7 +15,7 @@ ${CPU_MAX_FREQUENCY}=               3800
 ${PLATFORM_RAM_SPEED}=              4800
 ${PLATFORM_RAM_SIZE}=               16384
 
-${WIFI_CARD}                        Qualcomm Atheros QCA61x4A Wireless Network Adapter
+${WIFI_CARD}=                       Qualcomm Atheros QCA61x4A Wireless Network Adapter
 ${WIFI_CARD_UBUNTU}=                Qualcomm Atheros AR9462 Wireless Network Adapter (rev 01)
 ${BLUETOOTH_CARD_UBUNTU}=           Qualcomm Atheros Communications AR3012 Bluetooth 4.0
 
