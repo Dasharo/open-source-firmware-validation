@@ -47,6 +47,7 @@ ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=               ${TRUE}
+${CPU_THROTTLING_SUPPORT}=                      ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=         ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${TRUE}

@@ -47,7 +47,6 @@ ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=          ${TRUE}
 ${UEFI_SHELL_SUPPORT}=                      ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                       ${TRUE}
-${AUDIO_SUBSYSTEM_SUPPORT}=                 ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=            ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=               ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=               ${TRUE}

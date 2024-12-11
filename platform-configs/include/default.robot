@@ -93,6 +93,7 @@ ${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
 ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${FALSE}
+${CPU_THROTTLING_SUPPORT}=                          ${FALSE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${FALSE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${FALSE}
 ${CUSTOM_BOOT_ORDER_SUPPORT}=                       ${FALSE}
