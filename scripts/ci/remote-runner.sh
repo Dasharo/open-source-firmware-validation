@@ -74,12 +74,19 @@ run_qemu() {
     rsync -avz $QEMU_FW_FILE $REMOTE_USER_HOST:$REMOTE_SRC_DIR
 
     ssh $REMOTE_USER_HOST "export QEMU_FW_FILE=$REMOTE_SRC_DIR/$(basename $QEMU_FW_FILE) \
-    && HDD_PATH=~/qemu-data/hdd.qcow2 \
+    && cd ${REMOTE_SRC_DIR} && \
+    HDD_PATH=~/qemu-data/hdd.qcow2 \
+    DIR=${REMOTE_SRC_DIR} \
     INSTALLER_PATH=~/qemu-data/ubuntu-24.04.1-desktop-amd64.iso \
     ${REMOTE_SRC_DIR}/scripts/ci/qemu-run.sh $1 $2 $3"
 
   else
-    ssh $REMOTE_USER_HOST "${REMOTE_SRC_DIR}/scripts/ci/qemu-run.sh $1 $2 $3"
+    ssh $REMOTE_USER_HOST "cd ${REMOTE_SRC_DIR} && \
+    HDD_PATH=~/qemu-data/hdd.qcow2 \
+    DIR=${REMOTE_SRC_DIR} \
+    INSTALLER_PATH=~/qemu-data/ubuntu-24.04.1-desktop-amd64.iso \
+    ${REMOTE_SRC_DIR}/scripts/ci/qemu-run.sh $1 $2 $3"
+
   fi
 }
 
