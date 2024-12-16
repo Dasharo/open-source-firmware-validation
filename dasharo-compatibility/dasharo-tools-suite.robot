@@ -25,6 +25,8 @@ Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
 
 
 *** Test Cases ***
+# After https://github.com/Dasharo/dts-scripts/pull/42 is released
+# 'Write Into Terminal' might have to be changed to 'Write Bare Into Terminal'
 DTS001.001 Booting DTS from USB works correctly
     [Documentation]    This test aims to verify that DTS is properly booting
     ...    from USB.
@@ -130,3 +132,41 @@ DTS008.001 DTS option power-off DUT works correctly
     Set DUT Response Timeout    30s
     ${status}=    Run Keyword And Return Status    Enter Setup Menu Tianocore
     Should Not Be True    ${status}
+
+DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
+    [Documentation]    This test aims to verify that the option Power off
+    ...    system in the DTS menu turns off the DUT.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
+    # Flash earlier version so update can proceed. Firmware should have serial
+    # redirection enabled
+    Flash Firmware    ${FW_FILE}
+    Set UEFI Option    LockBios    ${FALSE}
+    Boot Dasharo Tools Suite    USB
+    Update Dasharo In DTS
+
+DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
+    [Documentation]    This test aims to verify that the option Power off
+    ...    system in the DTS menu turns off the DUT.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.002 not supported
+    # Flash earlier version so update can proceed. Firmware should have serial
+    # redirection enabled
+    Flash Firmware    ${FW_FILE}
+    Set UEFI Option    LockBios    ${FALSE}
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
+    Update Dasharo In DTS
+
+
+*** Keywords ***
+Update Dasharo In DTS
+    [Documentation]    Update Firmware by using built-in DTS script.
+    ...    Keyword has to be used when in DTS menu
+    Write Into Terminal    2
+    Set DUT Response Timeout    240s
+    Read From Terminal Until    Are you sure you want to proceed with update? (Y|n)
+    Write Into Terminal    Y
+    Read From Terminal Until    Does it match your actual specification? (Y|n)
+    Write Into Terminal    Y
+    Read From Terminal Until    Do you want to update Dasharo firmware on your hardware? (Y|n)
+    Write Into Terminal    Y
+    Read From Terminal Until    Successfully updated Dasharo firmware
