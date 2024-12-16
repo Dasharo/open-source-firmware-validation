@@ -153,8 +153,6 @@ QEMU_PARAMS_OS="-device ich9-intel-hda \
   -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100 \
   -object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
-  -device virtio-net,netdev=vmnic \
-  -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
   -drive file=${HDD_PATH},if=ide"
 
 QEMU_PARAMS_INSTALLER="-cdrom ${INSTALLER_PATH}"
@@ -205,7 +203,9 @@ FIRMWARE="$3"
 
 case "${FIRMWARE}" in
   uefi)
-    QEMU_UEFI_PARAMS="-global driver=cfi.pflash01,property=secure,value=on"
+    QEMU_UEFI_PARAMS="-global driver=cfi.pflash01,property=secure,value=on \
+      -device virtio-net,netdev=vmnic \
+      -netdev user,id=vmnic,hostfwd=tcp::5222-:22"
     QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_UEFI_PARAMS}"
 		;;
   seabios)
