@@ -1,12 +1,12 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
 Library             Telnet    timeout=30 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
-# Library    ../osfv-scripts/osfv_cli/src/osfv/rf/rte_robot.py
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../variables.robot
@@ -23,6 +23,11 @@ Suite Setup         Run Keyword
 ...                     Prepare Test Suite
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
+
+
+*** Variables ***
+# Assume Dasharo as a default firmware, can be overwritten by CMD parameter.
+${FIRMWARE}=    dasharo
 
 
 *** Test Cases ***
@@ -125,8 +130,10 @@ BPS003.002 Sonoff Power Off
     ${result}=    Wait For Serial Output    timeout=10
     Should Not Be True    ${result}    msg=Failed power off DUT via Sonoff
 
-BPS004.001 Boot to OS - Ubuntu
-    [Documentation]    This test verifies if platform can be booted to Ubunto and if correct credentials are set.
+BPS004.001 Boot to OS - Dasharo, Ubuntu
+    [Documentation]    This test verifies if platform with Dasharo firmware can
+    ...    be booted to Ubunto and if correct credentials are set.
+    Skip If    '${FIRMWARE}' != 'dasharo'
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
@@ -139,10 +146,31 @@ BPS004.001 Boot to OS - Ubuntu
     ${logging}=    Get Logging Level
     Should Be Equal As Integers    ${logging}    0
 
-BPS004.002 Boot to OS - Windows
-    [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
+BPS004.002 Boot to OS - Dasharo, Windows
+    [Documentation]    This test verifies if platform with Dasharo firmware can
+    ...    be booted to Windows, if SSH server is enabled and if correct
+    ...    credentials are set.
+    Skip If    '${FIRMWARE}' != 'dasharo' and '${FIRMWARE}' != ''
     Power On
     Login To Windows
+
+BPS004.003 Boot to OS - AMI, Ubuntu
+    [Documentation]    This test verifies if platform with AMI firmware can
+    ...    be booted to Ubuntu and if correct credentials are set.
+    Skip If    '${FIRMWARE}' != 'ami'
+    Power On
+    Execute Manual Step    Boot to Ubuntu
+    Login To Linux
+    Switch To Root User
+
+BPS004.004 Boot to OS - AMI, Windows
+    [Documentation]    This test verifies if platform with AMI firmware can be
+    ...    booted to Windows, if SSH server is enabled and if correct
+    ...    credentials are set.
+    Skip If    '${FIRMWARE}' != 'ami'
+    Power On
+    Execute Manual Step    Boot to Windows
+    Login To Windows Via SSH
 
 BPS005.001 External flashing
     [Documentation]    This test verifies if the flash die can be detected.
