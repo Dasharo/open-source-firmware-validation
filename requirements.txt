@@ -11,6 +11,7 @@ distlib==0.3.8
 Faker==24.11.0
 filelock==3.13.4
 greenlet==3.1.1
+git-cliff==2.6.1
 gspread==3.1.0
 httplib2==0.22.0
 identify==2.5.36
@@ -41,6 +42,7 @@ pyte @ git+https://github.com/3mdeb/pyte@b81646ec9f754aab34ed671b3c852b01cc72bdb
 python-dateutil==2.9.0.post0
 pytz==2024.1
 PyYAML==6.0.1
+reuse==4.0.3
 requests==2.31.0
 rich==13.7.1
 rich-click==1.7.4

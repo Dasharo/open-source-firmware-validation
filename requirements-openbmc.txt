@@ -8,8 +8,10 @@ oauth2client
 PyOpenSSL
 wakeonlan
 cryptography
+git-cliff==2.6.1
 robotframework-httplibrary
 redfish
+reuse==4.0.3
 robotframework-scplibrary
 tox
 paramiko>=2.5.0
