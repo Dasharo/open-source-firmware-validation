@@ -42,7 +42,7 @@ Set Option State
     [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
     IF    '${current_state}' != '${target_state}'
-        ${menu}=    Enter Menu From Snapshot    ${menu}    ${option}
+        ${menu}=    Enter Submenu From Snapshot    ${menu}    ${option}
         RETURN    ${TRUE}
     ELSE
         RETURN    ${FALSE}
@@ -54,11 +54,17 @@ Enter Boot Menu From Snapshot
     ${key}=    Extract Boot Menu Key    ${menu}    ${option}
     Write Bare Into Terminal    ${key}
 
-Enter Menu From Snapshot
+Enter Submenu From Snapshot
     [Documentation]    Enter given Menu option and return construction
     [Arguments]    ${menu}    ${option}
-    ${key}=    Extract Menu Key    ${menu}    ${option}
-    Write Bare Into Terminal    ${key}
+    IF    '${menu}[3]' == '${EDK2_IPXE_CHECKPOINT}'
+        ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
+        Should Not Be Equal As Integers    ${index}    -1    msg=Option ${option} not found in menu
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    ELSE
+        ${key}=    Extract Menu Key    ${menu}    ${option}
+        Write Bare Into Terminal    ${key}
+    END
 
 Extract Boot Menu Key
     [Documentation]    Extract boot menu which should be hit to enter given Menu in SeaBIOS
@@ -103,14 +109,14 @@ Enter TPM Configuration
     [Documentation]    Enter TPM Configuration with Boot Menu Construction.
     Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
-    Enter Menu From Snapshot    ${menu}    TPM Configuration
+    Enter Submenu From Snapshot    ${menu}    TPM Configuration
 
 Enter IPXE
     [Documentation]    Enter iPXE with Boot Menu Construction.
     Enable Network/PXE Boot
     Enter Boot Menu
     ${menu}=    Get Boot Menu Construction
-    Enter Menu From Snapshot    ${menu}    iPXE
+    Enter Submenu From Snapshot    ${menu}    iPXE
 
 # robocop: disable=unused-argument
 
