@@ -41,6 +41,8 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     graphic      graphic output is available in QEMU process window
 
   Available ACTIONS:
+    none         a machine with lower resources assigned will be spawned and no
+                 disk will be connected;
     os           a machine with more resources assigned will be spawned and HDD from
                  $HDD_PATH will be connected; suitable for firmware and OS validation,
                  if some OS is already installed on the disk image, it can be booted
@@ -48,12 +50,11 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
                  from: $INSTALLER_PATH will be also attached
 
   Available FIRMWARE:
-    uefi         a machine with lower resources assigned will be spawned and no
-                 disk will be connected; suitable for Dasharo (coreboot+UEFI)
-                 validation, but not for OS booting
-    seabios      a machine with lower resources assigned will be spawned and no
-                 disk will be connected; suitable for Dasharo (coreboot+SeaBIOS)
-                 validation, but not for OS booting
+
+    uefi         suitable for Dasharo (coreboot+UEFI) validation, but not for OS
+                 booting
+    seabios      suitable for Dasharo (coreboot+SeaBIOS) validation, but not for
+                 OS booting
 
   Environmental variables:
     DIR         working directory, defaults to current working directory
@@ -181,6 +182,9 @@ esac
 ACTION="$2"
 
 case "${ACTION}" in
+  none)
+    MEMORY="1G"
+    ;;
   os)
     MEMORY="4G"
     QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS}"
