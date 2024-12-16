@@ -20,52 +20,49 @@ fi
 
 HDD_PATH=${HDD_PATH:-qemu-data/hdd.qcow2}
 PULSE_SERVER=${PULSE_SERVER:-unix:/run/user/$(id -u)/pulse/native}
-INSTALLER_PATH="qemu-data/ubuntu.iso"
+INSTALLER_PATH=${INSTALLER_PATH:-qemu-data/ubuntu.iso}
 
 TPM_DIR="/tmp/osfv/tpm"
 TPM_SOCK="${TPM_DIR}/sock"
 TPM_PID_FILE="${TPM_DIR}/pid"
 TPM_LOG_FILE="${TPM_DIR}/log"
-# We need 2.0 only right now, but swtpm supports 1.2 only which may be useful in
-# some cases.
-# TPM_VERSION="2.0"
 
 QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
 
 usage() {
 cat <<EOF
-Usage: ./$(basename ${0}) QEMU_MODE ACTION
+Usage: ./$(basename ${0}) QEMU_MODE ACTION FIRMWARE
 
 This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
-  Available MODES:
+  Available QEMU_MODE:
     nographic    no graphic output is started, only serial over telnet is available
     vnc          graphic output is available via VNC
     graphic      graphic output is available in QEMU process window
 
   Available ACTIONS:
-
-    uefi         a machine with lower resources assigned will be spawned and no
-                 disk will be connected; suitable for Dasharo (coreboot+UEFI)
-                 validation, but not for OS booting
-    firmware     same as uefi - kept for backward compatibility
-    seabios      a machine with lower resources assigned will be spawned and no
-                 disk will be connected; suitable for Dasharo (coreboot+SeaBIOS)
-                 validation, but not for OS booting
     os           a machine with more resources assigned will be spawned and HDD from
                  $HDD_PATH will be connected; suitable for firmware and OS validation,
                  if some OS is already installed on the disk image, it can be booted
     os_install   similar to "os" mode, but the CDROM with OS installer
                  from: $INSTALLER_PATH will be also attached
 
+  Available FIRMWARE:
+    uefi         a machine with lower resources assigned will be spawned and no
+                 disk will be connected; suitable for Dasharo (coreboot+UEFI)
+                 validation, but not for OS booting
+    seabios      a machine with lower resources assigned will be spawned and no
+                 disk will be connected; suitable for Dasharo (coreboot+SeaBIOS)
+                 validation, but not for OS booting
+
   Environmental variables:
     DIR         working directory, defaults to current working directory
 
 Example usage:
-    ./$(basename $0) vnc uefi
-    ./$(basename $0) nographic seabios
-    ./$(basename $0) graphic os_install
-    DIR=/my/work/dir ./$(basename $0) graphic os
+    ./$(basename $0) vnc os uefi
+    ./$(basename $0) nographic os_install seabios
+    ./$(basename $0) graphic os_install uefi
+    DIR=/my/work/dir ./$(basename $0) graphic os seabios
 
 EOF
   exit 0
@@ -129,7 +126,7 @@ cleanup() {
 
 trap cleanup INT
 
-if [ $# -ne 2 ]; then
+if [ $# -ne 3 ]; then
   usage
 fi
 
@@ -184,18 +181,6 @@ esac
 ACTION="$2"
 
 case "${ACTION}" in
-  firmware|uefi)
-    MEMORY="1G"
-    QEMU_UEFI_PARAMS="-global driver=cfi.pflash01,property=secure,value=on"
-    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_UEFI_PARAMS}"
-		;;
-  seabios)
-    MEMORY="1G"
-    QEMU_SEABIOS_PARAMS="-device e1000,netdev=net0,romfile="" \
-      -netdev user,id=net0 \
-      -monitor tcp:127.0.0.1:55555,server,nowait"
-    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_SEABIOS_PARAMS}"
-		;;
   os)
     MEMORY="4G"
     QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS}"
@@ -212,12 +197,31 @@ case "${ACTION}" in
 		;;
 esac
 
+FIRMWARE="$3"
+
+case "${FIRMWARE}" in
+  uefi)
+    QEMU_UEFI_PARAMS="-global driver=cfi.pflash01,property=secure,value=on"
+    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_UEFI_PARAMS}"
+		;;
+  seabios)
+    QEMU_SEABIOS_PARAMS="-device e1000,netdev=net0,romfile="" \
+      -netdev user,id=net0 \
+      -monitor tcp:127.0.0.1:55555,server,nowait"
+    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_SEABIOS_PARAMS}"
+		;;
+  *)
+    echo "Firmware: ${FIRMWARE} not supported"
+    exit 1
+		;;
+esac
+
 # Check for the existence of QEMU firmware file
-if [ ! -f "${QEMU_FW_FILE}" ] && [ "${ACTION}" == "uefi" ] || [ "${ACTION}" == "firmware" ] ; then
+if [ ! -f "${QEMU_FW_FILE}" ] && [ "${FIRMWARE}" == "uefi" ]; then
     echo "The required file ${QEMU_FW_FILE} is missing."
     echo "Downloading from the server..."
     wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/coreboot/releases/latest/download/qemu_q35_all_menus.rom
-elif [ ! -f "${QEMU_FW_FILE}" ] && [ "${ACTION}" == "seabios" ]; then
+elif [ ! -f "${QEMU_FW_FILE}" ] && [ "${FIRMWARE}" == "seabios" ]; then
     echo "The required file ${QEMU_FW_FILE} is missing."
     echo "Downloading from the server..."
     wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/dasharo-pq/releases/download/24.08.00.01-rc1/qemu_q35_24.08.00.01.rom
@@ -227,7 +231,7 @@ else
     echo "simply remove it and let the script download the latest release."
 fi
 
-if [ "${ACTION}" == "uefi" ] || [ "${ACTION}" == "firmware" ]; then
+if [ "${FIRMWARE}" == "uefi" ]; then
     echo "Clear UEFI variables"
     echo "On each run on this script, the firmware settings would be restored to default."
     dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null

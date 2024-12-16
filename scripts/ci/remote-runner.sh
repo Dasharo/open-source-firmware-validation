@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Function to display help
 display_help() {
-    echo "Usage: $0 <user@remote-host> <local-src-dir> <qemu-mode> <action>"
+    echo "Usage: $0 <user@remote-host> <local-src-dir> <qemu-mode> <action> <firmware>"
     echo
     echo "This script continuously syncs a local directory to a remote"
     echo "directory and runs a QEMU instance according to parameters on"
@@ -11,8 +11,9 @@ display_help() {
     echo "Arguments:"
     echo "  user@remote-host    The username and host of the remote machine."
     echo "  local-src-dir       The local source directory to sync."
-    echo "  qemu-mode           The QEMU mode nigraphic/vnc/graphic/..."
-    echo "  action              The QEMU actions like uefi/firmware/seabios/..."
+    echo "  qemu-mode           The QEMU mode nographic/vnc/graphic/..."
+    echo "  action              The QEMU actions like os/os_install"
+    echo "  firmware            The QEMU actions like uefi/seabios"
     echo
     echo "Check ./scripts/ci/qemu-run.sh help for more information."
     echo
@@ -23,7 +24,7 @@ display_help() {
 }
 
 # Check for the required parameters
-if [ "$#" -ne 4 ]; then
+if [ "$#" -ne 5 ]; then
     display_help
 fi
 
@@ -48,9 +49,9 @@ trap cleanup exit
 REMOTE_USER_HOST="$1"
 LOCAL_SRC_DIR="$2" # Local source directory provided as the second parameter
 SELF_TEST_TYPE="$3"
-SELF_TEST_FW="$4"
+SELF_TEST_ACTION="$4"
+SELF_TEST_FW="$5"
 REMOTE_SRC_DIR="/tmp/osfv"
-REMOTE_HOST=$(echo $REMOTE_USER_HOST | cut -d '@' -f2)
 
 # Function to continuously sync local directory with remote directory
 start_sync() {
@@ -71,9 +72,14 @@ run_qemu() {
   ssh $REMOTE_USER_HOST 'pkill -f "qemu-system-x86_64"'
   if [ -n "$QEMU_FW_FILE" ]; then
     rsync -avz $QEMU_FW_FILE $REMOTE_USER_HOST:$REMOTE_SRC_DIR
-    ssh $REMOTE_USER_HOST "export QEMU_FW_FILE=$REMOTE_SRC_DIR/$(basename $QEMU_FW_FILE) && ${REMOTE_SRC_DIR}/scripts/ci/qemu-run.sh $1 $2"
+
+    ssh $REMOTE_USER_HOST "export QEMU_FW_FILE=$REMOTE_SRC_DIR/$(basename $QEMU_FW_FILE) \
+    && HDD_PATH=~/qemu-data/hdd.qcow2 \
+    INSTALLER_PATH=~/qemu-data/ubuntu-24.04.1-desktop-amd64.iso \
+    ${REMOTE_SRC_DIR}/scripts/ci/qemu-run.sh $1 $2 $3"
+
   else
-    ssh $REMOTE_USER_HOST "${REMOTE_SRC_DIR}/scripts/ci/qemu-run.sh $1 $2"
+    ssh $REMOTE_USER_HOST "${REMOTE_SRC_DIR}/scripts/ci/qemu-run.sh $1 $2 $3"
   fi
 }
 
@@ -97,7 +103,7 @@ fi
 start_sync
 
 # Run QEMU
-run_qemu "${SELF_TEST_TYPE}" "${SELF_TEST_FW}"
+run_qemu "${SELF_TEST_TYPE}" "${SELF_TEST_ACTION}" "${SELF_TEST_FW}"
 
 # After the QEMU and self-test script exits, kill the background sync process
 kill $!
