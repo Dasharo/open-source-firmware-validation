@@ -3,6 +3,7 @@
 # Define an array of commands
 commands=(
   "robot -X -L TRACE -v config:qemu-selftests-seabios -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/setup-and-boot-seabios -v snipeit:no self-tests/setup-and-boot-seabios.robot"
+  "robot -X -L TRACE -v config:qemu-selftests-seabios -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/network-boot -v snipeit:no dasharo-compatibility/network-boot.robot"
 )
 
 # Initialize a variable to track overall success
