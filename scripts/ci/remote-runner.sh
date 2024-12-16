@@ -56,8 +56,8 @@ REMOTE_SRC_DIR="/tmp/osfv"
 # Function to continuously sync local directory with remote directory
 start_sync() {
 	ssh $REMOTE_USER_HOST "rm -rf $REMOTE_SRC_DIR"
-	rsync -avz --exclude={'.git/','logs/','venv/'} $LOCAL_SRC_DIR $REMOTE_USER_HOST:$REMOTE_SRC_DIR
-	ssh $REMOTE_USER_HOST "cd $REMOTE_SRC_DIR && virtualenv venv && source venv/bin/activate && pip install -r requirements.txt && pip install --upgrade pip"
+	rsync -qavz --exclude={'.git/','logs/','venv/'} $LOCAL_SRC_DIR $REMOTE_USER_HOST:$REMOTE_SRC_DIR
+	ssh $REMOTE_USER_HOST "cd $REMOTE_SRC_DIR && virtualenv venv && source venv/bin/activate && pip install -q -r requirements.txt && pip install -q --upgrade pip"
 	inotifywait -m -r -e modify,create,delete --exclude '\.git|logs|venv' --format '%w%f' $LOCAL_SRC_DIR | while read file; do
 		# Check if the changed file is not inside .git directory
 		if [[ $file != *".git"* ]]; then
