@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 ---
 name: Question or Support Request
 about: Ask a question or request support.

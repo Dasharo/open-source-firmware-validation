@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
   -device hda-duplex,audiodev=hda \
   -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100 \
 ${DEVICE_AUDIO1}=               HDA Intel PCH

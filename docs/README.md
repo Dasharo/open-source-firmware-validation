@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # OSFV documentation README
 
 Introducing new platform to the Open Source Firmware Validation infrastructure
