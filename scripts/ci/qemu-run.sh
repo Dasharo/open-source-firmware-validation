@@ -73,7 +73,7 @@ esc() {
 }
 
 check_disks() {
-  UBUNTU_VERSION="22.04.4"
+  UBUNTU_VERSION="24.04.1"
 
   if [ ! -f "${HDD_PATH}" ]; then
     echo "Disk at ${HDD_PATH} not found. You can create one with:"
@@ -84,7 +84,7 @@ check_disks() {
   if [[ "$1" == "os_install" && ! -f "${INSTALLER_PATH}" ]]; then
     echo "OS installer at ${INSTALLER_PATH} not found. Please provide OS installer, to continue."
     echo "Example:"
-    echo "wget -O $(esc "$INSTALLER_PATH") $(esc "http://cdn.releases.ubuntu.com/jammy/ubuntu-${UBUNTU_VERSION}-desktop-amd64.iso")"
+    echo "wget -O $(esc "$INSTALLER_PATH") $(esc "http://cdn.releases.ubuntu.com/noble/ubuntu-${UBUNTU_VERSION}-desktop-amd64.iso")"
     exit 1
   fi
 }
