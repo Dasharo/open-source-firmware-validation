@@ -24,6 +24,7 @@ Enter Boot Menu Tianocore
 
 Get Boot Menu Construction
     [Documentation]    Keyword allows to get and return boot menu construction.
+    Sleep    1s
     ${menu}=    Read From Terminal Until    exit
     # Lines to strip:
     #    TOP:
@@ -552,13 +553,36 @@ Remove Disk Password
     END
     Press Key N Times    1    ${SETUP_MENU_KEY}
 
+Send Reboot Command
+    Telnet.Write Bare    \x1bR\x1br\x1bR
+
 Tianocore Reset System
-    # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
-    # On serial console it is ESC R ESC r ESC R.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         FAIL    SSH not supported for interfacing with TianoCore
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Write Bare    \x1bR\x1br\x1bR
+        FOR    ${i}    IN RANGE    0    5
+            ${out}=    Read From Terminal
+
+            # Clean up the string
+            ${out}=    Replace String    ${out}    \n    ${EMPTY}
+            ${out}=    Replace String    ${out}    \t    ${EMPTY}
+            ${out}=    Strip String    ${out}
+
+            Set Test Variable    ${CHECK}    ${FALSE}
+            IF    'Continue' in '${out}'
+                IF    'Reset' in '${out}'
+                    Set Test Variable    ${CHECK}    ${TRUE}
+                END
+            END
+
+            IF    ${CHECK} == ${TRUE}
+                Go To Reset Option
+                BREAK
+            ELSE
+                Sleep    1s
+                Telnet.Write Bare    ${ESC}
+            END
+        END
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         FAIL    OpenBMC not yet supported for interfacing with TianoCore
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -566,6 +590,26 @@ Tianocore Reset System
         Key Combination PiKVM    ${reset_combo}
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
+    END
+
+Go To Reset Option
+    Set Test Variable    ${MAX_TRIES}    20
+    FOR    ${index}    IN RANGE    0    ${MAX_TRIES}
+        ${out}=    Read From Terminal
+
+        # Clean up the string
+        ${out}=    Replace String    ${out}    \n    ${EMPTY}
+        ${out}=    Replace String    ${out}    \t    ${EMPTY}
+        ${out}=    Strip String    ${out}
+
+        Sleep    1s
+        IF    'the language for the' in '${out}'
+            Telnet.Write Bare    ${ENTER}
+            BREAK
+        ELSE
+            IF    ${index} == ${MAX_TRIES}    Fail
+            Telnet.Write Bare    ${ARROW_UP}
+        END
     END
 
 Save Changes
