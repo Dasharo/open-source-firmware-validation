@@ -21,6 +21,12 @@ Resource        lib/network.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
+*** Variables ***
+${FLASHROM_SUBMODULE}=      osfv-test-data/coreboot-tools/flashrom
+${CBMEM_SUBMODULE}=         osfv-test-data/coreboot-tools/cbmem
+${CBFSTOOL_SUBMODULE}=      osfv-test-data/coreboot-tools/cbfstool
+
+
 *** Keywords ***
 # TODO: split this file into some manageable modules
 
@@ -1379,32 +1385,32 @@ Get Coreboot Tools From Cloud
     Get Cbfstool From Cloud
 
 Get Cbmem From Cloud
-    [Documentation]    Download cbmem from the cloud.
+    [Documentation]    Download cbmem from the submodule.
     ${cbmem_path}=    Set Variable    /usr/local/bin/cbmem
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbmem_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
-        Download File    https://cloud.3mdeb.com/index.php/s/C6LJMi4bWz3wzR9/download    ${cbmem_path}
+        Download File    ${CBMEM_LINK}    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
     END
 
 Get Flashrom From Cloud
-    [Documentation]    Download flashrom from the cloud.
+    [Documentation]    Download flashrom from the submodule.
     ${flashrom_path}=    Set Variable    /usr/local/bin/flashrom
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${flashrom_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '8e57fee6578dd31684da7f1afd6f5e5b1d964bb6db52b3a9ec038a7292802ae9'
-        Download File    https://cloud.3mdeb.com/index.php/s/fsPNM8SpDjATMrW/download    ${flashrom_path}
+        Copy File    ${FLASHROM_LINK}    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
 Get Cbfstool From Cloud
-    [Documentation]    Download cbfstool from the cloud
+    [Documentation]    Download cbfstool from the submodule.
     ${cbfstool_path}=    Set Variable    /usr/local/bin/cbfstool
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbfstool_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != 'e090051e71980620e6f2d2876532eb6fcf4346593260c0c1349a5be51181fb4f'
-        Download File    https://cloud.3mdeb.com/index.php/s/ScCf8XFLZYWBE25/download    ${cbfstool_path}
+        Download File    ${CBFSTOOL_LINK}    ${cbfstool_path}
         Execute Command In Terminal    chmod 777 ${cbfstool_path}
     END
 
