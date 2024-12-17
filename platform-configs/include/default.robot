@@ -272,6 +272,31 @@ ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
 
+# Variables used in lib/sensors to determine platform-specific methods of
+# measuring temperatures, fans etc.
+
+# Can be one of {`lm-sensors`, `hwmon`, `none`}
+${CPU_TEMPERATURE_MEASUREMENT_METHOD}=              lm-sensors
+# Has to be set if cpu temperature method is hwmon
+${CPU_TEMPERATURE_MEASUREMENT_HWMON_PATH}=          none
+
+# Can be one of {`hwmon`, `none`}
+${FAN_PWM_MEASUREMENT_METHOD}=                      hwmon
+# Has to be set if PWM measurement method is hwmon
+${FAN_PWM_MEASUREMENT_HWMON_PATH}=                  /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon
+
+# Can be one of {`lm-sensors`, `system76-acpi`, `none`}
+${FAN_RPM_MEASUREMENT_METHOD}=                      lm-sensors
+# The name of the sensor in `sensors` command if FAN_RPM_MEASUREMENT_METHOD
+# is set to lm-sensors. For example `w83795g-i2c-1-2f`. `${EMPTY}` if lm-sensors
+# is not used or no filtering by sensor is needed
+${FAN_RPM_MEASUREMENT_SENSOR}=                      ${EMPTY}
+# Kernel module that might need to be enabled using modprobe in order to use
+# the sensor. Dictionary keys:
+# - module - name of the kernel module
+# - force_id - optional force_id arg for modprobe
+&{FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               module=none    force_id=none
+
 
 *** Keywords ***
 Power On Default
