@@ -1,3 +1,7 @@
+*** Settings ***
+Resource    sensors.robot
+
+
 *** Keywords ***
 Get CPU Frequency MAX
     [Documentation]    Get max CPU Frequency.
@@ -20,11 +24,6 @@ Get CPU Frequency MIN
     ${freq}=    Convert To Number    ${freq}
     ${freq}=    Evaluate    ${freq}-100
     RETURN    ${freq}
-
-Get CPU Temperature CURRENT
-    [Documentation]    Get current CPU temperature.
-    ${temperature}=    Execute Command In Terminal    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
-    RETURN    ${temperature}
 
 Get CPU Frequencies In Ubuntu
     [Documentation]    Get all CPU frequencies in Ubuntu OS. Keyword returns
