@@ -30,6 +30,7 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.001 not supported
+    # Set UEFI Option    FanCurveOption    Silent
     Power On
     Login To Linux
     Switch To Root User
@@ -54,6 +55,7 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.001 not supported
+    # Set UEFI Option    FanCurveOption    Performance
     Power On
     Login To Linux
     Switch To Root User
@@ -72,8 +74,68 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
         ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
     END
 
+CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
+    [Documentation]    Check whether the fan curve is configured correctly in
+    ...    silent profile and the fan spins up and down according to
+    ...    the defined values.
+    Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.001 not supported
+    Skip If    not ${KERNEL_MODULE_IT87_SUPPORT}
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.001 not supported
+
+    Set UEFI Option    FanCurveOption    Fans Off
+
+    Power On
+    Login To Linux
+    Switch To Root User
+    Prepare Lm-sensors
+    Prepare IT87
+    Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
+    ${timer}=    Convert To Integer    0
+    FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
+        Log To Console    \n ----------------------------------------------------------------
+        Log To Console    ${timer} min.
+        ${temperature}=    Get Temperature IT87
+        ${rpm}=    Get RPM IT87
+        IF    ${rpm} > 300
+            Log    RPM: ${rpm}    WARN
+            Log To Console    RPM: ${rpm}    WARN
+            Log    TEMP: ${temperature}    WARN
+            Log To Console    TEMP: ${temperature}    WARN
+        ELSE
+            Log    RPM: ${rpm}
+            Log    TEMP: ${temperature}
+        END
+
+        Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
+        ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
+    END
+
 
 *** Keywords ***
+Get Temperature IT87
+    [Documentation]    Get temp1 temperature from lmsensors using IT87 which
+    ...    is used to determine the fans' RPM
+
+    ${temperature}=    Execute Linux Command
+    ...    sensors it8786-isa-0a20 2> /dev/null | grep -E 'temp1' | tr -s ' ' | cut -d ' ' -f2
+    ${temperature}=    Remove String    ${temperature}    +
+    ${temperature}=    Remove String    ${temperature}    °
+    ${temperature}=    Remove String    ${temperature}    C
+    ${temperature_value}=    Convert To Number    ${temperature}
+    RETURN    ${temperature_value}
+
+Get RPM IT87
+    [Documentation]    Get fan1 RPM from lmsensors using IT87
+    ${rpm}=    Execute Linux Command
+    ...    sensors it8786-isa-0a20 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
+    ${rpm_value}=    Convert To Integer    ${rpm}
+    RETURN    ${rpm_value}
+
+Prepare IT87
+    [Documentation]    Loads the IT87 kernel module which can be used to monitor
+    ...    RPM using lmsensorss
+    Execute Linux Command    modprobe it87 force_id=0x8786
+
 Calculate Speed Percentage Based On Temperature
     [Documentation]    Calculates the expected speed percentage by config file
     ...    for a given temperature based on an algorithm and a

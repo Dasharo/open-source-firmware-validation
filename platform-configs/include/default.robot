@@ -198,6 +198,7 @@ ${CPU_FREQUENCY_MEASURE}=                           ${FALSE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${FALSE}
 ${ETH_PERF_PAIR_1_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_2_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_10_G}=                              ${FALSE}
@@ -252,6 +253,8 @@ ${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
 ${CUSTOM_FAN_CURVE_TEST_DURATION}=                  30
 # Interval between the following readings in custom fan curve tests
 ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}=               1
+# Module for a sensor used in CFC tests
+${KERNEL_MODULE_IT87_SUPPORT}=                      ${FALSE}
 # Maximum fails during during performing test suite usb-boot.robot
 ${ALLOWED_FAILS_USB_BOOT}=                          0
 # Maximum fails during during performing test suite usb-detect.robot
