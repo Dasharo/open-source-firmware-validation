@@ -201,6 +201,7 @@ ${CPU_FREQUENCY_MEASURE}=                           ${FALSE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${FALSE}
 ${ETH_PERF_PAIR_1_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_2_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_10_G}=                              ${FALSE}
