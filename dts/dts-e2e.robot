@@ -982,7 +982,7 @@ E2E005.003 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
     ...    on PC Engines. We start from legacy firmware and insert correct DPP keys
     ...    for UEFI variant.
-    [Tags]    pcengines_dpp
+    [Tags]    pcengines_seabios
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
@@ -1008,7 +1008,7 @@ E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
     ...    on PC Engines. We start from legacy firmware and insert correct DPP
     ...    keys for UEFI variant.
-    [Tags]    pcengines_dpp
+    [Tags]    pcengines_seabios
     # 1) Get into DTS:
     Power On And Enter DTS Shell
 
