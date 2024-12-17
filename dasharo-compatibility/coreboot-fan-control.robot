@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/sensors.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -32,7 +33,9 @@ CFN001.001 CPU temperature and fan speed can be read (Debian)
     Power On
     Boot From USB
     Serial Root Login Linux    debian
-    ${rpm}    ${temperature}=    Get CPU Temperature And CPU Fan Speed
+    ${rpm}=    Get Fan RPM
+    ${temperature}=    Get CPU Temperature CURRENT
+    # ${rpm}    ${temperature}=    Get CPU Temperature And CPU Fan Speed
     IF    ${rpm}==${0}    FAIL    Fan speed not measured
     IF    ${temperature}==${0}    FAIL    Temperature not measured
 
@@ -49,20 +52,24 @@ CFN002.001 CPU fan speed increases if the temperature rises (Debian)
     # start of the test case while waiting for the temperature and fan speed
     # drop.
     FOR    ${iteration}    IN RANGE    0    ${COOLING_PROCEDURE_ITERATIONS}
-        ${rpm}    ${temperature}=    Get CPU Temperature And CPU Fan Speed
+        ${rpm}=    Get Fan RPM
+        ${temperature}=    Get CPU Temperature CURRENT
         IF    ${rpm}>=3000 or ${temperature}>=40
             Sleep    60s
         ELSE
             BREAK
         END
     END
-    ${rpm_1}    ${temperature_1}=    Get CPU Temperature And CPU Fan Speed
+    ${rpm_1}=    Get Fan RPM
+    ${temperature_1}=    Get CPU Temperature CURRENT
     Telnet.Execute Command    stress-ng --cpu 16 --io 8 --vm 4 --vm-bytes 4G --timeout 60s --metrics
     # Due to the stress test CPU temperature should increase.
-    ${rpm_2}    ${temperature_2}=    Get CPU Temperature And CPU Fan Speed
+    ${rpm_2}=    Get Fan RPM
+    ${temperature_2}=    Get CPU Temperature CURRENT
     Sleep    240s
     # Due to the temperature increasing fan speed should rise.
-    ${rpm_3}    ${temperature_3}=    Get CPU Temperature And CPU Fan Speed
+    ${rpm_3}=    Get Fan RPM
+    ${temperature_3}=    Get CPU Temperature CURRENT
     IF    ${temperature_1}>=${temperature_2}
         FAIL    Temperature not increased
     END
