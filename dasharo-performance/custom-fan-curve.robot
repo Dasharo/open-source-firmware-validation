@@ -30,6 +30,8 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.001 not supported
+    Skip If    "${FAN_PWM_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
+    Skip If    "${CPU_TEMPERATURE_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
     # Set UEFI Option    FanCurveOption    Silent
     Power On
     Login To Linux
@@ -55,6 +57,8 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.001 not supported
+    Skip If    "${FAN_PWM_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
+    Skip If    "${CPU_TEMPERATURE_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
     # Set UEFI Option    FanCurveOption    Performance
     Power On
     Login To Linux
@@ -79,6 +83,8 @@ CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.001 not supported
+    Skip If    "${FAN_RPM_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
+    Skip If    "${CPU_TEMPERATURE_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.001 not supported
 
     Set UEFI Option    FanCurveOption    Fans Off

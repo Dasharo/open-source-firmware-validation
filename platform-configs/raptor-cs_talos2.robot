@@ -189,6 +189,28 @@ ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 
+# Variables used in lib/sensors to determine platform-specific methods of
+# measuring temperatures, fans etc.
+
+# Can be one of {`lm-sensors`, `hwmon`, `none`}
+${CPU_TEMPERATURE_MEASUREMENT_METHOD}=              lm-sensors
+# Can be one of {`hwmon`, `system76-acpi`, `none`}
+${FAN_PWM_MEASUREMENT_METHOD}=                      none
+# Has to be set if PWM measurement method is hwmon
+${FAN_PWM_MEASUREMENT_HWMON_PATH}=                  none
+
+# Can be one of {`lm-sensors`, `none`}
+${FAN_RPM_MEASUREMENT_METHOD}=                      lm-sensors
+# The name of the sensor in `sensors` command if FAN_RPM_MEASUREMENT_METHOD
+# is set to lm-sensors. For example `w83795g-i2c-1-2f`. `none` if lm-sensors
+# is not used
+${FAN_RPM_MEASUREMENT_SENSOR}=                      w83795g-i2c-1-2f
+# Kernel module that might need to be enabled using modprobe in order to use
+# the sensor. Dictionary keys:
+# - module - name of the kernel module
+# - force_id - optional force_id arg for modprobe
+&{FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               module=w83795
+
 
 *** Keywords ***
 Get Firmware Version From Coreboot File
