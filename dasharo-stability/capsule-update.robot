@@ -230,7 +230,7 @@ Get Key To Press
     RETURN    ${digit}
 
 Select UEFI Shell Boot Option
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>
 

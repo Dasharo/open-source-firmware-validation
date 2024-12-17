@@ -61,7 +61,7 @@ DTS003.001 DTS option reboot DUT works correctly
     Write Into Terminal    R
     # Switch back to serial on PiKVM devices
     Restore Initial DUT Connection Method
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
 
 DTS004.001 DTS accessing shell works correctly
     [Documentation]    This test aims to verify that shell can be accessed in
@@ -128,5 +128,5 @@ DTS008.001 DTS option power-off DUT works correctly
     Boot Dasharo Tools Suite    iPXE
     Write Into Terminal    P
     Set DUT Response Timeout    30s
-    ${status}=    Run Keyword And Return Status    Enter Setup Menu Tianocore
+    ${status}=    Run Keyword And Return Status    Enter Setup Menu
     Should Not Be True    ${status}

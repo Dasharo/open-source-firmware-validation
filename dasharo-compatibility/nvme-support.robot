@@ -30,7 +30,7 @@ NVM001.001 NVMe support in firmware
     ...    NVMe disk in M.2 slot.
     Skip If    not ${NVME_DISK_SUPPORT}    NVM001.001 not supported
     Power On
-    ${out}=    Enter Boot Menu Tianocore And Return Construction
+    ${out}=    Enter Boot Menu And Return Construction
     Should Contain    ${out}    ${CLEVO_DISK}
 
 NVM001.002 NVMe support in OS (Ubuntu)

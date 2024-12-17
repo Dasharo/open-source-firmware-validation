@@ -1,4 +1,4 @@
-name: Keywords self-tests for Dasharo (coreboot+UEFI) on QEMU Q35
+name: Keywords self-tests for Dasharo (coreboot+SeaBIOS) on QEMU Q35
 
 on: [push, pull_request]
 
@@ -28,7 +28,7 @@ jobs:
 
     - name: Start QEMU in background
       run: |
-        ./scripts/ci/qemu-run.sh nographic uefi &
+        ./scripts/ci/qemu-run.sh nographic seabios &
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -42,7 +42,7 @@ jobs:
 
     - name: Start keywords self-tests with QEMU
       run: |
-        ./scripts/ci/qemu-self-test.sh
+        ./scripts/ci/qemu-self-test-seabios.sh
 
     - name: Save artifacts
       uses: actions/upload-artifact@v4

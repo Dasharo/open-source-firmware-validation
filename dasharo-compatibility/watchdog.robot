@@ -8,7 +8,7 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/edk2.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -50,7 +50,7 @@ WDT002.001 Enable watchdog
     # We're in the setup menu. Now just wait until the platform resets. Wait a
     # little longer than the timeout to give the platform time to reset.
     Set DUT Response Timeout    320s
-    Read From Terminal Until    ${TIANOCORE_STRING}
+    Read From Terminal Until    ${FW_STRING}
 
 WDT003.001 Disable watchdog
     [Documentation]    Disable the watchdog after enabling it to verify it does
@@ -69,7 +69,7 @@ WDT003.001 Disable watchdog
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    360s
     TRY
-        Read From Terminal Until    ${TIANOCORE_STRING}
+        Read From Terminal Until    ${FW_STRING}
     EXCEPT
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
@@ -95,7 +95,7 @@ WDT004.001 Change watchdog timeout
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    320s
     TRY
-        Read From Terminal Until    ${TIANOCORE_STRING}
+        Read From Terminal Until    ${FW_STRING}
     EXCEPT
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
@@ -103,7 +103,7 @@ WDT004.001 Change watchdog timeout
     # Now wait another 60s to make sure the platform resets within ~360s of
     # boot.
     Set DUT Response Timeout    60s
-    Read From Terminal Until    ${TIANOCORE_STRING}
+    Read From Terminal Until    ${FW_STRING}
 
 WDT005.001 Watchdog is detected by OS (Ubuntu)
     [Documentation]    Boot into an OS with the watchdog enabled and verify
@@ -128,7 +128,7 @@ WDT005.001 Watchdog is detected by OS (Ubuntu)
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    300s
     TRY
-        Read From Terminal Until    ${TIANOCORE_STRING}
+        Read From Terminal Until    ${FW_STRING}
     EXCEPT
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
@@ -160,7 +160,7 @@ WTD006.001 Watchdog resets platform on kernel crash (Ubuntu 22.04)
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    300s
     TRY
-        Read From Terminal Until    ${TIANOCORE_STRING}
+        Read From Terminal Until    ${FW_STRING}
     EXCEPT
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END

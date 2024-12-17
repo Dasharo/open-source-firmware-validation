@@ -8,7 +8,7 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../lib/bios/menus.robot
+Resource            ../lib/bios/edk2.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -46,7 +46,7 @@ APU002.001 Enable apu2 watchdog
     # We're in the setup menu. Now just wait until the platform resets. Wait a
     # bit longer than the timeout to give the platform to actually reset.
     Set DUT Response Timeout    70s
-    Read From Terminal Until    ${TIANOCORE_STRING}
+    Read From Terminal Until    ${FW_STRING}
 
 APU003.001 Disable apu2 watchdog
     [Documentation]    Disable the watchdog after enabling it to verify it does
@@ -62,7 +62,7 @@ APU003.001 Disable apu2 watchdog
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    70s
     TRY
-        Read From Terminal Until    ${TIANOCORE_STRING}
+        Read From Terminal Until    ${FW_STRING}
     EXCEPT
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
@@ -85,14 +85,14 @@ APU004.001 Change apu2 watchdog timeout
     ${platform_has_reset}=    Set Variable    ${TRUE}
     Set DUT Response Timeout    60s
     TRY
-        Read From Terminal Until    ${TIANOCORE_STRING}
+        Read From Terminal Until    ${FW_STRING}
     EXCEPT
         ${platform_has_reset}=    Set Variable    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
     # Now wait another 70s to make sure the platform resets within 120s of boot.
     Set DUT Response Timeout    70s
-    Read From Terminal Until    ${TIANOCORE_STRING}
+    Read From Terminal Until    ${FW_STRING}
     [Teardown]    Flash Firmware    ${FW_FILE}
 
 APU005.001 Check if disabling CPB decreases performance

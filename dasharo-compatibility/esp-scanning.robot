@@ -37,7 +37,7 @@ ESP001.001 ESP Scan with OS-specific .efi files added
     ...    files will have boot menu entries created for them.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP001.001 not supported
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
         Should Contain Match    ${boot_menu}    ${system}*
     END
@@ -55,7 +55,7 @@ ESP003.001 ESP Scan ignores OSes on removable media
     ...    ${TINYCORE_URL}
     ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Should Not Contain Match    ${boot_menu}    *CorePlus*
 
 ESP004.001 ESP Scan does not create duplicate entries
@@ -64,7 +64,7 @@ ESP004.001 ESP Scan does not create duplicate entries
     ...    are present for a single OS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
 
     # In general, boot entries may be duplicated if created by other means.
     # Here we only want to test the duplicates created by the ESP scanning features.
@@ -85,7 +85,7 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    ${DTS_URL}
     ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     Should Contain Match    ${boot_menu}    Dasharo Tools Suite on (*
 
 ESP006.001 ESP Scan does not find non-block boot devices
@@ -93,7 +93,7 @@ ESP006.001 ESP Scan does not find non-block boot devices
     ...    find non-block boot devices
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     FOR    ${boot_option}    IN    @{boot_menu}
         Should Not Contain    ${boot_option}    on Non-Block Boot Device
     END
@@ -107,7 +107,7 @@ ESP002.001 ESP Scan after deleting additional .efi files
     Power On
     Clear Out EFI Partition
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
         Should Not Contain Match    ${boot_menu}    ${system}*
     END

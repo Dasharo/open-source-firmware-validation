@@ -321,7 +321,7 @@ ECR022.001 EC sync update with power adapter connected works correctly
 
     # Make sure EC isn't flashed second time after restart
     Write Into Terminal    reboot
-    ${out}=    Read From Terminal Until    ${TIANOCORE_STRING}
+    ${out}=    Read From Terminal Until    ${FW_STRING}
 
 ECR023.001 EC sync doesn't update with power adapter disconnected
     [Documentation]    This test aims to verify whether coreboot update

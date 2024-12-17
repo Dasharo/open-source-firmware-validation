@@ -49,7 +49,7 @@ Boot Dasharo Tools Suite
     ...    boot method (from USB or from iPXE) as parameter.
     [Arguments]    ${dts_booting_method}
     IF    '${dts_booting_method}'=='USB'
-        ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+        ${boot_menu}=    Enter Boot Menu And Return Construction
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Enter Submenu From Snapshot    ${boot_menu}    PiKVM Composite KVM Device
         ELSE IF    '${MANUFACTURER}' == 'QEMU'

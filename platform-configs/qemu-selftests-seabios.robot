@@ -4,6 +4,7 @@ This config targets QEMU firmware with as many menus enabled as possible.
 
 *** Settings ***
 Library     ../lib/QemuMonitor.py    /tmp/qmp-socket
+Resource    qemu.robot
 Resource    include/default.robot
 
 
@@ -12,8 +13,9 @@ ${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
 ${DUT_CONNECTION_METHOD}=               ${INITIAL_DUT_CONNECTION_METHOD}
 ${RTE_S2_N_PORT}=                       1234
 ${FLASH_SIZE}=                          ${8*1024*1024}
-${BOOT_MENU_KEY}=                       ${ESC}
-${SETUP_MENU_KEY}=                      ${F2}
+${FW_STRING}=                           for boot menu
+${BOOT_MENU_KEY}=                       ${F10}
+${SETUP_MENU_KEY}=                      ${F10}
 ${MANUFACTURER}=                        QEMU
 ${POWER_CTRL}=                          RteCtrl
 ${FLASHING_METHOD}=                     none
@@ -42,12 +44,4 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=     ${TRUE}
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=       ${TRUE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=         ${TRUE}
 
-
-*** Keywords ***
-Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
-    Read From Terminal
-    Qemu Monitor.System Reset
+${BIOS_LIB}=                            seabios

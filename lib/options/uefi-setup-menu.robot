@@ -4,7 +4,7 @@ Documentation       Library for UEFI configuration using the UEFI setup menu
 
 Library             Collections
 Library             String
-Resource            ../bios/menus.robot
+Resource            ../bios/edk2.robot
 Resource            ../../keywords.robot
 Resource            ../cbmem.robot
 
@@ -67,7 +67,7 @@ Get UEFI Option
 Reset UEFI Options To Defaults
     [Documentation]    Resets all UEFI options to defaults
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     Reset To Defaults Tianocore
     Save Changes And Reset
 
@@ -76,7 +76,7 @@ Get UEFI Boot Manager Entries
 
     Power On
 
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${boot_menu}=    Enter Boot Menu And Return Construction
     RETURN    ${boot_menu}
 
 Measure Coldboot Time

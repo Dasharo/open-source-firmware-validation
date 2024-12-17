@@ -1,7 +1,6 @@
 *** Settings ***
 Resource    ../../os-config/windows-credentials.robot
 Resource    ../../os-config/ubuntu-credentials.robot
-Resource    ../../lib/options/${OPTIONS_LIB}.robot
 
 
 *** Variables ***
@@ -13,7 +12,7 @@ ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   13541
 ${FLASH_SIZE}=                                      ${TBD}
 ${FLASH_LENGTH}=                                    ${TBD}
-${TIANOCORE_STRING}=                                to boot directly
+${FW_STRING}=                                       to boot directly
 ${BOOT_MENU_KEY}=                                   ${F11}
 ${SETUP_MENU_KEY}=                                  Delete
 ${BOOT_MENU_STRING}=                                Please select boot device:
@@ -39,6 +38,7 @@ ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 # - uefi-setup-menu: Will set options via the UEFI Setup menu (serial)
 # - dcu: Will use Dasharo Configuration Utility to configure options.
 ${OPTIONS_LIB}=                                     uefi-setup-menu
+${BIOS_LIB}=                                        uefi
 
 # OS config
 ${DEVICE_WINDOWS_USERNAME}=                         ${WINDOWS_USERNAME}

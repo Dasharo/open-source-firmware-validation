@@ -28,25 +28,25 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-Enter Boot Menu Tianocore
+Enter Boot Menu
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    Enter Boot Menu Tianocore
+    Enter Boot Menu
     ${out}=    Read From Terminal Until    exit
     Should Contain    ${out}    Please select boot device:
 
-Enter Boot Menu Tianocore And Return Construction
+Enter Boot Menu And Return Construction
     [Documentation]    Test Enter Boot Menu kwd
     Power On
-    ${menu}=    Enter Boot Menu Tianocore And Return Construction
+    ${menu}=    Enter Boot Menu And Return Construction
     List Should Not Contain Value    ${menu}    Please select boot device:
     List Should Contain Value    ${menu}    Setup
     Menu Construction Should Not Contain Control Text    ${menu}
 
-Enter Setup Menu Tianocore
-    [Documentation]    Test Enter Setup Menu Tianocore kwd
+Enter Setup Menu
+    [Documentation]    Test Enter Setup Menu kwd
     Power On
-    Enter Setup Menu Tianocore
+    Enter Setup Menu
     ${out}=    Read From Terminal Until    Select Entry
     Should Contain    ${out}    Select Language
 
@@ -212,7 +212,7 @@ Get Menu Construction Stress Test
     FOR    ${i}    IN RANGE    50
         Log To Console    Iteration: ${i}
         Power On
-        Enter Setup Menu Tianocore
+        Enter Setup Menu
 
         ${menu}=    Get Setup Menu Construction
         Run Keyword And Continue On Failure    Should Not Be Empty    ${menu}
