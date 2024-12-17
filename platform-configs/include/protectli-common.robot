@@ -111,9 +111,9 @@ ${TEMPERATURE_TEST_DURATION}=                   3600
 # Interval between the following readings in temperature measure tests
 ${TEMPERATURE_TEST_MEASURE_INTERVAL}=           1
 # Custom fan curve tests duration in minutes
-${CUSTOM_FAN_CURVE_TEST_DURATION}=              30
+${CUSTOM_FAN_CURVE_TEST_DURATION}=              3
 # Interval between the following readings in custom fan curve tests
-${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}=           1
+${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}=           0.1
 # Maximum fails during during performing test suite usb-boot.robot
 ${ALLOWED_FAILS_USB_BOOT}=                      0
 # Maximum fails during during performing test suite usb-detect.robot
