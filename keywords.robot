@@ -484,26 +484,6 @@ Get All USB
     ${count}=    Evaluate    ${count_usb}+${external_count}
     RETURN    ${count}
 
-Prepare Lm-sensors
-    [Documentation]    Install lm-sensors and probe sensors.
-    Detect Or Install Package    lm-sensors
-    Execute Command In Terminal    sudo sensors-detect --auto
-    IF    '${PLATFORM}' == 'raptor-cs_talos2'
-        Execute Command In Terminal    modprobe w83795
-    END
-
-Get Fan Speed
-    [Documentation]    Returns current fan speed as int.
-    # Detect or Install Package    lm-sensors
-    # Execute Command In Terminal    yes | sudo sensors-detect
-    # Execute Command In Terminal    modprobe w83795
-    ${speed}=    Execute Command In Terminal    sensors | grep fan1
-    ${speed}=    Get Lines Containing String    ${speed}    RPM)
-    ${speed_split}=    Split String    ${speed}
-    ${rpm}=    Get From List    ${speed_split}    1
-    ${rpm}=    Convert To Number    ${rpm}
-    RETURN    ${rpm}
-
 Prepare Test Suite
     [Documentation]    Keyword prepares Test Suite by importing specific
     ...    platform configuration keywords and variables and
@@ -763,25 +743,6 @@ Get USB Devices Windows
     ...    PowerShell
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     RETURN    ${out}
-
-Get CPU Temperature And CPU Fan Speed
-    [Documentation]    Get the current CPU temperature in Celsius degrees and
-    ...    the current CPU fan speed in rpms.
-    ${output}=    Telnet.Execute Command    sensors w83795g-i2c-1-2f |grep fan1 -A 16
-    ${rpm}=    Get Lines Containing String    ${output}    fan1
-    ${rpm}=    Split String    ${rpm}    ${SPACE}
-    ${rpm}=    Get Substring    ${rpm}    -8    -7
-    ${rpm}=    Get From List    ${rpm}    0
-    ${rpm_value}=    Convert To Integer    ${rpm}
-    ${temperature}=    Get Lines Containing String    ${output}    temp7
-    ${temperature}=    Split String    ${temperature}    ${SPACE}
-    ${temperature}=    Get Substring    ${temperature}    -8    -7
-    ${temperature}=    Get From List    ${temperature}    0
-    ${temperature}=    Remove String    ${temperature}    +
-    ${temperature}=    Remove String    ${temperature}    °
-    ${temperature}=    Remove String    ${temperature}    C
-    ${temperature_value}=    Convert To Number    ${temperature}
-    RETURN    ${rpm_value}    ${temperature_value}
 
 Execute Linux Command Without Output
     [Documentation]    Execute linux command over serial console. Do not return
@@ -1521,33 +1482,6 @@ Calculate Smoothing
     Log To Console    From PWM: ${pwm}%
     Log To Console    From Temp: ${expected_speed_percentage}%
     Should Be True    ${low_limit} < ${pwm} < ${high_limit}
-
-Get PWM Value
-    [Documentation]    Returns current PWN value from hwmon.
-    # ../hwmon/hwmonX/pwm{1,2}
-    ${hwmon}=    Execute Command In Terminal
-    ...    ls /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon | grep hwmon
-    ${pwm}=    Execute Command In Terminal    cat /sys/devices/LNXSYSTM:00/LNXSYBUS:00/17761776:00/hwmon/${hwmon}/pwm1
-    ${pwm}=    Convert To Number    ${pwm}
-    RETURN    ${pwm}
-
-Get Temperature CURRENT
-    [Documentation]    Get current temperature from hwmon.
-    ${hwmon}=    Execute Command In Terminal
-    ...    ls /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon | grep hwmon
-    ${temperature}=    Execute Command In Terminal
-    ...    cat /sys/devices/LNXSYSTM:00/LNXSYBUS:00/17761776:00/hwmon/${hwmon}/temp1_input
-    ${temperature}=    Evaluate    ${temperature[:2]}
-    ${temperature}=    Convert To Number    ${temperature}
-    RETURN    ${temperature}
-
-Get RPM Value From System76 Acpi
-    [Documentation]    Returns current RPM value of CPU fan form driver
-    ...    system76_acpi.
-    ${speed}=    Execute Command In Terminal    sensors | grep "CPU fan"
-    ${speed_split}=    Split String    ${speed}
-    ${rpm}=    Get From List    ${speed_split}    2
-    RETURN    ${rpm}
 
 Disable Option In Submenu
     [Documentation]    Disables selected option in submenu provided in ${menu_construction}
