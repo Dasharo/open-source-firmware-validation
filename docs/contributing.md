@@ -88,3 +88,51 @@ and add as guidelines:
 
 * Each new (or modified) file, test, keyword, must have a `[Documentation]`
   section.
+
+#### Keyword Documentation Requirements
+
+* Brief description of what the keyword does.
+* The starting conditions that the keyword expects. Whether the DUT is power ON
+   or OFF, whether a specific OS is booted or not, what connection type is
+   required (SSH, Telnet/Serial), if any packages are required to be installed
+* Arguments, their types and short descriptions of what the arguments are for and
+   what values can be passed in them.
+* Return value, if it is used, what is it's type and what does it contain
+* Side Effects, if the keyword shuts down the device, reboots it, logs in/out,
+   does anything, that could cause persistent effects or interfere with other
+   keywords' starting conditions.
+
+Example, that can be used as a template:
+
+```robotframework
+Cowsay Keyword
+   [Arguments]    ${input_text}    ${out_file}="cowsay.txt"
+   [Documentation]
+   ...   Description:
+   ...      Saves a cowsay message of ${input_text} to ${out_file}
+   ...
+   ...   Requirements:
+   ...      - The device has to be turned on
+   ...      - Ubuntu has to be booted, logged in
+   ...      - "cowsay" package to be installed
+   ...
+   ...   Arguments:
+   ...      - ${input_text}: string - The text that will be used for the cowsay message.
+   ...         Can be any string.
+   ...      - ${out_file}: string - The file path under which the cowsay message will
+   ...         be saved. Default: "cowsay.txt". Has to be a valid path. Does not
+   ...         have to be absolute.
+   ...
+   ...   Return Value:
+   ...      - string - The generated cowsay message
+   ...
+   ...   Side Effects:
+   ...      - Creates ${out_file} file with the cowsay message. Overwrites
+   ...         the file if already exists.
+
+   Execute Command In Terminal    cowsay ${input_text} > ${out_file}
+```
+
+#### Test Case Documentation Requirements
+
+#### Test Suite Documentation Requirements
