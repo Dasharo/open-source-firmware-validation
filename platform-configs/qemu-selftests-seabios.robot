@@ -48,3 +48,4 @@ ${BIOS_LIB}=                            seabios
 ${IPXE_BOOT_SUPPORT}=                   ${TRUE}
 ${IPXE_BOOT_ENTRY}=                     iPXE
 ${EDK2_IPXE_CHECKPOINT}=                iPXE Shell
+${SEABIOS_BOOT_DEVICE}=                 2
