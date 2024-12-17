@@ -7,3 +7,5 @@ Resource    protectli-common.robot
 ${FLASH_SIZE}=      ${16*1024*1024}
 
 ${MAX_CPU_TEMP}=    82
+
+${ETHERNET_ID}=     8086:125c
