@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 if [[ $# -ne 2 ]]; then
     echo "Usage: $0 <dts-base-image-path> <bzImage-path>"
     exit 1
