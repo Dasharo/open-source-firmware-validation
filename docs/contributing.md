@@ -94,3 +94,75 @@ and add as guidelines:
 
 * Each new (or modified) file, test, keyword, must have a `[Documentation]`
   section.
+
+#### Public Keyword Documentation Requirements
+
+Public keywords are supposed to be called from other files, which import
+it as a resource. They should be well documented to make them easier to use and
+less prone to misusage and causing regression errors when modifying them.
+
+The documentation of a public keyword should contain:
+
+* A brief description of what the keyword does.
+* The starting conditions that the keyword expects. Whether the DUT is power ON
+   or OFF, whether a specific OS is booted or not, what connection type is
+   required (SSH, Telnet/Serial), if any packages are required to be installed
+* The arguments, their types and short descriptions of what the arguments are
+   for and what values can be passed in them.
+* The return value, if it is used, what is it's type and what does it contain
+* Side Effects, if the keyword shuts down the device, reboots it, logs in/out,
+   does anything, that could cause persistent effects or interfere with other
+   keywords' starting conditions.
+
+Example, that can be used as a template:
+
+```robotframework
+Cowsay Keyword
+    [Documentation]
+    ...    Saves a cowsay message of ``${input_text}`` to ``${out_file}``
+    ...
+    ...    === Requirements ===
+    ...    - The device has to be turned on
+    ...    - Ubuntu has to be booted, logged in
+    ...    - ``cowsay`` package to be installed
+    ...
+    ...    === Arguments ===
+    ...    - ``${input_text}``: ``string`` - The text that will be used for the
+    ...    \ cowsay message. Can be any string.
+    ...    - ``${out_file}``: ``string`` - The file path under which the cowsay
+    ...    \ message will be saved. Default: ``cowsay.txt``. Has to be a valid
+    ...    \ path. Does not have to be absolute.
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The generated cowsay message
+    ...
+    ...    === Side Effects ===
+    ...    - Creates ``${out_file}`` file with the cowsay message. Overwrites
+    ...    \ the file if already exists.
+    [Arguments]    ${input_text}    ${out_file}="cowsay.txt"
+
+    ${output}=    Execute Command In Terminal    cowsay ${input_text} | tee ${out_file}
+    RETURN    ${output}
+```
+
+The documentation on robot documentation syntax can be found at [robotframework.org](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#documentation-formatting).
+
+Note that the repository uses Robot Framework version 5.0, in which spaces need
+to be escaped in keyword documentation, just like in the example.
+
+#### Private Keyword Documentation Requirements
+
+Private (local) keywords can be defined in both test suites and libraries
+as a way to organize the code. Local keywords should be tagged with the
+`robot:private` tag. Keywords with this tag are not supposed to be called
+from the outside and don't need to be documented comprehensively. Calling a
+keyword tagged as private causes a warning to appear in the logs.
+Example private keyword:
+
+```robotframework
+Hello World Printer Helper
+   [Documentation]    Prints "Hello World!" to the RF console
+   [Tags]   robot:private
+
+   Log To Console    Hello World!
+```
