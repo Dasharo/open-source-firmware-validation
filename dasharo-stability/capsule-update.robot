@@ -40,12 +40,14 @@ ${FUM_DIALOG_BOTTOM}=       The platform will automatically reboot and disable F
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
-    Boot Into UEFI Shell
+    Power On
+    Enter UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before update
 
     Perform Capsule Update    wrong_cert.cap
 
-    Select UEFI Shell Boot Option
+    Enter UEFI Shell
+
     ${updated_bios_version}=    Get BIOS Version    After update
     Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
@@ -55,12 +57,14 @@ CUP001.001 Capsule Update With Wrong Keys
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
-    Boot Into UEFI Shell
+    Power On
+    Enter UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before Update
 
     Perform Capsule Update    invalid_guid.cap
 
-    Select UEFI Shell Boot Option
+    Enter UEFI Shell
+
     ${updated_bios_version}=    Get BIOS Version    After Update
     Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
@@ -82,13 +86,15 @@ CUP150.001 Capsule Update
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
-    Boot Into UEFI Shell
+    Power On
+    Enter UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before Update
 
     Perform Capsule Update    valid_capsule.cap
     Check The Update Screen For The Correct UX
 
-    Select UEFI Shell Boot Option
+    Set DUT Response Timeout    5m
+    Enter UEFI Shell
     ${updated_bios_version}=    Get BIOS Version    After Update
     Should Not Be Equal    ${original_bios_version}    ${updated_bios_version}
 
@@ -186,7 +192,8 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
     Turn Off Active ME
-    Boot Into UEFI Shell
+    Power On
+    Enter UEFI Shell
     Perform Capsule Update    valid_capsule.cap
     Check The Update Screen For The Correct UX
 
@@ -228,15 +235,6 @@ Get Key To Press
     ${digit}=    Set Variable    ${matches[0]}
     Log    Found digit: ${digit}
     RETURN    ${digit}
-
-Select UEFI Shell Boot Option
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
-    Read From Terminal Until    Shell>
-
-Boot Into UEFI Shell
-    Power On
-    Select UEFI Shell Boot Option
 
 Extract BIOS Version
     [Arguments]    ${text}
@@ -327,10 +325,10 @@ Perform Capsule Update
     Should Not Contain    ${out}    is not a valid capsule.
     Should Not Contain    ${out}    failed to query capsule capability
     Should Contain    ${out}    CapsuleApp: creating capsule descriptors at
-    Should Contain    ${out}    :\\capsule_testing\\>
 
     # Reset the system manually
-    Execute UEFI Shell Command    reset    5m
+    Write Bare Into Terminal    reset
+    Press Key N Times    1    ${ENTER}
 
     # Confirm update by following instructions of Firmware Update Mode dialog
     Read From Terminal Until    ${FUM_DIALOG_TOP}
@@ -370,14 +368,17 @@ Check If Capsule Files Are Present
 Enter Capsule Testing Folder
     ${fss}=    Get FS From Uefi Shell
     FOR    ${fs}    IN    @{fss}
+        Set Prompt For Terminal    ${fs}:\\>
         ${out}=    Execute UEFI Shell Command    ${fs}:
         IF    'is not a valid mapping.' in '''${out}'''
             Fail    Failed to find a file-system with capsule_testing/
         END
 
+        Set Prompt For Terminal    \\>
         ${out}=    Execute UEFI Shell Command    cd capsule_testing
         IF    'is not a directory.' not in '''${out}'''    BREAK
     END
+    Set Prompt For Terminal    ${fs}:\\capsule_testing\\>
 
 Get FS From Uefi Shell
     ${map}=    Execute UEFI Shell Command    map

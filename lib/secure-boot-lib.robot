@@ -224,19 +224,20 @@ Select File In File Explorer
 Enter UEFI Shell
     [Documentation]    Boots into UEFI Shell. Should be called after Power On or
     ...    reboot
+    Set Prompt For Terminal    Shell>
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
-    Read From Terminal Until    Shell>
+    Read From Terminal Until Prompt
     Sleep    1s
 
 Execute File In UEFI Shell
     # UEFI shell has different line ending than the one we have set for the
     # Telnet connection. We cannot change it while the connection is open.
     [Arguments]    ${file}
+    Set Prompt For Terminal    FS0:\\>
     ${out}=    Execute UEFI Shell Command    fs0:
-    Should Contain    ${out}    FS0:\\>
     ${out}=    Execute UEFI Shell Command    ${file}
-    Should Contain    ${out}    FS0:\\>
+    Set Prompt For Terminal    Shell>
     RETURN    ${out}
 
 Restore Secure Boot Defaults
