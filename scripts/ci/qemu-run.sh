@@ -190,7 +190,7 @@ case "${ACTION}" in
     ;;
   os_install)
     MEMORY="8G"
-    QEMU_PARAMS="${QEMU_PARAMS_BASE} ${QEMU_PARAMS_OS} ${QEMU_PARAMS_INSTALLER}"
+    QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS} ${QEMU_PARAMS_INSTALLER}"
     check_disks
     ;;
   *)
