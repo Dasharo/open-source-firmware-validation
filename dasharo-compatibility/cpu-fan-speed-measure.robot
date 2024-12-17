@@ -31,7 +31,7 @@ FAN001.001 CPU fan speed measure
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Lm-sensors
-    ${output}=    Get RPM Value From System76 Acpi
+    Prepare Sensors
+    ${output}=    Get Fan RPM
     Should Not Be Empty    ${output}
     Should Not Be Equal    ${output}    0
