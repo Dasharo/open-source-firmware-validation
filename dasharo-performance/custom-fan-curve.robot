@@ -11,7 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Variables           ../platform-configs/fan-curve-config.yaml
+Resource            ../lib/sensors.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -34,14 +34,14 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Lm-sensors
+    Prepare Sensors
     Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${temperature}=    Get Temperature CURRENT
-        ${pwm}=    Get PWM Value
+        ${temperature}=    Get CPU Temperature CURRENT
+        ${pwm}=    Get Fan PWM
         ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Silent Mode
         ...    ${temperature}
         Calculate Smoothing    ${pwm}    ${expected_speed_percentage}
@@ -59,14 +59,14 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Lm-sensors
+    Prepare Sensors
     Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${temperature}=    Get Temperature CURRENT
-        ${pwm}=    Get PWM Value
+        ${temperature}=    Get CPU Temperature CURRENT
+        ${pwm}=    Get Fan PWM
         ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Performance Mode
         ...    ${temperature}
         Calculate Smoothing    ${pwm}    ${expected_speed_percentage}
@@ -87,15 +87,14 @@ CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Lm-sensors
-    Prepare IT87
+    Prepare Sensors
     Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${temperature}=    Get Temperature IT87
-        ${rpm}=    Get RPM IT87
+        ${temperature}=    Get CPU Temperature CURRENT
+        ${rpm}=    Get Fan RPM
         IF    ${rpm} > 300
             Log    RPM: ${rpm}    WARN
             Log To Console    RPM: ${rpm}    WARN
@@ -112,30 +111,6 @@ CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
 
 
 *** Keywords ***
-Get Temperature IT87
-    [Documentation]    Get temp1 temperature from lmsensors using IT87 which
-    ...    is used to determine the fans' RPM
-
-    ${temperature}=    Execute Linux Command
-    ...    sensors it8786-isa-0a20 2> /dev/null | grep -E 'temp1' | tr -s ' ' | cut -d ' ' -f2
-    ${temperature}=    Remove String    ${temperature}    +
-    ${temperature}=    Remove String    ${temperature}    °
-    ${temperature}=    Remove String    ${temperature}    C
-    ${temperature_value}=    Convert To Number    ${temperature}
-    RETURN    ${temperature_value}
-
-Get RPM IT87
-    [Documentation]    Get fan1 RPM from lmsensors using IT87
-    ${rpm}=    Execute Linux Command
-    ...    sensors it8786-isa-0a20 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
-    ${rpm_value}=    Convert To Integer    ${rpm}
-    RETURN    ${rpm_value}
-
-Prepare IT87
-    [Documentation]    Loads the IT87 kernel module which can be used to monitor
-    ...    RPM using lmsensorss
-    Execute Linux Command    modprobe it87 force_id=0x8786
-
 Calculate Speed Percentage Based On Temperature
     [Documentation]    Calculates the expected speed percentage by config file
     ...    for a given temperature based on an algorithm and a
