@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # TrenchBoot tests
 
 These are the tests of [TrenchBoot] functionality meant to be used with

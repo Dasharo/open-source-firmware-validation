@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Define an array of commands
 commands=(
   "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/setup-and-boot-menus -v snipeit:no self-tests/setup-and-boot-menus.robot"
