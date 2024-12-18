@@ -31,8 +31,6 @@ ${DTS_SPECIFICATION_WARN}=          Does it match your actual specification? (Y|
 ${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware on your platform (Y|n)
 ${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
 ${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
-${DPP_PACKAGES_CHECKPOINT}=
-...                                 If you did not buy any DPP\npackages - feel free to continue.\n${DTS_CONFIRM_CHECKPOINT}
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=          Community version
 ${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
@@ -1171,7 +1169,7 @@ Provide DPP Credentials Without Packages
     ...    warning.
     Provide DPP Credentials
 
-    Wait For Checkpoint And Press Enter    ${DPP_PACKAGES_CHECKPOINT}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
 
 Wait For Checkpoint
     [Documentation]    This KW waits for checkpoint (first argument) and logs
