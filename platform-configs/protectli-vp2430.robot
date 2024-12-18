@@ -34,16 +34,16 @@ ${PLATFORM_RAM_SIZE}=               16384
 
 ${CPU}=                             Intel(R) N100
 
-${DEVICE_AUDIO_SRC}=                   Alderlake-P HDMI
-${DEVICE_AUDIO_SRC_WIN}=               ${TBD}
-${DEVICE_AUDIO_HDMI}=                   Alderlake-P HDMI
-${DEVICE_AUDIO_HDMI_WIN}=               ${TBD}
-${DEVICE_AUDIO_HEADSET}=                   Alderlake-P HDMI
-${DEVICE_AUDIO_HEADSET_WIN}=               ${TBD}
-${DEVICE_AUDIO_MIC}=                   Alderlake-P HDMI
-${DEVICE_AUDIO_MIC_WIN}=               ${TBD}
-${DEVICE_AUDIO_HEADSET_MIC}=                   Alderlake-P HDMI
-${DEVICE_AUDIO_HEADSET_MIC_WIN}=               ${TBD}
+${DEVICE_AUDIO_SRC}=                Alderlake-P HDMI
+${DEVICE_AUDIO_SRC_WIN}=            ${TBD}
+${DEVICE_AUDIO_HDMI}=               Alderlake-P HDMI
+${DEVICE_AUDIO_HDMI_WIN}=           ${TBD}
+${DEVICE_AUDIO_HEADSET}=            Alderlake-P HDMI
+${DEVICE_AUDIO_HEADSET_WIN}=        ${TBD}
+${DEVICE_AUDIO_MIC}=                Alderlake-P HDMI
+${DEVICE_AUDIO_MIC_WIN}=            ${TBD}
+${DEVICE_AUDIO_HEADSET_MIC}=        Alderlake-P HDMI
+${DEVICE_AUDIO_HEADSET_MIC_WIN}=    ${TBD}
 
 # On Windows: "Killer(R) Wi-Fi 6 AX1650x 160MHz Wireless Network Adapter (200NGW)"
 ${WIFI_CARD}=
