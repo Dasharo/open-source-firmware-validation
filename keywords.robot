@@ -752,10 +752,23 @@ Get Power Supply State
     RETURN    ${state}
 
 Get Sound Devices Windows
-    [Documentation]    Get and return all sound devices in Windows OS using
-    ...    PowerShell
-    ${out}=    Execute Command In Terminal
-    ...    Get-PnpDevice -PresentOnly | Where-Object {$_.Class -match "Audio" -or $_.Name -match "Audio"} | Select-Object Name, Status
+    [Documentation]    Get and return sound devices via PowerShell
+    ...    filtered as all devices, audio-sink only, or microphones only
+    [Arguments]    ${filter}=all
+    IF    '${filter}' == 'all'
+        ${filter_condition}=    Set Variable    {$_.Class -match "Audio"}
+    ELSE IF    '${filter}' == 'sink'
+        ${filter_condition}=    Set Variable
+        ...    {$_.Class -match "Audio" -and ($_.Name -match "Speaker" -or $_.Name -match "HDMI" -or $_.Name -match "Output")}
+    ELSE IF    '${filter}' == 'microphone'
+        ${filter_condition}=    Set Variable    {$_.Class -match "Audio" -and $_.Name -match "Microphone"}
+    ELSE IF    '${filter}' == 'HDMI'
+        ${filter_condition}=    Set Variable    {$_.Class -match "Audio" -and $_.Name -match "HDMI"}
+    END
+
+    ${ps_command}=    Evaluate
+    ...    'Get-PnpDevice -PresentOnly | Where-Object ${filter_condition} | Select-Object Name, Status'
+    ${out}=    Execute Command In Terminal    ${ps_command}
     RETURN    ${out}
 
 Get USB Devices Windows

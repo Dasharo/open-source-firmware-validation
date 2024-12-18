@@ -16,8 +16,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    Audio subsystem tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -26,7 +28,6 @@ Suite Teardown      Run Keyword
 AUD001.001 Audio subsystem detection (Ubuntu)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Linux OS.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD001.001 not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -37,19 +38,17 @@ AUD001.001 Audio subsystem detection (Ubuntu)
     Should Not Be Empty
     ...    ${DEVICE_AUDIO1}
     ...    msg=At least DEVICE_AUDIO01 must be defined in platform config if audio suite is enabled
-    Should Contain    ${out}    ${DEVICE_AUDIO1}
-    Should Contain    ${out}    ${DEVICE_AUDIO2}
+    Should Contain    ${out}    ${DEVICE_AUDIO_SRC}
     Exit From Root User
 
 AUD001.002 Audio subsystem detection (Windows)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Windows 11.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.002 not supported
-    Power On
+    Power Cycle On
     Login To Windows
     ${out}=    Get Sound Devices Windows
-    Should Contain    ${out}    ${DEVICE_AUDIO1_WIN}
+    Should Contain    ${out}    ${DEVICE_AUDIO_SRC_WIN}
     Should Contain    ${out}    OK
 
 # PI-KVM necessary
@@ -73,7 +72,6 @@ AUD001.002 Audio subsystem detection (Windows)
 AUD004.001 External headset recognition (Ubuntu)
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.001 not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.001 not supported
     Power On
@@ -98,3 +96,14 @@ AUD004.001 External headset recognition (Ubuntu)
 #    ${out}=    Execute Command In Terminal    Get-AudioDevice -list    | ft Index, Default, Type, Name
 #    Should Contain    ${out}    ${headset_string}
 #    Exit from root user
+
+AUD007.002 HDMI Audio recognition (Windows)
+    [Documentation]    Check whether the HDMI audio is recognized
+    ...    properly after connecting HDMI display.
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.002 not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices Windows    HDMI
+    Should Contain    ${out}    ${DEVICE_AUDIO_HDMI_WIN}
+    Should Contain    ${out}    OK

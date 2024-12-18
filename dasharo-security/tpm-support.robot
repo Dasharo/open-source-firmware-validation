@@ -29,7 +29,7 @@ TPM001.001 TPM Support (firmware)
     [Documentation]    This test aims to verify that the TPM is initialized,
     ...    detected and logged correctly by FW via cbmem, directly in Ubuntu
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.001 not supported
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -43,7 +43,7 @@ TPM001.002 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -53,7 +53,7 @@ TPM001.003 TPM Support (Windows)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from Windows.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.003 not supported
-    Power On
+    Power Cycle On
     Login To Windows
     ${out}=    Execute Command In Terminal    get-tpm
     ${tpm_present}=    Get Lines Matching Regexp    ${out}    ^TpmPresent\\s+:\\s.*$
@@ -67,7 +67,7 @@ TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the firmware.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -82,7 +82,7 @@ TPM002.002 Verify TPM version (Ubuntu)
     ...    correctly recognized by the operating system.
     [Tags]    minimal-regression
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.002 not supported
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -92,7 +92,7 @@ TPM002.003 Verify TPM version (Windows)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.003 not supported
-    Power On
+    Power Cycle On
     Login To Windows
     ${out}=    Execute Command In Terminal
     ...    wmic /namespace:\\\\root\\cimv2\\security\\microsofttpm path win32_tpm get * /format:textvaluelist.xsl
@@ -103,7 +103,7 @@ TPM003.001 Check TPM Physical Presence Interface (firmware)
     ...    Interface is supported by the firmware and the log can be detected
     ...    with cbmem within Ubuntu
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.001 not supported
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -116,7 +116,7 @@ TPM003.002 Check TPM Physical Presence Interface (Ubuntu)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.002 not supported
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -133,7 +133,7 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM003.003 not supported
-    Power On
+    Power Cycle On
     Login To Windows
     ${out}=    Execute Command In Terminal    tpmtool getdeviceinformation
     Should Contain    ${out}    PPI Version: 1.3
