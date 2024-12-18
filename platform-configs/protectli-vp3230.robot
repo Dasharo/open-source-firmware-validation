@@ -41,5 +41,5 @@ ${DEVICE_AUDIO1_WIN}=               High Definition Audio Controller
 ${DEVICE_NVME_DISK}=                N/A
 ${CLEVO_DISK}=                      N/A
 
-@{ETH_PORTS}=                       64-62-66-23-8F-19
-...                                 64-62-66-23-8F-1A
+@{ETH_PORTS}=                       64-62-66-23-8f-19
+...                                 64-62-66-23-8f-1a
