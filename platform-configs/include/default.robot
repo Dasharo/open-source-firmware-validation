@@ -198,6 +198,7 @@ ${CPU_FREQUENCY_MEASURE}=                           ${FALSE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${FALSE}
 ${ETH_PERF_PAIR_1_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_2_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_10_G}=                              ${FALSE}
@@ -252,6 +253,8 @@ ${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
 ${CUSTOM_FAN_CURVE_TEST_DURATION}=                  30
 # Interval between the following readings in custom fan curve tests
 ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}=               1
+# Module for a sensor used in CFC tests
+${KERNEL_MODULE_IT87_SUPPORT}=                      ${FALSE}
 # Maximum fails during during performing test suite usb-boot.robot
 ${ALLOWED_FAILS_USB_BOOT}=                          0
 # Maximum fails during during performing test suite usb-detect.robot
@@ -268,6 +271,31 @@ ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
+
+# Variables used in lib/sensors to determine platform-specific methods of
+# measuring temperatures, fans etc.
+
+# Can be one of {`lm-sensors`, `hwmon`, `none`}
+${CPU_TEMPERATURE_MEASUREMENT_METHOD}=              lm-sensors
+# Has to be set if cpu temperature method is hwmon
+${CPU_TEMPERATURE_MEASUREMENT_HWMON_PATH}=          none
+
+# Can be one of {`hwmon`, `none`}
+${FAN_PWM_MEASUREMENT_METHOD}=                      hwmon
+# Has to be set if PWM measurement method is hwmon
+${FAN_PWM_MEASUREMENT_HWMON_PATH}=                  /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon
+
+# Can be one of {`lm-sensors`, `system76-acpi`, `none`}
+${FAN_RPM_MEASUREMENT_METHOD}=                      lm-sensors
+# The name of the sensor in `sensors` command if FAN_RPM_MEASUREMENT_METHOD
+# is set to lm-sensors. For example `w83795g-i2c-1-2f`. `${EMPTY}` if lm-sensors
+# is not used or no filtering by sensor is needed
+${FAN_RPM_MEASUREMENT_SENSOR}=                      ${EMPTY}
+# Kernel module that might need to be enabled using modprobe in order to use
+# the sensor. Dictionary keys:
+# - module - name of the kernel module
+# - force_id - optional force_id arg for modprobe
+&{FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               module=none    force_id=none
 
 
 *** Keywords ***
