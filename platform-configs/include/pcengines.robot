@@ -40,6 +40,9 @@ ${DMIDECODE_FAMILY}=                        N/A
 ${DMIDECODE_TYPE}=                          Desktop
 ${INTERNAL_PROGRAMMER_CHIPNAME}=            W25Q64BV/W25Q64CV/W25Q64FV
 
+# TPM
+${TPM_EXPECTED_VERSION}=                    2
+
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
@@ -90,6 +93,7 @@ ${MEASURED_BOOT_SUPPORT}=                   ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
 ${SECURE_BOOT_DEFAULT_STATE}=               Disabled
 ${UEFI_PASSWORD_SUPPORT}=                   ${TRUE}
+${TPM_EXPECTED_CHIP}=                       N/A
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                     ${TRUE}

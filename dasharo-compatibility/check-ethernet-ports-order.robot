@@ -7,7 +7,6 @@ Library             String
 Library             Telnet    timeout=20 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot

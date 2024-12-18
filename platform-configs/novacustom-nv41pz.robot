@@ -27,3 +27,5 @@ ${POWER_CTRL}=                  none
 
 ${USB_STACK_SUPPORT}=           ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=    ${FALSE}
+
+${TPM_EXPECTED_CHIP}=           SLB9670
