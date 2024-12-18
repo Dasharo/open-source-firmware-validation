@@ -20,6 +20,7 @@ ${CPU}=                                         ${TBD}
 ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         tianocore-shell
 ${FLASH_VERIFY_OPTION}=                         UEFI Shell
+${TPM_EXPECTED_VERSION}=                        2
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_MANUFACTURER}=                      Protectli
@@ -82,6 +83,7 @@ ${SECURE_BOOT_SUPPORT}=                         ${TRUE}
 ${SECURE_BOOT_DEFAULT_STATE}=                   Disabled
 ${USB_STACK_SUPPORT}=                           ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                    ${TRUE}
+${TPM_EXPECTED_CHIP}=                           N/A
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}

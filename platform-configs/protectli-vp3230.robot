@@ -40,3 +40,4 @@ ${DEVICE_AUDIO1_WIN}=               High Definition Audio Controller
 
 ${DEVICE_NVME_DISK}=                N/A
 ${CLEVO_DISK}=                      N/A
+${TPM_EXPECTED_CHIP}=               SLB9670
