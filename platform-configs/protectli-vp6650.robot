@@ -23,3 +23,8 @@ ${CPU_MAX_FREQUENCY}=           4400
 ${PLATFORM_CPU_SPEED}=          2.50
 ${PLATFORM_RAM_SPEED}=          4200
 ${PLATFORM_RAM_SIZE}=           65536
+
+@{ETH_PORTS}=                   64-62-66-22-84-f5
+...                             64-62-66-22-84-f6
+...                             64-62-66-22-84-f7
+...                             64-62-66-22-84-f8

@@ -20,3 +20,11 @@ ${DMIDECODE_PRODUCT_NAME}=      VP4670
 
 ${CPU_MAX_FREQUENCY}=           5000
 ${CPU_MIN_FREQUENCY}=           300
+
+# Ethernet ports for V2.0A (we have 2 in lab at the moment of me writing this)
+@{ETH_PORTS}=                   64-62-66-22-93-db
+...                             64-62-66-22-93-dc
+...                             64-62-66-22-93-dd
+...                             64-62-66-22-93-de
+...                             64-62-66-22-93-df
+...                             64-62-66-22-93-e0
