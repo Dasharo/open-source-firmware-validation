@@ -89,6 +89,10 @@ Flash Firmware
         Rte Flash Write    ${fw_file}
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         Make Sure That Flash Locks Are Disabled
+        Power On
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
         Flash Via Internal Programmer    ${fw_file}    region=bios
     ELSE
         Fail    Flash firmware not implemented for platform config ${CONFIG}
