@@ -1544,9 +1544,8 @@ Get Temperature CURRENT
 Get RPM Value From System76 Acpi
     [Documentation]    Returns current RPM value of CPU fan form driver
     ...    system76_acpi.
-    ${speed}=    Execute Command In Terminal    sensors | grep "CPU fan"
-    ${speed_split}=    Split String    ${speed}
-    ${rpm}=    Get From List    ${speed_split}    2
+    ${rpm}=    Execute Command In Terminal    sensors | grep "CPU fan" | awk '{print $3}'
+    Should Not Be Empty    ${rpm}
     RETURN    ${rpm}
 
 Disable Option In Submenu
