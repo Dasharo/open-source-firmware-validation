@@ -601,11 +601,6 @@ E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     Provide DPP Credentials
 
     # 4) Start update:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
-
-    # 4) Start update:
     Go Through Update
 
     # 5) The final step is rebooting:
