@@ -42,3 +42,10 @@ ${WIFI_CARD}=
 ${USB_MODEL}=                       SanDisk
 ${USB_DEVICE}=                      SanDisk
 ${BLUETOOTH_CARD_UBUNTU}=           Intel Corp. AX200 Bluetooth
+
+@{ETH_PORTS}=                       00-e0-97-1b-00-47
+...                                 00-e0-97-1b-00-48
+...                                 00-e0-97-1b-00-49
+...                                 00-e0-97-1b-00-4a
+
+${ETHERNET_ID}=                     8086:125c
