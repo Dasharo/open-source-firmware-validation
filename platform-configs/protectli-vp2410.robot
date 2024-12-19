@@ -42,3 +42,8 @@ ${PLATFORM_RAM_SPEED}=                  2400
 ${PLATFORM_RAM_SIZE}=                   8192
 
 @{ETH_PERF_PAIR_1_G}=                   enp2s0    enp3s0
+
+@{ETH_PORTS}=                           64-62-66-21-03-b8
+...                                     64-62-66-21-03-b9
+...                                     64-62-66-21-03-ba
+...                                     64-62-66-21-03-bb
