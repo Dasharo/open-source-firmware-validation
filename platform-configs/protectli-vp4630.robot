@@ -19,3 +19,10 @@ ${DMIDECODE_PRODUCT_NAME}=      VP4630
 
 ${CPU_MAX_FREQUENCY}=           4200
 ${CPU_MIN_FREQUENCY}=           300
+
+@{ETH_PORTS}=                   00-e0-97-1b-99-50
+...                             00-e0-97-1b-99-51
+...                             00-e0-97-1b-99-52
+...                             00-e0-97-1b-99-53
+...                             00-e0-97-1b-99-54
+...                             00-e0-97-1b-99-55

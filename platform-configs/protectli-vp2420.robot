@@ -21,6 +21,13 @@ ${WATCHDOG_SUPPORT}=                ${TRUE}
 
 @{ETH_PERF_PAIR_2_G}=               enp3s0    enp4s0
 
+@{ETH_PORTS}=                       00-e0-67-1c-29-79
+...                                 00-e0-67-1c-29-7a
+...                                 00-e0-67-1c-29-7b
+...                                 00-e0-67-1c-29-7c
+
+${ETHERNET_ID}=                     8086:15f3
+
 
 *** Keywords ***
 Flash Protectli VP2420 Internal

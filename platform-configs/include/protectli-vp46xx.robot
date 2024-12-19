@@ -20,3 +20,5 @@ ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.2.0
 ${DMIDECODE_RELEASE_DATE}=          03/13/2024
 
 @{ETH_PERF_PAIR_2_G}=               enp5s0    enp6s0
+
+${ETHERNET_ID}=                     8086:15f3
