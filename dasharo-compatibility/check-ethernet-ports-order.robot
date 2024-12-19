@@ -22,6 +22,7 @@ Suite Teardown      Run Keyword
 SPS001.001 Ethernet ports are in order
     [Documentation]    This test automates the verification of port order based
     ...    on PCIe bus numbers and checks PCIe switching.
+    Skip If    '''${ETH_PORTS}''' == ''    not supported
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux

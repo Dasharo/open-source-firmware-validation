@@ -12,3 +12,5 @@ ${MAX_CPU_TEMP}=                95
 ${DMIDECODE_MANUFACTURER}=      Protectli
 ${DMIDECODE_VENDOR}=            3mdeb
 ${DMIDECODE_FAMILY}=            Vault Pro
+
+${ETHERNET_ID}=                 8086:1539
