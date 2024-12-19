@@ -31,8 +31,6 @@ ${DTS_SPECIFICATION_WARN}=          Does it match your actual specification? (Y|
 ${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware on your platform (Y|n)
 ${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
 ${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
-${DPP_PACKAGES_CHECKPOINT}=
-...                                 If you did not buy any DPP\npackages - feel free to continue.\n${DTS_CONFIRM_CHECKPOINT}
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=          Community version
 ${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
@@ -208,7 +206,7 @@ E2E002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start update:
     Go Through Heads Transition
@@ -464,7 +462,7 @@ E2E003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) -
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -488,7 +486,7 @@ E2E003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP v
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -570,7 +568,7 @@ E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DP
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start update:
     Go Through Update
@@ -600,12 +598,7 @@ E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
-
-    # 4) Start update:
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Into Terminal    2
-    Log    ${out}
+    Provide DPP Credentials
 
     # 4) Start update:
     Go Through Update
@@ -656,7 +649,7 @@ E2E003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with cred
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start update:
     Go Through Heads Transition
@@ -707,7 +700,7 @@ E2E003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start update:
     Go Through Heads Transition
@@ -764,7 +757,7 @@ E2E004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -813,7 +806,7 @@ E2E004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start update:
     Go Through Update
@@ -866,7 +859,7 @@ E2E004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI)
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -915,7 +908,7 @@ E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start update:
     Go Through Update
@@ -970,7 +963,7 @@ E2E005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with 
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -1019,7 +1012,7 @@ E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - wi
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP SeaBIOS
@@ -1076,7 +1069,7 @@ E2E006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with c
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -1125,7 +1118,7 @@ E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
-    Provide DPP Credentials Without Packages
+    Provide DPP Credentials
 
     # 4) Start initial deployment:
     Go Through Initial Deployment    DPP UEFI
@@ -1165,13 +1158,7 @@ Provide DPP Credentials
     Variable Should Exist    ${DPP_PASSWORD}
     Write Into Terminal    ${DPP_PASSWORD}
 
-Provide DPP Credentials Without Packages
-    [Documentation]    This KW automatically writes DPP credentials that do not
-    ...    have access to DPP packages into DTS UI and checks out a DPP package
-    ...    warning.
-    Provide DPP Credentials
-
-    Wait For Checkpoint And Press Enter    ${DPP_PACKAGES_CHECKPOINT}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
 
 Wait For Checkpoint
     [Documentation]    This KW waits for checkpoint (first argument) and logs
