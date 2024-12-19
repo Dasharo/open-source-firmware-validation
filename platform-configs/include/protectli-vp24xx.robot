@@ -13,4 +13,4 @@ ${DMIDECODE_MANUFACTURER}=      Protectli
 ${DMIDECODE_VENDOR}=            3mdeb
 ${DMIDECODE_FAMILY}=            Vault Pro
 
-${ETHERNET_ID}=                 8086:125c
+${ETHERNET_ID}=                 8086:1539
