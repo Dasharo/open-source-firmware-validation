@@ -85,6 +85,48 @@ Enter Netboot.Xyz Linux Install Menu And Return Construction
     Should Contain    ${nb_menu}    Zen Installer Arch
     Should Not Contain    ${nb_menu}    ...
 
+Enter Netboot.Xyz Linux Distro Install Menu And Return Construction (Debian)
+    [Documentation]    Test Enter Netboot.Xyz Linux Install Menu And Return
+    ...    Construction kwd
+    Power On
+    ${nb_menu}=    Enter Netboot.Xyz Linux Distro Install Menu And Return Construction    Debian
+    Should Contain    ${nb_menu}    Debian 12.0 (bookworm)
+    Should Contain    ${nb_menu}    Debian 11.0 (bullseye)
+    Should Contain    ${nb_menu}    Debian 10.0 (buster)
+    Should Contain    ${nb_menu}    Debian trixie (testing)
+    Should Contain    ${nb_menu}    Debian sid (unstable)
+    Should Contain    ${nb_menu}    Set release codename...
+    Should Not Contain    ${nb_menu}    Latest Releases
+    Should Not Contain    ${nb_menu}    Older Releases
+    Should Not Contain    ${nb_menu}    Testing Releases
+
+Enter Netboot.Xyz Linux Distro Install Menu And Return Construction (Ubuntu)
+    [Documentation]    Test Enter Netboot.Xyz Linux Install Menu And Return
+    ...    Construction kwd
+    Power On
+    ${nb_menu}=    Enter Netboot.Xyz Linux Distro Install Menu And Return Construction    Ubuntu
+    Should Contain    ${nb_menu}    Ubuntu 24.10 Oracular Oriole
+    Should Contain    ${nb_menu}    Ubuntu 24.04 LTS Noble Numbat
+    Should Contain    ${nb_menu}    Ubuntu 22.04 LTS Jammy Jellyfish
+    Should Contain    ${nb_menu}    Ubuntu 20.04 LTS Focal Fossa (Subiquity)
+    Should Contain    ${nb_menu}    Ubuntu 20.04 LTS Focal Fossa (Legacy)
+    Should Contain    ${nb_menu}    Ubuntu 18.04 LTS Bionic Beaver
+    Should Contain    ${nb_menu}    Ubuntu 16.04 LTS Xenial Xerus
+    Should Contain    ${nb_menu}    Set release codename...
+    Should Not Contain    ${nb_menu}    Latest Releases
+    Should Not Contain    ${nb_menu}    Older Releases
+    Should Not Contain    ${nb_menu}    Testing Releases
+
+Enter Netboot.Xyz Linux Distro Install Menu And Return Construction (Fedora)
+    [Documentation]    Test Enter Netboot.Xyz Linux Install Menu And Return
+    ...    Construction kwd
+    Power On
+    ${nb_menu}=    Enter Netboot.Xyz Linux Distro Install Menu And Return Construction    Fedora
+    Should Contain    ${nb_menu}    Fedora 41
+    Should Contain    ${nb_menu}    Fedora 40
+    Should Contain    ${nb_menu}    Fedora rawhide
+    Should Not Contain    ${nb_menu}    Latest Releases
+
 # Enter Advanced Secure Boot Keys Management
 #     [Documentation]    Test Enter Advanced Secure Boot Keys Management kwd
 #     Power On
