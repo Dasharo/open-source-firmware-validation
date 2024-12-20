@@ -42,7 +42,10 @@ Set Option State
     [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
     IF    '${current_state}' != '${target_state}'
-        ${menu}=    Enter Submenu From Snapshot    ${menu}    ${option}
+        Enter Submenu From Snapshot    ${menu}    ${option}
+        ${menu}=    Get Menu Construction    Save configuration and exit    7    0
+        ${current_state}=    Get Option State    ${menu}    ${option}
+        Should Match    ${current_state}    Enabled
         RETURN    ${TRUE}
     ELSE
         RETURN    ${FALSE}
