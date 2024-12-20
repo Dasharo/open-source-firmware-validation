@@ -47,6 +47,44 @@ Enter Netboot.Xyz Menu And Return Construction
     Should Not Contain    ${nb_menu}    Signature Checks
     Should Contain    ${nb_menu}[-1]    netboot.xyz [ enabled: true ]
 
+Enter Netboot.Xyz Linux Install Menu And Return Construction
+    [Documentation]    Test Enter Netboot.Xyz Linux Install Menu And Return
+    ...    Construction kwd
+    Power On
+    ${nb_menu}=    Enter Netboot.Xyz Linux Install Menu And Return Construction
+    Should Contain    ${nb_menu}    AlmaLinux
+    Should Contain    ${nb_menu}    Alpine Linux
+    Should Contain    ${nb_menu}    Arch Linux
+    Should Contain    ${nb_menu}    BlackArch
+    Should Contain    ${nb_menu}    CentOS
+    Should Contain    ${nb_menu}    Debian
+    Should Contain    ${nb_menu}    Devuan
+    Should Contain    ${nb_menu}    Fedora
+    Should Contain    ${nb_menu}    Fedora CoreOS
+    Should Contain    ${nb_menu}    Flatcar Container Linux
+    Should Contain    ${nb_menu}    Gentoo
+    Should Contain    ${nb_menu}    Harvester
+    Should Contain    ${nb_menu}    IPFire
+    Should Contain    ${nb_menu}    k3OS
+    Should Contain    ${nb_menu}    Kali Linux
+    Should Contain    ${nb_menu}    Mageia
+    Should Contain    ${nb_menu}    NixOS
+    Should Contain    ${nb_menu}    openEuler
+    Should Contain    ${nb_menu}    openSUSE
+    Should Contain    ${nb_menu}    Oracle Linux
+    Should Contain    ${nb_menu}    Proxmox
+    Should Contain    ${nb_menu}    Red Hat Enterprise Linux
+    Should Contain    ${nb_menu}    Rocky Linux
+    Should Contain    ${nb_menu}    Slackware
+    Should Contain    ${nb_menu}    Talos
+    Should Contain    ${nb_menu}    Tiny Core Linux
+    Should Contain    ${nb_menu}    Ubuntu
+    Should Contain    ${nb_menu}    VMware ESXi
+    Should Contain    ${nb_menu}    VMware Photon
+    Should Contain    ${nb_menu}    VyOS
+    Should Contain    ${nb_menu}    Zen Installer Arch
+    Should Not Contain    ${nb_menu}    ...
+
 # Enter Advanced Secure Boot Keys Management
 #     [Documentation]    Test Enter Advanced Secure Boot Keys Management kwd
 #     Power On
