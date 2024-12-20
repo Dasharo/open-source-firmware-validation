@@ -88,7 +88,7 @@ Get SMBIOS Values
     ...    and Chassis) and store them in suite variables. Each table is stored
     ...    in a dedicated variable because their fields have generic names (e.g.
     ...    Type) that is later extracted in the test cases.
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User

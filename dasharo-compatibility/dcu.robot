@@ -42,7 +42,7 @@ DCU001.001 Change the UUID
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing
 
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -59,7 +59,7 @@ DCU002.001 Change the serial number
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing
 
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -79,7 +79,7 @@ DCU003.001 Change the bootsplash logo
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing
 
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     Login To Linux
@@ -132,7 +132,7 @@ Verify SMMSTORE Changes (Setup Menu)
     ${initial_value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     ${new_value}=    Evaluate    not ${initial_value}
 
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -141,7 +141,7 @@ Verify SMMSTORE Changes (Setup Menu)
     ${value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     Should Be Equal    ${value}    ${new_value}
 
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User

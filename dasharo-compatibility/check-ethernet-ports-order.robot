@@ -7,7 +7,6 @@ Library             String
 Library             Telnet    timeout=20 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
-Resource            ../rtectrl-rest-api/rtectrl.robot
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
@@ -22,7 +21,7 @@ Suite Teardown      Run Keyword
 SPS001.001 Ethernet ports are in order
     [Documentation]    This test automates the verification of port order based
     ...    on PCIe bus numbers and checks PCIe switching.
-    Power On
+    Power Cycle On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
@@ -62,6 +61,8 @@ Append PCIe MAC
 
 Compare Interfaces
     [Arguments]    ${pci_devices}
+    Log    ${ETH_PORTS}
+    Log    ${pci_devices}
     Should Be Equal As Strings
     ...    ${ETH_PORTS}
     ...    ${pci_devices}

@@ -260,7 +260,7 @@ Resign Existing Firmware Image With Generated Keys
     ...    msg=Size of resigned firmware is incorrect. Resigning failed.
 
 Prepare Tools, Keys And Binaries
-    Power On
+    Power Cycle On
     # TODO: store the disk boot entry in platform config, or figure out how
     # to handle UEFI boot entries in a reliable manner
     Boot System Or From Connected Disk    ubuntu
