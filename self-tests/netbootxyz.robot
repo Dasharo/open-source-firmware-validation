@@ -127,6 +127,50 @@ Enter Netboot.Xyz Linux Distro Install Menu And Return Construction (Fedora)
     Should Contain    ${nb_menu}    Fedora rawhide
     Should Not Contain    ${nb_menu}    Latest Releases
 
+Enter Netboot.Xyz Utilities Menu And Return Construction
+    [Documentation]    Test Enter Netboot.Xyz Utilities Menu And Return
+    ...    Construction kwd
+    Power On
+    ${nb_menu}=    Enter Netboot.Xyz Utilities Menu And Return Construction
+    Should Contain    ${nb_menu}    4MLinux
+    Should Contain    ${nb_menu}    Boot Repair CD
+    Should Contain    ${nb_menu}    Breakin
+    Should Contain    ${nb_menu}    CAINE
+    Should Contain    ${nb_menu}    Clonezilla
+    Should Contain    ${nb_menu}    Dasharo Tools Suite
+    Should Contain    ${nb_menu}    DBAN
+    Should Contain    ${nb_menu}    GParted
+    Should Contain    ${nb_menu}    Grml
+    Should Contain    ${nb_menu}    Kaspersky Rescue Disk
+    Should Contain    ${nb_menu}    Memtest86+ 5.01.0
+    Should Contain    ${nb_menu}    Memtest86+ 7.20
+    Should Contain    ${nb_menu}    RedoRescue
+    Should Contain    ${nb_menu}    Rescatux
+    Should Contain    ${nb_menu}    Rescuezilla
+    Should Contain    ${nb_menu}    ShredOS
+    Should Contain    ${nb_menu}    Super GRUB2 Disk
+    Should Contain    ${nb_menu}    System Rescue CD
+    Should Contain    ${nb_menu}    Ultimate Boot CD (UBCD)
+    Should Contain    ${nb_menu}    Kernel cmdline params: []
+    Should Contain    ${nb_menu}    Set custom menu [url: ]
+    Should Contain    ${nb_menu}    Set Github username [user: ]
+    Should Contain    ${nb_menu}    Test Distribution ISO
+    Should Contain    ${nb_menu}    netboot.xyz endpoints
+    Should Not Contain    ${nb_menu}    netboot.xyz tools:
+    Should Not Contain    ${nb_menu}    Utilities:
+
+Enter Netboot.Xyz And Set Kernel Cmdline Params
+    [Documentation]    Test Enter Netboot.Xyz And Set Kernel Cmdline Params kwd
+    Power On
+    Enter Netboot.Xyz And Set Kernel Cmdline Params    console=ttyS0,115200n8
+    ${nb_menu}=    Get Netboot.Xyz Menu Construction
+    ${index}=    Get Index Of Matching Option In Menu    ${nb_menu}    Utilities (64-bit)
+    Select Option    ${index}    ${ARROW_DOWN}
+    Press Enter
+    ${out}=    Read From Terminal
+    ${menu}=    Parse Netboot.Xyz Linux Distro Install Menu Snapshot Into Construction    ${out}
+    Should Contain    ${menu}    Kernel cmdline params: [console=ttyS0,115200n8]
+
 # Enter Advanced Secure Boot Keys Management
 #     [Documentation]    Test Enter Advanced Secure Boot Keys Management kwd
 #     Power On

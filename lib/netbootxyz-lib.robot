@@ -87,6 +87,19 @@ Enter Netboot.Xyz Linux Install Menu And Return Construction
     ${menu}=    Parse Netboot.Xyz Linux Install Menu Snapshot Into Construction    ${out}
     RETURN    ${menu}
 
+Enter Netboot.Xyz Utilities Menu And Return Construction
+    [Documentation]    Return only selectable entries of netboot.xyz Utilities
+    ...    submenu. If some menu option is not selectable it will not
+    ...    be in the menu construction list.
+    Enter Netboot.Xyz Menu
+    ${nb_menu}=    Get Netboot.Xyz Menu Construction
+    ${index}=    Get Index Of Matching Option In Menu    ${nb_menu}    Utilities (64-bit)
+    Select Option    ${index}    ${ARROW_DOWN}
+    Press Enter
+    ${out}=    Read From Terminal
+    ${menu}=    Parse Netboot.Xyz Linux Distro Install Menu Snapshot Into Construction    ${out}
+    RETURN    ${menu}
+
 Enter Netboot.Xyz Linux Distro Install Menu And Return Construction
     [Documentation]    Return only selectable entries of netboot.xyz Linux
     ...    Install submenu for provided Linux distribution. If some menu option
@@ -132,6 +145,19 @@ Parse Netboot.Xyz Linux Distro Install Menu Snapshot Into Construction
     ...    Older Releases
     ...    Testing Releases
     ...    .* - amd64
+    ...    netboot.xyz tools:
+    ...    Utilities:
+    ${nextpage}=    Strip String    ${menu_lines[-1]}
+    IF    "${nextpage}" == "..."
+        ${keypress}=    Get Length    ${construction}
+        Press Key N Times    ${keypress}    ${ARROW_DOWN}
+        ${out}=    Read From Terminal
+        ${out}=    Fetch From Right    ${out}    ...
+        ${menu}=    Parse Netboot.Xyz Linux Distro Install Menu Snapshot Into Construction    ${out}
+        ${construction}=    Combine Lists   ${construction}    ${menu}
+        # We have to get back to top of the list to no confuse user
+        Press Key N Times    ${keypress}    ${ARROW_UP}
+    END
     RETURN    ${construction}
 
 Parse Netboot.Xyz Linux Install Menu Snapshot Into Construction
@@ -168,3 +194,14 @@ Parse Netboot.Xyz Linux Install Menu Snapshot Into Construction
     END
     RETURN    ${construction}
 
+Enter Netboot.Xyz And Set Kernel Cmdline Params
+    [Documentation]    Enter Netboot.Xyz Utilities and set kernel cmdline params
+    [Arguments]    ${params}
+    ${menu}=    Enter Netboot.Xyz Utilities Menu And Return Construction
+    ${index}=    Get Index Of Matching Option In Menu    ${menu}    Kernel cmdline params: []    ${TRUE}
+    Should Not Be Equal    '${index}'    -1    The option was not found in menu
+    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    ${out}=    Read From Terminal
+    Write Bare Into Terminal    ${params}\n    0.1
+    ${out}=    Read From Terminal
+    Press Key N Times    2    ${ESC}
