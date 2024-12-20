@@ -48,7 +48,7 @@ AUD001.002 Audio subsystem detection (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.002 not supported
     Power On
     Login To Windows
-    ${out}=    Get Sound Devices Windows
+    ${out}=    Get Sound Devices Windows    all
     Should Contain    ${out}    ${DEVICE_AUDIO1_WIN}
     Should Contain    ${out}    OK
 
@@ -98,3 +98,14 @@ AUD004.001 External headset recognition (Ubuntu)
 #    ${out}=    Execute Command In Terminal    Get-AudioDevice -list    | ft Index, Default, Type, Name
 #    Should Contain    ${out}    ${headset_string}
 #    Exit from root user
+
+AUD007.002 HDMI Audio recognition (Windows)
+    [Documentation]    Check whether the HDMI audio is recognized
+    ...    properly after connecting HDMI display.
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.002 not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices Windows    HDMI
+    Should Contain    ${out}    ${DEVICE_AUDIO_HDMI_WIN}
+    Should Contain    ${out}    OK
