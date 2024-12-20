@@ -11,7 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Variables           ../platform-configs/fan-curve-config.yaml
+Resource            ../lib/sensors.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -30,17 +30,18 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.001 not supported
+    # Set UEFI Option    FanCurveOption    Silent
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Lm-sensors
+    Prepare Sensors
     Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${temperature}=    Get Temperature CURRENT
-        ${pwm}=    Get PWM Value
+        ${temperature}=    Get CPU Temperature CURRENT
+        ${pwm}=    Get Fan PWM
         ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Silent Mode
         ...    ${temperature}
         Calculate Smoothing    ${pwm}    ${expected_speed_percentage}
@@ -54,20 +55,56 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.001 not supported
+    # Set UEFI Option    FanCurveOption    Performance
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Lm-sensors
+    Prepare Sensors
     Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
     FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${temperature}=    Get Temperature CURRENT
-        ${pwm}=    Get PWM Value
+        ${temperature}=    Get CPU Temperature CURRENT
+        ${pwm}=    Get Fan PWM
         ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Performance Mode
         ...    ${temperature}
         Calculate Smoothing    ${pwm}    ${expected_speed_percentage}
+        Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
+        ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
+    END
+
+CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
+    [Documentation]    Check whether the fan curve is configured correctly in
+    ...    silent profile and the fan spins up and down according to
+    ...    the defined values.
+    Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.001 not supported
+    Skip If    not ${KERNEL_MODULE_IT87_SUPPORT}
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.001 not supported
+
+    Set UEFI Option    FanCurveOption    Fans Off
+
+    Power On
+    Login To Linux
+    Switch To Root User
+    Prepare Sensors
+    Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
+    ${timer}=    Convert To Integer    0
+    FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
+        Log To Console    \n ----------------------------------------------------------------
+        Log To Console    ${timer} min.
+        ${temperature}=    Get CPU Temperature CURRENT
+        ${rpm}=    Get Fan RPM
+        IF    ${rpm} > 300
+            Log    RPM: ${rpm}    WARN
+            Log To Console    RPM: ${rpm}    WARN
+            Log    TEMP: ${temperature}    WARN
+            Log To Console    TEMP: ${temperature}    WARN
+        ELSE
+            Log    RPM: ${rpm}
+            Log    TEMP: ${temperature}
+        END
+
         Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
     END
