@@ -39,8 +39,8 @@ Suite Teardown      Run Keyword
 
 # FAN001.002 All available fans are running
 #    [Documentation]    Check if all available fans are running
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN001.001 not supported
-#    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN001.001 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN001.002 not supported
+#    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN001.002 not supported
 #    Power On
 #    Login To Linux
 #    Switch To Root User
@@ -67,7 +67,7 @@ Suite Teardown      Run Keyword
 FAN003.001 Fans are turning off during suspend mode (ME Enabled)
     [Documentation]    Check for correct behavior
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.001 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN001.001 not supported
+    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN003.001 not supported
     Power On
     Set UEFI Option    MeMode    Enabled
     Login To Linux
@@ -81,7 +81,7 @@ FAN003.001 Fans are turning off during suspend mode (ME Enabled)
 FAN003.002 Fans are turning off during suspend mode (ME Soft disable)
     [Documentation]    Check for correct behavior
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.002 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN001.001 not supported
+    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN003.002 not supported
     Power On
     Set UEFI Option    MeMode    Disabled (Soft)
     Login To Linux
@@ -94,8 +94,8 @@ FAN003.002 Fans are turning off during suspend mode (ME Soft disable)
 
 FAN003.003 Fans are turning off during suspend mode (ME HAP disable)
     [Documentation]    Check for correct behavior
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.002 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.003 not supported
+    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN003.003 not supported
     Power On
     Set UEFI Option    MeMode    Disabled (HAP)
     Login To Linux
