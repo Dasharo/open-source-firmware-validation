@@ -1390,7 +1390,7 @@ Get Cbmem From Cloud
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbmem_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
-        Download File    ${CBMEM_LINK}    ${cbmem_path}
+        Copy File    ${CBMEM_SUBMODULE}    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
     END
 
@@ -1400,7 +1400,7 @@ Get Flashrom From Cloud
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${flashrom_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '8e57fee6578dd31684da7f1afd6f5e5b1d964bb6db52b3a9ec038a7292802ae9'
-        Copy File    ${FLASHROM_LINK}    ${flashrom_path}
+        Copy File    ${FLASHROM_SUBMODULE}    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
@@ -1410,7 +1410,7 @@ Get Cbfstool From Cloud
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbfstool_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != 'e090051e71980620e6f2d2876532eb6fcf4346593260c0c1349a5be51181fb4f'
-        Download File    ${CBFSTOOL_LINK}    ${cbfstool_path}
+        Copy File    ${CBFSTOOL_SUBMODULE}    ${cbfstool_path}
         Execute Command In Terminal    chmod 777 ${cbfstool_path}
     END
 
