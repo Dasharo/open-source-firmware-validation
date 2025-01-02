@@ -130,20 +130,24 @@ DTS008.001 DTS option power-off DUT works correctly
 DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via USB.
-    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
-    ...    This firmware should be earlier version than current one so update
-    ...    can proceed. Test doesn't use DPP keys so it can only update up to
-    ...    newest community version available.
-    ${skip}=    Run Keyword And Return Status
-    ...    Variable Should Not Exist    $FW_FILE
-    Skip If    ${skip}    FW_FILE is not defined
+    ...    Test expects FW_FILE variable to contain path to Dasharo firmware
+    ...    and DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD to contain DPP
+    ...    subscription credentials.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
+    ${variables_defined}=    Are FW FILE And DPP Keys Defined
+    Skip If    not ${variables_defined}
+    ...    Test can't run without setting FW_FILE, DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
-    Set UEFI Option    LockBios    ${FALSE}
+    Make Sure That Flash Locks Are Disabled
+    Power On
     Boot Dasharo Tools Suite    USB
-    Update Dasharo In DTS
+    # To refresh screen as next keyword expects DTS checkpoint
+    Press Key N Times    1    ${ESC}
+    Provide DPP Credentials
+    Go Through Update
+    Wait For Checkpoint    Rebooting
 
 DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
@@ -151,29 +155,33 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     ...    Test expects FW_FILE variable to contain path to Dasharo firmware
     ...    and DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD to contain DPP
     ...    subscription credentials.
-    ${skip}=    Run Keyword And Return Status
-    ...    Variable Should Not Exist    $FW_FILE
-    Skip If    ${skip}    FW_FILE is not defined
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
+    ${variables_defined}=    Are FW FILE And DPP Keys Defined
+    Skip If    not ${variables_defined}
+    ...    Test can't run without setting FW_FILE, DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
-    Set UEFI Option    LockBios    ${FALSE}
-    Make Sure That Network Boot Is Enabled
+    Make Sure That Flash Locks Are Disabled
+    Power On
     Boot Dasharo Tools Suite    iPXE
-    Update Dasharo In DTS
+    # To refresh screen as next keyword expects DTS checkpoint
+    Press Key N Times    1    ${ESC}
+    Provide DPP Credentials
+    Go Through Update
+    Wait For Checkpoint    Rebooting
 
 
 *** Keywords ***
-Update Dasharo In DTS
-    [Documentation]    Update Firmware by using built-in DTS script.
-    ...    Keyword has to be used when in DTS menu
-    Write Into Terminal    2
-    Set DUT Response Timeout    240s
-    Read From Terminal Until    Are you sure you want to proceed with update? (Y|n)
-    Write Into Terminal    Y
-    Read From Terminal Until    Does it match your actual specification? (Y|n)
-    Write Into Terminal    Y
-    Read From Terminal Until    Do you want to update Dasharo firmware on your hardware? (Y|n)
-    Write Into Terminal    Y
-    Read From Terminal Until    Successfully updated Dasharo firmware
+Are FW FILE And DPP Keys Defined
+    ${fw}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $FW_FILE
+    ${logs}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_LOGS_KEY
+    ${download}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_DOWNLOAD_KEY
+    ${password}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_PASSWORD
+    ${status}=    Run Keyword And Return Status    Should Be True
+    ...    ${fw} and ${logs} and ${download} and ${password}
+    RETURN    ${status}
