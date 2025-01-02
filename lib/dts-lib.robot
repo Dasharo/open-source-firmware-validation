@@ -114,7 +114,7 @@ Boot Dasharo Tools Suite
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
-        Write Into Terminal    dts
+        Write Into Terminal    dts-boot
     END
     Read From Terminal Until    Enter an option:
     Sleep    5s
