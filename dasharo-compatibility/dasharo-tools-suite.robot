@@ -130,6 +130,9 @@ DTS008.001 DTS option power-off DUT works correctly
 DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     [Documentation]    This test aims to verify that the option Power off
     ...    system in the DTS menu turns off the DUT.
+    ${skip}=    Run Keyword And Return Status
+    ...    Variable Should Not Exist    $FW_FILE
+    Skip If    ${skip}    FW_FILE is not defined
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
@@ -141,6 +144,9 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
 DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that the option Power off
     ...    system in the DTS menu turns off the DUT.
+    ${skip}=    Run Keyword And Return Status
+    ...    Variable Should Not Exist    $FW_FILE
+    Skip If    ${skip}    FW_FILE is not defined
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.002 not supported
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
