@@ -128,8 +128,12 @@ DTS008.001 DTS option power-off DUT works correctly
     Should Not Be True    ${status}
 
 DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
-    [Documentation]    This test aims to verify that the option Power off
-    ...    system in the DTS menu turns off the DUT.
+    [Documentation]    This test aims to verify that updating Dasharo by using
+    ...    DTS built-in script works correctly when booting DTS via USB.
+    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
+    ...    This firmware should be earlier version than current one so update
+    ...    can proceed. Test doesn't use DPP keys so it can only update up to
+    ...    newest community version available.
     ${skip}=    Run Keyword And Return Status
     ...    Variable Should Not Exist    $FW_FILE
     Skip If    ${skip}    FW_FILE is not defined
@@ -142,8 +146,11 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     Update Dasharo In DTS
 
 DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
-    [Documentation]    This test aims to verify that the option Power off
-    ...    system in the DTS menu turns off the DUT.
+    [Documentation]    This test aims to verify that updating Dasharo by using
+    ...    DTS built-in script works correctly when booting DTS via iPXE.
+    ...    Test expects FW_FILE variable to contain path to Dasharo firmware
+    ...    and DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD to contain DPP
+    ...    subscription credentials.
     ${skip}=    Run Keyword And Return Status
     ...    Variable Should Not Exist    $FW_FILE
     Skip If    ${skip}    FW_FILE is not defined
