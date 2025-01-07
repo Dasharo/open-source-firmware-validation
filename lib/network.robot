@@ -33,11 +33,6 @@ Send File To DUT
 
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
-    # TODO: We do not necessarily need Internet to be reachable for the internal
-    # addresses to be assigned. But if it is, the local IPs are definitely
-    # already in place.
-    Wait Until Keyword Succeeds    5x    1s
-    ...    Check Internet Connection On Linux
     ${out_hostname}=    Execute Command In Terminal    hostname -I
     Should Not Contain    ${out_hostname}    link is not ready
     ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b(?:192\\.168|10\\.0)\\.\\d{1,3}\\.\\d{1,3}\\b
@@ -46,6 +41,8 @@ Get Hostname Ip
 
 Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
+    Wait Until Keyword Succeeds    5x    10s
+    ...    Get Hostname Ip
     ${out}=    Execute Linux Command    ping -c 4 google-public-dns-a.google.com
     Should Contain    ${out}    , 0% packet loss
 
