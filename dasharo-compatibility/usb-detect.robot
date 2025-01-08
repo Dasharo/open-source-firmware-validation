@@ -69,7 +69,7 @@ UDT001.001 USB detection after coldboot
         Fail    Detection failed too many times (${failed_detection})
     END
 
-UDT002.001 USB detection after warmboot
+UDT001.002 USB detection after warmboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the warmboot (reboot realized by device turning off then
     ...    turning on).
@@ -109,7 +109,7 @@ UDT002.001 USB detection after warmboot
         Fail    Detection failed too many times (${failed_detection})
     END
 
-UDT003.001 USB detection after system reboot
+UDT001.003 USB detection after system reboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the system reboot (reboot performing by relevant command).
     Platform Verification
