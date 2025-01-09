@@ -17,8 +17,10 @@ Resource            ../lib/sensors.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -30,26 +32,12 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.001 not supported
-    Skip If    "${FAN_PWM_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
-    Skip If    "${CPU_TEMPERATURE_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
-    # Set UEFI Option    FanCurveOption    Silent
+
+    Set UEFI Option    FanCurveOption    Silent
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Sensors
-    Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
-    ${timer}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer} min.
-        ${temperature}=    Get CPU Temperature CURRENT
-        ${pwm}=    Get Fan PWM
-        ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Silent Mode
-        ...    ${temperature}
-        Calculate Smoothing    ${pwm}    ${expected_speed_percentage}
-        Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
-        ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
-    END
+    Perform Custom Fan Curve Test    silent
 
 CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
@@ -57,104 +45,193 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.001 not supported
-    Skip If    "${FAN_PWM_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
-    Skip If    "${CPU_TEMPERATURE_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
-    # Set UEFI Option    FanCurveOption    Performance
+
+    Set UEFI Option    FanCurveOption    Performance
     Power On
     Login To Linux
     Switch To Root User
-    Prepare Sensors
-    Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
-    ${timer}=    Convert To Integer    0
-    FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer} min.
-        ${temperature}=    Get CPU Temperature CURRENT
-        ${pwm}=    Get Fan PWM
-        ${expected_speed_percentage}=    Calculate Speed Percentage Based On Temperature In Performance Mode
-        ...    ${temperature}
-        Calculate Smoothing    ${pwm}    ${expected_speed_percentage}
-        Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
-        ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
-    END
+    Perform Custom Fan Curve Test    performance
 
 CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
     Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.001 not supported
-    Skip If    "${FAN_RPM_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
-    Skip If    "${CPU_TEMPERATURE_MEASUREMENT_METHOD}" == "none"    CFC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.001 not supported
 
     Set UEFI Option    FanCurveOption    Fans Off
-
     Power On
     Login To Linux
     Switch To Root User
+    Perform Custom Fan Curve Test    off
+
+
+*** Keywords ***
+Perform Custom Fan Curve Test
+    [Documentation]    Performs a Custom Fan Curve test for a given profile
+    [Arguments]    ${profile}
+
     Prepare Sensors
     Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
     ${timer}=    Convert To Integer    0
+    Sleep    5s
+    ${result}=    Set Variable    ${TRUE}
+    ${fails_in_a_row}=    Set Variable    0
+
     FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        ${temperature}=    Get CPU Temperature CURRENT
-        ${rpm}=    Get Fan RPM
-        IF    ${rpm} > 300
-            Log    RPM: ${rpm}    WARN
-            Log To Console    RPM: ${rpm}    WARN
-            Log    TEMP: ${temperature}    WARN
-            Log To Console    TEMP: ${temperature}    WARN
+
+        ${new_result}=    Verify Fan Speeds    ${profile}
+        IF    not ${result} and not ${new_result}
+            ${fails_in_a_row}=    Evaluate    ${fails_in_a_row}+1
+            IF    ${fails_in_a_row} > 1
+                Fail    Too many invalid fan speeds in a row
+            END
         ELSE
-            Log    RPM: ${rpm}
-            Log    TEMP: ${temperature}
+            ${fails_in_a_row}=    Set Variable    0
         END
 
         Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
     END
 
+    IF    not ${result}
+        Log    Invalid fan speeds detected. Needs manual verification    WARN
+        Log To Console    Invalid fan speeds detected. Needs manual verification    WARN
+    END
 
-*** Keywords ***
+Verify Fan Speeds
+    [Documentation]    Measures PWM/RPM and compares to target values depending
+    ...    on CPU temperature and a fan curve. Mode is a string and can be
+    ...    either "performance", "silent" or "off" depending on the fan curve
+    ...    to compare against.
+    [Arguments]    ${mode}
+    ${pwm_support}=    Is Fan PWM Measurement Supported
+    ${rpm_support}=    Is Fan RPM Measurement Supported
+    IF    ${pwm_support}
+        ${speed_unit}=    Set Variable    pwm
+        ${fan_speed}=    Get Fan PWM
+    ELSE IF    ${rpm_support}
+        ${speed_unit}=    Set Variable    rpm
+        ${fan_speed}=    Get Fan RPM
+    ELSE
+        Log To Console
+        ...    Invalid device configuration. CUSTOM_FAN_CURVE_X_MODE_SUPPORT is True, but fan speed measurement method is `none`
+        ...    ERROR
+        Fail
+    END
+
+    ${temperature}=    Get CPU Temperature CURRENT
+    IF    '${mode}' == 'silent'
+        ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Silent Mode
+        ...    ${temperature}    ${speed_unit}
+    ELSE IF    '${mode}' == 'performance'
+        ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Performance Mode
+        ...    ${temperature}    ${speed_unit}
+    ELSE IF    '${mode}' == 'off'
+        ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Off Mode
+        ...    ${temperature}    ${speed_unit}
+    END
+
+    ${speed_is_valid}=    Verify With Tolerance
+    ...    ${fan_speed}
+    ...    ${expected_fan_speed}
+    ...    ${speed_unit}
+    ...    ${tolerance}
+
+    Log To Console    Temp: ${temperature}
+    Log To Console    Fan Speed: ${fan_speed}
+    Log To Console    Expected Speed: ${expected_fan_speed}
+    Log To Console    Tolerance: ${tolerance}
+    IF    not ${speed_is_valid}
+        Log    Invalid fan speed detected    WARN
+        Log To Console    Invalid fan speed detected    WARN
+        RETURN    ${FALSE}
+    END
+    RETURN    ${TRUE}
+
+Verify With Tolerance
+    [Documentation]    Compares the actual and expected value of the fan speed,
+    ...    taking tolerance into account.
+    [Arguments]    ${fan_speed}    ${expected_speed}    ${fan_speed_unit}    ${tolerance}
+    IF    '${fan_speed_unit}' == 'pwm'
+        ${fan_speed}=    Evaluate    float(${fan_speed}/2.55)
+    END
+
+    # RPM Measurements are not as precise as PWM. The margin of error has to be much larger.
+    IF    '${fan_speed_unit}' == 'rpm'
+        ${smoothing}=    Set Variable    ${tolerance}
+    ELSE IF    '${fan_speed_unit}' == 'pwm' and ${expected_speed} < 35
+        ${smoothing}=    Evaluate    1
+    ELSE
+        ${smoothing}=    Evaluate    ${tolerance}
+    END
+
+    ${high_limit}=    Evaluate    ${expected_speed}+${smoothing}
+    ${low_limit}=    Evaluate    ${expected_speed}-${smoothing}
+    ${result}=    Evaluate    ${low_limit} < ${fan_speed} < ${high_limit}
+    RETURN    ${result}
+
 Calculate Speed Percentage Based On Temperature
     [Documentation]    Calculates the expected speed percentage by config file
     ...    for a given temperature based on an algorithm and a
-    ...    defined curve.
-    [Arguments]    ${temperature}    @{temperature_curve}
-    ${rpm}=    Evaluate    -1
+    ...    defined curve. Speed unit should be defined as "pwm" or "rpm" to
+    ...    choose the curve unit.
+    [Arguments]    ${temperature}    ${speed_unit}    @{temperature_curve}
+
+    ${fan_speed}=    Evaluate    -1
     FOR    ${range_data}    IN    @{temperature_curve}
         ${min_temp}    ${max_temp}=    Get From Dictionary    ${range_data}    range
-        ${eval_min}    ${eval_max}=    Get From Dictionary    ${range_data}    evaluation
-        # if temperature is equal to start of the range then rpm value will be
-        # equal to minimal rpm for this range
+        ${eval_min}    ${eval_max}=    Get From Dictionary    ${range_data}    evaluation_${speed_unit}
+        ${tolerance}=    Get From Dictionary    ${range_data}    tolerance_${speed_unit}
+        # if temperature is equal to start of the range then pwm value will be
+        # equal to minimal pwm for this range
         IF    ${temperature} == ${min_temp}
-            ${rpm}=    Evaluate    float(${eval_min})
+            ${fan_speed}=    Evaluate    float(${eval_min})
             BREAK
             # if not check if the temperature is lower than maximum temperature in
-            # this range and if so, then calculate rpm by finding a linear function
+            # this range and if so, then calculate pwm by finding a linear function
             # and its ordinate
         ELSE IF    ${temperature} < ${max_temp}
-            ${rpm}=    Evaluate
+            ${fan_speed}=    Evaluate
             ...    float(((${eval_max}-${eval_min})/(${max_temp}-${min_temp}))*(${temperature}-${min_temp})+${eval_min})
             BREAK
         END
     END
 
-    IF    ${rpm} == -1    FAIL
-    RETURN    ${rpm}
+    IF    ${fan_speed} == -1    FAIL
+    RETURN    ${fan_speed}    ${tolerance}
 
 Calculate Speed Percentage Based On Temperature In Performance Mode
-    [Documentation]    Calculates the expected speed percentage in performance
+    [Documentation]    Calculates the expected speed in performance
     ...    mode for a given temperature based on an algorithm and a
     ...    defined curve.
-    [Arguments]    ${temperature}
-    ${rpm}=    Calculate Speed Percentage Based On Temperature    ${temperature}    @{TEMPERATURE_CURVE_PERFORMANCE}
-    RETURN    ${rpm}
+    [Arguments]    ${temperature}    ${speed_unit}
+    ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
+    ...    ${temperature}
+    ...    ${speed_unit}
+    ...    @{TEMPERATURE_CURVE_PERFORMANCE}
+    RETURN    ${fan_speed}    ${tolerance}
 
 Calculate Speed Percentage Based On Temperature In Silent Mode
-    [Documentation]    Calculates the expected speed percentage in silent
+    [Documentation]    Calculates the expected speed in silent
     ...    mode for a given temperature based on an algorithm and a
     ...    defined curve.
-    [Arguments]    ${temperature}
-    ${rpm}=    Calculate Speed Percentage Based On Temperature    ${temperature}    @{TEMPERATURE_CURVE_SILENT}
-    RETURN    ${rpm}
+    [Arguments]    ${temperature}    ${speed_unit}
+    ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
+    ...    ${temperature}
+    ...    ${speed_unit}
+    ...    @{TEMPERATURE_CURVE_SILENT}
+    RETURN    ${fan_speed}    ${tolerance}
+
+Calculate Speed Percentage Based On Temperature In Off Mode
+    [Documentation]    Calculates the expected speed in off
+    ...    mode for a given temperature based on an algorithm and a
+    ...    defined curve.
+    [Arguments]    ${temperature}    ${speed_unit}
+    ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
+    ...    ${temperature}
+    ...    ${speed_unit}
+    ...    @{TEMPERATURE_CURVE_OFF}
+    RETURN    ${fan_speed}    ${tolerance}
