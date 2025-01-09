@@ -31,25 +31,5 @@ ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${TRUE}
 
 # Variables used in lib/sensors to determine platform-specific methods of
 # measuring temperatures, fans etc.
-
-# Can be one of {`lm-sensors`, `hwmon`, `none`}
-${CPU_TEMPERATURE_MEASUREMENT_METHOD}=              lm-sensors
-# Has to be set if cpu temperature method is hwmon
-${CPU_TEMPERATURE_MEASUREMENT_HWMON_PATH}=          none
-# Can be one of {`hwmon`, `system76-acpi`, `none`}
-${FAN_PWM_MEASUREMENT_METHOD}=                      none
-# Has to be set if PWM measurement method is hwmon
-${FAN_PWM_MEASUREMENT_HWMON_PATH}=                  none
-
-# Can be one of {`lm-sensors`, `none`}
-${FAN_RPM_MEASUREMENT_METHOD}=                      lm-sensors
-# The name of the sensor in `sensors` command if FAN_RPM_MEASUREMENT_METHOD
-# is set to lm-sensors. For example `w83795g-i2c-1-2f`. `none` if lm-sensors
-# is not used
-${FAN_RPM_MEASUREMENT_SENSOR}=                      it8786-isa-0a20
-# Kernel module that might need to be enabled using modprobe in order to use
-# the sensor. Dictionary keys:
-# - module - name of the kernel module
-# - force_id - optional force_id arg for modprobe
-${FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               it87
-${FAN_RPM_MEASUREMENT_SENSOR_MODULE_FORCE_ID}=      0x8786
+${SENSORS_CONFIG_FILE}=                             include/sensors/protectli-vpxxxx-sensors-config.yaml
+${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/protectli-vpxxxx-fan-curve-config.yaml

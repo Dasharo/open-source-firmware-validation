@@ -1,0 +1,60 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+temperature_curve_silent:
+  - range: [0, 40]
+    evaluation_pwm: [0, 1]
+    tolerance_pwm: 6
+    evaluation_rpm: [250, 250]
+    tolerance_rpm: 250
+
+  - range: [40, 50]
+    evaluation_pwm: [20, 35]
+    tolerance_pwm: 6
+    evaluation_rpm: [700, 700] # Anywhere between 0 and 1100 + 300 tolerance
+    tolerance_rpm: 700
+
+  - range: [50, 85]
+    evaluation_pwm: [35, 100]
+    tolerance_pwm: 6
+    evaluation_rpm: [1100, 2900]
+    tolerance_rpm: 300
+
+  - range: [85, 100]
+    evaluation_pwm: [100, 100]
+    tolerance_pwm: 6
+    evaluation_rpm: [3100, 3100]
+    tolerance_rpm: 400
+
+temperature_curve_performance:
+  - range: [0, 30]
+    evaluation_pwm: [0, 1]
+    tolerance_pwm: 6
+    evaluation_rpm: [250, 250]
+    tolerance_rpm: 250
+
+  - range: [30, 40]
+    evaluation_pwm: [0, 40]
+    tolerance_pwm: 6
+    evaluation_rpm: [800, 800] # Anywhere between 0 and 1400 + 200 tolerance
+    tolerance_rpm: 800
+
+  - range: [40, 75]
+    evaluation_pwm: [40, 100]
+    tolerance_pwm: 6
+    evaluation_rpm: [1300, 3200]
+    tolerance_rpm: 300
+
+  - range: [75, 100]
+    evaluation_pwm: [100, 100]
+    tolerance_pwm: 6
+    evaluation_rpm: [3100, 3100]
+    tolerance_rpm: 400
+
+temperature_curve_off:
+  - range: [0, 100]
+    evaluation_pwm: [0, 1]
+    tolerance_pwm: 6
+    evaluation_rpm: [250, 250]
+    tolerance_rpm: 150

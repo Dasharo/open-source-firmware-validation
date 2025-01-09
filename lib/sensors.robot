@@ -59,8 +59,8 @@ Get CPU Temperature
         ${temperature}=    Convert To Number    ${temperature}
         RETURN    ${temperature}
     ELSE
-        Fail    Wrong platform configuration. CPU_TEMPERATURE_MEASUREMENT_METHOD
-        ...    is of unknown value ${CPU_TEMPERATURE_MEASUREMENT_METHOD}.
+        Fail    Wrong platform configuration. CPU_TEMPERATURE_MEASUREMENT["method"]
+        ...    is of unknown value ${cpu_temperature_measurement_method}.
     END
 
 Get Fan PWM
@@ -76,6 +76,9 @@ Get Fan PWM
         ...    cat ${fan_pwm_measurement_hwmon_path}
         ${pwm}=    Convert To Number    ${pwm}
         RETURN    ${pwm}
+    ELSE
+        Fail    Wrong platform configuration. FAN_RPM_MEASUREMENT["method"] is
+        ...    of unknown value ${fan_pwm_measurement_method}.
     END
 
 Get Fan RPM
@@ -85,13 +88,9 @@ Get Fan RPM
         ${fan_rpm_measurement_sensor}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    lm_sensors_sensor_name
         IF    '''${fan_rpm_measurement_sensor}''' != '''none'''
             ${rpm}=    Execute Linux Command
-            ...    sensors ${FAN_RPM_MEASUREMENT_SENSOR} 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
+            ...    sensors ${fan_rpm_measurement_sensor} 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
             ${rpm}=    Convert To Integer    ${rpm}
             RETURN    ${rpm}
-        ELSE
-            Fail    FAN_RPM_MEASUREMENT_METHOD "${FAN_RPM_MEASUREMENT_METHOD}"
-            ...    requires giving a valid FAN_RPM_MEASUREMENT_SENSOR,
-            ...    currently set to ${FAN_RPM_MEASUREMENT_SENSOR}
         END
     ELSE IF    '''${fan_rpm_measurement_method}''' == '''system76-acpi'''
         ${speed}=    Execute Command In Terminal    sensors | grep "CPU fan"
@@ -103,8 +102,8 @@ Get Fan RPM
         ...    none. Either it should be changed or this test should not be
         ...    performed on this platform.
     ELSE
-        Fail    Wrong platform configuration. FAN_RPM_MEASUREMENT_METHOD is
-        ...    of unknown value ${FAN_RPM_MEASUREMENT_METHOD}.
+        Fail    Wrong platform configuration. FAN_RPM_MEASUREMENT["method"] is
+        ...    of unknown value ${fan_rpm_measurement_method}.
     END
 
 Is Fan PWM Measurement Supported
