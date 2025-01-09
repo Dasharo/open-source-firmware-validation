@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# example_sensor_measurement:
+#     # Can be one of {`lm-sensors`, `hwmon`, `system76-acpi`, `none`} depending on measured value and device
+#   - method: none
+#     # Abosule path to hwmon file representing the sensor
+#     # Has to be set if PWM measurement method is hwmon
+#     # example: /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon/hwmon0/pwm1
+#     hwmon_path: none
+#     # The name of the sensor in `sensors` command if method
+#     # is set to lm-sensors. For example `w83795g-i2c-1-2f`. `none` if lm-sensors
+#     # is not used or no filtering of the command output by sensor name is needed
+#     lm_sensors_sensor_name: none
+
+cpu_temperature_measurement:
+# Can be one of {`lm-sensors`, `hwmon`, `none`}
+  method: lm-sensors
+  hwmon_path: none
+  lm_sensors_sensor_name: none
+
+fan_pwm_measurement:
+# Can be one of {`hwmon`, `none`}
+  method: none
+  hwmon_path: none
+  lm_sensors_sensor_name: none
+
+fan_rpm_measurement:
+# Can be one of {`lm-sensors`, `system76-acpi`, `none`}
+  method: none
+  hwmon_path: none
+  lm_sensors_sensor_name: none
+
+# Kernel modules that might need to be enabled using modprobe in order to use
+# the sensors.
+sensors_kernel_modules:
+    # name of the kernel module
+  - module: none
+    # optional force_id arg for modprobe
+    force_id: none
