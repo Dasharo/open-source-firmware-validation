@@ -1145,6 +1145,7 @@ Power On And Enter DTS Shell
 Provide DPP Credentials
     [Documentation]    This KW automatically writes DPP credentials into DTS UI.
     ...    The credentials should be set via CMD or file.
+    Set DUT Response Timeout    120s
     ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
     Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
 
@@ -1198,7 +1199,7 @@ Go Through Initial Deployment
     Set DUT Response Timeout    5m
     # Accept hw-probe question from HCL report:
     Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
+    Set DUT Response Timeout    120s
 
     # 3) Choose version to install:
     IF    '${dasharo_version}' == 'DCR UEFI'
@@ -1221,6 +1222,7 @@ Go Through Initial Deployment
 Go Through Update
     [Documentation]    This KW goes through standard Dasharo update workflow
     ...    choosing all needed menu options and answering all questions.
+    Set DUT Response Timeout    120s
     # 1) Select initial deployment:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
@@ -1231,6 +1233,7 @@ Go Through Update
 Go Through Heads Transition
     [Documentation]    This KW goes through transition to Dasharo Heads choosing
     ...    all needed menu options and answering all questions.
+    Set DUT Response Timeout    120s
     # 1) Start update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
