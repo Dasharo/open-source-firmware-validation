@@ -55,7 +55,7 @@ robotframework-faker==5.0.0
 robotframework-requests==0.9.4
 robotframework-robocop==5.0.4
 robotframework-sherlock==0.3.0
-robotframework-sshlibrary==3.5.1
+robotframework-sshlibrary @ git+https://github.com/MarketSquare/SSHLibrary@ba6c3ee783bd6fd8b73c1341fe873a99991a353a
 robotframework-tidy==4.11.0
 rsa==4.9
 scp==0.14.5
