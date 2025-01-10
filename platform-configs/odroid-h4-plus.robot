@@ -81,6 +81,23 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=      ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                 ${TRUE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=    2
 
+#Dasharo stability
+${CPU_FREQUENCY_MEASURE}=               ${TRUE}
+${SERIAL_BOOT_MEASURE}=                 ${TRUE}
+${CPU_TEMPERATURE_MEASURE}=             ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=         ${TRUE}
+
+#Dasharo security
+${TPM_SUPPORT}=                         ${TRUE}
+${TPM_DETECT_SUPPORT}=                  ${TRUE}
+${VERIFIED_BOOT_SUPPORT}=               ${TRUE}
+${BIOS_LOCK_SUPPORT}=                   ${TRUE}
+${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
+${SECURE_BOOT_SUPPORT}=                 ${TRUE}
+${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=            ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
+
 
 *** Keywords ***
 Power On
