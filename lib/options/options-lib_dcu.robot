@@ -19,14 +19,17 @@ Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     ...    The device has to be ON and logged in to Ubuntu
     [Arguments]    ${option_name}    ${value}
+    Login To Linux
+    Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${option_name}    ${value}
-    Execute Reboot Command
     Sleep    20s
 
 Get UEFI Option
     [Documentation]    Read an UEFI option value.
     ...    The device has to be ON and logged in to Ubuntu
     [Arguments]    ${option_name}
+    Login To Linux
+    Switch To Root User
     ${out}=    DCU Variable Get UEFI Option From DUT    ${option_name}
     RETURN    ${out}
 
