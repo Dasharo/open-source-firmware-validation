@@ -17,8 +17,8 @@ Simulate Power Failure
         Read From Terminal
         Sonoff On
     ELSE
-        Rte Relay Toggle
+        Rte Psu Off
         Sleep    15s
         Read From Terminal
-        Rte Relay Toggle
+        Rte Psu On
     END
