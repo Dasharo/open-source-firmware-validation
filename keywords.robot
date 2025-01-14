@@ -910,16 +910,16 @@ Check Internal LCD Windows
 Check External HDMI In Linux
     [Documentation]    Keyword checks if an external HDMI device is visible
     ...    in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/class/drm/card*/*
-
-    Should Contain    ${out}    connected
+    ${out}=    Execute Linux Command    cat /sys/class/drm/card*-HDMI-*/status
+    ${words}=    Split To Lines    ${out}
+    Should Contain    ${words}    connected
 
 Check External DP In Linux
     [Documentation]    Keyword checks if an external Display Port device is
     ...    visible in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/class/drm/card0-DP-1/status
-    Should Not Contain    ${out}    disconnected
-    Should Contain    ${out}    connected
+    ${out}=    Execute Linux Command    cat /sys/class/drm/card*-DP-*/status
+    ${words}=    Split To Lines    ${out}
+    Should Contain    ${words}    connected
 
 Device Detection In Linux
     [Documentation]    Keyword checks if a given device name as a parameter is
