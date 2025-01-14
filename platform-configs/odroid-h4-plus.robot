@@ -79,15 +79,16 @@ ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=    ${TRUE}
 ${CPU_TESTS_SUPPORT}=                    ${TRUE}
 ${DASHARO_POWER_MGMT_MENU_SUPPORT}=      ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                 ${TRUE}
+${SUSPEND_AND_RESUME_SUPPORT}=           ${TRUE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=    2
 
-#Dasharo stability
+ #Dasharo performance
 ${CPU_FREQUENCY_MEASURE}=               ${TRUE}
 ${SERIAL_BOOT_MEASURE}=                 ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=             ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=         ${TRUE}
 
-#Dasharo security
+ #Dasharo security
 ${TPM_SUPPORT}=                         ${TRUE}
 ${TPM_DETECT_SUPPORT}=                  ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=               ${TRUE}
@@ -98,6 +99,10 @@ ${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=            ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
 
+ #Dasharo stability
+${NVME_DETECTION_SUPPORT}=              ${TRUE}
+${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=    ${TRUE}
+${STABILITY_DETECTION_SUSPEND_ITERATIONS}=    5
 
 *** Keywords ***
 Power On
