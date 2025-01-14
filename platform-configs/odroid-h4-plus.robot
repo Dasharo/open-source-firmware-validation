@@ -3,8 +3,8 @@ Resource    include/default.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=               pikvm
-${DUT_CONNECTION_METHOD}=                       pikvm
+${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
+${DUT_CONNECTION_METHOD}=                       Telnet
 ${FLASH_SIZE}=                                  ${16*1024*1024}
 ${FLASH_LENGTH}=                                ${TBD}
 ${MANUFACTURER}=                                Hardkernel
