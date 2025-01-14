@@ -98,6 +98,8 @@ ${SECURE_BOOT_SUPPORT}=                         ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                       ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=                 ${TRUE}
+${MEASURED_BOOT_SUPPORT}=                       ${TRUE}
 
 # Dasharo stability
 ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
