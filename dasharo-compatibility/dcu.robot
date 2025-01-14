@@ -12,7 +12,6 @@ Library             FakerLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../pikvm-rest-api/pikvm_comm.robot
 Resource            ../lib/dcu.robot
 
 # TODO:
