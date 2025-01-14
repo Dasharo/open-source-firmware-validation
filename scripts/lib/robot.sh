@@ -101,6 +101,13 @@ execute_robot() {
     device_ip_option=""
   fi
 
+  # CAPSULE_FW_FILE environment variable is required for the capsule update test
+  if [ -n "${CAPSULE_FW_FILE}" ]; then
+    capsule_fw_file_option="-v capsule_fw_file:${CAPSULE_FW_FILE}"
+  else
+    capsule_fw_file_option=""
+  fi
+
   extra_options=""
   # By default use snipeit, if SNIPEIT_NO is not set
   if [ -n "${SNIPEIT_NO}" ]; then
@@ -145,6 +152,7 @@ execute_robot() {
                 -v config:${CONFIG} \
                 ${device_ip_option} \
                 ${fw_file_option} \
+                ${capsule_fw_file_option} \
                 ${installed_dut_option} \
                 ${extra_options} \
                 ${_robot_args[*]} \
