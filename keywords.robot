@@ -1,7 +1,6 @@
 *** Settings ***
 Library         Collections
 Library         OperatingSystem
-Resource        pikvm-rest-api/pikvm_comm.robot
 Resource        lib/bios/menus.robot
 Resource        lib/secure-boot-lib.robot
 Resource        lib/usb-hid-msc-lib.robot
@@ -560,16 +559,28 @@ Import Osfv Libraries
     IF    '${SNIPEIT}' == 'yes'
         Import Library    osfv.rf.snipeit_robot
         Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    True
-    ELSE IF    'sonoff' == '${POWER_CTRL}'
-        Variable Should Exist    ${SONOFF_IP}
-        # The last parameter is the DUT config name. It needs to be provided if
-        # it SnipeIT is not used; otherwise the library would not be able to
-        # determine the platform type.
-        Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    False
-        ...    ${SONOFF_IP}    ${CONFIG}
+        IF    'pikvm' == '${INITIAL_DUT_CONNECTION_METHOD}'
+            ${pikvm_ip}=    Snipeit Get PiKVM IP    ${RTE_IP}
+            Import Library    pikvm.client.PiKVMClient    ${pikvm_ip}
+        END
     ELSE
-        Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    False
-        ...    config=${CONFIG}
+        IF    'sonoff' == '${POWER_CTRL}'
+            Variable Should Exist    ${SONOFF_IP}
+            # The last parameter is the DUT config name. It needs to be provided if
+            # it SnipeIT is not used; otherwise the library would not be able to
+            # determine the platform type.
+            Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    False
+            ...    ${SONOFF_IP}    ${CONFIG}
+        ELSE
+            Import Library    osfv.rf.rte_robot.RobotRTE    ${RTE_IP}    False
+            ...    config=${CONFIG}
+        END
+        IF    'pikvm' == '${INITIAL_DUT_CONNECTION_METHOD}'
+            Variable Should Exist
+            ...    ${pikvm_ip}
+            ...    PiKVM IP cannot be fetched from SnipeIT. Please provide it in the 'PIKVM_IP' variable
+            Import Library    pikvm.client.PiKVMClient    ${pikvm_ip}
+        END
     END
 
 Prepare To SSH Connection
@@ -641,14 +652,6 @@ Prepare To PiKVM Connection
     Remap Keys Variables To PiKVM
     Open Connection And Log In
     ${platform}=    Get Current RTE Param    platform
-    IF    '${SNIPEIT}' == 'yes'
-        ${pikvm_ip}=    Snipeit Get PiKVM IP    ${RTE_IP}
-        Set Global Variable    ${PIKVM_IP}
-    END
-    # If snipeit is set to "no", fetch it from command line
-    Variable Should Exist
-    ...    ${PIKVM_IP}
-    ...    PiKVM IP cannot be fetched from SnipeIT. Please provide it in the 'PIKVM_IP' variable
     Set Global Variable    ${PLATFORM}
     Get DUT To Start State
 
