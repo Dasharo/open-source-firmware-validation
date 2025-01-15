@@ -40,11 +40,42 @@ kwds_to_remove=(
 "Enable Option In Submenu"
 "Disable Option In Submenu"
 "Get Intel ME Mode State"
+"Download To Host Cache"
+"Download ISO And Mount As USB"
+"Upload And Mount DTS Flash ISO"
+"Prepare Required Files For Qemu"
+"Get Coreboot Tools From Cloud"
+"Get Cbmem From Cloud"
+"Get Flashrom From Cloud"
+"Get Cbfstool From Cloud"
 )
 
 echo "Keywords that should not be used, but are still used:"
 find . -type f -name "*.robot" | while IFS= read -r file; do
   for kwd in "${kwds_to_remove[@]}"; do
       grep -i -n -H "$kwd" "$file"
+  done
+done
+
+vars_to_remove=(
+"PIKVM_IP"
+"DL_CACHE_DIR"
+)
+
+echo "Global variables that should not be used, but are still used:"
+find . -type f -name "*.robot" | while IFS= read -r file; do
+  for var in "${vars_to_remove[@]}"; do
+      grep -n -H "$var" "$file"
+  done
+done
+
+resources_to_remove=(
+"dl-cache.robot"
+)
+
+echo "Resources that should not be used, but are still used:"
+find . -type f -name "*.robot" | while IFS= read -r file; do
+  for resource in "${resources_to_remove[@]}"; do
+      grep -n -H "$resource" "$file"
   done
 done

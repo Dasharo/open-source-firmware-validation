@@ -5,10 +5,6 @@ Resource            ../keywords.robot
 
 
 *** Variables ***
-${TINYCORE_URL}=                https://distro.ibiblio.org/tinycorelinux/14.x/x86/release/CorePlus-14.0.iso
-${DTS_URL}=                     https://dl.3mdeb.com/open-source-firmware/DTS/v1.2.8/dts-base-image-v1.2.8.iso
-${DISK_IMAGE_URL}=              https://cloud.3mdeb.com/index.php/s/BwLyjHT9fRncXMY/download/image.img
-
 # These are always installed, used in many different testing. We do not want
 # to remove them during the ESP scanning testing.
 @{SYSTEMS_ALWAYS_INSTALLED}=    Windows Boot Manager (on
@@ -34,27 +30,19 @@ Prepare EFI Partition With System Files
 
     Power On
     IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    image.img
-        ...    ${DISK_IMAGE_URL}
-        ...    031560742d6b337ed684cfdb90d3c5eb48f13576f4751b33095e8d1566d72e83
-        Add HDD To Qemu    img_name=${DL_CACHE_DIR}/image.img
+        Add HDD To Qemu    img_name=${TEST_DATA_DIR}/esp-scanning/qemu-disk.img
     ELSE
-        IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-            Login To Linux
-            Switch To Root User
-            Remove All Supported Systems From Efi
-            Execute Command In Terminal    wget ${DISK_IMAGE_URL} -O image.img    timeout=180s
-            Execute Command In Terminal    mkdir /mnt/disk_image
-            Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
-            Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
-            Execute Command In Terminal
-            ...    rsync -a --ignore-existing --exclude /mnt/disk_image/EFI/Ubuntu /mnt/disk_image/EFI/Microsoft /mnt/disk_image/EFI/* /boot/efi/EFI/
-            Execute Command In Terminal    sync
-        ELSE
-            Skip    unsupported
-        END
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        Remove All Supported Systems From Efi
+        Send File To DUT    ${TEST_DATA_DIR}/esp-scanning/qemu-disk.img    /tmp/image.img
+        Execute Command In Terminal    mkdir /mnt/disk_image
+        Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
+        Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
+        Execute Command In Terminal
+        ...    rsync -a --ignore-existing --exclude /mnt/disk_image/EFI/Ubuntu /mnt/disk_image/EFI/Microsoft /mnt/disk_image/EFI/* /boot/efi/EFI/
+        Execute Command In Terminal    sync
     END
 
 Clear Out EFI Partition
@@ -67,14 +55,10 @@ Clear Out EFI Partition
     IF    "${MANUFACTURER}" == "QEMU"
         Remove Drive From Qemu
     ELSE
-        IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-            Login To Linux
-            Switch To Root User
-            Remove All Supported Systems From Efi
-        ELSE
-            Skip    unsupported
-        END
+        Boot System Or From Connected Disk    ubuntu
+        Login To Linux
+        Switch To Root User
+        Remove All Supported Systems From Efi
     END
 
 Remove All Supported Systems From Efi
@@ -83,20 +67,4 @@ Remove All Supported Systems From Efi
     ...    opensuse    qubes    Redhat    Suse
     FOR    ${dir}    IN    @{dirs}
         Execute Command In Terminal    rm -r /boot/efi/EFI/${dir}
-    END
-
-Prepare Required Files For Qemu
-    IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    dts-base-image-v1.2.8.iso
-        ...    ${DTS_URL}
-        ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
-        Download To Host Cache
-        ...    esp-scanning.img
-        ...    ${DISK_IMAGE_URL}
-        ...    a0cf9c6cc561585b375a7416a5bdb98caad4c48d22f87098844b6e294a3c0aff
-        Download To Host Cache
-        ...    CorePlus-14.0.iso
-        ...    ${TINYCORE_URL}
-        ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
     END

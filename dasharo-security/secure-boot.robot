@@ -25,6 +25,8 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot is not supported
 ...                     AND
+...                     Mount USB Disk Image    ${TEST_DATA_DIR}/secure-boot/sb_test_data.img
+...                     AND
 ...                     Restore Secure Boot Defaults
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    ${SECURE_BOOT_SUPPORT} and ${TESTS_IN_FIRMWARE_SUPPORT}    Set Secure Boot State To Disabled
@@ -131,7 +133,6 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ...    a signed file with a correct key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}    ${GOOD_KEYS_SHA256}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -141,14 +142,14 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    GOOD_KEYS
-    Select File In File Explorer    DB.cer
+    Enter Volume In File Explorer    SB_TEST
+    Select File In File Explorer    good_keys_DB.cer
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Tianocore Reset System
 
     Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
+    ${out}=    Execute File In UEFI Shell    good_keys_hello.efi
     Should Contain    ${out}    Hello, world!
 
 SBO004.001 Attempt to boot file without the key from Shell (firmware)
@@ -156,7 +157,6 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     ...    without a key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${NOT_SIGNED_NAME}    ${NOT_SIGNED_URL}    ${NOT_SIGNED_SHA256}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -165,7 +165,7 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     # Changes to Secure Boot menu takes action immediately, so we can just reset
     Tianocore Reset System
     Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello.efi
+    ${out}=    Execute File In UEFI Shell    not_signed_hello.efi
     Should Contain    ${out}    Access Denied
 
 SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
@@ -173,7 +173,6 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     ...    a signed file with a wrong-signed key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_KEYS_NAME}    ${BAD_KEYS_URL}    ${BAD_KEYS_SHA256}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -182,7 +181,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     # Changes to Secure Boot menu takes action immediately, so we can just reset
     Tianocore Reset System
     Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello-bad-keys.efi
+    ${out}=    Execute File In UEFI Shell    bad_keys_hello.efi
     Should Contain    ${out}    Access Denied
 
 SBO006.001 Reset Secure Boot Keys option availability (firmware)
@@ -206,7 +205,6 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ...    removes any custom added certificates.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${GOOD_KEYS_NAME}    ${GOOD_KEYS_URL}    ${GOOD_KEYS_SHA256}
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -217,14 +215,14 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    GOOD_KEYS
-    Select File In File Explorer    DB.cer
+    Enter Volume In File Explorer    SB_TEST
+    Select File In File Explorer    good_keys_DB.cer
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Tianocore Reset System
 
     Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
+    ${out}=    Execute File In UEFI Shell    good_keys_hello.efi
     Should Contain    ${out}    Hello, world!
 
     Power On
@@ -236,7 +234,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Tianocore Reset System
 
     Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    hello-valid-keys.efi
+    ${out}=    Execute File In UEFI Shell    good_keys_hello.efi
     Should Contain    ${out}    Access Denied
 
 SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
@@ -244,7 +242,6 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ...    a certificate in the wrong file format.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/${BAD_FORMAT_NAME}    ${BAD_FORMAT_URL}    ${BAD_FORMAT_SHA256}
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -254,8 +251,8 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    BAD_FORMAT
-    Select File In File Explorer    DB.txt
+    Enter Volume In File Explorer    SB_TEST
+    Select File In File Explorer    bad_format_DB.txt
     Read From Terminal Until    ERROR: Unsupported file type!
 
 
@@ -266,23 +263,3 @@ Set Secure Boot State To Disabled
     Disable Secure Boot    ${sb_menu}
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Tianocore Reset System
-
-Prepare Test Files
-    IF    "${MANUFACTURER}" == "QEMU"
-        Download To Host Cache
-        ...    ${GOOD_KEYS_NAME}
-        ...    ${GOOD_KEYS_URL}
-        ...    ${GOOD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${NOT_SIGNED_NAME}
-        ...    ${NOT_SIGNED_URL}
-        ...    ${NOT_SIGNED_SHA256}
-        Download To Host Cache
-        ...    ${BAD_KEYS_NAME}
-        ...    ${BAD_KEYS_URL}
-        ...    ${BAD_KEYS_SHA256}
-        Download To Host Cache
-        ...    ${BAD_FORMAT_NAME}
-        ...    ${BAD_FORMAT_URL}
-        ...    ${BAD_FORMAT_SHA256}
-    END

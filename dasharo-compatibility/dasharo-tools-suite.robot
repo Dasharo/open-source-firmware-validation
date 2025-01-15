@@ -29,13 +29,7 @@ DTS001.001 Booting DTS from USB works correctly
     [Documentation]    This test aims to verify that DTS is properly booting
     ...    from USB.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS001.001 not supported
-    # FIXME: Only supported on PiKVM based setups right now
-    Skip If    "${DUT_CONNECTION_METHOD}" != "pikvm"    DTS001.001 not supported
-    Skip    This test will fail. You cannot use SSH when using DTS via PiKVM, as it is read-only and SSH fails.
-    Download ISO And Mount As USB
-    ...    ${DL_CACHE_DIR}/dts-base-image-v1.2.8.iso
-    ...    ${DTS_URL}
-    ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
+    Mount USB Disk Image    ${TEST_DATA_DIR}/dts/dts-base-image-v2.1.3.wic
     Power On
     Boot Dasharo Tools Suite    USB
 

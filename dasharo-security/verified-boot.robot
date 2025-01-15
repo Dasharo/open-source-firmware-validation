@@ -266,7 +266,7 @@ Prepare Tools, Keys And Binaries
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Coreboot Tools From Cloud
+    Get Coreboot Tools
     Install Docker Packages
     Generate Verified Boot Keys
     Resign Existing Firmware Image With Generated Keys

@@ -9,7 +9,7 @@ ${DEBIAN_STABLE_VER}=       4.14.y
 ${TEARDOWN}=                no
 ${SNIPEIT}=                 yes
 
-${DL_CACHE_DIR}=            ${CURDIR}/dl-cache
+${TEST_DATA_DIR}=           ${CURDIR}/osfv-test-data
 
 ${RE_FRAME_START}=          ^.*/-{3,}\\\\.*$
 ${RE_FRAME_END}=            ^.*\\\\-{3,}/.*$
