@@ -429,12 +429,7 @@ Prepare For Logo Persistence Test
     Run    cp ${FW_FILE} dcu/coreboot.rom
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
-        Download To Host Cache
-        ...    logo.bmp
-        ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download
-        ...    6e5a6722955e4f78d947654630f27ff833703fbc04776ffed963c96617f6bb2a
-        ${local_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
-        Run    cp ${local_path} dcu/logo.bmp
+        Run    cp ${TEST_DATA_DIR}/dcu/logo.bmp
         ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo ./coreboot.rom -l ./logo.bmp
         Log    ${result.stdout}
         Log    ${result.stderr}

@@ -99,7 +99,7 @@ BPS006.002 Internal flashing
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Flashrom From Cloud
+    Get Flashrom
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    Found chipset
 

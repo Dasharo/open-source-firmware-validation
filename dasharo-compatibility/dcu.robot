@@ -73,7 +73,7 @@ DCU003.001 Change the bootsplash logo
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    DCU003.001 not supported
 
     ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
-    ${logo_path}=    Join Path    ${DL_CACHE_DIR}    logo.bmp
+    ${logo_path}=    Join Path    ${TEST_DATA_DIR}/dcu    logo.bmp
     DCU Logo Set In File    ${FW_COPY}    ${logo_path}
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing
@@ -116,11 +116,6 @@ DCU004.001 Verify SMMSTORE changes
 
 *** Keywords ***
 Prepare DCU Test Environment
-    Download To Host Cache
-    ...    logo.bmp
-    ...    https://cloud.3mdeb.com/index.php/s/rsjCdz4wSNesLio/download
-    ...    6e5a6722955e4f78d947654630f27ff833703fbc04776ffed963c96617f6bb2a
-
     Run    cp ${FW_FILE} ${FW_COPY}
     Run    chmod -R a+rw dcu
 
