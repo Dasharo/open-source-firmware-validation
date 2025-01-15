@@ -32,7 +32,7 @@ osfv @ git+https://github.com/Dasharo/osfv-scripts.git@36a030eb006391c3761c25d69
 paramiko==3.4.0
 pathspec==0.9.0
 pexpect==4.9.0
-pikvm @ git+https://github.com/3mdeb/pikvm-rest-api@7e3a2b0fa5c27e7cf45c8afc9d820826f0e3d99b
+pikvm @ git+https://github.com/3mdeb/pikvm-rest-api@1a1cc579a286fe82aaa2eccea69f96223712664d
 platformdirs==4.2.1
 pre-commit==3.7.0
 ptyprocess==0.7.0
