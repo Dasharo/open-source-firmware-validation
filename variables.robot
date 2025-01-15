@@ -112,20 +112,16 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE33}=                   ip=192.168.10.107
 ...                         platform=msi-pro-z690-a-wifi-ddr4
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.170
-...                         pikvm_ip=192.168.10.99
 &{RTE34}=                   ip=192.168.10.199
 ...                         platform=msi-pro-z690-a-wifi-ddr4
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.169
-...                         pikvm_ip=192.168.10.16
 &{RTE39}=                   ip=192.168.10.188
 ...                         platform=msi-pro-z690-a-ddr5
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.69
-...                         pikvm_ip=192.168.10.45
 # MSI-PRO-Z790-P platforms (Zir-Blazer) -----------------------------
 &{RTE46}=                   ip=192.168.10.127
 ...                         platform=msi-pro-z790-p-ddr5
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.253
-...                         pikvm_ip=192.168.10.226
 # PC Engines APU7 platform -----------------------------------------------------
 &{RTE35}=                   ip=192.168.10.177
 ...                         platform=apu7
@@ -189,7 +185,7 @@ ${OS_UBUNTU}=               ubuntu
 # NovaCustom automated laptop testing station --------------------------------
 &{RTE52}=                   ip=192.168.10.91
 ...                         platform=novacustom-ts1    platform_vendor=3mdeb
-...                         sonoff_ip=192.168.10.53    pikvm_ip=192.168.10.52
+...                         sonoff_ip=192.168.10.53
 # 3mdeb Protectli VP6670 -----------------------------------------------------
 &{RTE53}=                   ip=192.168.10.110
 ...                         platform=protectli-vp6670    platform_vendor=protectli
@@ -236,7 +232,6 @@ ${OS_UBUNTU}=               ubuntu
 # Odroid-H4 Plus
 &{RTE66}=                   ip=192.168.10.193    platform=odroid-h4-Plus
 ...                         platform_vendor=Hardkernel
-...                         pikvm_ip=192.168.10.120
 # Protectli VP3230
 &{RTE67}=                   ip=192.168.10.35
 ...                         platform=protectli-vp3230
