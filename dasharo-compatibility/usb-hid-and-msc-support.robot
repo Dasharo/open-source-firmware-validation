@@ -145,10 +145,9 @@ Prepare USB HID Test Suite
     ELSE
         Set Suite Variable    $HAS_KEYBOARD    ${FALSE}
     END
-    ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
 
     IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-        Upload And Mount DTS Flash Iso
+        Mount USB Disk Image    ${TEST_DATA_DIR}/secure-boot/sb_test_data.img
     END
 
     # Assume for now that we always have USB storage attached. In fact, all of

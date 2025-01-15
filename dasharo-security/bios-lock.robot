@@ -37,7 +37,7 @@ BLS001.001 BIOS lock support (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Flashrom From Cloud
+    Get Flashrom
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
     Should Not Be Empty    ${pr0}
@@ -52,7 +52,7 @@ BLS002.001 BIOS lock support deactivation (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Flashrom From Cloud
+    Get Flashrom
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
     Should Be Empty    ${pr0}

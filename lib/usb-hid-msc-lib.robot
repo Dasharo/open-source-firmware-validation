@@ -19,37 +19,36 @@ Library     OperatingSystem
 
 
 *** Keywords ***
-Upload And Mount DTS Flash ISO
-    [Documentation]    Mounts a bootable ISO as flash USB. Currently
-    ...    only the Qubes OS ISO seems to work for the platform.
+Mount USB Disk Image
+    [Documentation]    Mounts USB disk image - either from URL or from local file.
+    [Arguments]    ${img_source}    ${upload_type}=file    ${required}=${TRUE}
 
-    Upload Image To PiKVM
-    ...    https://dl.3mdeb.com/open-source-firmware/DTS/v1.2.8/dts-base-image-v1.2.8.iso
-    ...    dts-base-image-v1.2.8.iso
-    Mount Image On PiKVM    dts-base-image-v1.2.8.iso
+    # TODO:: Move to interface approach, not IF/ELSE tree
+    IF    "${upload_type}" == "file"
+        ${img_dir}    ${img_name}=    Split Path    ${img_source}
 
-Download ISO And Mount As USB
-    [Documentation]    Mounts the desired ISO as USB stick,
-    ...    either via PiKVM or Qemu
-    [Arguments]    ${img_path}    ${img_url}    ${img_sha256sum}
-
-    ${img_dir}    ${img_name}=    Split Path    ${img_path}
-
-    Download To Host Cache
-    ...    ${img_name}
-    ...    ${img_url}
-    ...    ${img_sha256sum}
-
-    IF    "${MANUFACTURER}" == "QEMU"
-        Remove Drive From Qemu
-        Add USB To Qemu    img_name=${img_path}
-    ELSE
-        IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Upload Image To PiKVM    ${img_url}    ${img_name}
+        IF    "${MANUFACTURER}" == "QEMU"
+            Remove Drive From Qemu
+            Add USB To Qemu    img_name=${img_source}
+        ELSE IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
+            Upload Image To PiKVM    ${img_source}    ${img_name}    ${upload_type}
             Mount Image On PiKVM    ${img_name}
         ELSE
-            Skip    unsupported
+            # For setups with no real ability to mount USB Disk, we may decide whether we assume that certain USB Disk is prepared beforehand, or we skip the test.
+            Log To Console    Mounting USB Disk Image at runtime is not supported on this platform.
+            IF    ${required}
+                Log To Console
+                ...    Image marked as required. Make sure that USB drive with image: ${img_source} is already prepared and connected to the DUT.
+            ELSE
+                Skip    Image not marked as required, skipping test case.
+            END
         END
+    ELSE IF    "${upload_type}" == "url"
+        Fail
+        ...    "upload_type=url argument for Mount USB Disk Image is not implemented right now.
+        ...    We prefer to store all test data in osfv-test-data repo instead of downloading them at runtime in tests."
+    ELSE
+        Fail    "Unsupported upload_type argument for Mount USB Disk Image"
     END
 
 Check USB Stick Detection In Edk2

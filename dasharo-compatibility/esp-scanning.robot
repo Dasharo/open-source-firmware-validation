@@ -12,7 +12,6 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-# Library    ../lib/QemuMonitor.py    /tmp/qmp-socket
 Suite Setup         Setup Esp Scanning Suite
 Suite Teardown      Teardown Esp Scanning Suite
 
@@ -35,9 +34,7 @@ ESP003.001 ESP Scan ignores OSes on removable media
     ...    partitions of removable media are ignored by the scan and aren't
     ...    listed in boot menu, except for DTS.
     Power On
-    Download ISO And Mount As USB    ${DL_CACHE_DIR}/CorePlus-current.iso
-    ...    ${TINYCORE_URL}
-    ...    5c0c5c7c835070f0adcaeafad540252e9dd2935c02e57de6112fb92fb5d6f9c5
+    Mount USB Disk Image    ${TEST_DATA_DIR}/iso/TinyCore-15.0.iso    required=${FALSE}
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Not Contain Match    ${boot_menu}    *CorePlus*
@@ -62,10 +59,7 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     ...    Dasharo Tools Suite boot media and creates a corresponding boot
     ...    menu entry.
     Power On
-    Download ISO And Mount As USB
-    ...    ${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
-    ...    ${DTS_URL}
-    ...    f42b59633dbcc16ecbd7c98a880c582c5235c22626d7204202c922f3a7fa231b
+    Mount USB Disk Image    ${TEST_DATA_DIR}/dts/dts-base-image-v2.1.3.wic
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain Match    ${boot_menu}    Dasharo Tools Suite (on *
@@ -97,7 +91,6 @@ Setup Esp Scanning Suite
     Prepare Test Suite
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP scanning tests not supported
     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP scanning tests not supported
-    Prepare Required Files For Qemu
     Prepare EFI Partition With System Files
 
 Teardown Esp Scanning Suite

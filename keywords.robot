@@ -1,24 +1,22 @@
 *** Settings ***
-Library     Collections
-Library     OperatingSystem
-Resource    lib/bios/menus.robot
-Resource    lib/secure-boot-lib.robot
-Resource    lib/usb-hid-msc-lib.robot
-Resource    lib/dts-lib.robot
-Resource    lib/terminal.robot
-Resource    lib/esp-scanning-lib.robot
-Resource    lib/dl-cache.robot
-Resource    lib/dmidecode-lib.robot
-Resource    lib/docks.robot
-Resource    lib/flash.robot
-Resource    lib/self-tests.robot
-Resource    lib/sleep-lib.robot
-Resource    lib/CPU-performance-lib.robot
-Resource    lib/framework.robot
-Resource    lib/me.robot
-Resource    lib/network.robot
-Resource    lib/options/options.robot
-Resource    keys.robot
+Library         Collections
+Library         OperatingSystem
+Resource        lib/bios/menus.robot
+Resource        lib/secure-boot-lib.robot
+Resource        lib/usb-hid-msc-lib.robot
+Resource        lib/dts-lib.robot
+Resource        lib/terminal.robot
+Resource        lib/esp-scanning-lib.robot
+Resource        lib/dmidecode-lib.robot
+Resource        lib/docks.robot
+Resource        lib/flash.robot
+Resource        lib/self-tests.robot
+Resource        lib/sleep-lib.robot
+Resource        lib/CPU-performance-lib.robot
+Resource        lib/framework.robot
+Resource        lib/me.robot
+Resource        lib/network.robot
+Variables       platform-configs/fan-curve-config.yaml
 
 
 *** Keywords ***
@@ -1299,39 +1297,39 @@ Refresh Serial Screen In BIOS Editable Settings Menu
     Press Key N Times    1    ${F10}
     Press Key N Times    1    ${ESC}
 
-Get Coreboot Tools From Cloud
-    [Documentation]    Downloads required coreboot tools from cloud
-    Get Cbmem From Cloud
-    Get Flashrom From Cloud
-    Get Cbfstool From Cloud
+Get Coreboot Tools
+    [Documentation]    Set up required coreboot tools
+    Get Cbmem
+    Get Flashrom
+    Get Cbfstool
 
-Get Cbmem From Cloud
-    [Documentation]    Download cbmem from the cloud.
+Get Cbmem
+    [Documentation]    Set up cbmem on DUT.
     ${cbmem_path}=    Set Variable    /usr/local/bin/cbmem
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbmem_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
-        Download File    https://cloud.3mdeb.com/index.php/s/C6LJMi4bWz3wzR9/download    ${cbmem_path}
+        Send File To DUT    ${TEST_DATA_DIR}/coreboot-tools/cbmem    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
     END
 
-Get Flashrom From Cloud
-    [Documentation]    Download flashrom from the cloud.
+Get Flashrom
+    [Documentation]    Set up flashrom on DUT.
     ${flashrom_path}=    Set Variable    /usr/local/bin/flashrom
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${flashrom_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '8e57fee6578dd31684da7f1afd6f5e5b1d964bb6db52b3a9ec038a7292802ae9'
-        Download File    https://cloud.3mdeb.com/index.php/s/fsPNM8SpDjATMrW/download    ${flashrom_path}
+        Send File To DUT    ${TEST_DATA_DIR}/coreboot-tools/flashrom    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
     END
 
-Get Cbfstool From Cloud
-    [Documentation]    Download cbfstool from the cloud
+Get Cbfstool
+    [Documentation]    Set up cbfstool on DUT.
     ${cbfstool_path}=    Set Variable    /usr/local/bin/cbfstool
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbfstool_path}
     ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != 'e090051e71980620e6f2d2876532eb6fcf4346593260c0c1349a5be51181fb4f'
-        Download File    https://cloud.3mdeb.com/index.php/s/ScCf8XFLZYWBE25/download    ${cbfstool_path}
+        Send File To DUT    ${TEST_DATA_DIR}/coreboot-tools/cbfstool    ${cbfstool_path}
         Execute Command In Terminal    chmod 777 ${cbfstool_path}
     END
 
