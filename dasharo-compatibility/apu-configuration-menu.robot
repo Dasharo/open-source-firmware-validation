@@ -17,14 +17,8 @@ Resource            ../lib/linux.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
 ...                     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
-Suite Teardown      Run Keywords
-...                     Log Out And Close Connection
-...                     AND
-...                     Skip If    '${SUITE_STATUS}' == 'SKIP'    Skipping Teardown since Suite was skipped as well
-...                     AND
-...                     Flash Firmware    ${FW_FILE}
-...                     AND
-...                     Log Out And Close Connection
+Suite Teardown      Run Keyword
+...                     Tiebreaker
 
 
 *** Test Cases ***
