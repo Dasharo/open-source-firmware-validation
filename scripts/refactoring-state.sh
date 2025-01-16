@@ -30,6 +30,16 @@ kwds_to_remove=(
 "RTE REST APU Setup"
 "RTE REST APU Setup"
 "RteCtrl Get GPIO State"
+"Check That USB Devices Are Detected"
+"Switch To Root User In Ubuntu Server"
+"Get Slot Count"
+"Get USB Slot Count"
+"Get All USB"
+"Enable Option In USB Configuration Submenu"
+"Disable Option In USB Configuration Submenu"
+"Enable Option In Submenu"
+"Disable Option In Submenu"
+"Get Intel ME Mode State"
 )
 
 echo "Keywords that should not be used, but are still used:"
