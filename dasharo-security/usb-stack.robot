@@ -35,7 +35,7 @@ USS001.001 Enable USB stack (firmware)
     Set UEFI Option    UsbDriverStack    ${TRUE}
     Set UEFI Option    UsbMassStorage    ${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Check That USB Devices Are Detected    ${boot_menu}
+    Check USB Stick Detection In Edk2    ${boot_menu}
 
 USS002.001 Disable USB stack (firmware)
     [Documentation]    Check whether If the stack is deactivated, there will be
@@ -47,7 +47,6 @@ USS002.001 Disable USB stack (firmware)
     Set UEFI Option    UsbMassStorage    ${FALSE}
     Set UEFI Option    UsbDriverStack    ${FALSE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    # Check That USB Devices Are Not Detected    ${boot_menu}
 
 USS003.001 Enable USB Mass Storage (firmware)
     [Documentation]    Check whether If the storage support is activated, there
@@ -71,7 +70,7 @@ USS003.001 Enable USB Mass Storage (firmware)
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${TRUE}
     Save Changes And Reset
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Check That USB Devices Are Detected    ${boot_menu}
+    Check USB Stick Detection In Edk2    ${boot_menu}
 
 USS004.001 Disable USB Mass Storage (firmware)
     [Documentation]    Check whether If the storage support is deactivated,
@@ -96,4 +95,3 @@ USS004.001 Disable USB Mass Storage (firmware)
     Set Option State    ${usb_menu}    Enable USB Mass Storage    ${FALSE}
     Save Changes And Reset
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    # Check That USB Devices Are Not Detected    ${boot_menu}
