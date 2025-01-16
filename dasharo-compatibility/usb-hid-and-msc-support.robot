@@ -77,7 +77,7 @@ USB002.002 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Linux OS.
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
-    Depends On    "${DEVICE_USB_KEYBOARD}" != "${EMPTY}"
+    Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ubuntu
@@ -146,15 +146,14 @@ Prepare USB HID Test Suite
         Set Suite Variable    $HAS_KEYBOARD    ${FALSE}
     END
     ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${has_storage}=    Evaluate    "USB_Storage" in """${conf}"""
+
     IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
         Upload And Mount DTS Flash Iso
-        ${has_storage}=    Set Variable    ${TRUE}
     END
-    IF    "${ATTACHED_USB}" != "${EMPTY}" or ${has_storage}
-        Set Suite Variable    $HAS_USB_STORAGE    ${TRUE}
-    ELSE
-        Set Suite Variable    $HAS_USB_STORAGE    ${FALSE}
-    END
+
+    # Assume for now that we always have USB storage attached. In fact, all of
+    # the platforms as of today should have the USB drive with DTS attached.
+    # Refer to the lib/usb-hid-msc-lib.robot
+    Set Suite Variable    $HAS_USB_STORAGE    ${TRUE}
     Skip If    not ${HAS_KEYBOARD} and not ${HAS_USB_STORAGE}
     ...    Platform doesn't have USB keyboard or USB storage attached
