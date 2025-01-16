@@ -366,53 +366,6 @@ ${OS_UBUNTU}=               ubuntu
 @{MMC_LIST}=                &{EMMC01}
 
 # -----------------------------------------------------------------------------
-&{USB01}=                   vendor=Kingston    volume=16GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=2
-...                         sbo_name=USB
-&{USB02}=                   vendor=ADATA    volume=16GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=2
-...                         sbo_name=USB
-&{USB03}=                   vendor=SanDisk    volume=16GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=2
-...                         sbo_name=USB
-&{USB04}=                   vendor=Corsair    volume=16GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=2
-...                         sbo_name=USB
-# pfSense stick installer
-&{USB05}=                   vendor=Kingston    volume=16GB    type=USB_Storage
-...                         protocol=2.0    interface=USB    count=1
-...                         sbo_name=USB
-&{USB06}=                   vendor=SiliconMotion    volume=8GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB
-&{USB07}=                   vendor=SanDisk    volume=16GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB
-&{USB08}=                   vendor=Adata    volume=16GB    type=USB_Storage
-...                         protocol=3.1    interface=USB    count=1
-...                         sbo_name=USB
-&{USB09}=                   vendor=Kingston    volume=16GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB
-&{USB10}=                   vendor=Goodram    volume=16GB    type=USB_Storage
-...                         protocol=2.0    interface=USB    count=1
-...                         sbo_name=USB
-&{USB11}=                   vendor=SanDisk    volume=32GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB    name=USB SanDisk 3.2Gen1
-&{USB12}=                   vendor=SanDisk    volume=32GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB    name=SanDisk Ultra USB 3.0
-&{USB13}=                   vendor=Artificial    volume=1GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=1
-...                         sbo_name=USB    name=PiKVM Composite KVM Device
-&{USB14}=                   vendor=Kingston    volume=32GB    type=USB_Storage
-...                         protocol=3.0    interface=USB    count=2
-...                         sbo_name=USB    name=USB DISK 3.0
-@{USB_LIST}=                &{USB01}    &{USB02}    &{USB03}    &{USB04}    &{USB05}
-...                         &{USB06}    &{USB07}    &{USB08}    &{USB09}    &{USB10}
-...                         &{USB11}    &{USB12}    &{USB13}    &{USB14}
-# -----------------------------------------------------------------------------
 &{MODULE01}=                vendor=HUAWEI    type=LTE_Module    interface=mPCIe
 ...                         count=1
 &{MODULE02}=                vendor=WLE200NX    type=WiFi_Module    interface=mPCIe
@@ -439,31 +392,25 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{MODULE06}    &{MODULE07}    &{MODULE08}    &{MODULE09}
 ...                         &{MODULE10}    &{MODULE11}    &{MODULE12}
 # -----------------------------------------------------------------------------
-&{EXPANDER01}=              type=USB_Expander    slots=2    slot1=&{USB05}
-...                         slot2=&{MODULE04}    interface=USB    count=1
-&{EXPANDER02}=              type=USB_Expander    slots=2    slot1=&{USB07}
-...                         slot2=&{EMPTY}    interface=USB    count=1
-@{EXPANDER_LIST}=           &{EXPANDER01}    &{EXPANDER02}
-# -----------------------------------------------------------------------------
 &{ADAPTER01}=               type=UART_USB_Adapter    interface=UART    count=1
 @{ADAPTER_LIST}=            &{ADAPTER01}
 # -----------------------------------------------------------------------------
 
 # hardware configurations:
-@{CONFIG01}=                &{RTE08}    &{MODULE10}    &{SSD04}    &{USB04}
-...                         &{CARD03}    &{ADAPTER01}    &{EXPANDER02}
-@{CONFIG02}=                &{RTE09}    &{SSD19}    &{CARD05}    &{USB03}
+@{CONFIG01}=                &{RTE08}    &{MODULE10}    &{SSD04}
+...                         &{CARD03}    &{ADAPTER01}
+@{CONFIG02}=                &{RTE09}    &{SSD19}    &{CARD05}
 ...                         &{MODULE08}    &{MODULE10}    &{MODULE06}    &{ADAPTER01}
-@{CONFIG03}=                &{RTE10}    &{HDD01}    &{CARD02}    &{USB01}
-...                         &{MODULE01}    &{MODULE02}    &{MODULE04}    &{EXPANDER01}
+@{CONFIG03}=                &{RTE10}    &{HDD01}    &{CARD02}
+...                         &{MODULE01}    &{MODULE02}    &{MODULE04}
 ...                         &{MODULE10}    &{ADAPTER01}
-@{CONFIG04}=                &{RTE11}    &{SSD06}    &{CARD06}    &{USB03}
+@{CONFIG04}=                &{RTE11}    &{SSD06}    &{CARD06}
 ...                         &{MODULE06}    &{ADAPTER01}    &{MODULE10}
-@{CONFIG05}=                &{RTE12}    &{USB03}    &{MODULE07}    &{CARD05}
+@{CONFIG05}=                &{RTE12}    &{MODULE07}    &{CARD05}
 ...                         &{ADAPTER01}    &{MODULE10}
-@{CONFIG06}=                &{RTE13}    &{SSD05}    &{CARD01}    &{USB03}
+@{CONFIG06}=                &{RTE13}    &{SSD05}    &{CARD01}
 ...                         &{MODULE09}    &{MODULE10}    &{MODULE11}    &{ADAPTER01}
-@{CONFIG07}=                &{RTE14}    &{USB06}    &{MODULE10}    &{SSD03}
+@{CONFIG07}=                &{RTE14}    &{MODULE10}    &{SSD03}
 @{CONFIG08}=                &{RTE15}
 @{CONFIG09}=                &{RTE16}
 @{CONFIG10}=                &{RTE17}
@@ -474,42 +421,42 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG15}=                &{RTE22}    &{SSD04}    &{MODULE10}    &{MODULE09}
 @{CONFIG16}=                &{RTE23}
 @{CONFIG17}=                &{RTE24}
-@{CONFIG18}=                &{RTE25}    &{USB07}
+@{CONFIG18}=                &{RTE25}
 @{CONFIG19}=                &{RTE26}
 @{CONFIG20}=                &{RTE27}
-@{CONFIG21}=                &{RTE28}    &{USB10}    &{MODULE10}
-@{CONFIG22}=                &{RTE29}    &{USB10}    &{MODULE12}
-@{CONFIG23}=                &{RTE30}    &{MODULE11}    &{CARD04}    &{USB08}
-...                         &{MODULE09}    &{USB09}    &{SSD05}    &{MODULE10}
-@{CONFIG24}=                &{RTE32}    &{USB09}
-@{CONFIG25}=                &{RTE33}    &{USB14}    &{SSD08}
-@{CONFIG26}=                &{RTE34}    &{USB14}    &{SSD08}
-@{CONFIG27}=                &{RTE35}    &{USB07}    &{SSD02}    &{MODULE10}
-@{CONFIG28}=                &{RTE36}    &{USB11}    &{SSD09}
+@{CONFIG21}=                &{RTE28}    &{MODULE10}
+@{CONFIG22}=                &{RTE29}    &{MODULE12}
+@{CONFIG23}=                &{RTE30}    &{MODULE11}    &{CARD04}
+...                         &{MODULE09}    &{SSD05}    &{MODULE10}
+@{CONFIG24}=                &{RTE32}
+@{CONFIG25}=                &{RTE33}    &{SSD08}
+@{CONFIG26}=                &{RTE34}    &{SSD08}
+@{CONFIG27}=                &{RTE35}    &{SSD02}    &{MODULE10}
+@{CONFIG28}=                &{RTE36}    &{SSD09}
 @{CONFIG29}=                &{RTE37}    &{SSD12}
-@{CONFIG30}=                &{RTE38}    &{USB11}
-@{CONFIG31}=                &{RTE39}    &{USB14}    &{SSD08}
-@{CONFIG32}=                &{RTE40}    &{USB12}    &{SSD11}
+@{CONFIG30}=                &{RTE38}
+@{CONFIG31}=                &{RTE39}    &{SSD08}
+@{CONFIG32}=                &{RTE40}    &{SSD11}
 @{CONFIG33}=                &{RTE41}
 @{CONFIG34}=                &{RTE42}    &{SSD13}    &{EMMC02}
 @{CONFIG35}=                &{RTE43}    &{EMMC01}
 @{CONFIG36}=                &{RTE44}    &{EMMC01}
 @{CONFIG37}=                &{RTE45}    &{EMMC01}
-@{CONFIG38}=                &{RTE46}    &{USB13}    &{SSD08}
+@{CONFIG38}=                &{RTE46}    &{SSD08}
 @{CONFIG39}=                &{RTE47}
 @{CONFIG40}=                &{RTE48}
-@{CONFIG42}=                &{RTE50}    &{USB11}    &{SSD08}
-@{CONFIG43}=                &{RTE51}    &{USB11}    &{SSD10}
-@{CONFIG44}=                &{RTE52}    &{USB11}    &{SSD10}
-@{CONFIG45}=                &{RTE53}    &{USB11}    &{SSD15}
-@{CONFIG46}=                &{RTE54}    &{USB11}    &{SSD07}
+@{CONFIG42}=                &{RTE50}    &{SSD08}
+@{CONFIG43}=                &{RTE51}    &{SSD10}
+@{CONFIG44}=                &{RTE52}    &{SSD10}
+@{CONFIG45}=                &{RTE53}    &{SSD15}
+@{CONFIG46}=                &{RTE54}    &{SSD07}
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
 @{CONFIG48}=                &{RTE64}    &{SSD17}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
 @{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
-@{CONFIG51}=                &{RTE67}    &{USB11}
-@{CONFIG52}=                &{RTE68}    &{USB12}    &{SSD18}
-@{CONFIG53}=                &{RTE69}    &{USB11}
+@{CONFIG51}=                &{RTE67}
+@{CONFIG52}=                &{RTE68}    &{SSD18}
+@{CONFIG53}=                &{RTE69}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
