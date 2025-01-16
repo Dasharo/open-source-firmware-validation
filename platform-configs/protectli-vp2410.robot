@@ -26,6 +26,8 @@ ${DMIDECODE_VENDOR}=                    3mdeb
 ${DMIDECODE_FAMILY}=                    Vault Pro
 ${DMIDECODE_TYPE}=                      Desktop
 
+${DEVICE_AUDIO1}=                       "Gemini Lake HDMI"
+
 ${L3_CACHE_SUPPORT}=                    ${FALSE}
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
 
