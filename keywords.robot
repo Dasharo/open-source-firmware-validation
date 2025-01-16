@@ -433,57 +433,6 @@ Get Current CONFIG Item Param
     ${device}=    Get Current CONFIG Item    ${item}
     RETURN    ${device.${param}}
 
-Get Slot Count
-    [Documentation]    Returns count parameter value from slot key specified in
-    ...    the argument if found, otherwise return 0.
-    [Arguments]    ${slot}
-    ${is_found}=    Evaluate    "count" in """${slot}"""
-    ${return}=    Set Variable If
-    ...    ${is_found}==False    0
-    ...    ${is_found}==True    ${slot.count}
-    RETURN    ${return}
-
-Get USB Slot Count
-    [Documentation]    Returns count parameter value from USB slot key specified
-    ...    in the argument if found, otherwise return 0.
-    [Arguments]    ${slots}
-    ${is_found1}=    Evaluate    "USB_Storage" in """${slots.slot1}"""
-    ${is_found2}=    Evaluate    "USB_Storage" in """${slots.slot2}"""
-    IF    ${is_found1}==True
-        ${count1}=    Get Slot Count    ${slots.slot1}
-    ELSE
-        ${count1}=    Evaluate    0
-    END
-    IF    ${is_found2}==True
-        ${count2}=    Get Slot Count    ${slots.slot2}
-    ELSE
-        ${count2}=    Evaluate    0
-    END
-    ${sum}=    Evaluate    ${count1}+${count2}
-    RETURN    ${sum}
-
-Get All USB
-    [Documentation]    Returns number of attached USB storages in current CONFIG.
-    ${conf}=    Get Current CONFIG    ${CONFIG_LIST}
-    ${is_found}=    Evaluate    "USB_Storage" in """${conf}"""
-    IF    ${is_found}==True
-        ${usb_count}=    Get Current CONFIG Item Param    USB_Storage    count
-        ${count_usb}=    Evaluate    ${usb_count}
-    ELSE
-        ${usb_count}=    Evaluate    ""
-        ${count_usb}=    Evaluate    0
-    END
-    ${is_found}=    Evaluate    "USB_Expander" in """${conf}"""
-    IF    ${is_found}==True
-        ${external}=    Get Current CONFIG Item    USB_Expander
-        ${external_count}=    Get USB Slot Count    ${external}
-    ELSE
-        ${external}=    Evaluate    ""
-        ${external_count}=    Evaluate    0
-    END
-    ${count}=    Evaluate    ${count_usb}+${external_count}
-    RETURN    ${count}
-
 Prepare Lm-sensors
     [Documentation]    Install lm-sensors and probe sensors.
     Detect Or Install Package    lm-sensors
@@ -1513,13 +1462,6 @@ Identify Path To USB
     ${path_to_usb}=    Get From List    ${split}    2
     RETURN    ${path_to_usb}
 
-Get Intel ME Mode State
-    [Documentation]    Returns the current state of Intel ME mode.
-    [Arguments]    ${menu_me}
-    ${menu_me}=    Fetch From Right    ${menu_me}    <
-    ${actual_state}=    Fetch From Left    ${menu_me}    >
-    RETURN    ${actual_state}
-
 Calculate Smoothing
     [Documentation]    Compares the actual and expected value of the fan speed,
     ...    taking smoothing into account.
@@ -1564,100 +1506,6 @@ Get RPM Value From System76 Acpi
     ${rpm}=    Get From List    ${speed_split}    2
     RETURN    ${rpm}
 
-Disable Option In Submenu
-    [Documentation]    Disables selected option in submenu provided in ${menu_construction}
-    [Arguments]    ${menu_construction}    ${option_str}
-    ${option}=    Set Variable    ${option_str[1:]}
-    ${line}=    Get Matches    ${menu_construction}    *${option}*
-    TRY
-        Should Match Regexp    ${line[0]}    .*\\[\ \\].*
-        Refresh Serial Screen In BIOS Editable Settings Menu
-    EXCEPT
-        FOR    ${element}    IN    @{menu_construction}
-            ${matches}=    Run Keyword And Return Status
-            ...    Should Match    ${element}    pattern=*${option}*
-            IF    ${matches}
-                ${option}=    Set Variable    ${element}
-                BREAK
-            END
-        END
-        Strip String    ${option}    mode=left
-        ${system_index}=    Get Index From List    ${menu_construction}    ${option}
-        Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
-        Press Key N Times    1    ${F10}
-        Write Bare Into Terminal    y
-    END
-
-Enable Option In USB Configuration Submenu
-    [Documentation]    Enables option in USB Configuration SubMenu.
-    [Arguments]    ${menu_construction}    ${option}
-    ${line}=    Get Matches    ${menu_construction}    *${option}*
-    TRY
-        Should Contain Match    ${line}    *[X]*
-    EXCEPT
-        FOR    ${element}    IN    @{menu_construction}
-            ${matches}=    Run Keyword And Return Status
-            ...    Should Match    ${element}    pattern=*${option}*
-            IF    ${matches}
-                ${option}=    Set Variable    ${element}
-                BREAK
-            END
-        END
-        Strip String    ${option}    mode=left
-        ${system_index}=    Get Index From List    ${menu_construction}    ${option}
-        ${steps}=    Evaluate    ${system_index}-1
-        Press Key N Times And Enter    ${steps}    ${ARROW_DOWN}
-        Write Bare Into Terminal    ${F10}
-        Write Bare Into Terminal    Y
-    END
-
-Disable Option In USB Configuration Submenu
-    [Documentation]    Disables option in USB Configuration SubMenu.
-    [Arguments]    ${menu_construction}    ${option}
-    ${line}=    Get Matches    ${menu_construction}    *${option}*
-    TRY
-        Should Not Contain Match    ${line}    *[X]*
-    EXCEPT
-        FOR    ${element}    IN    @{menu_construction}
-            ${matches}=    Run Keyword And Return Status
-            ...    Should Match    ${element}    pattern=*${option}*
-            IF    ${matches}
-                ${option}=    Set Variable    ${element}
-                BREAK
-            END
-        END
-        ${system_index}=    Get Index From List    ${menu_construction}    ${option}
-        ${steps}=    Evaluate    ${system_index}-1
-        Press Key N Times And Enter    ${steps}    ${ARROW_DOWN}
-        Write Bare Into Terminal    ${F10}
-        Write Bare Into Terminal    Y
-    END
-
-Enable Option In Submenu
-    [Documentation]    Enables option in submenu
-    [Arguments]    ${menu_construction}    ${option_str}
-    ${option}=    Set Variable    ${option_str[1:]}
-    ${line}=    Get Matches    ${menu_construction}    *${option}*
-    TRY
-        Should Not Match Regexp    ${line[0]}    .*\\[ \\].*
-        Refresh Serial Screen In BIOS Editable Settings Menu
-    EXCEPT
-        FOR    ${element}    IN    @{menu_construction}
-            ${matches}=    Run Keyword And Return Status
-            ...    Should Match    ${element}    pattern=*${option}*
-            IF    ${matches}
-                ${option}=    Set Variable    ${element}
-                BREAK
-            END
-        END
-        Strip String    ${option}    mode=left
-        ${system_index}=    Get Index From List    ${menu_construction}    ${option}
-        ${steps}=    Evaluate    ${system_index}-1
-        Press Key N Times And Enter    ${steps}    ${ARROW_DOWN}
-        Write Bare Into Terminal    ${F10}
-        Write Bare Into Terminal    Y
-    END
-
 Get Current CONFIG List Param
     [Documentation]    Returns current CONFIG list parameters specified in the
     ...    arguments.
@@ -1672,14 +1520,6 @@ Get Current CONFIG List Param
         END
     END
     RETURN    @{attached_usb_list}
-
-Switch To Root User In Ubuntu Server
-    [Documentation]    Switch to the root environment in Ubuntu Server.
-    Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo] password for user:
-    Write Into Terminal    ubuntuserver
-    Set Prompt For Terminal    \#
-    Read From Terminal Until Prompt
 
 Reboot In OPNsense
     [Documentation]    Perform reboot in OPNsense.
