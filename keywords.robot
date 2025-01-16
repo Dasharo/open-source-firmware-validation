@@ -1694,3 +1694,14 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
+
+Tiebreaker
+    [Documentation]    Decide what to do if skipping the suite (originally
+    ...    created for APU suite)
+    IF    '${SUITE_STATUS}' == 'SKIP'
+        Log Out And Close Connection
+        Skip
+    ELSE
+        Flash Firmware    ${FW_FILE}
+        Log Out And Close Connection
+    END
