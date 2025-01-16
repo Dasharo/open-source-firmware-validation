@@ -88,7 +88,7 @@ Measure Coldboot Time
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
-        Power Cycle On    power_button=${TRUE}
+        Power Cycle On
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
