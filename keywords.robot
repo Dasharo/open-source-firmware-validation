@@ -500,6 +500,8 @@ Prepare Test Suite
     END
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
+    Set Library Search Order    ${CONFIG}
+
 Import Osfv Libraries
     [Documentation]    Import osfv_cli libraries based on config and command
     ...    line variables
@@ -1541,3 +1543,25 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
+
+Power On
+    [Documentation]    Clears telnet buffer and sets Device Under Test
+    ...    into Power On state. Has to be implemented in platform configs
+    ...    using the theory of operation of a specific platform.
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The platform is ON
+    ...    - Telnet buffer is cleared
+    ...    - Always performs a full power cycle, even if the device was ON
+    ...    - Does nothing if ${POWER_CTRL} is set to "none"
+
+    Fail    Not Implemented in ${CONFIG}.robot
