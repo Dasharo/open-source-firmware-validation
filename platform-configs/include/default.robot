@@ -276,10 +276,9 @@ ${ETH_PORTS}=                                       ${EMPTY}
 
 *** Keywords ***
 Power On Default
-    [Documentation]    Keyword clears terminal buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
+    [Documentation]    The default implementation of the Power On keyword.
+    ...    Keyword clears terminal buffer and sets Device Under Test
+    ...    into Power On state using RTE OC buffers.
     Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
