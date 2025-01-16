@@ -32,7 +32,7 @@ USB001.001 USB devices detected in FW
     Depends On    ${HAS_USB_STORAGE}
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Check USB Stick Detection in Edk2    ${boot_menu}
+    Check USB Stick Detection In Edk2    ${boot_menu}
 
 USB001.002 USB devices detected by OS (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
@@ -77,7 +77,7 @@ USB002.002 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Linux OS.
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
-    Depends On    "${DEVICE_USB_KEYBOARD}" == "${EMPTY}"
+    Depends On    "${DEVICE_USB_KEYBOARD}" != "${EMPTY}"
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ubuntu
