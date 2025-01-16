@@ -1673,17 +1673,6 @@ Get Current CONFIG List Param
     END
     RETURN    @{attached_usb_list}
 
-Check That USB Devices Are Detected
-    [Documentation]    Checks if the bootable USB devices are visible in the
-    ...    boot menu.
-    [Arguments]    ${boot_menu}
-
-    @{attached_usb_list}=    Get Current CONFIG List Param    USB_Storage    name
-    FOR    ${stick}    IN    @{attached_usb_list}
-        # ${stick} should match with one element of ${boot_menu}
-        Should Contain Match    ${boot_menu}    *${stick}*
-    END
-
 Switch To Root User In Ubuntu Server
     [Documentation]    Switch to the root environment in Ubuntu Server.
     Write Into Terminal    sudo su
