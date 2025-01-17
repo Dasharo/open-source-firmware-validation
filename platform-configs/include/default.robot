@@ -15,7 +15,7 @@ ${FLASH_SIZE}=                                      ${TBD}
 ${FLASH_LENGTH}=                                    ${TBD}
 ${TIANOCORE_STRING}=                                to boot directly
 ${BOOT_MENU_KEY}=                                   ${F11}
-${SETUP_MENU_KEY}=                                  Delete
+${SETUP_MENU_KEY}=                                  ${DELETE}
 ${BOOT_MENU_STRING}=                                Please select boot device:
 ${SETUP_MENU_STRING}=                               Select Entry
 ${IPXE_BOOT_ENTRY}=                                 iPXE Network Boot
@@ -79,6 +79,7 @@ ${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
 ${TESTS_IN_METATB_SUPPORT}=                         ${FALSE}
+${TESTS_IN_HEADS_SUPPORT}=                          ${FALSE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
