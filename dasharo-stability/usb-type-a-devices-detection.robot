@@ -53,7 +53,7 @@ SUD002.001 USB devices detection after warm boot (Ubuntu)
     Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD002.001 not supported
     Power On
-    Boot Operating System    ubuntu
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
@@ -61,7 +61,7 @@ SUD002.001 USB devices detection after warm boot (Ubuntu)
     Detect Or Install FWTS
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
-        Boot Operating System    ubuntu
+        Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    usb
