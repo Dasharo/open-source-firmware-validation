@@ -51,14 +51,14 @@ SNV0002.001 NVMe detection after warm boot (Ubuntu)
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV002.001 not supported
     Power On
-    Boot Operating System    ubuntu
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
-        Boot Operating System    ubuntu
+        Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    pci
