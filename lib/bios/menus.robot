@@ -386,26 +386,6 @@ Enter Submenu From Snapshot And Return Construction
     ${submenu}=    Get Submenu Construction    opt_only=${opt_only}
     RETURN    ${submenu}
 
-Save BIOS Changes    # TODO duplicate of menus.`Save Changes`
-    [Documentation]
-    ...    Saves Setup Menu changes
-    ...
-    ...    === Requirements ===
-    ...    Must be in the setup menu
-    ...
-    ...    === Arguments ===
-    ...    None
-    ...
-    ...    === Return Value ===
-    ...    None
-    ...
-    ...    === Side Effects ===
-    ...    - The performed changes will be saved and applied.
-    ...    \ Most options require a reboot to take effect. Some of them don't.
-
-    Press Key N Times    1    ${F10}
-    Write Bare Into Terminal    y
-
 Enter Dasharo System Features
     [Documentation]
     ...    Enters the ``Dasharo System Features`` submenu and returns it's
