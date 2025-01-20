@@ -30,13 +30,13 @@ Prepare EFI Partition With System Files
 
     Power On
     IF    "${MANUFACTURER}" == "QEMU"
-        Add HDD To Qemu    img_name=${TEST_DATA_DIR}/esp-scanning/qemu-disk.img
+        Add HDD To Qemu    img_name=${TEST_DATA_DIR}/esp-scanning/esp-scanning-disk.img
     ELSE
         Boot System Or From Connected Disk    ubuntu
         Login To Linux
         Switch To Root User
         Remove All Supported Systems From Efi
-        Send File To DUT    ${TEST_DATA_DIR}/esp-scanning/qemu-disk.img    /tmp/image.img
+        Send File To DUT    ${TEST_DATA_DIR}/esp-scanning/esp-scanning-disk.img    /tmp/image.img
         Execute Command In Terminal    mkdir /mnt/disk_image
         Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
         Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
