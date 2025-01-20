@@ -267,10 +267,7 @@ Set Chassis Power State
     Close OBMC Service Connection
 
 Power On
-    [Documentation]    Keyword sets Device Under Test into Power On state using
-    ...    openbmc-test-automation library and opens console client.
-    ...    Implementation must be compatible with the theory of
-    ...    operation of a specific platform.
+    [Documentation]    Implementation of keywords.Power On
     Variable Should Exist    ${OPENBMC_HOST}
     Set Global Variable    ${AUTH_URI}    https://${OPENBMC_HOST}${AUTH_SUFFIX}
     ${host_state}=    Get Host State

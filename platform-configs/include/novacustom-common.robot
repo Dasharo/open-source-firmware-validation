@@ -136,9 +136,7 @@ ${L2_CACHE_SUPPORT}=                                ${TRUE}
 
 *** Keywords ***
 Power On
-    [Documentation]    Keyword clears SSH buffer and sets Device Under Test
-    ...    into Power On state from Mechanical Off. (coldboot) For example:
-    ...    sonoff, RTE relays.
+    [Documentation]    Implementation of keywords.Power On
     IF    "${POWER_CTRL}"=="none"    RETURN
     Restore Initial DUT Connection Method
     Power Cycle On
