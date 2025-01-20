@@ -16,6 +16,8 @@ Send File To DUT
             Set Local Variable    ${ip_address}    localhost
             Set Local Variable    ${port}    5222
         ELSE
+            Wait Until Keyword Succeeds    5x    10s
+            ...    Get Hostname Ip
             ${ip_address}=    Get Hostname Ip
             Set Local Variable    ${port}    22
         END
