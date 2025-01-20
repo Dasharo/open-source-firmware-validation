@@ -111,4 +111,5 @@ ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
 
 *** Keywords ***
 Power On
+    [Documentation]    Implementation of keywords.Power On
     Power On Default

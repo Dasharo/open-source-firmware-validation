@@ -17,6 +17,7 @@ Resource        lib/CPU-performance-lib.robot
 Resource        lib/framework.robot
 Resource        lib/me.robot
 Resource        lib/network.robot
+Resource        lib/options/uefi-options.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
@@ -500,7 +501,7 @@ Prepare Test Suite
     END
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
-    Set Library Search Order    ${CONFIG}
+    Set Library Search Order    ${CONFIG}    ${OPTIONS_LIB}
 
 Import Osfv Libraries
     [Documentation]    Import osfv_cli libraries based on config and command
@@ -1548,6 +1549,7 @@ Power On
     [Documentation]    Clears telnet buffer and sets Device Under Test
     ...    into Power On state. Has to be implemented in platform configs
     ...    using the theory of operation of a specific platform.
+    ...    Needs to be implemented in platform-configs.
     ...
     ...    === Requirements ===
     ...    None
