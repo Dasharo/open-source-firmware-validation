@@ -14,6 +14,7 @@ Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     ...    TODO: Only works with options following the submenu/submenu/option
     ...    pattern (e.g. all Dasharo System Features options).
+    ...    Uses the ``Power On`` keyword.
     [Arguments]    ${option_name}    ${value}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Can not configure UEFI settings on this platform.
 
@@ -41,6 +42,7 @@ Get UEFI Option
     [Documentation]    Set an UEFI option to a value.
     ...    TODO: Only works with options following the submenu/submenu/option
     ...    pattern (e.g. all Dasharo System Features options).
+    ...    Uses the ``Power On`` keyword
     [Arguments]    ${option_name}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Can not configure UEFI settings on this platform.
 
