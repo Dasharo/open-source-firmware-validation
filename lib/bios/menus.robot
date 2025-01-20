@@ -733,26 +733,6 @@ Set Option State
         RETURN    ${FALSE}
     END
 
-Try To Insert Non-numeric Values Into Numeric Option    # TODO should be moved? It's a test case helper, not a library kwd
-    [Documentation]    Check whether accepts only numeric values.
-    [Arguments]    ${menu}    ${option}
-    ${non_numeric_characters}=    Set Variable
-    ...    abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()`~<>,./?;:'\|""[]{}=+-_
-    ${current_state}=    Get Option State    ${menu}    ${option}
-    ${type}=    Get Option Type    ${current_state}
-    Enter Submenu From Snapshot    ${menu}    ${option}
-    IF    '${type}' == 'numeric'
-        @{characters}=    Split String To Characters    ${non_numeric_characters}
-        FOR    ${char}    IN    @{characters}
-            Log    ${char}
-            Write Bare Into Terminal    ${char}
-            Set DUT Response Timeout    3
-            Read From Terminal Until    !!
-        END
-    ELSE
-        Fail    Wrong option type (not accept numeric value)
-    END
-
 Get IPXE Boot Menu Construction    # TODO possibly redundant, as it only gives a default checkpoint value
     [Documentation]
     ...    Keyword allows to get and return iPXE menu construction.
