@@ -21,7 +21,8 @@ configure = [
     # TODO: fix and re-enable
     "0328:enabled:False",
     # TODO: consider reducing to default 40, or less
-    "0501:max_len:50",
+    # Has to be high to allow comprehensive documentation of library keywords
+    "0501:max_len:80",
     # TODO: consider reducing to default 10, or less
     "0503:max_calls:50",
     # TODO: consider reducing to dfeault 20, or less
