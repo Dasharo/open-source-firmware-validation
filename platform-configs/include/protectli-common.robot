@@ -19,6 +19,7 @@ ${MANUFACTURER}=                                ${TBD}
 ${CPU}=                                         ${TBD}
 ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         none
+${CHECK_POWER_LED_SUPPORT}=                     ${TRUE}
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_MANUFACTURER}=                      Protectli
