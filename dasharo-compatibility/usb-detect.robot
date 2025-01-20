@@ -35,7 +35,7 @@ UDT001.001 USB detection after coldboot
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power Cycle On
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-        ${found}=    Check USB Stick Detection in Edk2    ${boot_menu}
+        ${found}=    Check USB Stick Detection In Edk2    ${boot_menu}
 
         IF    '${found}' != '${TRUE}'
             ${failed_detection}=    Evaluate    ${failed_detection} + 1
@@ -53,7 +53,7 @@ UDT001.002 USB detection after warmboot
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power On
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-        ${found}=    Check USB Stick Detection in Edk2    ${boot_menu}
+        ${found}=    Check USB Stick Detection In Edk2    ${boot_menu}
 
         IF    '${found}' != '${TRUE}'
             ${failed_detection}=    Evaluate    ${failed_detection} + 1
@@ -71,7 +71,7 @@ UDT001.003 USB detection after system reboot
     Power On
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-        ${found}=    Check USB Stick Detection in Edk2    ${boot_menu}
+        ${found}=    Check USB Stick Detection In Edk2    ${boot_menu}
         Boot System Or From Connected Disk    ubuntu    boot_menu=${boot_menu}
         Login To Linux
         Switch To Root User
