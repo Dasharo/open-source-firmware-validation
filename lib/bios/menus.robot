@@ -794,6 +794,20 @@ Reset To Defaults Tianocore
     [Documentation]    Resets all Tianocore options to defaults. It is invoked
     ...    by pressing F9 and confirming with 'y' when in option
     ...    setting menu.
+    ...
+    ...    === Requirements ===
+    ...    - The Tianocore setup menu entered
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The UEFI setup options are restored to defaults
+    ...    - The device gets rebooted
+
     Tianocore Reset System
     ${main_menu}=    Enter Setup Menu Tianocore And Return Construction
     Read From Terminal
@@ -824,7 +838,23 @@ Reset To Defaults Tianocore
 # network boot just yet.
 
 Enter IPXE
-    [Documentation]    Enter iPXE after device power cutoff.
+    [Documentation]
+    ...    Enter iPXE menu
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The iPXE menu is entered
+
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -838,7 +868,22 @@ Enter IPXE
     Read From Terminal Until Prompt
 
 Exit From Current Menu
-    [Documentation]    Exits from current menu, refreshing screen.
+    [Documentation]
+    ...    Exits from current menu, refreshing screen.
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - Flushes the serial buffer
+    ...    - Exits from a submenu
+
     # Before entering new menu, make sure we get rid of all leftovers
     Read From Terminal
     Press Key N Times    1    ${ESC}
