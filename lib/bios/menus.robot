@@ -14,7 +14,7 @@ Enter Boot Menu Tianocore
     ...
     ...    === Requirements ===
     ...    - Serial port connection has to be supported by the platform
-    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
     ...    \ react before the auto boot time-out passes
     ...
     ...    === Arguments ===
@@ -103,7 +103,7 @@ Enter Boot Menu Tianocore And Return Construction
     ...
     ...    === Requirements ===
     ...    - Serial port connection has to be supported by the platform
-    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
     ...    \ react before the auto boot time-out passes
     ...
     ...    === Arguments ===
@@ -126,7 +126,7 @@ Enter Setup Menu Tianocore
     ...
     ...    === Requirements ===
     ...    - Serial port connection has to be supported by the platform
-    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
     ...    \ react before the auto boot time-out passes
     ...
     ...    === Arguments ===
@@ -271,7 +271,7 @@ Enter Setup Menu Tianocore And Return Construction
     ...
     ...    === Requirements ===
     ...    - Serial port connection has to be supported by the platform
-    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
     ...    \ react before the auto boot time-out passes
     ...
     ...    === Arguments ===
@@ -386,7 +386,7 @@ Enter Submenu From Snapshot And Return Construction
     ${submenu}=    Get Submenu Construction    opt_only=${opt_only}
     RETURN    ${submenu}
 
-Save BIOS Changes
+Save BIOS Changes    # TODO duplicate of menus.`Save Changes`
     [Documentation]
     ...    Saves Setup Menu changes
     ...
@@ -454,8 +454,24 @@ Enter Dasharo APU Configuration
     ...    Dasharo APU Configuration
     RETURN    ${apu_menu}
 
-Enter Dasharo Submenu    # TODO remove: redundant keyword, only used to change the default parameter
+Enter Dasharo Submenu    # TODO redundant keyword, only used to change the default parameter
+    [Documentation]
+    ...    Enters given Dasharo submenu and returns construction
+    ...
+    ...    === Requirements ===
+    ...    - To be in the Dasharo setup menu
+    ...
+    ...    === Arguments ===
+    ...    - ``${dasharo_menu}``: ``string`` - the menu construction or snapshot
+    ...    - ``${option}``: ``string`` - the name of the submenu to enter
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - A setup submenu is entered
     [Arguments]    ${dasharo_menu}    ${option}
+
     ${submenu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${dasharo_menu}
     ...    ${option}
@@ -535,6 +551,7 @@ Press Enter
     ...    - The keyword itself causes no side effects
     ...    - Pressing the ``Enter`` key might cause multiple side effects
     ...    \ depending on the context
+
     Sleep    1s
     Read From Terminal
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -598,6 +615,7 @@ Get Option State
     ...    === Side Effects ===
     ...    None
     [Arguments]    ${menu}    ${option}
+
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     ${value}=    Get Value From Brackets    ${menu}[${index}]
     ${len}=    Get Length    ${value}
@@ -796,7 +814,7 @@ Reset To Defaults Tianocore
     ...    setting menu.
     ...
     ...    === Requirements ===
-    ...    - The Tianocore setup menu entered
+    ...    - Must be called from a Tianocore setup submenu
     ...
     ...    === Arguments ===
     ...    None
@@ -843,7 +861,7 @@ Enter IPXE
     ...
     ...    === Requirements ===
     ...    - Serial port connection has to be supported by the platform
-    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
     ...    \ react before the auto boot time-out passes
     ...
     ...    === Arguments ===
@@ -872,7 +890,7 @@ Exit From Current Menu
     ...    Exits from current menu, refreshing screen.
     ...
     ...    === Requirements ===
-    ...    None
+    ...    - Must be called from a setup submenu
     ...
     ...    === Arguments ===
     ...    None
@@ -889,9 +907,24 @@ Exit From Current Menu
     Press Key N Times    1    ${ESC}
 
 Reenter Menu
-    [Documentation]    Returns to the previous menu and enters the same one
-    ...    again
+    [Documentation]
+    ...    Moves back and forth in the submenus structure
+    ...
+    ...    === Requirements ===
+    ...    - Must be called from a setup submenu
+    ...
+    ...    === Arguments ===
+    ...    - ``${forward}``: ``boolean`` - If ``${FALSE}`` - exits to parent and reeenters.
+    ...    \ If ``${TRUE}`` - Enters the selected submenu and goes back.
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The current submenu reappears on the serial buffer
+    ...    - The entered submenu is flushed from the serial buffer
     [Arguments]    ${forward}=${FALSE}
+
     IF    ${forward} == True
         Press Enter
         Exit From Current Menu
@@ -901,8 +934,23 @@ Reenter Menu
     END
 
 Reenter Menu And Return Construction
-    [Documentation]    Enters the same menu again, returning updated menu construction
+    [Documentation]
+    ...    Enters the same menu again, returning updated menu construction
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${forward}``: ``boolean`` - If ``${FALSE}`` - exits to parent and reeenters.
+    ...    \ If ``${TRUE}`` - Enters the selected submenu and goes back.
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - the current menu construction
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${forward}=${FALSE}
+
     Reenter Menu    ${forward}
     ${menu}=    Get Submenu Construction
     RETURN    ${menu}
@@ -911,19 +959,48 @@ Reenter Menu And Return Construction
 
 Type In The Password
     [Documentation]    Operation for typing in the password
+    ...    The ``${keys_password}`` is written and confirmed with Enter
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${keys_password}``: ``string`` - the password
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${keys_password}
+
+    # TODO loop and defining the password as a list can be removed by
+    # passing ${interval} to `Write Bare Into Terminal`
     FOR    ${key}    IN    @{keys_password}
         Write Bare Into Terminal    ${key}
         Sleep    0.5s
     END
-    Press Key N Times    1    ${ENTER}
+    Press Enter
 
 # This should stay, maybe improved if needed
 
 Type In New Disk Password
     [Documentation]    Types in new disk password when prompted. The actual
     ...    password is passed as list of keys.
+    ...
+    ...    === Requirements ===
+    ...    - New disk password prompt to be currently shown
+    ...
+    ...    === Arguments ===
+    ...    - ``${keys_password}``: ``string`` - the password
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${keys_password}
+
     Read From Terminal Until    your new password
     Sleep    0.5s
     # FIXME: Often the TCG OPAL test fails to enter Setup Menu after typing
@@ -938,8 +1015,22 @@ Type In New Disk Password
 # This should stay, maybe improved if needed
 
 Type In BIOS Password
-    [Documentation]    Types in password in general BIOS prompt
+    [Documentation]
+    ...    Types in password in general BIOS prompt
+    ...
+    ...    === Requirements ===
+    ...    - BIOS password prompt to be currently shown
+    ...
+    ...    === Arguments ===
+    ...    - ``${keys_password}``: ``string`` - the password
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${keys_password}
+
     Read From Terminal Until    password
     Sleep    0.5s
     Type In The Password    ${keys_password}
@@ -947,8 +1038,22 @@ Type In BIOS Password
 # This should stay, maybe improved if needed
 
 Type In Disk Password
-    [Documentation]    Types in the disk password
+    [Documentation]
+    ...    Types in the disk password
+    ...
+    ...    === Requirements ===
+    ...    - Disk password prompt to be currently shown
+    ...
+    ...    === Arguments ===
+    ...    - ``${keys_password}``: ``string`` - the password
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${keys_password}
+
     Read From Terminal Until    Unlock
     Sleep    0.5s
     # FIXME: See a comment in: Type in new disk password
@@ -959,8 +1064,24 @@ Type In Disk Password
 # This should stay, maybe improved if needed
 
 Remove Disk Password
-    [Documentation]    Removes disk password
+    [Documentation]
+    ...    Removes disk password
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    - ``${keys_password}``: ``string`` - the password
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${keys_password}
+
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -982,6 +1103,21 @@ Remove Disk Password
     Press Key N Times    1    ${SETUP_MENU_KEY}
 
 Tianocore Reset System
+    [Documentation]
+    ...    Performs a reboot from inside the Tianocore setup menu
+    ...
+    ...    === Requirements ===
+    ...    - To be inside the setup menu
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - Platform is rebooted
+
     # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
     # On serial console it is ESC R ESC r ESC R.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
@@ -998,7 +1134,22 @@ Tianocore Reset System
     END
 
 Save Changes
-    [Documentation]    Saves current UEFI settings
+    [Documentation]
+    ...    Saves Setup Menu changes
+    ...
+    ...    === Requirements ===
+    ...    Must be in the setup menu
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The performed changes will be saved and applied.
+    ...    \ Most options require a reboot to take effect. Some of them don't.
+
     Press Key N Times    1    ${F10}
     Read From Terminal Until    Save configuration changes?
     Sleep    1s
@@ -1006,14 +1157,45 @@ Save Changes
     Sleep    2s
 
 Save Changes And Reset
-    [Documentation]    Saves current UEFI settings and restarts.
+    [Documentation]
+    ...    Saves Setup Menu changes and rebootsthe platform
+    ...
+    ...    === Requirements ===
+    ...    Must be in the setup menu
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The performed changes will be saved and applied.
+    ...    - The platform will be rebooted to ensure all changes are applied.
+
     Save Changes
     Tianocore Reset System
 
 Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     [Documentation]    Tries to boot ${system_name}. If it is not possible then it tries
     ...    to boot from connected disk set up in config
+    ...
+    ...    === Requirements ===
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - Boots into the selected OS
+    ...    - Does nothing if ${DUT_CONNECTION_METHOD}' == 'SSH' - selecting OS's
+    ...    \ not supported via ssh.
     [Arguments]    ${system_name}    ${boot_menu}=NOT_SET
+
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
 
     IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
@@ -1072,15 +1254,46 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
 
 Make Sure That Network Boot Is Enabled
-    [Documentation]    This keywords checks that "Enable network boot" in
+    [Documentation]    Checks that "Enable network boot" in
     ...    "Networking Options" is enabled when present, so the network
     ...    boot tests can be executed.
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The ``NetworkBoot`` option will be set to ``Enabled``
+    ...    - The platform will be rebooted
+    ...    - Performs a ``SKIP`` if ``NetworkBoot`` is not supported
+
     IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
     Set UEFI Option    NetworkBoot    ${TRUE}
 
 Get Firmware Version From Tianocore Setup Menu
-    [Documentation]    Keyword allows to read firmware version from Tianocore
+    [Documentation]    Reads the firmware version from Tianocore
     ...    Setup menu header.
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after powering on or rebooting in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The version of the firmware, as displayed in the Setup menu
+    ...
+    ...    === Side Effects ===
+    ...    - The ``NetworkBoot`` option will be set to ``Enabled``
+    ...    - The platform will be rebooted
+
     Enter Setup Menu Tianocore
     ${output}=    Read From Terminal Until    Select Entry
     ${firmware_line}=    Get Lines Containing String    ${output}    Dasharo (coreboot+UEFI)
