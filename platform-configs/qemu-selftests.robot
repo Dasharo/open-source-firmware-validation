@@ -45,9 +45,5 @@ ${DASHARO_MEMORY_MENU_SUPPORT}=         ${TRUE}
 
 *** Keywords ***
 Power On
-    [Documentation]    Keyword clears telnet buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers. Implementation
-    ...    must be compatible with the theory of operation of a
-    ...    specific platform.
     Read From Terminal
     Qemu Monitor.System Reset

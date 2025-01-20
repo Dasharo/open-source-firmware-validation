@@ -120,4 +120,5 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
 *** Keywords ***
 Power On
+    [Documentation]    Implementation of keywords.Power On
     Power On Default

@@ -98,4 +98,5 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 
 *** Keywords ***
 Power On
+    [Documentation]    Implementation of keywords.Power On
     Power On Default
