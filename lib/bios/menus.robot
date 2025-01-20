@@ -8,8 +8,24 @@ Library             ./menus.py
 
 *** Keywords ***
 Enter Boot Menu Tianocore
-    [Documentation]    Enter Boot Menu with tianocore boot menu key mapped in
+    [Documentation]
+    ...    Enter Boot Menu with tianocore boot menu key mapped in
     ...    keys list.
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - UEFI Boot menu is entered
+
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${BOOT_MENU_KEY}
@@ -23,7 +39,22 @@ Enter Boot Menu Tianocore
     END
 
 Get Boot Menu Construction
-    [Documentation]    Keyword allows to get and return boot menu construction.
+    [Documentation]
+    ...    Reads and returns the construction of the boot menu
+    ...
+    ...    === Requirements ===
+    ...    - Boot menu has to be entered using ``Enter Boot Menu Tianocore``
+    ...    - The serial must not have been read after entering the boot menu
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The boot menu construction - entries, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - The boot menu is read from the serial buffer
+
     ${menu}=    Read From Terminal Until    exit
     # Lines to strip:
     #    TOP:
@@ -67,13 +98,46 @@ Get Boot Menu Construction
     RETURN    ${construction}
 
 Enter Boot Menu Tianocore And Return Construction
-    [Documentation]    Enters boot menu, returning menu construction
+    [Documentation]
+    ...    Enters and returns the construction of the boot menu
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The boot menu construction - entries, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - UEFI Boot menu is entered
+    ...    - The boot menu is read from the serial buffer
+
     Enter Boot Menu Tianocore
     ${menu}=    Get Boot Menu Construction
     RETURN    ${menu}
 
 Enter Setup Menu Tianocore
-    [Documentation]    Enter Setup Menu with key specified in platform-configs.
+    [Documentation]
+    ...    Enter Setup Menu with key specified in platform-configs.
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - UEFI Setup menu is entered
+
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${SETUP_MENU_KEY}
@@ -82,8 +146,23 @@ Enter Setup Menu Tianocore
     END
 
 Get Setup Menu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
+    [Documentation]
+    ...    Reads and returns the construction of the setup menu
+    ...
+    ...    === Requirements ===
+    ...    - Setup menu has to be entered using ``Enter Setup Menu Tianocore``
+    ...    - The serial must not have been read after entering the setup menu
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The setup menu construction, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - The setup menu is read from the serial buffer
     [Arguments]    ${checkpoint}=Select Entry
+
     # Lines to strip:
     #    TOP:
     #    Standard PC (Q35 + ICH9 2009)
@@ -95,15 +174,54 @@ Get Setup Menu Construction
     RETURN    ${menu}
 
 Get Menu Construction
-    [Documentation]    Keyword allows to get and return setup menu construction.
+    [Documentation]
+    ...    Keyword allows to read and return setup menu construction.
+    ...
+    ...    === Requirements ===
+    ...    - Boot or Setup menu has to be entered
+    ...    - The serial must not have been read after entering the setup menu
+    ...
+    ...    === Arguments ===
+    ...    - ``${checkpoint}``: ``string`` - text marking the end of the menu.
+    ...    \ Text will be read from serial until ``${checkpoint}`` is read.
+    ...    - ``${lines_top}``: ``integer`` - number of lines to be dropped from
+    ...    \ the top of the menu
+    ...    - ``${lines_bot}``: ``integer`` - number of lines to be dropped from
+    ...    \ the bottom of the menu
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The setup menu construction, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - The setup menu is read from the serial buffer
     [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
+
     Sleep    1s
     ${out}=    Read From Terminal Until    ${checkpoint}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
     RETURN    ${menu}
 
 Parse Menu Snapshot Into Construction
-    [Documentation]    Breaks grabbed menu data into lines.
+    [Documentation]
+    ...    Parses the raw contents of the menu read from serial (Snapshot)
+    ...    into lines with decorators removed (Construction)
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu}``: ``string`` - the raw menu contents, read directly from
+    ...    \ the serial
+    ...    - ``${lines_top}``: ``integer`` - number of lines to be dropped from
+    ...    \ the top of the menu
+    ...    - ``${lines_bot}``: ``integer`` - number of lines to be dropped from
+    ...    \ the bottom of the menu
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The parsed setup menu contents, line by line
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${menu}    ${lines_top}    ${lines_bot}
     ${slice_start}=    Set Variable    ${lines_top}
     IF    ${lines_bot} == 0
@@ -148,13 +266,52 @@ Parse Menu Snapshot Into Construction
     RETURN    ${construction}
 
 Enter Setup Menu Tianocore And Return Construction
-    [Documentation]    Enters Setup Menu and returns Setup Menu construction
+    [Documentation]
+    ...    Enters Setup Menu and returns Setup Menu construction
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after ``Power On`` in order to
+    ...    \ react before the auto boot time-out passes
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The setup menu construction, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - UEFI Setup menu is entered
+    ...    - The setup menu is read from the serial buffer
     Enter Setup Menu Tianocore
     ${menu}=    Get Setup Menu Construction
     RETURN    ${menu}
 
 Get Submenu Construction
+    [Documentation]
+    ...    Reads and returns the construction of a setup menu submenu
+    ...
+    ...    === Requirements ===
+    ...    - A setup submenu was just entered
+    ...    - The serial must not have been read after entering the submenu
+    ...
+    ...    === Arguments ===
+    ...    - ``${checkpoint}``: ``string`` - text marking the end of the menu.
+    ...    Text will be read from serial until ``${checkpoint}`` is read.
+    ...    - ``${lines_top}``: ``integer`` - number of lines to be dropped from
+    ...    \ the top of the menu
+    ...    - ``${lines_bot}``: ``integer`` - number of lines to be dropped from
+    ...    \ the bottom of the menu
+    ...    - ``${opt_only}``: ``boolean`` - if ``${TRUE}``, filters the menu
+    ...    \ for configurable UEFI options
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The setup menu construction, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - The setup submenu is read from the serial buffer
     [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
+
     # In most cases, we need to strip two lines:
     #    TOP:
     #    Title line, such as:    Dasharo System Features
@@ -180,41 +337,124 @@ Get Submenu Construction
     RETURN    ${submenu}
 
 Enter Submenu From Snapshot
-    [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
+    [Documentation]
+    ...    Enter given Setup Menu Tianocore option after entering Setup Menu
+    ...    Tianocore
+    ...
+    ...    === Requirements ===
+    ...    - A setup submenu was just entered
+    ...    - The serial must not have been read after entering the submenu
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu}``: ``string`` - the submenu construction or snapshot
+    ...    - ``${option}``: ``string`` - the name of the submenu to enter
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - A setup submenu is entered
     [Arguments]    ${menu}    ${option}
+
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     Should Not Be Equal As Integers    ${index}    -1    msg=Option ${option} not found in menu
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Enter Submenu From Snapshot And Return Construction
     [Documentation]    Enter given Setup Menu Tianocore option after entering
-    ...    Setup Menu Tianocore
+    ...    Setup Menu Tianocore and return it's construction
+    ...
+    ...    === Requirements ===
+    ...    A menu/submenu had to be entered and read to pass as the ``${menu}``
+    ...    parameter
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu}``: ``string`` - the submenu construction or snapshot
+    ...    - ``${option}``: ``string`` - the name of the submenu to enter
+    ...    - ``${opt_only}``: ``boolean`` - if ``${TRUE}``, filters the returned
+    ...    \ menu contents for configurable UEFI options
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The setup menu contents, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - A setup submenu is entered
+    ...    - The setup submenu is read from the serial buffer
     [Arguments]    ${menu}    ${option}    ${opt_only}=${FALSE}
+
     Enter Submenu From Snapshot    ${menu}    ${option}
     ${submenu}=    Get Submenu Construction    opt_only=${opt_only}
     RETURN    ${submenu}
 
 Save BIOS Changes
-    [Documentation]    This keyword saves introduced changes
+    [Documentation]
+    ...    Saves Setup Menu changes
+    ...
+    ...    === Requirements ===
+    ...    Must be in the setup menu
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The performed changes will be saved and applied.
+    ...    \ Most options require a reboot to take effect. Some of them don't.
+
     Press Key N Times    1    ${F10}
     Write Bare Into Terminal    y
 
 Enter Dasharo System Features
+    [Documentation]
+    ...    Enters the ``Dasharo System Features`` submenu and returns it's
+    ...    contents
+    ...
+    ...    === Requirements ===
+    ...    - The UEFI Setup Menu main menu has to be entered
+    ...
+    ...    === Arguments ===
+    ...    - ``${setup_menu}``: ``string`` - the menu construction or snapshot
+    ...    - ``${option}``: ``string`` - the name of the submenu to enter
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - A setup submenu is entered
     [Arguments]    ${setup_menu}
+
     ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Dasharo System Features
     RETURN    ${dasharo_menu}
 
 Enter Dasharo APU Configuration
+    [Documentation]
+    ...    Enters the ``Dasharo APU Configuration`` submenu and returns it's
+    ...    contents
+    ...
+    ...    === Requirements ===
+    ...    - The UEFI Setup Menu main menu has to be entered
+    ...
+    ...    === Arguments ===
+    ...    - ``${setup_menu}``: ``string`` - the menu construction or snapshot
+    ...    - ``${option}``: ``string`` - the name of the submenu to enter
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - A setup submenu is entered
     [Arguments]    ${setup_menu}
+
     ${apu_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Dasharo APU Configuration
     RETURN    ${apu_menu}
 
-Enter Dasharo Submenu
+Enter Dasharo Submenu    # TODO remove: redundant keyword, only used to change the default parameter
     [Arguments]    ${dasharo_menu}    ${option}
     ${submenu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${dasharo_menu}
@@ -223,9 +463,24 @@ Enter Dasharo Submenu
     RETURN    ${submenu}
 
 Get Index Of Matching Option In Menu
-    [Documentation]    This keyword returns the index of element that matches
-    ...    one in given menu
+    [Documentation]
+    ...    This keyword returns the index of a line matching ``${option}`` in
+    ...    ``${menu_construction}``
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu_construction}``: ``string`` - the menu construction
+    ...    - ``${option}``: ``string`` - the content to match
+    ...
+    ...    === Return Value ===
+    ...    - ``integer`` - the index of the matched construction line
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${menu_construction}    ${option}    ${ignore_not_found_error}=${FALSE}
+
     FOR    ${element}    IN    @{menu_construction}
         ${matches}=    Run Keyword And Return Status
         ...    Should Match    ${element}    *${option}*
@@ -241,14 +496,45 @@ Get Index Of Matching Option In Menu
     RETURN    ${index}
 
 Press Key N Times And Enter
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key and then press Enter.
+    [Documentation]
+    ...    Enter the ``${key}`` ``${n}`` times and then Enter
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${n}``: ``string`` - number of times to enter the ``${key}``
+    ...    - ``${key}``: ``string`` - the key to enter
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The keyword itself causes no side effects
+    ...    - Pressing the ``Enter`` key might cause multiple side effects
+    ...    \ depending on the context
     [Arguments]    ${n}    ${key}
+
     Press Key N Times    ${n}    ${key}
     Press Enter
 
 Press Enter
-    # Before entering new menu, make sure we get rid of all leftovers
+    [Documentation]
+    ...    Presses the Enter key
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The keyword itself causes no side effects
+    ...    - Pressing the ``Enter`` key might cause multiple side effects
+    ...    \ depending on the context
     Sleep    1s
     Read From Terminal
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -260,7 +546,22 @@ Press Enter
 Press Key N Times
     [Documentation]    Enter specified in the first argument times the specified
     ...    in the second argument key.
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The keyword itself causes no side effects
+    ...    - Pressing the ``${key}`` might cause multiple side effects
+    ...    depending on the context and the key pressed
     [Arguments]    ${n}    ${key}
+
     FOR    ${index}    IN RANGE    0    ${n}
         IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
             Single Key PiKVM    ${key}
@@ -279,8 +580,23 @@ Press Key N Times
     END
 
 Get Option State
-    [Documentation]    Gets menu construction and option name as arguments.
-    ...    Returns option state, which can be: True, False, or numeric value.
+    [Documentation]
+    ...    Returns the option state
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu}``: ``string`` - the menu construction
+    ...    - ``${option}``: ``string`` - the option name
+    ...
+    ...    === Return Value ===
+    ...    - ``string or boolean`` - the state of the option.
+    ...    \ ``${TRUE}`` / ``${FALSE}`` if the option is boolean.
+    ...    \ ``string`` otherwise
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${menu}    ${option}
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     ${value}=    Get Value From Brackets    ${menu}[${index}]
@@ -297,9 +613,23 @@ Get Option State
     RETURN    ${state}
 
 Get Option Type
-    [Documentation]    Accepts option state and returns option type. Option
-    ...    type can be one of:    bool, numeric, list.
+    [Documentation]
+    ...    Determines the type of the option state value
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${state}``: ``string`` - the option state
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - the type of the option. Can one of:
+    ...    \ ``bool``, ``numeric``, ``list``.
+    ...
+    ...    === Side Effects ===
+    ...    None
     [Arguments]    ${state}
+
     # This type of field can either be boolean ([X] or [ ]), or free entry
     # field. At first, find out which one is it.
     IF    '${state}' == '${TRUE}' or '${state}' == '${FALSE}'
@@ -316,9 +646,26 @@ Get Option Type
     RETURN    ${type}
 
 Select State From List
-    [Documentation]    Accepts a list of option and states (current and target).
-    ...    Selects the target state.
+    [Documentation]    Changes a option of list type to a given state
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${list}``: ``string`` - the selectable list options
+    ...    - ``${current_state}``: ``string`` - the currently selected state
+    ...    - ``${target_state}``: ``string`` - the state to wchich the option
+    ...    \ will be changed
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Side Effects ===
+    ...    - The option state will be changed from ``${current_state}`` to ``${target_state}``
+    ...    - Causes a FAIL if the ``${current_state}`` or the ``${target_state}``
+    ...    \ are incorrect
     [Arguments]    ${list}    ${current_state}    ${target_state}
+
     # Calculate offset and direction
     ${current_index}=    Get Index Of Matching Option In Menu    ${list}    ${current_state}
     Should Not Be Equal As Integers    ${current_index}    -1
@@ -336,10 +683,27 @@ Select State From List
     Press Key N Times And Enter    ${offset}    ${direction}
 
 Set Option State
-    [Documentation]    Gets menu construction option name, and desired state
-    ...    as arguments. Return TRUE if the option was changed and FALSE if
-    ...    option was already in target state.
+    [Documentation]    Changes the state of an option
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu}``: ``string`` - the submenu construction
+    ...    - ``${option}``: ``string`` - the option name
+    ...    - ``${target_state}``: ``string`` - the state to wchich the option
+    ...    \ will be changed
+    ...
+    ...    === Return Value ===
+    ...    - ``boolean`` - ${TRUE} if the state was changed. ${FALSE} if the
+    ...    \ option was already in the target state
+    ...
+    ...    === Side Effects ===
+    ...    - The option state will be changed to ``${target_state}``
+    ...    - Causes a FAIL if the ``${option}`` or the ``${target_state}``
+    ...    \ are incorrect.
     [Arguments]    ${menu}    ${option}    ${target_state}
+
     ${current_state}=    Get Option State    ${menu}    ${option}
     IF    '${current_state}' != '${target_state}'
         ${type}=    Get Option Type    ${current_state}
@@ -371,7 +735,7 @@ Set Option State
         RETURN    ${FALSE}
     END
 
-Try To Insert Non-numeric Values Into Numeric Option
+Try To Insert Non-numeric Values Into Numeric Option    # TODO should be moved? It's a test case helper, not a library kwd
     [Documentation]    Check whether accepts only numeric values.
     [Arguments]    ${menu}    ${option}
     ${non_numeric_characters}=    Set Variable
@@ -391,9 +755,29 @@ Try To Insert Non-numeric Values Into Numeric Option
         Fail    Wrong option type (not accept numeric value)
     END
 
-Get IPXE Boot Menu Construction
-    [Documentation]    Keyword allows to get and return iPXE menu construction.
+Get IPXE Boot Menu Construction    # TODO possibly redundant, as it only gives a default checkpoint value
+    [Documentation]
+    ...    Keyword allows to get and return iPXE menu construction.
+    ...
+    ...    === Requirements ===
+    ...    - The IPXE Boot menu was entered
+    ...    - The serial must not have been read after entering the menu
+    ...
+    ...    === Arguments ===
+    ...    - ``${lines_top}``: ``integer`` - number of lines to be dropped from
+    ...    \ the top of the menu
+    ...    - ``${lines_bot}``: ``integer`` - number of lines to be dropped from
+    ...    \ the bottom of the menu
+    ...    - ``${checkpoint}``: ``string`` - text marking the end of the menu.
+    ...    Text will be read from serial until ``${checkpoint}`` is read.
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The IPXE menu construction, line by line
+    ...
+    ...    === Side Effects ===
+    ...    - The IPXE menu is read from the serial buffer
     [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
+
     ${menu}=    Read From Terminal Until    ${checkpoint}
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
     RETURN    ${construction}
