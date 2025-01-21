@@ -27,7 +27,7 @@ Enter Boot Menu Tianocore
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - UEFI Boot menu is entered
 
     Read From Terminal Until    ${TIANOCORE_STRING}
@@ -56,7 +56,7 @@ Get Boot Menu Construction
     ...    === Return Value ===
     ...    - ``string`` - The boot menu construction - entries, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The boot menu is read from the serial buffer
 
     ${menu}=    Read From Terminal Until    exit
@@ -116,7 +116,7 @@ Enter Boot Menu Tianocore And Return Construction
     ...    === Return Value ===
     ...    - ``string`` - The boot menu construction - entries, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - UEFI Boot menu is entered
     ...    - The boot menu is read from the serial buffer
 
@@ -139,7 +139,7 @@ Enter Setup Menu Tianocore
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - UEFI Setup menu is entered
 
     Read From Terminal Until    ${TIANOCORE_STRING}
@@ -163,7 +163,7 @@ Get Setup Menu Construction
     ...    === Return Value ===
     ...    - ``string`` - The setup menu construction, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The setup menu is read from the serial buffer
     [Arguments]    ${checkpoint}=Select Entry
 
@@ -196,7 +196,7 @@ Get Menu Construction
     ...    === Return Value ===
     ...    - ``string`` - The setup menu construction, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The setup menu is read from the serial buffer
     [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
 
@@ -224,7 +224,7 @@ Parse Menu Snapshot Into Construction
     ...    === Return Value ===
     ...    - ``string`` - The parsed setup menu contents, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${menu}    ${lines_top}    ${lines_bot}
     ${slice_start}=    Set Variable    ${lines_top}
@@ -284,7 +284,7 @@ Enter Setup Menu Tianocore And Return Construction
     ...    === Return Value ===
     ...    - ``string`` - The setup menu construction, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - UEFI Setup menu is entered
     ...    - The setup menu is read from the serial buffer
     Enter Setup Menu Tianocore
@@ -312,7 +312,7 @@ Get Submenu Construction
     ...    === Return Value ===
     ...    - ``string`` - The setup menu construction, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The setup submenu is read from the serial buffer
     [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
 
@@ -356,7 +356,7 @@ Enter Submenu From Snapshot
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - A setup submenu is entered
     [Arguments]    ${menu}    ${option}
 
@@ -381,7 +381,7 @@ Enter Submenu From Snapshot And Return Construction
     ...    === Return Value ===
     ...    - ``string`` - The setup menu contents, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - A setup submenu is entered
     ...    - The setup submenu is read from the serial buffer
     [Arguments]    ${menu}    ${option}    ${opt_only}=${FALSE}
@@ -405,7 +405,7 @@ Enter Dasharo System Features
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - A setup submenu is entered
     [Arguments]    ${setup_menu}
 
@@ -429,7 +429,7 @@ Enter Dasharo APU Configuration
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - A setup submenu is entered
     [Arguments]    ${setup_menu}
 
@@ -452,7 +452,7 @@ Enter Dasharo Submenu    # TODO redundant keyword, only used to change the defau
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - A setup submenu is entered
     [Arguments]    ${dasharo_menu}    ${option}
 
@@ -477,7 +477,7 @@ Get Index Of Matching Option In Menu
     ...    === Return Value ===
     ...    - ``integer`` - the index of the matched construction line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${menu_construction}    ${option}    ${ignore_not_found_error}=${FALSE}
 
@@ -509,7 +509,7 @@ Press Key N Times And Enter
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The keyword itself causes no side effects
     ...    - Pressing the ``Enter`` key might cause multiple side effects
     ...    \ depending on the context
@@ -531,7 +531,7 @@ Press Enter
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The keyword itself causes no side effects
     ...    - Pressing the ``Enter`` key might cause multiple side effects
     ...    \ depending on the context
@@ -557,7 +557,7 @@ Press Key N Times
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The keyword itself causes no side effects
     ...    - Pressing the ``${key}`` might cause multiple side effects
     ...    depending on the context and the key pressed
@@ -596,7 +596,7 @@ Get Option State
     ...    \ ``${TRUE}`` / ``${FALSE}`` if the option is boolean.
     ...    \ ``string`` otherwise
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${menu}    ${option}
 
@@ -628,7 +628,7 @@ Get Option Type
     ...    - ``string`` - the type of the option. Can one of:
     ...    \ ``bool``, ``numeric``, ``list``.
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${state}
 
@@ -662,7 +662,7 @@ Select State From List
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The option state will be changed from ``${current_state}`` to ``${target_state}``
     ...    - Causes a FAIL if the ``${current_state}`` or the ``${target_state}``
     ...    \ are incorrect
@@ -700,7 +700,7 @@ Set Option State
     ...    - ``boolean`` - ${TRUE} if the state was changed. ${FALSE} if the
     ...    \ option was already in the target state
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The option state will be changed to ``${target_state}``
     ...    - Causes a FAIL if the ``${option}`` or the ``${target_state}``
     ...    \ are incorrect.
@@ -756,7 +756,7 @@ Get IPXE Boot Menu Construction    # TODO possibly redundant, as it only gives a
     ...    === Return Value ===
     ...    - ``string`` - The IPXE menu construction, line by line
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The IPXE menu is read from the serial buffer
     [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
 
@@ -786,7 +786,7 @@ Reset To Defaults Tianocore
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The UEFI setup options are restored to defaults
     ...    - The device gets rebooted
 
@@ -834,7 +834,7 @@ Enter IPXE
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The iPXE menu is entered
 
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
@@ -862,7 +862,7 @@ Exit From Current Menu
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - Flushes the serial buffer
     ...    - Exits from a submenu
 
@@ -884,7 +884,7 @@ Reenter Menu
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The current submenu reappears on the serial buffer
     ...    - The entered submenu is flushed from the serial buffer
     [Arguments]    ${forward}=${FALSE}
@@ -911,7 +911,7 @@ Reenter Menu And Return Construction
     ...    === Return Value ===
     ...    - ``string`` - the current menu construction
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${forward}=${FALSE}
 
@@ -934,7 +934,7 @@ Type In The Password
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${keys_password}
 
@@ -961,7 +961,7 @@ Type In New Disk Password
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${keys_password}
 
@@ -991,7 +991,7 @@ Type In BIOS Password
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${keys_password}
 
@@ -1014,7 +1014,7 @@ Type In Disk Password
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${keys_password}
 
@@ -1042,7 +1042,7 @@ Remove Disk Password
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    None
     [Arguments]    ${keys_password}
 
@@ -1079,7 +1079,7 @@ Tianocore Reset System
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - Platform is rebooted
 
     # EDK2 interprets Alt + Ctrl + Del on USB keyboards as reset combination.
@@ -1110,7 +1110,7 @@ Save Changes
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The performed changes will be saved and applied.
     ...    \ Most options require a reboot to take effect. Some of them don't.
 
@@ -1133,7 +1133,7 @@ Save Changes And Reset
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The performed changes will be saved and applied.
     ...    - The platform will be rebooted to ensure all changes are applied.
 
@@ -1154,7 +1154,7 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - Boots into the selected OS
     ...    - Does nothing if ${DUT_CONNECTION_METHOD}' == 'SSH' - selecting OS's
     ...    \ not supported via ssh.
@@ -1231,7 +1231,7 @@ Make Sure That Network Boot Is Enabled
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The ``NetworkBoot`` option will be set to ``Enabled``
     ...    - The platform will be rebooted
     ...    - Performs a ``SKIP`` if ``NetworkBoot`` is not supported
@@ -1254,7 +1254,7 @@ Get Firmware Version From Tianocore Setup Menu    # TODO unused
     ...    === Return Value ===
     ...    - ``string`` - The version of the firmware, as displayed in the Setup menu
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The ``NetworkBoot`` option will be set to ``Enabled``
     ...    - The platform will be rebooted
 

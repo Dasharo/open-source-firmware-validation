@@ -40,7 +40,7 @@ Set UEFI Option
     ...    if it was not. ``${FALSE}`` can mean that the option was already in the
     ...    requested state.
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The device gets rebooted
     ...    - The UEFI option ``${option_name}`` is set to ``${value}``
     [Arguments]    ${option_name}    ${value}
@@ -68,7 +68,7 @@ Get UEFI Option
     ...    - Boolean ``${TRUE}``/``${FALSE}`` for boolean options
     ...    - String for numeric and list options
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The device might get rebooted, depending on implementation
     [Arguments]    ${option_name}
     Fail    Not implemented
@@ -86,7 +86,7 @@ Reset UEFI Options To Defaults
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - All the UEFI options are reset to the defaults. Make sure the
     ...    default value of ``SerialRedirection`` is set to Enabled if using
     ...    Telnet/Serial
@@ -106,7 +106,7 @@ Get UEFI Boot Manager Entries
     ...    === Return Value ===
     ...    - ``string`` - The boot menu entries, separated with newlines
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The device might get rebooted, depending on implementation
     Fail    Not implemented
 
@@ -128,7 +128,7 @@ Measure Coldboot Time
     ...    - ``float`` - Average coldboot time
     ...    - ``float`` - Standard deviation of the coldboot time
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The device will be rebooted ${iterations} times
     [Arguments]    ${iterations}
     Skip    Coldboot not supported without serial connection
@@ -151,7 +151,7 @@ Measure Warmboot Time
     ...    - ``float`` - Average warmboot time
     ...    - ``float`` - Standard deviation of the warmboot time
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The device will be rebooted ${iterations} times
     [Arguments]    ${iterations}
     Fail    Not implemented
@@ -174,7 +174,7 @@ Measure Reboot Time
     ...    - ``float`` - Average reboot time
     ...    - ``float`` - Standard deviation of the reboot time
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The device will be rebooted ${iterations} times
     [Arguments]    ${iterations}
     Fail    Not implemented
@@ -192,7 +192,7 @@ Make Sure That Flash Locks Are Disabled
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The device will get rebooted
     ...    - Causes a FAIL if disabling locks is not possible
     Fail    Not implemented
