@@ -26,7 +26,7 @@ Suite Teardown      Run Keyword
 THR001.001 Try to enter a threshold value that's above the limit
     [Documentation]    Verify that a threshold value that's above the limit
     ...    will get rejected with a proper prompt
-    Skip If    not "${OPTIONS_LIB}" == "uefi-setup-menu"
+    Skip If    not "${OPTIONS_LIB}" == "options-lib_uefi-setup-menu"
     # According to Intel datasheets, the throttling temperature must be within
     # {TjMax; TjMax - 63}
     Set UEFI Option    CpuThrottlingThreshold    200
@@ -38,7 +38,7 @@ THR001.001 Try to enter a threshold value that's above the limit
 THR001.002 Try to enter a threshold value that's below the limit
     [Documentation]    Verify that a threshold value that's below the limit
     ...    will get rejected with a proper prompt
-    Skip If    not "${OPTIONS_LIB}" == "uefi-setup-menu"
+    Skip If    not "${OPTIONS_LIB}" == "options-lib_uefi-setup-menu"
     Set UEFI Option    CpuThrottlingThreshold    10
     Save Changes
     Read From Terminal Until    error

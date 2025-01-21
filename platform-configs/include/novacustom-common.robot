@@ -31,7 +31,7 @@ ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                Not Applicable
 ${DMIDECODE_TYPE}=                                  Notebook
 
-${OPTIONS_LIB}=                                     dcu
+${OPTIONS_LIB}=                                     options-lib_dcu
 
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
 ${CLEVO_USB_C_HUB}=                                 4-port

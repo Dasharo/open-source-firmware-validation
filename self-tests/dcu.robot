@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 
 *** Test Cases ***
 Boot System Or From Connected Disk
-    Skip If    '${OPTIONS_LIB}' != 'dcu'    DCU not supported
+    Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    DCU not supported
 
     Power On
 

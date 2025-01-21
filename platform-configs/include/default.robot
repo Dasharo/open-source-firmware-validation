@@ -36,9 +36,9 @@ ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 # Library config
 # Option library: UEFI configuration variable backend.
-# - uefi-setup-menu: Will set options via the UEFI Setup menu (serial)
+# - options-lib_uefi-setup-menu: Will set options via the UEFI Setup menu (serial)
 # - dcu: Will use Dasharo Configuration Utility to configure options.
-${OPTIONS_LIB}=                                     uefi-setup-menu
+${OPTIONS_LIB}=                                     options-lib_uefi-setup-menu
 
 # OS config
 ${DEVICE_WINDOWS_USERNAME}=                         ${WINDOWS_USERNAME}
