@@ -34,7 +34,6 @@ Mount USB Disk Image
         ${img_dir}    ${img_name}=    Split Path    ${img_source}
 
         IF    "${MANUFACTURER}" == "QEMU"
-            Remove Drive From Qemu
             Add USB To Qemu    img_name=${img_source}
         ELSE IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
             Upload Image To PiKVM    ${img_source}    ${img_name}    ${upload_type}
