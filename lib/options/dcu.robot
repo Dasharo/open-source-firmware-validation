@@ -16,16 +16,16 @@ Resource            ../dcu.robot
 
 *** Keywords ***
 Set UEFI Option
-    [Documentation]    Set an UEFI option to a value. The device has to be ON
-    ...    and logged in to Ubuntu
+    [Documentation]    Set an UEFI option to a value.
+    ...    The device has to be ON and logged in to Ubuntu
     [Arguments]    ${option_name}    ${value}
     DCU Variable Set UEFI Option In DUT    ${option_name}    ${value}
     Execute Reboot Command
     Sleep    20s
 
 Get UEFI Option
-    [Documentation]    Read an UEFI option value. The device has to be ON
-    ...    and logged in to Ubuntu
+    [Documentation]    Read an UEFI option value.
+    ...    The device has to be ON and logged in to Ubuntu
     [Arguments]    ${option_name}
     ${out}=    DCU Variable Get UEFI Option From DUT    ${option_name}
     RETURN    ${out}
@@ -36,6 +36,9 @@ Reset UEFI Options To Defaults
 
 Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
+    ...    The device does not need to be logged in to Ubuntu if $DUT_CONNETION_METHOD == SSH.
+    ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
+    ...    off, and the login prompt must be available in the Telnet buffer.
 
     Login To Linux
     Switch To Root User
@@ -45,13 +48,15 @@ Get UEFI Boot Manager Entries
 
 Measure Coldboot Time
     [Documentation]    Performs a measurement of average coldboot
-    ...    boot time
+    ...    boot. Not supported in this variant of options lib.
 
     Skip    Coldboot not supported without serial connection
 
 Measure Warmboot Time
-    [Documentation]    Performs a measurement of warmboot
-    ...    boot time
+    [Documentation]    Performs a measurement of warmboot boot time
+    ...    The device does not need to be logged in to Ubuntu if $DUT_CONNETION_METHOD == SSH.
+    ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
+    ...    off, and the login prompt must be available in the Telnet buffer.
     [Arguments]    ${iterations}
 
     ${durations}=    Create List
@@ -82,8 +87,10 @@ Measure Warmboot Time
     RETURN    ${min}    ${max}    ${average}    ${stddev}
 
 Measure Reboot Time
-    [Documentation]    Performs a measurement of reboot
-    ...    boot time
+    [Documentation]    Performs a measurement of reboot boot time
+    ...    The device does not need to be logged in to Ubuntu if $DUT_CONNETION_METHOD == SSH.
+    ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
+    ...    off, and the login prompt must be available in the Telnet buffer.
     [Arguments]    ${iterations}
 
     ${durations}=    Create List
