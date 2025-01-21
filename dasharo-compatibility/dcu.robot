@@ -102,9 +102,9 @@ DCU004.001 Verify SMMSTORE changes
     Skip If
     ...    '''${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}''' == '''${EMPTY}'''
     ...    DCU004.001 Verify SMMSTORE changes not supported
-    IF    "${OPTIONS_LIB}"=="uefi-setup-menu"
+    IF    "${OPTIONS_LIB}"=="options-lib_uefi-setup-menu"
         Verify SMMSTORE Changes (Setup Menu)
-    ELSE IF    "${OPTIONS_LIB}"=="dcu"
+    ELSE IF    "${OPTIONS_LIB}"=="options-lib_dcu"
         Log To Console
         ...    Verifying DCU possible only using on this device DCU. The test may not be trustworthy.
         ...    WARN

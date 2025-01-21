@@ -37,7 +37,7 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu)
     ...    during the attempt of firmware flashing information about the
     ...    SMM protection is returned.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    "${OPTIONS_LIB}" == "dcu"
+    Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -61,7 +61,7 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu)
     ...    during the attempt of firmware flashing information about the
     ...    SMM protection is returned.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    "${OPTIONS_LIB}" == "dcu"
+    Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}

@@ -507,7 +507,7 @@ Prepare Test Suite
 Import Osfv Libraries
     [Documentation]    Import osfv_cli libraries based on config and command
     ...    line variables
-    IF    '${OPTIONS_LIB}'=='dcu'    RETURN
+    IF    '${OPTIONS_LIB}'=='options-lib_options-lib_dcu'    RETURN
     Log    ${SNIPEIT}
     IF    '${SNIPEIT}' == 'yes'
         Import Library    osfv.rf.snipeit_robot
@@ -668,7 +668,7 @@ Power Cycle On
     ...    the DEFAULT_POWER_STATE_AFTER_FAIL variable defined in platform config.
 
     Variable Should Exist    ${DEFAULT_POWER_STATE_AFTER_FAIL}
-    IF    "${OPTIONS_LIB}"=="dcu" and "${POWER_CTRL}"=="none"
+    IF    "${OPTIONS_LIB}"=="options-lib_dcu" and "${POWER_CTRL}"=="none"
         Execute Reboot Command
         Sleep    5s
         RETURN

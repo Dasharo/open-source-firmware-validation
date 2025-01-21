@@ -33,7 +33,7 @@ internal programmer. If any locks are present the flashing will fail.
 * Run tests with the target platform **powered on** and the target OS
 **booted**.
 * When adding a new laptop platform, make sure that `${OPTIONS_LIB}` is set to
-  `dcu` and `${POWER_CTRL}` is set to `none` in the config.
+  `options-lib_dcu` and `${POWER_CTRL}` is set to `none` in the config.
 * Docking station tests should be run separately because many checks
   are performed in the same way as on the internal ports. When testing a docking
   station make sure that the appliances are connected to the docking station and
