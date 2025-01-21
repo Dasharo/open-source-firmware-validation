@@ -52,7 +52,9 @@ Test Make Sure That Flash Locks Are Disabled
     [Documentation]    Tests Make Sure That Flash Locks Are Disabled Keyword
     ...    Accepts initial state of the BIOS lock and SMM protection as args
     [Arguments]    ${bios_lock_init}    ${smm_lock_init}
-    IF    "${smm_lock_init}"=="Enabled" and "${OPTIONS_LIB}"=="dcu"    Skip
+    IF    "${smm_lock_init}"=="Enabled" and "${OPTIONS_LIB}"=="options-lib_dcu"
+        Skip
+    END
     Set UEFI Option    LockBios    ${bios_lock_init}
     Set UEFI Option    SmmBwp    ${smm_lock_init}
     IF    "${bios_lock_init}"=="Enabled" or "${smm_lock_init}"=="Enabled"

@@ -79,7 +79,7 @@ Flash Firmware
         FAIL    Image size doesn't match the flash chip's size!
     END
 
-    IF    "${OPTIONS_LIB}"=="dcu"
+    IF    "${OPTIONS_LIB}"=="options-lib_dcu"
         Make Sure That Flash Locks Are Disabled
         Flash Via Internal Programmer    ${fw_file}    region='bios'
         RETURN
