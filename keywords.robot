@@ -1561,7 +1561,7 @@ Power On
     ...    === Return Value ===
     ...    None
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - The platform is ON
     ...    - Telnet buffer is cleared
     ...    - Always performs a full power cycle, even if the device was ON
