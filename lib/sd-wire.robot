@@ -1,4 +1,7 @@
 *** Settings ***
+Library     Collections
+Library     String
+Library     SSHLibrary
 Library     ../keywords.robot
 
 

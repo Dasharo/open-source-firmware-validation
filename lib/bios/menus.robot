@@ -4,6 +4,10 @@ Documentation       Collection of keywords related to EDK2 menus
 Library             Collections
 Library             String
 Library             ./menus.py
+Resource            ../terminal.robot
+Resource            ../../keys.robot
+Resource            ../../pikvm-rest-api/pikvm_comm.robot
+Resource            ../../keywords.robot
 
 
 *** Keywords ***
@@ -1235,7 +1239,7 @@ Make Sure That Network Boot Is Enabled
     IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
     Set UEFI Option    NetworkBoot    ${TRUE}
 
-Get Firmware Version From Tianocore Setup Menu
+Get Firmware Version From Tianocore Setup Menu    # TODO unused
     [Documentation]    Reads the firmware version from Tianocore
     ...    Setup menu header.
     ...
