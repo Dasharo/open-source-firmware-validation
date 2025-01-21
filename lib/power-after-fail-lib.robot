@@ -2,6 +2,8 @@
 Documentation       Collection of keywords related to the Power State After
 ...                 Power Fail option
 
+Library             terminal
+
 
 *** Keywords ***
 Simulate Power Failure
