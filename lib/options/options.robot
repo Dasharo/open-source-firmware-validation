@@ -19,6 +19,9 @@ Set UEFI Option
     [Documentation]
     ...    Sets an UEFI option.
     ...    Implementations in ``/lib/options/``
+    ...    At this moment the implementations are not completely device-agnostic
+    ...    and might have additional requirements/side effects. Check the
+    ...    implementations' documentation for details.
     ...
     ...    === Requirements ===
     ...    None
@@ -47,7 +50,10 @@ Set UEFI Option
 Get UEFI Option
     [Documentation]
     ...    Gets the value of an UEFI option.
-    ...    Implementations in /lib/options/
+    ...    Implementations in ``/lib/options/``
+    ...    At this moment the implementations are not completely device-agnostic
+    ...    and might have additional requirements/side effects. Check the
+    ...    implementations' documentation for details.
     ...
     ...    === Requirements ===
     ...    None
