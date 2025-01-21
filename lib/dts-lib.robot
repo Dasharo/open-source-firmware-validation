@@ -1,5 +1,7 @@
 *** Settings ***
 Resource    terminal.robot
+Resource    bios/menus.robot
+Resource    ../keywords.robot
 
 
 *** Keywords ***
@@ -23,7 +25,7 @@ Boot Dasharo Tools Suite Via IPXE Shell
     Set DUT Response Timeout    60s
 
     # 4) Try to boot via the link:
-    Write Bare Into Terminal    chain ${dts_chain_link}\n    0.1
+    Write Bare Into Terminal    chain ${dts_chain_link}\n
     Read From Terminal Until    ${dts_chain_link}...
     Read From Terminal Until    ok
     Set DUT Response Timeout    5m
@@ -113,7 +115,7 @@ Run EC Transition
     [Documentation]    Keyword allows to run EC Transition procedure in the
     ...    Dasharo Tools Suite.
     Write Into Terminal    6
-    Read From Trminal Until    Enter an option:
+    Read From Terminal Until    Enter an option:
     Write Into Terminal    1
     ${output}=    Read From Terminal Until    shut down
     Should Contain X Times    ${output}    VERIFIED    2

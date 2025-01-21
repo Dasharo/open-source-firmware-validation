@@ -17,7 +17,8 @@ Resource        lib/CPU-performance-lib.robot
 Resource        lib/framework.robot
 Resource        lib/me.robot
 Resource        lib/network.robot
-Resource        lib/options/uefi-options.robot
+Resource        lib/options/options.robot
+Resource        keys.robot
 Variables       platform-configs/fan-curve-config.yaml
 
 
