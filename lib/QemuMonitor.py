@@ -42,6 +42,9 @@ class QemuMonitor:
         logger.trace(self._send("qmp_capabilities"))
         response = self._send(command, **args)
         self._close()
+        if "error" in response:
+            logger.error(f"Command '{command}' failed with error: {response['error']}")
+            raise RuntimeError(f"QEMU monitor error response: {response['error']['desc']}")
         return response
 
     def _send(self, command, **args):
