@@ -31,6 +31,7 @@ Prepare EFI Partition With System Files
     Power On
     IF    "${MANUFACTURER}" == "QEMU"
         Add HDD To Qemu    img_name=${TEST_DATA_DIR}/esp-scanning/esp-scanning-disk.img
+        # Add HDD To Qemu    img_name=esp-scanning-disk.img
     ELSE
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
@@ -53,7 +54,7 @@ Clear Out EFI Partition
     Power On
 
     IF    "${MANUFACTURER}" == "QEMU"
-        Remove Drive From Qemu
+        Remove Drive From Qemu    mydisk
     ELSE
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux

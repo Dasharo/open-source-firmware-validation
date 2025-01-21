@@ -44,7 +44,9 @@ class QemuMonitor:
         self._close()
         if "error" in response:
             logger.error(f"Command '{command}' failed with error: {response['error']}")
-            raise RuntimeError(f"QEMU monitor error response: {response['error']['desc']}")
+            raise RuntimeError(
+                f"QEMU monitor error response: {response['error']['desc']}"
+            )
         return response
 
     def _send(self, command, **args):
@@ -60,6 +62,15 @@ class QemuMonitor:
             return {"ack": json_objects[0], "event": json_objects[1]}
         else:
             return json_objects[0]
+
+    def _check_if_block_node_exists(self, block_node):
+        block_nodes = self._send_cmd("query-named-block-nodes")
+
+        contains_node = any(
+            block.get("node-name") == block_node
+            for block in block_nodes.get("return", [])
+        )
+        return contains_node
 
     @keyword
     def qmp_capabilities(self):
@@ -79,14 +90,22 @@ class QemuMonitor:
 
     @keyword("Add HDD To Qemu")
     def blockdev_add(self, img_name):
+        contains_mydisk = self._check_if_block_node_exists("mydisk")
+        logger.trace(f"contains_mydisk: {contains_mydisk}")
+
+        if contains_mydisk:
+            blockdev_del_params = {"node-name": "mydisk"}
+            self._send_cmd("blockdev-del", **blockdev_del_params)
+
         blockdev_add_params = {
             "node-name": "mydisk",
             "driver": "file",
             "filename": img_name,
             "aio": "threads",
             "cache": {"direct": True, "no-flush": False},
+            "read-only": True,
         }
-        print(self._send_cmd("blockdev-add", **blockdev_add_params))
+        logger.trace(self._send_cmd("blockdev-add", **blockdev_add_params))
 
         device_add_params = {
             "driver": "scsi-hd",
@@ -97,24 +116,63 @@ class QemuMonitor:
         return self._send_cmd("device_add", **device_add_params)
 
     @keyword("Remove Drive From Qemu")
-    def device_del(self):
-        return self._send_cmd("device_del", id="myhdd")
+    def device_del(self, nodename):
+        contains_node = self._check_if_block_node_exists(nodename)
+        logger.trace(f"contains_{nodename}: {contains_node}")
+
+        if contains_node:
+            blockdevs = self._send_cmd("query-block")["return"]
+            for dev in blockdevs:
+                print(dev.keys())
+                if "inserted" in dev.keys():
+                    print(dev["inserted"]["node-name"])
+
+            node_id = [
+                dev["qdev"]
+                for dev in blockdevs
+                if "inserted" in dev.keys() and dev["inserted"]["node-name"] == nodename
+            ]
+            print(node_id)
+            if len(node_id) != 1:
+                print("device not found")
+                print(node_id)
+                raise "TODO!@# Device not found"
+            node_id = node_id[0]
+
+            device_del_params = {"id": node_id}
+            return self._send_cmd("device_del", **device_del_params)
+
+            # blockdev_del_params = {
+            #     "node-name": nodename
+            # }
+            # return self._send_cmd("blockdev-del", **blockdev_del_params)
 
     @keyword("Add USB To Qemu")
     def usb_add(self, img_name):
-        # first make sure to get rid of any previous instance
-        print(self._send_cmd("device_del", id="usbdisk"))
-        time.sleep(2)
-        blockdev_params = {
-            "node-name": "drive-iso",
-        }
-        print(self._send_cmd("blockdev-del", **blockdev_params))
-        time.sleep(2)
-        blockdev_params = {
-            "node-name": "file_iso",
-        }
-        print(self._send_cmd("blockdev-del", **blockdev_params))
-        time.sleep(2)
+        contains_file_iso = self._check_if_block_node_exists("file_iso")
+        logger.trace(f"contains_file_iso: {contains_file_iso}")
+
+        if contains_file_iso:
+            try:
+                logger.trace(self._send_cmd("device_del", id="usbdisk"))
+            except Exception:
+                pass
+            time.sleep(2)
+
+            blockdev__del_params = {
+                "node-name": "drive-iso",
+            }
+            try:
+                logger.trace(self._send_cmd("blockdev-del", **blockdev_del_params))
+            except Exception:
+                pass
+            time.sleep(2)
+
+            blockdev_del_params = {
+                "node-name": "file_iso",
+            }
+            logger.trace(self._send_cmd("blockdev-del", **blockdev_del_params))
+            time.sleep(2)
 
         blockdev_params = {
             "node-name": "file_iso",
@@ -123,7 +181,7 @@ class QemuMonitor:
             "auto-read-only": True,
             "discard": "unmap",
         }
-        print(self._send_cmd("blockdev-add", **blockdev_params))
+        logger.trace(self._send_cmd("blockdev-add", **blockdev_params))
 
         drive_params = {
             "driver": "raw",
@@ -132,14 +190,14 @@ class QemuMonitor:
             "read-only": True,
             "discard": "unmap",
         }
-        print(self._send_cmd("blockdev-add", **drive_params))
+        logger.trace(self._send_cmd("blockdev-add", **drive_params))
 
         usb_storage_params = {
             "driver": "usb-storage",
             "id": "usbdisk",
             "drive": "drive-iso",
         }
-        print(self._send_cmd("device_add", **usb_storage_params))
+        logger.trace(self._send_cmd("device_add", **usb_storage_params))
 
     def __del__(self):
         self._close()
