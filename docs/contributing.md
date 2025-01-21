@@ -110,7 +110,7 @@ The documentation of a public keyword should contain:
 * The arguments, their types and short descriptions of what the arguments are
    for and what values can be passed in them.
 * The return value, if it is used, what is it's type and what does it contain
-* Side Effects, if the keyword shuts down the device, reboots it, logs in/out,
+* Effects, if the keyword shuts down the device, reboots it, logs in/out,
    does anything, that could cause persistent effects or interfere with other
    keywords' starting conditions.
 
@@ -136,7 +136,7 @@ Cowsay Keyword
     ...    === Return Value ===
     ...    - ``string`` - The generated cowsay message
     ...
-    ...    === Side Effects ===
+    ...    === Effects ===
     ...    - Creates ``${out_file}`` file with the cowsay message. Overwrites
     ...    \ the file if already exists.
     [Arguments]    ${input_text}    ${out_file}="cowsay.txt"
