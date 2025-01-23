@@ -98,7 +98,7 @@ ${PLATFORM_STABILITY_CHECKING}=             ${TRUE}
 
 # Test module: dasharo-stab
 ${TPM_DETECT_SUPPORT}=                      ${TRUE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=    ${TRUE}
+${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=    ${TRUE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                      ${TRUE}

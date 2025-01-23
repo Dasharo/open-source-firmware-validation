@@ -231,7 +231,7 @@ ${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${FALSE}
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${FALSE}
 ${NVME_DETECTION_SUPPORT}=                          ${FALSE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
+${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${FALSE}
 ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 

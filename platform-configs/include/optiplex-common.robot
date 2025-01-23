@@ -82,7 +82,7 @@ ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
 
 # Test module: dasharo-stab
 ${TPM_DETECT_SUPPORT}=                          ${TRUE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
+${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=     ${TRUE}
 
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}

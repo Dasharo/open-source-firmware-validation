@@ -134,7 +134,7 @@ ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
 ${NVME_DETECTION_SUPPORT}=                          ${FALSE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
+${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${TRUE}
 
 # Supported OS installation variants

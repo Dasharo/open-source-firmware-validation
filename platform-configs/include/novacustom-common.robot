@@ -129,7 +129,7 @@ ${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${TRUE}
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                          ${TRUE}
-${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
+${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=            ${TRUE}
 ${TPM_DETECT_SUPPORT}=                              ${TRUE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${TRUE}
 

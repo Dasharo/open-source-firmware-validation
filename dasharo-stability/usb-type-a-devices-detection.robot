@@ -13,7 +13,7 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    not ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}    USB-A devices detection tests not supported
+...                     Skip If    not ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}    USB-A devices detection tests not supported
 ...                     AND
 ...                     Skip If    ${STABILITY_DETECTION_SUSPEND_ITERATIONS} == 0    USB-A devices detection tests not supported
 ...                     AND
@@ -28,7 +28,6 @@ Suite Teardown      Run Keyword
 # SUD001.001 USB devices detection after cold boot (Ubuntu)
 #    [Documentation]    Check whether the external USB devices are detected
 #    ...    correctly after a cold boot.
-#    Skip If    not ${usb_type-a_devices_detection_support}    SUD001.001 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    SUD001.001 not supported
 #    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
 #    Power On
@@ -51,7 +50,6 @@ SUD002.201 USB devices detection after warm boot (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a warm boot.
     ...    Previous IDs: SUD002.001
-    Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
     Power On
@@ -121,7 +119,6 @@ SUD006.201 USB devices detection after suspension (Ubuntu) (S3)
 SUD002.202 USB devices detection after warm boot (Fedora)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a warm boot.
-    Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD002.201 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
