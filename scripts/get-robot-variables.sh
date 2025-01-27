@@ -197,7 +197,7 @@ else
 fi
 
 if [ -f /usr/local/bin/cbmem ]; then
-    TPM_EXPECTED_CHIP=$(sudo /usr/local/bin/cbmem -1 | grep "Found TPM" | awk 'NR==1{print $5}');
+    TPM_EXPECTED_CHIP=$(sudo /usr/local/bin/cbmem -1 | grep "Found TPM" | awk 'NR==1{print $6}');
 else
     TPM_EXPECTED_CHIP="Unknown"
 fi
