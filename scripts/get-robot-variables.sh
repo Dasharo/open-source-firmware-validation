@@ -191,9 +191,9 @@ ensure_valid_cbmem() {
 ensure_valid_cbmem
 
 if [ -f ${TPM_VER_PATH} ]; then
-    TPM_EXPECTED_VERSION=$(cat ${TPM_VER_PATH})
+    TPM_SUPPORTED_VERSION=$(cat ${TPM_VER_PATH})
 else
-    TPM_EXPECTED_VERSION=0
+    TPM_SUPPORTED_VERSION=\$\{None\}
 fi
 
 if [ -f /usr/local/bin/cbmem ]; then
@@ -314,7 +314,7 @@ fi
     [[ -n "$DEF_CORES_PER_SOCKET" ]] && echo "\${DEF_CORES_PER_SOCKET}=                            $DEF_CORES_PER_SOCKET"
     [[ -n "$DEF_SOCKETS" ]] && echo "\${DEF_SOCKETS}=                                     $DEF_SOCKETS"
     [[ -n "$DEF_ONLINE_CPU" ]] && echo "\${DEF_ONLINE_CPU}=                                  $DEF_ONLINE_CPU"
-    [[ -n "$TPM_EXPECTED_VERSION" ]] && echo "\${TPM_EXPECTED_VERSION}=                            $TPM_EXPECTED_VERSION"
+    [[ -n "$TPM_SUPPORTED_VERSION" ]] && echo "\${TPM_SUPPORTED_VERSION}=                            $TPM_SUPPORTED_VERSION"
     [[ -n "$TPM_EXPECTED_CHIP" ]] && echo "\${TPM_EXPECTED_CHIP}=                               $TPM_EXPECTED_CHIP"
 
     for i in $(seq 1 $counter); do

@@ -118,7 +118,7 @@ ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 
 # Test module: dasharo-security
-${TPM_SUPPORT}=                                     ${FALSE}
+${TPM_SUPPORTED_VERSION}=                           ${None}
 ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}

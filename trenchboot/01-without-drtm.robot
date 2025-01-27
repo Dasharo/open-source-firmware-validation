@@ -57,7 +57,7 @@ WOD004.001 DRTM event log doesn't exist
 TrenchBoot Suite Setup
     Prepare Test Suite
 
-    Skip If    not ${TPM_SUPPORT}    TPM tests not supported
+    Skip If    ${TPM_SUPPORTED_VERSION} == None    TPM tests not supported
     Skip If    not ${TRENCHBOOT_SUPPORT}    TrenchBoot tests aren't supported
     Skip If    not ${TESTS_IN_METATB_SUPPORT}    Tests in meta-trenchboot aren't supported
 

@@ -299,9 +299,9 @@ Restore SB And Tianocore Defaults And Reset
 
 Measured Boot Suite Setup
     Prepare Test Suite
+    Skip If    ${TPM_SUPPORTED_VERSION} == None    Measured boot tests require TPM
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
-    Skip If    '${TPM_EXPECTED_VERSION}' == '0'    TPM Version in platform config does not support this suite
     Power On
     Boot Ubuntu And Login To Root
     Verify Presence Of TPM Via Sysfs
