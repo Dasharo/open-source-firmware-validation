@@ -20,9 +20,7 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    not ${TPM_SUPPORT}    TPM tests not supported
-...                     AND
-...                     Skip If    '${TPM_EXPECTED_VERSION}' == '0'    TPM Version unset
+...                     Skip If    ${TPM_SUPPORTED_VERSION} == None    TPM tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -129,9 +127,9 @@ TPM003.002 Check TPM Physical Presence Interface (Ubuntu)
     Switch To Root User
     Verify Presence Of TPM Via Sysfs
     ${out}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/ppi/version
-    IF    '${TPM_EXPECTED_VERSION}' == '1'
+    IF    '${TPM_SUPPORTED_VERSION}' == '1'
         Should Contain    ${out}    1.2
-    ELSE IF    '${TPM_EXPECTED_VERSION}' == '2'
+    ELSE IF    '${TPM_SUPPORTED_VERSION}' == '2'
         Should Contain    ${out}    1.3
     ELSE
         Fail    Invalid expected version, please verify config
@@ -149,6 +147,6 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
 # TPM003.004 Change active PCR banks with TPM PPI (firmware)
 #    [Documentation]    This test aims to verify that the TPM Physical Presence
 #    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-#    Skip If    not ${tpm_support}    TPM003.004 not supported
+#    Skip If    not ${TPM_SUPPORTED_VERSION}    TPM003.004 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    TPM003.004 not supported
 # TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware

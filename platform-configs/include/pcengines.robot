@@ -83,7 +83,7 @@ ${MINI_PC_IE_SLOT_SUPPORT}=                 ${TRUE}
 ${APU_CONFIGURATION_MENU_SUPPORT}=          ${TRUE}
 
 # Test module: dasharo-security
-${TPM_SUPPORT}=                             ${TRUE}
+${TPM_SUPPORTED_VERSION}=                   2
 ${VERIFIED_BOOT_SUPPORT}=                   ${TRUE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=             ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                   ${TRUE}

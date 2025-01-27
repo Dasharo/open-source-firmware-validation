@@ -263,14 +263,13 @@ Check If SHA1 And SHA256 Banks Are Enabled
 
 TPM2 Suite Setup
     Prepare Test Suite
-    Skip If    not ${TPM_SUPPORT}    TPM tests not supported
+    Skip If    ${TPM_SUPPORTED_VERSION} != '2'    TPM commands tests supported only TPM2
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
-    Skip If    '${TPM_EXPECTED_VERSION}' != '2'    TPM Version in platform config does not support this suite
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
-    Verify Presence Of TPM Via Sysfs
     Switch To Root User
+    Verify Presence Of TPM Via Sysfs
     Detect Or Install Package    tpm2-tools
     ${passed}=    Run Keyword And Return Status
     ...    Check If SHA1 And SHA256 Banks Are Enabled

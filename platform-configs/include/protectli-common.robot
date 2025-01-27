@@ -77,7 +77,7 @@ ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 
 # Test module: dasharo-security
-${TPM_SUPPORT}=                                 ${TRUE}
+${TPM_SUPPORTED_VERSION}=                       2
 ${SECURE_BOOT_SUPPORT}=                         ${TRUE}
 ${SECURE_BOOT_DEFAULT_STATE}=                   Disabled
 ${USB_STACK_SUPPORT}=                           ${TRUE}

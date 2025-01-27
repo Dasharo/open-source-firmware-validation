@@ -66,8 +66,7 @@ ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 
 # Test module: dasharo-security
-${TPM_SUPPORT}=                                 ${TRUE}
-${TPM_EXPECTED_VERSION}=                        1
+${TPM_SUPPORTED_VERSION}=                       1
 # Cannot acquire tpm chip with cbmem on Optiplex platforms
 ${TPM_EXPECTED_CHIP}=                           N/A
 ${MEASURED_BOOT_SUPPORT}=                       ${TRUE}

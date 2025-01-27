@@ -72,7 +72,7 @@ Validate Expected TPM Version Via Sysfs
     [Documentation]    Checks if detected major TPM version matches the expected
     ...    value.
     ${tpm_ver}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/tpm_version_major
-    IF    '${TPM_EXPECTED_VERSION}' != '${tpm_ver}'
+    IF    '${TPM_SUPPORTED_VERSION}' != '${tpm_ver}'
         Fail    Platform TPM version mismatch
     END
 
@@ -86,9 +86,9 @@ Validate Expected TPM Version Via Cbmem Log
     [Documentation]    Check if appropriate log is created by FW
     Get Cbmem From Cloud
     ${out}=    Execute Command In Terminal    cbmem -L
-    IF    '${TPM_EXPECTED_VERSION}' == '1'
+    IF    '${TPM_SUPPORTED_VERSION}' == '1'
         Should Contain    ${out}    TCPA log
-    ELSE IF    '${TPM_EXPECTED_VERSION}' == '2'
+    ELSE IF    '${TPM_SUPPORTED_VERSION}' == '2'
         Should Contain    ${out}    TPM2 log
     ELSE
         Fail    Invalid expected version, please verify config

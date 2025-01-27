@@ -89,7 +89,7 @@ ${CPU_TEMPERATURE_MEASURE}=                     ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 
 # Dasharo security
-${TPM_SUPPORT}=                                 ${TRUE}
+${TPM_SUPPORTED_VERSION}=                       2
 ${TPM_DETECT_SUPPORT}=                          ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}
 ${BIOS_LOCK_SUPPORT}=                           ${TRUE}
