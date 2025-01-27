@@ -30,11 +30,7 @@ TPM001.001 TPM Support (firmware)
     [Documentation]    This test aims to verify that the TPM is initialized,
     ...    detected and logged correctly by FW via cbmem, directly in Ubuntu
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Verify Presence Of TPM Via Sysfs
+    Prepare TPM Test On Ubuntu
     ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem
     IF    '${result}[0]' == 'FAIL'
         Log To Console    \nChip detection failed, attempting cbmem log detection\n
@@ -45,11 +41,7 @@ TPM001.002 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Verify Presence Of TPM Via Sysfs
+    Prepare TPM Test On Ubuntu
     Verify Presence Of Any PCRs Via Sysfs
 
 TPM001.003 TPM Support (Windows)
@@ -70,11 +62,7 @@ TPM002.001 Verify TPM version (firmware)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the firmware.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Verify Presence Of TPM Via Sysfs
+    Prepare TPM Test On Ubuntu
     ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem
     IF    '${result}[0]' == 'FAIL'
         Log To Console    \nChip detection failed, attempting cbmem log detection\n
@@ -86,11 +74,7 @@ TPM002.002 Verify TPM version (Ubuntu)
     ...    correctly recognized by the operating system.
     [Tags]    minimal-regression
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.002 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Verify Presence Of TPM Via Sysfs
+    Prepare TPM Test On Ubuntu
     Validate Expected TPM Version Via Sysfs
 
 TPM002.003 Verify TPM version (Windows)
@@ -108,10 +92,7 @@ TPM003.001 Check TPM Physical Presence Interface (firmware)
     ...    Interface is supported by the firmware and the log can be detected
     ...    with cbmem within Ubuntu
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
+    Prepare TPM Test On Ubuntu
     Get Cbmem From Cloud
     ${out}=    Execute Command In Terminal    cbmem -1 | grep PPI
     Should Contain    ${out}    PPI: Pending OS request
@@ -121,11 +102,7 @@ TPM003.002 Check TPM Physical Presence Interface (Ubuntu)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.002 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Verify Presence Of TPM Via Sysfs
+    Prepare TPM Test On Ubuntu
     ${out}=    Execute Command In Terminal    cat /sys/class/tpm/tpm0/ppi/version
     IF    '${TPM_SUPPORTED_VERSION}' == '1'
         Should Contain    ${out}    1.2
@@ -150,3 +127,13 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
 #    Skip If    not ${TPM_SUPPORTED_VERSION}    TPM003.004 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    TPM003.004 not supported
 # TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
+
+
+*** Keywords ***
+Prepare TPM Test On Ubuntu
+    [Documentation]    Run common actions required for TPM tests in Ubuntu
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
+    Switch To Root User
+    Verify Presence Of TPM Via Sysfs
