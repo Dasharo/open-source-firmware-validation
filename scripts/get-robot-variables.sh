@@ -159,6 +159,49 @@ while IFS= read -r audio_device_name; do
     eval "DEVICE_AUDIO$counter='$audio_device_name'"
 done <<< "$audio_device_names"
 
+# cbmem and TPM detection variables
+CBMEM_BINARY_PATH="/usr/local/bin/cbmem"
+CBMEM_EXPECTED_HASH="169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6"
+CBMEM_URL="https://cloud.3mdeb.com/index.php/s/C6LJMi4bWz3wzR9/download"
+TPM_VER_PATH="/sys/class/tpm/tpm0/tpm_version_major"
+
+ensure_valid_cbmem() {
+    if [[ -f "$CBMEM_BINARY_PATH" ]]; then
+        local current_hash
+        current_hash=$(sha256sum "$CBMEM_BINARY_PATH" | awk '{print $1}')
+
+        if [[ "$current_hash" == "$CBMEM_EXPECTED_HASH" ]]; then
+            sudo chmod 777 "$CBMEM_BINARY_PATH"
+            return 0
+        fi
+    else
+        echo "Fetching cbmem from cloud..."
+        sudo curl -o "$CBMEM_BINARY_PATH" "$CBMEM_URL"
+
+        if [[ $? -eq 0 ]]; then
+            echo "Success!"
+            sudo chmod 777 "$CBMEM_BINARY_PATH"
+        else
+            echo "Failed..."
+            return 1
+        fi
+    fi
+}
+
+ensure_valid_cbmem
+
+if [ -f ${TPM_VER_PATH} ]; then
+    TPM_EXPECTED_VERSION=$(cat ${TPM_VER_PATH})
+else
+    TPM_EXPECTED_VERSION=0
+fi
+
+if [ -f /usr/local/bin/cbmem ]; then
+    TPM_EXPECTED_CHIP=$(sudo /usr/local/bin/cbmem -1 | grep "Found TPM" | awk 'NR==1{print $5}');
+else
+    TPM_EXPECTED_CHIP="Unknown"
+fi
+
 # Print collected information if -p is provided
 if [ "$PRINT" = true ]; then
     echo "-----------------------WiFi-------------------------"
@@ -271,6 +314,8 @@ fi
     [[ -n "$DEF_CORES_PER_SOCKET" ]] && echo "\${DEF_CORES_PER_SOCKET}=                            $DEF_CORES_PER_SOCKET"
     [[ -n "$DEF_SOCKETS" ]] && echo "\${DEF_SOCKETS}=                                     $DEF_SOCKETS"
     [[ -n "$DEF_ONLINE_CPU" ]] && echo "\${DEF_ONLINE_CPU}=                                  $DEF_ONLINE_CPU"
+    [[ -n "$TPM_EXPECTED_VERSION" ]] && echo "\${TPM_EXPECTED_VERSION}=                            $TPM_EXPECTED_VERSION"
+    [[ -n "$TPM_EXPECTED_CHIP" ]] && echo "\${TPM_EXPECTED_CHIP}=                               $TPM_EXPECTED_CHIP"
 
     for i in $(seq 1 $counter); do
         eval "audio_device_name=\$DEVICE_AUDIO$i"
