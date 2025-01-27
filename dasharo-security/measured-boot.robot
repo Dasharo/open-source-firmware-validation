@@ -10,8 +10,8 @@ Library             RequestsLibrary
 # stuff in all test cases
 Resource            ../variables.robot
 Resource            ../keywords.robot
-Resource            ../keys.robot
 Resource            ../lib/tpm.robot
+Resource            ../keys.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -301,8 +301,10 @@ Measured Boot Suite Setup
     Prepare Test Suite
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Tests in Ubuntu are not supported
+    Skip If    '${TPM_EXPECTED_VERSION}' == '0'    TPM Version in platform config does not support this suite
     Power On
     Boot Ubuntu And Login To Root
+    Verify Presence Of TPM Via Sysfs
     Detect Or Install Package    tpm2-tools
     # Disable service that adds dbx certificates which could interfere with tests
     Execute Command In Terminal    systemctl disable secureboot-db.service
