@@ -10,6 +10,7 @@ Library             RequestsLibrary
 # stuff in all test cases
 Resource            ../variables.robot
 Resource            ../keywords.robot
+Resource            ../lib/tpm.robot
 Resource            ../keys.robot
 
 # TODO:
@@ -264,9 +265,11 @@ TPM2 Suite Setup
     Prepare Test Suite
     Skip If    not ${TPM_SUPPORT}    TPM tests not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
+    Skip If    '${TPM_EXPECTED_VERSION}' != '2'    TPM Version in platform config does not support this suite
     Power On
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
+    Verify Presence Of TPM Via Sysfs
     Switch To Root User
     Detect Or Install Package    tpm2-tools
     ${passed}=    Run Keyword And Return Status
