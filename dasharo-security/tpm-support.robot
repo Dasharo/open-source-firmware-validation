@@ -124,8 +124,8 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
 # TPM003.004 Change active PCR banks with TPM PPI (firmware)
 #    [Documentation]    This test aims to verify that the TPM Physical Presence
 #    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-#    Skip If    not ${TPM_SUPPORTED_VERSION}    TPM003.004 not supported
-#    Skip If    not ${tests_in_ubuntu_support}    TPM003.004 not supported
+#    Skip If    not ${TPM_SUPPORTED_VERSION} == None    TPM003.004 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
 # TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
 
 

@@ -28,5 +28,3 @@ ${PLATFORM_RAM_SIZE}=           65536
 ...                             64-62-66-22-84-f6
 ...                             64-62-66-22-84-f7
 ...                             64-62-66-22-84-f8
-
-${TPM_SUPPORTED_VERSION}=       ${None}
