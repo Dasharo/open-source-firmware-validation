@@ -1303,7 +1303,7 @@ Reboot Via Ubuntu By Tianocore
     [Documentation]    Reboot system with Ubuntu installed on the DUT while
     ...    already logged into Tianocore.
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    ubuntu
+    Enter Submenu From Snapshot    ${boot_menu}    Ubuntu
     Login To Linux
     Switch To Root User
     Write Into Terminal    reboot
