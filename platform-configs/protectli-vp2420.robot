@@ -3,34 +3,37 @@ Resource    include/protectli-vp24xx.robot
 
 
 *** Variables ***
-${INITIAL_CPU_FREQUENCY}=           2600
-${FLASHING_METHOD}=                 internal
+${INITIAL_CPU_FREQUENCY}=               2600
+${FLASHING_METHOD}=                     internal
 
 # eMMC driver support
-${E_MMC_NAME}=                      8GTF4R
+${E_MMC_NAME}=                          8GTF4R
 
-${DMIDECODE_SERIAL_NUMBER}=         N/A
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.2.1-rc1
-${DMIDECODE_PRODUCT_NAME}=          VP2420
-${DMIDECODE_RELEASE_DATE}=          12/18/2024
-${DMIDECODE_TYPE}=                  Desktop
+${DMIDECODE_SERIAL_NUMBER}=             N/A
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.2.1-rc3
+${DMIDECODE_PRODUCT_NAME}=              VP2420
+${DMIDECODE_RELEASE_DATE}=              1/13/2025
+${DMIDECODE_TYPE}=                      Desktop
 
-${CPU_MAX_FREQUENCY}=               2700
-${CPU_MIN_FREQUENCY}=               300
+${CPU_MAX_FREQUENCY}=                   2700
+${CPU_MIN_FREQUENCY}=                   300
 
-${WATCHDOG_SUPPORT}=                ${TRUE}
+${WATCHDOG_SUPPORT}=                    ${TRUE}
 
-@{ETH_PERF_PAIR_2_G}=               enp3s0    enp4s0
+@{ETH_PERF_PAIR_2_G}=                   enp3s0    enp4s0
 
-@{ETH_PORTS}=                       00-e0-67-1c-29-79
-...                                 00-e0-67-1c-29-7a
-...                                 00-e0-67-1c-29-7b
-...                                 00-e0-67-1c-29-7c
+${DEFAULT_POWER_STATE_AFTER_FAIL}=      Powered Off
 
-${ETHERNET_ID}=                     8086:15f3
+@{ETH_PORTS}=                           00-e0-67-1c-29-79
+...                                     00-e0-67-1c-29-7a
+...                                     00-e0-67-1c-29-7b
+...                                     00-e0-67-1c-29-7c
 
-${TPM_SUPPORTED_VERSION}=           2
-${TPM_EXPECTED_CHIP}=               SLB9670
+${ETHERNET_ID}=                         8086:15f3
+${NVME_DISK_SUPPORT}=                   ${FALSE}
+
+${TPM_SUPPORTED_VERSION}=               2
+${TPM_EXPECTED_CHIP}=                   SLB9670
 
 
 *** Keywords ***
