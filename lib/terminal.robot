@@ -329,9 +329,9 @@ Execute UEFI Shell Command
     [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=10
     Set DUT Response Timeout    ${timeout}
     ${length}=    Get Length    ${command}
-    ${timeout}=    Evaluate    ${length} * ${uefi_shell_input_latency}
+    ${input_delay}=    Evaluate    ${length} * ${uefi_shell_input_latency}
     Write Bare Into Terminal    ${command}
-    Sleep    ${timeout}ms
+    Sleep    ${input_delay}ms
     Press Enter
     ${output}=    Read From Terminal Until Prompt
     RETURN    ${output}
