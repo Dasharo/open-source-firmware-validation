@@ -31,10 +31,10 @@ TPM001.001 TPM Support (firmware)
     ...    detected and logged correctly by FW via cbmem, directly in Ubuntu
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.001 not supported
     Prepare TPM Test On Ubuntu
-    ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem
+    ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem Console Log
     IF    '${result}[0]' == 'FAIL'
         Log To Console    \nChip detection failed, attempting cbmem log detection\n
-        Validate Expected TPM Version Via Cbmem Log
+        Validate Expected TPM Version Via Cbmem TPM Eventlog
     END
 
 TPM001.002 TPM Support (Ubuntu)
@@ -63,10 +63,10 @@ TPM002.001 Verify TPM version (firmware)
     ...    correctly recognized by the firmware.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.001 not supported
     Prepare TPM Test On Ubuntu
-    ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem
+    ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem Console Log
     IF    '${result}[0]' == 'FAIL'
         Log To Console    \nChip detection failed, attempting cbmem log detection\n
-        Validate Expected TPM Version Via Cbmem Log
+        Validate Expected TPM Version Via Cbmem TPM Eventlog
     END
 
 TPM002.002 Verify TPM version (Ubuntu)

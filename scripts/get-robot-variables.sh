@@ -196,8 +196,8 @@ else
     TPM_SUPPORTED_VERSION=\$\{None\}
 fi
 
-if [ -f /usr/local/bin/cbmem ]; then
-    TPM_EXPECTED_CHIP=$(sudo /usr/local/bin/cbmem -1 | grep "Found TPM" | awk 'NR==1{print $6}');
+if [ -f ${CBMEM_BINARY_PATH} ]; then
+    TPM_EXPECTED_CHIP=$(sudo ${CBMEM_BINARY_PATH} -1 | grep "Found TPM" | awk 'NR==1{print $6}');
 else
     TPM_EXPECTED_CHIP="Unknown"
 fi
@@ -314,7 +314,7 @@ fi
     [[ -n "$DEF_CORES_PER_SOCKET" ]] && echo "\${DEF_CORES_PER_SOCKET}=                            $DEF_CORES_PER_SOCKET"
     [[ -n "$DEF_SOCKETS" ]] && echo "\${DEF_SOCKETS}=                                     $DEF_SOCKETS"
     [[ -n "$DEF_ONLINE_CPU" ]] && echo "\${DEF_ONLINE_CPU}=                                  $DEF_ONLINE_CPU"
-    [[ -n "$TPM_SUPPORTED_VERSION" ]] && echo "\${TPM_SUPPORTED_VERSION}=                            $TPM_SUPPORTED_VERSION"
+    [[ -n "$TPM_SUPPORTED_VERSION" ]] && echo "\${TPM_SUPPORTED_VERSION}=                           $TPM_SUPPORTED_VERSION"
     [[ -n "$TPM_EXPECTED_CHIP" ]] && echo "\${TPM_EXPECTED_CHIP}=                               $TPM_EXPECTED_CHIP"
 
     for i in $(seq 1 $counter); do
