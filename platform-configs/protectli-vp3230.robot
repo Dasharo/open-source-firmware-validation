@@ -27,8 +27,8 @@ ${DMIDECODE_SERIAL_NUMBER}=         123456789
 ${DMIDECODE_PRODUCT_NAME}=          VP3230
 ${DMIDECODE_FAMILY}=                Vault Pro
 ${DMIDECODE_TYPE}=                  Desktop
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.0-rc4
-${DMIDECODE_RELEASE_DATE}=          11/13/2024
+${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.0-rc7
+${DMIDECODE_RELEASE_DATE}=          02/04/2025
 ${DEF_THREADS_TOTAL}=               8
 ${DEF_THREADS_PER_CORE}=            1
 ${DEF_CORES_PER_SOCKET}=            8
@@ -44,5 +44,4 @@ ${CLEVO_DISK}=                      N/A
 @{ETH_PORTS}=                       64-62-66-23-8f-19
 ...                                 64-62-66-23-8f-1a
 
-${TPM_SUPPORTED_VERSION}=           2
 ${TPM_EXPECTED_CHIP}=               SLB9670
