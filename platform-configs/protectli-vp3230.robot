@@ -46,3 +46,4 @@ ${CLEVO_DISK}=                      N/A
 
 ${TPM_SUPPORTED_VERSION}=           2
 ${TPM_EXPECTED_CHIP}=               SLB9670
+${DISK_IO_PERFORMANCE_TESTS}        ${TRUE}
