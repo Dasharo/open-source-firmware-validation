@@ -56,5 +56,5 @@ THR002.001 Try to enter a threshold value within the limits and verify in Ubuntu
     # Wait until the stress load gets to "heat up" the CPU
     Sleep    10
     ${out}=    Execute Command In Terminal    sensors
-    ${temperature}=    Get CPU Temperature CURRENT
+    ${temperature}=    Get CPU Temperature
     Should Be True    ${temperature} < 73    # needs a bit of a margin
