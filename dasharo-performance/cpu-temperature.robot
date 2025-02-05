@@ -131,7 +131,7 @@ CPU Temperature Without Load (Ubuntu)
     ${minute_counter}=    Set Variable    0
     Log To Console    \nStarting Test...
     FOR    ${i}    IN RANGE    ${total_intervals}
-        ${temperature}=    Get CPU Temperature CURRENT
+        ${temperature}=    Get CPU Temperature
         Append To List    ${temperature_list}    ${temperature}
         ${max_temperature}=    Evaluate    max(${max_temperature}, ${temperature})
         ${min_temperature}=    Evaluate    min(${min_temperature}, ${temperature})
@@ -174,7 +174,7 @@ CPU Temperature After Stress Test (Ubuntu)
     ${minute_counter}=    Set Variable    0
     Log To Console    \nStarting Test...
     FOR    ${i}    IN RANGE    ${total_intervals}
-        ${temperature}=    Get CPU Temperature CURRENT
+        ${temperature}=    Get CPU Temperature
         Append To List    ${temperature_list}    ${temperature}
         ${max_temperature}=    Evaluate    max(${max_temperature}, ${temperature})
         ${min_temperature}=    Evaluate    min(${min_temperature}, ${temperature})

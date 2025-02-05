@@ -122,7 +122,7 @@ Verify Fan Speeds
         Fail
     END
 
-    ${temperature}=    Get CPU Temperature CURRENT
+    ${temperature}=    Get CPU Temperature
     IF    '${mode}' == 'silent'
         ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Silent Mode
         ...    ${temperature}    ${speed_unit}

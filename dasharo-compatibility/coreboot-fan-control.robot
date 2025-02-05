@@ -35,8 +35,7 @@ CFN001.001 CPU temperature and fan speed can be read (Debian)
     Login To Linux
     Switch To Root User
     ${rpm}=    Get Fan RPM
-    ${temperature}=    Get CPU Temperature CURRENT
-    # ${rpm}    ${temperature}=    Get CPU Temperature And CPU Fan Speed
+    ${temperature}=    Get CPU Temperature
     IF    ${rpm}==${0}    FAIL    Fan speed not measured
     IF    ${temperature}==${0}    FAIL    Temperature not measured
 
@@ -55,7 +54,7 @@ CFN002.001 CPU fan speed increases if the temperature rises (Debian)
     # drop.
     FOR    ${iteration}    IN RANGE    0    ${COOLING_PROCEDURE_ITERATIONS}
         ${rpm}=    Get Fan RPM
-        ${temperature}=    Get CPU Temperature CURRENT
+        ${temperature}=    Get CPU Temperature
         IF    ${rpm}>=3000 or ${temperature}>=40
             Sleep    60s
         ELSE
@@ -63,15 +62,15 @@ CFN002.001 CPU fan speed increases if the temperature rises (Debian)
         END
     END
     ${rpm_1}=    Get Fan RPM
-    ${temperature_1}=    Get CPU Temperature CURRENT
+    ${temperature_1}=    Get CPU Temperature
     Execute Command In Terminal    stress-ng --cpu 16 --io 8 --vm 4 --vm-bytes 4G --timeout 60s --metrics
     # Due to the stress test CPU temperature should increase.
     ${rpm_2}=    Get Fan RPM
-    ${temperature_2}=    Get CPU Temperature CURRENT
+    ${temperature_2}=    Get CPU Temperature
     Sleep    240s
     # Due to the temperature increasing fan speed should rise.
     ${rpm_3}=    Get Fan RPM
-    ${temperature_3}=    Get CPU Temperature CURRENT
+    ${temperature_3}=    Get CPU Temperature
     IF    ${temperature_1}>=${temperature_2}
         FAIL    Temperature not increased
     END
