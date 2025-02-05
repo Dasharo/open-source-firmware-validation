@@ -77,7 +77,7 @@ Get Fan PWM
         ${pwm}=    Convert To Number    ${pwm}
         RETURN    ${pwm}
     ELSE
-        Fail    Wrong platform configuration. FAN_RPM_MEASUREMENT["method"] is
+        Fail    Wrong platform configuration. FAN_PWM_MEASUREMENT["method"] is
         ...    of unknown value ${fan_pwm_measurement_method}.
     END
 
@@ -86,12 +86,14 @@ Get Fan RPM
     ${fan_rpm_measurement_method}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    method
     IF    '''${fan_rpm_measurement_method}''' == '''lm-sensors'''
         ${fan_rpm_measurement_sensor}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    lm_sensors_sensor_name
-        IF    '''${fan_rpm_measurement_sensor}''' != '''none'''
-            ${rpm}=    Execute Linux Command
-            ...    sensors ${fan_rpm_measurement_sensor} 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
-            ${rpm}=    Convert To Integer    ${rpm}
-            RETURN    ${rpm}
+        IF    '''${fan_rpm_measurement_sensor}''' == '''none'''
+            Fail
+            ...    FAN_RPM_MEASUREMENT["lm_sensors_sensor_name"] mustn't be "none" if FAN_RPM_MEASUREMENT["method"] is "lm-sensors"
         END
+        ${rpm}=    Execute Linux Command
+        ...    sensors ${fan_rpm_measurement_sensor} 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
+        ${rpm}=    Convert To Integer    ${rpm}
+        RETURN    ${rpm}
     ELSE IF    '''${fan_rpm_measurement_method}''' == '''system76-acpi'''
         ${speed}=    Execute Command In Terminal    sensors | grep "CPU fan"
         ${speed_split}=    Split String    ${speed}
