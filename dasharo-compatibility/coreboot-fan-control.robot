@@ -72,6 +72,6 @@ CFN002.001 CPU fan speed increases if the temperature rises (Debian)
     ${rpm_3}=    Get Fan RPM
     ${temperature_3}=    Get CPU Temperature
     IF    ${temperature_1}>=${temperature_2}
-        FAIL    Temperature not increased
+        FAIL    Temperature did not increase
     END
     IF    ${rpm_2}>=${rpm_3}    FAIL    Fan speed not increased
