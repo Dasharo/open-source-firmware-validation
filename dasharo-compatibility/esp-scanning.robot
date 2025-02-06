@@ -13,29 +13,14 @@ Resource            ../keywords.robot
 Resource            ../keys.robot
 
 # Library    ../lib/QemuMonitor.py    /tmp/qmp-socket
-# Required setup keywords:
-#    Prepare Test Suite - generic setup keyword for all tests
-# Required teardown keywords:
-#    Log Out And Close Connection - generic setup keyword for all tests,
-#    closes all connections to DUT and PiKVM
-Suite Setup         Run Keywords
-...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${ESP_SCANNING_SUPPORT}    ESP scanning tests not supported
-...                     AND
-...                     Prepare Required Files For Qemu
-...                     AND
-...                     Prepare EFI Partition With System Files
-Suite Teardown      Run Keywords
-...                     Clear Out EFI Partition    AND
-...                     Log Out And Close Connection
+Suite Setup         Setup Esp Scanning Suite
+Suite Teardown      Teardown Esp Scanning Suite
 
 
 *** Test Cases ***
 ESP001.001 ESP Scan with OS-specific .efi files added
     [Documentation]    This test aims to verify that any properly added .efi
     ...    files will have boot menu entries created for them.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP001.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
@@ -49,7 +34,6 @@ ESP003.001 ESP Scan ignores OSes on removable media
     [Documentation]    This test aims to verify that the bootable /EFI
     ...    partitions of removable media are ignored by the scan and aren't
     ...    listed in boot menu, except for DTS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP003.001 not supported
     Power On
     Download ISO And Mount As USB    ${DL_CACHE_DIR}/CorePlus-current.iso
     ...    ${TINYCORE_URL}
@@ -62,7 +46,6 @@ ESP004.001 ESP Scan does not create duplicate entries
     [Documentation]    This test aims to verify that the firmware will not
     ...    create duplicate entries, for example, if both shimx64 and grubx64
     ...    are present for a single OS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
 
@@ -78,7 +61,6 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     [Documentation]    This test aims to verify that the firmware detects
     ...    Dasharo Tools Suite boot media and creates a corresponding boot
     ...    menu entry.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP005.001 not supported
     Power On
     Download ISO And Mount As USB
     ...    ${DL_CACHE_DIR}/dts-base-i${DL_CACHE_DIR}/mage-v1.2.8.iso
@@ -91,7 +73,6 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
 ESP006.001 ESP Scan does not find non-block boot devices
     [Documentation]    This test aims to verify that the firmware will not
     ...    find non-block boot devices
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP004.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     FOR    ${boot_option}    IN    @{boot_menu}
@@ -101,7 +82,6 @@ ESP006.001 ESP Scan does not find non-block boot devices
 ESP002.001 ESP Scan after deleting additional .efi files
     [Documentation]    This test aims to verify that none of the systems linger
     ...    on in the boot menu after we've deleted their files from /EFI/.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP002.001 not supported
     Power On
     Clear Out EFI Partition
     Power On
@@ -109,3 +89,22 @@ ESP002.001 ESP Scan after deleting additional .efi files
     FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
         Should Not Contain Match    ${boot_menu}    ${system}*
     END
+
+
+*** Keywords ***
+Setup Esp Scanning Suite
+    [Documentation]    Load platform config and prepare files for the testing
+    Prepare Test Suite
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ESP scanning tests not supported
+    Skip If    not ${ESP_SCANNING_SUPPORT}    ESP scanning tests not supported
+    Prepare Required Files For Qemu
+    Prepare EFI Partition With System Files
+
+Teardown Esp Scanning Suite
+    [Documentation]    Teardown ESP suite. To reduce cross-suite interaction
+    ...    we clear call Clear Out EFI Partition only if suite run in the
+    ...    first place
+    IF    ${ESP_SCANNING_SUPPORT} and ${TESTS_IN_FIRMWARE_SUPPORT}
+        Clear Out EFI Partition
+    END
+    Log Out And Close Connection
