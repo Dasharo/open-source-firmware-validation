@@ -1020,7 +1020,7 @@ E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
     Provide DPP Credentials
 
     # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
+    Go Through Update
 
     # 5) The final step is rebooting:
     Wait For Checkpoint    Rebooting
