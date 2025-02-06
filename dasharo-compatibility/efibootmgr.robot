@@ -120,6 +120,7 @@ EBM004.001 Custom Boot Order Remove
 
 *** Keywords ***
 Login And Remove Test Boot Entry
+    Power Cycle On
     Login To Linux
     Switch To Root User
     Remove Test Boot Entry Return Bootorder
