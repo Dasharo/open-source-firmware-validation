@@ -15,6 +15,7 @@ ${WIFI_CARD_UBUNTU}=            ${TBD}
 ${LTE_CARD}=                    ${TBD}
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
+@{ATTACHED_USB}=                Wilk USB
 
 ${DMIDECODE_PRODUCT_NAME}=      VP6670
 
