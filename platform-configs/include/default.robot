@@ -202,6 +202,10 @@ ${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
 ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${FALSE}
+# Variables used in lib/sensors to determine platform-specific methods of
+# measuring temperatures, fans etc.
+${SENSORS_CONFIG_FILE}=                             include/sensors/default-sensors-config.yaml
+${CUSTOM_FAN_CURVE_FILE}=                           ${TBD}
 ${ETH_PERF_PAIR_1_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_2_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_10_G}=                              ${FALSE}
@@ -273,11 +277,6 @@ ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
 ${ETH_PORTS}=                                       ${EMPTY}
-
-# Variables used in lib/sensors to determine platform-specific methods of
-# measuring temperatures, fans etc.
-${SENSORS_CONFIG_FILE}=                             include/sensors/default-sensors-config.yaml
-${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/default-fan-curve-config.yaml
 
 
 *** Keywords ***
