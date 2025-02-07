@@ -20,6 +20,8 @@ Resource            ../lib/sensors.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Skip If    '''${CUSTOM_FAN_CURVE_FILE}''' == '''${TBD}'''    CFC not supported - CUSTOM_FAN_CURVE_FILE not defined
+...                     AND
 ...                     Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
