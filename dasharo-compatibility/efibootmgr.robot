@@ -16,14 +16,8 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keywords
-...                     Prepare Test Suite
-...                     AND
-...                     Login And Remove Test Boot Entry
-Suite Teardown      Run Keywords
-...                     Login And Remove Test Boot Entry
-...                     AND
-...                     Log Out And Close Connection
+Suite Setup         Efibootmgr Suite Setup
+Suite Teardown      Efibootmgr Suite Teardown
 
 
 *** Variables ***
@@ -33,7 +27,6 @@ ${TEST_BOOT_ENTRY_NAME}=    dasharo-compatibility_efibootmgr-custom-boot-entry
 *** Test Cases ***
 EBM001.001 Network Boot enable
     [Documentation]    Test if enabling network boot entry works.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM0001.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM001.001 not supported
 
     ${boot_menu}=    Get UEFI Boot Manager Entries
@@ -48,7 +41,6 @@ EBM001.001 Network Boot enable
 
 EBM002.001 Network Boot disable
     [Documentation]    Test if disabling network boot entry works.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM002.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM002.001 not supported
 
     ${boot_menu}=    Get UEFI Boot Manager Entries
@@ -63,7 +55,6 @@ EBM002.001 Network Boot disable
 
 EBM003.001 Custom Boot Order Add
     [Documentation]    Test if adding a custom boot entry works.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM003.001 not supported
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM003.001 not supported
 
     Login To Linux
@@ -96,7 +87,6 @@ EBM003.001 Custom Boot Order Add
 
 EBM004.001 Custom Boot Order Remove
     [Documentation]    Test if removing a custom boot entry works.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EBM004.001 not supported
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM004.001 not supported
 
     Login To Linux
@@ -121,6 +111,7 @@ EBM004.001 Custom Boot Order Remove
 *** Keywords ***
 Login And Remove Test Boot Entry
     Power Cycle On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Remove Test Boot Entry Return Bootorder
@@ -137,3 +128,16 @@ Find Test Boot Entry Id
     ${id}=    Set Variable
     ...    $(efibootmgr | grep "${TEST_BOOT_ENTRY_NAME}" | cut -d" " -f1 | grep -Eo '[0-9A-F]{4}' | grep -Eo '[^0][0-9A-F]{0,3}|0$')
     RETURN    ${id}
+
+Efibootmgr Suite Setup
+    [Documentation]    Load platform config, and if this suite is supported
+    ...    remove remaining boot entries.
+    Prepare Test Suite
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Efi Boot Manager requires Ubuntu
+    Login And Remove Test Boot Entry
+
+Efibootmgr Suite Teardown
+    [Documentation]    If tests are supported, remove test boot entries
+    ...    and then close connection to DUT
+    IF    ${TESTS_IN_UBUNTU_SUPPORT}    Login And Remove Test Boot Entry
+    Log Out And Close Connection
