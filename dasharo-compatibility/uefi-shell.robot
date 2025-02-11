@@ -25,10 +25,14 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 USH001.001 UEFI Shell
     [Documentation]    Check whether the DUT has the ability to boot into an
-    ...    integrated UEFI Shell application.
+    ...    integrated UEFI Shell application or that the UEFI Shell does
+    ...    not appear, based on the UEFI_SHELL_SUPPORT value.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.001 not supported
-    Skip If    not ${UEFI_SHELL_SUPPORT}    USH001.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
-    Read From Terminal Until    UEFI Interactive Shell
+    IF    ${UEFI_SHELL_SUPPORT}
+        Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+        Read From Terminal Until    UEFI Interactive Shell
+    ELSE
+        Should Not Contain    ${boot_menu}    UEFI Shell
+    END
