@@ -18,6 +18,7 @@ ${DTS_SPECIFICATION_WARN}=          Does it match your actual specification? (Y|
 ${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware on your platform (Y|n)
 ${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
 ${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
+${DTS_ME_WARN}=                     Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=          Community version
 ${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
@@ -285,7 +286,7 @@ Go Through Update
     [Documentation]    This KW goes through standard Dasharo update workflow
     ...    choosing all needed menu options and answering all questions.
     Set DUT Response Timeout    120s
-    # 1) Select initial deployment:
+    # 1) Select update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 2) Check out all warnings:
