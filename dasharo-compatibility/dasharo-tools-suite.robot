@@ -133,15 +133,17 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     ...    Test expects FW_FILE variable to contain path to Dasharo firmware
     ...    and DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD to contain DPP
     ...    subscription credentials.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${variables_defined}=    Are FW FILE And DPP Keys Defined
-    Skip If    not ${variables_defined}
+    Depends On    ${variables_defined}
     ...    Test can't run without setting FW_FILE, DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
     Make Sure That Flash Locks Are Disabled
-    Power On
+    IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
+        Set UEFI Option    MeMode    Disabled (HAP)
+    END
     Boot Dasharo Tools Suite    USB
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
@@ -155,15 +157,17 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     ...    Test expects FW_FILE variable to contain path to Dasharo firmware
     ...    and DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD to contain DPP
     ...    subscription credentials.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${variables_defined}=    Are FW FILE And DPP Keys Defined
-    Skip If    not ${variables_defined}
+    Depends On    ${variables_defined}
     ...    Test can't run without setting FW_FILE, DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
     Make Sure That Flash Locks Are Disabled
-    Power On
+    IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
+        Set UEFI Option    MeMode    Disabled (HAP)
+    END
     Boot Dasharo Tools Suite    iPXE
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
