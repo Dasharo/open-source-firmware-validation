@@ -61,7 +61,7 @@ ${USB_DISKS_DETECTION_SUPPORT}=                     ${FALSE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=                  ${FALSE}
 ${USB_CAMERA_DETECTION_SUPPORT}=                    ${FALSE}
 ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
-${UEFI_SHELL_SUPPORT}=                              ${FALSE}
+
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${FALSE}
 ${IPXE_BOOT_SUPPORT}=                               ${FALSE}
 ${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}

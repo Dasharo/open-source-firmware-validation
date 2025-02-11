@@ -18,8 +18,7 @@ ${EDK2_IPXE_CHECKPOINT}=                        Advanced
 ${MANUFACTURER}=                                ${TBD}
 ${CPU}=                                         ${TBD}
 ${POWER_CTRL}=                                  RteCtrl
-${FLASH_VERIFY_METHOD}=                         tianocore-shell
-${FLASH_VERIFY_OPTION}=                         UEFI Shell
+${FLASH_VERIFY_METHOD}=                         none
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_MANUFACTURER}=                      Protectli
@@ -51,7 +50,6 @@ ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=         ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                         ${TRUE}
-${UEFI_SHELL_SUPPORT}=                          ${TRUE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=           ${TRUE}
 ${NETBOOT_UTILITIES_SUPPORT}=                   ${TRUE}
 ${WIRELESS_CARD_SUPPORT}=                       ${TRUE}

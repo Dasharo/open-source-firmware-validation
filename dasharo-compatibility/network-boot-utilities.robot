@@ -24,7 +24,7 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    Network BOot and Utilities tests not supported
+...                     Skip If    not ${NETBOOT_UTILITIES_SUPPORT}    Network Boot and Utilities tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -141,3 +141,16 @@ NBT007.001 Change netboot URL option works correctly
     Enter Submenu From Snapshot    ${ipxe_menu}    Change Netboot iPXE Payload URL
     ${out}=    Read From Terminal Until    Reset to Default
     Should Contain    ${out}    http://boot.dasharo.com/dts/dts.ipxe
+
+NBT008.001 iPXE Autoboot is disabled
+    [Documentation]    Check whether platform can reenter the IPXE menu
+    ...    without booting automatically
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT008.001 not supported
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
+    ${ipxe_menu_initial}=    Get IPXE Boot Menu Construction
+    Sleep    15
+    Reenter Menu
+    ${ipxe_menu_secondary}=    Get IPXE Boot Menu Construction
+    Should Be Equal    ${ipxe_menu_initial}    ${ipxe_menu_secondary}
