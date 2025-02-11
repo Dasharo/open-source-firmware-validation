@@ -20,7 +20,6 @@ ${CPU}=                                         ${TBD}
 ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         tianocore-shell
 ${FLASH_VERIFY_OPTION}=                         UEFI Shell
-${CHECK_POWER_LED_SUPPORT}=                     ${TRUE}
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_MANUFACTURER}=                      Protectli

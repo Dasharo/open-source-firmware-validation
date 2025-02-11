@@ -33,7 +33,6 @@ ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 
 # Regression test flags
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=        ${TRUE}
-${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
 
 
 *** Keywords ***
