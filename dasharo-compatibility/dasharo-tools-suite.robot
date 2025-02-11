@@ -148,8 +148,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
     Provide DPP Credentials
-    Go Through Update
-    Wait For Checkpoint    Rebooting
+    Go Through Update    skip_me=${TRUE}
 
 DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
@@ -172,8 +171,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
     Provide DPP Credentials
-    Go Through Update
-    Wait For Checkpoint    Rebooting
+    Go Through Update    skip_me=${TRUE}
 
 
 *** Keywords ***

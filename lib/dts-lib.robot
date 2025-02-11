@@ -226,27 +226,35 @@ Provide DPP Credentials Without Packages
 
 Wait For Checkpoint
     [Documentation]    This KW waits for checkpoint (first argument) and logs
-    ...    everything read up to the checkpoint.
-    [Arguments]    ${checkpoint}
-    ${out}=    Read From Terminal Until    ${checkpoint}
+    ...    everything read up to the checkpoint. If regexp is ${True} then
+    ...    treat checkpoint as regexp
+    [Arguments]    ${checkpoint}    ${regexp}=${FALSE}
+    IF    ${regexp}
+        ${out}=    Read From Terminal Until Regexp    ${checkpoint}
+    ELSE
+        ${out}=    Read From Terminal Until    ${checkpoint}
+    END
     Log    ${out}
+    RETURN    ${out}
 
 Wait For Checkpoint And Write
     [Documentation]    This KW waits for checkpoint (first argument)
     ...    and writes specified answer (second argument), with logging all
     ...    output before the checkpoint.
     [Arguments]    ${checkpoint}    ${to_write}
-    Wait For Checkpoint    ${checkpoint}
+    ${out}=    Wait For Checkpoint    ${checkpoint}
     Sleep    1s
     Write Into Terminal    ${to_write}
+    RETURN    ${out}
 
 Wait For Checkpoint And Press Enter
     [Documentation]    This KW waits for checkpoint (first argument)
     ...    and preses enter, with logging all output before the checkpoint.
     [Arguments]    ${checkpoint}
-    Wait For Checkpoint    ${checkpoint}
+    ${out}=    Wait For Checkpoint    ${checkpoint}
     Sleep    1s
     Write Bare Into Terminal    \r\n
+    RETURN    ${out}
 
 Go Through Initial Deployment
     [Documentation]    This KW goes through standard Dasharo initial deployment
@@ -285,6 +293,9 @@ Go Through Initial Deployment
 Go Through Update
     [Documentation]    This KW goes through standard Dasharo update workflow
     ...    choosing all needed menu options and answering all questions.
+    ...    If ${skip_me} is set to ${TRUE} then keyword will go through update
+    ...    Even if Intel ME cannot be updated
+    [Arguments]    ${skip_me}=${FALSE}
     Set DUT Response Timeout    120s
     # 1) Select update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
@@ -292,6 +303,18 @@ Go Through Update
     # 2) Check out all warnings:
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Set DUT Response Timeout    5m
+    ${dts_me_warn_escaped}=    Evaluate    re.escape("""${DTS_ME_WARN}""")
+    ${checkpoint}=    Wait For Checkpoint
+    ...    ${dts_me_warn_escaped}|Rebooting    regexp=${TRUE}
+    IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
+        IF    ${skip_me}
+            Write Into Terminal    Y
+            Wait For Checkpoint    Rebooting
+        ELSE
+            Fail    Cannot update Intel ME
+        END
+    END
 
 Go Through Heads Transition
     [Documentation]    This KW goes through transition to Dasharo Heads choosing

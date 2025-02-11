@@ -434,9 +434,6 @@ E2E003.007 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - co
     # 3) Start update:
     Go Through Update
 
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
 E2E003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - community version
     [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
     ...    Z690-A WIFI(MS-7D25)/PRO Z690-A(MS-7D25). We start from Dasharo
@@ -456,9 +453,6 @@ E2E003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - communit
 
     # 3) Start update:
     Go Through Update
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
 
 E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DPP version, with credentials
     [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
@@ -553,7 +547,7 @@ E2E003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with cred
     # 3) Provide DPP credentials:
     Provide DPP Credentials
 
-    # 4) Start update:
+    # 4) Start Heads transition:
     Go Through Heads Transition
 
     # 5) The final step is rebooting:
@@ -600,7 +594,7 @@ E2E003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
     # 3) Provide DPP credentials:
     Provide DPP Credentials
 
-    # 4) Start update:
+    # 4) Start Heads transition:
     Go Through Heads Transition
 
     # 5) The final step is rebooting:
@@ -701,9 +695,6 @@ E2E004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
     # 4) Start update:
     Go Through Update
 
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
 E2E004.005 Dell OptiPlex 9010 DPP initial deployment (legacy -> Coreboot + UEFI) - without credentials
     [Documentation]    Checks whether a User will have access to initial
     ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
@@ -794,9 +785,6 @@ E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
 
     # 4) Start update:
     Go Through Update
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
 
 ################################################################################
 # PC Engines tests. Only APU2 is being tested, other APUs have the same
@@ -986,11 +974,8 @@ E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with cred
     # 3) Provide DPP credentials:
     Provide DPP Credentials
 
-    # 4) Start initial deployment:
+    # 4) Start update:
     Go Through Update
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
 
 
 *** Keywords ***
