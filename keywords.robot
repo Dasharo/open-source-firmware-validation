@@ -746,10 +746,10 @@ Power Cycle On
     IF    '${DEFAULT_POWER_STATE_AFTER_FAIL}' == 'Powered Off'    Rte Power On
 
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
-        FOR    ${i}    IN RANGE    5
+        FOR    ${i}    IN RANGE    50
             ${out}=    Rte Check Power Led
             IF    '${out}' == 'high'    RETURN
-            Sleep    1s
+            Sleep    0.25s
         END
         IF    '${out}' != 'high'
             FAIL    Power LED didn't light up! Setup needs manual verification,
