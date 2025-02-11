@@ -31,5 +31,5 @@ ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${TRUE}
 
 # Variables used in lib/sensors to determine platform-specific methods of
 # measuring temperatures, fans etc.
-${SENSORS_CONFIG_FILE}=                             include/sensors/protectli-vpxxxx-sensors-config.yaml
-${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/protectli-vpxxxx-fan-curve-config.yaml
+${SENSORS_CONFIG_FILE}=                             include/sensors/protectli-vp66xx-sensors-config.yaml
+${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/protectli-vp66xx-fan-curve-config.yaml
