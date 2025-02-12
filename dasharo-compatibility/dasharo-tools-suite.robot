@@ -130,13 +130,11 @@ DTS008.001 DTS option power-off DUT works correctly
 DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via USB.
-    ...    Test expects FW_FILE variable to contain path to Dasharo firmware
-    ...    and DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD to contain DPP
-    ...    subscription credentials.
+    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
+    ...    If DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD are defined
+    ...    then test will load DPP credentials before trying to update.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    ${variables_defined}=    Are FW FILE And DPP Keys Defined
-    Depends On    ${variables_defined}
-    ...    Test can't run without setting FW_FILE, DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD
+    Depends On Variable    \${FW_FILE}
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
@@ -147,7 +145,8 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     Boot Dasharo Tools Suite    USB
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
-    Provide DPP Credentials
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
     Go Through Update    skip_me=${TRUE}
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
@@ -155,13 +154,11 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
 DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via iPXE.
-    ...    Test expects FW_FILE variable to contain path to Dasharo firmware
-    ...    and DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD to contain DPP
-    ...    subscription credentials.
+    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
+    ...    If DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD are defined
+    ...    then test will load DPP credentials before trying to update.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    ${variables_defined}=    Are FW FILE And DPP Keys Defined
-    Depends On    ${variables_defined}
-    ...    Test can't run without setting FW_FILE, DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD
+    Depends On Variable    \${FW_FILE}
     # Flash earlier version so update can proceed. Firmware should have serial
     # redirection enabled
     Flash Firmware    ${FW_FILE}
@@ -172,16 +169,15 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     Boot Dasharo Tools Suite    iPXE
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
-    Provide DPP Credentials
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
     Go Through Update    skip_me=${TRUE}
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
 
 
 *** Keywords ***
-Are FW FILE And DPP Keys Defined
-    ${fw}=    Run Keyword And Return Status
-    ...    Variable Should Exist    $FW_FILE
+Are DPP Keys Defined
     ${logs}=    Run Keyword And Return Status
     ...    Variable Should Exist    $DPP_LOGS_KEY
     ${download}=    Run Keyword And Return Status
@@ -189,5 +185,5 @@ Are FW FILE And DPP Keys Defined
     ${password}=    Run Keyword And Return Status
     ...    Variable Should Exist    $DPP_PASSWORD
     ${status}=    Run Keyword And Return Status    Should Be True
-    ...    ${fw} and ${logs} and ${download} and ${password}
+    ...    ${logs} and ${download} and ${password}
     RETURN    ${status}
