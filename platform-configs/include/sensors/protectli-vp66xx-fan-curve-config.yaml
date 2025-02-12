@@ -37,19 +37,19 @@ temperature_curve_performance:
   - range: [30, 40]
     evaluation_pwm: [0, 40]
     tolerance_pwm: 6
-    evaluation_rpm: [800, 800] # Anywhere between 0 and 1400 + 200 tolerance
-    tolerance_rpm: 800
+    evaluation_rpm: [1000, 1000]
+    tolerance_rpm: 1000
 
   - range: [40, 75]
     evaluation_pwm: [40, 100]
     tolerance_pwm: 6
-    evaluation_rpm: [1300, 3200]
+    evaluation_rpm: [2000, 3400]
     tolerance_rpm: 300
 
   - range: [75, 100]
     evaluation_pwm: [100, 100]
     tolerance_pwm: 6
-    evaluation_rpm: [3100, 3100]
+    evaluation_rpm: [3300, 3300]
     tolerance_rpm: 400
 
 temperature_curve_off:
