@@ -87,20 +87,19 @@ Perform Custom Fan Curve Test
         ${new_result}=    Verify Fan Speeds    ${profile}
         IF    not ${result} and not ${new_result}
             ${fails_in_a_row}=    Evaluate    ${fails_in_a_row}+1
-            IF    ${fails_in_a_row} > 1
-                Fail    Too many invalid fan speeds in a row
-            END
         ELSE
             ${fails_in_a_row}=    Set Variable    0
         END
+        ${result}=    Set Variable    ${new_result}
 
         Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
     END
 
-    IF    not ${result}
+    IF    ${fails_in_a_row} > 1
         Log    Invalid fan speeds detected. Needs manual verification    WARN
         Log To Console    Invalid fan speeds detected. Needs manual verification    WARN
+        Fail
     END
 
 Verify Fan Speeds
