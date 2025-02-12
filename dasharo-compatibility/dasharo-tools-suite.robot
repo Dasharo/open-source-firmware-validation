@@ -149,6 +149,8 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     Press Key N Times    1    ${ESC}
     Provide DPP Credentials
     Go Through Update    skip_me=${TRUE}
+    Set DUT Response Timeout    5m
+    Enter Setup Menu Tianocore
 
 DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
@@ -172,6 +174,8 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     Press Key N Times    1    ${ESC}
     Provide DPP Credentials
     Go Through Update    skip_me=${TRUE}
+    Set DUT Response Timeout    5m
+    Enter Setup Menu Tianocore
 
 
 *** Keywords ***
