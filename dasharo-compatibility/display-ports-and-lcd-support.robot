@@ -49,12 +49,8 @@ DSP002.001 - External HDMI display in OS (Ubuntu)
     ...    the platform config.
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP003.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ubuntu
-    Login To Linux
-    Switch To Root User
-    Check External HDMI In Linux
-    Exit From Root User
+    Skip If    "ubuntu" not in $TESTED_LINUX_DISTROS
+    DSP002 - External HDMI Display    ubuntu
 
 DSP002.002 - External HDMI display in OS (Windows)
     [Documentation]    Check whether an external HDMI display is visible in
@@ -65,6 +61,15 @@ DSP002.002 - External HDMI display in OS (Windows)
     Power On
     Login To Windows
     Check HDMI Windows
+
+DSP002.003 - External HDMI display in OS (Fedora)
+    [Documentation]    Check whether an external HDMI display is visible in
+    ...    Fedora OS. An external HDMI display must be provided in
+    ...    the platform config.
+    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP002.002 not supported
+    Skip If    "fedora" not in $TESTED_LINUX_DISTROS
+    DSP002 - External HDMI Display    fedora
 
 DSP003.001 - External DP display in OS (Ubuntu)
     [Documentation]    Check whether an external Display Port is visible in
@@ -86,5 +91,17 @@ DSP003.002 - External DP display in OS (Windows)
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP003.002 not supported
     Power On
+    Boot System Or From Connected Disk    windows
     Login To Windows
     Check DP Windows
+
+
+*** Keywords ***
+DSP002 - External HDMI Display
+    [Arguments]    ${tested_os}
+    Power On
+    Boot System Or From Connected Disk    ${tested_os}
+    Login To Linux
+    Switch To Root User
+    Check External HDMI In Linux
+    Exit From Root User
