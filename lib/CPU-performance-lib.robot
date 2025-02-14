@@ -90,7 +90,10 @@ Stress Test
     [Documentation]    Proceed with the stress test.
     [Arguments]    ${time}=60s
     Detect Or Install Package    stress-ng
-    Execute Command In Terminal    stress-ng --cpu $(nproc) --timeout ${time} &> /dev/null & disown
+    Execute Command In Terminal    stress-ng --cpu $(nproc) --timeout ${time} -q &> /dev/null & disown
+
+Stress Test Stop
+    Execute Command In Terminal    pkill stress-ng
 
 Check Power Supply
     ${laptop_platform}=    Check The Platform Is A Laptop
