@@ -74,7 +74,8 @@ Perform Custom Fan Curve Test
     [Arguments]    ${profile}
 
     Prepare Sensors
-    Stress Test    ${CUSTOM_FAN_CURVE_TEST_DURATION}m
+    ${stress_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}*2
+    Stress Test    ${stress_len}m
     ${timer}=    Convert To Integer    0
     Sleep    5s
     ${result}=    Set Variable    ${TRUE}
@@ -95,7 +96,7 @@ Perform Custom Fan Curve Test
         Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
     END
-
+    Stress Test Stop
     IF    ${fails_in_a_row} > 1
         Log    Invalid fan speeds detected. Needs manual verification    WARN
         Log To Console    Invalid fan speeds detected. Needs manual verification    WARN
