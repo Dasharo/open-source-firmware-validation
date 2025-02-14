@@ -278,6 +278,8 @@ ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
 ${ETH_PORTS}=                                       ${EMPTY}
 
+${TESTED_LINUX_DISTROS}=                            ${TBD}
+
 
 *** Keywords ***
 Power On Default
