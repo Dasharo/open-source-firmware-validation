@@ -49,7 +49,7 @@ DSP002.903 - External HDMI display in OS (Ubuntu)
     ...    the platform config.
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP003.001 not supported
-    Skip If    "ubuntu" not in $TESTED_LINUX_DISTROS
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
     DSP002 - External HDMI Display    ubuntu
 
 DSP002.904 - External HDMI display in OS (Windows)
@@ -68,7 +68,7 @@ DSP002.905 - External HDMI display in OS (Fedora)
     ...    the platform config.
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP002.002 not supported
-    Skip If    "fedora" not in $TESTED_LINUX_DISTROS
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"
     DSP002 - External HDMI Display    fedora
 
 DSP003.001 - External DP display in OS (Ubuntu)
