@@ -112,13 +112,14 @@ Perform Custom Fan Curve Test
     END
     Stress Test Stop
     ${image}=    Save Measurements    ${measurements}    ${profile}
+    Log    <img src="../${image}">    html=true
+    Sleep    ${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}s
+
     IF    ${max_fails_in_a_row} > 1
         Log To Console    Invalid fan speeds detected. Needs manual verification    WARN
         Fail    Invalid fan speeds detected. Needs manual verification
     END
     # Add a graph of measurements to the logs
-    Log    <img src="../${image}">    html=true
-    Sleep    ${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}s
 
 Measure And Verify
     [Arguments]    ${profile}    ${fan_mode}
