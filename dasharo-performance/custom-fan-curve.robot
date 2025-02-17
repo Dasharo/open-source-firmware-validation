@@ -76,29 +76,28 @@ Perform Custom Fan Curve Test
     [Documentation]    Performs a Custom Fan Curve test for a given profile
     [Arguments]    ${profile}
     Prepare Sensors
-
     ${result}=    Set Variable    ${TRUE}
     ${fails_in_a_row}=    Set Variable    0
     ${max_fails_in_a_row}=    Set Variable    0
     ${measurements}=    Create List
-
     ${stress_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}*5
     ${cpu_count}=    Execute Command In Terminal    nproc
     ${fan_mode}=    Get Fan Measurement Unit Name
 
-    FOR    ${i}    IN RANGE    100
+    FOR    ${cpu_usage}    IN RANGE    100
+        Stress Test    time=${stress_len}s    load_percent=${cpu_usage}
+        Sleep    1s    Let the CPU temperature stabilize
         ${current_time}=    Evaluate    time.time()
         ${start_time}=    Set Variable    ${current_time}
         ${end_time}=    Evaluate    ${start_time} + ${CUSTOM_FAN_CURVE_TEST_DURATION}
-        Stress Test    time=${stress_len}s    load_percent=${i}
+
         WHILE    ${current_time} < ${end_time}
             ${current_time}=    Evaluate    time.time()
             ${duration}=    Evaluate    ${current_time} - ${start_time}
             Log To Console    \n${duration} s.
-
             ${new_result}    ${measurement}=    Measure And Verify
             ...    ${profile}    ${fan_mode}
-
+            Append To List    ${measurements}    ${measurement}
             IF    not ${result} and not ${new_result}
                 Log To Console    Invalid speed    WARN
                 ${fails_in_a_row}=    Evaluate    ${fails_in_a_row}+1
@@ -112,7 +111,6 @@ Perform Custom Fan Curve Test
         END
     END
     Stress Test Stop
-
     ${image}=    Save Measurements    ${measurements}    ${profile}
     IF    ${max_fails_in_a_row} > 1
         Log To Console    Invalid fan speeds detected. Needs manual verification    WARN
