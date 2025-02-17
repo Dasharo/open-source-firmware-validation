@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    sensors.robot
+Resource    sensors/sensors.robot
 
 
 *** Keywords ***
@@ -88,9 +88,14 @@ Check CPU Frequency In Windows
 
 Stress Test
     [Documentation]    Proceed with the stress test.
-    [Arguments]    ${time}=60s
+    [Arguments]    ${time}=60s    ${workers}=$(nproc)    ${load_percent}=100    ${start_delay_seconds}=0
     Detect Or Install Package    stress-ng
-    Execute Command In Terminal    stress-ng --cpu $(nproc) --timeout ${time} -q &> /dev/null & disown
+    ${cmd}=    Catenate    $(
+    ...    pkill stress-ng;
+    ...    sleep ${start_delay_seconds};
+    ...    stress-ng --cpu ${workers} --cpu-load ${load_percent} --timeout ${time} -q &> /dev/null
+    ...    ) & disown
+    Execute Command In Terminal    ${cmd}
 
 Stress Test Stop
     Execute Command In Terminal    pkill stress-ng
