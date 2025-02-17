@@ -4,35 +4,48 @@
 
 attrs==24.3.0
 bcrypt==4.1.2
+binaryornot==0.4.4
+boolean.py==4.0
 certifi==2024.2.2
 cffi==1.17.1
 cfgv==3.4.0
+chardet==5.2.0
 charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
+contourpy==1.3.1
 cryptography==42.0.5
+cycler==0.12.1
 dbbot-sqlalchemy==0.2
 distlib==0.3.8
 Faker==24.11.0
 filelock==3.13.4
-greenlet==3.1.1
+fonttools==4.56.0
 git-cliff==2.6.1
+greenlet==3.1.1
 gspread==3.1.0
 httplib2==0.22.0
 identify==2.5.36
 idna==3.7
 importlib_resources==6.4.0
 Jinja2==3.1.3
+kiwisolver==1.4.8
+license-expression==30.4.1
 markdown-it-py==3.0.0
 MarkupSafe==2.1.5
+matplotlib==3.10.0
 mdurl==0.1.2
 nodeenv==1.8.0
+numpy==2.2.3
 oauth2client==4.1.3
 osfv @ git+https://github.com/Dasharo/osfv-scripts.git@a6b18bb88051474ec2a44d8f2b37b1405977ab54#subdirectory=osfv_cli
+packaging==24.2
+pandas==2.2.3
 paramiko==3.4.0
 pathspec==0.9.0
 pexpect==4.9.0
 pikvm @ git+https://github.com/3mdeb/pikvm-rest-api@1a1cc579a286fe82aaa2eccea69f96223712664d
+pillow==11.1.0
 platformdirs==4.2.1
 pre-commit==3.7.0
 ptyprocess==0.7.0
@@ -46,13 +59,15 @@ pyotp==2.9.0
 pyparsing==3.1.2
 pyte @ git+https://github.com/3mdeb/pyte@b81646ec9f754aab34ed671b3c852b01cc72bdb4
 python-dateutil==2.9.0.post0
+python-debian==0.1.49
 pytz==2024.1
 PyYAML==6.0.1
-reuse==4.0.3
 requests==2.31.0
+reuse==4.0.3
 rich==13.7.1
 rich-click==1.7.4
 robotframework @ git+https://github.com/3mdeb/robotframework@6006ce0b3d5fc6b45c5eb040dc859acd64bfa846
+robotframework-csvlibrary==0.0.5
 robotframework-faker==5.0.0
 robotframework-requests==0.9.4
 robotframework-robocop==5.0.4
@@ -69,7 +84,9 @@ tabulate==0.8.9
 telnetlib @ git+https://github.com/3mdeb/telnetlib@b85e3b5e6068eb3441cb21badb5a266301839e61
 toml==0.10.2
 tomli==2.0.1
+tomlkit==0.13.2
 typing_extensions==4.11.0
+tzdata==2025.1
 Unidecode==1.3.8
 urllib3==2.2.1
 virtualenv==20.26.0
