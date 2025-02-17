@@ -4,7 +4,7 @@ Documentation       This library defines keywords for reading sensor data from
 ...                 defined in the platform configs if it turns out that this process
 ...                 differs too much depending on the platform.
 
-Resource            terminal.robot
+Resource            ../terminal.robot
 
 
 *** Keywords ***
@@ -13,7 +13,7 @@ Prepare Sensors
 
     # Might only do this when any method is said to be lm-sensors.
 
-    Import Variables    ${CURDIR}/../platform-configs/${SENSORS_CONFIG_FILE}
+    Import Variables    ${CURDIR}/../../platform-configs/${SENSORS_CONFIG_FILE}
     ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
     ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
     ${fan_rpm_measurement_method}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    method
@@ -61,6 +61,19 @@ Get CPU Temperature
     ELSE
         Fail    Wrong platform configuration. CPU_TEMPERATURE_MEASUREMENT["method"]
         ...    is of unknown value ${cpu_temperature_measurement_method}.
+    END
+
+Get Fan Speed
+    [Documentation]    Get PWM or RPM depending on argument
+    [Arguments]    ${mode}    # Can be "rpm" or "pwm"
+    IF    """${mode}""" == "rpm"
+        ${v}=    Get Fan RPM
+        RETURN    ${v}
+    ELSE IF    """${mode}""" == "pwm"
+        ${v}=    Get Fan PWM
+        RETURN    ${v}
+    ELSE
+        Fail    Invalid fan speed measurement mode "${mode}"
     END
 
 Get Fan PWM
@@ -121,3 +134,17 @@ Is Fan RPM Measurement Supported
         RETURN    ${FALSE}
     END
     RETURN    ${TRUE}
+
+Get Fan Measurement Unit Name
+    [Documentation]    Returns "pwm" or "rpm" depending on which is supported
+    ...    on the DUT. If both are, then "pwm" takes priority.
+    ${pwm_support}=    Is Fan PWM Measurement Supported
+    ${rpm_support}=    Is Fan RPM Measurement Supported
+    IF    ${pwm_support}
+        RETURN    pwm
+    ELSE IF    ${rpm_support}
+        RETURN    rpm
+    ELSE
+        Fail
+        ...    Invalid device configuration. CUSTOM_FAN_CURVE_X_MODE_SUPPORT is True, but fan speed measurement method is `none`
+    END

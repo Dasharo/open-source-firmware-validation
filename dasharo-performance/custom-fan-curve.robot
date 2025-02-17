@@ -1,17 +1,20 @@
 *** Settings ***
 Library             Collections
+Library             DateTime
 Library             OperatingSystem
 Library             Process
 Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
+Library             CSVLibrary
+Library             ../lib/sensors/fan_curve_plots.py
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../lib/sensors.robot
+Resource            ../lib/sensors/sensors.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -72,91 +75,118 @@ CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
 Perform Custom Fan Curve Test
     [Documentation]    Performs a Custom Fan Curve test for a given profile
     [Arguments]    ${profile}
-
     Prepare Sensors
-    ${stress_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}*2
-    Stress Test    ${stress_len}m
-    ${timer}=    Convert To Integer    0
-    Sleep    5s
+
     ${result}=    Set Variable    ${TRUE}
     ${fails_in_a_row}=    Set Variable    0
+    ${max_fails_in_a_row}=    Set Variable    0
+    ${measurements}=    Create List
 
-    FOR    ${i}    IN RANGE    (${CUSTOM_FAN_CURVE_TEST_DURATION} / ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL})
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer} min.
+    ${stress_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}*5
+    ${cpu_count}=    Execute Command In Terminal    nproc
+    ${fan_mode}=    Get Fan Measurement Unit Name
 
-        ${new_result}=    Verify Fan Speeds    ${profile}
-        IF    not ${result} and not ${new_result}
-            ${fails_in_a_row}=    Evaluate    ${fails_in_a_row}+1
-        ELSE
-            ${fails_in_a_row}=    Set Variable    0
+    FOR    ${i}    IN RANGE    100
+        ${current_time}=    Evaluate    time.time()
+        ${start_time}=    Set Variable    ${current_time}
+        ${end_time}=    Evaluate    ${start_time} + ${CUSTOM_FAN_CURVE_TEST_DURATION}
+        Stress Test    time=${stress_len}s    load_percent=${i}
+        WHILE    ${current_time} < ${end_time}
+            ${current_time}=    Evaluate    time.time()
+            ${duration}=    Evaluate    ${current_time} - ${start_time}
+            Log To Console    \n${duration} s.
+
+            ${new_result}    ${measurement}=    Measure And Verify
+            ...    ${profile}    ${fan_mode}
+
+            IF    not ${result} and not ${new_result}
+                Log To Console    Invalid speed    WARN
+                ${fails_in_a_row}=    Evaluate    ${fails_in_a_row}+1
+                IF    ${fails_in_a_row} > ${max_fails_in_a_row}
+                    ${max_fails_in_a_row}=    Set Variable    ${fails_in_a_row}
+                END
+            ELSE
+                ${fails_in_a_row}=    Set Variable    0
+            END
+            ${result}=    Set Variable    ${new_result}
         END
-        ${result}=    Set Variable    ${new_result}
-
-        Sleep    ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}m
-        ${timer}=    Evaluate    ${timer} + ${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}
     END
     Stress Test Stop
-    IF    ${fails_in_a_row} > 1
-        Log    Invalid fan speeds detected. Needs manual verification    WARN
+
+    ${image}=    Save Measurements    ${measurements}    ${profile}
+    IF    ${max_fails_in_a_row} > 1
         Log To Console    Invalid fan speeds detected. Needs manual verification    WARN
-        Fail
+        Fail    Invalid fan speeds detected. Needs manual verification
     END
+    # Add a graph of measurements to the logs
+    Log    <img src="../${image}">    html=true
+    Sleep    ${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}s
+
+Measure And Verify
+    [Arguments]    ${profile}    ${fan_mode}
+    ${fan_speed}=    Get Fan Speed    ${fan_mode}
+    ${cpu_temp}=    Get CPU Temperature
+
+    ${result}    ${expected}    ${tolerance}=    Verify Fan Speeds
+    ...    ${profile}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
+
+    ${measurement}=    Create Dictionary    temp=${cpu_temp}
+    ...    speed=${fan_speed}    expected=${expected}
+    ...    tolerance=${tolerance}
+    Log To Console
+    ...    ${cpu_temp}C - ${fan_speed} ${fan_mode} (expected: ${expected} ${fan_mode} +/- ${tolerance})
+    RETURN    ${result}    ${measurement}
+
+Save Measurements
+    [Documentation]    Saves fan speed & temp measurements to csv file
+    [Arguments]    ${measurements}    ${profile}
+    ${columns}=    Create List    temp    speed    expected    tolerance
+    ${file}=    Set Variable    fan_speeds_${profile}
+    CSVLibrary.Csv File From Associative    ${file}.csv    ${measurements}    ${columns}
+    ${image}=    Plot Fan Curve    ${file}
+    RETURN    ${image}
 
 Verify Fan Speeds
-    [Documentation]    Measures PWM/RPM and compares to target values depending
-    ...    on CPU temperature and a fan curve. Mode is a string and can be
-    ...    either "performance", "silent" or "off" depending on the fan curve
-    ...    to compare against.
-    [Arguments]    ${mode}
-    ${pwm_support}=    Is Fan PWM Measurement Supported
-    ${rpm_support}=    Is Fan RPM Measurement Supported
-    IF    ${pwm_support}
-        ${speed_unit}=    Set Variable    pwm
-        ${fan_speed}=    Get Fan PWM
-    ELSE IF    ${rpm_support}
-        ${speed_unit}=    Set Variable    rpm
-        ${fan_speed}=    Get Fan RPM
-    ELSE
-        Log To Console
-        ...    Invalid device configuration. CUSTOM_FAN_CURVE_X_MODE_SUPPORT is True, but fan speed measurement method is `none`
-        ...    ERROR
-        Fail
-    END
+    [Documentation]    Compares RPM/PWM to target values depending
+    ...    on CPU temperature and a fan curve.
+    ...    - profile is a string and can be
+    ...    \ either "performance", "silent" or "off" depending on the fan curve[Tags]    robot:private
+    ...    \ to compare against.
+    ...    - fan_speed - measured fan speed value
+    ...    - fan_mode - fan measurement unit - rpm or pwm,
+    ...    - cpu_temp - cpu temperature in C
+    ...    returns:
+    ...    - boolean result
+    ...    - expected speed
+    ...    - tolerance
+    [Tags]    robot:private
+    [Arguments]    ${profile}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
 
-    ${temperature}=    Get CPU Temperature
-    IF    '${mode}' == 'silent'
+    IF    '${profile}' == 'silent'
         ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Silent Mode
-        ...    ${temperature}    ${speed_unit}
-    ELSE IF    '${mode}' == 'performance'
+        ...    ${cpu_temp}    ${fan_mode}
+    ELSE IF    '${profile}' == 'performance'
         ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Performance Mode
-        ...    ${temperature}    ${speed_unit}
-    ELSE IF    '${mode}' == 'off'
+        ...    ${cpu_temp}    ${fan_mode}
+    ELSE IF    '${profile}' == 'off'
         ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Off Mode
-        ...    ${temperature}    ${speed_unit}
+        ...    ${cpu_temp}    ${fan_mode}
     END
 
     ${speed_is_valid}=    Verify With Tolerance
     ...    ${fan_speed}
     ...    ${expected_fan_speed}
-    ...    ${speed_unit}
+    ...    ${fan_mode}
     ...    ${tolerance}
 
-    Log To Console    Temp: ${temperature}
-    Log To Console    Fan Speed: ${fan_speed}
-    Log To Console    Expected Speed: ${expected_fan_speed}
-    Log To Console    Tolerance: ${tolerance}
-    IF    not ${speed_is_valid}
-        Log    Invalid fan speed detected    WARN
-        Log To Console    Invalid fan speed detected    WARN
-        RETURN    ${FALSE}
-    END
-    RETURN    ${TRUE}
+    RETURN    ${speed_is_valid}    ${expected_fan_speed}    ${tolerance}
 
 Verify With Tolerance
     [Documentation]    Compares the actual and expected value of the fan speed,
     ...    taking tolerance into account.
+    [Tags]    robot:private
     [Arguments]    ${fan_speed}    ${expected_speed}    ${fan_speed_unit}    ${tolerance}
+
     IF    '${fan_speed_unit}' == 'pwm'
         ${fan_speed}=    Evaluate    float(${fan_speed}/2.55)
     END
@@ -180,6 +210,7 @@ Calculate Speed Percentage Based On Temperature
     ...    for a given temperature based on an algorithm and a
     ...    defined curve. Speed unit should be defined as "pwm" or "rpm" to
     ...    choose the curve unit.
+    [Tags]    robot:private
     [Arguments]    ${temperature}    ${speed_unit}    @{temperature_curve}
 
     ${fan_speed}=    Evaluate    -1
@@ -209,6 +240,7 @@ Calculate Speed Percentage Based On Temperature In Performance Mode
     [Documentation]    Calculates the expected speed in performance
     ...    mode for a given temperature based on an algorithm and a
     ...    defined curve.
+    [Tags]    robot:private
     [Arguments]    ${temperature}    ${speed_unit}
     ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
     ...    ${temperature}
@@ -220,6 +252,7 @@ Calculate Speed Percentage Based On Temperature In Silent Mode
     [Documentation]    Calculates the expected speed in silent
     ...    mode for a given temperature based on an algorithm and a
     ...    defined curve.
+    [Tags]    robot:private
     [Arguments]    ${temperature}    ${speed_unit}
     ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
     ...    ${temperature}
@@ -231,6 +264,7 @@ Calculate Speed Percentage Based On Temperature In Off Mode
     [Documentation]    Calculates the expected speed in off
     ...    mode for a given temperature based on an algorithm and a
     ...    defined curve.
+    [Tags]    robot:private
     [Arguments]    ${temperature}    ${speed_unit}
     ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
     ...    ${temperature}

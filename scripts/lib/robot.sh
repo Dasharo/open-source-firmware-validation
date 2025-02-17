@@ -150,6 +150,7 @@ execute_robot() {
                 -b ${_debug_file} \
                 -v rte_ip:${RTE_IP} \
                 -v config:${CONFIG} \
+                -v logs_dir:${_logs_dir} \
                 ${device_ip_option} \
                 ${fw_file_option} \
                 ${capsule_fw_file_option} \
