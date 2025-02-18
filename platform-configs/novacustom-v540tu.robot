@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    include/novacustom-common.robot
 Resource    include/novacustom-mtl.robot
+Resource    include/novacustom-common.robot
 
 
 *** Variables ***
@@ -16,3 +16,5 @@ ${CPU_MAX_FREQUENCY}=               4800
 ${CPU_MIN_FREQUENCY}=               300
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
+
+${TESTED_LINUX_DISTROS}=            ${ENV_ID_FEDORA}

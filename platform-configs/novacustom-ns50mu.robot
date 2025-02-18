@@ -29,3 +29,5 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
 ${POWER_CTRL}=                      none
+
+${TESTED_LINUX_DISTROS}=            ${ENV_ID_UBUNTU}
