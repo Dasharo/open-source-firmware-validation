@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
+temperature_curve_settings:
+  percentile_drop: 10
+  acceptable_invalid_percent: 10
 
 temperature_curve_silent:
   - range: [0, 40]
