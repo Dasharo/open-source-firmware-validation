@@ -41,9 +41,6 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
 
-${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
-
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                        ${TRUE}

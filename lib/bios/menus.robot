@@ -1160,6 +1160,7 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     ...    \ not supported via ssh.
     [Arguments]    ${system_name}    ${boot_menu}=NOT_SET
     Set Suite Variable    ${BOOTED_OS}    ${system_name}
+    Import Variables    ${CURDIR}/../../os-config/${system_name}-credentials.py
 
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
 
