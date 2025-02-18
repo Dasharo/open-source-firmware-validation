@@ -23,7 +23,7 @@ Send File To DUT
         END
         Execute Command In Terminal    rm -f ${target_path}
         SSHLibrary.Open Connection    ${ip_address}    port=${port}
-        SSHLibrary.Login    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        SSHLibrary.Login    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
         SSHLibrary.Put File    ${source_path}    ${target_path}
         SSHLibrary.Close Connection
     ELSE

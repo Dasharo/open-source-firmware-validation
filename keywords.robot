@@ -53,12 +53,12 @@ Login To Linux
         ...    3x
         ...    0
         ...    Login To Linux Via SSH
-        ...    ${DEVICE_UBUNTU_USERNAME}
-        ...    ${DEVICE_UBUNTU_PASSWORD}
+        ...    ${DEVICE_OS_USERNAME}
+        ...    ${DEVICE_OS_PASSWORD}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
-        Login To Linux Over Serial Console    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        Login To Linux Over Serial Console    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
     END
 
 Login To Linux Via OBMC
@@ -121,14 +121,14 @@ Login To Linux Over Serial Console
     ...    long we want to wait for the login prompt.
     [Arguments]    ${username}
     ...    ${password}
-    ...    ${device_ubuntu_user_prompt}=${device_ubuntu_user_prompt}
+    ...    ${device_os_user_prompt}=${device_os_user_prompt}
     ...    ${timeout}=300
     Set DUT Response Timeout    ${timeout} seconds
     Telnet.Read Until    login:
     Telnet.Write    ${username}
     Telnet.Read Until    Password:
     Telnet.Write    ${password}
-    Telnet.Set Prompt    ${device_ubuntu_user_prompt}    prompt_is_regexp=False
+    Telnet.Set Prompt    ${device_os_user_prompt}    prompt_is_regexp=False
     Telnet.Read Until Prompt
 
 Login To Linux Via SSH
@@ -136,7 +136,7 @@ Login To Linux Via SSH
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}    ${password}    ${timeout}=180    ${prompt}=${DEVICE_UBUNTU_USER_PROMPT}
+    [Arguments]    ${username}    ${password}    ${timeout}=180    ${prompt}=${DEVICE_OS_USER_PROMPT}
     Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
@@ -199,15 +199,15 @@ Switch To Root User
     # the "sudo -S" to pass password from stdin does not work correctly with
     # the su command and we need to type in the password
     Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo] password for ${DEVICE_UBUNTU_USERNAME}:
-    Write Into Terminal    ${DEVICE_UBUNTU_PASSWORD}
-    Set Prompt For Terminal    ${DEVICE_UBUNTU_ROOT_PROMPT}
+    Read From Terminal Until    [sudo] password for ${DEVICE_OS_USERNAME}:
+    Write Into Terminal    ${DEVICE_OS_PASSWORD}
+    Set Prompt For Terminal    ${DEVICE_OS_ROOT_PROMPT}
     Read From Terminal Until Prompt
 
 Exit From Root User
     [Documentation]    Exit from the root environment
     Write Into Terminal    exit
-    Set Prompt For Terminal    ${DEVICE_UBUNTU_USER_PROMPT}
+    Set Prompt For Terminal    ${DEVICE_OS_USER_PROMPT}
     Read From Terminal Until Prompt
 
 Open Connection And Log In
@@ -1180,7 +1180,7 @@ Login To Linux With Root Privileges
     ...    platform type.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Run Keywords
-        ...    Login To Linux Via SSH    ${DEVICE_UBUNTU_USERNAME}    ${DEVICE_UBUNTU_PASSWORD}
+        ...    Login To Linux Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
         ...    AND
         ...    Switch To Root User
     END

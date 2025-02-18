@@ -42,14 +42,11 @@ ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 ${OPTIONS_LIB}=                                     options-lib_uefi-setup-menu
 
 # OS config
-${DEVICE_WINDOWS_USERNAME}=                         ${WINDOWS_USERNAME}
-${DEVICE_WINDOWS_PASSWORD}=                         ${WINDOWS_PASSWORD}
-${DEVICE_WINDOWS_USER_PROMPT}=                      ${WINDOWS_USER_PROMPT}
+${DEVICE_OS_USERNAME}=                              ${TBD}
+${DEVICE_OS_PASSWORD}=                              ${TBD}
+${DEVICE_OS_USER_PROMPT}=                           ${TBD}
+${DEVICE_OS_ROOT_PROMPT}=                           ${TBD}
 
-${DEVICE_UBUNTU_USERNAME}=                          ${UBUNTU_USERNAME}
-${DEVICE_UBUNTU_PASSWORD}=                          ${UBUNTU_PASSWORD}
-${DEVICE_UBUNTU_USER_PROMPT}=                       ${UBUNTU_USER_PROMPT}
-${DEVICE_UBUNTU_ROOT_PROMPT}=                       ${UBUNTU_ROOT_PROMPT}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${FW_VERSION}=                                      ${TBD}
