@@ -84,9 +84,6 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
 # Test module: dasharo-stability
 ${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
 
-${EXTERNAL_HDMI_DISPLAY_SUPPORT}=           ${TRUE}
-${TESTED_LINUX_DISTROS}=                    ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
-
 
 *** Keywords ***
 Power On
