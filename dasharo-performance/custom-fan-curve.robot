@@ -8,7 +8,7 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Library             CSVLibrary
-Library             ../lib/sensors/fan_curve_plots.py
+Library             ../lib/fan_curve_tests/fan_curve_tests.py
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../variables.robot
@@ -40,6 +40,7 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
 
     Set UEFI Option    FanCurveOption    Silent
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Perform Custom Fan Curve Test    silent
@@ -53,6 +54,7 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
 
     Set UEFI Option    FanCurveOption    Performance
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Perform Custom Fan Curve Test    performance
@@ -66,6 +68,7 @@ CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
 
     Set UEFI Option    FanCurveOption    Fans Off
     Power On
+    Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
     Perform Custom Fan Curve Test    off
@@ -76,9 +79,6 @@ Perform Custom Fan Curve Test
     [Documentation]    Performs a Custom Fan Curve test for a given profile
     [Arguments]    ${profile}
     Prepare Sensors
-    ${result}=    Set Variable    ${TRUE}
-    ${fails_in_a_row}=    Set Variable    0
-    ${max_fails_in_a_row}=    Set Variable    0
     ${measurements}=    Create List
     ${stress_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}*5
     ${cpu_count}=    Execute Command In Terminal    nproc
@@ -95,40 +95,39 @@ Perform Custom Fan Curve Test
             ${current_time}=    Evaluate    time.time()
             ${duration}=    Evaluate    ${current_time} - ${start_time}
             Log To Console    \n${duration} s.
-            ${new_result}    ${measurement}=    Measure And Verify
+            ${result}    ${measurement}=    Measure And Verify
             ...    ${profile}    ${fan_mode}
             Append To List    ${measurements}    ${measurement}
-            IF    not ${result} and not ${new_result}
-                Log To Console    Invalid speed    WARN
-                ${fails_in_a_row}=    Evaluate    ${fails_in_a_row}+1
-                IF    ${fails_in_a_row} > ${max_fails_in_a_row}
-                    ${max_fails_in_a_row}=    Set Variable    ${fails_in_a_row}
-                END
-            ELSE
-                ${fails_in_a_row}=    Set Variable    0
-            END
-            ${result}=    Set Variable    ${new_result}
+            IF    not ${result}    Log To Console    Invalid fan speed    WARN
         END
     END
     Stress Test Stop
-    ${image}=    Save Measurements    ${measurements}    ${profile}
-    Log    <img src="../${image}">    html=true
     Sleep    ${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}s
 
-    IF    ${max_fails_in_a_row} > 1
-        Log To Console    Invalid fan speeds detected. Needs manual verification    WARN
-        Fail    Invalid fan speeds detected. Needs manual verification
+    ${percentile_drop}=    Get From Dictionary    ${TEMPERATURE_CURVE_SETTINGS}    percentile_drop
+    ${failed_count}=    Count Failed Fan Measurements    ${measurements}
+    ${filtered}=    Filter Fan Measurements    ${measurements}    ${percentile_drop}
+    ${failed_after_filtering}=    Count Failed Fan Measurements    ${filtered}
+    ${image}=    Save Measurements    ${filtered}    ${profile}_filtered
+    Log    <img src="../${image}">    html=true
+
+    IF    ${failed_count} > 0
+        ${total_measurements}=    Get Length    ${measurements}
+        ${percent_failed}=    Evaluate    ${failed_count} / ${total_measurements}
+        ${acceptable_invalid_percent}=    Get From Dictionary
+        ...    ${TEMPERATURE_CURVE_SETTINGS}    acceptable_invalid_percent
+        Should Be True    ${percent_failed} <= ${acceptable_invalid_percent}
+        ...    Too many measurements were invalid (${percent_failed} > ${acceptable_invalid_percent})
     END
-    # Add a graph of measurements to the logs
 
 Measure And Verify
     [Arguments]    ${profile}    ${fan_mode}
     ${fan_speed}=    Get Fan Speed    ${fan_mode}
     ${cpu_temp}=    Get CPU Temperature
-
-    ${result}    ${expected}    ${tolerance}=    Verify Fan Speeds
-    ...    ${profile}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
-
+    ${range_data}=    Get Fan Curve Range    ${cpu_temp}    ${profile}
+    ${result}    ${expected}=    Verify Fan Speeds
+    ...    ${range_data}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
+    ${tolerance}=    Get From Dictionary    ${range_data}    tolerance_${fan_mode}
     ${measurement}=    Create Dictionary    temp=${cpu_temp}
     ...    speed=${fan_speed}    expected=${expected}
     ...    tolerance=${tolerance}
@@ -138,135 +137,89 @@ Measure And Verify
 
 Save Measurements
     [Documentation]    Saves fan speed & temp measurements to csv file
-    [Arguments]    ${measurements}    ${profile}
+    [Arguments]    ${measurements}    ${name}
     ${columns}=    Create List    temp    speed    expected    tolerance
-    ${file}=    Set Variable    fan_speeds_${profile}
-    CSVLibrary.Csv File From Associative    ${file}.csv    ${measurements}    ${columns}
-    ${image}=    Plot Fan Curve    ${file}
+    ${filename}=    Set Variable    fan_speeds_${name}
+    ${file_path}=    Set Variable    ${LOGS_DIR}/${filename}
+    CSVLibrary.Csv File From Associative    ${file_path}.csv    ${measurements}    ${columns}
+    ${image}=    Plot Fan Curve    ${file_path}    Fan speeds ${name}
     RETURN    ${image}
 
 Verify Fan Speeds
     [Documentation]    Compares RPM/PWM to target values depending
     ...    on CPU temperature and a fan curve.
-    ...    - profile is a string and can be
-    ...    \ either "performance", "silent" or "off" depending on the fan curve[Tags]    robot:private
-    ...    \ to compare against.
-    ...    - fan_speed - measured fan speed value
-    ...    - fan_mode - fan measurement unit - rpm or pwm,
-    ...    - cpu_temp - cpu temperature in C
-    ...    returns:
-    ...    - boolean result
-    ...    - expected speed
-    ...    - tolerance
     [Tags]    robot:private
-    [Arguments]    ${profile}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
+    [Arguments]    ${range_data}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
 
-    IF    '${profile}' == 'silent'
-        ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Silent Mode
-        ...    ${cpu_temp}    ${fan_mode}
-    ELSE IF    '${profile}' == 'performance'
-        ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Performance Mode
-        ...    ${cpu_temp}    ${fan_mode}
-    ELSE IF    '${profile}' == 'off'
-        ${expected_fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature In Off Mode
-        ...    ${cpu_temp}    ${fan_mode}
-    END
+    ${expected_fan_speed}=    Calculate Expected Speed    ${cpu_temp}    ${fan_mode}    ${range_data}
+    ${tolerance}=    Get From Dictionary    ${range_data}    tolerance_${fan_mode}
 
-    ${speed_is_valid}=    Verify With Tolerance
-    ...    ${fan_speed}
-    ...    ${expected_fan_speed}
-    ...    ${fan_mode}
-    ...    ${tolerance}
-
-    RETURN    ${speed_is_valid}    ${expected_fan_speed}    ${tolerance}
-
-Verify With Tolerance
-    [Documentation]    Compares the actual and expected value of the fan speed,
-    ...    taking tolerance into account.
-    [Tags]    robot:private
-    [Arguments]    ${fan_speed}    ${expected_speed}    ${fan_speed_unit}    ${tolerance}
-
-    IF    '${fan_speed_unit}' == 'pwm'
+    IF    '${fan_mode}' == 'pwm'
         ${fan_speed}=    Evaluate    float(${fan_speed}/2.55)
     END
 
     # RPM Measurements are not as precise as PWM. The margin of error has to be much larger.
-    IF    '${fan_speed_unit}' == 'rpm'
+    IF    '${fan_mode}' == 'rpm'
         ${smoothing}=    Set Variable    ${tolerance}
-    ELSE IF    '${fan_speed_unit}' == 'pwm' and ${expected_speed} < 35
+    ELSE IF    '${fan_mode}' == 'pwm' and ${expected_fan_speed} < 35
         ${smoothing}=    Evaluate    1
     ELSE
         ${smoothing}=    Evaluate    ${tolerance}
     END
 
-    ${high_limit}=    Evaluate    ${expected_speed}+${smoothing}
-    ${low_limit}=    Evaluate    ${expected_speed}-${smoothing}
-    ${result}=    Evaluate    ${low_limit} < ${fan_speed} < ${high_limit}
-    RETURN    ${result}
+    ${high_limit}=    Evaluate    ${expected_fan_speed}+${smoothing}
+    ${low_limit}=    Evaluate    ${expected_fan_speed}-${smoothing}
+    ${speed_is_valid}=    Evaluate    ${low_limit} < ${fan_speed} < ${high_limit}
 
-Calculate Speed Percentage Based On Temperature
+    RETURN    ${speed_is_valid}    ${expected_fan_speed}
+
+Get Fan Curve Range
+    [Documentation]    Returns the dictionary with settings for temperature
+    ...    range where the current temperature fits for a given profile
+    [Arguments]    ${temperature}    ${profile}
+    IF    '${profile}' == 'silent'
+        ${range_data}=    Get Fan Curve Range From Curve    ${temperature}    @{TEMPERATURE_CURVE_SILENT}
+    ELSE IF    '${profile}' == 'performance'
+        ${range_data}=    Get Fan Curve Range From Curve    ${temperature}    @{TEMPERATURE_CURVE_PERFORMANCE}
+    ELSE IF    '${profile}' == 'off'
+        ${range_data}=    Get Fan Curve Range From Curve    ${temperature}    @{TEMPERATURE_CURVE_OFF}
+    END
+    RETURN    ${range_data}
+
+Get Fan Curve Range From Curve
+    [Documentation]    Returns the dictionary with settings for temperature
+    ...    range where the current temperature fits
+    [Tags]    robot:private
+    [Arguments]    ${temperature}    @{temperature_curve}
+
+    ${expected_speed}=    Evaluate    -1
+    FOR    ${range_data}    IN    @{temperature_curve}
+        ${min_temp}    ${max_temp}=    Get From Dictionary    ${range_data}    range
+        # Ranges are ordered and don't overlap allowing for searching like this
+        IF    ${temperature} < ${max_temp}    RETURN    ${range_data}
+    END
+
+Calculate Expected Speed
     [Documentation]    Calculates the expected speed percentage by config file
     ...    for a given temperature based on an algorithm and a
     ...    defined curve. Speed unit should be defined as "pwm" or "rpm" to
     ...    choose the curve unit.
     [Tags]    robot:private
-    [Arguments]    ${temperature}    ${speed_unit}    @{temperature_curve}
+    [Arguments]    ${temperature}    ${speed_unit}    ${range_data}
 
-    ${fan_speed}=    Evaluate    -1
-    FOR    ${range_data}    IN    @{temperature_curve}
-        ${min_temp}    ${max_temp}=    Get From Dictionary    ${range_data}    range
-        ${eval_min}    ${eval_max}=    Get From Dictionary    ${range_data}    evaluation_${speed_unit}
-        ${tolerance}=    Get From Dictionary    ${range_data}    tolerance_${speed_unit}
-        # if temperature is equal to start of the range then pwm value will be
-        # equal to minimal pwm for this range
-        IF    ${temperature} == ${min_temp}
-            ${fan_speed}=    Evaluate    float(${eval_min})
-            BREAK
-            # if not check if the temperature is lower than maximum temperature in
-            # this range and if so, then calculate pwm by finding a linear function
-            # and its ordinate
-        ELSE IF    ${temperature} < ${max_temp}
-            ${fan_speed}=    Evaluate
-            ...    float(((${eval_max}-${eval_min})/(${max_temp}-${min_temp}))*(${temperature}-${min_temp})+${eval_min})
-            BREAK
-        END
+    ${expected_speed}=    Evaluate    -1
+    ${min_temp}    ${max_temp}=    Get From Dictionary    ${range_data}    range
+    ${eval_min}    ${eval_max}=    Get From Dictionary    ${range_data}    evaluation_${speed_unit}
+
+    IF    ${temperature} == ${min_temp}
+        ${expected_speed}=    Evaluate    float(${eval_min})
+        # if not check if the temperature is lower than maximum temperature in
+        # this range and if so, then calculate pwm by finding a linear function
+        # and its ordinate
+    ELSE IF    ${temperature} < ${max_temp}
+        ${expected_speed}=    Evaluate
+        ...    float(((${eval_max}-${eval_min})/(${max_temp}-${min_temp}))*(${temperature}-${min_temp})+${eval_min})
     END
 
-    IF    ${fan_speed} == -1    FAIL
-    RETURN    ${fan_speed}    ${tolerance}
-
-Calculate Speed Percentage Based On Temperature In Performance Mode
-    [Documentation]    Calculates the expected speed in performance
-    ...    mode for a given temperature based on an algorithm and a
-    ...    defined curve.
-    [Tags]    robot:private
-    [Arguments]    ${temperature}    ${speed_unit}
-    ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
-    ...    ${temperature}
-    ...    ${speed_unit}
-    ...    @{TEMPERATURE_CURVE_PERFORMANCE}
-    RETURN    ${fan_speed}    ${tolerance}
-
-Calculate Speed Percentage Based On Temperature In Silent Mode
-    [Documentation]    Calculates the expected speed in silent
-    ...    mode for a given temperature based on an algorithm and a
-    ...    defined curve.
-    [Tags]    robot:private
-    [Arguments]    ${temperature}    ${speed_unit}
-    ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
-    ...    ${temperature}
-    ...    ${speed_unit}
-    ...    @{TEMPERATURE_CURVE_SILENT}
-    RETURN    ${fan_speed}    ${tolerance}
-
-Calculate Speed Percentage Based On Temperature In Off Mode
-    [Documentation]    Calculates the expected speed in off
-    ...    mode for a given temperature based on an algorithm and a
-    ...    defined curve.
-    [Tags]    robot:private
-    [Arguments]    ${temperature}    ${speed_unit}
-    ${fan_speed}    ${tolerance}=    Calculate Speed Percentage Based On Temperature
-    ...    ${temperature}
-    ...    ${speed_unit}
-    ...    @{TEMPERATURE_CURVE_OFF}
-    RETURN    ${fan_speed}    ${tolerance}
+    IF    ${expected_speed} == -1    FAIL
+    RETURN    ${expected_speed}
