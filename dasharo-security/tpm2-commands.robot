@@ -263,7 +263,7 @@ Check If SHA1 And SHA256 Banks Are Enabled
 
 TPM2 Suite Setup
     Prepare Test Suite
-    Skip If    ${TPM_SUPPORTED_VERSION} != '2'    TPM commands tests supported only TPM2
+    Skip If    '${TPM_SUPPORTED_VERSION}' != '2'    TPM commands tests supported only TPM2
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
     Power On
     Boot System Or From Connected Disk    ubuntu
