@@ -111,7 +111,7 @@ Boot Dasharo Tools Suite
         ...    Read From Terminal Until    Enter an option:
         Set Timeout    ${old_timeout}
         # Enable SSH server and switch to SSH connection by writing on video console "in blind"
-        Write Into Terminal    K
+        Write Bare Into Terminal    K
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
@@ -136,7 +136,7 @@ Check HCL Report Creation
 Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
-    Write Into Terminal    S
+    Write Bare Into Terminal    S
     Set Prompt For Terminal    bash-5.2#
     # These could be removed once routes priorities in DTS are resolved.
     Sleep    10
@@ -148,7 +148,7 @@ Enter Shell In DTS
 Run EC Transition
     [Documentation]    Keyword allows to run EC Transition procedure in the
     ...    Dasharo Tools Suite.
-    Write Into Terminal    6
+    Write Bare Into Terminal    6
     Read From Terminal Until    Enter an option:
     Write Into Terminal    1
     ${output}=    Read From Terminal Until    shut down
@@ -195,7 +195,7 @@ Power On And Enter DTS Shell
     Boot Dasharo Tools Suite    ${DTS_BOOT_TYPE}
 
     # 2) Enter shell:
-    Write Into Terminal    S
+    Write Bare Into Terminal    S
     Set Prompt For Terminal    bash-5.2#
     Read From Terminal Until Prompt
     Set DUT Response Timeout    90s

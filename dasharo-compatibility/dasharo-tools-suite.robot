@@ -25,8 +25,6 @@ Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
 
 
 *** Test Cases ***
-# After https://github.com/Dasharo/dts-scripts/pull/42 is released
-# 'Write Into Terminal' might have to be changed to 'Write Bare Into Terminal'
 DTS001.001 Booting DTS from USB works correctly
     [Documentation]    This test aims to verify that DTS is properly booting
     ...    from USB.
@@ -41,7 +39,7 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    1
+    Write Bare Into Terminal    1
     Read From Terminal Until
     ...    Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
     Write Into Terminal    N
@@ -54,7 +52,7 @@ DTS003.001 DTS option reboot DUT works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    R
+    Write Bare Into Terminal    R
     # Switch back to serial on PiKVM devices
     Restore Initial DUT Connection Method
     Enter Setup Menu Tianocore
@@ -65,7 +63,7 @@ DTS004.001 DTS accessing shell works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    S
+    Write Bare Into Terminal    S
     Read From Terminal Until Regexp    bash-\\d\\.\\d#
 
 DTS005.001 Flash device from DTS shell by using flashrom works correctly
@@ -122,7 +120,7 @@ DTS008.001 DTS option power-off DUT works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    P
+    Write Bare Into Terminal    P
     Set DUT Response Timeout    30s
     ${status}=    Run Keyword And Return Status    Enter Setup Menu Tianocore
     Should Not Be True    ${status}
