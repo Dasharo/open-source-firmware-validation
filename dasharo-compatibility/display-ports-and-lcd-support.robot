@@ -43,7 +43,7 @@ DSP001.003 - Internal display in OS (Windows)
     Login To Windows
     Check Internal LCD Windows
 
-DSP002.903 - External HDMI display in OS (Ubuntu)
+DSP002.201 - External HDMI display in OS (Ubuntu)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
@@ -52,7 +52,7 @@ DSP002.903 - External HDMI display in OS (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
     DSP002 - External HDMI Display    ubuntu
 
-DSP002.904 - External HDMI display in OS (Windows)
+DSP002.301 - External HDMI display in OS (Windows)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Windows OS. An external HDMI display must be provided in
     ...    the platform config.
@@ -62,7 +62,7 @@ DSP002.904 - External HDMI display in OS (Windows)
     Login To Windows
     Check HDMI Windows
 
-DSP002.905 - External HDMI display in OS (Fedora)
+DSP002.202 - External HDMI display in OS (Fedora)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Fedora OS. An external HDMI display must be provided in
     ...    the platform config.
