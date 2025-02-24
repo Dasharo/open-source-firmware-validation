@@ -29,7 +29,7 @@ MES001.001 Check if ME is statically disabled
     [Documentation]    Check whether the Intel ME is disabled at build time.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out

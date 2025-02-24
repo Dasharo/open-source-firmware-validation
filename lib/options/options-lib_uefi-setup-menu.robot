@@ -91,7 +91,7 @@ Measure Coldboot Time
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
         Power Cycle On
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
@@ -112,7 +112,7 @@ Measure Warmboot Time
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
         Power On
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
@@ -135,7 +135,7 @@ Measure Reboot Time
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem

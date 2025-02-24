@@ -12,6 +12,7 @@ ENV_ID_HEADS = "104"
 ENV_ID_UBUNTU = "201"
 ENV_ID_FEDORA = "202"
 ENV_ID_QUBES = "203"
+ENV_ID_TRENCHBOOT = "204"
 
 # 3xx - Windows
 ENV_ID_WINDOWS_11 = "301"
@@ -20,4 +21,5 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_UBUNTU: "ubuntu",
     ENV_ID_FEDORA: "fedora",
     ENV_ID_WINDOWS_11: "windows",
+    ENV_ID_TRENCHBOOT: "trenchboot",
 }

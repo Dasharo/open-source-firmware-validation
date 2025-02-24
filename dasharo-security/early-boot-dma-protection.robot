@@ -39,7 +39,7 @@ EDP001.001 Enable early Boot DMA Protection support
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Early boot DMA Protection    ${TRUE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Cbmem From Cloud
@@ -58,7 +58,7 @@ EDP002.001 Disable early Boot DMA Protection support
     ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${security_menu}    Early boot DMA Protection    ${FALSE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Cbmem From Cloud

@@ -35,7 +35,7 @@ WLE001.001 Wireless card detection (Ubuntu)
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    pciutils
@@ -70,7 +70,7 @@ WLE002.001 Wi-Fi scanning (Ubuntu)
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Scan For Wi-Fi In Linux
@@ -106,7 +106,7 @@ WLE003.001 Bluetooth scanning (Ubuntu)
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Scan For Bluetooth In Linux

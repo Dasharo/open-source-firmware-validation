@@ -38,7 +38,7 @@ NVM001.002 NVMe support in OS (Ubuntu)
     ...    disk in M.2 slot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci

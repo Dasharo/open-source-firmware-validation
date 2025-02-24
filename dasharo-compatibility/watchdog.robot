@@ -119,7 +119,7 @@ WDT005.001 Watchdog is detected by OS (Ubuntu)
     ${chipset_menu}=    Reenter Menu And Return Construction
     Set Option State    ${chipset_menu}    Watchdog timeout value    300
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Execute Linux Command    modprobe wdat_wdt
@@ -148,7 +148,7 @@ WTD006.001 Watchdog resets platform on kernel crash (Ubuntu 22.04)
     ${chipset_menu}=    Reenter Menu And Return Construction
     Set Option State    ${chipset_menu}    Watchdog timeout value    300
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     # Verify that there are entries from wdt or watchdog in kernel logs

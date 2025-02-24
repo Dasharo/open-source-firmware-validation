@@ -50,7 +50,7 @@ Cyclic Platform Suspend And Resume (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     ${suspend_detected_fails}=    Set Variable    ${0}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User

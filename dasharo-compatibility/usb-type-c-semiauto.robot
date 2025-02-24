@@ -296,7 +296,7 @@ Docking Station Detection After Coldboot (Ubuntu)
     Pause Execution In Console
     ...    Please make sure the docking station connected is ${docking_station_model} and press ENTER
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_after_reboot}=    Execute Linux Command    uptime --since
@@ -325,7 +325,7 @@ Docking Station Detection After Coldboot (Ubuntu)
 Docking Station Detection After Warmboot (Ubuntu)
     [Arguments]    ${docking_station_model}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_after_reboot}=    Execute Linux Command    uptime --since
@@ -354,7 +354,7 @@ Docking Station Detection After Warmboot (Ubuntu)
 Docking Station Detection After Reboot (Ubuntu)
     [Arguments]    ${docking_station_model}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Docking Station In Linux    ${docking_station_model}
@@ -363,7 +363,7 @@ Docking Station Detection After Reboot (Ubuntu)
         Log To Console    Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
             Execute Reboot Command
-            Boot System Or From Connected Disk    ubuntu
+            Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
             Login To Linux
             Switch To Root User
             Detect Docking Station In Linux    ${docking_station_model}
@@ -379,7 +379,7 @@ Docking Station Detection After Reboot (Ubuntu)
 Docking Station Detection After Suspend (Ubuntu)
     [Arguments]    ${docking_station_model}    ${platform_sleep_type}=${EMPTY}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
@@ -415,7 +415,7 @@ Docking Station Detection After Coldboot Then Hotplug (Ubuntu)
     Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_after_reboot}=    Execute Linux Command    uptime --since
@@ -457,7 +457,7 @@ Docking Station Detection After Warmboot Then Hotplug (Ubuntu)
     [Arguments]    ${docking_station_model}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_after_reboot}=    Execute Linux Command    uptime --since
@@ -498,13 +498,13 @@ Docking Station Detection After Reboot Then Hotplug (Ubuntu)
     [Arguments]    ${docking_station_model}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${docking_station_model}
     Set Global Variable    ${FAILED_DETECTION}    0
     Execute Reboot Command
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
@@ -529,7 +529,7 @@ Docking Station Detection After Reboot Then Hotplug (Ubuntu)
 Docking Station Detection After Suspend Then Hotplug (Ubuntu)
     [Arguments]    ${docking_station_model}    ${platform_sleep_type}=${EMPTY}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User

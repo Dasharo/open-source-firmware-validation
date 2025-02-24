@@ -34,7 +34,7 @@ CCC001.001 Check core count with HT disabled (Ubuntu)
     [Documentation]    Disable HT and check the number of cores as seen by the OS.
     Depends On    ${HYPER_THREADING_SUPPORT}
     Set UEFI Option    HyperThreading    ${FALSE}
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    util-linux
@@ -45,7 +45,7 @@ CCC002.001 Check core count with HT enabled
     [Documentation]    Enable HT and check the number of cores as seen by the OS.
     Depends On    ${HYPER_THREADING_SUPPORT}
     Set UEFI Option    HyperThreading    ${TRUE}
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    util-linux
@@ -59,7 +59,7 @@ CCC003.001 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActiveECores    0
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -76,7 +76,7 @@ CCC004.001 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActiveECores    All active
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -94,7 +94,7 @@ CCC005.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActiveECores    0
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -111,7 +111,7 @@ CCC006.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    ActiveECores    0
     Set UEFI Option    HyperThreading    ${FALSE}
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -127,7 +127,7 @@ CCC007.001 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
     Reset To Defaults Tianocore
     Save Changes And Reset
     Set UEFI Option    ActivePCores    1
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -145,7 +145,7 @@ CCC008.001 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActivePCores    1
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -163,7 +163,7 @@ CCC009.001 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
     Set UEFI Option    HyperThreading    ${TRUE}
     Set UEFI Option    ActivePCores    1
     Set UEFI Option    ActiveECores    1
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -182,7 +182,7 @@ CCC010.001 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActivePCores    1
     Set UEFI Option    ActiveECores    1
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -199,7 +199,7 @@ CCC011.001 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${TRUE}
     Set UEFI Option    ActiveECores    1
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid
@@ -217,7 +217,7 @@ CCC012.001 Check core count (HT Disabled, P: A, E: 1) (Ubuntu)
     Save Changes And Reset
     Set UEFI Option    HyperThreading    ${FALSE}
     Set UEFI Option    ActiveECores    1
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    cpuid

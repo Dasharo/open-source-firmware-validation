@@ -41,7 +41,7 @@ Prepare EFI Partition With System Files
         Add HDD To Qemu    img_name=${DL_CACHE_DIR}/image.img
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Boot System Or From Connected Disk    ubuntu
+            Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
             Login To Linux
             Switch To Root User
             Remove All Supported Systems From Efi
@@ -68,7 +68,7 @@ Clear Out EFI Partition
         Remove Drive From Qemu
     ELSE
         IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Boot System Or From Connected Disk    ubuntu
+            Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
             Login To Linux
             Switch To Root User
             Remove All Supported Systems From Efi

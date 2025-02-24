@@ -55,7 +55,7 @@ Test Power On Kwd In Firmware
 
 Test Power On Kwd In OS
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Execute Command In Terminal    sleep 10

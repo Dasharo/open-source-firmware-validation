@@ -102,7 +102,7 @@ APU005.001 Check if disabling CPB decreases performance
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Core Performance Boost    ${FALSE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Execute Command In Terminal
@@ -114,7 +114,7 @@ APU005.001 Check if disabling CPB decreases performance
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Core Performance Boost    ${TRUE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Execute Command In Terminal
@@ -131,7 +131,7 @@ APU006.001 Check whether disabling "Enable PCIe power management features" disab
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Enable PCI Express power    ${FALSE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    pciutils
@@ -145,7 +145,7 @@ APU006.002 Check whether enabling "Enable PCIe power management features" enable
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Enable PCI Express power    ${TRUE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    pciutils

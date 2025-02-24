@@ -29,7 +29,7 @@ HWP001.001 Hardware flash write protection support
     [Documentation]    Check whether the DUT support hardware write protection
     ...    mechanism.
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check Write Protection Availability
@@ -38,7 +38,7 @@ HWP002.001 Hardware flash write protection enable / disable
     [Documentation]    Check whether there is a possibility to set and erase
     ...    hardware write protection on the DUT.
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Erase Write Protection

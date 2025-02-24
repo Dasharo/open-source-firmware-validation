@@ -28,7 +28,7 @@ SAT001.002 SATA support in OS (Ubuntu)
     Depends On    ${SATA_SUPPORT}
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    smartmontools

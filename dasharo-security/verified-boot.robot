@@ -45,7 +45,7 @@ ${FW_FILE_RESIGNED}=    /home/${UBUNTU_USERNAME}/test-firmware_resigned.rom
 VBO006.002 Check whether the verstage was run
     [Documentation]    Check whether the Verified Boot is enabled and
     ...    functional.
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.002 not supported
@@ -57,7 +57,7 @@ VBO007.002 Boot from RW when correctly signed firmware is flashed
     ...    Slot A/B if the signatures for firmware stored in vboot
     ...    Slot A/B are correct.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO007.002 not supported
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
@@ -69,12 +69,12 @@ VBO008.001 Booting from recovery
     ...    continue automatically after a 30s delay.
     Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO008.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO008.002 not supported
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
     Execute Reboot Command
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cbmem -c | grep -i recovery
@@ -87,7 +87,7 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO009.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    VBO009.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO009.001 not supported
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
@@ -97,7 +97,7 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Should Contain    ${recovery_popup}    !!! WARNING !!!
     Should Contain    ${recovery_popup}    Recovery reason code:
     Should Contain    ${recovery_popup}    Recovery reason:
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
 VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A (Semi-auto)
@@ -119,7 +119,7 @@ VBO010.001 Recovery boot popup can be skipped
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    VBO010.001 not supported
     Read From Terminal Until    Press ENTER key to continue
     Write Into Terminal    ${ENTER}
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
 VBO010.001 Recovery boot popup can be skipped (Semi-auto)
@@ -144,13 +144,13 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Variable Should Exist    ${FW_FILE}
     # 1. Start with flashing of correctly signed firmware
     Set DUT Response Timeout    180s
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
     FOR    ${index}    IN RANGE    2
         Execute Reboot Command
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
     END
@@ -163,7 +163,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
         Execute Reboot Command
         Read From Terminal Until    Press ENTER key to continue
         Write Into Terminal    ${ENTER}
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
@@ -172,7 +172,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     # 3. Flash again with correctly signed firmware
     Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
     Execute Reboot Command
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
@@ -190,13 +190,13 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Variable Should Exist    ${FW_FILE}
     # 1. Start with flashing of correctly signed firmware
     Set DUT Response Timeout    180s
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
     FOR    ${index}    IN RANGE    2
         Execute Reboot Command
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
     END
@@ -208,7 +208,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     FOR    ${index}    IN RANGE    2
         Execute Reboot Command
         Sleep    15s    # Wait for the pop-up to disappear automatically
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
@@ -217,7 +217,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     # 3. Flash again with correctly signed firmware
     Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
     Execute Reboot Command
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
@@ -229,12 +229,12 @@ VBO012.001 Self-signed binary is bootable without errors
     ...    used by the end users are correct and don't cause bricks.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO012.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
     Execute Reboot Command
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 
@@ -263,7 +263,7 @@ Prepare Tools, Keys And Binaries
     Power On
     # TODO: store the disk boot entry in platform config, or figure out how
     # to handle UEFI boot entries in a reliable manner
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Coreboot Tools From Cloud

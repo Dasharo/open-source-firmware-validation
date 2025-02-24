@@ -30,7 +30,7 @@ SDC001.001 SD Card reader detection (Ubuntu)
     ...    and can be detected from the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC001.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${disks}=    Identify Disks In Linux
@@ -53,7 +53,7 @@ SDC002.001 SD Card read/write (Ubuntu)
     ...    and can be used from the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC002.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Execute Linux Command    dd if=/dev/urandom of=/tmp/in.bin bs=4K count=100

@@ -32,12 +32,12 @@ NET002.001 Net controller after warmboot (Ubuntu)
     ...    the platform is able to connect to the network after reboot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
@@ -49,12 +49,12 @@ NET003.001 Net controller after reboot (Ubuntu)
     ...    the platform is able to connect to the network after reboot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
@@ -89,7 +89,7 @@ NET004.003 NET controller after suspend (Ubuntu) (S3)
 NET Controller After Suspend (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User

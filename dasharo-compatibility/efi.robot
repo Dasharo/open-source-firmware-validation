@@ -30,7 +30,7 @@ EFI001.001 Boot into UEFI OS (Ubuntu)
     ...    possibility to identify the system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cat /etc/os-release

@@ -88,7 +88,7 @@ Get SMBIOS Values
     ...    in a dedicated variable because their fields have generic names (e.g.
     ...    Type) that is later extracted in the test cases.
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    dmidecode

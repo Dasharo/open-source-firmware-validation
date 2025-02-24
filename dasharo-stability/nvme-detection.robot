@@ -51,14 +51,14 @@ SNV0002.001 NVMe detection after warm boot (Ubuntu)
     Skip If    not ${NVME_DETECTION_SUPPORT}    SNV002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV002.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    pci
@@ -70,14 +70,14 @@ SNV003.001 NVMe detection after reboot (Ubuntu)
     ...    correctly after performing a reboot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    pci
@@ -114,7 +114,7 @@ SNV004.003 NVMe detection after suspension (Ubuntu) (S3)
 NVMe Detection After Suspension (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User

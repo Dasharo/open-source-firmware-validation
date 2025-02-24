@@ -1141,8 +1141,8 @@ Save Changes And Reset
     Tianocore Reset System
 
 Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
-    [Documentation]    Tries to boot system with ID of ${ENV_ID}. If it is not
-    ...    possible then it tries
+    [Documentation]    Tries to boot the the system with the ID of ${ENV_ID}.
+    ...    If it is not possible then it tries
     ...    to boot from connected disk set up in config
     ...
     ...    === Requirements ===
@@ -1157,10 +1157,9 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     ...
     ...    === Effects ===
     ...    - Boots into the selected OS
-    ...    - Does nothing if ${DUT_CONNECTION_METHOD}' == 'SSH' - selecting OS's
-    ...    \ not supported via ssh.
     [Arguments]    ${env_id}    ${boot_menu}=NOT_SET
     ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
+
     Set Suite Variable    ${BOOTED_OS}    ${system_name}
     Import Variables    ${CURDIR}/../../os-config/${system_name}-credentials.py
 

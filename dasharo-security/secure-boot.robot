@@ -68,7 +68,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu)
     Tianocore Reset System
 
     # 2. Check SB state in OS
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${sb_status}=    Check Secure Boot In Linux
@@ -83,7 +83,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu)
     Tianocore Reset System
 
     # 4. Check SB state in OS
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${sb_status}=    Check Secure Boot In Linux

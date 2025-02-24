@@ -72,7 +72,7 @@ UDT001.003 USB detection after system reboot
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
         ${found}=    Check USB Stick Detection In Edk2    ${boot_menu}
-        Boot System Or From Connected Disk    ubuntu    boot_menu=${boot_menu}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}    boot_menu=${boot_menu}
         Login To Linux
         Switch To Root User
         Execute Reboot Command

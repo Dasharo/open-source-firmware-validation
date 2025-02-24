@@ -44,7 +44,7 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu)
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Enable SMM BIOS write    ${TRUE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
@@ -68,7 +68,7 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu)
     ${network_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
     Set Option State    ${network_menu}    Enable SMM BIOS write    ${FALSE}
     Save Changes And Reset
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud

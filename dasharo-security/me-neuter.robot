@@ -43,7 +43,7 @@ MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu)
     ...    works correctly.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
     Set UEFI Option    MeMode    Enabled
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -54,7 +54,7 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
     ...    Disabled (Soft) works correctly
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE003.001 not supported
     Set UEFI Option    MeMode    Disabled (Soft)
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -69,7 +69,7 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
     ...    Disabled (HAP) works correctly.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE004.001 not supported
     Set UEFI Option    MeMode    Disabled (HAP)
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -86,7 +86,7 @@ MNE006.001 Check Intel ME version (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE006.001 not supported
     Set UEFI Option    MeMode    Enabled
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cat /sys/class/mei/mei0/fw_ver

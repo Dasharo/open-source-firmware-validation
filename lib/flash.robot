@@ -90,7 +90,7 @@ Flash Firmware
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         Make Sure That Flash Locks Are Disabled
         Power On
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         Flash Via Internal Programmer    ${fw_file}    region=bios

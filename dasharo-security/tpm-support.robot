@@ -133,7 +133,7 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
 Prepare TPM Test On Ubuntu
     [Documentation]    Run common actions required for TPM tests in Ubuntu
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Verify Presence Of TPM Via Sysfs

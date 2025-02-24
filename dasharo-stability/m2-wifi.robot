@@ -123,7 +123,7 @@ SMW004.003 Wi-fi connection after suspension (Ubuntu) (S3)
 Wi-fi Connection After Suspension (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User

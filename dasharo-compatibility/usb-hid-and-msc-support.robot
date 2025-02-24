@@ -39,7 +39,7 @@ USB001.002 USB devices detected by OS (Ubuntu)
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    usbutils
@@ -80,7 +80,7 @@ USB002.002 USB keyboard in OS (Ubuntu)
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
@@ -105,7 +105,7 @@ USB003.001 Upload 1GB file on USB storage (Ubuntu)
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Execute Linux Command    openssl rand -out test_file.txt -base64 $(( 2**30 * 3/4 ))

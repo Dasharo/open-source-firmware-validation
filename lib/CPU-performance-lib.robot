@@ -124,7 +124,7 @@ Check The Platform Is A Laptop
 
 Check Power Supply On Linux
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     ${bat0_present_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/BAT0/present
     ${bat0_present}=    Run Keyword And Return Status    Should Be Equal    ${bat0_present_raw}    1

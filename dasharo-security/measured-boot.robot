@@ -286,7 +286,7 @@ Get Default PCRs State
 
 Boot Ubuntu And Login To Root
     [Documentation]    Boots Ubuntu and logins as root
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 

@@ -29,7 +29,7 @@ AUD001.001 Audio subsystem detection (Ubuntu)
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD001.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    alsa-utils
@@ -77,7 +77,7 @@ AUD004.001 External headset recognition (Ubuntu)
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    Execute Linux Command    amixer -c 0 contents | grep -A 2 'Headphone' | cat

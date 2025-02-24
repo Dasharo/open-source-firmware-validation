@@ -31,7 +31,7 @@ CPU001.001 CPU works (Ubuntu)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
 CPU001.002 CPU works (Windows)
@@ -45,7 +45,7 @@ CPU002.001 CPU cache enabled (Ubuntu)
     ...    are enabled.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     ${mem_info}=    Execute Linux Command    getconf -a | grep CACHE
     Check Cache Support    ${mem_info}    LEVEL1
@@ -76,7 +76,7 @@ CPU003.001 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     ${cpu_info}=    Execute Linux Command    lscpu
     Set Suite Variable    ${CPU_INFO}
@@ -99,7 +99,7 @@ CPU004.001 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     ${cpu_info}=    Execute Linux Command    lscpu
     ${sockets}=    Get Lines Containing String    ${cpu_info}    Socket(s):

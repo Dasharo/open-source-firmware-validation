@@ -443,7 +443,7 @@ Prepare For Logo Persistence Test
 
 Go To Ubuntu Prompt
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
