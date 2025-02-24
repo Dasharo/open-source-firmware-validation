@@ -206,6 +206,7 @@ ${ETH_PERF_PAIR_2_G}=                               ${FALSE}
 ${ETH_PERF_PAIR_10_G}=                              ${FALSE}
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${FALSE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}
+${GPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}
 ${MAX_ACCEPTABLE_AVERAGE_COLDBOOT_TIME_S}=          10
 ${MAX_ACCEPTABLE_COLDBOOT_TIME_STD_DEV_S}=          10
 ${MAX_ACCEPTABLE_COLDBOOT_TIME_S}=                  20
@@ -215,6 +216,7 @@ ${MAX_ACCEPTABLE_WARMBOOT_TIME_S}=                  20
 ${MAX_ACCEPTABLE_AVERAGE_REBOOT_TIME_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_STD_DEV_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_S}=                    20
+${INITIAL_CPU_FREQUENCY}=                           0
 
 # Test module: dasharo-stab
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
