@@ -17,4 +17,9 @@ ${CPU_MIN_FREQUENCY}=               300
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 
-${TESTED_LINUX_DISTROS}=            ${ENV_ID_FEDORA}
+${TESTED_LINUX_DISTROS}=            ${ENV_ID_FEDORA} ${ENV_ID_UBUNTU}
+
+
+*** Keywords ***
+Power On
+    Novacustom-common.Power On
