@@ -137,9 +137,10 @@ Login To Windows
 
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS. There is a requirement for DUT to always reboot to Ubuntu.
-    [Arguments]    ${os}
+    [Arguments]    ${env_id}
     ${os_boot_id}=    Set Variable    ${EMPTY}
-    ${os}=    Convert To Lower Case    ${os}
+    ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
+    ${os}=    Convert To Lower Case    ${system_name}
 
     Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS}-credentials.py
 

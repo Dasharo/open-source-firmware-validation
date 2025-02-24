@@ -50,7 +50,7 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP003.001 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
-    DSP002 - External HDMI Display    ubuntu
+    DSP002 - External HDMI Display    ${ENV_ID_UBUNTU}
 
 DSP002.301 - External HDMI display in OS (Windows)
     [Documentation]    Check whether an external HDMI display is visible in
@@ -59,7 +59,7 @@ DSP002.301 - External HDMI display in OS (Windows)
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.002 not supported
     Power On
-    Boot System Or From Connected Disk    windows
+    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
     Login To Windows
     Check HDMI Windows
 
@@ -70,7 +70,7 @@ DSP002.202 - External HDMI display in OS (Fedora)
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP002.002 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"
-    DSP002 - External HDMI Display    fedora
+    DSP002 - External HDMI Display    ${ENV_ID_FEDORA}
 
 DSP003.001 - External DP display in OS (Ubuntu)
     [Documentation]    Check whether an external Display Port is visible in
