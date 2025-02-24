@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    ../../lib/options/${OPTIONS_LIB}.robot
-Resource    ../../os-config/environment-test-ids.robot
+Resource        ../../lib/options/${OPTIONS_LIB}.robot
+Variables       ../../os-config/environment-test-ids.py
 
 
 *** Variables ***
