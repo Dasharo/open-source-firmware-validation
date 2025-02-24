@@ -30,7 +30,7 @@ UTC004.001 USB Type-C Display output (semi-automatic)
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC004.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
@@ -43,7 +43,7 @@ UTC004.005 USB Type-C Display output With Me Disabled(semi-automatic)
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC004.002 not supported
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    Dasharo Intel ME menu not supported
     Set UEFI Option    MeMode    Disabled (HAP)
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -58,7 +58,7 @@ UTC004.006 USB Type-C Display output With Me Enabled (semi-automatic)
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    TMD004.003 not supported
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    Dasharo Intel ME menu not supported
     Set UEFI Option    MeMode    Enabled
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -74,7 +74,7 @@ UTC005.001 - Docking station HDMI display in OS (DP Alt mode) (Ubuntu)
     Skip If    not ${DOCKING_STATION_HDMI}    UTC005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check PCON On MST Hub In Linux
@@ -97,7 +97,7 @@ UTC005.003 - Docking station HDMI display in OS (Ubuntu)
     Skip If    not ${DOCKING_STATION_HDMI}    UTC005.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.003 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check Display Port On Hub In Linux    HDMI
@@ -110,7 +110,7 @@ UTC005.005 USB Type-C docking station HDMI display with ME disabled(Ubuntu)
     Skip If    not ${DOCKING_STATION_HDMI}    UTC005.005 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.005 not supported
     Set UEFI Option    MeMode    Disabled (HAP)
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -125,7 +125,7 @@ UTC005.007 USB Type-C docking station HDMI display with ME enabled(Ubuntu)
     Skip If    not ${DOCKING_STATION_HDMI}    UTC005.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC005.007 not supported
     Set UEFI Option    MeMode    Enabled
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -140,7 +140,7 @@ UTC006.001 - Docking station DP display in OS (DP Alt mode) (Ubuntu)
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.001 not supported
     Power Cycle On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check DP Port On MST Hub In Linux
@@ -163,7 +163,7 @@ UTC006.003 - Docking station DP display in OS (Ubuntu)
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.003 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.003 not supported
     Power Cycle On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check Display Port On Hub In Linux    DP
@@ -176,7 +176,7 @@ UTC006.005 USB Type-C docking station DP display with ME disabled(Ubuntu)
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.005 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.005 not supported
     Set UEFI Option    MeMode    Disabled (HAP)
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -191,7 +191,7 @@ UTC006.007 USB Type-C docking station DP display with ME enabled(Ubuntu)
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC006.007 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC006.007 not supported
     Set UEFI Option    MeMode    Enabled
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out

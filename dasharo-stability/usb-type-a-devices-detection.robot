@@ -53,7 +53,7 @@ SUD002.001 USB devices detection after warm boot (Ubuntu)
     Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD002.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
@@ -61,7 +61,7 @@ SUD002.001 USB devices detection after warm boot (Ubuntu)
     Detect Or Install FWTS
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    usb
@@ -74,14 +74,14 @@ SUD003.001 USB devices detection after reboot (Ubuntu)
     ...    correctly after a reboot.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD003.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    usb
@@ -116,7 +116,7 @@ SUD004.003 USB devices detection after suspension (Ubuntu) (S3)
 USB Devices Detection After Suspension (Ubuntu)
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User

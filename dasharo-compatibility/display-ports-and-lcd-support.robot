@@ -28,7 +28,7 @@ DSP001.002 - Internal display in OS (Ubuntu)
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check Internal LCD Linux
@@ -79,7 +79,7 @@ DSP003.001 - External DP display in OS (Ubuntu)
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP003.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check External DP In Linux
@@ -92,7 +92,7 @@ DSP003.002 - External DP display in OS (Windows)
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP003.002 not supported
     Power On
-    Boot System Or From Connected Disk    windows
+    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
     Login To Windows
     Check DP Windows
 

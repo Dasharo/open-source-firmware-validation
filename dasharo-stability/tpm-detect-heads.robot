@@ -104,7 +104,7 @@ TPM001.002 TPM Support (Ubuntu)
     ...    correctly and the PCRs can be accessed from the operating system.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    tpm2-tools

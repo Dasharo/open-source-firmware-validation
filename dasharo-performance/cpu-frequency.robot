@@ -306,7 +306,7 @@ CPF004.008 CPU with load runs on expected frequency (Windows) (USB-PD)
 *** Keywords ***
 CPU Not Stuck On Initial Frequency (Ubuntu)
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Sleep    10s
@@ -334,7 +334,7 @@ CPU Runs On Expected Frequency (Ubuntu)
     ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${timer}=    Convert To Integer    0
@@ -369,7 +369,7 @@ CPU With Load Runs On Expected Frequency (Ubuntu)
     ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Stress Test    ${FREQUENCY_TEST_DURATION}m

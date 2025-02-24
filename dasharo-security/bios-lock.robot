@@ -34,7 +34,7 @@ BLS001.001 BIOS lock support (Ubuntu)
     ...    recognized during attempt to overwrite it by using flashrom tool.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.001 not supported
     Set UEFI Option    LockBios    ${TRUE}
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud
@@ -49,7 +49,7 @@ BLS002.001 BIOS lock support deactivation (Ubuntu)
     ...    available again.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.001 not supported
     Set UEFI Option    LockBios    ${FALSE}
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud

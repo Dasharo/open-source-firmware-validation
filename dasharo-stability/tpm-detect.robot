@@ -23,7 +23,7 @@ TPD003.001 Detect TPM after platform reboot (Ubuntu)
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD003.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
@@ -31,7 +31,7 @@ TPD003.001 Detect TPM after platform reboot (Ubuntu)
     Detect Or Install Package    tpm2-tools
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${out}=    Execute Command In Terminal    tpm2_pcrread
@@ -46,7 +46,7 @@ TPD004.001 Detect TPM after platform suspend (Ubuntu)
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD004.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci

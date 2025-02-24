@@ -23,7 +23,7 @@ SPS001.001 Ethernet ports are in order
     ...    on PCIe bus numbers and checks PCIe switching.
     Skip If    '''${ETH_PORTS}''' == ''    not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${pci_devices}=    Get MACs

@@ -51,7 +51,7 @@ ${TPM_EXPECTED_CHIP}=               SLB9670
 Flash Protectli VP2420 Internal
     Make Sure That Flash Locks Are Disabled
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud

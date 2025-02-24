@@ -33,7 +33,7 @@ BOT001.001 Boot To Ubuntu Multiple Times
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
         Power On
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
     END
@@ -57,7 +57,7 @@ BOT003.001 Boot To Ubuntu Then Boot To Windows
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
         Power On
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         Power On

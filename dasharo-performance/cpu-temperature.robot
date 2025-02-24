@@ -116,7 +116,7 @@ CPT002.004 CPU temperature after stress test (Ubuntu) (USB-PD)
 *** Keywords ***
 CPU Temperature Without Load (Ubuntu)
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    lm-sensors
@@ -158,7 +158,7 @@ CPU Temperature Without Load (Ubuntu)
 
 CPU Temperature After Stress Test (Ubuntu)
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    lm-sensors

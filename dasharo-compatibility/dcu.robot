@@ -42,7 +42,7 @@ DCU001.001 Change the UUID
     Make Sure New Firmware Is Booted After Flashing
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${uuid_read}=    Get Firmware UUID
@@ -59,7 +59,7 @@ DCU002.001 Change the serial number
     Make Sure New Firmware Is Booted After Flashing
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${serial_no_read}=    Get Firmware Serial Number
@@ -79,7 +79,7 @@ DCU003.001 Change the bootsplash logo
     Make Sure New Firmware Is Booted After Flashing
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     Login To Linux
     Switch To Root User
@@ -132,7 +132,7 @@ Verify SMMSTORE Changes (Setup Menu)
     ${new_value}=    Evaluate    not ${initial_value}
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_value}
@@ -141,7 +141,7 @@ Verify SMMSTORE Changes (Setup Menu)
     Should Be Equal    ${value}    ${new_value}
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${initial_value}
@@ -158,7 +158,7 @@ Verify SMMSTORE Changes (DCU)
     ${initial_value}=    Set Variable    ${FALSE}
     ${new_value}=    Set Variable    ${TRUE}
 
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_value}
@@ -181,7 +181,7 @@ Make Sure New Firmware Is Booted After Flashing
     ...    flashing
     IF    '''${POWER_CTRL}''' == '''NONE'''
         Power On
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         Execute Reboot Command

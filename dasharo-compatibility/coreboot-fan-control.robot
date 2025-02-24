@@ -31,7 +31,7 @@ CFN001.001 CPU temperature and fan speed can be read (Debian)
     ...    is available and can be read.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFN001.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${rpm}=    Get Fan RPM
@@ -44,7 +44,7 @@ CFN002.001 CPU fan speed increases if the temperature rises (Debian)
     ...    temperature rises.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFN002.001 not supported
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     # Colling procedure: sometimes before starting the test case, CPU

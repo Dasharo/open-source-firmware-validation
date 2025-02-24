@@ -127,7 +127,7 @@ BPS003.002 Sonoff Power Off
 BPS004.001 Boot to OS - Ubuntu
     [Documentation]    This test verifies if platform can be booted to Ubunto and if correct credentials are set.
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${logging}=    Get Logging Level
@@ -151,7 +151,7 @@ BPS005.001 External flashing
 BPS005.002 Internal flashing
     [Documentation]    This test verifies if flashrom can detect the die.
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Get Flashrom From Cloud

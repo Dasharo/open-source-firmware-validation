@@ -266,7 +266,7 @@ TPM2 Suite Setup
     Skip If    '${TPM_SUPPORTED_VERSION}' != '2'    TPM commands tests supported only TPM2
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Verify Presence Of TPM Via Sysfs
@@ -277,7 +277,7 @@ TPM2 Suite Setup
         # Restore default allocations in case any bank was disabled and reboot
         Execute Linux Command    tpm2_pcrallocate
         Execute Reboot Command
-        Boot System Or From Connected Disk    ubuntu
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
     END

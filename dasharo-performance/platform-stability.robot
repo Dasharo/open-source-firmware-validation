@@ -60,7 +60,7 @@ STB001.002 Verify if no reboot occurs in the OS (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.002 not supported
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${timer}=    Convert To Integer    0
@@ -123,7 +123,7 @@ STB002.001 Verify if no unexpected boot errors appear in Linux logs
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
 
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Check Unexpected Boot Errors

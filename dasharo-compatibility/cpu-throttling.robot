@@ -50,7 +50,7 @@ THR002.001 Try to enter a threshold value within the limits and verify in Ubuntu
     ...    take effect in Ubuntu
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    THR002.001 not supported
     Set UEFI Option    CpuThrottlingThreshold    70
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Stress Test
     # Wait until the stress load gets to "heat up" the CPU
