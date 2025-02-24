@@ -141,6 +141,8 @@ Boot System Or From Connected Disk
     ${os_boot_id}=    Set Variable    ${EMPTY}
     ${os}=    Convert To Lower Case    ${os}
 
+    Import Variables    ../../os-config/ubuntu-credentials.py
+
     Login To Linux
     Switch To Root User
 
@@ -164,6 +166,7 @@ Boot System Or From Connected Disk
         Execute Command In Terminal    efibootmgr --bootnext ${id}
         Sleep    1s
         Write Into Terminal    reboot
+        Import Variables    ../../os-config/${os}-credentials.py
         Sleep    30s
     ELSE
         Fail    Os entry not found
