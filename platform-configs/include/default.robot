@@ -276,6 +276,7 @@ ${ETH_PORTS}=                                       ${EMPTY}
 
 ${TESTED_LINUX_DISTROS}=                            ${ENV_ID_UBUNTU}
 ${DEFAULT_BOOT_OS}=                                 ubuntu
+${BOOTED_OS}=                                       ${DEFAULT_BOOT_OS}
 
 
 *** Keywords ***

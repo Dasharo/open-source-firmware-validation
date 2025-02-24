@@ -141,10 +141,15 @@ Boot System Or From Connected Disk
     ${os_boot_id}=    Set Variable    ${EMPTY}
     ${os}=    Convert To Lower Case    ${os}
 
-    Import Variables    ../../os-config/ubuntu-credentials.py
+    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS}-credentials.py
 
     Login To Linux
     Switch To Root User
+
+    IF    '${BOOTED_OS}' == '${os}'
+        Log    Target OS already booted
+        RETURN
+    END
 
     ${boot_entries}=    Execute Command In Terminal    efibootmgr
 
@@ -166,7 +171,8 @@ Boot System Or From Connected Disk
         Execute Command In Terminal    efibootmgr --bootnext ${id}
         Sleep    1s
         Write Into Terminal    reboot
-        Import Variables    ../../os-config/${os}-credentials.py
+        Import Variables    ${CURDIR}/../../os-config/${os}-credentials.py
+        Set Suite Variable    ${BOOTED_OS}    ${os}
         Sleep    30s
     ELSE
         Fail    Os entry not found

@@ -525,7 +525,7 @@ Prepare To SSH Connection
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Set Global Variable    ${PLATFORM}    ${CONFIG}
     IF    '${DEFAULT_BOOT_OS}'
-        Import Variables    ../../os-config/${DEFAULT_BOOT_OS}-credentials.py
+        Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS}-credentials.py
     END
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN
