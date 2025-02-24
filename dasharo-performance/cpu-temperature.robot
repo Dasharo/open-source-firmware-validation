@@ -8,9 +8,8 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
-Resource            ../variables.robot
-Resource            ../keywords.robot
-Resource            ../keys.robot
+Resource            ../lib/performance/cpu.robot
+Resource            ../platform-configs/include/default.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing

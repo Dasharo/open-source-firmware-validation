@@ -1,5 +1,7 @@
 *** Settings ***
-Resource    sensors/sensors.robot
+Documentation       OSFV RF Library for CPU performance testing
+
+Resource            ./common.robot
 
 
 *** Keywords ***
@@ -165,3 +167,4 @@ Check Power Supply On Windows
     ...    insert the correct USB-PD detection method here
 
     RETURN    ${bat0_present}    ${ac_online}    ${usb_pd_online}
+

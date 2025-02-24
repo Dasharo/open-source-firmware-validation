@@ -1,21 +1,26 @@
 *** Settings ***
-Library     Collections
-Library     OperatingSystem
-Resource    lib/bios/menus.robot
-Resource    lib/secure-boot-lib.robot
-Resource    lib/usb-hid-msc-lib.robot
-Resource    lib/dts-lib.robot
-Resource    lib/terminal.robot
-Resource    lib/esp-scanning-lib.robot
-Resource    lib/dmidecode-lib.robot
-Resource    lib/docks.robot
-Resource    lib/flash.robot
-Resource    lib/self-tests.robot
-Resource    lib/sleep-lib.robot
-Resource    lib/CPU-performance-lib.robot
-Resource    lib/framework.robot
-Resource    lib/me.robot
-Resource    lib/network.robot
+Library         Collections
+Library         OperatingSystem
+Resource        lib/bios/menus.robot
+Resource        lib/secure-boot-lib.robot
+Resource        lib/usb-hid-msc-lib.robot
+Resource        lib/dts-lib.robot
+Resource        lib/terminal.robot
+Resource        lib/esp-scanning-lib.robot
+Resource        lib/dl-cache.robot
+Resource        lib/dmidecode-lib.robot
+Resource        lib/docks.robot
+Resource        lib/flash.robot
+Resource        lib/self-tests.robot
+Resource        lib/sleep-lib.robot
+# TODO: Check if no tests break, include that lib manually where needed
+# Resource    lib/CPU-performance-lib.robot
+Resource        lib/framework.robot
+Resource        lib/me.robot
+Resource        lib/network.robot
+Resource        lib/options/options.robot
+Resource        keys.robot
+Variables       platform-configs/fan-curve-config.yaml
 
 
 *** Keywords ***

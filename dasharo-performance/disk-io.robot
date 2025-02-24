@@ -159,31 +159,31 @@ Disk IO Suite Setup
         Execute Linux Command    mkdir ${RESULTS_DIR_UBUNTU}
     END
     # IF    ${TESTS_IN_WINDOWS_SUPPORT}
-    #     Power Cycle Into Windows
-    #     Log    Hello
+    #    Power Cycle Into Windows
+    #    Log    Hello
     # END
 
 Run FIO On Ubuntu
     [Documentation]    Wrapper for /usr/bin/fio, with adjusted timeout.
-    [Arguments]    ${test_name}    ${fio_args}
+    [Arguments]    ${fio_test_name}    ${fio_args}
     # Example arguments we want to pass
     # --rw=randread --bs=4K --iodepth=32 --numjobs=4 --size=10G
     ${cmd}=    Set Variable    /usr/bin/fio
-    ${cmd}=    Catenate    ${cmd}    --name=${test_name}
+    ${cmd}=    Catenate    ${cmd}    --name=${fio_test_name}
     ${cmd}=    Catenate    ${cmd}    --ioengine=libaio --runtime=60s
     ${cmd}=    Catenate    ${cmd}    --direct=1 --group_reporting
-    ${cmd}=    Catenate    ${cmd}    --output=${RESULTS_DIR_UBUNTU}/${test_name}.json
+    ${cmd}=    Catenate    ${cmd}    --output=${RESULTS_DIR_UBUNTU}/${fio_test_name}.json
     ${cmd}=    Catenate    ${cmd}    --output-format=json
     ${cmd}=    Catenate    ${cmd}    ${fio_args}
     ${result}=    Execute Linux Command    ${cmd}    300
 
 Run FIO On Windows
     [Documentation]    Wrapper for fio.exe, with adjusted timeout.
-    [Arguments]    ${test_name}    ${fio_args}
+    [Arguments]    ${fio_test_name}    ${fio_args}
     ${cmd}=    Set Variable    fio.exe
-    ${cmd}+=    --name=${test_name}
+    ${cmd}+=    --name=${fio_test_name}
     ${cmd}+=    --ioengine=windowsaio --runtime=60s
     ${cmd}+=    --direct=1 --group_reporting
-    ${cmd}+=    --output=${RESULTS_DIR_WINDOWS}/${test_name}.json --output-format=json
+    ${cmd}+=    --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
     ${cmd}+=    ${fio_args}
     ${result}=    Execute Command In Terminal    ${cmd}    300
