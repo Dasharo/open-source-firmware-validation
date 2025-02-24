@@ -1,6 +1,4 @@
 *** Settings ***
-Resource    ../../os-config/windows-credentials.robot
-Resource    ../../os-config/ubuntu-credentials.robot
 Resource    ../../lib/options/${OPTIONS_LIB}.robot
 Resource    ../../os-config/environment-test-ids.robot
 
@@ -277,6 +275,7 @@ ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
 ${ETH_PORTS}=                                       ${EMPTY}
 
 ${TESTED_LINUX_DISTROS}=                            ${ENV_ID_UBUNTU}
+${DEFAULT_BOOT_OS}=                                 ubuntu
 
 
 *** Keywords ***

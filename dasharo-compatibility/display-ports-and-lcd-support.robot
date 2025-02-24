@@ -59,6 +59,7 @@ DSP002.301 - External HDMI display in OS (Windows)
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.002 not supported
     Power On
+    Boot System Or From Connected Disk    windows
     Login To Windows
     Check HDMI Windows
 

@@ -486,7 +486,7 @@ Prepare Test Suite
 Import Osfv Libraries
     [Documentation]    Import osfv_cli libraries based on config and command
     ...    line variables
-    IF    '${OPTIONS_LIB}'=='options-lib_options-lib_dcu'    RETURN
+    IF    '${OPTIONS_LIB}'=='options-lib_dcu'    RETURN
     Log    ${SNIPEIT}
     IF    '${SNIPEIT}' == 'yes'
         Import Library    osfv.rf.snipeit_robot
@@ -524,6 +524,9 @@ Prepare To SSH Connection
     ...    the SSH protocol
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Set Global Variable    ${PLATFORM}    ${CONFIG}
+    IF    '${DEFAULT_BOOT_OS}'
+        Import Variables    ../../os-config/${DEFAULT_BOOT_OS}-credentials.py
+    END
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN
 
