@@ -749,7 +749,7 @@ Power Cycle On
         FOR    ${i}    IN RANGE    50
             ${out}=    Rte Check Power Led
             IF    '${out}' == 'high'    RETURN
-            Sleep    0.25s
+            Sleep    0.5s
         END
         IF    '${out}' != 'high'
             FAIL    Power LED didn't light up! Setup needs manual verification,
