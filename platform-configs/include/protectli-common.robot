@@ -86,6 +86,7 @@ ${SERIAL_BOOT_MEASURE}=                         ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                     ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
+${CPU_PERFORMANCE_TESTS_SUPPORT}=               ${TRUE}
 
 # Test cases iterations number
 ${ITERATIONS}=                                  5
