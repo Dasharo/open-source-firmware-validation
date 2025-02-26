@@ -103,6 +103,7 @@ ${USB_TYPE-A_DEVICES_DETECTION_SUPPORT}=    ${TRUE}
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                      ${TRUE}
 
+
 *** Keywords ***
 Power On
     Power On Default
