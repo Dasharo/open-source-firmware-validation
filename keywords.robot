@@ -1545,26 +1545,3 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
-
-Power On
-    [Documentation]    Clears telnet buffer and sets Device Under Test
-    ...    into Power On state. Has to be implemented in platform configs
-    ...    using the theory of operation of a specific platform.
-    ...    Needs to be implemented in platform-configs.
-    ...
-    ...    === Requirements ===
-    ...    None
-    ...
-    ...    === Arguments ===
-    ...    None
-    ...
-    ...    === Return Value ===
-    ...    None
-    ...
-    ...    === Effects ===
-    ...    - The platform is ON
-    ...    - Telnet buffer is cleared
-    ...    - Always performs a full power cycle, even if the device was ON
-    ...    - Does nothing if ${POWER_CTRL} is set to "none"
-
-    Fail    Not Implemented in ${CONFIG}.robot
