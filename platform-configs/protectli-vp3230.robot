@@ -1,5 +1,6 @@
 *** Settings ***
 Resource    include/protectli-vp32xx.robot
+Resource    ../lib/common.robot
 
 
 *** Variables ***
@@ -47,3 +48,7 @@ ${CLEVO_DISK}=                      N/A
 ${TPM_SUPPORTED_VERSION}=           2
 ${TPM_EXPECTED_CHIP}=               SLB9670
 ${DISK_IO_PERFORMANCE_TESTS}        ${TRUE}
+
+*** Keywords ***
+Power On
+    Power On Default

@@ -81,17 +81,18 @@ CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
 CPU Performance Suite Setup
     Prepare Test Suite
     Skip If    not ${CPU_PERFORMANCE_TESTS_SUPPORT}
-    # Install phoronix-test-suite
 
 Run C-Ray Single-thread 4K Render
     [Documentation]  Run C-Ray benchmark with 4K resolution and 1 thread
     ${TEST_NAME_1}=    Set Variable    nowanazwatestu
-    # ${result}=    Execute Command In Terminal    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${TESTTEST_NAME_1_NAME}    timeout=1800
-    Log To Console    cd /var/lib/phoronix-test-suite/test-results/${TEST_NAME_1}
-    Log To Console     awk -F '[<>]' '/<Value>/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1} composite.xml
-    ${TEST_RESULT_VALUE}=    Execute Command In Terminal    awk -F '[<>]' '/<RawString/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
-    Log To Console    TestResutlValue: ${TEST_RESULT_VALUE}
-    # COMPARE VALUES     ${HD_RAY}    ${TEST_RESULT_VALUE}
+    ${RESULTS_PATH_ROOT}=    Set Variable    /var/lib/phoronix-test-suite/test-results/
+    ${result}=    Execute Command In Terminal    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${TEST_NAME_1}    timeout=1800
+    ${TEST_RESULT_VALUES}=    Execute Command In Terminal    awk -F '[<>]' '/<RawString/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
+    # ${TEST_AVERAGE}=    Execute Command In Terminal    awk -F '[<>]' '/<Value/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
+    Log To Console    TestResutlValue: ${TEST_RESULT_VALUES}
+    ${TEST_RESULT_VALUES}    Set Variable    176.387:181.652:181.77
+    ${TestState}    Validate Results    ${TEST_RESULT_VALUES}
+    Should Be Equal    ${TestState}    PASS
 
 
     # Would you like to save these test results (Y/n): y
@@ -115,9 +116,31 @@ Install Phoronix Test Suite
     ${out}=    Execute Linux Command    sudo ./install-sh
     Should Contain    ${out}    Phoronix Test Suite Installation Completed
     # Check if installed
+    Execute Linux Command    phoronix-test-suite install compress-7zip    Timeout=300
+    Execute Linux Command    phoronix-test-suite install coremark    Timeout=300
+    # Install all tests in first run them
 
-    # Install all tests in first run
+Validate Results
+    [Arguments]    ${nums}
+    ${REF_VAL}    Convert To Number    ${HD_RAY}
+    ${min}=    Evaluate    ${REF_VAL} * 0.9
+    ${max}=    Evaluate    ${REF_VAL} * 1.1
+    ${num_list}    Split String    ${nums}    separator=:
+    ${RETURN_VAL}=    Set Variable    PASS
 
+    ${qtty}    Get Length    ${num_list}
+    FOR    ${i}   IN RANGE    ${qtty}
+        ${num}     Convert To Number    ${num_list}[${i}]
+        IF   ${num} < ${min} or ${num} > ${max}
+            Log To Console    \nThe restult of test ${num} is out of range of (${min} - ${max}).
+            ${RETURN_VAL}=    Set Variable    FAIL
+        END
+    END
+    RETURN    ${RETURN_VAL}
+
+    # ${sum}    Evaluate    sum(${num_list})
+    # ${average}    Evaluate    ${sum} / len(${num_list})
+    # [Return]    ${average}
 Compare values
     # ${lower_bound}=    Evaluate    0.9 * ${HD_RAY}
     # ${upper_bound}=    Evaluate    1.1 * ${HD_RAY}
