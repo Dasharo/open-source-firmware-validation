@@ -39,3 +39,8 @@ internal programmer. If any locks are present the flashing will fail.
   station make sure that the appliances are connected to the docking station and
   not directly to the device and the other way around. Otherwise false positives
   will be generated.
+* Make sure to connect the laptop using an ethernet cable, not via WiFi.
+  Some Operating Systems use MAC randomization on ,or similar mechanisms, on
+  wireless interfaces, which is not being handled right now. This might lead to
+  losing connection when rebooting to another OS, as the DUT IP address is
+  configured as constant in platform configs.
