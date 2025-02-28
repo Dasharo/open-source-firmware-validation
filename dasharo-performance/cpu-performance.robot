@@ -6,13 +6,15 @@ Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
+Library    ../venv/lib/python3.13/site-packages/robot/libraries/DateTime.py
 Resource            ../lib/performance/reference-values.robot
 Resource            ../lib/performance/common.robot
 Resource            ../lib/performance/cpu.robot
 
 Suite Setup         CPU Performance Suite Setup
 Suite Teardown      Log Out And Close Connection
-
+*** Variables ***
+# ${date_string}    #without '-'
 
 *** Test Cases ***
 CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
@@ -27,7 +29,8 @@ CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
 #    TODO: Delete, we install PTS during Suite Setup
 #    Detect Or Install Phoronix Test Suite (Ubuntu)
     Log To Console    Test start
-    Run C-Ray Single-thread HD Render    # na dole
+    Run C-Ray Single-thread Render    # na dole
+    # Run Coremark Single-thread
 
 {
 #phoronix-test-suite batch-run compress-7zip --test-decompress TEST_RESULTS_NAME=Decompress1
@@ -95,10 +98,22 @@ CPU Performance Suite Setup
         Execute Linux Command    phoronix-test-suite install compress-7zip    300
         Execute Linux Command    phoronix-test-suite install coremark    300
     END
+    ${CURRENT_DATE}=    Get Current Date    result_format=%d%m%Y%H%M%S    #Date and hour of the start of the test not used globally
+    # ${CURRENT_DATE}=    Get Current Date    result_format=%d%m%Y%H%M%S
+    # Log To Console    \nData: ${CURRENT_DATE}\n
 
-Run C-Ray Single-thread HD Render
+    ${test_name_1}=    Set Variable    crayrender
+    # Log To Console    \nTest name1: ${test_name_1}
+    # ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
+    # Log To Console    \nTest name2: ${test_name_1}
+    # ${date_string}=    Convert Date    result_format=epoch    ${CURRENT_DATE}
+
+Run C-Ray Single-thread Render
     [Documentation]    Run C-Ray benchmark with HD resolution and 1 thread
-    ${test_name_1}=    Set Variable    finalhdrender
+    ${test_name_1}=    Set Variable    crayrender    #nazwa + data
+    Log To Console    \nTest name1: ${test_name_1}
+    ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
+    Log To Console    \nTest name2: ${test_name_1}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results/
     Log To Console    \nrun command
     ${result}=    Execute Command In Terminal
@@ -118,9 +133,9 @@ Run C-Ray Single-thread HD Render
 
 Validate Results
     [Arguments]    ${nums}
-    ${ref_val}=    Convert To Number    ${HD_RAY}
-    ${min}=    Evaluate    ${ref_val} * 0.9
-    ${max}=    Evaluate    ${ref_val} * 1.1
+    ${ref_val}=    Convert To Number    ${HD_RENDER}
+    ${min}=    Evaluate    ${ref_val} * 0.9    #zapytać klienta
+    ${max}=    Evaluate    ${ref_val} * 1.1    #zapytać klienta
     ${num_list}=    Split String    ${nums}    separator=:
     ${return_val}=    Set Variable    PASS
 
@@ -135,17 +150,25 @@ Validate Results
     END
     RETURN    ${return_val}
 
-    # ${sum}    Evaluate    sum(${num_list})
-    # ${average}    Evaluate    ${sum} / len(${num_list})
-    # [Return]    ${average}
+Run Coremark Single-thread
+    [Documentation]    Run Coremark Single-thread
+    # ${test_name_1}=    Set Variable    coremarkautotest    #nazwa + data
+    # ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results/
+    # Log To Console    \nrun command
+    # ${result}=    Execute Command In Terminal
+    # ...    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
+    # ...    timeout=1800
+    # Log To Console    get results
+    # ${test_result_values}=    Execute Command In Terminal
+    # ...    awk -F '[<>]' '/<RawString/ && NF > 1 {print $3}' ${results_path_root}/${test_name_1}/composite.xml
+    # ### ${TEST_AVERAGE}=    Execute Command In Terminal    awk -F '[<>]' '/<Value/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
+    # Log To Console    TestResutlValue: ${test_result_values}
+    # ${test_state}=    Validate Results    ${test_result_values}
+    # Should Be Equal    ${test_state}    PASS
 
-Compare Values
-    # ${lower_bound}=    Evaluate    0.9 * ${HD_RAY}
-    # ${upper_bound}=    Evaluate    1.1 * ${HD_RAY}
-
-    # Run Keyword If    ${HD_RAY} * 0.9 <= ${TEST_RESULT_VALUE}
-    # ...    Keyword    @args
-    # ...    ELSE IF    condition_in_py_expr
-    # ...    Keyword    @args
-    # ...    ELSE
-    # ...    Keyword    @args
+# Remove non letters from Date
+#     [Arguments]    ${CURRENT_DATE}
+#     ${date_string}=    Replace String    ${CURRENT_DATE}    -    ''
+#     Log To Console    ${date_string}
+#     RETURN    ${date_string}
+#     Convert Date    date
