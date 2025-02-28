@@ -98,7 +98,7 @@ CPU Performance Suite Setup
 
 Run C-Ray Single-thread HD Render
     [Documentation]    Run C-Ray benchmark with HD resolution and 1 thread
-    ${test_name_1}=    Set Variable    HD_Render_test
+    ${test_name_1}=    Set Variable    final_hdrender
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results/
     Log To Console    \nrun command
     ${result}=    Execute Command In Terminal
@@ -107,7 +107,7 @@ Run C-Ray Single-thread HD Render
     Log To Console    get results
     ${test_result_values}=    Execute Command In Terminal
     ...    awk -F '[<>]' '/<RawString/ && NF > 1 {print $3}' ${results_path_root}/${test_name_1}/composite.xml
-    ${TEST_AVERAGE}=    Execute Command In Terminal    awk -F '[<>]' '/<Value/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
+    ### ${TEST_AVERAGE}=    Execute Command In Terminal    awk -F '[<>]' '/<Value/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
     Log To Console    TestResutlValue: ${test_result_values}
     ${test_state}=    Validate Results    ${test_result_values}
     Should Be Equal    ${test_state}    PASS
