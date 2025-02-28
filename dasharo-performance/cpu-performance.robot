@@ -98,7 +98,7 @@ CPU Performance Suite Setup
 
 Run C-Ray Single-thread HD Render
     [Documentation]    Run C-Ray benchmark with HD resolution and 1 thread
-    ${test_name_1}=    Set Variable    final_hdrender
+    ${test_name_1}=    Set Variable    finalhdrender
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results/
     Log To Console    \nrun command
     ${result}=    Execute Command In Terminal
