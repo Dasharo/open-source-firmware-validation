@@ -90,6 +90,7 @@ Stress Test
     [Documentation]    Proceed with the stress test.
     [Arguments]    ${time}=60s    ${workers}=$(nproc)    ${load_percent}=100    ${start_delay_seconds}=0
     Detect Or Install Package    stress-ng
+<<<<<<< HEAD:lib/CPU-performance-lib.robot
     ${cmd}=    Catenate    $(
     ...    pkill stress-ng;
     ...    sleep ${start_delay_seconds};
@@ -165,3 +166,6 @@ Check Power Supply On Windows
     ...    insert the correct USB-PD detection method here
 
     RETURN    ${bat0_present}    ${ac_online}    ${usb_pd_online}
+=======
+    Execute Command In Terminal    stress-ng --cpu $(nproc) --timeout ${time} &> /dev/null & disown
+>>>>>>> b3e2b8367f64 (Cherry-picked specific files from c89045c2c57f584b64aebb9bda6bcf6ddc681529):lib/performance/cpu.robot
