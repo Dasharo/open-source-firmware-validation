@@ -1,6 +1,8 @@
 *** Variables ***
 ${CURRENT_DATE}    # Date of starting of the test. Format: %d%m%Y%H%M%S
 ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
+${deviation_up}=    1.1    # confirm with the client
+${deviation_down}=    0.9
 
 # Novacustom V540TU 155 H
 ${HD_RENDER}=        .       # seconds

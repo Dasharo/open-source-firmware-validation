@@ -170,8 +170,8 @@ Validate The Results
     [Arguments]    ${nums}    ${TA_SERIO_REF_VAL}
     # ${ref_val}=    Convert To Number    ${HD_RENDER}
     ${ref_val}=    Convert To Number    ${TA_SERIO_REF_VAL}
-    ${min}=    Evaluate    ${ref_val} * 0.95    #zapytać klienta
-    ${max}=    Evaluate    ${ref_val} * 1.05    #zapytać klienta
+    ${min}=    Evaluate    ${ref_val} * ${deviation_down}
+    ${max}=    Evaluate    ${ref_val} * ${deviation_up}
     ${num_list}=    Split String    ${nums}    separator=:
     ${return_val}=    Set Variable    ${True}
 
