@@ -1545,3 +1545,7 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
+
+Power On
+    [Documentation]    Implementation of keywords.Power On
+    Power On Default
