@@ -2,7 +2,15 @@
 ${CURRENT_DATE}    # Date of starting of the test. Format: %d%m%Y%H%M%S
 ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
 
-# Novacustom V540TU
+# Novacustom V540TU 155 H
+${HD_RENDER}=        .       # seconds
+${4K_RENDER}=        .        # seconds
+${5K_RENDER}=        .        # seconds
+${COREMARK}=         .       # interations/s
+${7ZIP_COMP}=        .        # MIMPS
+${7ZIP_DECOMP}=      .        # MIMPS
+
+# Novacustom V540TU 125 H
 ${HD_RENDER}=        105.8        # seconds
 ${4K_RENDER}=        426.2        # seconds
 ${5K_RENDER}=        766.4        # seconds

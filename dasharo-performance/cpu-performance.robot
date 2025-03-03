@@ -91,7 +91,6 @@ CPP002.002 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     Switch To Root User
     7-Zip Multi-thread Compression and Decompression Average
 
-
 # CPP002.003 Multi Threaded CPU Benchmark (Windows) (AC)
 #    [Documentation]    Test multi threaded performance using phoronix
 #    ...    test suite, for Windows, while connected to power supply.
@@ -118,127 +117,93 @@ CPU Performance Suite Setup
         Execute Linux Command    phoronix-test-suite install coremark    300
     END
     # ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S    #Date and hour of the start of the test not used globally
-    ${get_date}    Set Variable    02032025130620
+    ${get_date}    Set Variable    02032025130620    #manual date for testing
     Set Global Variable    ${CURRENT_DATE}    ${get_date}
     # ${CURRENT_DATE}=    Get Current Date    result_format=%d%m%Y%H%M%S
-    Log To Console    \nData: ${CURRENT_DATE}\n
     ${LAPTOP_PLATFORM}=    Check The Platform Is A Laptop
 
-    # ${test_name_1}=    Set Variable    crayrender
-    # Log To Console    \nTest name1: ${test_name_1}
-    # ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
-    # Log To Console    \nTest name2: ${test_name_1}
-    # ${date_string}=    Convert Date    result_format=epoch    ${CURRENT_DATE}
-
 Run C-Ray Single-thread Render
-    [Documentation]    Run C-Ray benchmark with HD resolution and 1 thread
+    [Documentation]    Run C-Ray benchmark with all resolutions (1080p, 4K, 5K) on single thread
     ${test_name_1}=    Set Variable    crayrender    #nazwa + data
-    Log To Console    \nTest name1: ${test_name_1}
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
-    Log To Console    \nTest name2: ${test_name_1}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
-    Log To Console    \nrun command
     # ${result}=    Execute Command In Terminal
     # ...    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
     # ...    timeout=1800
 
-    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{SginleThreadResTests}
-
-    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 1080p - Rays Per Pixel: 16
-    # # ${TEST_AVERAGE}=    Execute Command In Terminal    awk -F '[<>]' '/<Value/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
-    # Log To Console    TestResutlValue HD: ${test_result_values}
-    # ${test_passed_HD}=    Validate The Results    ${test_result_values}    361
-
-    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 4K - Rays Per Pixel: 16
-    # Log To Console    TestResutlValue 4K: ${test_result_values}
-    # ${test_passed_4K}=    Validate The Results    ${test_result_values}    1444
-
-    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 5K - Rays Per Pixel: 16
-    # Log To Console    TestResutlValue 5K: ${test_result_values}
-    # ${test_passed_5K}=    Validate The Results    ${test_result_values}    2568
-
-    # Should Be True    ${test_passed_HD}
-    # Should Be True    ${test_passed_4K}
-    # Should Be True    ${test_passed_5K}
-
-
-    # ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem Console Log
-
-Validate Multiple Results
-    [Arguments]    ${results_path_root}    ${test_name_1}    @{REFERENCE_DATA}
-    FOR    ${compare_values}    IN    @{REFERENCE_DATA}
-        ${Description_string}    ${expected_value}=    Split String    ${compare_values}    =
-
-        ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    ${Description_string}
-        Log To Console    TestResutlValue ${Description_string}: ${test_result_values}
-
-        ${test_passed}=    Validate The Results    ${test_result_values}    ${expected_value}
-        Should Be True    ${test_passed}    msg=Test failed for resolution ${Description_string}
-    END
-
-Read The Results
-    [Arguments]    ${results_path_root}    ${test_name_1}    ${Test_description}
-    Log To Console    get results
-    ${test_result_values}=    Execute Command In Terminal
-    ...    awk -F '[<>]' '/<Description>${Test_description}<\\/Description>/ {found=1} found && /<RawString>/ {print $3; found=0}' ${results_path_root}/${test_name_1}/composite.xml
-    RETURN    ${test_result_values}
+    ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{SginleThreadResTests}
+    Should Be True    ${test_passed}
 
 Run Coremark Single-thread
+    [Documentation]    Run Coremark benchmark on single thread
     ${test_name_1}=    Set Variable    crayrender
-    Log To Console    \nTest name1: ${test_name_1}
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
-    Log To Console    \nTest name2: ${test_name_1}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
 
     # ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_1}
     # ...    timeout=1800
 
     ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    CoreMark Size 666 - Iterations Per Second
-    Log To Console    TestResutlValue: ${test_result_values}
+    Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
     ${test_passed}=    Validate The Results    ${test_result_values}    69231
     Should Be True    ${test_passed}
 
 7-Zip Multi-thread Compression and Decompression Average
+    [Documentation]    Run 7-Zip Multi-thread Compression and Decompression benchmark on multiple threads
     ${test_name_1}=    Set Variable    crayrender
-    Log To Console    \nTest name1: ${test_name_1}
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
-    Log To Console    \nTest name2: ${test_name_1}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
-    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{MultiThreadTests}
 
     # ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_1}
     # ...    timeout=1800
 
-    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Test: Compression Rating
-    # Log To Console    TestResutlValue: ${test_result_values}
-    # ${test_passed_comp}=    Validate The Results    ${test_result_values}    16147
+    ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{MultiThreadTests}
+    Should Be True    ${test_passed}
 
-    #     ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Test: Decompression Rating
-    # Log To Console    TestResutlValue: ${test_result_values}
-    # ${test_passed_decomp}=    Validate The Results    ${test_result_values}    9801
-
-    # Should Be True    ${test_passed_comp}
-    # Should Be True    ${test_passed_decomp}
-
-
+Read The Results
+    [Arguments]    ${results_path_root}    ${test_name_1}    ${Test_description}
+    ${test_result_values}=    Execute Command In Terminal
+    ...    awk -F '[<>]' '/<Description>${Test_description}<\\/Description>/ {found=1} found && /<RawString>/ {print $3; found=0}' ${results_path_root}/${test_name_1}/composite.xml
+    RETURN    ${test_result_values}
 
 Validate The Results
     [Arguments]    ${nums}    ${TA_SERIO_REF_VAL}
     # ${ref_val}=    Convert To Number    ${HD_RENDER}
     ${ref_val}=    Convert To Number    ${TA_SERIO_REF_VAL}
-    ${min}=    Evaluate    ${ref_val} * 0.9    #zapytać klienta
-    ${max}=    Evaluate    ${ref_val} * 1.1    #zapytać klienta
+    ${min}=    Evaluate    ${ref_val} * 0.95    #zapytać klienta
+    ${max}=    Evaluate    ${ref_val} * 1.05    #zapytać klienta
     ${num_list}=    Split String    ${nums}    separator=:
     ${return_val}=    Set Variable    ${True}
 
     ${qtty}=    Get Length    ${num_list}
     FOR    ${i}    IN RANGE    ${qtty}
         ${num}=    Convert To Number    ${num_list}[${i}]
+        ${i_plusOne}    Evaluate    ${i} + 1
         IF    ${num} < ${min} or ${num} > ${max}
-            Log To Console    \nThe restult of test ${num} is out of acceptable range of (${min} - ${max}).
+            Log To Console    ${i_plusOne}. ${num} is out of acceptable range of (${min} - ${max}).
             # Log To Console    \nThe restult of test ${num} is out of acceptable range of (${min:.0f} - ${max:.0f}).
             ${return_val}=    Set Variable    ${False}
+        ELSE
+            Log To Console    ${i_plusOne}. ${num}
         END
     END
     RETURN    ${return_val}
 
+Validate Multiple Results
+    [Arguments]    ${results_path_root}    ${test_name_1}    @{REFERENCE_DATA}
+    ${test_passed}=    Set Variable    ${True}
+    FOR    ${compare_values}    IN    @{REFERENCE_DATA}
+        ${Description_string}    ${expected_value}=    Split String    ${compare_values}    =
+        Log To Console    \nResults of the ${Description_string}:
+
+        ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    ${Description_string}
+
+        ${result}=    Validate The Results    ${test_result_values}    ${expected_value}
+
+        # ${result}=    ${test_passed}    msg=Test failed for resolution ${Description_string}
+        IF    ${result} == ${False}
+            ${test_passed}=    Set Variable    ${False}
+            Log To Console    Test Failed for the: ${Description_string}.
+        END
+    END
+    RETURN    ${test_passed}
