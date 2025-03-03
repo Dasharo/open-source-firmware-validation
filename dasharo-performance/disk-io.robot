@@ -81,13 +81,19 @@ DIO002.001 Sequential Write Performance (Ubuntu) (AC)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
 DIO002.002 Sequential Write Performance (Ubuntu) (Battery)
-    [Documentation]    Check various scenarios of multi threaded read
+    [Documentation]    Check various scenarios of multi threaded write
     ...    performance, while powered by inbuilt battery. (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Ubuntu
     Switch To Root User
+    Run FIO On Ubuntu    sequential_write_with_queues
+    ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_write_without_queues
+    ...    --rw=write --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_write_with_queues_mt
+    ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
 DIO002.003 Sequential Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded read
