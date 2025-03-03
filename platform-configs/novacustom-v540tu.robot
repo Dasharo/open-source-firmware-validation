@@ -17,6 +17,10 @@ ${CPU_MIN_FREQUENCY}=               300
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 
+${DISK_IO_PERFORMANCE_TESTS}=       ${TRUE}
+${OPTIONS_LIB}=                     dcu
+${POWER_CTRL}=                      none
+
 
 *** Keywords ***
 Power On
