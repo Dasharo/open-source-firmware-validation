@@ -20,6 +20,15 @@ ${CPU_MIN_FREQUENCY}=               300
 
 ${WATCHDOG_SUPPORT}=                ${TRUE}
 
+${DEF_THREADS_TOTAL}=               4
+${DEF_THREADS_PER_CORE}=            1
+${DEF_CORES_PER_SOCKET}=            4
+${DEF_SOCKETS}=                     1
+
+${PLATFORM_CPU_SPEED}=              2.00
+${PLATFORM_RAM_SPEED}=              2933
+${PLATFORM_RAM_SIZE}=               8192
+
 @{ETH_PERF_PAIR_2_G}=               enp3s0    enp4s0
 
 @{ETH_PORTS}=                       00-e0-67-1c-29-79
