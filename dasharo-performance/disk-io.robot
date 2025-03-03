@@ -60,6 +60,12 @@ DIO001.004 Sequential Read Performance (Windows) (Battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Windows
+    Run FIO On Windows    sequential_with_queues
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Windows    sequential_without_queues
+    ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Windows    sequential_with_queues_mt
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
 DIO002.001 Sequential Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of multi threaded read
