@@ -34,12 +34,24 @@ DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Ubuntu
     Switch To Root User
+    Run FIO On Ubuntu    sequential_with_queues
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_without_queues
+    ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_with_queues_mt
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
 DIO001.003 Sequential Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Power Cycle Into Windows
+    Run FIO On Windows    sequential_with_queues
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Windows    sequential_without_queues
+    ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Windows    sequential_with_queues_mt
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
 DIO001.004 Sequential Read Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of single threaded read
@@ -149,7 +161,7 @@ Disk IO Suite Setup
     [Documentation]    Load config and download tooling for both windows
     ...    ubuntu.
     Prepare Test Suite
-    Skip If    not ${DISK_IO_PERFORMANCE_TESTS}
+    Skip If    not ${_}
     ...    Disk IO tests not enabled for this platform config
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Power Cycle Into Ubuntu
