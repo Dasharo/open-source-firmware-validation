@@ -17,7 +17,6 @@ ${CPU_MIN_FREQUENCY}=               300
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 
-<<<<<<< HEAD
 ${TESTED_LINUX_DISTROS}=            ${ENV_ID_FEDORA} ${ENV_ID_UBUNTU}
 # Benchmark reference data to nvidia model
 
@@ -52,20 +51,3 @@ ${WIN_RAND_WRITE_NONQUE}=           239.6    # MB/s
 *** Keywords ***
 Power On
     Novacustom-common.Power On
-=======
-
-*** Keywords ***
-Power On
-    [Documentation]    Keyword clears SSH buffer and sets Device Under Test
-    ...    into Power On state from Mechanical Off. (coldboot) For example:
-    ...    sonoff, RTE relays.
-    IF    "${POWER_CTRL}"=="none"    RETURN
-    Restore Initial DUT Connection Method
-    Power Cycle On
-    Sleep    2s
-    RteCtrl Set OC GPIO    12    low
-    Sleep    1s
-    RteCtrl Set OC GPIO    12    high-z
-
-# TODO make these generic
->>>>>>> 74100fd (cpu-performance update: one working test on one platform)

@@ -1,7 +1,7 @@
 *** Settings ***
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
-Resource            ../lib/common.robot
+Resource            ../lib/performance/common.robot
 
 Suite Setup         Disk IO Suite Setup
 Suite Teardown      Log Out And Close Connection
