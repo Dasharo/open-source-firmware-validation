@@ -20,20 +20,21 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 *** Variables ***
-@{RESOLUTIONS}    HD=361    4K=14444    5K=2568
+@{SginleThreadResTests}    Resolution: 1080p - Rays Per Pixel: 16=361    Resolution: 4K - Rays Per Pixel: 16=1444    Resolution: 5K - Rays Per Pixel: 16=2568
+@{MultiThreadTests}    Test: Compression Rating=16147    Test: Decompression Rating=9801
+
 *** Test Cases ***
 CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
-    #TODO: 1K, 4K, 5K
     [Documentation]    Test single threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.001 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power On
     Boot System Or From Connected Disk    ubuntu
-    Login To Linux    #chyba nie potrzebne bo już jest w Boot System Or From Connected Disk
+    Login To Linux
     Switch To Root User
-# #    TODO: Delete, we install PTS during Suite Setup
-    Log To Console    Test start
-    Run C-Ray Single-thread Render    # na dole
+    Run C-Ray Single-thread Render
     Run Coremark Single-thread
 
 CPP001.002 Single Threaded CPU Benchmark (Ubuntu) (Battery)
@@ -41,14 +42,13 @@ CPP001.002 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    not ${BATTERY_PRESENT}    Battery is not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Power On
     Boot System Or From Connected Disk    ubuntu
-    Login To Linux    #chyba nie potrzebne bo już jest w Boot System Or From Connected Disk
+    Login To Linux
     Switch To Root User
-# #    TODO: Delete, we install PTS during Suite Setup
-    Log To Console    Test start
-    Run C-Ray Single-thread Render    # na dole
+    Run C-Ray Single-thread Render
     Run Coremark Single-thread
 
 # CPP001.003 Single Threaded CPU Benchmark (Windows) (AC)
@@ -69,21 +69,25 @@ CPP002.001 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    # Power On
-    # Boot System Or From Connected Disk    ubuntu
-    Login To Linux    #chyba nie potrzebne bo już jest w Boot System Or From Connected Disk
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
     Switch To Root User
     7-Zip Multi-thread Compression and Decompression Average
 
 CPP002.002 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
-    # Power On
-    # Boot System Or From Connected Disk    ubuntu
-    Login To Linux    #chyba nie potrzebne bo już jest w Boot System Or From Connected Disk
+    Skip If    ${AC_CONNECTED}    AC connected
+    Power On
+    Boot System Or From Connected Disk    ubuntu
+    Login To Linux
     Switch To Root User
     7-Zip Multi-thread Compression and Decompression Average
 
@@ -138,42 +142,45 @@ Run C-Ray Single-thread Render
     # ...    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
     # ...    timeout=1800
 
-    ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 1080p - Rays Per Pixel: 16
-    # ${TEST_AVERAGE}=    Execute Command In Terminal    awk -F '[<>]' '/<Value/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
-    Log To Console    TestResutlValue HD: ${test_result_values}
-    ${test_passed_HD}=    Validate The Results    ${test_result_values}    361
+    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{SginleThreadResTests}
 
-    ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 4K - Rays Per Pixel: 16
-    Log To Console    TestResutlValue 4K: ${test_result_values}
-    ${test_passed_4K}=    Validate The Results    ${test_result_values}    1444
+    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 1080p - Rays Per Pixel: 16
+    # # ${TEST_AVERAGE}=    Execute Command In Terminal    awk -F '[<>]' '/<Value/ && NF > 1 {print $3}' ${RESULTS_PATH_ROOT}/${TEST_NAME_1}/composite.xml
+    # Log To Console    TestResutlValue HD: ${test_result_values}
+    # ${test_passed_HD}=    Validate The Results    ${test_result_values}    361
 
-    ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 5K - Rays Per Pixel: 16
-    Log To Console    TestResutlValue 5K: ${test_result_values}
-    ${test_passed_5K}=    Validate The Results    ${test_result_values}    2568
+    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 4K - Rays Per Pixel: 16
+    # Log To Console    TestResutlValue 4K: ${test_result_values}
+    # ${test_passed_4K}=    Validate The Results    ${test_result_values}    1444
 
-    Should Be True    ${test_passed_HD}
-    Should Be True    ${test_passed_4K}
-    Should Be True    ${test_passed_5K}
+    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: 5K - Rays Per Pixel: 16
+    # Log To Console    TestResutlValue 5K: ${test_result_values}
+    # ${test_passed_5K}=    Validate The Results    ${test_result_values}    2568
 
-# Validate Multiple Resolutions
-#     FOR    ${resolution_string}    IN    @{RESOLUTIONS}
-#         ${resolution}    ${expected_value}=    Split String    ${resolution_string}    =
+    # Should Be True    ${test_passed_HD}
+    # Should Be True    ${test_passed_4K}
+    # Should Be True    ${test_passed_5K}
 
-#         ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Resolution: ${resolution_string} - Rays Per Pixel: 16
-#         Log To Console    TestResutlValue ${resolution}: ${test_result_values}
 
-#         ${test_passed}=    Validate The Results    ${test_result_values}    ${expected_value}
-#         Should Be True    ${test_passed}    msg=Test failed for resolution ${resolution}
-#     END
+    # ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem Console Log
+
+Validate Multiple Results
+    [Arguments]    ${results_path_root}    ${test_name_1}    @{REFERENCE_DATA}
+    FOR    ${compare_values}    IN    @{REFERENCE_DATA}
+        ${Description_string}    ${expected_value}=    Split String    ${compare_values}    =
+
+        ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    ${Description_string}
+        Log To Console    TestResutlValue ${Description_string}: ${test_result_values}
+
+        ${test_passed}=    Validate The Results    ${test_result_values}    ${expected_value}
+        Should Be True    ${test_passed}    msg=Test failed for resolution ${Description_string}
+    END
 
 Read The Results
     [Arguments]    ${results_path_root}    ${test_name_1}    ${Test_description}
     Log To Console    get results
-    # ${test_result_values}=    Execute Command In Terminal
-    # ...    awk -F '[<>]' '/<RawString/ && NF > 1 {print $3}' ${results_path_root}/${test_name_1}/composite.xml
     ${test_result_values}=    Execute Command In Terminal
     ...    awk -F '[<>]' '/<Description>${Test_description}<\\/Description>/ {found=1} found && /<RawString>/ {print $3; found=0}' ${results_path_root}/${test_name_1}/composite.xml
-    # ...    awk -F '[<>]' '/<Description>${Test_description}<\\/Description>/ {found=1} found && /<RawString>/ {print $3; found=0}' ${results_path_root}/${test_name_1}/composite.xml
     RETURN    ${test_result_values}
 
 Run Coremark Single-thread
@@ -197,22 +204,23 @@ Run Coremark Single-thread
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
     Log To Console    \nTest name2: ${test_name_1}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
+    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{MultiThreadTests}
 
     # ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_1}
     # ...    timeout=1800
 
-    ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Test: Compression Rating
-    Log To Console    TestResutlValue: ${test_result_values}
-    ${test_passed_comp}=    Validate The Results    ${test_result_values}    16147
+    # ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Test: Compression Rating
+    # Log To Console    TestResutlValue: ${test_result_values}
+    # ${test_passed_comp}=    Validate The Results    ${test_result_values}    16147
 
-        ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Test: Decompression Rating
-    Log To Console    TestResutlValue: ${test_result_values}
-    ${test_passed_decomp}=    Validate The Results    ${test_result_values}    9801
+    #     ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    Test: Decompression Rating
+    # Log To Console    TestResutlValue: ${test_result_values}
+    # ${test_passed_decomp}=    Validate The Results    ${test_result_values}    9801
 
-    Should Be True    ${test_passed_comp}
-    Should Be True    ${test_passed_decomp}
+    # Should Be True    ${test_passed_comp}
+    # Should Be True    ${test_passed_decomp}
 
-# 7-Zip Multi-thread Decompression Average
+
 
 Validate The Results
     [Arguments]    ${nums}    ${TA_SERIO_REF_VAL}
