@@ -176,6 +176,8 @@ DIO004.002 Random Write Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Ubuntu
     Switch To Root User
+    Run FIO On Ubuntu    random_write
+    ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
 
 DIO004.003 Random Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
