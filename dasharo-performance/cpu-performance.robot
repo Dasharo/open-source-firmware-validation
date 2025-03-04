@@ -129,8 +129,8 @@ Run C-Ray Single-thread Render
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
     ${result}=    Execute Command In Terminal
     ...    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
-    ...    timeout=1800
-
+    ...    timeout=7200
+    Should Not Contain    ${result}    The batch mode must first be configured.
     ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{SginleThreadResTests}
     Should Be True    ${test_passed}
 
@@ -142,6 +142,7 @@ Run Coremark Single-thread
 
     ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_1}
     ...    timeout=1800
+    Should Not Contain    ${result}    The batch mode must first be configured.
 
     ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    CoreMark Size 666 - Iterations Per Second
     Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
@@ -156,6 +157,7 @@ Run Coremark Single-thread
 
     ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_1}
     ...    timeout=1800
+    Should Not Contain    ${result}    The batch mode must first be configured.
 
     ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{MultiThreadTests}
     Should Be True    ${test_passed}
