@@ -116,8 +116,8 @@ CPU Performance Suite Setup
         Execute Linux Command    phoronix-test-suite install compress-7zip    300
         Execute Linux Command    phoronix-test-suite install coremark    300
     END
-    # ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S    #Date and hour of the start of the test not used globally
-    ${get_date}    Set Variable    02032025130620    #manual date for testing
+    ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S    #Date and hour of the start of the test not used globally
+    # ${get_date}    Set Variable    02032025130620    #manual date for testing
     Set Global Variable    ${CURRENT_DATE}    ${get_date}
     # ${CURRENT_DATE}=    Get Current Date    result_format=%d%m%Y%H%M%S
     ${LAPTOP_PLATFORM}=    Check The Platform Is A Laptop
@@ -127,9 +127,9 @@ Run C-Ray Single-thread Render
     ${test_name_1}=    Set Variable    crayrender    #nazwa + data
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
-    # ${result}=    Execute Command In Terminal
-    # ...    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
-    # ...    timeout=1800
+    ${result}=    Execute Command In Terminal
+    ...    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
+    ...    timeout=1800
 
     ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{SginleThreadResTests}
     Should Be True    ${test_passed}
@@ -140,8 +140,8 @@ Run Coremark Single-thread
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
 
-    # ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_1}
-    # ...    timeout=1800
+    ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_1}
+    ...    timeout=1800
 
     ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    CoreMark Size 666 - Iterations Per Second
     Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
@@ -154,8 +154,8 @@ Run Coremark Single-thread
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
 
-    # ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_1}
-    # ...    timeout=1800
+    ${result}=    Execute Command In Terminal    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_1}
+    ...    timeout=1800
 
     ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{MultiThreadTests}
     Should Be True    ${test_passed}
