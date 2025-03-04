@@ -122,12 +122,13 @@ DIO002.004 Sequential Write Performance (Windows) (Battery)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
 DIO003.001 Random Read Performance (Ubuntu) (AC)
-    [Documentation]    Check various scenarios of single threaded write
-    ...    performance, while connected to power supply unit. (Ubuntu)
+    [Documentation]    Check various scenarios of random read performance
+    ...    while connected to power supply unit. (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power Cycle Into Ubuntu
     Switch To Root User
-    #    Run FIO Test    rand_read    --rw=randread --bs=4K --iodepth=32 --numjobs=4 --size=10G
+    Run FIO On Ubuntu    random_read
+    ...    --rw=randread --bs=4K --iodepth=32 --numjobs=4 --size=4G
 
 DIO003.002 Random Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded write
