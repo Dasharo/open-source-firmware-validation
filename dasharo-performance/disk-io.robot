@@ -156,6 +156,8 @@ DIO003.004 Random Read Performance (Windows) (Battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Windows
+    Run FIO On Windows    random_read
+    ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
 
 DIO004.001 Random Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of multi threaded write
