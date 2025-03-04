@@ -256,9 +256,9 @@ Write Bare Into Terminal
     ...
     ...    === Effects ===
     ...    The ``${text}`` is written to the terminal
-    [Arguments]    ${text}
+    [Arguments]    ${text}    ${interval}=None
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Write Bare    ${text}
+        Telnet.Write Bare    ${text}    ${interval}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Write Bare    ${text}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
