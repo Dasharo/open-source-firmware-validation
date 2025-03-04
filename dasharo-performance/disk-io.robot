@@ -138,6 +138,8 @@ DIO003.002 Random Read Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Ubuntu
     Switch To Root User
+    Run FIO On Ubuntu    random_read
+    ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
 
 DIO003.003 Random Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded write
