@@ -146,6 +146,8 @@ DIO003.003 Random Read Performance (Windows) (AC)
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Power Cycle Into Windows
+    Run FIO On Windows    random_read
+    ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
 
 DIO003.004 Random Read Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of single threaded write
