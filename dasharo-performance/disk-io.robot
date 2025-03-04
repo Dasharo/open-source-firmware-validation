@@ -203,7 +203,7 @@ Disk IO Suite Setup
     [Documentation]    Load config and download tooling for both windows
     ...    ubuntu.
     Prepare Test Suite
-    Skip If    not ${_}
+    Skip If    not ${DISK_IO_PERFORMANCE_TESTS}
     ...    Disk IO tests not enabled for this platform config
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Power Cycle Into Ubuntu
