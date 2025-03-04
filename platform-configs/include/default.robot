@@ -223,6 +223,7 @@ ${MAX_ACCEPTABLE_WARMBOOT_TIME_S}=                  20
 ${MAX_ACCEPTABLE_AVERAGE_REBOOT_TIME_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_STD_DEV_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_S}=                    20
+${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${FALSE}
 
 # Test module: dasharo-stab
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}

@@ -125,6 +125,7 @@ ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
 ${TEMPERATURE_TEST_DURATION}=                       3600
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${TRUE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${TRUE}
+${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${TRUE}
 
 # Test module: dasharo-stability
 ${M2_WIFI_SUPPORT}=                                 ${TRUE}
