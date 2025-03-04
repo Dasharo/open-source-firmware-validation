@@ -194,6 +194,8 @@ DIO004.004 Random Write Performance (Windows) (Battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Windows
+    Run FIO On Windows    random_write
+    ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
 
 
 *** Keywords ***
