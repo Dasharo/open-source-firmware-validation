@@ -165,7 +165,8 @@ DIO004.001 Random Write Performance (Ubuntu) (AC)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power Cycle Into Ubuntu
     Switch To Root User
-    #    Run FIO Test    rand_write    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
+    Run FIO On Ubuntu    random_write
+    ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
 
 DIO004.002 Random Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of multi threaded write
