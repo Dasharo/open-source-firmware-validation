@@ -184,6 +184,8 @@ DIO004.003 Random Write Performance (Windows) (AC)
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Power Cycle Into Windows
+    Run FIO On Windows    random_write
+    ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
 
 DIO004.004 Random Write Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of multi threaded write
