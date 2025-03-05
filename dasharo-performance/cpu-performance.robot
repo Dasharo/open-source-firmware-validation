@@ -7,7 +7,7 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Library    ../venv/lib/python3.13/site-packages/robot/libraries/DateTime.py
-Resource            ../lib/performance/reference-values.robot
+# Resource            ../lib/performance/reference-values.robot
 Resource            ../lib/performance/common.robot
 Resource            ../lib/performance/cpu.robot
 
@@ -20,6 +20,11 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 *** Variables ***
+${CURRENT_DATE}    # Date of starting of the test. Format: %d%m%Y%H%M%S
+${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
+${deviation_up}=    1.2    # confirm with the client
+${deviation_down}=    0.8
+
 @{SginleThreadResTests}
 ...    Resolution: 1080p - Rays Per Pixel: 16=${HD_RENDER}
 ...    Resolution: 4K - Rays Per Pixel: 16=${4K_RENDER}
@@ -127,6 +132,10 @@ CPU Performance Suite Setup
         Execute Linux Command    phoronix-test-suite install compress-7zip    300
         Execute Linux Command    phoronix-test-suite install coremark    300
     END
+    Log To Console    The result of the benchmarks depends on the processor and
+    ...    ram in the device. Please make sure that the hardware under test is
+    ...    compatible with the one given in the reference values.
+
     ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S    #Date and hour of the start of the test not used globally
     # ${get_date}    Set Variable    02032025130620    #manual date for testing
     Set Global Variable    ${CURRENT_DATE}    ${get_date}
