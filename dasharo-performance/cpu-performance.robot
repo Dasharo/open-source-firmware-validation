@@ -39,8 +39,10 @@ CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Run C-Ray Single-thread Render
-    Run Coremark Single-thread
+    ${Render_Test_Passed}=    Run C-Ray Single-thread Render
+    ${Coremark_Test_Passed}=    Run Coremark Single-thread
+    Should Be True    ${Render_Test_Passed}
+    Should Be True    ${Coremark_Test_Passed}
 
 CPP001.002 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test single threaded performance using phoronix
@@ -53,8 +55,10 @@ CPP001.002 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    Run C-Ray Single-thread Render
-    Run Coremark Single-thread
+    ${Render_Test_Passed}=    Run C-Ray Single-thread Render
+    ${Coremark_Test_Passed}=    Run Coremark Single-thread
+    Should Be True    ${Render_Test_Passed}
+    Should Be True    ${Coremark_Test_Passed}
 
 # CPP001.003 Single Threaded CPU Benchmark (Windows) (AC)
 #    [Documentation]    Test single threaded performance using phoronix
@@ -81,7 +85,8 @@ CPP002.001 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    7-Zip Multi-thread Compression and Decompression Average
+    ${C_7zip_Test_Passed}=    7-Zip Multi-thread Compression and Decompression Average
+    Should Be True    ${C_7zip_Test_Passed}
 
 CPP002.002 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test multi threaded performance using phoronix
@@ -94,7 +99,8 @@ CPP002.002 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     Boot System Or From Connected Disk    ubuntu
     Login To Linux
     Switch To Root User
-    7-Zip Multi-thread Compression and Decompression Average
+    ${C_7zip_Test_Passed}=    7-Zip Multi-thread Compression and Decompression Average
+    Should Be True    ${C_7zip_Test_Passed}
 
 # CPP002.003 Multi Threaded CPU Benchmark (Windows) (AC)
 #    [Documentation]    Test multi threaded performance using phoronix
@@ -137,7 +143,7 @@ Run C-Ray Single-thread Render
     ...    timeout=7200
     Should Not Contain    ${result}    The batch mode must first be configured.
     ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{SginleThreadResTests}
-    Should Be True    ${test_passed}
+    RETURN    ${test_passed}
 
 Run Coremark Single-thread
     [Documentation]    Run Coremark benchmark on single thread
@@ -152,7 +158,7 @@ Run Coremark Single-thread
     ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    CoreMark Size 666 - Iterations Per Second
     Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
     ${test_passed}=    Validate The Results    ${test_result_values}    69231
-    Should Be True    ${test_passed}
+    RETURN    ${test_passed}
 
 7-Zip Multi-thread Compression and Decompression Average
     [Documentation]    Run 7-Zip Multi-thread Compression and Decompression benchmark on multiple threads
@@ -165,7 +171,7 @@ Run Coremark Single-thread
     Should Not Contain    ${result}    The batch mode must first be configured.
 
     ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{MultiThreadTests}
-    Should Be True    ${test_passed}
+    RETURN    ${test_passed}
 
 Read The Results
     [Arguments]    ${results_path_root}    ${test_name_1}    ${Test_description}
