@@ -9,7 +9,7 @@ Suite Teardown      Log Out And Close Connection
 
 *** Variables ***
 ${FIO_LATEST_RELEASE_URL}=      https://api.github.com/repos/axboe/fio/releases/latest
-${RESULTS_DIR_UBUNTU}=          ~/fio_results
+${RESULTS_DIR_UBUNTU}=          fio_results
 ${RESULTS_DIR_WINDOWS}=         C:\fio-results
 
 
@@ -20,11 +20,11 @@ DIO001.001 Sequential Read Performance (Ubuntu) (AC)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power Cycle Into Ubuntu
     Run FIO On Ubuntu    sequential_with_queues
-    ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=2G
     Run FIO On Ubuntu    sequential_without_queues
-    ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=2G
     Run FIO On Ubuntu    sequential_with_queues_mt
-    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=2G
 
 DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded read
@@ -106,6 +106,8 @@ DIO002.003 Sequential Write Performance (Windows) (AC)
     ...    --rw=write --bs=1M --iodepth=1 --numjobs=1 --size=4G
     Run FIO On Windows    sequential_write_with_queues_mt
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    Power Cycle Into Ubuntu    # as of march 4 2025, running tests on novacustom is rather
+    # primitive and default starting point is ubuntu
 
 DIO002.004 Sequential Write Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of multi threaded write
@@ -120,6 +122,7 @@ DIO002.004 Sequential Write Performance (Windows) (Battery)
     ...    --rw=write --bs=1M --iodepth=1 --numjobs=1 --size=4G
     Run FIO On Windows    sequential_write_with_queues_mt
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    Power Cycle Into Ubuntu
 
 DIO003.001 Random Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random read performance
@@ -148,6 +151,7 @@ DIO003.003 Random Read Performance (Windows) (AC)
     Power Cycle Into Windows
     Run FIO On Windows    random_read
     ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
+    Power Cycle Into Ubuntu
 
 DIO003.004 Random Read Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of single threaded write
@@ -158,6 +162,7 @@ DIO003.004 Random Read Performance (Windows) (Battery)
     Power Cycle Into Windows
     Run FIO On Windows    random_read
     ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
+    Power Cycle Into Ubuntu
 
 DIO004.001 Random Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of multi threaded write
@@ -186,6 +191,7 @@ DIO004.003 Random Write Performance (Windows) (AC)
     Power Cycle Into Windows
     Run FIO On Windows    random_write
     ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
+    Power Cycle Into Ubuntu
 
 DIO004.004 Random Write Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of multi threaded write
@@ -196,6 +202,7 @@ DIO004.004 Random Write Performance (Windows) (Battery)
     Power Cycle Into Windows
     Run FIO On Windows    random_write
     ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
+    Power Cycle Into Ubuntu
 
 
 *** Keywords ***
@@ -210,7 +217,7 @@ Disk IO Suite Setup
         Switch To Root User
         Detect Or Install Package    fio
         Exit From Root User
-        Execute Linux Command    mkdir ${RESULTS_DIR_UBUNTU}
+        Execute Linux Command    mkdir ~/${RESULTS_DIR_UBUNTU}
     END
     # IF    ${TESTS_IN_WINDOWS_SUPPORT}
     #    Power Cycle Into Windows
@@ -222,22 +229,34 @@ Run FIO On Ubuntu
     [Arguments]    ${fio_test_name}    ${fio_args}
     # Example arguments we want to pass
     # --rw=randread --bs=4K --iodepth=32 --numjobs=4 --size=10G
+    Execute Linux Command    mkdir ~/${RESULTS_DIR_UBUNTU}
+    Execute Linux Command    touch ~/${RESULTS_DIR_UBUNTU}/${fio_test_name}.json
     ${cmd}=    Set Variable    /usr/bin/fio
     ${cmd}=    Catenate    ${cmd}    --name=${fio_test_name}
     ${cmd}=    Catenate    ${cmd}    --ioengine=libaio --runtime=60s
     ${cmd}=    Catenate    ${cmd}    --direct=1 --group_reporting
     ${cmd}=    Catenate    ${cmd}    --output=${RESULTS_DIR_UBUNTU}/${fio_test_name}.json
     ${cmd}=    Catenate    ${cmd}    --output-format=json
+    ${cmd}=    Catenate    ${cmd}    --unlink=1
+    ${cmd}=    Catenate    ${cmd}    --filename=testfile
+
     ${cmd}=    Catenate    ${cmd}    ${fio_args}
     ${result}=    Execute Linux Command    ${cmd}    300
+    ${debug}=    Execute Linux Command    ls
+    Log To Console    ${result}
+    Log To Console    ${debug}
+    Sleep    10s
 
 Run FIO On Windows
     [Documentation]    Wrapper for fio.exe, with adjusted timeout.
     [Arguments]    ${fio_test_name}    ${fio_args}
-    ${cmd}=    Set Variable    fio.exe
-    ${cmd}+=    --name=${fio_test_name}
-    ${cmd}+=    --ioengine=windowsaio --runtime=60s
-    ${cmd}+=    --direct=1 --group_reporting
-    ${cmd}+=    --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
-    ${cmd}+=    ${fio_args}
+    Execute Command In Terminal    ${RESULTS_DIR_WINDOWS}
+    ${cmd}=    Set Variable    fio.exe --name=${fio_test_name}
+    ${cmd}=    Set Variable    ${cmd} --ioengine=windowsaio --runtime=60s
+    ${cmd}=    Set Variable    ${cmd} --direct=1 --group_reporting
+    ${cmd}=    Set Variable    ${cmd} --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
+    ${cmd}=    Set Variable    ${cmd} ${fio_args}
+
     ${result}=    Execute Command In Terminal    ${cmd}    300
+    Log To Console    ${result}
+    Sleep    10s
