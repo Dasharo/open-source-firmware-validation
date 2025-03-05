@@ -21,12 +21,12 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 *** Variables ***
 @{SginleThreadResTests}
-...    Resolution: 1080p - Rays Per Pixel: 16=    ${HD_RENDER}
-...    Resolution: 4K - Rays Per Pixel: 16=       ${4K_RENDER}
-...    Resolution: 5K - Rays Per Pixel: 16=       ${5K_RENDER}
+...    Resolution: 1080p - Rays Per Pixel: 16=${HD_RENDER}
+...    Resolution: 4K - Rays Per Pixel: 16=${4K_RENDER}
+...    Resolution: 5K - Rays Per Pixel: 16=${5K_RENDER}
 @{MultiThreadTests}
-...    Test: Compression Rating=                  ${7ZIP_COMP}
-...    Test: Decompression Rating=                ${7ZIP_DECOMP}
+...    Test: Compression Rating=${7ZIP_COMP}
+...    Test: Decompression Rating=${7ZIP_DECOMP}
 
 *** Test Cases ***
 CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
@@ -135,6 +135,7 @@ CPU Performance Suite Setup
 
 Run C-Ray Single-thread Render
     [Documentation]    Run C-Ray benchmark with all resolutions (1080p, 4K, 5K) on single thread
+    Log To Console    \n    # new line for readability
     ${test_name_1}=    Set Variable    crayrender    #nazwa + data
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
@@ -157,11 +158,12 @@ Run Coremark Single-thread
 
     ${test_result_values}=    Read The Results    ${results_path_root}    ${test_name_1}    CoreMark Size 666 - Iterations Per Second
     Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
-    ${test_passed}=    Validate The Results    ${test_result_values}    69231
+    ${test_passed}=    Validate The Results    ${test_result_values}    ${COREMARK}
     RETURN    ${test_passed}
 
 7-Zip Multi-thread Compression and Decompression Average
     [Documentation]    Run 7-Zip Multi-thread Compression and Decompression benchmark on multiple threads
+    Log To Console    \n    # new line for readability
     ${test_name_1}=    Set Variable    crayrender
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
