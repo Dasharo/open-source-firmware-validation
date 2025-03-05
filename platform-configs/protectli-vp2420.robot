@@ -10,7 +10,8 @@ ${FLASHING_METHOD}=                 internal
 ${E_MMC_NAME}=                      8GTF4R
 
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.2.1-rc3
+${DMIDECODE_FIRMWARE_VERSION}=
+...                                 Dasharo (coreboot+UEFI) v1.2.1-rc3
 ${DMIDECODE_PRODUCT_NAME}=          VP2420
 ${DMIDECODE_RELEASE_DATE}=          1/13/2025
 ${DMIDECODE_TYPE}=                  Desktop
@@ -30,11 +31,9 @@ ${PLATFORM_CPU_SPEED}=              2.00
 ${PLATFORM_RAM_SPEED}=              2933
 ${PLATFORM_RAM_SIZE}=               8192
 
-<<<<<<< HEAD
 ${WIFI_CARD}=                       Qualcomm Atheros QCA61x4A Wireless Network Adapter
 ${WIFI_CARD_UBUNTU}=                Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter
-=======
->>>>>>> 58f57b7fdfe4 (Protectli VP2420: platform-specific CPU & RAM information + Power On fix)
+
 @{ETH_PERF_PAIR_2_G}=               enp3s0    enp4s0
 
 @{ETH_PORTS}=                       00-e0-67-1c-29-79
