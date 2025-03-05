@@ -20,8 +20,13 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 *** Variables ***
-@{SginleThreadResTests}    Resolution: 1080p - Rays Per Pixel: 16=361    Resolution: 4K - Rays Per Pixel: 16=1444    Resolution: 5K - Rays Per Pixel: 16=2568
-@{MultiThreadTests}    Test: Compression Rating=16147    Test: Decompression Rating=9801
+@{SginleThreadResTests}
+...    Resolution: 1080p - Rays Per Pixel: 16=    ${HD_RENDER}
+...    Resolution: 4K - Rays Per Pixel: 16=       ${4K_RENDER}
+...    Resolution: 5K - Rays Per Pixel: 16=       ${5K_RENDER}
+@{MultiThreadTests}
+...    Test: Compression Rating=                  ${7ZIP_COMP}
+...    Test: Decompression Rating=                ${7ZIP_DECOMP}
 
 *** Test Cases ***
 CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
@@ -128,7 +133,7 @@ Run C-Ray Single-thread Render
     ${test_name_1}=     Catenate    SEPARATOR=    ${test_name_1}    ${CURRENT_DATE}
     ${results_path_root}=    Set Variable    /var/lib/phoronix-test-suite/test-results
     ${result}=    Execute Command In Terminal
-    ...    echo 1 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
+    ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_1}
     ...    timeout=7200
     Should Not Contain    ${result}    The batch mode must first be configured.
     ${test_passed}=    Validate Multiple Results    ${results_path_root}   ${test_name_1}    @{SginleThreadResTests}
