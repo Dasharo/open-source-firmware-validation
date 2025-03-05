@@ -26,12 +26,20 @@ ${DEVIATION_UP}=    1.2    # confirm with the client
 ${DEVIATION_DOWN}=    0.8
 
 @{SGINLE_THREAD_RES_TESTS}
-...    Resolution: 1080p - Rays Per Pixel: 16=${HD_RENDER}
-...    Resolution: 4K - Rays Per Pixel: 16=${4K_RENDER}
-...    Resolution: 5K - Rays Per Pixel: 16=${5K_RENDER}
+...    Resolution: 1080p - Rays Per Pixel: 16=96.520
+...    Resolution: 4K - Rays Per Pixel: 16=387
+...    Resolution: 5K - Rays Per Pixel: 16=695
 @{MULTI_THREAD_TESTS}
-...    Test: Compression Rating=${7ZIP_COMP}
-...    Test: Decompression Rating=${7ZIP_DECOMP}
+...    Test: Compression Rating=65965
+...    Test: Decompression Rating=42238
+...
+# @{SGINLE_THREAD_RES_TESTS}
+# ...    Resolution: 1080p - Rays Per Pixel: 16=${HD_RENDER}
+# ...    Resolution: 4K - Rays Per Pixel: 16=${4K_RENDER}
+# ...    Resolution: 5K - Rays Per Pixel: 16=${5K_RENDER}
+# @{MULTI_THREAD_TESTS}
+# ...    Test: Compression Rating=${7ZIP_COMP}
+# ...    Test: Decompression Rating=${7ZIP_DECOMP}
 
 *** Test Cases ***
 CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
@@ -65,20 +73,6 @@ CPP001.002 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     Should Be True    ${Render_Test_Passed}
     Should Be True    ${Coremark_Test_Passed}
 
-# CPP001.003 Single Threaded CPU Benchmark (Windows) (AC)
-#    [Documentation]    Test single threaded performance using phoronix
-#    ...    test suite, for Windows, while connected to power supply.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
-#    Power Cycle Into Windows
-
-# CPP001.004 Single Threaded CPU Benchmark (Windows) (Battery)
-#    [Documentation]    Test single threaded performance using phoronix
-#    ...    test suite, for Windows, while powered by inbuilt battery.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
-#    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-#    Skip If    not ${BATTERY_PRESENT}    Battery not present
-#    Power Cycle Into Windows
-
 CPP002.001 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
@@ -107,20 +101,6 @@ CPP002.002 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     ${C_7zip_Test_Passed}=    7-Zip Multi-thread Compression and Decompression Average
     Should Be True    ${C_7zip_Test_Passed}
 
-# CPP002.003 Multi Threaded CPU Benchmark (Windows) (AC)
-#    [Documentation]    Test multi threaded performance using phoronix
-#    ...    test suite, for Windows, while connected to power supply.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
-#    Power Cycle Into Windows
-
-# CPP002.004 Multi Threaded CPU Benchmark (Windows) (Battery)
-#    [Documentation]    Test multi threaded performance using phoronix
-#    ...    test suite, for Windows, while powered by inbuilt battery.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
-#    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-#    Skip If    not ${BATTERY_PRESENT}    Battery not present
-#    Power Cycle Into Windows
-
 *** Keywords ***
 CPU Performance Suite Setup
     Prepare Test Suite
@@ -148,10 +128,12 @@ Run C-Ray Single-thread Render
     ${Test_Name_To_Path}=    Set Variable    crayrender    #nazwa + data
     ${Test_Name_To_Path}=     Catenate    SEPARATOR=    ${Test_Name_To_Path}    ${CURRENT_DATE}
     ${RESULTS_PATH_ROOT}=    Set Variable    /var/lib/phoronix-test-suite/test-results
+
     ${result}=    Execute Command In Terminal
     ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${Test_Name_To_Path}
     ...    timeout=7200
     Should Not Contain    ${result}    The batch mode must first be configured.
+
     ${test_passed}=    Validate Multiple Results    ${RESULTS_PATH_ROOT}   ${Test_Name_To_Path}    @{SGINLE_THREAD_RES_TESTS}
     RETURN    ${test_passed}
 
@@ -167,7 +149,8 @@ Run Coremark Single-thread
 
     ${test_result_values}=    Read The Results    ${RESULTS_PATH_ROOT}    ${Test_Name_To_Path}    CoreMark Size 666 - Iterations Per Second
     Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
-    ${test_passed}=    Validate The Results    ${test_result_values}    ${COREMARK}
+    ${test_passed}=    Validate The Results    ${test_result_values}    350006
+    # ${test_passed}=    Validate The Results    ${test_result_values}    ${COREMARK}
     RETURN    ${test_passed}
 
 7-Zip Multi-thread Compression and Decompression Average
