@@ -27,8 +27,8 @@ Boot Dasharo Tools Suite Via IPXE Shell
     # 4) Try to boot via the link:
     Write Bare Into Terminal    chain ${dts_chain_link}\n
     Read From Terminal Until    ${dts_chain_link}...
-    Read From Terminal Until    ok
     Set DUT Response Timeout    5m
+    Read From Terminal Until    Enter an option:
 
 Boot Dasharo Tools Suite Via IPXE Menu
     [Documentation]    Boots DTS via option available in Dasharo iPXE menu.
@@ -44,7 +44,7 @@ Boot Dasharo Tools Suite Via IPXE Menu
     Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
     Set DUT Response Timeout    5m
     Read From Terminal Until    .cpio.gz...
-    Read From Terminal Until    ok
+    Read From Terminal Until    Enter an option
 
 Boot Dasharo Tools Suite
     [Documentation]    Keyword allows to boot Dasharo Tools Suite. Takes the
