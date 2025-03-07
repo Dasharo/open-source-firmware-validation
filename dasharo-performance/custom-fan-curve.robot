@@ -40,7 +40,7 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
 
     Set UEFI Option    FanCurveOption    Silent
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Perform Custom Fan Curve Test    silent
@@ -54,7 +54,7 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
 
     Set UEFI Option    FanCurveOption    Performance
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Perform Custom Fan Curve Test    performance
@@ -68,7 +68,7 @@ CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
 
     Set UEFI Option    FanCurveOption    Fans Off
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Perform Custom Fan Curve Test    off

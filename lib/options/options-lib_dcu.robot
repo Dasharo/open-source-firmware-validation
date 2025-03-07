@@ -138,18 +138,16 @@ Login To Windows
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS. There is a requirement for DUT to always reboot to Ubuntu.
     [Arguments]    ${env_id}
-    ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
     ${os_boot_id}=    Set Variable    ${EMPTY}
-    ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
-    ${os}=    Convert To Lower Case    ${system_name}
+    ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
-    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS}-credentials.py
+    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
 
     Login To Linux
     Switch To Root User
 
-    IF    '${BOOTED_OS}' == '${os}'
+    IF    '${BOOTED_OS_ID}' == '${env_id}'
         Log    Target OS already booted
         RETURN
     END
@@ -164,7 +162,7 @@ Boot System Or From Connected Disk
         ${line}=    Get Substring    ${line}    0    150
         ${line}=    Convert To Lower Case    ${line}
 
-        IF    '${os}' in '${line}'
+        IF    '${os_bootentry_name}' in '${line}'
             ${os_boot_id}=    Set Variable    ${line}
             BREAK
         END
@@ -174,8 +172,8 @@ Boot System Or From Connected Disk
         Execute Command In Terminal    efibootmgr --bootnext ${id}
         Sleep    1s
         Write Into Terminal    reboot
-        Import Variables    ${CURDIR}/../../os-config/${os}-credentials.py
-        Set Suite Variable    ${BOOTED_OS}    ${os}
+        Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
+        Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
         Sleep    30s
     ELSE
         Fail    Os entry not found
@@ -184,8 +182,8 @@ Boot System Or From Connected Disk
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
     ...    username and password respectively.
-    [Arguments]    ${username}=${DEVICE_WINDOWS_USERNAME}    ${password}=${DEVICE_WINDOWS_PASSWORD}    ${timeout}=180
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_WINDOWS_USER_PROMPT}
+    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
+    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
     SSHLibrary.Set Client Configuration
     ...    timeout=${timeout}
     ...    term_type=vt100

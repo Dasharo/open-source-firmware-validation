@@ -83,7 +83,7 @@ Login To Windows
         Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Login To Windows Via SSH    ${DEVICE_WINDOWS_USERNAME}    ${DEVICE_WINDOWS_PASSWORD}
+        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
     ELSE
         Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
@@ -156,8 +156,8 @@ Login To Windows Via SSH
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}=${DEVICE_WINDOWS_USERNAME}    ${password}=${DEVICE_WINDOWS_PASSWORD}    ${timeout}=180
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_WINDOWS_USER_PROMPT}
+    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
+    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
     SSHLibrary.Set Client Configuration
     ...    timeout=${timeout}
     ...    term_type=vt100
@@ -524,8 +524,8 @@ Prepare To SSH Connection
     ...    the SSH protocol
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Set Global Variable    ${PLATFORM}    ${CONFIG}
-    IF    '${DEFAULT_BOOT_OS}'
-        Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS}-credentials.py
+    IF    '${DEFAULT_BOOT_OS_ID}'
+        Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
     END
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN

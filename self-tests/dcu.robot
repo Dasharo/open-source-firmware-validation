@@ -30,7 +30,7 @@ Boot System Or From Connected Disk
     Power On
 
     Dcu.Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
-    Dcu.Login To Windows Via SSH    ${DEVICE_WINDOWS_USERNAME}    ${DEVICE_WINDOWS_PASSWORD}
+    Dcu.Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 
     Power On
     Dcu.Boot System Or From Connected Disk    ${OS_UBUNTU}
