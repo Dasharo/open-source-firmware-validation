@@ -84,8 +84,14 @@ execute_robot() {
 
 
   # Check if the required environment variables are set
-  check_env_variable "RTE_IP"
   check_env_variable "CONFIG"
+
+  # RTE_IP environment variable is not required for some platforms
+  if [ -n "${RTE_IP}" ]; then
+    rte_ip_option="-v rte_ip:${RTE_IP}"
+  else
+    fw_file_option=""
+  fi
 
   # FW_FILE environment variable is optional for some tests
   if [ -n "${FW_FILE}" ]; then
@@ -148,7 +154,7 @@ execute_robot() {
                 -r ${_report_file} \
                 -o ${_output_file} \
                 -b ${_debug_file} \
-                -v rte_ip:${RTE_IP} \
+                ${rte_ip_option} \
                 -v config:${CONFIG} \
                 -v logs_dir:${_logs_dir} \
                 ${device_ip_option} \
@@ -159,7 +165,7 @@ execute_robot() {
                 ${_robot_args[*]} \
                 ${_test_name}
                 "
-    #echo "$command"
+    echo "$command"
     eval "$command"
   done
 }
