@@ -478,6 +478,7 @@ Prepare Test Suite
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
     Set Library Search Order    ${CONFIG}    ${OPTIONS_LIB}
+    Log Variables
 
 Import Osfv Libraries
     [Documentation]    Import osfv_cli libraries based on config and command
