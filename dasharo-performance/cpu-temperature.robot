@@ -22,6 +22,8 @@ Suite Setup         Run Keywords
 ...                     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPU temperature measurement tests not supported
 ...                     AND
 ...                     Check Power Supply
+...                     AND
+...                     Import Variables    ${CURDIR}/../platform-configs/${SENSORS_CONFIG_FILE}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 

@@ -12,3 +12,5 @@ ${MAX_CPU_TEMP}=                95
 ${DMIDECODE_MANUFACTURER}=      Protectli
 ${DMIDECODE_VENDOR}=            3mdeb
 ${DMIDECODE_FAMILY}=            Vault Pro
+
+${SENSORS_CONFIG_FILE}=         include/sensors/default-sensors-config.yaml

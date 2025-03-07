@@ -49,6 +49,7 @@ ${TPM_EXPECTED_CHIP}=               SLB9670
 ${DEVICE_AUDIO1_WIN}=               Display Audio
 ${DEVICE_AUDIO1}=                   EA244WMi
 
+
 *** Keywords ***
 Flash Protectli VP2420 Internal
     Make Sure That Flash Locks Are Disabled
