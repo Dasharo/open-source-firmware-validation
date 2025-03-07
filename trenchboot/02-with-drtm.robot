@@ -164,7 +164,7 @@ TrenchBoot Suite Setup
     Skip If    not ${TESTS_IN_METATB_SUPPORT}    Tests in meta-trenchboot aren't supported
 
     Power On
-    Boot System Or From Connected Disk    trenchboot
+    Boot System Or From Connected Disk    ${ENV_ID_TRENCHBOOT}
     Read From Terminal Until    Press enter to boot the selected OS
     # Slaunch is the second boot option, pick it.
     Write Bare Into Terminal    ${ARROW_DOWN}
