@@ -23,8 +23,10 @@ DIO001.001 Sequential Read Performance (Ubuntu) (AC)
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=2G
     Run FIO On Ubuntu    sequential_without_queues
     ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=2G
-    Run FIO On Ubuntu    sequential_with_queues_mt
-    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=2G
+    ${seq_read_queued}=    Parse FIO Result    sequential_with_queues.json    read
+    ${seq_read_nonque}=    Parse FIO Result    sequential_without_queues.json    read
+    Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}    Sequential Read Queued is below expected
+    Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}    Sequential Read Non-Queued is below expected
 
 DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded read
@@ -260,3 +262,11 @@ Run FIO On Windows
     ${result}=    Execute Command In Terminal    ${cmd}    300
     Log To Console    ${result}
     Sleep    10s
+
+Parse FIO Result
+    [Arguments]    ${filename}    ${operation}
+    ${json_data}=    Execute Command In Terminal    cat ${RESULTS_DIR_UBUNTU}/${filename}
+    ${parsed}=    Evaluate    json.loads("""${json_data}""")    json
+    ${bw}=    Set Variable
+    ...    ${parsed}[jobs][0][read][bw] if '${operation}' == 'read' else ${parsed}[jobs][0][write][bw]
+    RETURN    ${bw_/_1024}

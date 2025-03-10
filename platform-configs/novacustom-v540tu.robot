@@ -14,7 +14,10 @@ ${DMIDECODE_PRODUCT_NAME}=          V540TU
 ${EXTERNAL_HEADSET}=                USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=               4800
 ${CPU_MIN_FREQUENCY}=               300
-
+${LAPTOP_PLATFORM}=                 ${TRUE}
+${BATTERY_PRESENT}=                 ${TRUE}
+${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE}
+${DISK_IO_PERFORMANCE_TESTS}=       ${TRUE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 
 ${TESTED_LINUX_DISTROS}=            ${ENV_ID_FEDORA} ${ENV_ID_UBUNTU}
