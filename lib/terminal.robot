@@ -303,8 +303,10 @@ Execute Command In Terminal
 
 Execute UEFI Shell Command
     [Documentation]
-    ...    Executes a command in UEFI Shell. Adds some delays to be more
-    ...    reliable in the UEFI Shell.
+    ...    Executes a command in UEFI Shell. For some reason, text longer than
+    ...    16 chars would repeatedly get truncated, regardless of delay
+    ...    compensation. So, this keywords splits the input into chunks of max.
+    ...    15 characters.
     ...
     ...    === Requirements ===
     ...    - The UEFI shell has to be entered first.
@@ -324,14 +326,29 @@ Execute UEFI Shell Command
     ...    passes.
     ...
     ...    === Effects ===
-    ...    The ``${command}`` is written to the terminal and the keyword waits
+    ...    The ``${command}`` is written to the terminal in chunks and the keyword waits
     ...    until the execution ends or ``${timeout}`` passes.
-    [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=10
+    [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=40
     Set DUT Response Timeout    ${timeout}
     ${length}=    Get Length    ${command}
     ${input_delay}=    Evaluate    ${length} * ${uefi_shell_input_latency}
-    Write Bare Into Terminal    ${command}
-    Sleep    ${input_delay}ms
+
+    # Split command into chunks of max 15 characters
+    ${chunks}=    Create List
+    ${index}=    Convert To Integer    0
+    WHILE    ${index} < ${length}
+        ${end_index}=    Evaluate    ${index} + 15
+        ${chunk}=    Evaluate    "${command}"[${index}:${end_index}]
+        Append To List    ${chunks}    ${chunk}
+        ${index}=    Set Variable    ${end_index}
+    END
+
+    # Write each chunk separately
+    FOR    ${chunk}    IN    @{chunks}
+        Write Bare Into Terminal    ${chunk}
+        Sleep    ${uefi_shell_input_latency}ms
+    END
+
     Press Enter
     ${output}=    Read From Terminal Until Prompt
     RETURN    ${output}
