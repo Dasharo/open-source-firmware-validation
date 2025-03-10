@@ -78,13 +78,13 @@ Validate Expected TPM Version Via Sysfs
 
 Validate Expected TPM Chip Via Cbmem Console Log
     [Documentation]    Check that correct TPM chip is found while FW boots
-    Get Cbmem From Cloud
+    Get Cbmem
     ${tpm_chip_found}=    Execute Command In Terminal    cbmem -1 | grep -i "Found TPM"
     Should Contain    ${tpm_chip_found}    ${TPM_EXPECTED_CHIP}
 
 Validate Expected TPM Version Via Cbmem TPM Eventlog
     [Documentation]    Check if appropriate log is created by FW
-    Get Cbmem From Cloud
+    Get Cbmem
     ${out}=    Execute Command In Terminal    cbmem -L
     IF    '${TPM_SUPPORTED_VERSION}' == '1'
         Should Contain    ${out}    TCPA log
