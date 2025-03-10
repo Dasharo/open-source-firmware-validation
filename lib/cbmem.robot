@@ -8,7 +8,7 @@ Resource            ../keywords.robot
 Get Boot Time From Cbmem
     [Documentation]    Calculates boot time based on cbmem timestamps
     # fix for LT1000 and protectli platforms (output without tabs)
-    Get Cbmem From Cloud
+    Get Cbmem
     ${out_cbmem}=    Execute Command In Terminal    cbmem -T
     Should Not Contain
     ...    ${out_cbmem}
