@@ -12,125 +12,358 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-# TODO:
-# - document which setup/teardown keywords to use and what are they doing
-# - go threough them and make sure they are doing what the name suggest (not
-# exactly the case right now)
-Suite Setup         Run Keyword
-...                     Prepare Test Suite
-Suite Teardown      Run Keyword
-...                     Log Out And Close Connection
+Suite Setup         Prepare Audio Subsystem Test Suite
+Suite Teardown      Log Out And Close Connection
+
+
+*** Variables ***
+# Pactl names are uniform for all devices, and in theory
+# across multiple Linux distributions
+${PACTL_STR_INTERNAL_OUT}=          analog-output-speaker
+${PACTL_STR_INTERNAL_IN}=           analog-input-internal-mic
+${PACTL_STR_HEADSET_OUT}=           analog-output-headphones
+${PACTL_STR_HEADSET_IN}=            analog-input-headset-mic
+${PACTL_STR_HDMI_OUT}=              hdmi-output-0
+# The same is not a guarantee for Windows
+${POWERSHELL_STR_INTERNAL_OUT}=     Speakers (Realtek(R) Audio)
+${POWERSHELL_STR_INTERNAL_IN}=      Microphone Array (Realtek(R) Audio)
+# Since Realtek driver shows the same device for Headset and Internal audio
+# for now we just copy the value, and will need better solution in future.
+${POWERSHELL_STR_HEADSET_OUT}=      ${POWERSHELL_STR_INTERNAL_OUT}
+${POWERSHELL_STR_HEADSET_IN}=       Microphone (Realtek(R) Audio)
+${POWERSHELL_STR_HDMI_OUT}=         Audio Driver for Display Audio
 
 
 *** Test Cases ***
-AUD001.201 Audio subsystem detection (Ubuntu)
+AUD001.201 Audio subsystem detection
     [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Linux OS.
-    ...    Previous IDs: AUD001.001
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD001.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    AUD001.201 not supported
-    Audio Subsystem Detection    ${ENV_ID_UBUNTU}
+    ...    and can be detected in Ubuntu OS. To do so, we first try to detect
+    ...    audio devices in sysfs. Then, we verify no dummy output is present.
+    ...    Dummy output only appears when no other sound device is available,
+    ...    therefore, presence of it indicate failure to initialize audio for userspace
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    ${out}=    Execute Command In Terminal    pactl list sinks
+    ${result}=    Run Keyword And Ignore Error
+    ...    Should Not Contain    ${out}    device.description = "Dummy Output"
+    IF    '${result}[0]' == 'FAIL'
+        Log    \nSound Card was found, but PulseAudio did not found any device\n    WARN
+    END
 
-# PI-KVM necessary
-# AUD002.001 Audio playback (Ubuntu)
-#    [Documentation]    Check whether the audio subsystem is able to playback
-#    ...    audio recordings.
-#    Execute Linux command    pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo    0
-#    Telnet.Read Until Prompt
-#    Execute Linux command    pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo 65535
-#    Telnet.Read Until Prompt
-#    Execute Linux command    speaker-test
-#    Telnet.Read Until Prompt
-#    ${out}=    Execute Linux command    arecord -qd 1 volt && sox volt -n stat &> volt.d && sed '4q;d' volt.d
-#    Should Contain    ${out}    #TODO the output
-
-# in fact tested in AUD002.001
-# AUD003.001 Audio capture (Ubuntu 20.04)
-#    [Documentation]    Check whether the audio subsystem is able to capture
-#    ...    audio.
-
-AUD004.201 External headset recognition (Ubuntu)
-    [Documentation]    Check whether the external headset is recognized
-    ...    properly after plugging in micro jack into slot.
-    ...    Previous IDs: AUD004.001
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.201 not supported
-    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    AUD004.201 not supported
-    External Headset Recognition    ${ENV_ID_UBUNTU}
-
-AUD001.202 Audio subsystem detection (Fedora)
+AUD001.301 Audio subsystem detection
     [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Linux OS.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    AUD001.202 not supported
-    Audio Subsystem Detection    ${ENV_ID_FEDORA}
-
-AUD004.202 External headset recognition (Fedora)
-    [Documentation]    Check whether the external headset is recognized
-    ...    properly after plugging in micro jack into slot.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.202 not supported
-    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    AUD004.202 not supported
-    External Headset Recognition    ${ENV_ID_FEDORA}
-
-AUD001.301 Audio subsystem detection (Windows)
-    [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Windows 11.
-    ...    Previous IDs: AUD001.002
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.301 not supported
+    ...    and can be detected in Windows 11. To do so, we attemptt detection
+    ...    of the Audio Service, and verify it is in Running state.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
-    ${out}=    Get Sound Devices Windows
-    Should Contain    ${out}    ${DEVICE_AUDIO1_WIN}
+    ${out}=    Execute Command    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
+    Should Contain    ${out}    Running
+
+AUD002.201 Internal Audio playback
+    [Documentation]    Check whether the audio subsystem in Ubuntu is able
+    ...    toplayback audio recordings. To do so, first determine presence
+    ...    of audio sink. Audio sink must not be a dummy. After it was
+    ...    verified, we verify that sound is not malformed.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
+    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    Switch Active Sink Port Using Pactl    internal
+    Verify Active Sink Port Using Pactl    internal
+    # TODO: Test playback and waveforms
+    # We probably can do it using alsa monitoring device, and capture
+    # the sound to check if it was malformed in a way.
+    Log    \Internal speakers detected, check validity of sound playback manually\n
+
+AUD002.301 Internal Audio playback
+    [Documentation]    Check whether the audio subsystem is able to playback
+    ...    audio recordings. To do so, first determine presence of audio sink.
+    ...    After that, we verify that sound is not malformed.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices In Windows    speakers
+    Should Not Be Empty    ${out}
+    Should Contain    ${out}    ${POWERSHELL_STR_INTERNAL_OUT}
     Should Contain    ${out}    OK
 
-# Work in progress
-# AUD004.002 External headset recognition (Windows)
-#    [Documentation]    Check whether the external headset is recognized
-#    ...    properly after plugging in micro jack into slot.
-#    Skip If    not ${audio_subsystem_support}    AUD004.002 not supported
-#    Skip If    not ${tests_in_windows_support}    AUD004.002 not supported
-#    Power On
-#    Login to Windows
-#    Execute Command In Terminal    Install-PackageProvider -Name NuGet -Force
-#    Execute Command In Terminal    Install-Module -Name AudioDeviceCmdlets -Force
-#    ${out}=    Execute Command In Terminal    Get-AudioDevice -list    | ft Index, Default, Type, Name
-#    Should Contain    ${out}    ${headset_string}
-#    Exit from root user
+    # TODO: Somehow verify that sound played is proper, no ideas on how to do it
+    # for windows, besides claiming this test as semi-auto.
+    Log    \Internal speakers detected, check validity of sound playback manually\n
+
+AUD003.201 Internal Audio capture
+    [Documentation]    Check whether the audio subsystem is able to capture
+    ...    audio on Ubuntu. To do so, we first determine presence of internal
+    ...    capture device.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
+    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    Switch Active Source Port Using Pactl    internal
+    Verify Active Source Port Using Pactl    internal
+    # TODO: Somehow capture sound and confirm it is not malformed.
+    Log    \Internal microphone detected, check validity of sound capture manually\n
+
+AUD003.301 Internal Audio capture
+    [Documentation]    Check whether the audio subsystem is able to capture
+    ...    audio on Windows. To do so, we first determine presence of internal
+    ...    capture device.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices In Windows    microphone
+    Should Not Be Empty    ${out}
+    Should Contain    ${out}    ${POWERSHELL_STR_INTERNAL_IN}
+    Should Contain    ${out}    OK
+    # TODO: Somehow capture sound and confirm it is not malformed.
+    Log    \Internal microphone detected, check validity of sound capture manually\n
+
+AUD004.201 External headset recognition
+    [Documentation]    Check whether Ubuntu has recognized external headset,
+    ...    after plugging in micro jack into slot.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    Verify External Headset Is Plugged In
+    Switch Active Sink Port Using Pactl    headphones
+    Verify Active Sink Port Using Pactl    headphones
+
+AUD004.301 External headset recognition
+    [Documentation]    Check whether Windows has recognized external headset,
+    ...    after plugging in micro jack into slot.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices In Windows    speakers
+    Should Not Be Empty    ${out}
+    Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
+    Should Contain    ${out}    OK
+
+AUD005.201 External headset audio playback
+    [Documentation]    Check whether Ubuntu has capability to playback
+    ...    sounds via external headset.
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    Verify External Headset Is Plugged In
+    Switch Active Sink Port Using Pactl    headphones
+    Verify Active Sink Port Using Pactl    headphones
+    # TODO: Use pulseaudio to record back the audio and maybe do simple
+    # waveform analysis. We could use modified headphones, in which
+    # the microphone is physically attached to the speaker.
+    Log    \nHeadset speakers detected, please verify validity of playback manually\n
+
+AUD005.301 External headset audio playback
+    [Documentation]    Check whether Windows has capability to playback
+    ...    sounds via external headset.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices In Windows    speakers
+    Should Not Be Empty    ${out}
+    Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
+    Should Contain    ${out}    OK
+    # TODO: Use some software to record back. We could use modified headphones,
+    # in which the microphone is physically attached to the speaker.
+    Log    \nHeadset speakers detected, please verify validity of playback manually\n
+
+AUD006.201 External headset audio capture
+    [Documentation]    Check whether Ubuntu has capability to capture sound
+    ...    via external headset.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    Verify External Headset Is Plugged In
+    Switch Active Source Port Using Pactl    headphones
+    Verify Active Source Port Using Pactl    headphones
+    # TODO: Use pulseaudio to record back the audio and maybe do simple
+    # waveform analysis. We could use modified headphones, in which
+    # the microphone is physically attached to the speaker.
+    Log    \n Headset microphone detected, check validity of sound capture manually\n
+
+AUD006.301 External headset audio capture
+    [Documentation]    Check whether the external headset is recognized
+    ...    properly after plugging in micro jack into slot.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices In Windows    microphone
+    Should Not Be Empty    ${out}
+    Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_IN}
+    Should Contain    ${out}    OK
+    # TODO: If possible, use some software to capture sound, and compare
+    # waveforms with original audio, to verify it was not malformed.
+    Log    \n Headset microphone detected, check validity of sound capture manually\n
+
+AUD007.201 HDMI Audio recognition
+    [Documentation]    Check whether the HDMI audio is recognized
+    ...    properly in Ubuntu after connecting HDMI display.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
+    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    Switch Active Sink Port Using Pactl    hdmi
+    Verify Active Sink Port Using Pactl    hdmi
+
+AUD007.301 HDMI Audio recognition
+    [Documentation]    Check whether the HDMI audio is recognized
+    ...    properly in Windows 11 after connecting HDMI display.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices In Windows    display
+    Should Not Be Empty    ${out}
+    Should Contain    ${out}    ${POWERSHELL_STR_HDMI_OUT}
+    Should Contain    ${out}    OK
 
 
 *** Keywords ***
-Audio Subsystem Detection
-    [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Linux OS.
+Prepare Audio Subsystem Test Suite
+    [Documentation]    Run preparation steps for Audio Suite.
+    ...    This includes regular importing platform config,
+    ...    and package installation, separate for each system
     [Tags]    robot:private
-    [Arguments]    ${os_id}
-    Power On
-    Boot System Or From Connected Disk    ${os_id}
-    Login To Linux
-    Switch To Root User
+    Prepare Test Suite
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    Audio subsystem tests not supported
 
-    ${out}=    Execute Linux Command    cat /sys/class/sound/card0/hwC0D*/chip_name
-    Should Not Be Empty
-    ...    ${DEVICE_AUDIO1}
-    ...    msg=At least DEVICE_AUDIO01 must be defined in platform config if audio suite is enabled
-    Should Contain    ${out}    ${DEVICE_AUDIO1}
-    Should Contain    ${out}    ${DEVICE_AUDIO2}
-    Exit From Root User
+    IF    ${TESTS_IN_UBUNTU_SUPPORT}
+        Power On
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Login To Linux
+        Switch To Root User
+        Detect Or Install Package    alsa-utils
+        Detect Or Install Package    pulseaudio-utils
+        Exit From Root User
+    END
 
-External Headset Recognition
-    [Documentation]    Check whether the external headset is recognized
-    ...    properly after plugging in micro jack into slot.
+    # Disclaimer: Support for Fedora OS in future
+    # IF    ${TESTS_IN_FEDORA_SUPPORT}
+    #    Power On
+    #    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    #    Login To Linux
+    #    Switch To Root User
+    #    Detect Or Install Package    alsa-utils
+    #    Detect Or Install Package    pulseaudio-utils
+    #    Exit From Root User
+    # END
+
+Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    [Documentation]    Ensures Ubuntu is currently active and that the
+    ...    audio chip was detected.
     [Tags]    robot:private
-    [Arguments]    ${os_id}
     Power On
-    Boot System Or From Connected Disk    ${os_id}
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
-    Switch To Root User
-    ${out}=    Execute Linux Command    amixer -c 0 contents | grep -A 2 'Headphone' | cat
-    ${headset_string}=    Set Variable    values=on
-    Should Contain    ${out}    ${headset_string}
-    Exit From Root User
+    ${out}=    Execute Command In Terminal    cat /sys/class/sound/card0/hwC0D*/chip_name
+    Should Not Contain    ${out}    No such file or directory
+
+Get Sound Devices In Windows
+    [Documentation]    Get and return sound devices via PowerShell
+    ...    filtered as all devices, audio-sink only, or microphones only
+    [Tags]    robot:private
+    [Arguments]    ${class}=all
+    IF    '${class}' == 'all'
+        ${filter_condition}=    Set Variable
+        ...    {$_.Class -match "Audio"}
+    ELSE IF    '${class}' == 'speakers'
+        ${filter_condition}=    Set Variable
+        ...    {$_.Class -match "Audio" -and ($_.Name -match "Speaker" -or $_.Name -match "Output")}
+    ELSE IF    '${class}' == 'microphone'
+        ${filter_condition}=    Set Variable
+        ...    {$_.Class -match "Audio" -and $_.Name -match "Microphone"}
+    ELSE IF    '${class}' == 'display'
+        ${filter_condition}=    Set Variable
+        ...    {$_.Class -match "Audio" -and ($_.Name -match "Display" -or $_.Name -match "HDMI")}
+    END
+
+    ${ps_command}=    Evaluate
+    ...    'Get-PnpDevice -PresentOnly | Where-Object ${filter_condition} | Select-Object Name, Status'
+    ${out}=    Execute Command In Terminal    ${ps_command}
+    RETURN    ${out}
+
+Switch Active Sink Port Using Pactl
+    [Documentation]    Using Pulse Audio Controller (pactl), attempt to switch
+    ...    to specified sink port.
+    [Tags]    robot:private
+    [Arguments]    ${class}
+    ${sink}=    Execute Command In Terminal
+    ...    pactl list short sinks | awk '{print $1}'
+    ${cmd}=    Set Variable    pactl set-sink-port ${sink}
+
+    IF    '${class}' == 'internal'
+        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_INTERNAL_OUT}
+    ELSE IF    '${class}' == 'headphones'
+        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_HEADSET_OUT}
+    ELSE IF    '${class}' == 'hdmi'
+        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_HDMI_OUT}
+    ELSE
+        Fail    Invalid audio class. Use: headphones, internal, or hdmi.
+    END
+    Execute Command In Terminal    ${cmd}
+
+Switch Active Source Port Using Pactl
+    [Documentation]    Using Pulse Audio Controller (pactl), attempt to switch
+    ...    to specified source port. Due to limitations of audio subsystems,
+    ...    to set a source port, we need to specify device by full name,
+    ...    so we filter it with "grep alsa_input", in contrast to sink change
+    ...    which only requires a numeric ID.
+    [Tags]    robot:private
+    [Arguments]    ${class}
+    ${source}=    Execute Command In Terminal
+    ...    pactl list sources | grep alsa_input | awk 'NR==1 {print $2}'
+    ${cmd}=    Set Variable    pactl set-source-port ${source}
+
+    IF    '${class}' == 'internal'
+        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_INTERNAL_IN}
+    ELSE IF    '${class}' == 'headphones'
+        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_HEADSET_IN}
+    ELSE
+        Fail    Invalid audio class. Use: headphones or internal.
+    END
+    Execute Command In Terminal    ${cmd}
+
+Verify Active Sink Port Using Pactl
+    [Documentation]    Using Pulse Audio Controller (pactl), verify that specified
+    ...    class of sink ports aka audio output is available
+    [Tags]    robot:private
+    [Arguments]    ${class}
+    ${sinks}=    Execute Command In Terminal    pactl list sinks | grep "Active Port"
+    Should Not Be Empty    ${sinks}
+
+    IF    '${class}' == 'internal'
+        Should Contain    ${sinks}    ${PACTL_STR_INTERNAL_OUT}
+    ELSE IF    '${class}' == 'hdmi'
+        Should Contain    ${sinks}    ${PACTL_STR_HDMI_OUT}
+    ELSE IF    '${class}' == 'headphones'
+        Should Contain    ${sinks}    ${PACTL_STR_HEADSET_OUT}
+    ELSE
+        Fail    Invalid audio class. Use: headphones, internal, or hdmi.
+    END
+
+Verify Active Source Port Using Pactl
+    [Documentation]    Using Pulse Audio Controller (pactl), verify that specified
+    ...    class of source ports is available
+    [Tags]    robot:private
+    [Arguments]    ${class}
+    ${sources}=    Execute Command In Terminal    pactl list sources | grep "Active Port"
+    Should Not Be Empty    ${sources}
+
+    IF    '${class}' == 'internal'
+        Should Contain    ${sources}    ${PACTL_STR_INTERNAL_IN}
+    ELSE IF    '${class}' == 'headphones'
+        Should Contain    ${sources}    ${PACTL_STR_HEADSET_IN}
+    ELSE
+        Fail    Invalid audio source class. Use: headphones or internal.
+    END
+
+Verify External Headset Is Plugged In
+    [Documentation]    Using Pulse Audio Controller (pactl), verify that
+    ...    external headset is plugged in.
+    [Tags]    robot:private
+    ${result}=    Execute Command In Terminal
+    ...    pactl list sinks | grep analog-output-headphones | awk 'NR==1'
+    Should Not Contain    ${result}    not available

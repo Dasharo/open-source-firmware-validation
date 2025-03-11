@@ -19,8 +19,6 @@ ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=     ${TRUE}
 ${CPU_MAX_FREQUENCY}=                   5000
 ${CPU_MIN_FREQUENCY}=                   300
 
-${DEVICE_AUDIO2}=                       Raptorlake HDMI
-
 # We have 2 such platforms in the lab and options below are suitable only for one of them as they have different CPUs.
 ${DEF_THREADS_PER_CORE}=                2
 ${DEF_THREADS_TOTAL}=                   28

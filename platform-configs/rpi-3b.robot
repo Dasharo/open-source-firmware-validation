@@ -33,9 +33,6 @@ ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 
 ${DEVICE_USB_KEYBOARD}=                             ${TBD}
 ${DEVICE_NVME_DISK}=                                ${TBD}
-${DEVICE_AUDIO1}=                                   ${TBD}
-${DEVICE_AUDIO2}=                                   ${TBD}
-${DEVICE_AUDIO1_WIN}=                               ${TBD}
 ${INITIAL_CPU_FREQUENCY}=                           ${TBD}
 
 # SD Wire config

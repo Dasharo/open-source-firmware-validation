@@ -32,8 +32,6 @@ ${PLATFORM_RAM_SIZE}=               16384
 
 ${CPU}=                             Intel(R) N100
 
-${DEVICE_AUDIO1}=                   Alderlake-P HDMI
-${DEVICE_AUDIO1_WIN}=               ${TBD}
 ${WIFI_CARD}=                       Qualcomm Atheros QCA61x4A Wireless Network Adapter
 ${WIFI_CARD_UBUNTU}=                Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)
 ${BLUETOOTH_CARD_UBUNTU}=           Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)

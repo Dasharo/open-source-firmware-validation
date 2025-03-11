@@ -24,7 +24,6 @@ ${DEF_CPU}=                     2
 ${DRAM_SIZE}=                   ${16384}
 ${PLATFORM_RAM_SIZE}=           16384
 
-${DEVICE_AUDIO1}=               DA Intel PCH
 ${DMIDECODE_PRODUCT_NAME}=      OptiPlex 9010
 ${DMIDECODE_SERIAL_NUMBER}=     123456789
 ${DMIDECODE_MANUFACTURER}=      Dell Inc.

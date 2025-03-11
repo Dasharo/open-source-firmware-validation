@@ -13,11 +13,6 @@ ${DEF_THREADS_TOTAL}=                               22
 ${DEF_ONLINE_CPU}=                                  0-21
 ${DEF_SOCKETS}=                                     1
 
-# Audio
-${DEVICE_AUDIO1}=                                   ALC245
-${DEVICE_AUDIO2}=                                   Intel Meteor Lake HDMI
-${DEVICE_AUDIO1_WIN}=                               Realtek High Definition Audio
-
 # Connectivity
 ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Meteor Lake PCH CNVi WiFi (rev 20)

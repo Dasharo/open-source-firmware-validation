@@ -11,5 +11,3 @@ ${DMIDECODE_RELEASE_DATE}=          11/27/2023
 
 ${CPU_MAX_FREQUENCY}=               5200
 ${CPU_MIN_FREQUENCY}=               300
-
-${DEVICE_AUDIO2}=                   Raptorlake HDMI
