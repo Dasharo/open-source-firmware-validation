@@ -47,6 +47,126 @@ DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
     Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Sequential Read Queued is below expected
     Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85    Sequential Read Non-Queued is below expected
 
+DIO002.001 Sequential Write Performance (Ubuntu) (Battery)
+    [Documentation]    Check various scenarios of single threaded write
+    ...    performance, while powered by inbuilt battery. (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Power Cycle Into Ubuntu
+    Switch To Root User
+    Run FIO On Ubuntu    sequential_write_with_queues
+    ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_write_without_queues
+    ...    --rw=write --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_write_with_queues_mt
+    ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ${seq_write_queued}=    Parse FIO Result    sequential_write_with_queues.json    write
+    ${seq_write_nonque}=    Parse FIO Result    sequential_write_without_queues.json    write
+    Should Be True    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85    Sequential Write Queued is below expected
+    Should Be True
+    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    Sequential Write Non-Queued is below expected
+
+DIO002.002 Sequential Write Performance (Ubuntu) (AC)
+    [Documentation]    Check various scenarios of single-threaded write
+    ...    performance while powered by AC adapter. (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Power Cycle Into Ubuntu
+    Switch To Root User
+    Run FIO On Ubuntu    sequential_write_with_queues
+    ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_write_without_queues
+    ...    --rw=write --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    sequential_write_with_queues_mt
+    ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ${seq_write_queued}=    Parse FIO Result    sequential_write_with_queues.json    write
+    ${seq_write_nonque}=    Parse FIO Result    sequential_write_without_queues.json    write
+    Should Be True    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85    Sequential Write Queued is below expected
+    Should Be True
+    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    Sequential Write Non-Queued is below expected
+
+DIO003.001 Random Read Performance (Ubuntu) (AC)
+    [Documentation]    Check various scenarios of random read performance
+    ...    while connected to power supply unit. (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Power Cycle Into Ubuntu
+    Switch To Root User
+    Run FIO On Ubuntu    random_read_with_queues
+    ...    --rw=randread --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_read_without_queues
+    ...    --rw=randread --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_read_with_queues_mt
+    ...    --rw=randread --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ${rand_read_queued}=    Parse FIO Result    random_read_with_queues.json    read
+    ${rand_read_nonque}=    Parse FIO Result    random_read_without_queues.json    read
+    Should Be True    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85    Random Read BW Queued is below expected
+    Should Be True
+    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    Random Read BW Non-Queued is below expected
+
+DIO003.002 Random Read Performance (Ubuntu) (Battery)
+    [Documentation]    Check various scenarios of random read performance
+    ...    while running on battery power. (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Power Cycle Into Ubuntu
+    Switch To Root User
+    Run FIO On Ubuntu    random_read_with_queues
+    ...    --rw=randread --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_read_without_queues
+    ...    --rw=randread --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_read_with_queues_mt
+    ...    --rw=randread --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ${rand_read_queued}=    Parse FIO Result    random_read_with_queues.json    read
+    ${rand_read_nonque}=    Parse FIO Result    random_read_without_queues.json    read
+    Should Be True    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85    Random Read BW Queued is below expected
+    Should Be True
+    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    Random Read BW Non-Queued is below expected
+
+DIO004.001 Random Write Performance (Ubuntu) (AC)
+    [Documentation]    Check various scenarios of random write performance
+    ...    while connected to power supply unit. (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Power Cycle Into Ubuntu
+    Switch To Root User
+    Run FIO On Ubuntu    random_write_with_queues
+    ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_write_without_queues
+    ...    --rw=randwrite --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_write_with_queues_mt
+    ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ${rand_write_queued}=    Parse FIO Result    random_write_with_queues.json    write
+    ${rand_write_nonque}=    Parse FIO Result    random_write_without_queues.json    write
+    Should Be True    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85    Random Write BW Queued is below expected
+    Should Be True
+    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    Random Write BW Non-Queued is below expected
+
+DIO004.002 Sequential Write Performance (Ubuntu) (AC)
+    [Documentation]    Check various scenarios of sequential write performance
+    ...    while connected to power supply unit. (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Power Cycle Into Ubuntu
+    Switch To Root User
+    Run FIO On Ubuntu    random_write_with_queues
+    ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_write_without_queues
+    ...    --rw=randwrite --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Ubuntu    random_write_with_queues_mt
+    ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ${rand_write_queued}=    Parse FIO Result    random_write_with_queues.json    write
+    ${rand_write_nonque}=    Parse FIO Result    random_write_without_queues.json    write
+    Should Be True    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85    Random Write BW Queued is below expected
+    Should Be True
+    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    Random Write BW Non-Queued is below expected
+
 DIO001.003 Sequential Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while connected to power supply unit. (Windows)
@@ -72,42 +192,6 @@ DIO001.004 Sequential Read Performance (Windows) (Battery)
     ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=4G
     Run FIO On Windows    sequential_with_queues_mt
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
-
-DIO002.001 Sequential Write Performance (Ubuntu) (Battery)
-    [Documentation]    Check various scenarios of single threaded write
-    ...    performance, while powered by inbuilt battery. (Ubuntu)
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    Battery not present
-    Power Cycle Into Ubuntu
-    Switch To Root User
-    Run FIO On Ubuntu    sequential_write_with_queues
-    ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
-    Run FIO On Ubuntu    sequential_write_without_queues
-    ...    --rw=write --bs=1M --iodepth=1 --numjobs=1 --size=4G
-    Run FIO On Ubuntu    sequential_write_with_queues_mt
-    ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
-    ${seq_write_queued}=    Parse FIO Result    sequential_write_with_queues.json    write
-    ${seq_write_nonque}=    Parse FIO Result    sequential_write_without_queues.json    write
-    Should Be True    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85    Sequential Write Queued is below expected
-    Should Be True
-    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
-    ...    Sequential Write Non-Queued is below expected
-
-DIO002.002 Sequential Write Performance (Ubuntu) (Battery)
-    [Documentation]    Check various scenarios of multi threaded write
-    ...    performance, while powered by inbuilt battery. (Ubuntu)
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    Battery not present
-    Power Cycle Into Ubuntu
-    Switch To Root User
-    Run FIO On Ubuntu    sequential_write_with_queues
-    ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
-    Run FIO On Ubuntu    sequential_write_without_queues
-    ...    --rw=write --bs=1M --iodepth=1 --numjobs=1 --size=4G
-    Run FIO On Ubuntu    sequential_write_with_queues_mt
-    ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
 DIO002.003 Sequential Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
@@ -138,30 +222,6 @@ DIO002.004 Sequential Write Performance (Windows) (Battery)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     Power Cycle Into Ubuntu
 
-DIO003.001 Random Read Performance (Ubuntu) (AC)
-    [Documentation]    Check various scenarios of random read performance
-    ...    while connected to power supply unit. (Ubuntu)
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Power Cycle Into Ubuntu
-    Switch To Root User
-    Run FIO On Ubuntu    random_read
-    ...    --rw=randread --bs=4K --iodepth=32 --numjobs=4 --size=4G
-    ${rand_read_bw}=    Parse FIO Result    random_read.json    read
-    Should Be True    ${rand_read_bw} >= ${UBU_RAND_READ_AC}*0.85    Random Read BW is below expected
-
-DIO003.002 Random Read Performance (Ubuntu) (Battery)
-    [Documentation]    Check various scenarios of random read performance
-    ...    while running on battery power. (Ubuntu)
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    Battery not present
-    Power Cycle Into Ubuntu
-    Switch To Root User
-    Run FIO On Ubuntu    random_read_batt
-    ...    --rw=randread --bs=4K --iodepth=32 --numjobs=4 --size=4G
-    ${rand_read_bw_batt}=    Parse FIO Result    random_read_batt.json    read
-    Should Be True    ${rand_read_bw_batt} >= ${UBU_RAND_READ_BATT}*0.85    Random Read BW is below expected
-
 DIO003.003 Random Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded write
     ...    performance, while connected to power supply unit. (Windows)
@@ -181,30 +241,6 @@ DIO003.004 Random Read Performance (Windows) (Battery)
     Run FIO On Windows    random_read
     ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
     Power Cycle Into Ubuntu
-
-DIO004.001 Random Write Performance (Ubuntu) (AC)
-    [Documentation]    Check various scenarios of random write performance
-    ...    while connected to power supply unit. (Ubuntu)
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Power Cycle Into Ubuntu
-    Switch To Root User
-    Run FIO On Ubuntu    random_write
-    ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=4G
-    ${rand_write_bw}=    Parse FIO Result    random_write.json    write
-    Should Be True    ${rand_write_bw} >= ${UBU_RAND_WRITE_AC}*0.85    Random Write BW is below expected
-
-DIO004.002 Sequential Write Performance (Ubuntu) (AC)
-    [Documentation]    Check various scenarios of sequential write performance
-    ...    while connected to power supply unit. (Ubuntu)
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    Battery not present
-    Power Cycle Into Ubuntu
-    Switch To Root User
-    Run FIO On Ubuntu    seq_write
-    ...    --rw=write --bs=128K --iodepth=32 --numjobs=1 --size=4G
-    ${seq_write_bw}=    Parse FIO Result    seq_write.json    write
-    Should Be True    ${seq_write_bw} >= ${UBU_SEQ_WRITE_AC}*0.85    Sequential Write BW is below expected
 
 DIO004.003 Random Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
