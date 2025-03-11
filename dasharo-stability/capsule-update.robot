@@ -424,12 +424,10 @@ Display Preparation Instructions
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
-    Run    rm -rf dcu
-
     Run    cp ${FW_FILE} dcu/coreboot.rom
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
-        Run    cp ${TEST_DATA_DIR}/dcu/logo.bmp
+        Run    cp ${TEST_DATA_DIR}/dcu/logo.bmp dcu/logo.bmp
         ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo ./coreboot.rom -l ./logo.bmp
         Log    ${result.stdout}
         Log    ${result.stderr}
