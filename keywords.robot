@@ -698,13 +698,6 @@ Get Power Supply State
     ${state}=    Rte Psu Get
     RETURN    ${state}
 
-Get Sound Devices Windows
-    [Documentation]    Get and return all sound devices in Windows OS using
-    ...    PowerShell
-    ${out}=    Execute Command In Terminal
-    ...    Get-PnpDevice -PresentOnly | Where-Object {$_.Class -match "Audio" -or $_.Name -match "Audio"} | Select-Object Name, Status
-    RETURN    ${out}
-
 Get USB Devices Windows
     [Documentation]    Get and return all USB devices in Windows OS using
     ...    PowerShell

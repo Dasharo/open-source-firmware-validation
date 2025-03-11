@@ -150,15 +150,6 @@ DMIDECODE_PRODUCT_NAME=$(sudo dmidecode -t baseboard | grep "Product Name:" | aw
 DMIDECODE_FAMILY=$(sudo dmidecode -t system | grep Family | awk -F ":" '{print $2}')
 DMIDECODE_TYPE=$(sudo dmidecode -t chassis | grep Type | awk -F ":" '{print $2}')
 
-# Collecting Audio device information
-audio_device_names=$(aplay -l 2>/dev/null | awk -F'[][]' '/card [0-9]+: / {print $2}' | sort -u)
-
-counter=0
-while IFS= read -r audio_device_name; do
-    ((counter++))
-    eval "DEVICE_AUDIO$counter='$audio_device_name'"
-done <<< "$audio_device_names"
-
 # cbmem and TPM detection variables
 CBMEM_BINARY_PATH="/usr/local/bin/cbmem"
 CBMEM_EXPECTED_HASH="169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6"
@@ -247,12 +238,6 @@ if [ "$PRINT" = true ]; then
     echo "\${DEF_CORES_PER_SOCKET}= ${DEF_CORES_PER_SOCKET}"
     echo "\${DEF_SOCKETS}= ${DEF_SOCKETS}"
     echo "\${DEF_ONLINE_CPU}= ${DEF_ONLINE_CPU}"
-    echo
-    echo "-----------------------Audio Devices----------------"
-    for i in $(seq 1 $counter); do
-        eval "audio_device_name=\$DEVICE_AUDIO$i"
-        echo "\${DEVICE_AUDIO$i}= $audio_device_name"
-    done
 fi
 
 # Create Robot Framework file
@@ -317,13 +302,6 @@ fi
     [[ -n "$TPM_SUPPORTED_VERSION" ]] && echo "\${TPM_SUPPORTED_VERSION}=                           $TPM_SUPPORTED_VERSION"
     [[ -n "$TPM_EXPECTED_CHIP" ]] && echo "\${TPM_EXPECTED_CHIP}=                               $TPM_EXPECTED_CHIP"
 
-    for i in $(seq 1 $counter); do
-        eval "audio_device_name=\$DEVICE_AUDIO$i"
-        if [[ -n "$audio_device_name" ]]; then
-            echo "\${DEVICE_AUDIO$i}=                                   $audio_device_name"
-        fi
-    done
-
     echo
     echo "# Default variables"
 
@@ -334,7 +312,7 @@ fi
         DMIDECODE_MANUFACTURER DMIDECODE_SERIAL_NUMBER DMIDECODE_PRODUCT_NAME \
         DMIDECODE_FAMILY DMIDECODE_TYPE \
         DEF_THREADS_TOTAL DEF_THREADS_PER_CORE DEF_CORES_PER_SOCKET DEF_SOCKETS \
-        DEF_ONLINE_CPU DEVICE_AUDIO1 DEVICE_AUDIO2 DEVICE_AUDIO3" \
+        DEF_ONLINE_CPU" \
         '
         BEGIN { split(keys, arr); for (i in arr) exclude[arr[i]] = 1 }
         !/^(\$\{.*)=/ { print; next }

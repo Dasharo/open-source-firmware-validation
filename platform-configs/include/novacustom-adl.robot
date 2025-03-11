@@ -11,11 +11,6 @@ ${DEF_THREADS_TOTAL}=               16
 ${DEF_ONLINE_CPU}=                  0-15
 ${DEF_SOCKETS}=                     1
 
-# Audio
-${DEVICE_AUDIO1}=                   ALC256
-${DEVICE_AUDIO2}=                   Alderlake-P HDMI
-${DEVICE_AUDIO1_WIN}=               Realtek High Definition Audio
-
 # Connectivity
 ${WIFI_CARD}=                       Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                Intel Corporation Alder Lake-P PCH CNVi WiFi (rev 01)

@@ -34,9 +34,6 @@ ${DMIDECODE_TYPE}=                              Desktop
 
 ${DEVICE_USB_KEYBOARD}=                         SiGma Micro Keyboard TRACER Gamma Ivory
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
-${DEVICE_AUDIO1}=                               ALC897
-${DEVICE_AUDIO2}=                               Alderlake HDMI
-${DEVICE_AUDIO1_WIN}=                           Realtek High Definition Audio
 ${WIFI_CARD_UBUNTU}=                            ${TBD}
 ${USB_MODEL}=                                   Kingston
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
