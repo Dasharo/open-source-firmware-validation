@@ -17,6 +17,7 @@ ${RESULTS_DIR_WINDOWS}=         C:\fio-results
 DIO001.001 Sequential Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while connected to power supply unit. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power Cycle Into Ubuntu
     Run FIO On Ubuntu    sequential_with_queues
@@ -31,6 +32,7 @@ DIO001.001 Sequential Read Performance (Ubuntu) (AC)
 DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while powered by inbuilt battery. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
@@ -50,6 +52,7 @@ DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
 DIO002.001 Sequential Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded write
     ...    performance, while powered by inbuilt battery. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
@@ -71,6 +74,7 @@ DIO002.001 Sequential Write Performance (Ubuntu) (Battery)
 DIO002.002 Sequential Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single-threaded write
     ...    performance while powered by AC adapter. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -90,6 +94,7 @@ DIO002.002 Sequential Write Performance (Ubuntu) (AC)
 DIO003.001 Random Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random read performance
     ...    while connected to power supply unit. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -109,6 +114,7 @@ DIO003.001 Random Read Performance (Ubuntu) (AC)
 DIO003.002 Random Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of random read performance
     ...    while running on battery power. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
@@ -130,6 +136,7 @@ DIO003.002 Random Read Performance (Ubuntu) (Battery)
 DIO004.001 Random Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random write performance
     ...    while connected to power supply unit. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -149,6 +156,7 @@ DIO004.001 Random Write Performance (Ubuntu) (AC)
 DIO004.002 Sequential Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of sequential write performance
     ...    while connected to power supply unit. (Ubuntu)
+    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
