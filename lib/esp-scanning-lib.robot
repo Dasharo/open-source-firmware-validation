@@ -38,7 +38,7 @@ Prepare EFI Partition With System Files
         Remove All Supported Systems From Efi
         Send File To DUT    ${TEST_DATA_DIR}/esp-scanning/esp-scanning-disk.img    /tmp/image.img
         Execute Command In Terminal    mkdir /mnt/disk_image
-        Execute Command In Terminal    losetup /dev/loop99 -P ./image.img
+        Execute Command In Terminal    losetup /dev/loop99 -P /tmp/image.img
         Execute Command In Terminal    mount /dev/loop99p1 /mnt/disk_image
         Execute Command In Terminal
         ...    rsync -a --ignore-existing --exclude /mnt/disk_image/EFI/Ubuntu /mnt/disk_image/EFI/Microsoft /mnt/disk_image/EFI/* /boot/efi/EFI/
