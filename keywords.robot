@@ -632,7 +632,7 @@ Remap Keys Variables From PiKVM
 
 Get DUT To Start State
     [Documentation]    Clears telnet buffer and get Device Under Test to start
-    ...    state (RTE Relay On).
+    ...    state.
     Telnet.Read
     IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
         ${state}=    Get Power Supply State
@@ -1262,12 +1262,6 @@ Rescan Devices In Petitboot
     Sleep    2s
     Write Bare Into Terminal    ${ENTER}
     # To Do: read system log
-
-Coldboot Via RTE Relay
-    [Documentation]    Coldboot the DUT using RTE Relay.
-    Rte Relay Set    off
-    Sleep    5s
-    Rte Relay    on
 
 Reboot Via OS Boot By Petitboot
     [Documentation]    Reboot system with system installed on the DUT while
