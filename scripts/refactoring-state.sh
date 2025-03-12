@@ -40,6 +40,10 @@ kwds_to_remove=(
 "Enable Option In Submenu"
 "Disable Option In Submenu"
 "Get Intel ME Mode State"
+"Power Cycle Off"
+"Rte Relay"
+"Rte Relay Set"
+"Coldboot Via RTE Relay"
 )
 
 echo "Keywords that should not be used, but are still used:"
