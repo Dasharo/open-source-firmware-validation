@@ -103,6 +103,45 @@ BPS006.002 Internal flashing
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    Found chipset
 
+BPS007.001 RTE CMOS clear
+    [Documentation]    This test verifies if CMOS clear works with the platform setup.
+    # CMOS should be cleared when platform is cut off from power
+    Rte Psu Off
+    Rte Clear Cmos
+    Power On
+    # TODO: Can we do it without Linux?
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    # Test relies entirely on coreboot console to print the CMOS invalid message
+    Get Cbmem From Cloud
+    ${out}=    Execute Command In Terminal
+    ...    cbmem -1 | grep -i rtc
+
+    Should Contain Any    ${out}
+    ...    "RTC: Clear requested"
+    ...    "rtc_failed \= 0x1"
+    ...    ignore_case=True
+
+    Execute Reboot Command
+
+    # Now check if the CMOS is not reset again after reboot. If CMOS fails it
+    # means that either the CMOS battery is not connected at all or the
+    # platform setup is incorrect.
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+
+    ${out}=    Execute Command In Terminal
+    ...    cbmem -1 | grep -i rtc
+
+    Should Not Contain Any
+    ...    ${out}
+    ...    "RTC: Clear requested"
+    ...    "rtc_failed \= 0x1"
+    ...    ignore_case=True
+    ...    msg=CMOS is invalid after reboot. Either the CMOS battery is not connected or the connection is wrong. Check DUT setup.
+
 
 *** Keywords ***
 Check If Empty
