@@ -236,8 +236,94 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
     Should Contain    ${out1}    hmac.out
     Should Not Contain    ${out2}    hmac.out
 
+TPM004.201 Change EPS (Ubuntu)
+    [Documentation]    Try to trigger the TPM_RC_INTEGRITY error
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
+    Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    Execute Linux Command    echo "my secret" > secret.data
+    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
+    Execute Linux Command    rm -f primary_key.ctx sig.rssa secret.data
+    Execute Reboot Command
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    # Log To Console    \nsetup_menu:
+    # Count Menu Items    ${setup_menu}
+    # Log To Console    ${setup_menu}
+    # Log To Console    \n\n
+    ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    # Log To Console    \nevice_manager_menu:
+    # Count Menu Items    ${device_manager_menu}
+    # Log To Console    ${device_manager_menu}
+    # Log To Console    \n\n
+    ${TPM_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_manager_menu}
+    ...    TCG2 Configuration
+    ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
+    Reenter Menu
+    Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
+    ${checkpoint}=    Set Variable
+    ...    \---------------------------------------------------------------------/
+    ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
+    Enter Submenu From Snapshot    ${tpm2_operation_menu}    TPM2 ChangeEPS
+    Save Changes And Reset
+    Read From Terminal Until
+    ...    Press F12 to clear and change identity of the TPM
+    Press Key N Times    1    ${F12}
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
+    Flush TPM Contexts
+    ${result}=    Run Keyword And Ignore Error    Execute Linux Tpm2 Tools Command
+    ...    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    IF    '${result}[0]' == 'FAIL'
+        Should Contain    ${result}[1]    0x1DF
+    ELSE
+        FAIL    msg=tpm2_load should result in an error.\n
+    END
 
 *** Keywords ***
+Count Menu Items
+    [Arguments]    ${menu}
+    ${count}    Evaluate    len(${menu})
+    Log To Console    item count: ${count}
+    RETURN    ${count}
+
+Search BIOS Menu For Option
+    [Arguments]    ${target_option}
+
+    # init
+    ${found}    Set Variable    ${False}
+    ${target_option_index}    Set Variable    0
+    Log To Console    target_option_index:${target_option_index}
+    # ${visible_options}=    Get Boot Menu Construction
+    Press Key N Times    1    ${ARROW_DOWN}
+    ${visible_options}=    Get Submenu Construction    checkpoint=LCtrl+LAlt+F12=Save
+    Log To Console    ${visible_options}
+    ${first_item}    Set Variable    ${visible_options}[0]
+    ${current_item}    Set Variable    ${first_item}
+    Log To Console    First item: ${first_item}
+    FOR    ${i}    IN RANGE    100    #asuming menu is no bigger than 100 items
+        IF    ${current_item} != ${target_option}
+            ${target_option_index}=    Evaluate    ${target_option_index} + 1
+            Press Key N Times And Enter    1    ${ARROW_DOWN}
+            ${visible_options}=    Get Boot Menu Construction
+            ${current_item}    Set Variable    ${visible_options}[0]
+        ELSE IF     ${first_item} == ${current_item}
+            Log To Console    Option: ${target_option} not found\n
+            RETURN
+        ELSE IF    ${current_item} == ${target_option}
+            RETURN    ${target_option_index}
+        ELSE
+            Log To Console    Unexpected condition!\n
+        END
+    END
+
 Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -t
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -l
