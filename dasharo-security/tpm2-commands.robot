@@ -236,8 +236,28 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
     Should Contain    ${out1}    hmac.out
     Should Not Contain    ${out2}    hmac.out
 
+TPMCMD0012.001 Change EPS (Ubuntu)
+    [Documentation]    Check whether the TPM supports file signing.
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
+    Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    Execute Linux Command    echo "my secret" > secret.data
+    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
+    Execute Linux Command    rm -f key.pub key.priv key.ctx sig.rssa secret.data
+    Execute Reboot Command
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    ${menu3}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${boot_mgr_menu}
+    ...    TCG2 Configuration
 
-*** Keywords ***
+
+    *** Keywords ***
 Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -t
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -l
