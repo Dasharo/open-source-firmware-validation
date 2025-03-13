@@ -31,6 +31,10 @@ ${SNIPEIT}=                                         yes
 ${SEABIOS_BOOT_DEVICE}=                             ${EMPTY}
 ${CHECK_POWER_LED_SUPPORT}=                         ${TRUE}
 
+# Hello, world!
+${HELLO_EFI_STRING}=                                UEFI Hello, Dasharo Universe!
+${SB_ERROR_STRING}=                                 The image signature is invalid or missing!
+
 # See: https://github.com/Dasharo/dasharo-issues/issues/614
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 

@@ -205,8 +205,17 @@ Enter Volume In File Explorer
         Press Key N Times    1    ${ENTER}
     END
 
-Select File In File Explorer
-    [Documentation]    Select the given file
+Enter Boot From File
+    [Documentation]    Navigates from Tianocore Setup Menu
+    ...    to    Boot Maintenance Manager and to Boot From File
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_maintenance_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+    Enter Submenu From Snapshot    ${boot_maintenance_mgr_menu}    Boot From File
+
+Execute File In File Explorer
+    [Documentation]    Execute the given file (with ENTER key)
     [Arguments]    ${target_file}
     # 1. Select desired file
     ${files}=    Get Submenu Construction
@@ -214,6 +223,12 @@ Select File In File Explorer
     ${index}=    Get Index Of Matching Option In Menu    ${files}    ${target_file}
     # FIXME: We must add 1 due to empty selecatble space in File Manager
     Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
+
+Select File In File Explorer
+    [Documentation]    Select the given file
+    [Arguments]    ${target_file}
+    # 1. Select desired file
+    Execute File In File Explorer    ${target_file}
     # 2. Save Changes
     ${enroll_sig_menu}=    Get Submenu Construction
     # Unselectable filename appears between options after file was selected

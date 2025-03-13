@@ -25,7 +25,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot is not supported
 ...                     AND
-...                     Mount USB Disk Image    ${TEST_DATA_DIR}/secure-boot/sb_test_data.img
+...                     Run Keyword If    "${DUT_CONNECTION_METHOD}" != "Telnet"    Mount USB Disk Image    ${TEST_DATA_DIR}/secure-boot/sb_test_data.img    file    TRUE
 ...                     AND
 ...                     Restore Secure Boot Defaults
 Suite Teardown      Run Keywords
@@ -128,11 +128,11 @@ SBO002.002 UEFI Secure Boot (Windows)
 # keywords and menu layout changes.
 #
 
-SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
-    [Documentation]    This test verifies that Secure Boot allows booting
-    ...    a signed file with a correct key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.001 not supported
+SBO003.001 Attempt to boot file with the correct key from Boot Maintenance Manager (firmware)
+    [Documentation]    This test verifies that Secure Boot allows booting a
+    ...    signed file with a correct key.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -142,17 +142,18 @@ SBO003.001 Attempt to boot file with the correct key from Shell (firmware)
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    SB_TEST
-    Select File In File Explorer    good_keys_DB.cer
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_good.der
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Tianocore Reset System
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    good_keys_hello.efi
-    Should Contain    ${out}    Hello, world!
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-good.efi
+    Read From Terminal Until    ${HELLO_EFI_STRING}
 
-SBO004.001 Attempt to boot file without the key from Shell (firmware)
+SBO004.001 Attempt to boot file without the key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot blocks booting a file
     ...    without a key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
@@ -164,11 +165,13 @@ SBO004.001 Attempt to boot file without the key from Shell (firmware)
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
     Tianocore Reset System
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    not_signed_hello.efi
-    Should Contain    ${out}    Access Denied
 
-SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
+
+SBO005.001 Attempt to boot file with the wrong-signed key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot disallows booting
     ...    a signed file with a wrong-signed key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
@@ -180,9 +183,11 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Shell (firmware)
     # Save Changes And Reset
     # Changes to Secure Boot menu takes action immediately, so we can just reset
     Tianocore Reset System
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    bad_keys_hello.efi
-    Should Contain    ${out}    Access Denied
+
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-bad.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
 
 SBO006.001 Reset Secure Boot Keys option availability (firmware)
     [Documentation]    This test verifies that the Reset Secure Boot Keys
@@ -215,15 +220,16 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    SB_TEST
-    Select File In File Explorer    good_keys_DB.cer
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_good.der
     # Save Changes And Reset
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Tianocore Reset System
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    good_keys_hello.efi
-    Should Contain    ${out}    Hello, world!
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-good.efi
+    Read From Terminal Until    ${HELLO_EFI_STRING}
 
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -233,9 +239,10 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     # Changes to Secure Boot menu take action immediately, so we can just reset
     Tianocore Reset System
 
-    Enter UEFI Shell
-    ${out}=    Execute File In UEFI Shell    good_keys_hello.efi
-    Should Contain    ${out}    Access Denied
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-good.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
 
 SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     [Documentation]    This test verifies that it is impossible to load
@@ -251,8 +258,8 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
-    Enter Volume In File Explorer    SB_TEST
-    Select File In File Explorer    bad_format_DB.txt
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_fake.der
     Read From Terminal Until    ERROR: Unsupported file type!
 
 
