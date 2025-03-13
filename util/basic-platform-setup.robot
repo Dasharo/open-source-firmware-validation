@@ -119,8 +119,8 @@ BPS007.001 RTE CMOS clear
     ...    cbmem -1 | grep -i rtc
 
     Should Contain Any    ${out}
-    ...    "RTC: Clear requested"
-    ...    "rtc_failed \= 0x1"
+    ...    RTC: Clear requested
+    ...    rtc_failed \= 0x1
     ...    ignore_case=True
 
     Execute Reboot Command
@@ -137,8 +137,8 @@ BPS007.001 RTE CMOS clear
 
     Should Not Contain Any
     ...    ${out}
-    ...    "RTC: Clear requested"
-    ...    "rtc_failed \= 0x1"
+    ...    RTC: Clear requested
+    ...    rtc_failed \= 0x1
     ...    ignore_case=True
     ...    msg=CMOS is invalid after reboot. Either the CMOS battery is not connected or the connection is wrong. Check DUT setup.
 
