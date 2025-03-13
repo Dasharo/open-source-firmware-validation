@@ -247,7 +247,6 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE69}=                   ip=192.168.10.211
 ...                         platform=protectli-vp3210
 ...                         platform_vendor=protectli
-...                         sonoff_ip=192.168.10.195
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
