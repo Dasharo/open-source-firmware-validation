@@ -26,6 +26,8 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
+    ...
+    ...    Previous IDs: ETHPERF001.001
     Depends On    ${ETH_PERF_PAIR_2_G}
     Depends On    ${ETH_PORTS}
 
@@ -76,6 +78,8 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
 
 ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
+    ...
+    ...    Previous IDs: ETHPERF002.001
     Depends On    ${ETH_PERF_PAIR_10_G}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

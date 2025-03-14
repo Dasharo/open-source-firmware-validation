@@ -42,5 +42,20 @@ Robot Framework variables in the `os-config/environment-test-ids.robot`
 file.
 
 **❗Note:** in old test cases the `environment_id` segment was used more
-loosely. `environment_id`s with leading `0` don't use the
-convention above.
+loosely. `environment_id`s with leading `0` don't use the convention above.
+
+## Transitioning
+
+When updating a test case ID to follow the convention,
+append the old ID in the keyword documentation after `Previous IDs:`
+to help with identifying the test cases during transition. Example:
+
+```robot
+DSP002.201 - External HDMI display in OS (Ubuntu)
+    [Documentation]    Check whether an external HDMI display is visible in
+    ...    Linux OS. An external HDMI display must be provided in
+    ...    the platform config.
+    ...
+    ...    Previous IDs: DSP002.001
+    (...)
+```
