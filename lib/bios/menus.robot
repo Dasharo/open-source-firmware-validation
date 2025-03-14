@@ -6,7 +6,6 @@ Library             String
 Library             ./menus.py
 Resource            ../terminal.robot
 Resource            ../../keys.robot
-Resource            ../../pikvm-rest-api/pikvm_comm.robot
 Resource            ../../keywords.robot
 
 

@@ -75,6 +75,7 @@ done
 
 resources_to_remove=(
 "dl-cache.robot"
+"pikvm_comm.robot"
 )
 
 echo "Resources that should not be used, but are still used:"
