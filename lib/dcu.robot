@@ -52,7 +52,7 @@ DCU Logo Set In File
 DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
     [Arguments]    ${out_file}
-    Get Flashrom From Cloud
+    Get Flashrom
     Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
     Execute Command In Terminal    chmod 666 coreboot.rom
     SSHLibrary.Get File    coreboot.rom    ${out_file}
