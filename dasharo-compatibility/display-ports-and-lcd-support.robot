@@ -52,25 +52,25 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
-    ...    Previous IDs: DSP002.002
+    ...    Previous IDs: DSP002.001
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP002.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP002.201 not supported
     External HDMI Display    ${ENV_ID_UBUNTU}
 
 DSP002.202 - External HDMI display in OS (Fedora)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Fedora OS. An external HDMI display must be provided in
     ...    the platform config.
-    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP003.202 not supported
+    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP002.202 not supported
     External HDMI Display    ${ENV_ID_FEDORA}
 
 DSP002.301 - External HDMI display in OS (Windows)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Windows OS. An external HDMI display must be provided in
     ...    the platform config.
-    ...    Previous IDs: DSP002.003
+    ...    Previous IDs: DSP002.002
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.301 not supported
     Power On
