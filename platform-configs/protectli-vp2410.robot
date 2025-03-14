@@ -13,6 +13,7 @@ ${INITIAL_CPU_FREQUENCY}=               2000
 ${MAX_CPU_TEMP}=                        77
 ${CPU_MAX_FREQUENCY}=                   2800
 ${CPU_MIN_FREQUENCY}=                   300
+${CHECK_POWER_LED_SUPPORT}              ${False}
 
 # eMMC driver support
 ${E_MMC_NAME}=                          8GTF4R
