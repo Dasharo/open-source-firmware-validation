@@ -5,7 +5,6 @@ Library             Collections
 Library             String
 Library             Telnet
 Library             SSHLibrary
-Resource            ../pikvm-rest-api/pikvm_comm.robot
 Resource            bios/menus.robot
 
 
