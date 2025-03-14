@@ -50,20 +50,21 @@ BPS003.001 RTE Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
 
-    Rte Power Off
+    Power Off Ex
     Sleep    10s
     Read From Terminal
     ${result}=    Wait For Serial Output    timeout=10
     Should Not Be True    ${result}    msg=Failed to power off DUT via power button
 
-    Rte Power On
+    Power On Ex
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Failed to power on DUT via power button
 
 BPS004.001 RTE Reset
     [Documentation]    Verifies if reset button can reset the DUT.
     Power On
-    Wait For Serial Output
+    ${result}=    Wait For Serial Output
+    Should Be True    ${result}    msg=Power On keyword failed
     Rte Reset
     Read From Terminal
     ${result}=    Wait For Serial Output
@@ -173,3 +174,33 @@ Wait For Serial Output
         IF    ${result} == ${FALSE}    RETURN    ${TRUE}
     END
     RETURN    ${FALSE}
+
+# TODO: incorporate LED checks into RTE OSFV lib
+
+Power Off Ex
+    Rte Power Off
+    IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
+        FOR    ${i}    IN RANGE    20
+            ${out}=    Rte Check Power Led
+            IF    '${out}' == 'low'    RETURN
+            Sleep    0.5s
+        END
+        IF    '${out}' != 'high'
+            FAIL    Power LED didn't light up! Setup needs manual verification,
+            ...    or Power State After Power Failure is set incorrectly.
+        END
+    END
+
+Power On Ex
+    Rte Power On
+    IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
+        FOR    ${i}    IN RANGE    10
+            ${out}=    Rte Check Power Led
+            IF    '${out}' == 'high'    RETURN
+            Sleep    0.5s
+        END
+        IF    '${out}' != 'high'
+            FAIL    Power LED didn't light up! Setup needs manual verification,
+            ...    or Power State After Power Failure is set incorrectly.
+        END
+    END
