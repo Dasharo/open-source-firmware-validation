@@ -18,8 +18,7 @@ ${EDK2_IPXE_CHECKPOINT}=                        Advanced
 ${MANUFACTURER}=                                ${TBD}
 ${CPU}=                                         ${TBD}
 ${POWER_CTRL}=                                  RteCtrl
-${FLASH_VERIFY_METHOD}=                         tianocore-shell
-${FLASH_VERIFY_OPTION}=                         UEFI Shell
+${FLASH_VERIFY_METHOD}=                         none
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_MANUFACTURER}=                      Protectli
