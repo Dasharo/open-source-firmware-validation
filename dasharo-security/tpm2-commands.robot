@@ -236,8 +236,9 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
     Should Contain    ${out1}    hmac.out
     Should Not Contain    ${out2}    hmac.out
 
-TPMCMD0012.001 Change EPS (Ubuntu)
+TPMCMD012.001 Change EPS (Ubuntu)
     [Documentation]    Check whether the TPM supports file signing.
+    Log To Console    \nTPMCMD0012.001 Change EPS - run
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
     Flush TPM Contexts
@@ -249,15 +250,41 @@ TPMCMD0012.001 Change EPS (Ubuntu)
     Execute Linux Command    rm -f key.pub key.priv key.ctx sig.rssa secret.data
     Execute Reboot Command
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
+    Log To Console    \nsetup_menu:\n
+    Log To Console    ${setup_menu}
+    Log To Console    \n\n
+    ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
-    ${menu3}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${boot_mgr_menu}
+    Log To Console    \nevice_manager_menu:\n
+    Log To Console    ${device_manager_menu}
+    Log To Console    \n\n
+    ${TPM_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${device_manager_menu}
     ...    TCG2 Configuration
+    Log To Console    \nTPM_menu:\n
+    Log To Console    ${TPM_menu}
+    Log To Console    \n\n
+    ${ChangeEPS_index}=    Get Index Of Matching Option In Menu    ${TPM_menu}    Attempt PPI Version
+    Log To Console    \nIndex:
+    Log To Console    ${ChangeEPS_index}
+    Log To Console    \n
+    Press Key N Times And Enter    ${ChangeEPS_index}    ${ARROW_DOWN}
+    Press Key N Times And Enter    1    ${ARROW_UP}
+    Save Changes And Reset
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    Execute Linux Command    echo "my secret" > secret.data
+    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
+    Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
 
-
-    *** Keywords ***
+*** Keywords ***
 Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -t
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -l
