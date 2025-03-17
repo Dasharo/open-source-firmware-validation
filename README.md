@@ -146,7 +146,16 @@ pip install -U -r requirements-openbmc.txt
 pip install -r requirements.txt
 ```
 
-* If you try to run the environment again after the first initialization
+* Follow the initialization instructions in `osfv-test-data/README.md`:
+
+```bash
+cd osfv-test-data
+git annex pull
+./setup.sh
+cd ..
+```
+
+If you try to run the environment again after the first initialization
   you must reinstall requirements.txt for it to work properly:
 
 ```bash
@@ -318,6 +327,8 @@ integrity before pushing to the remote repository.
 
 * [sherlock](https://github.com/MarketSquare/robotframework-sherlock)
     - can detect unused keywords, and much more
+* [./scripts/refactoring-state.sh](./scripts/refactoring-state.sh)
+    - dedicated script for this repo
 * [Renaming keywords](https://robotidy.readthedocs.io/en/stable/transformers/RenameKeywords.html)
 * [Renaming Test Cases](https://robotidy.readthedocs.io/en/stable/transformers/RenameTestCases.html)
 * [Renaming Variables](https://robotidy.readthedocs.io/en/stable/transformers/RenameVariables.html)
