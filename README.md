@@ -127,6 +127,7 @@ The osfv uses the
 ```bash
 git clone https://github.com/Dasharo/open-source-firmware-validation
 cd open-source-firmware-validation
+git checkout develop
 git submodule update --init --checkout --recursive --remote
 python3 -m virtualenv venv
 source venv/bin/activate
