@@ -112,6 +112,8 @@ Search For The Option
     ...
     ...    === Arguments ===
     ...    ``${option}``: ``string`` The first line of the option you want to find.
+    ...    In case options are split into multiple lines make sure to put only
+    ...    the first line of the option as argument.
     ...
     ...    === Return Value ===
     ...    - ``int`` - The qantity of ${ARROW_DOWN} presses required to reach that ${option}
@@ -132,11 +134,9 @@ Search For The Option
 
     # The maximum number of entries in boot menu is 11 right now. When we have
     # more, the list can be scrolled.
-    # TODO: Is there a better way of checking if the list can be scrolled?
-    # The UP/DOWN arrows are not drawn on serial on the first readout of
-    # the menu, it seems.
+
     ${no_entries}=    Get Length    ${construction}
-    IF    ${no_entries} == 11
+    IF    ${no_entries} >= 11
 
         Read From Terminal
         FOR    ${key_down_qtty}    IN RANGE    1    50    #50 is random number it assumes that you need lest than 50 arrow down clicks to go through entire menu
@@ -148,6 +148,11 @@ Search For The Option
                 RETURN    ${key_down_qtty}
             END
         END
+    ELSE    #When the menu doesn't require scrolling.
+            #Then this KWD is not needed. Added for compability.
+        ${key_down_qtty}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
+        Should Not Be Equal As Integers    ${key_down_qtty}    -1    msg=Option ${option} not found in menu
+        RETURN    ${key_down_qtty}
     END
     Fail    msg=Option ${option} not found in menu.
     RETURN    -1
