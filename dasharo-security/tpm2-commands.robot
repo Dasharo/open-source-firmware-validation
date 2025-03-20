@@ -274,23 +274,6 @@ TPMCMD012.001 Change EPS (Ubuntu)
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
 
 *** Keywords ***
-Show current console
-    [Arguments]    ${iteratio}
-    FOR    ${number}    IN RANGE    1    ${iteratio}
-        Log To Console    R${number}:\n
-        Reenter Menu
-        Press Key N Times    1    ${ARROW_UP}
-        # Press Enter
-        ${outt}    Read From Terminal Until    LCtrl+LAlt+F12=Save
-        Log To Console    ${outt}
-    END
-
-Count Menu Items
-    [Arguments]    ${menu}
-    ${count}    Evaluate    len(${menu})
-    Log To Console    item count: ${count}
-    RETURN    ${count}
-
 Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -t
     Execute Linux Tpm2 Tools Command    tpm2_flushcontext -l
