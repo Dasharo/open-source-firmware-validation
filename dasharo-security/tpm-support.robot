@@ -12,6 +12,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../lib/tpm.robot
 Resource            ../keys.robot
+# Resource            tpm2-commands.robot    # For the 'Check Which TPM2 Banks Are Enabled' KWD
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -121,15 +122,58 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
     ${out}=    Execute Command In Terminal    tpmtool getdeviceinformation
     Should Contain    ${out}    PPI Version: 1.3
 
-# TPM003.004 Change active PCR banks with TPM PPI (firmware)
-#    [Documentation]    This test aims to verify that the TPM Physical Presence
-#    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-#    Skip If    not ${TPM_SUPPORTED_VERSION} == None    TPM003.004 not supported
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
-# TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
+TPM003.004 Change active PCR banks with TPM PPI (firmware)
+    [Documentation]    This test aims to verify that the TPM Physical Presence
+    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
+    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.004 not supported    #maby this should be NONE
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
+    Prepare TPM Test On Ubuntu
+    ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
+    Log To Console    sha1 state: ${sha1}\n
+    Log To Console    sha1 state: ${sha256}\n
+    Execute Reboot Command
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    Enter Submenu From Snapshot
+    ...    ${device_manager_menu}
+    ...    TCG2 Configuration
+    ${SHA1_position}=    Search For The Option    PCR Bank: SHA1
+    ${SHA256_position}=    Search For The Option    PCR Bank: SHA256
+    Log To Console    \nSha1: ${SHA1_position} and sha256: ${SHA256_position}\n
+    ${phony_menu}=    Create A Phony Menu    ${SHA1_position}    PCR Bank: SHA1
+    Append To List    ${phony_menu}    PCR Bank: SHA256
+    Log To Console    ${phony_menu}
+    Set Option State    ${phony_menu}    PCR Bank: SHA1    ${TRUE}
+    Set Option State    ${phony_menu}    PCR Bank: SHA256    ${TRUE}
+
+
 
 
 *** Keywords ***
+Check Which TPM2 Banks Are Enabled
+    [Documentation]    Checks which Bank is enabled, returns tuple (bool, bool)
+    ${out}=    Execute Linux Command    tpm2_getcap pcrs
+    ${sha1}=    Run Keyword And Return Status
+    ...    Should Contain
+    ...    ${out}
+    ...    sha1: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
+    ${sha256}=    Run Keyword And Return Status
+    ...    Should Contain
+    ...    ${out}
+    ...    sha256: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
+    RETURN    ${sha1}    ${sha256}
+Create A Phony Menu
+    [Arguments]    ${list_length}    ${option}
+    ${list}    Create List
+    FOR    ${i}    IN RANGE    1    ${list_length}
+        Append To List    ${list}    0    # '0' is totally random
+    END
+    Append To List    ${list}    ${option}
+    Log To Console    ${list}
+    RETURN    ${list}
+
 Prepare TPM Test On Ubuntu
     [Documentation]    Run common actions required for TPM tests in Ubuntu
     Power On
