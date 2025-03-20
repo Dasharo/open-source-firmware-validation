@@ -100,23 +100,26 @@ Get Boot Menu Construction
         END
     END
     RETURN    ${construction}
-Search For The Desired Phrase
+Search For The Option
     [Documentation]
-    ...    Reads and returns the construction of the boot menu
+    ...    Reads the serial output in search for the first occurance of
+    ...    ${option} when it fidns it, the function returns the
+    ...    qantity of ${ARROW_DOWN} presses required to reach that ${option}
     ...
     ...    === Requirements ===
     ...    - Boot menu has to be entered using ``Enter Boot Menu Tianocore``
-    ...    - The serial must not have been read after entering the boot menu
+    ...    - (?)The serial must not have been read after entering the boot menu
     ...
     ...    === Arguments ===
-    ...    None
+    ...    ``${option}``: ``string`` The first line of the option you want to find.
     ...
     ...    === Return Value ===
-    ...    - ``string`` - The boot menu construction - entries, line by line
+    ...    - ``int`` - The qantity of ${ARROW_DOWN} presses required to reach that ${option}
+    ...    - ``-1`` - If the  ${option} has not been found.
     ...
     ...    === Effects ===
-    ...    - The boot menu is read from the serial buffer
-
+    ...    - The submenu is read from the serial buffer
+    [Arguments]    ${option}
     ${menu}=    Read From Terminal Until    Exit
     # Lines to strip:
     #    TOP:
@@ -133,42 +136,20 @@ Search For The Desired Phrase
     # The UP/DOWN arrows are not drawn on serial on the first readout of
     # the menu, it seems.
     ${no_entries}=    Get Length    ${construction}
-    Log To Console    No entries: ${no_entries}\n
     IF    ${no_entries} == 11
-        # 1. Remember first and last entries (last entry in the first screen)
-        ${first_entry}=    Get From List    ${construction}    0
 
-        # 2. Go down by 10 entries
-        # Press Key N Times    6    ${ARROW_DOWN}    # not needed
-        # Sleep    1s
-        ${OUTTTT}=    Read From Terminal
-        # Log To Console    out: _________________________________________________________\n${OUTTTT}
-        # 3. Keep going down one by one, until we reach the first_entry again
-        FOR    ${key_down_qtty}    IN RANGE    1    50
+        Read From Terminal
+        FOR    ${key_down_qtty}    IN RANGE    1    50    #50 is random number it assumes that you need lest than 50 arrow down clicks to go through entire menu
             Press Key N Times    1    ${ARROW_DOWN}
             ${out}=    Read From Terminal Until    LCtrl+LAlt+F12=Save
-            # Log    ${out}
-            # Log To Console    Iteration: ${key_down_qtty}:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n${out}
             ${contains}=    Run Keyword And Ignore Error
-            ...    Should Contain    ${out}    BIOS Supported Hash
-            # Log to console    ElavuateResult: ${contains}\n\n
+            ...    Should Contain    ${out}    ${option}
             IF    '${contains}[0]' == 'PASS'
-            # ...    Run Keywords
-                # Log to console    "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Found BIOS Supported Hash!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                 RETURN    ${key_down_qtty}
             END
-            # ${lines}=    Split To Lines    ${out}
-            # ${entry}=    Get From List    ${lines}    -1
-            # ${entry}=    Strip String    ${entry}
-            # ${entry}=    Strip String    ${entry}    characters=>
-            # ${entry}=    Strip String    ${entry}
-            # IF    '${entry}' != '${first_entry}'
-            #     Append To List    ${construction}    ${entry}
-            # ELSE
-            #     BREAK
-            # END
         END
     END
+    Fail    msg=Option ${option} not found in menu.
     RETURN    -1
 
 Enter Boot Menu Tianocore And Return Construction
@@ -272,7 +253,6 @@ Get Menu Construction
 
     Sleep    1s
     ${out}=    Read From Terminal Until    ${checkpoint}
-    Log To Console    ${out}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
     RETURN    ${menu}
 
