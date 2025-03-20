@@ -30,7 +30,7 @@ environment variable (`DIR`).
 
 You may also decide to not use graphics user interface for QEMU. In that case
 choose mode `nographic`. If you run QEMU on a remote machine you may consider
-to use mode `vnc` with default port for graphical output being `5900`.
+using the `vnc` mode with default port for graphical output being `5900`.
 
 Dasharo (UEFI) in QEMU can be started with:
 
