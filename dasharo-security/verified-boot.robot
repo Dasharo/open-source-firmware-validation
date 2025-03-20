@@ -11,7 +11,6 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../os-config/ubuntu-credentials.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -33,19 +32,12 @@ Test Setup          Run Keyword
 ...                     Power On
 
 
-*** Variables ***
-# The fw_file_original is the fw_file received as an input to the test suite
-${FW_FILE_ORIGINAL}=    /home/${UBUNTU_USERNAME}/test-firmware.rom
-# # The fw_file_resigned is the fw_file resigned with newly generated keys (so
-# # booting it should trigger vboot recovery events)
-${FW_FILE_RESIGNED}=    /home/${UBUNTU_USERNAME}/test-firmware_resigned.rom
-
-
 *** Test Cases ***
 VBO006.002 Check whether the verstage was run
     [Documentation]    Check whether the Verified Boot is enabled and
     ...    functional.
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+
     Login To Linux
     Switch To Root User
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.002 not supported
@@ -264,6 +256,13 @@ Prepare Tools, Keys And Binaries
     # TODO: store the disk boot entry in platform config, or figure out how
     # to handle UEFI boot entries in a reliable manner
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+
+    # The fw_file_original is the fw_file received as an input to the test suite
+    Set Suite Variable    ${FW_FILE_ORIGINAL}    /home/${DEVICE_OS_USERNAME}/test-firmware.rom
+    # The fw_file_resigned is the fw_file resigned with newly generated keys
+    # (so booting it should trigger vboot recovery events)
+    Set Suite Variable    ${FW_FILE_RESIGNED}    /home/${DEVICE_OS_USERNAME}/test-firmware_resigned.rom
+
     Login To Linux
     Switch To Root User
     Get Coreboot Tools
