@@ -259,6 +259,8 @@ TPMCMD012.001 Change EPS (Ubuntu)
     ...    TCG2 Configuration
     ${target_option_index}=    Search For The Option     ChangeEPS
     Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
+    # This is a generic option set. There is no ChangeEPS option in FW currently.
+    # TODO: https://github.com/Dasharo/open-source-firmware-validation/issues/736
     Save Changes And Reset
 
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
