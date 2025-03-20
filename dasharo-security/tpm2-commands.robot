@@ -331,32 +331,36 @@ Search BIOS Menu For Option
     ${found}    Set Variable    ${False}
     ${target_option_index}    Set Variable    0
     Log To Console    target_option_index:${target_option_index}
-    ${visible_options}=    Get Boot Menu Construction2
+    # ${visible_options}=    Search For The Desired Phrase
     # ${visible_options}=    Get Submenu Construction    checkpoint=LCtrl+LAlt+F12=Save
-    # ${visible_options}=    Get Submenu Construction
+    ${visible_options}=    Get Submenu Construction
     Log To Console    Visible options:${visible_options}
     ${first_item}    Set Variable    ${visible_options}[0]
     ${current_item}    Set Variable    DummyInput    #Set as something that is not a valid option
     Log To Console    First item: ${first_item}
-    FOR    ${i}    IN RANGE    100    #asuming menu is no bigger than 100 items
-        IF    '${current_item}' != '${target_option}'
-            ${target_option_index}=    Evaluate    ${target_option_index} + 1
+    FOR    ${i}    IN RANGE    5    #asuming menu is no bigger than 100 items
+        # IF    '${current_item}' != '${target_option}'
+            # ${target_option_index}=    Evaluate    ${target_option_index} + 1
             Reenter Menu
             Press Key N Times    1    ${ESC}
             Press Key N Times    1    ${ARROW_UP}
             Press Key N Times    1    ${ARROW_DOWN}
             Press Key N Times    1    ${ENTER}
             Press Key N times    ${target_option_index}    ${ARROW_DOWN} # TA OPCJA PSUJE
-    ${visible_options}=    Get Boot Menu Construction2
-            ${current_item}    Set Variable    ${visible_options}[0]
-        ELSE IF     '${first_item}' == '${current_item}'
-            Log To Console    Option: ${target_option} not found\n
-            RETURN
-        ELSE IF    '${current_item}' == '${target_option}'
-            RETURN    ${target_option_index}
-        ELSE
-            Log To Console    Unexpected condition!\n
-        END
+            Sleep    2s
+    # ${visible_options}=    Search For The Desired Phrase
+    ${kwddwons}=    Search For The Desired Phrase
+    Log To Console    HOW MANY KEY DOWNS: ${kwddwons}\n
+    # ${visible_options}=    Get Submenu Construction
+    #         ${current_item}    Set Variable    ${visible_options}[0]
+    #     ELSE IF     '${first_item}' == '${current_item}'
+    #         Log To Console    Option: ${target_option} not found\n
+    #         RETURN
+    #     ELSE IF    '${current_item}' == '${target_option}'
+    #         RETURN    ${target_option_index}
+    #     ELSE
+    #         Log To Console    Unexpected condition!\n
+    #     END
     END
 
 Flush TPM Contexts

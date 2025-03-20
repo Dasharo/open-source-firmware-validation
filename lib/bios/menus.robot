@@ -100,7 +100,7 @@ Get Boot Menu Construction
         END
     END
     RETURN    ${construction}
-Get Boot Menu Construction2
+Search For The Desired Phrase
     [Documentation]
     ...    Reads and returns the construction of the boot menu
     ...
@@ -126,6 +126,7 @@ Get Boot Menu Construction2
     #    ENTER to select boot device
     #    ESC to exit
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
+
     # The maximum number of entries in boot menu is 11 right now. When we have
     # more, the list can be scrolled.
     # TODO: Is there a better way of checking if the list can be scrolled?
@@ -138,25 +139,37 @@ Get Boot Menu Construction2
         ${first_entry}=    Get From List    ${construction}    0
 
         # 2. Go down by 10 entries
-        Press Key N Times    6    ${ARROW_DOWN}
-        Sleep    1s
+        # Press Key N Times    6    ${ARROW_DOWN}    # not needed
+        # Sleep    1s
         ${OUTTTT}=    Read From Terminal
-        Log To Console    outt: _________________________________________________________\n${OUTTTT}
+        # Log To Console    out: _________________________________________________________\n${OUTTTT}
         # 3. Keep going down one by one, until we reach the first_entry again
-        FOR    ${iter}    IN RANGE    0    50
+        FOR    ${key_down_qtty}    IN RANGE    1    50
             Press Key N Times    1    ${ARROW_DOWN}
             ${out}=    Read From Terminal Until    LCtrl+LAlt+F12=Save
-            Log    ${out}
-            Log To Console    Iteration: ${iter}:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n${out}
-            ${lines}=    Split To Lines    ${out}
-            ${entry}=    Get From List    ${lines}    -1
-            ${entry}=    Strip String    ${entry}
-            ${entry}=    Strip String    ${entry}    characters=>
-            ${entry}=    Strip String    ${entry}
-
+            # Log    ${out}
+            # Log To Console    Iteration: ${key_down_qtty}:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n${out}
+            ${contains}=    Run Keyword And Ignore Error
+            ...    Should Contain    ${out}    BIOS Supported Hash
+            # Log to console    ElavuateResult: ${contains}\n\n
+            IF    '${contains}[0]' == 'PASS'
+            # ...    Run Keywords
+                # Log to console    "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Found BIOS Supported Hash!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                RETURN    ${key_down_qtty}
+            END
+            # ${lines}=    Split To Lines    ${out}
+            # ${entry}=    Get From List    ${lines}    -1
+            # ${entry}=    Strip String    ${entry}
+            # ${entry}=    Strip String    ${entry}    characters=>
+            # ${entry}=    Strip String    ${entry}
+            # IF    '${entry}' != '${first_entry}'
+            #     Append To List    ${construction}    ${entry}
+            # ELSE
+            #     BREAK
+            # END
         END
     END
-    RETURN    ${construction}
+    RETURN    -1
 
 Enter Boot Menu Tianocore And Return Construction
     [Documentation]
