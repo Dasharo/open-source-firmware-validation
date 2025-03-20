@@ -100,6 +100,63 @@ Get Boot Menu Construction
         END
     END
     RETURN    ${construction}
+Get Boot Menu Construction2
+    [Documentation]
+    ...    Reads and returns the construction of the boot menu
+    ...
+    ...    === Requirements ===
+    ...    - Boot menu has to be entered using ``Enter Boot Menu Tianocore``
+    ...    - The serial must not have been read after entering the boot menu
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The boot menu construction - entries, line by line
+    ...
+    ...    === Effects ===
+    ...    - The boot menu is read from the serial buffer
+
+    ${menu}=    Read From Terminal Until    Exit
+    # Lines to strip:
+    #    TOP:
+    #    Please select boot device:
+    #    BOTTOM
+    #    ^ and v to move selection
+    #    ENTER to select boot device
+    #    ESC to exit
+    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
+    # The maximum number of entries in boot menu is 11 right now. When we have
+    # more, the list can be scrolled.
+    # TODO: Is there a better way of checking if the list can be scrolled?
+    # The UP/DOWN arrows are not drawn on serial on the first readout of
+    # the menu, it seems.
+    ${no_entries}=    Get Length    ${construction}
+    Log To Console    No entries: ${no_entries}\n
+    IF    ${no_entries} == 11
+        # 1. Remember first and last entries (last entry in the first screen)
+        ${first_entry}=    Get From List    ${construction}    0
+
+        # 2. Go down by 10 entries
+        Press Key N Times    6    ${ARROW_DOWN}
+        Sleep    1s
+        ${OUTTTT}=    Read From Terminal
+        Log To Console    outt: _________________________________________________________\n${OUTTTT}
+        # 3. Keep going down one by one, until we reach the first_entry again
+        FOR    ${iter}    IN RANGE    0    50
+            Press Key N Times    1    ${ARROW_DOWN}
+            ${out}=    Read From Terminal Until    LCtrl+LAlt+F12=Save
+            Log    ${out}
+            Log To Console    Iteration: ${iter}:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n${out}
+            ${lines}=    Split To Lines    ${out}
+            ${entry}=    Get From List    ${lines}    -1
+            ${entry}=    Strip String    ${entry}
+            ${entry}=    Strip String    ${entry}    characters=>
+            ${entry}=    Strip String    ${entry}
+
+        END
+    END
+    RETURN    ${construction}
 
 Enter Boot Menu Tianocore And Return Construction
     [Documentation]
@@ -202,6 +259,7 @@ Get Menu Construction
 
     Sleep    1s
     ${out}=    Read From Terminal Until    ${checkpoint}
+    Log To Console    ${out}
     ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
     RETURN    ${menu}
 

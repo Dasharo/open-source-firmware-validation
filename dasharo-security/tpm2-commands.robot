@@ -238,53 +238,57 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
 
 TPMCMD012.001 Change EPS (Ubuntu)
     [Documentation]    Check whether the TPM supports file signing.
-    Log To Console    \nTPMCMD0012.001 Change EPS - run
-    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
-    Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
-    Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
-    Execute Linux Command    echo "my secret" > secret.data
-    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
-    Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
-    Execute Linux Command    rm -f key.pub key.priv key.ctx sig.rssa secret.data
+    # Log To Console    \nTPMCMD0012.001 Change EPS - run
+    # Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
+    # Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
+    # Flush TPM Contexts
+    # Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    # Execute Linux Command    echo "my secret" > secret.data
+    # Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
+    # Flush TPM Contexts
+    # Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
+    # Execute Linux Command    rm -f key.pub key.priv key.ctx sig.rssa secret.data
     Execute Reboot Command
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    # Log To Console    \nsetup_menu:
-    # Count Menu Items    ${setup_menu}
-    # Log To Console    ${setup_menu}
-    # Log To Console    \n\n
+    Log To Console    \nsetup_menu:
+    Count Menu Items    ${setup_menu}
+    Log To Console    ${setup_menu}
+    Log To Console    \n\n
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
+    # Press Key N Times    1    ${ARROW_DOWN}
     # Log To Console    \nevice_manager_menu:
     # Count Menu Items    ${device_manager_menu}
     # Log To Console    ${device_manager_menu}
     # Log To Console    \n\n
-    ${TPM_menu}=    Enter Submenu From Snapshot And Return Construction
+    # ${TPM_menu}=    Enter Submenu From Snapshot And Return Construction
+    Enter Submenu From Snapshot
     ...    ${device_manager_menu}
     ...    TCG2 Configuration
-    Log To Console    \nTPM_menu:
-    Count Menu Items    ${TPM_menu}
-    Log To Console    ${TPM_menu}
-    ${first_item}    Set Variable    ${TPM_menu}[0]
-    Log To Console    First item: ${first_item}
-    Log To Console    \n\n
-    Press Key N Times    10    ${ARROW_DOWN}
-    ${TPM_menu}=    Get Submenu Construction
-    Log To Console    \nTPM_menu czytane znowu:
-    Count Menu Items    ${TPM_menu}
-    Log To Console    ${TPM_menu}
-    ${first_item}    Set Variable    ${TPM_menu}[0]
-    Log To Console    First item: ${first_item}
-    Log To Console    \n\n
+    # Log To Console    \nTPM_menu:
+    # Count Menu Items    ${TPM_menu}
+    # Log To Console    ${TPM_menu}
+    # # ${first_item}    Set Variable    ${TPM_menu}[0]
+    # # Log To Console    First item: ${first_item}
+
+    # Show current console    3
+    # Press Key N Times    10    ${ARROW_DOWN}
+    # ${TPM_menu}=    Get Submenu Construction
+    # Log To Console    \nTPM_menu czytane znowu:
+    # Count Menu Items    ${TPM_menu}
+    # Log To Console    ${TPM_menu}
+    # ${first_item}    Set Variable    ${TPM_menu}[0]
+    # Log To Console    First item: ${first_item}
+    # Log To Console    \n\n
     # ${ChangeEPS_index}=    Get Index Of Matching Option In Menu    ${TPM_menu}    Attempt PPI Version
     # ${ChangeEPS_index}=    Get Index Of Matching Option In Menu    ${TPM_menu}    Attempt TPM Device
-    ${ChangeEPS_index}=    Get Index Of Matching Option In Menu    ${TPM_menu}    PTP TPM Device Interface
-    Log To Console    \nIndex:
-    Log To Console    ${ChangeEPS_index}
-    Log To Console    \n
+    # ${ChangeEPS_index}=    Get Index Of Matching Option In Menu    ${TPM_menu}    PTP TPM Device Interface
+    # Log To Console    \nIndex:
+    # Log To Console    ${ChangeEPS_index}
+    # Log To Console    \n
     ${target_option_index}=    Search BIOS Menu For Option    PTP TPM Device Interface
+
     # Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
     # Press Key N Times And Enter    1    ${ARROW_UP}
     # Save Changes And Reset
@@ -303,6 +307,17 @@ TPMCMD012.001 Change EPS (Ubuntu)
     # Read From Terminal Until
 
 *** Keywords ***
+Show current console
+    [Arguments]    ${iteratio}
+    FOR    ${number}    IN RANGE    1    ${iteratio}
+        Log To Console    R${number}:\n
+        Reenter Menu
+        Press Key N Times    1    ${ARROW_UP}
+        # Press Enter
+        ${outt}    Read From Terminal Until    LCtrl+LAlt+F12=Save
+        Log To Console    ${outt}
+    END
+
 Count Menu Items
     [Arguments]    ${menu}
     ${count}    Evaluate    len(${menu})
@@ -316,23 +331,28 @@ Search BIOS Menu For Option
     ${found}    Set Variable    ${False}
     ${target_option_index}    Set Variable    0
     Log To Console    target_option_index:${target_option_index}
-    # ${visible_options}=    Get Boot Menu Construction
-    Press Key N Times    1    ${ARROW_DOWN}
-    ${visible_options}=    Get Submenu Construction    checkpoint=LCtrl+LAlt+F12=Save
-    Log To Console    ${visible_options}
+    ${visible_options}=    Get Boot Menu Construction2
+    # ${visible_options}=    Get Submenu Construction    checkpoint=LCtrl+LAlt+F12=Save
+    # ${visible_options}=    Get Submenu Construction
+    Log To Console    Visible options:${visible_options}
     ${first_item}    Set Variable    ${visible_options}[0]
-    ${current_item}    Set Variable    ${first_item}
+    ${current_item}    Set Variable    DummyInput    #Set as something that is not a valid option
     Log To Console    First item: ${first_item}
     FOR    ${i}    IN RANGE    100    #asuming menu is no bigger than 100 items
-        IF    ${current_item} != ${target_option}
+        IF    '${current_item}' != '${target_option}'
             ${target_option_index}=    Evaluate    ${target_option_index} + 1
-            Press Key N Times And Enter    1    ${ARROW_DOWN}
-            ${visible_options}=    Get Boot Menu Construction
+            Reenter Menu
+            Press Key N Times    1    ${ESC}
+            Press Key N Times    1    ${ARROW_UP}
+            Press Key N Times    1    ${ARROW_DOWN}
+            Press Key N Times    1    ${ENTER}
+            Press Key N times    ${target_option_index}    ${ARROW_DOWN} # TA OPCJA PSUJE
+    ${visible_options}=    Get Boot Menu Construction2
             ${current_item}    Set Variable    ${visible_options}[0]
-        ELSE IF     ${first_item} == ${current_item}
+        ELSE IF     '${first_item}' == '${current_item}'
             Log To Console    Option: ${target_option} not found\n
             RETURN
-        ELSE IF    ${current_item} == ${target_option}
+        ELSE IF    '${current_item}' == '${target_option}'
             RETURN    ${target_option_index}
         ELSE
             Log To Console    Unexpected condition!\n

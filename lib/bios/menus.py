@@ -207,6 +207,31 @@ getoptionpath = {
         "CPU Configuration",
         "Number of active P-cores",
     ],
+    "SecureBoot": [
+        "Device Manager",
+        "Secure Boot Configuration",
+        "Enable Secure Boot",
+    ],
+    "ChangeEPS": [
+        "Device Manager",
+        "TCG2 Configuration",
+        "Change EPS",
+    ],
+    "AttemptTMP": [
+        "Device Manager",
+        "TCG2 Configuration",
+        "Attempt TPM Device",
+    ],
+    "PTP_TPM": [
+        "Device Manager",
+        "TCG2 Configuration",
+        "PTP TPM Device Interface",
+    ],
+    "SHA256": [
+        "Device Manager",
+        "TCG2 Configuration",
+        "PCR Bank: SHA256",
+    ],
 }
 
 
