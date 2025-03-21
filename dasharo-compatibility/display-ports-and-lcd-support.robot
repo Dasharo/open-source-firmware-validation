@@ -59,7 +59,6 @@ DSP002.301 - External HDMI display in OS (Windows)
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
     Login To Windows
     Check HDMI Windows
 
@@ -92,7 +91,6 @@ DSP003.002 - External DP display in OS (Windows)
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP003.002 not supported
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
     Login To Windows
     Check DP Windows
 
