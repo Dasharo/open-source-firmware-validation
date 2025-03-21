@@ -100,11 +100,12 @@ Get Boot Menu Construction
         END
     END
     RETURN    ${construction}
-Search For The Option
+Search For Option Not Visible After Entering Menu
     [Documentation]
     ...    Reads the serial output in search for the first occurance of
     ...    ${option} when it fidns it, the function returns the
-    ...    qantity of ${ARROW_DOWN} presses required to reach that ${option}
+    ...    qantity of ${ARROW_DOWN} presses required to reach that ${option}.
+    ...    It works only if the ${option} is not visible after entering menu.
     ...
     ...    === Requirements ===
     ...    - Boot menu has to be entered using ``Enter Boot Menu Tianocore``
@@ -114,14 +115,19 @@ Search For The Option
     ...    ``${option}``: ``string`` The first line of the option you want to find.
     ...    In case options are split into multiple lines make sure to put only
     ...    the first line of the option as argument.
+    ...    ``${re_enter}``: ``boolean`` - if ``${TRUE}``, reenters menu at the start
+    ...    of the Key Word
     ...
     ...    === Return Value ===
     ...    - ``int`` - The qantity of ${ARROW_DOWN} presses required to reach that ${option}
-    ...    - ``-1`` - If the  ${option} has not been found.
     ...
     ...    === Effects ===
     ...    - The submenu is read from the serial buffer
-    [Arguments]    ${option}
+    [Arguments]    ${option}    ${re_enter}=${TRUE}
+
+    IF    ${re_enter}
+        Reenter Menu
+    END
     ${menu}=    Read From Terminal Until    Exit
     # Lines to strip:
     #    TOP:
@@ -145,17 +151,20 @@ Search For The Option
             ${contains}=    Run Keyword And Ignore Error
             ...    Should Contain    ${out}    ${option}
             IF    '${contains}[0]' == 'PASS'
+                IF    ${key_down_qtty} < 8
+                    FAIL    msg=This option is visible after entering the menu. Use another Key Word.
+                END
                 RETURN    ${key_down_qtty}
             END
         END
     ELSE    #When the menu doesn't require scrolling.
             #Then this KWD is not needed. Added for compability.
-        ${key_down_qtty}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
-        Should Not Be Equal As Integers    ${key_down_qtty}    -1    msg=Option ${option} not found in menu
+        Remove Values From List    ${construction}    Devices List    # This is the only that has additional menu title
+        ${key_down_qtty}=    Get Index Of Matching Option In Menu    ${construction}    ${option}
+        Should Not Be Equal As Integers    ${key_down_qtty}    -1    msg=Option '${option}' not found in menu
         RETURN    ${key_down_qtty}
     END
-    Fail    msg=Option ${option} not found in menu.
-    RETURN    -1
+    Fail    msg=Option '${option}' not found in menu.
 
 Enter Boot Menu Tianocore And Return Construction
     [Documentation]
