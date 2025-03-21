@@ -161,7 +161,7 @@ Check TPM2 Banks State After FW Changes
     [Documentation]    Verifies the state of TPM Banks. Fails test if they are differerent then input.
     [Arguments]    ${sha1_desired}    ${sha256_desired}
     Save Changes And Reset
-    Read From Terminal Until    F12
+    Read From Terminal Until    Press F12 to change the boot measurements to use PCR bank(s) of the TPM
     Press Key N Times    1    ${F12}    # confirm changes
     Prepare TPM Test On Ubuntu
     ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
