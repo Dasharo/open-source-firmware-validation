@@ -1081,12 +1081,9 @@ Provide DPP Credentials
     ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
     Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
 
-    # Enter logs key:
-    Variable Should Exist    ${DPP_LOGS_KEY}
-    Write Into Terminal    ${DPP_LOGS_KEY}
-    # Enter download key:
-    Variable Should Exist    ${DPP_DOWNLOAD_KEY}
-    Write Into Terminal    ${DPP_DOWNLOAD_KEY}
+    # Enter email:
+    Variable Should Exist    ${DPP_EMAIL}
+    Write Into Terminal    ${DPP_EMAIL}
     # Enter password:
     Variable Should Exist    ${DPP_PASSWORD}
     Write Into Terminal    ${DPP_PASSWORD}
