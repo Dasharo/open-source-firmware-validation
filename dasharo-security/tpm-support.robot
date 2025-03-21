@@ -129,21 +129,12 @@ TPM003.004 Change active PCR banks with TPM PPI (firmware)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
     Prepare TPM Test On Ubuntu
     ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
-    Log To Console    \nsha1 state: ${sha1}
-    Log To Console    sha256 state: ${sha256}
-    # ${sha_states}=    Check Which TPM2 Banks Are Enabled
-    # Log To Console    \nsha states: ${sha_states}
     Execute Reboot Command
     Enter The TCG2 Configuration Menu
-
-    # ${SHA1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
-    # ${SHA256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
-    # Reenter Menu
-    ${SHA1_position}=    Set Variable    24
-    ${SHA256_position}=    Set Variable    25
-    Log To Console    \nSha1: ${SHA1_position} and sha256: ${SHA256_position}\n
-
-    # make sure both PCR Banks are high
+    ${SHA1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
+    ${SHA256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
+    Reenter Menu
+    # Making sure both PCR Banks are high
     IF    ${sha1} == ${False} or ${sha256} == ${False}
         IF    ${sha1} == False
             Press Key N Times And Enter    ${SHA1_position}    ${ARROW_DOWN}
@@ -152,18 +143,15 @@ TPM003.004 Change active PCR banks with TPM PPI (firmware)
         END
     Check TPM2 Banks State After FW Changes    ${True}    ${True}
     END
-
     #Order of checks below cannot be changed without changing desired TPM2 Banks states
     # sha1 = True, sha256 = False
     Press Key N Times And Enter    ${SHA256position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${True}    ${False}
-
     # sha1 = False, sha256 = True
     Press Key N Times And Enter    ${SHA1position}    ${ARROW_DOWN}
     Reenter Menu
     Press Key N Times And Enter    ${SHA256position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${False}    ${True}
-
     # Get to the starting state: sha1 = True, sha256 = True
     Press Key N Times And Enter    ${SHA1position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${True}    ${True}
@@ -174,17 +162,16 @@ Check TPM2 Banks State After FW Changes
     [Arguments]    ${sha1_desired}    ${sha256_desired}
     Save Changes And Reset
     Read From Terminal Until    F12
-    Press Key N Times    1    ${F12}    # my asumtion this was the correct key to confirm the change
+    Press Key N Times    1    ${F12}    # confirm changes
     Prepare TPM Test On Ubuntu
     ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
     Should Be Equal    ${sha1}    ${sha1_desired}
     Should Be Equal    ${sha256}    ${sha256_desired}
-    Log To Console    \nsha1 state: ${sha1}\n
-    Log To Console    sha256 state: ${sha256}\n
     Execute Reboot Command
     Enter The TCG2 Configuration Menu
 
 Enter The TCG2 Configuration Menu
+    [Documentation]    Enters the TCG2 Configuration menu after reboot
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
