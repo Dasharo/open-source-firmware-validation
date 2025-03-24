@@ -144,15 +144,15 @@ TPM003.004 Change active PCR banks with TPM PPI (firmware)
     END
     #Order of checks below cannot be changed without changing desired TPM2 Banks states
     # sha1 = True, sha256 = False
-    Press Key N Times And Enter    ${SHA256position}    ${ARROW_DOWN}
+    Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${True}    ${False}
     # sha1 = False, sha256 = True
-    Press Key N Times And Enter    ${SHA1position}    ${ARROW_DOWN}
+    Press Key N Times And Enter    ${SHA1_position}    ${ARROW_DOWN}
     Reenter Menu
-    Press Key N Times And Enter    ${SHA256position}    ${ARROW_DOWN}
+    Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${False}    ${True}
     # Get to the starting state: sha1 = True, sha256 = True
-    Press Key N Times And Enter    ${SHA1position}    ${ARROW_DOWN}
+    Press Key N Times And Enter    ${SHA1_position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${True}    ${True}
 
 *** Keywords ***
