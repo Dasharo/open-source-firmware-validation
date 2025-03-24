@@ -112,14 +112,15 @@ Search For Option Not Visible After Entering Menu
     ...    - (?)The serial must not have been read after entering the boot menu
     ...
     ...    === Arguments ===
-    ...    ``${option}``: ``string`` The first line of the option you want to find.
-    ...    In case options are split into multiple lines make sure to put only
-    ...    the first line of the option as argument.
-    ...    ``${re_enter}``: ``boolean`` - if ``${TRUE}``, reenters menu at the start
-    ...    of the Key Word
+    ...    ``${option}``: ``string`` The first line of the option you want
+    ...    to find. In case options are split into multiple lines make sure to
+    ...    put only the first line of the option as argument.
+    ...    ``${re_enter}``: ``boolean`` - if ``${TRUE}``, reenters menu at
+    ...    the start of the Key Word
     ...
     ...    === Return Value ===
-    ...    - ``int`` - The qantity of ${ARROW_DOWN} presses required to reach that ${option}
+    ...    - ``int`` - The qantity of ${ARROW_DOWN} presses required to
+    ...    reach that ${option}
     ...
     ...    === Effects ===
     ...    - The submenu is read from the serial buffer
@@ -145,7 +146,9 @@ Search For Option Not Visible After Entering Menu
     IF    ${no_entries} >= 11
 
         Read From Terminal
-        FOR    ${key_down_qtty}    IN RANGE    1    50    #50 is random number it assumes that you need lest than 50 arrow down clicks to go through entire menu
+        #50 is random number itassumes that you need lest than 50 arrow down
+        # clicks to go through entire menu
+        FOR    ${key_down_qtty}    IN RANGE    1    50
             Press Key N Times    1    ${ARROW_DOWN}
             ${out}=    Read From Terminal Until    LCtrl+LAlt+F12=Save
             ${contains}=    Run Keyword And Ignore Error
@@ -157,11 +160,15 @@ Search For Option Not Visible After Entering Menu
                 RETURN    ${key_down_qtty}
             END
         END
-    ELSE    #When the menu doesn't require scrolling.
-            #Then this KWD is not needed. Added for compability.
-        Remove Values From List    ${construction}    Devices List    # This is the only that has additional menu title
-        ${key_down_qtty}=    Get Index Of Matching Option In Menu    ${construction}    ${option}
-        Should Not Be Equal As Integers    ${key_down_qtty}    -1    msg=Option '${option}' not found in menu
+    #When the menu doesn't require scrolling. Then this KWD is not needed.
+    # Added for compability.
+    ELSE
+        # This is the only that has additional menu title
+        Remove Values From List    ${construction}    Devices List
+        ${key_down_qtty}=
+        ...    Get Index Of Matching Option In Menu    ${construction}    ${option}
+        Should Not Be Equal As Integers    ${key_down_qtty}    -1
+        ...    msg=Option '${option}' not found in menu
         RETURN    ${key_down_qtty}
     END
     Fail    msg=Option '${option}' not found in menu.
