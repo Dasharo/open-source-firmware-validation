@@ -18,8 +18,10 @@ Resource            ../keys-and-keywords/ubuntu-keywords.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Run Ansible Playbooks
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -203,4 +205,43 @@ Power On Ex
             FAIL    Power LED didn't light up! Setup needs manual verification,
             ...    or Power State After Power Failure is set incorrectly.
         END
+Run Ansible Playbooks
+    [Documentation]    Runs all supported Ansible plabooks from os-config/ansible
+    ...    according to ${TESTED_LINUX_DISTROS}
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
+    IF    not ${USE_ANSIBLE}
+        Log To Console    USE_ANSIBLE is set to ${USE_ANSIBLE}, skipping ansible setup.
+        RETURN
+    END
+
+    FOR    ${distro_id}    IN    @{TESTED_LINUX_DISTROS}
+        Log To Console    "Ansible setup for ENV_ID ${distro_id}"
+        Power On
+        Boot System Or From Connected Disk    ${distro_id}
+        # ansible will fail no matter the timeouts if host is unreachable
+        # (not booted yet)
+        Login To Linux
+
+        # Create temporary inventory file for given platform and OS
+        ${inventory_file}=    Catenate    [host] \n
+        ...    ${DEVICE_IP} ansible_user=${DEVICE_OS_USERNAME}
+        ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_sudo_pass=${DEVICE_OS_PASSWORD}
+        ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+        ${tmp_file_rand}=    Generate Random String    length=16
+        ${tmp_inventory_filename}=    Set Variable    ansible_inventory_${tmp_file_rand}.yaml
+        Create File    ${tmp_inventory_filename}    ${inventory_file}
+
+        # Prepare and run ansible-playbook command
+        ${ansible_cmd}=    Catenate    ansible-playbook
+        ...    os-config/ansible/linux-packages-playbook.yaml
+        ...    -i ${tmp_inventory_filename}
+        ...    --extra-vars "os_id=${BOOTED_OS_ID}"
+        ...    --timeout 300
+        ${rc}    ${out}=    Run And Return Rc And Output    ${ansible_cmd}
+        Log To Console    ${out}
+
+        # Cleanup
+        Remove File    ${tmp_inventory_filename}
+
+        Should Be Equal As Integers    ${rc}    0
     END
