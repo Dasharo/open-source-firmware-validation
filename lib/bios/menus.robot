@@ -102,7 +102,7 @@ Get Boot Menu Construction
     RETURN    ${construction}
 Search For Option Not Visible After Entering Menu
     [Documentation]
-    ...    Reads the serial output in search for the first occurance of
+    ...    Reads the serial output in search for the first occurrence of
     ...    ${option} when it fidns it, the function returns the
     ...    qantity of ${ARROW_DOWN} presses required to reach that ${option}.
     ...    It works only if the ${option} is not visible after entering menu.
@@ -161,7 +161,7 @@ Search For Option Not Visible After Entering Menu
             END
         END
     #When the menu doesn't require scrolling. Then this KWD is not needed.
-    # Added for compability.
+    # Added for compatibility.
     ELSE
         # This is the only that has additional menu title
         Remove Values From List    ${construction}    Devices List
