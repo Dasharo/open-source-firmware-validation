@@ -25,7 +25,6 @@ ${SNIPEIT}=                         no
 ${FLASH_SIZE}=                      33554432
 
 ${TESTS_IN_WINDOWS_SUPPORT}=        ${FALSE}
-${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE}
 ${USB_STACK_SUPPORT}=               ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=          4602000
 
