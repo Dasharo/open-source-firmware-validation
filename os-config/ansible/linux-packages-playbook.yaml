@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+- name: Create a file named "tmp" in the home directory with `Hello World`
+  hosts: host
+  become: true
+  tasks:
+    - name: Load package names
+      ansible.builtin.include_vars: "{{os_id}}-packages.yaml"
+
+    - name: Install packages
+      ansible.builtin.package:
+        name:
+          - "{{package_lm_sensors}}"
+          - "{{package_flashrom}}"
+          - "{{package_libpci_dev}}"
+        state: present
