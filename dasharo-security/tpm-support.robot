@@ -12,7 +12,6 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../lib/tpm.robot
 Resource            ../keys.robot
-# Resource            tpm2-commands.robot    # For the 'Check Which TPM2 Banks Are Enabled' KWD
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
