@@ -192,15 +192,6 @@ Check Which TPM2 Banks Are Enabled
     ...    ${out}
     ...    sha256: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 ]
     RETURN    ${sha1}    ${sha256}
-Create A Phony Menu
-    [Arguments]    ${list_length}    ${option}
-    ${list}    Create List
-    FOR    ${i}    IN RANGE    1    ${list_length}
-        Append To List    ${list}    0    # '0' is totally random
-    END
-    Append To List    ${list}    ${option}
-    Log To Console    ${list}
-    RETURN    ${list}
 
 Prepare TPM Test On Ubuntu
     [Documentation]    Run common actions required for TPM tests in Ubuntu
