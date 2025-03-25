@@ -238,7 +238,7 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
 
 TPMCMD012.001 Change EPS (Ubuntu)
     [Documentation]    Try to trigger the TPM_RC_INTEGRITY error
-    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
     Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
@@ -270,7 +270,7 @@ TPMCMD012.001 Change EPS (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
     Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
     Execute Linux Command    echo "my secret" > secret.data
