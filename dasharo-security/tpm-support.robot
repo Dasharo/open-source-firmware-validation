@@ -127,23 +127,20 @@ TPM003.004 Change active PCR banks with TPM PPI (firmware)
     Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.004 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
     Prepare TPM Test On Ubuntu
-    ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
     Execute Reboot Command
     Enter The TCG2 Configuration Menu
     ${sha1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
     ${sha256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
     Reenter Menu
-    # Making sure both PCR Banks are high
-    IF    ${sha1} == ${False} or ${sha256} == ${False}
-        IF    ${sha1} == False
-            Press Key N Times And Enter    ${sha1_position}    ${ARROW_DOWN}
-        ELSE    # ${sha1} == False
-            Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
-        END
-    Check TPM2 Banks State After FW Changes    ${True}    ${True}
-    Execute Reboot Command
-    Enter The TCG2 Configuration Menu
-    END
+    # Set all PCR Banks to True
+    ${target_option_index}=    Search For Option Not Visible After Entering Menu     TPM2 Operation
+    Reenter Menu
+    Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
+    ${checkpoint}=    Set Variable
+    ...    \---------------------------------------------------------------------/
+    ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
+    Enter Submenu From Snapshot    ${tpm2_operation_menu}     TCG2 LogAllDigests
+    Save Changes And Reset
     # Order of checks below cannot be changed without changing desired TPM2 Banks states
     # sha1 = True, sha256 = False
     Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
