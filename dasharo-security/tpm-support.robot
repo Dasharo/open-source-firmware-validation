@@ -124,53 +124,60 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
 TPM003.004 Change active PCR banks with TPM PPI (firmware)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.004 not supported    #maby this should be NONE
+    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.004 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
     Prepare TPM Test On Ubuntu
     ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
     Execute Reboot Command
     Enter The TCG2 Configuration Menu
-    ${SHA1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
-    ${SHA256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
+    ${sha1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
+    ${sha256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
     Reenter Menu
     # Making sure both PCR Banks are high
     IF    ${sha1} == ${False} or ${sha256} == ${False}
         IF    ${sha1} == False
-            Press Key N Times And Enter    ${SHA1_position}    ${ARROW_DOWN}
+            Press Key N Times And Enter    ${sha1_position}    ${ARROW_DOWN}
         ELSE    # ${sha1} == False
-            Press Key N Times And Enter    ${SHA256_position}    ${ARROW_DOWN}
+            Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
         END
     Check TPM2 Banks State After FW Changes    ${True}    ${True}
+    Execute Reboot Command
+    Enter The TCG2 Configuration Menu
     END
     # Order of checks below cannot be changed without changing desired TPM2 Banks states
     # sha1 = True, sha256 = False
     Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${True}    ${False}
+    Execute Reboot Command
+    Enter The TCG2 Configuration Menu
     # sha1 = False, sha256 = True
-    Press Key N Times And Enter    ${SHA1_position}    ${ARROW_DOWN}
-    Reenter Menu
     Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
+    Reenter Menu
+    Press Key N Times And Enter    ${sha1_position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${False}    ${True}
+    Execute Reboot Command
+    Enter The TCG2 Configuration Menu
     # Get to the starting state: sha1 = True, sha256 = True
-    Press Key N Times And Enter    ${SHA1_position}    ${ARROW_DOWN}
+    Press Key N Times And Enter    ${sha1_position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${True}    ${True}
+    Execute Reboot Command
+    Enter The TCG2 Configuration Menu
 
 *** Keywords ***
 Check TPM2 Banks State After FW Changes
-    [Documentation]    Verifies the state of TPM Banks. Fails test if they are differerent then input.
+    [Documentation]    Verifies the state of TPM Banks. Fails test if they are different than input.
     [Arguments]    ${sha1_desired}    ${sha256_desired}
     Save Changes And Reset
     Read From Terminal Until    Press F12 to change the boot measurements to use PCR bank(s) of the TPM
-    Press Key N Times    1    ${F12}    # confirm changes
+    Press Key N Times    1    ${F12}
     Prepare TPM Test On Ubuntu
     ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
     Should Be Equal    ${sha1}    ${sha1_desired}
     Should Be Equal    ${sha256}    ${sha256_desired}
-    Execute Reboot Command
-    Enter The TCG2 Configuration Menu
 
 Enter The TCG2 Configuration Menu
-    [Documentation]    Enters the TCG2 Configuration menu after reboot
+    [Documentation]    Following a reboot triggered outside of this KWD,
+    ...    enters the TCG2 Configuration menu.
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
