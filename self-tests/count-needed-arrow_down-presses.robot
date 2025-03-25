@@ -23,9 +23,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Search For Option Not Visible After Entering Menu - Test
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" works
-    ...    correctly. Make sure that "Attempt PPI Version" is set to 1.3
-    ...    The best way to check this test is to observe bios in QEMU.
-    Log To Console    Make sure that "Attempt PPI Version" is set to 1.3
+    ...    correctly.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -35,14 +33,8 @@ Search For Option Not Visible After Entering Menu - Test
     ...    ${device_manager_menu}
     ...    TCG2 Configuration
     ${target_option_index}=    Search For Option Not Visible After Entering Menu    Attempt PPI Version    re_enter=${FALSE}
-    Reenter Menu
-    Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
-    Press Key N Times And Enter    1    ${ARROW_UP}
-    Reenter Menu
-    ${target_option_index}=    Search For Option Not Visible After Entering Menu    Attempt PPI Version    re_enter=${TRUE}
-    Reenter Menu
-    Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
-    Press Key N Times And Enter    1    ${ARROW_DOWN}
+    ${second_target_option_index}=    Search For Option Not Visible After Entering Menu    Attempt PPI Version    re_enter=${TRUE}
+    Should Be Equal    ${target_option_index}    ${second_target_option_index}
 
 Search For Option Visible At First Menu Entrance
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" returns
@@ -70,6 +62,5 @@ Search Option In Menu Smaller Than 11 Entries
     ...    Device Manager
     ${target_option_index}=    Search For Option Not Visible After Entering Menu    TCG2 Configuration    re_enter=${TRUE}
     Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
-    # ${TPMmenu}=    Get Boot Menu Construction
-    ${TPMmenu}=    Get Menu Construction    checkpoint=Esc=Exit
-    Should Contain    ${TPMmenu}    Current TPM Device TPM 2.0
+    ${tpm_menu}=    Get Menu Construction    checkpoint=Esc=Exit
+    Should Contain    ${tpm_menu}    Current TPM Device TPM 2.0
