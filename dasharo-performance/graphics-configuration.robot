@@ -27,7 +27,7 @@ DGPU002.001 Hybrid Graphics modes: dGPU Only
     [Documentation]    Verifies that only the discrete GPU (dGPU) is active and the integrated GPU (iGPU) is turned off.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    # Set UEFI Option    Hybrid Graphics Mode    dGPU Only
+    # Set UEFI Option    DGPUEnabled    dGPU Only
     Power Cycle Into Ubuntu
     Switch To Root User
     ${gpu_status}=    Execute Command In Terminal    lspci | grep -i nvidia
