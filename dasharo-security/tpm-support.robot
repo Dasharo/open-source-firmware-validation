@@ -141,6 +141,7 @@ TPM003.004 Change active PCR banks with TPM PPI (firmware)
     ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
     Enter Submenu From Snapshot    ${tpm2_operation_menu}     TCG2 LogAllDigests
     Save Changes And Reset
+    Enter The TCG2 Configuration Menu
     # Order of checks below cannot be changed without changing desired TPM2 Banks states
     # sha1 = True, sha256 = False
     Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
@@ -157,8 +158,6 @@ TPM003.004 Change active PCR banks with TPM PPI (firmware)
     # Get to the starting state: sha1 = True, sha256 = True
     Press Key N Times And Enter    ${sha1_position}    ${ARROW_DOWN}
     Check TPM2 Banks State After FW Changes    ${True}    ${True}
-    Execute Reboot Command
-    Enter The TCG2 Configuration Menu
 
 *** Keywords ***
 Check TPM2 Banks State After FW Changes
