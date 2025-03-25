@@ -272,12 +272,13 @@ TPMCMD012.001 Change EPS (Ubuntu)
     Switch To Root User
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
     Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
-    Execute Linux Command    echo "my secret" > secret.data
-    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
-    Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
-    Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
+    ${result}=    Run Keyword And Ignore Error    Execute Linux Tpm2 Tools Command
+    ...    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    IF    '${result}[0]' == 'FAIL'
+        Should Contain    ${result}[1]    0x1DF
+    ELSE
+        FAIL    msg=tpm2_load should result in an error.\n
+    END
 
 *** Keywords ***
 Flush TPM Contexts
