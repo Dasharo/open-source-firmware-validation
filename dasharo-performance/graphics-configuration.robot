@@ -11,17 +11,17 @@ Suite Teardown      Log Out And Close Connection
 DGPU001.001 Hybrid Graphics modes: NVIDIA Optimus
     [Documentation]    Verifies if both the integrated and discrete GPUs (iGPU & dGPU) are turned on in Ubuntu.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Set UEFI Option    Hybrid Graphics Mode    iGPU Only
+    Set UEFI Option    DGPUEnabled    NVIDIA Optimus
     Power Cycle Into Ubuntu
     Switch To Root User
 
     ${gpu_status}=    Execute Command In Terminal    lspci | grep -i nvidia
     Should Contain    ${gpu_status}    NVIDIA    msg= "dGPU is not detected."
 
-    ${active_gpu}=    Execute Command In Terminal    cat /sys/class/drm/card*/device/power/control
-    Should Contain    ${active_gpu}    on    msg= "dGPU is not turned on."
+    ${igpu_status}=    Execute Command In Terminal    lspci | grep -i 'intel'
+    Should Contain    ${igpu_status}    Graphics    msg= "iGPU is not detected."
 
-    Log    dGPU is active and turned on.
+    Log To Console    Both iGPU and dGPU are active and turned on.
 
 DGPU002.001 Hybrid Graphics modes: dGPU Only
     [Documentation]    Verifies that only the discrete GPU (dGPU) is active and the integrated GPU (iGPU) is turned off.
@@ -36,13 +36,13 @@ DGPU002.001 Hybrid Graphics modes: dGPU Only
     ${igpu_status}=    Execute Command In Terminal    lspci | grep -i 'intel'
     Should Not Contain    ${igpu_status}    Graphics    msg= "iGPU is still active."
 
-    Log    Only dGPU is active, and iGPU is turned off.
+    Log To Console    Only dGPU is active, and iGPU is turned off.
 
 DGPU003.001 Hybrid Graphics modes: iGPU Only
     [Documentation]    Verifies that only the discrete GPU (dGPU) is turned off and the integrated GPU (iGPU) is active.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Set UEFI Option    Hybrid Graphics Mode    iGPU Only
+    Set UEFI Option    DGPUEnabled    iGPU Only
     Power Cycle Into Ubuntu
     Switch To Root User
     ${gpu_status}=    Execute Command In Terminal    lspci | grep -i nvidia
@@ -51,7 +51,7 @@ DGPU003.001 Hybrid Graphics modes: iGPU Only
     ${igpu_status}=    Execute Command In Terminal    lspci | grep -i 'intel'
     Should Contain    ${igpu_status}    Graphics    msg= "iGPU is not detected."
 
-    Log    Only iGPU is active, and dGPU is turned off.
+    Log To Console    Only iGPU is active, and dGPU is turned off.
 
 
 *** Keywords ***
