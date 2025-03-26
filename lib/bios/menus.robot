@@ -100,6 +100,7 @@ Get Boot Menu Construction
         END
     END
     RETURN    ${construction}
+
 Search For Option Not Visible After Entering Menu
     [Documentation]
     ...    Reads the serial output in search for the first occurrence of
@@ -126,9 +127,7 @@ Search For Option Not Visible After Entering Menu
     ...    - The submenu is read from the serial buffer
     [Arguments]    ${option}    ${re_enter}=${TRUE}
 
-    IF    ${re_enter}
-        Reenter Menu
-    END
+    IF    ${re_enter}    Reenter Menu
     ${menu}=    Read From Terminal Until    Exit
     # Lines to strip:
     #    TOP:
@@ -144,9 +143,8 @@ Search For Option Not Visible After Entering Menu
 
     ${no_entries}=    Get Length    ${construction}
     IF    ${no_entries} >= 11
-
         Read From Terminal
-        #50 is random number itassumes that you need lest than 50 arrow down
+        # 50 is random number itassumes that you need lest than 50 arrow down
         # clicks to go through entire menu
         FOR    ${key_down_qtty}    IN RANGE    1    50
             Press Key N Times    1    ${ARROW_DOWN}
@@ -160,8 +158,8 @@ Search For Option Not Visible After Entering Menu
                 RETURN    ${key_down_qtty}
             END
         END
-    #When the menu doesn't require scrolling. Then this KWD is not needed.
-    # Added for compatibility.
+        # When the menu doesn't require scrolling. Then this KWD is not needed.
+        # Added for compatibility.
     ELSE
         # This is the only that has additional menu title
         Remove Values From List    ${construction}    Devices List
