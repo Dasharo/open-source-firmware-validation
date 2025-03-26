@@ -2,6 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-package_lm_sensors: lm-sensors
+package_lm_sensors: lm_sensors
 package_flashrom: flashrom
 package_libpci_dev: pciutils-devel
