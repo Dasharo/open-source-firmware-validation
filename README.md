@@ -28,6 +28,7 @@ appear here.
     - [Running tests](#running-tests)
     - [Running tests via wrapper](#running-tests-via-wrapper)
     - [Running regressions tests](#running-regressions-tests)
+* [Checking Robot Framework syntax before committing](#checking-robot-framework-syntax-before-committing)
 * [Useful refactoring tools](#useful-refactoring-tools)
 * [Generating documentation](#generating-documentation)
 * [Additional documents](#additional-documents)
@@ -300,6 +301,18 @@ and can be used to verify if everything works fine.
 The `scripts/regression.sh` wrapper script runs this test suite automatically
 before the Dasharo test modules. This behavior can be turned off by setting
 the `NO_SETUP` environment variable to any value.
+
+## Checking Robot Framework syntax before committing
+
+Before pushing changes to the Open Source Firmware Remote Test Environment
+repository, it's recommended to run:
+
+``` bash
+pre-commit run --all-files
+```
+
+This command checks the code for syntax and style issues to ensure its
+integrity before pushing to the remote repository.
 
 ## Useful refactoring tools
 
