@@ -20,6 +20,7 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+
 *** Test Cases ***
 Search For Option Not Visible After Entering Menu - Test
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" works
@@ -32,13 +33,17 @@ Search For Option Not Visible After Entering Menu - Test
     Enter Submenu From Snapshot
     ...    ${device_manager_menu}
     ...    TCG2 Configuration
-    ${target_option_index}=    Search For Option Not Visible After Entering Menu    Attempt PPI Version    re_enter=${FALSE}
-    ${second_target_option_index}=    Search For Option Not Visible After Entering Menu    Attempt PPI Version    re_enter=${TRUE}
+    ${target_option_index}=    Search For Option Not Visible After Entering Menu
+    ...    Attempt PPI Version
+    ...    re_enter=${FALSE}
+    ${second_target_option_index}=    Search For Option Not Visible After Entering Menu
+    ...    Attempt PPI Version
+    ...    re_enter=${TRUE}
     Should Be Equal    ${target_option_index}    ${second_target_option_index}
 
 Search For Option Visible At First Menu Entrance
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" returns
-    ...   a proper message when the searched option is visible at first menu entrance.
+    ...    a proper message when the searched option is visible at first menu entrance.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -49,18 +54,21 @@ Search For Option Visible At First Menu Entrance
     ...    TCG2 Configuration
     ${target_option_index}=    Run Keyword And Ignore Error
     ...    Search For Option Not Visible After Entering Menu    Attempt TPM Device    re_enter=${FALSE}
-    ${wxpected_result}=    Evaluate    ('FAIL', 'This option is visible after entering the menu. Use another Key Word.')
-    Should Be Equal    ${target_option_index}    ${wxpected_result}
+    ${expected_result}=    Evaluate
+    ...    ('FAIL', 'This option is visible after entering the menu. Use another keyword.')
+    Should Be Equal    ${target_option_index}    ${expected_result}
 
 Search Option In Menu Smaller Than 11 Entries
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" returns
-    ...   a proper message when the searched option is visible at first menu entrance.
+    ...    a proper message when the searched option is visible at first menu entrance.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
-    ${target_option_index}=    Search For Option Not Visible After Entering Menu    TCG2 Configuration    re_enter=${TRUE}
+    ${target_option_index}=    Search For Option Not Visible After Entering Menu
+    ...    TCG2 Configuration
+    ...    re_enter=${TRUE}
     Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
     ${tpm_menu}=    Get Menu Construction    checkpoint=Esc=Exit
     Should Contain    ${tpm_menu}    Current TPM Device TPM 2.0
