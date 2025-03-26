@@ -35,8 +35,8 @@ ${DEF_CORES_PER_SOCKET}=            8
 ${DEF_SOCKETS}=                     1
 ${DEF_ONLINE_CPU}=                  0-7
 
-${DEVICE_NVME_DISK}=                N/A
-${CLEVO_DISK}=                      N/A
+${DEVICE_NVME_DISK}=                Phison Electronics Corporation PS5019-E19
+${CLEVO_DISK}=                      Protectli 256GB M.2
 
 @{ETH_PORTS}=                       64-62-66-23-8f-19
 ...                                 64-62-66-23-8f-1a
