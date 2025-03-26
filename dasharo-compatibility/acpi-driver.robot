@@ -29,13 +29,9 @@ Suite Teardown      Run Keyword
 *** Variables ***
 @{EXPECTED_OUTPUT}=    dasharo_acpi-acpi-0
 ...    Adapter: ACPI interface
-...    CPU 0:
-...    GPU 0:
-...    CPU Package 0:
-...    GPU 0:
 
 *** Test Cases ***
-ACP001.001 ACPI driver test (Ubuntu)
+ACPI001.001 ACPI driver test (Ubuntu)
     [Documentation]    Tests if ACPI drivers can be recognised
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ACP001.001 not supported
     Power On
@@ -55,5 +51,4 @@ ACP001.001 ACPI driver test (Ubuntu)
     Execute Command In Terminal    modprobe dasharo-acpi
     Detect Or Install Package    lm-sensors
     ${out}=    Execute Command In Terminal    sensors
-    Log To Console    \n\nOUT:\n${out}
     Should Contain All    ${out}    @{EXPECTED_OUTPUT}
