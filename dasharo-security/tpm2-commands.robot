@@ -256,7 +256,7 @@ TPMCMD012.001 Change EPS (Ubuntu)
     Enter Submenu From Snapshot
     ...    ${device_manager_menu}
     ...    TCG2 Configuration
-    ${target_option_index}=    Search For Option Not Visible After Entering Menu     TPM2 Operation
+    ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
     Reenter Menu
     Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
     ${checkpoint}=    Set Variable
