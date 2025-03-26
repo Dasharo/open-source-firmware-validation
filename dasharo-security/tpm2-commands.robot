@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../lib/tpm.robot
+Resource            ../lib/tpm2.robot
 Resource            ../keys.robot
 
 # TODO:

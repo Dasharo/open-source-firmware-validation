@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../lib/tpm.robot
+Resource            ../lib/tpm2.robot
 Resource            ../keys.robot
 
 # TODO:
@@ -127,6 +128,57 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
 #    Skip If    not ${TPM_SUPPORTED_VERSION} == None    TPM003.004 not supported
 #    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
 # TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
+
+TPM004.201 Check if the ChangeEPS works (Ubuntu)
+    [Documentation]    Check if the `TPM2 ChangeEPS` setup menu option works properly.
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Verify Presence Of TPM Via Sysfs
+    Detect Or Install Package    tpm2-tools
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
+    Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    Execute Linux Command    echo "my secret" > secret.data
+    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
+    Flush TPM Contexts
+    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
+    Execute Linux Command    rm -f primary_key.ctx sig.rssa secret.data
+    Execute Reboot Command
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Device Manager
+    Enter Submenu From Snapshot
+    ...    ${device_manager_menu}
+    ...    TCG2 Configuration
+    ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
+    Reenter Menu
+    Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
+    ${checkpoint}=    Set Variable
+    ...    \---------------------------------------------------------------------/
+    ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
+    Enter Submenu From Snapshot    ${tpm2_operation_menu}    TPM2 ChangeEPS
+    Save Changes And Reset
+    Read From Terminal Until
+    ...    Press F12 to clear and change identity of the TPM
+    Press Key N Times    1    ${F12}
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
+    Flush TPM Contexts
+    ${result}=    Run Keyword And Ignore Error    Execute Linux Tpm2 Tools Command
+    ...    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx
+    IF    '${result}[0]' == 'FAIL'
+        Should Contain    ${result}[1]    0x1DF
+    ELSE
+        FAIL    msg=tpm2_load should result in an error.\n
+    END
 
 
 *** Keywords ***
