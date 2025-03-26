@@ -238,8 +238,7 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
 
 TPMCMD012.001 Change EPS (Ubuntu)
     [Documentation]    Try to trigger the TPM_RC_INTEGRITY error
-    Log To Console    \nTPMCMD0012.001 Change EPS - run
-    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
     Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
@@ -247,7 +246,7 @@ TPMCMD012.001 Change EPS (Ubuntu)
     Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
     Flush TPM Contexts
     Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
-    Execute Linux Command    rm -f key.pub key.priv key.ctx sig.rssa secret.data
+    Execute Linux Command    rm -f primary_key.ctx sig.rssa secret.data
     Execute Reboot Command
 
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -257,23 +256,29 @@ TPMCMD012.001 Change EPS (Ubuntu)
     Enter Submenu From Snapshot
     ...    ${device_manager_menu}
     ...    TCG2 Configuration
-    ${target_option_index}=    Search For Option Not Visible After Entering Menu    ChangeEPS
+    ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
+    Reenter Menu
     Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
-    # This is a generic option set. There is no ChangeEPS option in FW currently.
-    # TODO: https://github.com/Dasharo/open-source-firmware-validation/issues/736
+    ${checkpoint}=    Set Variable
+    ...    \---------------------------------------------------------------------/
+    ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
+    Enter Submenu From Snapshot    ${tpm2_operation_menu}    TPM2 ChangeEPS
     Save Changes And Reset
-
+    Read From Terminal Until
+    ...    Press F12 to clear and change identity of the TPM
+    Press Key N Times    1    ${F12}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -c primary_key.ctx    60
     Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
-    Execute Linux Command    echo "my secret" > secret.data
-    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
-    Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
-    Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
+    ${result}=    Run Keyword And Ignore Error    Execute Linux Tpm2 Tools Command
+    ...    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    IF    '${result}[0]' == 'FAIL'
+        Should Contain    ${result}[1]    0x1DF
+    ELSE
+        FAIL    msg=tpm2_load should result in an error.\n
+    END
 
 
 *** Keywords ***

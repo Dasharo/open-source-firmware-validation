@@ -130,12 +130,10 @@ Search For Option Not Visible After Entering Menu
     IF    ${re_enter}    Reenter Menu
     ${menu}=    Read From Terminal Until    Exit
     # Lines to strip:
-    #    TOP:
-    #    Please select boot device:
+    #    UP
+    #    Devices List - in Device Manager
     #    BOTTOM
-    #    ^ and v to move selection
-    #    ENTER to select boot device
-    #    ESC to exit
+    #    v to move selection
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
 
     # The maximum number of entries in boot menu is 11 right now. When we have
