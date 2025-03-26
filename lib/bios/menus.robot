@@ -1186,6 +1186,9 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
         IF    "${system_name}" == "ubuntu"
             ${system_name}=    Set Variable    Ubuntu
         END
+        IF    "${system_name}" == "fedora"
+            ${system_name}=    Set Variable    Fedora
+        END
         IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
             ${system_name}=    Set Variable    QEMU HARDDISK
         END
