@@ -235,7 +235,7 @@ Run Ansible Playbooks
         ${ansible_cmd}=    Catenate    ansible-playbook
         ...    os-config/ansible/linux-packages-playbook.yaml
         ...    -i ${tmp_inventory_filename}
-        ...    --extra-vars "os_id=${BOOTED_OS_ID}"
+        ...    --extra-vars "os_id=${distro_id}"
         ...    --timeout 300
         ${rc}    ${out}=    Run And Return Rc And Output    ${ansible_cmd}
         Log To Console    ${out}

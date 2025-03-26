@@ -4,4 +4,19 @@
 
 package_lm_sensors: lm-sensors
 package_flashrom: flashrom
+package_pciutils: pciutils
 package_libpci_dev: libpci-dev
+package_alsa_utils: alsa-utils
+package_cpuid: cpuid
+package_dmidecode: dmidecode
+package_acpi_call: acpi-call
+package_libinput_tools: libinput-tools
+package_iperf3: iperf3
+package_fwts: fwts
+package_util_linux: util-linux
+package_smartmontools: smartmontools
+package_ffmeg: ffmpeg
+package_usbutils: usbutils
+package_tpm2_tools: tpm2-tools
+package_ethtool: ethtool
+package_stress_ng: stress-ng
