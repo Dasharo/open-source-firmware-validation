@@ -101,8 +101,7 @@ Get Boot Menu Construction
     END
     RETURN    ${construction}
 Search For Option Not Visible After Entering Menu
-    [Documentationgit
-
+    [Documentation]
     ...    Reads the serial output in search for the first occurrence of
     ...    ${option} when it fidns it, the function returns the
     ...    qantity of ${ARROW_DOWN} presses required to reach that ${option}.
