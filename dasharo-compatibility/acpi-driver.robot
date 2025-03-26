@@ -12,7 +12,6 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
@@ -26,9 +25,11 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+
 *** Variables ***
-@{EXPECTED_OUTPUT}=    dasharo_acpi-acpi-0
-...    Adapter: ACPI interface
+@{EXPECTED_OUTPUT}=     dasharo_acpi-acpi-0
+...                     Adapter: ACPI interface
+
 
 *** Test Cases ***
 ACPI001.001 ACPI driver test (Ubuntu)
@@ -50,5 +51,27 @@ ACPI001.001 ACPI driver test (Ubuntu)
     Execute Command In Terminal    apt install ./dasharo-acpi-dkms_*.deb
     Execute Command In Terminal    modprobe dasharo-acpi
     Detect Or Install Package    lm-sensors
+    ${out}=    Execute Command In Terminal    sensors
+    Should Contain All    ${out}    @{EXPECTED_OUTPUT}
+
+ACPI001.002 ACPI driver test (Fedora)
+    [Documentation]    Tests if ACPI drivers can be recognised
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ACP001.002 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Command In Terminal    ls /home/fedora
+    # Should Contain    ${out}
+    IF    "dasharo-acpi-dkms_0.0.1-1_amd64.deb" not in """${out}"""
+        ${out}=    Execute Command In Terminal
+        ...    wget https://github.com/Dasharo/osfv-test-data/blob/master/dasharo-driver/dasharo-acpi-dkms-0.0.1-1.x86_64.rpm -P /home/linux
+        ...    timeout=60s
+        Should Contain    ${out}    saved
+    END
+    Execute Command In Terminal    sudo dnf install dkms -y
+    Execute Command In Terminal    sudo dnf install ./dasharo-acpi-dkms_*.rpm
+    Execute Command In Terminal    modprobe dasharo-acpi
+    Execute Command In Terminal    sudo dnf install lm-sensors -y
     ${out}=    Execute Command In Terminal    sensors
     Should Contain All    ${out}    @{EXPECTED_OUTPUT}
