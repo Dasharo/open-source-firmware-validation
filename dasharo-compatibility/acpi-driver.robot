@@ -48,7 +48,7 @@ ACPI001.001 ACPI driver test (Ubuntu)
         Should Contain    ${out}    saved
     END
     Detect Or Install Package    dkms
-    Execute Command In Terminal    apt install ./dasharo-acpi-dkms_*.deb
+    Execute Command In Terminal    apt install /home/ubuntu/dasharo-acpi-dkms_*.deb
     Execute Command In Terminal    modprobe dasharo-acpi
     Detect Or Install Package    lm-sensors
     ${out}=    Execute Command In Terminal    sensors
@@ -63,14 +63,14 @@ ACPI001.002 ACPI driver test (Fedora)
     Switch To Root User
     ${out}=    Execute Command In Terminal    ls /home/fedora
     # Should Contain    ${out}
-    IF    "dasharo-acpi-dkms_0.0.1-1_amd64.deb" not in """${out}"""
+    IF    "dasharo-acpi-dkms_0.0.1-1.x86_64.rpm" not in """${out}"""
         ${out}=    Execute Command In Terminal
-        ...    wget https://github.com/Dasharo/osfv-test-data/blob/master/dasharo-driver/dasharo-acpi-dkms-0.0.1-1.x86_64.rpm -P /home/linux
+        ...    wget https://github.com/Dasharo/osfv-test-data/blob/master/dasharo-driver/dasharo-acpi-dkms_0.0.1-1.x86_64.rpm -P /home/linux
         ...    timeout=60s
         Should Contain    ${out}    saved
     END
     Execute Command In Terminal    sudo dnf install dkms -y
-    Execute Command In Terminal    sudo dnf install ./dasharo-acpi-dkms_*.rpm
+    Execute Command In Terminal    sudo dnf install /home/linux/dasharo-acpi-dkms_*.rpm
     Execute Command In Terminal    modprobe dasharo-acpi
     Execute Command In Terminal    sudo dnf install lm-sensors -y
     ${out}=    Execute Command In Terminal    sensors
