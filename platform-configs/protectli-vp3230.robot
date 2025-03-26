@@ -43,3 +43,5 @@ ${CLEVO_DISK}=                      N/A
 
 ${TPM_SUPPORTED_VERSION}=           2
 ${TPM_EXPECTED_CHIP}=               SLB9670
+
+@{ETH_PERF_PAIR_2_G}=               enp2s0    enp4s0
