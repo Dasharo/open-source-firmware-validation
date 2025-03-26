@@ -226,7 +226,7 @@ Run Ansible Playbooks
         ${inventory_file}=    Catenate    [host] \n
         ...    ${DEVICE_IP} ansible_user=${DEVICE_OS_USERNAME}
         ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_sudo_pass=${DEVICE_OS_PASSWORD}
-        ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+        ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         ${tmp_file_rand}=    Generate Random String    length=16
         ${tmp_inventory_filename}=    Set Variable    ansible_inventory_${tmp_file_rand}.yaml
         Create File    ${tmp_inventory_filename}    ${inventory_file}
