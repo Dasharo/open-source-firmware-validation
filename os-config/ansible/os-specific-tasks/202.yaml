@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+- name: "Download acpi_call rpm package"
+  ansible.builtin.get_url:
+    url: https://github.com/MiMillieuh/acpi_call-fedora/releases/download/1.2.2-1/acpi_call-1.2.2-1.x86_64.rpm
+    dest: /tmp/acpi_call.rpm
+
+- name: "Install acpi_call rpm package"
+  ansible.builtin.dnf:
+    name: /tmp/acpi_call.rpm
+    state: present
+    disable_gpg_check: true
