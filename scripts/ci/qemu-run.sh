@@ -24,7 +24,7 @@ fi
 
 HDD_PATH=${HDD_PATH:-qemu-data/hdd.qcow2}
 PULSE_SERVER=${PULSE_SERVER:-unix:/run/user/$(id -u)/pulse/native}
-INSTALLER_PATH="qemu-data/ubuntu.iso"
+INSTALLER_PATH="qemu-data/installer.iso"
 
 TPM_DIR="/tmp/osfv/tpm"
 TPM_SOCK="${TPM_DIR}/sock"
@@ -59,11 +59,13 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
   Environmental variables:
     DIR         working directory, defaults to current working directory
+    HDD2_PATH   optional path of the second hard drive to connect to the machine if
+                ACTION "os" is used. Relative to DIR
 
 Example usage:
     ./$(basename $0) vnc firmware
     ./$(basename $0) graphic os_install
-    DIR=/my/work/dir ./$(basename $0) graphic os
+    DIR=/my/work/dir HDD2_PATH=qemu-data/hdd2.qcow ./$(basename $0) graphic os
 
 EOF
   exit 0
@@ -154,6 +156,13 @@ QEMU_PARAMS_OS="-device ich9-intel-hda \
   -device virtio-net,netdev=vmnic \
   -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
   -drive file=${HDD_PATH},if=ide"
+
+if [[ -f ${HDD2_PATH} ]]; then
+  QEMU_PARAMS_OS+=" \
+  -drive file=${HDD2_PATH},if=ide"
+
+  echo "Using ${HDD2_PATH} as the second drive"
+fi
 
 QEMU_PARAMS_INSTALLER="-cdrom ${INSTALLER_PATH}"
 
