@@ -307,7 +307,7 @@ the `NO_SETUP` environment variable to any value.
 Before pushing changes to the Open Source Firmware Remote Test Environment
 repository, it's recommended to run:
 
-``` bash
+```bash
 pre-commit run --all-files
 ```
 
