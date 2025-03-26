@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-- name: Create a file named "tmp" in the home directory with `Hello World`
+- name: Configure all installed OSes
   hosts: host
   become: true
   tasks:
@@ -15,4 +15,18 @@
           - "{{package_lm_sensors}}"
           - "{{package_flashrom}}"
           - "{{package_libpci_dev}}"
+          - "{{package_alsa_utils}}"
+          - "{{package_cpuid}}"
+          - "{{package_dmidecode}}"
+          - "{{package_acpi_call}}"
+          - "{{package_libinput_tools}}"
+          - "{{package_iperf3}}"
+          - "{{package_fwts}}"
+          - "{{package_util_linux}}"
+          - "{{package_smartmontools}}"
+          - "{{package_ffmeg}}"
+          - "{{package_usbutils}}"
+          - "{{package_tpm2_tools}}"
         state: present
+    - name: Include OS specific tasks
+      ansible.builtin.include_tasks: "os-specific-tasks/{{ os_id }}.yaml"
