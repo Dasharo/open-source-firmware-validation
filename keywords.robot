@@ -886,7 +886,7 @@ Discharge The Battery Until Target Level In Linux
     [Documentation]    Keyword stresses the CPU to discharge the battery until
     ...    the target charge level is reached.
     [Arguments]    ${target}
-    Detect Or Install Package    stress-ng
+
     WHILE    True
         ${out}=    Execute Command In Terminal    cat /sys/class/power_supply/BAT0/capacity
         IF    ${out} <= ${target}    BREAK
@@ -1349,11 +1349,7 @@ Clone Git Repository
     ELSE
         ${repo_path}=    Extract Repository Name From URL    ${repo_url}
     END
-    ${is_git_installed}=    Check If Package Is Installed    git
-    IF    ${is_git_installed} != True
-        ${out_install}=    Execute Command In Terminal    apt install -y git
-        Should Not Contain    ${out_install}    Failed
-    END
+
     Execute Command In Terminal    rm -rf ${repo_path}
     ${out_clone}=    Execute Command In Terminal    git clone ${repo_url} ${location}
     Should Contain    ${out_clone}    Receiving objects: 100%
