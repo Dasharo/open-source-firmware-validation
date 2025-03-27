@@ -121,7 +121,7 @@ CPU Temperature Without Load (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    lm-sensors
+
     Execute Command In Terminal    sensors-detect --auto
     ${timer}=    Convert To Integer    0
     @{temperature_list}=    Create List
@@ -163,7 +163,7 @@ CPU Temperature After Stress Test (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    lm-sensors
+
     Execute Command In Terminal    sensors-detect --auto
     Stress Test    ${TEMPERATURE_TEST_DURATION}s
     ${timer}=    Convert To Integer    0
