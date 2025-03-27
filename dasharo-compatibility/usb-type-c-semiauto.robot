@@ -383,7 +383,6 @@ Docking Station Detection After Suspend (Ubuntu)
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
-    Detect Or Install FWTS
     Detect Docking Station In Linux    ${docking_station_model}
     Set Global Variable    ${FAILED_DETECTION}    0
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
@@ -533,7 +532,6 @@ Docking Station Detection After Suspend Then Hotplug (Ubuntu)
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
-    Detect Or Install FWTS
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${docking_station_model}
     Set Global Variable    ${FAILED_DETECTION}    0
     Perform Suspend Test Using FWTS

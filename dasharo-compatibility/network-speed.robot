@@ -30,7 +30,6 @@ ETHPERF001.001 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    iperf3
 
     ${eth_1}=    Get From List    ${ETH_PERF_PAIR_2_G}    0
     ${eth_2}=    Get From List    ${ETH_PERF_PAIR_2_G}    1
@@ -44,7 +43,6 @@ ETHPERF002.001 Check Performance of 10G Wired Network Interface (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    iperf3
 
     ${eth_1}=    Get From List    ${ETH_PERF_PAIR_10_G}    0
     ${eth_2}=    Get From List    ${ETH_PERF_PAIR_10_G}    1

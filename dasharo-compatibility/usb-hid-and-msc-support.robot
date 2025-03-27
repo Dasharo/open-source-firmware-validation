@@ -42,7 +42,7 @@ USB001.002 USB devices detected by OS (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    usbutils
+
     ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    Human Interface Device
     IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    Mass Storage
