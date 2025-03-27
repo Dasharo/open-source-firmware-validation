@@ -37,7 +37,7 @@ CCC001.001 Check core count with HT disabled (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    util-linux
+
     ${out}=    Get Threads Per Core
     Should Contain    ${out}    1
 
@@ -48,7 +48,7 @@ CCC002.001 Check core count with HT enabled
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    util-linux
+
     ${out}=    Get Threads Per Core
     Should Contain    ${out}    ${DEF_THREADS_PER_CORE}
 
@@ -62,7 +62,7 @@ CCC003.001 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     ${expected_p_cores}=    Evaluate    ${DEF_THREADS_PER_CORE} * ${CPU_P_CORES_MAX}
@@ -79,7 +79,7 @@ CCC004.001 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     ${expected_p_cores}=    Evaluate    ${DEF_THREADS_PER_CORE} * ${CPU_P_CORES_MAX}
@@ -97,7 +97,7 @@ CCC005.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     Should Be Equal As Integers    ${p_cores}    ${CPU_P_CORES_MAX}
@@ -114,7 +114,7 @@ CCC006.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     Should Be Equal As Integers    ${p_cores}    ${CPU_P_CORES_MAX}
@@ -130,7 +130,7 @@ CCC007.001 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     ${expected_p_cores}=    Evaluate    ${DEF_THREADS_PER_CORE} * 1
@@ -148,7 +148,7 @@ CCC008.001 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     Should Be Equal As Integers    ${p_cores}    1
@@ -166,7 +166,7 @@ CCC009.001 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     ${expected_p_cores}=    Evaluate    ${DEF_THREADS_PER_CORE} * 1
@@ -185,7 +185,7 @@ CCC010.001 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     Should Be Equal As Integers    ${p_cores}    1
@@ -202,7 +202,7 @@ CCC011.001 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     ${expected_p_cores}=    Evaluate    ${DEF_THREADS_PER_CORE} * ${CPU_P_CORES_MAX}
@@ -220,7 +220,7 @@ CCC012.001 Check core count (HT Disabled, P: A, E: 1) (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    cpuid
+
     ${p_cores}=    Get P Cores Count
     ${e_cores}=    Get E Cores Count
     ${expected_p_cores}=    Evaluate    ${CPU_P_CORES_MAX}

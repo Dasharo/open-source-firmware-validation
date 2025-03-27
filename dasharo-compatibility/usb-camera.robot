@@ -33,8 +33,7 @@ CAM001.001 Integrated webcam (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    ffmpeg
-    Detect Or Install Package    libinput-tools
+
     Device Detection In Linux    Camera
     ${out0}=    Execute Linux Command    ffprobe /dev/video0
     Should Contain    ${out0}    Input #0, video4linux2,v4l2, from '/dev/video0':
@@ -61,8 +60,7 @@ CAM002.001 Integrated IR Camera (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    ffmpeg
-    Detect Or Install Package    libinput-tools
+
     Device Detection In Linux    Camera
     ${out0}=    Execute Linux Command    ffprobe /dev/video2
     Should Contain

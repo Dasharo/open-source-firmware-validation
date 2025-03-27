@@ -31,7 +31,6 @@ SAT001.002 SATA support in OS (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    smartmontools
 
     ${lsblk_out}=    Execute Command In Terminal    lsblk -d -o NAME -n
     @{disks}=    Split String    ${lsblk_out}    \n

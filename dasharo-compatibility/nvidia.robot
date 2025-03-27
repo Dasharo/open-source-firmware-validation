@@ -32,7 +32,7 @@ NVI001.001 NVIDIA Graphics detect (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    pciutils
+
     ${out}=    Execute Linux Command    lspci | grep -i nvidia | cat
     Should Contain Any    ${out}    3D controller: NVIDIA Corporation    VGA compatible controller: NVIDIA Corporation
     Exit From Root User
@@ -53,7 +53,6 @@ NVI002.001 NVIDIA Graphics power management (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    mesa-utils
-    Detect Or Install Package    pciutils
+
     Check NVIDIA Power Management In Linux
     Exit From Root User

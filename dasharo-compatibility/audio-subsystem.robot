@@ -32,7 +32,7 @@ AUD001.001 Audio subsystem detection (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    alsa-utils
+
     ${out}=    Execute Linux Command    cat /sys/class/sound/card0/hwC0D*/chip_name
     Should Not Be Empty
     ...    ${DEVICE_AUDIO1}

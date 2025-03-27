@@ -40,8 +40,7 @@ HIB001.001 Cyclic platform hibernation and resume (Ubuntu)
     Boot Operating System    ubuntu
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    util-linux
-    Detect Or Install FWTS
+
     FOR    ${index}    IN RANGE    0    ${HIBERNATION_ITERATIONS_NUMBER}
         ${is_hibernation_performed_correctly}=    Perform Hibernation Test Using FWTS
         IF    not ${is_hibernation_performed_correctly}

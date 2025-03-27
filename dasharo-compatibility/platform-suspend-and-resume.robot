@@ -54,7 +54,7 @@ Cyclic Platform Suspend And Resume (Ubuntu)
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
-    Detect Or Install FWTS
+
     FOR    ${index}    IN RANGE    0    ${SUSPEND_ITERATIONS_NUMBER}
         ${is_suspend_performed_correctly}=    Perform Suspend Test Using FWTS
         IF    not ${is_suspend_performed_correctly}

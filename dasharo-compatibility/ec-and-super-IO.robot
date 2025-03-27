@@ -32,7 +32,7 @@ ECR001.001 Battery monitoring - charge level in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     Check Charge Level In Linux
     Exit From Root User
@@ -52,7 +52,7 @@ ECR002.001 Battery monitoring - charging state in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     Check Charging State In Linux
     Exit From Root User
@@ -74,8 +74,7 @@ ECR003.001 Touchpad in OS - (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    libinput-tools
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     Device Detection In Linux    Touchpad
     Exit From Root User
@@ -135,7 +134,7 @@ ECR014.001 Keyboard (function key: brightness down) in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     ${max_brightness}=    Get Maximum Brightness In Linux
     Set Brightness In Linux    ${max_brightness}
@@ -153,7 +152,7 @@ ECR015.001 Keyboard (function key: brightness up) in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     Set Brightness In Linux    0
     ${brightness1}=    Get Current Brightness In Linux
@@ -172,16 +171,16 @@ ECR016.001 Keyboard (function key: camera on/off) in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    Camera
+    Should Contain Any    ${out}    Camera    BisonCam
     Toggle Camera In Linux
     ${out}=    List Devices In Linux    usb
-    Should Not Contain    ${out}    Camera
+    Should Not Contain Any    ${out}    Camera    BisonCam
     Toggle Camera In Linux
     ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    Camera
+    Should Contain Any    ${out}    Camera    BisonCam
     Exit From Root User
 
 ECR017.001 Keyboard (function key: flight mode) in OS (Ubuntu)
@@ -193,7 +192,7 @@ ECR017.001 Keyboard (function key: flight mode) in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     ${wifi_status}=    Get WiFi Block Status
     ${bt_status}=    Get Bluetooth Block Status
@@ -217,7 +216,7 @@ ECR017.001 Keyboard (function key: flight mode) in OS (Ubuntu)
 #    Power On
 #    Login to Linux
 #    Switch to root user
-#    Detect or Install Package    acpi-call
+#
 #    Turn On ACPI_CALL module in Linux
 #    Enter sleep mode in Linux
 #    Wake from sleep mode in Linux
@@ -230,7 +229,7 @@ ECR019.001 Buttons (button: power) in OS (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    acpi-call
+
     Turn On ACPI CALL Module In Linux
     Device Detection In Linux    Power
     Exit From Root User
@@ -238,6 +237,7 @@ ECR019.001 Buttons (button: power) in OS (Ubuntu)
 ECR020.001 Charging until 98% level in OS (Ubuntu)
     [Documentation]    Check whether the DUT stops charging the battery when the
     ...    98% threshold is reached.
+    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR020.001 not supported
     IF    not ${EC_AND_SUPER_IO_SUPPORT}    SKIP    ECR020.001 not supported
     IF    not ${TESTS_IN_UBUNTU_SUPPORT}    SKIP    ECR020.001 not supported
     Power On
@@ -251,6 +251,7 @@ ECR020.001 Charging until 98% level in OS (Ubuntu)
 ECR021.001 Not charging between 95% and 98% in OS (Ubuntu)
     [Documentation]    Check whether the DUT does not charge the battery when
     ...    the charge level is between 95% and 98%.
+    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR021.001 not supported
     IF    not ${EC_AND_SUPER_IO_SUPPORT}    SKIP    ECR021.001 not supported
     IF    not ${TESTS_IN_UBUNTU_SUPPORT}    SKIP    ECR021.001 not supported
     Power On

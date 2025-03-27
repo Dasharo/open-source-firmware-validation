@@ -91,7 +91,7 @@ Get SMBIOS Values
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    dmidecode
+
     ${out}=    Execute Linux Command    dmidecode -t bios
     Set Suite Variable    $DMI_BIOS    ${out}
     ${out}=    Execute Linux Command    dmidecode -t system
