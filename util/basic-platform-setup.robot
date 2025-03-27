@@ -27,12 +27,16 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 BPS001.001 Power Control - PSU ON and serial output
     [Documentation]    Verifies if PSU can be turned ON and if the serial output can be read.
+    Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
+    Skip If    '${POWER_CTRL}' == 'none'
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
 
 BPS002.001 Power control - PSU OFF
     [Documentation]    Verifies if PSU can be turned OFF
+    Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
+    Skip If    '${POWER_CTRL}' == 'none'
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
@@ -46,6 +50,8 @@ BPS003.001 RTE Power On
     [Documentation]    Verifies if Power Button can turn DUT ON/OFF.
     # TODO: do we have platforms in the lab that might not use
     # power/reset buttons? If so, we do not have flag for it.
+    Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
+    Skip If    '${POWER_CTRL}' == 'none'
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
@@ -62,6 +68,8 @@ BPS003.001 RTE Power On
 
 BPS004.001 RTE Reset
     [Documentation]    Verifies if reset button can reset the DUT.
+    Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
+    Skip If    '${POWER_CTRL}' == 'none'
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
@@ -72,6 +80,7 @@ BPS004.001 RTE Reset
 
 BPS005.001 Boot to OS - Ubuntu
     [Documentation]    This test verifies if platform can be booted to Ubunto and if correct credentials are set.
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -86,16 +95,19 @@ BPS005.001 Boot to OS - Ubuntu
 
 BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
+    Skip If    not "${TESTS_IN_WINDOWS_SUPPORT}"
     Power On
     Login To Windows
 
 BPS006.001 External flashing
     [Documentation]    This test verifies if the flash die can be detected.
+    Skip If    '${FLASHING_METHOD}' != 'external'
     ${rc}=    Rte Flash Probe
     Should Be Equal As Integers    ${rc}    0
 
 BPS006.002 Internal flashing
     [Documentation]    This test verifies if flashrom can detect the die.
+    Skip If    '${FLASHING_METHOD}' == 'none'
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -106,6 +118,7 @@ BPS006.002 Internal flashing
 
 BPS007.001 RTE CMOS clear
     [Documentation]    This test verifies if CMOS clear works with the platform setup.
+    Skip If    '${POWER_CTRL}' == 'none'
     # CMOS should be cleared when platform is cut off from power
     Rte Psu Off
     Rte Clear Cmos
@@ -211,7 +224,7 @@ Power On Ex
 Run Ansible Playbooks
     [Documentation]    Runs all supported Ansible plabooks from os-config/ansible
     ...    according to ${TESTED_LINUX_DISTROS}
-    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
+
     IF    not ${USE_ANSIBLE}
         Log To Console    USE_ANSIBLE is set to ${USE_ANSIBLE}, skipping ansible setup.
         RETURN
