@@ -286,6 +286,17 @@ Example: running only minimal regression tests with given test ID and reduced ve
 FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh -- --include "minimal-regression" -t "BMM*" --quiet
 ```
 
+### Basic Platform Setup
+
+The test suite at `util/basic-platform-setup.robot` is supposed to check, or
+if possible ensure, that the platform is prepared for performing tests.
+The suite should be run at least once to make sure the platform is good to go,
+and can be used to verify if everything works fine.
+
+The `scripts/regression.sh` wrapper script runs this test suite automatically
+before the Dasharo test modules. This behavior can be turned off by setting
+the `NO_SETUP` environment variable to any value.
+
 ## Useful refactoring tools
 
 * [sherlock](https://github.com/MarketSquare/robotframework-sherlock)
