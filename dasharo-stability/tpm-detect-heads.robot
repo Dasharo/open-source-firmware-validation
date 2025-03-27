@@ -107,7 +107,7 @@ TPM001.002 TPM Support (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    tpm2-tools
+
     ${out}=    Execute Linux Command    tpm2_pcrread
     Should Contain    ${out}    sha1:
     Should Contain    ${out}    sha256:

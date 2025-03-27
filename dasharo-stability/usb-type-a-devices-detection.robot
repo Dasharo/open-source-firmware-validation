@@ -58,7 +58,7 @@ SUD002.001 USB devices detection after warm boot (Ubuntu)
     Switch To Root User
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
-    Detect Or Install FWTS
+
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
