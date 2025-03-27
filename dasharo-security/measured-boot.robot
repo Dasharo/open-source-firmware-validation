@@ -305,6 +305,6 @@ Measured Boot Suite Setup
     Power On
     Boot Ubuntu And Login To Root
     Verify Presence Of TPM Via Sysfs
-    Detect Or Install Package    tpm2-tools
+
     # Disable service that adds dbx certificates which could interfere with tests
     Execute Command In Terminal    systemctl disable secureboot-db.service

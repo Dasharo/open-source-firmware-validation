@@ -270,7 +270,7 @@ TPM2 Suite Setup
     Login To Linux
     Switch To Root User
     Verify Presence Of TPM Via Sysfs
-    Detect Or Install Package    tpm2-tools
+
     ${passed}=    Run Keyword And Return Status
     ...    Check If SHA1 And SHA256 Banks Are Enabled
     IF    not ${passed}

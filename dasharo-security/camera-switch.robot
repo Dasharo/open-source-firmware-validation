@@ -33,7 +33,7 @@ CHS001.001 Check camera enablement
     Set UEFI Option    EnableCamera    ${TRUE}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    usbutils
+
     ${webcam}=    Check The Presence Of Webcam
     Should Be True    ${webcam}
 
@@ -43,7 +43,7 @@ CHS002.001 Check camera disablement
     Set UEFI Option    EnableCamera    ${FALSE}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    usbutils
+
     ${webcam}=    Check The Presence Of Webcam
     Should Not Be True    ${webcam}
 
