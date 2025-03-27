@@ -99,24 +99,28 @@ BPS005.002 Boot to OS - Windows
     Power On
     Login To Windows
 
-BPS006.001 External flashing
+BPS006.001 Ensure test dependencies
+    [Documentation]    Ensure that all the dependencies for the tests are
+    ...    installed on all supported OSes
+    Run Ansible Playbooks
+
+BPS007.001 External flashing
     [Documentation]    This test verifies if the flash die can be detected.
     Skip If    '${FLASHING_METHOD}' != 'external'
     ${rc}=    Rte Flash Probe
     Should Be Equal As Integers    ${rc}    0
 
-BPS006.002 Internal flashing
+BPS007.002 Internal flashing
     [Documentation]    This test verifies if flashrom can detect the die.
     Skip If    '${FLASHING_METHOD}' == 'none'
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Flashrom
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    Found chipset
 
-BPS007.001 RTE CMOS clear
+BPS008.001 RTE CMOS clear
     [Documentation]    This test verifies if CMOS clear works with the platform setup.
     Skip If    '${POWER_CTRL}' == 'none'
     # CMOS should be cleared when platform is cut off from power
@@ -155,11 +159,6 @@ BPS007.001 RTE CMOS clear
     ...    rtc_failed \= 0x1
     ...    ignore_case=True
     ...    msg=CMOS is invalid after reboot. Either the CMOS battery is not connected or the connection is wrong. Check DUT setup.
-
-BPS008.001 Test dependencies
-    [Documentation]    Ensure that all the dependencies for the tests are
-    ...    installed on all supported OSes
-    Run Ansible Playbooks
 
 
 *** Keywords ***
