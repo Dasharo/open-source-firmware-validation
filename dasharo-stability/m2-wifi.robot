@@ -33,7 +33,7 @@ Suite Teardown      Run Keyword
 #    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
 #    Should Match    ${out}    *${wifi_card_ubuntu}*
 #    Scan for Wi-Fi in Linux
-#    Detect or install FWTS
+
 #    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
 #    Power Cycle On
 #    Boot operating system    ubuntu
@@ -57,7 +57,7 @@ SMW002.001 Wi-fi connection after warm boot (Ubuntu)
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux
-    Detect Or Install FWTS
+
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
         Boot Operating System    ubuntu
@@ -81,7 +81,7 @@ SMW003.001 Wi-fi connection after reboot (Ubuntu)
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux
-    Detect Or Install FWTS
+
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
         Boot Operating System    ubuntu
@@ -127,11 +127,11 @@ Wi-fi Connection After Suspension (Ubuntu)
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
-    Detect Or Install Package    pciutils
+
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux
-    Detect Or Install FWTS
+
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Suspend Test Using FWTS
         ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
