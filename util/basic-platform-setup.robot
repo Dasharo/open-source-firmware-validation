@@ -18,10 +18,8 @@ Resource            ../keys-and-keywords/ubuntu-keywords.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keywords
+Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-...                     AND
-...                     Run Ansible Playbooks
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -144,6 +142,11 @@ BPS007.001 RTE CMOS clear
     ...    rtc_failed \= 0x1
     ...    ignore_case=True
     ...    msg=CMOS is invalid after reboot. Either the CMOS battery is not connected or the connection is wrong. Check DUT setup.
+
+BPS008.001 Test dependencies
+    [Documentation]    Ensure that all the dependencies for the tests are
+    ...    installed on all supported OSes
+    Run Ansible Playbooks
 
 
 *** Keywords ***
