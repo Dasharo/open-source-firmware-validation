@@ -36,7 +36,6 @@ Prepare Sensors
     END
 
     IF    ${lm_sensors_used} == ${TRUE}
-        Detect Or Install Package    lm-sensors
         Execute Command In Terminal    sudo sensors-detect --auto
     END
 

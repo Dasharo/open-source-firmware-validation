@@ -89,7 +89,7 @@ Check CPU Frequency In Windows
 Stress Test
     [Documentation]    Proceed with the stress test.
     [Arguments]    ${time}=60s    ${workers}=$(nproc)    ${load_percent}=100    ${start_delay_seconds}=0
-    Detect Or Install Package    stress-ng
+
     ${cmd}=    Catenate    $(
     ...    pkill stress-ng;
     ...    sleep ${start_delay_seconds};
