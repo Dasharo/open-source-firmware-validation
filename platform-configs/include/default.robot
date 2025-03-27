@@ -178,7 +178,7 @@ ${DCU_SERIAL_SUPPORT}=                              ${FALSE}
 ${ROMHOLE_SUPPORT}=                                 ${FALSE}
 
 # Test module: dasharo-security
-${TPM_SUPPORTED_VERSION}=                           ${None}
+${TPM_SUPPORTED_VERSION}=                           ${NONE}
 ${TPM_EXPECTED_CHIP}=                               FILL_WITH_CORRECT_VALUE_BEFORE_TESTING
 ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
