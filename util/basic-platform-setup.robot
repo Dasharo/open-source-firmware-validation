@@ -220,6 +220,8 @@ Power On Ex
             FAIL    Power LED didn't light up! Setup needs manual verification,
             ...    or Power State After Power Failure is set incorrectly.
         END
+    END
+
 Run Ansible Playbooks
     [Documentation]    Runs all supported Ansible plabooks from os-config/ansible
     ...    according to ${TESTED_LINUX_DISTROS}
