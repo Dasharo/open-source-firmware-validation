@@ -31,8 +31,7 @@ WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu)
     Set UEFI Option    EnableWifiBt    ${FALSE}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    pciutils
-    Detect Or Install Package    usbutils
+
     ${wifi}=    Check The Presence Of WiFi Card
     Should Not Be True    ${wifi}
     ${bt}=    Check The Presence Of Bluetooth Card
@@ -46,8 +45,7 @@ WBS002.001 Wifi and Bluetooth card power switch enabled (Ubuntu)
     Set UEFI Option    EnableWifiBt    ${TRUE}
     Login To Linux
     Switch To Root User
-    Detect Or Install Package    pciutils
-    Detect Or Install Package    usbutils
+
     ${wifi}=    Check The Presence Of WiFi Card
     Should Be True    ${wifi}
     ${bt}=    Check The Presence Of Bluetooth Card
