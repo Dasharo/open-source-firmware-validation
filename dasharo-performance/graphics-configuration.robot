@@ -13,7 +13,7 @@ DGPU001.001 Hybrid Graphics modes: NVIDIA Optimus
     ...    integrated GPU (iGPU) while both iGPU and dGPU are active in Ubuntu.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Set UEFI Option    DGPUEnabled    NVIDIA Optimus
+    Set UEFI Option    DGPUState    NVIDIA Optimus
     Power Cycle Into Ubuntu
     Switch To Root User
 
@@ -35,7 +35,7 @@ DGPU002.001 Hybrid Graphics modes: dGPU Only
     [Documentation]    Verifies that the internal display is connected to the discrete GPU (dGPU) while the integrated GPU (iGPU) is still active.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Set UEFI Option    DGPUEnabled    dGPU Only
+    Set UEFI Option    DGPUState    dGPU Only
     Power Cycle Into Ubuntu
     Switch To Root User
 
@@ -51,7 +51,7 @@ DGPU003.001 Hybrid Graphics modes: iGPU Only
     [Documentation]    Verifies that only the discrete GPU (dGPU) is turned off and the integrated GPU (iGPU) is active.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Set UEFI Option    DGPUEnabled    iGPU Only
+    Set UEFI Option    DGPUState    iGPU Only
     Power Cycle Into Ubuntu
     Switch To Root User
     ${gpu_status}=    Execute Command In Terminal    lspci | grep -i nvidia
