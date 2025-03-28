@@ -2,13 +2,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-- name: Configure all installed OSes
+- name: Common tasks
   hosts: host
   become: true
   tasks:
     - name: Load package names
       ansible.builtin.include_vars: "{{os_id}}-packages.yaml"
-
     - name: Install packages
       ansible.builtin.package:
         name:
@@ -28,5 +27,19 @@
           - "{{package_usbutils}}"
           - "{{package_tpm2_tools}}"
         state: present
+    - name: Install coreboot tools files
+      ansible.builtin.copy:
+        src: "{{ item.src }}"
+        dest: /usr/bin/
+        mode: 755
+      loop:
+        - src: "./../../osfv-test-data/coreboot-tools/flashrom"
+        - src: "./../../osfv-test-data/coreboot-tools/cbmem"
+        - src: "./../../osfv-test-data/coreboot-tools/cbfstool"
+
+- name: OS specific tasks
+  hosts: host
+  become: true
+  tasks:
     - name: Include OS specific tasks
       ansible.builtin.include_tasks: "os-specific-tasks/{{ os_id }}.yaml"
