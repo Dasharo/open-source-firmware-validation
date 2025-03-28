@@ -43,7 +43,6 @@ FLB002.001 Flash locally built firmware (Ubuntu)
     Power On
     Login To Linux
     Switch To Root User
-    Get Flashrom
     Write Into Terminal    flashrom -p internal -w ../coreboot/build/coreboot.rom --ifd -i bios
     ${flash_result}=    Read From Terminal Until Prompt
     IF    "Warning: Chip content is identical to the requested image." in """${flash_result}"""

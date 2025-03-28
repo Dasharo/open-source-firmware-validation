@@ -19,7 +19,8 @@ ${OPTIONS_LIB}=                     options-lib_dcu
 ${POWER_CTRL}=                      none
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 
-@{TESTED_LINUX_DISTROS}=            ${ENV_ID_FEDORA}    ${ENV_ID_UBUNTU}
+${DEFAULT_BOOT_OS_ID}=              ${ENV_ID_UBUNTU}
+@{TESTED_LINUX_DISTROS}=            ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
 # Benchmark reference data to nvidia model
 
 # performance

@@ -47,7 +47,7 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Flashrom
+
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    SMM protection is enabled
 
@@ -71,7 +71,6 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Flashrom
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Not Contain    ${out_flashrom}    SMM protection is enabled
     Should Not Be Empty    ${out_flashrom}

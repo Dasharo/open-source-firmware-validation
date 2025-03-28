@@ -57,6 +57,5 @@ Flash Protectli VP2420 Internal
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Flashrom
     Send File To DUT    ${FW_FILE}    /tmp/dasharo.rom
     Flash Via Internal Programmer    /tmp/dasharo.rom    "bios"

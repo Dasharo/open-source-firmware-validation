@@ -42,7 +42,6 @@ EDP001.001 Enable early Boot DMA Protection support
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Cbmem
     ${cbmem_output}=    Execute Command In Terminal    cbmem -1 | grep --color=never DMA
     Should Contain    ${cbmem_output}    Successfully enabled VT-d PMR DMA protection
 
@@ -61,6 +60,5 @@ EDP002.001 Disable early Boot DMA Protection support
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Cbmem
     ${cbmem_output}=    Execute Command In Terminal    cbmem -1 | grep --color=never DMA
     Should Not Contain    ${cbmem_output}    Successfully enabled VT-d PMR DMA protection

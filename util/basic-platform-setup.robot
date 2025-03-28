@@ -132,7 +132,6 @@ BPS008.001 RTE CMOS clear
     Login To Linux
     Switch To Root User
     # Test relies entirely on coreboot console to print the CMOS invalid message
-    Get Cbmem
     ${out}=    Execute Command In Terminal
     ...    cbmem -1 | grep -i rtc
 
