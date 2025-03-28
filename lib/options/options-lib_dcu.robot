@@ -134,22 +134,14 @@ Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
 
-Boot System Or From Connected Disk
-    [Documentation]    Keyword makes the DUT to reboot in chosen OS. There is a requirement for DUT to always reboot to Ubuntu.
+Set Nextboot
+    [Documentation]    Sets the OS of choice to be booted first on the next
+    ...    reboot. Not persistent, only changes the first boot option for
+    ...    one boot.
     [Arguments]    ${env_id}
 
     ${os_boot_id}=    Set Variable    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
-
-    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
-
-    Login To Linux
-    Switch To Root User
-
-    IF    '${BOOTED_OS_ID}' == '${env_id}'
-        Log    Target OS already booted
-        RETURN
-    END
 
     ${boot_entries}=    Execute Command In Terminal    efibootmgr
 
@@ -166,17 +158,36 @@ Boot System Or From Connected Disk
             BREAK
         END
     END
+
     IF    '${os_boot_id}' != '${EMPTY}'
         ${id}=    Get Substring    ${os_boot_id}    4    8
         Execute Command In Terminal    efibootmgr --bootnext ${id}
         Sleep    1s
-        Write Into Terminal    reboot
         Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
         Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
-        Sleep    30s
     ELSE
         Fail    Os entry not found
     END
+
+Boot System Or From Connected Disk
+    [Documentation]    Keyword makes the DUT to reboot in chosen OS.
+    [Arguments]    ${env_id}
+
+    ${os_boot_id}=    Set Variable    ${EMPTY}
+    ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
+
+    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
+    Login To Linux
+    Switch To Root User
+
+    IF    '${BOOTED_OS_ID}' == '${env_id}'
+        Log    Target OS already booted
+        RETURN
+    END
+
+    ${os_boot_id}=    Set Nextboot    ${env_id}
+    Write Into Terminal    reboot
+    Sleep    30s
 
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
