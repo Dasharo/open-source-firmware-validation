@@ -132,7 +132,7 @@ Make Sure That Flash Locks Are Disabled
 
 Login To Windows
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
+    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
 
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS. There is a requirement for DUT to always reboot to Ubuntu.
