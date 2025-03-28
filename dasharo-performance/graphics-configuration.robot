@@ -24,19 +24,20 @@ DGPU001.001 Hybrid Graphics modes: NVIDIA Optimus
     Log To Console    Both iGPU and dGPU are active and turned on.
 
 DGPU002.001 Hybrid Graphics modes: dGPU Only
-    [Documentation]    Verifies that only the discrete GPU (dGPU) is active and the integrated GPU (iGPU) is turned off.
+    [Documentation]    Verifies that the internal display is connected to the discrete GPU (dGPU) while the integrated GPU (iGPU) is still active.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     # Set UEFI Option    DGPUEnabled    dGPU Only
     Power Cycle Into Ubuntu
     Switch To Root User
-    ${gpu_status}=    Execute Command In Terminal    lspci | grep -i nvidia
-    Should Contain    ${gpu_status}    NVIDIA    msg= "dGPU is not detected."
 
-    ${igpu_status}=    Execute Command In Terminal    lspci | grep -i 'intel'
-    Should Not Contain    ${igpu_status}    Graphics    msg= "iGPU is still active."
+    ${dgpu_status}=    Execute Command In Terminal    cat /sys/class/drm/card2-eDP-1/enabled
+    Should Contain    ${dgpu_status}    enabled    msg= "dGPU is not driving the internal display."
 
-    Log To Console    Only dGPU is active, and iGPU is turned off.
+    ${igpu_status}=    Execute Command In Terminal    cat /sys/class/drm/card1-eDP-1/enabled
+    Should Contain    ${igpu_status}    disabled    msg= "iGPU is still driving the internal display."
+
+    Log To Console    Internal display is connected to dGPU
 
 DGPU003.001 Hybrid Graphics modes: iGPU Only
     [Documentation]    Verifies that only the discrete GPU (dGPU) is turned off and the integrated GPU (iGPU) is active.
