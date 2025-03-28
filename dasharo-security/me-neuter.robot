@@ -38,23 +38,81 @@ MNE001.001 Intel ME mode option is available and has the correct default state
     ${state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${state}    Enabled
 
-MNE002.001 Intel ME mode option Enabled works correctly (Ubuntu)
+MNE002.201 Intel ME mode option Enabled works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state Enabled
     ...    works correctly.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    MNE002.201 not supported
+    Intel ME Mode Option Enabled Works Correctly    ${ENV_ID_UBUNTU}
+
+MNE002.202 Intel ME mode option Enabled works correctly (Fedora)
+    [Documentation]    Check whether the Intel ME mode option in state Enabled
+    ...    works correctly.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    MNE002.202 not supported
+    Intel ME Mode Option Enabled Works Correctly    ${ENV_ID_FEDORA}
+
+MNE003.201 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
+    [Documentation]    Check whether the Intel ME mode option in state
+    ...    Disabled (Soft) works correctly
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    MNE003.201 not supported
+    Intel ME Mode Option Disabled (Soft) Works Correctly    ${ENV_ID_UBUNTU}
+
+MNE003.202 Intel ME mode option Disabled (Soft) works correctly (Fedora)
+    [Documentation]    Check whether the Intel ME mode option in state
+    ...    Disabled (Soft) works correctly
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    MNE003.202 not supported
+    Intel ME Mode Option Disabled (Soft) Works Correctly    ${ENV_ID_FEDORA}
+
+MNE004.201 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
+    [Documentation]    Check whether the Intel ME mode option in state
+    ...    Disabled (HAP) works correctly.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    MNE004.201 not supported
+    Intel ME Mode Option Disabled (HAP) Works Correctly    ${ENV_ID_UBUNTU}
+
+MNE004.202 Intel ME mode option Disabled (HAP) works correctly (Fedora)
+    [Documentation]    Check whether the Intel ME mode option in state
+    ...    Disabled (HAP) works correctly.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    MNE004.202 not supported
+    Intel ME Mode Option Disabled (HAP) Works Correctly    ${ENV_ID_FEDORA}
+
+MNE006.201 Check Intel ME version (Ubuntu)
+    [Documentation]    This test aims to verify that the Intel ME version might
+    ...    be read on the Operating System level. The read version should be
+    ...    the same as in the release notes.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE006.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    MNE004.201 not supported
+    Check Intel ME Version    ${ENV_ID_UBUNTU}
+
+MNE006.202 Check Intel ME version (Fedora)
+    [Documentation]    This test aims to verify that the Intel ME version might
+    ...    be read on the Operating System level. The read version should be
+    ...    the same as in the release notes.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    MNE004.202 not supported
+    Check Intel ME Version    ${ENV_ID_FEDORA}
+
+
+*** Keywords ***
+Intel ME Mode Option Enabled Works Correctly
+    [Documentation]    Check whether the Intel ME mode option in state Enabled
+    ...    works correctly.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Enabled
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
     Should Be Equal As Strings    ${result}    Enabled
 
-MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
+Intel ME Mode Option Disabled (Soft) Works Correctly
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (Soft) works correctly
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE003.001 not supported
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Disabled (Soft)
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -64,12 +122,13 @@ MNE003.001 Intel ME mode option Disabled (Soft) works correctly (Ubuntu)
         Should Be Equal As Strings    ${result}    Disabled (Soft)
     END
 
-MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
+Intel ME Mode Option Disabled (HAP) Works Correctly
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (HAP) works correctly.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE004.001 not supported
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Disabled (HAP)
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${result}=    Check ME Out
@@ -79,14 +138,15 @@ MNE004.001 Intel ME mode option Disabled (HAP) works correctly (Ubuntu)
         Should Be Equal As Strings    ${result}    Disabled (HAP)
     END
 
-MNE006.001 Check Intel ME version (Ubuntu)
+Check Intel ME Version
     [Documentation]    This test aims to verify that the Intel ME version might
     ...    be read on the Operating System level. The read version should be
     ...    the same as in the release notes.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE006.001 not supported
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Enabled
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cat /sys/class/mei/mei0/fw_ver
