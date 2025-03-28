@@ -772,6 +772,11 @@ Execute Reboot Command
     [Documentation]    Executes reboot command in given os
     [Arguments]    ${os}=linux
     IF    '${os}' == 'linux'
+        # if the OS cannot be chosen from the bootmanager and rebooting
+        # always boots the default one
+        IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+            Set Nextboot    ${BOOTED_OS_ID}
+        END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'
         Write Into Terminal    shutdown /r /f /t 0
@@ -781,7 +786,6 @@ Execute Reboot Command
     # We do not want to sleep if we switched to SSH only temporarily.
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    180 seconds
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    Sleep    30s
 
 Check Displays Windows
     [Documentation]    Check and return all displays with PowerShell in Windows.
