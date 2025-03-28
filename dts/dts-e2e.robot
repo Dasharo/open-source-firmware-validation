@@ -514,7 +514,7 @@ E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DP
     Provide DPP Credentials
 
     # 4) Start update:
-    Go Through Update
+    Go Through Update Decline Heads
 
     # 5) The final step is rebooting:
     Wait For Checkpoint    Rebooting
@@ -540,7 +540,7 @@ E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP vers
     Provide DPP Credentials
 
     # 4) Start update:
-    Go Through Update
+    Go Through Update Decline Heads
 
     # 5) The final step is rebooting:
     Wait For Checkpoint    Rebooting
@@ -1156,6 +1156,19 @@ Go Through Update
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 2) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+
+Go Through Update Decline Heads
+    [Documentation]    This KW goes through standard Dasharo update workflow
+    ...    choosing all needed menu options and answering all questions. It
+    ...    declines switching to Heads firmware.
+    Set DUT Response Timeout    120s
+    # 1) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 2) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    N
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
