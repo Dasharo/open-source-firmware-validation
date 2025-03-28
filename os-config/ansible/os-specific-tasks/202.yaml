@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# acpi_call package is not available in fedora repos
 - name: "Download acpi_call rpm package"
   ansible.builtin.get_url:
     url: https://github.com/MiMillieuh/acpi_call-fedora/releases/download/1.2.2-1/acpi_call-1.2.2-1.x86_64.rpm
@@ -12,3 +13,12 @@
     name: /tmp/acpi_call.rpm
     state: present
     disable_gpg_check: true
+
+# spi_intel_pci module conflicts with flashrom
+- name: Blacklist spi_intel_pci module
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/osfv-blacklist.conf
+    content: blacklist spi_intel_pci
+
+- name: Unload spi_intel_pci module
+  ansible.builtin.command: modprobe -r spi_intel_pci
