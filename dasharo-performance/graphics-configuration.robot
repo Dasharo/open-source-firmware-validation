@@ -9,25 +9,33 @@ Suite Teardown      Log Out And Close Connection
 
 *** Test Cases ***
 DGPU001.001 Hybrid Graphics modes: NVIDIA Optimus
-    [Documentation]    Verifies if both the integrated and discrete GPUs (iGPU & dGPU) are turned on in Ubuntu.
+    [Documentation]    Verifies that the internal display is connected to the
+    ...    integrated GPU (iGPU) while both iGPU and dGPU are active in Ubuntu.
+
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Set UEFI Option    DGPUEnabled    NVIDIA Optimus
     Power Cycle Into Ubuntu
     Switch To Root User
 
-    ${gpu_status}=    Execute Command In Terminal    lspci | grep -i nvidia
-    Should Contain    ${gpu_status}    NVIDIA    msg= "dGPU is not detected."
+    ${dgpu_status}=    Execute Command In Terminal    lspci | grep -i nvidia
+    Should Contain    ${dgpu_status}    NVIDIA    msg= "dGPU is not detected."
 
     ${igpu_status}=    Execute Command In Terminal    lspci | grep -i 'intel'
     Should Contain    ${igpu_status}    Graphics    msg= "iGPU is not detected."
 
-    Log To Console    Both iGPU and dGPU are active and turned on.
+    ${igpu_display_status}=    Execute Command In Terminal    cat /sys/class/drm/card1-eDP-1/enabled
+    Should Contain    ${igpu_display_status}    enabled    msg= "iGPU is not driving the internal display."
+
+    ${dgpu_display_status}=    Execute Command In Terminal    cat /sys/class/drm/card2-eDP-1/enabled
+    Should Contain    ${dgpu_display_status}    disabled    msg= "dGPU is incorrectly driving the internal display."
+
+    Log To Console    Internal display is connected to iGPU, and both iGPU and dGPU are active.
 
 DGPU002.001 Hybrid Graphics modes: dGPU Only
     [Documentation]    Verifies that the internal display is connected to the discrete GPU (dGPU) while the integrated GPU (iGPU) is still active.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    # Set UEFI Option    DGPUEnabled    dGPU Only
+    Set UEFI Option    DGPUEnabled    dGPU Only
     Power Cycle Into Ubuntu
     Switch To Root User
 
