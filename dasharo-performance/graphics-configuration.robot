@@ -2,6 +2,7 @@
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Resource            ../keywords.robot
+Resource            ../lib/performance/common.robot
 
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
@@ -61,10 +62,3 @@ DGPU003.001 Hybrid Graphics modes: iGPU Only
     Should Contain    ${igpu_status}    Graphics    msg= "iGPU is not detected."
 
     Log To Console    Only iGPU is active, and dGPU is turned off.
-
-
-*** Keywords ***
-Power Cycle Into Ubuntu
-    Power On
-    Boot System Or From Connected Disk    201
-    Login To Linux
