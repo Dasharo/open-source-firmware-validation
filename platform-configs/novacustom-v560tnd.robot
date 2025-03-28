@@ -23,7 +23,6 @@ ${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
 
-
 ${OPTIONS_LIB}=                         options-lib_dcu
 ${POWER_CTRL}=                          none
 
@@ -57,4 +56,3 @@ ${WIN_RAND_READ_QUEUED}=                ${EMPTY}    # MB/s
 ${WIN_RAND_WRITE_QUEUED}=               ${EMPTY}    # MB/s
 ${WIN_RAND_READ_NONQUE}=                ${EMPTY}    # MB/s
 ${WIN_RAND_WRITE_NONQUE}=               ${EMPTY}    # MB/s
-
