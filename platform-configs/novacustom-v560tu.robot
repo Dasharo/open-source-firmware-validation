@@ -29,13 +29,13 @@ ${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE}
 ${USB_STACK_SUPPORT}=               ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=          4602000
 
-# performance
+# performance referencefrom processor    ultra 5 125h
 ${ZIP_MULTI_COMPRESSION}=           15923    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=         12245    # MIPS
-${CRAY_5_K_RENDER}=                 ${EMPTY}    # sec
-${CRAY_4_K_RENDER}=                 ${EMPTY}    # sec
-${CRAY_1080_P_RENDER}=              ${EMPTY}    # sec
-${COREMARK_SINGLE}=                 ${EMPTY}    # iterations/s
+${CRAY_5_K_RENDER}=                 2210.755    # sec
+${CRAY_4_K_RENDER}=                 1349.461    # sec
+${CRAY_1080_P_RENDER}=              308.289    # sec
+${COREMARK_SINGLE}=                 92891.774    # iterations/s
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=             5953.5    # MB/s
