@@ -27,29 +27,26 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-WLE001.001 Wireless card detection (Ubuntu)
+WLE001.201 Wireless card detection (Ubuntu)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE001.001 not supported
-    Log To Console    Remember to test all variants of wireless cards.
-    Log    Remember to test all variants of wireless cards.    WARN
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE001.201 not supported
+    Wireless Card Detection    ${ENV_ID_UBUNTU}
 
-    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
-    Log To Console    The test passed for the ${WIFI_CARD_UBUNTU} wireless card
-    Log    The test passed for the ${WIFI_CARD_UBUNTU} wireless card    WARN
-    Exit From Root User
-
-WLE001.002 Wireless card detection (Windows)
+WLE001.202 Wireless card detection (Fedora)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.002 not supported
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE001.202 not supported
+    Wireless Card Detection    ${ENV_ID_FEDORA}
+
+WLE001.301 Wireless card detection (Windows)
+    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
+    ...    correctly and can be detected from the operating system.
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
@@ -60,31 +57,30 @@ WLE001.002 Wireless card detection (Windows)
     Log To Console    The test passed for the ${WIFI_CARD} wireless card
     Log    The test passed for the ${WIFI_CARD} wireless card    WARN
 
-WLE002.001 Wi-Fi scanning (Ubuntu)
+WLE002.201 Wi-Fi scanning (Ubuntu)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system..
     [Tags]    minimal-regression
-    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE002.001 not supported
-    Log To Console    Remember to test all variants of wireless cards.
-    Log    Remember to test all variants of wireless cards.    WARN
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Scan For Wi-Fi In Linux
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE002.201 not supported
+    Wi-Fi Scanning    ${ENV_ID_UBUNTU}
 
-    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
-    Exit From Root User
-    Log To Console    The test passed for the ${current_card} wireless card
-    Log    The test passed for the ${current_card} wireless card    WARN
+WLE002.202 Wi-Fi scanning (Fedora)
+    [Documentation]    Check whether the Wi-Fi functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system..
+    [Tags]    minimal-regression
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE002.202 not supported
+    Wi-Fi Scanning    ${ENV_ID_FEDORA}
 
-WLE002.002 Wi-Fi scanning (Windows)
+WLE002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE002.002 not supported
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE002.301 not supported
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
@@ -100,24 +96,22 @@ WLE002.002 Wi-Fi scanning (Windows)
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
 
-WLE003.001 Bluetooth scanning (Ubuntu)
+WLE003.201 Bluetooth scanning (Ubuntu)
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.
-    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE003.001 not supported
-    Log To Console    Remember to test all variants of wireless cards.
-    Log    Remember to test all variants of wireless cards.    WARN
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Scan For Bluetooth In Linux
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE003.201 not supported
+    Bluetooth Scanning    ${ENV_ID_UBUNTU}
 
-    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
-    Exit From Root User
-    Log To Console    The test passed for the ${current_card} wireless card
-    Log    The test passed for the ${current_card} wireless card    WARN
+WLE003.202 Bluetooth scanning (Fedora)
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE003.202 not supported
+    Bluetooth Scanning    ${ENV_ID_FEDORA}
 
 # TBD - Run scanning bluetooth via powershell and list aviailable devices
 # test case below just check connected bluetooth devices
@@ -131,3 +125,61 @@ WLE003.001 Bluetooth scanning (Ubuntu)
 #    Login to Windows
 #    ${out}=    Execute Command in Terminal    Get-PnpDevice -class Bluetooth
 #    Should Contain X Times    ${out}    OK    4
+
+
+*** Keywords ***
+Wireless Card Detection
+    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
+    ...    correctly and can be detected from the operating system.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Log To Console    Remember to test all variants of wireless cards.
+    Log    Remember to test all variants of wireless cards.    WARN
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+
+    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+    Log To Console    The test passed for the ${WIFI_CARD_UBUNTU} wireless card
+    Log    The test passed for the ${WIFI_CARD_UBUNTU} wireless card    WARN
+    Exit From Root User
+
+Wi-Fi Scanning
+    [Documentation]    Check whether the Wi-Fi functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system..
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Log To Console    Remember to test all variants of wireless cards.
+    Log    Remember to test all variants of wireless cards.    WARN
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+    Scan For Wi-Fi In Linux
+
+    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
+    Exit From Root User
+    Log To Console    The test passed for the ${current_card} wireless card
+    Log    The test passed for the ${current_card} wireless card    WARN
+
+Bluetooth Scanning
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Log To Console    Remember to test all variants of wireless cards.
+    Log    Remember to test all variants of wireless cards.    WARN
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+    Scan For Bluetooth In Linux
+
+    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
+    Exit From Root User
+    Log To Console    The test passed for the ${current_card} wireless card
+    Log    The test passed for the ${current_card} wireless card    WARN
