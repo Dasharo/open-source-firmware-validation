@@ -90,6 +90,9 @@ WLE002.002 Wi-Fi scanning (Windows)
     Power On
     Login To Windows
     Execute Command In Terminal    Start-Service WlanSvc
+    # Ensure WiFi is enabled
+    Execute Command In Terminal
+    ...    Set-NetAdapterAdvancedProperty -Name "Wi-Fi" -AllProperties -RegistryKeyword "SoftwareRadioOff" -RegistryValue "0"
     ${out}=    Execute Command In Terminal    netsh wlan show network
     Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
     ${current_card}=
