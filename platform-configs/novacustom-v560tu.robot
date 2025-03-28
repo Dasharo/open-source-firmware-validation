@@ -29,7 +29,7 @@ ${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE}
 ${USB_STACK_SUPPORT}=               ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=          4602000
 
-# performance referencefrom processor    ultra 5 125h
+# performance reference for processor ultra 5 125h
 ${ZIP_MULTI_COMPRESSION}=           15923    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=         12245    # MIPS
 ${CRAY_5_K_RENDER}=                 2210.755    # sec
