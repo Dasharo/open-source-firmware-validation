@@ -265,7 +265,6 @@ Prepare Tools, Keys And Binaries
 
     Login To Linux
     Switch To Root User
-    Get Coreboot Tools
     Install Docker Packages
     Generate Verified Boot Keys
     Resign Existing Firmware Image With Generated Keys

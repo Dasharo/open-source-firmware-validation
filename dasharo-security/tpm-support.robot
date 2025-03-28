@@ -93,7 +93,6 @@ TPM003.001 Check TPM Physical Presence Interface (firmware)
     ...    with cbmem within Ubuntu
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.001 not supported
     Prepare TPM Test On Ubuntu
-    Get Cbmem
     ${out}=    Execute Command In Terminal    cbmem -1 | grep PPI
     Should Contain    ${out}    PPI: Pending OS request
     Should Contain    ${out}    PPI: OS response
@@ -136,5 +135,4 @@ Prepare TPM Test On Ubuntu
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Get Cbmem
     Verify Presence Of TPM Via Sysfs

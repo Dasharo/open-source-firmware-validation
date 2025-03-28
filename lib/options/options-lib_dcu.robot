@@ -127,7 +127,6 @@ Make Sure That Flash Locks Are Disabled
     Power On
     Login To Linux
     Switch To Root User
-    Get Flashrom
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Not Contain    ${out_flashrom}    read-only
 
