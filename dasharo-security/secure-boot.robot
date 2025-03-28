@@ -265,6 +265,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
 
 *** Keywords ***
 Set Secure Boot State To Disabled
+    [Tags]    robot:private
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
