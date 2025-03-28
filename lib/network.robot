@@ -72,7 +72,7 @@ Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
     Wait Until Keyword Succeeds    5x    10s
     ...    Get Hostname Ip
-    ${out}=    Execute Linux Command    ping -c 4 google-public-dns-a.google.com
+    ${out}=    Execute Command In Terminal    ping -c 4 google-public-dns-a.google.com
     Should Contain    ${out}    , 0% packet loss
 
 Check Internet Connection On Windows

@@ -163,8 +163,16 @@ Wi-Fi Scanning
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
-    Scan For Wi-Fi In Linux
 
+    # with interfaces DOWN, dhclient takes around 37s
+    Execute Command In Terminal    dhclient    60s
+    IF    "${BOOTED_OS_ID}"=="${ENV_ID_UBUNTU}"
+        Detect Or Install Package    network-manager
+    END
+    Scan For Wi-Fi In Linux
+    IF    "${BOOTED_OS_ID}"=="${ENV_ID_UBUNTU}"
+        Detect Or Install Package    pciutils
+    END
     ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
     Exit From Root User
     Log To Console    The test passed for the ${current_card} wireless card

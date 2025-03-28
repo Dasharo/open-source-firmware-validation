@@ -291,6 +291,7 @@ Execute Command In Terminal
     [Arguments]    ${command}    ${timeout}=30s
     Set DUT Response Timeout    ${timeout}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Telnet.Read
         ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
     ELSE
         Write Into Terminal    ${command}

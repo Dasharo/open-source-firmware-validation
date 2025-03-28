@@ -1155,8 +1155,13 @@ Check If Package Is Installed
     [Documentation]    Check whether the package, that is necessary to run the
     ...    test case, has already been installed on the system.
     [Arguments]    ${package}
-    ${output}=    Execute Command In Terminal    dpkg --list ${package} | cat
-    IF    "no packages found matching" in """${output}""" or "<none>" in """${output}""" or "dpkg was interrupted" in """${output}"""
+    ${apt_list_output}=    Execute Command In Terminal    apt list --installed 2> /dev/null | grep ${package}    60s
+
+    # there's limitation (or possibly a bug) in Get Lines Matching Regexp kw:
+    # can't capture opening square bracket correctly, which would be more appropriate
+    ${package_regex}=    Catenate    SEPARATOR=    ${package}    \/.*installed.*
+    ${package_lines}=    Get Lines Matching Regexp    ${apt_list_output}    ${package_regex}
+    IF    "${package_lines}"=="${EMPTY}"
         ${is_installed}=    Set Variable    ${FALSE}
     ELSE
         ${is_installed}=    Set Variable    ${TRUE}
@@ -1167,10 +1172,8 @@ Install Package
     [Documentation]    Install the package, that is necessary to run the
     ...    test case
     [Arguments]    ${package}
-    Set DUT Response Timeout    600s
-    Write Into Terminal    apt-get install --assume-yes ${package}
-    Read From Terminal Until Prompt
-    Set DUT Response Timeout    180s
+    Execute Command In Terminal    apt-get update    120s
+    Execute Command In Terminal    apt-get install --assume-yes ${package}    60s
 
 Download File
     [Documentation]    Download file from the given URL.
