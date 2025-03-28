@@ -98,28 +98,3 @@ TPD003.004 Detect TPM after platform reboot (heads)
         FAIL    \nTest case marked as Failed; ${failed_detects} iterations failed.
     END
     Check TPM PCRs Correctness Between Subsequent Boots    ${pcrs_subsequent_boots}
-
-TPM001.002 TPM Support (Ubuntu)
-    [Documentation]    This test aims to verify that the TPM is initialized
-    ...    correctly and the PCRs can be accessed from the operating system.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.002 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-
-    ${out}=    Execute Linux Command    tpm2_pcrread
-    Should Contain    ${out}    sha1:
-    Should Contain    ${out}    sha256:
-    Exit From Root User
-
-TPM001.003 TPM Support (Windows)
-    [Documentation]    This test aims to verify that the TPM is initialized
-    ...    correctly and the PCRs can be accessed from the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.003 not supported
-    Power On
-    Login To Windows
-    ${out}=    Execute Command In Terminal    get-tpm
-    Should Contain    ${out}    TpmPresent${SPACE*16}: True    strip_spaces=True
-    Should Contain    ${out}    TpmReady${SPACE*18}: True    strip_spaces=True
-    Should Contain    ${out}    TpmEnabled${SPACE*16}: True    strip_spaces=True
