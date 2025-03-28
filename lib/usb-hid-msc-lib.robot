@@ -23,6 +23,12 @@ Mount USB Disk Image
     [Documentation]    Mounts USB disk image - either from URL or from local file.
     [Arguments]    ${img_source}    ${upload_type}=file    ${required}=${TRUE}
 
+    # FXIME: Currently works only for QEMU and PiKVM. Remove when support for
+    # other methods is added.
+    IF    "${MANUFACTURER}" != "QEMU" or "${DUT_CONNECTION_METHOD}" != "pikvm"
+        RETURN
+    END
+
     # TODO:: Move to interface approach, not IF/ELSE tree
     IF    "${upload_type}" == "file"
         ${img_dir}    ${img_name}=    Split Path    ${img_source}

@@ -25,7 +25,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${SECURE_BOOT_SUPPORT}    Secure Boot is not supported
 ...                     AND
-...                     Run Keyword If    "${DUT_CONNECTION_METHOD}" != "Telnet"    Mount USB Disk Image    ${TEST_DATA_DIR}/secure-boot/sb_test_data.img    file    TRUE
+...                     Mount USB Disk Image    ${TEST_DATA_DIR}/secure-boot/sb_test_data.img    file    TRUE
 ...                     AND
 ...                     Restore Secure Boot Defaults
 Suite Teardown      Run Keywords
