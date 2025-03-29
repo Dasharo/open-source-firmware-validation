@@ -25,45 +25,89 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CAM001.001 Integrated webcam (Ubuntu)
+CAM001.201 Integrated webcam (Ubuntu)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CAM001.201 not supported
     Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
+    Integrated Webcam Linux
+    Exit From Root User
 
+CAM001.202 Integrated webcam (Fedora)
+    [Documentation]    Check whether the integrated USB camera is initialized
+    ...    correctly and can be accessed from the Linux OS. Assumption: No
+    ...    external cameras connected.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CAM001.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Integrated Webcam Linux
+    Exit From Root User
+
+CAM001.301 Integrated webcam (Windows)
+    [Documentation]    Check whether the integrated USB camera is initialized
+    ...    correctly and can be accessed from the Windows OS.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
+    Power On
+    Login To Windows
+    ${out}=    Get USB Devices Windows
+    Should Contain    ${out}    Chicony USB2.0 Camera
+
+CAM002.201 Integrated IR Camera (Ubuntu)
+    [Documentation]    Check whether the integrated infrared camera is
+    ...    initialized correctly and can be accessed from the Linux OS.
+    ...    Assumption: No external camera connected. Camera exposes separate
+    ...    devnodes for visible-spectrum and IR modes, in that order.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CAM002.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Integrated IR Camera Linux
+    Exit From Root User
+
+CAM002.202 Integrated IR Camera (Fedora)
+    [Documentation]    Check whether the integrated infrared camera is
+    ...    initialized correctly and can be accessed from the Linux OS.
+    ...    Assumption: No external camera connected. Camera exposes separate
+    ...    devnodes for visible-spectrum and IR modes, in that order.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CAM002.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Integrated IR Camera Linux
+    Exit From Root User
+
+
+*** Keywords ***
+Integrated Webcam Linux
+    [Documentation]    Check whether the integrated USB camera is initialized
+    ...    correctly and can be accessed from the Linux OS. Assumption: No
+    ...    external cameras connected.
+    [Tags]    robot:private
     Device Detection In Linux    Camera
     ${out0}=    Execute Linux Command    ffprobe /dev/video0
     Should Contain    ${out0}    Input #0, video4linux2,v4l2, from '/dev/video0':
     Should Contain
     ...    ${out0}
     ...    Stream #0:0: Video: rawvideo (YUY2 / 0x32595559), yuyv422
-    Exit From Root User
 
-CAM001.002 Integrated webcam (Windows)
-    [Documentation]    Check whether the integrated USB camera is initialized
-    ...    correctly and can be accessed from the Windows OS.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.002 not supported
-    Power On
-    Login To Windows
-    ${out}=    Get USB Devices Windows
-    Should Contain    ${out}    Chicony USB2.0 Camera
-
-CAM002.001 Integrated IR Camera (Ubuntu)
+Integrated IR Camera Linux
     [Documentation]    Check whether the integrated infrared camera is
     ...    initialized correctly and can be accessed from the Linux OS.
     ...    Assumption: No external camera connected. Camera exposes separate
     ...    devnodes for visible-spectrum and IR modes, in that order.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM002.001 not supported
-    Power On
-    Login To Linux
-    Switch To Root User
-
+    [Tags]    robot:private
     Device Detection In Linux    Camera
     ${out0}=    Execute Linux Command    ffprobe /dev/video2
     Should Contain
     ...    ${out0}
     ...    Stream #0:0: Video: rawvideo (Y800 / 0x30303859), gray
-    Exit From Root User
