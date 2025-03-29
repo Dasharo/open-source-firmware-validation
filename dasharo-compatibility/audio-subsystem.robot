@@ -23,29 +23,26 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-AUD001.001 Audio subsystem detection (Ubuntu)
+AUD001.201 Audio subsystem detection (Ubuntu)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Linux OS.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD001.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD001.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    AUD001.201 not supported
+    Audio Subsystem Detection    ${ENV_ID_UBUNTU}
 
-    ${out}=    Execute Linux Command    cat /sys/class/sound/card0/hwC0D*/chip_name
-    Should Not Be Empty
-    ...    ${DEVICE_AUDIO1}
-    ...    msg=At least DEVICE_AUDIO01 must be defined in platform config if audio suite is enabled
-    Should Contain    ${out}    ${DEVICE_AUDIO1}
-    Should Contain    ${out}    ${DEVICE_AUDIO2}
-    Exit From Root User
+AUD001.202 Audio subsystem detection (Fedora)
+    [Documentation]    Check whether the audio subsystem is initialized correctly
+    ...    and can be detected in Linux OS.
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    AUD001.202 not supported
+    Audio Subsystem Detection    ${ENV_ID_FEDORA}
 
-AUD001.002 Audio subsystem detection (Windows)
+AUD001.301 Audio subsystem detection (Windows)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Windows 11.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.002 not supported
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.301 not supported
     Power On
     Login To Windows
     ${out}=    Get Sound Devices Windows
@@ -70,20 +67,22 @@ AUD001.002 Audio subsystem detection (Windows)
 #    [Documentation]    Check whether the audio subsystem is able to capture
 #    ...    audio.
 
-AUD004.001 External headset recognition (Ubuntu)
+AUD004.201 External headset recognition (Ubuntu)
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.001 not supported
-    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    ${out}=    Execute Linux Command    amixer -c 0 contents | grep -A 2 'Headphone' | cat
-    ${headset_string}=    Set Variable    values=on
-    Should Contain    ${out}    ${headset_string}
-    Exit From Root User
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.201 not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    AUD004.201 not supported
+    External Headset Recognition    ${ENV_ID_UBUNTU}
+
+AUD004.202 External headset recognition (Fedora)
+    [Documentation]    Check whether the external headset is recognized
+    ...    properly after plugging in micro jack into slot.
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.202 not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    AUD004.202 not supported
+    External Headset Recognition    ${ENV_ID_FEDORA}
 
 # Work in progress
 # AUD004.002 External headset recognition (Windows)
@@ -98,3 +97,37 @@ AUD004.001 External headset recognition (Ubuntu)
 #    ${out}=    Execute Command In Terminal    Get-AudioDevice -list    | ft Index, Default, Type, Name
 #    Should Contain    ${out}    ${headset_string}
 #    Exit from root user
+
+
+*** Keywords ***
+Audio Subsystem Detection
+    [Documentation]    Check whether the audio subsystem is initialized correctly
+    ...    and can be detected in Linux OS.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+
+    ${out}=    Execute Linux Command    cat /sys/class/sound/card0/hwC0D*/chip_name
+    Should Not Be Empty
+    ...    ${DEVICE_AUDIO1}
+    ...    msg=At least DEVICE_AUDIO01 must be defined in platform config if audio suite is enabled
+    Should Contain    ${out}    ${DEVICE_AUDIO1}
+    Should Contain    ${out}    ${DEVICE_AUDIO2}
+    Exit From Root User
+
+External Headset Recognition
+    [Documentation]    Check whether the external headset is recognized
+    ...    properly after plugging in micro jack into slot.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Linux Command    amixer -c 0 contents | grep -A 2 'Headphone' | cat
+    ${headset_string}=    Set Variable    values=on
+    Should Contain    ${out}    ${headset_string}
+    Exit From Root User
