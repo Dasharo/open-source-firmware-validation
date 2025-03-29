@@ -775,7 +775,7 @@ Execute Reboot Command
         # if the OS cannot be chosen from the bootmanager and rebooting
         # always boots the default one
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-            Set Nextboot    ${BOOTED_OS_ID}
+            Options-lib Dcu.Set Nextboot    ${BOOTED_OS_ID}
         END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'
