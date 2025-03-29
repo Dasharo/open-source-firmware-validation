@@ -52,42 +52,30 @@ STB001.001 Verify if no reboot occurs in the firmware
         ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
     END
 
-STB001.002 Verify if no reboot occurs in the OS (Ubuntu)
+STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
     [Documentation]    This test aims to verify that the DUT booted to the
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB001.201 not supported
+    Verify If No Reboot Occurs In Linux    ${ENV_ID_UBUNTU}
 
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    ${timer}=    Convert To Integer    0
-    Set Local Variable    ${device_uptime}    0
-    FOR    ${i}    IN RANGE    (${STABILITY_TEST_DURATION} / ${STABILITY_TEST_MEASURE_INTERVAL}) + 1
-        Log To Console    \n ----------------------------------------------------------------
-        Log To Console    ${timer} min.
-        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno'
-        ${uptime_output}=    Execute Command In Terminal    cat /proc/uptime
-        ${uptime_list}=    Split String    ${uptime_output}    ${SPACE}
-        ${current_uptime}=    Convert To Number    ${uptime_list}[0]
-        IF    ${current_uptime} >= ${device_uptime}
-            Set Local Variable    ${device_uptime}    ${current_uptime}
-        ELSE
-            FAIL    \n The device has been reset during the test!
-        END
-        Should Contain    ${network_status}    UP
-        Sleep    ${STABILITY_TEST_MEASURE_INTERVAL}m
-        ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
-    END
-
-STB001.003 Verify if no reboot occurs in the OS (Windows)
+STB001.202 Verify if no reboot occurs in the OS (Fedora)
     [Documentation]    This test aims to verify that the DUT booted to the
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    STB001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    STB001.202 not supported
+    Verify If No Reboot Occurs In Linux    ${ENV_ID_FEDORA}
+
+STB001.301 Verify if no reboot occurs in the OS (Windows)
+    [Documentation]    This test aims to verify that the DUT booted to the
+    ...    Operating System does not reset. The test is performed in multiple
+    ...    iterations - after a defined time an attempt to read the output of
+    ...    specific commands confirming the stability of work is repeated.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    STB001.301 not supported
     Power On
     Login To Windows
     ${timer}=    Convert To Integer    0
@@ -115,15 +103,63 @@ STB001.003 Verify if no reboot occurs in the OS (Windows)
         ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
     END
 
-STB002.001 Verify if no unexpected boot errors appear in Linux logs
+STB002.201 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
     [Tags]    minimal-regression
-    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
+    Verify If No Unexpected Boot Errors Appear In Linux Logs    ${ENV_ID_UBUNTU}
 
+STB002.202 Verify if no unexpected boot errors appear in Linux logs
+    [Documentation]    This test aims to verify that there are no unexpected
+    ...    error ,essages in Linux kernel logs.
+    [Tags]    minimal-regression
+    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.202 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    STB002.202 not supported
+    Verify If No Unexpected Boot Errors Appear In Linux Logs    ${ENV_ID_FEDORA}
+
+
+*** Keywords ***
+Verify If No Reboot Occurs In Linux
+    [Documentation]    This test aims to verify that the DUT booted to the
+    ...    Operating System does not reset. The test is performed in multiple
+    ...    iterations - after a defined time an attempt to read the output of
+    ...    specific commands confirming the stability of work is repeated.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+    ${timer}=    Convert To Integer    0
+    Set Local Variable    ${device_uptime}    0
+    FOR    ${i}    IN RANGE    (${STABILITY_TEST_DURATION} / ${STABILITY_TEST_MEASURE_INTERVAL}) + 1
+        Log To Console    \n ----------------------------------------------------------------
+        Log To Console    ${timer} min.
+        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno'
+        ${uptime_output}=    Execute Command In Terminal    cat /proc/uptime
+        ${uptime_list}=    Split String    ${uptime_output}    ${SPACE}
+        ${current_uptime}=    Convert To Number    ${uptime_list}[0]
+        IF    ${current_uptime} >= ${device_uptime}
+            Set Local Variable    ${device_uptime}    ${current_uptime}
+        ELSE
+            FAIL    \n The device has been reset during the test!
+        END
+        Should Contain    ${network_status}    UP
+        Sleep    ${STABILITY_TEST_MEASURE_INTERVAL}m
+        ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
+    END
+
+Verify If No Unexpected Boot Errors Appear In Linux Logs
+    [Documentation]    This test aims to verify that there are no unexpected
+    ...    error ,essages in Linux kernel logs.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     Check Unexpected Boot Errors
