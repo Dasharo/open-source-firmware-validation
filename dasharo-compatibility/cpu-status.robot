@@ -21,45 +21,56 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported
 ...                     AND
-...                     Run Keyword If    ${TESTS_IN_UBUNTU_SUPPORT}    Reset UEFI Options To Defaults
+...                     Reset UEFI Options To Defaults
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Test Cases ***
-CPU001.001 CPU works (Ubuntu)
+CPU001.201 CPU works (Ubuntu)
     [Documentation]    Check whether the CPU mounted on the DUT works.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
-CPU001.002 CPU works (Windows)
+CPU001.202 CPU works (Fedora)
     [Documentation]    Check whether the CPU mounted on the DUT works.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.002 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU001.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+
+CPU001.301 CPU works (Windows)
+    [Documentation]    Check whether the CPU mounted on the DUT works.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
     Power On
     Login To Windows
 
-CPU002.001 CPU cache enabled (Ubuntu)
+CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
-    ${mem_info}=    Execute Linux Command    getconf -a | grep CACHE
-    Check Cache Support    ${mem_info}    LEVEL1
-    Pass Execution If    not ${L2_CACHE_SUPPORT}    DUT supports only L1 cache
-    Check Cache Support    ${mem_info}    LEVEL2
-    Pass Execution If    not ${L3_CACHE_SUPPORT}    DUT supports only L1 and L2 cache
-    Check Cache Support    ${mem_info}    LEVEL3
-    Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
-    Check Cache Support    ${mem_info}    LEVEL4
+    CPU Cache Enabled Linux
 
-CPU002.002 CPU cache enabled (Windows)
+CPU002.202 CPU cache enabled (Fedora)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.002 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU001.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    CPU Cache Enabled Linux
+
+CPU002.301 CPU cache enabled (Windows)
+    [Documentation]    Check whether the all declared for the DUT cache levels
+    ...    are enabled.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
     Power On
     Login To Windows
     ${mem_info}=    Execute Command In Terminal
@@ -72,22 +83,26 @@ CPU002.002 CPU cache enabled (Windows)
     Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
     Should Contain    ${mem_info}    CACHE4
 
-CPU003.001 Multiple CPU support (Ubuntu)
+CPU003.201 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU003.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
-    ${cpu_info}=    Execute Linux Command    lscpu
-    Set Suite Variable    ${CPU_INFO}
-    ${cpu}=    Get Lines Matching Regexp    ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
-    Should Contain    ${cpu}    ${DEF_THREADS_TOTAL}    Different number of CPU's than ${DEF_THREADS_TOTAL}
-    ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
-    Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
+    Multiple CPU Support Linux
 
-CPU003.002 Multiple CPU support (Windows)
+CPU003.202 Multiple CPU support (Fedora)
     [Documentation]    Check whether the DUT has multiple CPU support.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.002 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Multiple CPU Support Linux
+
+CPU003.301 Multiple CPU support (Windows)
+    [Documentation]    Check whether the DUT has multiple CPU support.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
     Power On
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
@@ -95,29 +110,26 @@ CPU003.002 Multiple CPU support (Windows)
     ${cpu_count}=    Convert To Number    ${cpu_count}
     Should Be True    ${cpu_count} > 1
 
-CPU004.001 Multiple-core support (Ubuntu)
+CPU004.201 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU004.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
-    ${cpu_info}=    Execute Linux Command    lscpu
-    ${sockets}=    Get Lines Containing String    ${cpu_info}    Socket(s):
-    Should Contain    ${sockets}    ${DEF_SOCKETS}    Different number of sockets than ${DEF_SOCKETS}
-    ${cores}=    Get Lines Containing String    ${cpu_info}    Core(s) per socket:
-    Should Contain
-    ...    ${cores}
-    ...    ${DEF_CORES_PER_SOCKET}
-    ...    Different number of cores per socket than ${DEF_CORES_PER_SOCKET}
-    ${threads}=    Get Lines Containing String    ${cpu_info}    Thread(s) per core:
-    Should Contain
-    ...    ${threads}
-    ...    ${DEF_THREADS_PER_CORE}
-    ...    Different number of threads per core than ${DEF_THREADS_PER_CORE}
+    Multiple-Core Support Linux
 
-CPU004.002 Multiple-core support (Windows)
+CPU004.202 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.002 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU004.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Multiple-Core Support Linux
+
+CPU004.301 Multiple-core support (Windows)
+    [Documentation]    Check whether the DUT has multi-core support.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
     Power On
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    WMIC CPU Get NumberOfCores
@@ -143,3 +155,44 @@ Check Cache Support
         ${mem}=    Convert To Integer    ${cache_size}
         IF    '${mem}'=='0'    Fail    ${line}    ELSE    Log    ${line}
     END
+
+CPU Cache Enabled Linux
+    [Documentation]    Check whether the all declared for the DUT cache levels
+    ...    are enabled.
+    [Tags]    robot:private
+    ${mem_info}=    Execute Linux Command    getconf -a | grep CACHE
+    Check Cache Support    ${mem_info}    LEVEL1
+    Pass Execution If    not ${L2_CACHE_SUPPORT}    DUT supports only L1 cache
+    Check Cache Support    ${mem_info}    LEVEL2
+    Pass Execution If    not ${L3_CACHE_SUPPORT}    DUT supports only L1 and L2 cache
+    Check Cache Support    ${mem_info}    LEVEL3
+    Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
+    Check Cache Support    ${mem_info}    LEVEL4
+
+Multiple CPU Support Linux
+    [Documentation]    Check whether the DUT has multiple CPU support.
+    [Tags]    robot:private
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.001 not supported
+    ${cpu_info}=    Execute Linux Command    lscpu
+    Set Suite Variable    ${CPU_INFO}
+    ${cpu}=    Get Lines Matching Regexp    ${CPU_INFO}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
+    Should Contain    ${cpu}    ${DEF_THREADS_TOTAL}    Different number of CPU's than ${DEF_THREADS_TOTAL}
+    ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
+    Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
+
+Multiple-Core Support Linux
+    [Documentation]    Check whether the DUT has multi-core support.
+    [Tags]    robot:private
+    ${cpu_info}=    Execute Linux Command    lscpu
+    ${sockets}=    Get Lines Containing String    ${cpu_info}    Socket(s):
+    Should Contain    ${sockets}    ${DEF_SOCKETS}    Different number of sockets than ${DEF_SOCKETS}
+    ${cores}=    Get Lines Containing String    ${cpu_info}    Core(s) per socket:
+    Should Contain
+    ...    ${cores}
+    ...    ${DEF_CORES_PER_SOCKET}
+    ...    Different number of cores per socket than ${DEF_CORES_PER_SOCKET}
+    ${threads}=    Get Lines Containing String    ${cpu_info}    Thread(s) per core:
+    Should Contain
+    ...    ${threads}
+    ...    ${DEF_THREADS_PER_CORE}
+    ...    Different number of threads per core than ${DEF_THREADS_PER_CORE}
