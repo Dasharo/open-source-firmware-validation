@@ -33,8 +33,6 @@ Check Unexpected Boot Errors
     @{dmesg_err_allowlist}=    Create List
     # Harmless error on Bluetooth modules
     Append To List    ${dmesg_err_allowlist}    Bluetooth: hci0: Malformed MSFT vendor event: 0x02
-    # Not a critical error, appears on many machines
-    Append To List    ${dmesg_err_allowlist}    tpm tpm0: [Firmware Bug]: TPM interrupt not working, polling instead
     # Intel AX-series WiFi+BT adapters throw these when debug features are disabled
     Append To List    ${dmesg_err_allowlist}    Bluetooth: hci0: No support for _PRR ACPI method
     Append To List    ${dmesg_err_allowlist}    iwlwifi 0000:00:14.3: WRT: Invalid buffer destination
