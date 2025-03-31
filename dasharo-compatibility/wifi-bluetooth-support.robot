@@ -35,12 +35,48 @@ WLE001.201 Wireless card detection (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE001.201 not supported
     Wireless Card Detection    ${ENV_ID_UBUNTU}
 
+WLE002.201 Wi-Fi scanning (Ubuntu)
+    [Documentation]    Check whether the Wi-Fi functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system..
+    [Tags]    minimal-regression
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE002.201 not supported
+    Wi-Fi Scanning    ${ENV_ID_UBUNTU}
+
+WLE003.201 Bluetooth scanning (Ubuntu)
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE003.201 not supported
+    Bluetooth Scanning    ${ENV_ID_UBUNTU}
+
 WLE001.202 Wireless card detection (Fedora)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
     Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE001.202 not supported
     Wireless Card Detection    ${ENV_ID_FEDORA}
+
+WLE002.202 Wi-Fi scanning (Fedora)
+    [Documentation]    Check whether the Wi-Fi functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system..
+    [Tags]    minimal-regression
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE002.202 not supported
+    Wi-Fi Scanning    ${ENV_ID_FEDORA}
+
+WLE003.202 Bluetooth scanning (Fedora)
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE003.202 not supported
+    Bluetooth Scanning    ${ENV_ID_FEDORA}
 
 WLE001.301 Wireless card detection (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
@@ -56,25 +92,6 @@ WLE001.301 Wireless card detection (Windows)
     Should Match    ${out}    *${WIFI_CARD}*
     Log To Console    The test passed for the ${WIFI_CARD} wireless card
     Log    The test passed for the ${WIFI_CARD} wireless card    WARN
-
-WLE002.201 Wi-Fi scanning (Ubuntu)
-    [Documentation]    Check whether the Wi-Fi functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system..
-    [Tags]    minimal-regression
-    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE002.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE002.201 not supported
-    Wi-Fi Scanning    ${ENV_ID_UBUNTU}
-
-WLE002.202 Wi-Fi scanning (Fedora)
-    [Documentation]    Check whether the Wi-Fi functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system..
-    [Tags]    minimal-regression
-    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE002.202 not supported
-    Wi-Fi Scanning    ${ENV_ID_FEDORA}
 
 WLE002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
@@ -95,23 +112,6 @@ WLE002.301 Wi-Fi scanning (Windows)
     ...    Execute Command In Terminal    Get-NetAdapter -Name "Wi-Fi" | Format-List -Property "InterfaceDescription"
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
-
-WLE003.201 Bluetooth scanning (Ubuntu)
-    [Documentation]    Check whether the Bluetooth functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system.
-    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE003.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE003.201 not supported
-    Bluetooth Scanning    ${ENV_ID_UBUNTU}
-
-WLE003.202 Bluetooth scanning (Fedora)
-    [Documentation]    Check whether the Bluetooth functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system.
-    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE003.202 not supported
-    Bluetooth Scanning    ${ENV_ID_FEDORA}
 
 # TBD - Run scanning bluetooth via powershell and list aviailable devices
 # test case below just check connected bluetooth devices

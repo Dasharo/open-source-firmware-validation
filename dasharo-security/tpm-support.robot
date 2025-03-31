@@ -37,6 +37,34 @@ TPM001.001 TPM Support (firmware)
         Validate Expected TPM Version Via Cbmem TPM Eventlog
     END
 
+TPM002.001 Verify TPM version (firmware)
+    [Documentation]    This test aims to verify that the TPM version is
+    ...    correctly recognized by the firmware.
+    Skip If    '${DEFAULT_BOOT_OS_ID}' not in ${TESTED_LINUX_DISTROS}    TPM002.001 not supported
+    Prepare TPM Test On Linux
+    ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem Console Log
+    IF    '${result}[0]' == 'FAIL'
+        Log To Console    \nChip detection failed, attempting cbmem log detection\n
+        Validate Expected TPM Version Via Cbmem TPM Eventlog
+    END
+
+TPM003.001 Check TPM Physical Presence Interface (firmware)
+    [Documentation]    This test aims to verify that the TPM Physical Presence
+    ...    Interface is supported by the firmware and the log can be detected
+    ...    with cbmem within Ubuntu
+    Skip If    '${DEFAULT_BOOT_OS_ID}' not in ${TESTED_LINUX_DISTROS}    TPM003.001 not supported
+    Prepare TPM Test On Linux
+    ${out}=    Execute Command In Terminal    cbmem -1 | grep PPI
+    Should Contain    ${out}    PPI: Pending OS request
+    Should Contain    ${out}    PPI: OS response
+
+# TPM003.004 Change active PCR banks with TPM PPI (firmware)
+#    [Documentation]    This test aims to verify that the TPM Physical Presence
+#    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
+#    Skip If    not ${TPM_SUPPORTED_VERSION} == None    TPM003.004 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
+# TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
+
 TPM001.201 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
@@ -45,12 +73,44 @@ TPM001.201 TPM Support (Ubuntu)
     Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
     Verify Presence Of Any PCRs Via Sysfs
 
+TPM002.201 Verify TPM version (Ubuntu)
+    [Documentation]    This test aims to verify that the TPM version is
+    ...    correctly recognized by the operating system.
+    [Tags]    minimal-regression
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.101 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM002.201 not supported
+    Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
+    Validate Expected TPM Version Via Sysfs
+
+TPM003.201 Check TPM Physical Presence Interface (Ubuntu)
+    [Documentation]    This test aims to verify that the TPM Physical Presence
+    ...    Interface is correctly recognized by the operating system.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM003.201 not supported
+    Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
+    Check TPM Physical Presence Interface
+
 TPM001.202 TPM Support (Fedora)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPM001.202 not supported
     Prepare TPM Test On Linux    ${ENV_ID_FEDORA}
     Verify Presence Of Any PCRs Via Sysfs
+
+TPM002.202 Verify TPM version (Fedora)
+    [Documentation]    This test aims to verify that the TPM version is
+    ...    correctly recognized by the operating system.
+    [Tags]    minimal-regression
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPM002.202 not supported
+    Prepare TPM Test On Linux    ${ENV_ID_FEDORA}
+    Validate Expected TPM Version Via Sysfs
+
+TPM003.202 Check TPM Physical Presence Interface (Fedora)
+    [Documentation]    This test aims to verify that the TPM Physical Presence
+    ...    Interface is correctly recognized by the operating system.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPM003.202 not supported
+    Prepare TPM Test On Linux    ${ENV_ID_FEDORA}
+    Check TPM Physical Presence Interface
 
 TPM001.301 TPM Support (Windows)
     [Documentation]    Check whether the TPM is initialized correctly and the
@@ -66,34 +126,6 @@ TPM001.301 TPM Support (Windows)
     Should Contain    ${tpm_ready}    True
     Should Contain    ${tpm_enabled}    True
 
-TPM002.001 Verify TPM version (firmware)
-    [Documentation]    This test aims to verify that the TPM version is
-    ...    correctly recognized by the firmware.
-    Skip If    '${DEFAULT_BOOT_OS_ID}' not in ${TESTED_LINUX_DISTROS}    TPM002.001 not supported
-    Prepare TPM Test On Linux
-    ${result}=    Run Keyword And Ignore Error    Validate Expected TPM Chip Via Cbmem Console Log
-    IF    '${result}[0]' == 'FAIL'
-        Log To Console    \nChip detection failed, attempting cbmem log detection\n
-        Validate Expected TPM Version Via Cbmem TPM Eventlog
-    END
-
-TPM002.201 Verify TPM version (Ubuntu)
-    [Documentation]    This test aims to verify that the TPM version is
-    ...    correctly recognized by the operating system.
-    [Tags]    minimal-regression
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.101 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM002.201 not supported
-    Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
-    Validate Expected TPM Version Via Sysfs
-
-TPM002.202 Verify TPM version (Fedora)
-    [Documentation]    This test aims to verify that the TPM version is
-    ...    correctly recognized by the operating system.
-    [Tags]    minimal-regression
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPM002.202 not supported
-    Prepare TPM Test On Linux    ${ENV_ID_FEDORA}
-    Validate Expected TPM Version Via Sysfs
-
 TPM002.301 Verify TPM version (Windows)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
@@ -104,31 +136,6 @@ TPM002.301 Verify TPM version (Windows)
     ...    wmic /namespace:\\\\root\\cimv2\\security\\microsofttpm path win32_tpm get * /format:textvaluelist.xsl
     Should Contain    ${out}    SpecVersion=2.0
 
-TPM003.001 Check TPM Physical Presence Interface (firmware)
-    [Documentation]    This test aims to verify that the TPM Physical Presence
-    ...    Interface is supported by the firmware and the log can be detected
-    ...    with cbmem within Ubuntu
-    Skip If    '${DEFAULT_BOOT_OS_ID}' not in ${TESTED_LINUX_DISTROS}    TPM003.001 not supported
-    Prepare TPM Test On Linux
-    ${out}=    Execute Command In Terminal    cbmem -1 | grep PPI
-    Should Contain    ${out}    PPI: Pending OS request
-    Should Contain    ${out}    PPI: OS response
-
-TPM003.201 Check TPM Physical Presence Interface (Ubuntu)
-    [Documentation]    This test aims to verify that the TPM Physical Presence
-    ...    Interface is correctly recognized by the operating system.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM003.201 not supported
-    Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
-    Check TPM Physical Presence Interface
-
-TPM003.202 Check TPM Physical Presence Interface (Fedora)
-    [Documentation]    This test aims to verify that the TPM Physical Presence
-    ...    Interface is correctly recognized by the operating system.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPM003.202 not supported
-    Prepare TPM Test On Linux    ${ENV_ID_FEDORA}
-    Check TPM Physical Presence Interface
-
 TPM003.003 Check TPM Physical Presence Interface (Windows)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
@@ -137,13 +144,6 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
     Login To Windows
     ${out}=    Execute Command In Terminal    tpmtool getdeviceinformation
     Should Contain    ${out}    PPI Version: 1.3
-
-# TPM003.004 Change active PCR banks with TPM PPI (firmware)
-#    [Documentation]    This test aims to verify that the TPM Physical Presence
-#    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-#    Skip If    not ${TPM_SUPPORTED_VERSION} == None    TPM003.004 not supported
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
-# TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
 
 
 *** Keywords ***
