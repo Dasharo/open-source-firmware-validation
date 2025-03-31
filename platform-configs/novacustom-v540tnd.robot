@@ -41,7 +41,7 @@ ${TPM_EXPECTED_CHIP}=                           SLB9672
 
 ${LAPTOP_PLATFORM}=                             ${TRUE}
 ${BATTERY_PRESENT}=                             ${TRUE}
-${DISK_IO_PERFORMANCE_TESTS}=                   ${TRUE}
+${GPU_PERFORMANCE_TESTS_SUPPORT}=               ${TRUE}
 
 # performance
 ${ZIP_MULTI_COMPRESSION}=                       63476    # MIPS
