@@ -162,9 +162,6 @@ Set Nextboot
     IF    '${os_boot_id}' != '${EMPTY}'
         ${id}=    Get Substring    ${os_boot_id}    4    8
         Execute Command In Terminal    efibootmgr --bootnext ${id}
-        Sleep    1s
-        Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
-        Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
     ELSE
         Fail    Os entry not found
     END
@@ -187,6 +184,8 @@ Boot System Or From Connected Disk
 
     ${os_boot_id}=    Set Nextboot    ${env_id}
     Write Into Terminal    reboot
+    Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
+    Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
     Sleep    30s
 
 Login To Windows Via SSH
