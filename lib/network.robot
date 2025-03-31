@@ -33,6 +33,33 @@ Send File To DUT
     ${hash_target}=    Strip String    ${hash_target}
     Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
 
+Get File From DUT
+    [Documentation]    Downloads a file from DUT and saves it at given location
+    [Arguments]    ${source_path}    ${target_path}
+    Run    rm -f ${target_path}
+    ${hash_source}=    Execute Command In Terminal    md5sum ${source_path} | cut -d ' ' -f 1
+
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        IF    '${MANUFACTURER}' == 'QEMU'
+            Set Local Variable    ${ip_address}    localhost
+            Set Local Variable    ${port}    5222
+        ELSE
+            Wait Until Keyword Succeeds    5x    10s
+            ...    Get Hostname Ip
+            ${ip_address}=    Get Hostname Ip
+            Set Local Variable    ${port}    22
+        END
+        SSHLibrary.Open Connection    ${ip_address}    port=${port}
+        SSHLibrary.Login    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+        SSHLibrary.Get File    ${source_path}    ${target_path}
+        SSHLibrary.Close Connection
+    ELSE
+        SSHLibrary.Get File    ${source_path}    ${target_path}
+    END
+    ${hash_target}=    Run    md5sum ${target_path} | cut -d ' ' -f 1
+    ${hash_target}=    Strip String    ${hash_target}
+    Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
+
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
     ${out_hostname}=    Execute Command In Terminal    hostname -I
