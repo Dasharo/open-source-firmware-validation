@@ -61,6 +61,15 @@ STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB001.201 not supported
     Verify If No Reboot Occurs In Linux    ${ENV_ID_UBUNTU}
 
+STB002.201 Verify if no unexpected boot errors appear in Linux logs
+    [Documentation]    This test aims to verify that there are no unexpected
+    ...    error ,essages in Linux kernel logs.
+    [Tags]    minimal-regression
+    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
+    Verify If No Unexpected Boot Errors Appear In Linux Logs    ${ENV_ID_UBUNTU}s
+
 STB001.202 Verify if no reboot occurs in the OS (Fedora)
     [Documentation]    This test aims to verify that the DUT booted to the
     ...    Operating System does not reset. The test is performed in multiple
@@ -69,6 +78,15 @@ STB001.202 Verify if no reboot occurs in the OS (Fedora)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    STB001.202 not supported
     Verify If No Reboot Occurs In Linux    ${ENV_ID_FEDORA}
+
+STB002.202 Verify if no unexpected boot errors appear in Linux logs
+    [Documentation]    This test aims to verify that there are no unexpected
+    ...    error ,essages in Linux kernel logs.
+    [Tags]    minimal-regression
+    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.202 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    STB002.202 not supported
+    Verify If No Unexpected Boot Errors Appear In Linux Logs    ${ENV_ID_FEDORA}
 
 STB001.301 Verify if no reboot occurs in the OS (Windows)
     [Documentation]    This test aims to verify that the DUT booted to the
@@ -102,24 +120,6 @@ STB001.301 Verify if no reboot occurs in the OS (Windows)
         Sleep    ${STABILITY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
     END
-
-STB002.201 Verify if no unexpected boot errors appear in Linux logs
-    [Documentation]    This test aims to verify that there are no unexpected
-    ...    error ,essages in Linux kernel logs.
-    [Tags]    minimal-regression
-    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
-    Verify If No Unexpected Boot Errors Appear In Linux Logs    ${ENV_ID_UBUNTU}
-
-STB002.202 Verify if no unexpected boot errors appear in Linux logs
-    [Documentation]    This test aims to verify that there are no unexpected
-    ...    error ,essages in Linux kernel logs.
-    [Tags]    minimal-regression
-    Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.202 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    STB002.202 not supported
-    Verify If No Unexpected Boot Errors Appear In Linux Logs    ${ENV_ID_FEDORA}
 
 
 *** Keywords ***

@@ -35,19 +35,6 @@ CPU001.201 CPU works (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
-CPU001.202 CPU works (Fedora)
-    [Documentation]    Check whether the CPU mounted on the DUT works.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU001.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-
-CPU001.301 CPU works (Windows)
-    [Documentation]    Check whether the CPU mounted on the DUT works.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
-    Power On
-    Login To Windows
-
 CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
@@ -58,6 +45,31 @@ CPU002.201 CPU cache enabled (Ubuntu)
     Login To Linux
     CPU Cache Enabled Linux
 
+CPU003.201 Multiple CPU support (Ubuntu)
+    [Documentation]    Check whether the DUT has multiple CPU support.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU003.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Multiple CPU Support Linux
+
+CPU004.201 Multiple-core support (Ubuntu)
+    [Documentation]    Check whether the DUT has multi-core support.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU004.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Multiple-Core Support Linux
+
+CPU001.202 CPU works (Fedora)
+    [Documentation]    Check whether the CPU mounted on the DUT works.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU001.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+
 CPU002.202 CPU cache enabled (Fedora)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
@@ -66,6 +78,28 @@ CPU002.202 CPU cache enabled (Fedora)
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     CPU Cache Enabled Linux
+
+CPU003.202 Multiple CPU support (Fedora)
+    [Documentation]    Check whether the DUT has multiple CPU support.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Multiple CPU Support Linux
+
+CPU004.202 Multiple-core support (Fedora)
+    [Documentation]    Check whether the DUT has multi-core support.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU004.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Multiple-Core Support Linux
+
+CPU001.301 CPU works (Windows)
+    [Documentation]    Check whether the CPU mounted on the DUT works.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
+    Power On
+    Login To Windows
 
 CPU002.301 CPU cache enabled (Windows)
     [Documentation]    Check whether the all declared for the DUT cache levels
@@ -83,23 +117,6 @@ CPU002.301 CPU cache enabled (Windows)
     Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
     Should Contain    ${mem_info}    CACHE4
 
-CPU003.201 Multiple CPU support (Ubuntu)
-    [Documentation]    Check whether the DUT has multiple CPU support.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU003.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Multiple CPU Support Linux
-
-CPU003.202 Multiple CPU support (Fedora)
-    [Documentation]    Check whether the DUT has multiple CPU support.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU003.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Multiple CPU Support Linux
-
 CPU003.301 Multiple CPU support (Windows)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
@@ -109,23 +126,6 @@ CPU003.301 Multiple CPU support (Windows)
     ${cpu_count}=    Get Line    ${cpu_info}    -1
     ${cpu_count}=    Convert To Number    ${cpu_count}
     Should Be True    ${cpu_count} > 1
-
-CPU004.201 Multiple-core support (Ubuntu)
-    [Documentation]    Check whether the DUT has multi-core support.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU004.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Multiple-Core Support Linux
-
-CPU004.202 Multiple-core support (Ubuntu)
-    [Documentation]    Check whether the DUT has multi-core support.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU004.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Multiple-Core Support Linux
 
 CPU004.301 Multiple-core support (Windows)
     [Documentation]    Check whether the DUT has multi-core support.

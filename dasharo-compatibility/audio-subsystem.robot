@@ -31,24 +31,6 @@ AUD001.201 Audio subsystem detection (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    AUD001.201 not supported
     Audio Subsystem Detection    ${ENV_ID_UBUNTU}
 
-AUD001.202 Audio subsystem detection (Fedora)
-    [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Linux OS.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    AUD001.202 not supported
-    Audio Subsystem Detection    ${ENV_ID_FEDORA}
-
-AUD001.301 Audio subsystem detection (Windows)
-    [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Windows 11.
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.301 not supported
-    Power On
-    Login To Windows
-    ${out}=    Get Sound Devices Windows
-    Should Contain    ${out}    ${DEVICE_AUDIO1_WIN}
-    Should Contain    ${out}    OK
-
 # PI-KVM necessary
 # AUD002.001 Audio playback (Ubuntu)
 #    [Documentation]    Check whether the audio subsystem is able to playback
@@ -76,6 +58,13 @@ AUD004.201 External headset recognition (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    AUD004.201 not supported
     External Headset Recognition    ${ENV_ID_UBUNTU}
 
+AUD001.202 Audio subsystem detection (Fedora)
+    [Documentation]    Check whether the audio subsystem is initialized correctly
+    ...    and can be detected in Linux OS.
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    AUD001.202 not supported
+    Audio Subsystem Detection    ${ENV_ID_FEDORA}
+
 AUD004.202 External headset recognition (Fedora)
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
@@ -83,6 +72,17 @@ AUD004.202 External headset recognition (Fedora)
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    AUD004.202 not supported
     External Headset Recognition    ${ENV_ID_FEDORA}
+
+AUD001.301 Audio subsystem detection (Windows)
+    [Documentation]    Check whether the audio subsystem is initialized correctly
+    ...    and can be detected in Windows 11.
+    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.301 not supported
+    Power On
+    Login To Windows
+    ${out}=    Get Sound Devices Windows
+    Should Contain    ${out}    ${DEVICE_AUDIO1_WIN}
+    Should Contain    ${out}    OK
 
 # Work in progress
 # AUD004.002 External headset recognition (Windows)

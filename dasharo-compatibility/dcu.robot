@@ -38,26 +38,12 @@ DCU001.201 Change the UUID
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DCU001.201 not supported
     Change The UUID    ${ENV_ID_UBUNTU}
 
-DCU001.202 Change the UUID
-    [Documentation]    This test case verifies that the UUID encoded in the DMI
-    ...    table of an image can be changed using DCU.
-    Skip If    not ${DCU_UUID_SUPPORT}    DCU001.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DCU001.202 not supported
-    Change The UUID    ${ENV_ID_FEDORA}
-
 DCU002.201 Change the serial number
     [Documentation]    This test case verifies that the serial number encoded
     ...    in the DMI table of an image can be changed using DCU.
     Skip If    not ${DCU_SERIAL_SUPPORT}    DCU002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DCU002.201 not supported
     Change The Serial Number    ${ENV_ID_UBUNTU}
-
-DCU002.202 Change the serial number
-    [Documentation]    This test case verifies that the serial number encoded
-    ...    in the DMI table of an image can be changed using DCU.
-    Skip If    not ${DCU_SERIAL_SUPPORT}    DCU002.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DCU002.202 not supported
-    Change The Serial Number    ${ENV_ID_FEDORA}
 
 DCU003.201 Change the bootsplash logo
     [Documentation]    This test case verifies that the bootsplash logo encoded
@@ -67,15 +53,6 @@ DCU003.201 Change the bootsplash logo
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    DCU003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DCU003.201 not supported
     Change The Bootsplash Logo    ${ENV_ID_UBUNTU}
-
-DCU003.202 Change the bootsplash logo
-    [Documentation]    This test case verifies that the bootsplash logo encoded
-    ...    into an image can be changed using DCU.
-    ...    PLEASE NOTE that a display device needs to be physically connected
-    ...    to the DUT for this test to work.
-    Skip If    not ${CUSTOM_LOGO_SUPPORT}    DCU003.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DCU003.202 not supported
-    Change The Bootsplash Logo    ${ENV_ID_FEDORA}
 
 DCU004.201 Verify SMMSTORE changes
     [Documentation]    This test case verifies that changes made to the
@@ -88,6 +65,29 @@ DCU004.201 Verify SMMSTORE changes
     ...    DCU004.201 Verify SMMSTORE changes not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DCU004.201 not supported
     Verify SMMSTORE Changes    ${ENV_ID_UBUNTU}
+
+DCU001.202 Change the UUID
+    [Documentation]    This test case verifies that the UUID encoded in the DMI
+    ...    table of an image can be changed using DCU.
+    Skip If    not ${DCU_UUID_SUPPORT}    DCU001.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DCU001.202 not supported
+    Change The UUID    ${ENV_ID_FEDORA}
+
+DCU002.202 Change the serial number
+    [Documentation]    This test case verifies that the serial number encoded
+    ...    in the DMI table of an image can be changed using DCU.
+    Skip If    not ${DCU_SERIAL_SUPPORT}    DCU002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DCU002.202 not supported
+    Change The Serial Number    ${ENV_ID_FEDORA}
+
+DCU003.202 Change the bootsplash logo
+    [Documentation]    This test case verifies that the bootsplash logo encoded
+    ...    into an image can be changed using DCU.
+    ...    PLEASE NOTE that a display device needs to be physically connected
+    ...    to the DUT for this test to work.
+    Skip If    not ${CUSTOM_LOGO_SUPPORT}    DCU003.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DCU003.202 not supported
+    Change The Bootsplash Logo    ${ENV_ID_FEDORA}
 
 DCU004.202 Verify SMMSTORE changes
     [Documentation]    This test case verifies that changes made to the

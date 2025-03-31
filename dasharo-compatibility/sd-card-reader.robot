@@ -38,29 +38,6 @@ SDC001.201 SD Card reader detection (Ubuntu)
     Should Match    str(${disks})    *SD*
     Exit From Root User
 
-SDC001.202 SD Card reader detection (Fedora)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SDC001.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    ${disks}=    Identify Disks In Linux
-    Should Match    str(${disks})    *SD*
-    Exit From Root User
-
-SDC001.301 SD Card reader detection (Windows)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.301 not supported
-    Power On
-    Login To Windows
-    # Switch to root user
-    ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" -Class "DiskDrive"
-    Should Contain    ${out}    DiskDrive
-    # Exit from root user
-
 SDC002.201 SD Card read/write (Ubuntu)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
@@ -77,6 +54,18 @@ SDC002.201 SD Card read/write (Ubuntu)
     Should Be True    ${result}
     Exit From Root User
 
+SDC001.202 SD Card reader detection (Fedora)
+    [Documentation]    Check whether the SD Card reader is enumerated correctly
+    ...    and can be detected from the operating system.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SDC001.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    ${disks}=    Identify Disks In Linux
+    Should Match    str(${disks})    *SD*
+    Exit From Root User
+
 SDC002.202 SD Card read/write (Fedora)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
@@ -91,6 +80,17 @@ SDC002.202 SD Card read/write (Fedora)
     ${result}=    Check If Files Are Identical In Linux    /tmp/in.bin    /tmp/out.bin
     Should Be True    ${result}
     Exit From Root User
+
+SDC001.301 SD Card reader detection (Windows)
+    [Documentation]    Check whether the SD Card reader is enumerated correctly
+    ...    and can be detected from the operating system.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.301 not supported
+    Power On
+    Login To Windows
+    # Switch to root user
+    ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" -Class "DiskDrive"
+    Should Contain    ${out}    DiskDrive
+    # Exit from root user
 
 SDC002.301 SD Card read/write (Windows)
     [Documentation]    Check whether the SD Card reader is initialized correctly

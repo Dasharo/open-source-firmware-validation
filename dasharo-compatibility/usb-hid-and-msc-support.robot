@@ -33,33 +33,6 @@ USB001.001 USB devices detected in FW
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check USB Stick Detection In Edk2    ${boot_menu}
 
-USB001.201 USB devices detected by OS (Ubuntu)
-    [Documentation]    Check whether the external USB devices are detected
-    ...    correctly in Ubuntu OS.
-    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
-    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-    USB Devices Detected By OS    ${ENV_ID_UBUNTU}
-
-USB001.202 USB devices detected by OS (Fedora)
-    [Documentation]    Check whether the external USB devices are detected
-    ...    correctly in Fedora OS.
-    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
-    USB Devices Detected By OS    ${ENV_ID_FEDORA}
-
-USB001.301 USB devices detected by OS (Windows)
-    [Documentation]    Check whether the external USB devices are detected
-    ...    correctly in Windows OS.
-    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
-    Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
-    Power On
-    Login To Windows
-    ${out}=    Execute Command In Terminal
-    ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
-    IF    ${HAS_KEYBOARD}    Should Contain    ${out}    HIDClass
-    IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    DiskDrive
-
 USB002.001 USB keyboard detected in FW
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the firmware and all basic keys work
@@ -73,6 +46,14 @@ USB002.001 USB keyboard detected in FW
     ${out}=    Execute UEFI Shell Command    devices
     Should Contain    ${out}    Usb Keyboard
 
+USB001.201 USB devices detected by OS (Ubuntu)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly in Ubuntu OS.
+    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    USB Devices Detected By OS    ${ENV_ID_UBUNTU}
+
 USB002.201 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Ubuntu OS.
@@ -82,6 +63,22 @@ USB002.201 USB keyboard in OS (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     USB Keyboard In OS    ${ENV_ID_UBUNTU}
 
+USB003.201 Upload 1GB file on USB storage (Ubuntu)
+    [Documentation]    Check whether the 1GB file can be transferred from the
+    ...    operating system to the USB storage.
+    Depends On    ${UPLOAD_ON_USB_SUPPORT}
+    Depends On    ${HAS_USB_STORAGE}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Upload 1GB File On USB Storage    ${ENV_ID_UBUNTU}
+
+USB001.202 USB devices detected by OS (Fedora)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly in Fedora OS.
+    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    USB Devices Detected By OS    ${ENV_ID_FEDORA}
+
 USB002.202 USB keyboard in OS (Fedora)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Fedora OS.
@@ -89,6 +86,27 @@ USB002.202 USB keyboard in OS (Fedora)
     Depends On    ${HAS_KEYBOARD}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     USB Keyboard In OS    ${ENV_ID_FEDORA}
+
+USB003.202 Upload 1GB file on USB storage (Fedora)
+    [Documentation]    Check whether the 1GB file can be transferred from the
+    ...    operating system to the USB storage.
+    Depends On    ${UPLOAD_ON_USB_SUPPORT}
+    Depends On    ${HAS_USB_STORAGE}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Upload 1GB File On USB Storage    ${ENV_ID_FEDORA}
+
+USB001.301 USB devices detected by OS (Windows)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly in Windows OS.
+    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
+    Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
+    Power On
+    Login To Windows
+    ${out}=    Execute Command In Terminal
+    ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
+    IF    ${HAS_KEYBOARD}    Should Contain    ${out}    HIDClass
+    IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    DiskDrive
 
 USB002.301 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
@@ -101,24 +119,6 @@ USB002.301 USB keyboard in OS (Windows)
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
     ${keyboard}=    Get Lines Matching Regexp    ${out}    ^CreationClassName\\s+:\\sWin32_Keyboard.*$
     Should Not Be Empty    ${keyboard}
-
-USB003.201 Upload 1GB file on USB storage (Ubuntu)
-    [Documentation]    Check whether the 1GB file can be transferred from the
-    ...    operating system to the USB storage.
-    Depends On    ${UPLOAD_ON_USB_SUPPORT}
-    Depends On    ${HAS_USB_STORAGE}
-    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-    Upload 1GB File On USB Storage    ${ENV_ID_UBUNTU}
-
-USB003.202 Upload 1GB file on USB storage (Fedora)
-    [Documentation]    Check whether the 1GB file can be transferred from the
-    ...    operating system to the USB storage.
-    Depends On    ${UPLOAD_ON_USB_SUPPORT}
-    Depends On    ${HAS_USB_STORAGE}
-    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
-    Upload 1GB File On USB Storage    ${ENV_ID_FEDORA}
 
 USB003.301 Upload 1GB file on USB storage (Windows)
     [Documentation]    Check whether the 1GB file can be transferred from the

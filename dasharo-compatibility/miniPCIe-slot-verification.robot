@@ -32,22 +32,6 @@ MWL001.201 Wireless card detection (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL001.201 not supported
     Wireless Card Detection    ${ENV_ID_UBUNTU}
 
-MWL001.202 Wireless card detection (Fedora)
-    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
-    ...    correctly and can be detected from the operating system.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL001.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL001.202 not supported
-    Wireless Card Detection    ${ENV_ID_FEDORA}
-
-MWL001.301 Wireless card detection (Windows)
-    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
-    ...    correctly and can be detected from the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
-    Power On
-    Login To Windows
-    ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
-    Should Contain    ${out}    ${WIFI_CARD}
-
 MWL002.201 Wi-Fi scanning (Ubuntu)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
@@ -57,6 +41,28 @@ MWL002.201 Wi-Fi scanning (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL002.201 not supported
     Wi-Fi Scanning    ${ENV_ID_UBUNTU}
 
+MWL003.201 Bluetooth scanning (Ubuntu)
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL003.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL003.201 not supported
+    Bluetooth Scanning    ${ENV_ID_UBUNTU}
+
+MWL004.201 LTE card detection (Ubuntu)
+    [Documentation]    Check whether the LTE card is detected correctly in the
+    ...    operating system.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL004.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL004.201 not supported
+    LTE Card Detection    ${ENV_ID_UBUNTU}
+
+MWL001.202 Wireless card detection (Fedora)
+    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
+    ...    correctly and can be detected from the operating system.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL001.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL001.202 not supported
+    Wireless Card Detection    ${ENV_ID_FEDORA}
+
 MWL002.202 Wi-Fi scanning (Fedora)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
@@ -64,6 +70,28 @@ MWL002.202 Wi-Fi scanning (Fedora)
     Skip If    not ${MINI_PC_IE_SLOT_SUPPORT}    MWL002.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL002.202 not supported
     Wi-Fi Scanning    ${ENV_ID_FEDORA}
+
+MWL003.202 Bluetooth scanning (Fedora)
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL003.202 not supported
+    Bluetooth Scanning    ${ENV_ID_FEDORA}
+
+MWL004.202 LTE card detection (Fedora)
+    [Documentation]    Check whether the LTE card is detected correctly in the
+    ...    operating system.
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL004.202 not supported
+    LTE Card Detection    ${ENV_ID_FEDORA}
+
+MWL001.301 Wireless card detection (Windows)
+    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
+    ...    correctly and can be detected from the operating system.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
+    Power On
+    Login To Windows
+    ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
+    Should Contain    ${out}    ${WIFI_CARD}
 
 MWL002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
@@ -75,36 +103,8 @@ MWL002.301 Wi-Fi scanning (Windows)
     Should Contain    ${out}    3mdeb_abr
     Should Contain    ${out}    3mdeb_abr_5GHz
 
-MWL003.201 Bluetooth scanning (Ubuntu)
-    [Documentation]    Check whether the Bluetooth functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL003.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL003.201 not supported
-    Bluetooth Scanning    ${ENV_ID_UBUNTU}
-
-MWL003.202 Bluetooth scanning (Fedora)
-    [Documentation]    Check whether the Bluetooth functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system.
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL003.202 not supported
-    Bluetooth Scanning    ${ENV_ID_FEDORA}
-
 # MWL003.002 Bluetooth scanning (Windows)
 #    [Documentation]    TBD
-
-MWL004.201 LTE card detection (Ubuntu)
-    [Documentation]    Check whether the LTE card is detected correctly in the
-    ...    operating system.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL004.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL004.201 not supported
-    LTE Card Detection    ${ENV_ID_UBUNTU}
-
-MWL004.202 LTE card detection (Fedora)
-    [Documentation]    Check whether the LTE card is detected correctly in the
-    ...    operating system.
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL004.202 not supported
-    LTE Card Detection    ${ENV_ID_FEDORA}
 
 # MWL004.002 LTE card detection (Windows)
 #    [Documentation]    Check whether the LTE card is detected correctly in the
