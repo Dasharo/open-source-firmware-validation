@@ -37,6 +37,9 @@
         - src: "./../../osfv-test-data/coreboot-tools/cbmem"
         - src: "./../../osfv-test-data/coreboot-tools/cbfstool"
 
+    - name: Gnome turn off automatic suspend
+      ansible.builtin.command: gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+
 - name: OS specific tasks
   hosts: host
   become: true
