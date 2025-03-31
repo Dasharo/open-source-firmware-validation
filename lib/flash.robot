@@ -90,7 +90,7 @@ Flash Firmware
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         Make Sure That Flash Locks Are Disabled
         Power On
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
         Switch To Root User
         Flash Via Internal Programmer    ${fw_file}    region=bios
@@ -182,7 +182,12 @@ Read Firmware
         Rte Flash Read    ${file}
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         # TODO
-        Fail    Read firmware not implemented for platform config ${CONFIG}
+        Power On
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux
+        Switch To Root User
+        Execute Command In Terminal    flashrom -p internal --ifd -i bios -r coreboot.rom
+        Get File From DUT    coreboot.rom    ${file}
     ELSE
         Fail    Read firmware not implemented for platform config ${CONFIG}
     END
