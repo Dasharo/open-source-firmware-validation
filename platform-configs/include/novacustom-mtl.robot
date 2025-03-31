@@ -10,7 +10,7 @@ ${DEF_CORES_PER_SOCKET}=                            16
 ${DEF_THREADS_PER_CORE}=                            2
 ${DEF_THREADS_TOTAL}=                               22
 # TODO: remove, the value below can be inferred from the one above
-${DEF_ONLINE_CPU}=                                  0-7
+${DEF_ONLINE_CPU}=                                  0-21
 ${DEF_SOCKETS}=                                     1
 
 # Audio
