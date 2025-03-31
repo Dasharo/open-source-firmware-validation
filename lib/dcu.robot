@@ -78,30 +78,32 @@ DCU Variable Set UEFI Option In File
     [Documentation]    Write an UEFI option value to FW file.
     [Arguments]    ${fw_file}    ${option_name}    ${value}
     ${path}    ${filename}=    Split Path    ${fw_file}
-    Run    cp ${fw_file} dcu/${filename}
+    Run    cp -f ${fw_file} dcu/${filename}
     ${value}=    Convert Option Value To DCU Format    ${value}
 
     ${result}=    Run    cd dcu; ./dcuc v ${filename} --set "${option_name}" --value "${value}"
 
     Log    ${result}
-    Run    cp dcu/${filename} ${fw_file}
+    Run    cp -f dcu/${filename} ${fw_file}
     Should Contain    ${result}    Success
 
 DCU Variable Set UEFI Option In DUT
     [Documentation]    Read, modify and flash the firmware with a new value of
     ...    a UEFI option
     [Arguments]    ${option_name}    ${value}
-    DCU Variable Read SMMSTORE    coreboot.rom
-    DCU Variable Set UEFI Option In File    coreboot.rom    ${option_name}    ${value}
-    DCU Variable Flash SMMSTORE    coreboot.rom
+    DCU Variable Read SMMSTORE    tpm.rom
+    DCU Variable Set UEFI Option In File    tpm.rom    ${option_name}    ${value}
+    DCU Variable Flash SMMSTORE    tpm.rom
     Execute Reboot Command
+    Set Suite Variable    ${BOOTED_OS_ID}    ${DEFAULT_BOOT_OS_ID}
+    Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
     Sleep    20s
 
 DCU Variable Get UEFI Option From DUT
     [Documentation]    Read the firmware and return a UEFI option value
     [Arguments]    ${option_name}
-    DCU Variable Read SMMSTORE    coreboot.rom
-    ${value}=    DCU Variable Get UEFI Option From File    coreboot.rom    ${option_name}
+    DCU Variable Read SMMSTORE    tpm.rom
+    ${value}=    DCU Variable Get UEFI Option From File    tpm.rom    ${option_name}
     ${value}=    Convert Option Value From DCU Format    ${value}
     RETURN    ${value}
 

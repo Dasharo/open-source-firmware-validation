@@ -775,7 +775,9 @@ Execute Reboot Command
         # if the OS cannot be chosen from the bootmanager and rebooting
         # always boots the default one
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-            Options-lib Dcu.Set Nextboot    ${BOOTED_OS_ID}
+            Set Nextboot    ${BOOTED_OS_ID}
+            Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
+            Set Suite Variable    ${BOOTED_OS_ID}    ${BOOTED_OS_ID}
         END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'

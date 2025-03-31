@@ -104,18 +104,18 @@ DCU004.202 Verify SMMSTORE changes
 
 *** Keywords ***
 Prepare DCU Test Environment
-    Run    cp ${FW_FILE} ${FW_COPY}
+    Read Firmware    ${FW_COPY}
     Run    chmod -R a+rw dcu
 
 Verify SMMSTORE Changes (Setup Menu)
     [Documentation]    This keyword verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in Setup menu.
-
+    [Arguments]    ${os_id}
     ${initial_value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     ${new_value}=    Evaluate    not ${initial_value}
 
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_value}
@@ -124,7 +124,7 @@ Verify SMMSTORE Changes (Setup Menu)
     Should Be Equal    ${value}    ${new_value}
 
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${initial_value}
@@ -136,23 +136,22 @@ Verify SMMSTORE Changes (DCU)
     [Documentation]    This keyword verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in DCU.
     [Tags]    robot:private
-    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    [Arguments]    ${os_id}
     # Initial value cannot be checked and restored using DCU because the
     # variable store may not be initialized yet.
     ${initial_value}=    Set Variable    ${FALSE}
     ${new_value}=    Set Variable    ${TRUE}
 
-    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_value}
-
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${value}=    DCU Variable Get UEFI Option From DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     Should Be Equal    ${value}    ${new_value}
     DCU Variable Set UEFI Option In Dut    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${initial_value}
-
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${value}=    DCU Variable Get UEFI Option From DUT    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
@@ -165,7 +164,7 @@ Make Sure New Firmware Is Booted After Flashing
     ...    flashing
     [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
-    IF    '''${POWER_CTRL}''' == '''NONE'''
+    IF    '''${POWER_CTRL}''' == '''none'''
         Power On
         Boot System Or From Connected Disk    ${os_id}
         Login To Linux
@@ -177,14 +176,14 @@ Change The UUID
     [Documentation]    This test case verifies that the UUID encoded in the DMI
     ...    table of an image can be changed using DCU.
     [Tags]    robot:private
-    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
 
     ${uuid}=    Uuid 4
     DCU Smbios Set UUID In File    ${FW_COPY}    ${uuid}
     Flash Firmware    ${FW_COPY}
-    Make Sure New Firmware Is Booted After Flashing
+    Make Sure New Firmware Is Booted After Flashing    ${os_id}
 
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -197,13 +196,14 @@ Change The Serial Number
     [Documentation]    This test case verifies that the serial number encoded
     ...    in the DMI table of an image can be changed using DCU.
     [Tags]    robot:private
-    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
     ${serial_no}=    Random Int    min=10000000    max=99999999
+    Read Firmware    ${FW_COPY}
     DCU Smbios Set Serial In File    ${FW_COPY}    ${serial_no}
     Flash Firmware    ${FW_COPY}
-    Make Sure New Firmware Is Booted After Flashing
+    Make Sure New Firmware Is Booted After Flashing    ${os_id}
 
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -218,11 +218,12 @@ Change The Bootsplash Logo
     ...    PLEASE NOTE that a display device needs to be physically connected
     ...    to the DUT for this test to work.
     [Tags]    robot:private
-    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
     ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
     ${logo_path}=    Join Path    ${TEST_DATA_DIR}/dcu    logo.bmp
+    Read Firmware    ${FW_COPY}
     DCU Logo Set In File    ${FW_COPY}    ${logo_path}
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing
@@ -249,16 +250,14 @@ Verify SMMSTORE Changes
     ...    which uses DCU for accessing Setup variables the results might not
     ...    be trustworthy.
     [Tags]    robot:private
-    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
-    Power On
-    Boot System Or From Connected Disk    ${os_id}
+    [Arguments]    ${os_id}
     IF    "${OPTIONS_LIB}"=="options-lib_uefi-setup-menu"
-        Verify SMMSTORE Changes (Setup Menu)
+        Verify SMMSTORE Changes (Setup Menu)    ${os_id}
     ELSE IF    "${OPTIONS_LIB}"=="options-lib_dcu"
         Log To Console
         ...    Verifying DCU possible only using on this device DCU. The test may not be trustworthy.
         ...    WARN
-        Verify SMMSTORE Changes (DCU)
+        Verify SMMSTORE Changes (DCU)    ${os_id}
     ELSE
         Fail    Unsupported $OPTIONS_LIB: ${OPTIONS_LIB}
     END
