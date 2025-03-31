@@ -27,7 +27,7 @@ DGPU001.001 Hybrid Graphics modes: NVIDIA Optimus
     ${igpu_display_status}=    Execute Command In Terminal    cat /sys/class/drm/card1-eDP-1/enabled
     Should Contain    ${igpu_display_status}    enabled    msg= "iGPU is not driving the internal display."
 
-    ${dgpu_display_status}=    Execute Command In Terminal    cat /sys/class/drm/card2-eDP-1/enabled
+    ${dgpu_display_status}=    Execute Command In Terminal    cat /sys/class/drm/card0-eDP-2/enabled
     Should Contain    ${dgpu_display_status}    disabled    msg= "dGPU is incorrectly driving the internal display."
 
     Log To Console    Internal display is connected to iGPU, and both iGPU and dGPU are active.
@@ -40,10 +40,10 @@ DGPU002.001 Hybrid Graphics modes: dGPU Only
     Power Cycle Into Ubuntu
     Switch To Root User
 
-    ${dgpu_status}=    Execute Command In Terminal    cat /sys/class/drm/card2-eDP-1/enabled
+    ${dgpu_status}=    Execute Command In Terminal    cat /sys/class/drm/card0-eDP-2/enabled
     Should Contain    ${dgpu_status}    enabled    msg= "dGPU is not driving the internal display."
 
-    ${igpu_status}=    Execute Command In Terminal    cat /sys/class/drm/card1-eDP-1/enabled
+    ${igpu_status}=    Execute Command In Terminal    cat /sys/class/drm/card1-eDP-/enabled
     Should Contain    ${igpu_status}    disabled    msg= "iGPU is still driving the internal display."
 
     Log To Console    Internal display is connected to dGPU

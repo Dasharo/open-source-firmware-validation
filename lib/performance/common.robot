@@ -27,5 +27,5 @@ ${PERF_REPORT_DIR_WINDOWS}=     C:\testing\reports\
 *** Keywords ***
 Power Cycle Into Ubuntu
     Power On
-    Boot System Or From Connected Disk    ubuntu
+    Boot System Or From Connected Disk    201
     Login To Linux
