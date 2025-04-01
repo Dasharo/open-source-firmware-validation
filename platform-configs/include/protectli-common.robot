@@ -74,6 +74,7 @@ ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
 ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
+${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     UsbMassStorage
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 
 # Test module: dasharo-security
