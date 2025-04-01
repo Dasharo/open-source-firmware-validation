@@ -55,12 +55,12 @@ DCU Variable Read SMMSTORE
 
     Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
     Execute Command In Terminal    chmod 666 coreboot.rom
-    SSHLibrary.Get File    coreboot.rom    ${out_file}
+    Get File From DUT    coreboot.rom    ${out_file}
 
 DCU Variable Flash SMMSTORE
     [Documentation]    Write the UEFI SMMSTORE to commit the changes
     [Arguments]    ${fw_file}
-    SSHLibrary.Put File    ${fw_file}    coreboot.rom
+    Send File To DUT    ${fw_file}    coreboot.rom
     Execute Command In Terminal    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
 
 DCU Variable Get UEFI Option From File
