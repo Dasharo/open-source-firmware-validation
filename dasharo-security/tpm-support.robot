@@ -121,13 +121,11 @@ TPM003.003 Check TPM Physical Presence Interface (Windows)
     ${out}=    Execute Command In Terminal    tpmtool getdeviceinformation
     Should Contain    ${out}    PPI Version: 1.3
 
-TPM003.004 Change active PCR banks with TPM PPI (firmware)
+TPM003.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.004 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
-    Prepare TPM Test On Ubuntu
-    Execute Reboot Command
+    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.101 not supported
     Enter The TCG2 Configuration Menu
     ${sha1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
     ${sha256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
