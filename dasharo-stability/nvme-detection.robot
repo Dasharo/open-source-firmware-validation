@@ -45,79 +45,144 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-SNV0002.001 NVMe detection after warm boot (Ubuntu)
+SNV002.201 NVMe detection after warm boot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a warm boot.
-    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV002.001 not supported
+    ...    Previous IDs: SNV002.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV002.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Contain    ${out}    ${DEVICE_NVME_DISK}
-    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
-        Perform Warmboot Using Rtcwake
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        ${out}=    List Devices In Linux    pci
-        Should Contain    ${out}    ${DEVICE_NVME_DISK}
-    END
+    NVMe Detection After Warm Boot
+    Exit From Root User
 
-SNV003.001 NVMe detection after reboot (Ubuntu)
+SNV003.201 NVMe detection after reboot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a reboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.001 not supported
+    ...    Previous IDs: SNV003.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV003.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    pci
-    Should Contain    ${out}    ${DEVICE_NVME_DISK}
-    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Execute Reboot Command
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        ${out}=    List Devices In Linux    pci
-        Should Contain    ${out}    ${DEVICE_NVME_DISK}
-    END
+    NVMe Detection After Reboot
+    Exit From Root User
 
-SNV004.001 NVMe detection after suspension (Ubuntu)
+SNV004.201 NVMe detection after suspension (Ubuntu)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.001 not supported
-    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.001 not supported
-    NVMe Detection After Suspension (Ubuntu)
+    ...    Previous IDs: SNV004.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.201 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV004.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Suspension
+    Exit From Root User
 
-SNV004.002 NVMe detection after suspension (Ubuntu) (S0ix)
+SNV005.201 NVMe detection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.002 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.002 not supported
+    ...    Previous IDs: SNV004.002
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV005.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV005.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV005.201 not supported
     Set Platform Sleep Type    S0ix
-    NVMe Detection After Suspension (Ubuntu)    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Suspension    S0ix
+    Exit From Root User
 
-SNV004.003 NVMe detection after suspension (Ubuntu) (S3)
+SNV006.201 NVMe detection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV004.003 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.003 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.003 not supported
+    ...    Previous IDs: SNV004.003
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV006.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV006.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV006.201 not supported
     Set Platform Sleep Type    S3
-    NVMe Detection After Suspension (Ubuntu)    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Suspension    S3
+    Exit From Root User
+
+SNV002.202 NVMe detection after warm boot (Fedora)
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a warm boot.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV002.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Warm Boot
+    Exit From Root User
+
+SNV003.202 NVMe detection after reboot (Fedora)
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a reboot.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Reboot
+    Exit From Root User
+
+SNV004.202 NVMe detection after suspension (Fedora)
+    [Documentation]    Check whether the NVMe disk is correctly detected after
+    ...    performing suspension.
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV004.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Suspension
+    Exit From Root User
+
+SNV005.202 NVMe detection after suspension (Fedora) (S0ix)
+    [Documentation]    Check whether the NVMe disk is correctly detected after
+    ...    performing suspension.
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV005.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV005.202 not supported
+    Set Platform Sleep Type    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Suspension    S0ix
+    Exit From Root User
+
+SNV006.202 NVMe detection after suspension (Fedora) (S3)
+    [Documentation]    Check whether the NVMe disk is correctly detected after
+    ...    performing suspension.
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV006.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV006.202 not supported
+    Set Platform Sleep Type    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NVMe Detection After Suspension    S3
+    Exit From Root User
 
 
 *** Keywords ***
-NVMe Detection After Suspension (Ubuntu)
+NVMe Detection After Suspension
+    [Documentation]    Check whether the NVMe disk is correctly detected after
+    ...    performing suspension.
+    [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
-    Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
@@ -125,4 +190,33 @@ NVMe Detection After Suspension (Ubuntu)
         ${out}=    List Devices In Linux    pci
         Should Contain    ${out}    ${DEVICE_NVME_DISK}
     END
-    Exit From Root User
+
+NVMe Detection After Reboot
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a reboot.
+    [Tags]    robot:private
+    ${out}=    List Devices In Linux    pci
+    Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${out}=    List Devices In Linux    pci
+        Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    END
+
+NVMe Detection After Warm Boot
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a warm boot.
+    [Tags]    robot:private
+    ${out}=    List Devices In Linux    pci
+    Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
+        Perform Warmboot Using Rtcwake
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${out}=    List Devices In Linux    pci
+        Should Contain    ${out}    ${DEVICE_NVME_DISK}
+    END
