@@ -487,7 +487,6 @@ Keyboard Function Key Brightness Up In Linux
     Brightness Up Button In Linux
     ${brightness2}=    Get Current Brightness In Linux
     Should Be True    ${brightness2} > ${brightness1}
-    Exit From Root User
 
 Keyboard Function Key Camera OnOff In Linux
     [Documentation]    Check whether the camera on/off hotkey works correctly.
