@@ -136,16 +136,21 @@ Initialize Fast Boot Suite
     Switch To Root User
 
     ${ubuntu_boot_id}=    Execute Linux Command
-    ...    efibootmgr | grep -i "ubuntu" | awk '{print $1}' | sed 's/Boot//g' | sed 's/*//g'
+    ...    efibootmgr | grep -i "ubuntu" | awk 'NR==1 {print $1}' | sed 's/Boot//g' | sed 's/*//g'
     Should Not Be Empty    ${ubuntu_boot_id}
 
-    ${boot_order_no_ubuntu}=    Execute Linux Command
-    ...    efibootmgr | grep "BootOrder" | awk '{print $2}' | sed -e 's/${ubuntu_boot_id},//g'
-    Should Not Be Empty    ${boot_order_no_ubuntu}
+    ${check_if_first_out}=    Execute Linux Command
+    ...    efibootmgr | grep "BootOrder: ${ubuntu_boot_id}" > /dev/null 2>&1 && echo "Correct Order"
 
-    ${set_order_cmd}=    Set Variable    efibootmgr -o
-    ${set_order_cmd}=    Catenate    ${set_order_cmd}
-    ...    ${ubuntu_boot_id},${boot_order_no_ubuntu}
+    IF    '${check_if_first_out}' != 'Correct Order'
+        ${boot_order_no_ubuntu}=    Execute Linux Command
+        ...    efibootmgr | grep "BootOrder" | awk '{print $2}' | sed -e 's/,${ubuntu_boot_id}//g'
+        Should Not Be Empty    ${boot_order_no_ubuntu}
 
-    ${out}=    Execute Linux Command    ${set_order_cmd}
-    Should Contain    ${out}    BootCurrent: ${ubuntu_boot_id}
+        ${set_order_cmd}=    Set Variable    efibootmgr -o
+        ${set_order_cmd}=    Catenate    ${set_order_cmd}
+        ...    ${ubuntu_boot_id},${boot_order_no_ubuntu}
+
+        ${out}=    Execute Linux Command    ${set_order_cmd}
+        Should Contain    ${out}    BootOrder: ${ubuntu_boot_id}
+    END
