@@ -79,12 +79,6 @@ Flash Firmware
         FAIL    Image size doesn't match the flash chip's size!
     END
 
-    IF    "${OPTIONS_LIB}"=="options-lib_dcu"
-        Make Sure That Flash Locks Are Disabled
-        Flash Via Internal Programmer    ${fw_file}    region='bios'
-        RETURN
-    END
-
     IF    '${FLASHING_METHOD}' == 'external'
         Rte Flash Write    ${fw_file}
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
@@ -96,6 +90,14 @@ Flash Firmware
         Flash Via Internal Programmer    ${fw_file}    region=bios
     ELSE
         Fail    Flash firmware not implemented for platform config ${CONFIG}
+    END
+
+    IF    '''${POWER_CTRL}''' == '''none'''
+        Power On
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        Execute Reboot Command
     END
 
     # First boot after flashing may take longer than usual
