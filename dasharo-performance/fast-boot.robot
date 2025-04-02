@@ -12,16 +12,8 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-# TODO:
-# - document which setup/teardown keywords to use and what are they doing
-# - go threough them and make sure they are doing what the name suggest (not
-# exactly the case right now)
-Suite Setup         Run Keywords
-...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${FAST_AND_QUIET_BOOT_SUPPORT}    Boot performance measurement tests not supported
-Suite Teardown      Run Keyword
-...                     Log Out And Close Connection
+Suite Setup         Initialize Fast Boot Suite
+Suite Teardown      Log Out And Close Connection
 
 
 *** Variables ***
@@ -103,7 +95,6 @@ Measure FW Boot Time On Linux
 
     FOR    ${index}    IN RANGE    0    ${iterations}
         Power Cycle On
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get FW Boot Time From Systemd-analyze
@@ -131,3 +122,30 @@ Get FW Boot Time From Systemd-analyze
         Sleep    5s
     END
     Fail    Could not acquire boot time
+
+Initialize Fast Boot Suite
+    [Documentation]    Use efibootmgr to list entries, and set new order,
+    ...    with Ubuntu at the top of the list.
+    [Tags]    robot:private
+    Prepare Test Suite
+    Skip If    not ${FAST_AND_QUIET_BOOT_SUPPORT}    Boot performance measurement tests not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Boot performance measurement tests not supported
+
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+
+    ${ubuntu_boot_id}=    Execute Linux Command
+    ...    efibootmgr | grep -i "ubuntu" | awk '{print $1}' | sed 's/Boot//g' | sed 's/*//g'
+    Should Not Be Empty    ${ubuntu_boot_id}
+
+    ${boot_order_no_ubuntu}=    Execute Linux Command
+    ...    efibootmgr | grep "BootOrder" | awk '{print $2}' | sed -e 's/${ubuntu_boot_id},//g'
+    Should Not Be Empty    ${boot_order_no_ubuntu}
+
+    ${set_order_cmd}=    Set Variable    efibootmgr -o
+    ${set_order_cmd}=    Catenate    ${set_order_cmd}
+    ...    ${ubuntu_boot_id},${boot_order_no_ubuntu}
+
+    ${out}=    Execute Linux Command    ${set_order_cmd}
+    Should Contain    ${out}    BootCurrent: ${ubuntu_boot_id}
