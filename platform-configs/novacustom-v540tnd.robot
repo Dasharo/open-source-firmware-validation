@@ -16,6 +16,7 @@ ${CPU_MIN_FREQUENCY}=                           200
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                ${TRUE}
 
+${DGPU_ONLY_SUPPORT}=                           ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                    ${FALSE}    # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}    # on which OS is first in the boot order
 
