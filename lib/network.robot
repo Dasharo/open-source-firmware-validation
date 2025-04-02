@@ -82,19 +82,14 @@ Check Internet Connection On Windows
 
 Scan For Wi-Fi In Linux
     [Documentation]    Turn on Wi-Fi then scan in search of company network.
-    Execute Linux Command Without Output    nmcli radio wifi on
-    Write Into Terminal    nmcli device wifi rescan
-    Set DUT Response Timeout    60 seconds
-    Write Into Terminal    nmcli device wifi list
-    Read From Terminal Until    ${3_MDEB_WIFI_NETWORK}
-    Read From Terminal Until Prompt
+    Execute Command In Terminal    nmcli radio wifi on
+    Execute Command In Terminal    nmcli device wifi rescan
+    ${out}=    Execute Command In Terminal    nmcli --fields SSID device wifi list | cat
+    Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
 
 Scan For Bluetooth In Linux
     [Documentation]    Turn on Bluetooth then scan in search of company network.
-    ${out}=    Execute Linux Command    bluetoothctl power on
+    ${out}=    Execute Command In Terminal    bluetoothctl power on
     Should Contain    ${out}    Changing power on succeeded
-    Set DUT Response Timeout    60 seconds
-    Write Into Terminal    bluetoothctl --timeout 60 scan on
-    Sleep    5
-    ${out}=    Read From Terminal Until Prompt
+    ${out}=    Execute Command In Terminal    bluetoothctl --timeout 60 scan on    timeout=70s
     Should Contain Any    ${out}    Discovery started    SetDiscoveryFilter success
