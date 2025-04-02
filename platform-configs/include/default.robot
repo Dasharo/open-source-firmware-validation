@@ -199,6 +199,7 @@ ${PLATFORM_STABILITY_CHECKING}=                     ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
 ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${FALSE}
+${DGPU_ONLY_SUPPORT}=                               ${FALSE}
 # Variables used in lib/sensors to determine platform-specific methods of
 # measuring temperatures, fans etc.
 ${SENSORS_CONFIG_FILE}=                             include/sensors/default-sensors-config.yaml

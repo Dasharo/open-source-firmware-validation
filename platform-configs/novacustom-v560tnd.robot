@@ -23,6 +23,11 @@ ${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
 
+${OPTIONS_LIB}=                         options-lib_dcu
+${POWER_CTRL}=                          none
+
+${DGPU_ONLY_SUPPORT}=                   ${TRUE}
+
 ${LAPTOP_PLATFORM}=                     ${TRUE}
 ${BATTERY_PRESENT}=                     ${TRUE}
 ${DISK_IO_PERFORMANCE_TESTS}=           ${TRUE}

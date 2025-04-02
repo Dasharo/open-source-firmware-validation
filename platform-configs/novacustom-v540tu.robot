@@ -15,6 +15,8 @@ ${EXTERNAL_HEADSET}=                USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=               4800
 ${CPU_MIN_FREQUENCY}=               300
 
+${OPTIONS_LIB}=                     options-lib_dcu
+${POWER_CTRL}=                      none
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 
 ${TESTED_LINUX_DISTROS}=            ${ENV_ID_FEDORA} ${ENV_ID_UBUNTU}
