@@ -10,6 +10,8 @@ Resource            ../keywords.robot
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
     [Arguments]    ${source_path}    ${target_path}
+    ${filename}=    Evaluate    os.path.basename(r"${target_path}")
+    ${tmp_target}=    Set Variable    /tmp/${filename}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         IF    '${MANUFACTURER}' == 'QEMU'
@@ -24,14 +26,20 @@ Send File To DUT
         Execute Command In Terminal    rm -f ${target_path}
         SSHLibrary.Open Connection    ${ip_address}    port=${port}
         SSHLibrary.Login    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
-        SSHLibrary.Put File    ${source_path}    ${target_path}
+        SSHLibrary.Put File    ${source_path}    ${tmp_target}
         SSHLibrary.Close Connection
     ELSE
-        SSHLibrary.Put File    ${source_path}    ${target_path}
+        SSHLibrary.Put File    ${source_path}    ${tmp_target}
     END
-    ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
+    ${hash_target}=    Execute Command In Terminal    md5sum ${tmp_target} | cut -d ' ' -f 1
     ${hash_target}=    Strip String    ${hash_target}
     Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
+
+    ${issuer}=    Execute Command In Terminal    whoami
+    IF    '${issuer}' != 'root'    Switch To Root User
+    Execute Command In Terminal    mv ${tmp_target} ${target_path}
+    Execute Command In Terminal    chown ${issuer}:${issuer} ${target_path}
+    IF    '${issuer}' != 'root'    Exit From Root User
 
 Get File From DUT
     [Documentation]    Downloads a file from DUT and saves it at given location
