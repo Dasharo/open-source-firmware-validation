@@ -29,6 +29,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 CPU001.201 CPU works (Ubuntu)
     [Documentation]    Check whether the CPU mounted on the DUT works.
+    ...    Previous IDs: CPU001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
     Power On
@@ -38,6 +39,7 @@ CPU001.201 CPU works (Ubuntu)
 CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
+    ...    Previous IDs: CPU002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
     Power On
@@ -47,6 +49,7 @@ CPU002.201 CPU cache enabled (Ubuntu)
 
 CPU003.201 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
+    ...    Previous IDs: CPU003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU003.201 not supported
     Power On
@@ -56,6 +59,7 @@ CPU003.201 Multiple CPU support (Ubuntu)
 
 CPU004.201 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
+    ...    Previous IDs: CPU004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU004.201 not supported
     Power On
@@ -97,6 +101,7 @@ CPU004.202 Multiple-core support (Fedora)
 
 CPU001.301 CPU works (Windows)
     [Documentation]    Check whether the CPU mounted on the DUT works.
+    ...    Previous IDs: CPU001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
     Power On
     Login To Windows
@@ -104,6 +109,7 @@ CPU001.301 CPU works (Windows)
 CPU002.301 CPU cache enabled (Windows)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
+    ...    Previous IDs: CPU002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
     Power On
     Login To Windows
@@ -119,6 +125,7 @@ CPU002.301 CPU cache enabled (Windows)
 
 CPU003.301 Multiple CPU support (Windows)
     [Documentation]    Check whether the DUT has multiple CPU support.
+    ...    Previous IDs: CPU003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
     Power On
     Login To Windows
@@ -129,6 +136,7 @@ CPU003.301 Multiple CPU support (Windows)
 
 CPU004.301 Multiple-core support (Windows)
     [Documentation]    Check whether the DUT has multi-core support.
+    ...    Previous IDs: CPU004.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
     Power On
     Login To Windows

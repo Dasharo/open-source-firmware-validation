@@ -30,6 +30,7 @@ Suite Teardown      Run Keyword
 WLE001.201 Wireless card detection (Ubuntu)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
+    ...    Previous IDs: WLE001.001
     Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE001.201 not supported
@@ -39,6 +40,7 @@ WLE002.201 Wi-Fi scanning (Ubuntu)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system..
+    ...    Previous IDs: WLE002.001
     [Tags]    minimal-regression
     Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE002.201 not supported
@@ -49,6 +51,7 @@ WLE003.201 Bluetooth scanning (Ubuntu)
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.
+    ...    Previous IDs: WLE003.001
     Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE003.201 not supported
@@ -81,6 +84,7 @@ WLE003.202 Bluetooth scanning (Fedora)
 WLE001.301 Wireless card detection (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
+    ...    Previous IDs: WLE001.002
     Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
     Log To Console    Remember to test all variants of wireless cards.
@@ -96,6 +100,7 @@ WLE001.301 Wireless card detection (Windows)
 WLE002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
+    ...    Previous IDs: WLE002.002
     Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE002.301 not supported
     Log To Console    Remember to test all variants of wireless cards.

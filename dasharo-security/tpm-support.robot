@@ -68,6 +68,7 @@ TPM003.001 Check TPM Physical Presence Interface (firmware)
 TPM001.201 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
+    ...    Previous IDs: TPM001.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
@@ -76,6 +77,7 @@ TPM001.201 TPM Support (Ubuntu)
 TPM002.201 Verify TPM version (Ubuntu)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
+    ...    Previous IDs: TPM002.002
     [Tags]    minimal-regression
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.101 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM002.201 not supported
@@ -85,6 +87,7 @@ TPM002.201 Verify TPM version (Ubuntu)
 TPM003.201 Check TPM Physical Presence Interface (Ubuntu)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
+    ...    Previous IDs: TPM003.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM003.201 not supported
     Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
@@ -115,6 +118,7 @@ TPM003.202 Check TPM Physical Presence Interface (Fedora)
 TPM001.301 TPM Support (Windows)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from Windows.
+    ...    Previous IDs: TPM001.003
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.301 not supported
     Power On
     Login To Windows
@@ -129,6 +133,7 @@ TPM001.301 TPM Support (Windows)
 TPM002.301 Verify TPM version (Windows)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
+    ...    Previous IDs: TPM002.003
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.301 not supported
     Power On
     Login To Windows
@@ -139,6 +144,7 @@ TPM002.301 Verify TPM version (Windows)
 TPM003.003 Check TPM Physical Presence Interface (Windows)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
+    ...    Previous IDs: TPM003.003
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM003.301 not supported
     Power On
     Login To Windows
