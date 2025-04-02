@@ -28,6 +28,7 @@ Suite Teardown      Run Keyword
 ECR001.201 Battery monitoring - charge level in OS (Ubuntu)
     [Documentation]    Check whether the battery charge level can be read
     ...    (in mAh) in Linux OS.
+    ...    Previous IDs: ECR001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR001.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR001.201 not supported
     Power On
@@ -40,6 +41,7 @@ ECR001.201 Battery monitoring - charge level in OS (Ubuntu)
 
 ECR002.201 Battery monitoring - charging state in OS (Ubuntu)
     [Documentation]    Check whether the battery state can be read in Linux OS.
+    ...    Previous IDs: ECR002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR002.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR002.201 not supported
     Power On
@@ -54,6 +56,7 @@ ECR003.201 Touchpad in OS - (Ubuntu)
     [Documentation]    Check whether touchpad is visible in Linux OS.
     ...    Touchpad steering and effect detection must be checked
     ...    manually.
+    ...    Previous IDs: ECR003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR003.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR003.201 not supported
     Power On
@@ -105,6 +108,7 @@ ECR003.201 Touchpad in OS - (Ubuntu)
 ECR014.201 Keyboard (function key: brightness down) in OS (Ubuntu)
     [Documentation]    Check whether function key: brightness down works in
     ...    Linux OS.
+    ...    Previous IDs: ECR014.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR014.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0014.201 not supported
     Power On
@@ -117,6 +121,7 @@ ECR014.201 Keyboard (function key: brightness down) in OS (Ubuntu)
 ECR015.201 Keyboard (function key: brightness up) in OS (Ubuntu)
     [Documentation]    Check whether function key: brightness up works in
     ...    Linux OS.
+    ...    Previous IDs: ECR015.001
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR015.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0015.201 not supported
@@ -129,6 +134,7 @@ ECR015.201 Keyboard (function key: brightness up) in OS (Ubuntu)
 
 ECR016.201 Keyboard (function key: camera on/off) in OS (Ubuntu)
     [Documentation]    Check whether the camera on/off hotkey works correctly.
+    ...    Previous IDs: ECR016.001
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR016.201 not supported
     Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR016.201 not supported
@@ -143,6 +149,7 @@ ECR016.201 Keyboard (function key: camera on/off) in OS (Ubuntu)
 ECR017.201 Keyboard (function key: flight mode) in OS (Ubuntu)
     [Documentation]    Check whether function key: flight mode works in
     ...    Linux OS.
+    ...    Previous IDs: ECR017.001
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR017.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR017.201 not supported
     Skip If    not ${WIRELESS_CARD_SUPPORT}    ECR017.201 not supported
@@ -169,6 +176,7 @@ ECR017.201 Keyboard (function key: flight mode) in OS (Ubuntu)
 
 ECR019.201 Buttons (button: power) in OS (Ubuntu)
     [Documentation]    Check whether button: power is detected in Linux OS.
+    ...    Previous IDs: ECR019.001
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR019.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR019.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0019.201 not supported
@@ -183,6 +191,7 @@ ECR019.201 Buttons (button: power) in OS (Ubuntu)
 ECR020.201 Charging until 98% level in OS (Ubuntu)
     [Documentation]    Check whether the DUT stops charging the battery when the
     ...    98% threshold is reached.
+    ...    Previous IDs: ECR020.001
     Skip If    '${POWER_CTRL}' != 'sonoff'    ECR020.201 not supported
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR020.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR020.201 not supported
@@ -197,6 +206,7 @@ ECR020.201 Charging until 98% level in OS (Ubuntu)
 ECR021.201 Not charging between 95% and 98% in OS (Ubuntu)
     [Documentation]    Check whether the DUT does not charge the battery when
     ...    the charge level is between 95% and 98%.
+    ...    Previous IDs: ECR021.001
     Skip If    '${POWER_CTRL}' != 'sonoff'    ECR021.201 not supported
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR021.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR021.201 not supported
@@ -335,6 +345,7 @@ ECR021.202 Not charging between 95% and 98% in OS (Fedora)
 ECR001.301 Battery monitoring - charge level in OS (Windows)
     [Documentation]    Check whether battery charge level can be read in
     ...    Windows OS.
+    ...    Previous IDs: ECR001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR001.301 not supported
     Power On
     Login To Windows
@@ -344,6 +355,7 @@ ECR001.301 Battery monitoring - charge level in OS (Windows)
 ECR002.301 Battery monitoring - charging state in OS (Windows)
     [Documentation]    Check whether the battery state can be read in Windows
     ...    OS.
+    ...    Previous IDs: ECR002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR002.301 not supported
     Power On
     Login To Windows
@@ -353,6 +365,7 @@ ECR003.301 Touchpad in OS - (Windows)
     [Documentation]    Check whether touchpad is visible in Windows OS.
     ...    Touchpad steering and effect detection must be checked
     ...    manually.
+    ...    Previous IDs: ECR003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR003.301 not supported
     Power On
     Login To Windows
