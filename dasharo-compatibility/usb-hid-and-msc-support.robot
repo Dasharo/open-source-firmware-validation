@@ -49,6 +49,7 @@ USB002.001 USB keyboard detected in FW
 USB001.201 USB devices detected by OS (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Ubuntu OS.
+    ...    Previous IDs: USB001.002
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
@@ -57,6 +58,7 @@ USB001.201 USB devices detected by OS (Ubuntu)
 USB002.201 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Ubuntu OS.
+    ...    Previous IDs: USB002.002
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
@@ -66,6 +68,7 @@ USB002.201 USB keyboard in OS (Ubuntu)
 USB003.201 Upload 1GB file on USB storage (Ubuntu)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
+    ...    Previous IDs: USB003.002
     Depends On    ${UPLOAD_ON_USB_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
@@ -99,6 +102,7 @@ USB003.202 Upload 1GB file on USB storage (Fedora)
 USB001.301 USB devices detected by OS (Windows)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Windows OS.
+    ...    Previous IDs: USB001.003
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
@@ -111,6 +115,7 @@ USB001.301 USB devices detected by OS (Windows)
 USB002.301 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Windows OS.
+    ...    Previous IDs: USB002.003
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
@@ -123,6 +128,7 @@ USB002.301 USB keyboard in OS (Windows)
 USB003.301 Upload 1GB file on USB storage (Windows)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
+    ...    Previous IDs: USB003.003
     Depends On    ${UPLOAD_ON_USB_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}

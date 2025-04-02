@@ -30,6 +30,7 @@ Suite Teardown      Run Keyword
 DMI001.201 Verify the device serial number
     [Documentation]    Check whether the DUT serial number is the same as it is
     ...    expected.
+    ...    Previous IDs: DMI001.001
     Skip If    not ${SERIAL_NUMBER_VERIFICATION}    DMI001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI001.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
@@ -39,6 +40,7 @@ DMI001.201 Verify the device serial number
 DMI002.201 Verify the firmware version
     [Documentation]    Check whether the firmware version on the DUT is the
     ...    same as it is expected.
+    ...    Previous IDs: DMI002.001
     [Tags]    minimal-regression
     Skip If    not ${FIRMWARE_NUMBER_VERIFICATION}    DMI002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI002.201 not supported
@@ -49,6 +51,7 @@ DMI002.201 Verify the firmware version
 DMI003.201 Verify the firmware product name
     [Documentation]    Check whether the DUT product name is the same as it is
     ...    expected.
+    ...    Previous IDs: DMI003.001
     [Tags]    minimal-regression
     Skip If    not ${PRODUCT_NAME_VERIFICATION}    DMI003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI003.201 not supported
@@ -58,6 +61,7 @@ DMI003.201 Verify the firmware product name
 DMI004.201 Verify the firmware release date
     [Documentation]    Check whether the firmware release date on the DUT is
     ...    the same as it is expected.
+    ...    Previous IDs: DMI004.001
     Skip If    not ${RELEASE_DATE_VERIFICATION}    DMI004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI004.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
@@ -66,6 +70,7 @@ DMI004.201 Verify the firmware release date
 DMI005.201 Verify the firmware manufacturer
     [Documentation]    Check whether the firmware manufacturer on the DUT is
     ...    the same as it is expected.
+    ...    Previous IDs: DMI005.001
     Skip If    not ${MANUFACTURER_VERIFICATION}    DMI005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI005.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
@@ -75,6 +80,7 @@ DMI005.201 Verify the firmware manufacturer
 DMI006.201 Verify the firmware vendor
     [Documentation]    Check whether the firmware vendor on the DUT is the same
     ...    as it is expected.
+    ...    Previous IDs: DMI006.001
     Skip If    not ${VENDOR_VERIFICATION}    DMI006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI006.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
@@ -83,6 +89,7 @@ DMI006.201 Verify the firmware vendor
 DMI007.201 Verify the firmware family
     [Documentation]    Check whether the firmware family on the DUT is the same
     ...    as it is expected.
+    ...    Previous IDs: DMI007.001
     Skip If    not ${FAMILY_VERIFICATION}    DMI007.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI007.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
@@ -91,6 +98,7 @@ DMI007.201 Verify the firmware family
 DMI008.201 Verify the firmware type
     [Documentation]    Check whether the firmware type on the DUT is the same
     ...    as it is expected.
+    ...    Previous IDs: DMI008.001
     Skip If    not ${TYPE_VERIFICATION}    DMI008.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI008.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}

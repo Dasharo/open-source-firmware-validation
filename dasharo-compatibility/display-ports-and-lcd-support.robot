@@ -25,6 +25,7 @@ Suite Teardown      Log Out And Close Connection
 DSP001.201 - Internal display in OS (Ubuntu)
     [Documentation]    Check whether an internal display is visible in
     ...    Ubuntu.
+    ...    Previous IDs: DSP001.002
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP001.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
@@ -40,6 +41,7 @@ DSP001.202 - Internal display in OS (Fedora)
 DSP001.301 - Internal display in OS (Windows)
     [Documentation]    Check whether an internal display is visible in
     ...    Windows OS.
+    ...    Previous IDs: DSP001.003
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP001.002 not supported
     Power On
@@ -50,6 +52,7 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
+    ...    Previous IDs: DSP002.002
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP002.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
@@ -67,6 +70,7 @@ DSP002.301 - External HDMI display in OS (Windows)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Windows OS. An external HDMI display must be provided in
     ...    the platform config.
+    ...    Previous IDs: DSP002.003
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.301 not supported
     Power On
@@ -77,6 +81,7 @@ DSP003.201 - External DP display in OS (Ubuntu)
     [Documentation]    Check whether an external Display Port is visible in
     ...    Linux OS. An external Display Port must be provided in
     ...    the platform config.
+    ...    Previous IDs: DSP003.001
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP003.201 supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
@@ -94,6 +99,7 @@ DSP003.301 - External DP display in OS (Windows)
     [Documentation]    Check whether an external Display Port is visible in
     ...    Windows OS. An external Display Port must be provided in
     ...    the platform config.
+    ...    Previous IDs: DSP003.002
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    301.002 not supported
     Power On

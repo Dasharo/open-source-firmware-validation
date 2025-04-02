@@ -37,6 +37,7 @@ NVM001.001 NVMe support in firmware
 NVM001.201 NVMe support in OS (Ubuntu)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
+    ...    Previous IDs: NVM001.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
     NVMe Support In OS    ${ENV_ID_UBUNTU}
@@ -50,6 +51,7 @@ NVM001.202 NVMe support in OS (Fedora)
 NVM001.301 NVMe support in OS (Windows)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
+    ...    Previous IDs: NVM001.003
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVM001.301 not supported
     Power On
     Login To Windows

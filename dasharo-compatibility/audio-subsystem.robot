@@ -26,6 +26,7 @@ Suite Teardown      Run Keyword
 AUD001.201 Audio subsystem detection (Ubuntu)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Linux OS.
+    ...    Previous IDs: AUD001.001
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD001.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    AUD001.201 not supported
@@ -52,6 +53,7 @@ AUD001.201 Audio subsystem detection (Ubuntu)
 AUD004.201 External headset recognition (Ubuntu)
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
+    ...    Previous IDs: AUD004.001
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD004.201 not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    AUD004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    AUD004.201 not supported
@@ -76,6 +78,7 @@ AUD004.202 External headset recognition (Fedora)
 AUD001.301 Audio subsystem detection (Windows)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Windows 11.
+    ...    Previous IDs: AUD001.002
     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    AUD001.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    AUD001.301 not supported
     Power On
