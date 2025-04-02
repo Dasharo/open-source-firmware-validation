@@ -45,88 +45,157 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-SMW002.001 Wi-fi connection after warm boot (Ubuntu)
+SMW002.201 Wi-fi connection after warm boot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
-    Skip If    not ${M2_WIFI_SUPPORT}    SMW002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW002.001 not supported
-    Power On
-    Boot Operating System    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
-    Scan For Wi-Fi In Linux
-
-    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Perform Warmboot Using Rtcwake
-        Boot Operating System    ubuntu
-        Login To Linux
-        Switch To Root User
-        ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-        Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
-        Scan For Wi-Fi In Linux
-    END
-    Exit From Root User
-
-SMW003.001 Wi-fi connection after reboot (Ubuntu)
-    [Documentation]    Check whether the Wi-Fi card is detected and working
-    ...    correctly after performing a reboot.
-    Skip If    not ${M2_WIFI_SUPPORT}    SMW003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW003.001 not supported
-    Power On
-    Boot Operating System    ubuntu
-    Login To Linux
-    Switch To Root User
-    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
-    Scan For Wi-Fi In Linux
-
-    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Execute Reboot Command
-        Boot Operating System    ubuntu
-        Login To Linux
-        Switch To Root User
-        ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-        Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
-        Scan For Wi-Fi In Linux
-    END
-
-SMW004.001 Wi-fi connection after suspension (Ubuntu)
-    [Documentation]    Check whether the Wi-Fi card is detected and working
-    ...    correctly after performing suspension.
-    Skip If    not ${M2_WIFI_SUPPORT}    SMW004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.001 not supported
-    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.001 not supported
-    Wi-fi Connection After Suspension (Ubuntu)
-
-SMW004.002 Wi-fi connection after suspension (Ubuntu) (S0ix)
-    [Documentation]    Check whether the Wi-Fi card is detected and working
-    ...    correctly after performing suspension.
-    Skip If    not ${M2_WIFI_SUPPORT}    SMW004.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.002 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.002 not supported
-    Set Platform Sleep Type    S0ix
-    Wi-fi Connection After Suspension (Ubuntu)    S0ix
-
-SMW004.003 Wi-fi connection after suspension (Ubuntu) (S3)
-    [Documentation]    Check whether the Wi-Fi card is detected and working
-    ...    correctly after performing suspension.
-    Skip If    not ${M2_WIFI_SUPPORT}    SMW004.003 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.003 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.002 not supported
-    Set Platform Sleep Type    S3
-    Wi-fi Connection After Suspension (Ubuntu)    S3
-
-
-*** Keywords ***
-Wi-fi Connection After Suspension (Ubuntu)
-    [Arguments]    ${platform_sleep_type}=${EMPTY}
+    ...    Previous IDs: SMW002.001
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW002.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
-    Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
+    Wi-Fi Connection After Warm Boot
+    Exit From Root User
+
+SMW003.201 Wi-fi connection after reboot (Ubuntu)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a reboot.
+    ...    Previous IDs: SMW003.001
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW003.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW003.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Wi-Fi Connection After Reboot
+    Exit From Root User
+
+SMW004.201 Wi-fi connection after suspension (Ubuntu)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing suspension.
+    ...    Previous IDs: SMW004.001
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW004.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.201 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW004.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Wi-fi Connection After Suspension
+    Exit From Root User
+
+SMW005.201 Wi-fi connection after suspension (Ubuntu) (S0ix)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing suspension.
+    ...    Previous IDs: SMW004.002
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW005.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW005.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW005.201 not supported
+    Set Platform Sleep Type    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Wi-fi Connection After Suspension    S0ix
+    Exit From Root User
+
+SMW006.201 Wi-fi connection after suspension (Ubuntu) (S3)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing suspension.
+    ...    Previous IDs: SMW004.003
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW006.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW006.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW006.201 not supported
+    Set Platform Sleep Type    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Wi-fi Connection After Suspension    S3
+    Exit From Root User
+
+SMW002.202 Wi-fi connection after warm boot (Fedora)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a warm boot.
+    ...    Previous IDs: SMW002.001
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW002.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Wi-Fi Connection After Warm Boot
+    Exit From Root User
+
+SMW003.202 Wi-fi connection after reboot (Fedora)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a reboot.
+    ...    Previous IDs: SMW003.202
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW003.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Wi-Fi Connection After Reboot
+    Exit From Root User
+
+SMW004.202 Wi-fi connection after suspension (Fedora)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing suspension.
+    ...    Previous IDs: SMW004.001
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW004.202 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW004.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Wi-fi Connection After Suspension
+    Exit From Root User
+
+SMW005.202 Wi-fi connection after suspension (Fedora) (S0ix)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing suspension.
+    ...    Previous IDs: SMW004.002
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW005.202 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW005.202 not supported
+    Set Platform Sleep Type    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Wi-fi Connection After Suspension    S0ix
+    Exit From Root User
+
+SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing suspension.
+    ...    Previous IDs: SMW004.003
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW006.202 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW006.202 not supported
+    Set Platform Sleep Type    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Wi-fi Connection After Suspension    S3
+    Exit From Root User
+
+
+*** Keywords ***
+Wi-fi Connection After Suspension
+    [Tags]    robot:private
+    [Arguments]    ${platform_sleep_type}=${EMPTY}
+    Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
 
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
@@ -138,4 +207,39 @@ Wi-fi Connection After Suspension (Ubuntu)
         Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
         Scan For Wi-Fi In Linux
     END
-    Exit From Root User
+
+Wi-Fi Connection After Warm Boot
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a warm boot.
+    [Tags]    robot:private
+    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+    Scan For Wi-Fi In Linux
+
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        Perform Warmboot Using Rtcwake
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+        Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+        Scan For Wi-Fi In Linux
+    END
+
+Wi-Fi Connection After Reboot
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a reboot.
+    [Tags]    robot:private
+    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+    Scan For Wi-Fi In Linux
+
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+        Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+        Scan For Wi-Fi In Linux
+    END
