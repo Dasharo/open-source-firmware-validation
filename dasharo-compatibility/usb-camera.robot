@@ -93,7 +93,8 @@ Integrated Webcam Linux
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
     [Tags]    robot:private
-    Device Detection In Linux    Camera
+    ${out}=    List Devices In Linux    usb
+    Should Contain Any    ${out}    Camera    BisonCam
     ${out0}=    Execute Linux Command    ffprobe /dev/video0
     Should Contain    ${out0}    Input #0, video4linux2,v4l2, from '/dev/video0':
     Should Contain
@@ -106,7 +107,8 @@ Integrated IR Camera Linux
     ...    Assumption: No external camera connected. Camera exposes separate
     ...    devnodes for visible-spectrum and IR modes, in that order.
     [Tags]    robot:private
-    Device Detection In Linux    Camera
+    ${out}=    List Devices In Linux    usb
+    Should Contain Any    ${out}    Camera    BisonCam
     ${out0}=    Execute Linux Command    ffprobe /dev/video2
     Should Contain
     ...    ${out0}
