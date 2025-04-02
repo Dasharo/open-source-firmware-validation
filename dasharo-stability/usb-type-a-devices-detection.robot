@@ -47,79 +47,146 @@ Suite Teardown      Run Keyword
 #    END
 #    Exit from root user
 
-SUD002.001 USB devices detection after warm boot (Ubuntu)
+SUD002.201 USB devices detection after warm boot (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a warm boot.
-    Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD002.001 not supported
+    ...    Previous IDs: SUD002.001
+    Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    ${USB_DEVICE}
-
-    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
-        Perform Warmboot Using Rtcwake
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        ${out}=    List Devices In Linux    usb
-        Should Contain    ${out}    ${USB_DEVICE}
-    END
+    USB Devices Detection After Warm Boot
     Exit From Root User
 
-SUD003.001 USB devices detection after reboot (Ubuntu)
+SUD003.201 USB devices detection after reboot (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a reboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD003.001 not supported
+    ...    Previous IDs: SUD003.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD003.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${out}=    List Devices In Linux    usb
-    Should Contain    ${out}    ${USB_DEVICE}
-    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Execute Reboot Command
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        ${out}=    List Devices In Linux    usb
-        Should Contain    ${out}    ${USB_DEVICE}
-    END
+    USB Devices Detection After Reboot
+    Exit From Root User
 
-SUD004.001 USB devices detection after suspension (Ubuntu)
+SUD004.201 USB devices detection after suspension (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.001 not supported
-    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.001 not supported
-    USB Devices Detection After Suspension (Ubuntu)
+    ...    Previous IDs: SUD004.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.201 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD004.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Suspension
+    Exit From Root User
 
-SUD004.002 USB devices detection after suspension (Ubuntu) (S0ix)
+SUD005.201 USB devices detection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.002 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.002 not supported
+    ...    Previous IDs: SUD004.002
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD005.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD005.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD005.201 not supported
     Set Platform Sleep Type    S0ix
-    USB Devices Detection After Suspension (Ubuntu)    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Suspension    S0ix
+    Exit From Root User
 
-SUD004.003 USB devices detection after suspension (Ubuntu) (S3)
+SUD006.201 USB devices detection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.003 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.003 not supported
+    ...    Previous IDs: SUD004.003
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD006.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD006.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD006.201 not supported
     Set Platform Sleep Type    S3
-    USB Devices Detection After Suspension (Ubuntu)    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Suspension    S3
+    Exit From Root User
+
+SUD002.202 USB devices detection after warm boot (Fedora)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after a warm boot.
+    Skip If    not ${USB_TYPE-a_devices_detection_support}    SUD002.201 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Warm Boot
+    Exit From Root User
+
+SUD003.202 USB devices detection after reboot (Fedora)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after a reboot.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Reboot
+    Exit From Root User
+
+SUD004.202 USB devices detection after suspension (Fedora)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after suspension.
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD004.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Suspension
+    Exit From Root User
+
+SUD005.202 USB devices detection after suspension (Fedora) (S0ix)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after suspension.
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD005.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD005.202 not supported
+    Set Platform Sleep Type    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Suspension    S0ix
+    Exit From Root User
+
+SUD006.202 USB devices detection after suspension (Fedora) (S3)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after suspension.
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD006.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD006.202 not supported
+    Set Platform Sleep Type    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    USB Devices Detection After Suspension    S3
+    Exit From Root User
 
 
 *** Keywords ***
-USB Devices Detection After Suspension (Ubuntu)
+USB Devices Detection After Suspension
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after suspension.
+    [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
-    Switch To Root User
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
@@ -127,4 +194,34 @@ USB Devices Detection After Suspension (Ubuntu)
         ${out}=    List Devices In Linux    usb
         Should Contain    ${out}    ${USB_DEVICE}
     END
-    Exit From Root User
+
+USB Devices Detection After Warm Boot
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after a warm boot.
+    [Tags]    robot:private
+    ${out}=    List Devices In Linux    usb
+    Should Contain    ${out}    ${USB_DEVICE}
+
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
+        Perform Warmboot Using Rtcwake
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${out}=    List Devices In Linux    usb
+        Should Contain    ${out}    ${USB_DEVICE}
+    END
+
+USB Devices Detection After Reboot
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after a reboot.
+    [Tags]    robot:private
+    ${out}=    List Devices In Linux    usb
+    Should Contain    ${out}    ${USB_DEVICE}
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${out}=    List Devices In Linux    usb
+        Should Contain    ${out}    ${USB_DEVICE}
+    END
