@@ -182,7 +182,7 @@ Make Sure That Network Boot Is Enabled
 
 Get IPXE Boot Menu Construction
     [Documentation]    Keyword allows to get and return iPXE menu construction.
-    [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
+    [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${IPXE_CHECKPOINT}
     ${menu}=    Read From Terminal Until    ${checkpoint}
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
     RETURN    ${construction}
