@@ -38,27 +38,6 @@ CAM001.201 Integrated webcam (Ubuntu)
     Integrated Webcam Linux
     Exit From Root User
 
-CAM001.202 Integrated webcam (Fedora)
-    [Documentation]    Check whether the integrated USB camera is initialized
-    ...    correctly and can be accessed from the Linux OS. Assumption: No
-    ...    external cameras connected.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CAM001.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Integrated Webcam Linux
-    Exit From Root User
-
-CAM001.301 Integrated webcam (Windows)
-    [Documentation]    Check whether the integrated USB camera is initialized
-    ...    correctly and can be accessed from the Windows OS.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
-    Power On
-    Login To Windows
-    ${out}=    Get USB Devices Windows
-    Should Contain    ${out}    Chicony USB2.0 Camera
-
 CAM002.201 Integrated IR Camera (Ubuntu)
     [Documentation]    Check whether the integrated infrared camera is
     ...    initialized correctly and can be accessed from the Linux OS.
@@ -73,6 +52,18 @@ CAM002.201 Integrated IR Camera (Ubuntu)
     Integrated IR Camera Linux
     Exit From Root User
 
+CAM001.202 Integrated webcam (Fedora)
+    [Documentation]    Check whether the integrated USB camera is initialized
+    ...    correctly and can be accessed from the Linux OS. Assumption: No
+    ...    external cameras connected.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CAM001.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Integrated Webcam Linux
+    Exit From Root User
+
 CAM002.202 Integrated IR Camera (Fedora)
     [Documentation]    Check whether the integrated infrared camera is
     ...    initialized correctly and can be accessed from the Linux OS.
@@ -85,6 +76,15 @@ CAM002.202 Integrated IR Camera (Fedora)
     Switch To Root User
     Integrated IR Camera Linux
     Exit From Root User
+
+CAM001.301 Integrated webcam (Windows)
+    [Documentation]    Check whether the integrated USB camera is initialized
+    ...    correctly and can be accessed from the Windows OS.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
+    Power On
+    Login To Windows
+    ${out}=    Get USB Devices Windows
+    Should Contain    ${out}    Chicony USB2.0 Camera
 
 
 *** Keywords ***
