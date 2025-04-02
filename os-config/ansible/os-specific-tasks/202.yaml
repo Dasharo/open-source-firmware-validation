@@ -14,6 +14,11 @@
     state: present
     disable_gpg_check: true
 
+- name: "Autoload acpi_call module"
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/acpi_call.conf
+    content: acpi_call
+
 # spi_intel_pci module conflicts with flashrom
 - name: Blacklist spi_intel_pci module
   ansible.builtin.copy:
