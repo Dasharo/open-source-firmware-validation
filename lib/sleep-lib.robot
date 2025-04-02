@@ -1,6 +1,8 @@
 *** Settings ***
 Documentation       Collection of keywords related to System Sleep States
 
+Resource            ../keywords.robot
+
 
 *** Keywords ***
 Check If Platform Sleep Type Can Be Selected
@@ -112,9 +114,10 @@ Perform Hibernation Test Using FWTS
     ...    test by using Firmware Test Suite tool
     [Arguments]    ${test_duration}=40
     ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
+    IF    '${POWER_CTRL}' == 'none'    Set Nextboot    ${BOOTED_OS_ID}
     Execute Command In Terminal    fwts s4 -f -r /tmp/hibernation_test_log.log
     Sleep    ${test_duration}s
-    Boot Operating System    ubuntu
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
     Switch To Root User
     ${test_result}=    Execute Command In Terminal    cat /tmp/hibernation_test_log.log
@@ -138,6 +141,7 @@ Perform Warmboot Using Rtcwake
     # would hang here and fail.
     # Sometimes it may take long to shutdown all systemd services,
     # so the waiting times have to be excessive to avoid false negatives.
+    IF    '${POWER_CTRL}' == 'none'    Set Nextboot    ${BOOTED_OS_ID}
     Write Into Terminal    rtcwake -m off -s 60
     Set DUT Response Timeout    300s
     Sleep    60s
