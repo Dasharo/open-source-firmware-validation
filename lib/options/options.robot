@@ -120,7 +120,8 @@ Measure Coldboot Time
     ...
     ...    === Arguments ===
     ...    - ``${iterations}``: ``integer`` - the amount of coldboots
-    ...    to be tested
+    ...    - ``${os_id}``: ``integer`` - the ID of an OS on which the
+    ...    \ measurements are to be gathered
     ...
     ...    === Return Value ===
     ...    - ``float`` - MIN coldboot time
@@ -130,7 +131,7 @@ Measure Coldboot Time
     ...
     ...    === Effects ===
     ...    - The device will be rebooted ${iterations} times
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
     Skip    Coldboot not supported without serial connection
 
 Measure Warmboot Time
@@ -144,6 +145,8 @@ Measure Warmboot Time
     ...    === Arguments ===
     ...    - ``${iterations}``: ``integer`` - the amount of warmboots
     ...    to be tested
+    ...    - ``${os_id}``: ``integer`` - the ID of an OS on which the
+    ...    \ measurements are to be gathered
     ...
     ...    === Return Value ===
     ...    - ``float`` - MIN warmboot time
@@ -153,7 +156,7 @@ Measure Warmboot Time
     ...
     ...    === Effects ===
     ...    - The device will be rebooted ${iterations} times
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
     Fail    Not implemented
 
 Measure Reboot Time
@@ -167,6 +170,8 @@ Measure Reboot Time
     ...    === Arguments ===
     ...    - ``${iterations}``: ``integer`` - the amount of reboots
     ...    to be tested
+    ...    - ``${os_id}``: ``integer`` - the ID of an OS on which the
+    ...    \ measurements are to be gathered
     ...
     ...    === Return Value ===
     ...    - ``float`` - MIN reboot time
@@ -176,7 +181,7 @@ Measure Reboot Time
     ...
     ...    === Effects ===
     ...    - The device will be rebooted ${iterations} times
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
     Fail    Not implemented
 
 Make Sure That Flash Locks Are Disabled
