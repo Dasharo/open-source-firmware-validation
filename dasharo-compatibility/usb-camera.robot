@@ -45,6 +45,7 @@ CAM002.201 Integrated IR Camera (Ubuntu)
     ...    Assumption: No external camera connected. Camera exposes separate
     ...    devnodes for visible-spectrum and IR modes, in that order.
     ...    Previous IDs: CAM002.001
+    Skip If    not ${IR_CAMERA_SUPPORT}    CAM002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CAM002.201 not supported
     Power On
@@ -71,6 +72,7 @@ CAM002.202 Integrated IR Camera (Fedora)
     ...    initialized correctly and can be accessed from the Linux OS.
     ...    Assumption: No external camera connected. Camera exposes separate
     ...    devnodes for visible-spectrum and IR modes, in that order.
+    Skip If    not ${IR_CAMERA_SUPPORT}    CAM002.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CAM002.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
