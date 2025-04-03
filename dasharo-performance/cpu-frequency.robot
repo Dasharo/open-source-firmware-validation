@@ -48,6 +48,7 @@ CPF002.201 CPU not stuck on initial frequency (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF003.201 CPU not stuck on initial frequency (Ubuntu) (AC)
@@ -95,6 +96,7 @@ CPF006.201 CPU runs on expected frequency (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF007.201 CPU runs on expected frequency (Ubuntu) (AC)
@@ -142,6 +144,7 @@ CPF010.201 CPU with load runs on expected frequency (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF011.201 CPU with load runs on expected frequency (Ubuntu) (AC)
@@ -185,6 +188,7 @@ CPF002.202 CPU not stuck on initial frequency (Fedora) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF003.202 CPU not stuck on initial frequency (Fedora) (AC)
@@ -224,6 +228,7 @@ CPF006.202 CPU runs on expected frequency (Fedora) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF007.202 CPU runs on expected frequency (Fedora) (AC)
@@ -263,6 +268,7 @@ CPF010.202 CPU with load runs on expected frequency (Fedora) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF011.202 CPU with load runs on expected frequency (Fedora) (AC)
@@ -293,29 +299,6 @@ CPF001.003 CPU not stuck on initial frequency (Heads+Debian)
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.003 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU Not Stuck On Initial Frequency (Heads+Debian)
-
-CPF001.004 CPU not stuck on initial frequency (Ubuntu) (battery)
-    [Documentation]    This test aims to verify whether the mounted CPU does not
-    ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.004 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.004 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    battery not present
-    Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
-    Skip If Battery Level Below 30 Percent
-    CPU Not Stuck On Initial Frequency (Ubuntu)
-
-CPF001.005 CPU not stuck on initial frequency (Windows) (battery)
-    [Documentation]    This test aims to verify whether the mounted CPU does not
-    ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.005 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.005 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    battery not present
-    Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Not Stuck On Initial Frequency (Windows)
 
 CPF001.006 CPU not stuck on initial frequency (Heads+Debian) (battery)
     [Documentation]    This test aims to verify whether the mounted CPU does not
@@ -369,7 +352,6 @@ CPF002.301 CPU not stuck on initial frequency (Windows) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Skip If Battery Level Below 30 Percent
     CPU Not Stuck On Initial Frequency (Windows)
 
 CPF003.301 CPU not stuck on initial frequency (Windows) (AC)
@@ -456,7 +438,6 @@ CPF010.301 CPU with load runs on expected frequency (Windows) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
-    Skip If Battery Level Below 30 Percent
     CPU With Load Runs On Expected Frequency (Windows)
 
 CPF011.301 CPU with load runs on expected frequency (Windows) (AC)
