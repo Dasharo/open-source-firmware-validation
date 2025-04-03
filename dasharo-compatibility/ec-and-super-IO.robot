@@ -137,6 +137,7 @@ ECR016.201 Keyboard (function key: camera on/off) in OS (Ubuntu)
     ...    Previous IDs: ECR016.001
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR016.201 not supported
     Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.201 not supported
+    Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR016.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0016.201 not supported
     Power On
@@ -281,6 +282,7 @@ ECR016.202 Keyboard (function key: camera on/off) in OS (Fedora)
     [Documentation]    Check whether the camera on/off hotkey works correctly.
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR016.202 not supported
     Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.202 not supported
+    Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.201 not supported
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0016.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
