@@ -76,9 +76,7 @@ Measure Warmboot Time
         # would hang here and fail.
         # Sometimes it may take long to shutdown all systemd services,
         # so the waiting times have to be excessive to avoid false negatives.
-        Set Nextboot    ${BOOTED_OS_ID}
-        Write Into Terminal    rtcwake -m off -s 60
-        Set DUT Response Timeout    300s
+        Perform Warmboot Using Rtcwake
 
         Boot System Or From Connected Disk    ${os_id}
         Login To Linux
