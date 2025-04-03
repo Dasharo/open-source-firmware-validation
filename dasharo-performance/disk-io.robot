@@ -49,13 +49,11 @@ DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
     Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Sequential Read Queued is below expected
     Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85    Sequential Read Non-Queued is below expected
 
-DIO002.001 Sequential Write Performance (Ubuntu) (Battery)
-    [Documentation]    Check various scenarios of single threaded write
-    ...    performance, while powered by inbuilt battery. (Ubuntu)
+DIO002.001 Sequential Write Performance (Ubuntu) (AC)
+    [Documentation]    Check various scenarios of single-threaded write
+    ...    performance while powered by AC adapter. (Ubuntu)
     Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    sequential_write_with_queues
@@ -71,11 +69,13 @@ DIO002.001 Sequential Write Performance (Ubuntu) (Battery)
     ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
     ...    Sequential Write Non-Queued is below expected
 
-DIO002.002 Sequential Write Performance (Ubuntu) (AC)
-    [Documentation]    Check various scenarios of single-threaded write
-    ...    performance while powered by AC adapter. (Ubuntu)
+DIO002.002 Sequential Write Performance (Ubuntu) (Battery)
+    [Documentation]    Check various scenarios of single threaded write
+    ...    performance, while powered by inbuilt battery. (Ubuntu)
     Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    Battery not present
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    sequential_write_with_queues
@@ -153,7 +153,7 @@ DIO004.001 Random Write Performance (Ubuntu) (AC)
     ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
     ...    Random Write BW Non-Queued is below expected
 
-DIO004.002 Sequential Write Performance (Ubuntu) (AC)
+DIO004.002 Sequential Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of sequential write performance
     ...    while connected to power supply unit. (Ubuntu)
     Sleep    20s
