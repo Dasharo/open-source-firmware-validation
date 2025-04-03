@@ -50,6 +50,8 @@ ${WIN_RAND_WRITE_QUEUED}=           461.3    # MB/s
 ${WIN_RAND_READ_NONQUE}=            82.8    # MB/s
 ${WIN_RAND_WRITE_NONQUE}=           239.6    # MB/s
 
+${CLEVO_BATTERY_CAPACITY}=          4643000    # /sys/class/power_supply/BAT0/charge_full
+
 
 *** Keywords ***
 Power On
