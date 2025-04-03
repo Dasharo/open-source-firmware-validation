@@ -34,11 +34,62 @@ CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
+    ...    Previous IDs: CBMEM001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.201 not supported
     Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.201 not supported
+    Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_UBUNTU}
 
+CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot
+    [Documentation]    Check whether the DUT boots after warmboot and how
+    ...    long it takes for coreboot to boot after warmboot if
+    ...    CPU is serial initialized.
+    ...    Previous IDs: CBMEM002.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM002.201 not supported
+    Serial Boot Time Measure Coreboot Booting Time After Warmboot    ${ENV_ID_UBUNTU}
+
+CBMEM003.201 Serial boot time measure: coreboot booting time after system reboot
+    [Documentation]    Check whether the DUT boots after system reboot and how
+    ...    long it takes for coreboot to boot after system reboot
+    ...    if CPU is serial initialized.
+    ...    Previous IDs: CBMEM003.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM003.201 not supported
+    Serial Boot Time Measure Coreboot Booting Time After System Reboot    ${ENV_ID_UBUNTU}
+
+CBMEM001.202 Serial boot time measure: coreboot booting time after coldboot
+    [Documentation]    Check whether the DUT boots after coldboot and how
+    ...    long it takes for coreboot to boot after coldboot if
+    ...    CPU is serial initialized.
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.202 not supported
+    Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_FEDORA}
+
+CBMEM002.202 Serial boot time measure: coreboot booting time after warmboot
+    [Documentation]    Check whether the DUT boots after warmboot and how
+    ...    long it takes for coreboot to boot after warmboot if
+    ...    CPU is serial initialized.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM002.202 not supported
+    Serial Boot Time Measure Coreboot Booting Time After Warmboot    ${ENV_ID_FEDORA}
+
+CBMEM003.202 Serial boot time measure: coreboot booting time after system reboot
+    [Documentation]    Check whether the DUT boots after system reboot and how
+    ...    long it takes for coreboot to boot after system reboot
+    ...    if CPU is serial initialized.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM003.202 not supported
+    Serial Boot Time Measure Coreboot Booting Time After System Reboot    ${ENV_ID_FEDORA}
+
+
+*** Keywords ***
+Serial Boot Time Measure Coreboot Booting Time After Coldboot
+    [Documentation]    Check whether the DUT boots after coldboot and how
+    ...    long it takes for coreboot to boot after coldboot if
+    ...    CPU is serial initialized.
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
     ${min}    ${max}    ${average}    ${stddev}=
-    ...    Measure Coldboot Time    ${ITERATIONS}
+    ...    Measure Coldboot Time    ${ITERATIONS}    ${os_id}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
     Log To Console    \nCoreboot shortest booting time: ${min} s\n
@@ -49,14 +100,14 @@ CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot
     Should Be True    ${max} < ${MAX_ACCEPTABLE_COLDBOOT_TIME_S}
     Should Be True    ${stddev} < ${MAX_ACCEPTABLE_COLDBOOT_TIME_STD_DEV_S}
 
-CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot
+Serial Boot Time Measure Coreboot Booting Time After Warmboot
     [Documentation]    Check whether the DUT boots after warmboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.201 not supported
-
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
     ${min}    ${max}    ${average}    ${stddev}=
-    ...    Measure Warmboot Time    ${ITERATIONS}
+    ...    Measure Warmboot Time    ${ITERATIONS}    ${os_id}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
     Log To Console    \nCoreboot shortest booting time: ${min} s\n
@@ -67,14 +118,16 @@ CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot
     Should Be True    ${max} < ${MAX_ACCEPTABLE_WARMBOOT_TIME_S}
     Should Be True    ${stddev} < ${MAX_ACCEPTABLE_WARMBOOT_TIME_STD_DEV_S}
 
-CBMEM003.201 Serial boot time measure: coreboot booting time after system reboot
+Serial Boot Time Measure Coreboot Booting Time After System Reboot
     [Documentation]    Check whether the DUT boots after system reboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.201 not supported
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
 
     ${min}    ${max}    ${average}    ${stddev}=
-    ...    Measure Reboot Time    ${ITERATIONS}
+    ...    Measure Reboot Time    ${ITERATIONS}    ${os_id}
 
     Log To Console    \nCoreboot average booting time: ${average} s\n
     Log To Console    \nCoreboot shortest booting time: ${min} s\n
