@@ -97,6 +97,7 @@ ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${TRUE}
 ${ACPI_DRIVER_SUPPORT}=                             ${TRUE}
+${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           2
@@ -111,7 +112,7 @@ ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
 ${BIOS_LOCK_SUPPORT}=                               ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
-${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
+${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 

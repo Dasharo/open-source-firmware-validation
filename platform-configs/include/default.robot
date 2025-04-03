@@ -176,7 +176,8 @@ ${WATCHDOG_SUPPORT}=                                ${FALSE}
 ${DCU_UUID_SUPPORT}=                                ${FALSE}
 ${DCU_SERIAL_SUPPORT}=                              ${FALSE}
 ${ROMHOLE_SUPPORT}=                                 ${FALSE}
-
+${IR_CAMERA_SUPPORT}=                               ${FALSE}
+${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${TRUE}
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}
 ${TPM_EXPECTED_CHIP}=                               FILL_WITH_CORRECT_VALUE_BEFORE_TESTING
