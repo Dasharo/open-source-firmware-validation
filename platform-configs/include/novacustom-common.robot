@@ -111,7 +111,7 @@ ${TCG_OPAL_DISK_PASSWORD_SUPPORT}=                  ${TRUE}
 ${BIOS_LOCK_SUPPORT}=                               ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                    ${TRUE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
-${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
+${CAMERA_SWITCH_SUPPORT}=                           ${FALSE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
 
