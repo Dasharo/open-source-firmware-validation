@@ -129,8 +129,8 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via USB.
     ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
-    ...    If DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD are defined
-    ...    then test will load DPP credentials before trying to update.
+    ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
+    ...    credentials before trying to update.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On Variable    \${FW_FILE}
     # Flash earlier version so update can proceed. Firmware should have serial
@@ -154,8 +154,8 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via iPXE.
     ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
-    ...    If DPP_LOGS_KEY, DPP_DOWNLOAD_KEY and DPP_PASSWORD are defined
-    ...    then test will load DPP credentials before trying to update.
+    ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
+    ...    credentials before trying to update.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On Variable    \${FW_FILE}
     # Flash earlier version so update can proceed. Firmware should have serial
@@ -178,12 +178,10 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
 
 *** Keywords ***
 Are DPP Keys Defined
-    ${logs}=    Run Keyword And Return Status
-    ...    Variable Should Exist    $DPP_LOGS_KEY
-    ${download}=    Run Keyword And Return Status
-    ...    Variable Should Exist    $DPP_DOWNLOAD_KEY
+    ${email}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_EMAIL
     ${password}=    Run Keyword And Return Status
     ...    Variable Should Exist    $DPP_PASSWORD
     ${status}=    Run Keyword And Return Status    Should Be True
-    ...    ${logs} and ${download} and ${password}
+    ...    ${email} and ${password}
     RETURN    ${status}
