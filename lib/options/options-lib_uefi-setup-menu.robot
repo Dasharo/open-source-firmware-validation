@@ -84,14 +84,14 @@ Get UEFI Boot Manager Entries
 Measure Coldboot Time
     [Documentation]    Performs a measurement of coldboot
     ...    boot time
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
     Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     ${durations}=    Create List
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
         Power Cycle On
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
@@ -106,13 +106,13 @@ Measure Coldboot Time
 Measure Warmboot Time
     [Documentation]    Performs a measurement of warmboot
     ...    boot time
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
     ${durations}=    Create List
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
         Power On
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
@@ -127,7 +127,7 @@ Measure Warmboot Time
 Measure Reboot Time
     [Documentation]    Performs a measurement of reboot
     ...    boot time
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
     Power On
     ${average}=    Set Variable    0
@@ -135,7 +135,7 @@ Measure Reboot Time
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem

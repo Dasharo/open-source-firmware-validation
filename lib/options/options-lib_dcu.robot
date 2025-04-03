@@ -60,25 +60,27 @@ Measure Warmboot Time
     ...    The device does not need to be logged in to Ubuntu if $DUT_CONNETION_METHOD == SSH.
     ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
     ...    off, and the login prompt must be available in the Telnet buffer.
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
     ${durations}=    Create List
     Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${iterations}
+        Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
 
-        # Using "Execute Command In Terimal" will cause the test to wait
+        # Using "Execute Command In Terminal" will cause the test to wait
         # for command prompt to appear before continuing but the prompt
         # will not appear again until we Login after reboot, so the test
         # would hang here and fail.
         # Sometimes it may take long to shutdown all systemd services,
         # so the waiting times have to be excessive to avoid false negatives.
+        Set Nextboot    ${BOOTED_OS_ID}
         Write Into Terminal    rtcwake -m off -s 60
-
         Set DUT Response Timeout    300s
 
+        Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
@@ -94,15 +96,16 @@ Measure Reboot Time
     ...    The device does not need to be logged in to Ubuntu if $DUT_CONNETION_METHOD == SSH.
     ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
     ...    off, and the login prompt must be available in the Telnet buffer.
-    [Arguments]    ${iterations}
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
     ${durations}=    Create List
     Log To Console    \n
 
-    FOR    ${index}    IN RANGE    0    ${iterations}
-        Login To Linux
-        Switch To Root User
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
 
+    FOR    ${index}    IN RANGE    0    ${iterations}
         Execute Reboot Command
         Sleep    10s
 
