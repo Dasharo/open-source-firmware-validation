@@ -27,72 +27,168 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-NET002.001 Net controller after warmboot (Ubuntu)
+NET002.201 Net controller after warmboot (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
+    ...    Previous IDs: NET002.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET002.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Perform Warmboot Using Rtcwake
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
-        Should Contain    ${network_status}    UP
-    END
+    Net Controller After Warmboot
+    Exit From Root User
 
-NET003.001 Net controller after reboot (Ubuntu)
+NET003.201 Net controller after reboot (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.001 not supported
+    ...    Previous IDs: NET003.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET003.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Execute Reboot Command
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
-        Should Contain    ${network_status}    UP
-    END
+    Net Controller After Reboot
+    Exit From Root User
 
-NET004.001 NET controller after suspend (Ubuntu)
+NET004.201 NET controller after suspend (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.001 not supported
-    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.001 not supported
-    NET Controller After Suspend (Ubuntu)
+    ...    Previous IDs: NET004.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET004.201 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    NET Controller After Suspend
+    Exit From Root User
 
-NET004.002 NET controller after suspend (Ubuntu) (S0ix)
+NET005.201 NET controller after suspend (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.002 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.002 not supported
+    ...    Previous IDs: NET04.002
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET005.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET005.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET005.201 not supported
     Set Platform Sleep Type    S0ix
-    NET Controller After Suspend (Ubuntu)    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    NET Controller After Suspend    S0ix
+    Exit From Root User
 
-NET004.003 NET controller after suspend (Ubuntu) (S3)
+NET006.201 NET controller after suspend (Ubuntu) (S3)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.003 not supported
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.003 not supported
+    ...    Previous IDs: NET004.003
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET006.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET006.201 not supported
     Set Platform Sleep Type    S3
-    NET Controller After Suspend (Ubuntu)    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    NET Controller After Suspend    S3
+    Exit From Root User
+
+NET002.202 Net controller after warmboot (Fedora)
+    [Documentation]    This test aims to verify that the network controller works and
+    ...    the platform is able to connect to the network after reboot.
+    ...    Previous IDs: NET005.003
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET002.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Net Controller After Warmboot
+    Exit From Root User
+
+NET003.202 Net controller after reboot (Fedora)
+    [Documentation]    This test aims to verify that the network controller works and
+    ...    the platform is able to connect to the network after reboot.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Net Controller After Reboot
+    Exit From Root User
+
+NET004.202 NET controller after suspend (Fedora)
+    [Documentation]    This test aims to verify that the network controller works and the platform
+    ...    is able to connect to the network after suspend.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET004.202 not supported
+    Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NET Controller After Suspend
+    Exit From Root User
+
+NET005.202 NET controller after suspend (Fedora) (S0ix)
+    [Documentation]    This test aims to verify that the network controller works and the platform
+    ...    is able to connect to the network after suspend.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET005.202 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET005.202 not supported
+    Set Platform Sleep Type    S0ix
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NET Controller After Suspend    S0ix
+    Exit From Root User
+
+NET006.202 NET controller after suspend (Fedora) (S3)
+    [Documentation]    This test aims to verify that the network controller works and the platform
+    ...    is able to connect to the network after suspend.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET005.202 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET006.202 not supported
+    Set Platform Sleep Type    S3
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    NET Controller After Suspend    S3
+    Exit From Root User
 
 
 *** Keywords ***
-NET Controller After Suspend (Ubuntu)
+NET Controller After Suspend
+    [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
-    Switch To Root User
     Perform Suspend Test Using FWTS
-    ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp'
+    ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno'
     Should Contain    ${network_status}    UP
+
+Net Controller After Warmboot
+    [Documentation]    This test aims to verify that the network controller works and
+    ...    the platform is able to connect to the network after reboot.
+    [Tags]    robot:private
+    FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        Perform Warmboot Using Rtcwake
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno'
+        Should Contain    ${network_status}    UP
+    END
+
+Net Controller After Reboot
+    [Documentation]    This test aims to verify that the network controller works and
+    ...    the platform is able to connect to the network after reboot.
+    [Tags]    robot:private
+    FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno'
+        Should Contain    ${network_status}    UP
+    END
