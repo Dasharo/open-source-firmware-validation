@@ -39,7 +39,7 @@ Get CPU Frequencies In Ubuntu
     END
     RETURN    @{frequency_list}
 
-Check If CPU Not Stuck On Initial Frequency In Ubuntu
+Check If CPU Not Stuck On Initial Frequency In Linux
     [Documentation]    Check that CPU not stuck on initial frequency.
     ${are_frequencies_equal}=    Set Variable    ${TRUE}
     @{frequencies}=    Get CPU Frequencies In Ubuntu

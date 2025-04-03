@@ -28,19 +28,263 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CPF001.001 CPU not stuck on initial frequency (Ubuntu)
+CPF001.201 CPU not stuck on initial frequency (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.001 not supported
+    ...    Previous IDs: CPF001.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF001.201 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU Not Stuck On Initial Frequency (Ubuntu)
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
 
-CPF001.002 CPU not stuck on initial frequency (Windows)
+CPF002.201 CPU not stuck on initial frequency (Ubuntu) (battery)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.002 not supported
+    ...    Previous IDs: CPF001.004
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF002.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF003.201 CPU not stuck on initial frequency (Ubuntu) (AC)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.007
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF003.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF003.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF004.201 CPU not stuck on initial frequency (Ubuntu) (USB-PD)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.0010
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF004.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF005.201 CPU runs on expected frequency (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.001
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF005.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF005.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF005.201 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU Not Stuck On Initial Frequency (Windows)
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF006.201 CPU runs on expected frequency (Ubuntu) (battery)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.003
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF006.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF006.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF006.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF007.201 CPU runs on expected frequency (Ubuntu) (AC)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.005
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF007.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF007.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF007.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF008.201 CPU runs on expected frequency (Ubuntu) (USB-PD)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.007
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF008.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF008.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF008.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF009.201 CPU with load runs on expected frequency (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.001
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF009.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF009.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF009.201 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF010.201 CPU with load runs on expected frequency (Ubuntu) (battery)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.003
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF010.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF010.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF010.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF011.201 CPU with load runs on expected frequency (Ubuntu) (AC)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.005
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF011.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF011.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF011.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF012.201 CPU with load runs on expected frequency (Ubuntu) (USB-PD)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.007
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF012.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF012.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF012.201 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
+
+CPF001.202 CPU not stuck on initial frequency (Fedora)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF001.202 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF002.202 CPU not stuck on initial frequency (Fedora) (battery)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF002.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF003.202 CPU not stuck on initial frequency (Fedora) (AC)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF003.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF003.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF004.202 CPU not stuck on initial frequency (Fedora) (USB-PD)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF004.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF005.202 CPU runs on expected frequency (Fedora)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF005.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF005.202 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF006.202 CPU runs on expected frequency (Fedora) (battery)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF006.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF006.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF007.202 CPU runs on expected frequency (Fedora) (AC)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF007.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF007.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF008.202 CPU runs on expected frequency (Fedora) (USB-PD)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF008.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF008.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF009.202 CPU with load runs on expected frequency (Fedora)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF009.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF009.202 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF010.202 CPU with load runs on expected frequency (Fedora) (battery)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF010.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF010.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    battery not present
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF011.202 CPU with load runs on expected frequency (Fedora) (AC)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF011.202 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF011.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF011.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
+
+CPF012.202 CPU with load runs on expected frequency (Fedora) (USB-PD)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF012.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF012.202 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF001.003 CPU not stuck on initial frequency (Heads+Debian)
     [Documentation]    This test aims to verify whether the mounted CPU does not
@@ -85,26 +329,6 @@ CPF001.006 CPU not stuck on initial frequency (Heads+Debian) (battery)
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
-CPF001.007 CPU not stuck on initial frequency (Ubuntu) (AC)
-    [Documentation]    This test aims to verify whether the mounted CPU does not
-    ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.007 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.007 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Not Stuck On Initial Frequency (Ubuntu)
-
-CPF001.008 CPU not stuck on initial frequency (Windows) (AC)
-    [Documentation]    This test aims to verify whether the mounted CPU does not
-    ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.008 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.008 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Not Stuck On Initial Frequency (Windows)
-
 CPF001.009 CPU not stuck on initial frequency (Heads+Debian) (AC)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
@@ -115,26 +339,6 @@ CPF001.009 CPU not stuck on initial frequency (Heads+Debian) (AC)
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Heads+Debian)
-
-CPF001.010 CPU not stuck on initial frequency (Ubuntu) (USB-PD)
-    [Documentation]    This test aims to verify whether the mounted CPU does not
-    ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.010 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF001.010 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
-    CPU Not Stuck On Initial Frequency (Ubuntu)
-
-CPF001.011 CPU not stuck on initial frequency (Windows) (USB-PD)
-    [Documentation]    This test aims to verify whether the mounted CPU does not
-    ...    stuck on the initial frequency after booting into the OS.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF001.011 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.011 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
-    CPU Not Stuck On Initial Frequency (Windows)
 
 CPF001.012 CPU not stuck on initial frequency (Heads+Debian) (USB-PD)
     [Documentation]    This test aims to verify whether the mounted CPU does not
@@ -147,159 +351,131 @@ CPF001.012 CPU not stuck on initial frequency (Heads+Debian) (USB-PD)
     Skip If    not ${USB-PD_connected}    USB-PD not connected
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
-CPF002.001 CPU runs on expected frequency (Ubuntu)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.001 not supported
-    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU Runs On Expected Frequency (Ubuntu)
+CPF001.301 CPU not stuck on initial frequency (Windows)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.002
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF001.301 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop`
+    CPU Not Stuck On Initial Frequency (Windows)
 
-CPF002.002 CPU runs on expected frequency (Windows)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.002 not supported
-    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU Runs On Expected Frequency (Windows)
-
-CPF002.003 CPU runs on expected frequency (Ubuntu) (battery)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.003 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.003 not supported
+CPF002.301 CPU not stuck on initial frequency (Windows) (battery)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.005
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     Skip If Battery Level Below 30 Percent
-    CPU Runs On Expected Frequency (Ubuntu)
+    CPU Not Stuck On Initial Frequency (Windows)
 
-CPF002.004 CPU runs on expected frequency (Windows) (battery)
+CPF003.301 CPU not stuck on initial frequency (Windows) (AC)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.008
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF003.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF003.301 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    AC not connected
+    Skip If    ${USB-PD_connected}    USB-PD connected
+    CPU Not Stuck On Initial Frequency (Windows)
+
+CPF004.301 CPU not stuck on initial frequency (Windows) (USB-PD)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.011
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.301 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    ${AC_CONNECTED}    AC connected
+    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    CPU Not Stuck On Initial Frequency (Windows)
+
+CPF005.301 CPU runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.004 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.004 not supported
+    ...    Previous IDs: CPF002.002
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF005.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF005.301 not supported
+    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    CPU Runs On Expected Frequency (Windows)
+
+CPF006.301 CPU runs on expected frequency (Windows) (battery)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.004
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF006.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF006.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Runs On Expected Frequency (Windows)
 
-CPF002.005 CPU runs on expected frequency (Ubuntu) (AC)
+CPF007.301 CPU runs on expected frequency (Windows) (AC)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.005 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.005 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU Runs On Expected Frequency (Ubuntu)
-
-CPF002.006 CPU runs on expected frequency (Windows) (AC)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.006 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.006 not supported
+    ...    Previous IDs: CPF002.006
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF007.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF007.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU Runs On Expected Frequency (Windows)
 
-CPF002.007 CPU runs on expected frequency (Ubuntu) (USB-PD)
+CPF008.301 CPU runs on expected frequency (Windows) (USB-PD)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.007 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF002.007 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
-    CPU Runs On Expected Frequency (Ubuntu)
-
-CPF002.008 CPU runs on expected frequency (Windows) (USB-PD)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF002.008 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF002.008 not supported
+    ...    Previous IDs: CPF002.008
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF008.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF008.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
     CPU Runs On Expected Frequency (Windows)
 
-CPF004.001 CPU with load runs on expected frequency (Ubuntu)
+CPF009.301 CPU with load runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.001 not supported
-    Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU With Load Runs On Expected Frequency (Ubuntu)
-
-CPF004.002 CPU with load runs on expected frequency (Windows)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.002 not supported
+    ...    Previous IDs: CPF004.002
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF009.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF009.301 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
     CPU With Load Runs On Expected Frequency (Windows)
 
-CPF004.003 CPU with load runs on expected frequency (Ubuntu) (battery)
+CPF010.301 CPU with load runs on expected frequency (Windows) (battery)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.003 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.003 not supported
+    ...    Previous IDs: CPF004.004
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF010.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF010.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     Skip If Battery Level Below 30 Percent
-    CPU With Load Runs On Expected Frequency (Ubuntu)
-
-CPF004.004 CPU with load runs on expected frequency (Windows) (battery)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.004 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.004 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    battery not present
-    Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
     CPU With Load Runs On Expected Frequency (Windows)
 
-CPF004.005 CPU with load runs on expected frequency (Ubuntu) (AC)
+CPF011.301 CPU with load runs on expected frequency (Windows) (AC)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.005 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.005 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
-    CPU With Load Runs On Expected Frequency (Ubuntu)
-
-CPF004.006 CPU with load runs on expected frequency (Windows) (AC)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.006 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.006 not supported
+    ...    Previous IDs: CPF004.006
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF011.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF011.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
     Skip If    ${USB-PD_connected}    USB-PD connected
     CPU With Load Runs On Expected Frequency (Windows)
 
-CPF004.007 CPU with load runs on expected frequency (Ubuntu) (USB-PD)
+CPF012.301 CPU with load runs on expected frequency (Windows) (USB-PD)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.007 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.007 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
-    CPU With Load Runs On Expected Frequency (Ubuntu)
-
-CPF004.008 CPU with load runs on expected frequency (Windows) (USB-PD)
-    [Documentation]    This test aims to verify whether the mounted CPU is
-    ...    running on expected frequency after stress test.
-    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.008 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.008 not supported
+    ...    Previous IDs: CPF004.008
+    Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF012.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF012.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    not ${USB-PD_connected}    USB-PD not connected
@@ -307,21 +483,25 @@ CPF004.008 CPU with load runs on expected frequency (Windows) (USB-PD)
 
 
 *** Keywords ***
-CPU Not Stuck On Initial Frequency (Ubuntu)
+CPU Not Stuck On Initial Frequency (Linux)
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     Sleep    10s
-    Check If CPU Not Stuck On Initial Frequency In Ubuntu
+    Check If CPU Not Stuck On Initial Frequency In Linux
 
 CPU Not Stuck On Initial Frequency (Windows)
+    [Tags]    robot:private
     Power On
     Login To Windows
     Sleep    10s
     Check If CPU Not Stuck On Initial Frequency In Windows
 
 CPU Not Stuck On Initial Frequency (Heads+Debian)
+    [Tags]    robot:private
     Power On
     Detect Heads Main Menu
     # Proceed with default boot
@@ -330,14 +510,16 @@ CPU Not Stuck On Initial Frequency (Heads+Debian)
     Write Into Terminal    debian
     Login To Linux With Root Privileges
     Sleep    10s
-    Check If CPU Not Stuck On Initial Frequency In Ubuntu
+    Check If CPU Not Stuck On Initial Frequency In Linux
 
-CPU Runs On Expected Frequency (Ubuntu)
+CPU Runs On Expected Frequency (Linux)
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
     ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
     ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
 
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${timer}=    Convert To Integer    0
@@ -356,6 +538,7 @@ CPU Runs On Expected Frequency (Ubuntu)
     END
 
 CPU Runs On Expected Frequency (Windows)
+    [Tags]    robot:private
     Power On
     Login To Windows
     ${timer}=    Convert To Integer    0
@@ -367,12 +550,14 @@ CPU Runs On Expected Frequency (Windows)
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
     END
 
-CPU With Load Runs On Expected Frequency (Ubuntu)
+CPU With Load Runs On Expected Frequency (Linux)
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
     ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
     ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
 
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     Stress Test    ${FREQUENCY_TEST_DURATION}m
@@ -392,6 +577,7 @@ CPU With Load Runs On Expected Frequency (Ubuntu)
     END
 
 CPU With Load Runs On Expected Frequency (Windows)
+    [Tags]    robot:private
     Power On
     Login To Windows
     SSHLibrary.Put File    stress-test-windows.ps1    /C:/Users/user
