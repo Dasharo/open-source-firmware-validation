@@ -17,38 +17,79 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-TPD003.001 Detect TPM after platform reboot (Ubuntu)
+TPD003.201 Detect TPM after platform reboot (Ubuntu)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.
-    Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD003.001 not supported
+    ...    Previous IDs: TPD003.001
+    Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPD003.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
+    Detect TPM After Platform Reboot
+    Exit From Root User
+
+TPD004.201 Detect TPM after platform suspend (Ubuntu)
+    [Documentation]    This test aims to verify that the TPM is initialized
+    ...    correctly after the platform's reboot.
+    ...    Previous IDs: TPD004.001
+    Skip If    not ${TPM_DETECT_SUPPORT}    TPD004.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPD004.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Detect TPM After Platform Suspend
+    Exit From Root User
+
+TPD003.202 Detect TPM after platform reboot (Fedora)
+    [Documentation]    This test aims to verify that the TPM is initialized
+    ...    correctly after the platform's reboot.
+    Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPD003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Detect TPM After Platform Reboot
+    Exit From Root User
+
+TPD004.202 Detect TPM after platform suspend (Fedora)
+    [Documentation]    This test aims to verify that the TPM is initialized
+    ...    correctly after the platform's reboot.
+    Skip If    not ${TPM_DETECT_SUPPORT}    TPD004.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPD004.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Detect TPM After Platform Suspend
+    Exit From Root User
+
+
+*** Keywords ***
+Detect TPM After Platform Reboot
+    [Documentation]    This test aims to verify that the TPM is initialized
+    ...    correctly after the platform's reboot.
+    [Tags]    robot:private
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
-
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
         Switch To Root User
         ${out}=    Execute Command In Terminal    tpm2_pcrread
         Should Contain    ${out}    sha1:
         Should Contain    ${out}    sha256:
     END
-    Exit From Root User
 
-TPD004.001 Detect TPM after platform suspend (Ubuntu)
+Detect TPM After Platform Suspend
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.    Skip If    not ${tests_in_firmware_support}    TPD001.001 not supported
-    Skip If    not ${TPM_DETECT_SUPPORT}    TPD001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD004.001 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
 
@@ -58,4 +99,3 @@ TPD004.001 Detect TPM after platform suspend (Ubuntu)
         Should Contain    ${out}    sha1:
         Should Contain    ${out}    sha256:
     END
-    Exit From Root User
