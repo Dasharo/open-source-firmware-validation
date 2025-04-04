@@ -433,3 +433,125 @@ Example output:
     SMART support is: Available - device has SMART capability.
     SMART support is: Enabled
     ```
+
+# Dasharo Compatibility: M.2 WiFi/Bluetooth
+
+## WLE001.003 Wireless card detection (XCP-NG)
+
+**Test setup**
+
+1. Insert a compatible Wi-Fi + BT wireless adapter card into the device
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the system.
+1. Log into the system by using the proper login and password.
+1. Open a terminal window and execute the following command:
+
+```bash
+lspci | grep "Network Controller"
+```
+
+**Expected result**
+
+The output of the command should contain information about the wireless adapter
+card inserted into the device.
+
+Example output:
+
+```bash
+2f:00.0 Network controller: Intel Corporation Wi-Fi 6 AX201 (rev 1a)
+```
+
+## WLE002.003 Wi-Fi scanning (XCP-NG)
+
+**Test setup**
+
+1. Insert a compatible Wi-Fi + BT wireless adapter card into the device
+1. Ensure that at least one Wi-Fi network is available in the vicinity.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the system.
+1. Log into the system by using the proper login and password.
+1. Run the following command to identify the Wi-Fi interface:
+
+    ```bash
+    iw dev
+    ```
+
+1. Note the wireless interface name (e.g., `wlan0`).
+1. Run the following command to scan for available Wi-Fi networks:
+
+    ```bash
+    iw dev wlan0 scan | grep SSID
+    ```
+
+    Replace `wlan0` with the correct interface name.
+
+**Expected result**
+
+1. The output should include a list of available Wi-Fi networks, one per line:
+
+```text
+	SSID: 3mdeb_abr_5GHz
+	SSID: NED-WIFI
+	SSID: FunBox2-F9BF_2.4GHz
+	SSID: H_Office
+	SSID: Orange_Swiatlowod_A79A
+````
+
+
+## WLE003.003 Bluetooth scanning (XCP-NG)
+
+**Test setup**
+
+1. Insert a compatible Wi-Fi + BT wireless adapter card into the device
+1. Ensure that at least one Bluetooth device is available in the vicinity.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the system.
+1. Log into the system by using the proper login and password.
+1. Make sure the required tools are installed:
+
+    ```bash
+    yum install bluez
+    ```
+
+1. Run the following command:
+
+    ```bash
+    bluetoothctl
+    ```
+
+1. Inside the Bluetooth shell, enter the following commands:
+
+    ```text
+    power on
+    scan on
+    ```
+
+1. Wait ~5 seconds, then enter:
+
+    ```text
+    devices
+    ```
+
+**Expected result**
+
+1. The output includes a list of detected Bluetooth devices, each line showing:
+
+    ```text
+    Device XX:XX:XX:XX:XX:XX Device_Name
+    ```
+
+Example output:
+
+```text
+Device 4C:74:03:35:94:9B JBL_Tune_500BT
+Device 74:45:CE:AB:5A:10 MX_Keys
+Device 60:64:05:88:8F:11 Galaxy_Buds+
