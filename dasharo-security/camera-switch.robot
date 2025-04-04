@@ -27,23 +27,53 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-CHS001.001 Check camera enablement
+CHS001.201 Check camera enablement
     [Documentation]    This test makes sure that camera enable option
     ...    is set, hence the camera works properly
+    ...    Previous IDs: CHS001.001
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CHS001.201 not supported
     Set UEFI Option    EnableCamera    ${TRUE}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-
     ${webcam}=    Check The Presence Of Webcam
     Should Be True    ${webcam}
 
-CHS002.001 Check camera disablement
+CHS002.201 Check camera disablement
     [Documentation]    This test makes sure that camera enable option
     ...    is not set, hence the camera is not detected by operating system
+    ...    Previous IDs: CHS002.001
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CHS002.201 not supported
     Set UEFI Option    EnableCamera    ${FALSE}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
+    ${webcam}=    Check The Presence Of Webcam
+    Should Not Be True    ${webcam}
 
+CHS001.202 Check camera enablement
+    [Documentation]    This test makes sure that camera enable option
+    ...    is set, hence the camera works properly
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CHS001.202 not supported
+    Set UEFI Option    EnableCamera    ${TRUE}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    ${webcam}=    Check The Presence Of Webcam
+    Should Be True    ${webcam}
+
+CHS002.202 Check camera disablement
+    [Documentation]    This test makes sure that camera enable option
+    ...    is not set, hence the camera is not detected by operating system
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CHS002.202 not supported
+    Set UEFI Option    EnableCamera    ${FALSE}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
     ${webcam}=    Check The Presence Of Webcam
     Should Not Be True    ${webcam}
 
