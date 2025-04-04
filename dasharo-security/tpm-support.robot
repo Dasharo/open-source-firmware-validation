@@ -127,8 +127,8 @@ TPM003.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
     ...    Interface is working properly in the firmware by changing active TPM PCR banks.
     Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.101 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.101 not supported
-    Execute Reboot Command
-    Enter The TCG2 Configuration Menu
+    Power On
+    Enter The TCG Configuration Menu
     ${sha1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
     ${sha256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
     Reenter Menu
