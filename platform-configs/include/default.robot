@@ -176,7 +176,6 @@ ${WATCHDOG_SUPPORT}=                                ${FALSE}
 ${DCU_UUID_SUPPORT}=                                ${FALSE}
 ${DCU_SERIAL_SUPPORT}=                              ${FALSE}
 ${ROMHOLE_SUPPORT}=                                 ${FALSE}
-${FAN_RPM_MEASUREMENT_METHOD}=                      None
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}
