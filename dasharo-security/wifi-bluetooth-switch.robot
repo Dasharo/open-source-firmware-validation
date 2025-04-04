@@ -23,29 +23,71 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-WBS001.001 Wifi and Bluetooth card power switch disabled (Ubuntu)
+WBS001.201 Wifi and Bluetooth card power switch disabled (Ubuntu)
+    [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
+    ...    after setting Enable Wi-Fi + BT radios option to false
+    ...    Previous IDs: WBS001.001
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
+    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WBS001.201 not supported
+    Wifi And Bluetooth Card Power Switch Disabled    ${ENV_ID_UBUNTU}
+
+WBS002.201 Wifi and Bluetooth card power switch enabled (Ubuntu)
+    [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
+    ...    after setting Enable Wi-Fi + BT radios option to true
+    ...    Previous IDs: WBS002.001
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
+    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WBS002.201 not supported
+    Wifi And Bluetooth Card Power Switch    ${ENV_ID_UBUNTU}
+
+WBS001.202 Wifi and Bluetooth card power switch disabled (Fedora)
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to false
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
-    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS001.001 not supported
+    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS001.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WBS001.202 not supported
+    Wifi And Bluetooth Card Power Switch Disabled    ${ENV_ID_FEDORA}
+
+WBS002.202 Wifi and Bluetooth card power switch enabled (Fedora)
+    [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
+    ...    after setting Enable Wi-Fi + BT radios option to true
+    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
+    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS002.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WBS002.202 not supported
+    Wifi And Bluetooth Card Power Switch    ${ENV_ID_FEDORA}
+
+
+*** Keywords ***
+Wifi And Bluetooth Card Power Switch Disabled
+    [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
+    ...    after setting Enable Wi-Fi + BT radios option to false
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
     Set UEFI Option    EnableWifiBt    ${FALSE}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
-
     ${wifi}=    Check The Presence Of WiFi Card
     Should Not Be True    ${wifi}
     ${bt}=    Check The Presence Of Bluetooth Card
     Should Not Be True    ${bt}
 
-WBS002.001 Wifi and Bluetooth card power switch enabled (Ubuntu)
+Wifi And Bluetooth Card Power Switch
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to true
-    Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
-    Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS002.001 not supported
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
     Set UEFI Option    EnableWifiBt    ${TRUE}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
-
     ${wifi}=    Check The Presence Of WiFi Card
     Should Be True    ${wifi}
     ${bt}=    Check The Presence Of Bluetooth Card
