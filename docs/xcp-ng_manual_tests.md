@@ -390,3 +390,46 @@ Example output:
 ```bash
 1.3
 ```
+
+# Dasharo Compatibility: SATA Detect
+
+## SAT001.004 SATA support (XCP-NG)
+
+**Test setup**
+
+1. Insert a SATA storage device (e.g., SSD or HDD) into the SATA port on the DUT.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the system.
+1. Log into the system by using the proper login and password.
+1. Run the following command:
+
+    ```bash
+    lsblk
+    ```
+
+1. Identify the SATA device in the list (e.g., `/dev/sda`, `/dev/sdb`, etc.).
+1. Run the following command to verify the device is recognized and functional:
+
+    ```bash
+    smartctl -i /dev/sdX
+    ```
+
+    Replace `/dev/sdX` with the correct device path.
+
+**Expected result**
+
+1. The SATA device appears in the output of `lsblk` as a block device.
+1. The output of `smartctl -i` shows valid device identification, similar to
+    the following:
+
+    ```text
+    Device Model:     SSDPR-CX400-256-G2
+    Serial Number:    410039098
+    Firmware Version: HDFED3.2
+    SATA Version:     SATA 3.2, 6.0 Gb/s (current: 6.0 Gb/s)
+    SMART support is: Available - device has SMART capability.
+    SMART support is: Enabled
+    ```
