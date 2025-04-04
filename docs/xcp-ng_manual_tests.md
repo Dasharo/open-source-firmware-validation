@@ -503,7 +503,6 @@ Example output:
 	SSID: Orange_Swiatlowod_A79A
 ````
 
-
 ## WLE003.003 Bluetooth scanning (XCP-NG)
 
 **Test setup**
@@ -606,7 +605,6 @@ Example output:
 05:00.0 Ethernet controller: Intel Corporation Device 125c (rev 04)
 ````
 
-
 ## ETH002.001 All Expected SFP Controllers Detected (XCP-NG)
 
 **Test description**
@@ -649,3 +647,49 @@ Example output:
 01:00.0 Ethernet controller: Intel Corporation Ethernet Controller X710 for 10GbE SFP+ (rev 02)
 01:00.1 Ethernet controller: Intel Corporation Ethernet Controller X710 for 10GbE SFP+ (rev 02)
 ````
+
+# Dasharo Compatibility: RAM Detection
+
+## MEM001.001 Expected RAM size detected in OS (XCP-NG)
+
+**Test description**
+
+This test verifies that the installed physical memory (RAM) is properly
+detected and reported by the operating system.
+
+**Test configuration data**
+
+1. `FIRMWARE` = Dasharo
+1. `OPERATING_SYSTEM` = XCP-NG
+1. Expected RAM: (e.g. 8192 MB)
+
+**Test setup**
+
+1. Proceed with the
+    [Test cases common documentation](#test-cases-common-documentation) section.
+1. Confirm in advance the expected amount of physical memory installed on the DUT.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the system.
+1. Log into the system by using the proper login and password.
+1. Run the following command:
+
+    ```bash
+    cat /proc/meminfo | grep MemTotal
+    ```
+
+1. Note the reported total memory value and compare it to the expected amount.
+
+**Expected result**
+
+1. The output shows the total usable memory in kilobytes.
+1. The value should closely match the expected amount of installed RAM
+(allowing for small OS/kernel reservations).
+
+Example output for 8GB RAM:
+
+```text
+MemTotal:        8012348 kB
+```
