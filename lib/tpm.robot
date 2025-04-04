@@ -103,24 +103,20 @@ Verify Presence Of Any PCRs Via Sysfs
     ${pcr_state}=    Execute Command In Terminal    ls /sys/class/tpm/tpm0/pcr-sha* &>/dev/null && echo "Found PCRs"
     Should Contain    ${pcr_state}    Found PCRs
 
-Check TPM2 Banks State After FW Changes
-    [Documentation]    Verifies the state of TPM Banks. Fails test if they are different than input.
-    [Arguments]    ${sha1_desired}    ${sha256_desired}
-    Save Changes And Reset
-    Read From Terminal Until    Press F12 to change the boot measurements to use PCR bank(s) of the TPM
-    Press Key N Times    1    ${F12}
-    Prepare TPM Test On Ubuntu
-    ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
-    Should Be Equal    ${sha1}    ${sha1_desired}
-    Should Be Equal    ${sha256}    ${sha256_desired}
-
-Enter The TCG2 Configuration Menu
+Enter The TCG Configuration Menu
     [Documentation]    Following a reboot triggered outside of this KWD,
-    ...    enters the TCG2 Configuration menu.
+    ...    enters the TCG or TCG2 Configuration menu.
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Device Manager
-    Enter Submenu From Snapshot
-    ...    ${device_manager_menu}
-    ...    TCG2 Configuration
+
+    IF    'TCG2 Configuration' in '''${device_manager_menu}'''
+        Enter Submenu From Snapshot
+        ...    ${device_manager_menu}
+        ...    TCG2 Configuration
+    ELSE
+        Enter Submenu From Snapshot
+        ...    ${device_manager_menu}
+        ...    TCG Configuration
+    END
