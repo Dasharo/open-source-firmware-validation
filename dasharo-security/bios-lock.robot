@@ -27,31 +27,65 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-BLS001.001 BIOS lock support (Ubuntu)
+BLS001.201 BIOS lock support (Ubuntu)
     [Documentation]    BIOS lock is a method to prevent a specific region of the
     ...    firmware from being flashed. This test aims to verify that,
     ...    after turning on the mechanism, the BIOS region should be correctly
     ...    recognized during attempt to overwrite it by using flashrom tool.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.001 not supported
-    Set UEFI Option    LockBios    ${TRUE}
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
+    ...    Previous IDs: BLS001.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    BLS001.201 not supported
+    BIOS Lock Support    ${ENV_ID_UBUNTU}
 
-    ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
-    ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
-    Should Not Be Empty    ${pr0}
-
-BLS002.001 BIOS lock support deactivation (Ubuntu)
+BLS002.201 BIOS lock support deactivation (Ubuntu)
     [Documentation]    BIOS lock is a method to prevent a specific region of the
     ...    firmware from being flashed. This test aims to verify that, after
     ...    turning off the mechanism, the BIOS region overwriting operation is
     ...    available again.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.001 not supported
-    Set UEFI Option    LockBios    ${FALSE}
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    ...    Previous IDs: BLS002.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    BLS002.201 not supported
+    BIOS Lock Support Deactivation    ${ENV_ID_UBUNTU}
+
+BLS001.202 BIOS lock support (Fedora)
+    [Documentation]    BIOS lock is a method to prevent a specific region of the
+    ...    firmware from being flashed. This test aims to verify that,
+    ...    after turning on the mechanism, the BIOS region should be correctly
+    ...    recognized during attempt to overwrite it by using flashrom tool.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    BLS001.202 not supported
+    BIOS Lock Support    ${ENV_ID_FEDORA}
+
+BLS002.202 BIOS lock support deactivation (Fedora)
+    [Documentation]    BIOS lock is a method to prevent a specific region of the
+    ...    firmware from being flashed. This test aims to verify that, after
+    ...    turning off the mechanism, the BIOS region overwriting operation is
+    ...    available again.
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    BLS002.202 not supported
+    BIOS Lock Support Deactivation    ${ENV_ID_FEDORA}
+
+
+*** Keywords ***
+BIOS Lock Support
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    ${pr0}=    Get Bios Lock State    ${os_id}
+    Should Not Be Empty    ${pr0}
+
+BIOS Lock Support Deactivation
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    ${pr0}=    Get Bios Lock State    ${os_id}
+    Should Not Be Empty    ${pr0}
+
+Get Bios Lock State
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Set UEFI Option    LockBios    ${TRUE}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
-    Should Be Empty    ${pr0}
+    Exit From Root User
+    RETURN    ${pr0}
