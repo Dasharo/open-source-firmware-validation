@@ -555,3 +555,97 @@ Example output:
 Device 4C:74:03:35:94:9B JBL_Tune_500BT
 Device 74:45:CE:AB:5A:10 MX_Keys
 Device 60:64:05:88:8F:11 Galaxy_Buds+
+```
+
+# Dasharo Compatibility: Ethernet Port Detection
+
+## ETH001.001 All Expected NET Controllers Detected (XCP-NG)
+
+**Test description**
+
+This test verifies that all expected onboard or add-in Ethernet network
+controllers are correctly detected by the operating system.
+
+**Test configuration data**
+
+1. `FIRMWARE` = Dasharo
+1. `OPERATING_SYSTEM` = XCP-NG
+
+**Test setup**
+
+1. Proceed with the
+    [Test cases common documentation](#test-cases-common-documentation) section.
+1. Know in advance how many and which Ethernet controllers are expected on the
+DUT.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the system.
+1. Log into the system by using the proper login and password.
+1. Run the following command:
+
+    ```bash
+    lspci | grep -i ethernet
+    ```
+
+1. Compare the output with the expected Ethernet controller list for the DUT.
+
+**Expected result**
+
+1. The output of the command contains a separate entry for each expected
+Ethernet controller.
+1. Each line corresponds to a known and expected device.
+
+Example output:
+
+```text
+02:00.0 Ethernet controller: Intel Corporation Device 125c (rev 04)
+03:00.0 Ethernet controller: Intel Corporation Device 125c (rev 04)
+04:00.0 Ethernet controller: Intel Corporation Device 125c (rev 04)
+05:00.0 Ethernet controller: Intel Corporation Device 125c (rev 04)
+````
+
+
+## ETH002.001 All Expected SFP Controllers Detected (XCP-NG)
+
+**Test description**
+
+This test verifies that all expected onboard SFP network controllers are
+correctly detected by the operating system.
+
+**Test configuration data**
+
+1. `FIRMWARE` = Dasharo
+1. `OPERATING_SYSTEM` = XCP-NG
+
+**Test setup**
+
+1. Proceed with the
+    [Test cases common documentation](#test-cases-common-documentation) section.
+1. Know in advance how many and which SFP controllers are expected on the DUT.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the system.
+1. Log into the system by using the proper login and password.
+1. Run the following command:
+
+    ```bash
+    lspci | grep -i SFP
+    ```
+
+1. Compare the output with the expected SFP controller list for the DUT.
+
+**Expected result**
+
+1. The output of the command contains a separate entry for each expected SFP controller.
+1. Each line corresponds to a known and expected device.
+
+Example output:
+
+```text
+01:00.0 Ethernet controller: Intel Corporation Ethernet Controller X710 for 10GbE SFP+ (rev 02)
+01:00.1 Ethernet controller: Intel Corporation Ethernet Controller X710 for 10GbE SFP+ (rev 02)
+````
