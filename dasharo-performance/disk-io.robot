@@ -153,7 +153,7 @@ DIO004.001 Random Write Performance (Ubuntu) (AC)
     ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
     ...    Random Write BW Non-Queued is below expected
 
-DIO004.002 Sequential Write Performance (Ubuntu) (Battery)
+DIO004.002 Random Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of sequential write performance
     ...    while connected to power supply unit. (Ubuntu)
     Sleep    20s
