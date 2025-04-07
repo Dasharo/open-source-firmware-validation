@@ -14,3 +14,4 @@ ${SMM_WRITE_PROTECTION_SUPPORT}=        ${TRUE}
 ${DASHARO_CHIPSET_MENU_SUPPORT}=        ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=               ${TRUE}
 ${ME_STATICALLY_DISABLED}=              ${TRUE}
+${SATA_SUPPORT}=                        ${TRUE}
