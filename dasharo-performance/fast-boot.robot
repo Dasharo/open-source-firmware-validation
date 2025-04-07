@@ -139,10 +139,10 @@ Initialize Fast Boot Suite
     ...    efibootmgr | grep -i "ubuntu" | awk 'NR==1 {print $1}' | sed 's/Boot//g' | sed 's/*//g'
     Should Not Be Empty    ${ubuntu_boot_id}
 
-    ${check_if_first_out}=    Execute Linux Command
-    ...    efibootmgr | grep "BootOrder: ${ubuntu_boot_id}" > /dev/null 2>&1 && echo "Correct Order"
+    ${order_check}=    Execute Linux Command
+    ...    efibootmgr | grep "BootOrder: ${ubuntu_boot_id}"
 
-    IF    '${check_if_first_out}' != 'Correct Order'
+    IF    '${order_check}' == '${EMPTY}'
         ${boot_order_no_ubuntu}=    Execute Linux Command
         ...    efibootmgr | grep "BootOrder" | awk '{print $2}' | sed -e 's/,${ubuntu_boot_id}//g'
         Should Not Be Empty    ${boot_order_no_ubuntu}
