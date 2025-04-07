@@ -74,3 +74,8 @@ ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     20.6    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    20.3    # FPS
+
+
+*** Keywords ***
+Power On
+    Novacustom-common.Power On
