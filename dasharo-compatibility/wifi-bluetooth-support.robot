@@ -92,7 +92,7 @@ WLE001.301 Wireless card detection (Windows)
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal
-    ...    Get-PnpDevice | Where-Object {$_.Class -eq "Net" -and $_.FriendlyName -match "Wireless|Wi-Fi" -and $_.FriendlyName -notmatch "Virtual|Tunnel|TAP"}
+    ...    Get-PnpDevice -PresentOnly | Where-Object {$_.Class -eq "Net" -and $_.FriendlyName -match "Wireless|Wi-Fi" -and $_.FriendlyName -notmatch "Virtual|Tunnel|TAP"}
     Should Match    ${out}    *${WIFI_CARD}*
     Log To Console    The test passed for the ${WIFI_CARD} wireless card
     Log    The test passed for the ${WIFI_CARD} wireless card    WARN
@@ -184,7 +184,7 @@ Bluetooth Scanning
     Switch To Root User
     Scan For Bluetooth In Linux
 
-    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
+    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller:" | awk -F": " '{print $2}'
     Exit From Root User
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
