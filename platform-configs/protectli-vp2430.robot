@@ -34,11 +34,11 @@ ${CPU}=                             Intel(R) N100
 
 ${DEVICE_AUDIO1}=                   Alderlake-P HDMI
 ${DEVICE_AUDIO1_WIN}=               ${TBD}
-# On Windows: "Killer(R) Wi-Fi 6 AX1650x 160MHz Wireless Network Adapter (200NGW)"
-${WIFI_CARD}=                       Killer(R) Wi-Fi 6 AX1650x 160MHz Wireless Network Adapter (200NGW)
+${WIFI_CARD}=                       Qualcomm Atheros QCA61x4A Wireless Network Adapter
+${WIFI_CARD_UBUNTU}=                Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)
+${BLUETOOTH_CARD_UBUNTU}=           Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)
 ${USB_MODEL}=                       SanDisk
 ${USB_DEVICE}=                      SanDisk
-${BLUETOOTH_CARD_UBUNTU}=           Intel Corp. AX200 Bluetooth
 @{ATTACHED_USB}=                    SanDisk
 
 ${ESP_SCANNING_SUPPORT}=            ${TRUE}
