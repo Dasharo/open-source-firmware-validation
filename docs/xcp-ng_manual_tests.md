@@ -463,6 +463,7 @@ Example output:
 ```bash
 2f:00.0 Network controller: Intel Corporation Wi-Fi 6 AX201 (rev 1a)
 ```
+<!-- 
 
 ## WLE002.003 Wi-Fi scanning (XCP-NG)
 
@@ -555,6 +556,8 @@ Device 4C:74:03:35:94:9B JBL_Tune_500BT
 Device 74:45:CE:AB:5A:10 MX_Keys
 Device 60:64:05:88:8F:11 Galaxy_Buds+
 ```
+
+-->
 
 # Dasharo Compatibility: Ethernet Port Detection
 
