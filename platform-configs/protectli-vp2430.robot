@@ -46,6 +46,7 @@ ${ESP_SCANNING_SUPPORT}=            ${TRUE}
 ...                                 00-e0-97-1b-00-48
 ...                                 00-e0-97-1b-00-49
 ...                                 00-e0-97-1b-00-4a
+@{ETH_PERF_PAIR_2_G}=               enp3s0    enp4s0
 
 ${ETHERNET_ID}=                     8086:125c
 
