@@ -1,6 +1,7 @@
 *** Settings ***
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
+Resource            ../lib/performance.robot
 Resource            ../lib/performance/common.robot
 
 Suite Setup         Disk IO Suite Setup
@@ -285,6 +286,7 @@ Disk IO Suite Setup
         Exit From Root User
         Execute Linux Command    mkdir ~/${RESULTS_DIR_UBUNTU}
     END
+    Check Power Supply
     # IF    ${TESTS_IN_WINDOWS_SUPPORT}
     #    Power Cycle Into Windows
     #    Log    Hello
