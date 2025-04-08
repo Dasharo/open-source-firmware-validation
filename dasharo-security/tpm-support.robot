@@ -142,7 +142,7 @@ TPM002.301 Verify TPM version (Windows)
     ...    wmic /namespace:\\\\root\\cimv2\\security\\microsofttpm path win32_tpm get * /format:textvaluelist.xsl
     Should Contain    ${out}    SpecVersion=2.0
 
-TPM003.003 Check TPM Physical Presence Interface (Windows)
+TPM003.301 Check TPM Physical Presence Interface (Windows)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the operating system.
     ...    Previous IDs: TPM003.003
