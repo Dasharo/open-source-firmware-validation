@@ -28,8 +28,6 @@ ${POWER_CTRL}=                          none
 
 ${DGPU_ONLY_SUPPORT}=                   ${TRUE}
 
-${LAPTOP_PLATFORM}=                     ${TRUE}
-${BATTERY_PRESENT}=                     ${TRUE}
 ${DISK_IO_PERFORMANCE_TESTS}=           ${TRUE}
 
 # performance

@@ -28,8 +28,6 @@ ${TESTS_IN_WINDOWS_SUPPORT}=        ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE}
 ${USB_STACK_SUPPORT}=               ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=          4602000
-${LAPTOP_PLATFORM}=                 ${TRUE}
-${BATTERY_PRESENT}=                 ${TRUE}
 
 # performance reference for processor ultra 5 125h
 ${ZIP_MULTI_COMPRESSION}=           15923    # MIPS
