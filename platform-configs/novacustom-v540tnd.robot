@@ -39,8 +39,6 @@ ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}
 ${TPM_SUPPORTED_VERSION}=                       2
 ${TPM_EXPECTED_CHIP}=                           SLB9672
 
-${LAPTOP_PLATFORM}=                             ${TRUE}
-${BATTERY_PRESENT}=                             ${TRUE}
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=               ${TRUE}
 
 # performance
