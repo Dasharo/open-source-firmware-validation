@@ -14,7 +14,7 @@ ${RESULTS_DIR_WINDOWS}=         C:\fio-results
 
 
 *** Test Cases ***
-DIO001.001 Sequential Read Performance (Ubuntu) (AC)
+DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while connected to power supply unit. (Ubuntu)
     Sleep    20s
@@ -29,7 +29,7 @@ DIO001.001 Sequential Read Performance (Ubuntu) (AC)
     Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Sequential Read Queued is below expected
     Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85    Sequential Read Non-Queued is below expected
 
-DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
+DIO001.202 Sequential Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while powered by inbuilt battery. (Ubuntu)
     Sleep    20s
@@ -49,7 +49,7 @@ DIO001.002 Sequential Read Performance (Ubuntu) (Battery)
     Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Sequential Read Queued is below expected
     Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85    Sequential Read Non-Queued is below expected
 
-DIO002.001 Sequential Write Performance (Ubuntu) (AC)
+DIO002.201 Sequential Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single-threaded write
     ...    performance while powered by AC adapter. (Ubuntu)
     Sleep    20s
@@ -69,7 +69,7 @@ DIO002.001 Sequential Write Performance (Ubuntu) (AC)
     ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
     ...    Sequential Write Non-Queued is below expected
 
-DIO002.002 Sequential Write Performance (Ubuntu) (Battery)
+DIO002.202 Sequential Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded write
     ...    performance, while powered by inbuilt battery. (Ubuntu)
     Sleep    20s
@@ -91,7 +91,7 @@ DIO002.002 Sequential Write Performance (Ubuntu) (Battery)
     ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
     ...    Sequential Write Non-Queued is below expected
 
-DIO003.001 Random Read Performance (Ubuntu) (AC)
+DIO003.201 Random Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random read performance
     ...    while connected to power supply unit. (Ubuntu)
     Sleep    20s
@@ -111,7 +111,7 @@ DIO003.001 Random Read Performance (Ubuntu) (AC)
     ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
     ...    Random Read BW Non-Queued is below expected
 
-DIO003.002 Random Read Performance (Ubuntu) (Battery)
+DIO003.202 Random Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of random read performance
     ...    while running on battery power. (Ubuntu)
     Sleep    20s
@@ -133,7 +133,7 @@ DIO003.002 Random Read Performance (Ubuntu) (Battery)
     ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
     ...    Random Read BW Non-Queued is below expected
 
-DIO004.001 Random Write Performance (Ubuntu) (AC)
+DIO004.201 Random Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random write performance
     ...    while connected to power supply unit. (Ubuntu)
     Sleep    20s
@@ -153,7 +153,7 @@ DIO004.001 Random Write Performance (Ubuntu) (AC)
     ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
     ...    Random Write BW Non-Queued is below expected
 
-DIO004.002 Random Write Performance (Ubuntu) (Battery)
+DIO004.202 Random Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of sequential write performance
     ...    while connected to power supply unit. (Ubuntu)
     Sleep    20s
