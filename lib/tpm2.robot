@@ -57,7 +57,7 @@ Check TPM2 Banks State After FW Changes
     Save Changes And Reset
     Read From Terminal Until    Press F12 to change the boot measurements to use PCR bank(s) of the TPM
     Press Key N Times    1    ${F12}
-    Prepare TPM Test On Ubuntu
+    Prepare TPM Test On Linux
     ${sha1}    ${sha256}=    Check Which TPM2 Banks Are Enabled
     Should Be Equal    ${sha1}    ${sha1_desired}
     Should Be Equal    ${sha256}    ${sha256_desired}
