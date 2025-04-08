@@ -244,7 +244,7 @@ TPM004.201 Check if the ChangeEPS works (Ubuntu)
 
 *** Keywords ***
 Prepare TPM Test On Linux
-    [Documentation]    Run common actions required for TPM tests in Ubuntu
+    [Documentation]    Run common actions required for TPM tests in Linux
     [Arguments]    ${env_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${env_id}
@@ -261,12 +261,3 @@ Check TPM Physical Presence Interface
     ELSE
         Fail    Invalid expected version, please verify config
     END
-
-Prepare TPM Test On Ubuntu
-    [Documentation]    Run common actions required for TPM tests in Ubuntu
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Get Cbmem
-    Verify Presence Of TPM Via Sysfs
