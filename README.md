@@ -253,6 +253,10 @@ SONOFF_IP=$SONOFF_IP PIKVM_IP=$PIKVM_IP
 Mind that `SNIPEIT_NO`, only need to be set, meaning that whatever value it
 has, it will be treated as true.
 
+You may also specify a DIR_PREFIX when executing this wrapper script.
+The given prefix will be added to the beginning of the test results
+directory name.
+
 ### Running tests with additional arguments
 
 Any additional parameters to `robot` can be passed using the wrapper by giving
