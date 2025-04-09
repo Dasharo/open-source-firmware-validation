@@ -16,9 +16,10 @@ So far, we have been testing our laptops over SSH with the help of
 
 This approach, however, needs some prerequisites to be satisfied:
 
-* If you have multiple OS'es on your platform, you need to ensure that the OS
-  you wish to test is set as the **first boot option**. Currently, switching
-  between OSes automatically is not supported.
+* If you have multiple OS'es on your platform, you need to ensure that the
+  **first boot option** is set to a Linux system. Switching between OSes
+  automatically is only supported if the **first boot option** is a Linux
+  system.
     - When a test flashes the firmware, the bootorder will be restored to default.
   You can prevent this in two ways, although both of them require performing
   tests for different OS's separately:
