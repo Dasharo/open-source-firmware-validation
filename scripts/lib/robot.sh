@@ -158,7 +158,11 @@ execute_robot() {
       _test_scope_name="${_test_name%%/*}"
     fi
 
-    local _logs_dir="logs/${CONFIG}/${dir_prefix}${_test_scope_name}_${RUN_DATE}"
+    if [ -n "${_REGRESSION_RUN}" ]; then
+      local _logs_dir="logs/${CONFIG}/${dir_prefix}regresion_${RUN_DATE}"
+    else
+      local _logs_dir="logs/${CONFIG}/${dir_prefix}${_test_scope_name}_${RUN_DATE}"
+    fi
     local _log_file="${_logs_dir}/${_test_scope_name}_log.html"
     local _report_file="${_logs_dir}/${_test_scope_name}_report.html"
     local _output_file="${_logs_dir}/${_test_scope_name}_out.xml"
