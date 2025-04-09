@@ -33,17 +33,19 @@ Suite Teardown      Run Keyword
 #    ...    to provide charging to a USB Type-C accessory.
 #    Thunderbolt 4 Usb Type-C Power Output    001    Enabled    WL-UMD05 Pro Rev.E
 
-UTC115.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the external USB devices connected to the
-    ...    docking station are detected correctly
-    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
-    Usb Type-C Docking Station Usb Devices Recognition    001    Enabled    WL-UMD05 Pro Rev.E
+# Not automated
+# UTC115.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+#    [Documentation]    Check whether the external USB devices connected to the
+#    ...    docking station are detected correctly
+#    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
+#    Usb Type-C Docking Station Usb Devices Recognition    001    Enabled    WL-UMD05 Pro Rev.E
 
-UTC117.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the external USB keyboard connected to the
-    ...    docking station is detected correctly.
-    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
-    Usb Type-C Docking Station Usb Keyboard    001    Enabled    WL-UMD05 Pro Rev.E
+# Not automated
+# UTC117.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+#    [Documentation]    Check whether the external USB keyboard connected to the
+#    ...    docking station is detected correctly.
+#    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
+#    Usb Type-C Docking Station Usb Keyboard    001    Enabled    WL-UMD05 Pro Rev.E
 
 UTC105.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
@@ -236,6 +238,7 @@ UTC147.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC149.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -244,6 +247,7 @@ UTC149.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC151.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -252,6 +256,7 @@ UTC151.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Ena
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC153.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -261,6 +266,7 @@ UTC153.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC155.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -270,6 +276,7 @@ UTC155.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC157.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -279,6 +286,7 @@ UTC157.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC105.202 USB Type-C PD power input (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -450,6 +458,7 @@ UTC147.202 Docking station detection after coldboot then hotplug (Fedora) (ME: E
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC149.202 Docking station detection after warmboot then hotplug (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -457,6 +466,7 @@ UTC149.202 Docking station detection after warmboot then hotplug (Fedora) (ME: E
     ...    after warmboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC151.202 Docking station detection after reboot then hotplug (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -464,6 +474,7 @@ UTC151.202 Docking station detection after reboot then hotplug (Fedora) (ME: Ena
     ...    after reboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC153.202 Docking station detection after suspend then hotplug (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -472,6 +483,7 @@ UTC153.202 Docking station detection after suspend then hotplug (Fedora) (ME: En
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC155.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -480,6 +492,7 @@ UTC155.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) 
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC157.202 Docking station detection after suspend then hotplug (S3) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -488,6 +501,7 @@ UTC157.202 Docking station detection after suspend then hotplug (S3) (Fedora) (M
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC105.301 USB Type-C PD power input (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -619,17 +633,19 @@ UTC131.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 #    ...    to provide charging to a USB Type-C accessory.
 #    Thunderbolt 4 Usb Type-C Power Output    001    Disabled    WL-UMD05 Pro Rev.E
 
-UTC116.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the external USB devices connected to the
-    ...    docking station are detected correctly
-    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
-    Usb Type-C Docking Station Usb Devices Recognition    001    Disabled    WL-UMD05 Pro Rev.E
+# Not automated
+# UTC116.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+#    [Documentation]    Check whether the external USB devices connected to the
+#    ...    docking station are detected correctly
+#    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
+#    Usb Type-C Docking Station Usb Devices Recognition    001    Disabled    WL-UMD05 Pro Rev.E
 
-UTC118.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the external USB keyboard connected to the
-    ...    docking station is detected correctly.
-    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
-    Usb Type-C Docking Station Usb Keyboard    001    Disabled    WL-UMD05 Pro Rev.E
+# Not automated
+# UTC118.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+#    [Documentation]    Check whether the external USB keyboard connected to the
+#    ...    docking station is detected correctly.
+#    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
+#    Usb Type-C Docking Station Usb Keyboard    001    Disabled    WL-UMD05 Pro Rev.E
 
 UTC106.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
@@ -822,6 +838,7 @@ UTC148.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC150.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -830,6 +847,7 @@ UTC150.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC152.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -838,6 +856,7 @@ UTC152.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Dis
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC154.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -847,6 +866,7 @@ UTC154.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC156.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -856,6 +876,7 @@ UTC156.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC158.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -865,6 +886,7 @@ UTC158.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC106.202 USB Type-C PD power input (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -1036,6 +1058,7 @@ UTC148.202 Docking station detection after coldboot then hotplug (Fedora) (ME: D
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC150.202 Docking station detection after warmboot then hotplug (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -1043,6 +1066,7 @@ UTC150.202 Docking station detection after warmboot then hotplug (Fedora) (ME: D
     ...    after warmboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC152.202 Docking station detection after reboot then hotplug (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -1050,6 +1074,7 @@ UTC152.202 Docking station detection after reboot then hotplug (Fedora) (ME: Dis
     ...    after reboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC154.202 Docking station detection after suspend then hotplug (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -1058,6 +1083,7 @@ UTC154.202 Docking station detection after suspend then hotplug (Fedora) (ME: Di
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC156.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -1066,6 +1092,7 @@ UTC156.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) 
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC158.202 Docking station detection after suspend then hotplug (S3) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -1074,6 +1101,7 @@ UTC158.202 Docking station detection after suspend then hotplug (S3) (Fedora) (M
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC106.301 USB Type-C PD power input (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
@@ -1205,17 +1233,19 @@ UTC132.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
 #    ...    to provide charging to a USB Type-C accessory.
 #    Thunderbolt 4 Usb Type-C Power Output    001    Enabled    WL-UMD05 Pro Rev.C1
 
-UTC215.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the external USB devices connected to the
-    ...    docking station are detected correctly
-    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
-    Usb Type-C Docking Station Usb Devices Recognition    001    Enabled    WL-UMD05 Pro Rev.C1
+# Not automated
+# UTC215.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+#    [Documentation]    Check whether the external USB devices connected to the
+#    ...    docking station are detected correctly
+#    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
+#    Usb Type-C Docking Station Usb Devices Recognition    001    Enabled    WL-UMD05 Pro Rev.C1
 
-UTC217.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the external USB keyboard connected to the
-    ...    docking station is detected correctly.
-    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
-    Usb Type-C Docking Station Usb Keyboard    001    Enabled    WL-UMD05 Pro Rev.C1
+# Not automated
+# UTC217.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+#    [Documentation]    Check whether the external USB keyboard connected to the
+#    ...    docking station is detected correctly.
+#    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
+#    Usb Type-C Docking Station Usb Keyboard    001    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC205.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -1408,6 +1438,7 @@ UTC247.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC249.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1416,6 +1447,7 @@ UTC249.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC251.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1424,6 +1456,7 @@ UTC251.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Ena
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC253.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1433,6 +1466,7 @@ UTC253.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC255.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1442,6 +1476,7 @@ UTC255.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC257.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1451,6 +1486,7 @@ UTC257.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC205.202 USB Type-C PD power input (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1622,6 +1658,7 @@ UTC247.202 Docking station detection after coldboot then hotplug (Fedora) (ME: E
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC249.202 Docking station detection after warmboot then hotplug (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1629,6 +1666,7 @@ UTC249.202 Docking station detection after warmboot then hotplug (Fedora) (ME: E
     ...    after warmboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC251.202 Docking station detection after reboot then hotplug (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1636,6 +1674,7 @@ UTC251.202 Docking station detection after reboot then hotplug (Fedora) (ME: Ena
     ...    after reboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC253.202 Docking station detection after suspend then hotplug (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1644,6 +1683,7 @@ UTC253.202 Docking station detection after suspend then hotplug (Fedora) (ME: En
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC255.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1652,6 +1692,7 @@ UTC255.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) 
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC257.202 Docking station detection after suspend then hotplug (S3) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1660,6 +1701,7 @@ UTC257.202 Docking station detection after suspend then hotplug (S3) (Fedora) (M
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC205.301 USB Type-C PD power input (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
@@ -1791,17 +1833,19 @@ UTC231.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 #    ...    to provide charging to a USB Type-C accessory.
 #    Thunderbolt 4 Usb Type-C Power Output    001    Disabled    WL-UMD05 Pro Rev.C1
 
-UTC216.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the external USB devices connected to the
-    ...    docking station are detected correctly
-    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
-    Usb Type-C Docking Station Usb Devices Recognition    001    Disabled    WL-UMD05 Pro Rev.C1
+# Not automated
+# UTC216.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+#    [Documentation]    Check whether the external USB devices connected to the
+#    ...    docking station are detected correctly
+#    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
+#    Usb Type-C Docking Station Usb Devices Recognition    001    Disabled    WL-UMD05 Pro Rev.C1
 
-UTC218.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the external USB keyboard connected to the
-    ...    docking station is detected correctly.
-    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
-    Usb Type-C Docking Station Usb Keyboard    001    Disabled    WL-UMD05 Pro Rev.C1
+# Not automated
+# UTC218.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+#    [Documentation]    Check whether the external USB keyboard connected to the
+#    ...    docking station is detected correctly.
+#    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
+#    Usb Type-C Docking Station Usb Keyboard    001    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC206.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -1994,6 +2038,7 @@ UTC248.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC250.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2002,6 +2047,7 @@ UTC250.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC252.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2010,6 +2056,7 @@ UTC252.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Dis
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC254.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2019,6 +2066,7 @@ UTC254.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC256.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2028,6 +2076,7 @@ UTC256.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC258.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2037,6 +2086,7 @@ UTC258.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC206.202 USB Type-C PD power input (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2208,6 +2258,7 @@ UTC248.202 Docking station detection after coldboot then hotplug (Fedora) (ME: D
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC250.202 Docking station detection after warmboot then hotplug (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2215,6 +2266,7 @@ UTC250.202 Docking station detection after warmboot then hotplug (Fedora) (ME: D
     ...    after warmboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC252.202 Docking station detection after reboot then hotplug (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2222,6 +2274,7 @@ UTC252.202 Docking station detection after reboot then hotplug (Fedora) (ME: Dis
     ...    after reboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC254.202 Docking station detection after suspend then hotplug (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2230,6 +2283,7 @@ UTC254.202 Docking station detection after suspend then hotplug (Fedora) (ME: Di
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC256.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2238,6 +2292,7 @@ UTC256.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) 
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC258.202 Docking station detection after suspend then hotplug (S3) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2246,6 +2301,7 @@ UTC258.202 Docking station detection after suspend then hotplug (S3) (Fedora) (M
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC206.301 USB Type-C PD power input (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
@@ -2377,17 +2433,19 @@ UTC232.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
 #    ...    to provide charging to a USB Type-C accessory.
 #    Thunderbolt 4 Usb Type-C Power Output    001    Enabled    WL-UG69PD2 Rev.A1
 
-UTC315.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the external USB devices connected to the
-    ...    docking station are detected correctly
-    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
-    Usb Type-C Docking Station Usb Devices Recognition    001    Enabled    WL-UG69PD2 Rev.A1
+# Not automated
+# UTC315.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+#    [Documentation]    Check whether the external USB devices connected to the
+#    ...    docking station are detected correctly
+#    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
+#    Usb Type-C Docking Station Usb Devices Recognition    001    Enabled    WL-UG69PD2 Rev.A1
 
-UTC317.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the external USB keyboard connected to the
-    ...    docking station is detected correctly.
-    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
-    Usb Type-C Docking Station Usb Keyboard    001    Enabled    WL-UG69PD2 Rev.A1
+# Not automated
+# UTC317.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+#    [Documentation]    Check whether the external USB keyboard connected to the
+#    ...    docking station is detected correctly.
+#    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
+#    Usb Type-C Docking Station Usb Keyboard    001    Enabled    WL-UG69PD2 Rev.A1
 
 UTC305.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -2580,6 +2638,7 @@ UTC347.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC349.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2588,6 +2647,7 @@ UTC349.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC351.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2596,6 +2656,7 @@ UTC351.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Ena
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC353.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2605,6 +2666,7 @@ UTC353.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC355.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2614,6 +2676,7 @@ UTC355.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC357.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2623,6 +2686,7 @@ UTC357.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC305.202 USB Type-C PD power input (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2794,6 +2858,7 @@ UTC347.202 Docking station detection after coldboot then hotplug (Fedora) (ME: E
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC349.202 Docking station detection after warmboot then hotplug (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2801,6 +2866,7 @@ UTC349.202 Docking station detection after warmboot then hotplug (Fedora) (ME: E
     ...    after warmboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC351.202 Docking station detection after reboot then hotplug (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2808,6 +2874,7 @@ UTC351.202 Docking station detection after reboot then hotplug (Fedora) (ME: Ena
     ...    after reboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC353.202 Docking station detection after suspend then hotplug (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2816,6 +2883,7 @@ UTC353.202 Docking station detection after suspend then hotplug (Fedora) (ME: En
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC355.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2824,6 +2892,7 @@ UTC355.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) 
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC357.202 Docking station detection after suspend then hotplug (S3) (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2832,6 +2901,7 @@ UTC357.202 Docking station detection after suspend then hotplug (S3) (Fedora) (M
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC305.301 USB Type-C PD power input (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
@@ -2963,17 +3033,19 @@ UTC331.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 #    ...    to provide charging to a USB Type-C accessory.
 #    Thunderbolt 4 Usb Type-C Power Output    001    Disabled    WL-UG69PD2 Rev.A1
 
-UTC316.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the external USB devices connected to the
-    ...    docking station are detected correctly
-    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
-    Usb Type-C Docking Station Usb Devices Recognition    001    Disabled    WL-UG69PD2 Rev.A1
+# Not automated
+# UTC316.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+#    [Documentation]    Check whether the external USB devices connected to the
+#    ...    docking station are detected correctly
+#    Skip If    not ${DOCKING_STATION_USB_SUPPORT}
+#    Usb Type-C Docking Station Usb Devices Recognition    001    Disabled    WL-UG69PD2 Rev.A1
 
-UTC318.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the external USB keyboard connected to the
-    ...    docking station is detected correctly.
-    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
-    Usb Type-C Docking Station Usb Keyboard    001    Disabled    WL-UG69PD2 Rev.A1
+# Not automated
+# UTC318.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+#    [Documentation]    Check whether the external USB keyboard connected to the
+#    ...    docking station is detected correctly.
+#    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}
+#    Usb Type-C Docking Station Usb Keyboard    001    Disabled    WL-UG69PD2 Rev.A1
 
 UTC306.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -3166,6 +3238,7 @@ UTC348.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC350.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3174,6 +3247,7 @@ UTC350.201 Docking station detection after warmboot then hotplug (Ubuntu) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC352.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3182,6 +3256,7 @@ UTC352.201 Docking station detection after reboot then hotplug (Ubuntu) (ME: Dis
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC354.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3191,6 +3266,7 @@ UTC354.201 Docking station detection after suspend then hotplug (Ubuntu) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC356.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3200,6 +3276,7 @@ UTC356.201 Docking station detection after suspend then hotplug (S0ix) (Ubuntu) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC358.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3209,6 +3286,7 @@ UTC358.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC306.202 USB Type-C PD power input (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3380,6 +3458,7 @@ UTC348.202 Docking station detection after coldboot then hotplug (Fedora) (ME: D
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC350.202 Docking station detection after warmboot then hotplug (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3387,6 +3466,7 @@ UTC350.202 Docking station detection after warmboot then hotplug (Fedora) (ME: D
     ...    after warmboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Warmboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC352.202 Docking station detection after reboot then hotplug (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3394,6 +3474,7 @@ UTC352.202 Docking station detection after reboot then hotplug (Fedora) (ME: Dis
     ...    after reboot then hotplug.
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Reboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC354.202 Docking station detection after suspend then hotplug (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3402,6 +3483,7 @@ UTC354.202 Docking station detection after suspend then hotplug (Fedora) (ME: Di
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC356.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3410,6 +3492,7 @@ UTC356.202 Docking station detection after suspend then hotplug (S0ix) (Fedora) 
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S0Ix)    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC358.202 Docking station detection after suspend then hotplug (S3) (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
@@ -3418,6 +3501,7 @@ UTC358.202 Docking station detection after suspend then hotplug (S3) (Fedora) (M
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${SEMI_AUTO}    semi auto test skipped: SEMI_AUTO==${SEMI_AUTO}
     Docking Station Detection After Suspend Then Hotplug (S3)    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC306.301 USB Type-C PD power input (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
