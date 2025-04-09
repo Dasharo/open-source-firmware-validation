@@ -166,3 +166,41 @@ Hello World Printer Helper
 
    Log To Console    Hello World!
 ```
+
+### Variable import rules
+
+In Robot Framework, importing variables from `Resource` files does **not** work
+ the same way as assigning variables inside a `.robot` file.
+
+Key rule:
+* **The first definition of a variable wins** — later `Resource` imports will
+not override existing variables.
+
+#### Example
+
+```robot
+*** Settings ***
+Resource    file_0.robot
+Resource    file_1.robot
+
+# file_0.robot contents:
+${DMIDECODE_FIRMWARE_VERSION}=    ${NONE}
+
+# file_1.robot contents:
+${DMIDECODE_FIRMWARE_VERSION}=    Dasharo v0.9.1
+```
+
+Result: `${DMIDECODE_FIRMWARE_VERSION}` will be `${NONE}` because it was imported
+first from `file_0.robot`.
+Recommendation:
+
+Make sure files with final variable values are imported first, or
+use a nested structure:
+
+let `file_1.robot` import `file_0.robot`, and only
+import `file_1.robot` in the `test`. This is the case in current osfv platform
+config structure:
+
+![](../docs/img/platform-configs-protectli.png)
+
+For more information on variable priorities visit the [official robot framework documentation](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#variable-priorities-and-scopes)
