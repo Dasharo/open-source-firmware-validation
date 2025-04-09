@@ -1,18 +1,11 @@
 *** Settings ***
-Library             Collections
-Library             OperatingSystem
-Library             Process
-Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
-Library             RequestsLibrary
-Library             ../venv/lib/python3.13/site-packages/robot/libraries/DateTime.py
-Resource            ../lib/performance.robot
+Resource            ../lib/performance/common.robot
+Resource            ../lib/performance/cpu.robot
 
-Suite Setup         Run Keyword
-...                     CPU Performance Suite Setup
-Suite Teardown      Run Keyword
-...                     Log Out And Close Connection
+Suite Setup         CPU Performance Suite Setup
+Suite Teardown      Log Out And Close Connection
 
 
 *** Variables ***
@@ -129,7 +122,7 @@ Run C-Ray Single-thread Render
     Should Not Contain    ${result}    The batch mode must first be configured.
 
     ${test_passed}=    Validate Multiple Results
-    ...    ${PERF_RESULTS_PATH_UBUNTU}
+    ...    ${PTS_RESULTS_DIR_LINUX_ROOT}
     ...    ${test_name_to_path}
     ...    @{SGINLE_THREAD_RES_TESTS}
     RETURN    ${test_passed}
@@ -146,7 +139,7 @@ Run Coremark Single-thread
     Should Not Contain    ${result}    The batch mode must first be configured.
 
     ${test_result_values}=    Read The Results
-    ...    ${PERF_RESULTS_PATH_UBUNTU}
+    ...    ${PTS_RESULTS_DIR_LINUX_ROOT}
     ...    ${test_name_to_path}
     ...    CoreMark Size 666 - Iterations Per Second
     Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
@@ -166,7 +159,7 @@ Run Coremark Single-thread
     Should Not Contain    ${result}    The batch mode must first be configured.
 
     ${test_passed}=    Validate Multiple Results
-    ...    ${PERF_RESULTS_PATH_UBUNTU}
+    ...    ${PTS_RESULTS_DIR_LINUX_ROOT}
     ...    ${test_name_to_path}
     ...    @{MULTI_THREAD_TESTS}
     RETURN    ${test_passed}
