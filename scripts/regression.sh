@@ -16,6 +16,9 @@ if [ ! -f "$FW_FILE" ]; then
     exit 1
 fi
 
+_REGRESSION_RUN="True"
+export _REGRESSION_RUN
+
 check_test_station_variables
 
 if [ -z "$NO_SETUP" ]; then
