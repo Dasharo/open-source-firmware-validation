@@ -12,6 +12,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../keys-and-keywords/heads-keywords.robot
+Resource            ../lib/performance/cpu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
