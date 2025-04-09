@@ -90,7 +90,7 @@ execute_robot() {
   if [ -n "${RTE_IP}" ]; then
     rte_ip_option="-v rte_ip:${RTE_IP}"
   else
-    fw_file_option=""
+    rte_ip_option=""
   fi
 
   # FW_FILE environment variable is optional for some tests
