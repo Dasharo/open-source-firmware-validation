@@ -86,6 +86,13 @@ execute_robot() {
   # Check if the required environment variables are set
   check_env_variable "CONFIG"
 
+  # DIR_PREFIX (optional) additional description of test result dir
+  if [ -n "${DIR_PREFIX}" ]; then
+    dir_prefix="${DIR_PREFIX}_"
+  else
+    dir_prefix=""
+  fi
+
   # RTE_IP environment variable is not required for some platforms
   if [ -n "${RTE_IP}" ]; then
     rte_ip_option="-v rte_ip:${RTE_IP}"
@@ -138,12 +145,24 @@ execute_robot() {
   # Thanks to detecting spacebars in arguments before _robot_args can now
   # safely be concatenated into a string and these arguments will still be
   # passed correctly.
+  #
+  # Firstly, the provided argument will be parsed to get the proper name
+  # for the results directory.
   for _test_name in "${_test_path[@]}"; do
-    local _logs_dir="logs/${CONFIG}/${RUN_DATE}"
-    local _log_file="${_logs_dir}/${_test_name}_log.html"
-    local _report_file="${_logs_dir}/${_test_name}_report.html"
-    local _output_file="${_logs_dir}/${_test_name}_out.xml"
-    local _debug_file="${_logs_dir}/${_test_name}_debug.log"
+    if [[ "$_test_name" == *"/"* && "$_test_name" != */ ]]; then
+      _test_scope_name="${_test_name##*/}"
+      if [[ "$_test_scope_name" == *".robot"* ]]; then
+        _test_scope_name="${_test_scope_name%%.*}"
+      fi
+    else
+      _test_scope_name="${_test_name%%/*}"
+    fi
+
+    local _logs_dir="logs/${CONFIG}/${dir_prefix}${_test_scope_name}_${RUN_DATE}"
+    local _log_file="${_logs_dir}/${_test_scope_name}_log.html"
+    local _report_file="${_logs_dir}/${_test_scope_name}_report.html"
+    local _output_file="${_logs_dir}/${_test_scope_name}_out.xml"
+    local _debug_file="${_logs_dir}/${_test_scope_name}_debug.log"
 
     echo "Logs will be saved at ${_logs_dir}"
     echo "Watch \"${_debug_file}\" to monitor the progress of the test"
