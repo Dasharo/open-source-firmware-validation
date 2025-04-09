@@ -300,7 +300,6 @@ def full_test_name(test_row):
 robot_tests_lines = []
 for idx, row in enumerate(test_rows):
     robot_tests_lines.append([])
-
     robot_tests_lines[idx].append(f"{full_test_name(row)}\n")
     documentation = row["doc"].splitlines()
     robot_tests_lines[idx].append(f"    [Documentation]    {documentation[0]}\n")
@@ -308,8 +307,14 @@ for idx, row in enumerate(test_rows):
         for line in documentation[1:]:
             robot_tests_lines[idx].append(f"{line}\n")
 
+    # Semiauto tag
+    if row["automation"] == "semi":
+        robot_tests_lines[idx].append(f"    [Tags]    semiauto\n")
+
     for skip in row["skips"]:
-        robot_tests_lines[idx].append(f"    Skip If    {skip}\n")
+        robot_tests_lines[idx].append(
+            f"    Skip If    {skip}    {row['Test ID']} not supported\n"
+        )
 
     # Skips dependent on env/os ID
     if row["OS ID"] == "301":
@@ -317,10 +322,18 @@ for idx, row in enumerate(test_rows):
             "    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}\n"
         )
     if row["OS ID"] == "201":
-        robot_tests_lines[idx].append("    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}\n")
+        robot_tests_lines[idx].append(
+            f"    Skip If    not ${{TESTS_IN_UBUNTU_SUPPORT}}    {row['Test ID']} not supported\n"
+        )
     if row["OS ID"][0] == "2":
         robot_tests_lines[idx].append(
-            f"    Skip If    '{os_id_variable_names[row['OS ID']]}' not in ${{TESTED_LINUX_DISTROS}}\n"
+            f"    Skip If    '{os_id_variable_names[row['OS ID']]}' not in ${{TESTED_LINUX_DISTROS}}    {row['Test ID']} not supported\n"
+        )
+
+    # Semiauto skip
+    if row["automation"] == "semi":
+        robot_tests_lines[idx].append(
+            f"    Skip If    not ${{SEMI_AUTO}}    semi auto test skipped: SEMI_AUTO==${{SEMI_AUTO}}\n"
         )
 
     # call the generic keyword for that test case type
