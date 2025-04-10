@@ -68,5 +68,5 @@ ${WIN_RAND_WRITE_NONQUE}=                       239.6    # MB/s
 # Reference config: Medium preset, 1920x1080, Windowed
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=               ${TRUE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                ${TRUE}
-${UNIGINE_SUPERPOSITION_RESULT_AC}=             94.4     # FPS
+${UNIGINE_SUPERPOSITION_RESULT_AC}=             94.4    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=            21.9    # FPS

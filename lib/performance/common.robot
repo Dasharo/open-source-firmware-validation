@@ -31,7 +31,6 @@ Detect Or Install Phoronix Test Suite On Ubuntu
     [Documentation]    Detects and installs PTS if it is missing on Ubuntu.
     # Get and store current user, so we can seamlessly get root perms if missing
     ${curr_user}=    Execute Command In Terminal    whoami
-    Log To Console    PTS install issued by ${curr_user}
     IF    '${curr_user}' != 'root'    Switch To Root User
     Detect Or Install Package    php-cli
     Detect Or Install Package    php-xml
@@ -66,8 +65,6 @@ Detect Or Install Phoronix Test Suite On Windows
 
 Setup Phoronix Batch Mode
     [Documentation]    Configure batch mode required for more automated tests.
-    ${curr_user}=    Execute Command    whoami
-    Log To Console    Setting Up Batch mode for ${curr_user}
     Write Into Terminal    phoronix-test-suite batch-setup
     Read From Terminal Until    Save test results when in batch mode (Y/n):
     Write Into Terminal    y

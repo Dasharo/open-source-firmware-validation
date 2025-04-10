@@ -57,11 +57,13 @@ GPU Performance Suite Setup
         Execute Manual Step    Please ensure DUT has active desktop session
         ...    by logging into X11 Gnome Desktop.
         Detect Or Install Phoronix Test Suite On Ubuntu
+
+        # Error redirection; for unknown reason to me, DTS throws
+        # "sh: 1: kill: No such process" from time to time
         ${out}=    Execute Command In Terminal
-        ...    phoronix-test-suite list-installed-tests | grep "Unigine Superposition"
+        ...    phoronix-test-suite list-installed-tests 2>/dev/null | grep "pts/unigine-super"
 
         IF    '${out}' == '${EMPTY}'
-            Log To Console    Installing Unigine Superposition
             # 10 Minute timeout to download ~1.5GB
             Execute Linux Command    DISPLAY=:0 phoronix-test-suite install-test unigine-super    600
             Read From Terminal Until Prompt
