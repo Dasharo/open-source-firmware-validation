@@ -14,8 +14,6 @@ ${EXTERNAL_HEADSET}=                    USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   200
 
-${NVIDIA_GRAPHICS_CARD_SUPPORT}=        ${TRUE}
-
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE} # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the boot order
 
@@ -51,3 +49,10 @@ ${WIN_RAND_READ_QUEUED}=                ${EMPTY}    # MB/s
 ${WIN_RAND_WRITE_QUEUED}=               ${EMPTY}    # MB/s
 ${WIN_RAND_READ_NONQUE}=                ${EMPTY}    # MB/s
 ${WIN_RAND_WRITE_NONQUE}=               ${EMPTY}    # MB/s
+
+# GPU Performance
+# Reference config: Medium preset, 1920x1080, Windowed
+${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
+${NVIDIA_GRAPHICS_CARD_SUPPORT}=        ${TRUE}
+${UNIGINE_SUPERPOSITION_RESULT_AC}=     114    # FPS
+${UNIGINE_SUPERPOSITION_RESULT_BAT}=    26.2    # FPS
