@@ -34,6 +34,12 @@ Ensure ME State
         END
         Set Suite Variable    ${UTC_CURRENT_ME_STATE}    ${me_state}
     END
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux
+    Switch To Root User
+    ${actual_me_state}=    Check ME Out
+    Should Contain    ${actual_me_state}    ${me_state}
+    Exit From Root User
 
 # Not automated
 # Usb Type-A Charging Capability
