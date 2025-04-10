@@ -23,6 +23,7 @@ ${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
 ${DGPU_ONLY_SUPPORT}=                   ${TRUE}
+${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
 
 # performance
 ${ZIP_MULTI_COMPRESSION}=               79729    # MIPS

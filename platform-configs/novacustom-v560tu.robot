@@ -19,6 +19,7 @@ ${CPU_MIN_FREQUENCY}=               300
 ${BLUETOOTH_CARD_UBUNTU}=           8087:0033
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${FALSE}
 ${WEBCAM_UBUNTU}=                   USB2.0 Camera
+${CLEVO_USB_C_HUB}=                 Thunderbolt 4 Dock
 
 ${POWER_CTRL}=                      none
 ${SNIPEIT}=                         no
