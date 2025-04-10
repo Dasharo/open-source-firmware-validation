@@ -48,7 +48,7 @@ test_names = {
         "automation": "manual",
     },
     "USB Type-C Display output": {
-        "env_ids": ["201", "202", "301"],
+        "env_ids": ["201", "202"],
         "doc": "Check whether the DUT can detect the USB Type-C hub.",
         "skips": ["not ${USB_TYPE_C_DISPLAY_SUPPORT}"],
         "automation": "auto",
@@ -108,7 +108,7 @@ test_names = {
         "automation": "auto",
     },
     "USB Type-C docking station audio recognition": {
-        "env_ids": ["201", "202", "301"],
+        "env_ids": ["201", "202"],
         "doc": """This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.""",
@@ -319,7 +319,7 @@ for idx, row in enumerate(test_rows):
     # Skips dependent on env/os ID
     if row["OS ID"] == "301":
         robot_tests_lines[idx].append(
-            "    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}\n"
+            f"    Skip If    not ${{TESTS_IN_WINDOWS_SUPPORT}}    {row['Test ID']} not supported\n"
         )
     if row["OS ID"] == "201":
         robot_tests_lines[idx].append(
@@ -340,7 +340,7 @@ for idx, row in enumerate(test_rows):
     keyword_call = f"{row['Test Name'].title()}    {os_id_variable_names[row['OS ID']]}    {row['ME State']}    {row['Dock']}\n"
     robot_tests_lines[idx].append(f"    {keyword_call}\n")
 
-    if row["automation"] == "manual":
+    if row["automation"] == "manual" or row["OS ID"] == "001":
         robot_tests_lines[idx] = ["# " + line for line in robot_tests_lines[idx]]
         robot_tests_lines[idx].insert(0, "# Not automated\n")
 
