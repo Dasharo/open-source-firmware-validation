@@ -14,8 +14,6 @@ ${EXTERNAL_HEADSET}=                            USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=                           4800
 ${CPU_MIN_FREQUENCY}=                           200
 
-${NVIDIA_GRAPHICS_CARD_SUPPORT}=                ${TRUE}
-
 ${DGPU_ONLY_SUPPORT}=                           ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                    ${FALSE}    # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}    # on which OS is first in the boot order
@@ -38,8 +36,6 @@ ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}
 
 ${TPM_SUPPORTED_VERSION}=                       2
 ${TPM_EXPECTED_CHIP}=                           SLB9672
-
-${GPU_PERFORMANCE_TESTS_SUPPORT}=               ${TRUE}
 
 # performance
 ${ZIP_MULTI_COMPRESSION}=                       63476    # MIPS
@@ -67,3 +63,10 @@ ${WIN_RAND_READ_QUEUED}=                        886.5    # MB/s
 ${WIN_RAND_WRITE_QUEUED}=                       461.3    # MB/s
 ${WIN_RAND_READ_NONQUE}=                        82.8    # MB/s
 ${WIN_RAND_WRITE_NONQUE}=                       239.6    # MB/s
+
+# GPU Performance
+# Reference config: Medium preset, 1920x1080, Windowed
+${GPU_PERFORMANCE_TESTS_SUPPORT}=               ${TRUE}
+${NVIDIA_GRAPHICS_CARD_SUPPORT}=                ${TRUE}
+${UNIGINE_SUPERPOSITION_RESULT_AC}=             94.4     # FPS
+${UNIGINE_SUPERPOSITION_RESULT_BAT}=            21.9    # FPS
