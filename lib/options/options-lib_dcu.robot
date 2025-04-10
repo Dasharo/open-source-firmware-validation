@@ -172,6 +172,11 @@ Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
     [Arguments]    ${env_id}
 
+    IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
+        Execute Reboot Command    windows
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    END
+
     ${os_boot_id}=    Set Variable    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
