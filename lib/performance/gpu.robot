@@ -41,6 +41,8 @@ Run Unigine Superposition On Ubuntu
     Read From Terminal Until    Quality:
     # 1: Low 2: Medium 3: High 4: Ultra
     Write Into Terminal    2    # Medium preset
+    # Test takes around 11 minutes, but will repeat runs if deviation is too high,
+    # therefore we give almost 3x that time to ensure it has enough to rerun
     Set DUT Response Timeout    1800
     ${out}=    Read From Terminal Until Prompt
     Should Contain    ${out}    Average:

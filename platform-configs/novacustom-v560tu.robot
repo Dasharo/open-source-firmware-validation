@@ -18,7 +18,7 @@ ${CPU_MAX_FREQUENCY}=                   4500
 ${CPU_MIN_FREQUENCY}=                   300
 ${BLUETOOTH_CARD_UBUNTU}=               8087:0033
 ${WEBCAM_UBUNTU}=                       USB2.0 Camera
-${CLEVO_USB_C_HUB}=                 Thunderbolt 4 Dock
+${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
 
 ${POWER_CTRL}=                          none
 ${SNIPEIT}=                             no

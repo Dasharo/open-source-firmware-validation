@@ -20,9 +20,8 @@ ${POWER_CTRL}=                          none
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
-${CLEVO_USB_C_HUB}=                 Thunderbolt 4 Dock
-${USB_DEVICE}=                      Linux
-
+${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
+${USB_DEVICE}=                          Linux
 
 # performance
 ${ZIP_MULTI_COMPRESSION}=               63476    # MIPS
