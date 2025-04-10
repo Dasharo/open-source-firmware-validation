@@ -237,6 +237,7 @@ Run Ansible Playbooks
         # ansible will fail no matter the timeouts if host is unreachable
         # (not booted yet)
         Login To Linux
+        Check Internet Connection On Linux
 
         # Create temporary inventory file for given platform and OS
         ${inventory_file}=    Catenate    [host] \n
