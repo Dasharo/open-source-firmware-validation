@@ -61,7 +61,6 @@ ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                         ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
-${UEFI_SHELL_SUPPORT}=                          ${TRUE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=           ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                           ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${TRUE}

@@ -59,7 +59,6 @@ ${EC_AND_SUPER_IO_SUPPORT}=                         ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                             ${TRUE}
 ${USB_CAMERA_DETECTION_SUPPORT}=                    ${TRUE}
 ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${TRUE}
-${UEFI_SHELL_SUPPORT}=                              ${TRUE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                               ${TRUE}
 ${NVME_DISK_SUPPORT}=                               ${TRUE}

@@ -37,7 +37,6 @@ ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
 ${ETH_PORTS}=                                   ${EMPTY}
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
-${UEFI_SHELL_SUPPORT}=                          ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${TRUE}
 ${EMMC_SUPPORT}=                                ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}

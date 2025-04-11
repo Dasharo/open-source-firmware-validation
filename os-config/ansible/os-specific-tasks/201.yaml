@@ -1,3 +1,15 @@
 # SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
+
+- name: Prepare UEFI Shell components
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: /tmp/
+    mode: 755
+  loop:
+    - src: "./../../../osfv-test-data/uefi-shell/Shell.efi"
+    - src: "./../../../osfv-test-data/uefi-shell/deploy-shell-efi.sh"
+
+- name: Install UEFI Shell
+  ansible.builtin.command: /tmp/deploy-shell-efi.sh /tmp/Shell.efi
