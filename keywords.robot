@@ -909,7 +909,7 @@ Charge Battery Until Target Level In Linux
     Run Keyword Unless    ${out} == ${target}
     Log    Could not charge battery to specified level within timeout.
 
-Battery Level Below 30 Percent Skip
+Skip If Battery Level Below 30 Percent
     ${battery_percentage}=    Check Battery Percentage In Linux
     Log To Console    Skipping the test - Battery is to low.
     Skip If    ${battery_percentage} > 30
