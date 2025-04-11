@@ -54,7 +54,7 @@ Clear Out EFI Partition
     Power On
 
     IF    "${MANUFACTURER}" == "QEMU"
-        Remove Drive From Qemu
+        Remove Drive From Qemu    mydisk
     ELSE
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux

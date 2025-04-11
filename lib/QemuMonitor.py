@@ -44,7 +44,9 @@ class QemuMonitor:
         self._close()
         if "error" in response:
             logger.error(f"Command '{command}' failed with error: {response['error']}")
-            raise RuntimeError(f"QEMU monitor error response: {response['error']['desc']}")
+            raise RuntimeError(
+                f"QEMU monitor error response: {response['error']['desc']}"
+            )
         return response
 
     def _send(self, command, **args):
@@ -92,9 +94,7 @@ class QemuMonitor:
         logger.trace(f"contains_mydisk: {contains_mydisk}")
 
         if contains_mydisk:
-            blockdev_del_params = {
-                "node-name": "mydisk"
-            } 
+            blockdev_del_params = {"node-name": "mydisk"}
             self._send_cmd("blockdev-del", **blockdev_del_params)
 
         blockdev_add_params = {
@@ -103,7 +103,7 @@ class QemuMonitor:
             "filename": img_name,
             "aio": "threads",
             "cache": {"direct": True, "no-flush": False},
-            "read-only": True
+            "read-only": True,
         }
         logger.trace(self._send_cmd("blockdev-add", **blockdev_add_params))
 
@@ -116,15 +116,36 @@ class QemuMonitor:
         return self._send_cmd("device_add", **device_add_params)
 
     @keyword("Remove Drive From Qemu")
-    def device_del(self):
-        contains_mydisk = self._check_if_block_node_exists("file_iso")
-        logger.trace(f"contains_mydisk: {contains_mydisk}")
+    def device_del(self, nodename):
+        contains_node = self._check_if_block_node_exists(nodename)
+        logger.trace(f"contains_{nodename}: {contains_node}")
 
-        if contains_mydisk:
-            blockdev_del_params = {
-                "node-name": "mydisk"
-            } 
-            return self._send_cmd("blockdev-del", **blockdev_del_params)
+        if contains_node:
+            blockdevs = self._send_cmd("query-block")["return"]
+            for dev in blockdevs:
+                print(dev.keys())
+                if "inserted" in dev.keys():
+                    print(dev["inserted"]["node-name"])
+
+            node_id = [
+                dev["qdev"]
+                for dev in blockdevs
+                if "inserted" in dev.keys() and dev["inserted"]["node-name"] == nodename
+            ]
+            print(node_id)
+            if len(node_id) != 1:
+                print("device not found")
+                print(node_id)
+                raise "TODO!@# Device not found"
+            node_id = node_id[0]
+
+            device_del_params = {"id": node_id}
+            return self._send_cmd("device_del", **device_del_params)
+
+            # blockdev_del_params = {
+            #     "node-name": nodename
+            # }
+            # return self._send_cmd("blockdev-del", **blockdev_del_params)
 
     @keyword("Add USB To Qemu")
     def usb_add(self, img_name):
