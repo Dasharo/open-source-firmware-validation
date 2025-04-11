@@ -59,6 +59,7 @@ CPF001.004 CPU not stuck on initial frequency (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Not Stuck On Initial Frequency (Ubuntu)
 
 CPF001.005 CPU not stuck on initial frequency (Windows) (battery)
@@ -171,6 +172,7 @@ CPF002.003 CPU runs on expected frequency (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Runs On Expected Frequency (Ubuntu)
 
 CPF002.004 CPU runs on expected frequency (Windows) (battery)
@@ -249,6 +251,7 @@ CPF004.003 CPU with load runs on expected frequency (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU With Load Runs On Expected Frequency (Ubuntu)
 
 CPF004.004 CPU with load runs on expected frequency (Windows) (battery)

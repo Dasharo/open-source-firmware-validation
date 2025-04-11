@@ -37,6 +37,7 @@ DIO001.202 Sequential Read Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    sequential_with_queues
@@ -77,6 +78,7 @@ DIO002.202 Sequential Write Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    sequential_write_with_queues
@@ -119,6 +121,7 @@ DIO003.202 Random Read Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    random_read_with_queues
@@ -161,6 +164,7 @@ DIO004.202 Random Write Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    random_write_with_queues

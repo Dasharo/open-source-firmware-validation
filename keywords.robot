@@ -911,8 +911,10 @@ Charge Battery Until Target Level In Linux
 
 Skip If Battery Level Below 30 Percent
     ${battery_percentage}=    Check Battery Percentage In Linux
-    Log To Console    Skipping the test - Battery is to low.
-    Skip If    ${battery_percentage} > 30
+    IF    ${battery_percentage} < 30
+        Log To Console    \nSkipping the test - Battery is to low.
+        Skip
+    END
 
 Turn On ACPI CALL Module In Linux
     [Documentation]    Keyword turns on acpi_call module in Linux OS.
