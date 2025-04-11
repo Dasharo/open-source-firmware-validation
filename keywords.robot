@@ -909,6 +909,11 @@ Charge Battery Until Target Level In Linux
     Run Keyword Unless    ${out} == ${target}
     Log    Could not charge battery to specified level within timeout.
 
+Battery Level Below 30 Percent Skip
+    ${battery_percentage}=    Check Battery Percentage In Linux
+    Log To Console    Skipping the test - Battery is to low.
+    Skip If    ${battery_percentage} > 30
+
 Turn On ACPI CALL Module In Linux
     [Documentation]    Keyword turns on acpi_call module in Linux OS.
     Execute Linux Command    modprobe acpi_call
