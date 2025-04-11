@@ -61,11 +61,19 @@ VBO008.001 Booting from recovery
     ...    continue automatically after a 30s delay.
     Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO008.002 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO008.002 not supported
+
+    # setting 5 minutes time-out to prevent failure on platforms with
+    # either extended FW boot times, or recovery pop-up left.
+    Set DUT Response Timeout    300s
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
     Execute Reboot Command
+
+    # setting 5 minutes time-out to prevent failure on platforms with
+    # extended FW boot times
+    Set DUT Response Timeout    300s
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -79,12 +87,19 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO009.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    VBO009.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO009.001 not supported
+
+    # setting 5 minutes time-out to prevent failure on platforms with
+    # either extended FW boot times, or recovery pop-up left.
+    Set DUT Response Timeout    300s
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
     Execute Reboot Command
-    Set DUT Response Timeout    180s
+
+    # setting 5 minutes time-out to prevent failure on platforms with
+    # extended FW boot times
+    Set DUT Response Timeout    300s
     ${recovery_popup}=    Read From Terminal Until    Press ENTER key to continue
     Should Contain    ${recovery_popup}    !!! WARNING !!!
     Should Contain    ${recovery_popup}    Recovery reason code:
