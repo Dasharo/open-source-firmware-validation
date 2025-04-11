@@ -47,6 +47,7 @@ CPT001.002 CPU temperature without load (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Temperature Without Load (Ubuntu)
 
 CPT001.003 CPU temperature without load (Ubuntu) (AC)
@@ -90,6 +91,7 @@ CPT002.002 CPU temperature after stress test (Ubuntu) (battery)
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
     Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If Battery Level Below 30 Percent
     CPU Temperature After Stress Test (Ubuntu)
 
 CPT002.003 CPU temperature after stress test (Ubuntu) (AC)
