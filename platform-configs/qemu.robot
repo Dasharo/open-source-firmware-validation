@@ -45,7 +45,6 @@ ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=     ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                     ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=          ${TRUE}
-${UEFI_SHELL_SUPPORT}=                      ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                       ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                 ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=            ${TRUE}

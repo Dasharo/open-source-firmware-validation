@@ -53,7 +53,6 @@ ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
 ${EC_AND_SUPER_IO_SUPPORT}=                 ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
-${UEFI_SHELL_SUPPORT}=                      ${TRUE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=       ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                       ${TRUE}
 ${SD_CARD_READER_SUPPORT}=                  ${TRUE}

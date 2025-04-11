@@ -24,15 +24,18 @@ Suite Teardown      Run Keyword
 
 *** Test Cases ***
 USH001.001 UEFI Shell
-    [Documentation]    Check whether the DUT has the ability to boot into an
-    ...    integrated UEFI Shell application or that the UEFI Shell does
-    ...    not appear, based on the UEFI_SHELL_SUPPORT value.
+    [Documentation]    Check whether the UEFI Shell is available, and whether
+    ...    UEFI Shell was sourced from coreboot image, or from OS drive.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    IF    ${UEFI_SHELL_SUPPORT}
-        Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
-        Read From Terminal Until    UEFI Interactive Shell
-    ELSE
-        Should Not Contain    ${boot_menu}    UEFI Shell
-    END
+    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    Shell>
+    Write Bare Into Terminal    dh
+    Press Enter
+    ${shell_dump_handle}=    Read From Terminal Until    Shell>
+
+    Should Not Contain    ${shell_dump_handle}    LoadedImage(Shell)
+    ...    UEFI Shell sourced from Dasharo FW image!
+    Should Contain    ${shell_dump_handle}    LoadedImage(\\EFI\\Shell\\Shell.efi)
+    ...    UEFI Shell not sourced from EFI partition!
