@@ -31,13 +31,13 @@ Mount USB Disk Image
 
     # TODO:: Move to interface approach, not IF/ELSE tree
     IF    "${upload_type}" == "file"
-        ${img_dir}    ${img_name}=    Split Path    ${img_source}
+        ${img_dir}    ${img_path}=    Split Path    ${img_source}
 
         IF    "${MANUFACTURER}" == "QEMU"
-            Add USB To Qemu    img_name=${img_source}
+            Add USB To Qemu    img_path=${img_source}
         ELSE IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
-            Upload Image To PiKVM    ${img_source}    ${img_name}    ${upload_type}
-            Mount Image On PiKVM    ${img_name}
+            Upload Image To PiKVM    ${img_source}    ${img_path}    ${upload_type}
+            Mount Image On PiKVM    ${img_path}
         ELSE
             # For setups with no real ability to mount USB Disk, we may decide whether we assume that certain USB Disk is prepared beforehand, or we skip the test.
             Log To Console    Mounting USB Disk Image at runtime is not supported on this platform.
