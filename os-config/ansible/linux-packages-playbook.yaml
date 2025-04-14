@@ -11,6 +11,7 @@
     - name: Install packages
       ansible.builtin.package:
         name:
+          - "{{package_network_manager}}"
           - "{{package_lm_sensors}}"
           - "{{package_flashrom}}"
           - "{{package_libpci_dev}}"

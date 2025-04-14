@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+package_network_manager: NetworkManager
 package_lm_sensors: lm_sensors
 package_flashrom: flashrom
 package_pciutils: pciutils
