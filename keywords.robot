@@ -1157,8 +1157,6 @@ Check If Package Is Installed
     [Arguments]    ${package}
     ${apt_list_output}=    Execute Command In Terminal    apt list --installed 2> /dev/null | grep ${package}    60s
 
-    # there's limitation (or possibly a bug) in Get Lines Matching Regexp kw:
-    # can't capture opening square bracket correctly, which would be more appropriate
     ${package_regex}=    Catenate    SEPARATOR=    ${package}    \/.*installed.*
     ${package_lines}=    Get Lines Matching Regexp    ${apt_list_output}    ${package_regex}
     IF    "${package_lines}"=="${EMPTY}"
