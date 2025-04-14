@@ -41,6 +41,7 @@ class QemuMonitor:
         self._open()
         logger.trace(self._send("qmp_capabilities"))
         response = self._send(command, **args)
+        logger.trace(response)
         self._close()
         if "error" in response:
             logger.error(f"Command '{command}' failed with error: {response['error']}")
@@ -89,115 +90,114 @@ class QemuMonitor:
         return self._send_cmd("quit")
 
     @keyword("Add HDD To Qemu")
-    def blockdev_add(self, img_name):
-        contains_mydisk = self._check_if_block_node_exists("mydisk")
-        logger.trace(f"contains_mydisk: {contains_mydisk}")
-
-        if contains_mydisk:
-            blockdev_del_params = {"node-name": "mydisk"}
-            self._send_cmd("blockdev-del", **blockdev_del_params)
+    def blockdev_add(self, img_path, name="unnamed"):
+        self.hdd_del(name)
 
         blockdev_add_params = {
-            "node-name": "mydisk",
-            "driver": "file",
-            "filename": img_name,
-            "aio": "threads",
-            "cache": {"direct": True, "no-flush": False},
+            "node-name": self._hdd_nodename(name),
+            "driver": "raw",
+            "file": {
+                "driver": "file",
+                "filename": img_path,
+            },
             "read-only": True,
         }
         logger.trace(self._send_cmd("blockdev-add", **blockdev_add_params))
 
         device_add_params = {
             "driver": "scsi-hd",
-            "drive": "mydisk",
+            "drive": self._hdd_nodename(name),
+            "id": self._hdd_devid(name),
             "bus": "scsi.0",
-            "id": "myhdd",
         }
         return self._send_cmd("device_add", **device_add_params)
 
     @keyword("Remove Drive From Qemu")
-    def device_del(self, nodename):
-        contains_node = self._check_if_block_node_exists(nodename)
-        logger.trace(f"contains_{nodename}: {contains_node}")
+    def hdd_del(self, name="unnamed"):
+        contains_node = self._check_if_block_node_exists(self._hdd_nodename(name))
+        logger.trace(f"contains_{self._hdd_nodename(name)}: {contains_node}")
 
         if contains_node:
-            blockdevs = self._send_cmd("query-block")["return"]
-            for dev in blockdevs:
-                print(dev.keys())
-                if "inserted" in dev.keys():
-                    print(dev["inserted"]["node-name"])
-
-            node_id = [
-                dev["qdev"]
-                for dev in blockdevs
-                if "inserted" in dev.keys() and dev["inserted"]["node-name"] == nodename
-            ]
-            print(node_id)
-            if len(node_id) != 1:
-                print("device not found")
-                print(node_id)
-                raise "TODO!@# Device not found"
-            node_id = node_id[0]
-
-            device_del_params = {"id": node_id}
-            return self._send_cmd("device_del", **device_del_params)
-
-            # blockdev_del_params = {
-            #     "node-name": nodename
-            # }
-            # return self._send_cmd("blockdev-del", **blockdev_del_params)
-
-    @keyword("Add USB To Qemu")
-    def usb_add(self, img_name):
-        contains_file_iso = self._check_if_block_node_exists("file_iso")
-        logger.trace(f"contains_file_iso: {contains_file_iso}")
-
-        if contains_file_iso:
             try:
-                logger.trace(self._send_cmd("device_del", id="usbdisk"))
-            except Exception:
+                self._send_cmd("device_del", **{"id": self._hdd_devid(name)})
+            except:
                 pass
             time.sleep(2)
-
-            blockdev__del_params = {
-                "node-name": "drive-iso",
-            }
             try:
-                logger.trace(self._send_cmd("blockdev-del", **blockdev_del_params))
+                self._send_cmd(
+                    "blockdev-del", **{"node-name": self._hdd_nodename(name)}
+                )
+            except:
+                pass
+
+    @keyword("Add USB To Qemu")
+    def usb_add(self, img_path, name="unnamed"):
+        contains_file_node = self._check_if_block_node_exists(
+            self._usb_file_nodename(name)
+        )
+        logger.trace(f"contains file node: {contains_file_node}")
+
+        if contains_file_node:
+            try:
+                self._send_cmd("device_del", id=self._usb_devid(name))
             except Exception:
                 pass
             time.sleep(2)
 
             blockdev_del_params = {
-                "node-name": "file_iso",
+                "node-name": self._usb_nodename(name),
             }
-            logger.trace(self._send_cmd("blockdev-del", **blockdev_del_params))
+            try:
+                self._send_cmd("blockdev-del", **blockdev_del_params)
+            except Exception:
+                pass
+            time.sleep(2)
+
+            blockdev_del_params = {
+                "node-name": self._usb_file_nodename(name),
+            }
+            self._send_cmd("blockdev-del", **blockdev_del_params)
             time.sleep(2)
 
         blockdev_params = {
-            "node-name": "file_iso",
+            "node-name": self._usb_file_nodename(name),  # "file_iso"
             "driver": "file",
-            "filename": img_name,
+            "filename": img_path,
             "auto-read-only": True,
             "discard": "unmap",
         }
-        logger.trace(self._send_cmd("blockdev-add", **blockdev_params))
+        self._send_cmd("blockdev-add", **blockdev_params)
 
         drive_params = {
             "driver": "raw",
-            "file": "file_iso",
-            "node-name": "drive-iso",
+            "file": self._usb_file_nodename(name),
+            "node-name": self._usb_nodename(name),  # "drive-iso",
             "read-only": True,
             "discard": "unmap",
         }
-        logger.trace(self._send_cmd("blockdev-add", **drive_params))
+        self._send_cmd("blockdev-add", **drive_params)
 
         usb_storage_params = {
             "driver": "usb-storage",
-            "id": "usbdisk",
-            "drive": "drive-iso",
+            "id": self._usb_devid(name),  # "usbdisk",
+            "drive": self._usb_nodename(name),
         }
-        logger.trace(self._send_cmd("device_add", **usb_storage_params))
+        self._send_cmd("device_add", **usb_storage_params)
+
+    def _usb_file_nodename(self, name):
+        return "usb_file_node_" + name
+
+    def _usb_nodename(self, name):
+        return "usb_node_" + name
+
+    def _usb_devid(self, name):
+        return "usb_devid_" + name
+
+    def _hdd_nodename(self, name):
+        return "hdd_node_" + name
+
+    def _hdd_devid(self, name):
+        return "hdd_devid_" + name
 
     def __del__(self):
         self._close()
