@@ -89,8 +89,13 @@ Usb Type-C Docking Station Hdmi Display
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
         Switch To Root User
-        Check PCON On MST Hub In Linux
-        Check Display Port On Hub In Linux    HDMI
+        IF    '${dock_name}' == 'WL-UMD05 Pro Rev.E'
+            # dp alt mode
+            Check PCON On MST Hub In Linux
+        ELSE    # Exact models not specified right now, add more branches later
+            # Thunderbolt
+            Check Display Port On Hub In Linux    HDMI
+        END
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
         Login To Windows
@@ -107,8 +112,13 @@ Usb Type-C Docking Station Dp Display
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
         Switch To Root User
-        Check DP Port On MST Hub In Linux
-        Check Display Port On Hub In Linux    DP
+        IF    '${dock_name}' == 'WL-UMD05 Pro Rev.E'
+            # dp alt mode
+            Check DP Port On MST Hub In Linux
+        ELSE    # Exact models not specified right now, add more branches later
+            # Thunderbolt
+            Check Display Port On Hub In Linux    DP
+        END
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
         Login To Windows
