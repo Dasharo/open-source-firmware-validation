@@ -134,6 +134,7 @@ Make Sure That Flash Locks Are Disabled
 Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
+    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 
 Set Nextboot
     [Documentation]    Sets the OS of choice to be booted first on the next
@@ -179,18 +180,21 @@ Boot System Or From Connected Disk
 
     ${os_boot_id}=    Set Variable    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
+    IF    ${env_id} == '301'
+        Sleep    2
+    ELSE
+        Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
+        Login To Linux
+        Switch To Root User
 
-    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
-    Login To Linux
-    Switch To Root User
+        IF    '${BOOTED_OS_ID}' == '${env_id}'
+            Log    Target OS already booted
+            RETURN
+        END
 
-    IF    '${BOOTED_OS_ID}' == '${env_id}'
-        Log    Target OS already booted
-        RETURN
+        ${os_boot_id}=    Set Nextboot    ${env_id}
+        Write Into Terminal    reboot
     END
-
-    ${os_boot_id}=    Set Nextboot    ${env_id}
-    Write Into Terminal    reboot
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
     Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
     Sleep    30s
