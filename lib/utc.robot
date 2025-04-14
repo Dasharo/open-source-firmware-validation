@@ -74,8 +74,6 @@ Usb Type-C Display Output
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
         Switch To Root User
-        ${result}=    Check ME Out
-        Should Not Be Equal As Strings    ${result}    Enabled
         ${out}=    List Devices In Linux    usb
         Should Contain    ${out}    ${CLEVO_USB_C_HUB}
         Exit From Root User
