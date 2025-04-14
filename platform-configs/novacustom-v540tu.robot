@@ -11,7 +11,7 @@ ${3_MDEB_WIFI_NETWORK}=                 3mdeb_abr
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                 Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              V540TU
-${EXTERNAL_HEADSET}=                    USB PnP Audio Device
+${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
 
@@ -20,7 +20,7 @@ ${POWER_CTRL}=                          none
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
-${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
+${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux
 
 # performance
