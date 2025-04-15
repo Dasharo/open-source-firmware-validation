@@ -134,6 +134,7 @@ Make Sure That Flash Locks Are Disabled
 Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
+    Sleep    60s
     Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 
 Set Nextboot
@@ -154,7 +155,6 @@ Set Nextboot
         ${tmp}=    Encode String To Bytes    ${line}    ASCII    errors=replace
         ${line}=    Decode Bytes To String    ${tmp}    ASCII    errors=replace
         ${line}=    Get Substring    ${line}    0    150
-        ${line}=    Convert To Lower Case    ${line}
 
         IF    '${os_bootentry_name}' in '${line}'
             ${os_boot_id}=    Set Variable    ${line}
@@ -180,21 +180,19 @@ Boot System Or From Connected Disk
 
     ${os_boot_id}=    Set Variable    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
-    IF    ${env_id} == '301'
-        Sleep    2
-    ELSE
-        Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
-        Login To Linux
-        Switch To Root User
 
-        IF    '${BOOTED_OS_ID}' == '${env_id}'
-            Log    Target OS already booted
-            RETURN
-        END
+    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
+    Login To Linux
+    Switch To Root User
 
-        ${os_boot_id}=    Set Nextboot    ${env_id}
-        Write Into Terminal    reboot
+    IF    '${BOOTED_OS_ID}' == '${env_id}'
+        Log    Target OS already booted
+        RETURN
     END
+
+    ${os_boot_id}=    Set Nextboot    ${env_id}
+    Write Into Terminal    reboot
+
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
     Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
     Sleep    30s
