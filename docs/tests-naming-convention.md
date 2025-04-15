@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# Tests naming Conventipm
+# Tests naming Convention
 
 The tests in the Open Source Firmware Validation repository use the following
 naming convention:
