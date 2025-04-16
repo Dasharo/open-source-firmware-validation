@@ -53,7 +53,6 @@ USC002.001 Power IS delivered through always-on USB A ports
     ...    using USB power meter. All verified ports should be able to supply
     ...    power meter itself and voltage should be close to 5.0V
     Execute Manual Step    ${power_meter_message}
-    Execute Manual Step    Power off DUT
 
 USC003.001 Power IS delivered through always-on USB C ports
     [Documentation]    This test verifies, if setting "USB ports power and
@@ -74,7 +73,6 @@ USC003.001 Power IS delivered through always-on USB C ports
     ...    using USB power meter. All verified ports should be able to supply
     ...    power meter itself and voltage should be close to 5.0V
     Execute Manual Step    ${power_meter_message}
-    Execute Manual Step    Power off DUT
 
 USC004.001 Power IS NOT delivered through always-on USB A ports
     [Documentation]    This test verifies, if setting "USB ports power and
@@ -95,7 +93,6 @@ USC004.001 Power IS NOT delivered through always-on USB A ports
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
     Execute Manual Step    ${power_meter_message}
-    Execute Manual Step    Power off DUT
 
 USC005.001 Power IS NOT delivered through always-on USB C ports
     [Documentation]    This test verifies, if setting "USB ports power and
@@ -116,7 +113,6 @@ USC005.001 Power IS NOT delivered through always-on USB C ports
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
     Execute Manual Step    ${power_meter_message}
-    Execute Manual Step    Power off DUT
 
 USC006.001 Power IS NOT delivered through regular USB A ports
     [Documentation]    This test verifies, if setting "USB ports power and
@@ -138,7 +134,6 @@ USC006.001 Power IS NOT delivered through regular USB A ports
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
     Execute Manual Step    ${power_meter_message}
-    Execute Manual Step    Power off DUT
 
 USC007.001 Power IS NOT delivered through regular USB C ports
     [Documentation]    This test verifies, if setting "USB ports power and
@@ -160,4 +155,3 @@ USC007.001 Power IS NOT delivered through regular USB C ports
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
     Execute Manual Step    ${power_meter_message}
-    Execute Manual Step    Power off DUT
