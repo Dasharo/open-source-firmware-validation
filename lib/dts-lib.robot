@@ -4,6 +4,40 @@ Resource    bios/menus.robot
 Resource    ../keywords.robot
 
 
+*** Variables ***
+# TODO: We should extend our keyword libs with keywords for DTS UI, these are
+# first candidates. But before doing so - we need to establish some UI rules in
+# DTS itself.
+# DTS checkpoints:
+${DTS_CHECKPOINT}=                  Enter an option:
+${DTS_CONFIRM_CHECKPOINT}=          Press Enter to continue
+${HCL_REPORT_CHECKPOINT}=           Please consider contributing to the "Hardware for Linux" project in the future.
+${HCL_REPORT_SENDINGLOGS}=
+...                                 Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
+${DTS_SPECIFICATION_WARN}=          Does it match your actual specification? (Y|n)
+${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware on your platform (Y|n)
+${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
+${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
+${DTS_ME_WARN}=                     Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
+# DTS initial deployment menupoints:
+${DTS_DCR_UEFI_MENUPOINT}=          Community version
+${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
+${DTS_DPP_SEA_MENUPOINT}=           DPP version (coreboot + SeaBIOS)
+# Default DTS boot type, can be overwritten by CMD:
+${DTS_BOOT_TYPE}=                   iPXE
+# DTS options:
+${DTS_HCL_OPT}=                     1
+${DTS_DEPLOY_OPT}=                  2
+${DTS_CREDENTIALS_OPT}=             4
+${DTS_DCR_UEFI_OPT}=                c
+${DTS_DPP_UEFI_OPT}=                d
+${DTS_DPP_SEA_OPT}=                 s
+# DTS subscription checkpoints:
+${DTS_NOACCESS_DPP_UEFI}=           Dasharo Pro Package version (coreboot + UEFI) is also available.
+${DTS_NOACCESS_DPP_SEABIOS}=        Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
+${DTS_NOACCESS_DPP_HEADS}=          Dasharo Pro Package version (coreboot + Heads) is also available.
+
+
 *** Keywords ***
 Boot Dasharo Tools Suite Via IPXE Shell
     [Documentation]    Boots DTS via iPXE shell by chaining script. Arguments:
@@ -26,9 +60,9 @@ Boot Dasharo Tools Suite Via IPXE Shell
 
     # 4) Try to boot via the link:
     Write Bare Into Terminal    chain ${dts_chain_link}\n
-    Read From Terminal Until    ${dts_chain_link}...
-    Read From Terminal Until    ok
     Set DUT Response Timeout    5m
+    Read From Terminal Until    .cpio.gz...
+    Read From Terminal Until    ok
 
 Boot Dasharo Tools Suite Via IPXE Menu
     [Documentation]    Boots DTS via option available in Dasharo iPXE menu.
@@ -77,11 +111,11 @@ Boot Dasharo Tools Suite
         ...    Read From Terminal Until    Enter an option:
         Set Timeout    ${old_timeout}
         # Enable SSH server and switch to SSH connection by writing on video console "in blind"
-        Write Into Terminal    K
+        Write Bare Into Terminal    K
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
         Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
-        Write Into Terminal    dts
+        Write Into Terminal    dts-boot
     END
     Read From Terminal Until    Enter an option:
     Sleep    5s
@@ -102,7 +136,7 @@ Check HCL Report Creation
 Enter Shell In DTS
     [Documentation]    Keyword allows to drop to Shell in the Dasharo Tools
     ...    Suite.
-    Write Into Terminal    S
+    Write Bare Into Terminal    S
     Set Prompt For Terminal    bash-5.2#
     # These could be removed once routes priorities in DTS are resolved.
     Sleep    10
@@ -114,7 +148,7 @@ Enter Shell In DTS
 Run EC Transition
     [Documentation]    Keyword allows to run EC Transition procedure in the
     ...    Dasharo Tools Suite.
-    Write Into Terminal    6
+    Write Bare Into Terminal    6
     Read From Terminal Until    Enter an option:
     Write Into Terminal    1
     ${output}=    Read From Terminal Until    shut down
@@ -151,3 +185,162 @@ Remove Extra Default Route
         ${route_info}=    Execute Command In Terminal    ip route | grep ^default
         Log    Default route via 172.16.0.1 dev ${devname[0]} removed
     END
+
+Power On And Enter DTS Shell
+    [Documentation]    This KW boots DTS using the method defined by user via
+    ...    DTS_BOOT_TYPE or the default one. After booting DTS shell is being
+    ...    entered.
+    # 1) Boot up to DTS UI:
+    Power On
+    Boot Dasharo Tools Suite    ${DTS_BOOT_TYPE}
+
+    # 2) Enter shell:
+    Write Bare Into Terminal    S
+    Set Prompt For Terminal    bash-5.2#
+    Read From Terminal Until Prompt
+    Set DUT Response Timeout    90s
+
+Provide DPP Credentials
+    [Documentation]    This KW automatically writes DPP credentials into DTS UI.
+    ...    The credentials should be set via CMD or file.
+    Set DUT Response Timeout    120s
+    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
+    Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
+
+    # Enter email:
+    Variable Should Exist    ${DPP_EMAIL}
+    Write Into Terminal    ${DPP_EMAIL}
+    # Enter password:
+    Variable Should Exist    ${DPP_PASSWORD}
+    Write Into Terminal    ${DPP_PASSWORD}
+
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+
+Provide DPP Credentials Without Packages
+    [Documentation]    This KW automatically writes DPP credentials that do not
+    ...    have access to DPP packages into DTS UI and checks out a DPP package
+    ...    warning.
+    Provide DPP Credentials
+
+    Wait For Checkpoint And Press Enter    ${DPP_PACKAGES_CHECKPOINT}
+
+Wait For Checkpoint
+    [Documentation]    This KW waits for checkpoint (first argument) and logs
+    ...    everything read up to the checkpoint. If regexp is ${True} then
+    ...    treat checkpoint as regexp
+    [Arguments]    ${checkpoint}    ${regexp}=${FALSE}
+    IF    ${regexp}
+        ${out}=    Read From Terminal Until Regexp    ${checkpoint}
+    ELSE
+        ${out}=    Read From Terminal Until    ${checkpoint}
+    END
+    Log    ${out}
+    RETURN    ${out}
+
+Wait For Checkpoint And Write
+    [Documentation]    This KW waits for checkpoint (first argument)
+    ...    and writes specified answer (second argument), with logging all
+    ...    output before the checkpoint.
+    [Arguments]    ${checkpoint}    ${to_write}
+    ${out}=    Wait For Checkpoint    ${checkpoint}
+    Sleep    1s
+    Write Into Terminal    ${to_write}
+    RETURN    ${out}
+
+Wait For Checkpoint And Press Enter
+    [Documentation]    This KW waits for checkpoint (first argument)
+    ...    and preses enter, with logging all output before the checkpoint.
+    [Arguments]    ${checkpoint}
+    ${out}=    Wait For Checkpoint    ${checkpoint}
+    Sleep    1s
+    Write Bare Into Terminal    \r\n
+    RETURN    ${out}
+
+Go Through Initial Deployment
+    [Documentation]    This KW goes through standard Dasharo initial deployment
+    ...    choosing all needed menu options and answering all questions. The
+    ...    only thing which needs to be specified - the Dasharo version to
+    ...    deploy (first argument), available versions: DCR UEFI, DPP UEFI, DPP
+    ...    SeaBIOS.
+    [Arguments]    ${dasharo_version}
+    # 1) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 2) Wait for HCL report to do its work, might take some time:
+    Set DUT Response Timeout    5m
+    # Accept hw-probe question from HCL report:
+    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
+    Set DUT Response Timeout    120s
+
+    # 3) Choose version to install:
+    IF    '${dasharo_version}' == 'DCR UEFI'
+        Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
+    ELSE IF    '${dasharo_version}' == 'DPP UEFI'
+        Wait For Checkpoint    ${DTS_DPP_UEFI_OPT}) ${DTS_DPP_UEFI_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_UEFI_OPT}
+    ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
+        Wait For Checkpoint    ${DTS_DPP_SEA_OPT}) ${DTS_DPP_SEA_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_SEA_OPT}
+    ELSE
+        Fail    No Dasharo version for initial deployment provided!
+    END
+
+    # 4) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+
+Go Through Update
+    [Documentation]    This KW goes through standard Dasharo update workflow
+    ...    choosing all needed menu options and answering all questions.
+    ...    If ${skip_me} is set to ${TRUE} then keyword will go through update
+    ...    Even if Intel ME cannot be updated
+    [Arguments]    ${skip_me}=${FALSE}
+    Set DUT Response Timeout    120s
+    # 1) Select update:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 2) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Set DUT Response Timeout    5m
+    ${dts_me_warn_escaped}=    Evaluate    re.escape("""${DTS_ME_WARN}""")
+    ${checkpoint}=    Wait For Checkpoint
+    ...    ${dts_me_warn_escaped}|Rebooting    regexp=${TRUE}
+    IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
+        IF    ${skip_me}
+            Write Into Terminal    Y
+            Wait For Checkpoint    Rebooting
+        ELSE
+            Fail    Cannot update Intel ME
+        END
+    END
+
+Go Through Heads Transition
+    [Documentation]    This KW goes through transition to Dasharo Heads choosing
+    ...    all needed menu options and answering all questions.
+    Set DUT Response Timeout    120s
+    # 1) Start update:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 2) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    Y
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+
+    # 3) Check for Heads firmware deployment success:
+    Wait For Checkpoint    Successfully switched to Dasharo Heads firmware
+    Wait For Checkpoint And Write    ${DTS_CONFIRM_CHECKPOINT}    1
+
+Go Through Update Decline Heads
+    [Documentation]    This KW goes through standard Dasharo update workflow
+    ...    choosing all needed menu options and answering all questions. It
+    ...    declines switching to Heads firmware.
+    Set DUT Response Timeout    120s
+    # 1) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 2) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    N
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y

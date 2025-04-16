@@ -39,7 +39,7 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    1
+    Write Bare Into Terminal    1
     Read From Terminal Until
     ...    Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
     Write Into Terminal    N
@@ -52,7 +52,7 @@ DTS003.001 DTS option reboot DUT works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    R
+    Write Bare Into Terminal    R
     # Switch back to serial on PiKVM devices
     Restore Initial DUT Connection Method
     Enter Setup Menu Tianocore
@@ -63,7 +63,7 @@ DTS004.001 DTS accessing shell works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    S
+    Write Bare Into Terminal    S
     Read From Terminal Until Regexp    bash-\\d\\.\\d#
 
 DTS005.001 Flash device from DTS shell by using flashrom works correctly
@@ -120,7 +120,68 @@ DTS008.001 DTS option power-off DUT works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.001 not supported
     Power On
     Boot Dasharo Tools Suite    iPXE
-    Write Into Terminal    P
+    Write Bare Into Terminal    P
     Set DUT Response Timeout    30s
     ${status}=    Run Keyword And Return Status    Enter Setup Menu Tianocore
     Should Not Be True    ${status}
+
+DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
+    [Documentation]    This test aims to verify that updating Dasharo by using
+    ...    DTS built-in script works correctly when booting DTS via USB.
+    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
+    ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
+    ...    credentials before trying to update.
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On Variable    \${FW_FILE}
+    # Flash earlier version so update can proceed. Firmware should have serial
+    # redirection enabled
+    Flash Firmware    ${FW_FILE}
+    Make Sure That Flash Locks Are Disabled
+    IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
+        Set UEFI Option    MeMode    Disabled (HAP)
+    END
+    Boot Dasharo Tools Suite    USB
+    # To refresh screen as next keyword expects DTS checkpoint
+    Press Key N Times    1    ${ESC}
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
+    Go Through Update    skip_me=${TRUE}
+    Restore Initial DUT Connection Method
+    Set DUT Response Timeout    5m
+    Enter Setup Menu Tianocore
+
+DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
+    [Documentation]    This test aims to verify that updating Dasharo by using
+    ...    DTS built-in script works correctly when booting DTS via iPXE.
+    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
+    ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
+    ...    credentials before trying to update.
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On Variable    \${FW_FILE}
+    # Flash earlier version so update can proceed. Firmware should have serial
+    # redirection enabled
+    Flash Firmware    ${FW_FILE}
+    Make Sure That Flash Locks Are Disabled
+    IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
+        Set UEFI Option    MeMode    Disabled (HAP)
+    END
+    Boot Dasharo Tools Suite    iPXE
+    # To refresh screen as next keyword expects DTS checkpoint
+    Press Key N Times    1    ${ESC}
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
+    Go Through Update    skip_me=${TRUE}
+    Restore Initial DUT Connection Method
+    Set DUT Response Timeout    5m
+    Enter Setup Menu Tianocore
+
+
+*** Keywords ***
+Are DPP Keys Defined
+    ${email}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_EMAIL
+    ${password}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_PASSWORD
+    ${status}=    Run Keyword And Return Status    Should Be True
+    ...    ${email} and ${password}
+    RETURN    ${status}
