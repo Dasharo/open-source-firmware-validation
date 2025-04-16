@@ -391,7 +391,7 @@ Get Current CONFIG Stop Index
     ...    Returns -1 if CONFIG not found in variables.robot.
     [Arguments]    ${config_list}    ${start}
     ${length}=    Get Length    ${config_list}
-    ${index}=    Set Variable    ${start+1}
+    ${index}=    Set Variable    ${start}
     FOR    ${config}    IN    @{config_list[${index}:]}
         ${result}=    Evaluate    ${config}.get("ip")
         IF    '${result}'!='None'    RETURN    ${index}
