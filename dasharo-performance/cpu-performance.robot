@@ -14,7 +14,7 @@ ${DEVIATION_DOWN}=      0.8
 
 
 *** Test Cases ***
-CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
+CPP001.201 Single Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test single threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.001 not supported
@@ -30,7 +30,7 @@ CPP001.001 Single Threaded CPU Benchmark (Ubuntu) (AC)
     Should Be True    ${render_test_passed}
     Should Be True    ${coremark_test_passed}
 
-CPP001.002 Single Threaded CPU Benchmark (Ubuntu) (Battery)
+CPP001.202 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test single threaded performance using phoronix
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
@@ -46,7 +46,7 @@ CPP001.002 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     Should Be True    ${render_test_passed}
     Should Be True    ${coremark_test_passed}
 
-CPP002.001 Multi Threaded CPU Benchmark (Ubuntu) (AC)
+CPP002.201 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
@@ -60,7 +60,7 @@ CPP002.001 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     ${c_7zip_test_passed}=    7-Zip Multi-thread Compression And Decompression Average
     Should Be True    ${c_7zip_test_passed}
 
-CPP002.002 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
+CPP002.202 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
