@@ -408,7 +408,7 @@ Get Current CONFIG
     Should Not Be Equal    ${start}    ${-1}    msg=Current CONFIG not found in hw-matrix
     ${stop}=    Get Current CONFIG Stop Index    ${config_list}    ${start}
     Should Not Be Equal    ${stop}    ${-1}    msg=Current CONFIG not found in hw-matrix
-    ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop}
+    ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop+1}
     RETURN    ${config}
 
 Get Current CONFIG Item
