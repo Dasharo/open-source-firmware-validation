@@ -8,7 +8,7 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-GPP001.201 GPU Performance Measure (AC)
+GPP001.201 GPU Performance Measure (Ubuntu) (AC)
     [Documentation]    Test GPU performance for Ubuntu on AC
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    Cannot run this test on battery
@@ -23,7 +23,7 @@ GPP001.201 GPU Performance Measure (AC)
         Fail    GPU AC performance lower than expected!
     END
 
-GPP002.201 GPU Performance Measure (Battery)
+GPP002.201 GPU Performance Measure (Ubuntu) (Battery)
     [Documentation]    Test GPU performance for Ubuntu on Battery
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    ${AC_CONNECTED}    You must run this test on battery
