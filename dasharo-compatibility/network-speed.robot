@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -23,9 +24,35 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-ETHPERF001.001 Check Performance of 2.5G Wired Network Interface (Ubuntu)
+ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     Depends On    ${ETH_PERF_PAIR_2_G}
+    Depends On    ${ETH_PORTS}
+
+    ${eth_ports_number}=    Get Length    ${ETH_PORTS}
+    IF    '${eth_ports_number}' == '2'
+        Skip If    '${DUT_CONNECTION_METHOD}' != 'Telnet'
+        Pause Execution
+        ...    [1/10] This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
+        ${lab_network_port}=    Get Value From User
+        ...    [2/10] Enter DUT ethernet port number connected to lab network.    1
+
+        @{manual_eth_loop_setup}=    Create List
+        ...    1. On DUT, disconnect lab network ethernet cable from port ${lab_network_port}
+        ...    2. On DUT, connect both ethernet ports with Cat 6a patch cable.
+        @{manual_eth_restore}=    Create List
+        ...    1. On DUT, disconnect Cat 6a patch cable from both ethernet ports
+        ...    2. On DUT, reconnect lab network ethernet cable to port ${lab_network_port}
+
+        @{dut_setup_values}=    Get Selections From User
+        ...    [3/10] Follow the steps, mark each when done, click OK when finished.
+        ...    ${manual_eth_loop_setup}[0]
+        ...    ${manual_eth_loop_setup}[1]
+        Lists Should Be Equal    ${manual_eth_loop_setup}    ${dut_setup_values}
+
+        Pause Execution    [3/10] Click OK to begin speed testing.
+    END
+
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -34,9 +61,20 @@ ETHPERF001.001 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     ${eth_1}=    Get From List    ${ETH_PERF_PAIR_2_G}    0
     ${eth_2}=    Get From List    ${ETH_PERF_PAIR_2_G}    1
     Configure Network Interfaces For Testing    ${eth_1}    ${eth_2}
+
     Test Network Performance    2.35
 
-ETHPERF002.001 Check Performance of 10G Wired Network Interface (Ubuntu)
+    IF    '${eth_ports_number}' == '2'
+        Pause Execution
+        ...    [4/10] This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
+        @{dut_restore_values}=    Get Selections From User
+        ...    [5/10] Follow the steps, mark each when done, click OK when finished.
+        ...    ${manual_eth_restore}[0]
+        ...    ${manual_eth_restore}[1]
+        Lists Should Be Equal    ${manual_eth_restore}    ${dut_restore_values}
+    END
+
+ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     Depends On    ${ETH_PERF_PAIR_10_G}
     Power On

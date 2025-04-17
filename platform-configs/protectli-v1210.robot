@@ -15,3 +15,4 @@ ${PLATFORM_RAM_SIZE}=           4096
 @{ETH_PORTS}=                   64-62-66-2f-00-12
 ...                             64-62-66-2f-00-13
 ${ETHERNET_ID}=                 8086:125c
+@{ETH_PERF_PAIR_2_G}=           eno0    eno1
