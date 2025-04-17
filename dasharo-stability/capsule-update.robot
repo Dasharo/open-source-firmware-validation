@@ -12,111 +12,98 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/bios/menus.robot
+Resource            ../lib/options/options-lib_dcu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
-...                     Display Preparation Instructions    AND
+# ...               Display Preparation Instructions    AND
 ...                     Prepare Test Suite    AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported    AND
-...                     Check If Capsule Files Are Present    AND
+...                     Ensure Capsule Files Are Present    AND
 ...                     Prepare For Logo Persistence Test    AND
 ...                     Prepare For ROMHOLE Persistence Test    AND    # MSI Only
 ...                     Flash Firmware If Not QEMU    AND
 ...                     Upload Required Files    AND
 ...                     Get System Values    AND
-...                     Turn Off Active ME
+...                     Set UEFI Option    MeMode    Disabled (HAP)
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
 
 *** Variables ***
-${FUM_DIALOG_TOP}=          Update Mode. All firmware write protections are disabled in this mode.
-${FUM_DIALOG_BOTTOM}=       The platform will automatically reboot and disable Firmware Update Mode
+${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
+${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
+${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=      Wilk
+${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
+${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Security Violation
 
 
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
-    Power On
-    Enter UEFI Shell
-    ${original_bios_version}=    Get BIOS Version    Before update
-
-    Perform Capsule Update    wrong_cert.cap
-
-    Enter UEFI Shell
-
-    ${updated_bios_version}=    Get BIOS Version    After update
-    Should Be Equal    ${original_bios_version}    ${updated_bios_version}
-
-    Enter Capsule Testing Folder
-    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
-    Should Contain    ${out}    Capsule Status: Security Violation
+    ${status}=    Perform Capsule Update And Return Status    wrong_keys.cap
+    Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
-    Power On
-    Enter UEFI Shell
-    ${original_bios_version}=    Get BIOS Version    Before Update
-
-    Perform Capsule Update    invalid_guid.cap
-
-    Enter UEFI Shell
-
-    ${updated_bios_version}=    Get BIOS Version    After Update
-    Should Be Equal    ${original_bios_version}    ${updated_bios_version}
-
-    Enter Capsule Testing Folder
-    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
-    Should Contain    ${out}    Capsule Status: Not Ready
+    ${status}=    Perform Capsule Update And Return Status    invalid_guid.cap
+    Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
 
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Power On
+        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+        ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
 
-    Set Option State    ${boot_menu}    Auto Boot Time-out    32123
-    Save Changes And Reset
+        Set Option State    ${boot_menu}    Auto Boot Time-out    32123
+        Save Changes And Reset
+    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        # no serial connection
+        Power On
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
+        Set Suite Variable    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}    ${state}
+        ${new_state}=    Negate DCU Boolean    ${state}
+        Set UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_state}
+    END
 
 CUP150.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
-    Power On
-    Enter UEFI Shell
-    ${original_bios_version}=    Get BIOS Version    Before Update
+    ${status}=    Perform Capsule Update And Return Status    valid_capsule.cap
 
-    Perform Capsule Update    valid_capsule.cap
-    Check The Update Screen For The Correct UX
-
-    Set DUT Response Timeout    5m
-    Enter UEFI Shell
-    ${updated_bios_version}=    Get BIOS Version    After Update
-    Should Not Be Equal    ${original_bios_version}    ${updated_bios_version}
-
-    Enter Capsule Testing Folder
-    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
-    Should Contain    ${out}    CapsuleMax
-    Should Not Contain    ${out}    CapsuleLast
+    Should Contain    ${status}    CapsuleMax
+    Should Not Contain    ${status}    CapsuleLast
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Power On
+        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+        ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
 
-    ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
-    Should Be Equal    ${updated_state}    32123
+        ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
+        Should Be Equal    ${updated_state}    32123
+    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        # no serial connection
+        Power On
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
+        Should Not Be Empty    ${state}    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}
+    END
 
-CUP170.001 Verifying UUID (Ubuntu)
+CUP170.201 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP170.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_UUID
     IF    '${tmp}' == 'None'
-        Go To Ubuntu Prompt
+        Go To Linux Prompt    ${ENV_ID_UBUNTU}
         Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
 
@@ -128,7 +115,7 @@ CUP170.001 Verifying UUID (Ubuntu)
         Should Be Equal    ${UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
     END
 
-CUP170.002 Verifying UUID (Windows)
+CUP170.301 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
@@ -150,7 +137,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    '${tmp}' == 'None'
-        Go To Ubuntu Prompt
+        Go To Linux Prompt    ${ENV_ID_UBUNTU}
         Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
 
@@ -179,7 +166,7 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
     IF    '${tmp}' == 'None'
-        Go To Ubuntu Prompt
+        Go To Linux Prompt    ${ENV_ID_UBUNTU}
         Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
@@ -191,7 +178,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     Flash Firmware If Not QEMU    default
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
-    Turn Off Active ME
+    Set UEFI Option    MeMode    Disabled (HAP)
     Power On
     Enter UEFI Shell
     Perform Capsule Update    valid_capsule.cap
@@ -199,7 +186,42 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
 
 
 *** Keywords ***
+Perform Capsule Update And Return Status
+    [Arguments]    ${capsule_file}
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Power On
+        Enter UEFI Shell
+        ${original_bios_version}=    Get BIOS Version    Before update
+
+        Perform Capsule Update    ${capsule_file}
+
+        Enter UEFI Shell
+
+        ${updated_bios_version}=    Get BIOS Version    After update
+        Should Be Equal    ${original_bios_version}    ${updated_bios_version}
+
+        ${out}=    Get Capsule Update Logs
+        RETURN    ${out}
+    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        # Platform does not have a serial connection
+        Power On
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${original_bios_version}=    Get BIOS Version Linux    Before update
+
+        Perform Capsule Update    ${capsule_file}    use_uefi_shell=${False}
+
+        Power On
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        ${updated_bios_version}=    Get BIOS Version Linux    After update
+        Should Be Equal    ${original_bios_version}    ${updated_bios_version}
+        ${logs}=    Get Capsule Update Logs    use_uefi_shell=${False}
+        RETURN    ${out}
+    END
+
 Flash Firmware If Not QEMU
+    [Tags]    robot:private
     [Arguments]    ${logo_type}=custom
     Log To Console    PREPARE: Flashing Firmware
     IF    '${MANUFACTURER}' != 'QEMU'
@@ -221,6 +243,7 @@ Flash Firmware If Not QEMU
     END
 
 Check The Update Screen For The Correct UX
+    [Tags]    robot:private
     ${message}=    Catenate    SEPARATOR=
     ...    Please check the platform screen now, and verify that the UX is the
     ...    \ same as expected in the docs. Most importantly, the progress bar
@@ -230,6 +253,7 @@ Check The Update Screen For The Correct UX
     Execute Manual Step    ${message}
 
 Get Key To Press
+    [Tags]    robot:private
     [Arguments]    ${text}
     ${matches}=    Get Regexp Matches    ${text}    [0-9]
     ${digit}=    Set Variable    ${matches[0]}
@@ -237,6 +261,7 @@ Get Key To Press
     RETURN    ${digit}
 
 Extract BIOS Version
+    [Tags]    robot:private
     [Arguments]    ${text}
     ${lines}=    Split To Lines    ${text}
     ${bios_version}=    Set Variable    None
@@ -256,16 +281,24 @@ Extract BIOS Version
     RETURN    ${bios_version}
 
 Get BIOS Version
+    [Tags]    robot:private
     [Arguments]    ${label}
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${bios_version}=    Extract BIOS Version    ${out}
     Log To Console    \n[${label}] ${bios_version}
     RETURN    ${bios_version}
 
+Get BIOS Version Linux
+    [Tags]    robot:private
+    [Arguments]    ${label}
+    ${bios_version}=    Get Firmware Version From Dmidecode
+    Log To Console    \n[${label}] ${bios_version}
+    RETURN    ${bios_version}
+
 Upload Required Files
+    [Tags]    robot:private
     Log To Console    PREPARE: Upload Files
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
-    Set DUT Response Timeout    5m
 
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Go To Ubuntu Prompt
@@ -315,28 +348,48 @@ Upload Required Files
     END
 
 Perform Capsule Update
-    [Arguments]    ${capsule_file}
+    [Tags]    robot:private
+    [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
-    Enter Capsule Testing Folder
-    ${out}=    Execute UEFI Shell Command    CapsuleApp.efi ${capsule_file} -NR
-    Should Not Contain    ${out}    is not recognised
-    Should Not Contain    ${out}    Command Error Status
-    Should Not Contain    ${out}    is not a valid capsule.
-    Should Not Contain    ${out}    failed to query capsule capability
-    Should Contain    ${out}    CapsuleApp: creating capsule descriptors at
+    IF    ${use_uefi_shell}
+        Enter Capsule Testing Folder
+        ${out}=    Execute UEFI Shell Command    CapsuleApp.efi ${capsule_file} -NR
+        Should Not Contain    ${out}    is not recognised
+        Should Not Contain    ${out}    Command Error Status
+        Should Not Contain    ${out}    is not a valid capsule.
+        Should Not Contain    ${out}    failed to query capsule capability
+        Should Contain    ${out}    CapsuleApp: creating capsule descriptors at
 
-    # Reset the system manually
-    Write Bare Into Terminal    reset
-    Press Key N Times    1    ${ENTER}
+        # Reset the system manually
+        Write Bare Into Terminal    reset
+        Press Key N Times    1    ${ENTER}
 
-    # Confirm update by following instructions of Firmware Update Mode dialog
-    Read From Terminal Until    ${FUM_DIALOG_TOP}
-    ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
-    ${digit}=    Get Key To Press    ${out}
-    Write Bare Into Terminal    ${digit}
+        # Confirm update by following instructions of Firmware Update Mode dialog
+        Read From Terminal Until    ${FUM_DIALOG_TOP}
+        ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
+        ${digit}=    Get Key To Press    ${out}
+        Write Bare Into Terminal    ${digit}
+    ELSE
+        Power On
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux With Root Privileges
+        # hardcoded fatlabel of the partition, might change if not created using prepare_capsule_update_tests_drive.sh
+        ${capsule_disk}=    Set Variable    /run/media/${DEVICE_OS_USERNAME}/CAPSULE_USB
+        Execute Command In Terminal
+        ...    echo "set CAPSULE_FILE fs0:\${capsule_file}" > ${capsule_disk}/variable_capsule_file.nsh
+        Execute Command In Terminal    echo 'set STEP 0' > ${capsule_disk}/variable_step.nsh
+        Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
+        # Consider giving an ENV_ID to the capsule update disk and using Boot System...
+        Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
+        Execute Reboot Command    change_nextboot=${False}
+        # uefi shell runs and reboots the platform
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+    END
 
 Get File Name Without Extension
+    [Tags]    robot:private
     [Arguments]    ${file_path}
     ${path_components}=    Split String    ${file_path}    /
     ${base_name}=    Get From List    ${path_components}    -1
@@ -344,15 +397,8 @@ Get File Name Without Extension
     ${result}=    Get From List    ${name_parts}    0
     RETURN    ${result}
 
-Check If Capsule File Exists
-    [Arguments]    ${file_path}
-    ${msg}=    Catenate    File ${file_path} does not exist!
-    ...    \nTo create capsule files required for this test run:
-    ...    \n'bash ./scripts/capsules/capsule_update_tests.sh ${CAPSULE_FW_FILE}'
-    ...    \nand start the test again.
-    OperatingSystem.File Should Exist    ${file_path}    ${msg}
-
-Check If Capsule Files Are Present
+Ensure Capsule Files Are Present
+    [Tags]    robot:private
     Variable Should Exist
     ...    ${CAPSULE_FW_FILE}
     ...    capsule_fw_file parameter missing. Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
@@ -362,10 +408,19 @@ Check If Capsule Files Are Present
     ...    capsule_fw_file parameter incorrect. Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
 
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
-    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_wrong_cert.cap
-    Check If Capsule File Exists    ./dl-cache/edk2/${file_name}_invalid_guid.cap
+    ${f1}=    Run Keyword And Return Status
+    ...    OperatingSystem.File Should Exist
+    ...    ./dl-cache/edk2/${file_name}_wrong_cert.cap
+    ${f2}=    Run Keyword And Return Status
+    ...    OperatingSystem.File Should Exist
+    ...    ./dl-cache/edk2/${file_name}_invalid_guid.cap
+
+    IF    not ${f1} or not ${f2}
+        Run    ./scripts/capsules/capsule_update_tests.sh ${CAPSULE_FW_FILE}
+    END
 
 Enter Capsule Testing Folder
+    [Tags]    robot:private
     ${fss}=    Get FS From Uefi Shell
     FOR    ${fs}    IN    @{fss}
         Set Prompt For Terminal    ${fs}:\\>
@@ -381,22 +436,13 @@ Enter Capsule Testing Folder
     Set Prompt For Terminal    ${fs}:\\capsule_testing\\>
 
 Get FS From Uefi Shell
+    [Tags]    robot:private
     ${map}=    Execute UEFI Shell Command    map
     ${fss}=    Get Regexp Matches    ${map}    FS[0-9]{,2}
     RETURN    ${fss}
 
-Turn Off Active ME
-    Log To Console    PREPARE: Turn Off Active ME
-    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT} == ${TRUE}
-        Power On
-        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-        ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-        ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
-        Set Option State    ${me_menu}    Intel ME mode    Disabled (HAP)
-        Save Changes And Reset
-    END
-
 Display Preparation Instructions
+    [Tags]    robot:private
     Log To Console    ******************************************************************************\n
     Log To Console    To run tests first prepare a valid capsule file(*) and then use this capsule
     Log To Console    file to generate invalid capsules required by the tests by running the script:
@@ -423,6 +469,7 @@ Display Preparation Instructions
     Log To Console    \n******************************************************************************
 
 Prepare For Logo Persistence Test
+    [Tags]    robot:private
     Log To Console    PREPARE: Logo Persistence Test
     Run    cp ${FW_FILE} dcu/coreboot.rom
 
@@ -434,9 +481,11 @@ Prepare For Logo Persistence Test
         Should Contain    ${result.stdout}    Success
     END
 
-Go To Ubuntu Prompt
+Go To Linux Prompt
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
@@ -444,6 +493,7 @@ Go To Ubuntu Prompt
     Switch To Root User
 
 Go To Windows Prompt
+    [Tags]    robot:private
     Power On
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
@@ -451,6 +501,7 @@ Go To Windows Prompt
     Login To Windows
 
 Get System Values
+    [Tags]    robot:private
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Get Ubuntu System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
@@ -460,6 +511,7 @@ Get System Values
     END
 
 Get Ubuntu System Values
+    [Tags]    robot:private
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
     # Disable checking for variable case. Here, the first argument to 'Set Suite
@@ -491,6 +543,7 @@ Get Ubuntu System Values
     END
 
 Get Windows System Values
+    [Tags]    robot:private
     [Arguments]    ${var_serial}    ${var_uuid}
 
     # Disable checking for variable case. Here, the first argument to 'Set Suite
@@ -511,6 +564,7 @@ Get Windows System Values
 
 Prepare For ROMHOLE Persistence Test
     [Documentation]    This is a part which works only on MSI platforms.
+    [Tags]    robot:private
     Log To Console    PREPARE: ROMHOLE Persistence Test
 
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
@@ -520,6 +574,7 @@ Prepare For ROMHOLE Persistence Test
     END
 
 Get Firmware UUID (Windows)
+    [Tags]    robot:private
     ${uuid}=    Execute Command In Terminal    wmic path win32_computersystemproduct get UUID
     @{uuid}=    Split To Lines    ${uuid}
     Set Local Variable    ${var}    ${uuid}[-1]
@@ -528,8 +583,32 @@ Get Firmware UUID (Windows)
     RETURN    ${var}
 
 Get Firmware Serial Number (Windows)
+    [Tags]    robot:private
     ${serial}=    Execute Command In Terminal    wmic bios get serialnumber
     @{serial}=    Split To Lines    ${serial}
     Set Local Variable    ${var}    ${serial}[-1]
     ${var}=    Strip String    ${var}
     RETURN    ${var}
+
+Get Capsule Update Logs
+    [Documentation]    Gets the capsule update logs from CapsuleApp.efi -S
+    [Tags]    robot:private
+    [Arguments]    ${use_uefi_shell}=${True}
+    # Submit capsule to firmware without an automatic reset and verify that it
+    # was accepted without error
+    IF    ${use_uefi_shell}
+        Enter Capsule Testing Folder
+        ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
+        RETURN    ${out}
+    ELSE
+        ${capsule_disk}=    Set Variable    /run/media/${DEVICE_OS_USERNAME}/CAPSULE_USB
+        Execute Command In Terminal    echo 'set STEP 1' > ${capsule_disk}/variable_step.nsh
+        Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
+        Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
+        Execute Reboot Command    change_nextboot=${False}
+        # uefi shell runs and reboots the platform
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        ${logs}=    Execute Command In Terminal    cat ${capsule_disk}/logs.txt
+        RETURN    ${logs}
+    END
