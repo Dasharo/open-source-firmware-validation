@@ -20,7 +20,6 @@ CPP001.201 Single Threaded CPU Benchmark (Ubuntu) (AC)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.001 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
-    Skip If Battery Level Below 30 Percent
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -37,6 +36,7 @@ CPP001.202 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery is not present
     Skip If    ${AC_CONNECTED}    The platform is not connected to AC
+    Skip If Battery Level Below 30 Percent
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
