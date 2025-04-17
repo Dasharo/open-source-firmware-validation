@@ -47,3 +47,5 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
 ...                                                 TEST_HCI_PRESENT=true
 ...                                                 TEST_ME_HAP_DISABLED=true
 ...                                                 TEST_ME_OP_MODE=2
+
+${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
