@@ -145,7 +145,6 @@ Set Nextboot
 
     ${os_boot_id}=    Set Variable    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
-    ${os_bootentry_name}=    Convert To Lower Case    ${os_bootentry_name}
 
     ${boot_entries}=    Execute Command In Terminal    efibootmgr
 
