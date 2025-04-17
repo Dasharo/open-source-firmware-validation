@@ -129,7 +129,8 @@ Make Sure That Flash Locks Are Disabled
     Login To Linux
     Switch To Root User
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
-    Should Not Contain    ${out_flashrom}    read-only
+    ${ro}=    Run Keyword And Return Status    Should Not Contain    ${out_flashrom}    read-only
+    IF    not ${ro}    Set UEFI Option    LockBios    Disabled
 
 Login To Windows
     Power On
@@ -145,7 +146,14 @@ Set Nextboot
 
     VAR    ${os_boot_id}=    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
+    Set Nextboot Bootentry    ${os_bootentry_name}
 
+Set Nextboot Bootentry
+    [Documentation]    Sets the botentry name of choice to be booted first on
+    ...    the next reboot. Not persistent, only changes the first boot
+    ...    option for one boot.
+    [Arguments]    ${bootentry_name}
+    ${bootentry_name}=    Convert To Lower Case    ${bootentry_name}
     ${boot_entries}=    Execute Command In Terminal    efibootmgr
 
     @{lines}=    Split To Lines    ${boot_entries}
@@ -155,7 +163,7 @@ Set Nextboot
         ${line}=    Decode Bytes To String    ${tmp}    ASCII    errors=replace
         ${line}=    Get Substring    ${line}    0    150
 
-        IF    '${os_bootentry_name}' in '${line}'
+        IF    '${bootentry_name}' in '${line}'
             VAR    ${os_boot_id}=    ${line}
             BREAK
         END
