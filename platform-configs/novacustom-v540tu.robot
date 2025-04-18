@@ -13,6 +13,7 @@ ${DEVICE_USB_KEYBOARD}=                 Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc2
 ${DMIDECODE_RELEASE_DATE}=              04/10/2025
+${WIFI_CARD}                            Intel Corporation Meteor Lake PCH CNVi WiFi
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
