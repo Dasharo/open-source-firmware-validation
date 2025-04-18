@@ -20,6 +20,7 @@ DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     ...    performance, while connected to power supply unit. (Ubuntu)
     Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Ubuntu
     Run FIO On Ubuntu    sequential_with_queues
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=2G
@@ -37,6 +38,7 @@ DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -56,6 +58,7 @@ DIO003.201 Sequential Write Performance (Ubuntu) (AC)
     ...    performance while powered by AC adapter. (Ubuntu)
     Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    sequential_write_with_queues
@@ -78,6 +81,7 @@ DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -99,6 +103,7 @@ DIO005.201 Random Read Performance (Ubuntu) (AC)
     ...    while connected to power supply unit. (Ubuntu)
     Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    random_read_with_queues
@@ -121,6 +126,7 @@ DIO006.201 Random Read Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -142,6 +148,7 @@ DIO007.201 Random Write Performance (Ubuntu) (AC)
     ...    while connected to power supply unit. (Ubuntu)
     Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    random_write_with_queues
@@ -164,6 +171,7 @@ DIO008.201 Random Write Performance (Ubuntu) (Battery)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -184,6 +192,7 @@ DIO001.003 Sequential Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    sequential_with_queues
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -198,6 +207,7 @@ DIO001.004 Sequential Read Performance (Windows) (Battery)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    sequential_with_queues
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -210,6 +220,7 @@ DIO002.003 Sequential Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    sequential_write_with_queues
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -226,6 +237,7 @@ DIO002.004 Sequential Write Performance (Windows) (Battery)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    sequential_write_with_queues
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -239,6 +251,7 @@ DIO003.003 Random Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded write
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    random_read
     ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
@@ -250,6 +263,7 @@ DIO003.004 Random Read Performance (Windows) (Battery)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    random_read
     ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
@@ -259,6 +273,7 @@ DIO004.003 Random Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    random_write
     ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
@@ -270,6 +285,7 @@ DIO004.004 Random Write Performance (Windows) (Battery)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not connected to AC
     Power Cycle Into Windows
     Run FIO On Windows    random_write
     ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
