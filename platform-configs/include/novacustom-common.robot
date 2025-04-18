@@ -147,13 +147,7 @@ ${L2_CACHE_SUPPORT}=                                ${TRUE}
 Power On
     [Documentation]    Implementation of keywords.Power On
     IF    "${POWER_CTRL}"=="none"    RETURN
-    Restore Initial DUT Connection Method
     Power Cycle On
-    Sleep    2s
-    RteCtrl Set OC GPIO    12    low
-    Sleep    1s
-    RteCtrl Set OC GPIO    12    high-z
-
 # TODO make these generic
 
 Configure Wake In Linux
