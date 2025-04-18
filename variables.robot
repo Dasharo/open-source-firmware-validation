@@ -180,7 +180,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=qemu
 ...                         platform_vendor=qemu
 # NovaCustom NV4x ADL --------------------------------------------------------
-&{RTE51}=                   ip=0.0.0.0
+&{RTE51}=                   ip=192.168.10.58          sonoff_ip=192.168.10.57
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
 # NovaCustom automated laptop testing station --------------------------------
 &{RTE52}=                   ip=192.168.10.91
