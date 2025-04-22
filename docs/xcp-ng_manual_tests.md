@@ -463,7 +463,7 @@ Example output:
 ```bash
 2f:00.0 Network controller: Intel Corporation Wi-Fi 6 AX201 (rev 1a)
 ```
-<!-- 
+<!--
 
 ## WLE002.003 Wi-Fi scanning (XCP-NG)
 

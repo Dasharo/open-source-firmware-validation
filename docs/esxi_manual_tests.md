@@ -254,4 +254,156 @@ Package Id: 0
 
 # Dasharo Security: TPM Support
 
-TBD
+_Currently not supported_
+
+# Dasharo Compatibility: SATA Storage Detection
+
+## SATA001.003 SATA Device Detection (ESXi)
+
+**Test setup**
+
+1. Insert a SATA storage device (e.g., SSD or HDD) into the SATA port on the DUT.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into the ESXi system.
+1. Log into the ESXi host using the DCUI, SSH, or via remote console.
+1. Run the following command to list available storage devices:
+
+    ```bash
+    esxcli storage core device list
+    ```
+
+1. Identify the SATA device by looking for the appropriate model, vendor, or type.
+1. (Optional) Run the following command to query SMART data (if supported and available):
+
+    ```bash
+    esxcli storage core device smart get -d <DeviceName>
+    ```
+
+    Replace `<DeviceName>` with the appropriate device identifier (e.g., `t10.ATA_____...`).
+
+**Expected result**
+
+1. The SATA device is listed in `esxcli storage core device list`.
+1. SMART data (if supported) shows valid identification details such as:
+
+    ```text
+    Model: SSDPR-CX400-256-G2
+    Serial Number: 410039098
+    Firmware Revision: HDFED3.2
+    ```
+
+---
+
+# Dasharo Compatibility: Ethernet Port Detection
+
+## ETH001.003 All Expected Network Controllers Detected (ESXi)
+
+**Test description**
+
+This test verifies that all expected onboard or add-in Ethernet network
+controllers are correctly detected by ESXi.
+
+**Test setup**
+
+1. Know the expected number and models of Ethernet controllers in the DUT.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into ESXi.
+1. Log into the system via SSH or DCUI.
+1. Run the following command:
+
+    ```bash
+    esxcli network nic list
+    ```
+
+1. Compare the output against the expected list of Ethernet devices.
+
+**Expected result**
+
+1. Each expected Ethernet controller appears in the list.
+1. Devices show a valid driver, link status, and MAC address.
+
+Example output:
+
+```text
+Name    PCI Device    Driver      Link Speed    Duplex  MAC Address
+vmnic0  0000:02:00.0  ixgbe       Up   10000Mbps Full    00:1b:21:bb:aa:cc
+vmnic1  0000:03:00.0  ixgbe       Up   10000Mbps Full    00:1b:21:bb:aa:cd
+```
+
+## ETH002.003 All Expected SFP Controllers Detected (ESXi)
+
+**Test description**
+
+Verifies that onboard or add-in SFP network controllers are detected properly
+by ESXi.
+
+**Test setup**
+
+Know the expected SFP controller models.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into ESXi.
+1. Log into the system via SSH or DCUI.
+1. Run the following command:
+
+    ```bash
+    esxcli network nic list
+    ```
+
+1. Compare the output against the expected list of SFP NICs.
+
+**Expected result**
+
+Each SFP+ controller is listed with 10Gbps or expected link speed.
+
+The interface details match expected devices (e.g., Intel X710).
+
+Example output:
+
+```text
+Name    PCI Device    Driver      Link Speed    Duplex  MAC Address
+vmnic0  0000:01:00.0  i40e        Up   10000Mbps Full    00:1b:21:xx:yy:zz
+vmnic1  0000:01:00.1  i40e        Up   10000Mbps Full    00:1b:21:xx:yy:zy
+````
+
+## Dasharo Compatibility: RAM Detection
+
+### ME001.003 Expected RAM Size Detected (ESXi)
+
+**Test description**
+
+Verifies that the installed RAM is correctly recognized by ESXi.
+
+**Test setup**
+
+Know the expected amount of installed memory on the DUT.
+
+**Test steps**
+
+1. Power on the DUT.
+1. Boot into ESXi.
+1. Log in via SSH or DCUI.
+1. Run:
+
+    ```bash
+    esxcli hardware memory get
+    ```
+
+**Expected result**
+
+The total memory reported matches the installed amount (allowing small
+variations due to reserved space).
+
+Example output for 8GB RAM:
+
+```text
+Physical Memory: 8192 MB
+```
