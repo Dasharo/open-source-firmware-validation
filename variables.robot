@@ -180,7 +180,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=qemu
 ...                         platform_vendor=qemu
 # NovaCustom NV4x ADL --------------------------------------------------------
-&{RTE51}=                   ip=192.168.10.58          sonoff_ip=192.168.10.57
+&{RTE51}=                   ip=192.168.10.58    sonoff_ip=192.168.10.57
 ...                         platform=novacustom-nv41pz    platform_vendor=Clevo
 # NovaCustom automated laptop testing station --------------------------------
 &{RTE52}=                   ip=192.168.10.91
@@ -248,6 +248,12 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=protectli-vp3210
 ...                         platform_vendor=protectli
 
+# NovaCustom NS50MU test rack
+&{RTE70}=                   ip=192.168.10.73
+...                         platform=novacustom-ns50mu
+...                         platform_vendor=Clevo
+...                         sonoff_ip=192.168.10.67
+
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
@@ -261,7 +267,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
 ...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
-...                         &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
+...                         &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}    &{RTE70}
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
