@@ -61,3 +61,5 @@ ${WIN_RAND_WRITE_NONQUE}=               ${EMPTY}    # MB/s
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     24.5    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    23.5    # FPS
+
+${OPTIONS_LIB}=                         options-lib_dcu

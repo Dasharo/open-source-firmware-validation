@@ -20,3 +20,5 @@ ${USB_DEVICE}=                  Kingston
 ${USB_MODEL}=                   USB Flash Memory
 ${CPU_MAX_FREQUENCY}=           4500
 ${CPU_MIN_FREQUENCY}=           300
+
+${OPTIONS_LIB}=                 options-lib_dcu

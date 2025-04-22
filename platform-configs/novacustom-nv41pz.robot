@@ -5,7 +5,7 @@ Resource    include/novacustom-common.robot
 
 *** Variables ***
 # CPU
-${CPU}=                         Intel(R) Core(TM) i5-1240P CPU
+${CPU}=                                 Intel(R) Core(TM) i5-1240P CPU
 
 # Test configuration
 ${3_MDEB_WIFI_NETWORK}=                 3mdeb_abr
@@ -28,7 +28,7 @@ ${BLUETOOTH_CARD_UBUNTU}=               8087:0026
 ${POWER_CTRL}=                          sonoff
 ${USB_STACK_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
-${TESTS_IN_UBUNTU_SUPPORT}=            ${FALSE}
+${TESTS_IN_UBUNTU_SUPPORT}=             ${FALSE}
 ${DTS_SUPPORT}=                         ${TRUE}
-${SNIPEIT}=                         no
-${SONOFF_IP}=                       192.168.10.57
+${SNIPEIT}=                             no
+${SONOFF_IP}=                           192.168.10.57
