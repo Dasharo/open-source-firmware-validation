@@ -33,9 +33,9 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     IF    '${eth_ports_number}' == '2'
         Skip If    '${DUT_CONNECTION_METHOD}' != 'Telnet'
         Pause Execution
-        ...    [1/10] This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
+        ...    [1/6] This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
         ${lab_network_port}=    Get Value From User
-        ...    [2/10] Enter DUT ethernet port number connected to lab network.    1
+        ...    [2/6] Enter DUT ethernet port number connected to lab network.    1
 
         @{manual_eth_loop_setup}=    Create List
         ...    1. On DUT, disconnect lab network ethernet cable from port ${lab_network_port}
@@ -45,12 +45,12 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
         ...    2. On DUT, reconnect lab network ethernet cable to port ${lab_network_port}
 
         @{dut_setup_values}=    Get Selections From User
-        ...    [3/10] Follow the steps, mark each when done, click OK when finished.
+        ...    [3/6] Follow the steps, mark each when done, click OK when finished.
         ...    ${manual_eth_loop_setup}[0]
         ...    ${manual_eth_loop_setup}[1]
         Lists Should Be Equal    ${manual_eth_loop_setup}    ${dut_setup_values}
 
-        Pause Execution    [3/10] Click OK to begin speed testing.
+        Pause Execution    [4/6] Click OK to begin speed testing.
     END
 
     Power On
@@ -66,9 +66,9 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
 
     IF    '${eth_ports_number}' == '2'
         Pause Execution
-        ...    [4/10] This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
+        ...    [5/6] This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
         @{dut_restore_values}=    Get Selections From User
-        ...    [5/10] Follow the steps, mark each when done, click OK when finished.
+        ...    [6/6] Follow the steps, mark each when done, click OK when finished.
         ...    ${manual_eth_restore}[0]
         ...    ${manual_eth_restore}[1]
         Lists Should Be Equal    ${manual_eth_restore}    ${dut_restore_values}
