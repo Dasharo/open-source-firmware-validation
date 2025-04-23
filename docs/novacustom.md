@@ -34,7 +34,7 @@ The steps are:
   Output and Stderr menus. It will likely appear at the very end, the device
   path should resemble
 
-  ```
+  ```text
     PciRoot(0x0)/Pci(0x14,0x0)/USB(0x0,0x0)/Uart(115200,8,N,1)/TtyTerm()
   ```
 
