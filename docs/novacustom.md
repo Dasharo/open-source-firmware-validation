@@ -11,10 +11,42 @@ first.
 
 A major hurdle when testing NVC laptops is the lack of an available serial
 console, which is the main mode of access for most of our other platforms.
-So far, we have been testing our laptops over SSH with the help of
-[DCU](https://github.com/Dasharo/dcu).
 
-This approach, however, needs some prerequisites to be satisfied:
+We have so far come up with two solutions to this problem. The one we currently
+implement in our testing procedure is plugging an FTDI USB-TTL converter
+into the DUT, and setting it as the serial console in the EDK2 setup menu. The
+former method was testing our laptops over SSH with the help of
+[DCU](https://github.com/Dasharo/dcu). You can find the instructions for both
+approaches below.
+
+## FTDI converter
+
+The obvious prerequisite is that you have an FTDI FT232-based USB-TTL
+converter. Currently, that's the only hardware that's been tested, and the
+driver seems to be rather picky, so a random USB-TTL might not cut it.
+
+The steps are:
+
+* Plug the converter into the DUT
+* Enable `Serial Console Redirection` from the `Dasharo System Features` menu
+* Navigate to `Boot Maintenance Manager` -> `Console Options`
+* Find and select the FTDI terminal device in each Console Input, Console
+  Output and Stderr menus. It will likely appear at the very end, the device
+  path should resemble
+
+  ```
+    PciRoot(0x0)/Pci(0x14,0x0)/USB(0x0,0x0)/Uart(115200,8,N,1)/TtyTerm()
+  ```
+
+After that, the laptop can be used just like a regular platform with serial
+console access. Just **make sure** you set up the OS'es to use the right
+console, eg. `ttyUSB0`, not `ttyS1`.
+
+## SSH + DCU
+
+If you couldn't manage to get a hold of an FTDI converter, you will need to
+set up SSH on the platform and change the UEFI options by reading, modifying
+and writing back the NVRAM region with the help of DCU.
 
 * If you have multiple OS'es on your platform, you need to ensure that the
   **first boot option** is set to a Linux system. Switching between OSes
