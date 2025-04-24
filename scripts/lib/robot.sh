@@ -188,7 +188,7 @@ execute_robot() {
                 ${_robot_args[*]} \
                 ${_test_name}
                 "
-    echo "$command"
+    # echo "$command"
     eval "$command"
   done
 }
