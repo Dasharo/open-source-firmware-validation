@@ -19,7 +19,7 @@ Flash Via Internal Programmer With Args
         Log    Retry flashing once again in case of failure
         ${out_flash}=    Execute Command In Terminal    flashrom -p internal -w ${fw_file_path} ${args}    300s
         IF    "Warning: Chip content is identical to the requested image." in """${out_flash}"""
-            RETURN
+            Fail    Couldn't flash firmware
         END
         #    Should Contain    ${out_flash}    VERIFIED
     END
