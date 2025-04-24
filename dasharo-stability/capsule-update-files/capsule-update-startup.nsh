@@ -15,7 +15,6 @@ fs0:\variable_step.nsh
 
 # Step 0 - launch capsule update
 if "%STEP%" == "0" then
-    echo 'set STEP 1' > fs0:\variable_step.nsh
     fs0:\CapsuleApp.efi "%CAPSULE_FILE%" -NR
     reset
 endif
@@ -23,6 +22,5 @@ endif
 # Step 1 - check update status
 if "%STEP%" == "1" then
     fs0:\CapsuleApp.efi -S > "%LOG_FILE%"
-    echo 'set STEP 0' > fs0:\variable_step.nsh
     reset
 endif
