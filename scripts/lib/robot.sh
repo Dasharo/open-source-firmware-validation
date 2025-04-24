@@ -233,7 +233,7 @@ execute_robot() {
                 ${_robot_args[*]} \
                 ${_test_name}
                 "
-    #echo "$command"
+    # echo "$command"
     eval "$command"
     if [[ $? -ne 0 ]]; then
       overall_rc=1
