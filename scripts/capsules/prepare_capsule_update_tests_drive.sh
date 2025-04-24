@@ -6,7 +6,6 @@
 
 DRIVE=$1
 DRIVE_LABEL=CAPSULE_USB
-DRIVE_MOUNT_DIR=/run/media/$USER/$DRIVE_LABEL
 FILES_DIR=dasharo-stability/capsule-update-files
 CAPSULE_FILES_DIR=dl-cache/edk2
 
@@ -41,29 +40,29 @@ fi
 # try to unmount, fails if not mounted
 udisksctl unmount -b $DRIVE || true
 # format to fat32
-mkfs.vfat $DRIVE
+mkfs.vfat $DRIVE    # requires root privilege
 fatlabel $DRIVE $DRIVE_LABEL
 sleep 1
 # mount drive
-
 udisksctl mount -b $DRIVE
+mount_point=$(udisksctl info -b $DRIVE | grep -Po '^ *MountPoints: *\K.*')
 
 # create boot directories
-mkdir -p $DRIVE_MOUNT_DIR/EFI/BOOT
+mkdir -p "$mount_point"/EFI/BOOT
 
 CAPSULE_BASENAME=$(realpath "$CAPSULE_FW_FILE")
 CAPSULE_BASENAME=$(basename "$CAPSULE_BASENAME")
 CAPSULE_BASENAME="${CAPSULE_BASENAME%.*}"
 
 # copy files
-cp $FILES_DIR/Shell.efi $DRIVE_MOUNT_DIR/EFI/BOOT/bootx64.efi
-cp $FILES_DIR/CapsuleApp.efi $DRIVE_MOUNT_DIR/CapsuleApp.efi
-cp $FILES_DIR/capsule-update-startup.nsh $DRIVE_MOUNT_DIR/startup.nsh
-cp $FILES_DIR/variable_capsule_file.nsh $DRIVE_MOUNT_DIR/variable_capsule_file.nsh
-cp $FILES_DIR/variable_step.nsh $DRIVE_MOUNT_DIR/variable_step.nsh
-cp $CAPSULE_FILES_DIR/${CAPSULE_BASENAME}_wrong_cert.cap $DRIVE_MOUNT_DIR/wrong_cert.cap
-cp $CAPSULE_FILES_DIR/${CAPSULE_BASENAME}_invalid_guid.cap $DRIVE_MOUNT_DIR/invalid_guid.cap
-cp $CAPSULE_FW_FILE $DRIVE_MOUNT_DIR/valid_capsule.cap
+cp $FILES_DIR/Shell.efi "$mount_point"/EFI/BOOT/bootx64.efi
+cp $FILES_DIR/CapsuleApp.efi "$mount_point"/CapsuleApp.efi
+cp $FILES_DIR/capsule-update-startup.nsh "$mount_point"/startup.nsh
+cp $FILES_DIR/variable_capsule_file.nsh "$mount_point"/variable_capsule_file.nsh
+cp $FILES_DIR/variable_step.nsh "$mount_point"/variable_step.nsh
+cp $CAPSULE_FILES_DIR/${CAPSULE_BASENAME}_wrong_cert.cap "$mount_point"/wrong_cert.cap
+cp $CAPSULE_FILES_DIR/${CAPSULE_BASENAME}_invalid_guid.cap "$mount_point"/invalid_guid.cap
+cp $CAPSULE_FW_FILE "$mount_point"/valid_capsule.cap
 
 # cleanup
 udisksctl unmount -b $DRIVE
