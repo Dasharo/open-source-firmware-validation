@@ -206,7 +206,10 @@ Upload 1GB File On USB Storage
     Switch To Root User
     Execute Linux Command    openssl rand -out test_file.txt -base64 $(( 2**30 * 3/4 ))
     ${path_to_usb}=    Identify Path To USB
-    Execute Linux Command    yes | cp -f test_file.txt ${path_to_usb}    120
-    Check If Files Are Identical In Linux    test_file.txt    ${path_to_usb}/test_file.txt
+    Execute Linux Command    mount ${path_to_usb} /mnt
+    Execute Linux Command    yes | cp -f test_file.txt /mnt    120
+    Execute Linux Command    sync    120
+    Check If Files Are Identical In Linux    test_file.txt    /mnt/test_file.txt
     Execute Linux Command    yes | rm test_file.txt ${path_to_usb}/test_file.txt
+    Execute Linux Command    sync && umount ${path_to_usb}    120
     Exit From Root User
