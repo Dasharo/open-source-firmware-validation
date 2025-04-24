@@ -1472,9 +1472,9 @@ Get Hash Of File
     RETURN    ${hash}
 
 Identify Path To USB
-    [Documentation]    Identifies path to USB storage. Setting ${usb_model}
-    ...    variable in .config file is required to correctly work
-    ...    this keyword.
+    [Documentation]    Identifies path to USB storage. Setting ${USB_MODEL}
+    ...    variable in .config file is required.
+    [Arguments]    ${expected_usb_model}=${USB_MODEL}
     ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
     @{disks}=    Get Regexp Matches    ${out}    sd.
     FOR    ${disk}    IN    @{disks}
@@ -1482,10 +1482,13 @@ Identify Path To USB
         ${model_name}=    Fetch From Left    ${model}    \r\n
         ${model_name}=    Fetch From Right    ${model_name}    \r
         VAR    ${usb_disk}=    ${disk}
-        IF    '${model_name}' == '${USB_MODEL}'    BREAK
+        IF    '${expected_usb_model}' in '${model_name}'    BREAK
     END
     ${out}=    Execute Linux Command
-    ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk} | grep part
+    ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk}
+    IF    'part' in '${out}'
+        ${out}=    Get Regexp Matches    ${out}    part
+    END
     ${split}=    Split String    ${out}
     ${path_to_usb}=    Get From List    ${split}    2
     RETURN    ${path_to_usb}

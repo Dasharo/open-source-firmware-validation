@@ -294,6 +294,7 @@ Execute Command In Terminal
         Telnet.Read
         ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
     ELSE
+        Read From Terminal
         Write Into Terminal    ${command}
         ${output}=    Read From Terminal Until Prompt
     END
