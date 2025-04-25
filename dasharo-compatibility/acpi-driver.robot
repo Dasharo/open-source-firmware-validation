@@ -38,7 +38,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-ACPI001.001 ACPI driver test (Ubuntu)
+ACPI001.201 ACPI driver test (Ubuntu)
     [Documentation]    Tests if ACPI drivers can be recognised
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ACP001.001 not supported
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -61,7 +61,7 @@ ACPI001.001 ACPI driver test (Ubuntu)
     ${out}=    Execute Command In Terminal    sensors
     Should Contain All    ${out}    @{EXPECTED_OUTPUT}
 
-ACPI001.002 ACPI driver test (Fedora)
+ACPI001.202 ACPI driver test (Fedora)
     [Documentation]    Tests if ACPI drivers can be recognised
     # Skip If    not ${TEST_IN_FE} or    ACP001.002 not supported
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
