@@ -38,8 +38,9 @@ Suite Teardown      Run Keywords
 ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
 ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=      Wilk
+${CAPSULE_UPDATE_DISK_MODEL}=               USB DISK 3.0
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
-${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Security Violation
+${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
 
 
 *** Test Cases ***
@@ -68,7 +69,7 @@ CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
         Set Suite Variable    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}    ${state}
-        ${new_state}=    Negate DCU Boolean    ${state}
+        ${new_state}=    Evaluate    not ${state}
         Set UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_state}
     END
 
@@ -95,7 +96,7 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
         Power On
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
-        Should Not Be Empty    ${state}    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}
+        Should Not Be Equal    ${state}    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}
     END
 
 CUP170.201 Verifying UUID (Ubuntu)
@@ -180,8 +181,14 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     Set DUT Response Timeout    5m
     Set UEFI Option    MeMode    Disabled (HAP)
     Power On
-    Enter UEFI Shell
-    Perform Capsule Update    valid_capsule.cap
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Enter UEFI Shell
+        Perform Capsule Update    valid_capsule.cap
+    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux With Root Privileges
+        Perform Capsule Update    valid_capsule.cap    use_uefi_shell=${False}
+    END
     Check The Update Screen For The Correct UX
 
 
@@ -200,24 +207,24 @@ Perform Capsule Update And Return Status
         ${updated_bios_version}=    Get BIOS Version    After update
         Should Be Equal    ${original_bios_version}    ${updated_bios_version}
 
-        ${out}=    Get Capsule Update Logs
-        RETURN    ${out}
+        ${logs}=    Get Capsule Update Logs
+        RETURN    ${logs}
     ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         # Platform does not have a serial connection
         Power On
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux
-        Switch To Root User
+        Login To Linux With Root Privileges
         ${original_bios_version}=    Get BIOS Version Linux    Before update
 
         Perform Capsule Update    ${capsule_file}    use_uefi_shell=${False}
 
         Power On
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux With Root Privileges
         ${updated_bios_version}=    Get BIOS Version Linux    After update
         Should Be Equal    ${original_bios_version}    ${updated_bios_version}
         ${logs}=    Get Capsule Update Logs    use_uefi_shell=${False}
-        RETURN    ${out}
+        RETURN    ${logs}
     END
 
 Flash Firmware If Not QEMU
@@ -230,7 +237,7 @@ Flash Firmware If Not QEMU
         ELSE IF    '${logo_type}' == 'custom'
             Flash Firmware    ./dcu/coreboot.rom
         END
-        Power Cycle On
+        Power On
     ELSE
         ${message}=    Catenate    SEPARATOR=
         ...    Please make sure QEMU is running firmware with
@@ -301,7 +308,7 @@ Upload Required Files
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
 
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        Go To Ubuntu Prompt
+        Go To Linux Prompt    ${ENV_ID_UBUNTU}
         # Send File To DUT uses regular user, so prepare target directory in as root
         Execute Command In Terminal    rm -r /capsule_testing
         Execute Command In Terminal    mkdir /capsule_testing
@@ -375,10 +382,9 @@ Perform Capsule Update
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux With Root Privileges
         # hardcoded fatlabel of the partition, might change if not created using prepare_capsule_update_tests_drive.sh
-        ${capsule_disk}=    Set Variable    /run/media/${DEVICE_OS_USERNAME}/CAPSULE_USB
-        Execute Command In Terminal
-        ...    echo "set CAPSULE_FILE fs0:\${capsule_file}" > ${capsule_disk}/variable_capsule_file.nsh
-        Execute Command In Terminal    echo 'set STEP 0' > ${capsule_disk}/variable_step.nsh
+        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
+        Set Startup Nsh Variable    capsule_file    fs0:\\${capsule_file}    ${capsule_disk}
+        Set Startup Nsh Variable    step    0    ${capsule_disk}
         Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
         # Consider giving an ENV_ID to the capsule update disk and using Boot System...
         Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
@@ -601,14 +607,43 @@ Get Capsule Update Logs
         ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
         RETURN    ${out}
     ELSE
-        ${capsule_disk}=    Set Variable    /run/media/${DEVICE_OS_USERNAME}/CAPSULE_USB
-        Execute Command In Terminal    echo 'set STEP 1' > ${capsule_disk}/variable_step.nsh
+        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
+        Set Startup Nsh Variable    step    1    ${capsule_disk}
         Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
         Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
         Execute Reboot Command    change_nextboot=${False}
         # uefi shell runs and reboots the platform
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-        Login To Linux
-        ${logs}=    Execute Command In Terminal    cat ${capsule_disk}/logs.txt
+        Login To Linux With Root Privileges
+        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}>
+        ${mount_point}=    Mount USB    ${capsule_disk}
+
+        # UEFI Shell uses UTF-16LE and SSHLibrary will panic if the file is read
+        # to the terminal in this form
+        Execute Command In Terminal    iconv -f UTF-16LE -t UTF-8 ${mount_point}/logs.txt -o /tmp/capsule-logs.txt
+        ${logs}=    Execute Command In Terminal    cat /tmp/capsule-logs.txt
         RETURN    ${logs}
     END
+
+Mount USB
+    [Documentation]    mounts the block device using udisksctl in linux
+    ...    and returns the mountpoint
+    [Tags]    robot:private
+    [Arguments]    ${block_dev}
+    # doesn't matter if mounting fails, because its already mounted
+    Execute Command In Terminal    udisksctl mount -b ${block_dev}
+    ${mount_point}=    Execute Command In Terminal
+    ...    udisksctl info -b ${block_dev} | grep -Po '^ *MountPoints: *\\K.*'
+    RETURN    ${mount_point}
+
+Set Startup Nsh Variable
+    [Documentation]    The variables that control the startup.nsh script
+    ...    are written to files
+    [Tags]    robot:private
+    [Arguments]    ${name}    ${value}    ${capsule_disk}
+    ${variable_name}=    Convert To Upper Case    ${name}
+    ${file_name}=    Convert To Lower Case    ${name}
+    ${mount_point}=    Mount USB    ${capsule_disk}
+    ${out}=    Execute Command In Terminal
+    ...    echo "set ${variable_name} ${value}" > ${mount_point}/variable_${file_name}.nsh
+    Should Not Contain    ${out}    No such file
