@@ -2,6 +2,7 @@
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Resource            ../lib/platform/boot.robot
+Resource            ../lib/cbmem.robot
 
 Suite Setup         Initialize Fast Boot Suite
 Suite Teardown      Log Out And Close Connection
@@ -85,7 +86,8 @@ Measure FW Boot Time On Linux
     Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${iterations}
-        Power Cycle On
+        Execute Reboot Command    linux    ${True}
+        Sleep    5s
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get FW Boot Time From Systemd-analyze
