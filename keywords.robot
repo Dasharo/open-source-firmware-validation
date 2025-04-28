@@ -762,11 +762,11 @@ Execute Poweroff Command
 
 Execute Reboot Command
     [Documentation]    Executes reboot command in given os
-    [Arguments]    ${os}=linux
+    [Arguments]    ${os}=linux    ${assume_correct_boot}=${False}
     IF    '${os}' == 'linux'
         # if the OS cannot be chosen from the bootmanager and rebooting
         # always boots the default one
-        IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
             Set Nextboot    ${BOOTED_OS_ID}
             Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
             Set Suite Variable    ${BOOTED_OS_ID}    ${BOOTED_OS_ID}
