@@ -1,16 +1,7 @@
 *** Settings ***
-Library             Collections
-Library             OperatingSystem
-Library             Process
-Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
-Library             RequestsLibrary
-# TODO: maybe have a single file to include if we need to include the same
-# stuff in all test cases
-Resource            ../variables.robot
-Resource            ../keywords.robot
-Resource            ../keys.robot
+Resource            ../lib/platform/boot.robot
 
 Suite Setup         Initialize Fast Boot Suite
 Suite Teardown      Log Out And Close Connection
@@ -130,27 +121,4 @@ Initialize Fast Boot Suite
     Prepare Test Suite
     Skip If    not ${FAST_AND_QUIET_BOOT_SUPPORT}    Boot performance measurement tests not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Boot performance measurement tests not supported
-
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-
-    ${ubuntu_boot_id}=    Execute Linux Command
-    ...    efibootmgr | grep -i "ubuntu" | awk 'NR==1 {print $1}' | sed 's/Boot//g' | sed 's/*//g'
-    Should Not Be Empty    ${ubuntu_boot_id}
-
-    ${order_check}=    Execute Linux Command
-    ...    efibootmgr | grep "BootOrder: ${ubuntu_boot_id}"
-
-    IF    '${order_check}' == '${EMPTY}'
-        ${boot_order_no_ubuntu}=    Execute Linux Command
-        ...    efibootmgr | grep "BootOrder" | awk '{print $2}' | sed -e 's/,${ubuntu_boot_id}//g'
-        Should Not Be Empty    ${boot_order_no_ubuntu}
-
-        ${set_order_cmd}=    Set Variable    efibootmgr -o
-        ${set_order_cmd}=    Catenate    ${set_order_cmd}
-        ...    ${ubuntu_boot_id},${boot_order_no_ubuntu}
-
-        ${out}=    Execute Linux Command    ${set_order_cmd}
-        Should Contain    ${out}    BootOrder: ${ubuntu_boot_id}
-    END
+    Set Selected OS As First In Boot Order Via Efibootmgr    ${ENV_ID_UBUNTU}
