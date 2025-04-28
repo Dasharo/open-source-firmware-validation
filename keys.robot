@@ -23,3 +23,4 @@ ${ENTER}=           \x0d
 ${BACKSPACE}=       \x08
 ${KEY_SPACE}=       \x20
 ${DELETE}=          \x1b\x5b\x33\x7e
+${KEY_PLUS}=        \x2b
