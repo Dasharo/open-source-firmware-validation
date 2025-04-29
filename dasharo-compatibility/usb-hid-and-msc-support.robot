@@ -210,6 +210,6 @@ Upload 1GB File On USB Storage
     Execute Linux Command    yes | cp -f test_file.txt /mnt    120
     Execute Linux Command    sync    120
     Check If Files Are Identical In Linux    test_file.txt    /mnt/test_file.txt
-    Execute Linux Command    yes | rm test_file.txt ${path_to_usb}/test_file.txt
+    Execute Linux Command    yes | rm test_file.txt /mnt/test_file.txt
     Execute Linux Command    sync && umount ${path_to_usb}    120
     Exit From Root User
