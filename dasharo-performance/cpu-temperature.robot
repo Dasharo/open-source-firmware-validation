@@ -11,9 +11,6 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
-Resource            ../lib/platform/power.robot
-Resource            ../lib/sensors/sensors.robot
-Resource            ../lib/performance/cpu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -40,7 +37,7 @@ CPT001.201 CPU temperature without load (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPT001.201 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    CPU Temperature Without Load (Ubuntu)
+    CPU Temperature Without Load
 
 CPT002.201 CPU temperature without load (Ubuntu) (battery)
     [Documentation]    This test aims to verify whether the temperature of CPU

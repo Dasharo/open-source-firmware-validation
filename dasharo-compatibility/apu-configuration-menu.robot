@@ -141,6 +141,7 @@ APU006.001 Check whether disabling "Enable PCIe power management features" disab
 
 APU006.002 Check whether enabling "Enable PCIe power management features" enables ASPM
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
+    Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Enable PCI Express power    ${TRUE}

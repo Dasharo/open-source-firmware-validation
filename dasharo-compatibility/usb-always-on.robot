@@ -8,8 +8,10 @@ Resource        ../variables.robot
 Resource        ../keywords.robot
 Resource        ../keys.robot
 
-Suite Setup     Run Keyword
+Suite Setup     Run Keywords
 ...                 Prepare Test Suite
+...                 AND
+...                 Skip If    not ${SEMI_AUTO}    Automatic tests only run
 # TODO: human-readable representation of setup menu key for all platforms
 
 
