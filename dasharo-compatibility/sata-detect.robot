@@ -40,7 +40,7 @@ SAT001.002 SATA support in OS (Ubuntu)
         ${out}=    Execute Command In Terminal    sudo smartctl -i /dev/${disk}
         Log    ${out}
         ${sata_present}=    Run Keyword And Return Status    Should Contain    ${out}    SATA Version is:
-        Pass Execution If    '${sata_present}' == 'TRUE'    'SATA disk found, passing test'
+        Pass Execution If    '${sata_present}' == 'True'    'SATA disk found, passing test'
     END
 
     Fail    No SATA disk was found, failing test
