@@ -140,7 +140,8 @@ CPU004.301 Multiple-core support (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
     # Power On
     # Login To Windows
-    ${cpu_info}=    Execute Command In Terminal    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
+    ${cpu_info}=    Execute Command In Terminal
+    ...    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1
     ${cpu_count}=    Convert To Number    ${cpu_count}
     ${socket_count}=    Execute Command In Terminal
