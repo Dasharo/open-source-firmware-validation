@@ -20,7 +20,7 @@ Suite Teardown      Run Keyword
 # TODO
 # SAT001.001 SATA support in firmware
 
-SAT001.002 SATA support in OS (Ubuntu)
+SAT001.201 SATA support in OS (Ubuntu)
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using smartctl.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
