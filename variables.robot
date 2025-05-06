@@ -204,8 +204,9 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE57}=                   ip=0.0.0.0
 ...                         platform=novacustom-v540tnd    platform_vendor=Clevo
 # NovaCustom V540TU ----------------------------------------------------------
-&{RTE58}=                   ip=0.0.0.0
+&{RTE58}=                   ip=192.168.10.145
 ...                         platform=novacustom-v540tu    platform_vendor=Clevo
+...                         sonoff_ip=192.168.10.116
 &{RTE59}=                   ip=0.0.0.0
 ...                         platform=novacustom-v540tu    platform_vendor=Clevo
 # NovaCustom V560TND ----------------------------------------------------------
