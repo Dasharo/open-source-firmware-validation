@@ -4,6 +4,11 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
+${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
+${DUT_CONNECTION_METHOD}=               Telnet
+${POWER_CTRL}=                          sonoff
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+
 # CPU
 ${CPU}=                                 Intel(R) Core(TM) Ultra 7 155H
 
@@ -17,9 +22,6 @@ ${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi W
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
-
-${OPTIONS_LIB}=                         options-lib_dcu
-${POWER_CTRL}=                          none
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
@@ -71,8 +73,3 @@ ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     20.6    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    20.3    # FPS
-
-
-*** Keywords ***
-Power On
-    Novacustom-common.Power On
