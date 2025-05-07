@@ -46,6 +46,7 @@ MBO002.201 Check if event log PCRs match actual values (Ubuntu)
 MBO001.202 Measured Boot support (Fedora)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MBO001.202 not supported
     Power On
     Boot Linux And Login To Root    ${ENV_ID_FEDORA}
     Linux Measured Boot Support
@@ -53,6 +54,7 @@ MBO001.202 Measured Boot support (Fedora)
 MBO002.202 Check if event log PCRs match actual values (Fedora)
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MBO002.202 not supported
     Power On
     Boot Linux And Login To Root    ${ENV_ID_FEDORA}
     Validate PCRs Against Event Log    /sys/kernel/security/tpm0/binary_bios_measurements
