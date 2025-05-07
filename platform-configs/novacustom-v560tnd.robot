@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    include/novacustom-common.robot
 Resource    include/novacustom-mtl.robot
+Resource    include/novacustom-common.robot
 
 
 *** Variables ***
@@ -15,6 +15,14 @@ ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   200
 ${PLATFORM_CPU_SPEED}=                  3.0
 
+${CLEVO_BATTERY_CAPACITY}=              5100*1000
+${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
+
+# DMI
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc3
+# TODO verify
+${DMIDECODE_RELEASE_DATE}=              04/25/2025
+
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE} # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the boot order
 
@@ -28,7 +36,8 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
 ${WIFI_CARD_UBUNTU}=                    Intel Corporation Meteor Lake PCH CNVi WiFi
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
-
+${WEBCAM_UBUNTU}=                       Chicony Electronics Co., Ltd Chicony USB2.0 Camera
+${OPTIONS_LIB}=                         options-lib_dcu
 ${POWER_CTRL}=                          none
 
 ${DGPU_ONLY_SUPPORT}=                   ${TRUE}
