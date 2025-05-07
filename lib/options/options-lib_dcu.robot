@@ -162,6 +162,7 @@ Set Nextboot Bootentry
         ${tmp}=    Encode String To Bytes    ${line}    ASCII    errors=replace
         ${line}=    Decode Bytes To String    ${tmp}    ASCII    errors=replace
         ${line}=    Get Substring    ${line}    0    150
+        ${line}=    Convert To Lower Case    ${line}
 
         IF    '${bootentry_name}' in '${line}'
             ${os_boot_id}=    Set Variable    ${line}
