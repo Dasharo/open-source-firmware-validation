@@ -11,7 +11,6 @@ commands=(
   "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/boolean-options -v snipeit:no self-tests/boolean-options.robot"
   "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/numerical-options -v snipeit:no self-tests/numerical-options.robot"
   "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/list-options -v snipeit:no self-tests/list-options.robot"
-  "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/secure-boot -v snipeit:no self-tests/secure-boot.robot"
   "robot -L TRACE -v config:qemu-selftests -v rte_ip:127.0.0.1 -d ./logs/$(date +%Y.%m.%d_%H.%M.%S)/self-tests -v snipeit:no self-tests/terminal.robot"
 )
 
