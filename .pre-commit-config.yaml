@@ -33,12 +33,12 @@ repos:
           - commit-msg
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.3.0
+    rev: v2.4.1
     hooks:
       - id: codespell
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.42.0
+    rev: v0.44.0
     hooks:
       - id: markdownlint
       - id: markdownlint-fix
@@ -50,23 +50,23 @@ repos:
         args: ["--severity=warning"]
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         name: isort (python)
 
   - repo: https://github.com/psf/black
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
 
   - repo: https://github.com/MarketSquare/robotframework-tidy
-    rev: 4.14.0
+    rev: 4.16.0
     hooks:
       - id: robotidy
 
   - repo: https://github.com/MarketSquare/robotframework-robocop
-    rev: 5.8.0
+    rev: v6.5.0
     hooks:
       - id: robocop
 
