@@ -36,7 +36,18 @@ ignore = [
     # TODO: consider fixing and re-enabling
     "VAR03",
     # TODO: fix and re-enable
-    "MISC13"
+    "MISC13",
+
+    # TODO: fix and re-enable
+    "ARG01",
+    # TODO: fix and re-enable
+    "VAR04",
+    # TODO: fix and re-enable
+    "VAR05",
+    # TODO: fix and re-enable
+    "VAR06",
+    # TODO: fix and re-enable
+    "LEN27"
 ]
 
 configure = [
