@@ -1208,7 +1208,7 @@ Save Changes And Reset
     Save Changes
     Tianocore Reset System
 
-Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
+Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     [Documentation]    Tries to boot the the system with the ID of ${ENV_ID}.
     ...    If it is not possible then it tries
     ...    to boot from connected disk set up in config

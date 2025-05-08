@@ -562,7 +562,7 @@ Prepare To Serial Connection
         Set Global Variable    ${PLATFORM}
     END
     Get DUT To Start State
-    # the following TRY/EXCEPT exposes telnet connection error pre-emptively
+    # the following TRY/EXCEPT exposes telnet connection error preemptively
     TRY
         Telnet.Read
     EXCEPT    EOFError: telnet connection closed
