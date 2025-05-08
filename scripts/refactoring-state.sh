@@ -64,6 +64,7 @@ done
 vars_to_remove=(
 "PIKVM_IP"
 "DL_CACHE_DIR"
+"USB_TYPE-A_DEVICES_DETECTION_SUPPORT"
 )
 
 echo "Global variables that should not be used, but are still used:"
