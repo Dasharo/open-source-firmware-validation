@@ -142,9 +142,9 @@ PSW006.001 Attempt to turn off setup password functionality
     ${output}=    Read From Terminal
     Should Not Contain    ${output}    Please input admin password
 
-PSW007.001 Attempt to set non-compilant password
+PSW007.001 Attempt to set non-compliant password
     [Documentation]    This test aims to verify whether the attempt to set
-    ...    a non-compilant password will be rejected.
+    ...    a non-compliant password will be rejected.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW007.001 not supported
     Power On
