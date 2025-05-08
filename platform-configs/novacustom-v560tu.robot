@@ -29,13 +29,19 @@ ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}
 ${USB_STACK_SUPPORT}=                   ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=              4602000
 
-# performance reference for processor ultra 5 125h
+# cpu performance Ubuntu for processor ultra 5 125H
 ${ZIP_MULTI_COMPRESSION}=               15923    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=             12245    # MIPS
 ${CRAY_5_K_RENDER}=                     2210.755    # sec
 ${CRAY_4_K_RENDER}=                     1349.461    # sec
 ${CRAY_1080_P_RENDER}=                  308.289    # sec
 ${COREMARK_SINGLE}=                     92891.774    # iterations/s
+
+# cpu performance Windows for processor ultra 5 125H
+${SMALLPT_TEST_SCORE}=                  14.876
+${CRAFTY_TEST_SCORE}=                   10237829
+${CACHEBENCH_TEST_SCORE}=               125588.2
+${BLAKE2_TEST_SCORE}=                   4.08
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                 5953.5    # MB/s

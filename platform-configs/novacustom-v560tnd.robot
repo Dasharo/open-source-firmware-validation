@@ -29,13 +29,19 @@ ${DGPU_ONLY_SUPPORT}=                   ${TRUE}
 
 ${DISK_IO_PERFORMANCE_TESTS}=           ${TRUE}
 
-# performance
+# cpu performance Ubuntu
 ${ZIP_MULTI_COMPRESSION}=               79729    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=             52410    # MIPS
 ${CRAY_5_K_RENDER}=                     585.333    # sec
 ${CRAY_4_K_RENDER}=                     326.895    # sec
 ${CRAY_1080_P_RENDER}=                  80.547    # sec
 ${COREMARK_SINGLE}=                     407451.446    # iterations/s
+
+# cpu performance Windows
+${SMALLPT_TEST_SCORE}=                  12.454
+${CRAFTY_TEST_SCORE}=                   9289333
+${CACHEBENCH_TEST_SCORE}=               108463.4
+${BLAKE2_TEST_SCORE}=                   4.08
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                 5953.5    # MB/s

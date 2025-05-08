@@ -37,13 +37,19 @@ ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}
 ${TPM_SUPPORTED_VERSION}=                       2
 ${TPM_EXPECTED_CHIP}=                           SLB9672
 
-# performance
+# cpu performance Ubuntu
 ${ZIP_MULTI_COMPRESSION}=                       63476    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=                     39336    # MIPS
 ${CRAY_5_K_RENDER}=                             654.5    # sec
 ${CRAY_4_K_RENDER}=                             356.9    # sec
 ${CRAY_1080_P_RENDER}=                          90.8    # sec
 ${COREMARK_SINGLE}=                             400079.5    # iterations/s
+
+# cpu performance Windows
+${SMALLPT_TEST_SCORE}=                          20.895
+${CRAFTY_TEST_SCORE}=                           5562941
+${CACHEBENCH_TEST_SCORE}=                       73323.8
+${BLAKE2_TEST_SCORE}=                           4.06
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                         4677    # MB/s

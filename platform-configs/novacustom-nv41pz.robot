@@ -32,3 +32,9 @@ ${TPM_SUPPORTED_VERSION}=       2
 ${TPM_EXPECTED_CHIP}=           SLB9670
 
 ${OPTIONS_LIB}=                 options-lib_dcu
+
+# cpu performance Windows
+${SMALLPT_TEST_SCORE}=          30.796
+${CRAFTY_TEST_SCORE}=           7480997
+${CACHEBENCH_TEST_SCORE}=       75584.7
+${BLAKE2_TEST_SCORE}=           3.22

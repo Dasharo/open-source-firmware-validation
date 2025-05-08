@@ -23,7 +23,6 @@ Suite Setup     Run Keywords
 @{TESTS}=               smallpt    crafty    cachebench    blake2
 ${DEVIATION_UP}=        1.2    # acceptable deviation +/-20%
 ${DEVIATION_DOWN}=      0.8
-${REF_VAL}=             100
 
 
 *** Test Cases ***
@@ -36,8 +35,8 @@ UPP001.301 Manual Single Threaded CPU Benchmark (Windows) (AC)
     Execute Manual Step    Single Threaded [2/8] Boot into Windows
     Execute Manual Step    Single Threaded [3/8] Login with default login and password
     Execute Manual Step    Single Threaded [4/8] Enter powershell as administrator
-    Run A Test Manually    ${TESTS}[0]    ${TESTS_SCORE}[0]    # run smallpt
-    Run A Test Manually    ${TESTS}[1]    ${TESTS_SCORE}[1]    # run crafty
+    Run A Test Manually    smallpt    ${SMALLPT_TEST_SCORE}    # run smallpt
+    Run A Test Manually    crafty    ${CRAFTY_TEST_SCORE}    # run crafty
 
 UPP001.302 Manual Multi Threaded CPU Benchmark (Windows) (AC)
     [Documentation]    tbd you can do this test in ssh terminal

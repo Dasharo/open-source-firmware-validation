@@ -27,13 +27,19 @@ ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux
 
-# performance
+# cpu performance Ubuntu
 ${ZIP_MULTI_COMPRESSION}=               63476    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=             39336    # MIPS
 ${CRAY_5_K_RENDER}=                     654.5    # sec
 ${CRAY_4_K_RENDER}=                     356.9    # sec
 ${CRAY_1080_P_RENDER}=                  90.8    # sec
 ${COREMARK_SINGLE}=                     400079.5    # iterations/s
+
+# cpu performance Windows
+${SMALLPT_TEST_SCORE}=                  26.865
+${CRAFTY_TEST_SCORE}=                   7847239
+${CACHEBENCH_TEST_SCORE}=               78461.6
+${BLAKE2_TEST_SCORE}=                   3.94
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                 4677    # MB/s

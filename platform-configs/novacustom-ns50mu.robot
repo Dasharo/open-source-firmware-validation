@@ -35,3 +35,9 @@ ${EC_NO_SYNC_VERSION}=                  2023-10-31_f148431
 
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}
+
+# cpu performance Windows
+${SMALLPT_TEST_SCORE}=                  38.263
+${CRAFTY_TEST_SCORE}=                   8494085
+${CACHEBENCH_TEST_SCORE}=               97428.4
+${BLAKE2_TEST_SCORE}=                   3.51

@@ -22,3 +22,9 @@ ${CPU_MIN_FREQUENCY}=               300
 
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${TRUE}
 ${OPTIONS_LIB}=                     options-lib_dcu
+
+# cpu performance Windows
+${SMALLPT_TEST_SCORE}=              35.376
+${CRAFTY_TEST_SCORE}=               9224291
+${CACHEBENCH_TEST_SCORE}=           104565.1
+${BLAKE2_TEST_SCORE}=               3.64
