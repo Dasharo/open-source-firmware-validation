@@ -27,7 +27,6 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-
 MEM001.203 Expected RAM size detected in OS (XCP-NG)
     [Documentation]    This test verifies that the installed physical memory (RAM)
     ...    is properly detected and reported by the XCP-NG OS.
@@ -36,12 +35,12 @@ MEM001.203 Expected RAM size detected in OS (XCP-NG)
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    MEM001.203 not supported
     Execute Manual Step    RAM Size Detected In OS    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_RAM_KB}
 
-*** Keywords ***
 
+*** Keywords ***
 RAM Size Detected In OS
-    [Arguments]    ${env_id}    ${expected_kb}
     [Documentation]    Power on, boot, login, and verify RAM size in OS.
     [Tags]    robot:private
+    [Arguments]    ${env_id}    ${expected_kb}
 
     Power On
     Boot System Or From Connected Disk    ${env_id}
@@ -51,7 +50,10 @@ RAM Size Detected In OS
     Log    ${meminfo}
 
     ${actual_kb}=    Evaluate    int('${meminfo}'.split(':')[1].strip().split()[0])
-    ${delta}=        Evaluate    abs(${actual_kb} - ${expected_kb})
+    ${delta}=    Evaluate    abs(${actual_kb} - ${expected_kb})
     ${tolerance}=    Set Variable    524288    # Allow 512MB difference
 
-    Run Keyword Unless    ${delta} < ${tolerance}    Fail    RAM size mismatch: expected ~${expected_kb} kB, got ${actual_kb} kB (delta: ${delta})
+    Run Keyword Unless
+    ...    ${delta} < ${tolerance}
+    ...    Fail
+    ...    RAM size mismatch: expected ~${expected_kb} kB, got ${actual_kb} kB (delta: ${delta})

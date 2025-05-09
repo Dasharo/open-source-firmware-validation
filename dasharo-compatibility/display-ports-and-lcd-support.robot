@@ -126,6 +126,7 @@ DSP003.203 - External DP display in OS (XCP-NG)
     Skip If    "${ENV_ID_XCP_NG}" not in "${TESTED_LINUX_DISTROS}"    DSP003.203 not supported
     Execute Manual Step    External DP Display In OS    ${ENV_ID_XCP_NG}
 
+
 *** Keywords ***
 External HDMI Display
     [Documentation]    Check whether an external HDMI display is visible in

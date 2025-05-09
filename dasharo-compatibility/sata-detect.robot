@@ -38,6 +38,7 @@ SAT001.203 SATA support in OS (XCP-NG)
     Depends On    ${SATA_SUPPORT}
     Execute Manual Step    SATA Support In OS    ${ENV_ID_XCP_NG}
 
+
 *** Keywords ***
 SATA Support In OS
     [Arguments]    ${env_id}

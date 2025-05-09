@@ -27,14 +27,16 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-
 ETH001.203 All Expected NET Controllers Detected (XCP-NG)
     [Documentation]    This test verifies that all expected onboard or add-in
     ...    Ethernet network controllers are correctly detected in XCP-NG OS.
     ...    Previous IDs: ETH001.003
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH001.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH001.203 not supported
-    Execute Manual Step    All Expected NET Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_NET_CONTROLLERS}*** Keywords ***
+    Execute Manual Step
+    ...    All Expected NET Controllers Detected
+    ...    ${ENV_ID_XCP_NG}
+    ...    ${DEF_EXPECTED_NET_CONTROLLERS}*** Keywords ***
 
 ETH002.203 All Expected SFP Controllers Detected (XCP-NG)
     [Documentation]    This test verifies that all expected onboard SFP network
@@ -44,11 +46,12 @@ ETH002.203 All Expected SFP Controllers Detected (XCP-NG)
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH002.203 not supported
     Execute Manual Step    All Expected SFP Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_SFP_CONTROLLERS}
 
+
 *** Keywords ***
 All Expected NET Controllers Detected
-    [Arguments]    ${env_id}    @{expected_controllers}
     [Documentation]    Power on, boot, login, and verify that all expected Ethernet controllers are detected.
     [Tags]    robot:private
+    [Arguments]    ${env_id}    @{expected_controllers}
 
     Power On
     Boot System Or From Connected Disk    ${env_id}
@@ -62,9 +65,9 @@ All Expected NET Controllers Detected
     END
 
 All Expected SFP Controllers Detected
-    [Arguments]    ${env_id}    @{expected_sfp}
     [Documentation]    Power on, boot, login, and verify that all expected SFP controllers are detected.
     [Tags]    robot:private
+    [Arguments]    ${env_id}    @{expected_sfp}
 
     Power On
     Boot System Or From Connected Disk    ${env_id}

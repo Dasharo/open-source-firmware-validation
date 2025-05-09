@@ -179,6 +179,7 @@ CPU004.203 Multiple-core support (XCP-NG)
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
     Execute Manual Step    Multiple-Core Support Linux    ${ENV_ID_XCP_NG}
 
+
 *** Keywords ***
 Check Cache Support
     [Arguments]    ${string}    ${cache}
