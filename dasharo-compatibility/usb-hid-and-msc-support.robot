@@ -98,6 +98,29 @@ USB003.202 Upload 1GB file on USB storage (Fedora)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     Upload 1GB File On USB Storage    ${ENV_ID_FEDORA}
 
+USB001.202 USB devices detected by OS (XCP-NG)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly in XCP-NG.
+    Depends On    ${USB_DISKS_DETECTION_SUPPORT}
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
+    Execute Manual Step   USB Devices Detected By OS    ${ENV_ID_XCP_NG}
+
+USB002.202 USB keyboard in OS (XCP-NG)
+    [Documentation]    Check whether the external USB keyboard is detected
+    ...    correctly by the XCP-NG.
+    Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
+    Depends On    ${HAS_KEYBOARD}
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
+    Execute Manual Step   USB Keyboard In OS    ${ENV_ID_XCP_NG}
+
+USB003.202 Upload 1GB file on USB storage (XCP-NG)
+    [Documentation]    Check whether the 1GB file can be transferred from the
+    ...    operating system to the USB storage.
+    Depends On    ${UPLOAD_ON_USB_SUPPORT}
+    Depends On    ${HAS_USB_STORAGE}
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
+    Execute Manual Step   Upload 1GB File On USB Storage    ${ENV_ID_XCP_NG}
+
 USB001.301 USB devices detected by OS (Windows)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Windows OS.

@@ -150,6 +150,34 @@ CPU004.301 Multiple-core support (Windows)
     ${socket_count}=    Convert To Number    ${socket_count}
     Should Be True    ${cpu_count} / ${socket_count} > 1
 
+CPU001.203 CPU works (XCP-NG)
+    [Documentation]    Check whether the CPU mounted on the DUT works.
+    ...    Previous IDs: CPU001.003
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU001.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU001.203 not supported
+    Execute Manual Step    CPU Works    ${ENV_ID_XCP_NG}
+
+CPU002.203 CPU cache enabled (XCP-NG)
+    [Documentation]    Check whether all declared for the DUT cache levels
+    ...    are enabled.
+    ...    Previous IDs: CPU002.003
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU002.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
+    Execute Manual Step    CPU Cache Enabled Linux    ${ENV_ID_XCP_NG}
+
+CPU003.203 Multiple CPU support (XCP-NG)
+    [Documentation]    Check whether the DUT has multiple CPU support.
+    ...    Previous IDs: CPU003.003
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU003.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU003.203 not supported
+    Execute Manual Step    Multiple CPU Support Linux    ${ENV_ID_XCP_NG}
+
+CPU004.203 Multiple-core support (XCP-NG)
+    [Documentation]    Check whether the DUT has multi-core support.
+    ...    Previous IDs: CPU004.003
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU004.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
+    Execute Manual Step    Multiple-Core Support Linux    ${ENV_ID_XCP_NG}
 
 *** Keywords ***
 Check Cache Support

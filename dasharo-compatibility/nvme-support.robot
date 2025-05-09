@@ -48,6 +48,12 @@ NVM001.202 NVMe support in OS (Fedora)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NVM001.202 not supported
     NVMe Support In OS    ${ENV_ID_FEDORA}
 
+NVM001.202 NVMe support in OS (XCP-NG)
+    [Documentation]    Check whether the Operating System can boot from NVMe
+    ...    disk in M.2 slot.
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    NVM001.202 not supported
+    NVMe Support In OS    ${ENV_ID_XCP_NG}
+
 NVM001.301 NVMe support in OS (Windows)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.

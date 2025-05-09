@@ -26,9 +26,24 @@ SAT001.201 SATA support in OS (Ubuntu)
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${SATA_SUPPORT}
+    SATA Support In OS    ${ENV_ID_UBUNTU}
+
+# TODO
+# SAT001.003 SATA support in OS (Windows)
+
+SAT001.203 SATA support in OS (XCP-NG)
+    [Documentation]    Verify SATA support via smartctl in XCP-NG.
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${TESTS_IN_XCP_NG_SUPPORT}
+    Depends On    ${SATA_SUPPORT}
+    Execute Manual Step    SATA Support In OS    ${ENV_ID_XCP_NG}
+
+*** Keywords ***
+SATA Support In OS
+    [Arguments]    ${env_id}
 
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
     Detect Or Install Package    smartmontools
@@ -44,6 +59,3 @@ SAT001.201 SATA support in OS (Ubuntu)
     END
 
     Fail    No SATA disk was found, failing test
-
-# TODO
-# SAT001.003 SATA support in OS (Windows)

@@ -118,6 +118,15 @@ WLE002.301 Wi-Fi scanning (Windows)
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
 
+WLE001.203 Wireless card detection (XCP-NG)
+    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
+    ...    correctly and can be detected from the XCP-NG OS.
+    ...    Previous IDs: WLE001.003
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.203 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    WLE001.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    WLE001.203 not supported
+    Execute Manual Step    Wireless Card Detection    ${ENV_ID_XCP_NG}
+
 # TBD - Run scanning bluetooth via powershell and list aviailable devices
 # test case below just check connected bluetooth devices
 # WLE003.002 Bluetooth scanning (Windows 11)
