@@ -81,6 +81,7 @@ ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     UsbMassStorage
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                  ${TRUE}
 ${HAS_SUPERIO_SERIAL}=                          ${TRUE}
+${SATA_SUPPORT}=                                ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
