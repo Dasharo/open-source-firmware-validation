@@ -17,11 +17,25 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-# TODO
-# SAT001.001 SATA support in firmware
+SAT001.001 SATA support in firmware
+    [Documentation]    This test aims to verify that SATA is detected from FW
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${SATA_SUPPORT}
+
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${boot_manager_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${setup_menu}
+    ...    Boot Maintenance Manager
+
+    ${bff_manager_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${boot_manager_menu}
+    ...    Boot From File
+
+    Count Arrows Down To Reach The Option    /Sata    # this KWD return error if string not found
 
 SAT001.201 SATA support in OS (Ubuntu)
-    [Documentation]    This test aims to verify that SATA is detected from OS
+    [Documentation]    This test aims to verify that SATA is detected from Ubuntu
     ...    by using smartctl.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
@@ -69,6 +83,19 @@ SAT001.401 SATA support in OS (ESXi)
     ${out}=    Execute Command In Terminal    esxcli storage core device list
     Should Contain Any    ${out}    Vendor: ATA    Vendor: SATA
     Should Contain    ${out}    Is Boot Device: true
+
+SAT001.301 SATA support in OS (Windows)
+    [Documentation]    This test aims to verify that SATA is detected from Windows
+    ...    by using powershell.
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Depends On    ${SATA_SUPPORT}
+
+    Power On
+    Login To OS    ${ENV_ID_WINDOWS}
+    ${output}=    Execute Command In Terminal
+    ...    Get-PhysicalDisk | Select-Object DeviceID, MediaType, BusType, Model
+    Should Contain    ${output}    SATA
 
 
 *** Keywords ***
