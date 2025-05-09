@@ -295,6 +295,7 @@ ${DEFAULT_BOOT_OS_ID}=                              ${ENV_ID_UBUNTU}
 ${BOOTED_OS_ID}=                                    ${DEFAULT_BOOT_OS_ID}
 
 ${USE_ANSIBLE}=                                     ${TRUE}
+${TESTS_IN_XCP_NG_SUPPORT}=                         ${FALSE}
 
 
 *** Keywords ***

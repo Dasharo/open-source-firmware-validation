@@ -180,7 +180,7 @@ Login To Windows Via SSH
     ...    newline=CRLF
     FOR    ${reboot_count}    IN RANGE    3
         ${login}=    Run Keyword And Return Status
-        ...    Wait Until Keyword Succeeds    5x    10s
+        ...    Wait Until Keyword Succeeds    5x    20s
         ...    SSHLibrary.Login    ${username}    ${password}
         IF    ${login} == ${TRUE}
             BREAK

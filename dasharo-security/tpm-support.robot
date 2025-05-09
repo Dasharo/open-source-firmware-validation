@@ -313,6 +313,37 @@ TPM013.301 TPM PPI Prompt (Windows)
     ${new_key}=    TPM2 Get Owner Key Windows
     Should Not Be Equal As    ${new_key}    ${owner_key}
 
+TPM001.205 TPM Support (XCP-NG)
+    [Documentation]    Check whether the TPM is initialized correctly and the
+    ...    PCRs can be accessed from the XCP-NG OS.
+    ...    Previous IDs: TPM001.010
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM001.203 not supported
+    Power On
+    Login To OS    ${ENV_ID_XCP_NG}
+    Verify Presence Of TPM Via Sysfs
+    Verify Presence Of Any PCRs Via Sysfs
+
+TPM002.205 Verify TPM version (XCP-NG)
+    [Documentation]    This test aims to verify that the TPM version is
+    ...    correctly recognized by the XCP-NG OS.
+    ...    Previous IDs: TPM002.010
+    [Tags]    minimal-regression
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM002.203 not supported
+    Power On
+    Login To OS    ${ENV_ID_XCP_NG}
+    Verify Presence Of TPM Via Sysfs
+    Validate Expected TPM Version Via Sysfs
+
+TPM003.205 Check TPM Physical Presence Interface (XCP-NG)
+    [Documentation]    This test aims to verify that the TPM Physical Presence
+    ...    Interface is correctly recognized by the XCP-NG OS.
+    ...    Previous IDs: TPM003.010
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM003.203 not supported
+    Power On
+    Login To OS    ${ENV_ID_XCP_NG}
+    Verify Presence Of TPM Via Sysfs
+    Check TPM Physical Presence Interface
+
 
 *** Keywords ***
 Prepare TPM Test On Linux

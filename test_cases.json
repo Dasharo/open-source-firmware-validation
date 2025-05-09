@@ -1822,7 +1822,7 @@
   },
   {
     "doc": {
-      "_id": "CPU001.010",
+      "_id": "CPU001.205",
       "name": "CPU works (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -1888,7 +1888,7 @@
   },
   {
     "doc": {
-      "_id": "CPU002.010",
+      "_id": "CPU002.205",
       "name": "CPU cache enabled (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -1954,7 +1954,7 @@
   },
   {
     "doc": {
-      "_id": "CPU003.010",
+      "_id": "CPU003.205",
       "name": "Multiple CPU support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -2020,7 +2020,7 @@
   },
   {
     "doc": {
-      "_id": "CPU004.010",
+      "_id": "CPU004.205",
       "name": "Multiple-core  support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -2527,7 +2527,7 @@
   },
   {
     "doc": {
-      "_id": "DSP002.010",
+      "_id": "DSP002.205",
       "name": "External HDMI display in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -2593,7 +2593,7 @@
   },
   {
     "doc": {
-      "_id": "DSP003.010",
+      "_id": "DSP003.205",
       "name": "External DP display in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -3744,7 +3744,7 @@
   },
   {
     "doc": {
-      "_id": "ETH001.010",
+      "_id": "ETH001.205",
       "name": "All Expected NET Controllers Detected (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -3766,7 +3766,7 @@
   },
   {
     "doc": {
-      "_id": "ETH002.010",
+      "_id": "ETH002.205",
       "name": "All Expected SFP Controllers Detected (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -4187,7 +4187,7 @@
   },
   {
     "doc": {
-      "_id": "MEM001.010",
+      "_id": "MEM001.205",
       "name": "Expected RAM size detected in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -4722,7 +4722,7 @@
   },
   {
     "doc": {
-      "_id": "NVM001.010",
+      "_id": "NVM001.205",
       "name": "NVMe support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -5123,7 +5123,7 @@
   },
   {
     "doc": {
-      "_id": "SAT001.010",
+      "_id": "SAT001.205",
       "name": "SATA Support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -6335,7 +6335,7 @@
   },
   {
     "doc": {
-      "_id": "TPM001.010",
+      "_id": "TPM001.205",
       "name": "TPM Support (XCP-NG)",
       "module": "Dasharo Security"
     }
@@ -6393,7 +6393,7 @@
   },
   {
     "doc": {
-      "_id": "TPM002.010",
+      "_id": "TPM002.205",
       "name": "Verify TPM version (XCP-NG)",
       "module": "Dasharo Security"
     }
@@ -6459,7 +6459,7 @@
   },
   {
     "doc": {
-      "_id": "TPM003.010",
+      "_id": "TPM003.205",
       "name": "Check TPM Physical Presence Interface (XCP-NG)",
       "module": "Dasharo Security"
     }
@@ -6700,7 +6700,7 @@
   },
   {
     "doc": {
-      "_id": "USB001.010",
+      "_id": "USB001.205",
       "name": "USB devices detection in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -6781,7 +6781,7 @@
   },
   {
     "doc": {
-      "_id": "USB002.010",
+      "_id": "USB002.205",
       "name": "USB keyboard detection (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
@@ -6863,6 +6863,13 @@
     "doc": {
       "_id": "USB003.301",
       "name": "Upload 1GB file on USB storage (Windows)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USB003.205",
+      "name": "USB keyboard detection (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9821,7 +9828,7 @@
   },
   {
     "doc": {
-      "_id": "WLE001.010",
+      "_id": "WLE001.205",
       "name": "Wireless card detection (XCP-NG)",
       "module": "Dasharo Compatibility"
     }

@@ -26,25 +26,34 @@ SAT001.201 SATA support in OS (Ubuntu)
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${SATA_SUPPORT}
+    SATA Support In OS    ${ENV_ID_UBUNTU}
+
+# TODO
+# SAT001.003 SATA support in OS (Windows)
+
+SAT001.205 SATA support in OS (XCP-NG)
+    [Documentation]    Verify SATA support via smartctl in XCP-NG.
+    ...    Previous IDs: SAT001.010
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${TESTS_IN_XCP_NG_SUPPORT}
+    Depends On    ${SATA_SUPPORT}
 
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Detect Or Install Package    smartmontools
+    Login To OS    ${ENV_ID_XCP_NG}
 
     ${lsblk_out}=    Execute Command In Terminal    lsblk -d -o NAME -n
     @{disks}=    Split String    ${lsblk_out}    \n
+    ${sata_found}=    Set Variable    False
 
     FOR    ${disk}    IN    @{disks}
         ${out}=    Execute Command In Terminal    sudo smartctl -i /dev/${disk}
         Log    ${out}
-        ${sata_present}=    Run Keyword And Return Status    Should Contain    ${out}    SATA Version is:
-        Pass Execution If    '${sata_present}' == 'True'    'SATA disk found, passing test'
+        ${sata_present}=    Run Keyword And Return Status    Should Contain    ${out}    SATA
+        IF    ${sata_present}    Set Test Variable    ${SATA_FOUND}    True
     END
 
+    IF    ${SATA_FOUND}    Pass Execution    SATA disk found, passing test
     Fail    No SATA disk was found, failing test
-
 # TODO
 # SAT001.003 SATA support in OS (Windows)
 
@@ -60,3 +69,26 @@ SAT001.401 SATA support in OS (ESXi)
     ${out}=    Execute Command In Terminal    esxcli storage core device list
     Should Contain Any    ${out}    Vendor: ATA    Vendor: SATA
     Should Contain    ${out}    Is Boot Device: true
+
+
+*** Keywords ***
+SATA Support In OS
+    [Arguments]    ${env_id}
+
+    Power On
+    Boot System Or From Connected Disk    ${env_id}
+    Login To Linux
+    Switch To Root User
+    Detect Or Install Package    smartmontools
+
+    ${lsblk_out}=    Execute Command In Terminal    lsblk -d -o NAME -n
+    @{disks}=    Split String    ${lsblk_out}    \n
+
+    FOR    ${disk}    IN    @{disks}
+        ${out}=    Execute Command In Terminal    sudo smartctl -i /dev/${disk}
+        Log    ${out}
+        ${sata_present}=    Run Keyword And Return Status    Should Contain    ${out}    SATA Version is:
+        Pass Execution If    '${sata_present}' == 'True'    'SATA disk found, passing test'
+    END
+
+    Fail    No SATA disk was found, failing test

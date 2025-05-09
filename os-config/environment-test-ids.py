@@ -13,6 +13,7 @@ ENV_ID_UBUNTU = "201"
 ENV_ID_FEDORA = "202"
 ENV_ID_QUBES = "203"
 ENV_ID_TRENCHBOOT = "204"
+ENV_ID_XCP_NG = "205"
 
 # 3xx - Windows
 ENV_ID_WINDOWS = "301"
@@ -26,4 +27,5 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_WINDOWS: "Windows Boot",
     ENV_ID_TRENCHBOOT: "trenchboot",
     ENV_ID_ESXI: "ESXi",
+    ENV_ID_XCP_NG: "XCP-ng",
 }

@@ -18,17 +18,14 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported
-...                     AND
-...                     Reset UEFI Options To Defaults
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
 *** Variables ***
-@{ESXI_ETH_PORTS}=          @{EMPTY}
-@{ESXI_ETH_SFP_PORTS}=      @{EMPTY}
+${DEF_EXPECTED_NET_CONTROLLERS}=    ${EMPTY}
+@{ESXI_ETH_PORTS}=                  @{EMPTY}
+@{ESXI_ETH_SFP_PORTS}=              @{EMPTY}
 
 
 *** Test Cases ***
@@ -53,3 +50,49 @@ ETH001.401 All expected NET controllers detected (ESXi)
     END
     Should Contain All    ${out}    @{ESXI_ETH_PORTS}
     Should Contain All    ${out}    @{ESXI_ETH_SFP_PORTS}
+
+ETH001.205 All Expected NET Controllers Detected (XCP-NG)
+    [Documentation]    This test verifies that all expected onboard or add-in
+    ...    Ethernet network controllers are correctly detected in XCP-NG OS.
+    ...    Previous IDs: ETH001.010
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH001.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH001.203 not supported
+    All Expected NET Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_NET_CONTROLLERS}
+
+ETH002.205 All Expected SFP Controllers Detected (XCP-NG)
+    [Documentation]    This test verifies that all expected onboard SFP network
+    ...    controllers are correctly detected by the XCP-NG OS.
+    ...    Previous IDs: ETH002.010
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH002.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH002.203 not supported
+    All Expected SFP Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_NET_CONTROLLERS}
+
+
+*** Keywords ***
+All Expected NET Controllers Detected
+    [Documentation]    Power on, boot, login, and verify that all expected Ethernet controllers are detected.
+    [Arguments]    ${env_id}    @{expected_controllers}
+
+    Power On
+    Login To OS    ${env_id}
+
+    ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i ethernet
+    Log    ${lspci_out}
+
+    FOR    ${controller}    IN    @{expected_controllers}
+        Should Contain    ${lspci_out}    ${controller}    Missing expected Ethernet controller: ${controller}
+    END
+
+All Expected SFP Controllers Detected
+    [Documentation]    Power on, boot, login, and verify that all expected SFP controllers are detected.
+    [Arguments]    ${env_id}    @{expected_sfp}
+
+    Power On
+    Login To OS    ${env_id}
+
+    ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i SFP
+    Log    ${lspci_out}
+
+    FOR    ${sfp}    IN    @{expected_sfp}
+        Should Contain    ${lspci_out}    ${sfp}    Missing expected SFP controller: ${sfp}
+    END
