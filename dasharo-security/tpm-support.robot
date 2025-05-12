@@ -59,13 +59,6 @@ TPM003.001 Check TPM Physical Presence Interface (firmware)
     Should Contain    ${out}    PPI: Pending OS request
     Should Contain    ${out}    PPI: OS response
 
-# TPM003.004 Change active PCR banks with TPM PPI (firmware)
-#    [Documentation]    This test aims to verify that the TPM Physical Presence
-#    ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-#    Skip If    not ${TPM_SUPPORTED_VERSION} == None    TPM003.004 not supported
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.004 not supported
-# TODO: https://docs.dasharo.com/unified-test-documentation/dasharo-security/200-tpm-support/#tpm003004-change-active-pcr-banks-with-tpm-ppi-firmware
-
 TPM001.201 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
@@ -241,6 +234,35 @@ TPM012.201 Check if the ChangeEPS works (Ubuntu)
         FAIL    msg=tpm2_load should result in an error.\n
     END
 
+TPM013.201 TPM PPI Prompt (Ubuntu)
+    [Documentation]    This test aims to verify that the TPM Physical Presence
+    ...    Interface pop-up is displayed upon reboot when PCR banks are
+    ...    changed in the OS.
+    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM013.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM013.201 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM013.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM013.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+
+    TPM2 Set Owner Key Password
+    ${set}=    TPM2 Check Owner Key Password Set
+    Should Be True    ${set}
+    TPM2 PPI Request Clear TPM Linux
+    Execute Reboot Command
+    ${prompt}=    Read From Terminal Until
+    ...    Press ESC to reject this change request and continue
+    Should Contain    ${prompt}    clear the TPM
+    Press Key N Times    1    ${F12}
+
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${set}=    TPM2 Check Owner Key Password Set
+    Should Not Be True    ${set}
+
 
 *** Keywords ***
 Prepare TPM Test On Linux
@@ -261,3 +283,21 @@ Check TPM Physical Presence Interface
     ELSE
         Fail    Invalid expected version, please verify config
     END
+
+TPM2 Set Owner Key Password
+    [Documentation]    Set the owner key password for the TPM2
+    [Arguments]    ${password}=tpm2pass
+    Execute Command In Terminal    sudo tpm2_changeauth -c o ${password}
+
+TPM2 Check Owner Key Password Set
+    [Documentation]    Check if the owner key password is set for the TPM2
+    ${out}=    Execute Command In Terminal    sudo tpm2_getcap properties-variable
+    ${out}=    Get Lines Matching Regexp    ${out}    ownerAuthSet    partial_match=True
+    ${status}=    Run Keyword And Return Status    Should Contain    ${out}    1
+    RETURN    ${status}
+
+TPM2 PPI Request Clear TPM Linux
+    [Documentation]    Clear the TPM using the TPM PPI in Linux
+    # 5 - PPI function ClearTPM, PPI Specification, Family “1.2” and “2.0”
+    #    Version 1.30 Revision 00.52 table 2
+    Execute Command In Terminal    echo 5 | sudo tee /sys/class/tpm/tpm0/ppi/request
