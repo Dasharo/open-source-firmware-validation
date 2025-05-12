@@ -35,7 +35,7 @@ ETH001.203 All Expected NET Controllers Detected (XCP-NG)
     Execute Manual Step
     ...    All Expected NET Controllers Detected
     ...    ${ENV_ID_XCP_NG}
-    ...    ${DEF_EXPECTED_NET_CONTROLLERS}*** Keywords ***
+    ...    ${DEF_EXPECTED_NET_CONTROLLERS}
 
 ETH002.203 All Expected SFP Controllers Detected (XCP-NG)
     [Documentation]    This test verifies that all expected onboard SFP network
@@ -55,7 +55,7 @@ All Expected NET Controllers Detected
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
 
-    ${lspci_out}=    Execute Linux Command    lspci -nn | grep -i ethernet
+    ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i ethernet
     Log    ${lspci_out}
 
     FOR    ${controller}    IN    @{expected_controllers}
@@ -71,7 +71,7 @@ All Expected SFP Controllers Detected
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
 
-    ${lspci_out}=    Execute Linux Command    lspci -nn | grep -i SFP
+    ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i SFP
     Log    ${lspci_out}
 
     FOR    ${sfp}    IN    @{expected_sfp}
