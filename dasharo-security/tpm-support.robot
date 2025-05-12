@@ -251,12 +251,25 @@ TPM013.201 TPM PPI Prompt (Ubuntu)
     ${set}=    TPM2 Check Owner Key Password Set
     Should Be True    ${set}
     TPM2 PPI Request Clear TPM Linux
+
+    # Deny changes
+    Execute Reboot Command
+    ${prompt}=    Read From Terminal Until
+    ...    Press ESC to reject this change request and continue
+    Should Contain    ${prompt}    clear the TPM
+    Press Key N Times    1    ${ESC}
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${set}=    TPM2 Check Owner Key Password Set
+    Should Be True    ${set}
+
+    # Accept changes
     Execute Reboot Command
     ${prompt}=    Read From Terminal Until
     ...    Press ESC to reject this change request and continue
     Should Contain    ${prompt}    clear the TPM
     Press Key N Times    1    ${F12}
-
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
