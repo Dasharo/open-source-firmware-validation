@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-ETH001.411 All expected NET controllers detected (ESXi)
+ETH001.401 All expected NET controllers detected (ESXi)
     [Documentation]    Verify that all expected onboard or add-in Ethernet controllers
     ...    are detected and reported by ESXi with valid driver, link, and MAC.
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    ETH001.411 not supported

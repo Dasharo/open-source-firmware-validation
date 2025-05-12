@@ -30,7 +30,6 @@ Suite Teardown      Run Keyword
 MEM001.203 Expected RAM size detected in OS (XCP-NG)
     [Documentation]    This test verifies that the installed physical memory (RAM)
     ...    is properly detected and reported by the XCP-NG OS.
-    ...    Previous IDs: MEM001.003
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    MEM001.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    MEM001.203 not supported
     Execute Manual Step    RAM Size Detected In OS    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_RAM_KB}

@@ -30,7 +30,6 @@ Suite Teardown      Run Keyword
 ETH001.203 All Expected NET Controllers Detected (XCP-NG)
     [Documentation]    This test verifies that all expected onboard or add-in
     ...    Ethernet network controllers are correctly detected in XCP-NG OS.
-    ...    Previous IDs: ETH001.003
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH001.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH001.203 not supported
     Execute Manual Step
@@ -41,7 +40,6 @@ ETH001.203 All Expected NET Controllers Detected (XCP-NG)
 ETH002.203 All Expected SFP Controllers Detected (XCP-NG)
     [Documentation]    This test verifies that all expected onboard SFP network
     ...    controllers are correctly detected by the XCP-NG OS.
-    ...    Previous IDs: ETH002.003
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH002.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH002.203 not supported
     Execute Manual Step    All Expected SFP Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_SFP_CONTROLLERS}

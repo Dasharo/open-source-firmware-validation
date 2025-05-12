@@ -28,7 +28,6 @@ Suite Teardown      Run Keyword
 NVM001.411 NVMe support (ESXi)
     [Documentation]    Verify that ESXi is installed and booted from an NVMe drive.
     ...    Check that NVMe is detected and marked as the boot device.
-    ...    Previous IDs: NVM001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    NVM001.411 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    NVM001.411 not supported
 

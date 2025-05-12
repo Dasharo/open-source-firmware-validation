@@ -30,7 +30,6 @@ Suite Teardown      Run Keyword
 CPU001.401 CPU works (ESXi)
     [Documentation]    Verify that the CPU on the DUT is functional and boots the ESXi OS.
     ...    The test passes if the ESXi login screen (DCUI) is visible after boot.
-    ...    Previous IDs: CPU001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    CPU001.401 not supported
 
@@ -43,7 +42,6 @@ CPU001.401 CPU works (ESXi)
 CPU002.401 CPU cache enabled (ESXi)
     [Documentation]    Verify that all CPU cache levels are detected and reported by ESXi.
     ...    Expected output includes L2 and L3 cache size, associativity, and CPU count.
-    ...    Previous IDs: CPU002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    CPU002.401 not supported
 

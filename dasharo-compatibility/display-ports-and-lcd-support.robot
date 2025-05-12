@@ -81,7 +81,6 @@ DSP002.203 - External HDMI display in OS (XCP-NG)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    XCP-NG OS. An external HDMI display must be provided in
     ...    the platform config.
-    ...    Previous IDs: DSP002.003
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.203 not supported
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    DSP002.203 not supported
     Skip If    "${ENV_ID_XCP_NG}" not in "${TESTED_LINUX_DISTROS}"    DSP002.203 not supported
@@ -120,7 +119,6 @@ DSP003.203 - External DP display in OS (XCP-NG)
     [Documentation]    Check whether an external Display Port is visible in
     ...    XCP-NG OS. An external Display Port must be provided in
     ...    the platform config.
-    ...    Previous IDs: DSP003.003
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.203 not supported
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    DSP003.203 not supported
     Skip If    "${ENV_ID_XCP_NG}" not in "${TESTED_LINUX_DISTROS}"    DSP003.203 not supported

@@ -20,7 +20,6 @@ Suite Teardown      Run Keyword
 SAT001.411 SATA support (ESXi)
     [Documentation]    Verify that a SATA storage device is detected by the ESXi system
     ...    and optionally check SMART data if available.
-    ...    Previous IDs: SAT001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    SAT001.411 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    SAT001.411 not supported
 

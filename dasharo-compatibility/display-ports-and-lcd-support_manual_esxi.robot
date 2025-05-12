@@ -25,7 +25,6 @@ Suite Teardown      Log Out And Close Connection
 DSP002.401 External HDMI display in OS (ESXi)
     [Documentation]    Verify that the external HDMI display is initialized and displays output
     ...    during and after ESXi boots. No multi-display configuration is required.
-    ...    Previous IDs: DSP002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    DSP002.401 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    DSP002.401 not supported
 
@@ -41,7 +40,6 @@ DSP002.401 External HDMI display in OS (ESXi)
 DSP003.401 External DP display in OS (ESXi)
     [Documentation]    Verify that the external DisplayPort monitor shows output
     ...    during and after ESXi boot. No display mode configuration is required.
-    ...    Previous IDs: DSP003.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    DSP003.401 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    DSP003.401 not supported
 

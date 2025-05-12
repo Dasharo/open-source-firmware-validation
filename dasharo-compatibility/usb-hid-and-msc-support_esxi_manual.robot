@@ -26,7 +26,6 @@ Suite Teardown      Run Keyword
 USB001.401 USB devices detection in OS (ESXi)
     [Documentation]    Check whether USB devices are correctly detected
     ...    in VMware ESXi using lsusb monitoring.
-    ...    Previous IDs: USB001.004
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    USB001.401 not supported
 
@@ -44,7 +43,6 @@ USB001.401 USB devices detection in OS (ESXi)
 USB002.401 USB keyboard detection in OS (ESXi)
     [Documentation]    Verify that an external USB keyboard is correctly detected in ESXi.
     ...    Detection includes visibility in `lsusb` and verification of working input via basic typing test.
-    ...    Previous IDs: USB002.004
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
     Skip If    '${ENV_ID_ESXI}' not in ${TESTED_LINUX_DISTROS}    USB002.401 not supported
 
