@@ -851,7 +851,11 @@ Check Internal LCD Linux
 Check Internal LCD Windows
     [Documentation]    Check if internal LCD is recognized by Windows OS.
     ${out}=    Check Displays Windows
-    Should Contain Any    ${out}    VideoOutputTechnology : 2147483648    VideoOutputTechnology : 16
+    Should Contain Any
+    ...    ${out}
+    ...    VideoOutputTechnology : 2147483648
+    ...    VideoOutputTechnology : 16
+    ...    VideoOutputTechnology : 11
 
 Check External HDMI In Linux
     [Documentation]    Keyword checks if an external HDMI device is visible
