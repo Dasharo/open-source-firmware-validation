@@ -27,6 +27,10 @@ SUSP005.201 Cyclic platform suspend and resume (Ubuntu)
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP005.201 not supported
     Power On
+    # In case the default sleep type is S0ix, ME must be enabled
+    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT} == ${TRUE}
+        Set UEFI Option    MeMode    Enabled
+    END
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -43,6 +47,10 @@ SUSP006.201 Cyclic platform suspend and resume (Ubuntu) (S0ix)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP006.201 not supported
     Set Platform Sleep Type    S0ix
     Power On
+    # ME must be enabled for S0ix to work
+    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT} == ${TRUE}
+        Set UEFI Option    MeMode    Enabled
+    END
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -72,6 +80,10 @@ SUSP005.202 Cyclic platform suspend and resume (Fedora)
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUSP005.202 not supported
     Power On
+    # In case the default sleep type is S0ix, ME must be enabled
+    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT} == ${TRUE}
+        Set UEFI Option    MeMode    Enabled
+    END
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -86,6 +98,10 @@ SUSP006.202 Cyclic platform suspend and resume (Fedora) (S0ix)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUSP006.202 not supported
     Set Platform Sleep Type    S0ix
     Power On
+    # ME must be enabled for S0ix to work
+    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT} == ${TRUE}
+        Set UEFI Option    MeMode    Enabled
+    END
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
