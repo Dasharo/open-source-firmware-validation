@@ -10,22 +10,28 @@ ${POWER_CTRL}=                          sonoff
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
 
 # CPU
-${CPU}=                                 Intel(R) Core(TM) Ultra 7 155H
+${CPU}=
+...                                     Intel(R) Core(TM) Ultra 7 155H
 
 ${3_MDEB_WIFI_NETWORK}=                 3mdeb_abr
-${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
-${DEVICE_USB_KEYBOARD}=                 Logitech, Inc. Keyboard K120
+${DEVICE_NVME_DISK}=
+...                                     Non-Volatile memory controller
+${DEVICE_USB_KEYBOARD}=
+...                                     Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc3
 ${DMIDECODE_RELEASE_DATE}=              04/10/2025
-${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi WiFi
+${WIFI_CARD}=
+...                                     Intel Corporation Meteor Lake PCH CNVi WiFi
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
 ${PLATFORM_CPU_SPEED}=                  3.0
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
-@{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
+# ${ENV_ID_FEDORA}
+@{TESTED_LINUX_DISTROS}=
+...                                     ${ENV_ID_UBUNTU}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux
@@ -63,7 +69,9 @@ ${WIN_RAND_WRITE_QUEUED}=               461.3    # MB/s
 ${WIN_RAND_READ_NONQUE}=                82.8    # MB/s
 ${WIN_RAND_WRITE_NONQUE}=               239.6    # MB/s
 
-${CLEVO_BATTERY_CAPACITY}=              4643000    # /sys/class/power_supply/BAT0/charge_full
+# /sys/class/power_supply/BAT0/charge_full
+${CLEVO_BATTERY_CAPACITY}=
+...                                     4643000
 
 # GPU Performance
 # Reference config: Medium preset, 1920x1080, Windowed
