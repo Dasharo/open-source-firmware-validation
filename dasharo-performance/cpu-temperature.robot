@@ -11,6 +11,9 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/performance/common.robot
+Resource            ../lib/sensors/sensors.robot
+Resource            ../lib/performance/cpu.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
