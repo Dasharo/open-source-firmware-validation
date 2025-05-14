@@ -13,6 +13,7 @@ ${DMIDECODE_PRODUCT_NAME}=              V5xTNC_TND_TNE
 ${EXTERNAL_HEADSET}=                    USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   200
+${PLATFORM_CPU_SPEED}=                  3.0
 
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE} # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the boot order

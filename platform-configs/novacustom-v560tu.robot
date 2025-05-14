@@ -16,6 +16,7 @@ ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
 ${EXTERNAL_HEADSET}=                    USB PnP Audio Device
 ${CPU_MAX_FREQUENCY}=                   4500
 ${CPU_MIN_FREQUENCY}=                   300
+${PLATFORM_CPU_SPEED}=                  3.0
 ${BLUETOOTH_CARD_UBUNTU}=               8087:0033
 ${WEBCAM_UBUNTU}=                       USB2.0 Camera
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock

@@ -22,6 +22,7 @@ ${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi W
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
+${PLATFORM_CPU_SPEED}=                  3.0
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
