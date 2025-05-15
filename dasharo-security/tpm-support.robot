@@ -278,6 +278,41 @@ TPM013.201 TPM PPI Prompt (Ubuntu)
     ${set}=    TPM2 Check Owner Key Password Set
     Should Not Be True    ${set}
 
+TPM013.301 TPM PPI Prompt (Windows)
+    [Documentation]    This test aims to verify that the TPM Physical Presence
+    ...    Interface pop-up is displayed upon sending a PPI request to the TPM,
+    ...    and that the requested operation is performed only if the user
+    ...    accepts it.
+    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM013.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM013.201 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM013.201 not supported
+    Power On
+    Login To Windows
+
+    ${owner_key}=    TPM2 Get Owner Key Windows
+    TPM2 PPI Request Clear TPM Windows
+
+    # Deny changes
+    Execute Reboot Command    os=windows
+    ${prompt}=    Read From Terminal Until
+    ...    Press ESC to reject this change request and continue
+    Should Contain    ${prompt}    clear the TPM
+    Press Key N Times    1    ${ESC}
+    Login To Windows
+    ${new_key}=    TPM2 Get Owner Key Windows
+    Should Be Equal    ${new_key}    ${owner_key}
+    TPM2 PPI Request Clear TPM Windows
+
+    # Accept changes
+    Execute Reboot Command    os=windows
+    ${prompt}=    Read From Terminal Until
+    ...    Press ESC to reject this change request and continue
+    Should Contain    ${prompt}    clear the TPM
+    Press Key N Times    1    ${F12}
+    Login To Windows
+    ${new_key}=    TPM2 Get Owner Key Windows
+    Should Not Be Equal As    ${new_key}    ${owner_key}
+
 
 *** Keywords ***
 Prepare TPM Test On Linux
@@ -316,3 +351,16 @@ TPM2 PPI Request Clear TPM Linux
     # 5 - PPI function ClearTPM, PPI Specification, Family “1.2” and “2.0”
     #    Version 1.30 Revision 00.52 table 2
     Execute Command In Terminal    echo 5 | sudo tee /sys/class/tpm/tpm0/ppi/request
+
+TPM2 PPI Request Clear TPM Windows
+    [Documentation]    Clear the TPM using the TPM PPI in Windows
+    # 5 - PPI function ClearTPM, PPI Specification, Family “1.2” and “2.0”
+    #    Version 1.30 Revision 00.52 table 2
+    Execute Command In Terminal    Clear-Tpm -UsePPI
+
+TPM2 Get Owner Key Windows
+    [Documentation]    Check if the owner key password is set for the TPM2
+    ${out}=    Execute Command In Terminal    Get-Tpm
+    ${key}=    Get Lines Matching Regexp    ${out}    OwnerAuth    partial_match=True
+    ${key}=    Get Regexp Matches    ${key}    OwnerAuth\ +:\ (.*)    1
+    RETURN    ${key}
