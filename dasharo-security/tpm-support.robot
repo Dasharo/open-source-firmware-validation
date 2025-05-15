@@ -236,8 +236,9 @@ TPM012.201 Check if the ChangeEPS works (Ubuntu)
 
 TPM013.201 TPM PPI Prompt (Ubuntu)
     [Documentation]    This test aims to verify that the TPM Physical Presence
-    ...    Interface pop-up is displayed upon reboot when PCR banks are
-    ...    changed in the OS.
+    ...    Interface pop-up is displayed upon sending a PPI request to the TPM,
+    ...    and that the requested operation is performed only if the user
+    ...    accepts it.
     Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM013.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM013.201 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM013.201 not supported
@@ -263,6 +264,7 @@ TPM013.201 TPM PPI Prompt (Ubuntu)
     Switch To Root User
     ${set}=    TPM2 Check Owner Key Password Set
     Should Be True    ${set}
+    TPM2 PPI Request Clear TPM Linux
 
     # Accept changes
     Execute Reboot Command
@@ -297,7 +299,7 @@ Check TPM Physical Presence Interface
         Fail    Invalid expected version, please verify config
     END
 
-TPM2 Set Owner Key Password
+TPM2 Set Owner Key Password Linux
     [Documentation]    Set the owner key password for the TPM2
     [Arguments]    ${password}=tpm2pass
     Execute Command In Terminal    sudo tpm2_changeauth -c o ${password}
