@@ -23,18 +23,19 @@ ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc3
 # TODO verify
 ${DMIDECODE_RELEASE_DATE}=              04/25/2025
 
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
+@{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE} # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the boot order
-
 ${TESTS_IN_FEDORA_SUPPORT}=             ${FALSE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
 ${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
 
+${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
-
-${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
-${WIFI_CARD_UBUNTU}=                    Intel Corporation Meteor Lake PCH CNVi WiFi
+${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi WiFi
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
 ${WEBCAM_UBUNTU}=                       Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 ${OPTIONS_LIB}=                         options-lib_dcu

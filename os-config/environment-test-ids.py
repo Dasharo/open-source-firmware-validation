@@ -22,7 +22,7 @@ ENV_ID_ESXI = "401"  # ESXi
 
 ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_UBUNTU: "Ubuntu",
-    ENV_ID_FEDORA: "fedora",
+    ENV_ID_FEDORA: "Fedora",
     ENV_ID_WINDOWS: "Windows Boot",
     ENV_ID_TRENCHBOOT: "trenchboot",
     ENV_ID_ESXI: "ESXi",
