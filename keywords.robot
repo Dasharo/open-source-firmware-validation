@@ -774,6 +774,22 @@ Restore Initial DUT Connection Method
         Remap Keys Variables To PiKVM
     END
 
+Execute Shutdown Command
+    [Documentation]    Windows shutdown keyword, checks power LED state where available.
+    ...    Depends on existing SSH connection to DUT, restores initial connection method
+    ...    after power loss.
+    Set Global Variable    ${DUT_CONNECTION_METHOD}    ${OS_DUT_CONNECTION_METHOD}
+    Execute Command In Terminal    shutdown /s /f /t 0
+    IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
+        ${loop_iterations}=    Set Variable    ${${WINDOWS_SHUTDOWN_AWAITING_SECONDS}_*_2}
+        FOR    ${i}    IN RANGE    ${loop_iterations}
+            ${out}=    Rte Check Power Led
+            IF    '${out}' == 'low'    RETURN
+            Sleep    0.5s
+        END
+    END
+    Restore Initial DUT Connection Method
+
 Execute Poweroff Command
     Write Into Terminal    poweroff
     Set DUT Response Timeout    180 seconds

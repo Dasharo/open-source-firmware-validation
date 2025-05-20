@@ -288,6 +288,7 @@ ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
 ${ETH_PORTS}=                                       ${EMPTY}
+${WINDOWS_SHUTDOWN_AWAITING_SECONDS}=               120
 
 @{TESTED_LINUX_DISTROS}=                            ${ENV_ID_UBUNTU}
 ${DEFAULT_BOOT_OS_ID}=                              ${ENV_ID_UBUNTU}

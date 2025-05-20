@@ -173,6 +173,7 @@ CPU001.301 CPU works (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
     Power On
     Login To Windows
+    Execute Shutdown Command
 
 CPU002.301 CPU cache enabled (Windows)
     [Documentation]    Check whether the all declared for the DUT cache levels
@@ -190,6 +191,7 @@ CPU002.301 CPU cache enabled (Windows)
     Should Contain    ${mem_info}    CACHE3
     Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
     Should Contain    ${mem_info}    CACHE4
+    Execute Shutdown Command
 
 CPU003.301 Multiple CPU support (Windows)
     [Documentation]    Check whether the DUT has multiple CPU support.
@@ -201,6 +203,7 @@ CPU003.301 Multiple CPU support (Windows)
     ${cpu_count}=    Get Line    ${cpu_info}    -1
     ${cpu_count}=    Convert To Number    ${cpu_count}
     Should Be True    ${cpu_count} > 1
+    Execute Shutdown Command
 
 CPU004.301 Multiple-core support (Windows)
     [Documentation]    Check whether the DUT has multi-core support.
@@ -217,6 +220,7 @@ CPU004.301 Multiple-core support (Windows)
     ${socket_count}=    Get Line    ${socket_count}    -1
     ${socket_count}=    Convert To Number    ${socket_count}
     Should Be True    ${cpu_count} / ${socket_count} > 1
+    Execute Shutdown Command
 
 
 *** Keywords ***
