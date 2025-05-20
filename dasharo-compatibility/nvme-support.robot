@@ -60,6 +60,11 @@ NVM001.301 NVMe support in OS (Windows)
     Should Contain    ${out}    DiskDrive
     # Exit from root user
 
+NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
+    NVMe Slot Change Support In OS    ${ENV_ID_UBUNTU}
+
 
 *** Keywords ***
 NVMe Support In OS
@@ -74,3 +79,12 @@ NVMe Support In OS
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     Exit From Root User
+
+NVMe Slot Change Support In OS
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Command In Terminal    lspci -vvv
+    Should Contain    ${out}    'LnkSta:    Speed 8GT/s, Width x2'
