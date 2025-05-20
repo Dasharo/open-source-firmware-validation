@@ -255,11 +255,19 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.67
 
+<<<<<<< HEAD
 # NovaCustom V540TU test rack
 &{RTE71}=                   ip=192.168.10.100
 ...                         platform=novacustom-v540tu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.116
+
+# NovaCustom NV560TND test desktop
+&{RTE72}=                   ip=192.168.10.25
+...                         platform=novacustom-nv560tnd
+...                         platform_vendor=Clevo
+...                         sonoff_ip=192.168.10.229
+
 
 @{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
 ...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
@@ -274,7 +282,8 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE55}    &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}
 ...                         &{RTE60}    &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}
 ...                         &{RTE65}    &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
-...                         &{RTE70}    &{RTE71}
+...                         &{RTE70}    &{RTE71}    &{RTE72}
+
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
