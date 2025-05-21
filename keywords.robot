@@ -781,7 +781,7 @@ Execute Shutdown Command
     Set Global Variable    ${DUT_CONNECTION_METHOD}    ${OS_DUT_CONNECTION_METHOD}
     Execute Command In Terminal    shutdown /s /f /t 0
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
-        ${loop_iterations}=    Set Variable    ${${WINDOWS_SHUTDOWN_AWAITING_SECONDS}_*_2}
+        ${loop_iterations}=    Evaluate    ${WINDOWS_SHUTDOWN_AWAITING_SECONDS} * 2
         FOR    ${i}    IN RANGE    ${loop_iterations}
             ${out}=    Rte Check Power Led
             IF    '${out}' == 'low'    RETURN
