@@ -21,14 +21,34 @@
             "name": "Run suites that use a modified lib",
             "on-changed": "lib/(.*)",
             "run": {
-                "device": "qemu",
                 "env_vars": {
                     "RTE_IP": "127.0.0.1",
-                    "FW_FILE": "scripts/ci/qemu_q35.rom"
+                    "FW_FILE": "scripts/ci/qemu_q35.rom",
+                    "CONFIG": "qemu"
                 },
-                "files": "${CONTAINING_MATCHES}",
-                "files_search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"],
+                "files": {
+                    "mode": "${CONTAINING_MATCHES}",
+                    "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+                },
                 "snipeit": "no"
+            }
+        },
+        {
+            "name": "Minimal regression for MSI common",
+            "on-changed": "platform-configs/include/msi-common.robot",
+            "run": {
+                "env_vars": {
+                        "RTE_IP": "1.2.3.4",
+                        "FW_FILE": "msi-firmware.rom",
+                        "CONFIG": "msi-pro-z790-p-ddr5",
+                        "CAPSULE_FW_FILE": "msi-pro-z790-p-ddr5.cap"
+                },
+                "command": "scripts/regression.sh -- -i minimal-regression",
+                "files": {
+                    "mode": "${CONTENT_MATCH_REGEX}",
+                    "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"],
+                    "regex": "minimal-regression"
+                }
             }
         }
     ]

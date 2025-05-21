@@ -20,6 +20,7 @@ dbbot-sqlalchemy==0.2
 distlib==0.3.8
 Faker==24.11.0
 filelock==3.13.4
+fire==0.7.0
 fonttools==4.56.0
 git-cliff==2.6.1
 greenlet==3.1.1

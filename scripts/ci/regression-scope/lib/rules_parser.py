@@ -25,7 +25,7 @@ class RuleParser:
         self.matched_files = []
         self.matched_paths = []
         self.commands = []
-        self.tests = []
+        self.test_files = []
         self.env = os.environ.copy()
 
     def init_devices_command(self):
@@ -42,8 +42,10 @@ class RuleParser:
         Returns an `env` dictionary representing the bash environment
         with the variables defined in the `env_vars` section of the rule set.
         """
-        vars_dict = self.rule["run"]["env_vars"]
         env = os.environ.copy()
+        if "env_vars" not in self.rule["run"]:
+            return env
+        vars_dict = self.rule["run"]["env_vars"]
         for k in vars_dict.keys():
             env[k] = vars_dict[k]
         if self.rule["run"]["device"] == "qemu":
@@ -56,6 +58,8 @@ class RuleParser:
         according to the `env_vars` section of the rule.
         """
         commands = []
+        if "env_vars" not in self.rule["run"]:
+            return commands
         vars_dict = self.rule["run"]["env_vars"]
         for k in vars_dict.keys():
             commands.append(f"export {k}={vars_dict[k]}")
@@ -119,15 +123,16 @@ class RuleParser:
         Returns a robot command to run the tests.
         """
         run_dict = self.rule["run"]
-        self.tests = self.get_files_choice(run_dict["files"])
+        if "files" in run_dict:
+            self.test_files = self.get_files_choice(run_dict["files"])
 
         if "custom_command" in run_dict:
             return run_dict["custom_command"].split(" ")
 
         robot_args = []
-        if run_dict["snipeit"] == "no":
+        if "snipeit" in run_dict and run_dict["snipeit"] == "no":
             robot_args += ["-v", "snipeit:no"]
-        return self.assemble_robot_command(self.tests, robot_args=robot_args)
+        return self.assemble_robot_command(self.test_files, robot_args=robot_args)
 
     def match_rule(self):
         """
@@ -153,6 +158,8 @@ class RuleParser:
         if len(self.matched_files) < 1:
             return False
 
-        self.commands.append(self.get_env_modification_commands())
+        env_cmd = self.get_env_modification_commands()
+        if len(env_cmd) > 0:
+            self.commands.append(env_cmd)
         self.commands.append(self.parse_run())
         return True
