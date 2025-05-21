@@ -42,13 +42,94 @@ AUD001.201 Audio subsystem detection
     ...    Dummy output only appears when no other sound device is available,
     ...    therefore, presence of it indicate failure to initialize audio for userspace
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
-    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
     ${out}=    Execute Command In Terminal    pactl list sinks
     ${result}=    Run Keyword And Ignore Error
     ...    Should Not Contain    ${out}    device.description = "Dummy Output"
     IF    '${result}[0]' == 'FAIL'
         Log    \nSound Card was found, but PulseAudio did not found any device\n    WARN
     END
+
+AUD002.201 Internal Audio playback
+    [Documentation]    Check whether the audio subsystem in Ubuntu is able
+    ...    toplayback audio recordings. To do so, first determine presence
+    ...    of audio sink. Audio sink must not be a dummy. After it was
+    ...    verified, we verify that sound is not malformed.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
+    Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
+    Switch Active Sink Port Using Pactl    internal
+    Verify Active Sink Port Using Pactl    internal
+    # TODO: Test playback and waveforms
+    # We probably can do it using alsa monitoring device, and capture
+    # the sound to check if it was malformed in a way.
+    Log    \Internal speakers detected, check validity of sound playback manually\n
+
+AUD003.201 Internal Audio capture
+    [Documentation]    Check whether the audio subsystem is able to capture
+    ...    audio on Ubuntu. To do so, we first determine presence of internal
+    ...    capture device.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
+    Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
+    Switch Active Source Port Using Pactl    internal
+    Verify Active Source Port Using Pactl    internal
+    # TODO: Somehow capture sound and confirm it is not malformed.
+    Log    \Internal microphone detected, check validity of sound capture manually\n
+
+AUD004.201 External headset recognition
+    [Documentation]    Check whether Ubuntu has recognized external headset,
+    ...    after plugging in micro jack into slot.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
+    Verify External Headset Is Plugged In
+    Switch Active Sink Port Using Pactl    headphones
+    Verify Active Sink Port Using Pactl    headphones
+
+AUD005.201 External headset audio playback
+    [Documentation]    Check whether Ubuntu has capability to playback
+    ...    sounds via external headset.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
+    Verify External Headset Is Plugged In
+    Switch Active Sink Port Using Pactl    headphones
+    Verify Active Sink Port Using Pactl    headphones
+    # TODO: Use pulseaudio to record back the audio and maybe do simple
+    # waveform analysis. We could use modified headphones, in which
+    # the microphone is physically attached to the speaker.
+    Log    \nHeadset speakers detected, please verify validity of playback manually\n
+
+AUD006.201 External headset audio capture
+    [Documentation]    Check whether Ubuntu has capability to capture sound
+    ...    via external headset.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
+    Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
+    Verify External Headset Is Plugged In
+    Switch Active Source Port Using Pactl    headphones
+    Verify Active Source Port Using Pactl    headphones
+    # TODO: Use pulseaudio to record back the audio and maybe do simple
+    # waveform analysis. We could use modified headphones, in which
+    # the microphone is physically attached to the speaker.
+    Log    \n Headset microphone detected, check validity of sound capture manually\n
+
+AUD007.201 HDMI Audio recognition
+    [Documentation]    Check whether the HDMI audio is recognized
+    ...    properly in Ubuntu after connecting HDMI display.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
+    Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
+    Switch Active Sink Port Using Pactl    hdmi
+    Verify Active Sink Port Using Pactl    hdmi
 
 AUD001.301 Audio subsystem detection
     [Documentation]    Check whether the audio subsystem is initialized correctly
@@ -59,21 +140,7 @@ AUD001.301 Audio subsystem detection
     Login To Windows
     ${out}=    Execute Command    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
     Should Contain    ${out}    Running
-
-AUD002.201 Internal Audio playback
-    [Documentation]    Check whether the audio subsystem in Ubuntu is able
-    ...    toplayback audio recordings. To do so, first determine presence
-    ...    of audio sink. Audio sink must not be a dummy. After it was
-    ...    verified, we verify that sound is not malformed.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
-    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
-    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
-    Switch Active Sink Port Using Pactl    internal
     Verify Active Sink Port Using Pactl    internal
-    # TODO: Test playback and waveforms
-    # We probably can do it using alsa monitoring device, and capture
-    # the sound to check if it was malformed in a way.
-    Log    \Internal speakers detected, check validity of sound playback manually\n
 
 AUD002.301 Internal Audio playback
     [Documentation]    Check whether the audio subsystem is able to playback
@@ -92,18 +159,6 @@ AUD002.301 Internal Audio playback
     # for windows, besides claiming this test as semi-auto.
     Log    \Internal speakers detected, check validity of sound playback manually\n
 
-AUD003.201 Internal Audio capture
-    [Documentation]    Check whether the audio subsystem is able to capture
-    ...    audio on Ubuntu. To do so, we first determine presence of internal
-    ...    capture device.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
-    Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
-    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
-    Switch Active Source Port Using Pactl    internal
-    Verify Active Source Port Using Pactl    internal
-    # TODO: Somehow capture sound and confirm it is not malformed.
-    Log    \Internal microphone detected, check validity of sound capture manually\n
-
 AUD003.301 Internal Audio capture
     [Documentation]    Check whether the audio subsystem is able to capture
     ...    audio on Windows. To do so, we first determine presence of internal
@@ -119,16 +174,6 @@ AUD003.301 Internal Audio capture
     # TODO: Somehow capture sound and confirm it is not malformed.
     Log    \Internal microphone detected, check validity of sound capture manually\n
 
-AUD004.201 External headset recognition
-    [Documentation]    Check whether Ubuntu has recognized external headset,
-    ...    after plugging in micro jack into slot.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
-    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
-    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
-    Verify External Headset Is Plugged In
-    Switch Active Sink Port Using Pactl    headphones
-    Verify Active Sink Port Using Pactl    headphones
-
 AUD004.301 External headset recognition
     [Documentation]    Check whether Windows has recognized external headset,
     ...    after plugging in micro jack into slot.
@@ -140,20 +185,6 @@ AUD004.301 External headset recognition
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
     Should Contain    ${out}    OK
-
-AUD005.201 External headset audio playback
-    [Documentation]    Check whether Ubuntu has capability to playback
-    ...    sounds via external headset.
-    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
-    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
-    Verify External Headset Is Plugged In
-    Switch Active Sink Port Using Pactl    headphones
-    Verify Active Sink Port Using Pactl    headphones
-    # TODO: Use pulseaudio to record back the audio and maybe do simple
-    # waveform analysis. We could use modified headphones, in which
-    # the microphone is physically attached to the speaker.
-    Log    \nHeadset speakers detected, please verify validity of playback manually\n
 
 AUD005.301 External headset audio playback
     [Documentation]    Check whether Windows has capability to playback
@@ -170,20 +201,6 @@ AUD005.301 External headset audio playback
     # in which the microphone is physically attached to the speaker.
     Log    \nHeadset speakers detected, please verify validity of playback manually\n
 
-AUD006.201 External headset audio capture
-    [Documentation]    Check whether Ubuntu has capability to capture sound
-    ...    via external headset.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
-    Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
-    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
-    Verify External Headset Is Plugged In
-    Switch Active Source Port Using Pactl    headphones
-    Verify Active Source Port Using Pactl    headphones
-    # TODO: Use pulseaudio to record back the audio and maybe do simple
-    # waveform analysis. We could use modified headphones, in which
-    # the microphone is physically attached to the speaker.
-    Log    \n Headset microphone detected, check validity of sound capture manually\n
-
 AUD006.301 External headset audio capture
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
@@ -198,15 +215,6 @@ AUD006.301 External headset audio capture
     # TODO: If possible, use some software to capture sound, and compare
     # waveforms with original audio, to verify it was not malformed.
     Log    \n Headset microphone detected, check validity of sound capture manually\n
-
-AUD007.201 HDMI Audio recognition
-    [Documentation]    Check whether the HDMI audio is recognized
-    ...    properly in Ubuntu after connecting HDMI display.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
-    Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
-    Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
-    Switch Active Sink Port Using Pactl    hdmi
-    Verify Active Sink Port Using Pactl    hdmi
 
 AUD007.301 HDMI Audio recognition
     [Documentation]    Check whether the HDMI audio is recognized
@@ -251,12 +259,13 @@ Prepare Audio Subsystem Test Suite
     #    Exit From Root User
     # END
 
-Boot Into Ubuntu And Ensure Audio Subsystem Is Detected
+Audio Subsystem Detection Linux
     [Documentation]    Ensures Ubuntu is currently active and that the
     ...    audio chip was detected.
     [Tags]    robot:private
+    [Arguments]    ${os_id}
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     ${out}=    Execute Command In Terminal    cat /sys/class/sound/card0/hwC0D*/chip_name
     Should Not Contain    ${out}    No such file or directory
