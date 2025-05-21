@@ -96,6 +96,7 @@ WLE001.301 Wireless card detection (Windows)
     Should Match    ${out}    *${WIFI_CARD}*
     Log To Console    The test passed for the ${WIFI_CARD} wireless card
     Log    The test passed for the ${WIFI_CARD} wireless card    WARN
+    Execute Shutdown Command
 
 WLE002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
@@ -117,6 +118,7 @@ WLE002.301 Wi-Fi scanning (Windows)
     ...    Execute Command In Terminal    Get-NetAdapter -Name "Wi-Fi" | Format-List -Property "InterfaceDescription"
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
+    Execute Shutdown Command
 
 # TBD - Run scanning bluetooth via powershell and list aviailable devices
 # test case below just check connected bluetooth devices
@@ -130,6 +132,7 @@ WLE002.301 Wi-Fi scanning (Windows)
 #    Login to Windows
 #    ${out}=    Execute Command in Terminal    Get-PnpDevice -class Bluetooth
 #    Should Contain X Times    ${out}    OK    4
+#    Execute Shutdown Command
 
 
 *** Keywords ***

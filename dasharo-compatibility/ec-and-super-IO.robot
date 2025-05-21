@@ -353,6 +353,7 @@ ECR001.301 Battery monitoring - charge level in OS (Windows)
     Login To Windows
     ${out}=    Get Battery Power Level Windows
     Should Be True    ${out} > 0 and ${out} < 101
+    Execute Shutdown Command
 
 ECR002.301 Battery monitoring - charging state in OS (Windows)
     [Documentation]    Check whether the battery state can be read in Windows
@@ -362,6 +363,7 @@ ECR002.301 Battery monitoring - charging state in OS (Windows)
     Power On
     Login To Windows
     Check If Battery Is Charging Windows
+    Execute Shutdown Command
 
 ECR003.301 Touchpad in OS - (Windows)
     [Documentation]    Check whether touchpad is visible in Windows OS.
@@ -373,6 +375,7 @@ ECR003.301 Touchpad in OS - (Windows)
     Login To Windows
     ${out}=    Get Pointing Devices Windows
     Should Contain    ${out}    HID-compliant mouse
+    Execute Shutdown Command
 
 ECR022.001 EC sync update with power adapter connected works correctly
     [Documentation]    This test aims to verify whether coreboot update

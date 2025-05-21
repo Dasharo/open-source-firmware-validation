@@ -59,6 +59,7 @@ NVM001.301 NVMe support in OS (Windows)
     ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" | where { $_.InstanceId -like "*NVME*"}
     Should Contain    ${out}    DiskDrive
     # Exit from root user
+    Execute Shutdown Command
 
 NVM001.401 NVMe support in OS (ESXi)
     [Documentation]    Verify that ESXi is installed and booted from an NVMe drive.

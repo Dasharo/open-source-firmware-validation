@@ -94,6 +94,7 @@ SDC001.301 SD Card reader detection (Windows)
     ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" -Class "DiskDrive"
     Should Contain    ${out}    DiskDrive
     # Exit from root user
+    Execute Shutdown Command
 
 SDC002.301 SD Card read/write (Windows)
     [Documentation]    Check whether the SD Card reader is initialized correctly
@@ -101,7 +102,8 @@ SDC002.301 SD Card read/write (Windows)
     ...    Previous IDs: SDC002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.301 not supported
     Power On
-    SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     Login To Windows
+    SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     ${drive_letter}=    Identify Path To SD Card In Windows
     Check Read Write To External Drive In Windows    ${drive_letter}
+    Execute Shutdown Command

@@ -90,6 +90,7 @@ CAM001.301 Integrated webcam (Windows)
     Login To Windows
     ${out}=    Get USB Devices Windows
     Should Contain    ${out}    Chicony USB2.0 Camera
+    Execute Shutdown Command
 
 
 *** Keywords ***

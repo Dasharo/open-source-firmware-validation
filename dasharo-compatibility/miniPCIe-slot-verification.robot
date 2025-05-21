@@ -97,6 +97,7 @@ MWL001.301 Wireless card detection (Windows)
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
     Should Contain    ${out}    ${WIFI_CARD}
+    Execute Shutdown Command
 
 MWL002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
@@ -108,6 +109,7 @@ MWL002.301 Wi-Fi scanning (Windows)
     ${out}=    Execute Command In Terminal    netsh wlan show network
     Should Contain    ${out}    3mdeb_abr
     Should Contain    ${out}    3mdeb_abr_5GHz
+    Execute Shutdown Command
 
 # MWL003.002 Bluetooth scanning (Windows)
 #    [Documentation]    TBD

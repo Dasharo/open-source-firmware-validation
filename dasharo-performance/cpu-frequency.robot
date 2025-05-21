@@ -481,6 +481,7 @@ CPU Not Stuck On Initial Frequency (Windows)
     Login To Windows
     Sleep    10s
     Check If CPU Not Stuck On Initial Frequency In Windows
+    Execute Shutdown Command
 
 CPU Not Stuck On Initial Frequency (Heads+Debian)
     [Tags]    robot:private
@@ -531,6 +532,7 @@ CPU Runs On Expected Frequency (Windows)
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
     END
+    Execute Shutdown Command
 
 CPU With Load Runs On Expected Frequency (Linux)
     [Tags]    robot:private
@@ -574,3 +576,4 @@ CPU With Load Runs On Expected Frequency (Windows)
         Sleep    ${FREQUENCY_TEST_MEASURE_INTERVAL}m
         ${timer}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
     END
+    Execute Shutdown Command
