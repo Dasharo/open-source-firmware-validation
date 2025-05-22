@@ -54,7 +54,7 @@ class QemuMonitor:
         msg = {"execute": command, "arguments": args}
         logger.trace(f"QemuMonitor command: {msg}")
         self.sock.sendall(json.dumps(msg).encode())
-        response = self.sock.recv(4096).decode()
+        response = self.sock.recv(8192).decode()
         logger.trace(f"QemuMonitor response: {response}")
         json_objects = [
             json.loads(line) for line in response.splitlines() if line.strip()
@@ -183,6 +183,11 @@ class QemuMonitor:
             "drive": self._usb_nodename(name),
         }
         self._send_cmd("device_add", **usb_storage_params)
+
+        contains_file_node = self._check_if_block_node_exists(
+            self._usb_file_nodename(name)
+        )
+        logger.trace(f"contains file node: {contains_file_node}")
 
     def _usb_file_nodename(self, name):
         return "usb_file_node_" + name
