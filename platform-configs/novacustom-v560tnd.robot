@@ -20,6 +20,7 @@ ${DUT_CONNECTION_METHOD}=               Telnet
 ${OS_DUT_CONNECTION_METHOD}=            SSH
 ${POWER_CTRL}=                          sonoff
 ${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
+${DTS_SUPPORT}=                         ${TRUE}
 
 ${CLEVO_BATTERY_CAPACITY}=              5100*1000
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
@@ -44,6 +45,9 @@ ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
 ${WEBCAM_UBUNTU}=                       Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 # ${OPTIONS_LIB}=    options-lib_dcu
+${USB_MODEL}=                           SanDisk
+${USB_DEVICE}=                          SanDisk
+@{ATTACHED_USB}=                        SanDisk
 
 ${DGPU_ONLY_SUPPORT}=                   ${TRUE}
 
