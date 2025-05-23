@@ -87,4 +87,11 @@ NVMe Slot Change Support In OS
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    lspci -vvv
-    Should Contain    ${out}    'LnkSta:    Speed 8GT/s, Width x2'
+    @{lines}=    Split To Lines    ${out}
+    ${found}=    Set Variable    False
+    FOR    ${line}    IN    @{lines}
+        IF    'Speed 8GT/s (ok), Width x2' in '${line}'
+            Set Test Variable    ${FOUND}    True
+        END
+    END
+    Should Be True    ${FOUND}
