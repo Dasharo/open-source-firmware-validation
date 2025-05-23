@@ -47,13 +47,15 @@ ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
-    ${status}=    Perform Capsule Update And Return Status    wrong_keys.cap
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    wrong_keys.cap
     Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
+    Should Not Be True    ${version_changed}
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
-    ${status}=    Perform Capsule Update And Return Status    invalid_guid.cap
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
+    Should Not Be True    ${version_changed}
 
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
@@ -79,8 +81,8 @@ CUP150.001 Capsule Update
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
-    ${status}=    Perform Capsule Update And Return Status    valid_capsule.cap
-
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
+    Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
 
@@ -236,9 +238,12 @@ Perform Capsule Update And Return Status
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux With Root Privileges
         ${updated_bios_version}=    Get BIOS Version Linux    After update
-        Should Be Equal    ${original_bios_version}    ${updated_bios_version}
+        ${version_changed}=    Run Keyword And Return Status
+        ...    Should Be Equal
+        ...    ${original_bios_version}
+        ...    ${updated_bios_version}
         ${logs}=    Get Capsule Update Logs    use_uefi_shell=${False}
-        RETURN    ${logs}
+        RETURN    ${logs}    ${version_changed}
     END
 
 Flash Firmware If Not QEMU
@@ -404,7 +409,7 @@ Perform Capsule Update
         Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
         # Consider giving an ENV_ID to the capsule update disk and using Boot System...
         Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
-        Execute Reboot Command    change_nextboot=${False}
+        Execute Reboot Command    assume_correct_boot=${True}
         # uefi shell runs and reboots the platform
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
@@ -615,7 +620,7 @@ Get Capsule Update Logs
         Set Startup Nsh Variable    step    1    ${capsule_disk}
         Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
         Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
-        Execute Reboot Command    change_nextboot=${False}
+        Execute Reboot Command    assume_correct_boot=${True}
         # uefi shell runs and reboots the platform
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux With Root Privileges
