@@ -1261,6 +1261,15 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
         IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
             ${system_name}=    Set Variable    QEMU HARDDISK
         END
+    ELSE
+        # Without ESP_SCANNING it does not matter if the entry has lowercase
+        # or upperase.
+        @{lowercase_menu}=    Create List
+        FOR    ${line}    IN    @{menu_construction}
+            ${lower}=    Convert To Lowercase    ${line}
+            Append To List    ${lowercase_menu}    ${lower}
+        END
+        ${menu_construction}=    Set Variable    ${lowercase_menu}
     END
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
     IF    not ${is_system_present}

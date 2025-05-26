@@ -27,6 +27,7 @@
           - "{{package_ffmeg}}"
           - "{{package_usbutils}}"
           - "{{package_tpm2_tools}}"
+          - "{{package_pulseaudio_utils}}"
         state: present
     - name: Install coreboot tools files
       ansible.builtin.copy:

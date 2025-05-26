@@ -12,7 +12,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-Suite Setup         Prepare Audio Subsystem Test Suite
+Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
 
@@ -312,35 +312,6 @@ AUD007.301 HDMI Audio recognition
 
 
 *** Keywords ***
-Prepare Audio Subsystem Test Suite
-    [Documentation]    Run preparation steps for Audio Suite.
-    ...    This includes regular importing platform config,
-    ...    and package installation, separate for each system
-    [Tags]    robot:private
-    Prepare Test Suite
-    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}    Audio subsystem tests not supported
-
-    IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        Power On
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        Detect Or Install Package    alsa-utils
-        Detect Or Install Package    pulseaudio-utils
-        Exit From Root User
-    END
-
-    # Disclaimer: Support for Fedora OS in future
-    # IF    ${TESTS_IN_FEDORA_SUPPORT}
-    #    Power On
-    #    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    #    Login To Linux
-    #    Switch To Root User
-    #    Detect Or Install Package    alsa-utils
-    #    Detect Or Install Package    pulseaudio-utils
-    #    Exit From Root User
-    # END
-
 Audio Subsystem Detection Linux
     [Documentation]    Ensures Ubuntu is currently active and that the
     ...    audio chip was detected.

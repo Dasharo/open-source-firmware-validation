@@ -4,9 +4,9 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
-${DUT_CONNECTION_METHOD}=               Telnet
-${POWER_CTRL}=                          sonoff
+${INITIAL_DUT_CONNECTION_METHOD}=       SSH
+${DUT_CONNECTION_METHOD}=               SSH
+${POWER_CTRL}=                          none
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
 
 # CPU
@@ -31,7 +31,7 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
-...                                     ${ENV_ID_UBUNTU}
+...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux

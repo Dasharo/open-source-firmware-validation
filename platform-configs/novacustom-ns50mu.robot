@@ -33,8 +33,9 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ${FW_NO_EC_SYNC_VERSION}=               v1.5.1
 ${EC_NO_SYNC_VERSION}=                  2023-10-31_f148431
 
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
-@{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
+@{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 
 # cpu performance Windows
 ${SMALLPT_TEST_SCORE}=                  38.263
