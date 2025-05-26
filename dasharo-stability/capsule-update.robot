@@ -471,38 +471,52 @@ Get FS From Uefi Shell
 Display Preparation Instructions
     [Tags]    robot:private
     Log To Console    ******************************************************************************\n
-    Log To Console    To run tests first prepare a valid capsule file(*) and then use this capsule
-    Log To Console    file to generate invalid capsules required by the tests by running the script:
-    Log To Console    \ \ \ \ ./scripts/capsules/capsule_update_tests.sh <capsule_file>.cap
-    Log To Console    then start the tests:
-    Log To Console    ${EMPTY}
-    Log To Console    \ on QEMU:
-    Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:127.0.0.1 -v config:qemu \\
-    Log To Console    \ \ \ \ \ \ -v capsule_fw_file:dasharo.cap dasharo-stability/capsule-update.robot
-    Log To Console    ${EMPTY}
-    Log To Console    \ on other platforms:
-    Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:<rte_ip> -v config:<config> \\
-    Log To Console    \ \ \ \ \ \ -v sonoff_ip:<sonoff_ip> -v pikvm_ip:<pikvm_ip> -v device_ip:<device_ip> \\
-    Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
-    Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
-    Log To Console    \ \ or:
-    Log To Console    \ \ \ \ robot -L TRACE -v rte_ip:<rte_ip> -v config:<config> -v device_ip:<device_ip> \\
-    Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
-    Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
-    Log To Console    ${EMPTY}
-    Log To Console    (*) To start tests on DUT which use PIKVM: Before preparing the capsule please
-    Log To Console    edit FW to enable Console Serial Redirection. Use the guide:
-    Log To Console
-    ...    \ \ https://github.com/Dasharo/open-source-firmware-validation/blob/develop/docs/troubleshooting.md
-    Log To Console    Without it, a successful flash of DUT will prevent tests from working
-    Log To Console    correctly.
-    Log To Console    ${EMPTY}
-    Log To Console    Mind that CONFIG_LOCALVERSION in fw_file and capsule_fw_file must be different for
-    Log To Console    tests to pass.
-    Log To Console    ${EMPTY}
-    Log To Console    Another requirement is having UEFI Shell enabled (it's disabled by default now).
-    Log To Console    ${EMPTY}
-    Log To Console    ******************************************************************************
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Log To Console    To run tests first prepare a valid capsule file(*) and then use this capsule
+        Log To Console    file to generate invalid capsules required by the tests by running the script:
+        Log To Console    \ \ \ \ ./scripts/capsules/capsule_update_tests.sh <capsule_file>.cap
+        Log To Console    then start the tests:
+        Log To Console    ${EMPTY}
+        Log To Console    \ on QEMU:
+        Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:127.0.0.1 -v config:qemu \\
+        Log To Console    \ \ \ \ \ \ -v capsule_fw_file:dasharo.cap dasharo-stability/capsule-update.robot
+        Log To Console    ${EMPTY}
+        Log To Console    \ on other platforms:
+        Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:<rte_ip> -v config:<config> \\
+        Log To Console    \ \ \ \ \ \ -v sonoff_ip:<sonoff_ip> -v pikvm_ip:<pikvm_ip> -v device_ip:<device_ip> \\
+        Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
+        Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
+        Log To Console    \ \ or:
+        Log To Console    \ \ \ \ robot -L TRACE -v rte_ip:<rte_ip> -v config:<config> -v device_ip:<device_ip> \\
+        Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
+        Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
+        Log To Console    ${EMPTY}
+        Log To Console    (*) To start tests on DUT which use PIKVM: Before preparing the capsule please
+        Log To Console    edit FW to enable Console Serial Redirection. Use the guide:
+        Log To Console
+        ...    \ \ https://github.com/Dasharo/open-source-firmware-validation/blob/develop/docs/troubleshooting.md
+        Log To Console    Without it, a successful flash of DUT will prevent tests from working
+        Log To Console    correctly.
+        Log To Console    ${EMPTY}
+        Log To Console    Mind that CONFIG_LOCALVERSION in fw_file and capsule_fw_file must be different for
+        Log To Console    tests to pass.
+        Log To Console    ${EMPTY}
+        Log To Console    Another requirement is having UEFI Shell enabled (it's disabled by default now).
+        Log To Console    ${EMPTY}
+    ELSE
+        Log To Console    ******************************************************************************
+        Log To Console    To run tests:
+        Log To Console    1. Prepare a valid capsule file(*) and set the environment variable
+        Log To Console    \ \ \ CAPSULE_FW_FILE to the path to the capsule.
+        Log To Console    2. Generate invalid capsules required by the tests by running the script:
+        Log To Console    \ \ \ \ ./scripts/capsules/capsule_update_tests.sh $CAPSULE_FW_FILE
+        Log To Console    3. Prepare a flash drive with UEFI Shell and the capsule file using
+        Log To Console    using the script:
+        Log To Console    \ \ \ \ ./scripts/capsules/prepare_capsule_update_tests_drive.sh <block device>
+        Log To Console    4. Plug the flash drive into the DUT and run the tests:
+        Log To Console    \ \ \ \ scripts/run.sh dasharo-stability/capsule-update.robot
+        Log To Console    \n******************************************************************************
+    END
 
 Prepare For Logo Persistence Test
     [Tags]    robot:private
