@@ -29,7 +29,6 @@ ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
 ${WIFI_CARD_UBUNTU}=                    Intel Corporation Meteor Lake PCH CNVi WiFi
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
 
-${OPTIONS_LIB}=                         options-lib_dcu
 ${POWER_CTRL}=                          none
 
 ${DGPU_ONLY_SUPPORT}=                   ${TRUE}
