@@ -18,9 +18,15 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE} # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the boot order
 
+${TESTS_IN_FEDORA_SUPPORT}=             ${FALSE}
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
+
 ${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
+
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6E AX211 160MHz
+${WIFI_CARD_UBUNTU}=                    Intel Corporation Meteor Lake PCH CNVi WiFi
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
 
 ${OPTIONS_LIB}=                         options-lib_dcu
