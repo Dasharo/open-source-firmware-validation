@@ -255,16 +255,15 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.67
 
-<<<<<<< HEAD
 # NovaCustom V540TU test rack
 &{RTE71}=                   ip=192.168.10.100
 ...                         platform=novacustom-v540tu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.116
 
-# NovaCustom NV560TND test desktop
+# NovaCustom V560TND test desktop
 &{RTE72}=                   ip=192.168.10.25
-...                         platform=novacustom-nv560tnd
+...                         platform=novacustom-v560tnd
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.229
 
