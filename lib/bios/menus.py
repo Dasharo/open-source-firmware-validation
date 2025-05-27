@@ -207,6 +207,11 @@ getoptionpath = {
         "CPU Configuration",
         "Number of active P-cores",
     ],
+    "DGPUState": [
+        "Dasharo System Features",
+        "Power Management Options",
+        "Hybrid Graphics Mode",
+    ],
 }
 
 
