@@ -133,7 +133,7 @@ Wireless Card Detection
     Login To Linux
     Switch To Root User
     ${out}=    List Devices In Linux    pci
-    Should Contain    ${out}    ${WIFI_CARD}
+    Should Contain    ${out}    ${WIFI_CARD_UBUNTU}
     Exit From Root User
 
 Wi-Fi Scanning
