@@ -90,7 +90,7 @@ NVMe Slot Change Support In OS
     @{lines}=    Split To Lines    ${out}
     ${found}=    Set Variable    False
     FOR    ${line}    IN    @{lines}
-        ${match}=    Evaluate    re.search(r"Speed \d+GT/s.*Width x2", '''${line}''')    re
+        ${match}=    Evaluate    __import__('re').search(r"Speed \\d+GT/s.*Width x2", """${line}""")
         IF    ${match}    Set Test Variable    ${FOUND}    True
     END
     Should Be True    ${FOUND}
