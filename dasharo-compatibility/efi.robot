@@ -28,6 +28,7 @@ Suite Teardown      Run Keyword
 EFI001.201 Boot into UEFI OS (Ubuntu)
     [Documentation]    Boot into Linux OS and check whether there is a
     ...    possibility to identify the system.
+    ...    Previous IDs: EFI001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -39,6 +40,7 @@ EFI001.201 Boot into UEFI OS (Ubuntu)
 EFI001.301 Boot into UEFI OS (Windows)
     [Documentation]    Boot into Windows 11 OS and check whether there is a
     ...    possibility to identify the system
+    ...    Previous IDs: EFI001.301
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.301 not supported
     Power On
     Login To Windows
