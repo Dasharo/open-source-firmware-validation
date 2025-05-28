@@ -67,40 +67,24 @@ class CLI:
                 for cmd in parser.commands:
                     print(" ".join(cmd))
 
-    def execute(
+    def robot_wrapper_args(
         self, rules_file="scripts/ci/regression-scope/rules.json", compare_to="HEAD"
     ):
         """
-        Run the test suites to be tested for the current changes
+        Print the commands that should be executed to test the changes
         """
-        with open(self) as rules_file:
+        with open(rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = get_changed_files(compare_to)
         for rule in self.rules:
             parser = RuleParser(rule, self.changed_files)
             parser.match_rule()
-            for cmd in parser.commands:
-                subprocess.run(cmd, env=parser.env, stdout=sys.stdout)
-
-
-def robot_wrapper_args(
-    self, rules_file="scripts/ci/regression-scope/rules.json", compare_to="HEAD"
-):
-    """
-    Print the commands that should be executed to test the changes
-    """
-    with open(rules_file) as rules_file:
-        self.rules = json.load(rules_file)["rules"]
-    self.changed_files = get_changed_files(compare_to)
-    for rule in self.rules:
-        parser = RuleParser(rule, self.changed_files)
-        parser.match_rule()
-        out = ""
-        if len(parser.test_files) > 0:
-            out += " ".join(parser.test_files)
-            if len(parser.robot_args) > 0:
-                out += " -- " + " ".join(parser.robot_args)
-            print(out)
+            out = ""
+            if len(parser.test_files) > 0:
+                out += " ".join(parser.test_files)
+                if len(parser.robot_args) > 0:
+                    out += " -- " + " ".join(parser.robot_args)
+                print(out)
 
 
 if __name__ == "__main__":

@@ -19,9 +19,9 @@ class TestMiscellaneous(unittest.TestCase):
                     {
                         "name": "Single match",
                         "on-changed": "(important-file.robot)",
-                        "run": {
+                        "run": [{
                             "custom_command": "echo hello"
-                        }
+                        }]
                     }
                 ]
             }"""
@@ -47,12 +47,12 @@ class TestMiscellaneous(unittest.TestCase):
                     {
                         "name": "Single match",
                         "on-changed": "(important-file.robot)",
-                        "run": {
+                        "run": [{
                             "files": {
-                                "mode": "${FULL_MATCH}"
+                                "mode": "${FULL_FILENAME_MATCH}"
                             },
                             "robot_args": "-i minimal-regression"
-                        }
+                        }]
                     }
                 ]
             }"""
@@ -78,6 +78,60 @@ class TestMiscellaneous(unittest.TestCase):
                 ],
             )
 
+    def test_mutliple_runs_one_rule(self):
+        rules = json.loads(
+            """
+            {
+                "rules": [
+                    {
+                        "name": "Single match",
+                        "on-changed": "(important-file.robot)",
+                        "run": [
+                            {
+                                "files": {
+                                    "mode": "${FULL_FILENAME_MATCH}"
+                                },
+                                "robot_args": "-i minimal-regression"
+                            },
+                            {
+                                "files": {
+                                    "mode": "${FULL_FILENAME_MATCH}"
+                                },
+                                "robot_args": "-i some_other:tag"
+                            }
+                        ]
+                    }
+                ]
+            }"""
+        )["rules"]
+        changed_files = [
+            "important-file.robot",
+            "dasharo-performance/boot-time-measure.robot",
+        ]
+        for rule in rules:
+            parser = RuleParser(rule, changed_files)
+            parser.match_rule()
+            self.assertEqual(parser.test_files, ["important-file.robot"])
+            self.assertEqual(
+                parser.commands,
+                [
+                    [
+                        "scripts/run.sh",
+                        "important-file.robot",
+                        "--",
+                        "-i",
+                        "minimal-regression",
+                    ],
+                    [
+                        "scripts/run.sh",
+                        "important-file.robot",
+                        "--",
+                        "-i",
+                        "some_other:tag",
+                    ],
+                ],
+            )
+
 
 class TestModulesRules(unittest.TestCase):
     rules = json.loads(
@@ -87,17 +141,17 @@ class TestModulesRules(unittest.TestCase):
                     {
                         "name": "Run changed test suites",
                         "on-changed": "dasharo-compatibility/(.*)",
-                        "run": {
+                        "run": [{
                             "env_vars": {
                                 "RTE_IP": "127.0.0.1",
                                 "FW_FILE": "scripts/ci/qemu_q35.rom",
                                 "CONFIG": "qemu"
                             },
                             "files": {
-                                "mode": "${FULL_MATCH}"
+                                "mode": "${FULL_FILENAME_MATCH}"
                             },
                             "snipeit": "no"
-                        }
+                        }]
                     }
                 ]
             }"""
@@ -180,13 +234,13 @@ class TestLibsRules(unittest.TestCase):
                 {
                     "name": "Run suites that use a modified lib",
                     "on-changed": "lib/(.*)",
-                    "run": {
+                    "run": [{
                         "files": {
-                            "mode": "${CONTAINING_MATCHES}",
+                            "mode": "${FILE_CONTAINS_MATCH}",
                             "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
                         },
                         "snipeit": "no"
-                    }
+                    }]
                 }
             ]
         }
@@ -303,24 +357,24 @@ class TestLibsMultipleRules(unittest.TestCase):
                 {
                     "name": "Run suites that use a modified lib",
                     "on-changed": "lib/(tpm.robot)",
-                    "run": {
+                    "run": [{
                         "files": {
-                            "mode": "${CONTAINING_MATCHES}",
+                            "mode": "${FILE_CONTAINS_MATCH}",
                             "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
                         },
                         "snipeit": "no"
-                    }
+                    }]
                 },
                 {
                     "name": "Run suites that use a modified lib",
                     "on-changed": "lib/(tpm2.robot)",
-                    "run": {
+                    "run": [{
                         "files": {
-                            "mode": "${CONTAINING_MATCHES}",
+                            "mode": "${FILE_CONTAINS_MATCH}",
                             "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
                         },
                         "snipeit": "no"
-                    }
+                    }]
                 }
             ]
         }

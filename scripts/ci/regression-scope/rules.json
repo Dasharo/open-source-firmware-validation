@@ -20,18 +20,20 @@
         {
             "name": "Run suites that use a modified lib",
             "on-changed": "lib/(.*)",
-            "run": {
-                "env_vars": {
-                    "RTE_IP": "127.0.0.1",
-                    "FW_FILE": "scripts/ci/qemu_q35.rom",
-                    "CONFIG": "qemu"
-                },
-                "files": {
-                    "mode": "${CONTAINING_MATCHES}",
-                    "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
-                },
-                "snipeit": "no"
-            }
+            "run": [
+                {
+                    "env_vars": {
+                        "RTE_IP": "127.0.0.1",
+                        "FW_FILE": "scripts/ci/qemu_q35.rom",
+                        "CONFIG": "qemu"
+                    },
+                    "files": {
+                        "mode": "${FILE_CONTAINS_MATCH}",
+                        "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+                    },
+                    "snipeit": "no"
+                }
+            ]
         }
     ]
 }
