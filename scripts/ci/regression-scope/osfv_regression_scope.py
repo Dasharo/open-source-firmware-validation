@@ -83,6 +83,26 @@ class CLI:
                 subprocess.run(cmd, env=parser.env, stdout=sys.stdout)
 
 
+def robot_wrapper_args(
+    self, rules_file="scripts/ci/regression-scope/rules.json", compare_to="HEAD"
+):
+    """
+    Print the commands that should be executed to test the changes
+    """
+    with open(rules_file) as rules_file:
+        self.rules = json.load(rules_file)["rules"]
+    self.changed_files = get_changed_files(compare_to)
+    for rule in self.rules:
+        parser = RuleParser(rule, self.changed_files)
+        parser.match_rule()
+        out = ""
+        if len(parser.test_files) > 0:
+            out += " ".join(parser.test_files)
+            if len(parser.robot_args) > 0:
+                out += " -- " + " ".join(parser.robot_args)
+            print(out)
+
+
 if __name__ == "__main__":
     if "--help" in sys.argv or "-h" in sys.argv:
         # remove all arguments except the script name to print
