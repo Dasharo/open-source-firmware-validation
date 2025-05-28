@@ -128,8 +128,9 @@ class RuleParser:
 
         if "custom_command" in run_dict:
             return run_dict["custom_command"].split(" ")
-
         robot_args = []
+        if "robot_args" in run_dict:
+            robot_args.extend(run_dict["robot_args"].split(" "))
         if "snipeit" in run_dict and run_dict["snipeit"] == "no":
             robot_args += ["-v", "snipeit:no"]
         return self.assemble_robot_command(self.test_files, robot_args=robot_args)
