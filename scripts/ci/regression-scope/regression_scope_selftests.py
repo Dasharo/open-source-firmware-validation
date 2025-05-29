@@ -7,8 +7,8 @@
 import json
 import unittest
 
-from lib.rules_parser import RuleParser
 from lib.parser_manager import ParserManager
+
 
 class TestMiscellaneous(unittest.TestCase):
     def test_no_matches(self):
@@ -30,14 +30,13 @@ class TestMiscellaneous(unittest.TestCase):
             "important-file.robot",
             "dasharo-performance/boot-time-measure.robot",
         ]
-        for rule in rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(parser.test_files, [])
-            self.assertEqual(
-                parser.commands,
-                [["echo", "hello"]],
-            )
+        parser = ParserManager(rules, changed_files)
+        parser.parse()
+        self.assertEqual(parser.files(), [])
+        self.assertEqual(
+            parser.commands(),
+            [["echo", "hello"]],
+        )
 
     def test_additional_robot_args(self):
         rules = json.loads(
@@ -61,22 +60,21 @@ class TestMiscellaneous(unittest.TestCase):
             "important-file.robot",
             "dasharo-performance/boot-time-measure.robot",
         ]
-        for rule in rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(parser.test_files, ["important-file.robot"])
-            self.assertEqual(
-                parser.commands,
+        parser = ParserManager(rules, changed_files)
+        parser.parse()
+        self.assertEqual(parser.files(), ["important-file.robot"])
+        self.assertEqual(
+            parser.commands(),
+            [
                 [
-                    [
-                        "scripts/run.sh",
-                        "important-file.robot",
-                        "--",
-                        "-i",
-                        "minimal-regression",
-                    ]
-                ],
-            )
+                    "scripts/run.sh",
+                    "important-file.robot",
+                    "--",
+                    "-i",
+                    "minimal-regression",
+                ]
+            ],
+        )
 
     def test_mutliple_runs_one_rule(self):
         rules = json.loads(
@@ -108,29 +106,28 @@ class TestMiscellaneous(unittest.TestCase):
             "important-file.robot",
             "dasharo-performance/boot-time-measure.robot",
         ]
-        for rule in rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(parser.test_files, ["important-file.robot"])
-            self.assertEqual(
-                parser.commands,
+        parser = ParserManager(rules, changed_files)
+        parser.parse()
+        self.assertEqual(parser.files(), ["important-file.robot"])
+        self.assertEqual(
+            parser.commands(),
+            [
                 [
-                    [
-                        "scripts/run.sh",
-                        "important-file.robot",
-                        "--",
-                        "-i",
-                        "minimal-regression",
-                    ],
-                    [
-                        "scripts/run.sh",
-                        "important-file.robot",
-                        "--",
-                        "-i",
-                        "some_other:tag",
-                    ],
+                    "scripts/run.sh",
+                    "important-file.robot",
+                    "--",
+                    "-i",
+                    "minimal-regression",
                 ],
-            )
+                [
+                    "scripts/run.sh",
+                    "important-file.robot",
+                    "--",
+                    "-i",
+                    "some_other:tag",
+                ],
+            ],
+        )
 
 
 class TestModulesRules(unittest.TestCase):
@@ -164,29 +161,31 @@ class TestModulesRules(unittest.TestCase):
             "lib/linux.robot",
             "platform-configs/include/msi-common.robot",
         ]
-        for rule in TestModulesRules.rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(
-                parser.test_files, ["dasharo-compatibility/audio-subsystem.robot"]
-            )
-            self.assertEqual(
-                parser.commands,
+        parser = ParserManager(TestModulesRules.rules, changed_files)
+        parser.parse()
+        self.assertEqual(
+            parser.files(), ["dasharo-compatibility/audio-subsystem.robot"]
+        )
+        self.assertEqual(
+            parser.commands(),
+            [
                 [
-                    [
-                        "export RTE_IP=127.0.0.1",
-                        "export FW_FILE=scripts/ci/qemu_q35.rom",
-                        "export CONFIG=qemu",
-                    ],
-                    [
-                        "scripts/run.sh",
-                        "dasharo-compatibility/audio-subsystem.robot",
-                        "--",
-                        "-v",
-                        "snipeit:no",
-                    ],
+                    "export",
+                    "RTE_IP=127.0.0.1",
+                    "export",
+                    "FW_FILE=scripts/ci/qemu_q35.rom",
+                    "export",
+                    "CONFIG=qemu",
                 ],
-            )
+                [
+                    "scripts/run.sh",
+                    "dasharo-compatibility/audio-subsystem.robot",
+                    "--",
+                    "-v",
+                    "snipeit:no",
+                ],
+            ],
+        )
 
     def test_single_module_multiple_changes(self):
         changed_files = [
@@ -196,34 +195,36 @@ class TestModulesRules(unittest.TestCase):
             "lib/linux.robot",
             "platform-configs/include/msi-common.robot",
         ]
-        for rule in TestModulesRules.rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(
-                parser.test_files,
+        parser = ParserManager(TestModulesRules.rules, changed_files)
+        parser.parse()
+        self.assertEqual(
+            parser.files(),
+            [
+                "dasharo-compatibility/audio-subsystem.robot",
+                "dasharo-compatibility/cpu-status.robot",
+            ],
+        )
+        self.assertEqual(
+            parser.commands(),
+            [
                 [
+                    "export",
+                    "RTE_IP=127.0.0.1",
+                    "export",
+                    "FW_FILE=scripts/ci/qemu_q35.rom",
+                    "export",
+                    "CONFIG=qemu",
+                ],
+                [
+                    "scripts/run.sh",
                     "dasharo-compatibility/audio-subsystem.robot",
                     "dasharo-compatibility/cpu-status.robot",
+                    "--",
+                    "-v",
+                    "snipeit:no",
                 ],
-            )
-            self.assertEqual(
-                parser.commands,
-                [
-                    [
-                        "export RTE_IP=127.0.0.1",
-                        "export FW_FILE=scripts/ci/qemu_q35.rom",
-                        "export CONFIG=qemu",
-                    ],
-                    [
-                        "scripts/run.sh",
-                        "dasharo-compatibility/audio-subsystem.robot",
-                        "dasharo-compatibility/cpu-status.robot",
-                        "--",
-                        "-v",
-                        "snipeit:no",
-                    ],
-                ],
-            )
+            ],
+        )
 
 
 class TestLibsRules(unittest.TestCase):
@@ -254,27 +255,26 @@ class TestLibsRules(unittest.TestCase):
             "lib/performance/gpu.robot",
             "platform-configs/include/msi-common.robot",
         ]
-        for rule in TestLibsRules.rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(
-                parser.test_files,
+        parser = ParserManager(TestLibsRules.rules, changed_files)
+        parser.parse()
+        self.assertEqual(
+            parser.files(),
+            [
+                "dasharo-performance/gpu-performance.robot",
+            ],
+        )
+        self.assertEqual(
+            parser.commands(),
+            [
                 [
+                    "scripts/run.sh",
                     "dasharo-performance/gpu-performance.robot",
+                    "--",
+                    "-v",
+                    "snipeit:no",
                 ],
-            )
-            self.assertEqual(
-                parser.commands,
-                [
-                    [
-                        "scripts/run.sh",
-                        "dasharo-performance/gpu-performance.robot",
-                        "--",
-                        "-v",
-                        "snipeit:no",
-                    ],
-                ],
-            )
+            ],
+        )
 
     def test_single_lib_multiple_module(self):
         changed_files = [
@@ -283,29 +283,28 @@ class TestLibsRules(unittest.TestCase):
             "lib/linux.robot",
             "platform-configs/include/msi-common.robot",
         ]
-        for rule in TestLibsRules.rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(
-                parser.test_files,
+        parser = ParserManager(TestLibsRules.rules, changed_files)
+        parser.parse()
+        self.assertEqual(
+            parser.files(),
+            [
+                "dasharo-compatibility/apu-configuration-menu.robot",
+                "dasharo-performance/platform-stability.robot",
+            ],
+        )
+        self.assertEqual(
+            parser.commands(),
+            [
                 [
+                    "scripts/run.sh",
                     "dasharo-compatibility/apu-configuration-menu.robot",
                     "dasharo-performance/platform-stability.robot",
+                    "--",
+                    "-v",
+                    "snipeit:no",
                 ],
-            )
-            self.assertEqual(
-                parser.commands,
-                [
-                    [
-                        "scripts/run.sh",
-                        "dasharo-compatibility/apu-configuration-menu.robot",
-                        "dasharo-performance/platform-stability.robot",
-                        "--",
-                        "-v",
-                        "snipeit:no",
-                    ],
-                ],
-            )
+            ],
+        )
 
     def test_multiple_lib_multiple_module_overlap(self):
         changed_files = [
@@ -314,31 +313,30 @@ class TestLibsRules(unittest.TestCase):
             "lib/tpm.robot",
             "lib/tpm2.robot" "platform-configs/include/msi-common.robot",
         ]
-        for rule in TestLibsRules.rules:
-            parser = RuleParser(rule, changed_files)
-            parser.match_rule()
-            self.assertEqual(
-                parser.test_files,
+        parser = ParserManager(TestLibsRules.rules, changed_files)
+        parser.parse()
+        self.assertEqual(
+            parser.files(),
+            [
+                "dasharo-security/measured-boot.robot",  # tpm.robot only
+                "dasharo-security/tpm-support.robot",  # tpm.robot & tpm2.robot
+                "dasharo-security/tpm2-commands.robot",  # tpm.robot & tpm2.robot
+            ],
+        )
+        self.assertEqual(
+            parser.commands(),
+            [
                 [
-                    "dasharo-security/tpm2-commands.robot",  # tpm.robot & tpm2.robot
-                    "dasharo-security/measured-boot.robot",  # tpm.robot only
-                    "dasharo-security/tpm-support.robot",  # tpm.robot & tpm2.robot
+                    "scripts/run.sh",
+                    "dasharo-security/measured-boot.robot",
+                    "dasharo-security/tpm-support.robot",
+                    "dasharo-security/tpm2-commands.robot",
+                    "--",
+                    "-v",
+                    "snipeit:no",
                 ],
-            )
-            self.assertEqual(
-                parser.commands,
-                [
-                    [
-                        "scripts/run.sh",
-                        "dasharo-security/tpm2-commands.robot",
-                        "dasharo-security/measured-boot.robot",
-                        "dasharo-security/tpm-support.robot",
-                        "--",
-                        "-v",
-                        "snipeit:no",
-                    ],
-                ],
-            )
+            ],
+        )
 
 
 class TestLibsMultipleRules(unittest.TestCase):
@@ -384,47 +382,21 @@ class TestLibsMultipleRules(unittest.TestCase):
         parser = ParserManager(rules, TestLibsMultipleRules.changed_files)
         parser.parse()
         self.assertEqual(
-            parser.test_files,
+            parser.files(),
             [
-                "dasharo-security/tpm2-commands.robot",  # tpm.robot & tpm2.robot
                 "dasharo-security/measured-boot.robot",  # tpm.robot only
                 "dasharo-security/tpm-support.robot",  # tpm.robot & tpm2.robot
+                "dasharo-security/tpm2-commands.robot",  # tpm.robot & tpm2.robot
             ],
         )
         self.assertEqual(
-            parser.commands,
+            parser.commands(),
             [
                 [
                     "scripts/run.sh",
-                    "dasharo-security/tpm2-commands.robot",
                     "dasharo-security/measured-boot.robot",
                     "dasharo-security/tpm-support.robot",
-                    "--",
-                    "-v",
-                    "snipeit:no",
-                ],
-            ],
-        )
-
-    def test_multiple_lib_multiple_rules_overlap_2(self):
-        parser = RuleParser(
-            TestLibsMultipleRules.rules[1], TestLibsMultipleRules.changed_files
-        )
-        parser.match_rule()
-        self.assertEqual(
-            parser.test_files,
-            [
-                "dasharo-security/tpm2-commands.robot",  # tpm.robot & tpm2.robot
-                "dasharo-security/tpm-support.robot",  # tpm.robot & tpm2.robot
-            ],
-        )
-        self.assertEqual(
-            parser.commands,
-            [
-                [
-                    "scripts/run.sh",
                     "dasharo-security/tpm2-commands.robot",
-                    "dasharo-security/tpm-support.robot",
                     "--",
                     "-v",
                     "snipeit:no",

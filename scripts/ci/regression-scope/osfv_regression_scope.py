@@ -8,9 +8,11 @@ import json
 import os
 import subprocess
 import sys
+from pprint import pprint
 
 import fire
 
+from lib.parser_manager import ParserManager
 from lib.rules_parser import RuleParser
 
 
@@ -40,16 +42,14 @@ class CLI:
         self, rules_file="scripts/ci/regression-scope/rules.json", compare_to="HEAD"
     ):
         """
-        Print the filenames of test suites to be tested
+        Print the filenames of test suites that are affected by the changes
         """
         with open(rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = get_changed_files(compare_to)
-        for rule in self.rules:
-            parser = RuleParser(rule, self.changed_files)
-            parser.match_rule()
-            if len(parser.test_files) > 0:
-                print(" ".join(parser.test_files))
+        parser = ParserManager(self.rules, self.changed_files)
+        parser.parse()
+        print(" ".join(parser.files()))
 
     def commands(
         self, rules_file="scripts/ci/regression-scope/rules.json", compare_to="HEAD"
@@ -60,31 +60,23 @@ class CLI:
         with open(rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = get_changed_files(compare_to)
-        for rule in self.rules:
-            parser = RuleParser(rule, self.changed_files)
-            parser.match_rule()
-            if len(parser.commands) > 0:
-                for cmd in parser.commands:
-                    print(" ".join(cmd))
+        parser = ParserManager(self.rules, self.changed_files)
+        parser.parse()
+        print(" ".join(parser.commands()))
 
-    def robot_wrapper_args(
+    def robot_args(
         self, rules_file="scripts/ci/regression-scope/rules.json", compare_to="HEAD"
     ):
         """
-        Print the commands that should be executed to test the changes
+        Print the parameters that should be passed to the run.sh robot wrapper to
+        test the changes. Does not
         """
         with open(rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = get_changed_files(compare_to)
-        for rule in self.rules:
-            parser = RuleParser(rule, self.changed_files)
-            parser.match_rule()
-            out = ""
-            if len(parser.test_files) > 0:
-                out += " ".join(parser.test_files)
-                if len(parser.robot_args) > 0:
-                    out += " -- " + " ".join(parser.robot_args)
-                print(out)
+        parser = ParserManager(self.rules, self.changed_files)
+        parser.parse()
+        print(" ".join(parser.wrapper_args()))
 
 
 if __name__ == "__main__":

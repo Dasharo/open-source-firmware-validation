@@ -6,6 +6,7 @@
 
 import os
 import re
+from collections import defaultdict
 
 RULES_TAG_MATCHED_FILENAME = "${FILENAME_MATCH}"
 RULES_TAG_FULL_MATCH = "${FULL_FILENAME_MATCH}"
@@ -24,10 +25,7 @@ class RuleParser:
         self.changed_files = changed_files
         self.matched_files = []
         self.matched_paths = []
-        self.commands = []
-        self.test_files = []
-        self.robot_args = []
-        self.env = os.environ.copy()
+        self.runs_data = []
 
     def get_env_modification_commands(self, run):
         """
@@ -39,7 +37,7 @@ class RuleParser:
             return commands
         vars_dict = run["env_vars"]
         for k in vars_dict.keys():
-            commands.append(f"export {k}={vars_dict[k]}")
+            commands += ["export", f"{k}={vars_dict[k]}"]
         return commands
 
     def get_test_files_in_dirs(self, search_in):
@@ -82,48 +80,48 @@ class RuleParser:
                         matching.append(file)
             return matching
 
-    def assemble_robot_command(self, files, robot_args=[]):
-        """
-        Assembles the command to run given test suites with given args.
-        """
-        command = ["scripts/run.sh"]
-        command += files
-        if len(robot_args) > 0:
-            command.append("--")
-            command += robot_args
-        return command
-
     def parse_run(self):
         """
         Parses the `run` section of the rule which means running robot on
         the files.
-        Returns a robot command to run the tests.
+        Returns a dict:
+        {
+            "env": export_env_vars_commands, might be None,
+            "files": list of test suite filenames
+            "command": optional ovevrride command, might be None,
+            "args": optional additional robot args list
+        }
         """
         run_dict = self.rule["run"]
-        commands = []
+        self.runs_data = []
         for run in run_dict:
+            run_data = {
+                "env": [],
+                "files": [],
+                "command": [],
+                "args": [],
+            }
             if "env_vars" in run:
-                commands.append(self.get_env_modification_commands(run))
+                run_data["env"] = self.get_env_modification_commands(run)
             if "files" in run:
-                self.test_files = self.get_files_choice(run["files"])
+                run_data["files"] = self.get_files_choice(run["files"])
             if "custom_command" in run:
-                commands.append(run["custom_command"].split(" "))
+                run_data["command"] = run["custom_command"].split(" ")
+                self.runs_data.append(run_data)
                 continue
-            self.robot_args = []
             if "robot_args" in run:
-                self.robot_args.extend(run["robot_args"].split(" "))
+                run_data["args"] = run["robot_args"].split(" ")
             if "snipeit" in run and run["snipeit"] == "no":
-                self.robot_args += ["-v", "snipeit:no"]
-            commands.append(
-                self.assemble_robot_command(self.test_files, robot_args=self.robot_args)
-            )
-        return commands
+                run_data["args"] += ["-v", "snipeit:no"]
+
+            self.runs_data.append(run_data)
+        return self.runs_data
 
     def match_rule(self):
         """
         Matches one rule in rules.json.
         Finds matching files and returns a list of commands to run
-        According to the rule.
+        According to the rule.runs_data
         """
         reg = re.compile(self.rule["on-changed"])
         self.matched_files = []
@@ -142,6 +140,11 @@ class RuleParser:
 
         if len(self.matched_files) < 1:
             return False
-
-        self.commands += self.parse_run()
+        self.runs_data = self.parse_run()
         return True
+
+    def commands(self):
+        return self.assemble_commands_from_runs_data(self.runs_data)
+
+    def files(self):
+        return self.get_files_from_runs_data(self.runs_data)
