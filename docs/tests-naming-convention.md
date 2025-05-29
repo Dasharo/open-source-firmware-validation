@@ -59,3 +59,16 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     ...    Previous IDs: DSP002.001
     (...)
 ```
+
+# Synchronization with database
+
+Each time a test name, ID or module is changed, the change must be reflected in
+`test_cases.json` file. This includes previous IDs, which are saved in
+`changed_to` key. Note that there is only one ID in that key. Each ID change
+results in _creation_ of a new object in JSON file, and _modification_ of the
+existing one by pointing to the new ID.
+
+The file is ordered alphabetically by `_id`, keep it that way.
+
+Test IDs are **never removed**. This is required to keep references in the old
+releases valid. It also makes sure that the ID won't be reused.
