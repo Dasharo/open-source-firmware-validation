@@ -68,7 +68,17 @@ Each time a test name, ID or module is changed, the change must be reflected in
 results in _creation_ of a new object in JSON file, and _modification_ of the
 existing one by pointing to the new ID.
 
-The file is ordered alphabetically by `_id`, keep it that way.
+The file is ordered alphabetically by `_id`, keep it that way. This can be
+tested with the following command:
+
+```shell
+diff -q <(jq 'sort_by(.doc._id)' test_cases.json) <(jq '.' test_cases.json)
+```
 
 Test IDs are **never removed**. This is required to keep references in the old
 releases valid. It also makes sure that the ID won't be reused.
+
+The synchronization is performed by `scripts/synchronize-db.py`. The script is
+to be started from top directory and doesn't take any parameters. It will
+interactively ask for user credentials. The user must have _Test case developer_
+permissions.
