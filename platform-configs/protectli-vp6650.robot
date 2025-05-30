@@ -4,7 +4,7 @@ Resource    include/protectli-vp66xx.robot
 
 *** Variables ***
 ${INITIAL_CPU_FREQUENCY}=       1100
-${DEF_CORES_PER_SOCKET}=        6
+${DEF_CORES_PER_SOCKET}=        10
 ${DEF_THREADS_PER_CORE}=        2
 ${DEF_THREADS_TOTAL}=           12
 ${DEF_ONLINE_CPU}=              0-11
