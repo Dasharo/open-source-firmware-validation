@@ -24,6 +24,9 @@ ${PLATFORM_CPU_SPEED}=          2.50
 ${PLATFORM_RAM_SPEED}=          4200
 ${PLATFORM_RAM_SIZE}=           65536
 
+@{ETH_PERF_PAIR_2_G}=           enp5s0    enp6s0
+@{ETH_PERF_PAIR_10_G}=          enp2s0f0np0    enp2s0f1np1
+
 @{ETH_PORTS}=                   64-62-66-22-84-f5
 ...                             64-62-66-22-84-f6
 ...                             64-62-66-22-84-f7
