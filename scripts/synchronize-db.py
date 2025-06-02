@@ -5,15 +5,15 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
+import os
 import sys
 from getpass import getpass
 
 import requests
 from requests.auth import HTTPBasicAuth
 
-# FIXME: no hardcoded IPs!
-IP = "127.0.0.1"
-COUCHDB_URL = f"http://{IP}:5984/test_cases"
+IP = os.getenv("DB_SERVER_IP")
+COUCHDB_URL = f"http://{IP}/test_cases"
 
 FAIL = "\033[91m\033[1m"
 ENDC = "\033[0m"
@@ -110,7 +110,7 @@ def main():
         print(f"\nAborting")
         sys.exit(1)
 
-    for doc in local_json:
+    for doc in local_json[:]:
         if doc["doc"]["_id"] in updated_cases:
             # existing doc, update requires _rev
             for d in remote_json_full:
@@ -129,11 +129,12 @@ def main():
 
             if response.status_code in (200, 201):
                 print(f"Test case {doc['doc']['_id']} successfully updated.")
+                local_json.remove(doc)
             else:
                 print(
                     f"{FAIL}Failed to update {doc['doc']['_id']}. HTTP {response.status_code}: {response.text}{ENDC}"
                 )
-                # XXX: return here or keep going?
+
         else:
             # new doc, POST can be used
             try:
@@ -148,13 +149,18 @@ def main():
 
             if response.status_code in (200, 201):
                 print(f"New test case {doc['doc']['_id']} successfully added.")
+                local_json.remove(doc)
             else:
                 print(
                     f"{FAIL}Failed to create {doc['doc']['_id']}. HTTP {response.status_code}: {response.text}{ENDC}"
                 )
-                # XXX: return here or keep going?
 
     print(f"Finished sending of all modified test cases.")
+
+    if len(local_json) > 0:
+        print(f"{FAIL}These documents failed to be created/updated:\n")
+        print(json.dumps(local_json, indent=2))
+        print(f"{ENDC}")
 
 
 if __name__ == "__main__":
