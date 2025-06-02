@@ -25,10 +25,10 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-EFI001.001 Boot into UEFI OS (Ubuntu)
+EFI001.201 Boot into UEFI OS (Ubuntu)
     [Documentation]    Boot into Linux OS and check whether there is a
     ...    possibility to identify the system.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -36,10 +36,10 @@ EFI001.001 Boot into UEFI OS (Ubuntu)
     ${out}=    Execute Command In Terminal    cat /etc/os-release
     Should Contain    ${out}    Ubuntu
 
-EFI001.002 Boot into UEFI OS (Windows)
+EFI001.301 Boot into UEFI OS (Windows)
     [Documentation]    Boot into Windows 11 OS and check whether there is a
     ...    possibility to identify the system
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.301 not supported
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal    (Get-WmiObject -class Win32_OperatingSystem).Caption
