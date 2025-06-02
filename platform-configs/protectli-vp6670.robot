@@ -11,7 +11,6 @@ ${DEF_ONLINE_CPU}=              0-11
 ${DEF_SOCKETS}=                 1
 
 ${POWER_CTRL}=                  sonoff
-${WIFI_CARD_UBUNTU}=            ${TBD}
 ${LTE_CARD}=                    ${TBD}
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
@@ -30,3 +29,5 @@ ${PLATFORM_RAM_SIZE}=           32768
 ...                             64-62-66-22-89-9a
 ...                             64-62-66-22-89-9b
 ...                             64-62-66-22-89-9c
+@{ETH_PERF_PAIR_2_G}=           enp5s0    enp6s0
+@{ETH_PERF_PAIR_10_G}=          enp2s0f0np0    enp2s0f1np1

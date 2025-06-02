@@ -33,6 +33,7 @@ ${DEVICE_USB_USERNAME}=                         user
 ${DEVICE_USB_PASSWORD}=                         ubuntu
 ${DEVICE_USB_PROMPT}=                           ${DEVICE_USB_USERNAME}@3mdeb:~$
 ${DEVICE_USB_ROOT_PROMPT}=                      root@3mdeb:/home/${DEVICE_USB_USERNAME}#
+${DEVICE_USB_KEYBOARD}=                         Logitech, Inc. Keyboard K120
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
