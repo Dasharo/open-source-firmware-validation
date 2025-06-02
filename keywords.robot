@@ -70,7 +70,7 @@ Login To Linux Via OBMC
 
 Login To Windows
     [Documentation]    Universal login to Windows.
-    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
+    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
@@ -177,7 +177,7 @@ Login To Windows Via SSH
             # power on - login procedure in single keyword, and use
             # Run Keyword Until Succeeds?
             Restore Initial DUT Connection Method
-            Boot System Or From Connected Disk    ${ENV_ID_WINDOWS_11}
+            Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
             Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
         END
     END
