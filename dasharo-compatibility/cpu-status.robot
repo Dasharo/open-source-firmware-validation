@@ -138,8 +138,8 @@ CPU004.301 Multiple-core support (Windows)
     [Documentation]    Check whether the DUT has multi-core support.
     ...    Previous IDs: CPU004.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
-    # Power On
-    # Login To Windows
+    Power On
+    Login To Windows
     ${cpu_info}=    Execute Command In Terminal
     ...    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1
