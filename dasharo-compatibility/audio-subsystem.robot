@@ -222,7 +222,6 @@ AUD001.301 Audio subsystem detection
     Login To Windows
     ${out}=    Execute Command    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
     Should Contain    ${out}    Running
-    Verify Active Sink Port Using Pactl    internal
 
 AUD002.301 Internal Audio playback
     [Documentation]    Check whether the audio subsystem is able to playback
