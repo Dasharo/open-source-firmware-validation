@@ -175,6 +175,49 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
 
+DTS010.001 Deploy Dasharo firmware by using DTS works correctly
+    [Documentation]    This test aims to verify that deploying Dasharo by using
+    ...    DTS built-in script works correctly.
+    ...    Test expects FW_FILE variable to contain path to non-Dasharo
+    ...    firmware (proprietary). If FW_FILE isn't defined then test expects
+    ...    that DUT already has correct firmware flashed (for platforms where
+    ...    we can't flash via robot)
+    ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
+    ...    credentials before trying to deploy firmware.
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    ${variable_exists}=    Run Keyword And Return Status
+    ...    Variable Should Exist    \${FW_FILE}
+    # Without POWER_CTRL Flash Firmware will try to boot into Linux which won't
+    # work so in those cases prepare DUT beforehand
+    IF    ${variable_exists} and '''${POWER_CTRL}''' != '''none'''
+        # Flash non-dasharo firmware
+        Flash Firmware    ${FW_FILE}
+    END
+    Execute Manual Step    "Boot into DTS. Continue after DTS UI is shown"
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Execute Manual Step    "Enable SSH server in DTS"
+        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+    # Flush buffer
+    Read From Terminal
+    # To refresh screen as next keyword expects DTS checkpoint
+    Press Key N Times    1    ${ESC}
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    # Assume there should be DPP UEFI option when running this test with DPP
+    # keys defined
+    IF    ${dpp_keys_defined} == ${TRUE}
+        Provide DPP Credentials
+        ${version}=    Set Variable    DPP UEFI
+    ELSE
+        ${version}=    Set Variable    DCR UEFI
+    END
+    Go Through Initial Deployment    ${version}
+    Restore Initial DUT Connection Method
+    Set DUT Response Timeout    5m
+    # Not sure how to check if Dasharo fw has serial console enabled by
+    # default, assume that it isn't and ask for manual confirmation
+    Execute Manual Step    "Confirm that deployment succeeded"
+
 
 *** Keywords ***
 Are DPP Keys Defined
