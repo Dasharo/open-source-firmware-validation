@@ -10,6 +10,9 @@ ${PLATFORM_RAM_SPEED}=          1333
 ${PLATFORM_RAM_SIZE}=           4096
 ${BIOS_LOCK_SUPPORT}=           ${True}
 
+# DTS E2E variables
+${DTS_TEST_SYSTEM_MODEL}=       APU2
+
 
 *** Keywords ***
 Power On

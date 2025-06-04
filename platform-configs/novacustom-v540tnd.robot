@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    include/novacustom-common.robot
 Resource    include/novacustom-mtl.robot
+Resource    include/novacustom-common.robot
 
 
 *** Variables ***
@@ -79,3 +79,9 @@ ${UNIGINE_SUPERPOSITION_RESULT_AC}=             94.4    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=            21.9    # FPS
 
 ${OPTIONS_LIB}=                                 options-lib_dcu
+
+# DTS E2E variables
+${DTS_TEST_HEAD_TRANSITION_FROM_VERSION}=       0.9.0
+${DTS_TEST_SYSTEM_MODEL}=                       V5xTNC_TND_TNE
+${DTS_TEST_BOARD_MODEL}=                        V540TNx
+@{DTS_TEST_WORKFLOWS}=                          Initial Deployment    Update    Heads Transition

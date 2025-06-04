@@ -103,6 +103,12 @@ ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=    ${TRUE}
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                      ${TRUE}
 
+# DTS E2E variables
+${DTS_TEST_SYSTEM_VENDOR}=                  PC Engines
+@{DTS_TEST_WORKFLOWS}=                      Initial Deployment    Update
+# TODO: Also seabios, add to tests
+@{DTS_TEST_SUBSCRIPTIONS}=                  DPP
+
 
 *** Keywords ***
 Power On

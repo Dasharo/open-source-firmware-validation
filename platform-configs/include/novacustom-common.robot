@@ -92,6 +92,7 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
 # It causes "Power on AC" option to reset to disable, so we can no longer Power On using Sonoff
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
+${DTS_SUPPORT}=                                     ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${TRUE}
 ${ACPI_DRIVER_SUPPORT}=                             ${TRUE}
@@ -139,6 +140,15 @@ ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           2
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          2
 
 ${L2_CACHE_SUPPORT}=                                ${TRUE}
+
+# DTS E2E variables
+${DTS_TEST_HAS_EC}=                                 ${TRUE}
+${DTS_TEST_SYSTEM_VENDOR}=                          Notebook
+# Most laptops can only deploy EC but workflow is almost identical
+# We might want to split it and make sure logic only
+# deploys EC in those cases
+@{DTS_TEST_WORKFLOWS}=                              Initial Deployment    Update
+@{DTS_TEST_SUBSCRIPTIONS}=                          Community Version
 
 
 *** Keywords ***

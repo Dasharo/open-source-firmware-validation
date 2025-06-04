@@ -292,6 +292,27 @@ ${BOOTED_OS_ID}=                                    ${DEFAULT_BOOT_OS_ID}
 
 ${USE_ANSIBLE}=                                     ${TRUE}
 
+#### DTS E2E variables, should start with DTS_TEST_ ####
+# FW version set during initial deployment
+${DTS_TEST_VERSION}=                                0.0.0
+# FW version set during update
+${DTS_TEST_UPDATE_VERSION}=                         v${DTS_TEST_VERSION}
+# FW version set during heads transition
+${DTS_TEST_HEAD_TRANSITION_FROM_VERSION}=           v${DTS_TEST_VERSION}
+# TEST_SYSTEM_MODEL, TEST_BOARD_MODEL, TEST_SYSTEM_VENDOR variables to export
+${DTS_TEST_SYSTEM_MODEL}=                           ${EMPTY}
+${DTS_TEST_BOARD_MODEL}=                            ${EMPTY}
+${DTS_TEST_SYSTEM_VENDOR}=                          ${EMPTY}
+${DTS_TEST_HAS_EC}=                                 ${False}
+# DTS_TESTING, TEST_BIOS_VENDOR and TEST_USING_OPENSOURCE_EC_FIRM is set
+# automatically based on platform/workflow. Those are additional exports that
+# might be needed when testing platform
+&{DTS_TEST_ADDITIONAL_EXPORTS}=                     &{EMPTY}
+# Possible values: Update, Initial Deployment, Heads Transition
+@{DTS_TEST_WORKFLOWS}=                              @{EMPTY}
+# Possible subscriptions for update/deployment: Community Version, DPP
+@{DTS_TEST_SUBSCRIPTIONS}=                          @{EMPTY}
+
 
 *** Keywords ***
 Power On Default
