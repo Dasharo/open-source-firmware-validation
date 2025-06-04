@@ -93,11 +93,15 @@ Perform Suspend Test Using FWTS
     ...    test by using Firmware Test Suite tool
     [Arguments]    ${test_duration}=40
     ${is_suspend_performed_correctly}=    Set Variable    ${FALSE}
-    Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
-    Sleep    ${test_duration}s
-    Login To Linux
-    Switch To Root User
-    ${test_result}=    Execute Linux Command    cat /tmp/suspend_test_log.log
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Execute Command In Terminal    fwts s3 -f -r /tmp/suspend_test_log.log    35s
+    ELSE
+        Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
+        Sleep    ${test_duration}s
+        Login To Linux
+        Switch To Root User
+    END
+    ${test_result}=    Execute Command In Terminal    cat /tmp/suspend_test_log.log
     TRY
         Should Contain    ${test_result}    0 failed
         Should Contain    ${test_result}    0 warning
