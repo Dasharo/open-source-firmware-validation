@@ -15,6 +15,13 @@
   },
   {
     "doc": {
+      "_id": "ACPT001.201",
+      "name": "SuperIO UART presence in sysfs ACPI tree (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "APU001.001",
       "name": "Check if apu2 watchdog option is available",
       "module": "Dasharo Compatibility"

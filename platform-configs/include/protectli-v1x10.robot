@@ -34,6 +34,11 @@ ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${FALSE}
 
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
 
+${SIO_NODE}=                                    PNP0A05:00
+${SIO_SCOPE}=                                   \\_SB_.PCI0.LPCB.SIO0
+${SIO_SER_NODE}=                                PNP0501:00
+${SIO_SER_SCOPE}=                               \\_SB_.PCI0.LPCB.SIO0.SER1
+
 
 *** Keywords ***
 Flash Device Via External Programmer
