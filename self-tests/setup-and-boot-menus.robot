@@ -132,13 +132,15 @@ Enter One Time Boot Menu
 
 Parse One Time Boot Menu
     [Documentation]    Test entering into User Password Management menu
+    Add USB To Qemu    ${TEST_DATA_DIR}/dts/dts-base-image-v2.1.3.wic
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${otb_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    One Time Boot
-    List Should Contain Value    ${otb_menu}    UEFI Shell
+    List Should Contain Value    ${otb_menu}    QEMU QEMU USB HARDDRIVE
     Menu Construction Should Not Contain Control Text    ${otb_menu}
+    Remove Drive From Qemu
 
 Enter Boot Maintenance Manager Menu
     [Documentation]    Test entering into User Password Management menu
