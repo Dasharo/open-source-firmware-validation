@@ -211,7 +211,7 @@ DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
     ...    credentials before trying to deploy firmware.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    ${version}=    Prepare For Initial Deployment    seabios=${False}
+    ${version}=    Prepare For Initial Deployment    seabios=${True}
     Enable DTS Log Sending
     Go Through Initial Deployment    ${version}
     Wait For Checkpoint    Rebooting
