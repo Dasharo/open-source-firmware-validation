@@ -381,11 +381,11 @@ Docking Station Detection After Suspend
         TRY
             Detect Docking Station In Linux    ${dock_name}
         EXCEPT    message
-            Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
+            ${failed_detection}=    Evaluate    ${FAILED_DETECTION}+1
         END
     END
-    IF    '${FAILED_DETECTION}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${FAILED_DETECTION} iterations failed.
+    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+        FAIL    \n ${failed_detection} iterations failed.
     END
     Log To Console    \nAll iterations passed.
 
@@ -560,11 +560,11 @@ Docking Station Detection After Suspend Then Hotplug
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
         EXCEPT    message
-            Evaluate    ${FAILED_DETECTION}=    ${FAILED_DETECTION}+1
+            ${failed_detection}=    Evaluate    ${FAILED_DETECTION}+1
         END
     END
-    IF    '${FAILED_DETECTION}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${FAILED_DETECTION} iterations failed.
+    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+        FAIL    \n ${failed_detection} iterations failed.
     END
     Log To Console    \nAll iterations passed.
 

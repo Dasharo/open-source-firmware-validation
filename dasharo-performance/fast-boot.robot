@@ -59,7 +59,8 @@ Set Fast Boot State
     ${var_file_name}=    Execute Linux Command
     ...    ls /sys/firmware/efi/efivars -l | grep "FastBoot" | awk '{print $NF}'
     Should Not Be Empty    ${var_file_name}
-    ${var_file_path}=    Catenate    SEPARATOR=    /sys/firmware/efi/efivars/    ${var_file_name}
+    ${var_file_path}=    Catenate    SEPARATOR=${EMPTY}
+    ...    /sys/firmware/efi/efivars/    ${var_file_name}
     Execute Linux Command    chattr -i ${var_file_path}
 
     ${new_var_path}=    Set Variable    /tmp/${var_file_name}

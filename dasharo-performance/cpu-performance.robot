@@ -99,9 +99,12 @@ CPU Performance Suite Setup
     ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S
     Set Global Variable    ${CURRENT_DATE}    ${get_date}
     ${laptop_platform}=    Check The Platform Is A Laptop
-    ${1080p}=    Catenate    Resolution: 1080p - Rays Per Pixel: 16=    ${CRAY_1080_P_RENDER}
-    ${4k}=    Catenate    Resolution: 4K - Rays Per Pixel: 16=    ${CRAY_4_K_RENDER}
-    ${5k}=    Catenate    Resolution: 5K - Rays Per Pixel: 16=    ${CRAY_5_K_RENDER}
+    ${1080p}=    Catenate
+    ...    Resolution: 1080p - Rays Per Pixel: 16=${EMPTY}    ${CRAY_1080_P_RENDER}
+    ${4k}=    Catenate
+    ...    Resolution: 4K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_4_K_RENDER}
+    ${5k}=    Catenate
+    ...    Resolution: 5K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_5_K_RENDER}
     @{sginle_thread_res_tests}=    Create List    ${1080p}    ${4k}    ${5k}
     Set Global Variable    @{SGINLE_THREAD_RES_TESTS}
     ${comp}=    Catenate    Test: Compression Rating=${ZIP_MULTI_COMPRESSION}
@@ -114,7 +117,8 @@ Run C-Ray Single-thread Render
     [Tags]    robot:private
     Log To Console    \n    # new line for readability
     ${test_name_to_path}=    Set Variable    cpuperformance
-    ${test_name_to_path}=    Catenate    SEPARATOR=    ${test_name_to_path}    ${CURRENT_DATE}
+    ${test_name_to_path}=    Catenate    SEPARATOR=${EMPTY}
+    ...    ${test_name_to_path}    ${CURRENT_DATE}
 
     ${result}=    Execute Command In Terminal
     ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_to_path}
@@ -131,7 +135,8 @@ Run Coremark Single-thread
     [Documentation]    Run Coremark benchmark on single thread
     [Tags]    robot:private
     ${test_name_to_path}=    Set Variable    cpuperformance
-    ${test_name_to_path}=    Catenate    SEPARATOR=    ${test_name_to_path}    ${CURRENT_DATE}
+    ${test_name_to_path}=    Catenate    SEPARATOR=${EMPTY}
+    ...    ${test_name_to_path}    ${CURRENT_DATE}
 
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_to_path}
@@ -151,7 +156,8 @@ Run Coremark Single-thread
     [Tags]    robot:private
     Log To Console    \n    # new line for readability
     ${test_name_to_path}=    Set Variable    cpuperformance
-    ${test_name_to_path}=    Catenate    SEPARATOR=    ${test_name_to_path}    ${CURRENT_DATE}
+    ${test_name_to_path}=    Catenate    SEPARATOR=${EMPTY}
+    ...    ${test_name_to_path}    ${CURRENT_DATE}
 
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_to_path}

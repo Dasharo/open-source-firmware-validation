@@ -45,5 +45,9 @@ configure = [
     # TODO: fix and re-enable
     "0924:enabled:False",
     # To allow setting e.g. DUT_CONNECTION_METHOD
-    "0929:enabled:False"
+    "0929:enabled:False",
+    # To allow setting suite variables
+    "0930:enabled:False",
+    # To allow setting test variables
+    "0931:enabled:False"
 ]
