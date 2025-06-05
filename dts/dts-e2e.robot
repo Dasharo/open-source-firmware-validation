@@ -6,15 +6,13 @@ Library             String
 Library             Telnet    timeout=40 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
+Library             ./TemplateSplit.py    custom_prefix=E2E
+Library             ./PlatformParser.py
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../variables.robot
 
-Suite Setup         Run Keywords
-...                     Prepare Test Suite    AND
-...                     Skip If    not ${DTS_SUPPORT}    AND
-...                     Power On And Enter DTS Shell    AND
-...                     Execute Linux Command    systemctl start sshd
+Suite Setup         Prepare DTS E2E Test Suite
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 Test Setup          Prepare DTS Test
@@ -22,6 +20,20 @@ Test Teardown       Teardown DTS Test
 
 
 *** Test Cases ***
+Create tests
+    [Template]    ${PLATFORM} ${WORKFLOW} - ${SUBSCRIPTION}
+    FOR    ${platform}    ${platform_variables}    IN    &{DTS_PLATFORM_VARIABLES}
+        FOR    ${workflow}    IN    @{platform_variables}[DTS_TEST_WORKFLOWS]
+            IF    "${workflow}" == "Heads Transition"
+                ${platform}    ${workflow}    DPP
+            ELSE
+                FOR    ${subscription}    IN    @{platform_variables}[DTS_TEST_SUBSCRIPTIONS]
+                    ${platform}    ${workflow}    ${subscription}
+                END
+            END
+        END
+    END
+
 E2E001.001 HCL Report test
     [Documentation]    Verify that HCL Report is being executed with all
     ...    expected messages. The report should not fail even if it failed to
@@ -44,941 +56,100 @@ E2E001.001 HCL Report test
     # 5) Wait for final HCL Report checkpoint:
     Wait For Checkpoint    ${HCL_REPORT_CHECKPOINT}
 
-################################################################################
-# NovaCustom tests:
-################################################################################
-
-E2E002.001 NCM NV4XMB,ME,MZ initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom NV4XMB,ME,MZ. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="NV4XMB,ME,MZ" TEST_BOARD_MODEL="NV4XMB,ME,MZ"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E002.002 NCM NS50_70MU initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom NS50_70MU. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="NS50_70MU" TEST_BOARD_MODEL="NS50_70MU"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E002.003 NCM NS5x_NS7xPU initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom NS5x_NS7xPU. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="NS5x_NS7xPU" TEST_BOARD_MODEL="NS5x_NS7xPU"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E002.004 NCM NV4xPZ initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom NV4xPZ. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="NV4xPZ" TEST_BOARD_MODEL="NV4xPZ"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E002.005 NCM NV4xPZ transition (Coreboot + UEFI -> Coreboot + Heads) - DPP version, without credentials
-    [Documentation]    Verify DPP (coreboot + heads) transition logic on
-    ...    NovaCustom NV4X ADL. We start from Dasharo (coreboot + UEFI) firmware
-    ...    with version that should allow for the transition. We insert no DPP
-    ...    keys, so we expect no update will be provided, but a message
-    ...    encouraging subscription purchase should be visible.
-    [Tags]    novacustom_heads
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="NV4xPZ" TEST_BOARD_MODEL="NV4xPZ"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.7.2" TEST_SYSTEM_VENDOR="Notebook"
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_HEADS}
-
-E2E002.006 NCM transition NV4xPZ (Coreboot + UEFI -> Heads) - DPP version, with credentials
-    [Documentation]    Verify DPP (coreboot + heads) transition logic on NovaCustom NV4X ADL.
-    ...    We start from Dasharo (coreboot + UEFI) firmware with version that should
-    ...    allow for the transition. We insert correct DPP keys for heads variant.
-    [Tags]    novacustom_heads
-    # 2) Emulate needed env.. We assume that transition is from Dasharo UEFI to
-    # Dasharo HEAD, so we need to emulate appropriate EC firmware presence:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="NV4xPZ" TEST_BOARD_MODEL="NV4xPZ"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.7.2" TEST_SYSTEM_VENDOR="Notebook"
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb" TEST_USING_OPENSOURCE_EC_FIRM="true"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start update:
-    Go Through Heads Transition
-
-    # 5) The final step is rebooting, in this case it is done emmidiately after
-    # EC firm. has been updated:
-    Wait For Checkpoint    Updating EC...
-
-E2E002.007 NCM V540_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom V540_6x_TU. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="V54x_6x_TU" TEST_BOARD_MODEL="V540TU"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Execute Command In Terminal    export TEST_NOVACUSTOM_MODEL="v540tu" TEST_USING_OPENSOURCE_EC_FIRM="true"
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E002.008 NCM V560_6x_TU initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom V560_6x_TU. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="V54x_6x_TU" TEST_BOARD_MODEL="V560TU"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Execute Command In Terminal    export TEST_NOVACUSTOM_MODEL="v560tu" TEST_USING_OPENSOURCE_EC_FIRM="true"
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E002.009 NCM V540TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom V540TNC_TND_TNE. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="V5xTNC_TND_TNE" TEST_BOARD_MODEL="V540TNx"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Write Into Terminal    dts-boot
-
-    # 3) Select initial deployment:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) This platform board model cannot be manually detected, a message to
-    # choose the model appears, and the possible choices are: "0. None below"
-    # "1: V540TNx", "2: V560TNx":
-    Wait For Checkpoint    1: V540TNx
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    1
-
-    # 6) Choose update to Dasharo:
-    Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
-
-    # 7) Check out all warnings:
-    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
-    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
-
-    # 8) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E002.010 NCM V560TNC_TND_TNE initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for NovaCustom V560TNC_TND_TNE. This deployment
-    ...    should pass without credentials.
-    [Tags]    novacustom_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="V5xTNC_TND_TNE" TEST_BOARD_MODEL="V560TNx"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Notebook"
-    Write Into Terminal    dts-boot
-
-    # 3) Select initial deployment:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) This platform board model cannot be manually detected, a message to
-    # choose the model appears, and the possible choices are: "0. None below"
-    # "1: V540TNx", "2: V560TNx":
-    Wait For Checkpoint    2: V560TNx
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    2
-
-    # 6) Choose update to Dasharo:
-    Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
-
-    # 7) Check out all warnings:
-    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
-    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
-
-    # 8) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-################################################################################
-# MSI tests:
-#
-# Currently these tests cover all use cases for Z690 only, Z790 has the same
-# configuration in board_config in dts-scripts and differs only by links to
-# artifacts, so it will not cover any new logic. Therefore it was decided to
-# leave this tests for future.
-################################################################################
-
-E2E003.001 MSI PRO Z690-A DDR4 initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
-    ...    WIFI DDR4(MS-7D25). This deployment should pass without credentials.
-    [Tags]    msi_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E003.002 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - community version
-    [Documentation]    Verify logic for initial deployment of community version
-    ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI (MS-7D25)/PRO Z690-A
-    ...    (MS-7D25). This deployment should pass without credentials.
-    [Tags]    msi_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI (MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Write Into Terminal    dts-boot
-
-    # 3) Start initial deployment:
-    Go Through Initial Deployment    DCR UEFI
-
-    # 4) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E003.003 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
-    [Documentation]    Verify logic for initial deployment of DPP version
-    ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
-    ...    (MS-7D25). This deployment should not pass without credentials.
-    [Tags]    msi_dpp
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E003.004 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP version, without credentials
-    [Documentation]    Verify logic for initial deployment of DPP version
-    ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
-    ...    DDR 4(MS-7D25). This deployment should not pass without credentials.
-    [Tags]    msi_dpp
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI (MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E003.005 MSI PRO Z690-A DDR-4 initial deployment (legacy -> Coreboot + UEFI) - DPP version, with credentials
-    [Documentation]    Verify logic for initial deployment of DPP version
-    ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
-    ...    (MS-7D25). This deployment should pass with credentials.
-    [Tags]    msi_dpp
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E003.006 MSI PRO Z690-A initial deployment (legacy -> Coreboot + UEFI) - DPP version, with credentials
-    [Documentation]    Verify logic for initial deployment of DPP version
-    ...    of Dahsaro Firmware for MSI PRO Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A
-    ...    DDR 4(MS-7D25). This deployment should pass with credentials.
-    [Tags]    msi_dpp
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI (MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E003.007 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - community version
-    [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
-    ...    Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A DDR4(MS-7D25). We start from
-    ...    Dasharo (coreboot + UEFI) firmware with version that should allow for
-    ...    the update. This tests tests update via flashrom as well as via UEFI
-    ...    Capsule Update, check choose_version in dasharo-deploy script for
-    ...    more inf.. Therefore to test update via capsules - you have to
-    ...    provide credentials with access to capsules.
-    [Tags]    msi_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Go Through Update
-
-E2E003.008 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - community version
-    [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
-    ...    Z690-A WIFI(MS-7D25)/PRO Z690-A(MS-7D25). We start from Dasharo
-    ...    (coreboot + UEFI) firmware with version that should allow for the
-    ...    update. This tests tests update via flashrom as well as via UEFI
-    ...    Capsule Update, check choose_version in dasharo-deploy script for
-    ...    more inf.. Therefore to test update via capsules - you have to
-    ...    provide credentials with access to capsules.
-    [Tags]    msi_comm
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI (MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Go Through Update
-
-E2E003.009 MSI PRO Z690-A DDR-4 update (Coreboot + UEFI -> Coreboot + UEFI) - DPP version, with credentials
-    [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
-    ...    Z690-A WIFI DDR4(MS-7D25)/PRO Z690-A DDR4(MS-7D25). We start from
-    ...    Dasharo (coreboot + UEFI) firmware with version that should allow for
-    ...    the update. This tests tests update via flashrom as well as via UEFI
-    ...    Capsule Update, check choose_version in dasharo-deploy script for
-    ...    more inf.. Therefore to test update via capsules - you have to
-    ...    provide credentials with access to capsules.
-    [Tags]    msi_dpp
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start update:
-    Go Through Update Decline Heads
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E003.010 MSI PRO Z690-A update (Coreboot + UEFI -> Coreboot + UEFI) - DPP version, with credentials
-    [Documentation]    Verify Dasharo (coreboot + UEFI) update logic on MSI PRO
-    ...    Z690-A WIFI(MS-7D25)/PRO Z690-A(MS-7D25). We start from Dasharo
-    ...    (coreboot + UEFI) firmware with version that should allow for the
-    ...    update. This tests tests update via flashrom as well as via UEFI
-    ...    Capsule Update, check choose_version in dasharo-deploy script for
-    ...    more inf.. Therefore to test update via capsules - you have to
-    ...    provide credentials with access to capsules.
-    [Tags]    msi_dpp
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI (MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start update:
-    Go Through Update Decline Heads
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E003.011 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - without credentials
-    [Documentation]    Verify DPP (coreboot + heads) transition logic on
-    ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
-    ...    UEFI) firmware with version that should allow for the transition. We
-    ...    insert no DPP keys, so we expect no update will be provided, but a
-    ...    message encouraging subscription purchase should be visible.
-    [Tags]    msi_heads
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_HEADS}
-
-E2E003.012 MSI PRO Z690-A DDR4 transition (Coreboot + UEFI -> heads) - with credentials
-    [Documentation]    Verify DPP (coreboot + heads) transition logic on
-    ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
-    ...    UEFI) firmware with version that should allow for the transition. We
-    ...    insert correct DPP keys for heads variant.
-    [Tags]    msi_heads
-
-    # 2) Emulate needed env.. We assume that transition is from Dasharo UEFI to
-    # Dasharo HEAD, so we need to emulate appropriate EC firmware presence:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start Heads transition:
-    Go Through Heads Transition
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E003.013 MSI PRO Z690-A transition (UEFI -> heads) - without credentials
-    [Documentation]    Verify DPP (coreboot + heads) transition logic on
-    ...    NovaCustom MSI PRO Z690-A. We start from Dasharo (coreboot +
-    ...    UEFI) firmware with version that should allow for the transition. We
-    ...    insert no DPP keys, so we expect no update will be provided, but a
-    ...    message encouraging subscription purchase should be visible.
-    [Tags]    msi_heads
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI (MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_HEADS}
-
-E2E003.014 MSI PRO Z690-A transition (UEFI -> heads) - with credentials
-    [Documentation]    Verify DPP (coreboot + heads) transition logic on
-    ...    NovaCustom MSI PRO Z690-A DDR4. We start from Dasharo (coreboot +
-    ...    UEFI) firmware with version that should allow for the transition. We
-    ...    insert correct DPP keys for heads variant.
-    [Tags]    msi_heads
-
-    # 2) Emulate needed env.. We assume that transition is from Dasharo UEFI to
-    # Dasharo HEAD, so we need to emulate appropriate EC firmware presence:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="MS-7D25" TEST_BOARD_MODEL="PRO Z690-A WIFI DDR4(MS-7D25)"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v1.0.0" TEST_SYSTEM_VENDOR="Micro-Star International Co., Ltd."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start Heads transition:
-    Go Through Heads Transition
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-################################################################################
-# Dell tests:
-################################################################################
-
-E2E004.001 Dell OptiPlex 7010 DPP initial deployment (legacy -> Coreboot + UEFI) - without credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    7010 without credentials provided. User should not have access and
-    ...    DTS should inform about it.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 7010" TEST_BOARD_MODEL="OptiPlex 7010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Write Into Terminal    dts-boot
-
-    # 3) Start installation:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E004.002 Dell Optiplex 7010 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    7010 with credentials provided. User should have access, and firmware
-    ...    should be deployed.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 7010" TEST_BOARD_MODEL="OptiPlex 7010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E004.003 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    7010 without credentials provided. User should not have access and
-    ...    DTS should inform about it.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 7010" TEST_BOARD_MODEL="OptiPlex 7010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E004.004 Dell Optiplex 7010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    7010 with credentials provided. User should have access, and firmware
-    ...    should be deployed.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 7010" TEST_BOARD_MODEL="OptiPlex 7010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start update:
-    Go Through Update
-
-E2E004.005 Dell OptiPlex 9010 DPP initial deployment (legacy -> Coreboot + UEFI) - without credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    9010 without credentials provided. User should not have access and
-    ...    DTS should inform about it.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 9010" TEST_BOARD_MODEL="OptiPlex 9010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Write Into Terminal    dts-boot
-
-    # 3) Start installation:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E004.006 Dell Optiplex 9010 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    9010 with credentials provided. User should have access, and firmware
-    ...    should be deployed.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 9010" TEST_BOARD_MODEL="OptiPlex 9010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E004.007 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    9010 without credentials provided. User should not have access and
-    ...    DTS should inform about it.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 9010" TEST_BOARD_MODEL="OptiPlex 9010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    9010 with credentials provided. User should have access, and firmware
-    ...    should be deployed.
-    [Tags]    optiplex_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="OptiPlex 9010" TEST_BOARD_MODEL="OptiPlex 9010"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v0.0.0" TEST_SYSTEM_VENDOR="Dell Inc."
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start update:
-    Go Through Update
-
-################################################################################
-# PC Engines tests. Only APU2 is being tested, other APUs have the same
-# configuration, but different links, so testing them is not necessary:
-################################################################################
-
-E2E005.001 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - no credentials
-    [Documentation]    Verify DPP (coreboot + UEFI) and (coreboot + SeaBIOS)
-    ...    initial deployment logic on PC Engines. We emulate legacy firmware
-    ...    and do not provide DPP credentials. There should be no access granted
-    ...    for the firmware without credentials.
-    [Tags]    pcengines_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
-    Write Into Terminal    dts-boot
-
-    # 3) Start installation:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
-    [Documentation]    Verify DPP (coreboot + UEFI) initial deployment logic on
-    ...    PC Engines with credentials provided (these should be provided via
-    ...    CMD).
-    [Tags]    pcengines_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E005.003 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - without credentials
-    [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
-    ...    on PC Engines. We start from legacy firmware and insert correct DPP keys
-    ...    for UEFI variant.
-    [Tags]    pcengines_seabios
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
-    Write Into Terminal    dts-boot
-
-    # 3) Start installation:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_SEABIOS}
-
-E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - with credentials
-    [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
-    ...    on PC Engines. We start from legacy firmware and insert correct DPP
-    ...    keys for UEFI variant.
-    [Tags]    pcengines_seabios
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP SeaBIOS
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-################################################################################
-# Odroid tests:
-################################################################################
-
-E2E006.001 Odroid H4 initial deployment (legacy -> Coreboot + UEFI) - without credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4
-    ...    without credentials provided. User should not have access and DTS
-    ...    should inform about it.
-    [Tags]    odroid_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="ODROID-H4" TEST_BOARD_MODEL="ODROID-H4"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="v0.0.0" TEST_SYSTEM_VENDOR="HARDKERNEL"
-    Write Into Terminal    dts-boot
-
-    # 3) Start installation:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E006.002 Odroid H4 DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4 with
-    ...    credentials provided. User should have access, and firmware should be
-    ...    deployed.
-    [Tags]    odroid_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="ODROID-H4" TEST_BOARD_MODEL="ODROID-H4"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="v0.0.0" TEST_SYSTEM_VENDOR="HARDKERNEL"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
-
-E2E006.003 Odroid H4 update (Coreboot + UEFI -> Coreboot + UEFI) - without credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Odroid H4
-    ...    without credentials provided. User should not have access and DTS
-    ...    should inform about it.
-    [Tags]    odroid_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="ODROID-H4" TEST_BOARD_MODEL="ODROID-H4"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v0.0.0" TEST_SYSTEM_VENDOR="HARDKERNEL"
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 4) User should not have access to Heads update without proper credentials:
-    Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
-
-E2E006.004 Odroid H4 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - with credentials
-    [Documentation]    Checks whether a User will have access to initial
-    ...    deployment of Dasharo firmware (Coreboot + UEFI) for Dell Optiplex
-    ...    9010 with credentials provided. User should have access, and firmware
-    ...    should be deployed.
-    [Tags]    odroid_dpp
-
-    # 2) Emulate needed env.:
-    Execute Command In Terminal
-    ...    export DTS_TESTING="true" TEST_SYSTEM_MODEL="ODROID-H4" TEST_BOARD_MODEL="ODROID-H4"
-    Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) v0.0.0" TEST_SYSTEM_VENDOR="HARDKERNEL"
-    Execute Command In Terminal    export TEST_BIOS_VENDOR="3mdeb"
-    Write Into Terminal    dts-boot
-
-    # 3) Provide DPP credentials:
-    Provide DPP Credentials
-
-    # 4) Start update:
-    Go Through Update
-
 
 *** Keywords ***
+# robocop: disable:0919
+${platform} ${workflow} - ${subscription}
+    [Documentation]    Fallback keyword, should only enter if there is a typo
+    ...    in DTS_TEST_WORKFLOWS or DTS_TEST_SUBSCRIPTIONS
+    Fail    Unknown workflow (${workflow}) or subscription (${subscription})
+# robocop: enable
+
+${platform} Update - Community Version
+    [Documentation]    sss
+    Prepare E2E Test    ${platform}    Update
+    Go Through Update
+    Wait For Checkpoint    Rebooting
+
+${platform} Initial Deployment - Community Version
+    [Documentation]    sss
+    Prepare E2E Test    ${platform}    Initial Deployment
+    Write Into Terminal    dts-boot
+    Go Through Initial Deployment    DCR UEFI
+    Wait For Checkpoint    Rebooting
+
+${platform} Update - DPP
+    [Documentation]    sss
+    Prepare E2E Test    ${platform}    Update
+    Provide DPP Credentials
+    Go Through Update
+    Wait For Checkpoint    Rebooting
+
+${platform} Initial Deployment - DPP
+    [Documentation]    sss
+    Prepare E2E Test    ${platform}    Initial Deployment
+    Provide DPP Credentials
+    Go Through Initial Deployment    DPP UEFI
+    Wait For Checkpoint    Rebooting
+
+${platform} Heads Transition - DPP
+    [Documentation]    sss
+    Prepare E2E Test    ${platform}    Heads Transition
+    Provide DPP Credentials
+    Go Through Heads Transition
+    Wait For Checkpoint    Rebooting
+
+Prepare E2E Test
+    [Documentation]    sss
+    [Arguments]    ${platform}    ${workflow}
+    &{dts_test_variables}=    Create Dictionary    &{DTS_PLATFORM_VARIABLES}[${platform}]
+    Set Test Variable    \${DTS_TEST_VARIABLES}
+    Export Shell Variables For Emulation    ${workflow}
+
+Export Shell Variables For Emulation
+    [Documentation]    sss
+    [Arguments]    ${workflow}
+    &{additional_exports}=    Set Variable
+    ...    ${DTS_TEST_VARIABLES}[DTS_TEST_ADDITIONAL_EXPORTS]
+    # map shell variables to robot variables which will be exported 1-to-1
+    &{variables_mapping}=    Create Dictionary
+    ...    TEST_SYSTEM_MODEL=DTS_TEST_SYSTEM_MODEL
+    ...    TEST_BOARD_MODEL=DTS_TEST_BOARD_MODEL
+    ...    TEST_SYSTEM_VENDOR=DTS_TEST_SYSTEM_VENDOR
+    IF    "${workflow}" == "Update" or "${workflow}" == "Heads Transition"
+        IF    "{workflow}" == "Heads Transition"
+            ${version}=    Set Variable
+            ...    ${DTS_TEST_VARIABLES}[DTS_TEST_HEAD_TRANSITION_FROM_VERSION]
+        ELSE
+            ${version}=    Set Variable
+            ...    ${DTS_TEST_VARIABLES}[DTS_TEST_UPDATE_VERSION]
+        END
+        ${additional_exports}[TEST_BIOS_VERSION]=
+        ...    Set Variable    "Dasharo (coreboot+UEFI) ${version}"
+        ${additional_exports}[TEST_BIOS_VENDOR]=    Set Variable    "3mdeb"
+        IF    ${DTS_TEST_VARIABLES}[DTS_TEST_HAS_EC]
+            ${additional_exports}[TEST_USING_OPENSOURCE_EC_FIRM]=
+            ...    Set Variable    "true"
+        END
+    ELSE IF    "${workflow}" == "Initial Deployment"
+        ${variables_mapping}[TEST_BIOS_VERSION]=    Set Variable
+        ...    DTS_TEST_VERSION
+    END
+    ${additional_exports}[DTS_TESTING]=    Set Variable    "true"
+
+    FOR    ${export_variable}    ${robot_variable}    IN    &{variables_mapping}
+        Log To Console
+        ...    export ${export_variable}=${DTS_TEST_VARIABLES}[${robot_variable}]
+        # Execute Command In Terminal
+        # ...    export ${export_variable}=${DTS_TEST_VARIABLES}[${robot_variable}]
+    END
+    FOR    ${export_variable}    ${export_value}    IN    &{additional_exports}
+        Log To Console
+        ...    export ${export_variable}=${export_value}
+        # Execute Command In Terminal
+        # ...    export ${export_variable}=${export_value}
+    END
+
 Prepare DTS Test
     Start New DTS SSH Session In QEMU
 
@@ -1011,3 +182,11 @@ Login To DTS Via SSH In QEMU
     ...    newline=LF
     Wait Until Keyword Succeeds    3x    1s
     ...    SSHLibrary.Login    root
+
+Prepare DTS E2E Test Suite
+    Prepare Test Suite
+    Skip If    not ${DTS_SUPPORT}
+    &{dts_platform_variables}=    Get DTS Test Variables
+    Set Suite Variable    \${DTS_PLATFORM_VARIABLES}
+    Power On And Enter DTS Shell
+    Execute Linux Command    systemctl start sshd
