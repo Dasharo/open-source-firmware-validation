@@ -260,10 +260,18 @@ Wait For Either Checkpoint And Write
     END
     # Remove trailing |
     ${regexp}=    Get Substring    ${regexp}    0    -1
-    ${checkpoint}=    Wait For Checkpoint    ${regexp}    ${TRUE}
+    ${out}=    Wait For Checkpoint    ${regexp}    ${TRUE}
+    # Find which checkpoint we found
     Sleep    1s
-    Write Into Terminal    ${checkpoints}[${checkpoint}]
-    RETURN    ${checkpoint}
+    FOR    ${checkpoint}    ${write}    IN    &{checkpoints}
+        IF    """${checkpoint}""" in """${out}"""
+            Write Into Terminal    ${checkpoints}[${checkpoint}]
+            RETURN    ${out}
+        END
+    END
+
+    # We shouldn't ever get here
+    Fail    Couldn't find checkpoint in returned output
 
 Wait For Checkpoint And Press Enter
     [Documentation]    This KW waits for checkpoint (first argument)
