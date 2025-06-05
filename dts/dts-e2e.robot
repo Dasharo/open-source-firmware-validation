@@ -20,6 +20,22 @@ Test Teardown       Teardown DTS Test
 
 
 *** Test Cases ***
+Print All Test Cases To Be Generated
+    [Setup]    NONE
+    Log To Console    ${EMPTY}
+    FOR    ${platform}    ${platform_variables}    IN    &{DTS_PLATFORM_VARIABLES}
+        FOR    ${workflow}    IN    @{platform_variables}[DTS_TEST_WORKFLOWS]
+            IF    "${workflow}" == "Heads Transition"
+                Log To Console    ${platform} ${workflow} - DPP
+            ELSE
+                FOR    ${subscription}    IN    @{platform_variables}[DTS_TEST_SUBSCRIPTIONS]
+                    Log To Console    ${platform} ${workflow} - ${subscription}
+                END
+            END
+        END
+    END
+    [Teardown]    NONE
+
 Create tests
     [Template]    ${PLATFORM} ${WORKFLOW} - ${SUBSCRIPTION}
     FOR    ${platform}    ${platform_variables}    IN    &{DTS_PLATFORM_VARIABLES}
