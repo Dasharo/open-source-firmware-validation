@@ -258,7 +258,7 @@ Wait For Either Checkpoint And Write
     [Documentation]    Keywords waits for any of the ${checkpoints} key and if
     ...    it matches then writes value of this element to the console
     [Arguments]    &{checkpoints}
-    ${regexp}=    Set Variable    ""
+    ${regexp}=    Set Variable    ${EMPTY}
     # Iterate over keys (checkpoints)
     FOR    ${checkpoint}    IN    @{checkpoints}
         ${checkpoint_escaped}=    Evaluate
