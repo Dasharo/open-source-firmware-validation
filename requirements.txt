@@ -44,7 +44,7 @@ pandas==2.2.3
 paramiko==3.4.0
 pathspec==0.9.0
 pexpect==4.9.0
-pikvm @ git+https://github.com/3mdeb/pikvm-rest-api@1a1cc579a286fe82aaa2eccea69f96223712664d
+pikvm @ git+https://github.com/3mdeb/pikvm-rest-api@4bf3e065367134768d31be1983884131b1f631cd
 pillow==11.1.0
 platformdirs==4.2.1
 pre-commit==3.7.0
@@ -66,7 +66,7 @@ requests==2.31.0
 reuse==4.0.3
 rich==13.7.1
 rich-click==1.7.4
-robotframework==7.3
+robotframework @ git+https://github.com/3mdeb/robotframework@346f2155c1006cdd40ad9b55f3a44ade8df187c8
 robotframework-csvlibrary==0.0.5
 robotframework-faker==5.0.0
 robotframework-requests==0.9.4
