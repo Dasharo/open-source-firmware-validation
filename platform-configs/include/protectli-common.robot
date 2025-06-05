@@ -90,6 +90,9 @@ ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                     ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 
+# Test module: dasharo-stab
+${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=     ${TRUE}
+
 # Test cases iterations number
 ${ITERATIONS}=                                  5
 # Booting OS from USB stick test cases
