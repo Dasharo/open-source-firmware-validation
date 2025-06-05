@@ -204,6 +204,7 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
         ${version}=    Set Variable    DCR UEFI
     END
     Go Through Initial Deployment    ${version}
+    Wait For Checkpoint    Rebooting
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    5m
     # Not sure how to check if Dasharo fw has serial console enabled by
