@@ -241,17 +241,35 @@ Wait For Checkpoint And Write
     [Documentation]    This KW waits for checkpoint (first argument)
     ...    and writes specified answer (second argument), with logging all
     ...    output before the checkpoint.
-    [Arguments]    ${checkpoint}    ${to_write}
-    ${out}=    Wait For Checkpoint    ${checkpoint}
+    [Arguments]    ${checkpoint}    ${to_write}    ${regexp}=${FALSE}
+    ${out}=    Wait For Checkpoint    ${checkpoint}    ${regexp}
     Sleep    1s
     Write Into Terminal    ${to_write}
     RETURN    ${out}
 
+Wait For Either Checkpoint And Write
+    [Documentation]    Keywords waits for any of the ${checkpoints} key and if
+    ...    it matches then writes value of this element to the console
+    [Arguments]    &{checkpoints}
+    ${regexp}=    Set Variable    ""
+    # Iterate over keys (checkpoints)
+    FOR    ${checkpoint}    IN    @{checkpoints}
+        ${checkpoint_escaped}=    Evaluate
+        ...    re.escape("""${checkpoint}""")
+        ${regexp}=    Set Variable    ${regexp}${checkpoint_escaped}|
+    END
+    # Remove trailing |
+    ${regexp}=    Get Substring    ${regexp}    0    -1
+    ${checkpoint}=    Wait For Checkpoint    ${regexp}    ${TRUE}
+    Sleep    1s
+    Write Into Terminal    ${checkpoints}[${checkpoint}]
+    RETURN    ${checkpoint}
+
 Wait For Checkpoint And Press Enter
     [Documentation]    This KW waits for checkpoint (first argument)
     ...    and preses enter, with logging all output before the checkpoint.
-    [Arguments]    ${checkpoint}
-    ${out}=    Wait For Checkpoint    ${checkpoint}
+    [Arguments]    ${checkpoint}    ${regexp}=${FALSE}
+    ${out}=    Wait For Checkpoint    ${checkpoint}    ${regexp}
     Sleep    1s
     Write Bare Into Terminal    \r\n
     RETURN    ${out}
@@ -300,8 +318,13 @@ Go Through Update
     # 1) Select update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
-    # 2) Check out all warnings:
-    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    # 2) Check out all warnings. Decline Heads if asked
+    ${checkpoint}=    Wait For Either Checkpoint And Write
+    ...    ${DTS_SPECIFICATION_WARN}=Y
+    ...    ${DTS_HEADS_SWITCH_QUESTION}=N
+    IF    """${DTS_HEADS_SWITCH_QUESTION}""" in """${checkpoint}"""
+        Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    END
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
     Set DUT Response Timeout    5m
     ${dts_me_warn_escaped}=    Evaluate    re.escape("""${DTS_ME_WARN}""")
