@@ -32,6 +32,7 @@ ${DTS_CREDENTIALS_OPT}=             4
 ${DTS_DCR_UEFI_OPT}=                c
 ${DTS_DPP_UEFI_OPT}=                d
 ${DTS_DPP_SEA_OPT}=                 s
+${DTS_LOGS_OPT}=                    l
 # DTS subscription checkpoints:
 ${DTS_NOACCESS_DPP_UEFI}=           Dasharo Pro Package version (coreboot + UEFI) is also available.
 ${DTS_NOACCESS_DPP_SEABIOS}=        Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
@@ -199,6 +200,12 @@ Power On And Enter DTS Shell
     Set Prompt For Terminal    bash-5.2#
     Read From Terminal Until Prompt
     Set DUT Response Timeout    90s
+
+Enable DTS Log Sending
+    [Documentation]    This KW automatically enables sending DTS logs.
+    Set DUT Response Timeout    120s
+    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
+    Write Bare Into Terminal    ${DTS_LOGS_OPT}
 
 Provide DPP Credentials
     [Documentation]    This KW automatically writes DPP credentials into DTS UI.

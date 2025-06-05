@@ -150,6 +150,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     Press Key N Times    1    ${ESC}
     ${dpp_keys_defined}=    Are DPP Keys Defined
     IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
+    Enable DTS Log Sending
     Go Through Update    skip_me=${TRUE}
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    5m
@@ -175,6 +176,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     Press Key N Times    1    ${ESC}
     ${dpp_keys_defined}=    Are DPP Keys Defined
     IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
+    Enable DTS Log Sending
     Go Through Update    skip_me=${TRUE}
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    5m
@@ -190,6 +192,7 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     ...    credentials before trying to deploy firmware.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${version}=    Prepare For Initial Deployment    seabios=${False}
+    Enable DTS Log Sending
     Go Through Initial Deployment    ${version}
     Wait For Checkpoint    Rebooting
     Restore Initial DUT Connection Method
@@ -209,6 +212,7 @@ DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     ...    credentials before trying to deploy firmware.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${version}=    Prepare For Initial Deployment    seabios=${False}
+    Enable DTS Log Sending
     Go Through Initial Deployment    ${version}
     Wait For Checkpoint    Rebooting
     Restore Initial DUT Connection Method
@@ -240,6 +244,7 @@ DTS011.001 Heads Transition by using DTS via iPXE works correctly
     Press Key N Times    1    ${ESC}
     ${dpp_keys_defined}=    Are DPP Keys Defined
     IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
+    Enable DTS Log Sending
     Go Through Heads Transition
     Wait For Checkpoint    Rebooting
     Restore Initial DUT Connection Method
