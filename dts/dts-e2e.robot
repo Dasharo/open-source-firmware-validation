@@ -13,8 +13,8 @@ Resource            ../keys.robot
 Resource            ../variables.robot
 
 Suite Setup         Prepare DTS E2E Test Suite
-# Suite Teardown      Run Keyword
-# ...                     Log Out And Close Connection
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 Test Setup          Prepare DTS Test
 Test Teardown       Teardown DTS Test
 
@@ -90,7 +90,6 @@ ${platform} Update - Community Version
 ${platform} Initial Deployment - Community Version
     [Documentation]    sss
     Prepare E2E Test    ${platform}    Initial Deployment
-    Write Into Terminal    dts-boot
     Go Through Initial Deployment    DCR UEFI
     Wait For Checkpoint    Rebooting
 
@@ -121,6 +120,7 @@ Prepare E2E Test
     &{dts_test_variables}=    Create Dictionary    &{DTS_PLATFORM_VARIABLES}[${platform}]
     Set Test Variable    \${DTS_TEST_VARIABLES}
     Export Shell Variables For Emulation    ${workflow}
+    Write Into Terminal    dts-boot
 
 Export Shell Variables For Emulation
     [Documentation]    sss
@@ -141,29 +141,25 @@ Export Shell Variables For Emulation
             ...    ${DTS_TEST_VARIABLES}[DTS_TEST_UPDATE_VERSION]
         END
         ${additional_exports}[TEST_BIOS_VERSION]=
-        ...    Set Variable    "Dasharo (coreboot+UEFI) ${version}"
-        ${additional_exports}[TEST_BIOS_VENDOR]=    Set Variable    "3mdeb"
+        ...    Set Variable    Dasharo (coreboot+UEFI) ${version}
+        ${additional_exports}[TEST_BIOS_VENDOR]=    Set Variable    3mdeb
         IF    ${DTS_TEST_VARIABLES}[DTS_TEST_HAS_EC]
             ${additional_exports}[TEST_USING_OPENSOURCE_EC_FIRM]=
-            ...    Set Variable    "true"
+            ...    Set Variable    true
         END
     ELSE IF    "${workflow}" == "Initial Deployment"
         ${variables_mapping}[TEST_BIOS_VERSION]=    Set Variable
         ...    DTS_TEST_VERSION
     END
-    ${additional_exports}[DTS_TESTING]=    Set Variable    "true"
+    ${additional_exports}[DTS_TESTING]=    Set Variable    true
 
     FOR    ${export_variable}    ${robot_variable}    IN    &{variables_mapping}
-        Log To Console
-        ...    export ${export_variable}=${DTS_TEST_VARIABLES}[${robot_variable}]
-        # Execute Command In Terminal
-        # ...    export ${export_variable}=${DTS_TEST_VARIABLES}[${robot_variable}]
+        Execute Command In Terminal
+        ...    export ${export_variable}="${DTS_TEST_VARIABLES}[${robot_variable}]"
     END
     FOR    ${export_variable}    ${export_value}    IN    &{additional_exports}
-        Log To Console
-        ...    export ${export_variable}=${export_value}
-        # Execute Command In Terminal
-        # ...    export ${export_variable}=${export_value}
+        Execute Command In Terminal
+        ...    export ${export_variable}="${export_value}"
     END
 
 Prepare DTS Test
@@ -200,9 +196,9 @@ Login To DTS Via SSH In QEMU
     ...    SSHLibrary.Login    root
 
 Prepare DTS E2E Test Suite
-    # Prepare Test Suite
-    # Skip If    not ${DTS_SUPPORT}
+    Prepare Test Suite
+    Skip If    not ${DTS_SUPPORT}
     &{dts_platform_variables}=    Get DTS Test Variables
     Set Suite Variable    \${DTS_PLATFORM_VARIABLES}
-    # Power On And Enter DTS Shell
-    # Execute Linux Command    systemctl start sshd
+    Power On And Enter DTS Shell
+    Execute Linux Command    systemctl start sshd
