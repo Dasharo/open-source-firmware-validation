@@ -3619,6 +3619,13 @@
   },
   {
     "doc": {
+      "_id": "EPN001.201",
+      "name": "Check the ethernet port names (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ERR001.001",
       "name": "SATA LED and PC speaker error indication support (firmware)",
       "module": "Dasharo Compatibility"
