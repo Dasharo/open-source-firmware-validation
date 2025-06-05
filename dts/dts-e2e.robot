@@ -13,8 +13,8 @@ Resource            ../keys.robot
 Resource            ../variables.robot
 
 Suite Setup         Prepare DTS E2E Test Suite
-Suite Teardown      Run Keyword
-...                     Log Out And Close Connection
+# Suite Teardown      Run Keyword
+# ...                     Log Out And Close Connection
 Test Setup          Prepare DTS Test
 Test Teardown       Teardown DTS Test
 
@@ -200,9 +200,9 @@ Login To DTS Via SSH In QEMU
     ...    SSHLibrary.Login    root
 
 Prepare DTS E2E Test Suite
-    Prepare Test Suite
-    Skip If    not ${DTS_SUPPORT}
+    # Prepare Test Suite
+    # Skip If    not ${DTS_SUPPORT}
     &{dts_platform_variables}=    Get DTS Test Variables
     Set Suite Variable    \${DTS_PLATFORM_VARIABLES}
-    Power On And Enter DTS Shell
-    Execute Linux Command    systemctl start sshd
+    # Power On And Enter DTS Shell
+    # Execute Linux Command    systemctl start sshd
