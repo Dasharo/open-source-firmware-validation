@@ -299,7 +299,7 @@ Prepare For Initial Deployment
     ${dpp_keys_defined}=    Are DPP Keys Defined
     IF    ${seabios}
         Provide DPP Credentials
-        ${version}=    Set Variable    DPP UEFI
+        ${version}=    Set Variable    DPP SeaBIOS
     ELSE IF    ${dpp_keys_defined} == ${TRUE}
         Provide DPP Credentials
         ${version}=    Set Variable    DPP UEFI
