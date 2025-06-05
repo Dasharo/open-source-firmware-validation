@@ -70,7 +70,7 @@ robotframework @ git+https://github.com/3mdeb/robotframework@6006ce0b3d5fc6b45c5
 robotframework-csvlibrary==0.0.5
 robotframework-faker==5.0.0
 robotframework-requests==0.9.4
-robotframework-robocop==5.0.4
+robotframework-robocop==5.8.0
 robotframework-sherlock==0.3.0
 robotframework-sshlibrary @ git+https://github.com/MarketSquare/SSHLibrary@ba6c3ee783bd6fd8b73c1341fe873a99991a353a
 robotframework-tidy==4.11.0
