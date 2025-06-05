@@ -76,6 +76,7 @@ ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     UsbMassStorage
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
+${SUSPEND_AND_RESUME_SUPPORT}=                  ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
