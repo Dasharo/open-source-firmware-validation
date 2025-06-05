@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -195,7 +196,8 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     Set DUT Response Timeout    5m
     # Not sure how to check if Dasharo fw has serial console enabled by
     # default, assume that it isn't and ask for manual confirmation
-    Execute Manual Step    "Confirm that deployment succeeded"
+    Execute Manual Step While Freeing Serial Connection
+    ...    "Confirm that deployment succeeded"
 
 DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     [Documentation]    This test aims to verify that deploying Dasharo by using
@@ -213,7 +215,8 @@ DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     Set DUT Response Timeout    5m
     # Not sure how to check if Dasharo fw has serial console enabled by
     # default, assume that it isn't and ask for manual confirmation
-    Execute Manual Step    "Confirm that deployment succeeded"
+    Execute Manual Step While Freeing Serial Connection
+    ...    "Confirm that deployment succeeded"
 
 DTS011.001 Heads Transition by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that Heads Transition by using
@@ -241,7 +244,8 @@ DTS011.001 Heads Transition by using DTS via iPXE works correctly
     Wait For Checkpoint    Rebooting
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    5m
-    Execute Manual Step    "Confirm that deployment succeeded"
+    Execute Manual Step While Freeing Serial Connection
+    ...    "Confirm that deployment succeeded"
 
 
 *** Keywords ***
@@ -262,10 +266,11 @@ Flash FW Automatically Or Manually
     ...    Variable Should Exist    \${${fw_var}}
     # Without POWER_CTRL Flash Firmware will try to boot into Linux which won't
     # work
-    IF    not ${variable_exists} or '''${POWER_CTRL}''' != '''none'''
-        Execute Manual Step    ${msg}
+    IF    not ${variable_exists} or '''${POWER_CTRL}''' == '''none'''
+        Execute Manual Step While Freeing Serial Connection    ${msg}
     ELSE
-        Flash Firmware    ${FW_FILE_DTS}
+        Flash Firmware    ${${fw_var}}
+        Power On
     END
 
 Prepare For Initial Deployment
@@ -275,9 +280,11 @@ Prepare For Initial Deployment
     [Arguments]    ${seabios}=${False}
     Flash FW Automatically Or Manually
     ...    FW_FILE_NON_DASHARO    "Flash non-Dasharo/propertiary firmware"
-    Execute Manual Step    "Boot into DTS. Continue after DTS UI is shown"
+    Execute Manual Step While Freeing Serial Connection
+    ...    "Boot into DTS. Continue after DTS UI is shown"
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Execute Manual Step    "Enable SSH server in DTS"
+        Execute Manual Step While Freeing Serial Connection
+        ...    "Enable SSH server in DTS"
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     END
     # Flush buffer
@@ -295,3 +302,12 @@ Prepare For Initial Deployment
         ${version}=    Set Variable    DCR UEFI
     END
     RETURN    ${version}
+
+Execute Manual Step While Freeing Serial Connection
+    [Documentation]    In case you need to connect to DUT via serial to do
+    ...    manual steps. Arguments are the same as for 'Execute Manual Step'
+    [Arguments]    ${msg}
+    Telnet.Close All Connections
+    Execute Manual Step
+    ...    ${msg}. Make sure to close serial connection before continuing
+    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
