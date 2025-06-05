@@ -128,14 +128,12 @@ DTS008.001 DTS option power-off DUT works correctly
 DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via USB.
-    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
-    ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
-    ...    credentials before trying to update.
+    ...    Test expects FW_FILE_DTS variable to contain path to Dasharo
+    ...    firmware. If DPP_EMAIL and DPP_PASSWORD are defined then test will
+    ...    load DPP credentials before trying to update.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    Depends On Variable    \${FW_FILE}
-    # Flash earlier version so update can proceed. Firmware should have serial
-    # redirection enabled
-    Flash Firmware    ${FW_FILE}
+    Flash FW Automatically Or Manually
+    ...    FW_FILE_DTS    "Flash earlier version of Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
         Set UEFI Option    MeMode    Disabled (HAP)
@@ -153,14 +151,12 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
 DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via iPXE.
-    ...    Test expects FW_FILE variable to contain path to Dasharo firmware.
-    ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
-    ...    credentials before trying to update.
+    ...    Test expects FW_FILE_DTS variable to contain path to Dasharo
+    ...    firmware. If DPP_EMAIL and DPP_PASSWORD are defined then test will
+    ...    load DPP credentials before trying to update.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    Depends On Variable    \${FW_FILE}
-    # Flash earlier version so update can proceed. Firmware should have serial
-    # redirection enabled
-    Flash Firmware    ${FW_FILE}
+    Flash FW Automatically Or Manually
+    ...    FW_FILE_DTS    "Flash earlier version of Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
         Set UEFI Option    MeMode    Disabled (HAP)
@@ -178,21 +174,16 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
 DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     [Documentation]    This test aims to verify that deploying Dasharo by using
     ...    DTS built-in script works correctly.
-    ...    Test expects FW_FILE variable to contain path to non-Dasharo
-    ...    firmware (proprietary). If FW_FILE isn't defined then test expects
-    ...    that DUT already has correct firmware flashed (for platforms where
-    ...    we can't flash via robot)
+    ...    Test expects FW_FILE_DTS variable to contain path to non-Dasharo
+    ...    firmware (proprietary). If FW_FILE_DTS isn't defined then test
+    ...    expects that DUT already has correct firmware flashed (for platforms
+    ...    where we can't flash via robot)
     ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
     ...    credentials before trying to deploy firmware.
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    ${variable_exists}=    Run Keyword And Return Status
-    ...    Variable Should Exist    \${FW_FILE}
-    # Without POWER_CTRL Flash Firmware will try to boot into Linux which won't
-    # work so in those cases prepare DUT beforehand
-    IF    ${variable_exists} and '''${POWER_CTRL}''' != '''none'''
-        # Flash non-dasharo firmware
-        Flash Firmware    ${FW_FILE}
-    END
+
+    Flash FW Automatically Or Manually
+    ...    FW_FILE_DTS    "Flash non-Dasharo/propertiary firmware"
     Execute Manual Step    "Boot into DTS. Continue after DTS UI is shown"
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Execute Manual Step    "Enable SSH server in DTS"
@@ -228,3 +219,17 @@ Are DPP Keys Defined
     ${status}=    Run Keyword And Return Status    Should Be True
     ...    ${email} and ${password}
     RETURN    ${status}
+
+Flash FW Automatically Or Manually
+    [Documentation]    Flash firmware automatically if it's possible and
+    ...    variable with name passed in fw_var exists
+    [Arguments]    ${fw_var}    ${msg}="Flash firmware"
+    ${variable_exists}=    Run Keyword And Return Status
+    ...    Variable Should Exist    \${${fw_var}}
+    # Without POWER_CTRL Flash Firmware will try to boot into Linux which won't
+    # work
+    IF    not ${variable_exists} or '''${POWER_CTRL}''' != '''none'''
+        Execute Manual Step    ${msg}
+    ELSE
+        Flash Firmware    ${FW_FILE_DTS}
+    END
