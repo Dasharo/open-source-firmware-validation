@@ -14,8 +14,6 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${DTS_SUPPORT}    DTS tests not supported
-...                     AND
-...                     Make Sure That Network Boot Is Enabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 # This must be in Test Setup, not Suite Setup, because of a known problem
@@ -38,6 +36,7 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     ...    report in the DTS menu properly creates the report.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.001 not supported
     Power On
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    1
     Read From Terminal Until
@@ -51,6 +50,7 @@ DTS003.001 DTS option reboot DUT works correctly
     ...    in the DTS menu reboots the DUT.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.001 not supported
     Power On
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    R
     # Switch back to serial on PiKVM devices
@@ -62,6 +62,7 @@ DTS004.001 DTS accessing shell works correctly
     ...    DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.001 not supported
     Power On
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    S
     Read From Terminal Until Regexp    bash-\\d\\.\\d#
@@ -72,6 +73,7 @@ DTS005.001 Flash device from DTS shell by using flashrom works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS006.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS006.001 not supported
     Power On
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
@@ -90,6 +92,7 @@ DTS006.001 Flash device EC firmware by using DTS built-in script works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS008.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS008.001 not supported
     Power On
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Run EC Transition
     Set DUT Response Timeout    320s
@@ -105,6 +108,7 @@ DTS007.001 Update device EC firmware by using DTS works correctly
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS009.001 not supported
     Power On
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Flash EC Firmware
@@ -119,6 +123,7 @@ DTS008.001 DTS option power-off DUT works correctly
     ...    system in the DTS menu turns off the DUT.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.001 not supported
     Power On
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    P
     Set DUT Response Timeout    30s
@@ -163,6 +168,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
         Set UEFI Option    MeMode    Disabled (HAP)
     END
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
@@ -225,6 +231,7 @@ DTS011.001 Heads Transition by using DTS via iPXE works correctly
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
         Set UEFI Option    MeMode    Disabled (HAP)
     END
+    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     # To refresh screen as next keyword expects DTS checkpoint
     Press Key N Times    1    ${ESC}
