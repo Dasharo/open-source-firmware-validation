@@ -210,6 +210,33 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     # default, assume that it isn't and ask for manual confirmation
     Execute Manual Step    "Confirm that deployment succeeded"
 
+DTS011.001 Heads Transition by using DTS via iPXE works correctly
+    [Documentation]    This test aims to verify that Heads Transition by using
+    ...    DTS built-in script works correctly.
+    ...    Test expects FW_FILE variable to contain path to Dasharo fw with
+    ...    enabled serial console from which we will attempt to transition to
+    ...    heads. If FW_FILE isn't defined then test waits for user to flash
+    ...    correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then test will
+    ...    load DPP credentials before trying to deploy firmware.
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+
+    Flash FW Automatically Or Manually
+    ...    FW_FILE    "Flash Dasharo firmware"
+    Make Sure That Flash Locks Are Disabled
+    IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
+        Set UEFI Option    MeMode    Disabled (HAP)
+    END
+    Boot Dasharo Tools Suite    iPXE
+    # To refresh screen as next keyword expects DTS checkpoint
+    Press Key N Times    1    ${ESC}
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
+    Go Through Heads Transition
+    Wait For Checkpoint    Rebooting
+    Restore Initial DUT Connection Method
+    Set DUT Response Timeout    5m
+    Execute Manual Step    "Confirm that deployment succeeded"
+
 
 *** Keywords ***
 Are DPP Keys Defined
