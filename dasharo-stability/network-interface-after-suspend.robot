@@ -163,7 +163,10 @@ NET Controller After Suspend
     [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
-    Perform Suspend Test Using FWTS
+    ${is_suspend_performed_correctly}=    Perform Suspend Test Using FWTS
+    IF    not ${is_suspend_performed_correctly}
+        Fail    Suspend log not correct or does not exist.
+    END
     ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno'
     Should Contain    ${network_status}    UP
 
