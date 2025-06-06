@@ -254,15 +254,21 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=novacustom-ns50mu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.67
+#
+# NovaCustom NUC BOX test rack
+&{RTE71}=                   ip=192.168.10.25
+...                         platform=novacustom-nuc_box
+...                         platform_vendor=Clevo
+...                         sonoff_ip=192.168.10.57
 
 # NovaCustom V540TU test rack
-&{RTE71}=                   ip=192.168.10.100
+&{RTE72}=                   ip=192.168.10.100
 ...                         platform=novacustom-v540tu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.116
 
 # NovaCustom V560TND test desktop
-&{RTE72}=                   ip=192.168.10.25
+&{RTE73}=                   ip=192.168.10.25
 ...                         platform=novacustom-v560tnd
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.229
@@ -280,7 +286,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE55}    &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}
 ...                         &{RTE60}    &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}
 ...                         &{RTE65}    &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
-...                         &{RTE70}    &{RTE71}    &{RTE72}
+...                         &{RTE70}    &{RTE71}    &{RTE72}    &{RTE73}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -477,7 +483,11 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG52}=                &{RTE68}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
 @{CONFIG54}=                &{RTE70}
+<<<<<<< HEAD
 @{CONFIG55}=                &{RTE71}    &{SSD20}
+=======
+@{CONFIG55}=                &{RTE71}
+>>>>>>> 79d637925c8f (platform-configs/novacustom-nuc_box: add)
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
