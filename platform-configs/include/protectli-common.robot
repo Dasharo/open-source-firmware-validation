@@ -19,6 +19,7 @@ ${MANUFACTURER}=                                ${TBD}
 ${CPU}=                                         ${TBD}
 ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         none
+${HAS_E_CORES}=                                 ${FALSE}
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_MANUFACTURER}=                      Protectli
@@ -39,6 +40,7 @@ ${DEVICE_USB_KEYBOARD}=                         Logitech, Inc. Keyboard K120
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
+${TESTS_IN_ESXI_SUPPORT}=                       ${TRUE}
 
 # Regression test flags
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}

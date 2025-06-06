@@ -54,6 +54,17 @@ USB001.201 USB devices detected by OS (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     USB Devices Detected By OS    ${ENV_ID_UBUNTU}
 
+USB001.401 USB devices detection in OS (ESXi)
+    [Documentation]    Check whether USB devices are correctly detected
+    ...    in VMware ESXi using lsusb monitoring.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    lsusb
+    Should Contain    ${out}    ${USB_MODEL}
+
 USB002.201 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Ubuntu OS.
@@ -88,6 +99,17 @@ USB002.202 USB keyboard in OS (Fedora)
     Depends On    ${HAS_KEYBOARD}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     USB Keyboard In OS    ${ENV_ID_FEDORA}
+
+USB002.401 USB keyboard detection in OS (ESXi)
+    [Documentation]    Verify that an external USB keyboard is correctly detected in ESXi.
+    ...    Detection includes visibility in `lsusb` and verification of working input via basic typing test.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    lsusb
+    Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
 
 USB003.202 Upload 1GB file on USB storage (Fedora)
     [Documentation]    Check whether the 1GB file can be transferred from the

@@ -84,6 +84,23 @@ Login To Windows
         Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
 
+Login To OS
+    [Documentation]    Universal login to ESXi.
+    [Arguments]    ${env_id}
+    Boot System Or From Connected Disk    ${env_id}
+    # TODO: We need a better way of switching between SSH and serial inside tests
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+    ELSE
+        Fail    Login to this OS not supported. DUT_CONNECTION_METHOD must be set to SSH.
+    END
+
 Serial Root Login Linux
     [Documentation]    Universal telnet login to one of supported linux systems:
     ...    Ubuntu, Voyage, Xen or Debian.

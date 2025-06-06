@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -77,6 +78,17 @@ DSP002.301 - External HDMI display in OS (Windows)
     Login To Windows
     Check HDMI Windows
 
+DSP002.401 External HDMI display in OS (ESXi)
+    [Documentation]    Verify that the external HDMI display is initialized and displays output
+    ...    during and after ESXi boots. No multi-display configuration is required.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    DSP002.401 not supported
+    Pause Execution
+    ...    This is a manual test to verify HDMI output on ESXi.
+    Execute Manual Step    [1/4] Connect an external display to the DUT via HDMI
+    Execute Manual Step    [2/4] Power on the DUT
+    Execute Manual Step    [3/4] Boot into ESXi and wait for the DCUI to appear
+    Execute Manual Step    [4/4] Confirm that the ESXi interface is visible on the external HDMI display
+
 DSP003.201 - External DP display in OS (Ubuntu)
     [Documentation]    Check whether an external Display Port is visible in
     ...    Linux OS. An external Display Port must be provided in
@@ -105,6 +117,17 @@ DSP003.301 - External DP display in OS (Windows)
     Power On
     Login To Windows
     Check DP Windows
+
+DSP003.401 External DP display in OS (ESXi)
+    [Documentation]    Verify that the external DisplayPort monitor shows output
+    ...    during and after ESXi boot. No display mode configuration is required.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    DSP003.401 not supported
+    Pause Execution
+    ...    This is a manual test to verify DisplayPort output on ESXi.
+    Execute Manual Step    [1/4] Connect an external display to the DUT via DisplayPort
+    Execute Manual Step    [2/4] Power on the DUT
+    Execute Manual Step    [3/4] Boot into ESXi and wait for the DCUI to appear
+    Execute Manual Step    [4/4] Confirm that the ESXi interface is visible on the external DisplayPort display
 
 
 *** Keywords ***

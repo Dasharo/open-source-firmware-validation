@@ -26,6 +26,20 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
+*** Variables ***
+${PACKAGE_IDS_COUNT}=       0
+${CACHE_REGEX}=
+...                         (?s)[ ]+L2 Cache Size:
+...                         \\d+\\r?\\n[ ]+L2 Cache Associativity:
+...                         \\d+\\r?\\n[ ]+L2 Cache Line Size:
+...                         \\d+\\r?\\n[ ]+L2 Cache CPU Count:
+...                         \\d+\\r?\\n[ ]+L3 Cache Size:
+...                         \\d+\\r?\\n[ ]+L3 Cache Associativity:
+...                         \\d+\\r?\\n[ ]+L3 Cache Line Size:
+...                         \\d+\\r?\\n[ ]+L3 Cache CPU Count:
+...                         \\d+\\r?\\n[ ]+L2 Cache Size: \\d+
+
+
 *** Test Cases ***
 CPU001.201 CPU works (Ubuntu)
     [Documentation]    Check whether the CPU mounted on the DUT works.
@@ -35,6 +49,14 @@ CPU001.201 CPU works (Ubuntu)
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
+
+CPU001.401 CPU works (ESXi)
+    [Documentation]    Verify that the CPU on the DUT is functional and boots the ESXi OS.
+    ...    The test passes if the ESXi login screen (DCUI) is visible after boot.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Login To OS    ${ENV_ID_ESXI}
 
 CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
@@ -47,6 +69,20 @@ CPU002.201 CPU cache enabled (Ubuntu)
     Login To Linux
     CPU Cache Enabled Linux
 
+CPU002.401 CPU cache enabled (ESXi)
+    [Documentation]    Verify that all CPU cache levels are detected and reported by ESXi.
+    ...    Expected output includes L2 and L3 cache size, associativity, and CPU count.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Cache
+    ${count}=    Evaluate
+    ...    len(re.findall(r'''${CACHE_REGEX}''', '''${out}'''))
+    ...    re
+    IF    ${count} < 2    FAIL    [TBD] Fail message TBD
+
 CPU003.201 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
     ...    Previous IDs: CPU003.001
@@ -57,6 +93,19 @@ CPU003.201 Multiple CPU support (Ubuntu)
     Login To Linux
     Multiple CPU Support Linux
 
+CPU003.401 Multiple CPU support (ESXi)
+    [Documentation]    Verify that ESXi detects more than one CPU core, indicating multi-CPU support.
+    # Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli hardware cpu global get
+    ${cores_match}=    Get Regexp Matches    ${out}    CPU Cores:\\s*(\\d+)    1
+    ${core_str}=    Get From List    ${cores_match}    0
+    ${cores}=    Convert To Integer    ${core_str}
+    IF    ${cores} < 2    Fail    Quantitty of cores less than 2.
+
 CPU004.201 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
     ...    Previous IDs: CPU004.001
@@ -66,6 +115,21 @@ CPU004.201 Multiple-core support (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Multiple-Core Support Linux
+
+CPU004.401 Multiple-core support (ESXi)    # tbd
+    [Documentation]    Verify that the system supports multiple CPU cores using Package ID mapping.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Id
+    ${lines}=    Split To Lines    ${out}
+    @{package_ids}=    Get Regexp Matches    ${out}    Package Id:
+    FOR    ${item}    IN    @{package_ids}
+        ${package_ids_count}=    Evaluate    ${PACKAGE_IDS_COUNT} + 1
+    END
+    IF    ${package_ids_count} < 2    FAIL There Are No Multiple Package Ids.
 
 CPU001.202 CPU works (Fedora)
     [Documentation]    Check whether the CPU mounted on the DUT works.

@@ -60,6 +60,17 @@ NVM001.301 NVMe support in OS (Windows)
     Should Contain    ${out}    DiskDrive
     # Exit from root user
 
+NVM001.401 NVMe support (ESXi)
+    [Documentation]    Verify that ESXi is installed and booted from an NVMe drive.
+    ...    Check that NVMe is detected and marked as the boot device.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    NVM001.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli storage core nvme device list
+    Should Contain All    ${out}    Vendor: NVMe    Is Boot Device: true
+
 NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
