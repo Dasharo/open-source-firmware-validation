@@ -11,10 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository and submodules
+    - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
+
+    - name: Chceckout submodules
+      run: |
+        git submodule update --init --checkout --recursive
 
     - name: Set up QEMU
       run: |
@@ -43,6 +45,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Set up git-annex
+      uses: jstritch/setup-git-annex@v1
+
+    - name: Set up osfv-test-data
+      working-directory: osfv-test-data
+      run: |
+        set +e
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git annex pull
+        ./setup.sh
 
     - name: Start keywords self-tests with QEMU
       run: |
