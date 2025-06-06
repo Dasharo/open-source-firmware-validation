@@ -254,6 +254,12 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=novacustom-ns50mu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.67
+#
+# NovaCustom NUC BOX test rack
+&{RTE71}=                   ip=192.168.10.25
+...                         platform=novacustom-nuc_box
+...                         platform_vendor=Clevo
+...                         sonoff_ip=192.168.10.57
 
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
@@ -269,6 +275,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
 ...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
 ...                         &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}    &{RTE70}
+...                         &{RTE71}
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
@@ -460,6 +467,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG52}=                &{RTE68}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
 @{CONFIG54}=                &{RTE70}
+@{CONFIG55}=                &{RTE71}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -474,4 +482,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
 ...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
 ...                         @{CONFIG50}    @{CONFIG51}    @{CONFIG52}    @{CONFIG53}
-...                         @{CONFIG54}
+...                         @{CONFIG54}    @{CONFIG55}
