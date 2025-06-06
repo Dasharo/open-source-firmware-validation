@@ -36,7 +36,6 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     [Documentation]    This test aims to verify that the option Dasharo HCL
     ...    report in the DTS menu properly creates the report.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.001 not supported
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    1
@@ -50,7 +49,6 @@ DTS003.001 DTS option reboot DUT works correctly
     [Documentation]    This test aims to verify that the option Reboot system
     ...    in the DTS menu reboots the DUT.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.001 not supported
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    R
@@ -62,7 +60,6 @@ DTS004.001 DTS accessing shell works correctly
     [Documentation]    This test aims to verify that shell can be accessed in
     ...    DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.001 not supported
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    S
@@ -73,14 +70,12 @@ DTS005.001 Flash device from DTS shell by using flashrom works correctly
     ...    flash the DUT firmware by using flashrom in DTS Shell.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS006.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS006.001 not supported
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
     Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
     Flash Via Internal Programmer    /tmp/coreboot.rom
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
@@ -92,7 +87,6 @@ DTS006.001 Flash device EC firmware by using DTS built-in script works correctly
     ...    script in DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS008.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS008.001 not supported
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Run EC Transition
@@ -108,7 +102,6 @@ DTS007.001 Update device EC firmware by using DTS works correctly
     ...    in DTS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS009.001 not supported
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
@@ -123,7 +116,6 @@ DTS008.001 DTS option power-off DUT works correctly
     [Documentation]    This test aims to verify that the option Power off
     ...    system in the DTS menu turns off the DUT.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.001 not supported
-    Power On
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    P
