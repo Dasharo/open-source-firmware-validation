@@ -288,9 +288,11 @@ Prepare For Initial Deployment
     Execute Manual Step While Freeing Serial Connection
     ...    "Boot into DTS. Continue after DTS UI is shown"
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Execute Manual Step While Freeing Serial Connection
-        ...    "Enable SSH server in DTS"
+        Write Bare Into Terminal    K
         Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
+        # Spawn DTS menu on SSH console
+        Write Into Terminal    dts-boot
     END
     # Flush buffer
     Read From Terminal
