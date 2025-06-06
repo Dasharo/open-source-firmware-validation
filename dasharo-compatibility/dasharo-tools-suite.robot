@@ -268,6 +268,7 @@ Flash FW Automatically Or Manually
     ELSE
         Flash Firmware    ${${fw_var}}
         Power On
+        Set DUT Response Timeout    5m
     END
 
 Prepare For Initial Deployment

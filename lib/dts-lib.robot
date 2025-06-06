@@ -366,6 +366,7 @@ Go Through Heads Transition
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
+    Set DUT Response Timeout    5m
     # 3) Check for Heads firmware deployment success:
     Wait For Checkpoint    Successfully switched to Dasharo Heads firmware
     Wait For Checkpoint And Write    ${DTS_CONFIRM_CHECKPOINT}    1
