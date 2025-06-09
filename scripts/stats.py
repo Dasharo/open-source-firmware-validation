@@ -22,7 +22,13 @@ class TestCasesFinder(SuiteVisitor):
 
 def get_test_cases_from_dir(directory):
     builder = TestSuiteBuilder()
-    testsuite = builder.build(directory)
+    try:
+        testsuite = builder.build(directory)
+    except Exception as e:
+        print(
+            f"Error building test suite from {directory}: {e}. Assuming no test cases."
+        )
+        return 0, []
     finder = TestCasesFinder()
     testsuite.visit(finder)
 
