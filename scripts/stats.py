@@ -158,6 +158,8 @@ def generate_stats(text=True, graphs=True, compare_against=None):
                 difference_per_module,
                 filename="test_counts_difference.png",
                 title="Difference in Number of Tests in Modules",
+                show_graph=True,
+                save_graph=True,
             )
     else:
         if text:
