@@ -66,6 +66,10 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     (...)
 ```
 
+If the ID is changed again for the same test, the newer `Previous ID` is added
+to the end of line, with single space as a separator (i.e. no comma or semicolon
+between them). This format is expected by a script described [later](#validate).
+
 # Synchronization with database
 
 `test_cases.json` is the source of truth when it comes to test cases. It is the
@@ -157,6 +161,50 @@ existing one by pointing to the new ID.
 
 Test IDs are **never removed**. This is required to keep references in the old
 releases valid. It also makes sure that the ID won't be reused.
+
+## Scripts
+
+### Validate
+
+Two scripts are used for listing existing test cases, both active ones as well
+as those with deprecated IDs:
+
+- `scripts/list-tests-from-robot.sh` - finds active (lines starting with
+  something resembling an ID) and obsolete (`Previous IDs`, see
+  [Transitioning](#transitioning)) IDs in files in `dasharo-*` directories
+  (i.e. test cases in all Dasharo `*.robot` files), and prints a sorted list of
+  all of them.
+- `scripts/list-tests-from-json.sh` - finds active (without `changed_to` field)
+  and obsolete (without that field) IDs in `test_cases.json` file, and prints a
+  list of all of them. The script doesn't sort the output, which indirectly
+  checks that JSON file is properly sorted.
+
+Output of both of those scripts consists of ID followed by either full test name
+(if the test is active) or `DEPRECATED` (if the test ID is obsolete). Comparison
+of the outputs can be used to check whether test cases in source files and their
+copy in `test_cases.json` are in sync. Possible use cases:
+
+- CI that tests whether PR can be merged:
+
+    ```shell
+    diff -q <(./scripts/list-tests-from-robot.sh) \
+            <(./scripts/list-tests-from-json.sh) || \
+    (echo "Detected inconsistency between source files and test_cases.json" && false)
+    ```
+
+- manual inspection of differences between the two:
+
+    ```shell
+    diff --side-by-side -W200 <(./scripts/list-tests-from-robot.sh) \
+                              <(./scripts/list-tests-from-json.sh) | less
+    ```
+
+**❗Note:** neither of those scripts validates whether `Previous IDs`/`changed_to`
+is pointing from/to proper test case, nor that they match each other. The
+responsibility for making sure the mapping is valid is shared between the author
+and the reviewer.
+
+### Synchronize
 
 The synchronization is performed by `scripts/synchronize-db.py`. The script is
 to be started from top directory and doesn't take any parameters, but it reads
