@@ -26,6 +26,7 @@ Prepare UTC Test Suite
 
 Ensure ME State
     [Arguments]    ${me_state}
+    IF    '${me_state}' == 'None'    RETURN
     IF    '${me_state}' != '${UTC_CURRENT_ME_STATE}'
         IF    '${me_state}' == 'Enabled'
             Set UEFI Option    MeMode    Enabled
@@ -66,20 +67,25 @@ Usb Type-C Pd Power Input
         Fail    Not implemented on ENV_ID ${env_id}
     END
 
-Usb Type-C Display Output
-    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
-    Ensure ME State    ${me_state}
-    Power On
-    IF    '${env_id}'.startswith('2')    # Linux
-        Boot System Or From Connected Disk    ${env_id}
-        Login To Linux
-        Switch To Root User
-        ${out}=    List Devices In Linux    usb
-        Should Contain    ${out}    ${CLEVO_USB_C_HUB}
-        Exit From Root User
-    ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
-    END
+# Invalid implementation. Should check if a USB-C display is
+# connected, not if a docking stations is connected.
+# The display should be connected directly to the device,
+# not through a docking station.
+#
+# Usb Type-C Display Output
+#    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+#    Ensure ME State    ${me_state}
+#    Power On
+#    IF    '${env_id}'.startswith('2')    # Linux
+#    Boot System Or From Connected Disk    ${env_id}
+#    Login To Linux
+#    Switch To Root User
+#    ${out}=    List Devices In Linux    usb
+#    Should Contain    ${out}    ${CLEVO_USB_C_HUB}
+#    Exit From Root User
+#    ELSE
+#    Fail    Not implemented on ENV_ID ${env_id}
+#    END
 
 Usb Type-C Docking Station Hdmi Display
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
