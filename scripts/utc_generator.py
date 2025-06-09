@@ -14,10 +14,11 @@ os_id_variable_names = {
 }
 
 # Every test performed on two states of ME
-me_states = [True, False]
+me_states = [None, True, False]
 
 # Every test on every docking station
 docking_stations = {
+    "0": None,
     "1": "WL-UMD05 Pro Rev.E",
     "2": "WL-UMD05 Pro Rev.C1",
     "3": "WL-UG69PD2 Rev.A1",
@@ -30,6 +31,8 @@ test_names = {
     ...    charging to a connected smartphone.""",
         "skips": "",
         "automation": "manual",
+        "docking-stations": ["0"],
+        "me-states": [True, False],
     },
     "Thunderbolt 4 USB Type-C power output": {
         "env_ids": ["001"],
@@ -37,6 +40,8 @@ test_names = {
     ...    to provide charging to a USB Type-C accessory.""",
         "skips": "",
         "automation": "manual",
+        "docking-stations": ["0"],
+        "me-states": [True, False],
     },
     "USB Type-C PD power input": {
         "env_ids": ["201", "202", "301"],
@@ -46,12 +51,17 @@ test_names = {
     ...    Previous IDs: UTC021.001 USB Type-C laptop charging (Ubuntu)""",
         "skips": ["not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}"],
         "automation": "manual",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C Display output": {
         "env_ids": ["201", "202"],
-        "doc": "Check whether the DUT can detect the USB Type-C hub.",
+        "doc": """Check whether a display connected to the USB Type-C port
+    ...    is recognized by the OPERATING_SYSTEM.""",
         "skips": ["not ${USB_TYPE_C_DISPLAY_SUPPORT}"],
-        "automation": "auto",
+        "automation": "manual",
+        "docking-stations": ["0"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station HDMI display": {
         "env_ids": ["201", "202", "301"],
@@ -60,6 +70,8 @@ test_names = {
     ...    recognized by the OPERATING_SYSTEM.""",
         "skips": ["not ${DOCKING_STATION_HDMI}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station DP display": {
         "env_ids": ["201", "202", "301"],
@@ -68,6 +80,8 @@ test_names = {
     ...    recognized by the OPERATING_SYSTEM.""",
         "skips": ["not ${DOCKING_STATION_DISPLAY_PORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station Triple display": {
         "env_ids": ["201", "202", "301"],
@@ -76,6 +90,8 @@ test_names = {
     ...    recognized by the OPERATING_SYSTEM.""",
         "skips": "",
         "automation": "manual",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station USB devices recognition": {
         "env_ids": ["001", "201", "202", "301"],
@@ -83,6 +99,8 @@ test_names = {
     ...    docking station are detected correctly""",
         "skips": ["not ${DOCKING_STATION_USB_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station USB keyboard": {
         "env_ids": ["001", "201", "202", "301"],
@@ -90,6 +108,8 @@ test_names = {
     ...    docking station is detected correctly.""",
         "skips": ["not ${DOCKING_STATION_KEYBOARD_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station upload 1GB file on USB storage": {
         "env_ids": ["201", "202", "301"],
@@ -98,6 +118,8 @@ test_names = {
     ...    connected to the docking station.""",
         "skips": "",
         "automation": "manual",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station Ethernet connection": {
         "env_ids": ["201", "202", "301"],
@@ -106,6 +128,8 @@ test_names = {
     ...    OPERATING_SYSTEM.""",
         "skips": ["not ${DOCKING_STATION_NET_INTERFACE}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station audio recognition": {
         "env_ids": ["201", "202"],
@@ -114,6 +138,8 @@ test_names = {
     ...    the docking station.""",
         "skips": ["not ${DOCKING_STATION_AUDIO_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station audio playback": {
         "env_ids": ["201", "202", "301"],
@@ -122,6 +148,8 @@ test_names = {
     ...    speakers connected to the docking station.""",
         "skips": ["not ${DOCKING_STATION_AUDIO_SUPPORT}"],
         "automation": "manual",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station audio capture": {
         "env_ids": ["201", "202", "301"],
@@ -130,6 +158,8 @@ test_names = {
     ...    docking station.""",
         "skips": ["not ${DOCKING_STATION_AUDIO_SUPPORT}"],
         "automation": "manual",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station SD Card reader detection": {
         "env_ids": ["201", "202", "301"],
@@ -137,6 +167,8 @@ test_names = {
     ...    and can be detected from the operating system.""",
         "skips": ["not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C docking station SD Card read/write": {
         "env_ids": ["201", "202", "301"],
@@ -144,6 +176,8 @@ test_names = {
     ...    and can be used from the operating system.""",
         "skips": ["not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "USB Type-C PD current limiting": {
         "env_ids": ["201", "202", "301"],
@@ -152,6 +186,8 @@ test_names = {
     ...    specifications.""",
         "skips": "",
         "automation": "manual",
+        "docking-stations": ["0"],
+        "me-states": [True, False],
     },
     "Docking station detection after coldboot": {
         "env_ids": ["201", "202"],
@@ -159,6 +195,8 @@ test_names = {
     ...    after coldboot.""",
         "skips": ["'${POWER_CTRL}' == 'none'", "not ${DOCKING_STATION_DETECT_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after warmboot": {
         "env_ids": ["201", "202"],
@@ -166,6 +204,8 @@ test_names = {
     ...    after warmboot.""",
         "skips": ["not ${DOCKING_STATION_DETECT_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after reboot": {
         "env_ids": ["201", "202"],
@@ -173,6 +213,8 @@ test_names = {
     ...    after reboot.""",
         "skips": ["not ${DOCKING_STATION_DETECT_SUPPORT}"],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after suspend": {
         "env_ids": ["201", "202"],
@@ -183,6 +225,8 @@ test_names = {
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after suspend (S0ix)": {
         "env_ids": ["201", "202"],
@@ -193,6 +237,8 @@ test_names = {
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after suspend (S3)": {
         "env_ids": ["201", "202"],
@@ -203,6 +249,8 @@ test_names = {
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "automation": "auto",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after coldboot then hotplug": {
         "env_ids": ["201", "202"],
@@ -210,6 +258,8 @@ test_names = {
     ...    after coldboot then hotplug.""",
         "skips": ["'${POWER_CTRL}' == 'none'", "not ${DOCKING_STATION_DETECT_SUPPORT}"],
         "automation": "semi",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after warmboot then hotplug": {
         "env_ids": ["201", "202"],
@@ -217,6 +267,8 @@ test_names = {
     ...    after warmboot then hotplug.""",
         "skips": ["not ${DOCKING_STATION_DETECT_SUPPORT}"],
         "automation": "semi",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after reboot then hotplug": {
         "env_ids": ["201", "202"],
@@ -224,6 +276,8 @@ test_names = {
     ...    after reboot then hotplug.""",
         "skips": ["not ${DOCKING_STATION_DETECT_SUPPORT}"],
         "automation": "semi",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after suspend then hotplug": {
         "env_ids": ["201", "202"],
@@ -234,6 +288,8 @@ test_names = {
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "automation": "semi",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after suspend then hotplug (S0ix)": {
         "env_ids": ["201", "202"],
@@ -244,6 +300,8 @@ test_names = {
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "automation": "semi",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
     "Docking station detection after suspend then hotplug (S3)": {
         "env_ids": ["201", "202"],
@@ -254,13 +312,15 @@ test_names = {
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "automation": "semi",
+        "docking-stations": ["1", "2", "3"],
+        "me-states": [True, False],
     },
 }
 
 # Generate full test list
 test_rows = []
 for dock_idx in docking_stations.keys():
-    for me_enabled in me_states:
+    for me_state in me_states:
         for os in oses:
             # find out test cases on given os
             # to order them by OS and possibly speeding up execution
@@ -269,8 +329,12 @@ for dock_idx in docking_stations.keys():
             ]
 
             for test_name in tests_for_os:
+                if dock_idx not in test_names[test_name]["docking-stations"]:
+                    continue
+                if me_state not in test_names[test_name]["me-states"]:
+                    continue
                 test_idx = list(test_names.keys()).index(test_name) * 2 + 1
-                if not me_enabled:
+                if not me_state:
                     test_idx += 1
                 test_id = f"UTC{dock_idx}{test_idx:02d}.{os}"
                 test_rows.append(
@@ -280,7 +344,7 @@ for dock_idx in docking_stations.keys():
                         "doc": test_names[test_name]["doc"],
                         "skips": test_names[test_name]["skips"],
                         "OS ID": os,
-                        "ME State": "Enabled" if me_enabled else "Disabled",
+                        "ME State": "Enabled" if me_state else "Disabled",
                         "Dock": docking_stations[dock_idx],
                         "automation": test_names[test_name]["automation"],
                     }
@@ -292,8 +356,10 @@ def full_test_name(test_row):
     line += f"{test_row['Test ID']}"
     line += f" {test_row['Test Name']}"
     line += f" ({oses[test_row['OS ID']]})"
-    line += f" (ME: {test_row['ME State']})"
-    line += f" ({test_row['Dock']})"
+    if test_row["ME State"] is not None:
+        line += f" (ME: {test_row['ME State']})"
+    if test_row["Dock"] is not None:
+        line += f" ({test_row['Dock']})"
     return line
 
 
