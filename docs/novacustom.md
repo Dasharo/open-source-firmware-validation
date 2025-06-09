@@ -40,7 +40,9 @@ The steps are:
 
 After that, the laptop can be used just like a regular platform with serial
 console access. Just **make sure** you set up the OS'es to use the right
-console, eg. `ttyUSB0`, not `ttyS1`.
+console, eg. `ttyUSB0`, not `ttyS1`. Refer to
+[this article](https://www.rogerirwin.co.nz/linux-open-source/enabling-a-serial-port-console/)
+to see how it's done on Ubuntu.
 
 ## SSH + DCU
 
