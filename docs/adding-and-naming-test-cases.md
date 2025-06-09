@@ -159,6 +159,11 @@ Test IDs are **never removed**. This is required to keep references in the old
 releases valid. It also makes sure that the ID won't be reused.
 
 The synchronization is performed by `scripts/synchronize-db.py`. The script is
-to be started from top directory and doesn't take any parameters. It will
+to be started from top directory and doesn't take any parameters, but it reads
+database IP (and port) from environmental variable `DB_SERVER_IP`. It will
 interactively ask for user credentials. The user must have _Test case developer_
-permissions.
+permissions. Example usage, assuming database server running on localhost:
+
+```shell
+DB_SERVER_IP=127.0.0.1:5984 ./scripts/synchronize-db.py
+```
