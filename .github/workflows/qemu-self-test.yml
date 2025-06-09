@@ -49,6 +49,7 @@ jobs:
         ./scripts/ci/qemu-self-test.sh
 
     - name: Save artifacts
+      if: '!cancelled()'
       uses: actions/upload-artifact@v4
       with:
         name: "qemu-logs"
