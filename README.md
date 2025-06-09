@@ -516,6 +516,8 @@ changes that are made won't show up there, until they are pushed to the
 
 * [Adding new platforms](docs/adding-new-platforms.md) - Instructions for adding
   support for new platforms
+* [Adding and naming test cases](docs/adding-and-naming-test-cases.md) -
+  Instructions for adding new test cases and (re-)assigning IDs
 * [Contributing](docs/contributing.md) - Instructions for first-time
   contributors
 * [Raptor CS Talos II](docs/raptor-talos-2.md) - Documentation specific to the
