@@ -22,16 +22,112 @@ Suite Teardown      Run Keyword
 
 *** Test Cases ***
 # Not automated
-# UTC101.001 USB Type-A charging capability (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+# UTC001.001 USB Type-A charging capability (Firmware) (ME: Enabled)
 #    [Documentation]    This test verifies that the USB-A ports are able to provide
 #    ...    charging to a connected smartphone.
-#    Usb Type-A Charging Capability    001    Enabled    WL-UMD05 Pro Rev.E
+#    Usb Type-A Charging Capability    001    Enabled    None
 
 # Not automated
-# UTC103.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+# UTC003.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Enabled)
 #    [Documentation]    This test verifies that the Thunderbolt 4 port is able
 #    ...    to provide charging to a USB Type-C accessory.
-#    Thunderbolt 4 Usb Type-C Power Output    001    Enabled    WL-UMD05 Pro Rev.E
+#    Thunderbolt 4 Usb Type-C Power Output    001    Enabled    None
+
+# Not automated
+# UTC007.201 USB Type-C Display output (Ubuntu) (ME: Enabled)
+#    [Documentation]    Check whether a display connected to the USB Type-C port
+#    ...    is recognized by the OPERATING_SYSTEM.
+#    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC007.201 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC007.201 not supported
+#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC007.201 not supported
+#    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Enabled    None
+
+# Not automated
+# UTC033.201 USB Type-C PD current limiting (Ubuntu) (ME: Enabled)
+#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
+#    ...    power supply does not exceed the limits of the power supply's
+#    ...    specifications.
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC033.201 not supported
+#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC033.201 not supported
+#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Enabled    None
+
+# Not automated
+# UTC007.202 USB Type-C Display output (Fedora) (ME: Enabled)
+#    [Documentation]    Check whether a display connected to the USB Type-C port
+#    ...    is recognized by the OPERATING_SYSTEM.
+#    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC007.202 not supported
+#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC007.202 not supported
+#    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Enabled    None
+
+# Not automated
+# UTC033.202 USB Type-C PD current limiting (Fedora) (ME: Enabled)
+#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
+#    ...    power supply does not exceed the limits of the power supply's
+#    ...    specifications.
+#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC033.202 not supported
+#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Enabled    None
+
+# Not automated
+# UTC033.301 USB Type-C PD current limiting (Windows) (ME: Enabled)
+#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
+#    ...    power supply does not exceed the limits of the power supply's
+#    ...    specifications.
+#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC033.301 not supported
+#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Enabled    None
+
+# Not automated
+# UTC002.001 USB Type-A charging capability (Firmware) (ME: Disabled)
+#    [Documentation]    This test verifies that the USB-A ports are able to provide
+#    ...    charging to a connected smartphone.
+#    Usb Type-A Charging Capability    001    Disabled    None
+
+# Not automated
+# UTC004.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Disabled)
+#    [Documentation]    This test verifies that the Thunderbolt 4 port is able
+#    ...    to provide charging to a USB Type-C accessory.
+#    Thunderbolt 4 Usb Type-C Power Output    001    Disabled    None
+
+# Not automated
+# UTC008.201 USB Type-C Display output (Ubuntu) (ME: Disabled)
+#    [Documentation]    Check whether a display connected to the USB Type-C port
+#    ...    is recognized by the OPERATING_SYSTEM.
+#    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC008.201 not supported
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC008.201 not supported
+#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC008.201 not supported
+#    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Disabled    None
+
+# Not automated
+# UTC034.201 USB Type-C PD current limiting (Ubuntu) (ME: Disabled)
+#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
+#    ...    power supply does not exceed the limits of the power supply's
+#    ...    specifications.
+#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC034.201 not supported
+#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC034.201 not supported
+#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Disabled    None
+
+# Not automated
+# UTC008.202 USB Type-C Display output (Fedora) (ME: Disabled)
+#    [Documentation]    Check whether a display connected to the USB Type-C port
+#    ...    is recognized by the OPERATING_SYSTEM.
+#    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC008.202 not supported
+#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC008.202 not supported
+#    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Disabled    None
+
+# Not automated
+# UTC034.202 USB Type-C PD current limiting (Fedora) (ME: Disabled)
+#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
+#    ...    power supply does not exceed the limits of the power supply's
+#    ...    specifications.
+#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC034.202 not supported
+#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Disabled    None
+
+# Not automated
+# UTC034.301 USB Type-C PD current limiting (Windows) (ME: Disabled)
+#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
+#    ...    power supply does not exceed the limits of the power supply's
+#    ...    specifications.
+#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC034.301 not supported
+#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Disabled    None
 
 # Not automated
 # UTC115.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -57,13 +153,6 @@ Suite Teardown      Run Keyword
 #    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC105.201 not supported
 #    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC105.201 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
-
-UTC107.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC107.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC107.201 not supported
-    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC109.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -170,15 +259,6 @@ UTC131.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC131.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC131.201 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
-
-# Not automated
-# UTC133.201 USB Type-C PD current limiting (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC133.201 not supported
-#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC133.201 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC135.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -306,12 +386,6 @@ UTC157.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 #    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC105.202 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
-UTC107.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC107.202 not supported
-    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
-
 UTC109.202 USB Type-C docking station HDMI display (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
@@ -405,14 +479,6 @@ UTC131.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC131.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC131.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
-
-# Not automated
-# UTC133.202 USB Type-C PD current limiting (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC133.202 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC135.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -615,26 +681,6 @@ UTC131.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
 
 # Not automated
-# UTC133.301 USB Type-C PD current limiting (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC133.301 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
-
-# Not automated
-# UTC102.001 USB Type-A charging capability (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test verifies that the USB-A ports are able to provide
-#    ...    charging to a connected smartphone.
-#    Usb Type-A Charging Capability    001    Disabled    WL-UMD05 Pro Rev.E
-
-# Not automated
-# UTC104.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test verifies that the Thunderbolt 4 port is able
-#    ...    to provide charging to a USB Type-C accessory.
-#    Thunderbolt 4 Usb Type-C Power Output    001    Disabled    WL-UMD05 Pro Rev.E
-
-# Not automated
 # UTC116.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
 #    [Documentation]    Check whether the external USB devices connected to the
 #    ...    docking station are detected correctly
@@ -658,13 +704,6 @@ UTC131.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 #    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC106.201 not supported
 #    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC106.201 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
-
-UTC108.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC108.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC108.201 not supported
-    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC110.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -771,15 +810,6 @@ UTC132.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC132.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC132.201 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
-
-# Not automated
-# UTC134.201 USB Type-C PD current limiting (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC134.201 not supported
-#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC134.201 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC136.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -907,12 +937,6 @@ UTC158.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 #    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC106.202 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
-UTC108.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC108.202 not supported
-    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
-
 UTC110.202 USB Type-C docking station HDMI display (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
@@ -1006,14 +1030,6 @@ UTC132.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC132.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC132.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
-
-# Not automated
-# UTC134.202 USB Type-C PD current limiting (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC134.202 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC136.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1216,26 +1232,6 @@ UTC132.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
 
 # Not automated
-# UTC134.301 USB Type-C PD current limiting (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC134.301 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
-
-# Not automated
-# UTC201.001 USB Type-A charging capability (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test verifies that the USB-A ports are able to provide
-#    ...    charging to a connected smartphone.
-#    Usb Type-A Charging Capability    001    Enabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC203.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test verifies that the Thunderbolt 4 port is able
-#    ...    to provide charging to a USB Type-C accessory.
-#    Thunderbolt 4 Usb Type-C Power Output    001    Enabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
 # UTC215.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
 #    [Documentation]    Check whether the external USB devices connected to the
 #    ...    docking station are detected correctly
@@ -1259,13 +1255,6 @@ UTC132.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
 #    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC205.201 not supported
 #    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC205.201 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
-
-UTC207.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC207.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC207.201 not supported
-    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC209.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -1372,15 +1361,6 @@ UTC231.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC231.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC231.201 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC233.201 USB Type-C PD current limiting (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC233.201 not supported
-#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC233.201 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC235.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1508,12 +1488,6 @@ UTC257.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 #    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC205.202 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
-UTC207.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC207.202 not supported
-    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
-
 UTC209.202 USB Type-C docking station HDMI display (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
@@ -1607,14 +1581,6 @@ UTC231.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC231.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC231.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC233.202 USB Type-C PD current limiting (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC233.202 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC235.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1817,26 +1783,6 @@ UTC231.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
 
 # Not automated
-# UTC233.301 USB Type-C PD current limiting (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC233.301 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC202.001 USB Type-A charging capability (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test verifies that the USB-A ports are able to provide
-#    ...    charging to a connected smartphone.
-#    Usb Type-A Charging Capability    001    Disabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC204.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test verifies that the Thunderbolt 4 port is able
-#    ...    to provide charging to a USB Type-C accessory.
-#    Thunderbolt 4 Usb Type-C Power Output    001    Disabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
 # UTC216.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
 #    [Documentation]    Check whether the external USB devices connected to the
 #    ...    docking station are detected correctly
@@ -1860,13 +1806,6 @@ UTC231.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 #    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC206.201 not supported
 #    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC206.201 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
-
-UTC208.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC208.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC208.201 not supported
-    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC210.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -1973,15 +1912,6 @@ UTC232.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC232.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC232.201 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC234.201 USB Type-C PD current limiting (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC234.201 not supported
-#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC234.201 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC236.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -2109,12 +2039,6 @@ UTC258.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 #    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC206.202 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
-UTC208.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC208.202 not supported
-    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
-
 UTC210.202 USB Type-C docking station HDMI display (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
@@ -2208,14 +2132,6 @@ UTC232.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC232.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC232.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC234.202 USB Type-C PD current limiting (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC234.202 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC236.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -2418,26 +2334,6 @@ UTC232.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
 
 # Not automated
-# UTC234.301 USB Type-C PD current limiting (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC234.301 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
-
-# Not automated
-# UTC301.001 USB Type-A charging capability (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test verifies that the USB-A ports are able to provide
-#    ...    charging to a connected smartphone.
-#    Usb Type-A Charging Capability    001    Enabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC303.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test verifies that the Thunderbolt 4 port is able
-#    ...    to provide charging to a USB Type-C accessory.
-#    Thunderbolt 4 Usb Type-C Power Output    001    Enabled    WL-UG69PD2 Rev.A1
-
-# Not automated
 # UTC315.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
 #    [Documentation]    Check whether the external USB devices connected to the
 #    ...    docking station are detected correctly
@@ -2461,13 +2357,6 @@ UTC232.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
 #    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC305.201 not supported
 #    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC305.201 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
-
-UTC307.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC307.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC307.201 not supported
-    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC309.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -2574,15 +2463,6 @@ UTC331.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC331.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC331.201 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC333.201 USB Type-C PD current limiting (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC333.201 not supported
-#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC333.201 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC335.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -2710,12 +2590,6 @@ UTC357.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 #    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC305.202 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
-UTC307.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC307.202 not supported
-    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
-
 UTC309.202 USB Type-C docking station HDMI display (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
@@ -2809,14 +2683,6 @@ UTC331.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC331.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC333.202 USB Type-C PD current limiting (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC333.202 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC335.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -3019,26 +2885,6 @@ UTC331.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
 
 # Not automated
-# UTC333.301 USB Type-C PD current limiting (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC333.301 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC302.001 USB Type-A charging capability (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test verifies that the USB-A ports are able to provide
-#    ...    charging to a connected smartphone.
-#    Usb Type-A Charging Capability    001    Disabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC304.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test verifies that the Thunderbolt 4 port is able
-#    ...    to provide charging to a USB Type-C accessory.
-#    Thunderbolt 4 Usb Type-C Power Output    001    Disabled    WL-UG69PD2 Rev.A1
-
-# Not automated
 # UTC316.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
 #    [Documentation]    Check whether the external USB devices connected to the
 #    ...    docking station are detected correctly
@@ -3062,13 +2908,6 @@ UTC331.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 #    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC306.201 not supported
 #    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC306.201 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
-
-UTC308.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC308.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC308.201 not supported
-    Usb Type-C Display Output    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC310.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -3175,15 +3014,6 @@ UTC332.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC332.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC332.201 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC334.201 USB Type-C PD current limiting (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC334.201 not supported
-#    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC334.201 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC336.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -3311,12 +3141,6 @@ UTC358.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 #    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC306.202 not supported
 #    Usb Type-C Pd Power Input    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
-UTC308.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC308.202 not supported
-    Usb Type-C Display Output    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
-
 UTC310.202 USB Type-C docking station HDMI display (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
@@ -3410,14 +3234,6 @@ UTC332.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC332.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC334.202 USB Type-C PD current limiting (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC334.202 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC336.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -3618,11 +3434,3 @@ UTC332.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC332.301 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
-
-# Not automated
-# UTC334.301 USB Type-C PD current limiting (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-#    [Documentation]    This test aims to verify that the power draw from a USB-C PD
-#    ...    power supply does not exceed the limits of the power supply's
-#    ...    specifications.
-#    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC334.301 not supported
-#    Usb Type-C Pd Current Limiting    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
