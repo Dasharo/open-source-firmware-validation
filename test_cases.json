@@ -843,6 +843,13 @@
   },
   {
     "doc": {
+      "_id": "CBNT002.101",
+      "name": "CBNT002.101 Converged Boot Guard and TXT Status Menu is visible",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "CBO001.002",
       "name": "Custom Boot Order",
       "module": "Dasharo Compatibility"
