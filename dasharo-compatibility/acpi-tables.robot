@@ -23,14 +23,16 @@ Suite Teardown      Run Keyword
 
 
 *** Variables ***
-${SYSFS_PREFIX}=    /sys/bus/acpi/devices
+${SYSFS_PREFIX}=        /sys/bus/acpi/devices
+${SIO_NODE}=            PNP0A05:00
+${SIO_SCOPE}=           \\_SB_.PCI0.LPCB.SIO0
+${SIO_SER_NODE}=        PNP0501:00
+${SIO_SER_SCOPE}=       \\_SB_.PCI0.LPCB.SIO0.SER1
 
 
 *** Test Cases ***
 ACPT001.201 SuperIO UART presence in sysfs ACPI tree (Ubuntu)
     [Documentation]    Test verifies presence of SIO ACPI entries in sysfs.
-    ...    Platform config must contain SIO_NODE, SIO_SER_NODE, SIO_SCOPE
-    ...    and SIO_SER_SCOPE variables.
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
