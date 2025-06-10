@@ -31,6 +31,26 @@ CBNT001.201 Converged Boot Guard and TXT - CBnT profile is 5 / FVME (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT001.201 not supported
     Check CBnT Profile 5    ${ENV_ID_UBUNTU}
 
+CBNT002.101 Converged Boot Guard and TXT Status Menu is visible
+    [Documentation]    CBnT status menu must be visible. We can only test if the
+    ...    first 9 lines are visible due to the limitations of a 80x25 terminal
+    ...    size and the current test keywords not handling scrolling.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBNT002.101 not supported
+    Skip If    not ${INTEL_CBNT_STATUS_MENU_SUPPORT}    CBNT002.101 not supported
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    Enter Submenu From Snapshot    ${dasharo_menu}    Intel Management Engine Options
+    Read From Terminal Until    BOOT_GUARD_SACM_INFO_MSR
+    Read From Terminal Until    NEM Enabled
+    Read From Terminal Until    TPM Type
+    Read From Terminal Until    TPM Success
+    Read From Terminal Until    Force Anchor Cove Boot
+    Read From Terminal Until    Measured Boot
+    Read From Terminal Until    Verified Boot
+    Read From Terminal Until    Revoked
+    Read From Terminal Until    Boot Guard Capability
+
 
 *** Keywords ***
 Check CBnT Profile 5
