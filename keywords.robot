@@ -746,7 +746,7 @@ Power Cycle On
     IF    '${DEFAULT_POWER_STATE_AFTER_FAIL}' == 'Powered Off'    Rte Power On
 
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
-        FOR    ${i}    IN RANGE    50
+        FOR    ${i}    IN RANGE    10
             ${out}=    Rte Check Power Led
             IF    '${out}' == 'high'    RETURN
             Sleep    0.5s
