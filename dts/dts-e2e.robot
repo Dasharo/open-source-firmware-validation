@@ -791,96 +791,86 @@ E2E004.008 Dell Optiplex 9010 DPP update (Coreboot + UEFI -> Coreboot + UEFI) - 
 # configuration, but different links, so testing them is not necessary:
 ################################################################################
 
-E2E005.001 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - no credentials
-    [Documentation]    Verify DPP (coreboot + UEFI) and (coreboot + SeaBIOS)
-    ...    initial deployment logic on PC Engines. We emulate legacy firmware
-    ...    and do not provide DPP credentials. There should be no access granted
-    ...    for the firmware without credentials.
+E2E005.001 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - no credentials
+    [Documentation]    Verify DPP (Coreboot + UEFI) transition logic on PC Engines.
+    ...    We start from Dasharo (Coreboot + SeaBIOS) firmware with version that should
+    ...    allow for the transition. We do not insert correct DPP keys.
     [Tags]    pcengines_dpp
 
     # 2) Emulate needed env.:
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot v24.04.00.05" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
-    # 3) Start installation:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    # 3) Start transition:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
 
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
+    # 4) User should not have access to UEFI update without proper credentials:
     Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
 
-E2E005.002 PC Engines DPP initial deployment (legacy -> Coreboot + UEFI) - with credentials
-    [Documentation]    Verify DPP (coreboot + UEFI) initial deployment logic on
-    ...    PC Engines with credentials provided (these should be provided via
-    ...    CMD).
+E2E005.002 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - with credentials
+    [Documentation]    Verify DPP (Coreboot + UEFI) transition logic on PC Engines.
+    ...    We start from Dasharo (Coreboot + SeaBIOS) firmware with version that should
+    ...    allow for the transition. We insert correct DPP keys.
     [Tags]    pcengines_dpp
 
     # 2) Emulate needed env.:
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot v24.04.00.05" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
     Provide DPP Credentials
 
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP UEFI
+    # 4) Start transition:
+    Go Through Transition    DPP UEFI
 
     # 5) The final step is rebooting:
     Wait For Checkpoint    Rebooting
 
-E2E005.003 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - without credentials
-    [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
-    ...    on PC Engines. We start from legacy firmware and insert correct DPP keys
-    ...    for UEFI variant.
+E2E005.003 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - without credentials
+    [Documentation]    Verify DPP (coreboot + SeaBIOS) update logic on PC
+    ...    Engines. We start from old firmware and insert correct DPP keys for
+    ...    SeaBIOS variant.
     [Tags]    pcengines_seabios
 
     # 2) Emulate needed env.:
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal
+    ...    export TEST_BIOS_VERSION="coreboot v24.04.00.01" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
-    # 3) Start installation:
+    # 3) Start update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
-    # 4) Wait for HCL report to do its work, might take some time:
-    Set DUT Response Timeout    5m
-    # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
-    Set DUT Response Timeout    30s
-
-    # 5) User should not have access to Heads update without proper credentials:
+    # 4) User should not have access to UEFI update without proper credentials:
     Wait For Checkpoint    ${DTS_NOACCESS_DPP_SEABIOS}
 
-E2E005.004 PC Engines DPP initial deployment (legacy -> Coreboot + SeaBIOS) - with credentials
-    [Documentation]    Verify DPP (coreboot + SeaBIOS) initial deployment logic
-    ...    on PC Engines. We start from legacy firmware and insert correct DPP
-    ...    keys for UEFI variant.
+E2E005.004 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - with credentials
+    [Documentation]    Verify DPP (coreboot + SeaBIOS) update logic on PC
+    ...    Engines. We start from old firmware and insert correct DPP keys for
+    ...    SeaBIOS variant.
     [Tags]    pcengines_seabios
 
     # 2) Emulate needed env.:
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="v4.19.0.1" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal
+    ...    export TEST_BIOS_VERSION="coreboot v24.04.00.01" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
     Provide DPP Credentials
 
-    # 4) Start initial deployment:
-    Go Through Initial Deployment    DPP SeaBIOS
-
-    # 5) The final step is rebooting:
-    Wait For Checkpoint    Rebooting
+    # 4) Start update:
+    Go Through Update
 
 ################################################################################
 # Odroid tests:

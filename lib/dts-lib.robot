@@ -29,6 +29,7 @@ ${DTS_BOOT_TYPE}=                   iPXE
 ${DTS_HCL_OPT}=                     1
 ${DTS_DEPLOY_OPT}=                  2
 ${DTS_CREDENTIALS_OPT}=             4
+${DTS_TRANSITION_OPT}=              6
 ${DTS_DCR_UEFI_OPT}=                c
 ${DTS_DPP_UEFI_OPT}=                d
 ${DTS_DPP_SEA_OPT}=                 s
@@ -273,6 +274,34 @@ Go Through Initial Deployment
     Set DUT Response Timeout    120s
 
     # 3) Choose version to install:
+    IF    '${dasharo_version}' == 'DCR UEFI'
+        Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
+    ELSE IF    '${dasharo_version}' == 'DPP UEFI'
+        Wait For Checkpoint    ${DTS_DPP_UEFI_OPT}) ${DTS_DPP_UEFI_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_UEFI_OPT}
+    ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
+        Wait For Checkpoint    ${DTS_DPP_SEA_OPT}) ${DTS_DPP_SEA_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_SEA_OPT}
+    ELSE
+        Fail    No Dasharo version for initial deployment provided!
+    END
+
+    # 4) Check out all warnings:
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+
+Go Through Transition
+    [Documentation]    This KW goes through standard Dasharo Transition
+    ...    choosing all needed menu options and answering all questions. The
+    ...    only thing which needs to be specified - the Dasharo version to
+    ...    transit to (first argument), available versions: DCR UEFI, DPP UEFI,
+    ...    DPP SeaBIOS.
+    [Arguments]    ${dasharo_version}
+    # 1) Select transition:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
+
+    # 2) Choose version to transit to:
     IF    '${dasharo_version}' == 'DCR UEFI'
         Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
         Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
