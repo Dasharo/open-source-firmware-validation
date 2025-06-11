@@ -18,6 +18,8 @@ FBT001.201 Fast Boot Reduces Boot Time
     ...    fast boot enabled.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PLB001.201 not supported
     Log To Console    \nMeasuring boot time with Fast Boot\n
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Set Fast Boot State    on
@@ -25,8 +27,7 @@ FBT001.201 Fast Boot Reduces Boot Time
     ...    Measure FW Boot Time On Linux    ${ITERATIONS}
 
     Log To Console    \nMeasuring boot time without Fast Boot\n
-    Login To Linux
-    Switch To Root User
+    # We should still be in the OS as root after Measure FW Boot Time On Linux
     Set Fast Boot State    off
     ${slow_min}    ${slow_max}    ${slow_avg}    ${slow_stddev}=
     ...    Measure FW Boot Time On Linux    ${ITERATIONS}
@@ -124,4 +125,5 @@ Initialize Fast Boot Suite
     Prepare Test Suite
     Skip If    not ${FAST_AND_QUIET_BOOT_SUPPORT}    Boot performance measurement tests not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Boot performance measurement tests not supported
+    Power On
     Set Selected OS As First In Boot Order Via Efibootmgr    ${ENV_ID_UBUNTU}
