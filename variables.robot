@@ -397,7 +397,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
 &{EMMC02}=                  vendor=Samsung    volume=8GB    type=MMC_Storage
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
-@{MMC_LIST}=                &{EMMC01}
+&{EMMC03}=                  vendor=Kingston    volume=32GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+
+@{MMC_LIST}=                &{EMMC01}    &{EMMC02}    &{EMMC03}
 
 # -----------------------------------------------------------------------------
 &{MODULE01}=                vendor=HUAWEI    type=LTE_Module    interface=mPCIe
@@ -488,7 +491,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
 @{CONFIG48}=                &{RTE64}    &{SSD17}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
-@{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
+@{CONFIG50}=                &{RTE66}    &{EMMC03}    &{SSD18}    # Borrowed from NV41PZ
 @{CONFIG51}=                &{RTE67}
 @{CONFIG52}=                &{RTE68}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
