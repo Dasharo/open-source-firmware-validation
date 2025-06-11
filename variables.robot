@@ -255,6 +255,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.67
 
+# ODROID H4 Ultra
+&{RTE71}=                   ip=192.168.4.66    platform=odroid-h4-Ultra
+...                         platform_vendor=Hardkernel
+
 @{RTE_LIST}=                &{RTE05}
 ...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
 ...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
@@ -269,6 +273,8 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
 ...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
 ...                         &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}    &{RTE70}
+...                         &{RTE71}
+
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
@@ -333,11 +339,14 @@ ${OS_UBUNTU}=               ubuntu
 ...                         boot_name=SD Device
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 870 EVO 1TB
+&{SSD20}=                   vendor=Goodram    volume=256GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=SSDPR-CX400-256-G2
 
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
-...                         &{SSD16}    &{SSD17}    &{SSD18}    &{SSD19}
+...                         &{SSD16}    &{SSD17}    &{SSD18}    &{SSD19}    &{SSD20}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -364,7 +373,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
 &{EMMC02}=                  vendor=Samsung    volume=8GB    type=MMC_Storage
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
-@{MMC_LIST}=                &{EMMC01}
+&{EMMC03}=                  vendor=Kingston    volume=32GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+
+@{MMC_LIST}=                &{EMMC01}    &{EMMC02}    &{EMMC03}
 
 # -----------------------------------------------------------------------------
 &{MODULE01}=                vendor=HUAWEI    type=LTE_Module    interface=mPCIe
@@ -455,11 +467,12 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
 @{CONFIG48}=                &{RTE64}    &{SSD17}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
-@{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
+@{CONFIG50}=                &{RTE66}    &{EMMC03}    &{SSD18}    # Borrowed from NV41PZ
 @{CONFIG51}=                &{RTE67}
 @{CONFIG52}=                &{RTE68}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
 @{CONFIG54}=                &{RTE70}
+@{CONFIG55}=                &{RTE71}    &{EMMC03}    &{SSD20}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
