@@ -222,6 +222,11 @@ getoptionpath = {
         "Power Management Options",
         "Power state after",
     ],
+    "IBECC": [
+        "Dasharo System Features",
+        "Memory Configuration",
+        "Memory In-Band ECC",
+    ],
 }
 
 
