@@ -152,6 +152,7 @@ ${L2_CACHE_SUPPORT}=                                ${TRUE}
 ${L3_CACHE_SUPPORT}=                                ${FALSE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
+${MEMORY_IBECC_SUPPORT}=                            ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
