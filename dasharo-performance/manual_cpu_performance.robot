@@ -38,7 +38,7 @@ UPP001.301 Manual Single Threaded CPU Benchmark (Windows) (AC)
     Run A Test Manually    smallpt    ${SMALLPT_TEST_SCORE}    # run smallpt
     Run A Test Manually    crafty    ${CRAFTY_TEST_SCORE}    # run crafty
 
-UPP001.302 Manual Multi Threaded CPU Benchmark (Windows) (AC)
+UPP002.301 Manual Multi Threaded CPU Benchmark (Windows) (AC)
     [Documentation]    tbd you can do this test in ssh terminal
     # Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UPP001.302 not supported
     Pause Execution
