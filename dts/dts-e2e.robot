@@ -801,9 +801,10 @@ E2E005.001 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - n
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot 24.04.00.05" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
-    # 3) Start installation:
+    # 3) Start transition:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
 
     # 4) User should not have access to Heads update without proper credentials:
@@ -819,12 +820,13 @@ E2E005.002 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - w
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot 24.04.00.05" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
     Provide DPP Credentials
 
-    # 4) Start initial deployment:
+    # 4) Start transition:
     Go Through Transition    DPP UEFI
 
     # 5) The final step is rebooting:
@@ -841,6 +843,7 @@ E2E005.003 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - wi
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal
     ...    export TEST_BIOS_VERSION="coreboot 24.04.00.01" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
     # 3) Start update:
@@ -860,6 +863,7 @@ E2E005.004 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - wi
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal
     ...    export TEST_BIOS_VERSION="coreboot 24.04.00.01" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
