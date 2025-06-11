@@ -311,7 +311,7 @@ TPM013.301 TPM PPI Prompt (Windows)
     Press Key N Times    1    ${F12}
     Login To Windows
     ${new_key}=    TPM2 Get Owner Key Windows
-    Should Not Be Equal As    ${new_key}    ${owner_key}
+    Should Not Be Equal As Strings    ${new_key}    ${owner_key}
 
 
 *** Keywords ***
