@@ -800,14 +800,14 @@ E2E005.001 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - n
     # 2) Emulate needed env.:
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot 24.04.00.05" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot v24.04.00.05" TEST_BOARD_MODEL="APU2"
     Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
     # 3) Start transition:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
 
-    # 4) User should not have access to Heads update without proper credentials:
+    # 4) User should not have access to UEFI update without proper credentials:
     Wait For Checkpoint    ${DTS_NOACCESS_DPP_UEFI}
 
 E2E005.002 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - with credentials
@@ -819,7 +819,7 @@ E2E005.002 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - w
     # 2) Emulate needed env.:
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
-    Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot 24.04.00.05" TEST_BOARD_MODEL="APU2"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot v24.04.00.05" TEST_BOARD_MODEL="APU2"
     Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
@@ -842,14 +842,14 @@ E2E005.003 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - wi
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="coreboot 24.04.00.01" TEST_BOARD_MODEL="APU2"
+    ...    export TEST_BIOS_VERSION="coreboot v24.04.00.01" TEST_BOARD_MODEL="APU2"
     Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
     # 3) Start update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
-    # 4) User should not have access to Heads update without proper credentials:
+    # 4) User should not have access to UEFI update without proper credentials:
     Wait For Checkpoint    ${DTS_NOACCESS_DPP_SEABIOS}
 
 E2E005.004 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - with credentials
@@ -862,7 +862,7 @@ E2E005.004 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - wi
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal
-    ...    export TEST_BIOS_VERSION="coreboot 24.04.00.01" TEST_BOARD_MODEL="APU2"
+    ...    export TEST_BIOS_VERSION="coreboot v24.04.00.01" TEST_BOARD_MODEL="APU2"
     Execute Command In Terminal    export TEST_EFI_PRESENT="false"
     Write Into Terminal    dts-boot
 
