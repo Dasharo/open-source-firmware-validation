@@ -6533,6 +6533,20 @@
   },
   {
     "doc": {
+      "_id": "UPP001.301",
+      "name": "Manual Single Threaded CPU Benchmark (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "UPP002.301",
+      "name": "Manual Multi Threaded CPU Benchmark (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "USB001.001",
       "name": "USB devices detected in FW",
       "module": "Dasharo Compatibility"
