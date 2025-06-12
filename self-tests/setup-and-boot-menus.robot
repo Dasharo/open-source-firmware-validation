@@ -179,6 +179,7 @@ Test TianoCore Reset System
 
 Test Exit From Current Menu
     [Documentation]    Test Exit From Current Menu kwd
+    [Tags]    stress-test
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Device Manager
@@ -194,6 +195,7 @@ Test Exit From Current Menu
 
 Test Reenter Menu
     [Documentation]    Test Reenter Menu kwd
+    [Tags]    stress-test
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Device Manager
@@ -204,6 +206,7 @@ Test Reenter Menu
     END
 
 Get Menu Construction Stress Test
+    [Tags]    stress-test
     Set Test Variable    ${MENU_TEST}    Device manager
     Set Test Variable    ${DEVICE_MGR_MENU_TEST}    Secure Boot Configuration
     Set Test Variable    ${SB_MENU_TEST}    Current Secure Boot State
