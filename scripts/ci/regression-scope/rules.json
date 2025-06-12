@@ -6,14 +6,21 @@
             "run": [
                 {
                     "env_vars": {
-                        "RTE_IP": "127.0.0.1",
-                        "FW_FILE": "scripts/ci/qemu_q35.rom",
-                        "CONFIG": "qemu"
+                        "RTE_IP": "192.168.10.199",
+                        "CONFIG": "msi-pro-z690-a-wifi-ddr4"
                     },
                     "files": {
                         "mode": "${FULL_FILENAME_MATCH}"
+                    }
+                },
+                {
+                    "env_vars": {
+                        "RTE_IP": "192.168.10.171",
+                        "CONFIG": "pcengines-apu3"
                     },
-                    "snipeit": "no"
+                    "files": {
+                        "mode": "${FULL_FILENAME_MATCH}"
+                    }
                 }
             ]
         },
@@ -23,15 +30,23 @@
             "run": [
                 {
                     "env_vars": {
-                        "RTE_IP": "127.0.0.1",
-                        "FW_FILE": "scripts/ci/qemu_q35.rom",
-                        "CONFIG": "qemu"
+                        "RTE_IP": "192.168.10.199",
+                        "CONFIG": "msi-pro-z690-a-wifi-ddr4"
                     },
                     "files": {
                         "mode": "${FILE_CONTAINS_MATCH}",
                         "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+                    }
+                },
+                {
+                    "env_vars": {
+                        "RTE_IP": "192.168.10.171",
+                        "CONFIG": "pcengines-apu3"
                     },
-                    "snipeit": "no"
+                    "files": {
+                        "mode": "${FILE_CONTAINS_MATCH}",
+                        "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+                    }
                 }
             ]
         }
