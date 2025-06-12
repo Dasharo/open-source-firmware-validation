@@ -38,10 +38,17 @@ def get_test_cases_from_dir(directory):
     return number_of_tests, list_of_tests
 
 
-def get_module_counts(module_dirs):
+def get_module_counts(module_dirs, fedora_percentage=False):
     counts = {}
     for directory in module_dirs:
-        number_of_tests, _ = get_test_cases_from_dir(directory)
+        number_of_tests, list_of_tests = get_test_cases_from_dir(directory)
+        if fedora_percentage:
+            fedora_tests = [t for t in list_of_tests if "202" in t.name]
+            number_of_tests = (
+                (len(fedora_tests) / number_of_tests) * 100
+                if number_of_tests > 0
+                else 0
+            )
         counts[directory] = number_of_tests
     return counts
 
@@ -51,7 +58,7 @@ def plot_test_counts(
     show_graph=True,
     save_graph=False,
     filename="test_counts.png",
-    title="Number of Tests in Modules",
+    title="Percent of Fedora Tests in Modules",
 ):
     figure = plt.figure(figsize=(10, 6))
     ax = figure.add_subplot()
@@ -129,19 +136,21 @@ MODULE_DIRS = [
 ]
 
 
-def generate_stats(text=True, graphs=True, compare_against=None):
+def generate_stats(
+    text=True, graphs=True, compare_against=None, fedora_percentage=False
+):
     """
     Generate statistics for test cases in specified modules.
     :param text: If True, print the statistics.
     :param graphs: If True, generate graphs for the statistics.
     :param compare_against: If provided, compare against this revision.
     """
-    count_per_module = get_module_counts(MODULE_DIRS)
+    count_per_module = get_module_counts(MODULE_DIRS, fedora_percentage)
 
     if compare_against:
         revision_changer = RevisionChanger()
         revision_changer.change_revision(compare_against)
-        previous_count_per_module = get_module_counts(MODULE_DIRS)
+        previous_count_per_module = get_module_counts(MODULE_DIRS, fedora_percentage)
         difference_per_module = {
             module: count_per_module[module] - previous_count_per_module[module]
             for module in count_per_module
