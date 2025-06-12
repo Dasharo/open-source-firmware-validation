@@ -36,14 +36,15 @@ class ParserManager:
         """
         commands = []
         for data in runs_data:
+            run = []
             if len(data["env"]) > 0:
-                commands.append(data["env"])
+                run.extend(data["env"])
+                run.append("&&")
             if len(data["files"]) > 0:
-                commands.append(
-                    self._assemble_robot_command(data["files"], data["args"])
-                )
+                run.extend(self._assemble_robot_command(data["files"], data["args"]))
             else:
-                commands.append(data["command"])
+                run.extend(data["command"])
+            commands.append(run)
         return commands
 
     def _uniqeuify_runs_data(self, parser_runs_data, by=["env", "args"]):
@@ -86,7 +87,8 @@ class ParserManager:
         Each line is one command.
         """
         uniquified = self._uniqeuify_runs_data(self.runs_data, ["env", "args"])
-        return self._assemble_commands_from_runs_data(uniquified)
+        commands = self._assemble_commands_from_runs_data(uniquified)
+        return commands
 
     def wrapper_args(self):
         """

@@ -176,8 +176,7 @@ class TestModulesRules(unittest.TestCase):
                     "FW_FILE=scripts/ci/qemu_q35.rom",
                     "export",
                     "CONFIG=qemu",
-                ],
-                [
+                    "&&",
                     "scripts/run.sh",
                     "dasharo-compatibility/audio-subsystem.robot",
                     "--",
@@ -214,8 +213,7 @@ class TestModulesRules(unittest.TestCase):
                     "FW_FILE=scripts/ci/qemu_q35.rom",
                     "export",
                     "CONFIG=qemu",
-                ],
-                [
+                    "&&",
                     "scripts/run.sh",
                     "dasharo-compatibility/audio-subsystem.robot",
                     "dasharo-compatibility/cpu-status.robot",

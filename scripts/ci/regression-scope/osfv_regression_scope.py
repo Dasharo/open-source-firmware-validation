@@ -62,7 +62,8 @@ class CLI:
         self.changed_files = get_changed_files(compare_to)
         parser = ParserManager(self.rules, self.changed_files)
         parser.parse()
-        print(" ".join(parser.commands()))
+        for command in parser.commands():
+            print(" ".join(command))
 
     def robot_args(
         self, rules_file="scripts/ci/regression-scope/rules.json", compare_to="HEAD"
