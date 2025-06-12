@@ -1165,7 +1165,8 @@ Check If Package Is Installed
     [Arguments]    ${package}
     ${apt_list_output}=    Execute Command In Terminal    apt list --installed 2> /dev/null | grep ${package}    60s
 
-    ${package_regex}=    Catenate    SEPARATOR=    ${package}    \/.*installed.*
+    ${package_regex}=    Catenate    SEPARATOR=${EMPTY}
+    ...    ${package}    \/.*installed.*
     ${package_lines}=    Get Lines Matching Regexp    ${apt_list_output}    ${package_regex}
     IF    "${package_lines}"=="${EMPTY}"
         ${is_installed}=    Set Variable    ${FALSE}

@@ -8,7 +8,7 @@ configure = [
     "0201:enabled:False",
     # TODO: add missing documentation for test cases and re-enable
     "0202:enabled:False",
-    # TODO: add missing documentation for test suitdes and re-enable
+    # TODO: add missing documentation for test suites and re-enable
     "0203:enabled:False",
     # TODO: consider re-enabling
     "0301:enabled:False",
@@ -25,9 +25,9 @@ configure = [
     "0501:max_len:80",
     # TODO: consider reducing to default 10, or less
     "0503:max_calls:50",
-    # TODO: consider reducing to dfeault 20, or less
+    # TODO: consider reducing to default 20, or less
     "0504:max_len:50",
-    # TODO: consider reducing to dfeault 10, or less
+    # TODO: consider reducing to default 10, or less
     "0505:max_calls:50",
     # TODO: reduce to default 400 or so
     "0506:max_lines:5000",
@@ -43,5 +43,11 @@ configure = [
     # TODO: consider fixing and re-enabling
     "0922:enabled:False",
     # TODO: fix and re-enable
-    "0924:enabled:False"
+    "0924:enabled:False",
+    # To allow setting e.g. DUT_CONNECTION_METHOD
+    "0929:enabled:False",
+    # To allow setting suite variables
+    "0930:enabled:False",
+    # To allow setting test variables
+    "0931:enabled:False"
 ]

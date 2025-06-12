@@ -148,8 +148,8 @@ TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu)
     Execute Linux Command    tpm2_nvundefine -C o 1
     ${out2}=    Execute Linux Command    tpm2_nvread -C o -s 32 1 2>&1
     Execute Linux Command    rm -f nv.dat
-    Should Contain    ${out1}=    nvtest
-    Should Contain    ${out2}=    ERROR: Unable to run tpm2_nvread
+    Should Contain    ${out1}    nvtest
+    Should Contain    ${out2}    ERROR: Unable to run tpm2_nvread
 
 TPMCMD007.001 CREATE Function (Ubuntu)
     [Documentation]    This test aims to verify that CREATE function works as

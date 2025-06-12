@@ -33,6 +33,7 @@ ${DTS_TRANSITION_OPT}=              6
 ${DTS_DCR_UEFI_OPT}=                c
 ${DTS_DPP_UEFI_OPT}=                d
 ${DTS_DPP_SEA_OPT}=                 s
+${DTS_LOGS_OPT}=                    l
 # DTS subscription checkpoints:
 ${DTS_NOACCESS_DPP_UEFI}=           Dasharo Pro Package version (coreboot + UEFI) is also available.
 ${DTS_NOACCESS_DPP_SEABIOS}=        Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
@@ -201,6 +202,12 @@ Power On And Enter DTS Shell
     Read From Terminal Until Prompt
     Set DUT Response Timeout    90s
 
+Enable DTS Log Sending
+    [Documentation]    This KW automatically enables sending DTS logs.
+    Set DUT Response Timeout    120s
+    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
+    Write Bare Into Terminal    ${DTS_LOGS_OPT}
+
 Provide DPP Credentials
     [Documentation]    This KW automatically writes DPP credentials into DTS UI.
     ...    The credentials should be set via CMD or file.
@@ -242,17 +249,43 @@ Wait For Checkpoint And Write
     [Documentation]    This KW waits for checkpoint (first argument)
     ...    and writes specified answer (second argument), with logging all
     ...    output before the checkpoint.
-    [Arguments]    ${checkpoint}    ${to_write}
-    ${out}=    Wait For Checkpoint    ${checkpoint}
+    [Arguments]    ${checkpoint}    ${to_write}    ${regexp}=${FALSE}
+    ${out}=    Wait For Checkpoint    ${checkpoint}    ${regexp}
     Sleep    1s
     Write Into Terminal    ${to_write}
     RETURN    ${out}
 
+Wait For Either Checkpoint And Write
+    [Documentation]    Keywords waits for any of the ${checkpoints} key and if
+    ...    it matches then writes value of this element to the console
+    [Arguments]    &{checkpoints}
+    ${regexp}=    Set Variable    ${EMPTY}
+    # Iterate over keys (checkpoints)
+    FOR    ${checkpoint}    IN    @{checkpoints}
+        ${checkpoint_escaped}=    Evaluate
+        ...    re.escape("""${checkpoint}""")
+        ${regexp}=    Set Variable    ${regexp}${checkpoint_escaped}|
+    END
+    # Remove trailing |
+    ${regexp}=    Get Substring    ${regexp}    0    -1
+    ${out}=    Wait For Checkpoint    ${regexp}    ${TRUE}
+    # Find which checkpoint we found
+    Sleep    1s
+    FOR    ${checkpoint}    ${write}    IN    &{checkpoints}
+        IF    """${checkpoint}""" in """${out}"""
+            Write Into Terminal    ${checkpoints}[${checkpoint}]
+            RETURN    ${out}
+        END
+    END
+
+    # We shouldn't ever get here
+    Fail    Couldn't find checkpoint in returned output
+
 Wait For Checkpoint And Press Enter
     [Documentation]    This KW waits for checkpoint (first argument)
     ...    and preses enter, with logging all output before the checkpoint.
-    [Arguments]    ${checkpoint}
-    ${out}=    Wait For Checkpoint    ${checkpoint}
+    [Arguments]    ${checkpoint}    ${regexp}=${FALSE}
+    ${out}=    Wait For Checkpoint    ${checkpoint}    ${regexp}
     Sleep    1s
     Write Bare Into Terminal    \r\n
     RETURN    ${out}
@@ -329,8 +362,13 @@ Go Through Update
     # 1) Select update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
-    # 2) Check out all warnings:
-    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    # 2) Check out all warnings. Decline Heads if asked
+    ${checkpoint}=    Wait For Either Checkpoint And Write
+    ...    ${DTS_SPECIFICATION_WARN}=Y
+    ...    ${DTS_HEADS_SWITCH_QUESTION}=N
+    IF    """${DTS_HEADS_SWITCH_QUESTION}""" in """${checkpoint}"""
+        Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    END
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
     Set DUT Response Timeout    5m
     ${dts_me_warn_escaped}=    Evaluate    re.escape("""${DTS_ME_WARN}""")
@@ -357,6 +395,7 @@ Go Through Heads Transition
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
+    Set DUT Response Timeout    5m
     # 3) Check for Heads firmware deployment success:
     Wait For Checkpoint    Successfully switched to Dasharo Heads firmware
     Wait For Checkpoint And Write    ${DTS_CONFIRM_CHECKPOINT}    1

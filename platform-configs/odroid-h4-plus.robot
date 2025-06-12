@@ -105,6 +105,8 @@ ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
 
+${DTS_SUPPORT}=                                 ${TRUE}
+
 
 *** Keywords ***
 Power On

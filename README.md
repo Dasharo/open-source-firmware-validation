@@ -27,7 +27,7 @@ appear here.
     - [Initializing environment](#initializing-environment)
     - [Running tests](#running-tests)
     - [Running tests via wrapper](#running-tests-via-wrapper)
-    - [Running regressions tests](#running-regressions-tests)
+    - [Running regression tests](#running-regression-tests)
 * [Checking Robot Framework syntax before committing](#checking-robot-framework-syntax-before-committing)
 * [Useful refactoring tools](#useful-refactoring-tools)
 * [Generating documentation](#generating-documentation)

@@ -210,7 +210,7 @@ Flash Firmware If Not QEMU
         END
         Power Cycle On
     ELSE
-        ${message}=    Catenate    SEPARATOR=
+        ${message}=    Catenate    SEPARATOR=${EMPTY}
         ...    Please make sure QEMU is running firmware with
         ...    \ the ${logo_type} logo. The default logo binary should be
         ...    \ ${FW_FILE}, the custom logo binary has been prepared in
@@ -221,7 +221,7 @@ Flash Firmware If Not QEMU
     END
 
 Check The Update Screen For The Correct UX
-    ${message}=    Catenate    SEPARATOR=
+    ${message}=    Catenate    SEPARATOR=${EMPTY}
     ...    Please check the platform screen now, and verify that the UX is the
     ...    \ same as expected in the docs. Most importantly, the progress bar
     ...    \ should be exactly the same width regardless of whether the default
