@@ -97,7 +97,11 @@ Perform Suspend Test Using FWTS
         Login To Linux
         Switch To Root User
     END
-    ${test_result}=    Execute Command In Terminal    cat /tmp/suspend_test_log.log
+    # Clean up console before reading file
+    Read From Terminal
+    Write Bare Into Terminal    ${ENTER}
+    Read From Terminal Until Prompt
+    ${test_result}=    Execute Linux Command    cat /tmp/suspend_test_log.log
     TRY
         Should Contain    ${test_result}    0 failed
         Should Contain    ${test_result}    0 warning
