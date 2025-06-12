@@ -28,7 +28,7 @@ Suite Teardown      Run Keywords
 
 
 *** Test Cases ***
-IBECC001.001 Verify IBECC does not work when disabled
+IBECC001.201 Verify IBECC does not work when disabled (Ubuntu)
     [Documentation]    EDAC driver in Linux will attempt to use IBECC.
     ...    If IBECC is disabled an error will occur in dmesg.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS001.001 not supported
@@ -40,7 +40,7 @@ IBECC001.001 Verify IBECC does not work when disabled
     ${out}=    Execute Command In Terminal    dmesg | grep -i 'edac'
     Should Contain    ${out}    HANDLING IBECC MEMORY ERROR
 
-IBECC002.001 Verify IBECC works when enabled
+IBECC002.201 Verify IBECC works when enabled (Ubuntu)
     [Documentation]    EDAC driver in Linux will attempt to use IBECC.
     ...    If IBECC is enabled no error should occur in dmesg.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS002.001 not supported
