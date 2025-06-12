@@ -10373,5 +10373,26 @@
       "name": "Bluetooth scanning (Fedora)",
       "module": "Dasharo Compatibility"
     }
+  },
+  {
+    "doc": {
+      "_id": "IBECC001.201",
+      "name": "Verify IBECC does not work when disabled (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "IBECC002.201",
+      "name": "Verify IBECC works when enabled (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NETCARD001.201",
+      "name": "Check Performance of 2.5G Wired Network Interface On Netcard (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
   }
 ]
