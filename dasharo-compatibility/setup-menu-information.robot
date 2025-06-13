@@ -24,6 +24,7 @@ Suite Setup         Run Keywords
 ...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
+# AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaa
 
 
 *** Test Cases ***
