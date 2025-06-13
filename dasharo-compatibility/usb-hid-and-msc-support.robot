@@ -57,6 +57,7 @@ USB001.201 USB devices detected by OS (Ubuntu)
 USB001.401 USB devices detection in OS (ESXi)
     [Documentation]    Check whether USB devices are correctly detected
     ...    in VMware ESXi using lsusb monitoring.
+    ...    Previous IDs: USB001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -103,6 +104,7 @@ USB002.202 USB keyboard in OS (Fedora)
 USB002.401 USB keyboard detection in OS (ESXi)
     [Documentation]    Verify that an external USB keyboard is correctly detected in ESXi.
     ...    Detection includes visibility in `lsusb` and verification of working input via basic typing test.
+    ...    Previous IDs: USB002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0

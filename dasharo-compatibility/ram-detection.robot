@@ -35,6 +35,7 @@ ${SIZE_OF_31_GB}=       33285996544    # 31*1024*1024*1024
 MEM001.401 Expected RAM size detected in OS (ESXi)
     [Documentation]    Verify that the installed RAM is correctly recognized by ESXi.
     ...    Total memory reported should match the expected amount within a reasonable margin.
+    ...    Previous IDs: MEM001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    MEM001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0

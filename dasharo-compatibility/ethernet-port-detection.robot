@@ -35,6 +35,7 @@ Suite Teardown      Run Keyword
 ETH001.401 All expected NET controllers detected (ESXi)
     [Documentation]    Verify that all expected onboard or add-in Ethernet controllers
     ...    are detected and reported by ESXi with valid driver, link, and MAC.
+    ...    Previous IDs: ETH001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    ETH001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0

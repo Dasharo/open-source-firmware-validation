@@ -63,6 +63,7 @@ NVM001.301 NVMe support in OS (Windows)
 NVM001.401 NVMe support in OS (ESXi)
     [Documentation]    Verify that ESXi is installed and booted from an NVMe drive.
     ...    Check that NVMe is detected and marked as the boot device.
+    ...    Previous IDs: NVM001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    NVM001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0

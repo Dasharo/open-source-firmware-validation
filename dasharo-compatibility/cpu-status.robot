@@ -53,6 +53,7 @@ CPU001.201 CPU works (Ubuntu)
 CPU001.401 CPU works (ESXi)
     [Documentation]    Verify that the CPU on the DUT is functional and boots the ESXi OS.
     ...    The test passes if the ESXi login screen (DCUI) is visible after boot.
+    ...    Previous IDs: CPU001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -72,6 +73,7 @@ CPU002.201 CPU cache enabled (Ubuntu)
 CPU002.401 CPU cache enabled (ESXi)
     [Documentation]    Verify that all CPU cache levels are detected and reported by ESXi.
     ...    Expected output includes L2 and L3 cache size, associativity, and CPU count.
+    ...    Previous IDs: CPU002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -95,7 +97,8 @@ CPU003.201 Multiple CPU support (Ubuntu)
 
 CPU003.401 Multiple CPU support (ESXi)
     [Documentation]    Verify that ESXi detects more than one CPU core, indicating multi-CPU support.
-    # Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
+    ...    Previous IDs: CPU003.011
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
@@ -118,6 +121,7 @@ CPU004.201 Multiple-core support (Ubuntu)
 
 CPU004.401 Multiple-core support (ESXi)
     [Documentation]    Verify that the system supports multiple CPU cores using Package ID mapping.
+    ...    Previous IDs: CPU004.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
