@@ -6,6 +6,9 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+echo "Comparing $(git rev-parse HEAD) with develop branch. Changed files:"
+git diff --name-only origin develop
+
 mapfile -t commands < <(${SCRIPT_DIR}/regression-scope/osfv_regression_scope.py commands --compare_to develop)
 
 if [[ ${#commands[@]} -eq 0 ]]; then
