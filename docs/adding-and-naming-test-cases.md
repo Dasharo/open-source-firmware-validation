@@ -53,7 +53,8 @@ loosely. `environment_id`s with leading `0` don't use the convention above.
 
 When updating a test case ID to follow the convention,
 append the old ID in the keyword documentation after `Previous IDs:`
-to help with identifying the test cases during transition. Example:
+to help with identifying the test cases during transition. Example (not from
+actual test case):
 
 ```robot
 DSP002.201 - External HDMI display in OS (Ubuntu)
@@ -61,13 +62,15 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
     ...
-    ...    Previous IDs: DSP002.001
+    ...    Previous IDs: ABC042.001 DSP002.001
     (...)
 ```
 
 If the ID is changed again for the same test, the newer `Previous ID` is added
 to the end of line, with single space as a separator (i.e. no comma or semicolon
 between them). This format is expected by a script described [later](#validate).
+In the example above, `ABC042.001` was changed to `DSP002.001`, which was later
+changed to `DSP002.201`.
 
 # Synchronization with database
 
@@ -174,7 +177,7 @@ as those with deprecated IDs:
   (i.e. test cases in all Dasharo `*.robot` files), and prints a sorted list of
   all of them.
 - `scripts/list-tests-from-json.sh` - finds active (without `changed_to` field)
-  and obsolete (without that field) IDs in `test_cases.json` file, and prints a
+  and obsolete (with that field) IDs in `test_cases.json` file, and prints a
   list of all of them. The script doesn't sort the output, which indirectly
   checks that JSON file is properly sorted.
 
