@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Get lines that start with ID, store each line as array element
-mapfile -t active < <(grep -Rh "^[A-Z]\{1,6\}[0-9]\{3\}\.[0-9]\{3\}" dasharo-*)
+mapfile -t active < <(grep -Rh "^[A-Z]*[0-9]\{1,10\}\.[0-9]\{1,10\}" dasharo-*)
 
 # Get all IDs listed after 'Previous IDs', each as separate array element
 mapfile -t deprecated < <(grep -Rh "^    ...    Previous IDs: " dasharo-* | cut -d' ' -f 11- --output-delimiter=$'\n')
