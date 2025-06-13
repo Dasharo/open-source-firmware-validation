@@ -1817,7 +1817,8 @@
     "doc": {
       "_id": "CPU001.011",
       "name": "CPU works (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU001.401"
     }
   },
   {
@@ -1882,7 +1883,8 @@
     "doc": {
       "_id": "CPU002.011",
       "name": "CPU cache enabled (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU002.401"
     }
   },
   {
@@ -1947,7 +1949,8 @@
     "doc": {
       "_id": "CPU003.011",
       "name": "Multiple CPU support (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU003.401"
     }
   },
   {
@@ -2012,7 +2015,8 @@
     "doc": {
       "_id": "CPU004.011",
       "name": "Multiple-core  support (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU004.401"
     }
   },
   {
@@ -2518,7 +2522,8 @@
     "doc": {
       "_id": "DSP002.011",
       "name": "External HDMI display in OS (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "DSP002.401"
     }
   },
   {
@@ -2583,7 +2588,8 @@
     "doc": {
       "_id": "DSP003.011",
       "name": "External DP display in OS (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "DSP003.401"
     }
   },
   {
@@ -3733,7 +3739,8 @@
     "doc": {
       "_id": "ETH001.011",
       "name": "All Expected NET Controllers Detected (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ETH001.401"
     }
   },
   {
@@ -4175,13 +4182,14 @@
     "doc": {
       "_id": "MEM001.011",
       "name": "Expected RAM size detected in OS (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "MEM001.401"
     }
   },
   {
     "doc": {
       "_id": "MEM001.401",
-      "name": "Expected RAM size detected (ESXi)",
+      "name": "Expected RAM size detected in OS (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4709,7 +4717,8 @@
     "doc": {
       "_id": "NVM001.011",
       "name": "NVMe support (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "NVM001.401"
     }
   },
   {
@@ -4736,7 +4745,7 @@
   {
     "doc": {
       "_id": "NVM001.401",
-      "name": "NVMe support (ESXi)",
+      "name": "NVMe support in OS (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5109,7 +5118,8 @@
     "doc": {
       "_id": "SAT001.011",
       "name": "SATA Support (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "SAT001.401"
     }
   },
   {
@@ -5122,7 +5132,7 @@
   {
     "doc": {
       "_id": "SAT001.401",
-      "name": "SATA support (ESXi)",
+      "name": "SATA support in OS (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6664,7 +6674,8 @@
     "doc": {
       "_id": "USB001.011",
       "name": "USB devices detection in OS (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "USB001.401"
     }
   },
   {
@@ -6744,7 +6755,8 @@
     "doc": {
       "_id": "USB002.011",
       "name": "USB keyboard detection (ESXi)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "USB002.401"
     }
   },
   {
