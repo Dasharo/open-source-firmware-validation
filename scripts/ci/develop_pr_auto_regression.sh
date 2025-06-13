@@ -8,6 +8,11 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 mapfile -t commands < <(${SCRIPT_DIR}/regression-scope/osfv_regression_scope.py commands --compare_to develop)
 
+if [[ ${#commands[@]} -eq 0 ]]; then
+    echo "No tests required to run for these changes. Exiting."
+    exit 0
+fi
+
 pids=()
 statuses=()
 LOGS_DIR="./logs"
