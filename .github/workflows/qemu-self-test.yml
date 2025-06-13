@@ -8,9 +8,23 @@ on:
   pull_request:
     branches:
       - develop
+      - main
+    paths:
+      - 'lib/**'
+      - '**.robot'
+      - 'scripts/ci/qemu-self-test.sh'
+      - 'requirements.txt'
+      - 'scripts/ci/qemu-run.sh'
   push:
     branches:
       - develop
+      - main
+    paths:
+      - 'lib/**'
+      - '**.robot'
+      - 'scripts/ci/qemu-self-test.sh'
+      - 'requirements.txt'
+      - 'scripts/ci/qemu-run.sh'
 
 jobs:
   qemu:
