@@ -19,7 +19,6 @@ on:
       - 'scripts/ci/qemu-self-test.sh'
       - 'scripts/ci/qemu-run.sh'
       - 'requirements.txt'
-  workflow_dispatch:
 
 jobs:
   qemu:
