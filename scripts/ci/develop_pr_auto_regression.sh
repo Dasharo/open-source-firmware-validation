@@ -7,13 +7,15 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Comparing $(git rev-parse HEAD) with develop branch. Changed files:"
-git diff --name-only origin develop
+git diff --name-only origin/develop
 
-mapfile -t commands < <(${SCRIPT_DIR}/regression-scope/osfv_regression_scope.py commands --compare_to develop)
+mapfile -t commands < <(${SCRIPT_DIR}/regression-scope/osfv_regression_scope.py commands --compare_to origin/develop)
+echo "Commands to run:"
+echo "${commands[@]}"
+printf "\n"
 
 if [[ ${#commands[@]} -eq 0 ]]; then
-    echo "No tests required to run for these changes. Exiting."
-    exit 0
+    echo "No tests required to run for these changes."
 fi
 
 pids=()
