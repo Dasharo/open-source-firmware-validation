@@ -11,7 +11,7 @@ mapfile -t commands < <(${SCRIPT_DIR}/regression-scope/osfv_regression_scope.py 
 pids=()
 statuses=()
 LOGS_DIR="./logs"
-mkdir -f $LOGS_DIR/
+mkdir $LOGS_DIR/ || true
 i=1
 for command in "${commands[@]}"; do
     (
