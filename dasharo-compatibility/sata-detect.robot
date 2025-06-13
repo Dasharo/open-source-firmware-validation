@@ -48,7 +48,7 @@ SAT001.201 SATA support in OS (Ubuntu)
 # TODO
 # SAT001.003 SATA support in OS (Windows)
 
-SAT001.401 SATA support (ESXi)
+SAT001.401 SATA support in OS (ESXi)
     [Documentation]    Verify that a SATA storage device is detected by the ESXi system
     ...    and optionally check SMART data if available.
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    SAT001.401 not supported
