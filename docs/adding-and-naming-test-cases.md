@@ -44,8 +44,7 @@ described [below](#synchronization-with-database). This file must always be kept
 in sync with the code.
 
 All the `environment_id`s of all the tested environments are defined as
-Robot Framework variables in the `os-config/environment-test-ids.robot`
-file.
+Robot Framework variables in the `os-config/environment-test-ids.py` file.
 
 **❗Note:** in old test cases the `environment_id` segment was used more
 loosely. `environment_id`s with leading `0` don't use the convention above.
