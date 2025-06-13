@@ -1843,6 +1843,13 @@
   },
   {
     "doc": {
+      "_id": "CPU001.401",
+      "name": "CPU works (ESXi)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPU002.001",
       "name": "CPU cache enabled (Ubuntu)",
       "module": "Dasharo Compatibility",
@@ -1896,6 +1903,13 @@
     "doc": {
       "_id": "CPU002.301",
       "name": "CPU cache enabled (Windows)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU002.401",
+      "name": "CPU cache enabled (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -1959,6 +1973,13 @@
   },
   {
     "doc": {
+      "_id": "CPU003.401",
+      "name": "Multiple CPU support (ESXi)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPU004.001",
       "name": "Multiple-core support (Ubuntu)",
       "module": "Dasharo Compatibility",
@@ -2012,6 +2033,13 @@
     "doc": {
       "_id": "CPU004.301",
       "name": "Multiple-core support (Windows)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU004.401",
+      "name": "Multiple-core support (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2516,6 +2544,13 @@
   },
   {
     "doc": {
+      "_id": "DSP002.401",
+      "name": "External HDMI display in OS (ESXi)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "DSP003.001",
       "name": "External DP display in OS (Ubuntu)",
       "module": "Dasharo Compatibility",
@@ -2569,6 +2604,13 @@
     "doc": {
       "_id": "DSP003.301",
       "name": "External DP display in OS (Windows)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP003.401",
+      "name": "External DP display in OS (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3696,6 +3738,13 @@
   },
   {
     "doc": {
+      "_id": "ETH001.401",
+      "name": "All expected NET controllers detected (ESXi)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ETH002.010",
       "name": "All Expected SFP Controllers Detected (XCP-NG)",
       "module": "Dasharo Compatibility"
@@ -4126,6 +4175,13 @@
     "doc": {
       "_id": "MEM001.011",
       "name": "Expected RAM size detected in OS (ESXi)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MEM001.401",
+      "name": "Expected RAM size detected (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4679,6 +4735,13 @@
   },
   {
     "doc": {
+      "_id": "NVM001.401",
+      "name": "NVMe support (ESXi)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "NVM002.201",
       "name": "NVMe slot change to x2 support in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -5053,6 +5116,13 @@
     "doc": {
       "_id": "SAT001.201",
       "name": "SATA support in OS (Ubuntu}",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SAT001.401",
+      "name": "SATA support (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6627,6 +6697,13 @@
   },
   {
     "doc": {
+      "_id": "USB001.401",
+      "name": "USB devices detection in OS (ESXi)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "USB002.001",
       "name": "USB keyboard detected in FW",
       "module": "Dasharo Compatibility"
@@ -6695,6 +6772,13 @@
     "doc": {
       "_id": "USB002.301",
       "name": "USB keyboard in OS (Windows)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USB002.401",
+      "name": "USB keyboard detection in OS (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
