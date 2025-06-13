@@ -81,7 +81,7 @@ CPU002.401 CPU cache enabled (ESXi)
     ${count}=    Evaluate
     ...    len(re.findall(r'''${CACHE_REGEX}''', '''${out}'''))
     ...    re
-    IF    ${count} < 2    FAIL    [TBD] Fail message TBD
+    IF    ${count} < 2    FAIL    There are no multiple cache levels detected.
 
 CPU003.201 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
@@ -116,7 +116,7 @@ CPU004.201 Multiple-core support (Ubuntu)
     Login To Linux
     Multiple-Core Support Linux
 
-CPU004.401 Multiple-core support (ESXi)    # tbd
+CPU004.401 Multiple-core support (ESXi)
     [Documentation]    Verify that the system supports multiple CPU cores using Package ID mapping.
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
     Power On
