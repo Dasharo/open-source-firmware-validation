@@ -23,7 +23,7 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-DSP001.201 - Internal display in OS (Ubuntu)
+DSP001.201 Internal display in OS (Ubuntu)
     [Documentation]    Check whether an internal display is visible in
     ...    Ubuntu.
     ...    Previous IDs: DSP001.002
@@ -32,14 +32,14 @@ DSP001.201 - Internal display in OS (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
     Internal Display In OS    ${ENV_ID_UBUNTU}
 
-DSP001.202 - Internal display in OS (Fedora)
+DSP001.202 Internal display in OS (Fedora)
     [Documentation]    Check whether an internal display is visible in
     ...    Ubuntu.
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP003.202 not supported
     Internal Display In OS    ${ENV_ID_FEDORA}
 
-DSP001.301 - Internal display in OS (Windows)
+DSP001.301 Internal display in OS (Windows)
     [Documentation]    Check whether an internal display is visible in
     ...    Windows OS.
     ...    Previous IDs: DSP001.003
@@ -49,7 +49,7 @@ DSP001.301 - Internal display in OS (Windows)
     Login To Windows
     Check Internal LCD Windows
 
-DSP002.201 - External HDMI display in OS (Ubuntu)
+DSP002.201 External HDMI display in OS (Ubuntu)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
@@ -59,7 +59,7 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP002.201 not supported
     External HDMI Display    ${ENV_ID_UBUNTU}
 
-DSP002.202 - External HDMI display in OS (Fedora)
+DSP002.202 External HDMI display in OS (Fedora)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Fedora OS. An external HDMI display must be provided in
     ...    the platform config.
@@ -67,7 +67,7 @@ DSP002.202 - External HDMI display in OS (Fedora)
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP002.202 not supported
     External HDMI Display    ${ENV_ID_FEDORA}
 
-DSP002.301 - External HDMI display in OS (Windows)
+DSP002.301 External HDMI display in OS (Windows)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Windows OS. An external HDMI display must be provided in
     ...    the platform config.
@@ -90,7 +90,7 @@ DSP002.401 External HDMI display in OS (ESXi)
     Execute Manual Step    [3/4] Boot into ESXi and wait for the DCUI to appear
     Execute Manual Step    [4/4] Confirm that the ESXi interface is visible on the external HDMI display
 
-DSP003.201 - External DP display in OS (Ubuntu)
+DSP003.201 External DP display in OS (Ubuntu)
     [Documentation]    Check whether an external Display Port is visible in
     ...    Linux OS. An external Display Port must be provided in
     ...    the platform config.
@@ -100,7 +100,7 @@ DSP003.201 - External DP display in OS (Ubuntu)
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
     External DP Display In OS    ${ENV_ID_UBUNTU}
 
-DSP003.202 - External DP display in OS (Fedora)
+DSP003.202 External DP display in OS (Fedora)
     [Documentation]    Check whether an external Display Port is visible in
     ...    Linux OS. An external Display Port must be provided in
     ...    the platform config.
@@ -108,7 +108,7 @@ DSP003.202 - External DP display in OS (Fedora)
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP003.202 not supported
     External DP Display In OS    ${ENV_ID_FEDORA}
 
-DSP003.301 - External DP display in OS (Windows)
+DSP003.301 External DP display in OS (Windows)
     [Documentation]    Check whether an external Display Port is visible in
     ...    Windows OS. An external Display Port must be provided in
     ...    the platform config.

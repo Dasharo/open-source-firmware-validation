@@ -2524,7 +2524,7 @@
   {
     "doc": {
       "_id": "DSP001.201",
-      "name": "Internal display in OS",
+      "name": "Internal display in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
