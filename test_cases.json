@@ -5068,6 +5068,13 @@
   },
   {
     "doc": {
+      "_id": "PXE007.001",
+      "name": "Dasharo Network Boot over https not http",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "QBS001.001",
       "name": "QubesOS installation",
       "module": "Dasharo Compatibility"
