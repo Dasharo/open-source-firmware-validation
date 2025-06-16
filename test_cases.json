@@ -4582,7 +4582,8 @@
     "doc": {
       "_id": "NET002.001",
       "name": "NET controller after warmboot (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "NET002.201"
     }
   },
   {
@@ -4678,6 +4679,14 @@
       "_id": "NET004.202",
       "name": "NET controller after suspend (Fedora)",
       "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NET005.003",
+      "name": "Net controller after warmboot (Fedora)",
+      "module": "Dasharo Stability",
+      "changed_to": "NET002.202"
     }
   },
   {
