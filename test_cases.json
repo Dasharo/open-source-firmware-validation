@@ -74,14 +74,14 @@
   {
     "doc": {
       "_id": "APU006.001",
-      "name": "Disabling \"Enable PCIe power management features\" disables ASPM",
+      "name": "Check whether disabling \"Enable PCIe power management features\" disables ASPM",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "APU006.002",
-      "name": "Enabling \"Enable PCIe power management features\" enables ASPM",
+      "name": "Check whether enabling \"Enable PCIe power management features\" enables ASPM",
       "module": "Dasharo Compatibility"
     }
   },
