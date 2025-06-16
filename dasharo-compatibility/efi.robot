@@ -40,7 +40,7 @@ EFI001.201 Boot into UEFI OS (Ubuntu)
 EFI001.301 Boot into UEFI OS (Windows)
     [Documentation]    Boot into Windows 11 OS and check whether there is a
     ...    possibility to identify the system
-    ...    Previous IDs: EFI001.301
+    ...    Previous IDs: EFI001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.301 not supported
     Power On
     Login To Windows
