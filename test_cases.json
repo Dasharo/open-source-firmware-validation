@@ -5209,7 +5209,7 @@
   {
     "doc": {
       "_id": "SAT001.002",
-      "name": "SATA support in OS (Ubuntu}",
+      "name": "SATA support in OS (Ubuntu)",
       "module": "Dasharo Compatibility",
       "changed_to": "SAT001.201"
     }
@@ -5217,7 +5217,7 @@
   {
     "doc": {
       "_id": "SAT001.003",
-      "name": "SATA support in OS (Windows}",
+      "name": "SATA support in OS (Windows)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5239,7 +5239,7 @@
   {
     "doc": {
       "_id": "SAT001.201",
-      "name": "SATA support in OS (Ubuntu}",
+      "name": "SATA support in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },

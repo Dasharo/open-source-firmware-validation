@@ -23,6 +23,7 @@ Suite Teardown      Run Keyword
 SAT001.201 SATA support in OS (Ubuntu)
     [Documentation]    This test aims to verify that SATA is detected from OS
     ...    by using smartctl.
+    ...    Previous IDs: SAT001.002
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${SATA_SUPPORT}
