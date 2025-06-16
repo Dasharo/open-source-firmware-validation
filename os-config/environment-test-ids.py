@@ -20,6 +20,11 @@ ENV_ID_WINDOWS = "301"
 # 4xx - Other
 ENV_ID_ESXI = "401"  # ESXi
 
+# 5xx - BSD
+ENV_ID_FREEBSD = "501"
+ENV_ID_PFSENSE = "502"
+ENV_ID_OPNSENSE = "503"
+
 ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_UBUNTU: "Ubuntu",
     ENV_ID_FEDORA: "Fedora",
