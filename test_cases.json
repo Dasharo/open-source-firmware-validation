@@ -2375,7 +2375,7 @@
   {
     "doc": {
       "_id": "DMI001.201",
-      "name": "Verify the serial number",
+      "name": "Verify the device serial number",
       "module": "Dasharo Compatibility"
     }
   },
