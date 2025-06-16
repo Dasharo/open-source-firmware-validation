@@ -5274,21 +5274,21 @@
   {
     "doc": {
       "_id": "SBO003.001",
-      "name": "Attempt to boot file with the correct key from Shell (firmware)",
+      "name": "Attempt to boot file with the correct key from Boot Maintenance Manager (firmware)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "SBO004.001",
-      "name": "Attempt to boot file without the key from Shell (firmware)",
+      "name": "Attempt to boot file without the key from Boot Maintenance Manager (firmware)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "SBO005.001",
-      "name": "Attempt to boot file with the wrong-signed key from Shell (firmware)",
+      "name": "Attempt to boot file with the wrong-signed key from Boot Maintenance Manager (firmware)",
       "module": "Dasharo Security"
     }
   },
