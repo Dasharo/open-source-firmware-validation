@@ -5673,14 +5673,16 @@
     "doc": {
       "_id": "SNV0001.001",
       "name": "NVMe detection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV001.001"
     }
   },
   {
     "doc": {
       "_id": "SNV0001.002",
       "name": "NVMe detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV001.002"
     }
   },
   {
@@ -5688,14 +5690,15 @@
       "_id": "SNV0002.001",
       "name": "NVMe detection after warm boot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV002.201"
+      "changed_to": "SNV002.001"
     }
   },
   {
     "doc": {
       "_id": "SNV0002.002",
       "name": "NVMe detection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV002.002"
     }
   },
   {
@@ -5703,14 +5706,15 @@
       "_id": "SNV0003.001",
       "name": "NVMe detection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV003.201"
+      "changed_to": "SNV003.001"
     }
   },
   {
     "doc": {
       "_id": "SNV0003.002",
       "name": "NVMe detection after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV003.002"
     }
   },
   {
@@ -5718,7 +5722,7 @@
       "_id": "SNV0004.001",
       "name": "NVMe detection after suspension (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV004.201"
+      "changed_to": "SNV004.001"
     }
   },
   {
@@ -5726,7 +5730,7 @@
       "_id": "SNV0004.002",
       "name": "NVMe detection after suspension (Ubuntu) (S0ix)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV005.201"
+      "changed_to": "SNV004.002"
     }
   },
   {
@@ -5734,13 +5738,43 @@
       "_id": "SNV0004.003",
       "name": "NVMe detection after suspension (Ubuntu) (S3)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV006.201"
+      "changed_to": "SNV004.003"
     }
   },
   {
     "doc": {
       "_id": "SNV0004.004",
       "name": "NVMe detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV004.004"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV001.001",
+      "name": "NVMe detection after cold boot (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV001.002",
+      "name": "NVMe detection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV002.001",
+      "name": "NVMe detection after warm boot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV002.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV002.002",
+      "name": "NVMe detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -5760,6 +5794,21 @@
   },
   {
     "doc": {
+      "_id": "SNV003.001",
+      "name": "NVMe detection after reboot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV003.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV003.002",
+      "name": "NVMe detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SNV003.201",
       "name": "NVMe detection after reboot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -5769,6 +5818,37 @@
     "doc": {
       "_id": "SNV003.202",
       "name": "NVMe detection after reboot (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.001",
+      "name": "NVMe detection after suspension (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV004.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.002",
+      "name": "NVMe detection after suspension (Ubuntu) (S0ix)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV005.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.003",
+      "name": "NVMe detection after suspension (Ubuntu) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV006.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.004",
+      "name": "NVMe detection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
   },
