@@ -3,12 +3,28 @@
     "doc": {
       "_id": "ACPI001.001",
       "name": "ACPI driver test (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ACPI001.201"
     }
   },
   {
     "doc": {
       "_id": "ACPI001.002",
+      "name": "ACPI driver test (Fedora)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ACPI001.202"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ACPI001.201",
+      "name": "ACPI driver test (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ACPI001.202",
       "name": "ACPI driver test (Fedora)",
       "module": "Dasharo Compatibility"
     }
