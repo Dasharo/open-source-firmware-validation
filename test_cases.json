@@ -1003,7 +1003,7 @@
   {
     "doc": {
       "_id": "CHS001.201",
-      "name": "Camera enable",
+      "name": "Check camera enablement",
       "module": "Dasharo Security"
     }
   },
@@ -1025,7 +1025,7 @@
   {
     "doc": {
       "_id": "CHS002.201",
-      "name": "Camera disable",
+      "name": "Check camera disablement",
       "module": "Dasharo Security"
     }
   },
