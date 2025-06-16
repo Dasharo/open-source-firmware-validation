@@ -758,6 +758,14 @@
   },
   {
     "doc": {
+      "_id": "CAM002.001",
+      "name": "Integrated IR Camera (Ubuntu)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "CAM002.201"
+    }
+  },
+  {
+    "doc": {
       "_id": "CAM002.201",
       "name": "Integrated IR Camera (Ubuntu)",
       "module": "Dasharo Compatibility"
