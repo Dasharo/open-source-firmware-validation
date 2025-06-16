@@ -1347,7 +1347,7 @@
       "_id": "CPF004.005",
       "name": "CPU with load runs on expected frequency (Ubuntu) (AC)",
       "module": "Dasharo Performance",
-      "changed_to": "CPF012.201"
+      "changed_to": "CPF011.201"
     }
   },
   {
@@ -1539,6 +1539,13 @@
     "doc": {
       "_id": "CPF010.301",
       "name": "CPU with load runs on expected frequency (Windows) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF011.201",
+      "name": "CPU with load runs on expected frequency (Ubuntu) (AC)",
       "module": "Dasharo Performance"
     }
   },
