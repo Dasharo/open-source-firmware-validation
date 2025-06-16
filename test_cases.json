@@ -7866,7 +7866,7 @@
   {
     "doc": {
       "_id": "UTC108.201",
-      "name": "USB Type-C Display output with ME disabled(Ubuntu)",
+      "name": "USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
