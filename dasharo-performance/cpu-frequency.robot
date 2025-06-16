@@ -67,7 +67,7 @@ CPF003.201 CPU not stuck on initial frequency (Ubuntu) (AC)
 CPF004.201 CPU not stuck on initial frequency (Ubuntu) (USB-PD)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.0010
+    ...    Previous IDs: CPF001.010
     Skip If    not ${CPU_FREQUENCY_MEASURE}    CPF004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPF004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF004.201 not supported
