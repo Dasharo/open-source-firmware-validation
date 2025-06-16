@@ -108,7 +108,7 @@ WDT004.001 Change watchdog timeout
 WDT005.001 Watchdog is detected by OS (Ubuntu)
     [Documentation]    Boot into an OS with the watchdog enabled and verify
     ...    that the OS detects and stops the watchdog.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT005.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -134,10 +134,10 @@ WDT005.001 Watchdog is detected by OS (Ubuntu)
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
 
-WTD006.001 Watchdog resets platform on kernel crash (Ubuntu 22.04)
+WDT006.001 Watchdog resets platform on kernel crash (Ubuntu)
     [Documentation]    Boot into OS with the watchdog enabled, crash the kernel
     ...    and verify that the watchdog resets the machine.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT006.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

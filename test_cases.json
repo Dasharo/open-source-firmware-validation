@@ -10086,6 +10086,13 @@
   },
   {
     "doc": {
+      "_id": "WDT006.001",
+      "name": "Watchdog resets platform on kernel crash (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "WLE001.001",
       "name": "Wireless card detection (Ubuntu)",
       "module": "Dasharo Compatibility",
