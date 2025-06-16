@@ -6125,14 +6125,16 @@
     "doc": {
       "_id": "SUD0001.001",
       "name": "USB devices detection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD001.001"
     }
   },
   {
     "doc": {
       "_id": "SUD0001.002",
       "name": "USB devices detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD001.002"
     }
   },
   {
@@ -6140,14 +6142,15 @@
       "_id": "SUD0002.001",
       "name": "USB devices detection after warm boot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD002.201"
+      "changed_to": "SUD002.001"
     }
   },
   {
     "doc": {
       "_id": "SUD0002.002",
       "name": "USB devices detection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD002.002"
     }
   },
   {
@@ -6155,14 +6158,15 @@
       "_id": "SUD0003.001",
       "name": "USB devices detection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD003.201"
+      "changed_to": "SUD003.001"
     }
   },
   {
     "doc": {
       "_id": "SUD0003.002",
       "name": "USB devices detection after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD003.002"
     }
   },
   {
@@ -6170,7 +6174,7 @@
       "_id": "SUD0004.001",
       "name": "USB devices detection after suspension (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD004.201"
+      "changed_to": "SUD004.001"
     }
   },
   {
@@ -6178,7 +6182,7 @@
       "_id": "SUD0004.002",
       "name": "USB devices detection after suspension (Ubuntu) (S0ix)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD005.201"
+      "changed_to": "SUD004.002"
     }
   },
   {
@@ -6186,13 +6190,43 @@
       "_id": "SUD0004.003",
       "name": "USB devices detection after suspension (Ubuntu) (S3)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD006.201"
+      "changed_to": "SUD004.003"
     }
   },
   {
     "doc": {
       "_id": "SUD0004.004",
       "name": "USB devices detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD004.004"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD001.001",
+      "name": "USB devices detection after cold boot (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD001.002",
+      "name": "USB devices detection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD002.001",
+      "name": "USB devices detection after warm boot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD002.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD002.002",
+      "name": "USB devices detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6212,6 +6246,21 @@
   },
   {
     "doc": {
+      "_id": "SUD003.001",
+      "name": "USB devices detection after reboot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD003.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD003.002",
+      "name": "USB devices detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SUD003.201",
       "name": "USB devices detection after reboot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -6221,6 +6270,37 @@
     "doc": {
       "_id": "SUD003.202",
       "name": "USB devices detection after reboot (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.001",
+      "name": "USB devices detection after suspension (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD004.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.002",
+      "name": "USB devices detection after suspension (Ubuntu) (S0ix)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD005.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.003",
+      "name": "USB devices detection after suspension (Ubuntu) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD006.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.004",
+      "name": "USB devices detection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
   },
