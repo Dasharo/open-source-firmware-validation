@@ -98,7 +98,7 @@ CPU003.201 Multiple CPU support (Ubuntu)
 CPU003.401 Multiple CPU support (ESXi)
     [Documentation]    Verify that ESXi detects more than one CPU core, indicating multi-CPU support.
     ...    Previous IDs: CPU003.011
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU003.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
