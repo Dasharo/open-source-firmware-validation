@@ -780,7 +780,7 @@
   {
     "doc": {
       "_id": "CBK002.001",
-      "name": "Custom BIOS Menu Key",
+      "name": "Custom setup menu key",
       "module": "Dasharo Compatibility"
     }
   },
