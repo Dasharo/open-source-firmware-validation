@@ -6037,7 +6037,7 @@
   {
     "doc": {
       "_id": "SPS001.001",
-      "name": "Check Ethernet Ports Order",
+      "name": "Ethernet ports are in order",
       "module": "Dasharo Compatibility"
     }
   },
