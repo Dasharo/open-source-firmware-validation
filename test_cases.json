@@ -3892,6 +3892,13 @@
   },
   {
     "doc": {
+      "_id": "FAN006.201",
+      "name": "GPU fan speed measure",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "FBC001.001",
       "name": "Ubuntu stays bootable (Legacy to UEFI)",
       "module": "Dasharo Compatibility"
