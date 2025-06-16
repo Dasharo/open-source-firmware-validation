@@ -1045,6 +1045,14 @@
   },
   {
     "doc": {
+      "_id": "CNB001.001",
+      "name": "Only one iPXE in boot menu",
+      "module": "Dasharo Compatibility",
+      "changed_to": "CNB001.002"
+    }
+  },
+  {
+    "doc": {
       "_id": "CNB001.002",
       "name": "Only one iPXE in boot menu",
       "module": "Dasharo Compatibility",
