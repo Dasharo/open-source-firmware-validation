@@ -5496,28 +5496,32 @@
     "doc": {
       "_id": "SMW0001.001",
       "name": "Wi-fi connection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW001.001"
     }
   },
   {
     "doc": {
       "_id": "SMW0002.001",
       "name": "Wi-fi connection after warm boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW002.001"
     }
   },
   {
     "doc": {
       "_id": "SMW0003.001",
       "name": "Wi-fi connection after reboot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW003.001"
     }
   },
   {
     "doc": {
       "_id": "SMW0004.001",
       "name": "Wi-fi connection after suspension (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW004.001"
     }
   },
   {
