@@ -4222,6 +4222,14 @@
   },
   {
     "doc": {
+      "_id": "MBO002.001",
+      "name": "Check if event log PCRs match actual values (Ubuntu)",
+      "module": "Dasharo Security",
+      "changed_to": "MBO002.201"
+    }
+  },
+  {
+    "doc": {
       "_id": "MBO002.201",
       "name": "Check if event log PCRs match actual values (Ubuntu)",
       "module": "Dasharo Security"
