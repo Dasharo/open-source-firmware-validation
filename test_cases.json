@@ -2760,6 +2760,41 @@
   },
   {
     "doc": {
+      "_id": "DTS009.001",
+      "name": "Update Dasharo firmware by using DTS via USB works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS009.002",
+      "name": "Update Dasharo firmware by using DTS via iPXE works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS010.001",
+      "name": "Deploy Dasharo firmware by using DTS works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS010.002",
+      "name": "Deploy Dasharo SeaBios firmware by using DTS works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS011.001",
+      "name": "Heads Transition by using DTS via iPXE works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR001.001",
       "name": "Battery monitoring - charge level in OS (Ubuntu)",
       "module": "Dasharo Compatibility",
