@@ -876,6 +876,14 @@
     "doc": {
       "_id": "CBO001.002",
       "name": "Custom Boot Order",
+      "module": "Dasharo Compatibility",
+      "changed_to": "CBO001.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBO001.101",
+      "name": "Custom Boot Order (EDK2)",
       "module": "Dasharo Compatibility"
     }
   },
