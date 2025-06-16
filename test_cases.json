@@ -964,7 +964,7 @@
   },
   {
     "doc": {
-      "_id": "CFC001.002",
+      "_id": "CFC002.001",
       "name": "Custom fan curve performance profile measure (Ubuntu)",
       "module": "Dasharo Performance"
     }
