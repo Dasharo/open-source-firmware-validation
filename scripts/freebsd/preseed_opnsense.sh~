@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo FreeBSD+OPNsense bsdinstall modifier
+echo
+umount /mnt
+mount -w /dev/da0p4 /mnt
+ls -l /mnt/usr/libexec/bsdinstall/*zfs*
+awk -v sq="'" -v dq='"' '/^NEWFS_ESP=/ { print "NEWFS_ESP=" sq "newfs_msdos -L NONSENSE "dq"%si" dq sq; next; }; { print; }' /mnt/usr/libexec/bsdinstall/opnsense-zfs | less
+cat /mnt/usr/libexec/bsdinstall/opnsense-zfs | grep ESP
+
+umount /mnt

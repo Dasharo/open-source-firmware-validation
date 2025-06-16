@@ -354,9 +354,12 @@ Parse Menu Snapshot Into Construction
     @{construction}=    Create List
     FOR    ${line}    IN    @{menu_lines}
         # Replace multiple spaces with a single one
-        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
+        # ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
         # Remove leading and trailing spaces
         ${line}=    Strip String    ${line}
+        # Remove FreeBSD installer frames, this affect slicing process due to removing empty lines
+        # ${line}=    Remove String    ${line}    x x
+        ${line}=    Remove String Using Regexp    ${line}    (x x)
         # Drop leading and trailing pipes (e.g. in One Time Boot Menu)
         ${line}=    Strip String    ${line}    characters=|
         # Remove leading and trailing spaces
@@ -468,17 +471,22 @@ Enter Submenu From Snapshot
     ...    === Arguments ===
     ...    - ``${menu}``: ``string`` - the submenu construction or snapshot
     ...    - ``${option}``: ``string`` - the name of the submenu to enter
+    ...    - ``${cursor_key_mode}``: ``string`` - VT100 cursor key mode, APP for BSD
     ...
     ...    === Return Value ===
     ...    None
     ...
     ...    === Effects ===
     ...    - A setup submenu is entered
-    [Arguments]    ${menu}    ${option}
+    [Arguments]    ${menu}    ${option}    ${cursor_key_mode}="ST"
 
     ${index}=    Get Index Of Matching Option In Menu    ${menu}    ${option}
     Should Not Be Equal As Integers    ${index}    -1    msg=Option ${option} not found in menu
-    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    IF    ${cursor_key_mode} == "APP"
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN_APP}
+    ELSE
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    END
 
 Enter Submenu From Snapshot And Return Construction
     [Documentation]    Enter given Setup Menu Tianocore option after entering
