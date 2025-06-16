@@ -4455,8 +4455,7 @@
     "doc": {
       "_id": "MWL003.002",
       "name": "Bluetooth scanning (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL003.301"
+      "module": "Dasharo Compatibility"
     }
   },
   {
