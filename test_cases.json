@@ -6255,6 +6255,27 @@
   },
   {
     "doc": {
+      "_id": "THR001.101",
+      "name": "Try to enter a threshold value that's above the limit (firmware)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "THR002.101",
+      "name": "Try to enter a threshold value that's below the limit (firmware)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "THR003.201",
+      "name": "Try to enter a threshold value within the limits and verify in Ubuntu (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "TPD003.001",
       "name": "Detect TPM after platform reboot (Ubuntu)",
       "module": "Dasharo Stability",
