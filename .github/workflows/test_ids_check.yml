@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: Test IDs check
+
+# Only try to run if a robot file or the test cases mapping file were modified
+on:
+  pull_request:
+    paths:
+      - 'dasharo-compatibility/**.robot'
+      - 'dasharo-performance/**.robot'
+      - 'dasharo-security/**.robot'
+      - 'dasharo-stability/**.robot'
+      - 'test_cases.json'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v4
+
+    - name: Verify IDs are synchronized with the json mapping
+      run: |
+        diff -q <(./scripts/list-tests-from-robot.sh) \
+        <(./scripts/list-tests-from-json.sh) || \
+        (echo "Detected inconsistency between source files and test_cases.json" && false)
+
+    - name: Check diff
+      if: failure()
+      run: |
+        diff --side-by-side -W200 <(./scripts/list-tests-from-robot.sh) \
+                              <(./scripts/list-tests-from-json.sh) | tee test_ids_diff_ci.txt
+
+    - name: Upload artifact IDs diff file
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: "Test IDs diff"
+        path: |
+           ./test_ids_diff_ci.txt
+        retention-days: 30
