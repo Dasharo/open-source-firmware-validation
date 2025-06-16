@@ -27,3 +27,5 @@ EPN001.201 Check the ethernet port names (Ubuntu)
     ${out}=    Execute Linux Command    ip a
     Should Not Contain Any    ${out}
     ...    eno1    eno2    eno3    eno4    eno5    eno6
+    ${regexes}=    Get Regexp Matches    ${out}    enp[0-9]s[0-9]
+    Should Not Be Empty    ${regexes}
