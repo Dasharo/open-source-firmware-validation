@@ -4518,7 +4518,7 @@
   {
     "doc": {
       "_id": "NBT002.001",
-      "name": "OS Selection & Utilities is available",
+      "name": "OS selection & utilities is available",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4553,7 +4553,14 @@
   {
     "doc": {
       "_id": "NBT007.001",
-      "name": "Change netboot URL works correctly",
+      "name": "Change netboot URL option works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NBT008.001",
+      "name": "iPXE Autoboot is disabled",
       "module": "Dasharo Compatibility"
     }
   },
