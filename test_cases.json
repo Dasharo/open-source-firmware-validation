@@ -6564,7 +6564,8 @@
     "doc": {
       "_id": "TPD004.001",
       "name": "Detect TPM after platform suspend (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "TPD004.201"
     }
   },
   {
