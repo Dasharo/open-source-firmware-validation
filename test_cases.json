@@ -6584,6 +6584,13 @@
   },
   {
     "doc": {
+      "_id": "TPM001.001",
+      "name": "TPM Support (firmware)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "TPM001.002",
       "name": "TPM Support (Ubuntu)",
       "module": "Dasharo Security",
@@ -6673,21 +6680,21 @@
   {
     "doc": {
       "_id": "TPM002.201",
-      "name": "Verify TPM Version (Ubuntu)",
+      "name": "Verify TPM version (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "TPM002.202",
-      "name": "Verify TPM Version (Fedora)",
+      "name": "Verify TPM version (Fedora)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "TPM002.301",
-      "name": "Verify TPM Version (Windows)",
+      "name": "Verify TPM version (Windows)",
       "module": "Dasharo Security"
     }
   },
@@ -6740,7 +6747,8 @@
     "doc": {
       "_id": "TPM003.101",
       "name": "Change active PCR banks with TPM PPI (firmware)",
-      "module": "Dasharo Security"
+      "module": "Dasharo Security",
+      "changed_to": "TPM011.101"
     }
   },
   {
@@ -6767,6 +6775,21 @@
   {
     "doc": {
       "_id": "TPM004.201",
+      "name": "Check if the ChangeEPS works (Ubuntu)",
+      "module": "Dasharo Security",
+      "changed_to": "TPM012.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM011.101",
+      "name": "Change active PCR banks with TPM PPI (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM012.201",
       "name": "Check if the ChangeEPS works (Ubuntu)",
       "module": "Dasharo Security"
     }
