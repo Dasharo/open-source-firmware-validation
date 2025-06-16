@@ -3827,9 +3827,25 @@
   },
   {
     "doc": {
+      "_id": "ETHPERF001.001",
+      "name": "Check Performance of 2.5G Wired Network Interface (Ubuntu)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ETHPERF001.201"
+    }
+  },
+  {
+    "doc": {
       "_id": "ETHPERF001.201",
       "name": "Check Performance of 2.5G Wired Network Interface (Ubuntu)",
       "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ETHPERF002.001",
+      "name": "Check Performance of 10G Wired Network Interface (Ubuntu)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ETHPERF002.201"
     }
   },
   {
