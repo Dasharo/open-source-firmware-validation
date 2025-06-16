@@ -62,9 +62,9 @@ CPU003.001: Cell in Row 502, Column 28 already contains 'PASS'. Skipping update.
 CPU003.002: Cell in Row 503, Column 28 already contains 'PASS'. Skipping update.
 CPU004.001: Cell in Row 504, Column 28 already contains 'PASS'. Skipping update.
 CPU004.002: Cell in Row 505, Column 28 already contains 'PASS'. Skipping update.
-Test ID 'THR001.001' not found in the spreadsheet. Skipping update.
-Test ID 'THR001.002' not found in the spreadsheet. Skipping update.
-Test ID 'THR002.001' not found in the spreadsheet. Skipping update.
+Test ID 'THR001.101' not found in the spreadsheet. Skipping update.
+Test ID 'THR002.101' not found in the spreadsheet. Skipping update.
+Test ID 'THR003.201' not found in the spreadsheet. Skipping update.
 CBK001.001: Cell in Row 76, Column 28 already contains 'PASS'. Skipping update.
 CBK002.001: Cell in Row 77, Column 28 already contains 'PASS'. Skipping update.
 Test ID 'CNB001.001' not found in the spreadsheet. Skipping update.

@@ -24,7 +24,7 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-THR001.001 Try to enter a threshold value that's above the limit
+THR001.101 Try to enter a threshold value that's above the limit (firmware)
     [Documentation]    Verify that a threshold value that's above the limit
     ...    will get rejected with a proper prompt
     Skip If    not "${OPTIONS_LIB}" == "options-lib_uefi-setup-menu"
@@ -36,7 +36,7 @@ THR001.001 Try to enter a threshold value that's above the limit
     Write Bare Into Terminal    c
     Read From Terminal Until    TjMax
 
-THR001.002 Try to enter a threshold value that's below the limit
+THR002.101 Try to enter a threshold value that's below the limit (firmware)
     [Documentation]    Verify that a threshold value that's below the limit
     ...    will get rejected with a proper prompt
     Skip If    not "${OPTIONS_LIB}" == "options-lib_uefi-setup-menu"
@@ -46,10 +46,10 @@ THR001.002 Try to enter a threshold value that's below the limit
     Write Bare Into Terminal    c
     Read From Terminal Until    TjMax
 
-THR002.001 Try to enter a threshold value within the limits and verify in Ubuntu
+THR003.201 Try to enter a threshold value within the limits and verify in Ubuntu (Ubuntu)
     [Documentation]    Verify whether a reasonable throttling threshold will
     ...    take effect in Ubuntu
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    THR002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    THR003.201 not supported
     Set UEFI Option    CpuThrottlingThreshold    70
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
