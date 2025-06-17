@@ -34,6 +34,13 @@ ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${FALSE}
 
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
 
+${M2_WIFI_SUPPORT}=                             ${TRUE}
+${WIFI_CARD_UBUNTU}=                            Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter
+${TPM_DETECT_SUPPORT}=                          ${TRUE}
+${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
+${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
+${HIBERNATION_ITERATIONS_NUMBER}=               5
+
 
 *** Keywords ***
 Flash Device Via External Programmer
