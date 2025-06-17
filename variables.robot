@@ -261,21 +261,20 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.116
 
-@{RTE_LIST}=                &{RTE05}
-...                         &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}    &{RTE10}
-...                         &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}    &{RTE15}
-...                         &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}    &{RTE20}
-...                         &{RTE21}    &{RTE22}    &{RTE23}    &{RTE24}    &{RTE25}
-...                         &{RTE26}    &{RTE27}    &{RTE28}    &{RTE29}    &{RTE30}
-...                         &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}    &{RTE35}
-...                         &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}    &{RTE40}
-...                         &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}    &{RTE45}
-...                         &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}    &{RTE50}
-...                         &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}    &{RTE55}
-...                         &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}    &{RTE60}
-...                         &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}    &{RTE65}
-...                         &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}    &{RTE70}
-...                         &{RTE71}
+@{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
+...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
+...                         &{RTE15}    &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}
+...                         &{RTE20}    &{RTE21}    &{RTE22}    &{RTE23}    &{RTE24}
+...                         &{RTE25}    &{RTE26}    &{RTE27}    &{RTE28}    &{RTE29}
+...                         &{RTE30}    &{RTE31}    &{RTE32}    &{RTE33}    &{RTE34}
+...                         &{RTE35}    &{RTE36}    &{RTE37}    &{RTE38}    &{RTE39}
+...                         &{RTE40}    &{RTE41}    &{RTE42}    &{RTE43}    &{RTE44}
+...                         &{RTE45}    &{RTE46}    &{RTE47}    &{RTE48}    &{RTE49}
+...                         &{RTE50}    &{RTE51}    &{RTE52}    &{RTE53}    &{RTE54}
+...                         &{RTE55}    &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}
+...                         &{RTE60}    &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}
+...                         &{RTE65}    &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
+...                         &{RTE70}    &{RTE71}
 # hardware database:
 # -----------------------------------------------------------------------------
 &{HDD01}=                   vendor=SAMSUNG    volume=500GB    type=HDD_Storage
@@ -340,11 +339,15 @@ ${OS_UBUNTU}=               ubuntu
 ...                         boot_name=SD Device
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 870 EVO 1TB
+&{SSD20}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         boot_name=SD Device
+...                         interface=NVME    count=1
+...                         boot_name=SSDPR-PX700-01T-80
 
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
-...                         &{SSD16}    &{SSD17}    &{SSD18}    &{SSD19}
+...                         &{SSD16}    &{SSD17}    &{SSD18}    &{SSD19}    &{SSD20}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -467,6 +470,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG52}=                &{RTE68}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
 @{CONFIG54}=                &{RTE70}
+@{CONFIG55}=                &{RTE71}    &{SSD20}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -481,4 +485,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
 ...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
 ...                         @{CONFIG50}    @{CONFIG51}    @{CONFIG52}    @{CONFIG53}
-...                         @{CONFIG54}
+...                         @{CONFIG54}    @{CONFIG55}
