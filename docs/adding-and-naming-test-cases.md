@@ -49,6 +49,10 @@ Robot Framework variables in the `os-config/environment-test-ids.py` file.
 **❗Note:** in old test cases the `environment_id` segment was used more
 loosely. `environment_id`s with leading `0` don't use the convention above.
 
+The compliance to the test naming convention is verified by the pre-commit
+scripts and by the CI on every Pull Request that modifies the test cases
+or the `test_cases.json` file.
+
 ## Transitioning
 
 When updating a test case ID to follow the convention,
