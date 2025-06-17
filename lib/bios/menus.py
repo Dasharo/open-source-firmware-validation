@@ -212,6 +212,11 @@ getoptionpath = {
         "Power Management Options",
         "Hybrid Graphics Mode",
     ],
+    "CpuThrottlingThreshold": [
+        "Dasharo System Features",
+        "Power Management Options",
+        "CPU Throttling",
+    ],
 }
 
 
