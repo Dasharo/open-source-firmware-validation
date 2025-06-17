@@ -114,6 +114,7 @@ ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=              ${TRUE}
 ${CAMERA_SWITCH_SUPPORT}=                           ${TRUE}
 ${EARLY_BOOT_DMA_SUPPORT}=                          ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${TRUE}
+${INTEL_CBNT_STATUS_MENU_SUPPORT}=                  ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
