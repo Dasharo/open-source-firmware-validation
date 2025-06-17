@@ -92,6 +92,7 @@ Scan For Wi-Fi In Linux
     [Documentation]    Turn on Wi-Fi then scan in search of company network.
     Execute Command In Terminal    nmcli radio wifi on
     Execute Command In Terminal    nmcli device wifi rescan
+    Read From Terminal
     ${out}=    Execute Command In Terminal    nmcli --fields SSID device wifi list | cat
     Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
 
