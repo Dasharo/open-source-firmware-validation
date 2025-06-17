@@ -15,6 +15,7 @@ Resource    lib/sleep-lib.robot
 Resource    lib/framework.robot
 Resource    lib/me.robot
 Resource    lib/network.robot
+Resource    lib/bsd.robot
 
 
 *** Keywords ***
