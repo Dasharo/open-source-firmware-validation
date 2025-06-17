@@ -124,7 +124,7 @@ Parse Power Management Options
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}
     ${power_menu}=    Parsing Dasharo Submenu Verification    Power Management Options
     ${power_entries}=    Get Length    ${power_menu}
-    Should Be Equal As Integers    ${power_entries}    6
+    Should Be Equal As Integers    ${power_entries}    5
     Should Match Regexp    ${power_menu}[0]    ^Fan profile <.*>.*$
     Menu Construction Should Not Contain Control Text    ${power_menu}
 
@@ -181,14 +181,16 @@ Parse Serial Port Configuration
 Enter Dasharo Submenu Verification
     [Documentation]    Enters Dasharo System Features submenu as in the given
     ...    ${submenu_name}. Checks whether the menu can be entered properly.
-    [Arguments]    ${submenu_name}
+    [Arguments]    ${submenu_name}    ${skip_last_line_check}=${FALSE}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     Enter Submenu From Snapshot    ${dasharo_menu}    ${submenu_name}
     ${out}=    Read From Terminal Until    Esc=Exit
     Should Contain    ${out}    ${submenu_name}
-    Should Contain    ${out}    Press ESC to exit.
+    IF    not ${skip_last_line_check}
+        Should Contain    ${out}    Press ESC to exit.
+    END
     RETURN    ${out}
 
 Parsing Dasharo Submenu Verification
