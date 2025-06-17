@@ -85,3 +85,28 @@ repos:
         entry: ./scripts/check-unused-variables.sh
         args: [ "-f" ]
         files: 'platform-configs/.*\.robot$'
+
+      - id: test-ids-check
+        name: test-ids-check
+        description: Check if test IDs are valid
+        language: python
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["id_valid", "--print_invalid"]
+        files: 'dasharo-*/.*\.robot$'
+      - id: test-os-ids-check
+        name: test-os-ids-check
+        description: Check if OS ids in tests are valid
+        language: python
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["os_valid", "--print_invalid"]
+        files: 'dasharo-*/.*\.robot$'
+      - id: test-ids-mappings
+        name: test-ids-mappings
+        description: Check if test IDs are mappped correctly in test_cases.json
+        language: python
+        additional_dependencies:
+          - robotframework
+          - fire
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["id_mapped", "--print_invalid"]
+        files: '(dasharo-*/.*\.robot$)|(test_cases\.json$)'
