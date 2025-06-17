@@ -4,9 +4,9 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       SSH
-${DUT_CONNECTION_METHOD}=               SSH
-${POWER_CTRL}=                          none
+${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
+${DUT_CONNECTION_METHOD}=               Telnet
+${POWER_CTRL}=                          sonoff
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
 
 # CPU
