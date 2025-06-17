@@ -5,10 +5,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-import test_id_checking_lib as lib
 import sys
-import fire
 
+import fire
+import test_id_checking_lib as lib
 
 paths = [
     "dasharo-compatibility",
@@ -16,6 +16,7 @@ paths = [
     "dasharo-security",
     "dasharo-stability",
 ]
+
 
 def check_tests(check_function):
     invalid_tests = []
@@ -26,7 +27,8 @@ def check_tests(check_function):
                 invalid_tests.append(t)
     return invalid_tests
 
-class CLI():
+
+class CLI:
     def id_valid(self, print_invalid=False):
         """Checks if the IDs of tests are not illegal
 
@@ -62,11 +64,11 @@ class CLI():
 
         print_invalid: Print the invalid mappings
         """
+        diff = lib.compare_mappings()
         if print_invalid:
-            for diff in lib.compare_mappings():
-                print(diff)
-
-        if(lib.check_mappings()):
+            for d in diff:
+                print(d)
+        if len(diff) == 0:
             sys.exit(0)
         else:
             sys.exit(1)

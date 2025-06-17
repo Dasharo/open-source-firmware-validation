@@ -93,6 +93,7 @@ repos:
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["id_valid", "--print_invalid"]
         files: 'dasharo-*/.*\.robot$'
+
       - id: test-os-ids-check
         name: test-os-ids-check
         description: Check if OS ids in tests are valid
@@ -100,6 +101,7 @@ repos:
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["os_valid", "--print_invalid"]
         files: 'dasharo-*/.*\.robot$'
+
       - id: test-ids-mappings
         name: test-ids-mappings
         description: Check if test IDs are mappped correctly in test_cases.json
