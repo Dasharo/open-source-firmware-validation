@@ -217,6 +217,11 @@ getoptionpath = {
         "Power Management Options",
         "CPU Throttling",
     ],
+    "PowerStateAfterPowerAcLoss": [
+        "Dasharo System Features",
+        "Power Management Options",
+        "Power state after"
+    ]
 }
 
 
