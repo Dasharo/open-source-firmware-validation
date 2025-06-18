@@ -48,7 +48,7 @@ def get_test_cases_from_dir(directory):
 
 
 def get_id(test):
-    res = re.search("^([A-Z]{0,9}[0-9]{3}\\.[0-9]{3}).*", test.name)
+    res = re.search("^([A-Z]{3,9}[0-9]{3}\\.[0-9]{3}).*", test.name)
     if res:
         return res.group(1)
     return None
