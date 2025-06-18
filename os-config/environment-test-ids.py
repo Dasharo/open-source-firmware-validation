@@ -27,3 +27,15 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_TRENCHBOOT: "trenchboot",
     ENV_ID_ESXI: "ESXi",
 }
+
+ENV_ID_FRIENDLY_NAMES = {
+    ENV_ID_EDK2: "EDK2 UEFI",
+    ENV_ID_SEABIOS: "SeaBIOS",
+    ENV_ID_IPXE: "iPXE",
+    ENV_ID_HEADS: "Heads",
+    ENV_ID_UBUNTU: "Ubuntu",
+    ENV_ID_FEDORA: "Fedora",
+    ENV_ID_WINDOWS: "Windows",
+    ENV_ID_TRENCHBOOT: "TrenchBoot",
+    ENV_ID_ESXI: "ESXi",
+}
