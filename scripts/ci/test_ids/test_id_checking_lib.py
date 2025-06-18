@@ -139,7 +139,7 @@ def compare_mappings():
         tofile="json",
         lineterm="",
     )
-    return [d for d in diff if not d.startswith(" ")]
+    return [d for d in diff if not d.startswith((" ", "@@"))]
 
 
 if __name__ == "__main__":
