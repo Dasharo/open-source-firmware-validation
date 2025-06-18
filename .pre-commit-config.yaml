@@ -90,6 +90,9 @@ repos:
         name: test-ids-check
         description: Check if test IDs are valid
         language: python
+        additional_dependencies:
+          - robotframework
+          - fire
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["id_valid", "--print_invalid"]
         files: '^dasharo-.*/.*\.robot$'
@@ -98,6 +101,9 @@ repos:
         name: test-os-ids-check
         description: Check if OS ids in tests are valid
         language: python
+        additional_dependencies:
+          - robotframework
+          - fire
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["os_valid", "--print_invalid"]
         files: '^dasharo-.*/.*\.robot$'
