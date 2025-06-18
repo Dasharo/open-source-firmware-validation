@@ -198,6 +198,7 @@ ${EARLY_BOOT_DMA_SUPPORT}=                          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 ${HAS_SUPERIO_SERIAL}=                              ${FALSE}
 ${INTEL_CBNT_SUPPORT}=                              ${FALSE}
+${INTEL_CBNT_STATUS_MENU_SUPPORT}=                  ${FALSE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}
