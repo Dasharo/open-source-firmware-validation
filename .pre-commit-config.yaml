@@ -111,4 +111,4 @@ repos:
           - fire
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["id_mapped", "--print_invalid"]
-        files: '(dasharo-*/.*\.robot$)|(test_cases\.json$)'
+        files: '(^test_cases\.json$|^dasharo-.*/.*\.robot$)'
