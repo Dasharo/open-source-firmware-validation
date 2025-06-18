@@ -14,8 +14,7 @@ mapfile -t deprecated < <(grep -Rh "^    ...    Previous IDs: " dasharo-* | cut 
 all=( "${active[@]}" "${deprecated[@]/%/ DEPRECATED}" )
 
 # Sort the result - WARNING: doesn't support names with `*` or `?`
-IFS=$'\n'
-all=($(sort <<<"${all[*]}"))
+IFS=$'\n' mapfile -t all < <(printf '%s\n' "${all[@]}" | sort)
 unset IFS
 
 # Print each element in separate line
