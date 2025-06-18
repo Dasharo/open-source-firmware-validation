@@ -92,7 +92,7 @@ repos:
         language: python
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["id_valid", "--print_invalid"]
-        files: 'dasharo-*/.*\.robot$'
+        files: '^dasharo-.*/.*\.robot$'
 
       - id: test-os-ids-check
         name: test-os-ids-check
@@ -100,7 +100,7 @@ repos:
         language: python
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["os_valid", "--print_invalid"]
-        files: 'dasharo-*/.*\.robot$'
+        files: '^dasharo-.*/.*\.robot$'
 
       - id: test-ids-mappings
         name: test-ids-mappings
