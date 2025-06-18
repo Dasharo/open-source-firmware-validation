@@ -43,7 +43,7 @@ Check CBnT Profile 5
     Login To Linux
     Switch To Root User
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1
-    Should Contain    ${out_cbmem}    FACB:${SPACE*20}1
-    Should Contain    ${out_cbmem}    measured boot:${SPACE*11}1
-    Should Contain    ${out_cbmem}    verified boot:${SPACE*11}1
+    Should Match Regexp    ${out_cbmem}    FACB:\\S+1\\n
+    Should Match Regexp    ${out_cbmem}    measured boot:\\S+1\\n
+    Should Match Regexp    ${out_cbmem}    verified boot:\\S+1\\n
     Exit From Root User
