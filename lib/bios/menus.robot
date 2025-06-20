@@ -1270,6 +1270,7 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
             Append To List    ${lowercase_menu}    ${lower}
         END
         ${menu_construction}=    Set Variable    ${lowercase_menu}
+        ${system_name}=    Convert To Lower Case    ${system_name}
     END
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
     IF    not ${is_system_present}
