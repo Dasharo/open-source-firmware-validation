@@ -16,3 +16,4 @@ ${PLATFORM_RAM_SIZE}=           4096
 ...                             64-62-66-2f-00-13
 ${ETHERNET_ID}=                 8086:125c
 @{ETH_PERF_PAIR_2_G}=           eno0    eno1
+${MAX_CPU_TEMP_THRESHOLD}=      100

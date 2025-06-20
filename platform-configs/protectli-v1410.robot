@@ -19,3 +19,4 @@ ${PLATFORM_RAM_SIZE}=           8192
 ...                             64-62-66-2f-08-4c
 ...                             64-62-66-2f-08-4d
 ${ETHERNET_ID}=                 8086:125c
+${MAX_CPU_TEMP_THRESHOLD}=      100

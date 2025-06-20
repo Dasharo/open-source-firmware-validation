@@ -24,6 +24,7 @@ ${USB_DEVICE}=                          SanDisk
 ${USB_MODEL}=                           USB Flash Memory
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
+${MAX_CPU_TEMP_THRESHOLD}=              100
 
 # dasharo-compability
 ${FW_NO_EC_SYNC_DOWNLOAD_LINK}=

@@ -35,6 +35,7 @@ ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux
+${MAX_CPU_TEMP_THRESHOLD}=              110
 
 # cpu performance Ubuntu
 ${ZIP_MULTI_COMPRESSION}=               63476    # MIPS

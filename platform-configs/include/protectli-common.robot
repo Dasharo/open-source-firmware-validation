@@ -20,6 +20,7 @@ ${CPU}=                                         ${TBD}
 ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         none
 ${HAS_E_CORES}=                                 ${FALSE}
+${MAX_CPU_TEMP_THRESHOLD}=                      100
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_MANUFACTURER}=                      Protectli
