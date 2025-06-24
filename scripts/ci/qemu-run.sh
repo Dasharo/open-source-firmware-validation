@@ -133,8 +133,8 @@ if [ $# -ne 2 ]; then
   usage
 fi
 
-QEMU_PARAMS_BASE="-machine q35,smm=on \
-  -global driver=cfi.pflash01,property=secure,value=on \
+QEMU_PARAMS_BASE="-machine q35,smm=on -cpu host \
+  -global driver=cfi.pflash01,property=secure,value=off \
   -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
   -global ICH9-LPC.disable_s3=1 \
   -qmp unix:/tmp/qmp-socket,server,nowait \
