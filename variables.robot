@@ -267,7 +267,6 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.229
 
-
 @{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
 ...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
 ...                         &{RTE15}    &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}
