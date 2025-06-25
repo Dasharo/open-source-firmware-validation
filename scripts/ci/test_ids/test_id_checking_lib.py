@@ -75,7 +75,7 @@ class OsConfig:
         for name, value in vars.items():
             if name == "ENV_ID_OS_FRIENDLY_NAMES":
                 self.friendly_names = value
-            else:
+            elif not isinstance(value, dict):
                 self.os_ids[name] = value
 
     def get_id_to_friendly_mapping(self):
