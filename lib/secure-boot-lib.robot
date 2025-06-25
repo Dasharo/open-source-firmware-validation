@@ -149,7 +149,7 @@ Check Secure Boot In Linux
     # or just:
     # Secure boot disabled
     # Lines containing "Bluetooth" are ignored as they are not the target of this check and may cause false result.
-    ${out}=    Execute Command In Terminal    dmesg | grep "Secure boot" | grep -v "Bluetooth"
+    ${out}=    Execute Command In Terminal    journalctl -xb | grep "secureboot:"
     Should Contain Any    ${out}    disabled    enabled
     ${sb_status}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    enabled
