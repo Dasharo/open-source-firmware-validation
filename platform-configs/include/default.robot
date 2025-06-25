@@ -281,6 +281,17 @@ Power On Default
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
     Sleep    2s
     Rte Power Off
-    Sleep    10s
+    IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
+        FOR    ${i}    IN RANGE    10
+            ${out}=    Rte Check Power Led
+            IF    '${out}' == 'low'    RETURN
+            Sleep    0.5s
+        END
+        IF    '${out}' != 'low'
+            FAIL    Power LED didn't turn off! Setup needs manual verification.
+        END
+    ELSE
+        Sleep    10s
+    END
     Read From Terminal
     Power Cycle On
