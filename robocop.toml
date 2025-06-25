@@ -3,51 +3,65 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [tool.robocop]
-configure = [
+language = ["en"]
+
+[tool.robocop.lint]
+
+ignore = [
     # TODO: add missing documentation for keywords and re-enable
-    "0201:enabled:False",
+    "DOC01",
     # TODO: add missing documentation for test cases and re-enable
-    "0202:enabled:False",
-    # TODO: add missing documentation for test suites and re-enable
-    "0203:enabled:False",
+    "DOC02",
+    # TODO: add missing documentation for test suitdes and re-enable
+    "DOC03",
     # TODO: consider re-enabling
-    "0301:enabled:False",
+    "NAME01",
     # TODO: consider fixing and re-enabling
-    "0316:enabled:False",
+    "VAR08",
     # TODO: fix and re-enable
-    "0319:enabled:False",
+    "DEPR02",
     # TODO: fix and re-enable
-    "0327:enabled:False",
+    "DEPR05",
     # TODO: fix and re-enable
-    "0328:enabled:False",
+    "DEPR06",
+
+    # TODO: fix and re-enable
+    "COM01",
+    # TODO: fix and re-enable
+    "DEPR01",
+    # TODO: re-enable after fixes
+    "MISC06",
+    # TODO: fix unused variables and re-enable
+    "VAR02",
+    # TODO: consider fixing and re-enabling
+    "VAR03",
+    # TODO: fix and re-enable
+    "MISC13",
+
+    # TODO: fix and re-enable
+    "ARG01",
+    # TODO: fix and re-enable
+    "VAR04",
+    # TODO: fix and re-enable
+    "VAR05",
+    # TODO: fix and re-enable
+    "VAR06",
+    # TODO: fix and re-enable
+    "LEN27"
+]
+
+configure = [
     # TODO: consider reducing to default 40, or less
     # Has to be high to allow comprehensive documentation of library keywords
-    "0501:max_len:80",
+    "too-long-keyword.max_len=80",
     # TODO: consider reducing to default 10, or less
-    "0503:max_calls:50",
-    # TODO: consider reducing to default 20, or less
-    "0504:max_len:50",
-    # TODO: consider reducing to default 10, or less
-    "0505:max_calls:50",
+    "too-many-calls-in-keyword.max_calls=50",
+    # TODO: consider reducing to dfeault 20, or less
+    "too-long-test-case.max_len=50",
+    # TODO: consider reducing to dfeault 10, or less
+    "too-many-calls-in-test-case.max_calls=50",
     # TODO: reduce to default 400 or so
-    "0506:max_lines:5000",
+    "file-too-long.max_lines=5000",
     # TODO: reduce to 120/80
-    "0508:line_length:180",
-    "0701:enabled:False",
-    # TODO: fix and re-enable
-    "0908:enabled:False",
-    # TODO: re-enable after fixes
-    "0913:enabled:False",
-    # TODO: fix unused variables and re-enable
-    "0920:enabled:False",
-    # TODO: consider fixing and re-enabling
-    "0922:enabled:False",
-    # TODO: fix and re-enable
-    "0924:enabled:False",
-    # To allow setting e.g. DUT_CONNECTION_METHOD
-    "0929:enabled:False",
-    # To allow setting suite variables
-    "0930:enabled:False",
-    # To allow setting test variables
-    "0931:enabled:False"
+    "line-too-long.line_length=180",
 ]
