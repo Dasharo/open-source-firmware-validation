@@ -39,7 +39,7 @@ mdurl==0.1.2
 nodeenv==1.8.0
 numpy==2.2.3
 oauth2client==4.1.3
-osfv @ git+https://github.com/Dasharo/osfv-scripts.git@96cce6d891e78fb84b56a21ee1181a4124ecbe9c#subdirectory=osfv_cli
+osfv @ git+https://github.com/Dasharo/osfv-scripts.git@925522f048e2bd125279b598aec83b22f40810c3#subdirectory=osfv_cli
 packaging==24.2
 pandas==2.2.3
 paramiko==3.4.0
