@@ -61,6 +61,8 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     DIR         working directory, defaults to current working directory
     HDD2_PATH   optional path of the second hard drive to connect to the machine if
                 ACTION "os" is used. Relative to DIR
+    BRIDGE      if set, connects the machine to the local network via `br0` bridge
+                instead of doing address translation.
 
 Example usage:
     ./$(basename $0) vnc firmware
@@ -154,8 +156,14 @@ QEMU_PARAMS_OS="-device ich9-intel-hda \
   -object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
   -device virtio-net,netdev=vmnic \
-  -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
   -drive file=${HDD_PATH},if=ide"
+
+if [[ -z ${BRIDGE} ]]; then
+  QEMU_PARAMS_OS+=" -netdev user,id=vmnic,hostfwd=tcp::5222-:22"
+else
+  echo "Using bridged network"
+  QEMU_PARAMS_OS+=" -netdev bridge,id=vmnic,br=br0"
+fi
 
 if [[ -f ${HDD2_PATH} ]]; then
   QEMU_PARAMS_OS+=" \
