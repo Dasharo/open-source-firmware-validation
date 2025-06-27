@@ -193,13 +193,20 @@ QEMU_PARAMS_OS_AUDIO="-device ich9-intel-hda \
   -device hda-duplex,audiodev=hda \
   -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100"
 
+# Setting up a bridge interface for QEMU
+# ip link add name br0 type bridge
+# ip link set <interface> master br0
+# ip addr flush dev <interface>
+# ip link set br0 up
+# ip addr add <interface_local_ip>/<mask> dev br0
+# ip route add default via <gateway_ip>
+
 if [[ -z ${BRIDGE} ]]; then
   QEMU_PARAMS_OS+=" -netdev user,id=vmnic,hostfwd=tcp::5222-:22"
 else
   echo "Using bridged network"
   QEMU_PARAMS_OS+=" -netdev bridge,id=vmnic,br=br0"
 fi
->>>>>>> e44a321fda78 (ci/qemu-run.sh: Add the option to attach net via bridge)
 
 if [[ -f ${HDD2_PATH} ]]; then
   QEMU_PARAMS_OS+=" \
