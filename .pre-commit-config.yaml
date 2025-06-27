@@ -95,6 +95,7 @@ repos:
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["id_valid", "--print_invalid"]
         files: '^dasharo-.*/.*\.robot$'
+        pass_filenames: false
 
       - id: test-os-ids-check
         name: test-os-ids-check
@@ -106,6 +107,7 @@ repos:
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["os_valid", "--print_invalid"]
         files: '^dasharo-.*/.*\.robot$'
+        pass_filenames: false
 
       - id: test-ids-mappings
         name: test-ids-mappings
@@ -117,3 +119,4 @@ repos:
         entry: ./scripts/ci/test_ids/test_ids_legal.py
         args: ["id_mapped", "--print_invalid"]
         files: '(^test_cases\.json$|^dasharo-.*/.*\.robot$)'
+        pass_filenames: false
