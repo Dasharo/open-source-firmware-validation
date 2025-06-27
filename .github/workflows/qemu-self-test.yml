@@ -1,10 +1,15 @@
-# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
 name: Keywords self-tests with QEMU
 
-on: [push, pull_request]
+on:
+  schedule:
+    - cron: '0 0 * * *' # Every day at midnight
+  workflow_dispatch:
+  pull_request:
+
 
 jobs:
   qemu:
