@@ -200,7 +200,6 @@ QEMU_PARAMS_OS_AUDIO="-device ich9-intel-hda \
 # ip link set br0 up
 # ip addr add <interface_local_ip>/<mask> dev br0
 # ip route add default via <gateway_ip>
-
 if [[ -z ${BRIDGE} ]]; then
   QEMU_PARAMS_OS+=" -netdev user,id=vmnic,hostfwd=tcp::5222-:22"
 else
