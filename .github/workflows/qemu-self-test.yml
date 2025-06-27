@@ -9,7 +9,17 @@ on:
     - cron: '0 0 * * *' # Every day at midnight
   workflow_dispatch:
   pull_request:
-
+    branches:
+      - develop
+      - main
+    paths:
+      - 'lib/**'
+      - 'keywords.robot'
+      - '.github/workflows/qemu-self-test.yml'
+      - 'scripts/ci/qemu-self-test.sh'
+      - 'scripts/ci/qemu-run.sh'
+      - 'requirements.txt'
+  workflow_dispatch:
 
 jobs:
   qemu:
