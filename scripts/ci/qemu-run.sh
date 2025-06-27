@@ -158,6 +158,14 @@ QEMU_PARAMS_OS="-device ich9-intel-hda \
   -device virtio-net,netdev=vmnic \
   -drive file=${HDD_PATH},if=ide"
 
+# Setting up a bridge interface for QEMU
+# ip link add name br0 type bridge
+# ip link set <interface> master br0
+# ip addr flush dev <interface>
+# ip link set br0 up
+# ip addr add <interface_local_ip>/<mask> dev br0
+# ip route add default via <gateway_ip>
+
 if [[ -z ${BRIDGE} ]]; then
   QEMU_PARAMS_OS+=" -netdev user,id=vmnic,hostfwd=tcp::5222-:22"
 else
