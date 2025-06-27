@@ -220,8 +220,8 @@ getoptionpath = {
     "PowerStateAfterPowerAcLoss": [
         "Dasharo System Features",
         "Power Management Options",
-        "Power state after"
-    ]
+        "Power state after",
+    ],
 }
 
 

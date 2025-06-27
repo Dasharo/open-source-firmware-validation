@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 LABEL=OPNBOOT
 INSTALLER_ROOT_PARTITION=/dev/da0p4
 INSTALLER_MOUNT_DIR=/mnt
