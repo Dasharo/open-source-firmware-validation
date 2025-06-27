@@ -42,9 +42,9 @@ Enter PfSense Rescue Shell
     ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    5    3
     Enter Submenu From Snapshot
     ...    ${construction}
-    ...    Rescue Shell${SPACE * 8}Launch a shell for rescue operations
+    ...    Rescue Shell${SPACE*8}Launch a shell for rescue operations
     ...    "APP"
-    Set Prompt For Terminal    ${DEVICE_RESCUE_PROMPT}
+    Set Prompt For Terminal    ${DEVICE_OS_RESCUE_PROMPT}
 
 Enter OPNsense Shell
     Read From Terminal Until    login:
