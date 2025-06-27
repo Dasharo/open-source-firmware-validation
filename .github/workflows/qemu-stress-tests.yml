@@ -7,6 +7,7 @@ name: Keywords self-tests with QEMU
 on:
   schedule:
     - cron: '0 0 * * *' # Every day at midnight
+  workflow_dispatch:
 
 jobs:
   qemu:
