@@ -43,7 +43,7 @@ WLE002.201 Wi-Fi scanning (Ubuntu)
     ...    initialized correctly and can be used from within the
     ...    operating system..
     ...    Previous IDs: WLE002.001
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    WLE002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WLE002.201 not supported
@@ -70,7 +70,7 @@ WLE002.202 Wi-Fi scanning (Fedora)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system..
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE002.202 not supported
     Wi-Fi Scanning    ${ENV_ID_FEDORA}

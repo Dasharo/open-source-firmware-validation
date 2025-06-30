@@ -69,7 +69,7 @@ STB002.201 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
     ...    Previous IDs: STB002.001
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
@@ -87,7 +87,7 @@ STB001.202 Verify if no reboot occurs in the OS (Fedora)
 STB002.202 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${PLATFORM_STABILITY_CHECKING}    STB002.202 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    STB002.202 not supported

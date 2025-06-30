@@ -74,7 +74,7 @@ TPM002.201 Verify TPM version (Ubuntu)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     ...    Previous IDs: TPM002.002
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.101 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM002.201 not supported
     Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
@@ -99,7 +99,7 @@ TPM001.202 TPM Support (Fedora)
 TPM002.202 Verify TPM version (Fedora)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPM002.202 not supported
     Prepare TPM Test On Linux    ${ENV_ID_FEDORA}
     Validate Expected TPM Version Via Sysfs
