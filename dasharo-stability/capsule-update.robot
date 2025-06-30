@@ -40,6 +40,7 @@ ${FUM_DIALOG_BOTTOM}=       The platform will automatically reboot and disable F
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
+    [Tags]    automated
     Power On
     Enter UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before update
@@ -57,6 +58,7 @@ CUP001.001 Capsule Update With Wrong Keys
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
+    [Tags]    automated
     Power On
     Enter UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before Update
@@ -74,6 +76,7 @@ CUP002.001 Capsule Update With Wrong GUID
 
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
+    [Tags]    automated
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
@@ -86,6 +89,7 @@ CUP150.001 Capsule Update
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
+    [Tags]    automated
     Power On
     Enter UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before Update
@@ -104,6 +108,7 @@ CUP150.001 Capsule Update
     Should Not Contain    ${out}    CapsuleLast
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
+    [Tags]    automated
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
@@ -113,6 +118,7 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
 
 CUP170.001 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP170.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_UUID
     IF    '${tmp}' == 'None'
@@ -130,6 +136,7 @@ CUP170.001 Verifying UUID (Ubuntu)
 
 CUP170.002 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
     IF    '${tmp}' == 'None'
@@ -147,6 +154,7 @@ CUP170.002 Verifying UUID (Windows)
 
 CUP180.001 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    '${tmp}' == 'None'
@@ -161,6 +169,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
 
 CUP180.002 Verifying Serial Number (Windows)
     [Documentation]    Check if serial number didn't change after Capsule Update.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
     IF    '${tmp}' == 'None'
@@ -175,6 +184,7 @@ CUP180.002 Verifying Serial Number (Windows)
 
 CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
+    [Tags]    automated
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
@@ -188,6 +198,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     [Documentation]    Verify that the Capsule Update screen looks as expected
     ...    and the progress bar is scaled properly using a default logo.
     # Ensure we're running FW with the default logo
+    [Tags]    semiauto
     Flash Firmware If Not QEMU    default
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
