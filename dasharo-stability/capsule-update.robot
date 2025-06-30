@@ -20,7 +20,7 @@ Resource            ../lib/options/options-lib_dcu.robot
 # - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
-# ...               Display Preparation Instructions    AND
+...                     Display Preparation Instructions    AND
 ...                     Prepare Test Suite    AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported    AND
 ...                     Ensure Capsule Files Are Present    AND
@@ -47,7 +47,7 @@ ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
-    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    wrong_keys.cap
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    wrong_cert.cap
     Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
