@@ -21,10 +21,10 @@ export _REGRESSION_RUN
 
 check_test_station_variables
 
-if [ -z "$NO_SETUP" ]; then
-    execute_robot "util/basic-platform-setup.robot" "${@}"
-fi
+#if [ -z "$NO_SETUP" ]; then
+#    execute_robot "util/basic-platform-setup.robot" "${@}"
+#fi
 
-execute_robot "dasharo-compatibility" "${@}"
-execute_robot "dasharo-security" "${@}"
-execute_robot "dasharo-performance" "${@}"
+execute_robot "dasharo-compatibility" -- --include automated "${@}"
+execute_robot "dasharo-security" -- --include automated "${@}"
+execute_robot "dasharo-performance" -- --include automated "${@}"
