@@ -221,10 +221,12 @@ Perform Capsule Update And Return Status
         Enter UEFI Shell
 
         ${updated_bios_version}=    Get BIOS Version    After update
-        Should Be Equal    ${original_bios_version}    ${updated_bios_version}
-
+        ${version_changed}=    Run Keyword And Return Status
+        ...    Should Not Be Equal
+        ...    ${original_bios_version}
+        ...    ${updated_bios_version}
         ${logs}=    Get Capsule Update Logs
-        RETURN    ${logs}
+        RETURN    ${logs}    ${version_changed}
     ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         # Platform does not have a serial connection
         Power On
@@ -239,7 +241,7 @@ Perform Capsule Update And Return Status
         Login To Linux With Root Privileges
         ${updated_bios_version}=    Get BIOS Version Linux    After update
         ${version_changed}=    Run Keyword And Return Status
-        ...    Should Be Equal
+        ...    Should Not Be Equal
         ...    ${original_bios_version}
         ...    ${updated_bios_version}
         ${logs}=    Get Capsule Update Logs    use_uefi_shell=${False}
