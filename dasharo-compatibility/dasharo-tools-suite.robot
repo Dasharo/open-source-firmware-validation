@@ -27,6 +27,7 @@ Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
 DTS001.001 Booting DTS from USB works correctly
     [Documentation]    This test aims to verify that DTS is properly booting
     ...    from USB.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS001.001 not supported
     Mount USB Disk Image    ${TEST_DATA_DIR}/dts/dts-base-image-v2.1.3.wic
     Power On
@@ -35,6 +36,7 @@ DTS001.001 Booting DTS from USB works correctly
 DTS002.001 DTS option Creating Dasharo HCL report works correctly
     [Documentation]    This test aims to verify that the option Dasharo HCL
     ...    report in the DTS menu properly creates the report.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.001 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
@@ -48,6 +50,7 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
 DTS003.001 DTS option reboot DUT works correctly
     [Documentation]    This test aims to verify that the option Reboot system
     ...    in the DTS menu reboots the DUT.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.001 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
@@ -59,6 +62,7 @@ DTS003.001 DTS option reboot DUT works correctly
 DTS004.001 DTS accessing shell works correctly
     [Documentation]    This test aims to verify that shell can be accessed in
     ...    DTS.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.001 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
@@ -68,6 +72,7 @@ DTS004.001 DTS accessing shell works correctly
 DTS005.001 Flash device from DTS shell by using flashrom works correctly
     [Documentation]    This test aims to verify whether is the possibility to
     ...    flash the DUT firmware by using flashrom in DTS Shell.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS006.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS006.001 not supported
     Make Sure That Network Boot Is Enabled
@@ -85,6 +90,7 @@ DTS006.001 Flash device EC firmware by using DTS built-in script works correctly
     [Documentation]    This test aims to verify whether there is the
     ...    possibility to flash the DUT EC firmware by using the built-in
     ...    script in DTS.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS008.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS008.001 not supported
     Make Sure That Network Boot Is Enabled
@@ -100,6 +106,7 @@ DTS007.001 Update device EC firmware by using DTS works correctly
     [Documentation]    This test aims to verify whether there is the
     ...    possibility to update the DUT EC firmware by using dasharo_ectool
     ...    in DTS.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS009.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS009.001 not supported
     Make Sure That Network Boot Is Enabled
@@ -115,6 +122,7 @@ DTS007.001 Update device EC firmware by using DTS works correctly
 DTS008.001 DTS option power-off DUT works correctly
     [Documentation]    This test aims to verify that the option Power off
     ...    system in the DTS menu turns off the DUT.
+    [Tags]    automated
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.001 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
@@ -130,6 +138,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     ...    firmware. If FW_FILE_PREV isn't defined then test waits for user to
     ...    flash correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then
     ...    test will load DPP credentials before trying to update.
+    [Tags]    automated
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Flash FW Automatically Or Manually
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
@@ -155,6 +164,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     ...    firmware. If FW_FILE_PREV isn't defined then test waits for user to
     ...    flash correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then
     ...    test will load DPP credentials before trying to update.
+    [Tags]    automated
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Flash FW Automatically Or Manually
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
@@ -182,6 +192,7 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     ...    defined then test waits for user to flash correct FW.
     ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
     ...    credentials before trying to deploy firmware.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${version}=    Prepare For Initial Deployment    seabios=${False}
     Enable DTS Log Sending
@@ -202,6 +213,7 @@ DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     ...    defined then test waits for user to flash correct FW.
     ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
     ...    credentials before trying to deploy firmware.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${version}=    Prepare For Initial Deployment    seabios=${True}
     Enable DTS Log Sending
@@ -222,6 +234,7 @@ DTS011.001 Heads Transition by using DTS via iPXE works correctly
     ...    heads. If FW_FILE isn't defined then test waits for user to flash
     ...    correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then test will
     ...    load DPP credentials before trying to deploy firmware.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
 
     Flash FW Automatically Or Manually
