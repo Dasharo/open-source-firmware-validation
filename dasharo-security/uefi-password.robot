@@ -27,6 +27,8 @@ Suite Teardown      Run Keywords
 ...                     AND
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Variables ***
 @{DEFAULT_PASSWORD}=    1    q    a    z    X    S    W    @

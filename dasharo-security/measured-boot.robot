@@ -21,6 +21,8 @@ Suite Setup         Measured Boot Suite Setup
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Variables ***
 ${PCRS_TO_CHECK}=       [0-79]|14
