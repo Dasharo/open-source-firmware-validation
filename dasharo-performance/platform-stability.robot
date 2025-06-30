@@ -24,6 +24,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 STB001.001 Verify if no reboot occurs in the firmware
@@ -58,6 +60,7 @@ STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
     ...    Previous IDs: STB001.002
+
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB001.201 not supported
     Verify If No Reboot Occurs In Linux    ${ENV_ID_UBUNTU}
