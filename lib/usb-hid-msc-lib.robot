@@ -25,7 +25,7 @@ Mount USB Disk Image
 
     # FXIME: Currently works only for QEMU and PiKVM. Remove when support for
     # other methods is added.
-    IF    "${MANUFACTURER}" != "QEMU" or "${DUT_CONNECTION_METHOD}" != "pikvm"
+    IF    "${MANUFACTURER}" != "QEMU" and "${DUT_CONNECTION_METHOD}" != "pikvm"
         RETURN
     END
 
