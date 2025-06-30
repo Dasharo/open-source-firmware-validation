@@ -50,7 +50,7 @@ BMM001.001 Change Auto Boot Time-out and check after reboot
 BMM002.001 F9 resets Auto Boot Time-out to default value
     [Documentation]    Check whether pressing F9 resets Auto Boot Time-out to
     ...    default value
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM002.001 not supported
     Power On
