@@ -27,6 +27,7 @@ DSP001.201 - Internal display in OS (Ubuntu)
     [Documentation]    Check whether an internal display is visible in
     ...    Ubuntu.
     ...    Previous IDs: DSP001.002
+    [Tags]    automated
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP001.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
@@ -35,6 +36,7 @@ DSP001.201 - Internal display in OS (Ubuntu)
 DSP001.202 - Internal display in OS (Fedora)
     [Documentation]    Check whether an internal display is visible in
     ...    Ubuntu.
+    [Tags]    automated
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP003.202 not supported
     Internal Display In OS    ${ENV_ID_FEDORA}
@@ -43,6 +45,7 @@ DSP001.301 - Internal display in OS (Windows)
     [Documentation]    Check whether an internal display is visible in
     ...    Windows OS.
     ...    Previous IDs: DSP001.003
+    [Tags]    automated
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP001.002 not supported
     Power On
@@ -54,6 +57,7 @@ DSP002.201 - External HDMI display in OS (Ubuntu)
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
     ...    Previous IDs: DSP002.001
+    [Tags]    automated
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP002.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP002.201 not supported
@@ -63,6 +67,7 @@ DSP002.202 - External HDMI display in OS (Fedora)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Fedora OS. An external HDMI display must be provided in
     ...    the platform config.
+    [Tags]    automated
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP002.202 not supported
     External HDMI Display    ${ENV_ID_FEDORA}
@@ -72,6 +77,7 @@ DSP002.301 - External HDMI display in OS (Windows)
     ...    Windows OS. An external HDMI display must be provided in
     ...    the platform config.
     ...    Previous IDs: DSP002.002
+    [Tags]    automated
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.301 not supported
     Power On
@@ -82,6 +88,7 @@ DSP002.401 External HDMI display in OS (ESXi)
     [Documentation]    Verify that the external HDMI display is initialized and displays output
     ...    during and after ESXi boots. No multi-display configuration is required.
     ...    Previous IDs: DSP002.011
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    DSP002.401 not supported
     Pause Execution
     ...    This is a manual test to verify HDMI output on ESXi.
@@ -95,6 +102,7 @@ DSP003.201 - External DP display in OS (Ubuntu)
     ...    Linux OS. An external Display Port must be provided in
     ...    the platform config.
     ...    Previous IDs: DSP003.001
+    [Tags]    automated
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP003.201 supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
@@ -104,6 +112,7 @@ DSP003.202 - External DP display in OS (Fedora)
     [Documentation]    Check whether an external Display Port is visible in
     ...    Linux OS. An external Display Port must be provided in
     ...    the platform config.
+    [Tags]    automated
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP003.202 not supported
     External DP Display In OS    ${ENV_ID_FEDORA}
@@ -113,6 +122,7 @@ DSP003.301 - External DP display in OS (Windows)
     ...    Windows OS. An external Display Port must be provided in
     ...    the platform config.
     ...    Previous IDs: DSP003.002
+    [Tags]    automated
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    301.002 not supported
     Power On
@@ -123,6 +133,7 @@ DSP003.401 External DP display in OS (ESXi)
     [Documentation]    Verify that the external DisplayPort monitor shows output
     ...    during and after ESXi boot. No display mode configuration is required.
     ...    Previous IDs: DSP003.011
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    DSP003.401 not supported
     Pause Execution
     ...    This is a manual test to verify DisplayPort output on ESXi.

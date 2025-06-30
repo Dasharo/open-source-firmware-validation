@@ -21,6 +21,8 @@ Resource            ../lib/performance/cpu.robot
 Suite Setup         Prepare CPU Fan Speed Measure Suite
 Suite Teardown      Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 FAN001.201 CPU fan speed measure

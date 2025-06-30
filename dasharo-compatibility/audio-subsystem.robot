@@ -15,6 +15,8 @@ Resource            ../keys.robot
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Variables ***
 # Pactl names are uniform for all devices, and in theory

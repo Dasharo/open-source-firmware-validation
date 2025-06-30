@@ -23,6 +23,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 MWL001.201 Wireless card detection (Ubuntu)
@@ -70,7 +72,7 @@ MWL001.202 Wireless card detection (Fedora)
 MWL002.202 Wi-Fi scanning (Fedora)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
-    ...    operating system..
+    ...    operating system.
     Skip If    not ${MINI_PC_IE_SLOT_SUPPORT}    MWL002.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL002.202 not supported
     Wi-Fi Scanning    ${ENV_ID_FEDORA}

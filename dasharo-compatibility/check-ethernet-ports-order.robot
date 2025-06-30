@@ -16,6 +16,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 SPS001.001 Ethernet ports are in order

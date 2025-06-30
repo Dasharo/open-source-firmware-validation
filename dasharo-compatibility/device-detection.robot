@@ -25,11 +25,12 @@ Suite Teardown      Run Keywords
 ...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
 
+Force Tags          automated
+
 
 *** Test Cases ***
 DDET001.001 USB Stack disable
     [Documentation]    Test disabling the USB stack
-
     Login To Linux With Root Privileges
     Set UEFI Option    UsbDriverStack    Disabled
 
@@ -46,7 +47,6 @@ DDET001.001 USB Stack disable
 
 DDET002.001 USB Stack enable
     [Documentation]    Test enabling the USB stack
-
     Login To Linux With Root Privileges
     Set UEFI Option    UsbDriverStack    Enabled
     Execute Reboot Command
@@ -62,7 +62,6 @@ DDET002.001 USB Stack enable
 
 DDET003.001 Usb Devices Detected In Firmware Warmboot
     [Documentation]    Test if USB devices are detected after a warmboot
-
     Login To Linux With Root Privileges
     Perform Warmboot Using Rtcwake
     Login To Linux With Root Privileges
@@ -75,7 +74,6 @@ DDET003.001 Usb Devices Detected In Firmware Warmboot
 
 DDET004.001 NET Controller Detected After Reboot
     [Documentation]    Test if a network controller is detected on an PCI lane
-
     Login To Linux With Root Privileges
     Execute Reboot Command
     Login To Linux With Root Privileges

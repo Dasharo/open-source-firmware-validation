@@ -16,6 +16,8 @@ Suite Setup         Run Keywords
 ...                     Check If Platform Sleep Type Can Be Selected
 Suite Teardown      Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 SUSP005.201 Cyclic platform suspend and resume (Ubuntu)

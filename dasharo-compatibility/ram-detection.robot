@@ -25,6 +25,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Variables ***
 ${SIZE_OF_33_GB}=       35433480192    # 33*1024*1024*1024

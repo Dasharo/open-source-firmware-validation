@@ -20,6 +20,8 @@ Suite Setup         Run Keyword
 ...                     Prepare Test Suite
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
+
+Force Tags          automated
 # Important notice:
 # If both are technically supported, as is the case for Novacustom NV4x, the
 # test should be carried out separately for both the default Intel network card

@@ -25,6 +25,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 PSF001.001 Check Power State After Power Failure default state (firmware)

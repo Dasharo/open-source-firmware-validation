@@ -24,6 +24,8 @@ Suite Teardown      Run Keywords
 ...                     AND
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 APU001.001 Check if apu2 watchdog option is available

@@ -19,6 +19,8 @@ Resource            ../keys.robot
 Suite Setup         Efibootmgr Suite Setup
 Suite Teardown      Efibootmgr Suite Teardown
 
+Force Tags          automated
+
 
 *** Variables ***
 ${TEST_BOOT_ENTRY_NAME}=    dasharo-compatibility_efibootmgr-custom-boot-entry

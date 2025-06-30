@@ -5,6 +5,8 @@ Resource            ../lib/platform/boot.robot
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 CBO001.101 Custom Boot Order (EDK2)

@@ -28,6 +28,8 @@ Suite Teardown      Run Keywords
 ...                     AND
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 MPS001.001 Switching to XMP profile
