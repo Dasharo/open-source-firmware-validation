@@ -35,7 +35,7 @@ Suite Teardown      Run Keywords
 Test Setup          Run Keyword
 ...                     Restore Initial DUT Connection Method
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***

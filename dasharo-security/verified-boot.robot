@@ -31,7 +31,7 @@ Suite Teardown      Run Keyword
 Test Setup          Run Keyword
 ...                     Power On
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***

@@ -18,7 +18,7 @@ Suite Setup     Run Keywords
 ...                 Detect Or Install Phoronix Test Suite On Windows
 
 # TODO: human-readable representation of setup menu key for all platforms
-Force Tags      semiauto
+Default Tags    semiauto
 
 
 *** Variables ***

@@ -25,7 +25,7 @@ Suite Teardown      Run Keywords
 ...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***

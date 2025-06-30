@@ -15,7 +15,7 @@ Resource            ../keys.robot
 Suite Setup         Setup Esp Scanning Suite
 Suite Teardown      Teardown Esp Scanning Suite
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***

@@ -6,7 +6,7 @@ Resource            ../lib/performance/gpu.robot
 Suite Setup         GPU Performance Suite Setup
 Suite Teardown      Log Out And Close Connection
 
-Force Tags          semiauto
+Default Tags        semiauto
 
 
 *** Test Cases ***
