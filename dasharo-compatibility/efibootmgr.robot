@@ -19,7 +19,7 @@ Resource            ../keys.robot
 Suite Setup         Efibootmgr Suite Setup
 Suite Teardown      Efibootmgr Suite Teardown
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Variables ***

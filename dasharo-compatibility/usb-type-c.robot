@@ -19,6 +19,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 # Not automated
@@ -60,7 +62,7 @@ Suite Teardown      Run Keyword
 
 UTC107.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC107.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC107.201 not supported
@@ -70,7 +72,7 @@ UTC109.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Enabled) (WL-UM
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC109.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC109.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC109.201 not supported
@@ -80,7 +82,7 @@ UTC111.201 USB Type-C docking station DP display (Ubuntu) (ME: Enabled) (WL-UMD0
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC111.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC111.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC111.201 not supported
@@ -98,7 +100,7 @@ UTC111.201 USB Type-C docking station DP display (Ubuntu) (ME: Enabled) (WL-UMD0
 UTC115.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC115.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC115.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC115.201 not supported
@@ -107,7 +109,7 @@ UTC115.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enab
 UTC117.201 USB Type-C docking station USB keyboard (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC117.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC117.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC117.201 not supported
@@ -126,7 +128,7 @@ UTC121.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Enabled)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC121.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC121.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC121.201 not supported
@@ -136,7 +138,7 @@ UTC123.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Enabled) (
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC123.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC123.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC123.201 not supported
@@ -165,7 +167,7 @@ UTC123.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Enabled) (
 UTC129.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC129.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC129.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC129.201 not supported
@@ -174,7 +176,7 @@ UTC129.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Ena
 UTC131.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC131.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC131.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC131.201 not supported
@@ -192,7 +194,7 @@ UTC131.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
 UTC135.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC135.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC135.201 not supported
@@ -202,7 +204,7 @@ UTC135.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-U
 UTC137.201 Docking station detection after warmboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC137.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC137.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC137.201 not supported
@@ -211,7 +213,7 @@ UTC137.201 Docking station detection after warmboot (Ubuntu) (ME: Enabled) (WL-U
 UTC139.201 Docking station detection after reboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC139.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC139.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC139.201 not supported
@@ -220,7 +222,7 @@ UTC139.201 Docking station detection after reboot (Ubuntu) (ME: Enabled) (WL-UMD
 UTC141.201 Docking station detection after suspend (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC141.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC141.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC141.201 not supported
@@ -230,7 +232,7 @@ UTC141.201 Docking station detection after suspend (Ubuntu) (ME: Enabled) (WL-UM
 UTC143.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC143.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC143.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC143.201 not supported
@@ -240,7 +242,7 @@ UTC143.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Enabled)
 UTC145.201 Docking station detection after suspend (S3) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC145.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC145.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC145.201 not supported
@@ -323,7 +325,7 @@ UTC157.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 
 UTC107.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC107.202 not supported
     Usb Type-C Display Output    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -332,7 +334,7 @@ UTC109.202 USB Type-C docking station HDMI display (Fedora) (ME: Enabled) (WL-UM
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC109.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC109.202 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -341,7 +343,7 @@ UTC111.202 USB Type-C docking station DP display (Fedora) (ME: Enabled) (WL-UMD0
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC111.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC111.202 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -357,7 +359,7 @@ UTC111.202 USB Type-C docking station DP display (Fedora) (ME: Enabled) (WL-UMD0
 UTC115.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC115.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC115.202 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -365,7 +367,7 @@ UTC115.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enab
 UTC117.202 USB Type-C docking station USB keyboard (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC117.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC117.202 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -382,7 +384,7 @@ UTC121.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Enabled)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC121.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC121.202 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -391,7 +393,7 @@ UTC123.202 USB Type-C docking station audio recognition (Fedora) (ME: Enabled) (
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC123.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC123.202 not supported
     Usb Type-C Docking Station Audio Recognition    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -417,7 +419,7 @@ UTC123.202 USB Type-C docking station audio recognition (Fedora) (ME: Enabled) (
 UTC129.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC129.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC129.202 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -425,7 +427,7 @@ UTC129.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Ena
 UTC131.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC131.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC131.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -441,7 +443,7 @@ UTC131.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
 UTC135.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC135.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC135.202 not supported
@@ -450,7 +452,7 @@ UTC135.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-U
 UTC137.202 Docking station detection after warmboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC137.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC137.202 not supported
     Docking Station Detection After Warmboot    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -458,7 +460,7 @@ UTC137.202 Docking station detection after warmboot (Fedora) (ME: Enabled) (WL-U
 UTC139.202 Docking station detection after reboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC139.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC139.202 not supported
     Docking Station Detection After Reboot    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -466,7 +468,7 @@ UTC139.202 Docking station detection after reboot (Fedora) (ME: Enabled) (WL-UMD
 UTC141.202 Docking station detection after suspend (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC141.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC141.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC141.202 not supported
@@ -475,7 +477,7 @@ UTC141.202 Docking station detection after suspend (Fedora) (ME: Enabled) (WL-UM
 UTC143.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC143.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC143.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC143.202 not supported
@@ -484,7 +486,7 @@ UTC143.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Enabled)
 UTC145.202 Docking station detection after suspend (S3) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC145.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC145.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC145.202 not supported
@@ -562,7 +564,7 @@ UTC109.301 USB Type-C docking station HDMI display (Windows) (ME: Enabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC109.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC109.301 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
@@ -571,7 +573,7 @@ UTC111.301 USB Type-C docking station DP display (Windows) (ME: Enabled) (WL-UMD
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC111.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC111.301 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
@@ -587,7 +589,7 @@ UTC111.301 USB Type-C docking station DP display (Windows) (ME: Enabled) (WL-UMD
 UTC115.301 USB Type-C docking station USB devices recognition (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC115.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC115.301 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
@@ -595,7 +597,7 @@ UTC115.301 USB Type-C docking station USB devices recognition (Windows) (ME: Ena
 UTC117.301 USB Type-C docking station USB keyboard (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC117.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC117.301 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
@@ -612,7 +614,7 @@ UTC121.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC121.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC121.301 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
@@ -638,7 +640,7 @@ UTC121.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled
 UTC129.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC129.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC129.301 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
@@ -646,7 +648,7 @@ UTC129.301 USB Type-C docking station SD Card reader detection (Windows) (ME: En
 UTC131.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC131.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC131.301 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.E
@@ -698,7 +700,7 @@ UTC131.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 
 UTC108.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC108.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC108.201 not supported
@@ -708,7 +710,7 @@ UTC110.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Disabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC110.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC110.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC110.201 not supported
@@ -718,7 +720,7 @@ UTC112.201 USB Type-C docking station DP display (Ubuntu) (ME: Disabled) (WL-UMD
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC112.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC112.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC112.201 not supported
@@ -736,7 +738,7 @@ UTC112.201 USB Type-C docking station DP display (Ubuntu) (ME: Disabled) (WL-UMD
 UTC116.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC116.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC116.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC116.201 not supported
@@ -745,7 +747,7 @@ UTC116.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disa
 UTC118.201 USB Type-C docking station USB keyboard (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC118.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC118.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC118.201 not supported
@@ -764,7 +766,7 @@ UTC122.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Disabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC122.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC122.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC122.201 not supported
@@ -774,7 +776,7 @@ UTC124.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Disabled) 
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC124.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC124.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC124.201 not supported
@@ -803,7 +805,7 @@ UTC124.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Disabled) 
 UTC130.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC130.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC130.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC130.201 not supported
@@ -812,7 +814,7 @@ UTC130.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Dis
 UTC132.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC132.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC132.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC132.201 not supported
@@ -830,7 +832,7 @@ UTC132.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
 UTC136.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC136.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC136.201 not supported
@@ -840,7 +842,7 @@ UTC136.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-
 UTC138.201 Docking station detection after warmboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC138.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC138.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC138.201 not supported
@@ -849,7 +851,7 @@ UTC138.201 Docking station detection after warmboot (Ubuntu) (ME: Disabled) (WL-
 UTC140.201 Docking station detection after reboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC140.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC140.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC140.201 not supported
@@ -858,7 +860,7 @@ UTC140.201 Docking station detection after reboot (Ubuntu) (ME: Disabled) (WL-UM
 UTC142.201 Docking station detection after suspend (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC142.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC142.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC142.201 not supported
@@ -868,7 +870,7 @@ UTC142.201 Docking station detection after suspend (Ubuntu) (ME: Disabled) (WL-U
 UTC144.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC144.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC144.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC144.201 not supported
@@ -878,7 +880,7 @@ UTC144.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Disabled
 UTC146.201 Docking station detection after suspend (S3) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC146.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC146.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC146.201 not supported
@@ -961,7 +963,7 @@ UTC158.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 
 UTC108.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC108.202 not supported
     Usb Type-C Display Output    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -970,7 +972,7 @@ UTC110.202 USB Type-C docking station HDMI display (Fedora) (ME: Disabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC110.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC110.202 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -979,7 +981,7 @@ UTC112.202 USB Type-C docking station DP display (Fedora) (ME: Disabled) (WL-UMD
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC112.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC112.202 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -995,7 +997,7 @@ UTC112.202 USB Type-C docking station DP display (Fedora) (ME: Disabled) (WL-UMD
 UTC116.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC116.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC116.202 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1003,7 +1005,7 @@ UTC116.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disa
 UTC118.202 USB Type-C docking station USB keyboard (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC118.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC118.202 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1020,7 +1022,7 @@ UTC122.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Disabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC122.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC122.202 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1029,7 +1031,7 @@ UTC124.202 USB Type-C docking station audio recognition (Fedora) (ME: Disabled) 
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC124.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC124.202 not supported
     Usb Type-C Docking Station Audio Recognition    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1055,7 +1057,7 @@ UTC124.202 USB Type-C docking station audio recognition (Fedora) (ME: Disabled) 
 UTC130.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC130.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC130.202 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1063,7 +1065,7 @@ UTC130.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Dis
 UTC132.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC132.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC132.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1079,7 +1081,7 @@ UTC132.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
 UTC136.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC136.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC136.202 not supported
@@ -1088,7 +1090,7 @@ UTC136.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-
 UTC138.202 Docking station detection after warmboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC138.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC138.202 not supported
     Docking Station Detection After Warmboot    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1096,7 +1098,7 @@ UTC138.202 Docking station detection after warmboot (Fedora) (ME: Disabled) (WL-
 UTC140.202 Docking station detection after reboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC140.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC140.202 not supported
     Docking Station Detection After Reboot    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1104,7 +1106,7 @@ UTC140.202 Docking station detection after reboot (Fedora) (ME: Disabled) (WL-UM
 UTC142.202 Docking station detection after suspend (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC142.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC142.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC142.202 not supported
@@ -1113,7 +1115,7 @@ UTC142.202 Docking station detection after suspend (Fedora) (ME: Disabled) (WL-U
 UTC144.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC144.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC144.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC144.202 not supported
@@ -1122,7 +1124,7 @@ UTC144.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Disabled
 UTC146.202 Docking station detection after suspend (S3) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC146.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC146.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC146.202 not supported
@@ -1200,7 +1202,7 @@ UTC110.301 USB Type-C docking station HDMI display (Windows) (ME: Disabled) (WL-
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC110.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC110.301 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
@@ -1209,7 +1211,7 @@ UTC112.301 USB Type-C docking station DP display (Windows) (ME: Disabled) (WL-UM
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC112.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC112.301 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
@@ -1225,7 +1227,7 @@ UTC112.301 USB Type-C docking station DP display (Windows) (ME: Disabled) (WL-UM
 UTC116.301 USB Type-C docking station USB devices recognition (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC116.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC116.301 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
@@ -1233,7 +1235,7 @@ UTC116.301 USB Type-C docking station USB devices recognition (Windows) (ME: Dis
 UTC118.301 USB Type-C docking station USB keyboard (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC118.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC118.301 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
@@ -1250,7 +1252,7 @@ UTC122.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disable
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC122.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC122.301 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
@@ -1276,7 +1278,7 @@ UTC122.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disable
 UTC130.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC130.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC130.301 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
@@ -1284,7 +1286,7 @@ UTC130.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Di
 UTC132.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC132.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC132.301 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.E
@@ -1336,7 +1338,7 @@ UTC132.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
 
 UTC207.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC207.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC207.201 not supported
@@ -1346,7 +1348,7 @@ UTC209.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Enabled) (WL-UM
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC209.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC209.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC209.201 not supported
@@ -1356,7 +1358,7 @@ UTC211.201 USB Type-C docking station DP display (Ubuntu) (ME: Enabled) (WL-UMD0
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC211.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC211.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC211.201 not supported
@@ -1374,7 +1376,7 @@ UTC211.201 USB Type-C docking station DP display (Ubuntu) (ME: Enabled) (WL-UMD0
 UTC215.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC215.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC215.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC215.201 not supported
@@ -1383,7 +1385,7 @@ UTC215.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enab
 UTC217.201 USB Type-C docking station USB keyboard (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC217.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC217.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC217.201 not supported
@@ -1402,7 +1404,7 @@ UTC221.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Enabled)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC221.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC221.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC221.201 not supported
@@ -1412,7 +1414,7 @@ UTC223.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Enabled) (
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC223.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC223.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC223.201 not supported
@@ -1441,7 +1443,7 @@ UTC223.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Enabled) (
 UTC229.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC229.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC229.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC229.201 not supported
@@ -1450,7 +1452,7 @@ UTC229.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Ena
 UTC231.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC231.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC231.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC231.201 not supported
@@ -1468,7 +1470,7 @@ UTC231.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
 UTC235.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC235.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC235.201 not supported
@@ -1478,7 +1480,7 @@ UTC235.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-U
 UTC237.201 Docking station detection after warmboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC237.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC237.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC237.201 not supported
@@ -1487,7 +1489,7 @@ UTC237.201 Docking station detection after warmboot (Ubuntu) (ME: Enabled) (WL-U
 UTC239.201 Docking station detection after reboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC239.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC239.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC239.201 not supported
@@ -1496,7 +1498,7 @@ UTC239.201 Docking station detection after reboot (Ubuntu) (ME: Enabled) (WL-UMD
 UTC241.201 Docking station detection after suspend (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC241.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC241.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC241.201 not supported
@@ -1506,7 +1508,7 @@ UTC241.201 Docking station detection after suspend (Ubuntu) (ME: Enabled) (WL-UM
 UTC243.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC243.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC243.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC243.201 not supported
@@ -1516,7 +1518,7 @@ UTC243.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Enabled)
 UTC245.201 Docking station detection after suspend (S3) (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC245.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC245.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC245.201 not supported
@@ -1599,7 +1601,7 @@ UTC257.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 
 UTC207.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC207.202 not supported
     Usb Type-C Display Output    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1608,7 +1610,7 @@ UTC209.202 USB Type-C docking station HDMI display (Fedora) (ME: Enabled) (WL-UM
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC209.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC209.202 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1617,7 +1619,7 @@ UTC211.202 USB Type-C docking station DP display (Fedora) (ME: Enabled) (WL-UMD0
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC211.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC211.202 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1633,7 +1635,7 @@ UTC211.202 USB Type-C docking station DP display (Fedora) (ME: Enabled) (WL-UMD0
 UTC215.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC215.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC215.202 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1641,7 +1643,7 @@ UTC215.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enab
 UTC217.202 USB Type-C docking station USB keyboard (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC217.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC217.202 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1658,7 +1660,7 @@ UTC221.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Enabled)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC221.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC221.202 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1667,7 +1669,7 @@ UTC223.202 USB Type-C docking station audio recognition (Fedora) (ME: Enabled) (
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC223.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC223.202 not supported
     Usb Type-C Docking Station Audio Recognition    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1693,7 +1695,7 @@ UTC223.202 USB Type-C docking station audio recognition (Fedora) (ME: Enabled) (
 UTC229.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC229.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC229.202 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1701,7 +1703,7 @@ UTC229.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Ena
 UTC231.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC231.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC231.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1717,7 +1719,7 @@ UTC231.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
 UTC235.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC235.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC235.202 not supported
@@ -1726,7 +1728,7 @@ UTC235.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-U
 UTC237.202 Docking station detection after warmboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC237.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC237.202 not supported
     Docking Station Detection After Warmboot    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1734,7 +1736,7 @@ UTC237.202 Docking station detection after warmboot (Fedora) (ME: Enabled) (WL-U
 UTC239.202 Docking station detection after reboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC239.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC239.202 not supported
     Docking Station Detection After Reboot    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1742,7 +1744,7 @@ UTC239.202 Docking station detection after reboot (Fedora) (ME: Enabled) (WL-UMD
 UTC241.202 Docking station detection after suspend (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC241.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC241.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC241.202 not supported
@@ -1751,7 +1753,7 @@ UTC241.202 Docking station detection after suspend (Fedora) (ME: Enabled) (WL-UM
 UTC243.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC243.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC243.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC243.202 not supported
@@ -1760,7 +1762,7 @@ UTC243.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Enabled)
 UTC245.202 Docking station detection after suspend (S3) (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC245.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC245.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC245.202 not supported
@@ -1838,7 +1840,7 @@ UTC209.301 USB Type-C docking station HDMI display (Windows) (ME: Enabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC209.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC209.301 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1847,7 +1849,7 @@ UTC211.301 USB Type-C docking station DP display (Windows) (ME: Enabled) (WL-UMD
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC211.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC211.301 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1863,7 +1865,7 @@ UTC211.301 USB Type-C docking station DP display (Windows) (ME: Enabled) (WL-UMD
 UTC215.301 USB Type-C docking station USB devices recognition (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC215.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC215.301 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1871,7 +1873,7 @@ UTC215.301 USB Type-C docking station USB devices recognition (Windows) (ME: Ena
 UTC217.301 USB Type-C docking station USB keyboard (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC217.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC217.301 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1888,7 +1890,7 @@ UTC221.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC221.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC221.301 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1914,7 +1916,7 @@ UTC221.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled
 UTC229.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC229.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC229.301 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1922,7 +1924,7 @@ UTC229.301 USB Type-C docking station SD Card reader detection (Windows) (ME: En
 UTC231.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC231.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC231.301 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Enabled    WL-UMD05 Pro Rev.C1
@@ -1974,7 +1976,7 @@ UTC231.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 
 UTC208.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC208.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC208.201 not supported
@@ -1984,7 +1986,7 @@ UTC210.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Disabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC210.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC210.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC210.201 not supported
@@ -1994,7 +1996,7 @@ UTC212.201 USB Type-C docking station DP display (Ubuntu) (ME: Disabled) (WL-UMD
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC212.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC212.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC212.201 not supported
@@ -2012,7 +2014,7 @@ UTC212.201 USB Type-C docking station DP display (Ubuntu) (ME: Disabled) (WL-UMD
 UTC216.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC216.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC216.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC216.201 not supported
@@ -2021,7 +2023,7 @@ UTC216.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disa
 UTC218.201 USB Type-C docking station USB keyboard (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC218.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC218.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC218.201 not supported
@@ -2040,7 +2042,7 @@ UTC222.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Disabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC222.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC222.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC222.201 not supported
@@ -2050,7 +2052,7 @@ UTC224.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Disabled) 
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC224.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC224.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC224.201 not supported
@@ -2079,7 +2081,7 @@ UTC224.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Disabled) 
 UTC230.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC230.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC230.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC230.201 not supported
@@ -2088,7 +2090,7 @@ UTC230.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Dis
 UTC232.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC232.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC232.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC232.201 not supported
@@ -2106,7 +2108,7 @@ UTC232.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
 UTC236.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC236.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC236.201 not supported
@@ -2116,7 +2118,7 @@ UTC236.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-
 UTC238.201 Docking station detection after warmboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC238.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC238.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC238.201 not supported
@@ -2125,7 +2127,7 @@ UTC238.201 Docking station detection after warmboot (Ubuntu) (ME: Disabled) (WL-
 UTC240.201 Docking station detection after reboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC240.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC240.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC240.201 not supported
@@ -2134,7 +2136,7 @@ UTC240.201 Docking station detection after reboot (Ubuntu) (ME: Disabled) (WL-UM
 UTC242.201 Docking station detection after suspend (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC242.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC242.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC242.201 not supported
@@ -2144,7 +2146,7 @@ UTC242.201 Docking station detection after suspend (Ubuntu) (ME: Disabled) (WL-U
 UTC244.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC244.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC244.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC244.201 not supported
@@ -2154,7 +2156,7 @@ UTC244.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Disabled
 UTC246.201 Docking station detection after suspend (S3) (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC246.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC246.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC246.201 not supported
@@ -2237,7 +2239,7 @@ UTC258.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 
 UTC208.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC208.202 not supported
     Usb Type-C Display Output    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2246,7 +2248,7 @@ UTC210.202 USB Type-C docking station HDMI display (Fedora) (ME: Disabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC210.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC210.202 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2255,7 +2257,7 @@ UTC212.202 USB Type-C docking station DP display (Fedora) (ME: Disabled) (WL-UMD
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC212.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC212.202 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2271,7 +2273,7 @@ UTC212.202 USB Type-C docking station DP display (Fedora) (ME: Disabled) (WL-UMD
 UTC216.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC216.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC216.202 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2279,7 +2281,7 @@ UTC216.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disa
 UTC218.202 USB Type-C docking station USB keyboard (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC218.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC218.202 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2296,7 +2298,7 @@ UTC222.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Disabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC222.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC222.202 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2305,7 +2307,7 @@ UTC224.202 USB Type-C docking station audio recognition (Fedora) (ME: Disabled) 
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC224.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC224.202 not supported
     Usb Type-C Docking Station Audio Recognition    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2331,7 +2333,7 @@ UTC224.202 USB Type-C docking station audio recognition (Fedora) (ME: Disabled) 
 UTC230.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC230.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC230.202 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2339,7 +2341,7 @@ UTC230.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Dis
 UTC232.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC232.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC232.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2355,7 +2357,7 @@ UTC232.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
 UTC236.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC236.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC236.202 not supported
@@ -2364,7 +2366,7 @@ UTC236.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-
 UTC238.202 Docking station detection after warmboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC238.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC238.202 not supported
     Docking Station Detection After Warmboot    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2372,7 +2374,7 @@ UTC238.202 Docking station detection after warmboot (Fedora) (ME: Disabled) (WL-
 UTC240.202 Docking station detection after reboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC240.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC240.202 not supported
     Docking Station Detection After Reboot    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2380,7 +2382,7 @@ UTC240.202 Docking station detection after reboot (Fedora) (ME: Disabled) (WL-UM
 UTC242.202 Docking station detection after suspend (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC242.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC242.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC242.202 not supported
@@ -2389,7 +2391,7 @@ UTC242.202 Docking station detection after suspend (Fedora) (ME: Disabled) (WL-U
 UTC244.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC244.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC244.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC244.202 not supported
@@ -2398,7 +2400,7 @@ UTC244.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Disabled
 UTC246.202 Docking station detection after suspend (S3) (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC246.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC246.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC246.202 not supported
@@ -2476,7 +2478,7 @@ UTC210.301 USB Type-C docking station HDMI display (Windows) (ME: Disabled) (WL-
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC210.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC210.301 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2485,7 +2487,7 @@ UTC212.301 USB Type-C docking station DP display (Windows) (ME: Disabled) (WL-UM
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC212.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC212.301 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2501,7 +2503,7 @@ UTC212.301 USB Type-C docking station DP display (Windows) (ME: Disabled) (WL-UM
 UTC216.301 USB Type-C docking station USB devices recognition (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC216.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC216.301 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2509,7 +2511,7 @@ UTC216.301 USB Type-C docking station USB devices recognition (Windows) (ME: Dis
 UTC218.301 USB Type-C docking station USB keyboard (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC218.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC218.301 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2526,7 +2528,7 @@ UTC222.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disable
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC222.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC222.301 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2552,7 +2554,7 @@ UTC222.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disable
 UTC230.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC230.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC230.301 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2560,7 +2562,7 @@ UTC230.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Di
 UTC232.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC232.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC232.301 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Disabled    WL-UMD05 Pro Rev.C1
@@ -2612,7 +2614,7 @@ UTC232.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled
 
 UTC307.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC307.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC307.201 not supported
@@ -2622,7 +2624,7 @@ UTC309.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Enabled) (WL-UG
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC309.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC309.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC309.201 not supported
@@ -2632,7 +2634,7 @@ UTC311.201 USB Type-C docking station DP display (Ubuntu) (ME: Enabled) (WL-UG69
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC311.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC311.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC311.201 not supported
@@ -2650,7 +2652,7 @@ UTC311.201 USB Type-C docking station DP display (Ubuntu) (ME: Enabled) (WL-UG69
 UTC315.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC315.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC315.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC315.201 not supported
@@ -2659,7 +2661,7 @@ UTC315.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enab
 UTC317.201 USB Type-C docking station USB keyboard (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC317.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC317.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC317.201 not supported
@@ -2678,7 +2680,7 @@ UTC321.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Enabled)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC321.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC321.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC321.201 not supported
@@ -2688,7 +2690,7 @@ UTC323.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Enabled) (
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC323.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC323.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC323.201 not supported
@@ -2717,7 +2719,7 @@ UTC323.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Enabled) (
 UTC329.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC329.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC329.201 not supported
@@ -2726,7 +2728,7 @@ UTC329.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Ena
 UTC331.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC331.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC331.201 not supported
@@ -2744,7 +2746,7 @@ UTC331.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
 UTC335.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC335.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC335.201 not supported
@@ -2754,7 +2756,7 @@ UTC335.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-U
 UTC337.201 Docking station detection after warmboot (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC337.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC337.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC337.201 not supported
@@ -2763,7 +2765,7 @@ UTC337.201 Docking station detection after warmboot (Ubuntu) (ME: Enabled) (WL-U
 UTC339.201 Docking station detection after reboot (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC339.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC339.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC339.201 not supported
@@ -2772,7 +2774,7 @@ UTC339.201 Docking station detection after reboot (Ubuntu) (ME: Enabled) (WL-UG6
 UTC341.201 Docking station detection after suspend (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC341.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC341.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC341.201 not supported
@@ -2782,7 +2784,7 @@ UTC341.201 Docking station detection after suspend (Ubuntu) (ME: Enabled) (WL-UG
 UTC343.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC343.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC343.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC343.201 not supported
@@ -2792,7 +2794,7 @@ UTC343.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Enabled)
 UTC345.201 Docking station detection after suspend (S3) (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC345.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC345.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC345.201 not supported
@@ -2875,7 +2877,7 @@ UTC357.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 
 UTC307.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC307.202 not supported
     Usb Type-C Display Output    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2884,7 +2886,7 @@ UTC309.202 USB Type-C docking station HDMI display (Fedora) (ME: Enabled) (WL-UG
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC309.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC309.202 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2893,7 +2895,7 @@ UTC311.202 USB Type-C docking station DP display (Fedora) (ME: Enabled) (WL-UG69
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC311.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC311.202 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2909,7 +2911,7 @@ UTC311.202 USB Type-C docking station DP display (Fedora) (ME: Enabled) (WL-UG69
 UTC315.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC315.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC315.202 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2917,7 +2919,7 @@ UTC315.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enab
 UTC317.202 USB Type-C docking station USB keyboard (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC317.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC317.202 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2934,7 +2936,7 @@ UTC321.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Enabled)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC321.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC321.202 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2943,7 +2945,7 @@ UTC323.202 USB Type-C docking station audio recognition (Fedora) (ME: Enabled) (
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC323.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC323.202 not supported
     Usb Type-C Docking Station Audio Recognition    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2969,7 +2971,7 @@ UTC323.202 USB Type-C docking station audio recognition (Fedora) (ME: Enabled) (
 UTC329.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC329.202 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2977,7 +2979,7 @@ UTC329.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Ena
 UTC331.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC331.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -2993,7 +2995,7 @@ UTC331.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
 UTC335.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC335.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC335.202 not supported
@@ -3002,7 +3004,7 @@ UTC335.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-U
 UTC337.202 Docking station detection after warmboot (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC337.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC337.202 not supported
     Docking Station Detection After Warmboot    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -3010,7 +3012,7 @@ UTC337.202 Docking station detection after warmboot (Fedora) (ME: Enabled) (WL-U
 UTC339.202 Docking station detection after reboot (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC339.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC339.202 not supported
     Docking Station Detection After Reboot    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -3018,7 +3020,7 @@ UTC339.202 Docking station detection after reboot (Fedora) (ME: Enabled) (WL-UG6
 UTC341.202 Docking station detection after suspend (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC341.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC341.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC341.202 not supported
@@ -3027,7 +3029,7 @@ UTC341.202 Docking station detection after suspend (Fedora) (ME: Enabled) (WL-UG
 UTC343.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC343.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC343.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC343.202 not supported
@@ -3036,7 +3038,7 @@ UTC343.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Enabled)
 UTC345.202 Docking station detection after suspend (S3) (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC345.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC345.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC345.202 not supported
@@ -3114,7 +3116,7 @@ UTC309.301 USB Type-C docking station HDMI display (Windows) (ME: Enabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC309.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC309.301 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
@@ -3123,7 +3125,7 @@ UTC311.301 USB Type-C docking station DP display (Windows) (ME: Enabled) (WL-UG6
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC311.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC311.301 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
@@ -3139,7 +3141,7 @@ UTC311.301 USB Type-C docking station DP display (Windows) (ME: Enabled) (WL-UG6
 UTC315.301 USB Type-C docking station USB devices recognition (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC315.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC315.301 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
@@ -3147,7 +3149,7 @@ UTC315.301 USB Type-C docking station USB devices recognition (Windows) (ME: Ena
 UTC317.301 USB Type-C docking station USB keyboard (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC317.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC317.301 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
@@ -3164,7 +3166,7 @@ UTC321.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC321.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC321.301 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
@@ -3190,7 +3192,7 @@ UTC321.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled
 UTC329.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC329.301 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
@@ -3198,7 +3200,7 @@ UTC329.301 USB Type-C docking station SD Card reader detection (Windows) (ME: En
 UTC331.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC331.301 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
@@ -3250,7 +3252,7 @@ UTC331.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled)
 
 UTC308.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC308.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC308.201 not supported
@@ -3260,7 +3262,7 @@ UTC310.201 USB Type-C docking station HDMI display (Ubuntu) (ME: Disabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC310.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC310.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC310.201 not supported
@@ -3270,7 +3272,7 @@ UTC312.201 USB Type-C docking station DP display (Ubuntu) (ME: Disabled) (WL-UG6
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC312.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC312.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC312.201 not supported
@@ -3288,7 +3290,7 @@ UTC312.201 USB Type-C docking station DP display (Ubuntu) (ME: Disabled) (WL-UG6
 UTC316.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC316.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC316.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC316.201 not supported
@@ -3297,7 +3299,7 @@ UTC316.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disa
 UTC318.201 USB Type-C docking station USB keyboard (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC318.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC318.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC318.201 not supported
@@ -3316,7 +3318,7 @@ UTC322.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Disabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC322.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC322.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC322.201 not supported
@@ -3326,7 +3328,7 @@ UTC324.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Disabled) 
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC324.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC324.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC324.201 not supported
@@ -3355,7 +3357,7 @@ UTC324.201 USB Type-C docking station audio recognition (Ubuntu) (ME: Disabled) 
 UTC330.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC330.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC330.201 not supported
@@ -3364,7 +3366,7 @@ UTC330.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Dis
 UTC332.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC332.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC332.201 not supported
@@ -3382,7 +3384,7 @@ UTC332.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
 UTC336.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC336.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC336.201 not supported
@@ -3392,7 +3394,7 @@ UTC336.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-
 UTC338.201 Docking station detection after warmboot (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC338.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC338.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC338.201 not supported
@@ -3401,7 +3403,7 @@ UTC338.201 Docking station detection after warmboot (Ubuntu) (ME: Disabled) (WL-
 UTC340.201 Docking station detection after reboot (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC340.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC340.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC340.201 not supported
@@ -3410,7 +3412,7 @@ UTC340.201 Docking station detection after reboot (Ubuntu) (ME: Disabled) (WL-UG
 UTC342.201 Docking station detection after suspend (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC342.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC342.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC342.201 not supported
@@ -3420,7 +3422,7 @@ UTC342.201 Docking station detection after suspend (Ubuntu) (ME: Disabled) (WL-U
 UTC344.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC344.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC344.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC344.201 not supported
@@ -3430,7 +3432,7 @@ UTC344.201 Docking station detection after suspend (S0ix) (Ubuntu) (ME: Disabled
 UTC346.201 Docking station detection after suspend (S3) (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC346.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC346.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC346.201 not supported
@@ -3513,7 +3515,7 @@ UTC358.201 Docking station detection after suspend then hotplug (S3) (Ubuntu) (M
 
 UTC308.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
-    [Tags]    automated
+
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC308.202 not supported
     Usb Type-C Display Output    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3522,7 +3524,7 @@ UTC310.202 USB Type-C docking station HDMI display (Fedora) (ME: Disabled) (WL-U
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC310.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC310.202 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3531,7 +3533,7 @@ UTC312.202 USB Type-C docking station DP display (Fedora) (ME: Disabled) (WL-UG6
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC312.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC312.202 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3547,7 +3549,7 @@ UTC312.202 USB Type-C docking station DP display (Fedora) (ME: Disabled) (WL-UG6
 UTC316.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC316.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC316.202 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3555,7 +3557,7 @@ UTC316.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disa
 UTC318.202 USB Type-C docking station USB keyboard (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC318.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC318.202 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3572,7 +3574,7 @@ UTC322.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Disabled
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC322.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC322.202 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3581,7 +3583,7 @@ UTC324.202 USB Type-C docking station audio recognition (Fedora) (ME: Disabled) 
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC324.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC324.202 not supported
     Usb Type-C Docking Station Audio Recognition    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3607,7 +3609,7 @@ UTC324.202 USB Type-C docking station audio recognition (Fedora) (ME: Disabled) 
 UTC330.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC330.202 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3615,7 +3617,7 @@ UTC330.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Dis
 UTC332.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC332.202 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3631,7 +3633,7 @@ UTC332.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
 UTC336.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    [Tags]    automated
+
     Skip If    '${POWER_CTRL}' == 'none'    UTC336.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC336.202 not supported
@@ -3640,7 +3642,7 @@ UTC336.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-
 UTC338.202 Docking station detection after warmboot (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC338.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC338.202 not supported
     Docking Station Detection After Warmboot    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3648,7 +3650,7 @@ UTC338.202 Docking station detection after warmboot (Fedora) (ME: Disabled) (WL-
 UTC340.202 Docking station detection after reboot (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC340.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC340.202 not supported
     Docking Station Detection After Reboot    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -3656,7 +3658,7 @@ UTC340.202 Docking station detection after reboot (Fedora) (ME: Disabled) (WL-UG
 UTC342.202 Docking station detection after suspend (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
-    [Tags]    automated
+
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC342.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC342.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC342.202 not supported
@@ -3665,7 +3667,7 @@ UTC342.202 Docking station detection after suspend (Fedora) (ME: Disabled) (WL-U
 UTC344.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC344.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC344.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC344.202 not supported
@@ -3674,7 +3676,7 @@ UTC344.202 Docking station detection after suspend (S0ix) (Fedora) (ME: Disabled
 UTC346.202 Docking station detection after suspend (S3) (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
-    [Tags]    automated
+
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    UTC346.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC346.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC346.202 not supported
@@ -3752,7 +3754,7 @@ UTC310.301 USB Type-C docking station HDMI display (Windows) (ME: Disabled) (WL-
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_HDMI}    UTC310.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC310.301 not supported
     Usb Type-C Docking Station Hdmi Display    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
@@ -3761,7 +3763,7 @@ UTC312.301 USB Type-C docking station DP display (Windows) (ME: Disabled) (WL-UG
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC312.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC312.301 not supported
     Usb Type-C Docking Station Dp Display    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
@@ -3777,7 +3779,7 @@ UTC312.301 USB Type-C docking station DP display (Windows) (ME: Disabled) (WL-UG
 UTC316.301 USB Type-C docking station USB devices recognition (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC316.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC316.301 not supported
     Usb Type-C Docking Station Usb Devices Recognition    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
@@ -3785,7 +3787,7 @@ UTC316.301 USB Type-C docking station USB devices recognition (Windows) (ME: Dis
 UTC318.301 USB Type-C docking station USB keyboard (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC318.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC318.301 not supported
     Usb Type-C Docking Station Usb Keyboard    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
@@ -3802,7 +3804,7 @@ UTC322.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disable
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC322.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC322.301 not supported
     Usb Type-C Docking Station Ethernet Connection    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
@@ -3828,7 +3830,7 @@ UTC322.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disable
 UTC330.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC330.301 not supported
     Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
@@ -3836,7 +3838,7 @@ UTC330.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Di
 UTC332.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    [Tags]    automated
+
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC332.301 not supported
     Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1

@@ -22,7 +22,7 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***

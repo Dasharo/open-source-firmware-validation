@@ -22,7 +22,7 @@ Suite Setup         TPM2 Suite Setup
 Suite Teardown      Log Out And Close Connection
 Test Setup          Flush TPM Contexts
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***

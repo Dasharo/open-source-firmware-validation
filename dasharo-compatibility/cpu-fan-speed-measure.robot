@@ -21,7 +21,7 @@ Resource            ../lib/performance/cpu.robot
 Suite Setup         Prepare CPU Fan Speed Measure Suite
 Suite Teardown      Log Out And Close Connection
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***
@@ -56,6 +56,7 @@ FAN002.201 All available fans are running
 
 FAN003.201 Fans are turning off during suspend mode with ME Enabled
     [Documentation]    Check for correct behavior
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.201 not supported
     Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN003.201 not supported
     Power On
@@ -68,6 +69,7 @@ FAN003.201 Fans are turning off during suspend mode with ME Enabled
 
 FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
     [Documentation]    Check for correct behavior
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN004.201 not supported
     Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN004.201 not supported
     Power On
@@ -80,6 +82,7 @@ FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
 
 FAN005.201 Fans are turning off during suspend mode with ME HAP disabled
     [Documentation]    Check for correct behavior
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN005.201 not supported
     Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN005.201 not supported
     Power On

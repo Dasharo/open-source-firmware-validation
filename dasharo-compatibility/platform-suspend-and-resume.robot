@@ -16,7 +16,7 @@ Suite Setup         Run Keywords
 ...                     Check If Platform Sleep Type Can Be Selected
 Suite Teardown      Log Out And Close Connection
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Test Cases ***

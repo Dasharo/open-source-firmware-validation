@@ -7,7 +7,7 @@ Resource            ../lib/performance/cpu.robot
 Suite Setup         CPU Performance Suite Setup
 Suite Teardown      Log Out And Close Connection
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Variables ***

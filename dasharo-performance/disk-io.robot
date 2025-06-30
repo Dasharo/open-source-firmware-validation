@@ -7,7 +7,7 @@ Resource            ../lib/platform/power.robot
 Suite Setup         Disk IO Suite Setup
 Suite Teardown      Log Out And Close Connection
 
-Force Tags          automated
+Default Tags        automated
 
 
 *** Variables ***
