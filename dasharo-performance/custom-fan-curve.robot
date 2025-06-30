@@ -30,6 +30,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 CFC001.001 Custom fan curve silent profile measure (Ubuntu)

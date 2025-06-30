@@ -7,11 +7,12 @@ Resource            ../lib/performance/common.robot
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
+Force Tags          automated
+
 
 *** Test Cases ***
 DGPU001.001 Hybrid Graphics modes: NVIDIA Optimus
     [Documentation]    Verifies that the internal display is connected to the integrated GPU (iGPU) while both iGPU and dGPU are active in Ubuntu.
-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}
     Set UEFI Option    DGPUState    NVIDIA Optimus
@@ -55,7 +56,6 @@ DGPU001.001 Hybrid Graphics modes: NVIDIA Optimus
 
 DGPU002.001 Hybrid Graphics modes: dGPU Only
     [Documentation]    Verifies that the internal display is connected to the discrete GPU (dGPU) while the integrated GPU (iGPU) is still active.
-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}
     Skip If    not ${DGPU_ONLY_SUPPORT}
@@ -88,7 +88,6 @@ DGPU002.001 Hybrid Graphics modes: dGPU Only
 
 DGPU003.001 Hybrid Graphics modes: iGPU Only
     [Documentation]    Verifies that only the discrete GPU (dGPU) is turned off and the integrated GPU (iGPU) is active.
-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}
     Set UEFI Option    DGPUState    iGPU Only
