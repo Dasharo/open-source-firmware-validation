@@ -13,17 +13,7 @@ Flash Via Internal Programmer With Args
     IF    "Warning: Chip content is identical to the requested image." in """${out_flash}"""
         RETURN
     END
-    ${success}=    Run Keyword And Return Status
-    ...    Should Contain    ${out_flash}    VERIFIED
-    IF    not ${success}
-        Log    Retry flashing once again in case of failure
-        ${out_flash}=    Execute Command In Terminal    flashrom -p internal -w ${fw_file_path} ${args}    300s
-        IF    "Warning: Chip content is identical to the requested image." in """${out_flash}"""
-            Fail    Couldn't flash firmware
-        END
-        #    Should Contain    ${out_flash}    VERIFIED
-    END
-    RETURN    ${out_flash}
+    Should Contain    ${out_flash}    VERIFIED
 
 Flash Via Internal Programmer
     [Arguments]    ${fw_file_path}    ${region}=${EMPTY}
@@ -43,7 +33,9 @@ Flash Via Internal Programmer
     ELSE
         VAR    ${args}=    ${EMPTY}
     END
-    Flash Via Internal Programmer With Args    /tmp/${fw_file_path}    ${args}
+    Wait Until Keyword Succeeds    2
+    ...    1s
+    ...    Flash Via Internal Programmer With Args    /tmp/${fw_file_path}    ${args}
 
 Check If RW SECTION B Is Present In A Firmware File
     [Documentation]    Parses ROM with cbfstool to check if A or A + B sections are there
