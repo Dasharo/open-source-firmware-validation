@@ -1,0 +1,206 @@
+<!--
+SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+# Contributing
+
+## Code
+
+* Install pre-commit hooks after cloning repository:
+
+```bash
+pre-commit install
+```
+
+## Issues
+
+If you are certain that the issue is related to this repository, create issue
+directly
+[here](https://github.com/Dasharo/open-source-firmware-validation/issues/new/choose).
+Otherwise, create an issue in
+[dasharo-issues repisotory](https://github.com/Dasharo/dasharo-issues/issues/new/choose).
+
+## Guidelines
+
+A list of guidelines we shall follow during transition to improve the quality
+of this repository. We start with getting rid of duplicated keywords, reducing
+the size of `keywords.robot` file, and improving their overall quality.
+
+There are other areas of interest that we will look into in the next steps
+and add as guidelines:
+* variables (use Python/YAML, not robot syntax),
+* platform-configs (get rid of duplication, and unused data),
+* separate test for different OS into different suites,
+* prepare the OS for running test suite via some dedicated tools (e.g. Ansible),
+  rather than implementing keywords for that from scratch,
+* reduce the number of unnecessary power events, so tests can finish quicker,
+* improve overall code quality by enabling back more
+  [robocop checks we cannot pass right now](https://github.com/Dasharo/open-source-firmware-validation/blob/main/robocop.toml),
+* To Be Continued.
+
+### Pre-commit and CI checks
+
+1. Make sure to use `pre-commit` locally. All pre-commit and other CI checks
+   must pass of course, prior requesting for review. Please check the status of
+   checks in your PR. If the failure is questionable, provide your arguments
+   for that, rather than silently ignoring this fact.
+
+### Code style
+
+1. It is automatically handled by
+  [robotidy](https://robotidy.readthedocs.io/en/stable/). The current rules
+  can be found
+  [here](https://github.com/Dasharo/open-source-firmware-validation/blob/main/.robotidy).
+
+### Keywords
+
+1. No new keywords in `keywords.robot` will be accepted
+* new keywords must be placed in a logically divided modules, under `lib/`
+      directory
+    - see
+        [openbmc-test-automation](https://github.com/openbmc/openbmc-test-automation/tree/master/lib)
+      as a reference
+* if you need to modify something in `keywords.robot`, you should create a new
+      module under `lib/`
+* if you add new keyword module, you should review the `keywords.module` and
+      move related keywords there as well, if suitable
+1. If keyword from keywords.robot can be reused or improved, do that instead
+   of creating a new one
+   - keyword duplication will not be accepted,
+   - you will be asked to use/improve existing keywords instead.
+1. You are encouraged to use Python for more sophisticaed or complex keywords
+   (e.g. more convoluted data parsing and processing). We are not forced to use
+   RF for all keywords. Especially when it is simply easier to use Python.
+1. For reading from terminal (no matter if it is Telnet, or SSH),
+   following keywords must be used:
+   - `Read From Terminal Until Prompt`
+   - `Read From Terminal Until`
+   - `Read From Terminal`
+   Usage of other keywords is prohibited. Whenever you modify a test/keyword,
+   you should rework it to use one of the above.
+1. For writing into terminal, following keywords must be used:
+   - `Execute Command In Terminal`
+   - `Write Into Terminal`
+   - `Write Bare Into Terminal`
+   Usage of other keywords is prohibited. Whenever you modify a test/keyword,
+   you should rework it to use one of the above.
+   You should use `Execute Command In Terminal` unless you have a very good
+   reason not to. Thanks to that, your keyword will not leave floating output
+   in buffer to be received by another keywords, not expecting that.
+
+### Documentation
+
+* Each new (or modified) file, test, keyword, must have a `[Documentation]`
+  section.
+
+#### Public Keyword Documentation Requirements
+
+Public keywords are supposed to be called from other files, which import
+it as a resource. They should be well documented to make them easier to use and
+less prone to misusage and causing regression errors when modifying them.
+
+The documentation of a public keyword should contain:
+
+* A brief description of what the keyword does.
+* The starting conditions that the keyword expects. Whether the DUT is power ON
+   or OFF, whether a specific OS is booted or not, what connection type is
+   required (SSH, Telnet/Serial), if any packages are required to be installed
+* The arguments, their types and short descriptions of what the arguments are
+   for and what values can be passed in them.
+* The return value, if it is used, what is it's type and what does it contain
+* Effects, if the keyword shuts down the device, reboots it, logs in/out,
+   does anything, that could cause persistent effects or interfere with other
+   keywords' starting conditions.
+
+Example, that can be used as a template:
+
+```robotframework
+Cowsay Keyword
+    [Documentation]
+    ...    Saves a cowsay message of ``${input_text}`` to ``${out_file}``
+    ...
+    ...    === Requirements ===
+    ...    - The device has to be turned on
+    ...    - Ubuntu has to be booted, logged in
+    ...    - ``cowsay`` package to be installed
+    ...
+    ...    === Arguments ===
+    ...    - ``${input_text}``: ``string`` - The text that will be used for the
+    ...    \ cowsay message. Can be any string.
+    ...    - ``${out_file}``: ``string`` - The file path under which the cowsay
+    ...    \ message will be saved. Default: ``cowsay.txt``. Has to be a valid
+    ...    \ path. Does not have to be absolute.
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - The generated cowsay message
+    ...
+    ...    === Effects ===
+    ...    - Creates ``${out_file}`` file with the cowsay message. Overwrites
+    ...    \ the file if already exists.
+    [Arguments]    ${input_text}    ${out_file}="cowsay.txt"
+
+    ${output}=    Execute Command In Terminal    cowsay ${input_text} | tee ${out_file}
+    RETURN    ${output}
+```
+
+The documentation on robot documentation syntax can be found at [robotframework.org](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#documentation-formatting).
+
+Note that the repository uses Robot Framework version 5.0, in which spaces need
+to be escaped in keyword documentation, just like in the example.
+
+#### Private Keyword Documentation Requirements
+
+Private (local) keywords can be defined in both test suites and libraries
+as a way to organize the code. Local keywords should be tagged with the
+`robot:private` tag. Keywords with this tag are not supposed to be called
+from the outside and don't need to be documented comprehensively. Calling a
+keyword tagged as private causes a warning to appear in the logs.
+Example private keyword:
+
+```robotframework
+Hello World Printer Helper
+   [Documentation]    Prints "Hello World!" to the RF console
+   [Tags]   robot:private
+
+   Log To Console    Hello World!
+```
+
+### Variable import rules
+
+In Robot Framework, importing variables from `Resource` files does **not** work
+ the same way as assigning variables inside a `.robot` file.
+
+Key rule:
+* **The first definition of a variable wins** — later `Resource` imports will
+not override existing variables.
+
+#### Example
+
+```robot
+*** Settings ***
+Resource    file_0.robot
+Resource    file_1.robot
+
+# file_0.robot contents:
+${DMIDECODE_FIRMWARE_VERSION}=    ${NONE}
+
+# file_1.robot contents:
+${DMIDECODE_FIRMWARE_VERSION}=    Dasharo v0.9.1
+```
+
+Result: `${DMIDECODE_FIRMWARE_VERSION}` will be `${NONE}` because it was imported
+first from `file_0.robot`.
+Recommendation:
+
+Make sure files with final variable values are imported first, or
+use a nested structure:
+
+let `file_1.robot` import `file_0.robot`, and only
+import `file_1.robot` in the `test`. This is the case in current osfv platform
+config structure:
+
+![](../docs/img/platform-configs-protectli.png)
+
+For more information on variable priorities visit the [official robot framework documentation](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#variable-priorities-and-scopes)
