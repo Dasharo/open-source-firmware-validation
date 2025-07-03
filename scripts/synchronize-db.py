@@ -88,6 +88,7 @@ def main():
             f"{FAIL}Database has cases which are not present in the local copy.\n"
             f"Make sure you're using correct, up-to-date branch.{ENDC}"
         )
+        print(json.dumps(remote_json, indent=4))
         sys.exit(1)
 
     print(f"These local changes will be uploaded:")
