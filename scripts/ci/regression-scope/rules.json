@@ -8,7 +8,7 @@
                     "env_vars": {
                         "RTE_IP": "192.168.10.199",
                         "SONOFF_IP": "192.168.10.169",
-                        "PIKVM_IP": "192.168.10.16",
+                        "PIKVM_IP": "192.168.10.120",
                         "SNIPEIT_NO": "true",
                         "CONFIG": "msi-pro-z690-a-wifi-ddr4"
                     },
