@@ -32,3 +32,5 @@ ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${TRUE}
 # measuring temperatures, fans etc.
 ${SENSORS_CONFIG_FILE}=                             include/sensors/protectli-vp66xx-sensors-config.yaml
 ${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/protectli-vp66xx-fan-curve-config.yaml
+
+${CAPSULE_UPDATE_SUPPORT}=                          ${True}
