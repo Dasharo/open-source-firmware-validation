@@ -34,24 +34,11 @@ PFS002.502 Boot pfSense LTS CE (serial output) from disk
     Power On
     Boot PfSense
 
-PFS003.502 Boot pfSense LTS CE (serial output) from disk after cold-boot
+PFS003.502 Boot pfSense LTS CE (serial output) from diskt
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after cold-boot
     @{supported_power_ctrls}=    Create List    RteCtrl    sonoff
     Skip If    '${POWER_CTRL}' not in ${supported_power_ctrls}
-    Power On
-    Set UEFI Option    PowerStateAfterPowerAcLoss    Powered On
-    Sleep    2
-    IF    '${POWER_CTRL}' == 'RteCtrl'
-        Rte Psu Off
-    ELSE IF    '${POWER_CTRL}' == 'sonoff'
-        Sonoff Off
-    END
-    Sleep    12
-    IF    '${POWER_CTRL}' == 'RteCtrl'
-        Rte Psu On
-    ELSE IF    '${POWER_CTRL}' == 'sonoff'
-        Sonoff On
-    END
+    Execute Cold Boot
     ${start_date}=    Get Current Date
     Boot PfSense
     ${end_date}=    Get Current Date

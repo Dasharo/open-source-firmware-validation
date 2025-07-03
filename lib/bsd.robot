@@ -1,6 +1,7 @@
 *** Settings ***
 Library     Collections
 Resource    ../keywords.robot
+Resource    ../lib/platform/power.robot
 
 
 *** Keywords ***
@@ -16,7 +17,7 @@ Boot PfSense Installer
     Write Into Terminal    vt100
     Read From Terminal Until    [Accept]
     Press Enter
-    Set Suite Variable    ${BOOTED_OS_ID}    502
+    Set Suite Variable    ${BOOTED_OS_ID}    ${ENV_ID_PFSENSE}
     Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
 
 Boot OPNsense Installer
@@ -28,7 +29,7 @@ Boot OPNsense Installer
     Execute File In File Explorer    bootx64.efi
     Read From Terminal Until    FreeBSD/amd64 (OPNsense.localdomain) (ttyu0)
     Read From Terminal Until    login:
-    Set Suite Variable    ${BOOTED_OS_ID}    503
+    Set Suite Variable    ${BOOTED_OS_ID}    ${ENV_ID_OPNSENSE}
     Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
 
 Enter PfSense Shell

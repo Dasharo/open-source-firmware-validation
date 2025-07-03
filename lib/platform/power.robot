@@ -105,3 +105,20 @@ Power Cycle Into Windows
 Power Cycle Into Firmware Setup
     Power On
     Enter Setup Menu Tianocore
+
+Execute Cold Boot
+    [Documentation]    Performs cold boot, either with RTE relay or Sonoff
+    Power On
+    Set UEFI Option    PowerStateAfterPowerAcLoss    Powered On
+    Sleep    2
+    IF    '${POWER_CTRL}' == 'RteCtrl'
+        Rte Psu Off
+    ELSE IF    '${POWER_CTRL}' == 'sonoff'
+        Sonoff Off
+    END
+    Sleep    12
+    IF    '${POWER_CTRL}' == 'RteCtrl'
+        Rte Psu On
+    ELSE IF    '${POWER_CTRL}' == 'sonoff'
+        Sonoff On
+    END
