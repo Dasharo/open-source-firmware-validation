@@ -70,7 +70,7 @@ NET004.201 NET controller after suspend (Ubuntu)
 NET005.201 NET controller after suspend (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
-    ...    Previous IDs: NET04.002
+    ...    Previous IDs: NET004.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET005.201 not supported

@@ -148,7 +148,7 @@ TPM003.301 Check TPM Physical Presence Interface (Windows)
 TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-    ...    Previous IDs: TPM003.004
+    ...    Previous IDs: TPM003.004 TPM003.101
     Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.101 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.101 not supported
     Power On
@@ -185,6 +185,7 @@ TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
 
 TPM012.201 Check if the ChangeEPS works (Ubuntu)
     [Documentation]    Check if the `TPM2 ChangeEPS` setup menu option works properly.
+    ...    Previous IDs: TPM004.201
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux

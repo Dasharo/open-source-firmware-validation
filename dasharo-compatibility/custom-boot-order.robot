@@ -10,6 +10,7 @@ Suite Teardown      Log Out And Close Connection
 CBO001.101 Custom Boot Order (EDK2)
     [Documentation]    Check if customization of Boot Order persists and
     ...    correct OS boots.
+    ...    Previous IDs: CBO001.002
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
 
     Power Cycle Into Firmware Setup

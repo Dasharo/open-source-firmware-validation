@@ -3,12 +3,28 @@
     "doc": {
       "_id": "ACPI001.001",
       "name": "ACPI driver test (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ACPI001.201"
     }
   },
   {
     "doc": {
       "_id": "ACPI001.002",
+      "name": "ACPI driver test (Fedora)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ACPI001.202"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ACPI001.201",
+      "name": "ACPI driver test (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ACPI001.202",
       "name": "ACPI driver test (Fedora)",
       "module": "Dasharo Compatibility"
     }
@@ -58,14 +74,14 @@
   {
     "doc": {
       "_id": "APU006.001",
-      "name": "Disabling \"Enable PCIe power management features\" disables ASPM",
+      "name": "Check whether disabling \"Enable PCIe power management features\" disables ASPM",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "APU006.002",
-      "name": "Enabling \"Enable PCIe power management features\" enables ASPM",
+      "name": "Check whether enabling \"Enable PCIe power management features\" enables ASPM",
       "module": "Dasharo Compatibility"
     }
   },
@@ -742,6 +758,14 @@
   },
   {
     "doc": {
+      "_id": "CAM002.001",
+      "name": "Integrated IR Camera (Ubuntu)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "CAM002.201"
+    }
+  },
+  {
+    "doc": {
       "_id": "CAM002.201",
       "name": "Integrated IR Camera (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -764,7 +788,7 @@
   {
     "doc": {
       "_id": "CBK002.001",
-      "name": "Custom BIOS Menu Key",
+      "name": "Custom setup menu key",
       "module": "Dasharo Compatibility"
     }
   },
@@ -852,6 +876,14 @@
     "doc": {
       "_id": "CBO001.002",
       "name": "Custom Boot Order",
+      "module": "Dasharo Compatibility",
+      "changed_to": "CBO001.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBO001.101",
+      "name": "Custom Boot Order (EDK2)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -948,7 +980,7 @@
   },
   {
     "doc": {
-      "_id": "CFC001.002",
+      "_id": "CFC002.001",
       "name": "Custom fan curve performance profile measure (Ubuntu)",
       "module": "Dasharo Performance"
     }
@@ -971,7 +1003,7 @@
   {
     "doc": {
       "_id": "CHS001.201",
-      "name": "Camera enable",
+      "name": "Check camera enablement",
       "module": "Dasharo Security"
     }
   },
@@ -993,7 +1025,7 @@
   {
     "doc": {
       "_id": "CHS002.201",
-      "name": "Camera disable",
+      "name": "Check camera disablement",
       "module": "Dasharo Security"
     }
   },
@@ -1009,6 +1041,14 @@
       "_id": "CLG001.001",
       "name": "Custom boot logo",
       "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CNB001.001",
+      "name": "Only one iPXE in boot menu",
+      "module": "Dasharo Compatibility",
+      "changed_to": "CNB001.002"
     }
   },
   {
@@ -1331,7 +1371,7 @@
       "_id": "CPF004.005",
       "name": "CPU with load runs on expected frequency (Ubuntu) (AC)",
       "module": "Dasharo Performance",
-      "changed_to": "CPF012.201"
+      "changed_to": "CPF011.201"
     }
   },
   {
@@ -1523,6 +1563,13 @@
     "doc": {
       "_id": "CPF010.301",
       "name": "CPU with load runs on expected frequency (Windows) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF011.201",
+      "name": "CPU with load runs on expected frequency (Ubuntu) (AC)",
       "module": "Dasharo Performance"
     }
   },
@@ -2328,7 +2375,7 @@
   {
     "doc": {
       "_id": "DMI001.201",
-      "name": "Verify the serial number",
+      "name": "Verify the device serial number",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2477,7 +2524,7 @@
   {
     "doc": {
       "_id": "DSP001.201",
-      "name": "Internal display in OS",
+      "name": "Internal display in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2708,6 +2755,41 @@
     "doc": {
       "_id": "DTS008.001",
       "name": "DTS option power-off DUT works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS009.001",
+      "name": "Update Dasharo firmware by using DTS via USB works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS009.002",
+      "name": "Update Dasharo firmware by using DTS via iPXE works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS010.001",
+      "name": "Deploy Dasharo firmware by using DTS works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS010.002",
+      "name": "Deploy Dasharo SeaBios firmware by using DTS works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DTS011.001",
+      "name": "Heads Transition by using DTS via iPXE works correctly",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3780,9 +3862,25 @@
   },
   {
     "doc": {
+      "_id": "ETHPERF001.001",
+      "name": "Check Performance of 2.5G Wired Network Interface (Ubuntu)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ETHPERF001.201"
+    }
+  },
+  {
+    "doc": {
       "_id": "ETHPERF001.201",
       "name": "Check Performance of 2.5G Wired Network Interface (Ubuntu)",
       "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ETHPERF002.001",
+      "name": "Check Performance of 10G Wired Network Interface (Ubuntu)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ETHPERF002.201"
     }
   },
   {
@@ -3824,6 +3922,13 @@
     "doc": {
       "_id": "FAN005.201",
       "name": "Fans are turning off during suspend mode with ME HAP disabled",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FAN006.201",
+      "name": "GPU fan speed measure",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3893,7 +3998,7 @@
   {
     "doc": {
       "_id": "GPP001.201",
-      "name": "GPU Performance Measure  (Ubuntu) (AC)",
+      "name": "GPU Performance Measure (Ubuntu) (AC)",
       "module": "Dasharo Performance"
     }
   },
@@ -3928,7 +4033,7 @@
   {
     "doc": {
       "_id": "HDS001.001",
-      "name": "Install Heads ",
+      "name": "Heads installation",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4148,6 +4253,14 @@
       "_id": "MBO001.202",
       "name": "Measured Boot support (Fedora)",
       "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MBO002.001",
+      "name": "Check if event log PCRs match actual values (Ubuntu)",
+      "module": "Dasharo Security",
+      "changed_to": "MBO002.201"
     }
   },
   {
@@ -4377,8 +4490,7 @@
     "doc": {
       "_id": "MWL003.002",
       "name": "Bluetooth scanning (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL003.301"
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -4441,7 +4553,7 @@
   {
     "doc": {
       "_id": "NBT002.001",
-      "name": "OS Selection & Utilities is available",
+      "name": "OS selection & utilities is available",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4476,7 +4588,14 @@
   {
     "doc": {
       "_id": "NBT007.001",
-      "name": "Change netboot URL works correctly",
+      "name": "Change netboot URL option works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NBT008.001",
+      "name": "iPXE Autoboot is disabled",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4498,7 +4617,8 @@
     "doc": {
       "_id": "NET002.001",
       "name": "NET controller after warmboot (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "NET002.201"
     }
   },
   {
@@ -4594,6 +4714,14 @@
       "_id": "NET004.202",
       "name": "NET controller after suspend (Fedora)",
       "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NET005.003",
+      "name": "Net controller after warmboot (Fedora)",
+      "module": "Dasharo Stability",
+      "changed_to": "NET002.202"
     }
   },
   {
@@ -4975,6 +5103,13 @@
   },
   {
     "doc": {
+      "_id": "PXE007.001",
+      "name": "Dasharo Network Boot over https not http",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "QBS001.001",
       "name": "QubesOS installation",
       "module": "Dasharo Compatibility"
@@ -5109,7 +5244,7 @@
   {
     "doc": {
       "_id": "SAT001.002",
-      "name": "SATA support in OS (Ubuntu}",
+      "name": "SATA support in OS (Ubuntu)",
       "module": "Dasharo Compatibility",
       "changed_to": "SAT001.201"
     }
@@ -5117,7 +5252,7 @@
   {
     "doc": {
       "_id": "SAT001.003",
-      "name": "SATA support in OS (Windows}",
+      "name": "SATA support in OS (Windows)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5139,7 +5274,7 @@
   {
     "doc": {
       "_id": "SAT001.201",
-      "name": "SATA support in OS (Ubuntu}",
+      "name": "SATA support in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5174,21 +5309,21 @@
   {
     "doc": {
       "_id": "SBO003.001",
-      "name": "Attempt to boot file with the correct key from Shell (firmware)",
+      "name": "Attempt to boot file with the correct key from Boot Maintenance Manager (firmware)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "SBO004.001",
-      "name": "Attempt to boot file without the key from Shell (firmware)",
+      "name": "Attempt to boot file without the key from Boot Maintenance Manager (firmware)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "SBO005.001",
-      "name": "Attempt to boot file with the wrong-signed key from Shell (firmware)",
+      "name": "Attempt to boot file with the wrong-signed key from Boot Maintenance Manager (firmware)",
       "module": "Dasharo Security"
     }
   },
@@ -5396,28 +5531,32 @@
     "doc": {
       "_id": "SMW0001.001",
       "name": "Wi-fi connection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW001.001"
     }
   },
   {
     "doc": {
       "_id": "SMW0002.001",
       "name": "Wi-fi connection after warm boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW002.001"
     }
   },
   {
     "doc": {
       "_id": "SMW0003.001",
       "name": "Wi-fi connection after reboot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW003.001"
     }
   },
   {
     "doc": {
       "_id": "SMW0004.001",
       "name": "Wi-fi connection after suspension (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW004.001"
     }
   },
   {
@@ -5569,14 +5708,16 @@
     "doc": {
       "_id": "SNV0001.001",
       "name": "NVMe detection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV001.001"
     }
   },
   {
     "doc": {
       "_id": "SNV0001.002",
       "name": "NVMe detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV001.002"
     }
   },
   {
@@ -5584,14 +5725,15 @@
       "_id": "SNV0002.001",
       "name": "NVMe detection after warm boot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV002.201"
+      "changed_to": "SNV002.001"
     }
   },
   {
     "doc": {
       "_id": "SNV0002.002",
       "name": "NVMe detection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV002.002"
     }
   },
   {
@@ -5599,14 +5741,15 @@
       "_id": "SNV0003.001",
       "name": "NVMe detection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV003.201"
+      "changed_to": "SNV003.001"
     }
   },
   {
     "doc": {
       "_id": "SNV0003.002",
       "name": "NVMe detection after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SNV003.002"
     }
   },
   {
@@ -5614,7 +5757,7 @@
       "_id": "SNV0004.001",
       "name": "NVMe detection after suspension (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV004.201"
+      "changed_to": "SNV004.001"
     }
   },
   {
@@ -5622,7 +5765,7 @@
       "_id": "SNV0004.002",
       "name": "NVMe detection after suspension (Ubuntu) (S0ix)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV005.201"
+      "changed_to": "SNV004.002"
     }
   },
   {
@@ -5630,13 +5773,43 @@
       "_id": "SNV0004.003",
       "name": "NVMe detection after suspension (Ubuntu) (S3)",
       "module": "Dasharo Stability",
-      "changed_to": "SNV006.201"
+      "changed_to": "SNV004.003"
     }
   },
   {
     "doc": {
       "_id": "SNV0004.004",
       "name": "NVMe detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV004.004"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV001.001",
+      "name": "NVMe detection after cold boot (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV001.002",
+      "name": "NVMe detection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV002.001",
+      "name": "NVMe detection after warm boot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV002.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV002.002",
+      "name": "NVMe detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -5656,6 +5829,21 @@
   },
   {
     "doc": {
+      "_id": "SNV003.001",
+      "name": "NVMe detection after reboot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV003.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV003.002",
+      "name": "NVMe detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SNV003.201",
       "name": "NVMe detection after reboot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -5665,6 +5853,37 @@
     "doc": {
       "_id": "SNV003.202",
       "name": "NVMe detection after reboot (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.001",
+      "name": "NVMe detection after suspension (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV004.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.002",
+      "name": "NVMe detection after suspension (Ubuntu) (S0ix)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV005.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.003",
+      "name": "NVMe detection after suspension (Ubuntu) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV006.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.004",
+      "name": "NVMe detection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
   },
@@ -5853,7 +6072,7 @@
   {
     "doc": {
       "_id": "SPS001.001",
-      "name": "Check Ethernet Ports Order",
+      "name": "Ethernet ports are in order",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5941,14 +6160,16 @@
     "doc": {
       "_id": "SUD0001.001",
       "name": "USB devices detection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD001.001"
     }
   },
   {
     "doc": {
       "_id": "SUD0001.002",
       "name": "USB devices detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD001.002"
     }
   },
   {
@@ -5956,14 +6177,15 @@
       "_id": "SUD0002.001",
       "name": "USB devices detection after warm boot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD002.201"
+      "changed_to": "SUD002.001"
     }
   },
   {
     "doc": {
       "_id": "SUD0002.002",
       "name": "USB devices detection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD002.002"
     }
   },
   {
@@ -5971,14 +6193,15 @@
       "_id": "SUD0003.001",
       "name": "USB devices detection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD003.201"
+      "changed_to": "SUD003.001"
     }
   },
   {
     "doc": {
       "_id": "SUD0003.002",
       "name": "USB devices detection after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD003.002"
     }
   },
   {
@@ -5986,7 +6209,7 @@
       "_id": "SUD0004.001",
       "name": "USB devices detection after suspension (Ubuntu)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD004.201"
+      "changed_to": "SUD004.001"
     }
   },
   {
@@ -5994,7 +6217,7 @@
       "_id": "SUD0004.002",
       "name": "USB devices detection after suspension (Ubuntu) (S0ix)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD005.201"
+      "changed_to": "SUD004.002"
     }
   },
   {
@@ -6002,13 +6225,43 @@
       "_id": "SUD0004.003",
       "name": "USB devices detection after suspension (Ubuntu) (S3)",
       "module": "Dasharo Stability",
-      "changed_to": "SUD006.201"
+      "changed_to": "SUD004.003"
     }
   },
   {
     "doc": {
       "_id": "SUD0004.004",
       "name": "USB devices detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD004.004"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD001.001",
+      "name": "USB devices detection after cold boot (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD001.002",
+      "name": "USB devices detection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD002.001",
+      "name": "USB devices detection after warm boot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD002.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD002.002",
+      "name": "USB devices detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6028,6 +6281,21 @@
   },
   {
     "doc": {
+      "_id": "SUD003.001",
+      "name": "USB devices detection after reboot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD003.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD003.002",
+      "name": "USB devices detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SUD003.201",
       "name": "USB devices detection after reboot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -6037,6 +6305,37 @@
     "doc": {
       "_id": "SUD003.202",
       "name": "USB devices detection after reboot (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.001",
+      "name": "USB devices detection after suspension (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD004.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.002",
+      "name": "USB devices detection after suspension (Ubuntu) (S0ix)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD005.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.003",
+      "name": "USB devices detection after suspension (Ubuntu) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD006.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.004",
+      "name": "USB devices detection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
   },
@@ -6300,7 +6599,8 @@
     "doc": {
       "_id": "TPD004.001",
       "name": "Detect TPM after platform suspend (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "TPD004.201"
     }
   },
   {
@@ -6315,6 +6615,13 @@
       "_id": "TPD004.202",
       "name": "Detect TPM after platform suspend (Fedora)",
       "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM001.001",
+      "name": "TPM Support (firmware)",
+      "module": "Dasharo Security"
     }
   },
   {
@@ -6408,21 +6715,21 @@
   {
     "doc": {
       "_id": "TPM002.201",
-      "name": "Verify TPM Version (Ubuntu)",
+      "name": "Verify TPM version (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "TPM002.202",
-      "name": "Verify TPM Version (Fedora)",
+      "name": "Verify TPM version (Fedora)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "TPM002.301",
-      "name": "Verify TPM Version (Windows)",
+      "name": "Verify TPM version (Windows)",
       "module": "Dasharo Security"
     }
   },
@@ -6475,7 +6782,8 @@
     "doc": {
       "_id": "TPM003.101",
       "name": "Change active PCR banks with TPM PPI (firmware)",
-      "module": "Dasharo Security"
+      "module": "Dasharo Security",
+      "changed_to": "TPM011.101"
     }
   },
   {
@@ -6502,6 +6810,21 @@
   {
     "doc": {
       "_id": "TPM004.201",
+      "name": "Check if the ChangeEPS works (Ubuntu)",
+      "module": "Dasharo Security",
+      "changed_to": "TPM012.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM011.101",
+      "name": "Change active PCR banks with TPM PPI (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM012.201",
       "name": "Check if the ChangeEPS works (Ubuntu)",
       "module": "Dasharo Security"
     }
@@ -7578,7 +7901,7 @@
   {
     "doc": {
       "_id": "UTC108.201",
-      "name": "USB Type-C Display output with ME disabled(Ubuntu)",
+      "name": "USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9793,6 +10116,13 @@
     "doc": {
       "_id": "WDT005.001",
       "name": "Watchdog is detected by OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "WDT006.001",
+      "name": "Watchdog resets platform on kernel crash (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },

@@ -23,11 +23,16 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
+# WARNING: test case IDs in this file were originally using IDs with 4 digits
+# before decimal point. These are present in release scopes, so they must be
+# preserved in 'Previous IDs'.
+#
 # Tests will work on laptops with access to the serial console and possibility
 # of remote power control
 # SUD001.001 USB devices detection after cold boot (Ubuntu)
 #    [Documentation]    Check whether the external USB devices are detected
 #    ...    correctly after a cold boot.
+#    ...    Previous IDs: SUD0001.001
 #    Skip If    not ${tests_in_ubuntu_support}    SUD001.001 not supported
 #    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
 #    Power On
@@ -49,7 +54,7 @@ Suite Teardown      Run Keyword
 SUD002.201 USB devices detection after warm boot (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a warm boot.
-    ...    Previous IDs: SUD002.001
+    ...    Previous IDs: SUD0002.001 SUD002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
     Power On
@@ -62,7 +67,7 @@ SUD002.201 USB devices detection after warm boot (Ubuntu)
 SUD003.201 USB devices detection after reboot (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a reboot.
-    ...    Previous IDs: SUD003.001
+    ...    Previous IDs: SUD0003.001 SUD003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD003.201 not supported
     Power On
@@ -75,7 +80,7 @@ SUD003.201 USB devices detection after reboot (Ubuntu)
 SUD004.201 USB devices detection after suspension (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
-    ...    Previous IDs: SUD004.001
+    ...    Previous IDs: SUD0004.001 SUD004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD004.201 not supported
@@ -89,7 +94,7 @@ SUD004.201 USB devices detection after suspension (Ubuntu)
 SUD005.201 USB devices detection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
-    ...    Previous IDs: SUD004.002
+    ...    Previous IDs: SUD0004.002 SUD004.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD005.201 not supported
@@ -104,7 +109,7 @@ SUD005.201 USB devices detection after suspension (Ubuntu) (S0ix)
 SUD006.201 USB devices detection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
-    ...    Previous IDs: SUD004.003
+    ...    Previous IDs: SUD0004.003 SUD004.003
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD006.201 not supported

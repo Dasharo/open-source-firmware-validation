@@ -21,11 +21,16 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
+# WARNING: test case IDs in this file were originally using IDs with 4 digits
+# before decimal point. These are present in release scopes, so they must be
+# preserved in 'Previous IDs'.
+#
 # Tests will work on laptops with access to the serial console and possibility
 # of remote power control
 # SNV0001.001 NVMe detection after cold boot (Ubuntu)
 #    [Documentation]    Check whether the NVMe disk is detected and working
 #    ...    correctly after performing a cold boot.
+#    ...    Previous IDs: SNV0001.001
 #    Skip If    not ${nvme_detection_support}    SNV001.001 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    SNV001.001 not supported
 #    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
@@ -48,7 +53,7 @@ Suite Teardown      Run Keyword
 SNV002.201 NVMe detection after warm boot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a warm boot.
-    ...    Previous IDs: SNV002.001
+    ...    Previous IDs: SNV0002.001 SNV002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV002.201 not supported
     Power On
@@ -61,7 +66,7 @@ SNV002.201 NVMe detection after warm boot (Ubuntu)
 SNV003.201 NVMe detection after reboot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a reboot.
-    ...    Previous IDs: SNV003.001
+    ...    Previous IDs: SNV0003.001 SNV003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV003.201 not supported
     Power On
@@ -74,7 +79,7 @@ SNV003.201 NVMe detection after reboot (Ubuntu)
 SNV004.201 NVMe detection after suspension (Ubuntu)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    ...    Previous IDs: SNV004.001
+    ...    Previous IDs: SNV0004.001 SNV004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV004.201 not supported
@@ -88,7 +93,7 @@ SNV004.201 NVMe detection after suspension (Ubuntu)
 SNV005.201 NVMe detection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    ...    Previous IDs: SNV004.002
+    ...    Previous IDs: SNV0004.002 SNV004.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV005.201 not supported
@@ -103,7 +108,7 @@ SNV005.201 NVMe detection after suspension (Ubuntu) (S0ix)
 SNV006.201 NVMe detection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    ...    Previous IDs: SNV004.003
+    ...    Previous IDs: SNV0004.003 SNV004.003
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV006.201 not supported
