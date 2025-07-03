@@ -1830,6 +1830,13 @@
   },
   {
     "doc": {
+      "_id": "CPU001.205",
+      "name": "CPU works (XCP-NG)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPU001.011",
       "name": "CPU works (ESXi)",
       "module": "Dasharo Compatibility",
@@ -1893,6 +1900,13 @@
       "name": "CPU cache enabled (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "CPU002.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU002.205",
+      "name": "CPU cache enabled (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -1964,6 +1978,13 @@
   },
   {
     "doc": {
+      "_id": "CPU003.205",
+      "name": "Multiple CPU support (XCP-NG)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPU003.011",
       "name": "Multiple CPU support (ESXi)",
       "module": "Dasharo Compatibility",
@@ -2027,6 +2048,13 @@
       "name": "Multiple-core  support (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "CPU004.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU004.205",
+      "name": "Multiple-core  support (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -2539,6 +2567,13 @@
   },
   {
     "doc": {
+      "_id": "DSP002.205",
+      "name": "External HDMI display in OS (XCP-NG)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "DSP002.011",
       "name": "External HDMI display in OS (ESXi)",
       "module": "Dasharo Compatibility",
@@ -2602,6 +2637,13 @@
       "name": "External DP display in OS (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "DSP003.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP003.205",
+      "name": "External DP display in OS (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -3758,6 +3800,13 @@
   },
   {
     "doc": {
+      "_id": "ETH001.205",
+      "name": "All Expected NET Controllers Detected (XCP-NG)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ETH001.011",
       "name": "All Expected NET Controllers Detected (ESXi)",
       "module": "Dasharo Compatibility",
@@ -3777,6 +3826,13 @@
       "name": "All Expected SFP Controllers Detected (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "ETH002.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ETH002.205",
+      "name": "All Expected SFP Controllers Detected (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -4199,6 +4255,13 @@
       "name": "Expected RAM size detected in OS (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "MEM001.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MEM001.205",
+      "name": "Expected RAM size detected in OS (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -4739,6 +4802,13 @@
   },
   {
     "doc": {
+      "_id": "NVM001.205",
+      "name": "NVMe support (XCP-NG)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "NVM001.011",
       "name": "NVMe support (ESXi)",
       "module": "Dasharo Compatibility",
@@ -5137,6 +5207,13 @@
       "name": "SATA Support (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "SAT001.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SAT001.205",
+      "name": "SATA Support (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -6354,6 +6431,13 @@
   },
   {
     "doc": {
+      "_id": "TPM001.205",
+      "name": "TPM Support (XCP-NG)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "TPM001.011",
       "name": "TPM Support (ESXi)",
       "module": "Dasharo Security"
@@ -6409,6 +6493,13 @@
       "name": "Verify TPM version (XCP-NG)",
       "module": "Dasharo Security",
       "changed_to": "TPM002.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM002.205",
+      "name": "Verify TPM version (XCP-NG)",
+      "module": "Dasharo Security"
     }
   },
   {
@@ -6476,6 +6567,13 @@
       "name": "Check TPM Physical Presence Interface (XCP-NG)",
       "module": "Dasharo Security",
       "changed_to": "TPM003.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM003.205",
+      "name": "Check TPM Physical Presence Interface (XCP-NG)",
+      "module": "Dasharo Security"
     }
   },
   {
@@ -6722,6 +6820,13 @@
   },
   {
     "doc": {
+      "_id": "USB001.205",
+      "name": "USB devices detection in OS (XCP-NG)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "USB001.011",
       "name": "USB devices detection in OS (ESXi)",
       "module": "Dasharo Compatibility",
@@ -6800,6 +6905,13 @@
       "name": "USB keyboard detection (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "USB002.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USB002.205",
+      "name": "USB keyboard detection (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -6888,6 +7000,13 @@
       "name": "USB keyboard detection (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "USB003.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USB003.205",
+      "name": "USB keyboard detection (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -9849,6 +9968,13 @@
       "name": "Wireless card detection (XCP-NG)",
       "module": "Dasharo Compatibility",
       "changed_to": "WLE001.205"
+    }
+  },
+  {
+    "doc": {
+      "_id": "WLE001.205",
+      "name": "Wireless card detection (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
