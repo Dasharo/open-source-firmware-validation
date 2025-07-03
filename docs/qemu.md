@@ -72,3 +72,25 @@ robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0
 > Note: You do not have to reserve QEMU via `snipeit` therefore `-v snipeit:no`
 > is being used. Use QEMU config `-v config:qemu`, and, as a RTE IP, use
 > `127.0.0.1`. Test suite `dts/dts-tests.robot` is shown here as an example.
+
+## Running tests on a remote machine
+
+This method is useful when you don't want to run QEMU on your local machine due
+to security reasons or lack of memory. The assumption here is that you are
+primarily using this method while developing tests.
+
+The first step is to continuously sync a local folder, which is this
+repository, to a remote machine at `/tmp/osfv` and run QEMU according to the
+parameters there.
+
+For example:
+
+```sh
+./scripts/ci/remote-runner.sh user@42.42.42.42 . nographic seabios
+```
+
+Then, you can run tests in the following way:
+
+```sh
+ssh -t user@42.42.42.42 'cd /tmp/osfv && source venv/bin/activate && ./scripts/ci/qemu-self-test-seabios.sh'
+```

@@ -45,3 +45,6 @@ ${DASHARO_PCI_PCIE_MENU_SUPPORT}=       ${TRUE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=         ${TRUE}
 
 ${BIOS_LIB}=                            seabios
+${IPXE_BOOT_SUPPORT}=                   ${TRUE}
+${IPXE_BOOT_ENTRY}=                     iPXE
+${EDK2_IPXE_CHECKPOINT}=                iPXE Shell

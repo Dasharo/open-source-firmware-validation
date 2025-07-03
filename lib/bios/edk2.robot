@@ -140,44 +140,6 @@ Enter Dasharo Submenu
     ...    opt_only=${TRUE}
     RETURN    ${submenu}
 
-Press Key N Times And Enter
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key and then press Enter.
-    [Arguments]    ${n}    ${key}
-    Press Key N Times    ${n}    ${key}
-    Press Enter
-
-Press Enter
-    # Before entering new menu, make sure we get rid of all leftovers
-    Sleep    1s
-    Read From Terminal
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    Enter
-    ELSE
-        Press Key N Times    1    ${ENTER}
-    END
-
-Press Key N Times
-    [Documentation]    Enter specified in the first argument times the specified
-    ...    in the second argument key.
-    [Arguments]    ${n}    ${key}
-    FOR    ${index}    IN RANGE    0    ${n}
-        IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            Single Key PiKVM    ${key}
-            # Key press time as defined in PiKVM library is 200ms. We need some
-            # additional delay to make sure we can gather all input from terminal after
-            # key press.
-            Sleep    2s
-        ELSE
-            Write Bare Into Terminal    ${key}
-            # Escape sequences in EDK2 have 2 seconds to complete on serial.
-            # After 2 seconds if it is not completed, it is returned as a
-            # keystroke. So we need at least 2 seconds interval for pressing
-            # ESC for example.
-            Sleep    2s
-        END
-    END
-
 Get Option State
     [Documentation]    Gets menu construction and option name as arguments.
     ...    Returns option state, which can be: True, False, or numeric value.
@@ -290,13 +252,6 @@ Try To Insert Non-numeric Values Into Numeric Option
     ELSE
         Fail    Wrong option type (not accept numeric value)
     END
-
-Get IPXE Boot Menu Construction
-    [Documentation]    Keyword allows to get and return iPXE menu construction.
-    [Arguments]    ${lines_top}=1    ${lines_bot}=0    ${checkpoint}=${EDK2_IPXE_CHECKPOINT}
-    ${menu}=    Read From Terminal Until    ${checkpoint}
-    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    ${lines_top}    ${lines_bot}
-    RETURN    ${construction}
 
 ############################################################################
 ### Below keywords still must be reviewed and reworked. We should reuse the
@@ -480,13 +435,6 @@ Save Changes And Reset
     [Documentation]    Saves current UEFI settings and restarts.
     Save Changes
     Tianocore Reset System
-
-Make Sure That Network Boot Is Enabled
-    [Documentation]    This keywords checks that "Enable network boot" in
-    ...    "Networking Options" is enabled when present, so the network
-    ...    boot tests can be executed.
-    IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
-    Set UEFI Option    NetworkBoot    ${TRUE}
 
 Get Firmware Version From Tianocore Setup Menu
     [Documentation]    Keyword allows to read firmware version from Tianocore

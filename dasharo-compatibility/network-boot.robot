@@ -54,15 +54,23 @@ PXE002.001 Dasharo network boot menu boot options order is correct
 
 PXE003.001 Autoboot option is available and works correctly
     [Documentation]    This test aims to verify that the Autoboot option in
-    ...    Dasharo Network Boot Menu works correctly.
+    ...    Dasharo Network Boot Menu return Nothing to boot iPXE error and
+    ...    return to known state depending on firmware type.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE003.001 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    Autoboot (DHCP)
-    ${out}=    Read From Terminal Until    ${IPXE_BOOT_ENTRY}
-    Should Contain    ${out}    Please select boot device
+    IF    '${BIOS_LIB}' == 'seabios'
+        ${out}=    Read From Terminal Until    Retrying in 60 seconds.
+        Should Contain    ${out}    Nothing to boot: No such file or directory (https://ipxe.org/2d03e13b)
+        Should Contain    ${out}    No bootable device.  Retrying in 60 seconds.
+    ELSE
+        ${out}=    Read From Terminal Until    ${IPXE_BOOT_ENTRY}
+        Should Contain    ${out}    Nothing to boot: No such file or directory (https://ipxe.org/2d03e13b)
+        Should Contain    ${out}    Please select boot device
+    END
 
 PXE004.001 DTS option is available and works correctly
     [Documentation]    This test aims to verify that the Dasharo Tools Suite
