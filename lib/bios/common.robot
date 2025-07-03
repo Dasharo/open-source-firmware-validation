@@ -166,7 +166,7 @@ Boot System Or From Connected Disk    # robocop: disable=too-long-keyword
     ELSE
         ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
     END
-    Select Boot Menu Option    ${system_index}    ${ARROW_DOWN}
+    Select Option    ${system_index}    ${ARROW_DOWN}
 
 Make Sure That Network Boot Is Enabled
     [Documentation]    This keywords checks that "Enable network boot" in
@@ -224,3 +224,8 @@ Press Enter
     ELSE
         Press Key N Times    1    ${ENTER}
     END
+
+Select Option
+    [Documentation]    Select the option by hitting index-times given key.
+    [Arguments]    ${index}    ${key}
+    Press Key N Times    ${index}    ${key}

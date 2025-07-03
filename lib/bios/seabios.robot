@@ -42,7 +42,10 @@ Set Option State
     [Arguments]    ${menu}    ${option}    ${target_state}
     ${current_state}=    Get Option State    ${menu}    ${option}
     IF    '${current_state}' != '${target_state}'
-        ${menu}=    Enter Submenu From Snapshot    ${menu}    ${option}
+        Enter Submenu From Snapshot    ${menu}    ${option}
+        ${menu}=    Get Menu Construction    Save configuration and exit    7    0
+        ${current_state}=    Get Option State    ${menu}    ${option}
+        Should Match    ${current_state}    Enabled
         RETURN    ${TRUE}
     ELSE
         RETURN    ${FALSE}
@@ -118,14 +121,3 @@ Enter IPXE
     ${menu}=    Get Boot Menu Construction
     Enter Submenu From Snapshot    ${menu}    iPXE
 
-# robocop: disable=unused-argument
-
-Select Boot Menu Option
-    [Documentation]    Select the boot menu option using the given index.
-    ...    Accounts for indices counting from zero, and SeaBIOS options counting
-    ...    from '1.'. Has to take a dummy parameter for compatibility with the
-    ...    EDK2 version of this keyword.
-    [Arguments]    ${index}    ${dummy}
-    ${option}=    Evaluate    ${index} + 1
-    Write Bare Into Terminal    '${option}'
-# robocop: disable=unused-argument
