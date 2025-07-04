@@ -32,11 +32,6 @@ Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
 
-*** Variables ***
-${FUM_DIALOG_TOP}=          Update Mode. All firmware write protections are disabled in this mode.
-${FUM_DIALOG_BOTTOM}=       The platform will automatically reboot and disable Firmware Update Mode
-
-
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
@@ -340,12 +335,6 @@ Perform Capsule Update
     # Reset the system manually
     Write Bare Into Terminal    reset
     Press Key N Times    1    ${ENTER}
-
-    # Confirm update by following instructions of Firmware Update Mode dialog
-    Read From Terminal Until    ${FUM_DIALOG_TOP}
-    ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
-    ${digit}=    Get Key To Press    ${out}
-    Write Bare Into Terminal    ${digit}
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
