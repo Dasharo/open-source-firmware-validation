@@ -133,6 +133,7 @@ CUP170.002 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
+
     ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Windows Prompt
@@ -142,7 +143,13 @@ CUP170.002 Verifying UUID (Windows)
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
     Log To Console    \n[After Update] ${WIN_UPDATED_UUID}
 
-    Should Be Equal    ${ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
+    # dmidecode reports `Not Settable` for all zeroes
+    IF    '${ORIGINAL_UUID}' == 'Not Settable'
+        Should Be Equal    ${ORIGINAL_UUID}    00000000-0000-0000-0000-000000000000
+    ELSE
+        Should Be Equal    ${ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
+    END
+
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
         Should Be Equal    ${WIN_UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
     END
