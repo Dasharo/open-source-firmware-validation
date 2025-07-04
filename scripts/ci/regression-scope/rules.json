@@ -7,10 +7,10 @@
                 {
                     "env_vars": {
                         "RTE_IP": "192.168.10.199",
-                        "SONOFF_IP": "192.168.10.169",
-                        "PIKVM_IP": "192.168.10.120",
                         "SNIPEIT_NO": "true",
-                        "CONFIG": "msi-pro-z690-a-wifi-ddr4"
+                        "CONFIG": "msi-pro-z690-a-wifi-ddr4",
+                        "SONOFF_IP": "192.168.10.169",
+                        "PIKVM_IP": "192.168.10.120"
                     },
                     "files": {
                         "mode": "${FULL_FILENAME_MATCH}"
@@ -36,9 +36,9 @@
                     "env_vars": {
                         "RTE_IP": "192.168.10.199",
                         "SNIPEIT_NO": "true",
+                        "CONFIG": "msi-pro-z690-a-wifi-ddr4",
                         "SONOFF_IP": "192.168.10.169",
-                        "PIKVM_IP": "192.168.10.120",
-                        "CONFIG": "msi-pro-z690-a-wifi-ddr4"
+                        "PIKVM_IP": "192.168.10.120"
                     },
                     "files": {
                         "mode": "${FILE_CONTAINS_MATCH}",
