@@ -153,8 +153,8 @@ QEMU_PARAMS_OS="-device ich9-intel-hda \
   -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100 \
   -object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
-  -netdev bridge,id=vmnic,br=br0 \
   -device virtio-net,netdev=vmnic \
+  -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
   -drive file=${HDD_PATH},if=ide"
 
 if [[ -f ${HDD2_PATH} ]]; then
