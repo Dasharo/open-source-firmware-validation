@@ -354,12 +354,9 @@ Parse Menu Snapshot Into Construction
     @{construction}=    Create List
     FOR    ${line}    IN    @{menu_lines}
         # Replace multiple spaces with a single one
-        # ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
+        ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
         # Remove leading and trailing spaces
         ${line}=    Strip String    ${line}
-        # Remove FreeBSD installer frames, this affect slicing process due to removing empty lines
-        # ${line}=    Remove String    ${line}    x x
-        ${line}=    Remove String Using Regexp    ${line}    (x x)
         # Drop leading and trailing pipes (e.g. in One Time Boot Menu)
         ${line}=    Strip String    ${line}    characters=|
         # Remove leading and trailing spaces
