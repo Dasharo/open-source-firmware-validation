@@ -4880,6 +4880,42 @@
   },
   {
     "doc": {
+        "_id": "OPN001.503",
+        "name": "Install OPNsense (serial output) on disk",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "OPN002.503",
+        "name": "Boot OPNsense (serial output) from disk",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "OPN003.503",
+        "name": "Boot OPNsense (serial output) from disk after cold-boot",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "OPN004.503",
+        "name": "Boot OPNsense (serial output) from disk after warm-boot",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "OPN005.503",
+        "name": "Boot OPNsense (serial output) from disk after reboot",
+        "module": "Dasharo Compatibility"
+    }
+  },
+
+  {
+    "doc": {
       "_id": "PFS001.001",
       "name": "pfSense stable (serial output) installation on Hard Disk",
       "module": "Dasharo Compatibility"
@@ -4904,6 +4940,56 @@
       "_id": "PFS002.002",
       "name": "Boot pfSense stable (VGA output) from Hard Disk",
       "module": "Dasharo Compatibility"
+    }
+  },
+
+  {
+    "doc": {
+        "_id": "PFS001.502",
+        "name": "Install pfSense LTS CE (serial output) on disk",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "PFS002.502",
+        "name": "Boot pfSense LTS CE (serial output) from disk",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "PFS003.502",
+        "name": "Boot pfSense LTS CE (serial output) from disk after cold-boot",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "PFS004.502",
+        "name": "Boot pfSense LTS CE (serial output) from disk after warm-boot",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "PFS005.502",
+        "name": "Boot pfSense LTS CE (serial output) from disk after reboot",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "PFS006.502",
+        "name": "Preseed pfSense Installer (serial output)",
+        "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+        "_id": "PFS007.502",
+        "name": "Boot pfSense Installer (serial output) into rescue shell",
+        "module": "Dasharo Compatibility"
     }
   },
   {
@@ -10078,88 +10164,4 @@
       "module": "Dasharo Compatibility"
     }
   },
-  {
-    "doc": {
-        "_id": "PFS001.502",
-        "name": "Install pfSense LTS CE (serial output) on disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS002.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS003.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk after cold-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS004.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk after warm-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS005.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk after reboot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS006.502",
-        "name": "Preseed pfSense Installer (serial output)",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS007.502",
-        "name": "Boot pfSense Installer (serial output) into rescue shell",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN001.503",
-        "name": "Install OPNsense (serial output) on disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN002.503",
-        "name": "Boot OPNsense (serial output) from disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN003.503",
-        "name": "Boot OPNsense (serial output) from disk after cold-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN004.503",
-        "name": "Boot OPNsense (serial output) from disk after warm-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN005.503",
-        "name": "Boot OPNsense (serial output) from disk after reboot",
-        "module": "Dasharo Compatibility"
-    }
-  }
 ]
