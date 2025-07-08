@@ -70,7 +70,7 @@ PFS005.502 Boot pfSense LTS CE (serial output) from disk after reboot
     ${delta_time}=    Subtract Date From Date    ${end_date}    ${start_date}
     Log To Console    Reboot duration in seconds: ${delta_time}
 
-PFS006.502 Preseed pfSense Installer
+PFS006.502 Preseed pfSense Installer (serial output)
     [Documentation]    Please use linux fatlabel program to rename ESP partition of
     ...    pfSense installer to PFEFI.
     ${pfefi_message}=    Catenate    SEPARATOR=${SPACE}    Rename ESP partition of pfSense
@@ -94,7 +94,7 @@ PFS006.502 Preseed pfSense Installer
     ${output}=    Execute Command In Terminal    grep PFBOOT /usr/libexec/bsdinstall/zfsboot
     Should Contain    ${output}    PFBOOT
 
-PFS007.502 Boot pfSense LTS CE (serial output) Installer into rescue shell
+PFS007.502 Boot pfSense Installer (serial output) into rescue shell
     Power On
     Boot PfSense Installer
     Enter PfSense Rescue Shell

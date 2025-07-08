@@ -10116,48 +10116,48 @@
   {
     "doc": {
         "_id": "PFS006.502",
-        "name": "Preseed pfSense Installer",
+        "name": "Preseed pfSense Installer (serial output)",
         "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
         "_id": "PFS007.502",
-        "name": "Boot pfSense LTS CE (serial output) Installer into rescue shell",
+        "name": "Boot pfSense Installer (serial output) into rescue shell",
         "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
         "_id": "OPN001.503",
-        "name": "Install OPNsense (serial output) from preseeded",
+        "name": "Install OPNsense (serial output) on disk",
         "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-        "_id": "OPN002.502",
-        "name": "Boot OPNsense (serial output) from disk.",
+        "_id": "OPN002.503",
+        "name": "Boot OPNsense (serial output) from disk",
         "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-        "_id": "OPN003.502",
+        "_id": "OPN003.503",
         "name": "Boot OPNsense (serial output) from disk after cold-boot",
         "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-        "_id": "OPN004.502",
+        "_id": "OPN004.503",
         "name": "Boot OPNsense (serial output) from disk after warm-boot",
         "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-        "_id": "OPN005.502",
+        "_id": "OPN005.503",
         "name": "Boot OPNsense (serial output) from disk after reboot",
         "module": "Dasharo Compatibility"
     }

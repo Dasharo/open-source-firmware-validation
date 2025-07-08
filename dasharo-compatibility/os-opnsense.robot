@@ -32,7 +32,7 @@ OPN001.503 Install OPNsense (serial output) on disk
     ...    connect to DUT via serial and continue manual installation.
     Pause Execution    ${installer_message}
 
-OPN002.503 Boot OPNsense CE (serial output) from disk
+OPN002.503 Boot OPNsense (serial output) from disk
     [Documentation]    Boot OPNsense (serial output) from disk.
     Power On
     Boot OPNsense
