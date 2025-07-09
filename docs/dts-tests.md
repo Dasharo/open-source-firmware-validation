@@ -31,7 +31,7 @@ Control variables:
 
 * `dts_ipxe_link`: useful if you are testing DTS which is not released yet. Just
   put here a link to your script which will load your DTS. By default DTS is
-  being booted from `dl.3mdeb.com`; Check [the following
+  being booted from `dl.3mdeb.com`. Check [the following
   chapter](#http-server-with-dts-ipxe-boot) for information on how to set up a
   custom HTTP iPXE server with DTS.
 * `dpp_email`, `dpp_password`: for DPP credentials, if tests need them.
@@ -48,33 +48,12 @@ robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0
 
 ### HTTP server with DTS iPXE boot
 
-Follow the steps below to prepare an iPXE server with a custom DTS image.
-
-1. Create a directory and place the DTS `bzImage` and DTS `.cpio.gz` file.
-2. Create and edit a `dts.ipxe` file, pasting the following content:
-
-    ```text
-    #!ipxe
-
-    initrd http://IP:8080/CPIO_GZ_NAME.cpio.gz
-    kernel http://IP:8080/bzImage
-
-    boot
-    ```
-
-    Where IP is the IP address of the machine where the HTTP server will be
-    launched, and CPIO_GZ_NAME is the name of DTS CPIO archive image.
-
-3. `cd` into the directory and run a Python HTTP server:
-
-    ```bash
-    python -m http.server 8080
-    ```
-
-From now the `dts.ipxe` can be used via iPXE shell by typing:
+Use [the automation script](https://github.com/Dasharo/open-source-firmware-validation/blob/develop/scripts/ci/ipxe-run.sh)
+to prepare an iPXE server with a custom DTS image. After that the `dts.ipxe` can
+be used via iPXE shell to boot the DTS image:
 
 ```text
-chain http://IP:8080/dts.ipxe
+chain http://IP:4321/dts.ipxe
 ```
 
 Where IP is the IP address of the machine where the HTTP server is launched.
