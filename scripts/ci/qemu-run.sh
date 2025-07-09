@@ -138,6 +138,7 @@ QEMU_PARAMS_BASE="-machine q35,smm=on \
   -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
   -global ICH9-LPC.disable_s3=1 \
   -qmp unix:/tmp/qmp-socket,server,nowait \
+  -pidfile /tmp/qemu-pid \
   -serial telnet:localhost:1234,server,nowait \
   -device virtio-scsi-pci,id=scsi \
   -device qemu-xhci,id=usb \
