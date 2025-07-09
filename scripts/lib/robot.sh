@@ -148,6 +148,7 @@ execute_robot() {
   #
   # Firstly, the provided argument will be parsed to get the proper name
   # for the results directory.
+  overall_rc=0
   for _test_name in "${_test_path[@]}"; do
     if [[ "$_test_name" == *"/"* && "$_test_name" != */ ]]; then
       _test_scope_name="${_test_name##*/}"
@@ -188,7 +189,11 @@ execute_robot() {
                 ${_robot_args[*]} \
                 ${_test_name}
                 "
-    echo "$command"
+    #echo "$command"
     eval "$command"
+    if [[ $? -ne 0 ]]; then
+      overall_rc=1
+    fi
   done
+  return $overall_rc
 }
