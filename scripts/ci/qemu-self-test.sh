@@ -10,7 +10,7 @@ export SNIPEIT_NO=1
 
 suites=(
   "self-tests/setup-and-boot-menus.robot"
-  "self-tests/dasharo-system-features.robot"
+  "self-tests/dasharo-system-features-menus.robot"
   "self-tests/boolean-options.robot"
   "self-tests/numerical-options.robot"
   "self-tests/list-options.robot"
