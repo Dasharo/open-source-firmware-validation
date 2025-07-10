@@ -109,6 +109,8 @@ repos:
         args: ["os_valid", "--print_invalid"]
         files: '^dasharo-.*/.*\.robot$'
         pass_filenames: false
+        # disable from automatic runs until we fix IDs
+        stages: [manual]
 
       - id: test-ids-mappings
         name: test-ids-mappings
@@ -121,3 +123,13 @@ repos:
         args: ["id_mapped", "--print_invalid"]
         files: '(^test_cases\.json$|^dasharo-.*/.*\.robot$)'
         pass_filenames: false
+        # disable from automatic runs until we fix IDs
+        stages: [manual]
+
+      - id: test-ids-sort
+        name: test-ids-sort
+        description: Check if test_ids.json is sorted, and fix it
+        language: python
+        entry: ./scripts/ci/test_ids/check_sort.py
+        args: ["--fix"]
+        files: 'test_cases.json'
