@@ -58,6 +58,7 @@ AUD002.201 Internal Audio playback
     ...    toplayback audio recordings. To do so, first determine presence
     ...    of audio sink. Audio sink must not be a dummy. After it was
     ...    verified, we verify that sound is not malformed.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
@@ -73,6 +74,7 @@ AUD003.201 Internal Audio capture
     [Documentation]    Check whether the audio subsystem is able to capture
     ...    audio on Ubuntu. To do so, we first determine presence of internal
     ...    capture device.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
@@ -96,6 +98,7 @@ AUD004.201 External headset recognition
 AUD005.201 External headset audio playback
     [Documentation]    Check whether Ubuntu has capability to playback
     ...    sounds via external headset.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
@@ -111,6 +114,7 @@ AUD005.201 External headset audio playback
 AUD006.201 External headset audio capture
     [Documentation]    Check whether Ubuntu has capability to capture sound
     ...    via external headset.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
@@ -147,6 +151,7 @@ AUD002.202 Internal Audio playback
     ...    toplayback audio recordings. To do so, first determine presence
     ...    of audio sink. Audio sink must not be a dummy. After it was
     ...    verified, we verify that sound is not malformed.
+    [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
     Audio Subsystem Detection Linux    ${ENV_ID_FEDORA}
@@ -160,6 +165,7 @@ AUD003.202 Internal Audio capture
     [Documentation]    Check whether the audio subsystem is able to capture
     ...    audio on Fedora. To do so, we first determine presence of internal
     ...    capture device.
+    [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
     Audio Subsystem Detection Linux    ${ENV_ID_FEDORA}
@@ -181,6 +187,7 @@ AUD004.202 External headset recognition
 AUD005.202 External headset audio playback
     [Documentation]    Check whether Fedora has capability to playback
     ...    sounds via external headset.
+    [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Audio Subsystem Detection Linux    ${ENV_ID_FEDORA}
@@ -195,6 +202,7 @@ AUD005.202 External headset audio playback
 AUD006.202 External headset audio capture
     [Documentation]    Check whether Fedora has capability to capture sound
     ...    via external headset.
+    [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Audio Subsystem Detection Linux    ${ENV_ID_FEDORA}
@@ -230,6 +238,7 @@ AUD002.301 Internal Audio playback
     [Documentation]    Check whether the audio subsystem is able to playback
     ...    audio recordings. To do so, first determine presence of audio sink.
     ...    After that, we verify that sound is not malformed.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
     Power On
@@ -247,6 +256,7 @@ AUD003.301 Internal Audio capture
     [Documentation]    Check whether the audio subsystem is able to capture
     ...    audio on Windows. To do so, we first determine presence of internal
     ...    capture device.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
     Power On
@@ -273,6 +283,7 @@ AUD004.301 External headset recognition
 AUD005.301 External headset audio playback
     [Documentation]    Check whether Windows has capability to playback
     ...    sounds via external headset.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
@@ -288,6 +299,7 @@ AUD005.301 External headset audio playback
 AUD006.301 External headset audio capture
     [Documentation]    Check whether the external headset is recognized
     ...    properly after plugging in micro jack into slot.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On

@@ -14,7 +14,7 @@ Resource            ../keys.robot
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
-Default Tags        automated
+Default Tags        semiauto
 
 
 *** Test Cases ***
