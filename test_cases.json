@@ -1830,13 +1830,6 @@
   },
   {
     "doc": {
-      "_id": "CPU001.205",
-      "name": "CPU works (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPU001.011",
       "name": "CPU works (ESXi)",
       "module": "Dasharo Compatibility",
@@ -1854,6 +1847,13 @@
     "doc": {
       "_id": "CPU001.202",
       "name": "CPU works (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU001.205",
+      "name": "CPU works (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -1904,13 +1904,6 @@
   },
   {
     "doc": {
-      "_id": "CPU002.205",
-      "name": "CPU cache enabled (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPU002.011",
       "name": "CPU cache enabled (ESXi)",
       "module": "Dasharo Compatibility",
@@ -1928,6 +1921,13 @@
     "doc": {
       "_id": "CPU002.202",
       "name": "CPU cache enabled (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU002.205",
+      "name": "CPU cache enabled (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -1978,13 +1978,6 @@
   },
   {
     "doc": {
-      "_id": "CPU003.205",
-      "name": "Multiple CPU support (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPU003.011",
       "name": "Multiple CPU support (ESXi)",
       "module": "Dasharo Compatibility",
@@ -2002,6 +1995,13 @@
     "doc": {
       "_id": "CPU003.202",
       "name": "Multiple CPU support (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU003.205",
+      "name": "Multiple CPU support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2052,13 +2052,6 @@
   },
   {
     "doc": {
-      "_id": "CPU004.205",
-      "name": "Multiple-core  support (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPU004.011",
       "name": "Multiple-core  support (ESXi)",
       "module": "Dasharo Compatibility",
@@ -2076,6 +2069,13 @@
     "doc": {
       "_id": "CPU004.202",
       "name": "Multiple-core support (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU004.205",
+      "name": "Multiple-core  support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2567,13 +2567,6 @@
   },
   {
     "doc": {
-      "_id": "DSP002.205",
-      "name": "External HDMI display in OS (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "DSP002.011",
       "name": "External HDMI display in OS (ESXi)",
       "module": "Dasharo Compatibility",
@@ -2591,6 +2584,13 @@
     "doc": {
       "_id": "DSP002.202",
       "name": "External HDMI display in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP002.205",
+      "name": "External HDMI display in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2641,13 +2641,6 @@
   },
   {
     "doc": {
-      "_id": "DSP003.205",
-      "name": "External DP display in OS (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "DSP003.011",
       "name": "External DP display in OS (ESXi)",
       "module": "Dasharo Compatibility",
@@ -2665,6 +2658,13 @@
     "doc": {
       "_id": "DSP003.202",
       "name": "External DP display in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP003.205",
+      "name": "External DP display in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3800,17 +3800,17 @@
   },
   {
     "doc": {
-      "_id": "ETH001.205",
-      "name": "All Expected NET Controllers Detected (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "ETH001.011",
       "name": "All Expected NET Controllers Detected (ESXi)",
       "module": "Dasharo Compatibility",
       "changed_to": "ETH001.401"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ETH001.205",
+      "name": "All Expected NET Controllers Detected (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -3830,15 +3830,15 @@
   },
   {
     "doc": {
-      "_id": "ETH002.205",
-      "name": "All Expected SFP Controllers Detected (XCP-NG)",
+      "_id": "ETH002.011",
+      "name": "All Expected SFP Controllers Detected (ESXi)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "ETH002.011",
-      "name": "All Expected SFP Controllers Detected (ESXi)",
+      "_id": "ETH002.205",
+      "name": "All Expected SFP Controllers Detected (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4259,17 +4259,17 @@
   },
   {
     "doc": {
-      "_id": "MEM001.205",
-      "name": "Expected RAM size detected in OS (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "MEM001.011",
       "name": "Expected RAM size detected in OS (ESXi)",
       "module": "Dasharo Compatibility",
       "changed_to": "MEM001.401"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MEM001.205",
+      "name": "Expected RAM size detected in OS (XCP-NG)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -4802,13 +4802,6 @@
   },
   {
     "doc": {
-      "_id": "NVM001.205",
-      "name": "NVMe support (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "NVM001.011",
       "name": "NVMe support (ESXi)",
       "module": "Dasharo Compatibility",
@@ -4826,6 +4819,13 @@
     "doc": {
       "_id": "NVM001.202",
       "name": "NVMe support in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NVM001.205",
+      "name": "NVMe support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4866,6 +4866,13 @@
   },
   {
     "doc": {
+      "_id": "OPN001.503",
+      "name": "Install OPNsense (serial output) on disk",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "OPN002.001",
       "name": "OPNsense stable (VGA output) installation on Hard Disk",
       "module": "Dasharo Compatibility"
@@ -4875,6 +4882,34 @@
     "doc": {
       "_id": "OPN002.002",
       "name": "Boot OPNsense stable (VGA output) from Hard Disk",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "OPN002.503",
+      "name": "Boot OPNsense (serial output) from disk",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "OPN003.503",
+      "name": "Boot OPNsense (serial output) from disk after cold-boot",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "OPN004.503",
+      "name": "Boot OPNsense (serial output) from disk after warm-boot",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "OPN005.503",
+      "name": "Boot OPNsense (serial output) from disk after reboot",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4894,6 +4929,13 @@
   },
   {
     "doc": {
+      "_id": "PFS001.502",
+      "name": "Install pfSense LTS CE (serial output) on disk",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "PFS002.001",
       "name": "pfSense stable (VGA output) installation on Hard Disk",
       "module": "Dasharo Compatibility"
@@ -4903,6 +4945,48 @@
     "doc": {
       "_id": "PFS002.002",
       "name": "Boot pfSense stable (VGA output) from Hard Disk",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PFS002.502",
+      "name": "Boot pfSense LTS CE (serial output) from disk",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PFS003.502",
+      "name": "Boot pfSense LTS CE (serial output) from disk after cold-boot",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PFS004.502",
+      "name": "Boot pfSense LTS CE (serial output) from disk after warm-boot",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PFS005.502",
+      "name": "Boot pfSense LTS CE (serial output) from disk after reboot",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PFS006.502",
+      "name": "Preseed pfSense Installer (serial output)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PFS007.502",
+      "name": "Boot pfSense Installer (serial output) into rescue shell",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5211,13 +5295,6 @@
   },
   {
     "doc": {
-      "_id": "SAT001.205",
-      "name": "SATA Support (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "SAT001.011",
       "name": "SATA Support (ESXi)",
       "module": "Dasharo Compatibility",
@@ -5228,6 +5305,13 @@
     "doc": {
       "_id": "SAT001.201",
       "name": "SATA support in OS (Ubuntu}",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SAT001.205",
+      "name": "SATA Support (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6431,13 +6515,6 @@
   },
   {
     "doc": {
-      "_id": "TPM001.205",
-      "name": "TPM Support (XCP-NG)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
       "_id": "TPM001.011",
       "name": "TPM Support (ESXi)",
       "module": "Dasharo Security"
@@ -6454,6 +6531,13 @@
     "doc": {
       "_id": "TPM001.202",
       "name": "TPM Support (Fedora)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM001.205",
+      "name": "TPM Support (XCP-NG)",
       "module": "Dasharo Security"
     }
   },
@@ -6497,13 +6581,6 @@
   },
   {
     "doc": {
-      "_id": "TPM002.205",
-      "name": "Verify TPM version (XCP-NG)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
       "_id": "TPM002.011",
       "name": "Verify TPM version (ESXi)",
       "module": "Dasharo Security"
@@ -6520,6 +6597,13 @@
     "doc": {
       "_id": "TPM002.202",
       "name": "Verify TPM Version (Fedora)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM002.205",
+      "name": "Verify TPM version (XCP-NG)",
       "module": "Dasharo Security"
     }
   },
@@ -6571,13 +6655,6 @@
   },
   {
     "doc": {
-      "_id": "TPM003.205",
-      "name": "Check TPM Physical Presence Interface (XCP-NG)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
       "_id": "TPM003.011",
       "name": "Check TPM Physical Presence Interface (ESXi)",
       "module": "Dasharo Security"
@@ -6601,6 +6678,13 @@
     "doc": {
       "_id": "TPM003.202",
       "name": "Check TPM Physical Presence Interface (Fedora)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM003.205",
+      "name": "Check TPM Physical Presence Interface (XCP-NG)",
       "module": "Dasharo Security"
     }
   },
@@ -6820,13 +6904,6 @@
   },
   {
     "doc": {
-      "_id": "USB001.205",
-      "name": "USB devices detection in OS (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "USB001.011",
       "name": "USB devices detection in OS (ESXi)",
       "module": "Dasharo Compatibility",
@@ -6851,6 +6928,13 @@
     "doc": {
       "_id": "USB001.203",
       "name": "USB devices detected by OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USB001.205",
+      "name": "USB devices detection in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6909,13 +6993,6 @@
   },
   {
     "doc": {
-      "_id": "USB002.205",
-      "name": "USB keyboard detection (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "USB002.011",
       "name": "USB keyboard detection (ESXi)",
       "module": "Dasharo Compatibility",
@@ -6940,6 +7017,13 @@
     "doc": {
       "_id": "USB002.203",
       "name": "USB keyboard in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USB002.205",
+      "name": "USB keyboard detection (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6975,6 +7059,14 @@
   },
   {
     "doc": {
+      "_id": "USB003.010",
+      "name": "USB keyboard detection (XCP-NG)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "USB003.205"
+    }
+  },
+  {
+    "doc": {
       "_id": "USB003.201",
       "name": "Upload 1GB file on USB storage (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -6989,23 +7081,15 @@
   },
   {
     "doc": {
-      "_id": "USB003.301",
-      "name": "Upload 1GB file on USB storage (Windows)",
+      "_id": "USB003.205",
+      "name": "USB keyboard detection (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USB003.010",
-      "name": "USB keyboard detection (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB003.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB003.205",
-      "name": "USB keyboard detection (XCP-NG)",
+      "_id": "USB003.301",
+      "name": "Upload 1GB file on USB storage (Windows)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9972,13 +10056,6 @@
   },
   {
     "doc": {
-      "_id": "WLE001.205",
-      "name": "Wireless card detection (XCP-NG)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "WLE001.011",
       "name": "Wireless card detection (ESXi)",
       "module": "Dasharo Compatibility"
@@ -9995,6 +10072,13 @@
     "doc": {
       "_id": "WLE001.202",
       "name": "Wireless card detection (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "WLE001.205",
+      "name": "Wireless card detection (XCP-NG)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10076,90 +10160,6 @@
       "_id": "WLE003.202",
       "name": "Bluetooth scanning (Fedora)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS001.502",
-        "name": "Install pfSense LTS CE (serial output) on disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS002.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS003.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk after cold-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS004.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk after warm-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS005.502",
-        "name": "Boot pfSense LTS CE (serial output) from disk after reboot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS006.502",
-        "name": "Preseed pfSense Installer (serial output)",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "PFS007.502",
-        "name": "Boot pfSense Installer (serial output) into rescue shell",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN001.503",
-        "name": "Install OPNsense (serial output) on disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN002.503",
-        "name": "Boot OPNsense (serial output) from disk",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN003.503",
-        "name": "Boot OPNsense (serial output) from disk after cold-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN004.503",
-        "name": "Boot OPNsense (serial output) from disk after warm-boot",
-        "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-        "_id": "OPN005.503",
-        "name": "Boot OPNsense (serial output) from disk after reboot",
-        "module": "Dasharo Compatibility"
     }
   }
 ]
