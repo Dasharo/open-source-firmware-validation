@@ -132,6 +132,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     ...    firmware. If FW_FILE_PREV isn't defined then test waits for user to
     ...    flash correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then
     ...    test will load DPP credentials before trying to update.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Flash FW Automatically Or Manually
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
@@ -157,6 +158,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     ...    firmware. If FW_FILE_PREV isn't defined then test waits for user to
     ...    flash correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then
     ...    test will load DPP credentials before trying to update.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Flash FW Automatically Or Manually
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
