@@ -31,6 +31,8 @@ Suite Teardown      Run Keyword
 Test Setup          Run Keyword
 ...                     Power On
 
+Default Tags        automated
+
 
 *** Test Cases ***
 VBO006.002 Check whether the verstage was run

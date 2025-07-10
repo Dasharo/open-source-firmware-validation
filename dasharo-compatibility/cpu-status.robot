@@ -25,6 +25,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Variables ***
 ${PACKAGE_IDS_COUNT}=       0

@@ -15,6 +15,8 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 SAT001.001 SATA support in firmware

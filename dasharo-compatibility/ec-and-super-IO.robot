@@ -23,6 +23,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 ECR001.201 Battery monitoring - charge level in OS (Ubuntu)

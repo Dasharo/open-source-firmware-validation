@@ -22,6 +22,8 @@ Suite Setup         TPM2 Suite Setup
 Suite Teardown      Log Out And Close Connection
 Test Setup          Flush TPM Contexts
 
+Default Tags        automated
+
 
 *** Test Cases ***
 TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)

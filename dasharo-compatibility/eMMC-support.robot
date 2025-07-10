@@ -21,6 +21,8 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 MMC001.001 eMMC support (Ubuntu)

@@ -23,6 +23,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 USS001.001 Enable USB stack (firmware)

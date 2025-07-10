@@ -7,6 +7,8 @@ Resource            ../lib/platform/power.robot
 Suite Setup         Disk IO Suite Setup
 Suite Teardown      Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Variables ***
 ${FIO_LATEST_RELEASE_URL}=      https://api.github.com/repos/axboe/fio/releases/latest

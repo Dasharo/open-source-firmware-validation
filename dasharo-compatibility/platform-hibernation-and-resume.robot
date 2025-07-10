@@ -14,6 +14,8 @@ Resource            ../keys.robot
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 
+Default Tags        semiauto
+
 
 *** Test Cases ***
 # For now, the test has to be done manually, because of the issue with rtcwake:

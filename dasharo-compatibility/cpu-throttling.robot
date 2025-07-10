@@ -17,6 +17,8 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 THR001.101 Try to enter a threshold value that's above the limit (firmware)

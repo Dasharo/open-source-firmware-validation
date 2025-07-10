@@ -21,6 +21,8 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 USB001.001 USB devices detected in FW
@@ -37,7 +39,7 @@ USB002.001 USB keyboard detected in FW
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Power On

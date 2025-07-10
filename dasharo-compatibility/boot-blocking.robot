@@ -23,6 +23,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 BBB001.001 Boot blocking (charger disconnected) (Ubuntu)

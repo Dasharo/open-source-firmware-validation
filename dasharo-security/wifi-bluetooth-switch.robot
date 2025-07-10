@@ -21,6 +21,8 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 WBS001.201 Wifi and Bluetooth card power switch disabled (Ubuntu)

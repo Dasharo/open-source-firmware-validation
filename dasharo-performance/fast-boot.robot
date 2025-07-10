@@ -7,6 +7,8 @@ Resource            ../lib/cbmem.robot
 Suite Setup         Initialize Fast Boot Suite
 Suite Teardown      Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Variables ***
 ${ITERATIONS}=      5

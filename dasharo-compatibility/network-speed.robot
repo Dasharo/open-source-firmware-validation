@@ -28,6 +28,7 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     ...
     ...    Previous IDs: ETHPERF001.001
+    [Tags]    semiauto
     Depends On    ${ETH_PERF_PAIR_2_G}
     Depends On    ${ETH_PORTS}
 
@@ -65,7 +66,6 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     Configure Network Interfaces For Testing    ${eth_1}    ${eth_2}
 
     Test Network Performance    2.35
-
     IF    '${eth_ports_number}' == '2'
         Pause Execution
         ...    [5/6] This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
@@ -80,6 +80,7 @@ ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     ...
     ...    Previous IDs: ETHPERF002.001
+    [Tags]    automated
     Depends On    ${ETH_PERF_PAIR_10_G}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

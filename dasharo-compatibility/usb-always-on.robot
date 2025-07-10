@@ -10,9 +10,9 @@ Resource        ../keys.robot
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
-...                 AND
-...                 Skip If    not ${SEMI_AUTO}    Automatic tests only run
+
 # TODO: human-readable representation of setup menu key for all platforms
+Default Tags    semiauto
 
 
 *** Variables ***

@@ -28,6 +28,8 @@ Suite Teardown      Run Keywords
 ...                     Save Changes And Reset    AND
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 CCC001.001 Check core count with HT disabled (Ubuntu)

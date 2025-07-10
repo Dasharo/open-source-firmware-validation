@@ -22,6 +22,8 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 WDT001.001 Check if watchdog option is available

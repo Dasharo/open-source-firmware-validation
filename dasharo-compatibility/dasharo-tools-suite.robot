@@ -22,6 +22,8 @@ Suite Teardown      Run Keyword
 Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
 ...                     Restore Initial DUT Connection Method
 
+Default Tags        automated
+
 
 *** Test Cases ***
 DTS001.001 Booting DTS from USB works correctly
@@ -130,6 +132,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     ...    firmware. If FW_FILE_PREV isn't defined then test waits for user to
     ...    flash correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then
     ...    test will load DPP credentials before trying to update.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Flash FW Automatically Or Manually
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
@@ -155,6 +158,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     ...    firmware. If FW_FILE_PREV isn't defined then test waits for user to
     ...    flash correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then
     ...    test will load DPP credentials before trying to update.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Flash FW Automatically Or Manually
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
@@ -182,6 +186,7 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     ...    defined then test waits for user to flash correct FW.
     ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
     ...    credentials before trying to deploy firmware.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${version}=    Prepare For Initial Deployment    seabios=${False}
     Enable DTS Log Sending
@@ -202,6 +207,7 @@ DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     ...    defined then test waits for user to flash correct FW.
     ...    If DPP_EMAIL and DPP_PASSWORD are defined then test will load DPP
     ...    credentials before trying to deploy firmware.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${version}=    Prepare For Initial Deployment    seabios=${True}
     Enable DTS Log Sending
@@ -222,6 +228,7 @@ DTS011.001 Heads Transition by using DTS via iPXE works correctly
     ...    heads. If FW_FILE isn't defined then test waits for user to flash
     ...    correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then test will
     ...    load DPP credentials before trying to deploy firmware.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
 
     Flash FW Automatically Or Manually

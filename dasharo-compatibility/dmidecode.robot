@@ -25,6 +25,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 DMI001.201 Verify the device serial number
@@ -41,7 +43,7 @@ DMI002.201 Verify the firmware version
     [Documentation]    Check whether the firmware version on the DUT is the
     ...    same as it is expected.
     ...    Previous IDs: DMI002.001
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${FIRMWARE_NUMBER_VERIFICATION}    DMI002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI002.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
@@ -52,7 +54,7 @@ DMI003.201 Verify the firmware product name
     [Documentation]    Check whether the DUT product name is the same as it is
     ...    expected.
     ...    Previous IDs: DMI003.001
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${PRODUCT_NAME_VERIFICATION}    DMI003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    DMI003.201 not supported
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
@@ -116,7 +118,7 @@ DMI001.202 Verify the device serial number
 DMI002.202 Verify the firmware version
     [Documentation]    Check whether the firmware version on the DUT is the
     ...    same as it is expected.
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${FIRMWARE_NUMBER_VERIFICATION}    DMI002.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DMI002.202 not supported
     Get SMBIOS Values    ${ENV_ID_FEDORA}
@@ -126,7 +128,7 @@ DMI002.202 Verify the firmware version
 DMI003.202 Verify the firmware product name
     [Documentation]    Check whether the DUT product name is the same as it is
     ...    expected.
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    not ${PRODUCT_NAME_VERIFICATION}    DMI003.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DMI003.202 not supported
     Get SMBIOS Values    ${ENV_ID_FEDORA}

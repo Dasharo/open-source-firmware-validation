@@ -7,6 +7,8 @@ Resource            ../lib/performance/cpu.robot
 Suite Setup         CPU Performance Suite Setup
 Suite Teardown      Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Variables ***
 ${DEVIATION_UP}=        1.2    # acceptable deviation +/-20%

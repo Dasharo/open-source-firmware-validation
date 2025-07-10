@@ -35,6 +35,8 @@ Suite Teardown      Run Keywords
 Test Setup          Run Keyword
 ...                     Restore Initial DUT Connection Method
 
+Default Tags        automated
+
 
 *** Test Cases ***
 SBO001.001 Check Secure Boot default state (firmware)

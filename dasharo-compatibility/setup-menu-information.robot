@@ -25,12 +25,13 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 SET001.001 CPU clock speed displayed in setup menu
     [Documentation]    This test case verifies that CPU clock speed is
     ...    correctly indicated in setup menu.
-
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
@@ -43,7 +44,6 @@ SET001.001 CPU clock speed displayed in setup menu
 SET002.001 RAM speed displayed in setup menu
     [Documentation]    This test case verifies that RAM speed is correctly
     ...    indicated in setup menu.
-
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
@@ -56,7 +56,6 @@ SET002.001 RAM speed displayed in setup menu
 SET003.001 RAM size displayed in setup menu
     [Documentation]    This test case verifies that RAM size is correctly
     ...    indicated in setup menu.
-
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
@@ -70,7 +69,6 @@ SET004.001 Expected CPU clock speed displayed in setup menu
     [Documentation]    This test case verifies that CPU clock speed is
     ...    correctly indicated in setup menu.
     Depends On Variable    \${PLATFORM_CPU_SPEED}
-
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
@@ -84,7 +82,6 @@ SET005.001 Expected RAM speed displayed in setup menu
     [Documentation]    This test case verifies that RAM speed is correctly
     ...    indicated in setup menu.
     Depends On Variable    \${PLATFORM_RAM_SPEED}
-
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
@@ -98,7 +95,6 @@ SET006.001 Expected RAM size displayed in setup menu
     [Documentation]    This test case verifies that RAM size is correctly
     ...    indicated in setup menu.
     Depends On Variable    \${PLATFORM_RAM_SIZE}
-
     Power On
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry

@@ -15,6 +15,8 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Test Cases ***
 TPD003.201 Detect TPM after platform reboot (Ubuntu)

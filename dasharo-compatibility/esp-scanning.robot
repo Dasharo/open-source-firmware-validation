@@ -15,6 +15,8 @@ Resource            ../keys.robot
 Suite Setup         Setup Esp Scanning Suite
 Suite Teardown      Teardown Esp Scanning Suite
 
+Default Tags        automated
+
 
 *** Test Cases ***
 ESP001.001 ESP Scan with OS-specific .efi files added

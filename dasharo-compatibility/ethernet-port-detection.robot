@@ -21,6 +21,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
+Default Tags        automated
+
 
 *** Variables ***
 ${DEF_EXPECTED_NET_CONTROLLERS}=    ${EMPTY}
