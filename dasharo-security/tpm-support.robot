@@ -250,7 +250,7 @@ TPM013.201 TPM PPI Prompt (Ubuntu)
     Login To Linux
     Switch To Root User
 
-    TPM2 Set Owner Key Password
+    TPM2 Set Owner Key Password Linux
     ${set}=    TPM2 Check Owner Key Password Set
     Should Be True    ${set}
     TPM2 PPI Request Clear TPM Linux
@@ -329,7 +329,7 @@ TPM002.205 Verify TPM version (XCP-NG)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the XCP-NG OS.
     ...    Previous IDs: TPM002.010
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM002.203 not supported
     Power On
     Login To OS    ${ENV_ID_XCP_NG}
