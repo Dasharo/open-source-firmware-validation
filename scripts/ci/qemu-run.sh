@@ -204,8 +204,8 @@ QEMU_PARAMS_OS_AUDIO="-device ich9-intel-hda \
 if [[ -z ${BRIDGE} ]]; then
   QEMU_PARAMS_OS+=" -netdev user,id=vmnic,hostfwd=tcp::5222-:22"
 else
-  echo "Using bridged network"
-  QEMU_PARAMS_OS+=" -netdev bridge,id=vmnic,br=br0"
+  echo "Using bridged network $BRIDGE"
+  QEMU_PARAMS_OS+=" -netdev bridge,id=vmnic,br=$BRIDGE"
 fi
 
 if [[ -f ${HDD2_PATH} ]]; then
