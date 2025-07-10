@@ -217,3 +217,29 @@ permissions. Example usage, assuming database server running on localhost:
 ```shell
 DB_SERVER_IP=127.0.0.1:5984 ./scripts/synchronize-db.py
 ```
+
+# Test Workflow Tag Guidelines
+
+A newly added test case should be tagged as either `automated` or `semiauto`.
+Since most tests are automated, the best approach is to define `Default Tags`
+at the top of the test suite, and then manually add the `semiauto` tag where
+necessary.
+
+The `Default Tags` entry should be placed in the `*** Settings ***` section
+of the test suite:
+
+```robot
+*** Settings ***
+#Typically includes Libraries, Test Setup, and Teardown
+Default Tags    automated
+```
+
+All test cases in such a suite that don’t already have any tags will inherit
+the default one. If a test case requires additional tags, the default tag must
+be repeated explicitly:
+
+```robot
+ABC001.201
+[Documentation] ...
+[Tags]    automated     minimal-regression
+```
