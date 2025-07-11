@@ -168,7 +168,7 @@ if [ $# -ne 2 ]; then
   exit 1
 fi
 
-QEMU_PARAMS_BASE="-machine q35,smm=on -cpu host \
+QEMU_PARAMS_BASE="-machine q35,smm=on -cpu Skylake-Client \
   -global driver=cfi.pflash01,property=secure,value=off \
   -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
   -global ICH9-LPC.disable_s3=1 \
