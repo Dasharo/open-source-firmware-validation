@@ -133,3 +133,14 @@ repos:
         entry: ./scripts/ci/test_ids/check_sort.py
         args: ["--fix"]
         files: 'test_cases.json'
+
+      - id: check-platform-config-vars
+        name: Check Platform Config Variables
+        description: Check if platform config file define variables not present in include/default.robot
+        language: python
+        additional_dependencies:
+          - robotframework
+        entry: ./scripts/ci/check_platform_configs_vars.py
+        args: []
+        files: '^.*\.robot$'
+        pass_filenames: false
