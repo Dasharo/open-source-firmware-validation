@@ -209,7 +209,7 @@ ${FAN_RPM_MEASUREMENT_SENSOR}=                      w83795g-i2c-1-2f
 # the sensor. Dictionary keys:
 # - module - name of the kernel module
 # - force_id - optional force_id arg for modprobe
-&{FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               module=w83795
+${FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               module=w83795
 
 
 *** Keywords ***

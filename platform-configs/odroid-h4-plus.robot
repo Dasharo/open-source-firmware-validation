@@ -34,7 +34,6 @@ ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                         ${TRUE}
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
-${ETH_PORTS}=                                   ${EMPTY}
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${TRUE}

@@ -5,7 +5,7 @@ Variables       ../../os-config/environment-test-ids.py
 
 *** Variables ***
 ${TBD}=
-...                                                 TBD_variable_not_set_03626549a59abf648ee59163b3b8acbf66c36513cb1e76d6e277bc044c926e30
+...                                                 TBD_variable_not_set_and_should_be_defined_in_platform_config_if_needed
 ${INITIAL_DUT_CONNECTION_METHOD}=                   ${TBD}
 ${DUT_CONNECTION_METHOD}=                           ${TBD}
 ${PAYLOAD}=                                         tianocore
@@ -81,6 +81,7 @@ ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
 ${TESTS_IN_METATB_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_HEADS_SUPPORT}=                          ${FALSE}
+${TESTS_IN_FEDORA_SUPPORT}=                         ${FALSE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
@@ -94,6 +95,7 @@ ${DASHARO_PCIE_REBAR_SUPPORT}=                      ${FALSE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
 ${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
+${ACPI_DRIVER_SUPPORT}=                             ${FALSE}
 ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${FALSE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${FALSE}
@@ -213,9 +215,6 @@ ${DGPU_ONLY_SUPPORT}=                               ${FALSE}
 # measuring temperatures, fans etc.
 ${SENSORS_CONFIG_FILE}=                             include/sensors/default-sensors-config.yaml
 ${CUSTOM_FAN_CURVE_FILE}=                           ${TBD}
-${ETH_PERF_PAIR_1_G}=                               ${FALSE}
-${ETH_PERF_PAIR_2_G}=                               ${FALSE}
-${ETH_PERF_PAIR_10_G}=                              ${FALSE}
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${FALSE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}
@@ -287,7 +286,6 @@ ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=         2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=           5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=          5
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=         NetworkBoot
-${ETH_PORTS}=                                       ${EMPTY}
 ${WINDOWS_SHUTDOWN_AWAITING_SECONDS}=               120
 
 @{TESTED_LINUX_DISTROS}=                            ${ENV_ID_UBUNTU}
@@ -297,6 +295,100 @@ ${BOOTED_OS_ID}=                                    ${DEFAULT_BOOT_OS_ID}
 ${USE_ANSIBLE}=                                     ${TRUE}
 ${TESTS_IN_XCP_NG_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_ESXI_SUPPORT}=                           ${FALSE}
+
+# These were missing in default.robot and have been automatically
+# identified and added via: ./scripts/ci/check_platform_configs_vars.py
+
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${TBD}
+${BLAKE2_TEST_SCORE}=                               ${TBD}
+${BLUETOOTH_CARD_UBUNTU}=                           ${TBD}
+${CACHEBENCH_TEST_SCORE}=                           ${TBD}
+${CLEVO_BATTERY_CAPACITY}=                          ${TBD}
+${CLEVO_DISK}=                                      ${TBD}
+${CLEVO_USB_C_HUB}=                                 ${TBD}
+${COREMARK_SINGLE}=                                 ${TBD}
+${CPU_E_CORES_MAX}=                                 ${TBD}
+${CPU_MAX_FREQUENCY}=                               ${TBD}
+${CPU_MIN_FREQUENCY}=                               ${TBD}
+${CPU_P_CORES_MAX}=                                 ${TBD}
+${CPU_TEMPERATURE_MEASUREMENT_METHOD}=              ${TBD}
+${CRAFTY_TEST_SCORE}=                               ${TBD}
+${CRAY_1080_P_RENDER}=                              ${TBD}
+${CRAY_4_K_RENDER}=                                 ${TBD}
+${CRAY_5_K_RENDER}=                                 ${TBD}
+${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}=               ${TBD}
+${DEF_CORES_PER_SOCKET}=                            ${TBD}
+${DEF_CORES}=                                       ${TBD}
+${DEF_CPU}=                                         ${TBD}
+${DEF_ONLINE_CPU}=                                  ${TBD}
+${DEF_SOCKETS}=                                     ${TBD}
+${DEF_THREADS_PER_CORE}=                            ${TBD}
+${DEF_THREADS_TOTAL}=                               ${TBD}
+${DEF_THREADS}=                                     ${TBD}
+${DEVICE_AUDIO1_WIN}=                               ${TBD}
+${DEVICE_AUDIO1}=                                   ${TBD}
+${DEVICE_AUDIO2}=                                   ${TBD}
+${DEVICE_USB_PASSWORD}=                             ${TBD}
+${DEVICE_USB_PROMPT}=                               ${TBD}
+${DEVICE_USB_ROOT_PROMPT}=                          ${TBD}
+${DEVICE_USB_USERNAME}=                             ${TBD}
+${DRAM_SIZE}=                                       ${TBD}
+${EC_NO_SYNC_DOWNLOAD_LINK}=                        ${TBD}
+${EC_NO_SYNC_VERSION}=                              ${TBD}
+${ETHERNET_ID}=                                     ${TBD}
+${EXTERNAL_HEADSET}=                                ${TBD}
+${E_MMC_NAME}=                                      ${TBD}
+${FAN_PWM_MEASUREMENT_HWMON_PATH}=                  ${TBD}
+${FAN_PWM_MEASUREMENT_METHOD}=                      ${TBD}
+${FAN_RPM_MEASUREMENT_METHOD}=                      ${TBD}
+${FAN_RPM_MEASUREMENT_SENSOR}=                      ${TBD}
+${FLASH_VERIFY_OPTION}=                             ${TBD}
+${FW_NO_EC_SYNC_DOWNLOAD_LINK}=                     ${TBD}
+${FW_NO_EC_SYNC_VERSION}=                           ${TBD}
+${HAS_E_CORES}=                                     ${TBD}
+${HIBERNATION_ITERATIONS_NUMBER}=                   ${TBD}
+${INITIAL_CPU_FREQUENCY}=                           ${TBD}
+${ITERATIONS}=                                      ${TBD}
+${LTE_CARD}=                                        ${TBD}
+${MAX_CPU_TEMP_THRESHOLD}=                          ${TBD}
+${ONLY_FLASH_BIOS}=                                 ${TBD}
+${OPEN_BMC_PASSWORD}=                               ${TBD}
+${OPEN_BMC_ROOT_PROMPT}=                            ${TBD}
+${OPEN_BMC_USERNAME}=                               ${TBD}
+${OS_DUT_CONNECTION_METHOD}=                        ${TBD}
+${PLATFORM_CPU_SPEED}=                              ${TBD}
+${PLATFORM_RAM_SIZE}=                               ${TBD}
+${PLATFORM_RAM_SPEED}=                              ${TBD}
+${SD_WIRES_CONNECTED}=                              ${TBD}
+${SD_WIRE_SERIAL1}=                                 ${TBD}
+${SMALLPT_TEST_SCORE}=                              ${TBD}
+${UBU_RAND_READ_NONQUE}=                            ${TBD}
+${UBU_RAND_READ_QUEUED}=                            ${TBD}
+${UBU_RAND_WRITE_NONQUE}=                           ${TBD}
+${UBU_RAND_WRITE_QUEUED}=                           ${TBD}
+${UBU_SEQ_READ_NONQUE}=                             ${TBD}
+${UBU_SEQ_READ_QUEUED}=                             ${TBD}
+${UBU_SEQ_WRITE_NONQUE}=                            ${TBD}
+${UBU_SEQ_WRITE_QUEUED}=                            ${TBD}
+${UNIGINE_SUPERPOSITION_RESULT_AC}=                 ${TBD}
+${UNIGINE_SUPERPOSITION_RESULT_BAT}=                ${TBD}
+${WEBCAM_UBUNTU}=                                   ${TBD}
+${WIN_RAND_READ_NONQUE}=                            ${TBD}
+${WIN_RAND_READ_QUEUED}=                            ${TBD}
+${WIN_RAND_WRITE_NONQUE}=                           ${TBD}
+${WIN_RAND_WRITE_QUEUED}=                           ${TBD}
+${WIN_SEQ_READ_NONQUE}=                             ${TBD}
+${WIN_SEQ_READ_QUEUED}=                             ${TBD}
+${WIN_SEQ_WRITE_NONQUE}=                            ${TBD}
+${WIN_SEQ_WRITE_QUEUED}=                            ${TBD}
+${ZIP_MULTI_COMPRESSION}=                           ${TBD}
+${ZIP_MULTI_DECOMPRESSION}=                         ${TBD}
+${FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               ${TBD}
+@{ETH_PERF_PAIR_10_G}=                              ${TBD}
+@{ETH_PERF_PAIR_1_G}=                               ${TBD}
+@{ETH_PERF_PAIR_2_G}=                               ${TBD}
+@{ETH_PORTS}=                                       ${TBD}
+@{ETH_SFP_PORTS}=                                   ${TBD}
 
 
 *** Keywords ***
