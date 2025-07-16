@@ -11,6 +11,7 @@ import sys
 
 from robot.api import get_model
 from robot.api.parsing import Variable, VariableSection
+from robot.running import ResourceFileBuilder
 
 # Define paths
 BASE_DIR = "platform-configs"  # Adjust this if needed
@@ -20,15 +21,8 @@ DEFAULT_ROBOT = os.path.join(INCLUDE_DIR, "default.robot")
 
 def get_defined_variables(file_path):
     """Extract variable names from a Robot Framework file using RF parser."""
-    with open(file_path, encoding="utf-8") as f:
-        model = get_model(f.read())
-
-    variables = set()
-    for section in model.sections:
-        if isinstance(section, VariableSection):
-            for var in section.body:
-                if isinstance(var, Variable):
-                    variables.add(var.name)
+    variables = ResourceFileBuilder().build(file_path).variables
+    variables = set([var.name for var in variables])
     return variables
 
 
