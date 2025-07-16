@@ -29,8 +29,8 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     ...
     ...    Previous IDs: ETHPERF001.001
     [Tags]    semiauto
-    Depends On    ${ETH_PERF_PAIR_2_G}
-    Depends On    ${ETH_PORTS}
+    Depends On    '${ETH_PERF_PAIR_2_G}' != '@{EMPTY}'
+    Depends On    '${ETH_PORTS}' != '@{EMPTY}'
 
     ${eth_ports_number}=    Get Length    ${ETH_PORTS}
     IF    '${eth_ports_number}' == '2'
@@ -81,7 +81,7 @@ ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     ...
     ...    Previous IDs: ETHPERF002.001
     [Tags]    automated
-    Depends On    ${ETH_PERF_PAIR_10_G}
+    Depends On    '${ETH_PERF_PAIR_10_G}' != '@{EMPTY}'
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux

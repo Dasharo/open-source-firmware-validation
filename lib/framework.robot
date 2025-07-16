@@ -8,10 +8,11 @@ Depends On Variable
 Depends On
     [Documentation]    Skips test if ``condition`` is not met. Test identifier
     ...    (first word of its name) and optional ``reason`` is set
-    ...    to the test as per ```Skip`` keyword.
+    ...    to the test as per ``Skip`` keyword.
     [Arguments]    ${condition}    ${reason}=${NONE}
     ${line}=    Set Variable    ${TEST_NAME.split()}[0] not supported
-    IF    """${reason}""" != """${NONE}"""
+    IF    "${reason}" != "${NONE}"
         ${line}=    Set Variable    ${line}: ${reason}
     END
-    Skip If    not ${condition}    ${line}
+    ${should_skip}=    Evaluate    not bool(${condition})
+    Skip If    ${should_skip}    ${line}

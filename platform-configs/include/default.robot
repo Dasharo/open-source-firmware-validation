@@ -296,6 +296,12 @@ ${USE_ANSIBLE}=                                     ${TRUE}
 ${TESTS_IN_XCP_NG_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_ESXI_SUPPORT}=                           ${FALSE}
 
+@{ETH_PERF_PAIR_10_G}=                              @{EMPTY}
+@{ETH_PERF_PAIR_1_G}=                               @{EMPTY}
+@{ETH_PERF_PAIR_2_G}=                               @{EMPTY}
+@{ETH_PORTS}=                                       @{EMPTY}
+@{ETH_SFP_PORTS}=                                   @{EMPTY}
+
 # These were missing in default.robot and have been automatically
 # identified and added via: ./scripts/ci/check_platform_configs_vars.py
 
@@ -384,11 +390,6 @@ ${WIN_SEQ_WRITE_QUEUED}=                            ${TBD}
 ${ZIP_MULTI_COMPRESSION}=                           ${TBD}
 ${ZIP_MULTI_DECOMPRESSION}=                         ${TBD}
 ${FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               ${TBD}
-@{ETH_PERF_PAIR_10_G}=                              ${TBD}
-@{ETH_PERF_PAIR_1_G}=                               ${TBD}
-@{ETH_PERF_PAIR_2_G}=                               ${TBD}
-@{ETH_PORTS}=                                       ${TBD}
-@{ETH_SFP_PORTS}=                                   ${TBD}
 
 
 *** Keywords ***
