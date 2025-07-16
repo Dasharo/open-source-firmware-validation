@@ -801,7 +801,7 @@ E2E005.001 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - n
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot v24.04.00.05" TEST_BOARD_MODEL="APU2"
-    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false" TEST_IS_SEABIOS="true"
     Write Into Terminal    dts-boot
 
     # 3) Start transition:
@@ -820,7 +820,7 @@ E2E005.002 PC Engines DPP Transition (Coreboot + SeaBIOS -> Coreboot + UEFI) - w
     Execute Command In Terminal
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal    export TEST_BIOS_VERSION="coreboot v24.04.00.05" TEST_BOARD_MODEL="APU2"
-    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false" TEST_IS_SEABIOS="true"
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
@@ -843,7 +843,7 @@ E2E005.003 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - wi
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal
     ...    export TEST_BIOS_VERSION="coreboot v24.04.00.01" TEST_BOARD_MODEL="APU2"
-    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false" TEST_IS_SEABIOS="true"
     Write Into Terminal    dts-boot
 
     # 3) Start update:
@@ -863,7 +863,7 @@ E2E005.004 PC Engines DPP update (Coreboot + SeaBIOS -> Coreboot + SeaBIOS) - wi
     ...    export DTS_TESTING="true" TEST_SYSTEM_VENDOR="PC Engines" TEST_SYSTEM_MODEL="APU2"
     Execute Command In Terminal
     ...    export TEST_BIOS_VERSION="coreboot v24.04.00.01" TEST_BOARD_MODEL="APU2"
-    Execute Command In Terminal    export TEST_EFI_PRESENT="false"
+    Execute Command In Terminal    export TEST_EFI_PRESENT="false" TEST_IS_SEABIOS="true"
     Write Into Terminal    dts-boot
 
     # 3) Provide DPP credentials:
