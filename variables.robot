@@ -483,11 +483,9 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG52}=                &{RTE68}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
 @{CONFIG54}=                &{RTE70}
-<<<<<<< HEAD
-@{CONFIG55}=                &{RTE71}    &{SSD20}
-=======
 @{CONFIG55}=                &{RTE71}
->>>>>>> 79d637925c8f (platform-configs/novacustom-nuc_box: add)
+@{CONFIG56}=                &{RTE72}    &{SSD20}
+@{CONFIG57}=                &{RTE73}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -502,4 +500,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG42}    @{CONFIG43}    @{CONFIG44}    @{CONFIG45}
 ...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
 ...                         @{CONFIG50}    @{CONFIG51}    @{CONFIG52}    @{CONFIG53}
-...                         @{CONFIG54}    @{CONFIG55}
+...                         @{CONFIG54}    @{CONFIG55}    @{CONFIG56}    @{CONFIG57}
