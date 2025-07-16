@@ -5,8 +5,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
-import re
+import pathlib
 import sys
+
+from robot.running import ResourceFileBuilder
 
 # create new config file
 # include default.robot
@@ -26,46 +28,22 @@ args = sys.argv
 
 
 def help():
+    print()
+    print("The script checks for all the variables that are set to ${TBD}")
+    print("in default.robot and were not set in any of the includes.")
+    print("Setting the variables in the created platform config file should be")
+    print("enough provided all of the OSFV platform config variables are set")
+    print("in default.robot.")
+    print()
+    print("The results require manual verification.")
+    print()
     print(f"Usage: {args[0]} <new config name> [vendor / platform includes]")
-    print(f"Example: {args[0]} vendor-name_model-name vendor-common vendor-model1")
+    print(f"Example: {args[0]} vendor-name_model-name vendor-common vendor-model")
 
 
-def get_variable_pairs(file: str) -> list[tuple[str, str]]:
-    with open(file, "r") as f:
-        file_content = f.read()
-
-    file_lines = file_content.split("\n")
-
-    # skip everything before *** Variables ***
-    for i, line in enumerate(file_lines):
-        if line.startswith("*** Variables ***"):
-            break
-        file_lines = file_lines[i + 1 :]
-
-    # remove lines with comments
-    file_lines = [line for line in file_lines if not line.startswith("#")]
-
-    # lines with variables
-    file_lines_w_vars = [line for line in file_lines if line.startswith("${")]
-
-    # extract pairs of variable name and value
-    variable_pairs = []
-    i = 0
-    for line in file_lines_w_vars:
-        i += 1
-        # separator is at least 4 spaces
-        variable_name, variable_value = re.split(r"\s{4,}", line)
-        variable_name = variable_name.strip("${}=")
-        variable_pairs.append((variable_name, variable_value))
-
-    return variable_pairs
-
-
-def print_variables(variables: list[tuple[str, str]]):
-    i = 0
-    for var in default_variable_pairs:
-        i += 1
-        print(f"{i}: {var[0]} = {var[1]}")
+def get_variables(file: str) -> list[tuple[str, str]]:
+    resource_file = ResourceFileBuilder().build(file)
+    return resource_file.variables
 
 
 if __name__ == "__main__":
@@ -80,20 +58,26 @@ if __name__ == "__main__":
     )
 
     # get all variables from default.robot and vendor includes
-
-    default_variable_pairs = get_variable_pairs(DEFAULT_ROBOT_PATH)
-
-    includes_variable_pairs = []
+    includes_variables = []
+    files_ok = True
     for include in vendor_includes_names:
-        include_path = f"{PLATFORM_INCLUDES_PATH}/{include}.robot"
-        includes_variable_pairs += get_variable_pairs(include_path)
+        path = f"{PLATFORM_INCLUDES_PATH}/{include}.robot"
+        if not pathlib.Path(path).is_file():
+            print(f"{path} does not exist")
+            files_ok = False
+        includes_variables += get_variables(path)
+
+    if not files_ok:
+        exit(1)
+
+    default_variables = get_variables(DEFAULT_ROBOT_PATH)
 
     # find if some variables were not defined
     undefined_variables = [
         var
-        for var in default_variable_pairs
-        if var[1] == UNDEFINED_VARIABLE_VALUE
-        and var[0] not in [var[0] for var in includes_variable_pairs]
+        for var in default_variables
+        if UNDEFINED_VARIABLE_VALUE in var.value
+        and var.name not in [var.name for var in includes_variables]
     ]
 
     # create the content of new config file
@@ -101,17 +85,17 @@ if __name__ == "__main__":
     new_config_content = f"""*** Settings ***
 Resource    include/{DEFAULT_ROBOT}
 """
-    longest_var = max([len(v[0]) for v in undefined_variables])
+    longest_var = max([len(v.name) for v in undefined_variables])
     print(longest_var)
 
     for vendor_include in vendor_includes_names:
-        new_config_content += f"Resource    include/{vendor_include}\n"
+        new_config_content += f"Resource    include/{vendor_include}.robot\n"
 
     # add all variables that may need to be defined
     new_config_content += "\n\n*** Variables ***\n"
     for var in undefined_variables:
-        new_config_line = f"${{{var[0]}}}="
-        new_config_line += " " * (4 + (longest_var - len(var[0])))
+        new_config_line = f"{var.name}="
+        new_config_line += " " * (4 + (longest_var - len(var.name)))
         new_config_line += f"{UNDEFINED_VARIABLE_VALUE}\n"
         new_config_content += new_config_line
 
