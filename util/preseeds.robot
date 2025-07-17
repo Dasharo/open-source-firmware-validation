@@ -74,7 +74,9 @@ Get Envvars
         Log To Console    Example: SOURCE_IMAGE=1_windows_ubuntu
         Fail    Environment variable `SOURCE_IMAGE` is not set
     END
-    ${source_image}=    %{SOURCE_IMAGE}
+
+    ${source_image}=    Get Environment Variable    SOURCE_IMAGE
+    Set Suite Variable    ${SOURCE_IMAGE}    ${source_image}
 
     ${status}=    Run Keyword And Return Status    Get Environment Variable    TARGET_DISK
     IF    not ${status}
@@ -83,7 +85,8 @@ Get Envvars
         Log To Console    Example: TARGET_DISK=nvme0n1
         Fail    Environment variable `TARGET_DISK` is not set
     END
-    ${target_disk}=    %{TARGET_DISK}
+    ${target_disk}=    Get Environment Variable    TARGET_DISK
+    Set Suite Variable    ${TARGET_DISK}    ${target_disk}
 
 Boot Clonezilla
     [Tags]    robot:private
