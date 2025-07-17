@@ -41,6 +41,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Set up osfv-test-data
+      run: |
+        sudo apt-get install git-annex
+        pushd osfv-test-data
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git annex pull || true
+        ./setup.sh
+        popd
+
     - name: Execute robot command
       run: |
         scripts/ci/develop_pr_auto_regression.sh
