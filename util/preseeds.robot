@@ -63,6 +63,25 @@ Restore Disk Clonezilla
     Set DUT Response Timeout    40m    # More time might be needed, 40m is a guess
     Enter Setup Menu Tianocore
 
+Restore Disk Clonezilla Serial
+    Power On
+    ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE
+    IF    not ${ipxe_entered}    # It might just be disabled
+        Set UEFI Option    NetworkBoot    ${TRUE}
+        Power On
+        Enter IPXE
+    END
+    Execute Command In Terminal
+    ...    dhcp
+    ...    timeout=5m
+    Write Bare Into Terminal
+    ...    chain ${CLONEZILLA_IPXE_SERVER}/boot-serial.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}
+    Press Enter
+
+    # Wait for the restoration to finish
+    Set DUT Response Timeout    40m    # More time might be needed, 40m is a guess
+    Enter Setup Menu Tianocore
+
 
 *** Keywords ***
 Get Envvars
