@@ -22,6 +22,7 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 Default Tags        automated
+# test
 
 
 *** Test Cases ***
