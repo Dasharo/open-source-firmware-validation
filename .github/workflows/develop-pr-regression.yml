@@ -23,7 +23,7 @@ jobs:
 
     steps:
     - name: Checkout repository and submodules
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: 'recursive'
         fetch-depth: 0
@@ -45,9 +45,9 @@ jobs:
     - name: Set up osfv-test-data
       run: |
         pushd osfv-test-data
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
-        git annex pull || true
+        git config user.email "you@example.com"
+        git config user.name "Your Name"
+        git annex get * || true
         ./setup.sh
         popd
 
