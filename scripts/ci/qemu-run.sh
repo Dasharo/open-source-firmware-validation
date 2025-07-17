@@ -22,6 +22,7 @@ then
     exit 1
 fi
 
+NO_AUDIO_EMUALTION=""
 HDD_PATH=${HDD_PATH:-qemu-data/hdd.qcow2}
 PULSE_SERVER=${PULSE_SERVER:-unix:/run/user/$(id -u)/pulse/native}
 INSTALLER_PATH="qemu-data/installer.iso"
@@ -38,7 +39,7 @@ QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
 
 usage() {
 cat <<EOF
-Usage: ./$(basename ${0}) QEMU_MODE ACTION
+Usage: ./$(basename ${0}) QEMU_MODE ACTION ARGUMENTS
 
 This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
@@ -61,6 +62,10 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     DIR         working directory, defaults to current working directory
     HDD2_PATH   optional path of the second hard drive to connect to the machine if
                 ACTION "os" is used. Relative to DIR
+
+  Additional ARGUMENTS:
+    --no-audio-emulation   do not add an audio device to QEMU. Is only usable with
+                           "os" ACTION.
 
 Example usage:
     ./$(basename $0) vnc firmware
@@ -129,10 +134,6 @@ cleanup() {
 
 trap cleanup INT
 
-if [ $# -ne 2 ]; then
-  usage
-fi
-
 QEMU_PARAMS_BASE="-machine q35,smm=on \
   -global driver=cfi.pflash01,property=secure,value=on \
   -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
@@ -149,14 +150,15 @@ QEMU_PARAMS_BASE="-machine q35,smm=on \
   -enable-kvm \
   -mem-prealloc"
 
-QEMU_PARAMS_OS="-device ich9-intel-hda \
-  -device hda-duplex,audiodev=hda \
-  -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100 \
-  -object rng-random,id=rng0,filename=/dev/urandom \
+QEMU_PARAMS_OS="-object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
   -device virtio-net,netdev=vmnic \
   -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
   -drive file=${HDD_PATH},if=ide"
+
+QEMU_PARAMS_OS_SAUND="-device ich9-intel-hda \
+  -device hda-duplex,audiodev=hda \
+  -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100"
 
 if [[ -f ${HDD2_PATH} ]]; then
   QEMU_PARAMS_OS+=" \
@@ -170,6 +172,24 @@ QEMU_PARAMS_INSTALLER="-cdrom ${INSTALLER_PATH}"
 cd "$DIR" || exit
 
 MODE="$1"
+ACTION="$2"
+shift 2
+
+# Check for additional parameters before deciding on QEMU_PARAMS. Because the
+# additional parameters might change the QEMU_PARAMS.
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    "--no-audio-emulation")
+      NO_AUDIO_EMUALTION="true"
+      shift
+		;;
+    *)
+      echo -e "Additional argument: ${1} not supported\n"
+      usage
+      exit 1
+		;;
+  esac
+done
 
 case "${MODE}" in
   nographic)
@@ -182,12 +202,11 @@ case "${MODE}" in
     QEMU_PARAMS="${QEMU_PARAMS_BASE} -display gtk,window-close=off"
     ;;
   *)
-    echo "Mode: ${MODE} not supported"
+    echo -e "Mode: ${MODE} not supported\n"
+    usage
     exit 1
 		;;
 esac
-
-ACTION="$2"
 
 case "${ACTION}" in
   firmware)
@@ -196,6 +215,11 @@ case "${ACTION}" in
   os)
     MEMORY="4G"
     QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS}"
+
+    if [[ "$NO_AUDIO_EMUALTION" != "true" ]]; then
+      QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS_SAUND}"
+    fi
+
     check_disks ${ACTION}
     ;;
   os_install)
@@ -204,7 +228,8 @@ case "${ACTION}" in
     check_disks ${ACTION}
     ;;
   *)
-    echo "Action: ${ACTION} not supported"
+    echo -e "Action: ${ACTION} not supported\n"
+    usage
     exit 1
 		;;
 esac
