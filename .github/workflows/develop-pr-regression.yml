@@ -23,7 +23,7 @@ jobs:
 
     steps:
     - name: Checkout repository and submodules
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: 'recursive'
         fetch-depth: 0
@@ -40,6 +40,16 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    # Depends on manually installing git-annex package on the local runner
+    - name: Set up osfv-test-data
+      run: |
+        pushd osfv-test-data
+        git config user.email "you@example.com"
+        git config user.name "Your Name"
+        git annex get * || true
+        ./setup.sh
+        popd
 
     - name: Execute robot command
       run: |
