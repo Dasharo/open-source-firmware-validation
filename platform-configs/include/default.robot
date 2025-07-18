@@ -361,7 +361,6 @@ ${ONLY_FLASH_BIOS}=                                 ${TBD}
 ${OPEN_BMC_PASSWORD}=                               ${TBD}
 ${OPEN_BMC_ROOT_PROMPT}=                            ${TBD}
 ${OPEN_BMC_USERNAME}=                               ${TBD}
-${OS_DUT_CONNECTION_METHOD}=                        ${TBD}
 ${PLATFORM_CPU_SPEED}=                              ${TBD}
 ${PLATFORM_RAM_SIZE}=                               ${TBD}
 ${PLATFORM_RAM_SPEED}=                              ${TBD}

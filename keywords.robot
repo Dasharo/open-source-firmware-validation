@@ -779,7 +779,7 @@ Execute Shutdown Command
     [Documentation]    Windows shutdown keyword, checks power LED state where available.
     ...    Depends on existing SSH connection to DUT, restores initial connection method
     ...    after power loss.
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    ${OS_DUT_CONNECTION_METHOD}
+    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
     Execute Command In Terminal    shutdown /s /f /t 0
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         ${loop_iterations}=    Evaluate    ${WINDOWS_SHUTDOWN_AWAITING_SECONDS} * 2

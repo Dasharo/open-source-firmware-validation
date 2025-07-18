@@ -17,7 +17,6 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 
 ${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
 ${DUT_CONNECTION_METHOD}=               Telnet
-${OS_DUT_CONNECTION_METHOD}=            SSH
 ${POWER_CTRL}=                          sonoff
 ${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
 ${DTS_SUPPORT}=                         ${TRUE}
