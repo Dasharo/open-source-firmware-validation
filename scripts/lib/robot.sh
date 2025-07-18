@@ -140,14 +140,27 @@ execute_robot() {
   fi
 
   # Prevent executing tests on a dirty git tree
-  if ! git diff --quiet; then
-    if [[ -z "${ALLOW_DIRTY}" ]]; then
+
+  if [[ -z "${ALLOW_DIRTY}" ]]; then
+    echo "Checking if running the test from a reproducible revision."
+    echo "If NECESSARY, set ALLOW_DIRTY to skip the check."
+
+    if ! git diff --quiet || ! git diff --staged --quiet; then
         echo "Git tree is dirty!"
         echo "Commit your changes before running tests!"
-        echo "If NECESSARY, set ALLOW_DIRTY to skip the check."
+        exit 1
+    fi
+
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    git fetch -q
+    commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch | awk '{print $2}')
+    if [[ "$commits_ahead" -gt 0 ]]; then
+        echo "Local branch $branch is ahead of origin/$branch by $commits_ahead commits!"
+        echo "Push your changes before running any tests!"
         exit 1
     fi
   fi
+
 
   # To save the logs from test modules into separate files robot is called
   # multiple times.
