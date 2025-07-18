@@ -16,16 +16,19 @@ Resource        ../keys.robot
 Resource        ../keys-and-keywords/ubuntu-keywords.robot
 
 Suite Setup     Run Keywords
-...                 Prepare Test Suite    AND
-...                 Get Envvars
+...                 Prepare Test Suite
 # Test suite used to quickly flash disk images with preinstalled OSes.
 # Two environment variables must be set prior to running it:
 # - SOURCE_IMAGE
 # - TARGET_DISK
+# Optional:
+# - CLONEZILLA_TTY
 #
 # Example usage:
 # - Flash an image onto the device using ${RTE_IP}:
 #    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 ./scripts/run.sh util/preseeds.robot -- -t "Restore Disk*"
+# - Launch clonezilla in manual mode over chosen serial console:
+#    CLONEZILLA_TTY=ttyUSB0 ./scripts/run.sh util/preseeds.robot -- -t "Manual Restore*"
 # - Upload the disk image from the ${RTE_IP} device onto the disks NFS:
 #    ./scripts/run.sh util/preseeds -- -t "Upload Disk*"
 #    The image will be saved using the current date.
@@ -46,6 +49,12 @@ Upload Disk Clonezilla
     Upload Disk
 
 Restore Disk Clonezilla
+    ${source_image}=    Get Envvar    SOURCE_IMAGE
+    Set Suite Variable    ${SOURCE_IMAGE}    ${source_image}
+
+    ${target_disk}=    Get Envvar    TARGET_DISK
+    Set Suite Variable    ${TARGET_DISK}    ${target_disk}
+
     Power On
     ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE
     IF    not ${ipxe_entered}    # It might just be disabled
@@ -56,14 +65,22 @@ Restore Disk Clonezilla
     Execute Command In Terminal
     ...    dhcp
     ...    timeout=5m
-    Write Bare Into Terminal    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}
+    IF    "${CLONEZILLA_TTY}" == "${EMPTY}"
+        Write Bare Into Terminal    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}
+    ELSE
+        Write Bare Into Terminal
+        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}&tty=${CLONEZILLA_TTY}
+    END
     Press Enter
 
     # Wait for the restoration to finish
     Set DUT Response Timeout    40m    # More time might be needed, 40m is a guess
     Enter Setup Menu Tianocore
 
-Restore Disk Clonezilla Serial
+Manual Restore Disk Clonezilla
+    ${clonezilla_tty}=    Get Envvar    CLONEZILLA_TTY    ${TRUE}
+    Set Suite Variable    ${CLONEZILLA_TTY}    ${clonezilla_tty}
+
     Power On
     ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE
     IF    not ${ipxe_entered}    # It might just be disabled
@@ -74,38 +91,31 @@ Restore Disk Clonezilla Serial
     Execute Command In Terminal
     ...    dhcp
     ...    timeout=5m
-    Write Bare Into Terminal
-    ...    chain ${CLONEZILLA_IPXE_SERVER}/boot-serial.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}
+
+    IF    "${CLONEZILLA_TTY}" == "${EMPTY}"
+        Write Bare Into Terminal    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe
+    ELSE
+        Write Bare Into Terminal    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe?tty=${CLONEZILLA_TTY}
+    END
     Press Enter
 
-    # Wait for the restoration to finish
-    Set DUT Response Timeout    40m    # More time might be needed, 40m is a guess
-    Enter Setup Menu Tianocore
+    Log    Clonezilla booted in manual mode. Continue manually.    level=WARN
+    Execute Manual Step    Clonezilla booted in manual mode. Continue manually.
 
 
 *** Keywords ***
-Get Envvars
+Get Envvar
     [Tags]    robot:private
-    ${status}=    Run Keyword And Return Status    Get Environment Variable    SOURCE_IMAGE
-    IF    not ${status}
-        Log To Console    Environment variable `SOURCE_IMAGE` must be set.
-        Log To Console    Use it to choose which disk image will be flashed onto the device.
-        Log To Console    Example: SOURCE_IMAGE=1_windows_ubuntu
-        Fail    Environment variable `SOURCE_IMAGE` is not set
+    [Arguments]    ${name}    ${optional}=${FALSE}
+    ${status}=    Run Keyword And Return Status    Get Environment Variable    ${name}
+    IF    not (${optional} and ${status})
+        Log To Console    Environment variable ${name} must be set.
+        Fail    Environment variable ${name} is not set
+    ELSE IF    ${status}
+        ${var}=    Get Environment Variable    ${name}
+        RETURN    ${var}
     END
-
-    ${source_image}=    Get Environment Variable    SOURCE_IMAGE
-    Set Suite Variable    ${SOURCE_IMAGE}    ${source_image}
-
-    ${status}=    Run Keyword And Return Status    Get Environment Variable    TARGET_DISK
-    IF    not ${status}
-        Log To Console    Environment variable `TARGET_DISK` must be set.
-        Log To Console    Use it to choose on which disk will the image be flashed.
-        Log To Console    Example: TARGET_DISK=nvme0n1
-        Fail    Environment variable `TARGET_DISK` is not set
-    END
-    ${target_disk}=    Get Environment Variable    TARGET_DISK
-    Set Suite Variable    ${TARGET_DISK}    ${target_disk}
+    RETURN    ${EMPTY}
 
 Boot Clonezilla
     [Tags]    robot:private
