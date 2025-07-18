@@ -32,7 +32,9 @@ Check Power Supply
     END
 
 Check The Platform Is A Laptop
-    ${laptop_platform}=    Run Keyword And Return Status    Should Contain Any    ${PLATFORM}    novacustom    tuxedo
+    ${laptop_producer}=    Run Keyword And Return Status    Should Contain Any    ${PLATFORM}    novacustom    tuxedo
+    ${nuc}=    Run Keyword And Return Status    Should Contain Any    ${PLATFORM}    nuc_box
+    ${laptop_platform}=    Evaluate    ${laptop_producer} and not ${nuc}
     RETURN    ${laptop_platform}
 
 Check Power Supply On Linux
