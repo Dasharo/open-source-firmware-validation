@@ -15,8 +15,8 @@ ${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi W
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
+${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 
-${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
