@@ -139,6 +139,16 @@ execute_robot() {
     installed_dut_option=""
   fi
 
+  # Prevent executing tests on a dirty git tree
+  if ! git diff --quiet; then
+    if [[ -z "${ALLOW_DIRTY}" ]]; then
+        echo "Git tree is dirty!"
+        echo "Commit your changes before running tests!"
+        echo "If NECESSARY, set ALLOW_DIRTY to skip the check."
+        exit 1
+    fi
+  fi
+
   # To save the logs from test modules into separate files robot is called
   # multiple times.
   #
