@@ -15,6 +15,9 @@ ${DEF_THREADS_TOTAL}=                   22
 ${DEF_ONLINE_CPU}=                      0-21
 ${DEF_SOCKETS}=                         1
 
+${CPU_MAX_FREQUENCY}=                   4800
+${CPU_MIN_FREQUENCY}=                   200
+
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${USB_MODEL}=                           ${TBD}
