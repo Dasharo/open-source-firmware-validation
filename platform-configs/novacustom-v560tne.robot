@@ -15,8 +15,8 @@ ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   200
 ${PLATFORM_CPU_SPEED}=                  3.0
 
-${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE} # change windows/ubuntu support depending
-${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE} # on which OS is first in the boot order
+${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}    # change windows/ubuntu support depending
+${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}    # on which OS is first in the boot order
 
 ${USB_DETECTION_ITERATIONS_NUMBER}=     3
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=     3
