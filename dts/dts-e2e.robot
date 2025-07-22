@@ -73,6 +73,15 @@ E2E003.002 DCR UEFI Update On Msi-pro-z690-a-wifi-ddr4 With 13th Gen CPU Should 
     ...    msi-pro-z690-a-wifi-ddr4 with 13gen CPU.
     Perform DCR UEFI Update On Incompatible CPU Regression Test    msi-pro-z690-a-wifi-ddr4
 
+################################################################################
+# Credentials tests:
+################################################################################
+
+E2E007.001 QEMU Check credentials are being saved correctly
+E2E007.002 QEMU Check old credentials are being overwritten by new
+E2E007.003 QEMU Check wrong credentials should not allow to log into DPP services
+E2E007.004 QEMU Check correct credentials should allow to log into DPP services
+E2E007.005 QEMU Check empty credentials should not pass
 
 *** Keywords ***
 # robocop: disable:0919
