@@ -412,3 +412,37 @@ Go Through Update Decline Heads
     Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    N
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+
+Export Shell Variables For Emulation
+    [Documentation]    Export variables needed for this test
+    [Arguments]    ${workflow}    ${dts_test_variables}
+    @{exports}=    Prepare Test Exports    ${workflow}    ${dts_test_variables}
+    FOR    ${export_string}    IN    @{exports}
+        Execute Command In Terminal    export ${export_string}
+    END
+
+Prepare Test Exports
+    [Documentation]    Create list with 'export VARIABLE=VALUE` strings.
+    [Arguments]    ${workflow}    ${dts_test_variables}
+    &{exports_dict}=    Set Variable    ${dts_test_variables}[DTS_TEST_EXPORTS]
+    ${exports_dict}[TEST_BIOS_VERSION]=    Set Variable
+    ...    ${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
+    IF    "${workflow}" == "Initial Deployment"
+        ${exports_dict}[TEST_BIOS_VENDOR]=    Set Variable    proprietary
+    ELSE
+        IF    ${dts_test_variables}[DTS_TEST_HAS_EC]
+            ${exports_dict}[TEST_USING_OPENSOURCE_EC_FIRM]=    Set Variable    true
+        END
+    END
+    IF    "SeaBIOS Update" in "${workflow}" or "SeaBIOS->" in "${workflow}"
+        ${exports_dict}[TEST_EFI_PRESENT]=    Set Variable    false
+        ${exports_dict}[TEST_IS_SEABIOS]=    Set Variable    true
+    END
+
+    @{exports}=    Create List
+    FOR    ${export_variable}    ${export_value}    IN    &{exports_dict}
+        Append To List    ${exports}
+        ...    export ${export_variable}="${export_value}"
+    END
+
+    RETURN    ${exports}
