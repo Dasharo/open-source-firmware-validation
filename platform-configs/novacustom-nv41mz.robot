@@ -22,3 +22,6 @@ ${CPU_MAX_FREQUENCY}=           4800
 ${CPU_MIN_FREQUENCY}=           300
 
 ${OPTIONS_LIB}=                 options-lib_dcu
+
+# DTS E2E variables
+${DTS_TEST_SYSTEM_MODEL}=       NV4XMB,ME,MZ

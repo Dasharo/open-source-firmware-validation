@@ -106,6 +106,12 @@ ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
 
 ${DTS_SUPPORT}=                                 ${TRUE}
 
+# DTS E2E variables
+${DTS_TEST_SYSTEM_VENDOR}=                      HARDKERNEL
+${DTS_TEST_SYSTEM_MODEL}=                       ODROID-H4
+@{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
+@{DTS_TEST_DEFAULT_SUBSCRIPTIONS}=              DPP
+
 
 *** Keywords ***
 Power On
