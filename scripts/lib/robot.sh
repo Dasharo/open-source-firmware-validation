@@ -141,13 +141,15 @@ execute_robot() {
 
   # Prevent executing tests on a dirty git tree
 
-  if [[ -z "${ALLOW_DIRTY}" ]]; then
-    echo "Checking if running the test from a reproducible revision."
-    echo "If NECESSARY, set ALLOW_DIRTY to skip the check."
+  function dirty_message {
+        echo "Please commit and push your changes before running tests to ensure reproducibility."
+        echo "(Set ALLOW_DIRTY=1 to override and allow quick debugging)"
+  }
 
+  if [[ -z "${ALLOW_DIRTY}" ]]; then
     if ! git diff --quiet || ! git diff --staged --quiet; then
         echo "Git tree is dirty!"
-        echo "Commit your changes before running tests!"
+        dirty_message
         exit 1
     fi
 
@@ -156,7 +158,7 @@ execute_robot() {
     commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch | awk '{print $2}')
     if [[ "$commits_ahead" -gt 0 ]]; then
         echo "Local branch $branch is ahead of origin/$branch by $commits_ahead commits!"
-        echo "Push your changes before running any tests!"
+        dirty_message
         exit 1
     fi
   fi
