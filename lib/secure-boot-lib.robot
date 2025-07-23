@@ -222,7 +222,7 @@ Execute File In File Explorer
     Log    ${files}
     ${index}=    Get Index Of Matching Option In Menu    ${files}    ${target_file}
     # FIXME: We must add 1 due to empty selecatble space in File Manager
-    Press Key N Times And Enter    ${index}+1    ${ARROW_DOWN}
+    Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
 
 Select File In File Explorer
     [Documentation]    Select the given file
