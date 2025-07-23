@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/tpm.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -52,6 +53,43 @@ CBNT002.101 Converged Boot Guard and TXT Status Menu is visible
     Read From Terminal Until    Verified Boot
     Read From Terminal Until    Revoked
     Read From Terminal Until    Boot Guard Capability
+
+CBNT003.201 Converged Boot Guard and TXT - PCR-0 is reconstructed correctly (Ubuntu)
+    [Documentation]    coreboot must correctly replicate and log to TPM event
+    ...    log the data CBnT used to extend PCR-0
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBNT003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT003.201 not supported
+
+    Boot OS And Enter Root Shell    ${ENV_ID_UBUNTU}
+
+    ${tpm2_eventlog}=    Execute Command In Terminal
+    ...    tpm2_eventlog /sys/kernel/security/tpm0/binary_bios_measurements
+    Should Not Contain    ${tpm2_eventlog}    ERROR: Unable to run tpm2_eventlog
+    Should Not Contain    ${tpm2_eventlog}    not found
+
+    # coreboot supports extending only a single PCR bank which is selected at
+    # build time, this is normally SHA256. Check that this bank was extended
+    # properly and SHA1 (if active) wasn't.
+
+    ${eventlog_pcrs}=    Get PCRs From Eventlog    ${tpm2_eventlog}    sha256
+    FOR    ${pcr_element}    IN    @{eventlog_pcrs}
+        ${pcr}    ${expected}=    Split String    ${pcr_element}    separator=:
+        IF    ${pcr} != 0    CONTINUE
+
+        ${actual}=    Execute Command In Terminal
+        ...    cat /sys/class/tpm/tpm0/pcr-sha256/${pcr}
+        Should Contain    ${expected}    ${actual}    ignore_case=${TRUE}
+    END
+
+    ${eventlog_pcrs}=    Get PCRs From Eventlog    ${tpm2_eventlog}    sha1
+    FOR    ${pcr_element}    IN    @{eventlog_pcrs}
+        ${pcr}    ${expected}=    Split String    ${pcr_element}    separator=:
+        IF    ${pcr} != 0    CONTINUE
+
+        ${actual}=    Execute Command In Terminal
+        ...    cat /sys/class/tpm/tpm0/pcr-sha1/${pcr}
+        Should Not Contain    ${expected}    ${actual}    ignore_case=${TRUE}
+    END
 
 
 *** Keywords ***
