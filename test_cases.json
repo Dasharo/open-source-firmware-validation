@@ -844,7 +844,7 @@
   {
     "doc": {
       "_id": "CBNT002.101",
-      "name": "CBNT002.101 Converged Boot Guard and TXT Status Menu is visible",
+      "name": "Converged Boot Guard and TXT Status Menu is visible",
       "module": "Dasharo Security"
     }
   },
