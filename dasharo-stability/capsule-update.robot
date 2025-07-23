@@ -15,6 +15,16 @@ Resource            ../keys.robot
 Resource            ../lib/bios/menus.robot
 Resource            ../lib/options/options-lib_dcu.robot
 
+# WARNING! MANUAL INTERVENTION MIGHT BE NEEDED
+# The suite flashes the firmware two times.
+# If the platform does not support serial connection, then on every
+# flash the boot order will be restored to the defaults.
+# If Windows is installed, it will always end up as the first boot entry
+# and break the tests.
+#
+# In that case the boot entry must be adjusted manually, so that
+# ${DEFAULT_BOOT_OS_ID} is the first boot entry, on every flashing.
+#
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
 # - go through them and make sure they are doing what the name suggest (not
@@ -517,6 +527,15 @@ Display Preparation Instructions
         Log To Console    \ \ \ \ ./scripts/capsules/prepare_capsule_update_tests_drive.sh <block device>
         Log To Console    4. Plug the flash drive into the DUT and run the tests:
         Log To Console    \ \ \ \ scripts/run.sh dasharo-stability/capsule-update.robot
+        Log To Console    WARNING! MANUAL INTERVENTION MIGHT BE NEEDED\n
+        Log To Console    The suite flashes the firmware two times.\n
+        Log To Console    If the platform does not support serial connection, then on every\n
+        Log To Console    flash the boot order will be restored to the defaults.\n
+        Log To Console    If Windows is installed, it will always end up as the first boot entry\n
+        Log To Console    and break the tests.\n
+        Log To Console    \n
+        Log To Console    In that case the boot entry must be adjusted manually, so that\n
+        Log To Console    \${DEFAULT_BOOT_OS_ID} is the first boot entry, on every flashing.\n
         Log To Console    \n******************************************************************************
     END
 
