@@ -551,7 +551,12 @@ Prepare To SSH Connection
     ...    asset in SnipeIt . Keyword used in [Suite Setup]
     ...    sections if the communication with the platform based on
     ...    the SSH protocol
+<<<<<<< HEAD
     VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
+=======
+    # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
+    Set Global Variable    ${PLATFORM}    ${CONFIG}
+>>>>>>> f815de08ef6f (keywords.robot: revert 7907fed9e95db9436b071de7be0c25bcd0362dba)
     IF    '${DEFAULT_BOOT_OS_ID}'
         Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
     END
