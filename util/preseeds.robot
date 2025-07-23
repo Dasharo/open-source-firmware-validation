@@ -112,7 +112,7 @@ Get Envvar
     [Tags]    robot:private
     [Arguments]    ${name}    ${optional}=${FALSE}
     ${status}=    Run Keyword And Return Status    Get Environment Variable    ${name}
-    IF    not (${optional} and ${status})
+    IF    not (${optional} or ${status})
         Log To Console    Environment variable ${name} must be set.
         Fail    Environment variable ${name} is not set
     ELSE IF    ${status}
