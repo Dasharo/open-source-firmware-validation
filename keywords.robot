@@ -284,7 +284,8 @@ Log Out And Close Connection
     Telnet.Close All Connections
     IF    '${PLATFORM}'=='raptor-cs_talos2'    RETURN
     IF    '${SNIPEIT}'=='no'    RETURN
-    IF    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY} == ${TRUE}
+    ${checked_out}=    Get Variable Value    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}
+    IF    ${checked_out} == ${TRUE}
         Log To Console
         ...    Since the asset has been checkout manually by you prior running this script, it will NOT be checked in automatically. Please return the device when work is finished.
     ELSE
