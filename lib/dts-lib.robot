@@ -400,19 +400,6 @@ Go Through Heads Transition
     Wait For Checkpoint    Successfully switched to Dasharo Heads firmware
     Wait For Checkpoint And Write    ${DTS_CONFIRM_CHECKPOINT}    1
 
-Go Through Update Decline Heads
-    [Documentation]    This KW goes through standard Dasharo update workflow
-    ...    choosing all needed menu options and answering all questions. It
-    ...    declines switching to Heads firmware.
-    Set DUT Response Timeout    120s
-    # 1) Select initial deployment:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
-
-    # 2) Check out all warnings:
-    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    N
-    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
-    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
-
 Export Shell Variables For Emulation
     [Documentation]    Export variables needed for this test
     [Arguments]    ${workflow}    ${dts_test_variables}
