@@ -33,6 +33,10 @@ Suite Setup     Run Keywords
 #    ./scripts/run.sh util/preseeds -- -t "Upload Disk*"
 #    The image will be saved using the current date.
 #    Change the name on the NFS after uploading to make it stand out more
+#
+#    Important: Don't run the whole test suite. Every test case is a
+#    separate functionality and running them all after each other does not
+#    make much sense, unless you know what you are doing.
 
 
 *** Variables ***
