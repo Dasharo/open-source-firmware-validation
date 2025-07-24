@@ -65,10 +65,13 @@ Restore Disk Clonezilla
     ...    dhcp
     ...    timeout=5m
     IF    "${CLONEZILLA_TTY}" == "${EMPTY}"
-        Write Bare Into Terminal    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}
+        Write Bare Into Terminal
+        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}
+        ...    interval=0.5
     ELSE
         Write Bare Into Terminal
         ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}&tty=${CLONEZILLA_TTY}
+        ...    interval=0.5
     END
     Press Enter
 
@@ -95,9 +98,13 @@ Manual Clonezilla
     ...    timeout=5m
 
     IF    "${CLONEZILLA_TTY}" == "${EMPTY}"
-        Write Bare Into Terminal    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe
+        Write Bare Into Terminal
+        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe
+        ...    interval=0.5
     ELSE
-        Write Bare Into Terminal    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe?tty=${CLONEZILLA_TTY}
+        Write Bare Into Terminal
+        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe?tty=${CLONEZILLA_TTY}
+        ...    interval=0.5
     END
     Press Enter
 
