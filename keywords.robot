@@ -19,7 +19,7 @@ Resource    lib/bsd.robot
 
 
 *** Keywords ***
-# TODO: split this file into some manageable modules
+# TODO: split this file into some manageable modulesss
 
 Serial Setup
     [Documentation]    Setup serial communication via telnet. Takes host and
