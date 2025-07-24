@@ -25,8 +25,10 @@ Suite Setup     Run Keywords
 # - CLONEZILLA_TTY
 #
 # Example usage:
-# - Flash an image onto the device using ${RTE_IP}:
+# - Flash the `1_windows_ubuntu` image onto the `nvme0n1` disk on the device using ${RTE_IP}:
 #    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 ./scripts/run.sh util/preseeds.robot -- -t "Restore Disk*"
+# - The same, but redirect the Clonezilla's output onto ttyS0 if video output is not available:
+#    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 CLONEZILLA_TTY=ttyS0 ./scripts/run.sh util/preseeds.robot -- -t "Restore Disk*"
 # - Launch clonezilla in manual mode over chosen serial console:
 #    CLONEZILLA_TTY=ttyUSB0 ./scripts/run.sh util/preseeds.robot -- -t "Manual Restore*"
 # - Upload the disk image from the ${RTE_IP} device onto the disks NFS:
