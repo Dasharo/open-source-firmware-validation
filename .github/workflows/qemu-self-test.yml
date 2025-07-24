@@ -61,7 +61,8 @@ jobs:
         pip install -r requirements.txt
 
     - name: Set up git-annex
-      uses: jstritch/setup-git-annex@v1
+      run: |
+        sudo apt-get install git-annex
 
     - name: Set up osfv-test-data
       working-directory: osfv-test-data
