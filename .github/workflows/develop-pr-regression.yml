@@ -22,11 +22,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Checkout repository and submodules
+    - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-        fetch-depth: 0
+
+    - name: Chceckout submodules
+      run: |
+        git submodule update --init --checkout --recursive
 
     - name: Fetch develop branch
       run: git fetch origin develop
