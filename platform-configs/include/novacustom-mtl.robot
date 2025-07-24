@@ -36,3 +36,5 @@ ${L3_CACHE_SUPPORT}=                                ${TRUE}
 
 # Only S0ix is available on MTL
 ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
+
+${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
