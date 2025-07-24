@@ -41,7 +41,7 @@ CUP001.001 Capsule Update With Wrong Keys
     ${original_bios_version}=    Get BIOS Version    Before update
 
     Perform Capsule Update    wrong_cert.cap
-
+    Set DUT Response Timeout    5m
     Enter UEFI Shell
 
     ${updated_bios_version}=    Get BIOS Version    After update
@@ -59,6 +59,7 @@ CUP002.001 Capsule Update With Wrong GUID
     ${original_bios_version}=    Get BIOS Version    Before Update
 
     Perform Capsule Update    invalid_guid.cap
+    Set DUT Response Timeout    5m
 
     Enter UEFI Shell
 
@@ -212,27 +213,6 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
 
 
 *** Keywords ***
-Flash Firmware If Not QEMU
-    [Arguments]    ${logo_type}=custom
-    Log To Console    PREPARE: Flashing Firmware
-    IF    '${MANUFACTURER}' != 'QEMU'
-        IF    '${logo_type}' == 'default'
-            Flash Firmware    ${FW_FILE}
-        ELSE IF    '${logo_type}' == 'custom'
-            Flash Firmware    ./dcu/coreboot.rom
-        END
-        Power Cycle On
-    ELSE
-        ${message}=    Catenate    SEPARATOR=${EMPTY}
-        ...    Please make sure QEMU is running firmware with
-        ...    \ the ${logo_type} logo. The default logo binary should be
-        ...    \ ${FW_FILE}, the custom logo binary has been prepared in
-        ...    \ dcu/coreboot.rom. Afterwards, please click OK to continue.
-        Log Out And Close Connection
-        Pause Execution    ${message}
-        Prepare To Serial Connection
-    END
-
 Check The Update Screen For The Correct UX
     ${message}=    Catenate    SEPARATOR=${EMPTY}
     ...    Please check the platform screen now, and verify that the UX is the
