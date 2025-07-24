@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 from collections import defaultdict
+from pprint import pprint
 
 from lib.rules_parser import RuleParser
 
@@ -39,7 +40,6 @@ class ParserManager:
             run = []
             if len(data["env"]) > 0:
                 run.extend(data["env"])
-                run.append("&&")
             if len(data["files"]) > 0:
                 run.extend(self._assemble_robot_command(data["files"], data["args"]))
             else:

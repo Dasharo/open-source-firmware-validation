@@ -37,7 +37,7 @@ class RuleParser:
             return commands
         vars_dict = run["env_vars"]
         for k in vars_dict.keys():
-            commands += ["export", f"{k}={vars_dict[k]}"]
+            commands += ["export", f"{k}={vars_dict[k]};"]
         return commands
 
     def get_test_files_in_dirs(self, search_in):
