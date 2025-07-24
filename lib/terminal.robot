@@ -247,7 +247,8 @@ Write Bare Into Terminal
     ...    None
     ...
     ...    === Arguments ===
-    ...    ``${text}``: ``string`` - The text to write
+    ...    - ``${text}``: ``string`` - The text to write
+    ...    - ``${interval}``: ``float`` - Delay in seconds between every character
     ...
     ...    === Return Value ===
     ...    None
