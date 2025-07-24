@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 from collections import defaultdict
-from pprint import pprint
 
 from lib.rules_parser import RuleParser
 

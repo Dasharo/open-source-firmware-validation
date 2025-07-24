@@ -21,12 +21,32 @@ fi
 pids=()
 statuses=()
 LOGS_DIR="./logs"
-mkdir $LOGS_DIR/ || true
+mkdir -p $LOGS_DIR/ || true
 i=1
 for command in "${commands[@]}"; do
     (
-        echo "Executing: ${command}"
-        eval ${command} > "$LOGS_DIR/run_${i}.log" 2>&1
+        # Extract all environment variable exports from the command
+        # Assuming every env var has its own `export` before
+        # `export A=a B=b` not allowed
+        # `export A=a; export B=b` is only handled
+        IFS=';' read -ra parts <<< "$command"
+        exports=()
+        actual_command=""
+
+        for part in "${parts[@]}"; do
+            trimmed=$(echo "$part" | xargs)  # trim whitespace
+            if [[ "$trimmed" == export* ]]; then
+                exports+=("$trimmed")
+            else
+                actual_command="$trimmed"
+            fi
+        done
+
+        export_string=$(IFS='; '; echo "${exports[*]}")
+        echo Run $1 setting environment variables: \"${export_string}\"
+        eval ${export_string}
+        echo Run $i executing: \"${actual_command}\"
+        eval ${actual_command} #> "$LOGS_DIR/run_${i}.log" 2>&1
     ) &
     pids[${i}]=$!
     (( i++ ))
