@@ -80,9 +80,12 @@ Restore Disk Clonezilla
     END
     Press Enter
 
-    # Wait for the restoration to finish
-    Set DUT Response Timeout    40m    # More time might be needed, 40m is a guess
-    Enter Setup Menu Tianocore
+    ${msg}=    Catenate    \nThe test case ends now, but the disks are not restored yet.\n
+    ...    The restoration will now begin.\n
+    ...    After a successful restoration, the device will reboot.\n
+    ...    You can monitor the progress on the video output,\n
+    ...    or on the selected TTY, if it was provided (\${CLONEZILLA_TTY}=\"${CLONEZILLA_TTY}\")
+    Log To Console    ${msg}
 
 Manual Restore Disk Clonezilla
     ${clonezilla_tty}=    Get Envvar    CLONEZILLA_TTY    ${TRUE}
