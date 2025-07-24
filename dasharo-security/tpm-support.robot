@@ -389,11 +389,11 @@ TPM2 PPI Request Clear TPM Windows
     [Documentation]    Clear the TPM using the TPM PPI in Windows
     # 5 - PPI function ClearTPM, PPI Specification, Family “1.2” and “2.0”
     #    Version 1.30 Revision 00.52 table 2
-    Execute Command In Terminal    Clear-Tpm -UsePPI
+    Execute Command In Terminal    Clear-Tpm -UsePPI    timeout=300s
 
 TPM2 Get Owner Key Windows
     [Documentation]    Check if the owner key password is set for the TPM2
-    ${out}=    Execute Command In Terminal    Get-Tpm
+    ${out}=    Execute Command In Terminal    Get-Tpm    timeout=300s
     ${key}=    Get Lines Matching Regexp    ${out}    OwnerAuth    partial_match=True
     ${key}=    Get Regexp Matches    ${key}    OwnerAuth\ +:\ (.*)    1
     RETURN    ${key}
