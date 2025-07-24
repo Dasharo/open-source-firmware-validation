@@ -53,6 +53,9 @@ Upload Disk Clonezilla
     Upload Disk
 
 Restore Disk Clonezilla
+    ${clonezilla_tty}=    Get Envvar    CLONEZILLA_TTY    ${TRUE}
+    Set Suite Variable    ${CLONEZILLA_TTY}    ${clonezilla_tty}
+
     ${source_image}=    Get Envvar    SOURCE_IMAGE
     Set Suite Variable    ${SOURCE_IMAGE}    ${source_image}
 
