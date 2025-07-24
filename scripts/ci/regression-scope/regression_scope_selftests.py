@@ -171,12 +171,11 @@ class TestModulesRules(unittest.TestCase):
             [
                 [
                     "export",
-                    "RTE_IP=127.0.0.1",
+                    "RTE_IP=127.0.0.1;",
                     "export",
-                    "FW_FILE=scripts/ci/qemu_q35.rom",
+                    "FW_FILE=scripts/ci/qemu_q35.rom;",
                     "export",
-                    "CONFIG=qemu",
-                    "&&",
+                    "CONFIG=qemu;",
                     "scripts/run.sh",
                     "dasharo-compatibility/audio-subsystem.robot",
                     "--",
@@ -208,12 +207,11 @@ class TestModulesRules(unittest.TestCase):
             [
                 [
                     "export",
-                    "RTE_IP=127.0.0.1",
+                    "RTE_IP=127.0.0.1;",
                     "export",
-                    "FW_FILE=scripts/ci/qemu_q35.rom",
+                    "FW_FILE=scripts/ci/qemu_q35.rom;",
                     "export",
-                    "CONFIG=qemu",
-                    "&&",
+                    "CONFIG=qemu;",
                     "scripts/run.sh",
                     "dasharo-compatibility/audio-subsystem.robot",
                     "dasharo-compatibility/cpu-status.robot",
