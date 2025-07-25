@@ -239,9 +239,10 @@ Select File In File Explorer
 Enter UEFI Shell
     [Documentation]    Boots into UEFI Shell. Should be called after Power On or
     ...    reboot
-    Set Prompt For Terminal    Shell>
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Press Key N Times    5    ${ESC}
+    Set Prompt For Terminal    Shell>
     Read From Terminal Until Prompt
     Sleep    1s
 
