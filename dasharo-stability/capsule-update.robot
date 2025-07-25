@@ -24,7 +24,6 @@ Suite Setup         Run Keywords
 ...                     Check If Capsule Files Are Present    AND
 ...                     Prepare For Logo Persistence Test    AND
 ...                     Prepare For ROMHOLE Persistence Test    AND    # MSI Only
-...                     Flash Firmware If Not QEMU    AND
 ...                     Upload Required Files    AND
 ...                     Get System Values    AND
 ...                     Turn Off Active ME
@@ -202,9 +201,6 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     ...    and the progress bar is scaled properly using a default logo.
     # Ensure we're running FW with the default logo
     [Tags]    semiauto
-    Flash Firmware If Not QEMU    default
-    # Bump the timeout for memory training
-    Set DUT Response Timeout    5m
     Turn Off Active ME
     Power On
     Enter UEFI Shell
