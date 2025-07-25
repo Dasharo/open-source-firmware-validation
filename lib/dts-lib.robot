@@ -303,7 +303,7 @@ Go Through Initial Deployment
     # 2) Wait for HCL report to do its work, might take some time:
     Set DUT Response Timeout    5m
     # Accept hw-probe question from HCL report:
-    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    N
     Set DUT Response Timeout    120s
 
     # 3) Choose version to install:
