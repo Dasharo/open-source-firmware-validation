@@ -65,6 +65,7 @@ repos:
     rev: v6.5.0
     hooks:
       - id: robocop
+      - id: robocop-format
 
   - repo: https://github.com/fsfe/reuse-tool
     rev: v5.0.2
