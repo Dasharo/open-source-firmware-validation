@@ -72,7 +72,7 @@ CUP002.001 Capsule Update With Wrong GUID
 
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
-    [Tags]    automated
+    [Tags]    semiauto
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
@@ -85,7 +85,7 @@ CUP150.001 Capsule Update
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
-    [Tags]    automated
+    [Tags]    semiauto
     Power On
     Enter UEFI Shell
     ${original_bios_version}=    Get BIOS Version    Before Update
@@ -104,7 +104,7 @@ CUP150.001 Capsule Update
     Should Not Contain    ${out}    CapsuleLast
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
-    [Tags]    automated
+    [Tags]    semiauto
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
