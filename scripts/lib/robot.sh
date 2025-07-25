@@ -154,8 +154,23 @@ execute_robot() {
     fi
 
     branch=$(git rev-parse --abbrev-ref HEAD)
-    git fetch -q
-    commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch | awk '{print $2}')
+    if ! git fetch -q; then
+        echo "Failed to fetch remote"
+        exit 1
+    fi
+
+    commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch 2>&1)
+    if [[ $? != 0 || "$commits_ahead" =~ "fatal" ]]; then
+        echo "Failed to check if the local branch is up to date."
+        if [[ "$commits_ahead" =~ "not in the working tree" ]]; then
+            echo "The local branch might not exist on the remote."
+            echo "Make sure to push your branch."
+        fi
+        dirty_message
+        exit 1
+    fi
+
+    commits_ahead=$(echo "$commits_ahead" | awk "{print $2; }")
     if [[ "$commits_ahead" -gt 0 ]]; then
         echo "Local branch $branch is ahead of origin/$branch by $commits_ahead commits!"
         dirty_message
