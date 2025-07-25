@@ -38,7 +38,7 @@ repos:
       - id: codespell
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.44.0
+    rev: v0.45.0
     hooks:
       - id: markdownlint
       - id: markdownlint-fix
@@ -60,11 +60,6 @@ repos:
     rev: 25.1.0
     hooks:
       - id: black
-
-  - repo: https://github.com/MarketSquare/robotframework-tidy
-    rev: 4.16.0
-    hooks:
-      - id: robotidy
 
   - repo: https://github.com/MarketSquare/robotframework-robocop
     rev: v6.5.0
