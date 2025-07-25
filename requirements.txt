@@ -42,7 +42,7 @@ oauth2client==4.1.3
 osfv @ git+https://github.com/Dasharo/osfv-scripts.git@900051dbcf8cc62d4cad98540af943e337e9536a#subdirectory=osfv_cli
 packaging==25.0
 pandas==2.3.1
-paramiko==3.4.0
+paramiko==3.5.1
 pathspec==0.12.1
 pexpect==4.9.0
 pikvm @ git+https://github.com/3mdeb/pikvm-rest-api@4bf3e065367134768d31be1983884131b1f631cd
