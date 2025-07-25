@@ -65,3 +65,53 @@ configure = [
     # TODO: reduce to 120/80
     "line-too-long.line_length=180",
 ]
+
+[tool.robocop.format]
+
+line_length = 120
+space_count = 4
+indent = 4
+continuation_indent = 4
+lineseparator = "unix"
+separator = "space"
+
+select = [
+    "AddMissingEnd",
+    "AlignSettingsSection",
+    "AlignVariablesSection",
+    "DiscardEmptySections",
+    "InlineIf",
+    "MergeAndOrderSections",
+    "NormalizeAssignments",
+    "NormalizeComments",
+    "NormalizeNewLines",
+    "NormalizeSectionHeaderName",
+    "NormalizeSeparators",
+    "NormalizeSettingName",
+    "OrderSettings",
+    "OrderSettingsSection",
+    "RemoveEmptySettings",
+    "RenameKeywords",
+    "RenameTestCases",
+    "RenameVariables",
+    "ReplaceBreakContinue",
+    "ReplaceEmptyValues",
+    "ReplaceReturns",
+    "ReplaceRunKeywordIf",
+    "SplitTooLongLine",
+]
+
+configure = [
+    "NormalizeAssignments.equal_sign_type=equal_sign",
+    "NormalizeAssignments.equal_sign_type_variables=equal_sign",
+    "OrderSettingsSection:group_order=documentation,imports,settings,tags",
+    "OrderSettingsSection:documentation_order=documentation,metadata",
+    "OrderSettingsSection:imports_order=library,resource,variables",
+    "OrderSettingsSection:settings_order=suite_setup,suite_teardown,test_setup,test_teardown,test_timeout,test_template",
+    "RenameKeywords:ignore_library=False",
+    "RenameVariables:settings_section_case=upper",
+    "RenameVariables:variables_section_case=upper",
+    "RenameVariables:variable_separator=underscore",
+    "SplitTooLongLine:split_single_value=True",
+    "SplitTooLongLine:align_new_line=True",
+]
