@@ -20,36 +20,23 @@ concurrency:
 jobs:
   build:
     runs-on: self-hosted
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
 
-    - name: Chceckout submodules
-      run: |
-        git submodule update --init --checkout --recursive
+      - uses: ./.github/actions/setup-common
+      - uses: ./.github/actions/setup-python
 
-    - name: Fetch develop branch
-      run: git fetch origin develop
+      - name: Execute robot command
+        run: |
+          scripts/ci/develop_pr_auto_regression.sh
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Execute robot command
-      run: |
-        scripts/ci/develop_pr_auto_regression.sh
-
-    - name: Upload HTML files as artifacts
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: HTML-Reports
-        path: |
-          logs/
+      - name: Upload HTML files as artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: HTML-Reports
+          path: |
+            logs/

@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: 'Setup Common Environment'
+description: 'Sets up common environment for most OSFV workflows'
+runs:
+  using: 'composite'
+  steps:
+    - name: Set environment variables
+      shell: bash
+      run: |
+        echo "ALLOW_DIRTY=1" >> $GITHUB_ENV

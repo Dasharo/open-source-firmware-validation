@@ -16,28 +16,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
+      - uses: ./.github/actions/setup-common
+      - uses: ./.github/actions/setup-python
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Generate documentation
+        run: cd ${GITHUB_WORKSPACE}/ && bash scripts/create-docs.sh
 
-    - name: Generate documentation
-      run: cd ${GITHUB_WORKSPACE}/ && bash scripts/create-docs.sh
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
-        publish_branch: gh-pages
-        destination_dir: .
-        allow_empty_commit: false
-        keep_files: true
-        add: true
-        force_orphan: true
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          destination_dir: .
+          allow_empty_commit: false
+          keep_files: true
+          add: true
+          force_orphan: true
