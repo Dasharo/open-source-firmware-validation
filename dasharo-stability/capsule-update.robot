@@ -480,10 +480,10 @@ Get Ubuntu System Values
 
     IF    ${TRUE}
         ${serial}=    Get Firmware Serial Number
-        Set Suite Variable    ${var_serial}    ${serial}
+        Set Suite Variable    ${VAR_SERIAL}    ${serial}
 
         ${uuid}=    Get Firmware UUID
-        Set Suite Variable    ${var_uuid}    ${uuid}
+        Set Suite Variable    ${VAR_UUID}    ${uuid}
     END
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
@@ -494,7 +494,7 @@ Get Ubuntu System Values
         IF    ${unplugged} == ${TRUE}
             Fail    Please make sure that a display device is connected to the DUT
         END
-        Set Suite Variable    ${var_logo_sha256}    ${out}
+        Set Suite Variable    ${VAR_LOGO_SHA256}    ${out}
     END
 
 Get Windows System Values
@@ -510,10 +510,10 @@ Get Windows System Values
     # robotidy: off=RenameVariables
     IF    ${TRUE}
         ${serial}=    Get Firmware Serial Number (Windows)
-        Set Suite Variable    ${var_serial}    ${serial}
+        Set Suite Variable    ${VAR_SERIAL}    ${serial}
 
         ${uuid}=    Get Firmware UUID (Windows)
-        Set Suite Variable    ${var_uuid}    ${uuid}
+        Set Suite Variable    ${VAR_UUID}    ${uuid}
     END
 
 Prepare For ROMHOLE Persistence Test
