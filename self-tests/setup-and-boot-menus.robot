@@ -209,9 +209,9 @@ Test Reenter Menu
 
 Get Menu Construction Stress Test
     [Tags]    stress-test
-    Set Test Variable    ${MENU_TEST}    Device manager
-    Set Test Variable    ${DEVICE_MGR_MENU_TEST}    Secure Boot Configuration
-    Set Test Variable    ${SB_MENU_TEST}    Current Secure Boot State
+    VAR    ${MENU_TEST}=    Device manager    scope=TEST
+    VAR    ${DEVICE_MGR_MENU_TEST}=    Secure Boot Configuration    scope=TEST
+    VAR    ${SB_MENU_TEST}=    Current Secure Boot State    scope=TEST
 
     FOR    ${i}    IN RANGE    50
         Log To Console    Iteration: ${i}

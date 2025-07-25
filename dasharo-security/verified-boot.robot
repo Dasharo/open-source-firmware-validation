@@ -275,10 +275,10 @@ Prepare Tools, Keys And Binaries
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
 
     # The fw_file_original is the fw_file received as an input to the test suite
-    Set Suite Variable    ${FW_FILE_ORIGINAL}    /home/${DEVICE_OS_USERNAME}/test-firmware.rom
+    VAR    ${FW_FILE_ORIGINAL}=    /home/${DEVICE_OS_USERNAME}/test-firmware.rom    scope=SUITE
     # The fw_file_resigned is the fw_file resigned with newly generated keys
     # (so booting it should trigger vboot recovery events)
-    Set Suite Variable    ${FW_FILE_RESIGNED}    /home/${DEVICE_OS_USERNAME}/test-firmware_resigned.rom
+    VAR    ${FW_FILE_RESIGNED}=    /home/${DEVICE_OS_USERNAME}/test-firmware_resigned.rom    scope=SUITE
 
     Login To Linux
     Switch To Root User

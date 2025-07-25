@@ -61,11 +61,10 @@ Set Fast Boot State
     ${var_file_name}=    Execute Linux Command
     ...    ls /sys/firmware/efi/efivars -l | grep "FastBoot" | awk '{print $NF}'
     Should Not Be Empty    ${var_file_name}
-    ${var_file_path}=    Catenate    SEPARATOR=${EMPTY}
-    ...    /sys/firmware/efi/efivars/    ${var_file_name}
+    VAR    ${var_file_path}=    /sys/firmware/efi/efivars/    ${var_file_name}    separator=${EMPTY}
     Execute Linux Command    chattr -i ${var_file_path}
 
-    ${new_var_path}=    Set Variable    /tmp/${var_file_name}
+    VAR    ${new_var_path}=    /tmp/${var_file_name}
 
     Execute Linux Command    touch ${new_var_path}
     IF    '${state}' == 'on'
@@ -85,7 +84,7 @@ Measure FW Boot Time On Linux
     ...    over number of iterations provided as argument.
     [Tags]    robot:private
     [Arguments]    ${iterations}
-    ${durations}=    Create List
+    VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${iterations}

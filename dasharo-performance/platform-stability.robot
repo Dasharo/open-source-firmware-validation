@@ -103,7 +103,7 @@ STB001.301 Verify if no reboot occurs in the OS (Windows)
     Power On
     Login To Windows
     ${timer}=    Convert To Integer    0
-    Set Local Variable    ${device_uptime}    0
+    VAR    ${device_uptime}=    0
     FOR    ${i}    IN RANGE    (${STABILITY_TEST_DURATION} / ${STABILITY_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
@@ -112,13 +112,13 @@ STB001.301 Verify if no reboot occurs in the OS (Windows)
 
         ${total_seconds_line}=    Get Lines Matching Regexp    ${uptime_output}    .*TotalSeconds.*
         @{line_parts}=    Split String    ${total_seconds_line}    :
-        ${total_seconds}=    Set Variable    ${line_parts[1]}
+        VAR    ${total_seconds}=    ${line_parts[1]}
         ${total_seconds}=    Strip String    ${total_seconds}
         ${total_seconds}=    Convert To Number    ${total_seconds}
-        ${current_uptime}=    Set Variable    ${total_seconds}
+        VAR    ${current_uptime}=    ${total_seconds}
 
         IF    ${current_uptime} >= ${device_uptime}
-            Set Local Variable    ${device_uptime}    ${current_uptime}
+            VAR    ${device_uptime}=    ${current_uptime}
         ELSE
             FAIL    \n The device has been reset during the test!
         END
@@ -141,7 +141,7 @@ Verify If No Reboot Occurs In Linux
     Login To Linux
     Switch To Root User
     ${timer}=    Convert To Integer    0
-    Set Local Variable    ${device_uptime}    0
+    VAR    ${device_uptime}=    0
     FOR    ${i}    IN RANGE    (${STABILITY_TEST_DURATION} / ${STABILITY_TEST_MEASURE_INTERVAL}) + 1
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
@@ -150,7 +150,7 @@ Verify If No Reboot Occurs In Linux
         ${uptime_list}=    Split String    ${uptime_output}    ${SPACE}
         ${current_uptime}=    Convert To Number    ${uptime_list}[0]
         IF    ${current_uptime} >= ${device_uptime}
-            Set Local Variable    ${device_uptime}    ${current_uptime}
+            VAR    ${device_uptime}=    ${current_uptime}
         ELSE
             FAIL    \n The device has been reset during the test!
         END

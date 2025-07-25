@@ -51,7 +51,7 @@ GPU Performance Suite Setup
     Prepare Test Suite
     Skip If    not ${GPU_PERFORMANCE_TESTS_SUPPORT}
     ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S
-    Set Global Variable    ${CURRENT_DATE}    ${get_date}
+    VAR    ${CURRENT_DATE}=    ${get_date}    scope=GLOBAL
 
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

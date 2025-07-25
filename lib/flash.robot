@@ -39,9 +39,9 @@ Flash Via Internal Programmer
 
     # If no region is given, flash the whole binary
     IF    "${region}" != "${EMPTY}"
-        ${args}=    Set Variable    -N --ifd -i ${region}
+        VAR    ${args}=    -N --ifd -i ${region}
     ELSE
-        ${args}=    Set Variable    ${EMPTY}
+        VAR    ${args}=    ${EMPTY}
     END
     Flash Via Internal Programmer With Args    /tmp/${fw_file_path}    ${args}
 

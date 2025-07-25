@@ -40,8 +40,8 @@ ACPT001.201 SuperIO UART presence in sysfs ACPI tree (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${path_sio}=    Catenate    SEPARATOR="/"    ${SYSFS_PREFIX}    ${SIO_NODE}    path
-    ${path_sio_ser}=    Catenate    SEPARATOR="/"    ${SYSFS_PREFIX}    ${SIO_SER_NODE}    path
+    VAR    ${path_sio}=    ${SYSFS_PREFIX}    ${SIO_NODE}    path    separator="/"
+    VAR    ${path_sio_ser}=    ${SYSFS_PREFIX}    ${SIO_SER_NODE}    path    separator="/"
     ${out_sio}=    Execute Command In Terminal    cat ${path_sio}
     ${out_sio_ser}=    Execute Command In Terminal    cat ${path_sio_ser}
     Should Contain    ${out_sio}    ${SIO_SCOPE}

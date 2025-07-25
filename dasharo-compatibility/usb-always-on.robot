@@ -50,10 +50,12 @@ USC002.001 Power IS delivered through always-on USB A ports
     Execute Manual Step    Power off DUT
     Execute Manual Step    Power on DUT (this is when setup change takes effect)
     Execute Manual Step    Wait until "${TIANOCORE_STRING}" appears on screen and power off DUT
-    ${power_meter_message}=    Catenate    Verify state of all USB A ports that
+    VAR    ${power_meter_message}=
+    ...    Verify state of all USB A ports that
     ...    are marked in "Hardware configuration matrix" as "Always On USB"
     ...    using USB power meter. All verified ports should be able to supply
     ...    power meter itself and voltage should be close to 5.0V
+    ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
 USC003.001 Power IS delivered through always-on USB C ports
@@ -70,10 +72,12 @@ USC003.001 Power IS delivered through always-on USB C ports
     Execute Manual Step    Power off DUT
     Execute Manual Step    Power on DUT (this is when setup change takes effect)
     Execute Manual Step    Wait until "${TIANOCORE_STRING}" appears on screen and power off DUT
-    ${power_meter_message}=    Catenate    Verify state of all USB C ports that
+    VAR    ${power_meter_message}=
+    ...    Verify state of all USB C ports that
     ...    are marked in "Hardware configuration matrix" as "Always On USB"
     ...    using USB power meter. All verified ports should be able to supply
     ...    power meter itself and voltage should be close to 5.0V
+    ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
 USC004.001 Power IS NOT delivered through always-on USB A ports
@@ -90,10 +94,12 @@ USC004.001 Power IS NOT delivered through always-on USB A ports
     Execute Manual Step    Power off DUT
     Execute Manual Step    Power on DUT (this is when setup change takes effect)
     Execute Manual Step    Wait until "${TIANOCORE_STRING}" appears on screen and power off DUT
-    ${power_meter_message}=    Catenate    Verify state of all USB A ports that
+    VAR    ${power_meter_message}=
+    ...    Verify state of all USB A ports that
     ...    are marked in "Hardware configuration matrix" as "Always On USB"
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
+    ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
 USC005.001 Power IS NOT delivered through always-on USB C ports
@@ -110,10 +116,12 @@ USC005.001 Power IS NOT delivered through always-on USB C ports
     Execute Manual Step    Power off DUT
     Execute Manual Step    Power on DUT (this is when setup change takes effect)
     Execute Manual Step    Wait until "${TIANOCORE_STRING}" appears on screen and power off DUT
-    ${power_meter_message}=    Catenate    Verify state of all USB C ports that
+    VAR    ${power_meter_message}=
+    ...    Verify state of all USB C ports that
     ...    are marked in "Hardware configuration matrix" as "Always On USB"
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
+    ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
 USC006.001 Power IS NOT delivered through regular USB A ports
@@ -131,10 +139,12 @@ USC006.001 Power IS NOT delivered through regular USB A ports
     Execute Manual Step    Power off DUT
     Execute Manual Step    Power on DUT (this is when setup change takes effect)
     Execute Manual Step    Wait until "${TIANOCORE_STRING}" appears on screen and power off DUT
-    ${power_meter_message}=    Catenate    Verify state of all USB A ports that
+    VAR    ${power_meter_message}=
+    ...    Verify state of all USB A ports that
     ...    are NOT marked in "Hardware configuration matrix" as "Always On USB"
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
+    ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
 USC007.001 Power IS NOT delivered through regular USB C ports
@@ -152,8 +162,10 @@ USC007.001 Power IS NOT delivered through regular USB C ports
     Execute Manual Step    Power off DUT
     Execute Manual Step    Power on DUT (this is when setup change takes effect)
     Execute Manual Step    Wait until "${TIANOCORE_STRING}" appears on screen and power off DUT
-    ${power_meter_message}=    Catenate    Verify state of all USB C ports that
+    VAR    ${power_meter_message}=
+    ...    Verify state of all USB C ports that
     ...    are NOT marked in "Hardware configuration matrix" as "Always On USB"
     ...    using USB power meter. All verified ports should not be able to
     ...    supply power meter itself and voltage should be close to 0.0V
+    ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}

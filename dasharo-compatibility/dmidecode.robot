@@ -190,11 +190,11 @@ Get SMBIOS Values
     Switch To Root User
 
     ${out}=    Execute Linux Command    dmidecode -t bios
-    Set Suite Variable    $DMI_BIOS    ${out}
+    VAR    ${DMI_BIOS}=    ${out}    scope=SUITE
     ${out}=    Execute Linux Command    dmidecode -t system
-    Set Suite Variable    $DMI_SYSTEM    ${out}
+    VAR    ${DMI_SYSTEM}=    ${out}    scope=SUITE
     ${out}=    Execute Linux Command    dmidecode -t baseboard
-    Set Suite Variable    $DMI_BASEBOARD    ${out}
+    VAR    ${DMI_BASEBOARD}=    ${out}    scope=SUITE
     ${out}=    Execute Linux Command    dmidecode -t chassis
-    Set Suite Variable    $DMI_CHASSIS    ${out}
+    VAR    ${DMI_CHASSIS}=    ${out}    scope=SUITE
     Exit From Root User

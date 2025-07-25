@@ -64,8 +64,7 @@ Clear Out EFI Partition
 
 Remove All Supported Systems From Efi
     # We do not want to remove Ubuntu or Windows bootloaders
-    @{dirs}=    Create List    Centos    debian    DTS    Fedora
-    ...    opensuse    qubes    Redhat    Suse
+    VAR    @{dirs}=    Centos    debian    DTS    Fedora    opensuse    qubes    Redhat    Suse
     FOR    ${dir}    IN    @{dirs}
         Execute Command In Terminal    rm -r /boot/efi/EFI/${dir}
     END

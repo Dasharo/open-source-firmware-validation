@@ -321,16 +321,16 @@ Run FIO On Ubuntu
     # --rw=randread --bs=4K --iodepth=32 --numjobs=4 --size=10G
     Execute Linux Command    mkdir ~/${RESULTS_DIR_UBUNTU}
     Execute Linux Command    touch ~/${RESULTS_DIR_UBUNTU}/${fio_test_name}.json
-    ${cmd}=    Set Variable    /usr/bin/fio
-    ${cmd}=    Catenate    ${cmd}    --name=${fio_test_name}
-    ${cmd}=    Catenate    ${cmd}    --ioengine=libaio --runtime=60s
-    ${cmd}=    Catenate    ${cmd}    --direct=1 --group_reporting
-    ${cmd}=    Catenate    ${cmd}    --output=${RESULTS_DIR_UBUNTU}/${fio_test_name}.json
-    ${cmd}=    Catenate    ${cmd}    --output-format=json
-    ${cmd}=    Catenate    ${cmd}    --unlink=1
-    ${cmd}=    Catenate    ${cmd}    --filename=testfile
+    VAR    ${cmd}=    /usr/bin/fio
+    VAR    ${cmd}=    ${cmd}    --name=${fio_test_name}    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    --ioengine=libaio --runtime=60s    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    --direct=1 --group_reporting    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    --output=${RESULTS_DIR_UBUNTU}/${fio_test_name}.json    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    --output-format=json    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    --unlink=1    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    --filename=testfile    separator=${SPACE}
 
-    ${cmd}=    Catenate    ${cmd}    ${fio_args}
+    VAR    ${cmd}=    ${cmd}    ${fio_args}    separator=${SPACE}
     ${result}=    Execute Linux Command    ${cmd}    300
     Sleep    10s
 
@@ -338,11 +338,11 @@ Run FIO On Windows
     [Documentation]    Wrapper for fio.exe, with adjusted timeout.
     [Arguments]    ${fio_test_name}    ${fio_args}
     Execute Command In Terminal    ${RESULTS_DIR_WINDOWS}
-    ${cmd}=    Set Variable    fio.exe --name=${fio_test_name}
-    ${cmd}=    Set Variable    ${cmd} --ioengine=windowsaio --runtime=60s
-    ${cmd}=    Set Variable    ${cmd} --direct=1 --group_reporting
-    ${cmd}=    Set Variable    ${cmd} --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
-    ${cmd}=    Set Variable    ${cmd} ${fio_args}
+    VAR    ${cmd}=    fio.exe --name=${fio_test_name}
+    VAR    ${cmd}=    ${cmd} --ioengine=windowsaio --runtime=60s
+    VAR    ${cmd}=    ${cmd} --direct=1 --group_reporting
+    VAR    ${cmd}=    ${cmd} --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
+    VAR    ${cmd}=    ${cmd} ${fio_args}
 
     ${result}=    Execute Command In Terminal    ${cmd}    300
     Log To Console    ${result}
@@ -352,7 +352,6 @@ Parse FIO Result
     [Arguments]    ${filename}    ${operation}
     ${json_data}=    Execute Linux Command    cat ${RESULTS_DIR_UBUNTU}/${filename}
     ${parsed}=    Evaluate    json.loads("""${json_data}""")    json
-    ${bw}=    Set Variable
-    ...    ${parsed}[jobs][0][${operation}][bw]
+    VAR    ${bw}=    ${parsed}[jobs][0][${operation}][bw]
     Sleep    10s
     RETURN    ${bw}/1024

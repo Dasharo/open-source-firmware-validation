@@ -289,7 +289,7 @@ Prepare For Initial Deployment
     ...    "Boot into DTS. Continue after DTS UI is shown"
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Write Bare Into Terminal    K
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
         Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
         Write Into Terminal    dts-boot
@@ -301,12 +301,12 @@ Prepare For Initial Deployment
     ${dpp_keys_defined}=    Are DPP Keys Defined
     IF    ${seabios}
         Provide DPP Credentials
-        ${version}=    Set Variable    DPP SeaBIOS
+        VAR    ${version}=    DPP SeaBIOS
     ELSE IF    ${dpp_keys_defined} == ${TRUE}
         Provide DPP Credentials
-        ${version}=    Set Variable    DPP UEFI
+        VAR    ${version}=    DPP UEFI
     ELSE
-        ${version}=    Set Variable    DCR UEFI
+        VAR    ${version}=    DCR UEFI
     END
     RETURN    ${version}
 

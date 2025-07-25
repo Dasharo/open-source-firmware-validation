@@ -99,28 +99,22 @@ CPU Performance Suite Setup
 
     # Date and hour of the start of the test the same for all the tests
     ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S
-    Set Global Variable    ${CURRENT_DATE}    ${get_date}
+    VAR    ${CURRENT_DATE}=    ${get_date}    scope=GLOBAL
     ${laptop_platform}=    Check The Platform Is A Laptop
-    ${1080p}=    Catenate
-    ...    Resolution: 1080p - Rays Per Pixel: 16=${EMPTY}    ${CRAY_1080_P_RENDER}
-    ${4k}=    Catenate
-    ...    Resolution: 4K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_4_K_RENDER}
-    ${5k}=    Catenate
-    ...    Resolution: 5K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_5_K_RENDER}
-    @{sginle_thread_res_tests}=    Create List    ${1080p}    ${4k}    ${5k}
-    Set Global Variable    @{SGINLE_THREAD_RES_TESTS}
-    ${comp}=    Catenate    Test: Compression Rating=${ZIP_MULTI_COMPRESSION}
-    ${decomp}=    Catenate    Test: Decompression Rating=${ZIP_MULTI_DECOMPRESSION}
-    @{multi_thread_tests}=    Create List    ${comp}    ${decomp}
-    Set Global Variable    @{MULTI_THREAD_TESTS}
+    VAR    ${1080p}=    Resolution: 1080p - Rays Per Pixel: 16=${EMPTY}    ${CRAY_1080_P_RENDER}    separator=${SPACE}
+    VAR    ${4k}=    Resolution: 4K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_4_K_RENDER}    separator=${SPACE}
+    VAR    ${5k}=    Resolution: 5K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_5_K_RENDER}    separator=${SPACE}
+    VAR    @{SINGLE_THREAD_RES_TESTS}=    ${1080p}    ${4k}    ${5k}    scope=GLOBAL
+    VAR    ${comp}=    Test: Compression Rating=${ZIP_MULTI_COMPRESSION}    separator=${SPACE}
+    VAR    ${decomp}=    Test: Decompression Rating=${ZIP_MULTI_DECOMPRESSION}    separator=${SPACE}
+    VAR    @{MULTI_THREAD_TESTS}=    ${comp}    ${decomp}    scope=GLOBAL
 
 Run C-Ray Single-thread Render
     [Documentation]    Run C-Ray benchmark with all resolutions (1080p, 4K, 5K) on single thread
     [Tags]    robot:private
     Log To Console    \n    # new line for readability
-    ${test_name_to_path}=    Set Variable    cpuperformance
-    ${test_name_to_path}=    Catenate    SEPARATOR=${EMPTY}
-    ...    ${test_name_to_path}    ${CURRENT_DATE}
+    VAR    ${test_name_to_path}=    cpuperformance
+    VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
     ${result}=    Execute Command In Terminal
     ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_to_path}
@@ -130,15 +124,14 @@ Run C-Ray Single-thread Render
     ${test_passed}=    Validate Multiple Results
     ...    ${PTS_RESULTS_DIR_LINUX_ROOT}
     ...    ${test_name_to_path}
-    ...    @{SGINLE_THREAD_RES_TESTS}
+    ...    @{SINGLE_THREAD_RES_TESTS}
     RETURN    ${test_passed}
 
 Run Coremark Single-thread
     [Documentation]    Run Coremark benchmark on single thread
     [Tags]    robot:private
-    ${test_name_to_path}=    Set Variable    cpuperformance
-    ${test_name_to_path}=    Catenate    SEPARATOR=${EMPTY}
-    ...    ${test_name_to_path}    ${CURRENT_DATE}
+    VAR    ${test_name_to_path}=    cpuperformance
+    VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_to_path}
@@ -157,9 +150,8 @@ Run Coremark Single-thread
     [Documentation]    Run 7-Zip Multi-thread Compression and Decompression benchmark on multiple threads
     [Tags]    robot:private
     Log To Console    \n    # new line for readability
-    ${test_name_to_path}=    Set Variable    cpuperformance
-    ${test_name_to_path}=    Catenate    SEPARATOR=${EMPTY}
-    ...    ${test_name_to_path}    ${CURRENT_DATE}
+    VAR    ${test_name_to_path}=    cpuperformance
+    VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_to_path}
@@ -175,10 +167,11 @@ Run Coremark Single-thread
 Read The Results
     [Tags]    robot:private
     [Arguments]    ${perf_results_path_ubuntu}    ${test_name_to_path}    ${test_description}
-    ${awk_commmand}=    Catenate
+    VAR    ${awk_commmand}=
     ...    awk -F '[<>]' '/<Description>${test_description}<\\/Description>/
     ...    {found=1} found && /<RawString>/
     ...    {print $3; found=0}' ${perf_results_path_ubuntu}/${test_name_to_path}/composite.xml
+    ...    separator=${SPACE}
     ${test_result_values}=    Execute Command In Terminal    ${awk_commmand}
     RETURN    ${test_result_values}
 
@@ -189,7 +182,7 @@ Validate The Results
     ${min}=    Evaluate    ${ref_val} * ${DEVIATION_DOWN}
     ${max}=    Evaluate    ${ref_val} * ${DEVIATION_UP}
     ${num_list}=    Split String    ${nums}    separator=:
-    ${return_val}=    Set Variable    ${True}
+    VAR    ${return_val}=    ${True}
 
     ${qtty}=    Get Length    ${num_list}
     FOR    ${i}    IN RANGE    ${qtty}
@@ -197,7 +190,7 @@ Validate The Results
         ${i_plus_one}=    Evaluate    ${i} + 1
         IF    ${num} < ${min} or ${num} > ${max}
             Log To Console    ${i_plus_one}. ${num} is out of acceptable range of (${min} - ${max}).
-            ${return_val}=    Set Variable    ${False}
+            VAR    ${return_val}=    ${False}
         ELSE
             Log To Console    ${i_plus_one}. ${num}
         END
@@ -208,7 +201,7 @@ Validate Multiple Results
     [Tags]    robot:private
     [Arguments]    ${perf_results_path_ubuntu}    ${test_name_to_path}    @{reference_data}
     Should Not Be Empty    ${reference_data}
-    ${test_passed}=    Set Variable    ${True}
+    VAR    ${test_passed}=    ${True}
     FOR    ${compare_values}    IN    @{reference_data}
         ${description_string}    ${expected_value}=    Split String    ${compare_values}    =
         Log To Console    \nResults of the ${description_string}:
@@ -220,7 +213,7 @@ Validate Multiple Results
 
         ${result}=    Validate The Results    ${test_result_values}    ${expected_value}
         IF    ${result} == ${False}
-            ${test_passed}=    Set Variable    ${False}
+            VAR    ${test_passed}=    ${False}
             Log To Console    Test Failed for the: ${description_string}.
         END
     END

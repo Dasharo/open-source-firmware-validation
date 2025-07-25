@@ -33,7 +33,7 @@ UDT001.001 USB detection after coldboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the coldboot (reboot realized by power supply cutting off
     ...    then cutting on).
-    Set Local Variable    ${failed_detection}    0
+    VAR    ${failed_detection}=    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power Cycle On
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -51,7 +51,7 @@ UDT001.002 USB detection after warmboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the warmboot (reboot realized by device turning off then
     ...    turning on).
-    Set Local Variable    ${failed_detection}    0
+    VAR    ${failed_detection}=    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power On
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -68,7 +68,7 @@ UDT001.002 USB detection after warmboot
 UDT001.003 USB detection after system reboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the system reboot (reboot performing by relevant command).
-    Set Local Variable    ${failed_detection}    0
+    VAR    ${failed_detection}=    0
 
     Power On
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}

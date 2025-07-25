@@ -19,7 +19,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Stress test Power On keyword for stability when in firmware
     # Set DUT Response Timeout    30s
-    ${failures}=    Set Variable    0
+    VAR    ${failures}=    0
     FOR    ${count}    IN RANGE    10
         Log To Console    \nIteration number: ${count}
         ${result}=    Run Keyword And Ignore Error    Test Power On Kwd In Firmware
@@ -33,7 +33,7 @@ Stress test Power On keyword for stability when in firmware
 
 Stress test Power On keyword for stability when in OS
     # Set DUT Response Timeout    30s
-    ${failures}=    Set Variable    0
+    VAR    ${failures}=    0
     FOR    ${count}    IN RANGE    10
         Log To Console    \nIteration number: ${count}
         ${result}=    Run Keyword And Ignore Error    Test Power On Kwd In OS

@@ -30,7 +30,7 @@ Get TPM PCRs
     Write Into Terminal    cat /sys/class/tpm/tpm0/pcrs
     ${output}=    Read From Terminal Until Prompt
     @{output_split}=    Split String    ${output}    separator=\r\n
-    @{tpm_pcrs}=    Create List
+    VAR    @{tpm_pcrs}=    @{EMPTY}
     FOR    ${line}    IN    @{output_split}
         IF    "${line}"!="${EMPTY}" and "${line}"!="${SPACE}"
             Append To List    ${tpm_pcrs}    ${line[:-1]}

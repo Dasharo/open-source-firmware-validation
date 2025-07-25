@@ -304,13 +304,13 @@ CPT008.202 CPU temperature after stress test (Fedora) (USB-PD)
 CPU Temperature Without Load
     Execute Command In Terminal    sensors-detect --auto
     ${timer}=    Convert To Integer    0
-    @{temperature_list}=    Create List
-    ${max_temperature}=    Set Variable    0
-    ${min_temperature}=    Set Variable    999
+    VAR    @{temperature_list}=    @{EMPTY}
+    VAR    ${max_temperature}=    0
+    VAR    ${min_temperature}=    999
     ${sum}=    Convert To Integer    0
     ${sum_previous}=    Convert To Integer    0
     ${total_intervals}=    Evaluate    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
-    ${minute_counter}=    Set Variable    0
+    VAR    ${minute_counter}=    0
     Log To Console    \nStarting Test...
     FOR    ${i}    IN RANGE    ${total_intervals}
         ${temperature}=    Get CPU Temperature
@@ -323,11 +323,11 @@ CPU Temperature Without Load
         ${minute_counter}=    Evaluate    ${minute_counter} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
         IF    ${minute_counter} >= 60
             ${mean_last_minute_temperature}=    Evaluate    ((${sum} - ${sum_previous}) / 60)
-            ${sum_previous}=    Set Variable    ${sum}
+            VAR    ${sum_previous}=    ${sum}
             Log To Console    \n----------------------------------------------------------------
             Log To Console    ${timer}/${TEMPERATURE_TEST_DURATION} seconds passed.
             Log To Console    Mean temperature over last minute: ${mean_last_minute_temperature}°C
-            ${minute_counter}=    Set Variable    0
+            VAR    ${minute_counter}=    0
         END
     END
     ${average}=    Evaluate    ${sum} / ${total_intervals}
@@ -342,13 +342,13 @@ CPU Temperature After Stress Test
     Execute Command In Terminal    sensors-detect --auto
     Stress Test    ${TEMPERATURE_TEST_DURATION}s
     ${timer}=    Convert To Integer    0
-    @{temperature_list}=    Create List
-    ${max_temperature}=    Set Variable    0
-    ${min_temperature}=    Set Variable    999
+    VAR    @{temperature_list}=    @{EMPTY}
+    VAR    ${max_temperature}=    0
+    VAR    ${min_temperature}=    999
     ${sum}=    Convert To Integer    0
     ${sum_previous}=    Convert To Integer    0
     ${total_intervals}=    Evaluate    (${TEMPERATURE_TEST_DURATION} / ${TEMPERATURE_TEST_MEASURE_INTERVAL}) + 1
-    ${minute_counter}=    Set Variable    0
+    VAR    ${minute_counter}=    0
     Log To Console    \nStarting Test...
     FOR    ${i}    IN RANGE    ${total_intervals}
         ${temperature}=    Get CPU Temperature
@@ -361,11 +361,11 @@ CPU Temperature After Stress Test
         ${minute_counter}=    Evaluate    ${minute_counter} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
         IF    ${minute_counter} >= 60
             ${mean_last_minute_temperature}=    Evaluate    ((${sum} - ${sum_previous}) / 60)
-            ${sum_previous}=    Set Variable    ${sum}
+            VAR    ${sum_previous}=    ${sum}
             Log To Console    \n----------------------------------------------------------------
             Log To Console    ${timer}/${TEMPERATURE_TEST_DURATION} seconds passed.
             Log To Console    Mean temperature over last minute: ${mean_last_minute_temperature}°C
-            ${minute_counter}=    Set Variable    0
+            VAR    ${minute_counter}=    0
         END
     END
     ${average}=    Evaluate    ${sum} / ${total_intervals}

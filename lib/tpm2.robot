@@ -47,9 +47,9 @@ TPM2 Suite Setup
         Login To Linux
         Switch To Root User
     END
+    VAR    ${SHA1_ENABLED}=    ${EMPTY}    scope=SUITE
+    VAR    ${SHA256_ENABLED}=    ${EMPTY}    scope=SUITE
     ${sha1_enabled}    ${sha256_enabled}=    Check Which TPM2 Banks Are Enabled
-    Set Suite Variable    $SHA1_ENABLED    ${sha1_enabled}
-    Set Suite Variable    $SHA256_ENABLED    ${sha256_enabled}
 
 Check TPM2 Banks State After FW Changes
     [Documentation]    Verifies the state of TPM Banks. Fails test if they are different than input.

@@ -8,22 +8,22 @@ Resource            ../keywords.robot
 Check If Platform Sleep Type Can Be Selected
     [Documentation]    Check if there is a Platform sleep type option
     IF    not ${TESTS_IN_FIRMWARE_SUPPORT}
-        Set Suite Variable    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    ${FALSE}
+        VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${FALSE}    scope=SUITE
         RETURN
     END
     IF    ${DASHARO_POWER_MGMT_MENU_SUPPORT} == ${FALSE}
-        Set Suite Variable    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    ${FALSE}
+        VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${FALSE}    scope=SUITE
         RETURN
     END
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+    VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${EMPTY}    scope=SUITE
     ${platform_sleep_type_selectable}=    Run Keyword And Return Status
     ...    Get Option State
     ...    ${power_menu}
     ...    Platform sleep type
-    Set Suite Variable    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    ${platform_sleep_type_selectable}
     Save Changes And Reset
 
 Set Platform Sleep Type
@@ -31,9 +31,9 @@ Set Platform Sleep Type
     [Arguments]    ${platform_sleep_type}
     Power On
     IF    '${platform_sleep_type}' == 'S0ix'
-        Set Local Variable    ${platform_sleep_type_text}    Suspend to Idle (S0ix)
+        VAR    ${platform_sleep_type_text}=    Suspend to Idle (S0ix)
     ELSE IF    '${platform_sleep_type}' == 'S3'
-        Set Local Variable    ${platform_sleep_type_text}    Suspend to RAM (S3)
+        VAR    ${platform_sleep_type_text}=    Suspend to RAM (S3)
     ELSE
         Fail    Wrong Argument
     END
@@ -59,7 +59,7 @@ Detect Or Install FWTS
     ...    has been already installed on the device. Otherwise, triggers
     ...    process of obtaining and installation.
     [Arguments]    ${package}=fwts
-    ${is_package_installed}=    Set Variable    ${FALSE}
+    VAR    ${is_package_installed}=    ${FALSE}
     Log To Console    \nChecking if ${package} is installed...
     ${is_package_installed}=    Check If Package Is Installed    ${package}
     IF    ${is_package_installed}
@@ -92,8 +92,8 @@ Perform Suspend Test Using FWTS
     [Documentation]    Keyword allows to perform suspend and resume procedure
     ...    test by using Firmware Test Suite tool
     [Arguments]    ${test_duration}=40
-    ${is_suspend_performed_correctly}=    Set Variable    ${FALSE}
-    ${test_time_out}=    Set Variable    ${${test_duration}-5}
+    VAR    ${is_suspend_performed_correctly}=    ${FALSE}
+    VAR    ${test_time_out}=    ${${test_duration}-5}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Execute Command In Terminal    fwts s3 -f -r /tmp/suspend_test_log.log    ${test_time_out}s
     ELSE
@@ -108,9 +108,9 @@ Perform Suspend Test Using FWTS
         Should Contain    ${test_result}    0 warning
         Should Contain    ${test_result}    0 aborted
         Should Contain    ${test_result}    0 skipped
-        ${is_suspend_performed_correctly}=    Set Variable    ${TRUE}
+        VAR    ${is_suspend_performed_correctly}=    ${TRUE}
     EXCEPT
-        ${is_suspend_performed_correctly}=    Set Variable    ${FALSE}
+        VAR    ${is_suspend_performed_correctly}=    ${FALSE}
     END
     RETURN    ${is_suspend_performed_correctly}
 
@@ -118,7 +118,7 @@ Perform Hibernation Test Using FWTS
     [Documentation]    Keyword allows to perform hibernation and resume procedure
     ...    test by using Firmware Test Suite tool
     [Arguments]    ${test_duration}=40
-    ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
+    VAR    ${is_hibernation_performed_correctly}=    ${FALSE}
     IF    '${POWER_CTRL}' == 'none'    Set Nextboot    ${BOOTED_OS_ID}
     Execute Command In Terminal    fwts s4 -f -r /tmp/hibernation_test_log.log
     Sleep    ${test_duration}s
@@ -131,9 +131,9 @@ Perform Hibernation Test Using FWTS
         Should Contain    ${test_result}    0 warning
         Should Contain    ${test_result}    0 aborted
         Should Contain    ${test_result}    0 skipped
-        ${is_hibernation_performed_correctly}=    Set Variable    ${TRUE}
+        VAR    ${is_hibernation_performed_correctly}=    ${TRUE}
     EXCEPT
-        ${is_hibernation_performed_correctly}=    Set Variable    ${FALSE}
+        VAR    ${is_hibernation_performed_correctly}=    ${FALSE}
     END
     RETURN    ${is_hibernation_performed_correctly}
 

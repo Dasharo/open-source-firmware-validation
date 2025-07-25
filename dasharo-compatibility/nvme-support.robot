@@ -114,9 +114,11 @@ NVMe Slot Change Support In OS
     Switch To Root User
     ${out}=    Execute Command In Terminal    lspci -vvv
     @{lines}=    Split To Lines    ${out}
-    ${found}=    Set Variable    False
+    VAR    ${found}=    False
     FOR    ${line}    IN    @{lines}
         ${match}=    Evaluate    __import__('re').search(r"Speed \\d+GT/s.*Width x2", """${line}""")
-        IF    ${match}    Set Test Variable    ${FOUND}    True
+        IF    ${match}
+            VAR    ${found}=    True
+        END
     END
-    Should Be True    ${FOUND}
+    Should Be True    ${found}

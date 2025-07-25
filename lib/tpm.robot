@@ -30,7 +30,7 @@ Get PCRs From Eventlog
     ${sha_index_end}=    Get Index From List Regexp
     ...    ${eventlog}    sha[0-9]+:    start=${sha_index_start}
     IF    ${sha_index_end} == -1
-        ${sha_index_end}=    Set Variable    ${NONE}
+        VAR    ${sha_index_end}=    ${NONE}
     END
     ${pcrs}=    Get Slice From List
     ...    ${eventlog}    ${sha_index_start}    ${sha_index_end}

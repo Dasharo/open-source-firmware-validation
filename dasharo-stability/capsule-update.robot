@@ -223,45 +223,47 @@ Flash Firmware If Not QEMU
         END
         Power Cycle On
     ELSE
-        ${message}=    Catenate    SEPARATOR=${EMPTY}
+        VAR    ${message}=
         ...    Please make sure QEMU is running firmware with
         ...    \ the ${logo_type} logo. The default logo binary should be
         ...    \ ${FW_FILE}, the custom logo binary has been prepared in
         ...    \ dcu/coreboot.rom. Afterwards, please click OK to continue.
+        ...    separator=${EMPTY}
         Log Out And Close Connection
         Pause Execution    ${message}
         Prepare To Serial Connection
     END
 
 Check The Update Screen For The Correct UX
-    ${message}=    Catenate    SEPARATOR=${EMPTY}
+    VAR    ${message}=
     ...    Please check the platform screen now, and verify that the UX is the
     ...    \ same as expected in the docs. Most importantly, the progress bar
     ...    \ should be exactly the same width regardless of whether the default
     ...    \ Dasharo logo or a custom one is set. See the screenshot at
     ...    \ https://docs.dasharo.com/guides/capsule-update for reference.
+    ...    separator=${EMPTY}
     Execute Manual Step    ${message}
 
 Get Key To Press
     [Arguments]    ${text}
     ${matches}=    Get Regexp Matches    ${text}    [0-9]
-    ${digit}=    Set Variable    ${matches[0]}
+    VAR    ${digit}=    ${matches[0]}
     Log    Found digit: ${digit}
     RETURN    ${digit}
 
 Extract BIOS Version
     [Arguments]    ${text}
     ${lines}=    Split To Lines    ${text}
-    ${bios_version}=    Set Variable    None
+    VAR    ${bios_version}=    None
     FOR    ${line}    IN    @{lines}
         IF    'BIOS Version' in '${line}'
-            ${bios_version}=    Set Variable    ${line}
+            VAR    ${bios_version}=    ${line}
         END
     END
     IF    '${bios_version}' == 'None'
         FOR    ${line}    IN    @{lines}
             IF    'BIOSVersion' in '${line}'
-                ${bios_version}=    Set Variable    ${line}
+                VAR    ${bios_version}=    ${line}
             END
         END
     END
@@ -353,10 +355,12 @@ Get File Name Without Extension
 
 Check If Capsule File Exists
     [Arguments]    ${file_path}
-    ${msg}=    Catenate    File ${file_path} does not exist!
+    VAR    ${msg}=
+    ...    File ${file_path} does not exist!
     ...    \nTo create capsule files required for this test run:
     ...    \n'bash ./scripts/capsules/capsule_update_tests.sh ${CAPSULE_FW_FILE}'
     ...    \nand start the test again.
+    ...    separator=${SPACE}
     OperatingSystem.File Should Exist    ${file_path}    ${msg}
 
 Check If Capsule Files Are Present
@@ -445,7 +449,7 @@ Go To Ubuntu Prompt
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     Login To Linux
     Switch To Root User
@@ -453,7 +457,7 @@ Go To Ubuntu Prompt
 Go To Windows Prompt
     Power On
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Suite Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     Login To Windows
 
@@ -480,10 +484,10 @@ Get Ubuntu System Values
 
     IF    ${TRUE}
         ${serial}=    Get Firmware Serial Number
-        Set Suite Variable    ${VAR_SERIAL}    ${serial}
+        VAR    ${var_serial}=    ${serial}    scope=SUITE
 
         ${uuid}=    Get Firmware UUID
-        Set Suite Variable    ${VAR_UUID}    ${uuid}
+        VAR    ${var_uuid}=    ${uuid}    scope=SUITE
     END
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
@@ -494,7 +498,7 @@ Get Ubuntu System Values
         IF    ${unplugged} == ${TRUE}
             Fail    Please make sure that a display device is connected to the DUT
         END
-        Set Suite Variable    ${VAR_LOGO_SHA256}    ${out}
+        VAR    ${var_logo_sha256}=    ${out}    scope=SUITE
     END
 
 Get Windows System Values
@@ -510,10 +514,10 @@ Get Windows System Values
     # robotidy: off=RenameVariables
     IF    ${TRUE}
         ${serial}=    Get Firmware Serial Number (Windows)
-        Set Suite Variable    ${VAR_SERIAL}    ${serial}
+        VAR    ${var_serial}=    ${serial}    scope=SUITE
 
         ${uuid}=    Get Firmware UUID (Windows)
-        Set Suite Variable    ${VAR_UUID}    ${uuid}
+        VAR    ${var_uuid}=    ${uuid}    scope=SUITE
     END
 
 Prepare For ROMHOLE Persistence Test
@@ -529,7 +533,7 @@ Prepare For ROMHOLE Persistence Test
 Get Firmware UUID (Windows)
     ${uuid}=    Execute Command In Terminal    wmic path win32_computersystemproduct get UUID
     @{uuid}=    Split To Lines    ${uuid}
-    Set Local Variable    ${var}    ${uuid}[-1]
+    VAR    ${var}=    ${uuid}[-1]
     ${var}=    Strip String    ${var}
     ${var}=    Convert To Lower Case    ${var}
     RETURN    ${var}
@@ -537,6 +541,6 @@ Get Firmware UUID (Windows)
 Get Firmware Serial Number (Windows)
     ${serial}=    Execute Command In Terminal    wmic bios get serialnumber
     @{serial}=    Split To Lines    ${serial}
-    Set Local Variable    ${var}    ${serial}[-1]
+    VAR    ${var}=    ${serial}[-1]
     ${var}=    Strip String    ${var}
     RETURN    ${var}

@@ -79,7 +79,7 @@ HDS001.001 Heads installation
     ${output}=    Read From Terminal Until    Once you have scanned the QR code, hit Enter to continue
     Log    ${output}    console=yes
     ${totp_uri_local}=    Get Lines Containing String    ${output}    otpauth://totp
-    Set Suite Variable    $TOTP_URI    ${totp_uri_local}
+    VAR    ${TOTP_URI}=    ${totp_uri_local}    scope=SUITE
     Write Bare Into Terminal    ${ENTER}
     ${output}=    Read From Terminal Until    ┘
     ${totp_dut}=    Get Regexp Matches    ${output}    TOTP: (......)    1

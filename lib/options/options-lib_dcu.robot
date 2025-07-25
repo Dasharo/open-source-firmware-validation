@@ -62,7 +62,7 @@ Measure Warmboot Time
     ...    off, and the login prompt must be available in the Telnet buffer.
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
-    ${durations}=    Create List
+    VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${iterations}
@@ -96,7 +96,7 @@ Measure Reboot Time
     ...    off, and the login prompt must be available in the Telnet buffer.
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
-    ${durations}=    Create List
+    VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
 
     Boot System Or From Connected Disk    ${os_id}
@@ -143,7 +143,7 @@ Set Nextboot
     ...    one boot.
     [Arguments]    ${env_id}
 
-    ${os_boot_id}=    Set Variable    ${EMPTY}
+    VAR    ${os_boot_id}=    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
     ${boot_entries}=    Execute Command In Terminal    efibootmgr
@@ -156,7 +156,7 @@ Set Nextboot
         ${line}=    Get Substring    ${line}    0    150
 
         IF    '${os_bootentry_name}' in '${line}'
-            ${os_boot_id}=    Set Variable    ${line}
+            VAR    ${os_boot_id}=    ${line}
             BREAK
         END
     END
@@ -177,7 +177,7 @@ Boot System Or From Connected Disk
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     END
 
-    ${os_boot_id}=    Set Variable    ${EMPTY}
+    VAR    ${os_boot_id}=    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
     Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
@@ -193,7 +193,7 @@ Boot System Or From Connected Disk
     Write Into Terminal    reboot
 
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
-    Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
+    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=SUITE
     Sleep    30s
 
 Login To Windows Via SSH

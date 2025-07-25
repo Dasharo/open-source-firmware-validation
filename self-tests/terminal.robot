@@ -35,21 +35,21 @@ Execute Command In Terminal over SSH (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Execute Command In Terminal over SSH (Windows) not supported
     Power On
     Login To Windows
-    Set Test Variable    ${COMMAND}    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
+    VAR    ${COMMAND}=    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }    scope=TEST
     ${out1}=    Execute Command In Terminal    ${COMMAND}
     ${out2}=    Execute Command In Terminal    ${COMMAND}
     Should Be Equal As Strings    ${out1}    ${out2}
     Should Not Contain    ${out1}    ${COMMAND}
     Should Not Contain    ${out2}    ${COMMAND}
 
-    Set Test Variable    ${COMMAND}    ls
+    VAR    ${COMMAND}=    ls    scope=TEST
     ${out1}=    Execute Command In Terminal    ${COMMAND}
     ${out2}=    Execute Command In Terminal    ${COMMAND}
     Should Be Equal As Strings    ${out1}    ${out2}
     Should Not Contain    ${out1}    ${COMMAND}
     Should Not Contain    ${out2}    ${COMMAND}
 
-    Set Test Variable    ${COMMAND}    driverquery
+    VAR    ${COMMAND}=    driverquery    scope=TEST
     ${out1}=    Execute Command In Terminal    ${COMMAND}
     ${out2}=    Execute Command In Terminal    ${COMMAND}
     Should Be Equal As Strings    ${out1}    ${out2}

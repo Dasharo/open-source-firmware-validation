@@ -120,14 +120,14 @@ Login And Remove Test Boot Entry
 
 Remove Test Boot Entry Return Bootorder
     [Documentation]    Removes the custom boot entry which name is defined in ***Variables***
-    ${id}=    Set Variable
+    VAR    ${id}=
     ...    $(efibootmgr | grep "${TEST_BOOT_ENTRY_NAME}" | cut -d" " -f1 | grep -Eo '[0-9A-F]{4}' | grep -Eo '[^0][0-9A-F]{0,3}|0$')
     ${out}=    Execute Command In Terminal    efibootmgr -b ${id} -B
     RETURN    ${out}
 
 Find Test Boot Entry Id
     [Documentation]    Returns the Id of custom boot entry
-    ${id}=    Set Variable
+    VAR    ${id}=
     ...    $(efibootmgr | grep "${TEST_BOOT_ENTRY_NAME}" | cut -d" " -f1 | grep -Eo '[0-9A-F]{4}' | grep -Eo '[^0][0-9A-F]{0,3}|0$')
     RETURN    ${id}
 

@@ -48,7 +48,7 @@ DMP001.001 TCG OPAL disk password set and check
     Log    Enable Feature
     Press Key N Times And Enter    2    ${ARROW_DOWN}
     Save Changes And Reset
-    @{password}=    Set Variable    1    2    3
+    VAR    @{password}=    1    2    3
     Type In New Disk Password    ${password}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Reset

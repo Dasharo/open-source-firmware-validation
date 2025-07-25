@@ -33,10 +33,10 @@ Calculate Boot Time Statistics
     ...    boot time measurements
     [Arguments]    ${samples}
     ${iterations}=    Get Length    ${samples}
-    ${standard_deviation}=    Set Variable    0
-    ${min}=    Set Variable    99999999
-    ${max}=    Set Variable    0
-    ${average}=    Set Variable    0
+    VAR    ${standard_deviation}=    0
+    VAR    ${min}=    99999999
+    VAR    ${max}=    0
+    VAR    ${average}=    0
 
     FOR    ${index}    IN RANGE    0    ${iterations}
         ${duration}=    Get From List    ${samples}    ${index}

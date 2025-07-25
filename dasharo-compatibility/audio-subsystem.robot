@@ -343,16 +343,14 @@ Get Sound Devices In Windows
     [Tags]    robot:private
     [Arguments]    ${class}=all
     IF    '${class}' == 'all'
-        ${filter_condition}=    Set Variable
-        ...    {$_.Class -match "Audio"}
+        VAR    ${filter_condition}=    {$_.Class -match "Audio"}
     ELSE IF    '${class}' == 'speakers'
-        ${filter_condition}=    Set Variable
+        VAR    ${filter_condition}=
         ...    {$_.Class -match "Audio" -and ($_.Name -match "Speaker" -or $_.Name -match "Output")}
     ELSE IF    '${class}' == 'microphone'
-        ${filter_condition}=    Set Variable
-        ...    {$_.Class -match "Audio" -and $_.Name -match "Microphone"}
+        VAR    ${filter_condition}=    {$_.Class -match "Audio" -and $_.Name -match "Microphone"}
     ELSE IF    '${class}' == 'display'
-        ${filter_condition}=    Set Variable
+        VAR    ${filter_condition}=
         ...    {$_.Class -match "Audio" -and ($_.Name -match "Display" -or $_.Name -match "HDMI")}
     END
 
@@ -368,14 +366,14 @@ Switch Active Sink Port Using Pactl
     [Arguments]    ${class}
     ${sink}=    Execute Command In Terminal
     ...    pactl list short sinks | awk '{print $1}'
-    ${cmd}=    Set Variable    pactl set-sink-port ${sink}
+    VAR    ${cmd}=    pactl set-sink-port ${sink}
 
     IF    '${class}' == 'internal'
-        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_INTERNAL_OUT}
+        VAR    ${cmd}=    ${cmd}    ${PACTL_STR_INTERNAL_OUT}    separator=${SPACE}
     ELSE IF    '${class}' == 'headphones'
-        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_HEADSET_OUT}
+        VAR    ${cmd}=    ${cmd}    ${PACTL_STR_HEADSET_OUT}    separator=${SPACE}
     ELSE IF    '${class}' == 'hdmi'
-        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_HDMI_OUT}
+        VAR    ${cmd}=    ${cmd}    ${PACTL_STR_HDMI_OUT}    separator=${SPACE}
     ELSE
         Fail    Invalid audio class. Use: headphones, internal, or hdmi.
     END
@@ -391,12 +389,12 @@ Switch Active Source Port Using Pactl
     [Arguments]    ${class}
     ${source}=    Execute Command In Terminal
     ...    pactl list sources | grep alsa_input | awk 'NR==1 {print $2}'
-    ${cmd}=    Set Variable    pactl set-source-port ${source}
+    VAR    ${cmd}=    pactl set-source-port ${source}
 
     IF    '${class}' == 'internal'
-        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_INTERNAL_IN}
+        VAR    ${cmd}=    ${cmd}    ${PACTL_STR_INTERNAL_IN}    separator=${SPACE}
     ELSE IF    '${class}' == 'headphones'
-        ${cmd}=    Catenate    ${cmd}    ${PACTL_STR_HEADSET_IN}
+        VAR    ${cmd}=    ${cmd}    ${PACTL_STR_HEADSET_IN}    separator=${SPACE}
     ELSE
         Fail    Invalid audio class. Use: headphones or internal.
     END

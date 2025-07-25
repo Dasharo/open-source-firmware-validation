@@ -28,8 +28,11 @@ OPN001.503 Install OPNsense (serial output) on disk
     ...    modification.
     Power On
     Boot OPNsense Installer
-    ${installer_message}=    Catenate    Click OK,    after test execution ends,
+    VAR    ${installer_message}=
+    ...    Click OK,
+    ...    after test execution ends,
     ...    connect to DUT via serial and continue manual installation.
+    ...    separator=${SPACE}
     Pause Execution    ${installer_message}
 
 OPN002.503 Boot OPNsense (serial output) from disk
@@ -39,7 +42,7 @@ OPN002.503 Boot OPNsense (serial output) from disk
 
 OPN003.503 Boot OPNsense (serial output) from disk after cold-boot
     [Documentation]    Boot OPNsense (serial output) from disk after cold-boot
-    @{supported_power_ctrls}=    Create List    RteCtrl    sonoff
+    VAR    @{supported_power_ctrls}=    RteCtrl    sonoff
     Skip If    '${POWER_CTRL}' not in ${supported_power_ctrls}
     Execute Cold Boot
     ${start_date}=    Get Current Date

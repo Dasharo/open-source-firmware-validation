@@ -10,9 +10,9 @@ Depends On
     ...    (first word of its name) and optional ``reason`` is set
     ...    to the test as per ``Skip`` keyword.
     [Arguments]    ${condition}    ${reason}=${NONE}
-    ${line}=    Set Variable    ${TEST_NAME.split()}[0] not supported
+    VAR    ${line}=    ${TEST_NAME.split()}[0] not supported
     IF    "${reason}" != "${NONE}"
-        ${line}=    Set Variable    ${line}: ${reason}
+        VAR    ${line}=    ${line}: ${reason}
     END
     ${should_skip}=    Evaluate    not bool(${condition})
     Skip If    ${should_skip}    ${line}

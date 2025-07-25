@@ -25,8 +25,10 @@ PFS001.502 Install pfSense LTS CE (serial output) on disk
     ...    USB stick on disk. Refer to test case PFS006.502 for preseed.
     Power On
     Boot PfSense Installer
-    ${installer_message}=    Catenate    Click OK, after test execution ends,
+    VAR    ${installer_message}=
+    ...    Click OK, after test execution ends,
     ...    connect to DUT via serial and continue manual installation.
+    ...    separator=${SPACE}
     Pause Execution    ${installer_message}
 
 PFS002.502 Boot pfSense LTS CE (serial output) from disk
@@ -36,7 +38,7 @@ PFS002.502 Boot pfSense LTS CE (serial output) from disk
 
 PFS003.502 Boot pfSense LTS CE (serial output) from disk after cold-boot
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after cold-boot
-    @{supported_power_ctrls}=    Create List    RteCtrl    sonoff
+    VAR    @{supported_power_ctrls}=    RteCtrl    sonoff
     Skip If    '${POWER_CTRL}' not in ${supported_power_ctrls}
     Execute Cold Boot
     ${start_date}=    Get Current Date
@@ -73,18 +75,23 @@ PFS005.502 Boot pfSense LTS CE (serial output) from disk after reboot
 PFS006.502 Preseed pfSense Installer (serial output)
     [Documentation]    Please use linux fatlabel program to rename ESP partition of
     ...    pfSense installer to PFEFI.
-    ${pfefi_message}=    Catenate    SEPARATOR=${SPACE}    Rename ESP partition of pfSense
-    ...    serial installer to PFEFI.\nOn Linux: (sudo) fatlabel /dev/sdX1    PFEFI
+    VAR    ${pfefi_message}=
+    ...    Rename ESP partition of pfSense
+    ...    serial installer to PFEFI.\nOn Linux: (sudo) fatlabel /dev/sdX1
+    ...    PFEFI
+    ...    separator=${SPACE}
     Execute Manual Step    ${pfefi_message}
     Execute Manual Step    Connect pfSense serial installer USB stick to DUT.
 
     Power On
     Boot PfSense Installer
     Enter PfSense Rescue Shell
-    ${awk_args}=    Catenate    SEPARATOR=${SPACE}    -v sq="'" -v dq='"'
+    VAR    ${awk_args}=
+    ...    -v sq="'" -v dq='"'
     ...    -v ROOT_LABEL=PFBOOT '/^NEWFS_ESP=/ { print "NEWFS_ESP="
     ...    sq "newfs_msdos -L " ROOT_LABEL " " dq "%s" dq sq; next; };
     ...    { print; }'
+    ...    separator=${SPACE}
     Execute Command In Terminal
     ...    awk ${awk_args} /usr/libexec/bsdinstall/zfsboot > /tmp/zfsboot
     Execute Command In Terminal    mount -u /

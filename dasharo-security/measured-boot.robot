@@ -232,10 +232,10 @@ MBO006.001 Identical configuration results in identical measurements
     ${menu}=    Enter Dasharo System Features    ${menu}
     IF    ${SMM_WRITE_PROTECTION_SUPPORT}
         ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
-        ${option}=    Set Variable    Enable SMM BIOS write
+        VAR    ${option}=    Enable SMM BIOS write
     ELSE
         ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
-        ${option}=    Set Variable    Enable network boot
+        VAR    ${option}=    Enable network boot
     END
     ${option_state}=    Get Option State    ${menu}    ${option}
     ${new_option_state}=    Evaluate    not ${option_state}
@@ -267,10 +267,10 @@ MBO006.002 Identical configuration after reset results in identical measurements
     ${menu}=    Enter Dasharo System Features    ${menu}
     IF    ${SMM_WRITE_PROTECTION_SUPPORT}
         ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
-        ${option}=    Set Variable    Enable SMM BIOS write
+        VAR    ${option}=    Enable SMM BIOS write
     ELSE
         ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
-        ${option}=    Set Variable    Enable network boot
+        VAR    ${option}=    Enable network boot
     END
     ${option_state}=    Get Option State    ${menu}    ${option}
     ${new_option_state}=    Evaluate    not ${option_state}
@@ -299,7 +299,7 @@ Get Default PCRs State
         Restore SB And Tianocore Defaults And Reset
         Boot Linux And Login To Root
         ${default_pcr_state}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
-        Set Suite Variable    $DEFAULT_PCR_STATE_SUITE    ${default_pcr_state}
+        VAR    ${DEFAULT_PCR_STATE_SUITE}=    ${default_pcr_state}    scope=SUITE
     END
     RETURN    ${default_pcr_state}
 

@@ -343,15 +343,15 @@ Parse Menu Snapshot Into Construction
     ...    === Effects ===
     ...    None
     [Arguments]    ${menu}    ${lines_top}    ${lines_bot}
-    ${slice_start}=    Set Variable    ${lines_top}
+    VAR    ${slice_start}=    ${lines_top}
     IF    ${lines_bot} == 0
-        ${slice_end}=    Set Variable    None
+        VAR    ${slice_end}=    None
     ELSE
         ${slice_end}=    Evaluate    ${lines_bot} * -1
     END
     ${menu}=    Remove String    ${menu}    \r
     @{menu_lines}=    Split To Lines    ${menu}
-    @{construction}=    Create List
+    VAR    @{construction}=    @{EMPTY}
     FOR    ${line}    IN    @{menu_lines}
         # Replace multiple spaces with a single one
         ${line}=    Replace String Using Regexp    ${line}    ${SPACE}+    ${SPACE}
@@ -606,7 +606,7 @@ Get Index Of Matching Option In Menu
         ${matches}=    Run Keyword And Return Status
         ...    Should Match    ${element}    *${option}*
         IF    ${matches}
-            ${option}=    Set Variable    ${element}
+            VAR    ${option}=    ${element}
             BREAK
         END
     END
@@ -725,12 +725,12 @@ Get Option State
     ${value}=    Get Value From Brackets    ${menu}[${index}]
     ${len}=    Get Length    ${value}
 
-    ${state}=    Set Variable    ${value}
+    VAR    ${state}=    ${value}
     IF    ${len} == 1
         IF    '${value}[0]' == 'X'
-            ${state}=    Set Variable    ${TRUE}
+            VAR    ${state}=    ${TRUE}
         ELSE IF    '${value}[0]' == ' '
-            ${state}=    Set Variable    ${FALSE}
+            VAR    ${state}=    ${FALSE}
         END
     END
     RETURN    ${state}
@@ -756,14 +756,14 @@ Get Option Type
     # This type of field can either be boolean ([X] or [ ]), or free entry
     # field. At first, find out which one is it.
     IF    '${state}' == '${TRUE}' or '${state}' == '${FALSE}'
-        ${type}=    Set Variable    bool
+        VAR    ${type}=    bool
     ELSE
         ${status}=    Run Keyword And Return Status
         ...    Convert To Integer    ${state}
         IF    ${status} == ${TRUE}
-            ${type}=    Set Variable    numeric
+            VAR    ${type}=    numeric
         ELSE
-            ${type}=    Set Variable    list
+            VAR    ${type}=    list
         END
     END
     RETURN    ${type}
@@ -796,10 +796,10 @@ Select State From List
     Should Not Be Equal As Integers    ${target_index}    -1
     ${diff_index}=    Evaluate    ${target_index} - ${current_index}
     IF    ${diff_index} > 0
-        ${direction}=    Set Variable    ${ARROW_DOWN}
-        ${offset}=    Set Variable    ${diff_index}
+        VAR    ${direction}=    ${ARROW_DOWN}
+        VAR    ${offset}=    ${diff_index}
     ELSE
-        ${direction}=    Set Variable    ${ARROW_UP}
+        VAR    ${direction}=    ${ARROW_UP}
         ${offset}=    Evaluate    -1 * ${diff_index}
     END
     # Select the target state
@@ -1212,7 +1212,7 @@ Tianocore Reset System
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         FAIL    OpenBMC not yet supported for interfacing with TianoCore
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        @{reset_combo}=    Create List    AltRight    ControlRight    Delete
+        VAR    @{reset_combo}=    AltRight    ControlRight    Delete
         Key Combination PiKVM    ${reset_combo}
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
@@ -1281,7 +1281,7 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     [Arguments]    ${env_id}    ${boot_menu}=NOT_SET
     ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
-    Set Suite Variable    ${BOOTED_OS_ID}    ${env_id}
+    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=SUITE
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
 
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
@@ -1299,30 +1299,30 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     IF    '''${boot_menu}''' == 'NOT_SET'
         ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
     ELSE
-        ${menu_construction}=    Set Variable    @{boot_menu}
+        VAR    ${menu_construction}=    @{boot_menu}
     END
 
     # When ESP scanning feature is there, boot entries are named differently than
     # they used to
     IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
         IF    "${system_name}" == "ubuntu"
-            ${system_name}=    Set Variable    Ubuntu
+            VAR    ${system_name}=    Ubuntu
         END
         IF    "${system_name}" == "fedora"
-            ${system_name}=    Set Variable    Fedora
+            VAR    ${system_name}=    Fedora
         END
         IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
-            ${system_name}=    Set Variable    QEMU HARDDISK
+            VAR    ${system_name}=    QEMU HARDDISK
         END
     ELSE
         # Without ESP_SCANNING it does not matter if the entry has lowercase
         # or upperase.
-        @{lowercase_menu}=    Create List
+        VAR    @{lowercase_menu}=    @{EMPTY}
         FOR    ${line}    IN    @{menu_construction}
             ${lower}=    Convert To Lowercase    ${line}
             Append To List    ${lowercase_menu}    ${lower}
         END
-        ${menu_construction}=    Set Variable    ${lowercase_menu}
+        VAR    ${menu_construction}=    ${lowercase_menu}
         ${system_name}=    Convert To Lower Case    ${system_name}
     END
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
@@ -1338,12 +1338,12 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
                 IF    ${mmc_list_length} == 0
                     FAIL    "System was not found and there are no disk connected"
                 END
-                ${disk_name}=    Set Variable    ${mmc_list[0]}
+                VAR    ${disk_name}=    ${mmc_list[0]}
             ELSE
-                ${disk_name}=    Set Variable    ${hdd_list[0]}
+                VAR    ${disk_name}=    ${hdd_list[0]}
             END
         ELSE
-            ${disk_name}=    Set Variable    ${ssd_list[0]}
+            VAR    ${disk_name}=    ${ssd_list[0]}
         END
         ${system_index}=    Get Index From List    ${menu_construction}    ${disk_name}
         IF    ${system_index} == -1
@@ -1417,11 +1417,11 @@ Get USB Boot Option
         ${end}=    Call Method    ${screen}    index    F9\=Reset
         ${screen}=    Get Substring    ${screen}    ${start}    ${end}
         @{screen_lines}=    Split To Lines    ${screen}
-        ${side_text}=    Set Variable    ${EMPTY}
+        VAR    ${side_text}=    ${EMPTY}
         FOR    ${index}    ${line}    IN ENUMERATE    @{screen_lines}
             ${len}=    Get Length    ${line}
             IF    ${len} < 54    CONTINUE
-            ${side_text}=    Catenate    ${side_text}    ${line}[-25:]
+            VAR    ${side_text}=    ${side_text}    ${line}[-25:]    separator=${SPACE}
         END
         ${side_text}=    Remove String    ${side_text}    \n    ${SPACE}
         ${is_usb}=    Run Keyword And Return Status

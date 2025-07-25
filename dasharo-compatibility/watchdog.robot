@@ -68,12 +68,12 @@ WDT003.001 Disable watchdog
     Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Now just wait more than the default timeout to
     # make sure the watchdog does not reset the platform.
-    ${platform_has_reset}=    Set Variable    ${TRUE}
+    VAR    ${platform_has_reset}=    ${TRUE}
     Set DUT Response Timeout    360s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
-        ${platform_has_reset}=    Set Variable    ${FALSE}
+        VAR    ${platform_has_reset}=    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
 
@@ -94,12 +94,12 @@ WDT004.001 Change watchdog timeout
     Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Wait 320s to make sure platform does not reset
     # after the default timeout of 300s.
-    ${platform_has_reset}=    Set Variable    ${TRUE}
+    VAR    ${platform_has_reset}=    ${TRUE}
     Set DUT Response Timeout    320s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
-        ${platform_has_reset}=    Set Variable    ${FALSE}
+        VAR    ${platform_has_reset}=    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
     # Now wait another 60s to make sure the platform resets within ~360s of
@@ -127,12 +127,12 @@ WDT005.001 Watchdog is detected by OS (Ubuntu)
     Execute Linux Command    modprobe wdat_wdt
     # OS should take control of the WDT at this point. Just wait for the timeout
     # to pass and verify no reboot occurred.
-    ${platform_has_reset}=    Set Variable    ${TRUE}
+    VAR    ${platform_has_reset}=    ${TRUE}
     Set DUT Response Timeout    300s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
-        ${platform_has_reset}=    Set Variable    ${FALSE}
+        VAR    ${platform_has_reset}=    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
 
@@ -159,11 +159,11 @@ WTD006.001 Watchdog resets platform on kernel crash (Ubuntu 22.04)
     # Crash the kernel (use Write Into Terminal so that it doesn't wait
     # for prompt)
     Write Into Terminal    echo c > /proc/sysrq-trigger
-    ${platform_has_reset}=    Set Variable    ${TRUE}
+    VAR    ${platform_has_reset}=    ${TRUE}
     Set DUT Response Timeout    300s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
-        ${platform_has_reset}=    Set Variable    ${FALSE}
+        VAR    ${platform_has_reset}=    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${TRUE}

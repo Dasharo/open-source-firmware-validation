@@ -112,13 +112,15 @@ WTD006.001 DRTM log aligns with PCR values
     # unescaped ones are parameters of this function that get embedded into
     # AWK script. The escaping is doubled because Robot Framework also
     # interprets escapes.
-    ${hashes_func}=    Catenate    SEPARATOR=${SPACE}    function hashes() {
+    VAR    ${hashes_func}=
+    ...    function hashes() {
     ...    awk "/PCRIndex:/{ pcr = \\$2; alg = \\"\\"; digest = \\"\\" }
     ...    /- AlgorithmId:/{ alg = \\$3 }
     ...    /Digest:/{ if (alg == \\"$2\\") digest = substr(\\$2, 2, length(\\$2) - 2) }
     ...    /EventSize:/{ if (pcr == $1 && length(digest) != 0) print \\$2 \\"-\\" digest }"
     ...    /tmp/event-log;
     ...    }
+    ...    separator=${SPACE}
     Execute Command In Terminal    ${hashes_func}
 
     Execute Command In Terminal
@@ -131,7 +133,7 @@ WTD006.001 DRTM log aligns with PCR values
         FOR    ${pcr}    IN    17    18
             # Replaying the log skips digests of no data. These correspond to
             # informational markers which don't extend PCRs.
-            ${replay_pcr}=    Catenate    SEPARATOR=${SPACE}
+            VAR    ${replay_pcr}=
             ...    empty=$(${algo}sum < /dev/null | cut -f1 -d' ');
             ...    pcr=\${empty//?/0};
             ...    for line in $(hashes ${pcr} ${algo}); do
@@ -140,6 +142,7 @@ WTD006.001 DRTM log aligns with PCR values
             ...    if [ "\${hash^^*}" != "\${empty^^*}" -o "$len" -ne 0 ]; then extend ${algo} "$hash"; fi;
             ...    done;
             ...    echo "$pcr"
+            ...    separator=${SPACE}
             ${expected}=    Execute Command In Terminal    ${replay_pcr}
             ${actual}=    Execute Command In Terminal
             ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}

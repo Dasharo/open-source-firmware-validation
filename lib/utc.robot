@@ -22,7 +22,7 @@ Resource    options/options-lib_dcu.robot
 
 *** Keywords ***
 Prepare UTC Test Suite
-    Set Suite Variable    ${UTC_CURRENT_ME_STATE}    unknown
+    VAR    ${UTC_CURRENT_ME_STATE}=    unknown    scope=SUITE
 
 Ensure ME State
     [Arguments]    ${me_state}
@@ -32,7 +32,7 @@ Ensure ME State
         ELSE
             Set UEFI Option    MeMode    Disabled (HAP)
         END
-        Set Suite Variable    ${UTC_CURRENT_ME_STATE}    ${me_state}
+        VAR    ${UTC_CURRENT_ME_STATE}=    ${me_state}    scope=SUITE
     END
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
@@ -278,7 +278,7 @@ Docking Station Detection After Coldboot
     Switch To Root User
     ${out_after_reboot}=    Execute Linux Command    uptime --since
     Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         Log To Console    Cold boot iteration ${iteration+1}/${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         TRY
@@ -311,7 +311,7 @@ Docking Station Detection After Warmboot
     Switch To Root User
     ${out_after_reboot}=    Execute Linux Command    uptime --since
     Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Log To Console    Warm boot iteration ${iteration+1}/${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         TRY
@@ -343,7 +343,7 @@ Docking Station Detection After Reboot
     Login To Linux
     Switch To Root User
     Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Log To Console    Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
@@ -373,7 +373,7 @@ Docking Station Detection After Suspend
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
     Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         Log To Console
         ...    Suspend ${platform_sleep_type} iteration ${iteration+1}/${STABILITY_DETECTION_SUSPEND_ITERATIONS}
@@ -417,7 +417,7 @@ Docking Station Detection After Coldboot Then Hotplug
     ${out_after_reboot}=    Execute Linux Command    uptime --since
     ${out_before_reboot}=    Execute Linux Command    uptime --since
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     WHILE    '${out_before_reboot}' == '${out_after_reboot}'
         Log To Console    Coldboot the DUT manually
         # coldboot - msi ./sonoff, protectli RteCtrl -rel, novacustom ???
@@ -465,7 +465,7 @@ Docking Station Detection After Warmboot Then Hotplug
     ${out_after_reboot}=    Execute Linux Command    uptime --since
     ${out_before_reboot}=    Execute Linux Command    uptime --since
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     WHILE    '${out_before_reboot}' == '${out_after_reboot}'
         Perform Warmboot Using Rtcwake
         Pause Execution In Console    Press power button on platform and press ENTER.
@@ -510,7 +510,7 @@ Docking Station Detection After Reboot Then Hotplug
     Login To Linux
     Switch To Root User
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     Execute Reboot Command
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
@@ -546,7 +546,7 @@ Docking Station Detection After Suspend Then Hotplug
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     Switch To Root User
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${dock_name}
-    Set Global Variable    ${FAILED_DETECTION}    0
+    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     Perform Suspend Test Using FWTS
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         Log To Console

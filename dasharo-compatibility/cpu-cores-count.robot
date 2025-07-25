@@ -236,9 +236,9 @@ Get Threads Per Core
     ${words}=    Split String    ${out}    ${SPACE}
     ${threads}=    Get From List    ${words}    -1
     IF    '${threads[:1]}' == '1'
-        ${count}=    Set Variable    1
+        VAR    ${count}=    1
     ELSE IF    '${threads[:1]}' == '2'
-        ${count}=    Set Variable    2
+        VAR    ${count}=    2
     ELSE
         Fail    Hyper-Threading status could not be established.
     END

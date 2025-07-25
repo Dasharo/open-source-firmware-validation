@@ -4,7 +4,7 @@ Detect Or Install Package
     ...    necessary to run the test case, has already been installed on
     ...    the system, otherwise forces it to be installed.
     [Arguments]    ${package}
-    ${is_package_installed}=    Set Variable    ${FALSE}
+    VAR    ${is_package_installed}=    ${FALSE}
     Log To Console    \nChecking if ${package} is installed...
     ${is_package_installed}=    Check If Package Is Installed    ${package}
     IF    ${is_package_installed}
@@ -29,7 +29,11 @@ Check If Package Is Installed
     [Arguments]    ${package}
     ${output}=    Execute Linux Command    dpkg --list ${package} | cat
     ${status}=    Evaluate    "no packages found matching" in """${output}"""
-    ${is_installed}=    Set Variable If    ${status}    ${FALSE}    ${TRUE}
+    IF    ${status}
+        VAR    ${is_installed}=    ${FALSE}
+    ELSE
+        VAR    ${is_installed}=    ${TRUE}
+    END
     RETURN    ${is_installed}
 
 Install Package

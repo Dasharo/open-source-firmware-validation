@@ -129,16 +129,16 @@ Check Docking Connection
     [Documentation]    Returns True if a monitor is connected to a docking station, False otherwise.
     [Arguments]    ${content}    ${target}
     ${lines}=    Split To Lines    ${content}
-    ${dock_connected}=    Set Variable    ${FALSE}
-    ${check_for_hdmi}=    Set Variable    ${FALSE}
+    VAR    ${dock_connected}=    ${FALSE}
+    VAR    ${check_for_hdmi}=    ${FALSE}
     FOR    ${line}    IN    @{lines}
         ${line}=    Strip String    ${line}
         # at first we ignore that condition, it' ll become relevant once we find connector
         IF    ${check_for_hdmi}
             ${is_hdmi}=    Evaluate    "Type: HDMI" in """${line}"""
             IF    ${is_hdmi}
-                ${dock_connected}=    Set Variable    ${TRUE}
-                ${check_for_hdmi}=    Set Variable    ${FALSE}
+                VAR    ${dock_connected}=    ${TRUE}
+                VAR    ${check_for_hdmi}=    ${FALSE}
             END
         ELSE
             # we start by finding non eDP display
@@ -147,9 +147,9 @@ Check Docking Connection
                 IF    "eDP" not in "${line}"
                     # since HDMI screens are listed as DP connector we need to look more clues
                     IF    "${target}" == "HDMI"
-                        ${check_for_hdmi}=    Set Variable    ${TRUE}
+                        VAR    ${check_for_hdmi}=    ${TRUE}
                     ELSE IF    "${target}" == "DP"
-                        ${dock_connected}=    Set Variable    ${TRUE}
+                        VAR    ${dock_connected}=    ${TRUE}
                     END
                 END
             END

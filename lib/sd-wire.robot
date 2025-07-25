@@ -31,7 +31,7 @@ Get List Of SD Wire Ids
     ...    all id's of SD Wires that are currently connected.
     ${output}=    SSHLibrary.Execute Command    sd-mux-ctrl --list
     ${lines}=    Split String    ${output}    \n
-    ${sd_wire_list}=    Create List
+    VAR    @{sd_wire_list}=    @{EMPTY}
     FOR    ${line}    IN    @{lines}
         ${fields}=    Split String    ${line}    ,
         ${length}=    Get Length    ${fields}

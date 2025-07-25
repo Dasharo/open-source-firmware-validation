@@ -107,16 +107,16 @@ Get GPU Cards
     ${gpu_cards_raw}=    Execute Command In Terminal
     ...    ls -d /sys/class/drm/card[0-9]*/device/vendor | awk -F'/' '{print $(NF-2)}'
     ${gpu_cards}=    Split String    ${gpu_cards_raw}
-    ${dgpu_card}=    Set Variable    nocard
-    ${igpu_card}=    Set Variable    nocard
+    VAR    ${dgpu_card}=    nocard
+    VAR    ${igpu_card}=    nocard
 
     FOR    ${card}    IN    @{gpu_cards}
         ${vendor}=    Execute Command In Terminal    cat /sys/class/drm/${card}/device/vendor
         ${vendor}=    Strip String    ${vendor}
         IF    '${vendor}' == '0x10de'
-            ${dgpu_card}=    Set Variable    ${card}
+            VAR    ${dgpu_card}=    ${card}
         ELSE IF    '${vendor}' == '0x8086'
-            ${igpu_card}=    Set Variable    ${card}
+            VAR    ${igpu_card}=    ${card}
         END
     END
 

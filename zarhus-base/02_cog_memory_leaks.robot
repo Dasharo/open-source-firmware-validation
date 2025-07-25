@@ -38,11 +38,12 @@ COG001.001 Check memory usage on resource-intensive application
     ${cmd_timeout}=    Evaluate    int(${TIME}) + 500
     Set Prompt For Terminal    root@${HOSTNAME}:${WORKDIR}/memory_heavy#
     Execute Command In Terminal    mkdir memory_heavy && cd memory_heavy
-    ${environment}=    Catenate
+    VAR    ${environment}=
     ...    COG_PLATFORM_WL_VIEW_HEIGHT=720 COG_PLATFORM_WL_VIEW_WIDTH=1280
     ...    COG_PLATFORM_WL_VIEW_MAXIMIZE=0 WAYLAND_DISPLAY=wayland-1
     ...    XDG_RUNTIME_DIR=/run/user/0
-    ${url}=    Set Variable    https://pixijs.com/8.x/examples/mesh-and-shaders/instanced-geometry
+    ...    separator=${SPACE}
+    VAR    ${url}=    https://pixijs.com/8.x/examples/mesh-and-shaders/instanced-geometry
     Execute Command In Terminal    export ${environment}
     Execute Command In Terminal    mem_test "cog ${url}" ${TIME} 50    ${cmd_timeout}s
     Set Prompt For Terminal    root@${HOSTNAME}:${WORKDIR}#
@@ -53,11 +54,12 @@ COG001.002 Check memory usage on lightweight application
     ...    memory-light web application in Cog browser.
     ${cmd_timeout}=    Evaluate    int(${TIME}) + 500
     Execute Command In Terminal    mkdir memory_light && cd memory_light
-    ${environment}=    Catenate
+    VAR    ${environment}=
     ...    COG_PLATFORM_WL_VIEW_HEIGHT=720 COG_PLATFORM_WL_VIEW_WIDTH=1280
     ...    COG_PLATFORM_WL_VIEW_MAXIMIZE=0 WAYLAND_DISPLAY=wayland-1
     ...    XDG_RUNTIME_DIR=/run/user/0
-    ${url}=    Set Variable    https://www.timeanddate.com/worldclock/
+    ...    separator=${SPACE}
+    VAR    ${url}=    https://www.timeanddate.com/worldclock/
     Execute Command In Terminal    export ${environment}
     Execute Command In Terminal    mem_test "cog ${url}" ${TIME} 50    ${cmd_timeout}s
     Set Prompt For Terminal    root@${HOSTNAME}:${WORKDIR}#
@@ -68,11 +70,12 @@ COG002.001 Check for memory leaks using Heaptrack
     ...    browser.
     ${cmd_timeout}=    Evaluate    int(${TIME}) + 500
     Execute Command In Terminal    mkdir memleaks && cd memleaks
-    ${environment}=    Catenate
+    VAR    ${environment}=
     ...    COG_PLATFORM_WL_VIEW_HEIGHT=720 COG_PLATFORM_WL_VIEW_WIDTH=1280
     ...    COG_PLATFORM_WL_VIEW_MAXIMIZE=0 WAYLAND_DISPLAY=wayland-1
     ...    XDG_RUNTIME_DIR=/run/user/0
-    ${url}=    Set Variable    https://pixijs.com/8.x/examples/mesh-and-shaders/instanced-geometry
+    ...    separator=${SPACE}
+    VAR    ${url}=    https://pixijs.com/8.x/examples/mesh-and-shaders/instanced-geometry
     Execute Command In Terminal    export ${environment}
     #    Heaptrack cannot run in the background
     Write Into Terminal    heaptrack cog ${url}
@@ -93,7 +96,7 @@ Set Up Platform
 Set Up Variables
     ${out}=    Run Keyword And Return Status    Variable Should Exist    ${TIME}
     IF    ${out} == False
-        ${time}=    Set Variable    60
+        VAR    ${time}=    60
     END
     Variable Should Exist    ${HOSTNAME}
     Variable Should Exist    ${WORKDIR}

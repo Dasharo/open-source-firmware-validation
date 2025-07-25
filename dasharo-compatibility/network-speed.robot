@@ -40,10 +40,10 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
         ${lab_network_port}=    Get Value From User
         ...    [2/6] Enter DUT ethernet port number connected to lab network.    1
 
-        @{manual_eth_loop_setup}=    Create List
+        VAR    @{manual_eth_loop_setup}=
         ...    1. On DUT, disconnect lab network ethernet cable from port ${lab_network_port}
         ...    2. On DUT, connect both ethernet ports with Cat 6a patch cable.
-        @{manual_eth_restore}=    Create List
+        VAR    @{manual_eth_restore}=
         ...    1. On DUT, disconnect Cat 6a patch cable from both ethernet ports
         ...    2. On DUT, reconnect lab network ethernet cable to port ${lab_network_port}
 

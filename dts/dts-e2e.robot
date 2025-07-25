@@ -986,7 +986,7 @@ Teardown DTS Test
 
 Start New DTS SSH Session In QEMU
     [Documentation]    Changes connection method to ssh and logs in to DTS
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     Login To DTS Via SSH In QEMU
 
 Login To DTS Via SSH In QEMU

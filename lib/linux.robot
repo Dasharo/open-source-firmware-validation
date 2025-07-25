@@ -30,7 +30,7 @@ Check Unexpected Boot Errors
     [Documentation]    This keyword checks if any unexpected boot messages
     ...    appear in kernel logs. Messages with loglevel 3 (error) or lower
     ...    (more critical) are considered.
-    @{dmesg_err_allowlist}=    Create List
+    VAR    @{dmesg_err_allowlist}=    @{EMPTY}
     # Harmless error on Bluetooth modules
     Append To List    ${dmesg_err_allowlist}    Bluetooth: hci0: Malformed MSFT vendor event: 0x02
     # Intel AX-series WiFi+BT adapters throw these when debug features are disabled

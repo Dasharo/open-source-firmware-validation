@@ -63,7 +63,7 @@ Select State Of List Option In ME Menu (top-bottom)
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
-    ${me_states}=    Create List    Enabled    Disabled (Soft)
+    VAR    @{me_states}=    Enabled    Disabled (Soft)
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
         Check ME State
@@ -73,7 +73,7 @@ Select State Of List Option In ME Menu (bottom-top)
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
     Power On
-    ${me_states}=    Create List    Disabled (Soft)    Enabled
+    VAR    @{me_states}=    Disabled (Soft)    Enabled
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
         Check ME State

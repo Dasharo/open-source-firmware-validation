@@ -201,12 +201,12 @@ Set Password 5 Times
     # not accessible, hence we subtract one from received index
     ${index}=    Evaluate    ${index}-1
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
-    @{password1}=    Create List    m    j    u    7    ^    Y    H    E
-    @{password2}=    Create List    n    h    y    6    %    T    G    B
-    @{password3}=    Create List    b    g    t    5    $    R    F    V
-    @{password4}=    Create List    v    f    r    4    *    E    D    C
-    @{password5}=    Create List    x    s    w    2    !    Q    A    Z
-    @{passwords}=    Create List    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
+    VAR    @{password1}=    m    j    u    7    ^    Y    H    E
+    VAR    @{password2}=    n    h    y    6    %    T    G    B
+    VAR    @{password3}=    b    g    t    5    $    R    F    V
+    VAR    @{password4}=    v    f    r    4    *    E    D    C
+    VAR    @{password5}=    x    s    w    2    !    Q    A    Z
+    VAR    @{passwords}=    ${password1}    ${password2}    ${password3}    ${password4}    ${password5}
     Type In New Disk Password    ${password1}
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully

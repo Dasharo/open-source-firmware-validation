@@ -59,16 +59,18 @@ SAT001.205 SATA support in OS (XCP-NG)
 
     ${lsblk_out}=    Execute Command In Terminal    lsblk -d -o NAME -n
     @{disks}=    Split String    ${lsblk_out}    \n
-    ${sata_found}=    Set Variable    False
+    VAR    ${sata_found}=    False
 
     FOR    ${disk}    IN    @{disks}
         ${out}=    Execute Command In Terminal    sudo smartctl -i /dev/${disk}
         Log    ${out}
         ${sata_present}=    Run Keyword And Return Status    Should Contain    ${out}    SATA
-        IF    ${sata_present}    Set Test Variable    ${SATA_FOUND}    True
+        IF    ${sata_present}
+            VAR    ${sata_found}=    True
+        END
     END
 
-    IF    ${SATA_FOUND}    Pass Execution    SATA disk found, passing test
+    IF    ${sata_found}    Pass Execution    SATA disk found, passing test
     Fail    No SATA disk was found, failing test
 # TODO
 # SAT001.003 SATA support in OS (Windows)

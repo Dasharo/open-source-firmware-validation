@@ -60,7 +60,7 @@ Check USB Stick Detection In Edk2
     [Documentation]    Checks if the bootable USB devices are visible in the
     ...    boot menu.
     [Arguments]    ${boot_menu}
-    Set Local Variable    ${found}    ${FALSE}
+    VAR    ${found}=    ${FALSE}
 
     FOR    ${stick}    IN    @{USB_DEVICES_IN_EDK2}
         ${found}=    Run Keyword And Return Status    Should Contain Match    ${boot_menu}    *${stick}*

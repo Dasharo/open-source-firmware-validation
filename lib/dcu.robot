@@ -95,7 +95,7 @@ DCU Variable Set UEFI Option In DUT
     DCU Variable Set UEFI Option In File    tpm.rom    ${option_name}    ${value}
     DCU Variable Flash SMMSTORE    tpm.rom
     Execute Reboot Command
-    Set Suite Variable    ${BOOTED_OS_ID}    ${DEFAULT_BOOT_OS_ID}
+    VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=SUITE
     Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
     Sleep    20s
 

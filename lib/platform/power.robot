@@ -14,9 +14,9 @@ Resource            ../../keys.robot
 
 *** Keywords ***
 Check Power Supply
+    VAR    ${LAPTOP_PLATFORM}=    ${EMPTY}    scope=SUITE
     ${laptop_platform}=    Check The Platform Is A Laptop
-    Set Suite Variable    ${LAPTOP_PLATFORM}    ${laptop_platform}
-    IF    ${LAPTOP_PLATFORM}
+    IF    ${laptop_platform}
         IF    ${TESTS_IN_UBUNTU_SUPPORT}
             ${bat0_present}    ${ac_online}    ${usb_pd_online}=    Check Power Supply On Linux
         ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
@@ -26,9 +26,9 @@ Check Power Supply
         ELSE
             Fail    Fail: Check Power Supply is not implemented enough
         END
-        Set Suite Variable    ${BATTERY_PRESENT}    ${bat0_present}
-        Set Suite Variable    ${AC_CONNECTED}    ${ac_online}
-        Set Suite Variable    ${USB-PD_CONNECTED}    ${usb_pd_online}
+        VAR    ${BATTERY_PRESENT}=    ${bat0_present}    scope=SUITE
+        VAR    ${AC_CONNECTED}=    ${ac_online}    scope=SUITE
+        VAR    ${USB_PD_CONNECTED}=    ${usb_pd_online}    scope=SUITE
     END
 
 Check The Platform Is A Laptop
@@ -68,9 +68,13 @@ Check Power Supply On Windows
     # IF    ${ac_online_raw_empty}    or    ${ac_online_raw_equal_2}
     #    Set Local Variable    ${AC_ONLINE}=    ${TRUE}
     # END
-    ${ac_online}=    Set Variable If
-    ...    ${ac_online_empty}    ${TRUE}
-    ...    ${ac_online_equal_2}    ${TRUE}
+    IF    ${ac_online_empty}
+        VAR    ${ac_online}=    ${TRUE}
+    ELSE IF    ${ac_online_equal_2}
+        VAR    ${ac_online}=    ${TRUE}
+    ELSE
+        VAR    ${ac_online}=    ${None}
+    END
 
     # FIXME: USB-PD detection is not yet possible.
     Log    Check power supply USB-PD not implemented yet    WARN

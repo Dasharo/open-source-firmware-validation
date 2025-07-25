@@ -86,7 +86,7 @@ Measure Coldboot Time
     ...    boot time
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
     Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
-    ${durations}=    Create List
+    VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
@@ -107,7 +107,7 @@ Measure Warmboot Time
     [Documentation]    Performs a measurement of warmboot
     ...    boot time
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
-    ${durations}=    Create List
+    VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
@@ -130,8 +130,8 @@ Measure Reboot Time
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
     Power On
-    ${average}=    Set Variable    0
-    ${durations}=    Create List
+    VAR    ${average}=    0
+    VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1

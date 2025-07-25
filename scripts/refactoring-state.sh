@@ -65,6 +65,7 @@ vars_to_remove=(
 "PIKVM_IP"
 "DL_CACHE_DIR"
 "USB_TYPE-A_DEVICES_DETECTION_SUPPORT"
+"USB-PD_CONNECTED"
 )
 
 echo "Global variables that should not be used, but are still used:"
@@ -83,5 +84,19 @@ echo "Resources that should not be used, but are still used:"
 find . -type f -name "*.robot" | while IFS= read -r file; do
   for resource in "${resources_to_remove[@]}"; do
       grep -n -H "$resource" "$file"
+  done
+done
+
+See this issue:
+https://github.com/Dasharo/open-source-firmware-validation/pull/501
+rf_syntax_workarounds=(
+"'None'"
+"\"None\""
+)
+
+echo "Old RF syntax workarounds:"
+find . -type f -name "*.robot" | while IFS= read -r file; do
+  for workaround in "${rf_syntax_workarounds[@]}"; do
+      grep -n -i -H "$workaround" "$file"
   done
 done

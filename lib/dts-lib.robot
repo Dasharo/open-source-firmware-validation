@@ -114,7 +114,7 @@ Boot Dasharo Tools Suite
         Set Timeout    ${old_timeout}
         # Enable SSH server and switch to SSH connection by writing on video console "in blind"
         Write Bare Into Terminal    K
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
         Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
         Write Into Terminal    dts-boot
@@ -126,7 +126,7 @@ Check HCL Report Creation
     [Documentation]    Keyword allows to check if the Dasharo Tools Suite
     ...    option for creating HCL report works correctly.
     Enter Shell In DTS
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     Execute Command In Terminal    cd /
     ${logs}=    Execute Command In Terminal
     ...    command=/usr/bin/env DEPLOY_REPORT=false SEND_LOGS=true /usr/sbin/dasharo-hcl-report
@@ -259,12 +259,12 @@ Wait For Either Checkpoint And Write
     [Documentation]    Keywords waits for any of the ${checkpoints} key and if
     ...    it matches then writes value of this element to the console
     [Arguments]    &{checkpoints}
-    ${regexp}=    Set Variable    ${EMPTY}
+    VAR    ${regexp}=    ${EMPTY}
     # Iterate over keys (checkpoints)
     FOR    ${checkpoint}    IN    @{checkpoints}
         ${checkpoint_escaped}=    Evaluate
         ...    re.escape("""${checkpoint}""")
-        ${regexp}=    Set Variable    ${regexp}${checkpoint_escaped}|
+        VAR    ${regexp}=    ${regexp}${checkpoint_escaped}|
     END
     # Remove trailing |
     ${regexp}=    Get Substring    ${regexp}    0    -1

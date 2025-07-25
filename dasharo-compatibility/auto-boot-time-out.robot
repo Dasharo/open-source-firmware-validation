@@ -98,7 +98,7 @@ Try To Insert Non-numeric Values Into Numeric Option
     [Tags]    robot:private
     [Arguments]    ${menu}    ${option}
 
-    ${non_numeric_characters}=    Set Variable
+    VAR    ${non_numeric_characters}=
     ...    abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()`~<>,./?;:'\|""[]{}=+-_
     ${current_state}=    Get Option State    ${menu}    ${option}
     ${type}=    Get Option Type    ${current_state}

@@ -33,7 +33,7 @@ UBT001.001 USB detect and boot after coldboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after coldboot (reboot
     ...    realized by power supply cutting off then cutting on).
-    Set Local Variable    ${failed_boot}    0
+    VAR    ${failed_boot}=    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power Cycle On
@@ -50,7 +50,7 @@ UBT002.001 USB detect and boot after warmboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after warmboot (reboot
     ...    realized by device turning off then turning on).
-    Set Local Variable    ${failed_boot}    0
+    VAR    ${failed_boot}=    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Power On
@@ -67,7 +67,7 @@ UBT003.001 USB detect and boot after system reboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after system reboot
     ...    (reboot performing by relevant command).
-    Set Local Variable    ${failed_boot}    0
+    VAR    ${failed_boot}=    0
     Power On
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY

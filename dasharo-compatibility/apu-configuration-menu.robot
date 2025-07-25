@@ -61,12 +61,12 @@ APU003.001 Disable apu2 watchdog
     Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Now just wait more than the default timeout to
     # make sure the watchdog does not reset the platform anymore.
-    ${platform_has_reset}=    Set Variable    ${TRUE}
+    VAR    ${platform_has_reset}=    ${TRUE}
     Set DUT Response Timeout    70s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
-        ${platform_has_reset}=    Set Variable    ${FALSE}
+        VAR    ${platform_has_reset}=    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
 
@@ -84,12 +84,12 @@ APU004.001 Change apu2 watchdog timeout
     Enter Setup Menu Tianocore And Return Construction
     # We're in the setup menu. Wait 60s to make sure platform does not reset
     # after the default timeout of 60s.
-    ${platform_has_reset}=    Set Variable    ${TRUE}
+    VAR    ${platform_has_reset}=    ${TRUE}
     Set DUT Response Timeout    60s
     TRY
         Read From Terminal Until    ${TIANOCORE_STRING}
     EXCEPT
-        ${platform_has_reset}=    Set Variable    ${FALSE}
+        VAR    ${platform_has_reset}=    ${FALSE}
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
     # Now wait another 70s to make sure the platform resets within 120s of boot.

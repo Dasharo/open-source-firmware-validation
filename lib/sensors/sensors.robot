@@ -21,19 +21,20 @@ Prepare Sensors
     ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
     ${fan_rpm_measurement_method}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    method
 
-    ${lm_sensors_used}=    Catenate
+    VAR    ${lm_sensors_used}=
     ...    '''${cpu_temperature_measurement_method}''' == '''system76-acpi''' or
     ...    '''${cpu_temperature_measurement_method}''' == '''lm-sensors''' or
     ...    '''${fan_rpm_measurement_method}''' != '''lm-sensors''' or
     ...    '''${fan_pwm_measurement_method}''' == '''lm-sensors'''
+    ...    separator=${SPACE}
     ${lm_sensors_used}=    Evaluate    ${lm_sensors_used}
 
     FOR    ${module}    IN    @{SENSORS_KERNEL_MODULES}
         ${module_name}=    Get From Dictionary    ${module}    module
         ${force_id}=    Get From Dictionary    ${module}    force_id
-        ${optional_force_id}=    Set Variable    ${EMPTY}
+        VAR    ${optional_force_id}=    ${EMPTY}
         IF    '''${force_id}''' != '''none'''
-            ${optional_force_id}=    Set Variable    force_id=${force_id}
+            VAR    ${optional_force_id}=    force_id=${force_id}
         END
         Execute Command In Terminal    modprobe ${module_name} ${optional_force_id}
     END

@@ -240,20 +240,24 @@ Run Ansible Playbooks
         Check Internet Connection On Linux
 
         # Create temporary inventory file for given platform and OS
-        ${inventory_file}=    Catenate    [host] \n
+        VAR    ${inventory_file}=
+        ...    [host] \n
         ...    ${DEVICE_IP} ansible_user=${DEVICE_OS_USERNAME}
         ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_sudo_pass=${DEVICE_OS_PASSWORD}
         ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+        ...    separator=${SPACE}
         ${tmp_file_rand}=    Generate Random String    length=16
-        ${tmp_inventory_filename}=    Set Variable    ansible_inventory_${tmp_file_rand}.yaml
+        VAR    ${tmp_inventory_filename}=    ansible_inventory_${tmp_file_rand}.yaml
         Create File    ${tmp_inventory_filename}    ${inventory_file}
 
         # Prepare and run ansible-playbook command
-        ${ansible_cmd}=    Catenate    ansible-playbook
+        VAR    ${ansible_cmd}=
+        ...    ansible-playbook
         ...    os-config/ansible/linux-packages-playbook.yaml
         ...    -i ${tmp_inventory_filename}
         ...    --extra-vars "os_id=${distro_id}"
         ...    --timeout 300
+        ...    separator=${SPACE}
         ${rc}    ${out}=    Run And Return Rc And Output    ${ansible_cmd}
         Log To Console    ${out}
 

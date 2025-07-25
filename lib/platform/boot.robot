@@ -37,11 +37,11 @@ Set Selected OS As First In Boot Order Via EDK2
     # they used to
     IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
         IF    "${system_name}" == "ubuntu"
-            ${system_name}=    Set Variable    Ubuntu
+            VAR    ${system_name}=    Ubuntu
         ELSE IF    "${system_name}" == "fedora"
-            ${system_name}=    Set Variable    Fedora
+            VAR    ${system_name}=    Fedora
         ELSE IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
-            ${system_name}=    Set Variable    QEMU HARDDISK
+            VAR    ${system_name}=    QEMU HARDDISK
         END
     END
 
@@ -58,17 +58,17 @@ Set Selected OS As First In Boot Order Via EDK2
     Press Enter
     ${os_list_raw}=    Read From Terminal Until    ---/
     ${os_list}=    Extract Strings From Frame    ${os_list_raw}
-    ${first_item}=    Set Variable    ${os_list}[0]
+    VAR    ${first_item}=    ${os_list}[0]
     ${is_first}=    Run Keyword And Return Status    Should Contain    ${first_item}    ${system_name}
 
     IF    '${is_first}' == 'False'
-        ${index}=    Set Variable    -1
+        VAR    ${index}=    -1
         FOR    ${i}    ${item}    IN ENUMERATE    @{os_list}
             ${item_lower}=    Convert To Lowercase    ${item}
             ${system_lower}=    Convert To Lowercase    ${system_name}
             ${found}=    Run Keyword And Return Status    Should Contain    ${item_lower}    ${system_lower}
             IF    '${found}' == 'True'
-                ${index}=    Set Variable    ${i}
+                VAR    ${index}=    ${i}
                 BREAK
             END
         END
@@ -125,9 +125,8 @@ Set Selected OS As First In Boot Order Via Efibootmgr
         ...    efibootmgr | grep "BootOrder" | awk '{print $2}' | sed -e 's/,${os_boot_id}//g'
         Should Not Be Empty    ${boot_order_trimmed}
 
-        ${set_order_cmd}=    Set Variable    efibootmgr -o
-        ${set_order_cmd}=    Catenate    ${set_order_cmd}
-        ...    ${os_boot_id},${boot_order_trimmed}
+        VAR    ${set_order_cmd}=    efibootmgr -o
+        VAR    ${set_order_cmd}=    ${set_order_cmd}    ${os_boot_id},${boot_order_trimmed}    separator=${SPACE}
 
         ${out}=    Execute Linux Command    ${set_order_cmd}
         Should Contain    ${out}    BootOrder: ${os_boot_id}
@@ -154,11 +153,11 @@ Verify Selected OS As First In Boot Order Via EDK2
     # they used to
     IF    ${ESP_SCANNING_SUPPORT} == ${TRUE}
         IF    "${system_name}" == "ubuntu"
-            ${system_name}=    Set Variable    Ubuntu
+            VAR    ${system_name}=    Ubuntu
         ELSE IF    "${system_name}" == "fedora"
-            ${system_name}=    Set Variable    Fedora
+            VAR    ${system_name}=    Fedora
         ELSE IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
-            ${system_name}=    Set Variable    QEMU HARDDISK
+            VAR    ${system_name}=    QEMU HARDDISK
         END
     END
 

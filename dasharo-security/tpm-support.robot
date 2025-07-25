@@ -162,8 +162,7 @@ TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
     ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
     Reenter Menu
     Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
-    ${checkpoint}=    Set Variable
-    ...    \---------------------------------------------------------------------/
+    VAR    ${checkpoint}=    \---------------------------------------------------------------------/
     ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
     Enter Submenu From Snapshot    ${tpm2_operation_menu}    TCG2 LogAllDigests
     Save Changes And Reset
@@ -214,8 +213,7 @@ TPM012.201 Check if the ChangeEPS works (Ubuntu)
     ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
     Reenter Menu
     Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
-    ${checkpoint}=    Set Variable
-    ...    \---------------------------------------------------------------------/
+    VAR    ${checkpoint}=    \---------------------------------------------------------------------/
     ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
     Enter Submenu From Snapshot    ${tpm2_operation_menu}    TPM2 ChangeEPS
     Save Changes And Reset

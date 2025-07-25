@@ -334,13 +334,13 @@ Execute UEFI Shell Command
     ${input_delay}=    Evaluate    ${length} * ${uefi_shell_input_latency}
 
     # Split command into chunks of max 15 characters
-    ${chunks}=    Create List
+    VAR    @{chunks}=    @{EMPTY}
     ${index}=    Convert To Integer    0
     WHILE    ${index} < ${length}
         ${end_index}=    Evaluate    ${index} + 15
         ${chunk}=    Evaluate    "${command}"[${index}:${end_index}]
         Append To List    ${chunks}    ${chunk}
-        ${index}=    Set Variable    ${end_index}
+        VAR    ${index}=    ${end_index}
     END
 
     # Write each chunk separately

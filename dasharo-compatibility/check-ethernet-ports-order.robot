@@ -37,7 +37,7 @@ SPS001.001 Ethernet ports are in order
 Get PCIe
     ${lspci_output}=    Execute Command In Terminal    lspci -nn |grep "${ETHERNET_ID}"
     @{lines}=    Split String    ${lspci_output}    \n
-    ${ethernet_devs}=    Create List
+    VAR    @{ethernet_devs}=    @{EMPTY}
     FOR    ${line}    IN    @{lines}
         ${dev}=    Evaluate    '${line}'.split()[0]
         Append To List    ${ethernet_devs}    ${dev}
@@ -47,7 +47,7 @@ Get PCIe
 Get MACs
     [Documentation]    Extract MAC addresses from lspci output.
     ${ethernet_devs}=    Get PCIe
-    ${pci_devices}=    Create List
+    VAR    @{pci_devices}=    @{EMPTY}
     FOR    ${dev}    IN    @{ethernet_devs}
         ${lspci_output}=    Execute Command In Terminal    lspci -s ${dev} -v |grep "Device Serial"
         Append PCIe MAC    ${lspci_output}    ${pci_devices}

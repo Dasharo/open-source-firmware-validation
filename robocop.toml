@@ -57,7 +57,7 @@ configure = [
     # TODO: consider reducing to default 10, or less
     "too-many-calls-in-keyword.max_calls=50",
     # TODO: consider reducing to dfeault 20, or less
-    "too-long-test-case.max_len=50",
+    "too-long-test-case.max_len=80",
     # TODO: consider reducing to dfeault 10, or less
     "too-many-calls-in-test-case.max_calls=50",
     # TODO: reduce to default 400 or so
@@ -98,6 +98,7 @@ select = [
     "ReplaceEmptyValues",
     "ReplaceReturns",
     "ReplaceRunKeywordIf",
+    "ReplaceWithVAR",
     "SplitTooLongLine",
 ]
 
@@ -111,6 +112,7 @@ configure = [
     "RenameKeywords.ignore_library=False",
     "RenameVariables.settings_section_case=upper",
     "RenameVariables.variables_section_case=upper",
+    "RenameVariables.unknown_variables_case=upper",
     "RenameVariables.variable_separator=underscore",
     "SplitTooLongLine.split_single_value=True",
     "SplitTooLongLine.align_new_line=True",

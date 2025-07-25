@@ -11,17 +11,17 @@ Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
     [Arguments]    ${source_path}    ${target_path}
     ${filename}=    Evaluate    os.path.basename(r"${target_path}")
-    ${tmp_target}=    Set Variable    /tmp/${filename}
+    VAR    ${tmp_target}=    /tmp/${filename}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         IF    '${MANUFACTURER}' == 'QEMU'
-            Set Local Variable    ${ip_address}    localhost
-            Set Local Variable    ${port}    5222
+            VAR    ${ip_address}=    localhost
+            VAR    ${port}=    5222
         ELSE
             Wait Until Keyword Succeeds    5x    10s
             ...    Get Hostname Ip
             ${ip_address}=    Get Hostname Ip
-            Set Local Variable    ${port}    22
+            VAR    ${port}=    22
         END
         Execute Command In Terminal    rm -f ${target_path}
         SSHLibrary.Open Connection    ${ip_address}    port=${port}
@@ -49,13 +49,13 @@ Get File From DUT
 
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         IF    '${MANUFACTURER}' == 'QEMU'
-            Set Local Variable    ${ip_address}    localhost
-            Set Local Variable    ${port}    5222
+            VAR    ${ip_address}=    localhost
+            VAR    ${port}=    5222
         ELSE
             Wait Until Keyword Succeeds    5x    10s
             ...    Get Hostname Ip
             ${ip_address}=    Get Hostname Ip
-            Set Local Variable    ${port}    22
+            VAR    ${port}=    22
         END
         SSHLibrary.Open Connection    ${ip_address}    port=${port}
         SSHLibrary.Login    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}

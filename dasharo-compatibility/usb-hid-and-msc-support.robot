@@ -220,9 +220,9 @@ Prepare USB HID Test Suite
     [Tags]    robot:private
     Prepare Test Suite
     IF    "${DEVICE_USB_KEYBOARD}" != "${EMPTY}" or "${DUT_CONNECTION_METHOD}" == "pikvm"
-        Set Suite Variable    $HAS_KEYBOARD    ${TRUE}
+        VAR    ${HAS_KEYBOARD}=    ${TRUE}    scope=SUITE
     ELSE
-        Set Suite Variable    $HAS_KEYBOARD    ${FALSE}
+        VAR    ${HAS_KEYBOARD}=    ${FALSE}    scope=SUITE
     END
 
     IF    "${DUT_CONNECTION_METHOD}" == "pikvm"
@@ -232,7 +232,7 @@ Prepare USB HID Test Suite
     # Assume for now that we always have USB storage attached. In fact, all of
     # the platforms as of today should have the USB drive with DTS attached.
     # Refer to the lib/usb-hid-msc-lib.robot
-    Set Suite Variable    $HAS_USB_STORAGE    ${TRUE}
+    VAR    ${HAS_USB_STORAGE}=    ${TRUE}    scope=SUITE
     Skip If    not ${HAS_KEYBOARD} and not ${HAS_USB_STORAGE}
     ...    Platform doesn't have USB keyboard or USB storage attached
 

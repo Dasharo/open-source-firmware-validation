@@ -30,7 +30,7 @@ Get CPU Frequency MIN
 Get CPU Frequencies In Ubuntu
     [Documentation]    Get all CPU frequencies in Ubuntu OS. Keyword returns
     ...    list of current CPU frequencies
-    @{frequency_list}=    Create List
+    VAR    @{frequency_list}=    @{EMPTY}
     ${output}=    Execute Command In Terminal    cat /proc/cpuinfo
     ${output}=    Get Lines Containing String    ${output}    cpu MHz
     @{frequencies}=    Split To Lines    ${output}
@@ -43,14 +43,14 @@ Get CPU Frequencies In Ubuntu
 
 Check If CPU Not Stuck On Initial Frequency In Linux
     [Documentation]    Check that CPU not stuck on initial frequency.
-    ${are_frequencies_equal}=    Set Variable    ${TRUE}
+    VAR    ${are_frequencies_equal}=    ${TRUE}
     @{frequencies}=    Get CPU Frequencies In Ubuntu
     ${first_frequency}=    Get From List    ${frequencies}    0
     FOR    ${frequency}    IN    @{frequencies}
         IF    ${frequency} != ${first_frequency}
-            ${are_frequencies_equal}=    Set Variable    ${FALSE}
+            VAR    ${are_frequencies_equal}=    ${FALSE}
         ELSE
-            ${are_frequencies_equal}=    Set Variable    ${NONE}
+            VAR    ${are_frequencies_equal}=    ${NONE}
         END
         IF    '${are_frequencies_equal}'=='False'    BREAK
     END
@@ -92,11 +92,13 @@ Stress Test
     [Documentation]    Proceed with the stress test.
     [Arguments]    ${time}=60s    ${workers}=$(nproc)    ${load_percent}=100    ${start_delay_seconds}=0
 
-    ${cmd}=    Catenate    $(
+    VAR    ${cmd}=
+    ...    $(
     ...    pkill stress-ng;
     ...    sleep ${start_delay_seconds};
     ...    stress-ng --cpu ${workers} --cpu-load ${load_percent} --timeout ${time} -q &> /dev/null
     ...    ) & disown
+    ...    separator=${SPACE}
     Execute Command In Terminal    ${cmd}
 
 Stress Test Stop

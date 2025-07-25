@@ -82,7 +82,7 @@ Perform Custom Fan Curve Test
     [Documentation]    Performs a Custom Fan Curve test for a given profile
     [Arguments]    ${profile}
     Prepare Sensors
-    ${measurements}=    Create List
+    VAR    @{measurements}=    @{EMPTY}
     ${stress_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}*5
     ${cpu_count}=    Execute Command In Terminal    nproc
     ${fan_mode}=    Get Fan Measurement Unit Name
@@ -91,7 +91,7 @@ Perform Custom Fan Curve Test
         Stress Test    time=${stress_len}s    load_percent=${cpu_usage}
         Sleep    1s    Let the CPU temperature stabilize
         ${current_time}=    Evaluate    time.time()
-        ${start_time}=    Set Variable    ${current_time}
+        VAR    ${start_time}=    ${current_time}
         ${end_time}=    Evaluate    ${start_time} + ${CUSTOM_FAN_CURVE_TEST_DURATION}
 
         WHILE    ${current_time} < ${end_time}
@@ -131,9 +131,7 @@ Measure And Verify
     ${result}    ${expected}=    Verify Fan Speeds
     ...    ${range_data}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
     ${tolerance}=    Get From Dictionary    ${range_data}    tolerance_${fan_mode}
-    ${measurement}=    Create Dictionary    temp=${cpu_temp}
-    ...    speed=${fan_speed}    expected=${expected}
-    ...    tolerance=${tolerance}
+    VAR    &{measurement}=    temp=${cpu_temp}    speed=${fan_speed}    expected=${expected}    tolerance=${tolerance}
     Log To Console
     ...    ${cpu_temp}C - ${fan_speed} ${fan_mode} (expected: ${expected} ${fan_mode} +/- ${tolerance})
     RETURN    ${result}    ${measurement}
@@ -141,9 +139,9 @@ Measure And Verify
 Save Measurements
     [Documentation]    Saves fan speed & temp measurements to csv file
     [Arguments]    ${measurements}    ${name}
-    ${columns}=    Create List    temp    speed    expected    tolerance
-    ${filename}=    Set Variable    fan_speeds_${name}
-    ${file_path}=    Set Variable    ${LOGS_DIR}/${filename}
+    VAR    @{columns}=    temp    speed    expected    tolerance
+    VAR    ${filename}=    fan_speeds_${name}
+    VAR    ${file_path}=    ${LOGS_DIR}/${filename}
     CSVLibrary.Csv File From Associative    ${file_path}.csv    ${measurements}    ${columns}
     ${image}=    Plot Fan Curve    ${file_path}    Fan speeds ${name}
     RETURN    ${image}
@@ -163,7 +161,7 @@ Verify Fan Speeds
 
     # RPM Measurements are not as precise as PWM. The margin of error has to be much larger.
     IF    '${fan_mode}' == 'rpm'
-        ${smoothing}=    Set Variable    ${tolerance}
+        VAR    ${smoothing}=    ${tolerance}
     ELSE IF    '${fan_mode}' == 'pwm' and ${expected_fan_speed} < 35
         ${smoothing}=    Evaluate    1
     ELSE

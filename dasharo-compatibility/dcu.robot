@@ -145,8 +145,8 @@ Verify SMMSTORE Changes (DCU)
     [Arguments]    ${os_id}
     # Initial value cannot be checked and restored using DCU because the
     # variable store may not be initialized yet.
-    ${initial_value}=    Set Variable    ${FALSE}
-    ${new_value}=    Set Variable    ${TRUE}
+    VAR    ${initial_value}=    ${FALSE}
+    VAR    ${new_value}=    ${TRUE}
 
     Login To Linux
     Switch To Root User
@@ -227,7 +227,7 @@ Change The Bootsplash Logo
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
-    ${img_sum}=    Set Variable    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
+    VAR    ${img_sum}=    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
     ${logo_path}=    Join Path    ${TEST_DATA_DIR}/dcu    logo.bmp
     Read Firmware    ${FW_COPY}
     DCU Logo Set In File    ${FW_COPY}    ${logo_path}
@@ -236,7 +236,7 @@ Change The Bootsplash Logo
 
     Power On
     Boot System Or From Connected Disk    ${os_id}
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     Login To Linux
     Switch To Root User
 

@@ -112,7 +112,7 @@ SUSP007.202 Cyclic platform suspend and resume (Fedora) (S3)
 *** Keywords ***
 Cyclic Platform Suspend And Resume
     [Arguments]    ${platform_sleep_type}=${EMPTY}
-    ${suspend_detected_fails}=    Set Variable    ${0}
+    VAR    ${suspend_detected_fails}=    ${0}
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     FOR    ${index}    IN RANGE    0    ${SUSPEND_ITERATIONS_NUMBER}
         ${is_suspend_performed_correctly}=    Perform Suspend Test Using FWTS

@@ -49,8 +49,8 @@ TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu)
     [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
     ...    functions are working properly.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
-    ${sha1}=    Set Variable    f1d2d2f924e986ac86fdf7b36c94bcdf32beec15
-    ${sha256}=    Set Variable    b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c
+    VAR    ${sha1}=    f1d2d2f924e986ac86fdf7b36c94bcdf32beec15
+    VAR    ${sha256}=    b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c
     ${sha1_0s}=    Evaluate    "0" * 40
     ${sha256_0s}=    Evaluate    "0" * 64
     Execute Linux Command    tpm2_pcrreset 23
@@ -64,9 +64,9 @@ TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu)
     ${sha256}=    Evaluate    "0" * 64 + "${sha256}"
     # Calculate shasum of result
     ${sha1}=    Execute Linux Command    echo -n ${sha1} | xxd -r -p | sha1sum
-    ${sha1}=    Set Variable    ${sha1.split()}[0]
+    VAR    ${sha1}=    ${sha1.split()}[0]
     ${sha256}=    Execute Linux Command    echo -n ${sha256} | xxd -r -p | sha256sum
-    ${sha256}=    Set Variable    ${sha256.split()}[0]
+    VAR    ${sha256}=    ${sha256.split()}[0]
     # Compare with PCR values reported by TPM
     IF    ${SHA1_ENABLED}
         Should Contain    ${out1}    23: 0x${sha1_0s}
@@ -106,9 +106,9 @@ TPMCMD004.001 PCREVENT Function (Ubuntu)
     ${out}=    Execute Linux Command    tpm2_pcrevent 23 data
     # Calculate file shasums and compare with result of tpm2_pcrevent
     ${sha1}=    Execute Linux Command    sha1sum data
-    ${sha1}=    Set Variable    ${sha1.split()}[0]
+    VAR    ${sha1}=    ${sha1.split()}[0]
     ${sha256}=    Execute Linux Command    sha256sum data
-    ${sha256}=    Set Variable    ${sha256.split()}[0]
+    VAR    ${sha256}=    ${sha256.split()}[0]
     Execute Linux Command    rm -f data
     IF    ${SHA1_ENABLED}    Should Contain    ${out}    sha1: ${sha1}
     IF    ${SHA256_ENABLED}    Should Contain    ${out}    sha256: ${sha256}
@@ -117,9 +117,9 @@ TPMCMD004.001 PCREVENT Function (Ubuntu)
     ${sha256}=    Evaluate    "0" * 64 + "${sha256}"
     # Calculate shasum of result
     ${sha1}=    Execute Linux Command    echo -n ${sha1} | xxd -r -p | sha1sum
-    ${sha1}=    Set Variable    ${sha1.split()}[0]
+    VAR    ${sha1}=    ${sha1.split()}[0]
     ${sha256}=    Execute Linux Command    echo -n ${sha256} | xxd -r -p | sha256sum
-    ${sha256}=    Set Variable    ${sha256.split()}[0]
+    VAR    ${sha256}=    ${sha256.split()}[0]
     # Compare with PCR values reported by TPM
     ${out}=    Execute Linux Command    tpm2_pcrread
     IF    ${SHA1_ENABLED}    Should Contain    ${out}    23: 0x${sha1.upper()}

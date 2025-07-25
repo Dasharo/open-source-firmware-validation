@@ -77,7 +77,7 @@ RAM Size Detected In OS
     ${actual_kb}=    Convert To Integer    ${mem_kb_str}[0]
 
     ${delta}=    Evaluate    abs(${actual_kb} - ${expected_kb})
-    ${tolerance}=    Set Variable    524288    # 512 MB tolerance
+    VAR    ${tolerance}=    524288    # 512 MB tolerance
 
     Run Keyword Unless
     ...    ${delta} < ${tolerance}

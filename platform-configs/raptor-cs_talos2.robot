@@ -290,7 +290,7 @@ Set Chassis Power State
 Power On
     [Documentation]    Implementation of keywords.Power On
     Variable Should Exist    ${OPENBMC_HOST}
-    Set Global Variable    ${AUTH_URI}    https://${OPENBMC_HOST}${AUTH_SUFFIX}
+    VAR    ${AUTH_URI}=    https://${OPENBMC_HOST}${AUTH_SUFFIX}    scope=GLOBAL
     ${host_state}=    Get Host State
     IF    '${host_state}' != 'Off'    Initiate Host PowerOff
     ${host_state}=    Get Host State
@@ -380,8 +380,7 @@ Flash Petitboot From OpenBMC
 Flash Heads From OpenBMC
     [Documentation]    Keyword flashes BOOTKERNEL partition to install Heads.
     [Arguments]    ${bootblock_file}    ${coreboot_file}    ${z_image_file}
-    ${heads_already_flashed}=    Get Variable Value    ${HEADS_ALREADY_FLASHED}    ${FALSE}
-    IF    ${heads_already_flashed}    RETURN
+    IF    ${HEADS_ALREADY_FLASHED}    RETURN
     Open OBMC Service Connection
     SCP.Open Connection    ${DEVICE_IP}    username=${OPEN_BMC_USERNAME}    password=${OPEN_BMC_PASSWORD}
     SCP.Put File    ${bootblock_file}    /tmp/bootblock.rom
@@ -403,7 +402,7 @@ Flash Heads From OpenBMC
     Read From Terminal Until    Programming & Verifying...
     Read From Terminal Until    ${OPEN_BMC_ROOT_PROMPT}
     Close OBMC Service Connection
-    Set Global Variable    ${HEADS_ALREADY_FLASHED}    ${TRUE}
+    VAR    ${HEADS_ALREADY_FLASHED}=    ${TRUE}    scope=GLOBAL
 
 Check TPM PCRs Correctness
     [Documentation]    Keyword allows to checking the TPM PCRs correctness.

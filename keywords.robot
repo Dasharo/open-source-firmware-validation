@@ -43,7 +43,7 @@ Login To Linux
         # not have Linux prompt. We try logging in multiple times anyway, so
         # this should not be a huge problem.
         # Read From Terminal Until    login:
-        Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Wait Until Keyword Succeeds
@@ -74,10 +74,10 @@ Login To Windows
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
@@ -91,10 +91,10 @@ Login To OS
     Boot System Or From Connected Disk    ${env_id}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
@@ -112,10 +112,15 @@ Serial Root Login Linux
     ${status1}=    Evaluate    "voyage" in """${output}"""
     ${status2}=    Evaluate    "debian login" in """${output}"""
     ${status3}=    Evaluate    "ubuntu login" in """${output}"""
-    ${passwd}=    Set Variable If    ${status1}    voyage
-    ...    ${status2}    debian
-    ...    ${status3}    ubuntu
-    ...    ${password}
+    IF    ${status1}
+        VAR    ${passwd}=    voyage
+    ELSE IF    ${status2}
+        VAR    ${passwd}=    debian
+    ELSE IF    ${status3}
+        VAR    ${passwd}=    ubuntu
+    ELSE
+        VAR    ${passwd}=    ${password}
+    END
     Telnet.Write Bare    \n
     Telnet.Login    root    ${passwd}
 
@@ -196,7 +201,7 @@ Login To Windows Via SSH
             # Run Keyword Until Succeeds?
             Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
-            Set Test Variable    ${DUT_CONNECTION_METHOD}    SSH
+            VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
         END
     END
     IF    ${reboot_count} >= 1
@@ -248,16 +253,16 @@ Open Connection And Log In
     Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
     IF    '${SNIPEIT}'=='no'    RETURN
     ${already_checked_out_manually}=    SnipeIt Checkout    ${RTE_IP}
-    Set Global Variable    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}    ${already_checked_out_manually}
+    VAR    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}=    ${already_checked_out_manually}    scope=GLOBAL
 
 Check Provided Ip
     [Documentation]    Check the correctness of the provided ip address, if the
     ...    address is not found in the RTE list, fail the test.
-    ${index}=    Set Variable    ${0}
+    VAR    ${index}=    ${0}
     FOR    ${item}    IN    @{RTE_LIST}
         ${result}=    Evaluate    ${item}.get("ip")
         IF    '${result}'=='${RTE_IP}'    RETURN
-        ${index}=    Set Variable    ${index+1}
+        VAR    ${index}=    ${index+1}
     END
     Fail    rte_ip:${RTE_IP} not found in the hardware configuration.
 
@@ -309,9 +314,17 @@ Get Firmware Version From Binary
     ${coreboot_version2}=    Run    strings ${binary_path}|grep CONFIG_LOCALVERSION|cut -d"=" -f 2|tr -d '"'
     ${coreboot_version3}=    Run    strings ${binary_path}|grep -w COREBOOT_VERSION|cut -d" " -f 3|tr -d '"'
     ${version_length1}=    Get Length    ${coreboot_version1}
-    ${coreboot_version}=    Set Variable If    ${version_length1} == 0    ${coreboot_version2}    ${coreboot_version1}
+    IF    ${version_length1} == 0
+        VAR    ${coreboot_version}=    ${coreboot_version2}
+    ELSE
+        VAR    ${coreboot_version}=    ${coreboot_version1}
+    END
     ${version_length}=    Get Length    ${coreboot_version}
-    ${coreboot_version}=    Set Variable If    ${version_length} == 0    ${coreboot_version3}    ${coreboot_version}
+    IF    ${version_length} == 0
+        VAR    ${coreboot_version}=    ${coreboot_version3}
+    ELSE
+        VAR    ${coreboot_version}=    ${coreboot_version}
+    END
     RETURN    ${coreboot_version}
 
 Get Firmware Version From UEFI Shell
@@ -348,7 +361,7 @@ Get Firmware Version
     ELSE IF    '${FLASH_VERIFY_METHOD}'=='none'
         ${version}=    Get Firmware Version From Binary    ${FW_FILE}
     ELSE
-        ${version}=    Set Variable    ${NONE}
+        VAR    ${version}=    ${NONE}
     END
     RETURN    ${version}
 
@@ -372,10 +385,10 @@ Get Current RTE
     [Documentation]    Returns RTE index from RTE list taken as an argument.
     ...    Returns -1 if CPU ID not found in variables.robot.
     [Arguments]    @{rte_list}
-    ${index}=    Set Variable    ${0}
+    VAR    ${index}=    ${0}
     FOR    ${item}    IN    @{rte_list}
         IF    '${item.ip}' == '${RTE_IP}'    RETURN    ${index}
-        ${index}=    Set Variable    ${index+1}
+        VAR    ${index}=    ${index+1}
     END
     RETURN    ${-1}
 
@@ -394,11 +407,11 @@ Get Current CONFIG Start Index
     [Arguments]    ${config_list}
     ${rte_ip}=    Get Current RTE Param    ip
     Should Not Be Equal    ${rte_ip}    ${-1}    msg=RTE not found in hw-matrix
-    ${index}=    Set Variable    ${0}
+    VAR    ${index}=    ${0}
     FOR    ${config}    IN    @{config_list}
         ${result}=    Evaluate    ${config}.get("ip")
         IF    '${result}'=='${rte_ip}'    RETURN    ${index}
-        ${index}=    Set Variable    ${index+1}
+        VAR    ${index}=    ${index+1}
     END
     RETURN    ${-1}
 
@@ -408,12 +421,12 @@ Get Current CONFIG Stop Index
     ...    Returns -1 if CONFIG not found in variables.robot.
     [Arguments]    ${config_list}    ${start}
     ${length}=    Get Length    ${config_list}
-    ${index}=    Set Variable    ${start}
+    VAR    ${index}=    ${start}
     FOR    ${config}    IN    @{config_list[${index}:]}
         ${result}=    Evaluate    ${config}.get("ip")
         IF    '${result}'!='None'    RETURN    ${index}
         IF    '${index}'=='${length-1}'    RETURN    ${index+1}
-        ${index}=    Set Variable    ${index+1}
+        VAR    ${index}=    ${index+1}
     END
     RETURN    ${-1}
 
@@ -539,7 +552,7 @@ Prepare To SSH Connection
     ...    the SSH protocol
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
     Open Connection And Log In
-    Set Global Variable    ${PLATFORM}    ${CONFIG}
+    VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
     IF    '${DEFAULT_BOOT_OS_ID}'
         Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
     END
@@ -554,23 +567,24 @@ Prepare To Serial Connection
     ...    sections if the communication with the platform based on
     ...    the serial connection
     Open Connection And Log In
+    VAR    ${PLATFORM}=    ${EMPTY}    scope=GLOBAL
     IF    '${MANUFACTURER}' == 'QEMU'
-        Set Global Variable    ${PLATFORM}    qemu
+        VAR    ${PLATFORM}=    qemu    scope=GLOBAL
     ELSE IF    '${CONFIG}' == 'no-rte'
-        Set Global Variable    ${PLATFORM}    ${CONFIG}
+        VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
     ELSE
         ${platform}=    Get Current RTE Param    platform
-        Set Global Variable    ${PLATFORM}
     END
     Get DUT To Start State
     # the following TRY/EXCEPT exposes telnet connection error preemptively
     TRY
         Telnet.Read
     EXCEPT    EOFError: telnet connection closed
-        ${err_msg}=    Catenate    SEPARATOR=\n
+        VAR    ${err_msg}=
         ...    - telnet (or minicom on RTE) connection might be opened - either by you or someone else
         ...    - Verify and close your connections before starting tests
         ...    - stop minicom processes on RTE, restart ser2net service (systemctl restart ser2net)
+        ...    separator=\n
         Fail    ${err_msg}
     END
 
@@ -580,8 +594,8 @@ Prepare To OBMC Connection
     ...    variable and setting the DUT to start state. Keyword
     ...    used in [Suite Setup] sections if the communication with
     ...    the platform based on the open-bmc
-    Set Global Variable    ${PLATFORM}    ${CONFIG}
-    Set Global Variable    ${OPENBMC_HOST}    ${DEVICE_IP}
+    VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
+    VAR    ${OPENBMC_HOST}=    ${DEVICE_IP}    scope=GLOBAL
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/rest_client.robot
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/utils.robot
     Import Resource    ${CURDIR}/openbmc-test-automation/lib/state_manager.robot
@@ -602,44 +616,44 @@ Prepare To PiKVM Connection
     ...    output) and PiKVM (platform input)
     Remap Keys Variables To PiKVM
     Open Connection And Log In
+    VAR    ${PLATFORM}=    ${EMPTY}    scope=GLOBAL
     ${platform}=    Get Current RTE Param    platform
-    Set Global Variable    ${PLATFORM}
     Get DUT To Start State
 
 Remap Keys Variables To PiKVM
     [Documentation]    Updates keys variables from keys.robot to be compatible
     ...    with PiKVM
-    Set Global Variable    ${ARROW_UP}    ArrowUp
-    Set Global Variable    ${ARROW_DOWN}    ArrowDown
-    Set Global Variable    ${ARROW_RIGHT}    ArrowRight
-    Set Global Variable    ${ARROW_LEFT}    ArrowLeft
-    Set Global Variable    ${F1}    F1
-    Set Global Variable    ${F2}    F2
-    Set Global Variable    ${F3}    F3
-    Set Global Variable    ${F4}    F4
-    Set Global Variable    ${F5}    F5
-    Set Global Variable    ${F6}    F6
-    Set Global Variable    ${F7}    F7
-    Set Global Variable    ${F8}    F8
-    Set Global Variable    ${F9}    F9
-    Set Global Variable    ${F10}    F10
-    Set Global Variable    ${F11}    F11
-    Set Global Variable    ${F12}    F12
-    Set Global Variable    ${ESC}    Escape
-    Set Global Variable    ${ENTER}    Enter
-    Set Global Variable    ${BACKSPACE}    Backspace
-    Set Global Variable    ${KEY_SPACE}    Space
-    Set Global Variable    ${DELETE}    Delete
-    Set Global Variable    ${DIGIT0}    Digit0
-    Set Global Variable    ${DIGIT1}    Digit1
-    Set Global Variable    ${DIGIT2}    Digit2
-    Set Global Variable    ${DIGIT3}    Digit3
-    Set Global Variable    ${DIGIT4}    Digit4
-    Set Global Variable    ${DIGIT5}    Digit5
-    Set Global Variable    ${DIGIT6}    Digit6
-    Set Global Variable    ${DIGIT7}    Digit7
-    Set Global Variable    ${DIGIT8}    Digit8
-    Set Global Variable    ${DIGIT9}    Digit9
+    VAR    ${ARROW_UP}=    ArrowUp    scope=GLOBAL
+    VAR    ${ARROW_DOWN}=    ArrowDown    scope=GLOBAL
+    VAR    ${ARROW_RIGHT}=    ArrowRight    scope=GLOBAL
+    VAR    ${ARROW_LEFT}=    ArrowLeft    scope=GLOBAL
+    VAR    ${F1}=    F1    scope=GLOBAL
+    VAR    ${F2}=    F2    scope=GLOBAL
+    VAR    ${F3}=    F3    scope=GLOBAL
+    VAR    ${F4}=    F4    scope=GLOBAL
+    VAR    ${F5}=    F5    scope=GLOBAL
+    VAR    ${F6}=    F6    scope=GLOBAL
+    VAR    ${F7}=    F7    scope=GLOBAL
+    VAR    ${F8}=    F8    scope=GLOBAL
+    VAR    ${F9}=    F9    scope=GLOBAL
+    VAR    ${F10}=    F10    scope=GLOBAL
+    VAR    ${F11}=    F11    scope=GLOBAL
+    VAR    ${F12}=    F12    scope=GLOBAL
+    VAR    ${ESC}=    Escape    scope=GLOBAL
+    VAR    ${ENTER}=    Enter    scope=GLOBAL
+    VAR    ${BACKSPACE}=    Backspace    scope=GLOBAL
+    VAR    ${KEY_SPACE}=    Space    scope=GLOBAL
+    VAR    ${DELETE}=    Delete    scope=GLOBAL
+    VAR    ${DIGIT0}=    Digit0    scope=GLOBAL
+    VAR    ${DIGIT1}=    Digit1    scope=GLOBAL
+    VAR    ${DIGIT2}=    Digit2    scope=GLOBAL
+    VAR    ${DIGIT3}=    Digit3    scope=GLOBAL
+    VAR    ${DIGIT4}=    Digit4    scope=GLOBAL
+    VAR    ${DIGIT5}=    Digit5    scope=GLOBAL
+    VAR    ${DIGIT6}=    Digit6    scope=GLOBAL
+    VAR    ${DIGIT7}=    Digit7    scope=GLOBAL
+    VAR    ${DIGIT8}=    Digit8    scope=GLOBAL
+    VAR    ${DIGIT9}=    Digit9    scope=GLOBAL
 
 Remap Keys Variables From PiKVM
     [Documentation]    Updates keys variables from PiKVM ones to the ones
@@ -769,7 +783,7 @@ Restore Initial DUT Connection Method
     [Documentation]    We need to go back to pikvm control when going back from OS to firmware
     ${initial_method_defined}=    Get Variable Value    ${INITIAL_DUT_CONNECTION_METHOD}
     IF    '${initial_method_defined}' == 'None'    RETURN
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    ${INITIAL_DUT_CONNECTION_METHOD}
+    VAR    ${DUT_CONNECTION_METHOD}=    ${INITIAL_DUT_CONNECTION_METHOD}    scope=GLOBAL
     IF    '${INITIAL_DUT_CONNECTION_METHOD}' == 'pikvm'
         # We need this when going back from SSH to PiKVM
         Remap Keys Variables To PiKVM
@@ -779,7 +793,7 @@ Execute Shutdown Command
     [Documentation]    Windows shutdown keyword, checks power LED state where available.
     ...    Depends on existing SSH connection to DUT, restores initial connection method
     ...    after power loss.
-    Set Global Variable    ${DUT_CONNECTION_METHOD}    SSH
+    VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     Execute Command In Terminal    shutdown /s /f /t 0
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         ${loop_iterations}=    Evaluate    ${WINDOWS_SHUTDOWN_AWAITING_SECONDS} * 2
@@ -805,7 +819,7 @@ Execute Reboot Command
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
             Set Nextboot    ${BOOTED_OS_ID}
             Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
-            Set Suite Variable    ${BOOTED_OS_ID}    ${BOOTED_OS_ID}
+            VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=SUITE
         END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'
@@ -897,7 +911,7 @@ Device Detection In Linux
 
 Check Charge Level In Linux
     [Documentation]    Keyword checks the charge level in Linux OS.
-    Set Local Variable    ${cmd}    cat /sys/class/power_supply/BAT0/charge_now
+    VAR    ${cmd}=    cat /sys/class/power_supply/BAT0/charge_now
     ${out}=    Execute Linux Command    ${cmd}
     # capacity in uAh
     ${capacity}=    Convert To Integer    ${out}
@@ -968,7 +982,7 @@ Set Brightness In Linux
 Get Current Brightness In Linux
     [Documentation]    Keyword gets current brightness in Linux OS and returns
     ...    it as an integer.
-    Set Local Variable    ${cmd}    cat /sys/class/backlight/acpi_video0/brightness
+    VAR    ${cmd}=    cat /sys/class/backlight/acpi_video0/brightness
     ${out1}=    Execute Linux Command    ${cmd}
     ${brightness}=    Convert To Integer    ${out1}
     RETURN    ${brightness}
@@ -976,7 +990,7 @@ Get Current Brightness In Linux
 Get Maximum Brightness In Linux
     [Documentation]    Keyword gets maximum brightness in Linux OS and returns
     ...    it as an integer.
-    Set Local Variable    ${cmd}    cat /sys/class/backlight/acpi_video0/max_brightness
+    VAR    ${cmd}=    cat /sys/class/backlight/acpi_video0/max_brightness
     ${out1}=    Execute Linux Command    ${cmd}
     ${brightness}=    Convert To Integer    ${out1}
     RETURN    ${brightness}
@@ -1100,7 +1114,7 @@ Identify Disks In Linux
     ...    and identify their vndor and model.
     ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
     @{disks}=    Get Regexp Matches    ${out}    sd.|mmcblk.
-    ${disks_info}=    Create List
+    VAR    @{disks_info}=    @{EMPTY}
     FOR    ${disk}    IN    @{disks}
         ${vendor}=    Execute Linux Command    cat /sys/class/block/${disk}/device/vendor
         ${model}=    Execute Linux Command    cat /sys/class/block/${disk}/device/model
@@ -1122,7 +1136,7 @@ Identify Path To SD Card In Linux
     [Documentation]    Check which sdX is the correct path to mounted SD card.
     ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
     @{disks}=    Get Regexp Matches    ${out}    sd.
-    @{path}=    Create List
+    VAR    @{path}=    @{EMPTY}
     FOR    ${disk}    IN    @{disks}
         TRY
             ${model}=    Execute Linux Command    fdisk -l | grep "Disk /dev/${disk}" -A 1
@@ -1148,7 +1162,7 @@ Identify Path To SD Card In Windows
     SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     ${result}=    Execute Command In Terminal    .\\drive_letters.ps1
     ${lines}=    Get Lines Matching Pattern    ${result}    *SD*
-    ${drive_letter}=    Set Variable    ${lines[0:2]}
+    VAR    ${drive_letter}=    ${lines[0:2]}
     RETURN    ${drive_letter}
 
 Check Read Write To External Drive In Windows
@@ -1177,7 +1191,7 @@ Detect Or Install Package
     [Documentation]    Check whether the package, that is necessary to run the
     ...    test case, has already been installed on the system.
     [Arguments]    ${package}
-    ${is_package_installed}=    Set Variable    ${FALSE}
+    VAR    ${is_package_installed}=    ${FALSE}
     Log To Console    \nChecking if ${package} is installed...
     ${is_package_installed}=    Check If Package Is Installed    ${package}
     IF    ${is_package_installed}
@@ -1203,13 +1217,12 @@ Check If Package Is Installed
     [Arguments]    ${package}
     ${apt_list_output}=    Execute Command In Terminal    apt list --installed 2> /dev/null | grep ${package}    60s
 
-    ${package_regex}=    Catenate    SEPARATOR=${EMPTY}
-    ...    ${package}    \/.*installed.*
+    VAR    ${package_regex}=    ${package}    \/.*installed.*    separator=${EMPTY}
     ${package_lines}=    Get Lines Matching Regexp    ${apt_list_output}    ${package_regex}
     IF    "${package_lines}"=="${EMPTY}"
-        ${is_installed}=    Set Variable    ${FALSE}
+        VAR    ${is_installed}=    ${FALSE}
     ELSE
-        ${is_installed}=    Set Variable    ${TRUE}
+        VAR    ${is_installed}=    ${TRUE}
     END
     RETURN    ${is_installed}
 
@@ -1281,7 +1294,7 @@ Read System Information In Petitboot
     Sleep    2s
     ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    System information
-    Set Local Variable    ${move}    7
+    VAR    ${move}=    7
     FOR    ${index}    IN RANGE    0    ${move}
         Write Bare Into Terminal    ${ARROW_UP}
         Read From Terminal
@@ -1298,7 +1311,7 @@ Rescan Devices In Petitboot
     Sleep    2s
     ${output}=    Read From Terminal Until    help
     Should Contain    ${output}    Rescan devices
-    Set Local Variable    ${move}    3
+    VAR    ${move}=    3
     FOR    ${index}    IN RANGE    0    ${move}
         Write Bare Into Terminal    ${ARROW_UP}
         Read From Terminal
@@ -1351,9 +1364,9 @@ Get Coreboot Tools
 
 Get Cbmem
     [Documentation]    Set up cbmem on DUT.
-    ${cbmem_path}=    Set Variable    /usr/local/bin/cbmem
+    VAR    ${cbmem_path}=    /usr/local/bin/cbmem
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbmem_path}
-    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    VAR    ${sha256}=    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '169c5a5a63699cb37cf08d1eff83e59f146ffa98cf283145f27adecc081ac3f6'
         Send File To DUT    ${TEST_DATA_DIR}/coreboot-tools/cbmem    ${cbmem_path}
         Execute Command In Terminal    chmod 777 ${cbmem_path}
@@ -1361,9 +1374,9 @@ Get Cbmem
 
 Get Flashrom
     [Documentation]    Set up flashrom on DUT.
-    ${flashrom_path}=    Set Variable    /usr/local/bin/flashrom
+    VAR    ${flashrom_path}=    /usr/local/bin/flashrom
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${flashrom_path}
-    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    VAR    ${sha256}=    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != '8e57fee6578dd31684da7f1afd6f5e5b1d964bb6db52b3a9ec038a7292802ae9'
         Send File To DUT    ${TEST_DATA_DIR}/coreboot-tools/flashrom    ${flashrom_path}
         Execute Command In Terminal    chmod 777 ${flashrom_path}
@@ -1371,9 +1384,9 @@ Get Flashrom
 
 Get Cbfstool
     [Documentation]    Set up cbfstool on DUT.
-    ${cbfstool_path}=    Set Variable    /usr/local/bin/cbfstool
+    VAR    ${cbfstool_path}=    /usr/local/bin/cbfstool
     ${out_sha256sum}=    Execute Command In Terminal    sha256sum ${cbfstool_path}
-    ${sha256}=    Set Variable    ${out_sha256sum.split()}[0]
+    VAR    ${sha256}=    ${out_sha256sum.split()}[0]
     IF    '${sha256}' != 'e090051e71980620e6f2d2876532eb6fcf4346593260c0c1349a5be51181fb4f'
         Send File To DUT    ${TEST_DATA_DIR}/coreboot-tools/cbfstool    ${cbfstool_path}
         Execute Command In Terminal    chmod 777 ${cbfstool_path}
@@ -1392,7 +1405,7 @@ Clone Git Repository
     Wait Until Keyword Succeeds    5x    1s
     ...    Check Internet Connection On Linux
     IF    '${location}' != '${EMPTY}'
-        ${repo_path}=    Set Variable    ${location}
+        VAR    ${repo_path}=    ${location}
     ELSE
         ${repo_path}=    Extract Repository Name From URL    ${repo_url}
     END
@@ -1407,7 +1420,7 @@ Boot Operating System
     ...    DUT. Takes as an argument operating system name.
     [Arguments]    ${operating_system}
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Set Local Variable    ${is_system_installed}    ${FALSE}
+    VAR    ${is_system_installed}=    ${FALSE}
     Enter Boot Menu Tianocore
     ${menu_construction}=    Get Boot Menu Construction
     ${is_system_installed}=    Evaluate    "${operating_system}" in """${menu_construction}"""
@@ -1419,7 +1432,7 @@ Boot Operating System
 
 Remove Entry From List
     [Arguments]    ${input_list}    ${regexp}
-    @{output_list}=    Create List
+    VAR    @{output_list}=    @{EMPTY}
     FOR    ${item}    IN    @{input_list}
         ${is_match}=    Run Keyword And Return Status
         ...    Should Not Match Regexp    ${item}    ${regexp}
@@ -1437,7 +1450,7 @@ Generate 1GB File In Windows
 Get Drive Letter Of USB
     [Documentation]    Gets drive letter of attached USB, returns first letter
     ...    on list.
-    ${drive_letter_cmd}=    Set Variable
+    VAR    ${drive_letter_cmd}=
     ...    (Get-Volume | where DriveType -eq removable | where FileSystemType -eq FAT32).DriveLetter
     ${drive_count}=    Execute Command In Terminal    ${drive_letter_cmd}.Count
     ${drive_count}=    Fetch From Right    ${drive_count}    \n
@@ -1469,7 +1482,7 @@ Identify Path To USB
         ${model}=    Execute Linux Command    cat /sys/class/block/${disk}/device/model
         ${model_name}=    Fetch From Left    ${model}    \r\n
         ${model_name}=    Fetch From Right    ${model_name}    \r
-        Set Local Variable    ${usb_disk}    ${disk}
+        VAR    ${usb_disk}=    ${disk}
         IF    '${model_name}' == '${USB_MODEL}'    BREAK
     END
     ${out}=    Execute Linux Command
@@ -1485,7 +1498,7 @@ Get Current CONFIG List Param
     ${config}=    Get Current CONFIG    ${CONFIG_LIST}
     ${length}=    Get Length    ${config}
     Should Be True    ${length} > 1
-    @{attached_usb_list}=    Create List
+    VAR    @{attached_usb_list}=    @{EMPTY}
     FOR    ${element}    IN    @{config[1:]}
         IF    '${element.type}'=='${item}'
             Append To List    ${attached_usb_list}    ${element.${param}}
