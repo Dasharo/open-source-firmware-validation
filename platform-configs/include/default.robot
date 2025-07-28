@@ -303,10 +303,11 @@ ${TESTS_IN_ESXI_SUPPORT}=                           ${FALSE}
 @{ETH_PORTS}=                                       @{EMPTY}
 @{ETH_SFP_PORTS}=                                   @{EMPTY}
 
+${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                3
+
 # These were missing in default.robot and have been automatically
 # identified and added via: ./scripts/ci/check_platform_configs_vars.py
 
-${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                ${TBD}
 ${BLAKE2_TEST_SCORE}=                               ${TBD}
 ${BLUETOOTH_CARD_UBUNTU}=                           ${TBD}
 ${CACHEBENCH_TEST_SCORE}=                           ${TBD}
