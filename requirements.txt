@@ -36,7 +36,7 @@ markdown-it-py==3.0.0
 MarkupSafe==2.1.5
 matplotlib==3.10.0
 mdurl==0.1.2
-nodeenv==1.8.0
+nodeenv==1.9.1
 numpy==2.2.3
 oauth2client==4.1.3
 osfv @ git+https://github.com/Dasharo/osfv-scripts.git@0fd42699842f4d2a0439f400f0e71226f5d7a2e2#subdirectory=osfv_cli
