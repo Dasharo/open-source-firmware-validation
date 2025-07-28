@@ -54,7 +54,7 @@ execute_robot() {
   # scope and additional arguments to robot which need to be separated
   # when calling robot
   for ((i=0;i<_args_len;i++)); do
-    if [[ ${_args[$i]} == *"--"* ]]; then
+    if [[ ${_args[$i]} == "--" ]]; then
       _separator_idx=$i
       break
     fi
@@ -67,6 +67,9 @@ execute_robot() {
   if [[ $_separator_idx -gt 0 ]]; then
     _separator_idx=$_separator_idx+1
     for ((i=_separator_idx;i<_args_len;i++)); do
+      if [[ ${_args[$i]} == "--" ]]; then
+        continue
+      fi
       # Some arguments may contain spaces. Bash removes quotation marks
       # from command arguments. Because we need to pass them again to
       # another command the quotation marks need to be restored or the arguments

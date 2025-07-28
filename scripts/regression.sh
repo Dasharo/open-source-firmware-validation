@@ -25,6 +25,16 @@ if [ -z "$NO_SETUP" ]; then
     execute_robot "util/basic-platform-setup.robot" "${@}"
 fi
 
-execute_robot "dasharo-compatibility" "${@}"
-execute_robot "dasharo-security" "${@}"
-execute_robot "dasharo-performance" "${@}"
+TESTS=""
+
+if [ -n "$REL_ID" ] && [ -n "$DB_URL" ]; then
+    TESTS+=" --"
+    JSON=`curl -s -k "$DB_URL/releases/$REL_ID"`
+    for t in `echo "$JSON" | jq '.test_cases | map_values(select(endswith("automated"))) | keys | map(.+"*") | .[]'`; do
+        TESTS+=" -t $t"
+    done
+fi
+
+execute_robot "dasharo-compatibility" "${@}" $TESTS
+execute_robot "dasharo-security" "${@}" $TESTS
+execute_robot "dasharo-performance" "${@}" $TESTS
