@@ -33,6 +33,7 @@ ${USB_MASS_STORAGE_SUPPORT}=                    ${FALSE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${FALSE}
 ${NVME_X2_SLOT_SUPPORT}=                        ${TRUE}
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=               ${TRUE}
 
 ${M2_WIFI_SUPPORT}=                             ${TRUE}
 ${WIFI_CARD_UBUNTU}=                            Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter
