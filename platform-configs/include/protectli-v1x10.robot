@@ -31,7 +31,7 @@ ${DASHARO_USB_MENU_SUPPORT}=                    ${FALSE}
 ${USB_STACK_SUPPORT}=                           ${FALSE}
 ${USB_MASS_STORAGE_SUPPORT}=                    ${FALSE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${FALSE}
-
+${NVME_X2_SLOT_SUPPORT}=                        ${TRUE}
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
 
 ${M2_WIFI_SUPPORT}=                             ${TRUE}

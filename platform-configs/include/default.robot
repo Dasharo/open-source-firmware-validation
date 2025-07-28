@@ -114,6 +114,7 @@ ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${FALSE}
 ${IPXE_BOOT_SUPPORT}=                               ${FALSE}
 ${NVME_DISK_SUPPORT}=                               ${FALSE}
+${NVME_X2_SLOT_SUPPORT}=                            ${FALSE}
 ${SD_CARD_READER_SUPPORT}=                          ${FALSE}
 ${WIRELESS_CARD_SUPPORT}=                           ${FALSE}
 ${WIRELESS_CARD_WIFI_SUPPORT}=                      ${FALSE}

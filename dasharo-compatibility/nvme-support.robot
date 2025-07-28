@@ -30,8 +30,8 @@ Default Tags        automated
 NVM001.001 NVMe support in firmware
     [Documentation]    Check whether the firmware is able to correctly detect
     ...    NVMe disk in M.2 slot.
-    Skip If    not ${NVME_DISK_SUPPORT}    NVM001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Depends On    ${NVME_DISK_SUPPORT}
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Power On
     ${out}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain    ${out}    ${CLEVO_DISK}
@@ -40,7 +40,7 @@ NVM001.201 NVMe support in OS (Ubuntu)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
     ...    Previous IDs: NVM001.002
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.201 not supported
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
     NVMe Support In OS    ${ENV_ID_UBUNTU}
 
@@ -64,7 +64,7 @@ NVM001.301 NVMe support in OS (Windows)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
     ...    Previous IDs: NVM001.003
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVM001.301 not supported
+    Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
     Login To Windows
     # Switch to root user
@@ -77,7 +77,7 @@ NVM001.401 NVMe support in OS (ESXi)
     [Documentation]    Verify that ESXi is installed and booted from an NVMe drive.
     ...    Check that NVMe is detected and marked as the boot device.
     ...    Previous IDs: NVM001.011
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    NVM001.401 not supported
+    Depends On    ${TESTS_IN_ESXI_SUPPORT}
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
@@ -86,7 +86,8 @@ NVM001.401 NVMe support in OS (ESXi)
     Should Contain All    ${out}    Vendor: NVMe    Is Boot Device: true
 
 NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVM001.201 not supported
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Depends On    ${NVME_X2_SLOT_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
     NVMe Slot Change Support In OS    ${ENV_ID_UBUNTU}
 
