@@ -31,7 +31,9 @@ Control variables:
 
 * `dts_ipxe_link`: useful if you are testing DTS which is not released yet. Just
   put here a link to your script which will load your DTS. By default DTS is
-  being booted from `dl.3mdeb.com`;
+  being booted from `dl.3mdeb.com`. Check [the following
+  chapter](#http-server-with-dts-ipxe-boot) for information on how to set up a
+  custom HTTP iPXE server with DTS.
 * `dpp_email`, `dpp_password`: for DPP credentials, if tests need them.
 
 Launching example:
@@ -43,6 +45,18 @@ robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0
 > Note: replace `EMAIL` and `PASSWORD` with appropriate credentials if required.
 > `http://192.168.0.102:8080/ipxe` with your DTS iPXE
 > script link.
+
+### HTTP server with DTS iPXE boot
+
+Use [the automation script](https://github.com/Dasharo/open-source-firmware-validation/blob/develop/scripts/ci/ipxe-run.sh)
+to prepare an iPXE server with a custom DTS image. After that the `dts.ipxe` can
+be used via iPXE shell to boot the DTS image:
+
+```text
+chain http://IP:4321/dts.ipxe
+```
+
+Where IP is the IP address of the machine where the HTTP server is launched.
 
 ## Unit tests
 
