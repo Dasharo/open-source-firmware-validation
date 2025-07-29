@@ -10,20 +10,16 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-
-      - uses: ./.github/actions/setup-common
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
       - name: Fetch base branch
         run: git fetch origin ${{ github.event.pull_request.base.sha }}
 
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v2
         with:
-          python-version:  3.13
+          python-version:  3.11
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
