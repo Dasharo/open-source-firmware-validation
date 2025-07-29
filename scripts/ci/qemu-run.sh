@@ -227,6 +227,16 @@ dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null
 echo "Running QEMU Q35 with Dasharo (coreboot+UEFI) firmware ... (Ctrl+C to terminate)"
 
 tpm_start
-qemu-system-x86_64 -m ${MEMORY} ${QEMU_PARAMS} || cleanup
+# Detect if running in CI environment
+if [[ "${CI:-false}" == "true" || "${GITHUB_ACTIONS:-false}" == "true" ]]; then
+    echo "Running in CI mode - using nohup for process isolation"
+    nohup qemu-system-x86_64 -m ${MEMORY} ${QEMU_PARAMS} </dev/null >/dev/null 2>&1 &
+    QEMU_PID=$!
+    echo "QEMU started with PID: $QEMU_PID"
+    wait $QEMU_PID || cleanup
+else
+    echo "Running in local mode - normal execution"
+    qemu-system-x86_64 -m ${MEMORY} ${QEMU_PARAMS} || cleanup
+fi
 
 cd $INIT_DIR || exit
