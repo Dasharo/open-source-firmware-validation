@@ -39,7 +39,7 @@ QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
 
 usage() {
 cat <<EOF
-Usage: ./$(basename ${0}) QEMU_MODE ACTION OPTIONS
+Usage: ./$(basename ${0}) [OPTIONS]... QEMU_MODE ACTION
 
 This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
@@ -73,7 +73,6 @@ Example usage:
     DIR=/my/work/dir HDD2_PATH=qemu-data/hdd2.qcow ./$(basename $0) graphic os
 
 EOF
-  exit 0
 }
 
 esc() {
@@ -134,6 +133,38 @@ cleanup() {
 
 trap cleanup INT
 
+parse_args() {
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --no-audio-emulation)
+        NO_AUDIO_EMULATION="true"
+        shift
+        ;;
+      -h|--help)
+        usage
+	exit 0
+        ;;
+      -*)
+        usage
+        echo "Unknown option $1"
+        exit 1
+        ;;
+      *)
+        POSITIONAL_ARGS+=( "$1" )
+        shift
+        ;;
+    esac
+  done
+}
+
+parse_args "$@"
+set -- "${POSITIONAL_ARGS[@]}"
+
+if [ $# -ne 2 ]; then
+  usage
+  exit 1
+fi
+
 QEMU_PARAMS_BASE="-machine q35,smm=on \
   -global driver=cfi.pflash01,property=secure,value=on \
   -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
@@ -173,23 +204,6 @@ cd "$DIR" || exit
 
 MODE="$1"
 ACTION="$2"
-shift 2
-
-# Check for additional parameters before deciding on QEMU_PARAMS. Because the
-# additional parameters might change the QEMU_PARAMS.
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    "--no-audio-emulation")
-      NO_AUDIO_EMULATION="true"
-      shift
-		;;
-    *)
-      echo -e "Additional argument: ${1} not supported\n"
-      usage
-      exit 1
-		;;
-  esac
-done
 
 case "${MODE}" in
   nographic)
