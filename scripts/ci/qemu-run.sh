@@ -66,6 +66,7 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
   Additional OPTIONS:
     --no-audio-emulation   do not add an audio device to QEMU. Is only usable with
                            "os" ACTION.
+    --help                 print this message.
 
 Example usage:
     ./$(basename $0) vnc firmware
