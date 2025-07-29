@@ -22,7 +22,7 @@ then
     exit 1
 fi
 
-NO_AUDIO_EMUALTION=""
+NO_AUDIO_EMULATION=""
 HDD_PATH=${HDD_PATH:-qemu-data/hdd.qcow2}
 PULSE_SERVER=${PULSE_SERVER:-unix:/run/user/$(id -u)/pulse/native}
 INSTALLER_PATH="qemu-data/installer.iso"
@@ -39,7 +39,7 @@ QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
 
 usage() {
 cat <<EOF
-Usage: ./$(basename ${0}) QEMU_MODE ACTION ARGUMENTS
+Usage: ./$(basename ${0}) QEMU_MODE ACTION OPTIONS
 
 This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
@@ -63,7 +63,7 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     HDD2_PATH   optional path of the second hard drive to connect to the machine if
                 ACTION "os" is used. Relative to DIR
 
-  Additional ARGUMENTS:
+  Additional OPTIONS:
     --no-audio-emulation   do not add an audio device to QEMU. Is only usable with
                            "os" ACTION.
 
@@ -156,7 +156,7 @@ QEMU_PARAMS_OS="-object rng-random,id=rng0,filename=/dev/urandom \
   -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
   -drive file=${HDD_PATH},if=ide"
 
-QEMU_PARAMS_OS_SAUND="-device ich9-intel-hda \
+QEMU_PARAMS_OS_AUDIO="-device ich9-intel-hda \
   -device hda-duplex,audiodev=hda \
   -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100"
 
@@ -180,7 +180,7 @@ shift 2
 while [[ $# -gt 0 ]]; do
   case $1 in
     "--no-audio-emulation")
-      NO_AUDIO_EMUALTION="true"
+      NO_AUDIO_EMULATION="true"
       shift
 		;;
     *)
@@ -216,8 +216,8 @@ case "${ACTION}" in
     MEMORY="4G"
     QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS}"
 
-    if [[ "$NO_AUDIO_EMUALTION" != "true" ]]; then
-      QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS_SAUND}"
+    if [[ "$NO_AUDIO_EMULATION" != "true" ]]; then
+      QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS_AUDIO}"
     fi
 
     check_disks ${ACTION}
