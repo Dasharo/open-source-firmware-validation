@@ -203,7 +203,3 @@ class PlatformParser:
             global_variables = BuiltIn()._variables._global.copy()
             global_variables.store.update(variable_store)
             variable_store.update(global_variables.store)
-
-
-def _print(string):
-    BuiltIn().log_to_console(string)

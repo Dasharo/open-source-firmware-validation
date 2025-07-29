@@ -21,7 +21,7 @@ Test Teardown       Teardown DTS Test
 
 *** Test Cases ***
 Create tests
-    [Template]    ${PLATFORM} ${WORKFLOW} - ${SUBSCRIPTION}
+    [Template]    ${platform} ${workflow} - ${subscription}
     FOR    ${platform}    ${platform_variables}    IN    &{DTS_PLATFORM_VARIABLES}
         FOR    ${workflow}    IN    @{platform_variables}[DTS_TEST_WORKFLOWS]
             FOR    ${subscription}    IN    @{platform_variables}[DTS_TEST_WORKFLOW_SUBSCRIPTIONS][${workflow}]
@@ -61,20 +61,20 @@ ${platform} ${workflow} - ${subscription}
     Fail    Unknown workflow (${workflow}) or subscription (${subscription})
 # robocop: enable
 
-${platform} UEFI Update - Community Version
-    [Documentation]    Update workflow for community version
+${platform} UEFI Update - DCR
+    [Documentation]    Update workflow for Dasharo Community Release
     Prepare E2E Test    ${platform}    UEFI Update
     Go Through Update
     Wait For Checkpoint    Rebooting
 
-${platform} SeaBIOS Update - Community Version
-    [Documentation]    Update workflow for community version
+${platform} SeaBIOS Update - DCR
+    [Documentation]    Update workflow for Dasharo Community Release
     Prepare E2E Test    ${platform}    SeaBIOS Update
     Go Through Update
     Wait For Checkpoint    Rebooting
 
-${platform} Initial Deployment - Community Version
-    [Documentation]    Initial deployment workflow for community version
+${platform} Initial Deployment - DCR
+    [Documentation]    Initial deployment workflow for Dasharo Community Release
     Prepare E2E Test    ${platform}    Initial Deployment
     Go Through Initial Deployment    DCR UEFI
     Wait For Checkpoint    Rebooting
@@ -122,7 +122,7 @@ Prepare E2E Test
     Export Shell Variables For Emulation    ${workflow}    ${DTS_PLATFORM_VARIABLES}[${platform}]
     # TODO: needed by 'Go Through Initial Deployment' keyword for couple of
     # NovaCustom boards
-    VAR    ${DTS_TEST_BOARD_MODEL}    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_BOARD_MODEL]    scope=TEST
+    VAR    ${DTS_TEST_BOARD_MODEL}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_BOARD_MODEL]    scope=TEST
     Write Into Terminal    dts-boot
 
 Prepare DTS Test
@@ -163,8 +163,8 @@ Login To DTS Via SSH In QEMU
 Prepare DTS E2E Test Suite
     Prepare Test Suite
     Skip If    not ${DTS_SUPPORT}
-    &{dts_platform_variables}=    Get DTS Test Variables
-    Set Suite Variable    \${DTS_PLATFORM_VARIABLES}
+    &{dts_vars}=    Get DTS Test Variables
+    VAR    ${DTS_PLATFORM_VARIABLES}=    ${dts_vars}    scope=SUITE
     Power On And Enter DTS Shell
     Set Prompt For Terminal    bash-5.2#
     Execute Linux Command    systemctl start sshd

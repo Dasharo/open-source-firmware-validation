@@ -424,7 +424,7 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 UEFI->Heads Transition
 ...                                                 SeaBIOS->UEFI Transition
 # Set to e.g. DPP for platforms where only DPP workflows work
-@{DTS_TEST_DEFAULT_SUBSCRIPTIONS}=                  Community Version    DPP
+@{DTS_TEST_DEFAULT_SUBSCRIPTIONS}=                  DCR    DPP
 &{DTS_TEST_WORKFLOW_SUBSCRIPTIONS_BASE}=
 ...                                                 &{{ {workflow: ${DTS_TEST_DEFAULT_SUBSCRIPTIONS} for workflow in ${DTS_TEST_POSSIBLE_WORKFLOWS} } }}
 # Set UEFI->Heads Transition to DPP by default as currently we don't offer community
