@@ -11,7 +11,8 @@ Resource            ../keywords.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}
+...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    AND
+...                     Set UEFI Option    MeMode    Disabled (HAP)
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
