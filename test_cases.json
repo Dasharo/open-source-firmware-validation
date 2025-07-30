@@ -4022,6 +4022,48 @@
   },
   {
     "doc": {
+      "_id": "FWUPD001.201",
+      "name": "Fwupd Devices Detected (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD001.202",
+      "name": "Fwupd Devices Detected (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD002.201",
+      "name": "Fwupd Local Firmware Update (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD002.202",
+      "name": "Fwupd Local Firmware Update (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD003.201",
+      "name": "Fwupd LVFS Firmware Update (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD003.202",
+      "name": "Fwupd LVFS Firmware Update (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "GPP001.201",
       "name": "GPU Performance Measure  (Ubuntu) (AC)",
       "module": "Dasharo Performance"
