@@ -4036,6 +4036,13 @@
   },
   {
     "doc": {
+      "_id": "FWUPD001.203",
+      "name": "Fwupd Devices Detected (QubesOS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "FWUPD002.201",
       "name": "Fwupd Local Firmware Update (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -4050,6 +4057,13 @@
   },
   {
     "doc": {
+      "_id": "FWUPD002.203",
+      "name": "Fwupd Local Firmware Update (QubesOS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "FWUPD003.201",
       "name": "Fwupd LVFS Firmware Update (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -4059,6 +4073,13 @@
     "doc": {
       "_id": "FWUPD003.202",
       "name": "Fwupd LVFS Firmware Update (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD003.203",
+      "name": "Fwupd LVFS Firmware Update (QubesOS)",
       "module": "Dasharo Compatibility"
     }
   },
