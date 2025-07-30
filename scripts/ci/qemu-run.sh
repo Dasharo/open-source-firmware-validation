@@ -143,7 +143,7 @@ parse_args() {
         ;;
       -h|--help)
         usage
-	exit 0
+        exit 0
         ;;
       -*)
         usage
