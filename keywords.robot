@@ -16,6 +16,7 @@ Resource    lib/framework.robot
 Resource    lib/me.robot
 Resource    lib/network.robot
 Resource    lib/bsd.robot
+Resource    platform-configs/include/default.robot
 
 
 *** Keywords ***
