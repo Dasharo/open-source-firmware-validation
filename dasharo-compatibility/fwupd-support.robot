@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -75,6 +76,48 @@ FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Fwupd LVFS Firmware Update Linux
+
+FWUPD001.203 Fwupd Devices Detected (QubesOS)
+    [Documentation]    Test if the supported hardware is properly detected
+    ...    by fwupd
+    [Tags]    semiauto
+    Execute Manual Step    Power on and boot into QubesOS
+    Execute Manual Step    Open dom0 terminal
+    Execute Manual Step    Run `fwupdmgr get-devices | grep -B1 "Device ID"`
+    Execute Manual Step    Should contain `System Firmware`
+    IF    ${TPM_SUPPORTED_VERSION} != ${NONE}
+        Execute Manual Step    Should contain `TPM`
+    END
+
+FWUPD002.203 Fwupd Local Firmware Update (QubesOS)
+    [Documentation]    Test if a firmware update can be performed using fwupd
+    ...    using local unsigned cabinet
+    [Tags]    semiauto
+    Execute Manual Step    Power on and boot into QubesOS
+    Execute Manual Step    Open sys-net terminal
+    VAR    ${msg}=    Transfer the \$FWUPD_CABINET_FILE to the `dom0`.
+    ...    (For example by starting sshd in sys-net, sending the file via `scp`,
+    ...    and sending it back to `dom0` using `qvm-copy` command.)
+    Execute Manual Step    ${msg}
+    VAR    ${msg}=    Open dom0 terminal and locate the
+    ...    \$FWUPD_CABINET FILE (If using qvm-copy, it will be placed
+    ...    in `~/QubesIncoming/sys-net/`)
+    Execute Manual Step    ${msg}
+    Execute Manual Step    Run `yes n | fwupdmgr local-install \$FWUPD_CABINET_FILE --allow-reinstall --allow-older`
+    Execute Manual Step    Should print `Successfully installed firmware`
+
+FWUPD003.203 Fwupd LVFS Firmware Update (QubesOS)
+    [Documentation]    Test if a firmware update can be performed using fwupd
+    ...    and a signed cabinet from LVFS
+    [Tags]    semiauto
+    Execute Manual Step    Power on and boot into QubesOS
+    Execute Manual Step    Open dom0 terminal
+    Execute Manual Step
+    ...    Run `export ID=$(fwupdmgr get-devices 2>/dev/null | grep -A1 "System Firmware" | grep "Device ID" | awk '{print $NF}')`
+    Execute Manual Step    Run `yes n | fwupdmgr install \$ID --allow-reinstall --allow-older`
+    Execute Manual Step
+    ...    Should not print any of: `failed to find`, `No updatable devices`, `No releases found`, `no devices`
+    Execute Manual Step    Should print `Successfully installed firmware`
 
 
 *** Keywords ***
