@@ -26,10 +26,59 @@ FWUPD001.201 Fwupd Devices Detected (Ubuntu)
     [Documentation]    Test if the supported hardware is properly detected
     ...    by fwupd
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
+    Fwupd Devices Detected Linux
+
+FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
+    [Documentation]    Test if a firmware update can be performed using fwupd
+    ...    using local unsigned cabinet
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Fwupd Local Firmware Update Linux
+
+FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
+    [Documentation]    Test if a firmware update can be performed using fwupd
+    ...    and a signed cabinet from LVFS
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Fwupd LVFS Firmware Update Linux
+
+FWUPD001.202 Fwupd Devices Detected (Fedora)
+    [Documentation]    Test if the supported hardware is properly detected
+    ...    by fwupd
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Fwupd Devices Detected Linux
+
+FWUPD002.202 Fwupd Local Firmware Update (Fedora)
+    [Documentation]    Test if a firmware update can be performed using fwupd
+    ...    using local unsigned cabinet
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Fwupd Local Firmware Update Linux
+
+FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
+    [Documentation]    Test if a firmware update can be performed using fwupd
+    ...    and a signed cabinet from LVFS
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Fwupd LVFS Firmware Update Linux
+
+
+*** Keywords ***
+Fwupd Devices Detected Linux
     ${out}=    Execute Command In Terminal    fwupdmgr get-devices
 
     VAR    @{devices}=    System Firmware    UEFI dbx
@@ -41,11 +90,7 @@ FWUPD001.201 Fwupd Devices Detected (Ubuntu)
     Should Contain    ${out}
     ...    @{devices}
 
-FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
-    [Documentation]    Test if a firmware update can be performed using fwupd
-    ...    using local unsigned cabinet
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-
+Fwupd Local Firmware Update Linux
     ${cabinet_given}=    Run Keyword And Return Status
     ...    Get Environment Variable    ${CABINET_ENVVAR}
     IF    not ${cabinet_given}
@@ -53,9 +98,6 @@ FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
     END
     ${fwupd_cabinet}=    Get Environment Variable    ${CABINET_ENVVAR}
 
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
     VAR    ${cabinet}=    ~/fwupd_cabinet.cab
     Switch To Root User
     Send File To DUT    ${fwupd_cabinet}    target_path=${cabinet}
@@ -63,14 +105,7 @@ FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
     ${out}=    Execute Command In Terminal    yes n | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older
     Should Contain    ${out}    Successfully installed firmware
 
-FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
-    [Documentation]    Test if a firmware update can be performed using fwupd
-    ...    and a signed cabinet from LVFS
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+Fwupd LVFS Firmware Update Linux
     Switch To Root User
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' | sudo tee /etc/fwupd/fwupd.conf
     Execute Command In Terminal    fwupdmgr refresh
