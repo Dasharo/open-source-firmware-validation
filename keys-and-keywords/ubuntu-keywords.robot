@@ -55,7 +55,6 @@ Get Logging Level
 Set Logging Level
     [Documentation]    This keyword sets the logging level to given value [0; 7]
     [Arguments]    ${level}
-    Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" > /etc/sysctl/d/10-console-messages.conf
-    Execute Linux Command    sed -i '/kernel\.printk =/d' /etc/sysctl.conf
-    Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" >> /etc/sysctl.conf
+    Execute Linux Command    sed -i '/kernel\.printk =/d' /etc/sysctl.d/10-console-messages.conf
+    Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" >> /etc/sysctl.d/10-console-messages.conf
     Execute Linux Command    sysctl --system
