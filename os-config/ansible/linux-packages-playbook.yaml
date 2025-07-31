@@ -10,6 +10,7 @@
       ansible.builtin.include_vars: "{{os_id}}-packages.yaml"
     - name: Install packages
       ansible.builtin.package:
+        update_cache: true
         name:
           - "{{package_network_manager}}"
           - "{{package_lm_sensors}}"
