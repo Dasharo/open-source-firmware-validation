@@ -76,7 +76,9 @@ Restore Disk Clonezilla
     ${end_time}=    Add Time To Date    ${current_time}    ${TIME_LIMIT}    result_format=epoch
     WHILE    ${current_time} < ${end_time}
         ${out}=    Read From Terminal
-        Log To Console    ${out}
+        ${len}=    Get Length    ${out}
+        IF    ${len} > 0    Log To Console    ${out}
+        Sleep    1s
         # Platform rebooted
         IF    '${TIANOCORE_STRING}' in '''${out}'''
             Pass Execution    Flashing finished.
