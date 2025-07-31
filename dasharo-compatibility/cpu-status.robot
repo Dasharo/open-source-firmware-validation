@@ -15,7 +15,7 @@ Resource            ../keys.robot
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
 # - go through them and make sure they are doing what the name suggest (not
-# exactly the case right now)
+# exactly the case right now)s
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
