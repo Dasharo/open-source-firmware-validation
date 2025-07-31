@@ -21,7 +21,7 @@ fi
 pids=()
 statuses=()
 LOGS_DIR="./logs"
-mkdir $LOGS_DIR/ || true
+mkdir -p $LOGS_DIR/ || true
 i=1
 for command in "${commands[@]}"; do
     (

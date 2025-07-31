@@ -145,26 +145,38 @@ execute_robot() {
         echo "Please commit and push your changes before running tests to ensure reproducibility."
         echo "(Set ALLOW_DIRTY=1 to override and allow quick debugging)"
   }
+  git log
 
   if [[ -z "${ALLOW_DIRTY}" ]]; then
-    git diff
-    git diff --staged
     if ! git diff --quiet || ! git diff --staged --quiet; then
         echo "Git tree is dirty!"
         dirty_message
         exit 1
     fi
 
-    branch=$(git rev-parse --abbrev-ref HEAD)
-    echo $branch
-    git fetch -q
-    if ! git fetch -q; then
+    if [ "$GITHUB_ACTIONS" = "true" ]; then
+      echo "Running on GH Actions"
+      if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+        branch="$GITHUB_BASE_REF"
+        git fetch origin $branch -q
+        commits_ahead=$(git rev-list --left-right --count origin/$branch...HEAD 2>&1)
+        git rev-list --left-right --count origin/$branch..HEAD
+      else
+        echo "Only supported on pull requests"
+        echo "Event name: $GITHUB_EVENT_NAME"
+      fi
+    else
+      branch=$(git rev-parse --abbrev-ref HEAD)
+      echo $branch
+      git fetch -q
+      if ! git fetch -q; then
         echo "Failed to fetch remote"
         exit 1
+      fi
+      commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch 2>&1)
+      git rev-list --left-right --count origin/$branch..$branch
     fi
 
-    commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch 2>&1)
-    git rev-list --left-right --count origin/$branch..$branch
     if [[ $? != 0 || "$commits_ahead" =~ "fatal" ]]; then
         echo "Failed to check if the local branch is up to date."
         if [[ "$commits_ahead" =~ "not in the working tree" ]]; then
@@ -175,14 +187,13 @@ execute_robot() {
         exit 1
     fi
 
-    commits_ahead=$(echo "$commits_ahead" | awk "{print $2; }")
+    commits_ahead=$(echo "$commits_ahead" | awk '{print $2}')
     if [[ "$commits_ahead" -gt 0 ]]; then
         echo "Local branch $branch is ahead of origin/$branch by $commits_ahead commits!"
         dirty_message
         exit 1
     fi
   fi
-
 
   # To save the logs from test modules into separate files robot is called
   # multiple times.
