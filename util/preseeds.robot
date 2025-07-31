@@ -79,10 +79,9 @@ Restore Disk Clonezilla
         ${len}=    Get Length    ${out}
         IF    ${len} > 0    Log To Console    ${out}
         Sleep    1s
-        # Platform rebooted
-        IF    '${TIANOCORE_STRING}' in '''${out}'''
-            Pass Execution    Flashing finished.
-        END
+
+        ${rebooted}=    Run Keyword And Return Status    Should Contain    ${out}    ${TIANOCORE_STRING}
+        IF    ${rebooted}    Pass Execution    Flashing finished.
     END
     VAR    ${msg}=    ${TIME_LIMIT} has passed and the device did not reboot.
     ...    Either flashing failed, wrong CLONEZILLA_TTY was given
