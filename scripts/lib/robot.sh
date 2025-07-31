@@ -33,6 +33,45 @@ handle_ctrl_c() {
   exit 1
 }
 
+check_dirty_tree() {
+  function dirty_message {
+        echo "Please commit and push your changes before running tests to ensure reproducibility."
+        echo "(Set ALLOW_DIRTY=1 to override and allow quick debugging)"
+  }
+
+  if [[ -z "${ALLOW_DIRTY}" ]]; then
+    if ! git diff --quiet || ! git diff --staged --quiet; then
+        echo "Git tree is dirty!"
+        dirty_message
+        exit 1
+    fi
+
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    if ! git fetch -q; then
+        echo "Failed to fetch remote"
+        exit 1
+    fi
+
+    commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch 2>&1)
+    if [[ $? != 0 || "$commits_ahead" =~ "fatal" ]]; then
+        echo "Failed to check if the local branch is up to date."
+        if [[ "$commits_ahead" =~ "not in the working tree" ]]; then
+            echo "The local branch might not exist on the remote."
+            echo "Make sure to push your branch."
+        fi
+        dirty_message
+        exit 1
+    fi
+
+    commits_ahead=$(echo "$commits_ahead" | awk '{print $2; }')
+    if [[ "$commits_ahead" -gt 0 ]]; then
+        echo "Local branch $branch is ahead of origin/$branch by $commits_ahead commits!"
+        dirty_message
+        exit 1
+    fi
+  fi
+}
+
 execute_robot() {
   # _test_path can be either
   #   - path to directory containing a set of .robot files
@@ -140,44 +179,9 @@ execute_robot() {
   fi
 
   # Prevent executing tests on a dirty git tree
-
-  function dirty_message {
-        echo "Please commit and push your changes before running tests to ensure reproducibility."
-        echo "(Set ALLOW_DIRTY=1 to override and allow quick debugging)"
-  }
-
-  if [[ -z "${ALLOW_DIRTY}" ]]; then
-    if ! git diff --quiet || ! git diff --staged --quiet; then
-        echo "Git tree is dirty!"
-        dirty_message
-        exit 1
-    fi
-
-    branch=$(git rev-parse --abbrev-ref HEAD)
-    if ! git fetch -q; then
-        echo "Failed to fetch remote"
-        exit 1
-    fi
-
-    commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch 2>&1)
-    if [[ $? != 0 || "$commits_ahead" =~ "fatal" ]]; then
-        echo "Failed to check if the local branch is up to date."
-        if [[ "$commits_ahead" =~ "not in the working tree" ]]; then
-            echo "The local branch might not exist on the remote."
-            echo "Make sure to push your branch."
-        fi
-        dirty_message
-        exit 1
-    fi
-
-    commits_ahead=$(echo "$commits_ahead" | awk "{print $2; }")
-    if [[ "$commits_ahead" -gt 0 ]]; then
-        echo "Local branch $branch is ahead of origin/$branch by $commits_ahead commits!"
-        dirty_message
-        exit 1
-    fi
+  if [ -z $GITHUB_ACTIONS ]; then
+    check_dirty_tree
   fi
-
 
   # To save the logs from test modules into separate files robot is called
   # multiple times.
