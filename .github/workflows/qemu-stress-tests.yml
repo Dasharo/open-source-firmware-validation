@@ -9,6 +9,9 @@ on:
     - cron: '0 0 * * *' # Every day at midnight
   workflow_dispatch:
 
+env:
+  ALLOW_DIRTY: 1
+
 jobs:
   qemu:
     runs-on: ubuntu-latest

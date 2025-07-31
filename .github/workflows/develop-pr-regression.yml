@@ -13,6 +13,9 @@ on:
       - '**.robot'
       - 'lib/**'
 
+env:
+  ALLOW_DIRTY: 1
+
 concurrency:
   group: shared-resource-lock
   cancel-in-progress: false

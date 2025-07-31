@@ -20,6 +20,9 @@ on:
       - 'scripts/ci/qemu-run.sh'
       - 'requirements.txt'
 
+env:
+  ALLOW_DIRTY: 1
+
 jobs:
   qemu:
     runs-on: ubuntu-latest
