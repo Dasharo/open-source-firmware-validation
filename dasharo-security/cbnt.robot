@@ -91,8 +91,46 @@ CBNT003.201 Converged Boot Guard and TXT - PCR-0 is reconstructed correctly (Ubu
         Should Not Contain    ${expected}    ${actual}    ignore_case=${TRUE}
     END
 
+CBNT004.201 Converged Boot Guard and TXT - TPM Startup from locality 3 (Ubuntu)
+    [Documentation]    Verify that the system meets the expectations for a
+    ...    - TPM Startup is done from locality 3
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBNT004.201 not supported on this system
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT004.201 not supported
+    Check TPM Startup From Locality 3    ${ENV_ID_UBUNTU}
+
+CBNT005.201 Converged Boot Guard and TXT - Fused platform EoM set and FPFs Committed (Ubuntu)
+    [Documentation]    Verify that the system meets the expectations for a
+    ...    permanently fused platform:
+    ...    - ME Manufacturing Mode is NOT enabled
+    ...    - Field Programmable Fuses (FPFs) are committed
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBNT005.201 not supported on this system
+    Skip If    not ${INTEL_CBNT_BOOTGUARD_FUSED}    CBNT005.201 not supported on this system
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT005.201 not supported
+    Check EoM And FPFs Committed    ${ENV_ID_UBUNTU}
+
 
 *** Keywords ***
+Check TPM Startup From Locality 3
+    [Documentation]    Check TPM Startup locality print in cbmem to verify
+    ...    that TPM started from locality 3
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Boot OS And Enter Root Shell    ${os_id}
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Startup
+    Should Match Regexp    ${out_cbmem}    TPM Startup locality:\\s+3\\n
+    Exit From Root User
+
+Check EoM And FPFs Committed
+    [Documentation]    Check Manufacturing Mode and FPFs Committed
+    ...    prints in cbmem for the expected state
+    [Tags]    robot:private
+    [Arguments]    ${os_id}
+    Boot OS And Enter Root Shell    ${os_id}
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep ME
+    Should Match Regexp    ${out_cbmem}    Manufacturing Mode\\s+:\\s+NO\n
+    Should Match Regexp    ${out_cbmem}    FPFs Committed\\s+:\\s+YES\n
+    Exit From Root User
+
 Check CBnT Profile 5
     [Documentation]    Check if F, V and M components of the boot policy match
     ...    profile 5

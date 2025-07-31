@@ -205,6 +205,7 @@ ${UEFI_PASSWORD_SUPPORT}=                           ${FALSE}
 ${HAS_SUPERIO_SERIAL}=                              ${FALSE}
 ${INTEL_CBNT_SUPPORT}=                              ${FALSE}
 ${INTEL_CBNT_STATUS_MENU_SUPPORT}=                  ${FALSE}
+${INTEL_CBNT_BOOTGUARD_FUSED}=                      ${FALSE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}
