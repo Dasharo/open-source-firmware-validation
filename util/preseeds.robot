@@ -1,5 +1,6 @@
 *** Settings ***
 Library         Collections
+Library         DateTime
 Library         Dialogs
 Library         OperatingSystem
 Library         Process
@@ -41,6 +42,7 @@ Suite Setup     Run Keywords
 ${CLONEZILLA_IPXE_SERVER}=      http://192.168.10.217:8080
 ${DISKS_NFS_IP}=                192.168.10.217
 ${DISKS_NFS_PATH}=              /srv/nfs/disk-images
+${TIME_LIMIT}=                  40m
 
 
 *** Test Cases ***
@@ -70,14 +72,21 @@ Restore Disk Clonezilla
     END
     Press Enter
 
-    VAR    ${msg}=
-    ...    \nThe test case ends now, but the disks are not restored yet.\n
-    ...    The restoration will now begin.\n
-    ...    After a successful restoration, the device will reboot.\n
-    ...    You can monitor the progress on the video output,\n
-    ...    or on the selected TTY, if it was provided (\${CLONEZILLA_TTY}=\"${clonezilla_tty}\")
-    ...    separator=${SPACE}
-    Log To Console    ${msg}
+    ${current_time}=    Get Current Date    result_format=epoch
+    ${end_time}=    Add Time To Date    ${current_time}    ${TIME_LIMIT}    result_format=epoch
+    WHILE    ${current_time} < ${end_time}
+        ${out}=    Read From Terminal
+        Log To Console    ${out}
+        # Platform rebooted
+        IF    '${TIANOCORE_STRING}' in '''${out}'''
+            Pass Execution    Flashing finished.
+        END
+    END
+    VAR    ${msg}=    ${TIME_LIMIT} has passed and the device did not reboot.
+    ...    Either flashing failed, wrong CLONEZILLA_TTY was given
+    ...    (CLONEZILLA_TTY=${clonezilla_tty}), or it needs more time.
+    ...    Verify manually.
+    Fail    msg=${msg}
 
 Manual Clonezilla
     ${clonezilla_tty}=    Get Envvar    CLONEZILLA_TTY    ${TRUE}
