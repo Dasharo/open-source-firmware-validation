@@ -35,7 +35,7 @@ ${DTS_DCR_UEFI_OPT}=                c
 ${DTS_DPP_UEFI_OPT}=                d
 ${DTS_DPP_SEA_OPT}=                 s
 ${DTS_LOGS_OPT}=                    l
-# DTS subscription checkpoints:
+# DTS release checkpoints:
 ${DTS_NOACCESS_DPP_UEFI}=           Dasharo Pro Package version (coreboot + UEFI) is also available.
 ${DTS_NOACCESS_DPP_SEABIOS}=        Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
 ${DTS_NOACCESS_DPP_HEADS}=          Dasharo Pro Package version (coreboot + Heads) is also available.

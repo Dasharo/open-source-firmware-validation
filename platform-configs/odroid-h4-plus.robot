@@ -110,7 +110,7 @@ ${DTS_SUPPORT}=                                 ${TRUE}
 ${DTS_TEST_SYSTEM_VENDOR}=                      HARDKERNEL
 ${DTS_TEST_SYSTEM_MODEL}=                       ODROID-H4
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
-@{DTS_TEST_DEFAULT_SUBSCRIPTIONS}=              DPP
+@{DTS_TEST_DEFAULT_RELEASES}=                   DPP
 
 
 *** Keywords ***

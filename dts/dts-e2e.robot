@@ -21,11 +21,11 @@ Test Teardown       Teardown DTS Test
 
 *** Test Cases ***
 Create tests
-    [Template]    ${platform} ${workflow} - ${subscription}
+    [Template]    ${platform} ${workflow} - ${release}
     FOR    ${platform}    ${platform_variables}    IN    &{DTS_PLATFORM_VARIABLES}
         FOR    ${workflow}    IN    @{platform_variables}[DTS_TEST_WORKFLOWS]
-            FOR    ${subscription}    IN    @{platform_variables}[DTS_TEST_WORKFLOW_SUBSCRIPTIONS][${workflow}]
-                ${platform}    ${workflow}    ${subscription}
+            FOR    ${release}    IN    @{platform_variables}[DTS_TEST_WORKFLOW_RELEASES][${workflow}]
+                ${platform}    ${workflow}    ${release}
             END
         END
     END
@@ -55,10 +55,10 @@ E2E001.001 HCL Report test
 
 *** Keywords ***
 # robocop: disable:0919
-${platform} ${workflow} - ${subscription}
+${platform} ${workflow} - ${release}
     [Documentation]    Fallback keyword, should only enter if there is a typo
-    ...    in DTS_TEST_WORKFLOWS or DTS_TEST_SUBSCRIPTIONS
-    Fail    Unknown workflow (${workflow}) or subscription (${subscription})
+    ...    in DTS_TEST_WORKFLOWS or DTS_TEST_RELEASES
+    Fail    Unknown workflow (${workflow}) or release (${release})
 # robocop: enable
 
 ${platform} UEFI Update - DCR

@@ -98,7 +98,7 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 # DTS E2E variables
 ${DTS_TEST_SYSTEM_VENDOR}=                      Dell Inc.
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
-@{DTS_TEST_DEFAULT_SUBSCRIPTIONS}=              DPP
+@{DTS_TEST_DEFAULT_RELEASES}=                   DPP
 
 
 *** Keywords ***

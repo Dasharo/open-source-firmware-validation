@@ -110,7 +110,7 @@ ${DTS_TEST_BIOS_VENDOR}=                    coreboot
 ...                                         SeaBIOS Update=v24.04.00.05    SeaBIOS->UEFI Transition=v24.04.00.05
 @{DTS_TEST_WORKFLOWS}=                      UEFI Update    SeaBIOS Update    SeaBIOS->UEFI Transition
 # TODO: Also seabios, add to tests
-@{DTS_TEST_DEFAULT_SUBSCRIPTIONS}=          DPP
+@{DTS_TEST_DEFAULT_RELEASES}=               DPP
 ${DTS_TEST_BOARD_MODEL}=                    ${DTS_TEST_SYSTEM_MODEL}
 
 

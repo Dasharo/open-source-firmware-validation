@@ -150,7 +150,7 @@ ${DTS_TEST_SYSTEM_VENDOR}=                          Notebook
 # We might want to split it and make sure logic only
 # deploys EC in those cases
 @{DTS_TEST_WORKFLOWS}=                              Initial Deployment    UEFI Update
-@{DTS_TEST_DEFAULT_SUBSCRIPTIONS}=                  DCR
+@{DTS_TEST_DEFAULT_RELEASES}=                       DCR
 
 
 *** Keywords ***

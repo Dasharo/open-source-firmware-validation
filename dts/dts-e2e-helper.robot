@@ -30,8 +30,8 @@ E2EH003.001 Print names of test cases to be generated
     &{workflows}=    Get All Platforms Workflows
     FOR    ${platform}    ${platform_workflows}    IN    &{workflows}
         FOR    ${platform_workflow}    IN    @{platform_workflows}
-            ${workflow}    ${subscription}=    Set Variable    @{platform_workflow}
-            Log To Console    ${platform} ${workflow} - ${subscription}
+            ${workflow}    ${release}=    Set Variable    @{platform_workflow}
+            Log To Console    ${platform} ${workflow} - ${release}
         END
     END
 
@@ -47,10 +47,10 @@ Print Test Names And Exports
     Log To Console    ${platform}
     Log To Console    --------------------------------------------------
     FOR    ${platform_workflows}    IN    @{workflows}
-        ${workflow}    ${subscription}=    Set Variable    ${platform_workflows}
+        ${workflow}    ${release}=    Set Variable    ${platform_workflows}
         @{exports}=    Prepare Test Exports    ${workflow}    ${platform_variables}
         Log To Console    ---------------
-        Log To Console    ${platform} ${workflow} - ${subscription}
+        Log To Console    ${platform} ${workflow} - ${release}
         Log To Console    ---------------
         FOR    ${export}    IN    @{exports}
             Log To Console    ${export}
@@ -62,8 +62,8 @@ Get Platform Workflows
     VAR    ${platform_variables}=    ${DTS_PLATFORM_VARIABLES}[${platform}]
     VAR    @{workflows}=    @{EMPTY}
     FOR    ${workflow}    IN    @{platform_variables}[DTS_TEST_WORKFLOWS]
-        FOR    ${subscription}    IN    @{platform_variables}[DTS_TEST_WORKFLOW_SUBSCRIPTIONS][${workflow}]
-            VAR    @{platform_workflow}=    ${workflow}    ${subscription}
+        FOR    ${release}    IN    @{platform_variables}[DTS_TEST_WORKFLOW_RELEASES][${workflow}]
+            VAR    @{platform_workflow}=    ${workflow}    ${release}
             Append To List    ${workflows}    ${platform_workflow}
         END
     END
