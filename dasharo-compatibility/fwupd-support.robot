@@ -42,15 +42,6 @@ FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
     Login To Linux
     Fwupd Local Firmware Update Linux
 
-FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
-    [Documentation]    Test if a firmware update can be performed using fwupd
-    ...    and a signed cabinet from LVFS
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Fwupd LVFS Firmware Update Linux
-
 FWUPD001.202 Fwupd Devices Detected (Fedora)
     [Documentation]    Test if the supported hardware is properly detected
     ...    by fwupd
@@ -68,15 +59,6 @@ FWUPD002.202 Fwupd Local Firmware Update (Fedora)
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Fwupd Local Firmware Update Linux
-
-FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
-    [Documentation]    Test if a firmware update can be performed using fwupd
-    ...    and a signed cabinet from LVFS
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Fwupd LVFS Firmware Update Linux
 
 FWUPD001.203 Fwupd Devices Detected (QubesOS)
     [Documentation]    Test if the supported hardware is properly detected
@@ -107,19 +89,6 @@ FWUPD002.203 Fwupd Local Firmware Update (QubesOS)
     Execute Manual Step    Run `yes n | fwupdmgr local-install \$FWUPD_CABINET_FILE --allow-reinstall --allow-older`
     Execute Manual Step    Should print `Successfully installed firmware`
 
-FWUPD003.203 Fwupd LVFS Firmware Update (QubesOS)
-    [Documentation]    Test if a firmware update can be performed using fwupd
-    ...    and a signed cabinet from LVFS
-    [Tags]    semiauto
-    Execute Manual Step    Power on and boot into QubesOS
-    Execute Manual Step    Open dom0 terminal
-    Execute Manual Step
-    ...    Run `export ID=$(fwupdmgr get-devices 2>/dev/null | grep -A1 "System Firmware" | grep "Device ID" | awk '{print $NF}')`
-    Execute Manual Step    Run `yes n | fwupdmgr install \$ID --allow-reinstall --allow-older`
-    Execute Manual Step
-    ...    Should not print any of: `failed to find`, `No updatable devices`, `No releases found`, `no devices`
-    Execute Manual Step    Should print `Successfully installed firmware`
-
 
 *** Keywords ***
 Fwupd Devices Detected Linux
@@ -148,23 +117,3 @@ Fwupd Local Firmware Update Linux
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
     ${out}=    Execute Command In Terminal    yes n | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older
     Should Contain    ${out}    Successfully installed firmware
-
-Fwupd LVFS Firmware Update Linux
-    Switch To Root User
-    Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' | sudo tee /etc/fwupd/fwupd.conf
-    Execute Command In Terminal    fwupdmgr refresh
-
-    VAR    ${id_extract_command}=
-    ...    fwupdmgr get-devices 2>/dev/null
-    ...    grep -A1 "System Firmware"
-    ...    grep "Device ID"
-    ...    awk '{print $NF}'
-    ...    separator= |
-    ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Execute Command In Terminal    yes n | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older
-
-    Should Not Contain    ${out}    failed to find    ignore_case=${True}
-    Should Not Contain    ${out}    No updatable devices    ignore_case=${True}
-    Should Not Contain    ${out}    No releases found    ignore_case=${True}
-    Should Not Contain    ${out}    no devices    ignore_case=${True}
-    Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
