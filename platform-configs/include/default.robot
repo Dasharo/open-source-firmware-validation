@@ -396,11 +396,9 @@ ${FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               ${TBD}
 # Base fw version set for every workflow
 ${DTS_TEST_VERSION_BASE}=                           v0.0.0
 &{DTS_TEST_VERSIONS_BASE}=
-...                                                 Initial Deployment=${DTS_TEST_VERSION_BASE}
+...                                                 &{{ {workflow: "${DTS_TEST_VERSION_BASE}" for workflow in ${DTS_TEST_POSSIBLE_WORKFLOWS} } }}
 ...                                                 UEFI Update=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
-...                                                 SeaBIOS Update=${DTS_TEST_VERSION_BASE}
 ...                                                 UEFI->Heads Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
-...                                                 SeaBIOS->UEFI Transition=${DTS_TEST_VERSION_BASE}
 &{DTS_TEST_VERSIONS}=                               &{DTS_TEST_VERSIONS_BASE}
 # TEST_SYSTEM_MODEL, TEST_BOARD_MODEL, TEST_SYSTEM_VENDOR variables to export
 ${DTS_TEST_SYSTEM_MODEL}=                           ${EMPTY}
