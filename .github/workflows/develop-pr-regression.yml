@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: Smoke tests on selected platforms
+name: Scoped regression on PRs
 
 # Only try to run if a robot file or a lib was modified in the PR
 on:
