@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Michał Iwanicki <michal.iwanicki@3mdeb.com>
+# SPDX-FileCopyrightText: 2025 Michał Iwanicki <iwanicki92@gmail.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
