@@ -147,6 +147,8 @@ execute_robot() {
   }
 
   if [[ -z "${ALLOW_DIRTY}" ]]; then
+    git diff
+    git diff --staged
     if ! git diff --quiet || ! git diff --staged --quiet; then
         echo "Git tree is dirty!"
         dirty_message
@@ -154,12 +156,15 @@ execute_robot() {
     fi
 
     branch=$(git rev-parse --abbrev-ref HEAD)
+    echo $branch
+    git fetch -q
     if ! git fetch -q; then
         echo "Failed to fetch remote"
         exit 1
     fi
 
     commits_ahead=$(git rev-list --left-right --count origin/$branch...$branch 2>&1)
+    git rev-list --left-right --count origin/$branch..$branch
     if [[ $? != 0 || "$commits_ahead" =~ "fatal" ]]; then
         echo "Failed to check if the local branch is up to date."
         if [[ "$commits_ahead" =~ "not in the working tree" ]]; then
