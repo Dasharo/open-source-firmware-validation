@@ -46,13 +46,8 @@ ${DISKS_NFS_PATH}=              /srv/nfs/disk-images
 *** Test Cases ***
 Restore Disk Clonezilla
     ${clonezilla_tty}=    Get Envvar    CLONEZILLA_TTY    ${TRUE}
-    Set Suite Variable    ${CLONEZILLA_TTY}    ${clonezilla_tty}
-
     ${source_image}=    Get Envvar    SOURCE_IMAGE
-    Set Suite Variable    ${SOURCE_IMAGE}    ${source_image}
-
     ${target_disk}=    Get Envvar    TARGET_DISK
-    Set Suite Variable    ${TARGET_DISK}    ${target_disk}
 
     Power On
     ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE
@@ -64,27 +59,28 @@ Restore Disk Clonezilla
     Execute Command In Terminal
     ...    dhcp
     ...    timeout=5m
-    IF    "${CLONEZILLA_TTY}" == "${EMPTY}"
+    IF    "${clonezilla_tty}" == "${EMPTY}"
         Write Bare Into Terminal
-        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}
+        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${source_image}&disk=${target_disk}
         ...    interval=0.5
     ELSE
         Write Bare Into Terminal
-        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${SOURCE_IMAGE}&disk=${TARGET_DISK}&tty=${CLONEZILLA_TTY}
+        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${source_image}&disk=${target_disk}&tty=${clonezilla_tty}
         ...    interval=0.5
     END
     Press Enter
 
-    ${msg}=    Catenate    \nThe test case ends now, but the disks are not restored yet.\n
+    VAR    ${msg}=
+    ...    \nThe test case ends now, but the disks are not restored yet.\n
     ...    The restoration will now begin.\n
     ...    After a successful restoration, the device will reboot.\n
     ...    You can monitor the progress on the video output,\n
-    ...    or on the selected TTY, if it was provided (\${CLONEZILLA_TTY}=\"${CLONEZILLA_TTY}\")
+    ...    or on the selected TTY, if it was provided (\${CLONEZILLA_TTY}=\"${clonezilla_tty}\")
+    ...    separator=${SPACE}
     Log To Console    ${msg}
 
 Manual Clonezilla
     ${clonezilla_tty}=    Get Envvar    CLONEZILLA_TTY    ${TRUE}
-    Set Suite Variable    ${CLONEZILLA_TTY}    ${clonezilla_tty}
 
     Power On
     ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE
@@ -97,13 +93,13 @@ Manual Clonezilla
     ...    dhcp
     ...    timeout=5m
 
-    IF    "${CLONEZILLA_TTY}" == "${EMPTY}"
+    IF    "${clonezilla_tty}" == "${EMPTY}"
         Write Bare Into Terminal
         ...    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe
         ...    interval=0.5
     ELSE
         Write Bare Into Terminal
-        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe?tty=${CLONEZILLA_TTY}
+        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot-manual.ipxe?tty=${clonezilla_tty}
         ...    interval=0.5
     END
     Press Enter
@@ -114,7 +110,6 @@ Manual Clonezilla
 
 *** Keywords ***
 Get Envvar
-    [Tags]    robot:private
     [Arguments]    ${name}    ${optional}=${FALSE}
     ${status}=    Run Keyword And Return Status    Get Environment Variable    ${name}
     IF    not (${optional} or ${status})
