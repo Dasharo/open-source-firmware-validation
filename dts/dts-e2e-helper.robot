@@ -41,7 +41,7 @@ Print Test Names And Exports
     [Documentation]    Print tests generated for one platform and exports used
     ...    in this test
     [Arguments]    ${platform}
-    &{platform_variables}=    Set Variable    ${DTS_PLATFORM_VARIABLES}[${platform}]
+    VAR    ${platform_variables}=    ${DTS_PLATFORM_VARIABLES}[${platform}]
     @{workflows}=    Get Platform Workflows    ${platform}
     Log To Console    --------------------------------------------------
     Log To Console    ${platform}
@@ -59,18 +59,18 @@ Print Test Names And Exports
 
 Get Platform Workflows
     [Arguments]    ${platform}
-    &{platform_variables}=    Set Variable    ${DTS_PLATFORM_VARIABLES}[${platform}]
-    @{workflows}=    Create List
+    VAR    ${platform_variables}=    ${DTS_PLATFORM_VARIABLES}[${platform}]
+    VAR    @{workflows}=    @{EMPTY}
     FOR    ${workflow}    IN    @{platform_variables}[DTS_TEST_WORKFLOWS]
         FOR    ${subscription}    IN    @{platform_variables}[DTS_TEST_WORKFLOW_SUBSCRIPTIONS][${workflow}]
-            ${platform_workflow}=    Create List    ${workflow}    ${subscription}
+            VAR    @{platform_workflow}=    ${workflow}    ${subscription}
             Append To List    ${workflows}    ${platform_workflow}
         END
     END
     RETURN    ${workflows}
 
 Get All Platforms Workflows
-    &{all_workflows}=    Create Dictionary
+    VAR    &{all_workflows}=    &{EMPTY}
     FOR    ${platform}    IN    @{DTS_PLATFORM_VARIABLES}
         @{platform_workflows}=    Get Platform Workflows    ${platform}
         Set To Dictionary    ${all_workflows}    ${platform}=${platform_workflows}
@@ -78,5 +78,5 @@ Get All Platforms Workflows
     RETURN    ${all_workflows}
 
 Prepare DTS E2E Test Suite
-    &{dts_platform_variables}=    Get DTS Test Variables
-    Set Suite Variable    \${DTS_PLATFORM_VARIABLES}
+    &{dts_vars}=    Get DTS Test Variables
+    VAR    ${DTS_PLATFORM_VARIABLES}=    ${dts_vars}    scope=SUITE

@@ -307,14 +307,14 @@ Go Through Initial Deployment
     [Arguments]    ${dasharo_version}
 
     IF    '${dasharo_version}' == 'DCR UEFI'
-        ${opt}=    Set Variable    ${DTS_DCR_UEFI_OPT}
-        ${menupoint}=    Set Variable    ${DTS_DCR_UEFI_MENUPOINT}
+        VAR    ${opt}=    ${DTS_DCR_UEFI_OPT}
+        VAR    ${menupoint}=    ${DTS_DCR_UEFI_MENUPOINT}
     ELSE IF    '${dasharo_version}' == 'DPP UEFI'
-        ${opt}=    Set Variable    ${DTS_DPP_UEFI_OPT}
-        ${menupoint}=    Set Variable    ${DTS_DPP_UEFI_MENUPOINT}
+        VAR    ${opt}=    ${DTS_DPP_UEFI_OPT}
+        VAR    ${menupoint}=    ${DTS_DPP_UEFI_MENUPOINT}
     ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
-        ${opt}=    Set Variable    ${DTS_DPP_SEA_OPT}
-        ${menupoint}=    Set Variable    ${DTS_DPP_SEA_MENUPOINT}
+        VAR    ${opt}=    ${DTS_DPP_SEA_OPT}
+        VAR    ${menupoint}=    ${DTS_DPP_SEA_MENUPOINT}
     ELSE
         Fail    No Dasharo version for initial deployment provided!
     END
@@ -437,22 +437,21 @@ Export Shell Variables For Emulation
 Prepare Test Exports
     [Documentation]    Create list with 'export VARIABLE=VALUE` strings.
     [Arguments]    ${workflow}    ${dts_test_variables}
-    &{exports_dict}=    Set Variable    ${dts_test_variables}[DTS_TEST_EXPORTS]
-    ${exports_dict}[TEST_BIOS_VERSION]=    Set Variable
-    ...    ${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
+    VAR    &{exports_dict}=    &{dts_test_variables}[DTS_TEST_EXPORTS]
+    Set To Dictionary    ${exports_dict}    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
     IF    "${workflow}" == "Initial Deployment"
-        ${exports_dict}[TEST_BIOS_VENDOR]=    Set Variable    proprietary
+        Set To Dictionary    ${exports_dict}    TEST_BIOS_VENDOR=proprietary
     ELSE
         IF    ${dts_test_variables}[DTS_TEST_HAS_EC]
-            ${exports_dict}[TEST_USING_OPENSOURCE_EC_FIRM]=    Set Variable    true
+            Set To Dictionary    ${exports_dict}    TEST_USING_OPENSOURCE_EC_FIRM=true
         END
     END
     IF    "SeaBIOS Update" in "${workflow}" or "SeaBIOS->" in "${workflow}"
-        ${exports_dict}[TEST_EFI_PRESENT]=    Set Variable    false
-        ${exports_dict}[TEST_IS_SEABIOS]=    Set Variable    true
+        Set To Dictionary    ${exports_dict}    TEST_EFI_PRESENT=false
+        Set To Dictionary    ${exports_dict}    TEST_IS_SEABIOS=true
     END
 
-    @{exports}=    Create List
+    VAR    @{exports}=    @{EMPTY}
     FOR    ${export_variable}    ${export_value}    IN    &{exports_dict}
         Append To List    ${exports}
         ...    export ${export_variable}="${export_value}"
