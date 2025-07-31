@@ -178,6 +178,15 @@ Enter Enroll DB Signature Using File In DB Options
     ...    opt_only=${FALSE}
     Enter Submenu From Snapshot    ${enroll_sig_menu}    Enroll Signature Using File
 
+Enter PK Options
+    [Documentation]    Keyword enters PK Option in Secure Boot Menu.
+    [Arguments]    ${advanced_menu}    ${opt_only}=${TRUE}
+    ${pk_opts_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${advanced_menu}
+    ...    PK Options
+    ...    opt_only=${opt_only}
+    RETURN    ${pk_opts_menu}
+
 Enter Volume In File Explorer
     [Documentation]    Enter the given volume
     [Arguments]    ${target_volume}
