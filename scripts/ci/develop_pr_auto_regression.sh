@@ -43,10 +43,12 @@ for command in "${commands[@]}"; do
         done
 
         export_string=$(IFS='; '; echo "${exports[*]}")
-        echo Run $1 setting environment variables: \"${export_string}\"
+        echo Run $i setting environment variables: \"${export_string}\"
         eval ${export_string}
+        echo Run $i running basic-platform-setup
+        eval ./scripts/run.sh util/basic-platform-setup.robot > "$LOGS_DIR/run_${i}.log" 2>&1
         echo Run $i executing: \"${actual_command}\"
-        eval ${actual_command} #> "$LOGS_DIR/run_${i}.log" 2>&1
+        eval ${actual_command} >> "$LOGS_DIR/run_${i}.log" 2>&1
     ) &
     pids[${i}]=$!
     (( i++ ))
