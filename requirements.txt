@@ -67,7 +67,7 @@ requests==2.32.4
 reuse==5.0.2
 rich==14.1.0
 rich-click==1.8.9
-robotframework @ git+https://github.com/3mdeb/robotframework@346f2155c1006cdd40ad9b55f3a44ade8df187c8
+robotframework @ git+https://github.com/3mdeb/robotframework@e8292509e926759c2bd63acada2e80b21088a5ba
 robotframework-csvlibrary==0.0.5
 robotframework-faker==6.0.0
 robotframework-requests==0.9.4
