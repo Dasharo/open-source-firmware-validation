@@ -22,6 +22,7 @@ then
     exit 1
 fi
 
+NO_AUDIO_EMULATION=""
 HDD_PATH=${HDD_PATH:-qemu-data/hdd.qcow2}
 PULSE_SERVER=${PULSE_SERVER:-unix:/run/user/$(id -u)/pulse/native}
 INSTALLER_PATH="qemu-data/installer.iso"
@@ -38,7 +39,7 @@ QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
 
 usage() {
 cat <<EOF
-Usage: ./$(basename ${0}) QEMU_MODE ACTION
+Usage: ./$(basename ${0}) [OPTIONS]... QEMU_MODE ACTION
 
 This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
@@ -62,13 +63,17 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
     HDD2_PATH   optional path of the second hard drive to connect to the machine if
                 ACTION "os" is used. Relative to DIR
 
+  Additional OPTIONS:
+    --no-audio-emulation   do not add an audio device to QEMU. Is only usable with
+                           "os" ACTION.
+    --help                 print this message.
+
 Example usage:
     ./$(basename $0) vnc firmware
     ./$(basename $0) graphic os_install
     DIR=/my/work/dir HDD2_PATH=qemu-data/hdd2.qcow ./$(basename $0) graphic os
 
 EOF
-  exit 0
 }
 
 esc() {
@@ -129,8 +134,36 @@ cleanup() {
 
 trap cleanup INT
 
+parse_args() {
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --no-audio-emulation)
+        NO_AUDIO_EMULATION="true"
+        shift
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      -*)
+        usage
+        echo "Unknown option $1"
+        exit 1
+        ;;
+      *)
+        POSITIONAL_ARGS+=( "$1" )
+        shift
+        ;;
+    esac
+  done
+}
+
+parse_args "$@"
+set -- "${POSITIONAL_ARGS[@]}"
+
 if [ $# -ne 2 ]; then
   usage
+  exit 1
 fi
 
 QEMU_PARAMS_BASE="-machine q35,smm=on \
@@ -149,14 +182,15 @@ QEMU_PARAMS_BASE="-machine q35,smm=on \
   -enable-kvm \
   -mem-prealloc"
 
-QEMU_PARAMS_OS="-device ich9-intel-hda \
-  -device hda-duplex,audiodev=hda \
-  -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100 \
-  -object rng-random,id=rng0,filename=/dev/urandom \
+QEMU_PARAMS_OS="-object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
   -device virtio-net,netdev=vmnic \
   -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
   -drive file=${HDD_PATH},if=ide"
+
+QEMU_PARAMS_OS_AUDIO="-device ich9-intel-hda \
+  -device hda-duplex,audiodev=hda \
+  -audiodev pa,id=hda,server=${PULSE_SERVER},out.frequency=44100"
 
 if [[ -f ${HDD2_PATH} ]]; then
   QEMU_PARAMS_OS+=" \
@@ -170,6 +204,7 @@ QEMU_PARAMS_INSTALLER="-cdrom ${INSTALLER_PATH}"
 cd "$DIR" || exit
 
 MODE="$1"
+ACTION="$2"
 
 case "${MODE}" in
   nographic)
@@ -182,12 +217,11 @@ case "${MODE}" in
     QEMU_PARAMS="${QEMU_PARAMS_BASE} -display gtk,window-close=off"
     ;;
   *)
-    echo "Mode: ${MODE} not supported"
+    echo -e "Mode: ${MODE} not supported\n"
+    usage
     exit 1
 		;;
 esac
-
-ACTION="$2"
 
 case "${ACTION}" in
   firmware)
@@ -196,6 +230,11 @@ case "${ACTION}" in
   os)
     MEMORY="4G"
     QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS}"
+
+    if [[ "$NO_AUDIO_EMULATION" != "true" ]]; then
+      QEMU_PARAMS="${QEMU_PARAMS} ${QEMU_PARAMS_OS_AUDIO}"
+    fi
+
     check_disks ${ACTION}
     ;;
   os_install)
@@ -204,7 +243,8 @@ case "${ACTION}" in
     check_disks ${ACTION}
     ;;
   *)
-    echo "Action: ${ACTION} not supported"
+    echo -e "Action: ${ACTION} not supported\n"
+    usage
     exit 1
 		;;
 esac

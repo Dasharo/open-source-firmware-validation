@@ -4,4 +4,4 @@
 
 [codespell]
 exclude-file = .codespellx
-ignore-words-list = "FPT,FTP,fpt,ftp,checkin,Checkin"
+ignore-words-list = FPT,FTP,fpt,ftp,checkin,Checkin,hda,HDA
