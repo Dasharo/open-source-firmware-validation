@@ -19,8 +19,9 @@ ${DEVICE_NVME_DISK}=
 ${DEVICE_USB_KEYBOARD}=
 ...                                     Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc3
-${DMIDECODE_RELEASE_DATE}=              04/10/2025
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc4
+${DMIDECODE_RELEASE_DATE}=              07/30/2025
+${DMIDECODE_SERIAL_NUMBER}=             123456789
 ${WIFI_CARD}=
 ...                                     Intel Corporation Meteor Lake PCH CNVi WiFi
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
