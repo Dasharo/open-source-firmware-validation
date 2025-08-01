@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    include/novacustom-common.robot
 Resource    include/novacustom-mtl.robot
+Resource    include/novacustom-common.robot
 
 
 *** Variables ***
@@ -59,3 +59,8 @@ ${UNIGINE_SUPERPOSITION_RESULT_AC}=     114    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    26.2    # FPS
 
 ${OPTIONS_LIB}=                         options-lib_dcu
+
+# DTS E2E variables
+${DTS_TEST_SYSTEM_MODEL}=               V5xTNC_TND_TNE
+${DTS_TEST_BOARD_MODEL}=                V560TNx
+@{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update

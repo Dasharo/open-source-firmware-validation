@@ -30,3 +30,6 @@ ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
 
 ${OPTIONS_LIB}=                     options-lib_dcu
+
+# DTS E2E variables
+${DTS_TEST_SYSTEM_MODEL}=           NS50_70MU

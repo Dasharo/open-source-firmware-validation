@@ -27,3 +27,6 @@ ${ESP_SCANNING_SUPPORT}=                ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
+
+# DTS E2E test variables
+@{DTS_TEST_WORKFLOWS}=                  @{EMPTY}

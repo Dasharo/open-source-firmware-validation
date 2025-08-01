@@ -84,6 +84,14 @@ ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     20.6    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    20.3    # FPS
 
+# DTS E2E variables
+&{DTS_TEST_VERSIONS}=
+...                                     &{DTS_TEST_VERSIONS_BASE}
+...                                     UEFI->Heads Transition=Dasharo (coreboot+UEFI) 0.9.0
+${DTS_TEST_SYSTEM_MODEL}=               V54x_6x_TU
+${DTS_TEST_BOARD_MODEL}=                V540TU
+@{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update    UEFI->Heads Transition
+
 
 *** Keywords ***
 Power On

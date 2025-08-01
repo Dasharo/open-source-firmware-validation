@@ -19,6 +19,7 @@ ${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware 
 ${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
 ${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
 ${DTS_ME_WARN}=                     Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
+${DTS_BOARD_QUESTION}=              Choose your board model:
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=          Community version
 ${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
@@ -34,7 +35,7 @@ ${DTS_DCR_UEFI_OPT}=                c
 ${DTS_DPP_UEFI_OPT}=                d
 ${DTS_DPP_SEA_OPT}=                 s
 ${DTS_LOGS_OPT}=                    l
-# DTS subscription checkpoints:
+# DTS release checkpoints:
 ${DTS_NOACCESS_DPP_UEFI}=           Dasharo Pro Package version (coreboot + UEFI) is also available.
 ${DTS_NOACCESS_DPP_SEABIOS}=        Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
 ${DTS_NOACCESS_DPP_HEADS}=          Dasharo Pro Package version (coreboot + Heads) is also available.
@@ -259,16 +260,7 @@ Wait For Either Checkpoint And Write
     [Documentation]    Keywords waits for any of the ${checkpoints} key and if
     ...    it matches then writes value of this element to the console
     [Arguments]    &{checkpoints}
-    VAR    ${regexp}=    ${EMPTY}
-    # Iterate over keys (checkpoints)
-    FOR    ${checkpoint}    IN    @{checkpoints}
-        ${checkpoint_escaped}=    Evaluate
-        ...    re.escape("""${checkpoint}""")
-        VAR    ${regexp}=    ${regexp}${checkpoint_escaped}|
-    END
-    # Remove trailing |
-    ${regexp}=    Get Substring    ${regexp}    0    -1
-    ${out}=    Wait For Checkpoint    ${regexp}    ${TRUE}
+    ${out}=    Wait For Either Checkpoint    @{checkpoints}
     # Find which checkpoint we found
     Sleep    1s
     FOR    ${checkpoint}    ${write}    IN    &{checkpoints}
@@ -280,6 +272,22 @@ Wait For Either Checkpoint And Write
 
     # We shouldn't ever get here
     Fail    Couldn't find checkpoint in returned output
+
+Wait For Either Checkpoint
+    [Documentation]    Keywords waits for any of the ${checkpoints} and returns
+    ...    console output to that point
+    [Arguments]    @{checkpoints}
+    VAR    ${regexp}=    ${EMPTY}
+    # Iterate over keys (checkpoints)
+    FOR    ${checkpoint}    IN    @{checkpoints}
+        ${checkpoint_escaped}=    Evaluate
+        ...    re.escape("""${checkpoint}""")
+        VAR    ${regexp}=    ${regexp}${checkpoint_escaped}|
+    END
+    # Remove trailing |
+    ${regexp}=    Get Substring    ${regexp}    0    -1
+    ${out}=    Wait For Checkpoint    ${regexp}    ${TRUE}
+    RETURN    ${out}
 
 Wait For Checkpoint And Press Enter
     [Documentation]    This KW waits for checkpoint (first argument)
@@ -297,6 +305,20 @@ Go Through Initial Deployment
     ...    deploy (first argument), available versions: DCR UEFI, DPP UEFI, DPP
     ...    SeaBIOS.
     [Arguments]    ${dasharo_version}
+
+    IF    '${dasharo_version}' == 'DCR UEFI'
+        VAR    ${opt}=    ${DTS_DCR_UEFI_OPT}
+        VAR    ${menupoint}=    ${DTS_DCR_UEFI_MENUPOINT}
+    ELSE IF    '${dasharo_version}' == 'DPP UEFI'
+        VAR    ${opt}=    ${DTS_DPP_UEFI_OPT}
+        VAR    ${menupoint}=    ${DTS_DPP_UEFI_MENUPOINT}
+    ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
+        VAR    ${opt}=    ${DTS_DPP_SEA_OPT}
+        VAR    ${menupoint}=    ${DTS_DPP_SEA_MENUPOINT}
+    ELSE
+        Fail    No Dasharo version for initial deployment provided!
+    END
+
     # 1) Select initial deployment:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
@@ -306,19 +328,23 @@ Go Through Initial Deployment
     Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    N
     Set DUT Response Timeout    120s
 
-    # 3) Choose version to install:
-    IF    '${dasharo_version}' == 'DCR UEFI'
-        Wait For Checkpoint    ${DTS_DCR_UEFI_OPT}) ${DTS_DCR_UEFI_MENUPOINT}
-        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
-    ELSE IF    '${dasharo_version}' == 'DPP UEFI'
-        Wait For Checkpoint    ${DTS_DPP_UEFI_OPT}) ${DTS_DPP_UEFI_MENUPOINT}
-        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_UEFI_OPT}
-    ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
-        Wait For Checkpoint    ${DTS_DPP_SEA_OPT}) ${DTS_DPP_SEA_MENUPOINT}
-        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_SEA_OPT}
-    ELSE
-        Fail    No Dasharo version for initial deployment provided!
+    # DTS_BOARD_QUESTION will be asked for NovaCustom V540TNx, V560TNx, V540TU
+    # or V560TU
+    ${checkpoint}=    Wait For Either Checkpoint
+    ...    ${DTS_BOARD_QUESTION}
+    ...    ${opt}) ${menupoint}
+
+    IF    """${DTS_BOARD_QUESTION}""" in """${checkpoint}"""
+        ${out}=    Wait For Checkpoint    ${DTS_TEST_BOARD_MODEL}
+        ${out}=    Get Line    ${out}    -1
+        ${out}=    Strip String    ${out}
+        ${board_opt}=    Get Regexp Matches    ${out}    ^([0-9]+):    1
+        Write Into Terminal    ${board_opt}[0]
+        Wait For Checkpoint    ${opt}) ${menupoint}
     END
+
+    # 3) Choose version to install:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${opt}
 
     # 4) Check out all warnings:
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
@@ -400,15 +426,35 @@ Go Through Heads Transition
     Wait For Checkpoint    Successfully switched to Dasharo Heads firmware
     Wait For Checkpoint And Write    ${DTS_CONFIRM_CHECKPOINT}    1
 
-Go Through Update Decline Heads
-    [Documentation]    This KW goes through standard Dasharo update workflow
-    ...    choosing all needed menu options and answering all questions. It
-    ...    declines switching to Heads firmware.
-    Set DUT Response Timeout    120s
-    # 1) Select initial deployment:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+Export Shell Variables For Emulation
+    [Documentation]    Export variables needed for this test
+    [Arguments]    ${workflow}    ${dts_test_variables}
+    @{exports}=    Prepare Test Exports    ${workflow}    ${dts_test_variables}
+    FOR    ${export_string}    IN    @{exports}
+        Execute Command In Terminal    export ${export_string}
+    END
 
-    # 2) Check out all warnings:
-    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    N
-    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
-    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+Prepare Test Exports
+    [Documentation]    Create list with 'export VARIABLE=VALUE` strings.
+    [Arguments]    ${workflow}    ${dts_test_variables}
+    VAR    &{exports_dict}=    &{dts_test_variables}[DTS_TEST_EXPORTS]
+    Set To Dictionary    ${exports_dict}    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
+    IF    "${workflow}" == "Initial Deployment"
+        Set To Dictionary    ${exports_dict}    TEST_BIOS_VENDOR=proprietary
+    ELSE
+        IF    ${dts_test_variables}[DTS_TEST_HAS_EC]
+            Set To Dictionary    ${exports_dict}    TEST_USING_OPENSOURCE_EC_FIRM=true
+        END
+    END
+    IF    "SeaBIOS Update" in "${workflow}" or "SeaBIOS->" in "${workflow}"
+        Set To Dictionary    ${exports_dict}    TEST_EFI_PRESENT=false
+        Set To Dictionary    ${exports_dict}    TEST_IS_SEABIOS=true
+    END
+
+    VAR    @{exports}=    @{EMPTY}
+    FOR    ${export_variable}    ${export_value}    IN    &{exports_dict}
+        Append To List    ${exports}
+        ...    export ${export_variable}="${export_value}"
+    END
+
+    RETURN    ${exports}
