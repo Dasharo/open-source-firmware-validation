@@ -38,3 +38,8 @@ ${SMALLPT_TEST_SCORE}=          30.796
 ${CRAFTY_TEST_SCORE}=           7480997
 ${CACHEBENCH_TEST_SCORE}=       75584.7
 ${BLAKE2_TEST_SCORE}=           3.22
+
+# DTS E2E variables
+&{DTS_TEST_VERSIONS}=           &{DTS_TEST_VERSIONS_BASE}    UEFI->Heads Transition=Dasharo (coreboot+UEFI) 1.7.2
+${DTS_TEST_SYSTEM_MODEL}=       NV4xPZ
+@{DTS_TEST_WORKFLOWS}=          Initial Deployment    UEFI Update    UEFI->Heads Transition

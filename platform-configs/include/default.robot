@@ -392,6 +392,45 @@ ${ZIP_MULTI_COMPRESSION}=                           ${TBD}
 ${ZIP_MULTI_DECOMPRESSION}=                         ${TBD}
 ${FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               ${TBD}
 
+#### DTS E2E variables, should start with DTS_TEST_ ####
+# Base fw version set for every workflow
+${DTS_TEST_VERSION_BASE}=                           v0.0.0
+&{DTS_TEST_VERSIONS_BASE}=
+...                                                 &{{ {workflow: "${DTS_TEST_VERSION_BASE}" for workflow in ${DTS_TEST_POSSIBLE_WORKFLOWS} } }}
+...                                                 UEFI Update=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
+...                                                 UEFI->Heads Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
+&{DTS_TEST_VERSIONS}=                               &{DTS_TEST_VERSIONS_BASE}
+# TEST_SYSTEM_MODEL, TEST_BOARD_MODEL, TEST_SYSTEM_VENDOR variables to export
+${DTS_TEST_SYSTEM_MODEL}=                           ${EMPTY}
+${DTS_TEST_BOARD_MODEL}=                            ${EMPTY}
+${DTS_TEST_SYSTEM_VENDOR}=                          ${EMPTY}
+${DTS_TEST_BIOS_VENDOR}=                            3mdeb
+${DTS_TEST_HAS_EC}=                                 ${False}
+&{DTS_TEST_BASE_EXPORTS}=
+...                                                 TEST_SYSTEM_MODEL=${DTS_TEST_SYSTEM_MODEL}
+...                                                 TEST_BOARD_MODEL=${DTS_TEST_BOARD_MODEL}
+...                                                 TEST_SYSTEM_VENDOR=${DTS_TEST_SYSTEM_VENDOR}
+...                                                 TEST_BIOS_VENDOR=${DTS_TEST_BIOS_VENDOR}
+...                                                 DTS_TESTING=true
+&{DTS_TEST_EXPORTS}=                                &{DTS_TEST_BASE_EXPORTS}
+# Possible values: check DTS_TEST_POSSIBLE_WORKFLOWS
+@{DTS_TEST_WORKFLOWS}=                              @{EMPTY}
+@{DTS_TEST_POSSIBLE_WORKFLOWS}=
+...                                                 Initial Deployment
+...                                                 UEFI Update
+...                                                 SeaBIOS Update
+...                                                 UEFI->Heads Transition
+...                                                 SeaBIOS->UEFI Transition
+# Set to e.g. DPP for platforms where only DPP workflows work
+@{DTS_TEST_DEFAULT_RELEASES}=                       DCR    DPP
+&{DTS_TEST_WORKFLOW_RELEASES_BASE}=
+...                                                 &{{ {workflow: ${DTS_TEST_DEFAULT_RELEASES} for workflow in ${DTS_TEST_POSSIBLE_WORKFLOWS} } }}
+# Set UEFI->Heads Transition to DPP by default as currently we don't offer community
+# version
+&{DTS_TEST_WORKFLOW_RELEASES}=
+...                                                 &{DTS_TEST_WORKFLOW_RELEASES_BASE}
+...                                                 UEFI->Heads Transition=@{{["DPP"]}}
+
 
 *** Keywords ***
 Power On Default

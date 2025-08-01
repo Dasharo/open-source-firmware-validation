@@ -44,6 +44,71 @@ robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0
 > `http://192.168.0.102:8080/ipxe` with your DTS iPXE
 > script link.
 
+### Adding new E2E template tests
+
+Important variables in `default.robot`:
+
+* `DTS_TEST_VERSION_BASE` - default firmware version used for every workflow for
+ that platform unless overwritten.
+* `DTS_TEST_VERSIONS` - default `TEST_BIOS_VERSION` strings for each
+  workflow. At minimum this dictionary has to have defined key for each workflow
+  in `DTS_TEST_WORKFLOWS`. You can use `&{DTS_TEST_VERSIONS_BASE}` as a base if
+  you need to modify only a couple of values, e.g. to change `TEST_BIOS_VERSION`
+  export only for `UEFI Update` while keeping rest the same:
+
+  ```robot
+  &{DTS_TEST_VERSIONS}=    &{DTS_TEST_VERSIONS_BASE}    UEFI Update=Dasharo (slimbootloader+UEFI)
+  ```
+
+* `DTS_TEST_HAS_EC` - If `${TRUE}` then sets `TEST_USING_OPENSOURCE_EC_FIRM` for
+  all non-initial deployment workflows.
+* `DTS_TEST_BASE_EXPORTS` - Base DTS exports, used in likely every workflow
+* `DTS_TEST_EXPORTS` - List of DTS exports when testing platform, you can expand
+  it similarly to `DTS_TEST_VERSIONS` variable
+* `DTS_TEST_WORKFLOWS` - List of workflows that platform supports
+* `DTS_TEST_DEFAULT_RELEASES` - Used in `DTS_TEST_WORKFLOW_RELEASES_BASE` to set
+  releases for every workflow. If your platform supports only one type of
+  release for all/most of the workflows, then you can change this variable
+* `DTS_TEST_WORKFLOW_RELEASES_BASE` - Dictionary containing list of every
+  release (taken from `DTS_TEST_DEFAULT_RELEASES`) supported by each workflow
+* `DTS_TEST_WORKFLOW_RELEASES` - This variable is used to determine which
+  releases each workflow supports.
+
+To add new platform set `${DTS_SUPPORT}` to `${TRUE}` and add a list of
+workflows that this platform supports to `@{DTS_TEST_WORKFLOWS}`. You can check
+allowed values in `default.robot` in `DTS_TEST_POSSIBLE_WORKFLOWS` variable.
+This is minimum required to make test run. After that you need to configure
+additional variables and/or exports to correctly simulate your platform.
+
+You can check which variables are exported by default for each workflow by
+running:
+
+```sh
+robot -L TRACE -v config:<platform> -t "E2EH002*" dts/dts-e2e-helper.robot`
+```
+
+To add completely new workflow you need to at minimum add it to
+`DTS_TEST_POSSIBLE_WORKFLOWS` in `default.robot` and then define keyword for
+this test in `dts-e2e.robot` in format:
+
+```robot
+${platform} <your workflow name> - ${release}
+```
+
+or
+
+```robot
+${platform} <your workflow name> - DPP
+${platform} <your workflow name> - DCR
+```
+
+After that you can add this workflow to `DTS_TEST_WORKFLOWS` variable in
+platform that supports it.
+
+You also need to keep in mind, that some exports are set/chosen in
+`Prepare Test Exports` keyword in `dts-lib.robot`, mostly those that depend on
+type of workflow.
+
 ## Unit tests
 
 These tests have not been implemented yet.

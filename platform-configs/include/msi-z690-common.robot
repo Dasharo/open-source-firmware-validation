@@ -114,6 +114,10 @@ ${ROMHOLE_SUPPORT}=                             ${TRUE}
 ${USB_DETECTION_ITERATIONS_NUMBER}=             5
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
+# DTS E2E variables
+${DTS_TEST_SYSTEM_VENDOR}=                      Micro-Star International Co., Ltd.
+@{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update    UEFI->Heads Transition
+
 
 *** Keywords ***
 Power On

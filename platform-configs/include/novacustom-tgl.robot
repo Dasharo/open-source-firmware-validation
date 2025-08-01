@@ -25,3 +25,7 @@ ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.6.0-rc1
 ${DMIDECODE_RELEASE_DATE}=          03/17/2022
 
 ${L3_CACHE_SUPPORT}=                ${TRUE}
+
+# DTS-E2E variables
+&{DTS_TEST_VERSIONS}=               &{DTS_TEST_VERSIONS_BASE}
+...                                 UEFI Update=Dasharo (coreboot+UEFI) v1.5.0
