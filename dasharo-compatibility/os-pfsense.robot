@@ -18,11 +18,15 @@ Suite Teardown      Run Keywords
 Test Setup          Run Keyword
 ...                     Restore Initial DUT Connection Method
 
+Default Tags        semiauto
+
 
 *** Test Cases ***
-PFS001.502 Install pfSense LTS CE (serial output) on disk
+PFS001.502 Install operating system on disk (pfSense)
     [Documentation]    Install pfSense LTS CE (serial output) from preseeded
     ...    USB stick on disk. Refer to test case PFS006.502 for preseed.
+    ...
+    ...    Previous IDs: PFS001.001
     Power On
     Boot PfSense Installer
     VAR    ${installer_message}=
@@ -31,13 +35,21 @@ PFS001.502 Install pfSense LTS CE (serial output) on disk
     ...    separator=${SPACE}
     Pause Execution    ${installer_message}
 
-PFS002.502 Boot pfSense LTS CE (serial output) from disk
+PFS002.502 Boot operating system from disk (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk.
+    ...    This test depends on semi-manual OS installation, thus it's
+    ...    marked as semiauto.
+    ...
+    ...    Previous IDs: PFS001.002
     Power On
     Boot PfSense
 
-PFS003.502 Boot pfSense LTS CE (serial output) from disk after cold-boot
+PFS003.502 Boot operating system from disk after cold-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after cold-boot
+    ...    This test depends on semi-manual OS installation, thus it's
+    ...    marked as semiauto.
+    ...
+    ...    Previous IDs: BPS001.001
     VAR    @{supported_power_ctrls}=    RteCtrl    sonoff
     Skip If    '${POWER_CTRL}' not in ${supported_power_ctrls}
     Execute Cold Boot
@@ -47,8 +59,12 @@ PFS003.502 Boot pfSense LTS CE (serial output) from disk after cold-boot
     ${delta_time}=    Subtract Date From Date    ${end_date}    ${start_date}
     Log To Console    Cold boot duration in seconds: ${delta_time}
 
-PFS004.502 Boot pfSense LTS CE (serial output) from disk after warm-boot
+PFS004.502 Boot operating system from disk after warm-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after warm-boot
+    ...    This test depends on semi-manual OS installation, thus it's
+    ...    marked as semiauto.
+    ...
+    ...    Previous IDs: BPS002.001
     Power On
     Boot PfSense
     Enter PfSense Shell
@@ -60,8 +76,12 @@ PFS004.502 Boot pfSense LTS CE (serial output) from disk after warm-boot
     ${delta_time}=    Subtract Date From Date    ${end_date}    ${start_date}
     Log To Console    Warm boot duration in seconds: ${delta_time}
 
-PFS005.502 Boot pfSense LTS CE (serial output) from disk after reboot
+PFS005.502 Boot operating system from disk after reboot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after reboot
+    ...    This test depends on semi-manual OS installation, thus it's
+    ...    marked as semiauto.
+    ...
+    ...    Previous IDs: BPS003.001
     Power On
     Boot PfSense
     Enter PfSense Shell
@@ -72,9 +92,11 @@ PFS005.502 Boot pfSense LTS CE (serial output) from disk after reboot
     ${delta_time}=    Subtract Date From Date    ${end_date}    ${start_date}
     Log To Console    Reboot duration in seconds: ${delta_time}
 
-PFS006.502 Preseed pfSense Installer (serial output)
+PFS006.502 Preseed operating system installer (pfSense)
     [Documentation]    Please use linux fatlabel program to rename ESP partition of
     ...    pfSense installer to PFEFI.
+    ...    This test depends on semi-manual OS installatio media preparation,
+    ...    thus it's marked as semiauto.
     VAR    ${pfefi_message}=
     ...    Rename ESP partition of pfSense
     ...    serial installer to PFEFI.\nOn Linux: (sudo) fatlabel /dev/sdX1
@@ -101,7 +123,10 @@ PFS006.502 Preseed pfSense Installer (serial output)
     ${output}=    Execute Command In Terminal    grep PFBOOT /usr/libexec/bsdinstall/zfsboot
     Should Contain    ${output}    PFBOOT
 
-PFS007.502 Boot pfSense Installer (serial output) into rescue shell
+PFS007.502 Boot operating system installer into rescue shell (pfSense)
+    [Documentation]    Boot installer into rescue shell.
+    ...    This test depends on semi-manual OS installatio media preparation,
+    ...    thus it's marked as semiauto.
     Power On
     Boot PfSense Installer
     Enter PfSense Rescue Shell
