@@ -44,6 +44,7 @@ ACPI001.201 ACPI driver test (Ubuntu)
     [Documentation]    Tests if ACPI drivers can be recognised
     ...    Previous IDs: ACPI001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ACP001.001 not supported
+    Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -68,6 +69,7 @@ ACPI001.202 ACPI driver test (Fedora)
     [Documentation]    Tests if ACPI drivers can be recognised
     ...    Previous IDs: ACPI001.002
     # Skip If    not ${TEST_IN_FE} or    ACP001.002 not supported
+    Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
