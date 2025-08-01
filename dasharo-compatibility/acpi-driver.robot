@@ -50,11 +50,10 @@ ACPI001.201 ACPI driver test (Ubuntu)
     Switch To Root User
     ${out}=    Execute Command In Terminal    dpkg -s dasharo-acpi-dkms
     IF    "Status: install ok installed" not in """${out}"""
-        ${out}=    Execute Command In Terminal
-        ...    wget https://github.com/Dasharo/osfv-test-data/raw/refs/heads/master/dasharo-driver/dasharo-acpi-dkms_0.0.1-1_amd64.deb -P /home/ubuntu
-        ...    timeout=60s
-        Should Contain    ${out}    saved
-        ${out}=    Execute Command In Terminal    apt install /home/ubuntu/dasharo-acpi-dkms_*.deb -y
+        Download File
+        ...    https://github.com/Dasharo/osfv-test-data/raw/refs/heads/master/dasharo-driver/dasharo-acpi-dkms_0.0.1-1_amd64.deb
+        ...    /home/ubuntu/dasharo-acpi-dkms.deb
+        ${out}=    Execute Command In Terminal    apt install /home/ubuntu/dasharo-acpi-dkms.deb -y
         ...    timeout=60s
         Should Contain Any    ${out}    @{SUCCESS_OUTPUT}
     END
@@ -76,11 +75,10 @@ ACPI001.202 ACPI driver test (Fedora)
     ${out}=    Execute Command In Terminal    rpm -q dasharo-acpi-dkms
     # Should Contain    ${out}
     IF    "dasharo-acpi-dkms-0.0.1-1.x86_64" not in """${out}"""
-        ${out}=    Execute Command In Terminal
-        ...    wget https://github.com/Dasharo/osfv-test-data/raw/refs/heads/master/dasharo-driver/dasharo-acpi-dkms_0.0.1-1.x86_64.rpm -P /home/linux
-        ...    timeout=60s
-        Should Contain    ${out}    Errors: 0
-        ${out}=    Execute Command In Terminal    sudo dnf install /home/linux/dasharo-acpi-dkms_*.rpm -y
+        Download File
+        ...    https://github.com/Dasharo/osfv-test-data/raw/refs/heads/master/dasharo-driver/dasharo-acpi-dkms_0.0.1-1.x86_64.rpm
+        ...    /home/linux/dasharo-acpi-dkms.rpm
+        ${out}=    Execute Command In Terminal    sudo dnf install /home/linux/dasharo-acpi-dkms.rpm -y
         ...    timeout=60s
         Should Contain Any    ${out}    @{SUCCESS_OUTPUT}
     END
