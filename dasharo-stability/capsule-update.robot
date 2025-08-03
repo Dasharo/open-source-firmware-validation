@@ -27,7 +27,8 @@ Suite Setup         Run Keywords
 ...                     Flash Firmware If Not QEMU    AND
 ...                     Upload Required Files    AND
 ...                     Get System Values    AND
-...                     Turn Off Active ME
+...                     Turn Off Active ME    AND
+...                     Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
