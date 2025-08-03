@@ -118,7 +118,7 @@ CUP170.001 Verifying UUID (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -137,7 +137,7 @@ CUP170.002 Verifying UUID (Windows)
     ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Windows Prompt
-        Get Windows System Values    $WIN_UPDATED_SERIAL    $WIN_UPDATED_UUID
+        Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -161,7 +161,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -176,7 +176,7 @@ CUP180.002 Verifying Serial Number (Windows)
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
     IF    '${tmp}' == 'None'
         Go To Windows Prompt
-        Get Windows System Values    $WIN_UPDATED_SERIAL    $WIN_UPDATED_UUID
+        Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -192,7 +192,7 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
@@ -468,9 +468,9 @@ Go To Windows Prompt
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        Get Ubuntu System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
+        Get Ubuntu System Values    ORIGINAL_SERIAL    ORIGINAL_UUID    ORIGINAL_LOGO_SHA256
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-        Get Windows System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID
+        Get Windows System Values    ORIGINAL_SERIAL    ORIGINAL_UUID
     ELSE
         Fail    No Windows nor Ubuntu support available
     END
@@ -478,22 +478,11 @@ Get System Values
 Get Ubuntu System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
-    # Disable checking for variable case. Here, the first argument to 'Set Suite
-    # Variable' keyword is a _local_ variable holding the _name_ of the global
-    # one. As such, it should be lower-case, but both robotidy and robocop
-    # detect this as error. On top of that, 'robotidy: off' is ignored in top
-    # level keywords (bug?), so dummy conditional was added to make it work.
-    #
-    # robocop: off=non-local-variables-should-be-uppercase
-    # robotidy: off=RenameVariables
+    VAR    ${serial}=    Get Firmware Serial Number
+    VAR    ${${var_serial}}=    ${serial}    scope=SUITE
 
-    IF    ${TRUE}
-        ${serial}=    Get Firmware Serial Number
-        VAR    ${var_serial}=    ${serial}    scope=SUITE
-
-        ${uuid}=    Get Firmware UUID
-        VAR    ${var_uuid}=    ${uuid}    scope=SUITE
-    END
+    VAR    ${uuid}=    Get Firmware UUID
+    VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
         ${out}=    Execute Command In Terminal
@@ -503,27 +492,17 @@ Get Ubuntu System Values
         IF    ${unplugged} == ${TRUE}
             Fail    Please make sure that a display device is connected to the DUT
         END
-        VAR    ${var_logo_sha256}=    ${out}    scope=SUITE
+        VAR    ${${var_logo_sha256}}=    ${out}    scope=SUITE
     END
 
 Get Windows System Values
     [Arguments]    ${var_serial}    ${var_uuid}
 
-    # Disable checking for variable case. Here, the first argument to 'Set Suite
-    # Variable' keyword is a _local_ variable holding the _name_ of the global
-    # one. As such, it should be lower-case, but both robotidy and robocop
-    # detect this as error. On top of that, 'robotidy: off' is ignored in top
-    # level keywords (bug?), so dummy conditional was added to make it work.
-    #
-    # robocop: off=non-local-variables-should-be-uppercase
-    # robotidy: off=RenameVariables
-    IF    ${TRUE}
-        ${serial}=    Get Firmware Serial Number (Windows)
-        VAR    ${var_serial}=    ${serial}    scope=SUITE
+    ${serial}=    Get Firmware Serial Number (Windows)
+    VAR    ${${var_serial}}=    ${serial}    scope=SUITE
 
-        ${uuid}=    Get Firmware UUID (Windows)
-        VAR    ${var_uuid}=    ${uuid}    scope=SUITE
-    END
+    ${uuid}=    Get Firmware UUID (Windows)
+    VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
 
 Prepare For ROMHOLE Persistence Test
     [Documentation]    This is a part which works only on MSI platforms.
