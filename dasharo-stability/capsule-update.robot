@@ -436,6 +436,11 @@ Display Preparation Instructions
     Log To Console    Without it, a successful flash of DUT will prevent tests from working
     Log To Console    correctly.
     Log To Console    ${EMPTY}
+    Log To Console    Mind that CONFIG_LOCALVERSION in fw_file and capsule_fw_file must be different for
+    Log To Console    tests to pass.
+    Log To Console    ${EMPTY}
+    Log To Console    Another requirement is having UEFI Shell enabled (it's disabled by default now).
+    Log To Console    ${EMPTY}
     Log To Console    ******************************************************************************
 
 Prepare For Logo Persistence Test
