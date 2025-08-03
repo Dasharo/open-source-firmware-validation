@@ -192,7 +192,7 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
     END
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
