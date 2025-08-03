@@ -408,15 +408,18 @@ Turn Off Active ME
     END
 
 Display Preparation Instructions
-    Log To Console    ******************************************************************************\n
+    Log To Console    ******************************************************************************
+    Log To Console    ${EMPTY}
     Log To Console    To run tests first prepare a valid capsule file(*) and then use this capsule
     Log To Console    file to generate invalid capsules required by the tests by running the script:
     Log To Console    \ \ \ \ ./scripts/capsules/capsule_update_tests.sh <capsule_file>.cap
-    Log To Console    then start the tests:\n
+    Log To Console    then start the tests:
+    Log To Console    ${EMPTY}
     Log To Console    \ on QEMU:
     Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:127.0.0.1 -v config:qemu \\
     Log To Console    \ \ \ \ \ \ -v capsule_fw_file:dasharo.cap dasharo-stability/capsule-update.robot
-    Log To Console    \n on other platforms:
+    Log To Console    ${EMPTY}
+    Log To Console    \ on other platforms:
     Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:<rte_ip> -v config:<config> \\
     Log To Console    \ \ \ \ \ \ -v sonoff_ip:<sonoff_ip> -v pikvm_ip:<pikvm_ip> -v device_ip:<device_ip> \\
     Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
@@ -425,13 +428,15 @@ Display Preparation Instructions
     Log To Console    \ \ \ \ robot -L TRACE -v rte_ip:<rte_ip> -v config:<config> -v device_ip:<device_ip> \\
     Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
     Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
-    Log To Console    \n(*) To start tests on DUT which use PIKVM: Before preparing the capsule please
+    Log To Console    ${EMPTY}
+    Log To Console    (*) To start tests on DUT which use PIKVM: Before preparing the capsule please
     Log To Console    edit FW to enable Console Serial Redirection. Use the guide:
     Log To Console
     ...    \ \ https://github.com/Dasharo/open-source-firmware-validation/blob/develop/docs/troubleshooting.md
     Log To Console    Without it, a successful flash of DUT will prevent tests from working
     Log To Console    correctly.
-    Log To Console    \n******************************************************************************
+    Log To Console    ${EMPTY}
+    Log To Console    ******************************************************************************
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
