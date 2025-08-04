@@ -119,7 +119,13 @@ Prepare E2E Test
     ...    emulation. Keyword has to be run in shell. After keyword ends we
     ...    should be in DTS menu
     [Arguments]    ${platform}    ${workflow}
-    Export Shell Variables For Emulation    ${workflow}    ${DTS_PLATFORM_VARIABLES}[${platform}]
+    # Get the value from the GitHub Actions environment for CI purposes
+    # If running locally, set default value from dts-environment.sh
+    ${dts_config_ref_value}=    Get Environment Variable    DTS_CONFIG_REF    default=/refs/heads/main
+    Export Shell Variables For Emulation
+    ...    ${workflow}
+    ...    ${DTS_PLATFORM_VARIABLES}[${platform}]
+    ...    ${dts_config_ref_value}
     # TODO: needed by 'Go Through Initial Deployment' keyword for couple of
     # NovaCustom boards
     VAR    ${DTS_TEST_BOARD_MODEL}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_BOARD_MODEL]    scope=TEST
