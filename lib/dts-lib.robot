@@ -428,7 +428,7 @@ Go Through Heads Transition
 
 Export Shell Variables For Emulation
     [Documentation]    Export variables needed for this test
-    [Arguments]    ${workflow}    ${dts_test_variables}
+    [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref}
     @{exports}=    Prepare Test Exports    ${workflow}    ${dts_test_variables}
     FOR    ${export_string}    IN    @{exports}
         Execute Command In Terminal    export ${export_string}
@@ -436,10 +436,10 @@ Export Shell Variables For Emulation
 
 Prepare Test Exports
     [Documentation]    Create list with 'export VARIABLE=VALUE` strings.
-    [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}
+    [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref}
     VAR    &{exports_dict}=    &{dts_test_variables}[DTS_TEST_EXPORTS]
     Set To Dictionary    ${exports_dict}    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
-    Set To Dictionary    ${exports_dict}    DTS_CONFIG_REF=${dts_config_ref_value}
+    Set To Dictionary    ${exports_dict}    DTS_CONFIG_REF=${dts_config_ref}
     IF    "${workflow}" == "Initial Deployment"
         Set To Dictionary    ${exports_dict}    TEST_BIOS_VENDOR=proprietary
     ELSE
