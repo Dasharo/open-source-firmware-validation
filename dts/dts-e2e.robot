@@ -114,6 +114,19 @@ ${platform} SeaBIOS->UEFI Transition - DPP
     Go Through Transition    DPP UEFI
     Wait For Checkpoint    Rebooting
 
+${platform} Dasharo (coreboot+UEFI) To Dasharo (Slim Bootloader+UEFI) Transition - DPP
+    [Documentation]    Transition to Dasharo (Slim) workflow with DPP credentials
+    Prepare E2E Test    ${platform}    Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
+    Provide DPP Credentials
+    Go Through Transition    DPP Slim Bootloader + UEFI
+    Wait For Checkpoint    Rebooting
+
+${platform} Dasharo (Slim Bootloader+UEFI) Initial Deployment - DPP
+    [Documentation]    Initial deployment workflow for Slim Bootloadere + UEFI
+    Prepare E2E Test    ${platform}    Initial Deployment
+    Provide DPP Credentials
+    Go Through Initial Deployment    DPP Slim Bootloader + UEFI
+
 Prepare E2E Test
     [Documentation]    Prepare everything needed for platform and workflow
     ...    emulation. Keyword has to be run in shell. After keyword ends we

@@ -110,6 +110,8 @@ ${DTS_SUPPORT}=                                 ${TRUE}
 ${DTS_TEST_SYSTEM_VENDOR}=                      HARDKERNEL
 ${DTS_TEST_SYSTEM_MODEL}=                       ODROID-H4
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
+...                                             Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
+...                                             Dasharo (Slim Bootloader+UEFI) Initial Deployment
 @{DTS_TEST_DEFAULT_RELEASES}=                   DPP
 
 
