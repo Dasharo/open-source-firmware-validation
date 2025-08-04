@@ -15,7 +15,7 @@ Resource            ../keys.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
-# - go threough them and make sure they are doing what the name suggest (not
+# - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Display Preparation Instructions    AND
@@ -278,7 +278,7 @@ Get BIOS Version
     RETURN    ${bios_version}
 
 Upload Required Files
-    Log To Console    PREPARE: Upload Files
+    Log To Console    PREPARE: Uploading Files
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
     Set DUT Response Timeout    5m
 
