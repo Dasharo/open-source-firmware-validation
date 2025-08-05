@@ -52,6 +52,7 @@ BPS003.001 RTE Power On
     # power/reset buttons? If so, we do not have flag for it.
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
+    Skip If    not ${DUT_HAS_POWER_BUTTON}
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
@@ -70,6 +71,7 @@ BPS004.001 RTE Reset
     [Documentation]    Verifies if reset button can reset the DUT.
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
+    Skip If    not ${DUT_HAS_RESET_BUTTON}
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
@@ -123,6 +125,7 @@ BPS007.002 Internal flashing
 BPS008.001 RTE CMOS clear
     [Documentation]    This test verifies if CMOS clear works with the platform setup.
     Skip If    '${POWER_CTRL}' == 'none'
+    Skip If    not ${DUT_HAS_CMOS_RESET}
     # CMOS should be cleared when platform is cut off from power
     Rte Psu Off
     Rte Clear Cmos
