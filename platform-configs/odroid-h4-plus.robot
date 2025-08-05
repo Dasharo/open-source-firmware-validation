@@ -42,6 +42,8 @@ ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
 ${EXTERNAL_HEADSET_SUPPORT}=                    ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${TRUE}
+${DUT_HAS_RESET_BUTTON}=                        ${FALSE}
+${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 
 ${INITIAL_CPU_FREQUENCY}=                       800
 ${PLATFORM_CPU_SPEED}=                          2.0
