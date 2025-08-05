@@ -281,7 +281,7 @@ Get Setup Menu Construction
     ...
     ...    === Effects ===
     ...    - The setup menu is read from the serial buffer
-    [Arguments]    ${checkpoint}=Select Entry
+    [Arguments]    ${checkpoint}=Select Entry    ${first_line}=${NONE}
 
     # Lines to strip:
     #    TOP:
@@ -290,7 +290,7 @@ Get Setup Menu Construction
     #    0.0.0    128 MB RAM
     #    BOTTOM
     #    ^v=Move Highlight    <Enter>=Select Entry
-    ${menu}=    Get Menu Construction    ${checkpoint}    3    1
+    ${menu}=    Get Menu Construction    ${checkpoint}    3    1    ${first_line}
     RETURN    ${menu}
 
 Get Menu Construction
@@ -314,11 +314,11 @@ Get Menu Construction
     ...
     ...    === Effects ===
     ...    - The setup menu is read from the serial buffer
-    [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0
+    [Arguments]    ${checkpoint}=ESC=exit    ${lines_top}=1    ${lines_bot}=0    ${first_line}=${NONE}
 
     Sleep    1s
     ${out}=    Read From Terminal Until    ${checkpoint}
-    ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}
+    ${menu}=    Parse Menu Snapshot Into Construction    ${out}    ${lines_top}    ${lines_bot}    ${first_line}
     RETURN    ${menu}
 
 Parse Menu Snapshot Into Construction
@@ -342,7 +342,7 @@ Parse Menu Snapshot Into Construction
     ...
     ...    === Effects ===
     ...    None
-    [Arguments]    ${menu}    ${lines_top}    ${lines_bot}
+    [Arguments]    ${menu}    ${lines_top}    ${lines_bot}    ${first_line}=${NONE}
     VAR    ${slice_start}=    ${lines_top}
     IF    ${lines_bot} == 0
         VAR    ${slice_end}=    None
@@ -369,6 +369,13 @@ Parse Menu Snapshot Into Construction
     END
     Log    ${construction}
     ${construction}=    Get Slice From List    ${construction}    ${slice_start}    ${slice_end}
+    IF    $first_line is not None
+        ${idx}=    Get Index From List Fuzzy
+        ...    ${construction}
+        ...    Select Language <Standard English>
+        ...    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+        ${construction}=    Get Slice From List    ${construction}    ${idx}
+    END
     # TODO: Improve parsing of the menu into construction. It can probably be
     # simplified, but at least we have this only in one kewyrod not in multiple
     # ones.
@@ -404,7 +411,7 @@ Enter Setup Menu Tianocore And Return Construction
     ...    - UEFI Setup menu is entered
     ...    - The setup menu is read from the serial buffer
     Enter Setup Menu Tianocore
-    ${menu}=    Get Setup Menu Construction
+    ${menu}=    Get Setup Menu Construction    first_line=Select Language
     RETURN    ${menu}
 
 Get Submenu Construction
@@ -604,7 +611,7 @@ Get Index Of Matching Option In Menu
 
     FOR    ${element}    IN    @{menu_construction}
         ${matches}=    Run Keyword And Return Status
-        ...    Should Match    ${element}    *${option}*
+        ...    Should Match Fuzzy    ${element}    ${option}    max_errors=${TELNET_FUZZY_MAX_ERRORS}
         IF    ${matches}
             VAR    ${option}=    ${element}
             BREAK
