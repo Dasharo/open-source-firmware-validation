@@ -126,13 +126,13 @@ Read From Terminal Until
     ...    ${expected}. Everything after ``${expected}`` stays in the buffer.
     [Arguments]    ${expected}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read Until    ${expected}
+        ${output}=    Telnet.Read Until Fuzzy    ${expected}    max_errors=${TELNET_FUZZY_MAX_ERRORS}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read Until    ${expected}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read Until    ${expected}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${output}=    Telnet.Read Until    ${expected}
+        ${output}=    Telnet.Read Until Fuzzy    ${expected} max_errors=${TELNET_FUZZY_MAX_ERRORS}
     ELSE
         ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
     END
