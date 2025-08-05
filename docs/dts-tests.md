@@ -33,11 +33,16 @@ Control variables:
   put here a link to your script which will load your DTS. By default DTS is
   being booted from `dl.3mdeb.com`;
 * `dpp_email`, `dpp_password`: for DPP credentials, if tests need them.
+* `dts_config_ref`: can be set to custom dts-configs revision (default is
+  `main`), either by:
+    - branch name: `ref/heads/<branch_name>`
+    - tag: `refs/tags/<tag_name>`
+    - commit: `<commit_hash>`
 
 Launching example:
 
 ```bash
-robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v boot_dts_from_ipxe_shell:True -v dts_ipxe_link:http://192.168.0.102:8080/ipxe -v dpp_email:'EMAIL' -v dpp_password:'PASSWORD' -t "E2E006.002*" dts/dts-e2e.robot
+robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0.1 -v boot_dts_from_ipxe_shell:True -v dts_ipxe_link:http://192.168.0.102:8080/ipxe -v dpp_email:'EMAIL' -v dpp_password:'PASSWORD' -v dts_config_ref:'refs/heads/develop' -t "E2E006.002*" dts/dts-e2e.robot
 ```
 
 > Note: replace `EMAIL` and `PASSWORD` with appropriate credentials if required.
@@ -49,7 +54,7 @@ robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu -v rte_ip:127.0.0
 Important variables in `default.robot`:
 
 * `DTS_TEST_VERSION_BASE` - default firmware version used for every workflow for
- that platform unless overwritten.
+  that platform unless overwritten.
 * `DTS_TEST_VERSIONS` - default `TEST_BIOS_VERSION` strings for each
   workflow. At minimum this dictionary has to have defined key for each workflow
   in `DTS_TEST_WORKFLOWS`. You can use `&{DTS_TEST_VERSIONS_BASE}` as a base if
