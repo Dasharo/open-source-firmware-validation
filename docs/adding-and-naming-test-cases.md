@@ -36,6 +36,10 @@ where:
     Example: `201` - Ubuntu
     + `3xx` - Windows
     Example: `301` - Windows 11
+    + `4xx` - ESXi
+    Example: `401` - ESXi
+    + `5xx` - BSD
+    Example: `501` - FreeBSD
 
 **❗Note:** test IDs must be never reused, even if the test no longer exists.
 This is required since old releases may still have results referencing it. All
