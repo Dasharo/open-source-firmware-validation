@@ -9,36 +9,40 @@ Resource    ../keywords.robot
 # first candidates. But before doing so - we need to establish some UI rules in
 # DTS itself.
 # DTS checkpoints:
-${DTS_CHECKPOINT}=                  Enter an option:
-${DTS_CONFIRM_CHECKPOINT}=          Press Enter to continue
-${HCL_REPORT_CHECKPOINT}=           Please consider contributing to the "Hardware for Linux" project in the future.
+${DTS_CHECKPOINT}=                              Enter an option:
+${DTS_CONFIRM_CHECKPOINT}=                      Press Enter to continue
+${HCL_REPORT_CHECKPOINT}=
+...                                             Please consider contributing to the "Hardware for Linux" project in the future.
 ${HCL_REPORT_SENDINGLOGS}=
-...                                 Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
-${DTS_SPECIFICATION_WARN}=          Does it match your actual specification? (Y|n)
-${DTS_DEPLOY_WARN}=                 Do you want to deploy this Dasharo Firmware on your platform (Y|n)
-${DTS_HW_PROBE_WARN}=               Do you want to participate in this project?
-${DTS_HEADS_SWITCH_QUESTION}=       Would you like to switch to Dasharo heads firmware? (Y|n)
-${DTS_ME_WARN}=                     Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
-${DTS_BOARD_QUESTION}=              Choose your board model:
+...                                             Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
+${DTS_SPECIFICATION_WARN}=                      Does it match your actual specification? (Y|n)
+${DTS_DEPLOY_WARN}=                             Do you want to deploy this Dasharo Firmware on your platform (Y|n)
+${DTS_HW_PROBE_WARN}=                           Do you want to participate in this project?
+${DTS_HEADS_SWITCH_QUESTION}=                   Would you like to switch to Dasharo heads firmware? (Y|n)
+${DTS_ME_WARN}=
+...                                             Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
+${DTS_BOARD_QUESTION}=                          Choose your board model:
 # DTS initial deployment menupoints:
-${DTS_DCR_UEFI_MENUPOINT}=          Community version
-${DTS_DPP_UEFI_MENUPOINT}=          DPP version (coreboot + UEFI)
-${DTS_DPP_SEA_MENUPOINT}=           DPP version (coreboot + SeaBIOS)
+${DTS_DCR_UEFI_MENUPOINT}=                      Community version
+${DTS_DPP_UEFI_MENUPOINT}=                      DPP version (coreboot + UEFI)
+${DTS_DPP_SEA_MENUPOINT}=                       DPP version (coreboot + SeaBIOS)
+${DTS_DPP_SLIM_BOOTLOADER_UEFI_MENUPOINT}=      DPP version (Slim Bootloader + UEFI)
 # Default DTS boot type, can be overwritten by CMD:
-${DTS_BOOT_TYPE}=                   iPXE
+${DTS_BOOT_TYPE}=                               iPXE
 # DTS options:
-${DTS_HCL_OPT}=                     1
-${DTS_DEPLOY_OPT}=                  2
-${DTS_CREDENTIALS_OPT}=             4
-${DTS_TRANSITION_OPT}=              6
-${DTS_DCR_UEFI_OPT}=                c
-${DTS_DPP_UEFI_OPT}=                d
-${DTS_DPP_SEA_OPT}=                 s
-${DTS_LOGS_OPT}=                    l
+${DTS_HCL_OPT}=                                 1
+${DTS_DEPLOY_OPT}=                              2
+${DTS_CREDENTIALS_OPT}=                         4
+${DTS_TRANSITION_OPT}=                          6
+${DTS_DCR_UEFI_OPT}=                            c
+${DTS_DPP_UEFI_OPT}=                            d
+${DTS_DPP_SEA_OPT}=                             s
+${DTS_DPP_SLIM_BOOTLOADER_UEFI_OPT}=            l
+${DTS_LOGS_OPT}=                                l
 # DTS release checkpoints:
-${DTS_NOACCESS_DPP_UEFI}=           Dasharo Pro Package version (coreboot + UEFI) is also available.
-${DTS_NOACCESS_DPP_SEABIOS}=        Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
-${DTS_NOACCESS_DPP_HEADS}=          Dasharo Pro Package version (coreboot + Heads) is also available.
+${DTS_NOACCESS_DPP_UEFI}=                       Dasharo Pro Package version (coreboot + UEFI) is also available.
+${DTS_NOACCESS_DPP_SEABIOS}=                    Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
+${DTS_NOACCESS_DPP_HEADS}=                      Dasharo Pro Package version (coreboot + Heads) is also available.
 
 
 *** Keywords ***
@@ -315,6 +319,9 @@ Go Through Initial Deployment
     ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
         VAR    ${opt}=    ${DTS_DPP_SEA_OPT}
         VAR    ${menupoint}=    ${DTS_DPP_SEA_MENUPOINT}
+    ELSE IF    '${dasharo_version}' == 'DPP Slim Bootloader + UEFI'
+        VAR    ${opt}=    ${DTS_DPP_SLIM_BOOTLOADER_UEFI_OPT}
+        VAR    ${menupoint}=    ${DTS_DPP_SLIM_BOOTLOADER_UEFI_MENUPOINT}
     ELSE
         Fail    No Dasharo version for initial deployment provided!
     END
@@ -370,6 +377,9 @@ Go Through Transition
     ELSE IF    '${dasharo_version}' == 'DPP SeaBIOS'
         Wait For Checkpoint    ${DTS_DPP_SEA_OPT}) ${DTS_DPP_SEA_MENUPOINT}
         Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_SEA_OPT}
+    ELSE IF    '${dasharo_version}' == 'DPP Slim Bootloader + UEFI'
+        Wait For Checkpoint    ${DTS_DPP_SLIM_BOOTLOADER_UEFI_OPT}) ${DTS_DPP_SLIM_BOOTLOADER_UEFI_MENUPOINT}
+        Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DPP_SLIM_BOOTLOADER_UEFI_OPT}
     ELSE
         Fail    No Dasharo version for initial deployment provided!
     END
@@ -440,7 +450,7 @@ Prepare Test Exports
     VAR    &{exports_dict}=    &{dts_test_variables}[DTS_TEST_EXPORTS]
     Set To Dictionary    ${exports_dict}    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
     Set To Dictionary    ${exports_dict}    DTS_CONFIG_REF=${dts_config_ref_value}
-    IF    "${workflow}" == "Initial Deployment"
+    IF    "Initial Deployment" in "${workflow}"
         Set To Dictionary    ${exports_dict}    TEST_BIOS_VENDOR=proprietary
     ELSE
         IF    ${dts_test_variables}[DTS_TEST_HAS_EC]

@@ -399,6 +399,7 @@ ${DTS_TEST_VERSION_BASE}=                           v0.0.0
 ...                                                 &{{ {workflow: "${DTS_TEST_VERSION_BASE}" for workflow in ${DTS_TEST_POSSIBLE_WORKFLOWS} } }}
 ...                                                 UEFI Update=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 ...                                                 UEFI->Heads Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
+...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 &{DTS_TEST_VERSIONS}=                               &{DTS_TEST_VERSIONS_BASE}
 # TEST_SYSTEM_MODEL, TEST_BOARD_MODEL, TEST_SYSTEM_VENDOR variables to export
 ${DTS_TEST_SYSTEM_MODEL}=                           ${EMPTY}
@@ -421,6 +422,8 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 SeaBIOS Update
 ...                                                 UEFI->Heads Transition
 ...                                                 SeaBIOS->UEFI Transition
+...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
+...                                                 Dasharo (Slim Bootloader+UEFI) Initial Deployment
 # Set to e.g. DPP for platforms where only DPP workflows work
 @{DTS_TEST_DEFAULT_RELEASES}=                       DCR    DPP
 &{DTS_TEST_WORKFLOW_RELEASES_BASE}=
@@ -430,6 +433,8 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 &{DTS_TEST_WORKFLOW_RELEASES}=
 ...                                                 &{DTS_TEST_WORKFLOW_RELEASES_BASE}
 ...                                                 UEFI->Heads Transition=@{{["DPP"]}}
+...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=@{{["DPP"]}}
+...                                                 Dasharo (Slim Bootloader+UEFI) Initial Deployment=@{{["DPP"]}}
 
 
 *** Keywords ***
