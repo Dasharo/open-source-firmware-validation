@@ -239,6 +239,7 @@ Run Ansible Playbooks
         Boot System Or From Connected Disk    ${distro_id}
         # ansible will fail no matter the timeouts if host is unreachable
         # (not booted yet)
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
         Login To Linux
         Check Internet Connection On Linux
 
@@ -265,6 +266,7 @@ Run Ansible Playbooks
         Log To Console    ${out}
 
         # Cleanup
+        Restore Initial DUT Connection Method
         Remove File    ${tmp_inventory_filename}
 
         Should Be Equal As Integers    ${rc}    0
