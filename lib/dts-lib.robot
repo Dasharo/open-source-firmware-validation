@@ -450,7 +450,7 @@ Prepare Test Exports
     VAR    &{exports_dict}=    &{dts_test_variables}[DTS_TEST_EXPORTS]
     Set To Dictionary    ${exports_dict}    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
     Set To Dictionary    ${exports_dict}    DTS_CONFIG_REF=${dts_config_ref_value}
-    IF    "${workflow}" == "Initial Deployment"
+    IF    "Initial Deployment" in "${workflow}"
         Set To Dictionary    ${exports_dict}    TEST_BIOS_VENDOR=proprietary
     ELSE
         IF    ${dts_test_variables}[DTS_TEST_HAS_EC]

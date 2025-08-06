@@ -123,7 +123,7 @@ ${platform} Dasharo (coreboot+UEFI) To Dasharo (Slim Bootloader+UEFI) Transition
 
 ${platform} Dasharo (Slim Bootloader+UEFI) Initial Deployment - DPP
     [Documentation]    Initial deployment workflow for Slim Bootloadere + UEFI
-    Prepare E2E Test    ${platform}    Initial Deployment
+    Prepare E2E Test    ${platform}    Dasharo (Slim Bootloader+UEFI) Initial Deployment
     Provide DPP Credentials
     Go Through Initial Deployment    DPP Slim Bootloader + UEFI
 
