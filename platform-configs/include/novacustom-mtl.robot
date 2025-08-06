@@ -17,6 +17,7 @@ ${DEF_SOCKETS}=                                     1
 ${WIFI_CARD}=                                       Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                                Intel Corporation Meteor Lake PCH CNVi WiFi (rev 20)
 ${BLUETOOTH_CARD_UBUNTU}=                           Intel Corp. AX211 Bluetooth
+${MINI_PC_IE_SLOT_SUPPORT}=                         ${TRUE}
 
 # USB
 ${WEBCAM_UBUNTU}=                                   Bison Electronics Inc. BisonCam,NB Pro
