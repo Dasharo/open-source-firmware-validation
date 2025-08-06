@@ -65,11 +65,14 @@ Restore Disk Clonezilla
         Write Bare Into Terminal
         ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${source_image}&disk=${target_disk}
         ...    interval=0.5
-    ELSE
-        Write Bare Into Terminal
-        ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${source_image}&disk=${target_disk}&tty=${clonezilla_tty}
-        ...    interval=0.5
+        Press Enter
+        Log To Console
+        ...    Running clonezilla on the device's display. No serial logs will be collected. Monitor the progress manually.
+        Skip
     END
+    Write Bare Into Terminal
+    ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${source_image}&disk=${target_disk}&tty=${clonezilla_tty}
+    ...    interval=0.5
     Press Enter
 
     ${current_time}=    Get Current Date    result_format=epoch
