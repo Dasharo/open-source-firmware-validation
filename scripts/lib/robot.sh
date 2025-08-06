@@ -6,6 +6,9 @@
 
 RUN_DATE="$(date +%Y_%m_%d_%H_%M_%S)"
 
+if [[ -z $LOGS_DIR ]]; then
+  LOGS_DIR="logs"
+fi
 # Trap SIGINT (Ctrl+C)
 trap 'handle_ctrl_c' SIGINT
 
@@ -201,9 +204,9 @@ execute_robot() {
     fi
 
     if [ -n "${_REGRESSION_RUN}" ]; then
-      local _logs_dir="logs/${CONFIG}/${dir_prefix}regresion_${RUN_DATE}"
+      local _logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regresion_${RUN_DATE}"
     else
-      local _logs_dir="logs/${CONFIG}/${dir_prefix}${_test_scope_name}_${RUN_DATE}"
+      local _logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}${_test_scope_name}_${RUN_DATE}"
     fi
     local _log_file="${_logs_dir}/${_test_scope_name}_log.html"
     local _report_file="${_logs_dir}/${_test_scope_name}_report.html"
