@@ -300,7 +300,7 @@ Upload Required Files
         # Move the directory to ESP partition so the tests work even if root
         # file-system is part of LVM
         Execute Command In Terminal    rm -r /boot/efi/capsule_testing
-        Execute Command In Terminal    mv /capsule_testing /boot/efi
+        Execute Command In Terminal    mv --force /capsule_testing /boot/efi
         # Make sure file-system data is pushed to disks before resetting a platform
         Execute Command In Terminal    sync
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}

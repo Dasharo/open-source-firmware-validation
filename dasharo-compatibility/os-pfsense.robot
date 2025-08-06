@@ -117,7 +117,7 @@ PFS006.502 Preseed operating system installer (pfSense)
     Execute Command In Terminal
     ...    awk ${awk_args} /usr/libexec/bsdinstall/zfsboot > /tmp/zfsboot
     Execute Command In Terminal    mount -u /
-    Execute Command In Terminal    mv /tmp/zfsboot /usr/libexec/bsdinstall/zfsboot
+    Execute Command In Terminal    mv --force /tmp/zfsboot /usr/libexec/bsdinstall/zfsboot
     Execute Command In Terminal    chmod +x /usr/libexec/bsdinstall/zfsboot
     Execute Command In Terminal    sync
     ${output}=    Execute Command In Terminal    grep PFBOOT /usr/libexec/bsdinstall/zfsboot

@@ -20,7 +20,7 @@ DCU Smbios Set UUID In File
     ${result}=    Run    cd dcu; ./dcuc smbios -u ${uuid} ./coreboot.rom; cd ..
 
     Log    ${result}
-    Run    mv dcu/${filename} ${fw_file}
+    Run    mv --force dcu/${filename} ${fw_file}
     Should Contain    ${result}    Success
 
 DCU Smbios Set Serial In File
@@ -32,7 +32,7 @@ DCU Smbios Set Serial In File
     ${result}=    Run    cd dcu; ./dcuc smbios -s ${serial} ./coreboot.rom; cd ..
 
     Log    ${result}
-    Run    mv dcu/${filename} ${fw_file}
+    Run    mv --force dcu/${filename} ${fw_file}
     Should Contain    ${result}    Success
 
 DCU Logo Set In File
