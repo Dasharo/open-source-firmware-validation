@@ -25,7 +25,7 @@ Create tests
     FOR    ${platform}    ${platform_variables}    IN    &{DTS_PLATFORM_VARIABLES}
         FOR    ${workflow}    IN    @{platform_variables}[DTS_TEST_WORKFLOWS]
             FOR    ${release}    IN    @{platform_variables}[DTS_TEST_WORKFLOW_RELEASES][${workflow}]
-                ${platform}    ${workflow}    ${release}
+                ${platform}    ${workflow}    ${platform_variables}[DTS_TEST_VERSIONS][${workflow}]
             END
         END
     END
