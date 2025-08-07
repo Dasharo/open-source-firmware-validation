@@ -34,7 +34,7 @@ Ensure ME State
         END
         VAR    ${UTC_CURRENT_ME_STATE}=    ${me_state}    scope=SUITE
     END
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux
     Switch To Root User
     ${actual_me_state}=    Check ME Out
