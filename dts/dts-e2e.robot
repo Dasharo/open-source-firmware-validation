@@ -114,12 +114,30 @@ ${platform} SeaBIOS->UEFI Transition - DPP
     Go Through Transition    DPP UEFI
     Wait For Checkpoint    Rebooting
 
+${platform} Dasharo (coreboot+UEFI) To Dasharo (Slim Bootloader+UEFI) Transition - DPP
+    [Documentation]    Transition to Dasharo (Slim) workflow with DPP credentials
+    Prepare E2E Test    ${platform}    Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
+    Provide DPP Credentials
+    Go Through Transition    DPP Slim Bootloader + UEFI
+    Wait For Checkpoint    Rebooting
+
+${platform} Dasharo (Slim Bootloader+UEFI) Initial Deployment - DPP
+    [Documentation]    Initial deployment workflow for Slim Bootloadere + UEFI
+    Prepare E2E Test    ${platform}    Dasharo (Slim Bootloader+UEFI) Initial Deployment
+    Provide DPP Credentials
+    Go Through Initial Deployment    DPP Slim Bootloader + UEFI
+
 Prepare E2E Test
     [Documentation]    Prepare everything needed for platform and workflow
     ...    emulation. Keyword has to be run in shell. After keyword ends we
     ...    should be in DTS menu
     [Arguments]    ${platform}    ${workflow}
-    Export Shell Variables For Emulation    ${workflow}    ${DTS_PLATFORM_VARIABLES}[${platform}]
+    # Verify if DTS_CONFIG_REF is set via `-v` argument
+    Variable Should Exist    ${DTS_CONFIG_REF}
+    Export Shell Variables For Emulation
+    ...    ${workflow}
+    ...    ${DTS_PLATFORM_VARIABLES}[${platform}]
+    ...    ${DTS_CONFIG_REF}
     # TODO: needed by 'Go Through Initial Deployment' keyword for couple of
     # NovaCustom boards
     VAR    ${DTS_TEST_BOARD_MODEL}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_BOARD_MODEL]    scope=TEST
