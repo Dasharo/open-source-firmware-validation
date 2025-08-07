@@ -202,7 +202,7 @@ Boot System Or From Connected Disk
     Write Into Terminal    reboot
 
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
-    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=SUITE
+    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
     Sleep    30s
 
 Login To Windows Via SSH

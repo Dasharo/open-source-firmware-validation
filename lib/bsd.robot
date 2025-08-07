@@ -17,7 +17,7 @@ Boot PfSense Installer
     Write Into Terminal    vt100
     Read From Terminal Until    [Accept]
     Press Enter
-    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_PFSENSE}    scope=SUITE
+    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_PFSENSE}    scope=GLOBAL
     Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
 
 Boot OPNsense Installer
@@ -29,7 +29,7 @@ Boot OPNsense Installer
     Execute File In File Explorer    bootx64.efi
     Read From Terminal Until    FreeBSD/amd64 (OPNsense.localdomain) (ttyu0)
     Read From Terminal Until    login:
-    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPNSENSE}    scope=SUITE
+    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPNSENSE}    scope=GLOBAL
     Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
 
 Enter PfSense Shell
@@ -65,7 +65,7 @@ Boot PfSense
     Execute File In File Explorer    boot
     Execute File In File Explorer    bootx64.efi
     Read From Terminal Until    Enter an option:
-    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_PFSENSE}    scope=SUITE
+    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_PFSENSE}    scope=GLOBAL
     Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
 
 Boot OPNsense
@@ -76,5 +76,5 @@ Boot OPNsense
     Execute File In File Explorer    boot
     Execute File In File Explorer    bootx64.efi
     Read From Terminal Until    FreeBSD/amd64 (OPNsense.localdomain) (ttyu0)
-    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPNSENSE}    scope=SUITE
+    VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPNSENSE}    scope=GLOBAL
     Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py

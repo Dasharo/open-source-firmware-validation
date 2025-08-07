@@ -1290,7 +1290,7 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     [Arguments]    ${env_id}    ${boot_menu}=NOT_SET
     ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
-    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=SUITE
+    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
 
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
