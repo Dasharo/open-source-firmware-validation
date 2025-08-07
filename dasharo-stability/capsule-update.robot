@@ -15,7 +15,7 @@ Resource            ../keys.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
-# - go threough them and make sure they are doing what the name suggest (not
+# - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Display Preparation Instructions    AND
@@ -27,7 +27,8 @@ Suite Setup         Run Keywords
 ...                     Flash Firmware If Not QEMU    AND
 ...                     Upload Required Files    AND
 ...                     Get System Values    AND
-...                     Turn Off Active ME
+...                     Turn Off Active ME    AND
+...                     Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
@@ -118,7 +119,7 @@ CUP170.001 Verifying UUID (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -137,7 +138,7 @@ CUP170.002 Verifying UUID (Windows)
     ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Windows Prompt
-        Get Windows System Values    $WIN_UPDATED_SERIAL    $WIN_UPDATED_UUID
+        Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -161,7 +162,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -176,7 +177,7 @@ CUP180.002 Verifying Serial Number (Windows)
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
     IF    '${tmp}' == 'None'
         Go To Windows Prompt
-        Get Windows System Values    $WIN_UPDATED_SERIAL    $WIN_UPDATED_UUID
+        Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -192,7 +193,7 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
     IF    '${tmp}' == 'None'
         Go To Ubuntu Prompt
-        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
@@ -278,7 +279,7 @@ Get BIOS Version
     RETURN    ${bios_version}
 
 Upload Required Files
-    Log To Console    PREPARE: Upload Files
+    Log To Console    PREPARE: Uploading Files
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
     Set DUT Response Timeout    5m
 
@@ -408,15 +409,18 @@ Turn Off Active ME
     END
 
 Display Preparation Instructions
-    Log To Console    ******************************************************************************\n
+    Log To Console    ******************************************************************************
+    Log To Console    ${EMPTY}
     Log To Console    To run tests first prepare a valid capsule file(*) and then use this capsule
     Log To Console    file to generate invalid capsules required by the tests by running the script:
     Log To Console    \ \ \ \ ./scripts/capsules/capsule_update_tests.sh <capsule_file>.cap
-    Log To Console    then start the tests:\n
+    Log To Console    then start the tests:
+    Log To Console    ${EMPTY}
     Log To Console    \ on QEMU:
     Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:127.0.0.1 -v config:qemu \\
     Log To Console    \ \ \ \ \ \ -v capsule_fw_file:dasharo.cap dasharo-stability/capsule-update.robot
-    Log To Console    \n on other platforms:
+    Log To Console    ${EMPTY}
+    Log To Console    \ on other platforms:
     Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:<rte_ip> -v config:<config> \\
     Log To Console    \ \ \ \ \ \ -v sonoff_ip:<sonoff_ip> -v pikvm_ip:<pikvm_ip> -v device_ip:<device_ip> \\
     Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
@@ -425,13 +429,20 @@ Display Preparation Instructions
     Log To Console    \ \ \ \ robot -L TRACE -v rte_ip:<rte_ip> -v config:<config> -v device_ip:<device_ip> \\
     Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
     Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
-    Log To Console    \n(*) To start tests on DUT which use PIKVM: Before preparing the capsule please
+    Log To Console    ${EMPTY}
+    Log To Console    (*) To start tests on DUT which use PIKVM: Before preparing the capsule please
     Log To Console    edit FW to enable Console Serial Redirection. Use the guide:
     Log To Console
     ...    \ \ https://github.com/Dasharo/open-source-firmware-validation/blob/develop/docs/troubleshooting.md
     Log To Console    Without it, a successful flash of DUT will prevent tests from working
     Log To Console    correctly.
-    Log To Console    \n******************************************************************************
+    Log To Console    ${EMPTY}
+    Log To Console    Mind that CONFIG_LOCALVERSION in fw_file and capsule_fw_file must be different for
+    Log To Console    tests to pass.
+    Log To Console    ${EMPTY}
+    Log To Console    Another requirement is having UEFI Shell enabled (it's disabled by default now).
+    Log To Console    ${EMPTY}
+    Log To Console    ******************************************************************************
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
@@ -463,9 +474,9 @@ Go To Windows Prompt
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        Get Ubuntu System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID    $ORIGINAL_LOGO_SHA256
+        Get Ubuntu System Values    ORIGINAL_SERIAL    ORIGINAL_UUID    ORIGINAL_LOGO_SHA256
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-        Get Windows System Values    $ORIGINAL_SERIAL    $ORIGINAL_UUID
+        Get Windows System Values    ORIGINAL_SERIAL    ORIGINAL_UUID
     ELSE
         Fail    No Windows nor Ubuntu support available
     END
@@ -473,22 +484,11 @@ Get System Values
 Get Ubuntu System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
-    # Disable checking for variable case. Here, the first argument to 'Set Suite
-    # Variable' keyword is a _local_ variable holding the _name_ of the global
-    # one. As such, it should be lower-case, but both robotidy and robocop
-    # detect this as error. On top of that, 'robotidy: off' is ignored in top
-    # level keywords (bug?), so dummy conditional was added to make it work.
-    #
-    # robocop: off=non-local-variables-should-be-uppercase
-    # robotidy: off=RenameVariables
+    VAR    ${serial}=    Get Firmware Serial Number
+    VAR    ${${var_serial}}=    ${serial}    scope=SUITE
 
-    IF    ${TRUE}
-        ${serial}=    Get Firmware Serial Number
-        VAR    ${var_serial}=    ${serial}    scope=SUITE
-
-        ${uuid}=    Get Firmware UUID
-        VAR    ${var_uuid}=    ${uuid}    scope=SUITE
-    END
+    VAR    ${uuid}=    Get Firmware UUID
+    VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
         ${out}=    Execute Command In Terminal
@@ -498,27 +498,17 @@ Get Ubuntu System Values
         IF    ${unplugged} == ${TRUE}
             Fail    Please make sure that a display device is connected to the DUT
         END
-        VAR    ${var_logo_sha256}=    ${out}    scope=SUITE
+        VAR    ${${var_logo_sha256}}=    ${out}    scope=SUITE
     END
 
 Get Windows System Values
     [Arguments]    ${var_serial}    ${var_uuid}
 
-    # Disable checking for variable case. Here, the first argument to 'Set Suite
-    # Variable' keyword is a _local_ variable holding the _name_ of the global
-    # one. As such, it should be lower-case, but both robotidy and robocop
-    # detect this as error. On top of that, 'robotidy: off' is ignored in top
-    # level keywords (bug?), so dummy conditional was added to make it work.
-    #
-    # robocop: off=non-local-variables-should-be-uppercase
-    # robotidy: off=RenameVariables
-    IF    ${TRUE}
-        ${serial}=    Get Firmware Serial Number (Windows)
-        VAR    ${var_serial}=    ${serial}    scope=SUITE
+    ${serial}=    Get Firmware Serial Number (Windows)
+    VAR    ${${var_serial}}=    ${serial}    scope=SUITE
 
-        ${uuid}=    Get Firmware UUID (Windows)
-        VAR    ${var_uuid}=    ${uuid}    scope=SUITE
-    END
+    ${uuid}=    Get Firmware UUID (Windows)
+    VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
 
 Prepare For ROMHOLE Persistence Test
     [Documentation]    This is a part which works only on MSI platforms.

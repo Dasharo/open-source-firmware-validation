@@ -61,17 +61,16 @@ Set DUT Response Timeout
     ...    according to ``${DUT_CONNECTION_METHOD}`` platform config
     ...    variable.
     [Arguments]    ${timeout}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Set Timeout    ${timeout}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+    IF    '${DUT_CONNECTION_METHOD}' in ['Telnet', 'pikvm']
+        ${prev_timeout}=    Telnet.Set Timeout    ${timeout}
+    ELSE IF    '${DUT_CONNECTION_METHOD}' in ['SSH', 'open-bmc']
+        ${con}=    Get Connection
+        VAR    ${prev_timeout}=    ${con.timeout}=
         SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
-        SSHLibrary.Set Client Configuration    timeout=${timeout}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Telnet.Set Timeout    ${timeout}
     ELSE
         FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
     END
+    RETURN    ${prev_timeout}
 
 Read From Terminal
     [Documentation]
@@ -289,7 +288,7 @@ Execute Command In Terminal
     ...    The ``${command}`` is written to the terminal and the keyword waits
     ...    until the execution ends or ``${timeout}`` passes.
     [Arguments]    ${command}    ${timeout}=30s
-    Set DUT Response Timeout    ${timeout}
+    ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Read
         ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
@@ -297,6 +296,7 @@ Execute Command In Terminal
         Write Into Terminal    ${command}
         ${output}=    Read From Terminal Until Prompt
     END
+    Set DUT Response Timeout    ${prev_timeout}
     # Drop last newline, if any
     ${output}=    Strip String    ${output}    mode=right    characters=\n\r
     RETURN    ${output}
@@ -329,7 +329,7 @@ Execute UEFI Shell Command
     ...    The ``${command}`` is written to the terminal in chunks and the keyword waits
     ...    until the execution ends or ``${timeout}`` passes.
     [Arguments]    ${command}    ${timeout}=30s    ${uefi_shell_input_latency}=40
-    Set DUT Response Timeout    ${timeout}
+    ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
     ${length}=    Get Length    ${command}
     ${input_delay}=    Evaluate    ${length} * ${uefi_shell_input_latency}
 
@@ -351,4 +351,6 @@ Execute UEFI Shell Command
 
     Press Enter
     ${output}=    Read From Terminal Until Prompt
+
+    Set DUT Response Timeout    ${prev_timeout}
     RETURN    ${output}

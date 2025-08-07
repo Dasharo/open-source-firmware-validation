@@ -61,6 +61,7 @@ ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                           ${TRUE}
 ${DASHARO_NETWORKING_MENU_SUPPORT}=             ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=               ${TRUE}
 ${SERIAL_NUMBER_VERIFICATION}=                  ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=                   ${TRUE}
 ${MANUFACTURER_VERIFICATION}=                   ${TRUE}
@@ -102,6 +103,7 @@ ${USB_MASS_STORAGE_SUPPORT}=                    ${TRUE}
 # Dasharo stability
 ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
+${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
 
 ${DTS_SUPPORT}=                                 ${TRUE}
