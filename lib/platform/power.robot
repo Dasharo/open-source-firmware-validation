@@ -14,9 +14,9 @@ Resource            ../../keys.robot
 
 *** Keywords ***
 Check Power Supply
-    VAR    ${LAPTOP_PLATFORM}=    ${EMPTY}    scope=SUITE
-    ${laptop_platform}=    Check The Platform Is A Laptop
-    IF    ${laptop_platform}
+    ${is_laptop}=    Check The Platform Is A Laptop
+    VAR    ${LAPTOP_PLATFORM}=    ${is_laptop}    scope=SUITE
+    IF    ${LAPTOP_PLATFORM}
         IF    ${TESTS_IN_UBUNTU_SUPPORT}
             ${bat0_present}    ${ac_online}    ${usb_pd_online}=    Check Power Supply On Linux
         ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
