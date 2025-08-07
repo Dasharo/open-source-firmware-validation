@@ -50,7 +50,7 @@ CPF002.201 CPU not stuck on initial frequency (Ubuntu) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Skip If Battery Level Below 30 Percent
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
 
@@ -63,7 +63,7 @@ CPF003.201 CPU not stuck on initial frequency (Ubuntu) (AC)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF003.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF004.201 CPU not stuck on initial frequency (Ubuntu) (USB-PD)
@@ -75,7 +75,7 @@ CPF004.201 CPU not stuck on initial frequency (Ubuntu) (USB-PD)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF004.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF005.201 CPU runs on expected frequency (Ubuntu)
@@ -98,7 +98,7 @@ CPF006.201 CPU runs on expected frequency (Ubuntu) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Skip If Battery Level Below 30 Percent
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
@@ -111,7 +111,7 @@ CPF007.201 CPU runs on expected frequency (Ubuntu) (AC)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF007.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF008.201 CPU runs on expected frequency (Ubuntu) (USB-PD)
@@ -123,7 +123,7 @@ CPF008.201 CPU runs on expected frequency (Ubuntu) (USB-PD)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF008.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF009.201 CPU with load runs on expected frequency (Ubuntu)
@@ -146,7 +146,7 @@ CPF010.201 CPU with load runs on expected frequency (Ubuntu) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Skip If Battery Level Below 30 Percent
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
@@ -159,7 +159,7 @@ CPF011.201 CPU with load runs on expected frequency (Ubuntu) (AC)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF011.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF012.201 CPU with load runs on expected frequency (Ubuntu) (USB-PD)
@@ -171,7 +171,7 @@ CPF012.201 CPU with load runs on expected frequency (Ubuntu) (USB-PD)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPF012.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_UBUNTU}
 
 CPF001.202 CPU not stuck on initial frequency (Fedora)
@@ -190,7 +190,7 @@ CPF002.202 CPU not stuck on initial frequency (Fedora) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Skip If Battery Level Below 30 Percent
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
 
@@ -201,7 +201,7 @@ CPF003.202 CPU not stuck on initial frequency (Fedora) (AC)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF003.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF004.202 CPU not stuck on initial frequency (Fedora) (USB-PD)
@@ -211,7 +211,7 @@ CPF004.202 CPU not stuck on initial frequency (Fedora) (USB-PD)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF004.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU Not Stuck On Initial Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF005.202 CPU runs on expected frequency (Fedora)
@@ -230,7 +230,7 @@ CPF006.202 CPU runs on expected frequency (Fedora) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Skip If Battery Level Below 30 Percent
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
@@ -241,7 +241,7 @@ CPF007.202 CPU runs on expected frequency (Fedora) (AC)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF007.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF008.202 CPU runs on expected frequency (Fedora) (USB-PD)
@@ -251,7 +251,7 @@ CPF008.202 CPU runs on expected frequency (Fedora) (USB-PD)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF008.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF009.202 CPU with load runs on expected frequency (Fedora)
@@ -270,7 +270,7 @@ CPF010.202 CPU with load runs on expected frequency (Fedora) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Skip If Battery Level Below 30 Percent
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
@@ -282,7 +282,7 @@ CPF011.202 CPU with load runs on expected frequency (Fedora) (AC)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF011.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF012.202 CPU with load runs on expected frequency (Fedora) (USB-PD)
@@ -292,7 +292,7 @@ CPF012.202 CPU with load runs on expected frequency (Fedora) (USB-PD)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPF012.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU With Load Runs On Expected Frequency (Linux)    ${ENV_ID_FEDORA}
 
 CPF001.003 CPU not stuck on initial frequency (Heads+Debian)
@@ -312,7 +312,7 @@ CPF001.006 CPU not stuck on initial frequency (Heads+Debian) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
 CPF001.009 CPU not stuck on initial frequency (Heads+Debian) (AC)
@@ -323,7 +323,7 @@ CPF001.009 CPU not stuck on initial frequency (Heads+Debian) (AC)
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.009 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
 CPF001.012 CPU not stuck on initial frequency (Heads+Debian) (USB-PD)
@@ -334,7 +334,7 @@ CPF001.012 CPU not stuck on initial frequency (Heads+Debian) (USB-PD)
     Skip If    not ${HEADS_PAYLOAD_SUPPORT}    CPF001.012 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU Not Stuck On Initial Frequency (Heads+Debian)
 
 CPF001.301 CPU not stuck on initial frequency (Windows)
@@ -354,7 +354,7 @@ CPF002.301 CPU not stuck on initial frequency (Windows) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Windows)
 
 CPF003.301 CPU not stuck on initial frequency (Windows) (AC)
@@ -365,7 +365,7 @@ CPF003.301 CPU not stuck on initial frequency (Windows) (AC)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF003.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Not Stuck On Initial Frequency (Windows)
 
 CPF004.301 CPU not stuck on initial frequency (Windows) (USB-PD)
@@ -376,7 +376,7 @@ CPF004.301 CPU not stuck on initial frequency (Windows) (USB-PD)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF004.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU Not Stuck On Initial Frequency (Windows)
 
 CPF005.301 CPU runs on expected frequency (Windows)
@@ -397,7 +397,7 @@ CPF006.301 CPU runs on expected frequency (Windows) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Runs On Expected Frequency (Windows)
 
 CPF007.301 CPU runs on expected frequency (Windows) (AC)
@@ -408,7 +408,7 @@ CPF007.301 CPU runs on expected frequency (Windows) (AC)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF007.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU Runs On Expected Frequency (Windows)
 
 CPF008.301 CPU runs on expected frequency (Windows) (USB-PD)
@@ -419,7 +419,7 @@ CPF008.301 CPU runs on expected frequency (Windows) (USB-PD)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF008.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU Runs On Expected Frequency (Windows)
 
 CPF009.301 CPU with load runs on expected frequency (Windows)
@@ -440,7 +440,7 @@ CPF010.301 CPU with load runs on expected frequency (Windows) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU With Load Runs On Expected Frequency (Windows)
 
 CPF011.301 CPU with load runs on expected frequency (Windows) (AC)
@@ -451,7 +451,7 @@ CPF011.301 CPU with load runs on expected frequency (Windows) (AC)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF011.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     CPU With Load Runs On Expected Frequency (Windows)
 
 CPF012.301 CPU with load runs on expected frequency (Windows) (USB-PD)
@@ -462,7 +462,7 @@ CPF012.301 CPU with load runs on expected frequency (Windows) (USB-PD)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPF012.301 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     CPU With Load Runs On Expected Frequency (Windows)
 
 

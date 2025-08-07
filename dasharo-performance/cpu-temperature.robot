@@ -55,7 +55,7 @@ CPT002.201 CPU temperature without load (Ubuntu) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -74,7 +74,7 @@ CPT003.201 CPU temperature without load (Ubuntu) (AC)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPT003.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -92,7 +92,7 @@ CPT004.201 CPU temperature without load (Ubuntu) (USB-PD)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPT004.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -127,7 +127,7 @@ CPT006.002 CPU temperature after stress test (Ubuntu) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -146,7 +146,7 @@ CPT007.201 CPU temperature after stress test (Ubuntu) (AC)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPT007.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -164,7 +164,7 @@ CPT008.201 CPU temperature after stress test (Ubuntu) (USB-PD)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPT008.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -194,7 +194,7 @@ CPT002.202 CPU temperature without load (Fedora) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
@@ -211,7 +211,7 @@ CPT003.202 CPU temperature without load (Fedora) (AC)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPT003.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
@@ -227,7 +227,7 @@ CPT004.202 CPU temperature without load (Fedora) (USB-PD)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPT004.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
@@ -258,7 +258,7 @@ CPT006.202 CPU temperature after stress test (Fedora) (battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    battery not present
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
@@ -275,7 +275,7 @@ CPT007.202 CPU temperature after stress test (Fedora) (AC)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPT007.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    AC not connected
-    Skip If    ${USB-PD_connected}    USB-PD connected
+    Skip If    ${USB_PD_CONNECTED}    USB-PD connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
@@ -291,7 +291,7 @@ CPT008.202 CPU temperature after stress test (Fedora) (USB-PD)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPT008.202 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    ${AC_CONNECTED}    AC connected
-    Skip If    not ${USB-PD_connected}    USB-PD not connected
+    Skip If    not ${USB_PD_CONNECTED}    USB-PD not connected
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
