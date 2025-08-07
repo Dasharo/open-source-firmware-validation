@@ -181,6 +181,11 @@ Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
     [Arguments]    ${env_id}
 
+    IF    '${BOOTED_OS_ID}' == '${env_id}'
+        Log    Target OS already booted
+        RETURN
+    END
+
     IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
         Execute Reboot Command    windows
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
@@ -192,11 +197,6 @@ Boot System Or From Connected Disk
     Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
     Login To Linux
     Switch To Root User
-
-    IF    '${BOOTED_OS_ID}' == '${env_id}'
-        Log    Target OS already booted
-        RETURN
-    END
 
     ${os_boot_id}=    Set Nextboot    ${env_id}
     Write Into Terminal    reboot
