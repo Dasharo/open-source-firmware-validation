@@ -92,8 +92,7 @@ CBNT003.201 Converged Boot Guard and TXT - PCR-0 is reconstructed correctly (Ubu
     END
 
 CBNT004.201 Converged Boot Guard and TXT - TPM Startup from locality 3 (Ubuntu)
-    [Documentation]    Verify that the system meets the expectations for a
-    ...    - TPM Startup is done from locality 3
+    [Documentation]    Verify that TPM Startup is done from locality 3
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBNT004.201 not supported on this system
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT004.201 not supported
     Check TPM Startup From Locality 3    ${ENV_ID_UBUNTU}
