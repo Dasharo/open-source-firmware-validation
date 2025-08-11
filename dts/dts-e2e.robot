@@ -156,7 +156,20 @@ Teardown DTS Test
     # background
     SSHLibrary.Close Connection
     Set Prompt For Terminal    bash-5.2#
-    Execute Linux Command    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz
+    TRY
+        VAR    ${profile}=    ${CURDIR}/profiles/${TEST_NAME}.profile
+        ${profile_exists}=    Run Keyword And Return Status
+        ...    File Should Exist    ${profile}
+        IF    "${TEST_STATUS}" == "PASS" and ${profile_exists}
+            Get File From DUT    /tmp/logs/profile    /tmp/robotframework-dts-profile
+            ${rc}    ${output}=    Run And Return Rc And Output
+            ...    diff -u1 /tmp/robotframework-dts-profile "${profile}"
+            Should Be Equal As Integers    ${rc}    0    Profiles are not identical!
+        END
+    FINALLY
+        Execute Linux Command
+        ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs
+    END
 
 Start New DTS SSH Session In QEMU
     [Documentation]    Changes connection method to ssh and logs in to DTS
