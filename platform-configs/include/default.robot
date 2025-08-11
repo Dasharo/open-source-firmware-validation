@@ -406,12 +406,14 @@ ${DTS_TEST_SYSTEM_MODEL}=                           ${EMPTY}
 ${DTS_TEST_BOARD_MODEL}=                            ${EMPTY}
 ${DTS_TEST_SYSTEM_VENDOR}=                          ${EMPTY}
 ${DTS_TEST_BIOS_VENDOR}=                            3mdeb
+${DTS_TEST_CPU_VERSION}=                            ${EMPTY}
 ${DTS_TEST_HAS_EC}=                                 ${False}
 &{DTS_TEST_BASE_EXPORTS}=
 ...                                                 TEST_SYSTEM_MODEL=${DTS_TEST_SYSTEM_MODEL}
 ...                                                 TEST_BOARD_MODEL=${DTS_TEST_BOARD_MODEL}
 ...                                                 TEST_SYSTEM_VENDOR=${DTS_TEST_SYSTEM_VENDOR}
 ...                                                 TEST_BIOS_VENDOR=${DTS_TEST_BIOS_VENDOR}
+...                                                 TEST_CPU_VERSION=${DTS_TEST_CPU_VERSION}
 ...                                                 DTS_TESTING=true
 &{DTS_TEST_EXPORTS}=                                &{DTS_TEST_BASE_EXPORTS}
 # Possible values: check DTS_TEST_POSSIBLE_WORKFLOWS
