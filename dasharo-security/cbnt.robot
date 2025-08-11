@@ -138,9 +138,9 @@ Check CBnT Profile 5
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1
-    Should Match Regexp    ${out_cbmem}    FACB:\\S+1\\n
-    Should Match Regexp    ${out_cbmem}    measured boot:\\S+1\\n
-    Should Match Regexp    ${out_cbmem}    verified boot:\\S+1\\n
+    Should Match Regexp    ${out_cbmem}    FACB:\\s+1\\n
+    Should Match Regexp    ${out_cbmem}    measured boot:\\s+1\\n
+    Should Match Regexp    ${out_cbmem}    verified boot:\\s+1\\n
     Exit From Root User
 
 Boot OS And Enter Root Shell
