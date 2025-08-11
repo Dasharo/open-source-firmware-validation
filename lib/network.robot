@@ -43,6 +43,10 @@ Send File To DUT
 
 Get File From DUT
     [Documentation]    Downloads a file from DUT and saves it at given location
+    ...
+    ...    === Requirements ===
+    ...    Keyword has to be called when in OS shell
+    ...    DUT OS has to have sshd service or socket enabled
     [Arguments]    ${source_path}    ${target_path}
     Run    rm -f ${target_path}
     ${hash_source}=    Execute Command In Terminal    md5sum ${source_path} | cut -d ' ' -f 1

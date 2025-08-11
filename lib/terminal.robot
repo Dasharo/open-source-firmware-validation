@@ -270,7 +270,8 @@ Write Bare Into Terminal
 Execute Command In Terminal
     [Documentation]    Universal keyword to execute command regardless of the
     ...    used method of connection to the DUT (Telnet or SSH). The DUT Response
-    ...    Timeout is changed to ``${timeout}`` and not restored.
+    ...    Timeout is changed to ``${timeout}`` and restored unless keyword
+    ...    fails.
     ...
     ...    === Requirements ===
     ...    The command prompt has to be set using ``Set Prompt For Terminal``
