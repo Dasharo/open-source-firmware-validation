@@ -71,6 +71,7 @@ repos:
     rev: v5.0.2
     hooks:
       - id: reuse-lint-file
+        exclude: ^dts/profiles
 
   - repo: local
     hooks:
