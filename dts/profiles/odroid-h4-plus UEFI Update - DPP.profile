@@ -25,15 +25,14 @@ flashrom -p internal 0
 cbfstool /tmp/biosupdate extract -r COREBOOT -n config -f /tmp/biosupdate_config 0
 flashrom -p internal 0
 ifdtool -d /tmp/biosupdate 0
-fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 1
-cbmem -1 0
-cbmem -1 0
+fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 0
+setpci -s 00:16.0 42.B 0
 flashrom -p internal -N --ifd -i bios -r /tmp/bios.bin 0
 cbfstool /tmp/bios.bin layout -w 0
 cbfstool /tmp/biosupdate layout -w 0
-futility dump_vboot_keys show /tmp/biosupdate 1
+futility show /tmp/biosupdate 0
 flashrom -p internal --ifd -i bios -r /tmp/bios.bin 0
-futility dump_vboot_keys show /tmp/bios.bin 1
+futility show /tmp/bios.bin 0
 flashrom -p internal -N --fmap -i RW_SECTION_A -i WP_RO -w /tmp/biosupdate 0
 flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate 0
 reboot  0

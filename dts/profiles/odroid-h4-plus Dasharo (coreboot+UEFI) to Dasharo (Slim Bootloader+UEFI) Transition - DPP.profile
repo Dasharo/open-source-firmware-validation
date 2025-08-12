@@ -20,8 +20,8 @@ dmidecode -s bios-vendor 0
 dmidecode -s bios-version 0
 flashrom -p internal --flash-name 0
 flashrom -p internal --flash-size 0
-flashrom -p internal -r /tmp/tmp.SfqVVzJXny 0
-cbfstool /tmp/tmp.SfqVVzJXny extract -n config -f /tmp/config 0
+flashrom -p internal -r /tmp/dts-temp-files/rom_seabios_check 0
+cbfstool /tmp/dts-temp-files/rom_seabios_check extract -n config -f /tmp/dts-temp-files/config 0
 flashrom -p internal 0
 flashrom -p internal 0
 ifdtool -d /tmp/biosupdate 0
