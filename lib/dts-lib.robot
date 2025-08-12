@@ -299,7 +299,7 @@ Wait For Checkpoint And Press Enter
     [Arguments]    ${checkpoint}    ${regexp}=${FALSE}
     ${out}=    Wait For Checkpoint    ${checkpoint}    ${regexp}
     Sleep    1s
-    Write Bare Into Terminal    \r\n
+    Write Bare Into Terminal    ${ENTER}
     RETURN    ${out}
 
 Wait For ME Warning Or Reboot
@@ -312,7 +312,7 @@ Wait For ME Warning Or Reboot
     IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
         IF    ${skip_me}
             Write Into Terminal    Y
-            Wait For Checkpoint    Rebooting
+            Wait For Checkpoint    Rebooting in
         ELSE
             Fail    Cannot update Intel ME
         END
@@ -376,6 +376,7 @@ Go Through Initial Deployment
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
     Wait For ME Warning Or Reboot    ${skip_me}
+    Wait For Checkpoint    Rebooting
 
 Go Through Transition
     [Documentation]    This KW goes through standard Dasharo Transition
@@ -409,6 +410,7 @@ Go Through Transition
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
     Wait For ME Warning Or Reboot    ${skip_me}
+    Wait For Checkpoint    Rebooting
 
 Go Through Update
     [Documentation]    This KW goes through standard Dasharo update workflow
@@ -431,6 +433,7 @@ Go Through Update
     Set DUT Response Timeout    5m
 
     Wait For ME Warning Or Reboot    ${skip_me}
+    Wait For Checkpoint    Rebooting
 
 Go Through Heads Transition
     [Documentation]    This KW goes through transition to Dasharo Heads choosing
