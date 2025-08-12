@@ -168,7 +168,7 @@ Teardown DTS Test
         END
     FINALLY
         Execute Linux Command
-        ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs
+        ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs /tmp/dts-temp-files
     END
 
 Start New DTS SSH Session In QEMU
