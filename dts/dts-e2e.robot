@@ -149,7 +149,9 @@ Teardown DTS Test
     SSHLibrary.Close Connection
     Set Prompt For Terminal    bash-5.2#
     TRY
-        VAR    ${profile}=    ${CURDIR}/profiles/${TEST_NAME}.profile
+        # strip 'E2Exxx: ' prefix from test name
+        ${profile_name}=    Evaluate    $TEST_NAME.split(":")[1].strip()
+        VAR    ${profile}=    ${CURDIR}/profiles/${profile_name}.profile
         ${profile_exists}=    Run Keyword And Return Status
         ...    OperatingSystem.File Should Exist    ${profile}
         IF    "${TEST_STATUS}" == "PASS" and ${profile_exists}
