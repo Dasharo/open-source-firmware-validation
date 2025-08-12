@@ -302,13 +302,31 @@ Wait For Checkpoint And Press Enter
     Write Bare Into Terminal    \r\n
     RETURN    ${out}
 
+Wait For ME Warning Or Reboot
+    [Documentation]    Helper keyword to deal with ME warning that shows up
+    ...    during multiple workflows
+    [Arguments]    ${skip_me}
+    ${checkpoint}=    Wait For Either Checkpoint
+    ...    ${DTS_ME_WARN}
+    ...    Rebooting
+    IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
+        IF    ${skip_me}
+            Write Into Terminal    Y
+            Wait For Checkpoint    Rebooting
+        ELSE
+            Fail    Cannot update Intel ME
+        END
+    END
+
+    RETURN    ${checkpoint}
+
 Go Through Initial Deployment
     [Documentation]    This KW goes through standard Dasharo initial deployment
     ...    choosing all needed menu options and answering all questions. The
     ...    only thing which needs to be specified - the Dasharo version to
     ...    deploy (first argument), available versions: DCR UEFI, DPP UEFI, DPP
     ...    SeaBIOS.
-    [Arguments]    ${dasharo_version}
+    [Arguments]    ${dasharo_version}    ${skip_me}=${FALSE}
 
     IF    '${dasharo_version}' == 'DCR UEFI'
         VAR    ${opt}=    ${DTS_DCR_UEFI_OPT}
@@ -357,13 +375,15 @@ Go Through Initial Deployment
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
+    Wait For ME Warning Or Reboot    ${skip_me}
+
 Go Through Transition
     [Documentation]    This KW goes through standard Dasharo Transition
     ...    choosing all needed menu options and answering all questions. The
     ...    only thing which needs to be specified - the Dasharo version to
     ...    transit to (first argument), available versions: DCR UEFI, DPP UEFI,
     ...    DPP SeaBIOS.
-    [Arguments]    ${dasharo_version}
+    [Arguments]    ${dasharo_version}    ${skip_me}=${FALSE}
     # 1) Select transition:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
 
@@ -388,6 +408,8 @@ Go Through Transition
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
+    Wait For ME Warning Or Reboot    ${skip_me}
+
 Go Through Update
     [Documentation]    This KW goes through standard Dasharo update workflow
     ...    choosing all needed menu options and answering all questions.
@@ -407,17 +429,8 @@ Go Through Update
     END
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
     Set DUT Response Timeout    5m
-    ${dts_me_warn_escaped}=    Evaluate    re.escape("""${DTS_ME_WARN}""")
-    ${checkpoint}=    Wait For Checkpoint
-    ...    ${dts_me_warn_escaped}|Rebooting    regexp=${TRUE}
-    IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
-        IF    ${skip_me}
-            Write Into Terminal    Y
-            Wait For Checkpoint    Rebooting
-        ELSE
-            Fail    Cannot update Intel ME
-        END
-    END
+
+    Wait For ME Warning Or Reboot    ${skip_me}
 
 Go Through Heads Transition
     [Documentation]    This KW goes through transition to Dasharo Heads choosing

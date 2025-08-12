@@ -190,8 +190,7 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     ${version}=    Prepare For Initial Deployment    seabios=${False}
     Enable DTS Log Sending
-    Go Through Initial Deployment    ${version}
-    Wait For Checkpoint    Rebooting
+    Go Through Initial Deployment    ${version}    skip_me=${TRUE}
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    5m
     # Not sure how to check if Dasharo fw has serial console enabled by
@@ -212,7 +211,6 @@ DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     ${version}=    Prepare For Initial Deployment    seabios=${True}
     Enable DTS Log Sending
     Go Through Initial Deployment    ${version}
-    Wait For Checkpoint    Rebooting
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    5m
     # Not sure how to check if Dasharo fw has serial console enabled by

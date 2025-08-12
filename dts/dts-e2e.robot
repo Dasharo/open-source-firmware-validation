@@ -64,41 +64,35 @@ ${platform} ${workflow} - ${release}
 ${platform} UEFI Update - DCR
     [Documentation]    Update workflow for Dasharo Community Release
     Prepare E2E Test    ${platform}    UEFI Update
-    Go Through Update
-    Wait For Checkpoint    Rebooting
+    Go Through Update    skip_me=${TRUE}
 
 ${platform} SeaBIOS Update - DCR
     [Documentation]    Update workflow for Dasharo Community Release
     Prepare E2E Test    ${platform}    SeaBIOS Update
     Go Through Update
-    Wait For Checkpoint    Rebooting
 
 ${platform} Initial Deployment - DCR
     [Documentation]    Initial deployment workflow for Dasharo Community Release
     Prepare E2E Test    ${platform}    Initial Deployment
-    Go Through Initial Deployment    DCR UEFI
-    Wait For Checkpoint    Rebooting
+    Go Through Initial Deployment    DCR UEFI    skip_me=${TRUE}
 
 ${platform} UEFI Update - DPP
     [Documentation]    Update workflow with DPP credentials
     Prepare E2E Test    ${platform}    UEFI Update
     Provide DPP Credentials
-    Go Through Update
-    Wait For Checkpoint    Rebooting
+    Go Through Update    skip_me=${TRUE}
 
 ${platform} SeaBIOS Update - DPP
     [Documentation]    Update workflow with DPP credentials
     Prepare E2E Test    ${platform}    SeaBIOS Update
     Provide DPP Credentials
     Go Through Update
-    Wait For Checkpoint    Rebooting
 
 ${platform} Initial Deployment - DPP
     [Documentation]    Initial deployment workflow with DPP credentials
     Prepare E2E Test    ${platform}    Initial Deployment
     Provide DPP Credentials
-    Go Through Initial Deployment    DPP UEFI
-    Wait For Checkpoint    Rebooting
+    Go Through Initial Deployment    DPP UEFI    skip_me=${TRUE}
 
 ${platform} UEFI->Heads Transition - DPP
     [Documentation]    Heads transition workflow with DPP credentials
@@ -112,20 +106,18 @@ ${platform} SeaBIOS->UEFI Transition - DPP
     Prepare E2E Test    ${platform}    SeaBIOS->UEFI Transition
     Provide DPP Credentials
     Go Through Transition    DPP UEFI
-    Wait For Checkpoint    Rebooting
 
 ${platform} Dasharo (coreboot+UEFI) To Dasharo (Slim Bootloader+UEFI) Transition - DPP
     [Documentation]    Transition to Dasharo (Slim) workflow with DPP credentials
     Prepare E2E Test    ${platform}    Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
     Provide DPP Credentials
-    Go Through Transition    DPP Slim Bootloader + UEFI
-    Wait For Checkpoint    Rebooting
+    Go Through Transition    DPP Slim Bootloader + UEFI    skip_me=${TRUE}
 
 ${platform} Dasharo (Slim Bootloader+UEFI) Initial Deployment - DPP
     [Documentation]    Initial deployment workflow for Slim Bootloadere + UEFI
     Prepare E2E Test    ${platform}    Dasharo (Slim Bootloader+UEFI) Initial Deployment
     Provide DPP Credentials
-    Go Through Initial Deployment    DPP Slim Bootloader + UEFI
+    Go Through Initial Deployment    DPP Slim Bootloader + UEFI    skip_me=${TRUE}
 
 Prepare E2E Test
     [Documentation]    Prepare everything needed for platform and workflow
