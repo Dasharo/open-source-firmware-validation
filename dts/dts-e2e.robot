@@ -208,6 +208,8 @@ Prepare DTS E2E Test Suite
     Skip If    not ${DTS_SUPPORT}
     &{dts_vars}=    Get DTS Test Variables
     VAR    ${DTS_PLATFORM_VARIABLES}=    ${dts_vars}    scope=SUITE
+    VAR    ${DEVICE_OS_USERNAME}=    root    scope=SUITE
+    VAR    ${DEVICE_OS_PASSWORD}=    ${EMPTY}    scope=SUITE
     Power On And Enter DTS Shell
     Set Prompt For Terminal    bash-5.2#
     Execute Linux Command    systemctl start sshd
