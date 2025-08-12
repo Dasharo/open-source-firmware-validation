@@ -416,6 +416,14 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 TEST_CPU_VERSION=${DTS_TEST_CPU_VERSION}
 ...                                                 DTS_TESTING=true
 &{DTS_TEST_EXPORTS}=                                &{DTS_TEST_BASE_EXPORTS}
+&{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}=
+...                                                 UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 SeaBIOS Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 UEFI->Heads Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 SeaBIOS->UEFI Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
+# dict[workflow, dict[variable, value]]
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=                   &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 # Possible values: check DTS_TEST_POSSIBLE_WORKFLOWS
 @{DTS_TEST_WORKFLOWS}=                              @{EMPTY}
 @{DTS_TEST_POSSIBLE_WORKFLOWS}=

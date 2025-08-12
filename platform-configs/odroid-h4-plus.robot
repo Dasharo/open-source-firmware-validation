@@ -122,6 +122,12 @@ ${DTS_TEST_CPU_VERSION}=                        Intel(R) N97
 ...                                             TEST_FMAP_REGIONS=RW_SECTION_A
 ...                                             TEST_VBOOT_ENABLED=true
 ...                                             TEST_BOARD_HAS_GBE_REGION=false
+...                                             TEST_SOUND_CARD_PRESENT=false
+...                                             TEST_HCI_PRESENT=true
+
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=
+...                                             &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+...                                             UEFI Update=&{{ {"TEST_VBOOT_KEYS": "true", "TEST_IS_COREBOOT": "true"} }}
 
 
 *** Keywords ***
