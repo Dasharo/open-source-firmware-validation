@@ -65,7 +65,7 @@ Set DUT Response Timeout
         ${prev_timeout}=    Telnet.Set Timeout    ${timeout}
     ELSE IF    '${DUT_CONNECTION_METHOD}' in ['SSH', 'open-bmc']
         ${con}=    Get Connection
-        VAR    ${prev_timeout}=    ${con.timeout}=
+        VAR    ${prev_timeout}=    ${con.timeout}
         SSHLibrary.Set Client Configuration    timeout=${timeout}
     ELSE
         FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
