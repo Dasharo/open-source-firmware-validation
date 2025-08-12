@@ -151,7 +151,7 @@ Teardown DTS Test
     TRY
         VAR    ${profile}=    ${CURDIR}/profiles/${TEST_NAME}.profile
         ${profile_exists}=    Run Keyword And Return Status
-        ...    File Should Exist    ${profile}
+        ...    OperatingSystem.File Should Exist    ${profile}
         IF    "${TEST_STATUS}" == "PASS" and ${profile_exists}
             Get File From DUT    /tmp/logs/profile    /tmp/robotframework-dts-profile
             ${rc}    ${output}=    Run And Return Rc And Output
