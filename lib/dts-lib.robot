@@ -468,4 +468,13 @@ Prepare Test Exports
         ...    export ${export_variable}="${export_value}"
     END
 
+    &{workflow_exports}=    Get From Dictionary
+    ...    ${dts_test_variables}[DTS_TEST_EXPORTS_PER_WORKFLOW]    ${workflow}
+    ...    default=&{EMPTY}
+
+    FOR    ${export_variable}    ${export_value}    IN    &{workflow_exports}
+        Append To List    ${exports}
+        ...    export ${export_variable}="${export_value}"
+    END
+
     RETURN    ${exports}
