@@ -312,7 +312,8 @@ Wait For ME Warning Or Reboot
     IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
         IF    ${skip_me}
             Write Into Terminal    Y
-            Wait For Checkpoint    Rebooting in
+            ${checkpoint2}=    Wait For Checkpoint    Rebooting in
+            VAR    ${checkpoint}=    ${checkpoint}    ${checkpoint2}    separator=\n
         ELSE
             Fail    Cannot update Intel ME
         END
