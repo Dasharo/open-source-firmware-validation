@@ -441,7 +441,7 @@ Export Shell Variables For Emulation
     [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}=refs/heads/main
     @{exports}=    Prepare Test Exports    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}
     FOR    ${export_string}    IN    @{exports}
-        Execute Command In Terminal    export ${export_string}
+        Execute Command In Terminal    ${export_string}
     END
 
 Prepare Test Exports
