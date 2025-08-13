@@ -74,10 +74,17 @@ Get File From DUT
 
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
-    ${out_hostname}=    Execute Command In Terminal    hostname -I
-    Should Not Contain    ${out_hostname}    link is not ready
-    ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    \\b(?:192\\.168|10\\.0)\\.\\d{1,3}\\.\\d{1,3}\\b
-    Should Not Be Empty    ${ip_address}
+    VAR    ${ip_regexp}=    \\b(?:192\\.168|10\\.0)\\.\\d{1,3}\\.\\d{1,3}\\b
+    TRY
+        ${out_hostname}=    Execute Command In Terminal    hostname -I
+        Should Not Contain    ${out_hostname}    link is not ready
+        ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    ${ip_regexp}
+        Should Not Be Empty    ${ip_address}
+    EXCEPT
+        ${out_hostname}=    Execute Command In Terminal    ip a
+        ${ip_address}=    String.Get Regexp Matches    ${out_hostname}    ${ip_regexp}
+        Should Not Be Empty    ${ip_address}
+    END
     RETURN    ${ip_address[0]}
 
 Check Internet Connection On Linux
