@@ -15,8 +15,7 @@ Resource            ../variables.robot
 Suite Setup         Prepare DTS Gen Suite
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
-Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
-...                     Restore Initial DUT Connection Method
+Test Setup          DTS Gen Test Setup
 
 
 *** Test Cases ***
@@ -89,10 +88,13 @@ DTS005.001 Generate Profile for DTS Heads Transition workflow
 
 
 *** Keywords ***
-Prepare DTS Gen Suite
-    Prepare Test Suite
+DTS Gen Test Setup
     Depends On    ${DTS_SUPPORT}
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+    IF    ${TESTS_IN_FIRMWARE_SUPPORT}    Restore Initial DUT Connection Method
+
+Prepare DTS Gen Suite
+    Prepare Test Suite
     VAR    ${DEVICE_OS_USERNAME}=    root    scope=SUITE
     VAR    ${DEVICE_OS_PASSWORD}=    ${EMPTY}    scope=SUITE
 
