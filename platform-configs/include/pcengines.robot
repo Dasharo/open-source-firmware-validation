@@ -116,6 +116,8 @@ ${DTS_TEST_BOARD_MODEL}=                    ${DTS_TEST_SYSTEM_MODEL}
 ...                                         &{DTS_TEST_BASE_EXPORTS}
 ...                                         TEST_INTERNAL_MULTIPLE_DEFINITIONS=true
 ...                                         TEST_BOARD_HAS_BOOTSPLASH=false
+...                                         TEST_BOARD_HAS_FD_REGION=false
+...                                         TEST_BOARD_HAS_ME_REGION=false
 
 
 *** Keywords ***
