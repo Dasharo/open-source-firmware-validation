@@ -4579,7 +4579,8 @@
     "doc": {
       "_id": "NET001.001",
       "name": "NET controller after coldboot (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "NET001.201"
     }
   },
   {
@@ -4593,7 +4594,8 @@
     "doc": {
       "_id": "NET002.001",
       "name": "NET controller after warmboot (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "NET002.201"
     }
   },
   {
