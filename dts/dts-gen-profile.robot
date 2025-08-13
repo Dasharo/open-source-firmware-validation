@@ -118,7 +118,8 @@ Get Profile After Workflow
     ${date}=    Get Current Date    exclude_millis=${TRUE}
     Execute Command In Terminal    systemctl start sshd
     # get all logs + profiles
-    Get File From DUT    /tmp/logs/*    ${CURDIR}/dts-gen-profiles/${date}-${TEST_NAME}/
+    Get File From DUT    /tmp/logs/*
+    ...    ${CURDIR}/dts-gen-profiles/${date}-${TEST_NAME}/    verify=${FALSE}
 
 Are DPP Keys Defined
     ${email}=    Run Keyword And Return Status
