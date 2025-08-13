@@ -551,7 +551,6 @@ Prepare To SSH Connection
     ...    sections if the communication with the platform based on
     ...    the SSH protocol
     # tu leci zmiana, musimy brać platformy zgodnie z tym co zostało pobrane w dasharo
-    Open Connection And Log In
     VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
     IF    '${DEFAULT_BOOT_OS_ID}'
         Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
