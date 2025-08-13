@@ -112,6 +112,9 @@ ${DTS_TEST_BIOS_VENDOR}=                    coreboot
 # TODO: Also seabios, add to tests
 @{DTS_TEST_DEFAULT_RELEASES}=               DPP
 ${DTS_TEST_BOARD_MODEL}=                    ${DTS_TEST_SYSTEM_MODEL}
+&{DTS_TEST_EXPORTS}=
+...                                         &{DTS_TEST_BASE_EXPORTS}
+...                                         TEST_INTERNAL_MULTIPLE_DEFINITIONS=true
 
 
 *** Keywords ***
