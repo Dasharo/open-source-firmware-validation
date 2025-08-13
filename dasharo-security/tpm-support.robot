@@ -186,6 +186,7 @@ TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
 
 TPM012.201 Check if the ChangeEPS works (Ubuntu)
     [Documentation]    Check if the `TPM2 ChangeEPS` setup menu option works properly.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
