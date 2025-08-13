@@ -495,6 +495,7 @@ Prepare Test Suite
     IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
         Import Osfv Libraries
     END
+    VAR    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}=    ${TRUE}    scope=GLOBAL
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Prepare To SSH Connection
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
