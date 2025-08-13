@@ -47,7 +47,7 @@ Get File From DUT
     ...    === Requirements ===
     ...    Keyword has to be called when in OS shell
     ...    DUT OS has to have sshd service or socket enabled
-    [Arguments]    ${source_path}    ${target_path}
+    [Arguments]    ${source_path}    ${target_path}    ${verify}=${TRUE}
     Run    rm -f ${target_path}
     ${hash_source}=    Execute Command In Terminal    md5sum ${source_path} | cut -d ' ' -f 1
 
@@ -68,9 +68,11 @@ Get File From DUT
     ELSE
         SSHLibrary.Get File    ${source_path}    ${target_path}
     END
-    ${hash_target}=    Run    md5sum ${target_path} | cut -d ' ' -f 1
-    ${hash_target}=    Strip String    ${hash_target}
-    Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
+    IF    ${verify}
+        ${hash_target}=    Run    md5sum ${target_path} | cut -d ' ' -f 1
+        ${hash_target}=    Strip String    ${hash_target}
+        Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
+    END
 
 Get Hostname Ip
     [Documentation]    Returns local IP address of the DUT.
