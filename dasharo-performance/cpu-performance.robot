@@ -19,6 +19,7 @@ ${DEVIATION_DOWN}=      0.8
 CPP001.201 Single Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test single threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
+    ...    Previous IDs: CPP001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.001 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
@@ -31,9 +32,25 @@ CPP001.201 Single Threaded CPU Benchmark (Ubuntu) (AC)
     Should Be True    ${render_test_passed}
     Should Be True    ${coremark_test_passed}
 
-CPP001.202 Single Threaded CPU Benchmark (Ubuntu) (Battery)
+CPP002.201 Multi Threaded CPU Benchmark (Ubuntu) (AC)
+    [Documentation]    Test multi threaded performance using phoronix
+    ...    test suite, for Ubuntu, while connected to power supply.
+    ...    Previous IDs: CPP002.001
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${c_7zip_test_passed}=    7-Zip Multi-thread Compression And Decompression Average
+    Should Be True    ${c_7zip_test_passed}
+
+CPP003.201 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test single threaded performance using phoronix
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
+    ...    Previous IDs: CPP001.002 CPP001.202
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery is not present
@@ -48,23 +65,10 @@ CPP001.202 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     Should Be True    ${render_test_passed}
     Should Be True    ${coremark_test_passed}
 
-CPP002.201 Multi Threaded CPU Benchmark (Ubuntu) (AC)
-    [Documentation]    Test multi threaded performance using phoronix
-    ...    test suite, for Ubuntu, while connected to power supply.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    ${c_7zip_test_passed}=    7-Zip Multi-thread Compression And Decompression Average
-    Should Be True    ${c_7zip_test_passed}
-
-CPP002.202 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
+CPP004.201 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
+    ...    Previous IDs: CPP002.002 CPP002.202
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present

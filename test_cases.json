@@ -1611,7 +1611,8 @@
     "doc": {
       "_id": "CPP001.202",
       "name": "Single Threaded CPU Benchmark (Ubuntu) (Battery)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CPP003.201"
     }
   },
   {
@@ -1640,6 +1641,21 @@
   {
     "doc": {
       "_id": "CPP002.202",
+      "name": "Multi Threaded CPU Benchmark (Ubuntu) (Battery)",
+      "module": "Dasharo Performance",
+      "changed_to": "CPP004.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPP003.201",
+      "name": "Single Threaded CPU Benchmark (Ubuntu) (Battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPP004.201",
       "name": "Multi Threaded CPU Benchmark (Ubuntu) (Battery)",
       "module": "Dasharo Performance"
     }
