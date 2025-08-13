@@ -116,6 +116,7 @@ Get Profile After Workflow
     Wait For Checkpoint    ${DTS_CHECKPOINT}
     Enter Shell In DTS
     ${date}=    Get Current Date    exclude_millis=${TRUE}
+    Execute Command In Terminal    systemctl start sshd
     # get all logs + profiles
     Get File From DUT    /tmp/logs/*    ${CURDIR}/dts-gen-profiles/${date}-${TEST_NAME}/
 
