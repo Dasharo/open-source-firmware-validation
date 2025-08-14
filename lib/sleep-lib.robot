@@ -86,28 +86,51 @@ Get And Install FWTS
 Perform Suspend Test Using FWTS
     [Documentation]    Keyword allows to perform suspend and resume procedure
     ...    test by using Firmware Test Suite tool
-    [Arguments]    ${test_duration}=40
+    [Arguments]    ${test_duration}=60
     VAR    ${is_suspend_performed_correctly}=    ${FALSE}
     VAR    ${test_time_out}=    ${${test_duration}-5}
+    ${mode}=    Get Current Suspend Mode For FWTS Linux
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Execute Command In Terminal    fwts s3 -f -r /tmp/suspend_test_log.log    ${test_time_out}s
+        Execute Command In Terminal    fwts ${mode} -f -r /tmp/suspend_test_log.log    ${test_time_out}s
     ELSE
-        Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
+        Write Into Terminal    fwts ${mode} -f -r /tmp/suspend_test_log.log
         Sleep    ${test_duration}s
         Login To Linux
         Switch To Root User
     END
     ${test_result}=    Execute Command In Terminal    cat /tmp/suspend_test_log.log
-    TRY
-        Should Contain    ${test_result}    0 failed
-        Should Contain    ${test_result}    0 warning
-        Should Contain    ${test_result}    0 aborted
-        Should Contain    ${test_result}    0 skipped
-        VAR    ${is_suspend_performed_correctly}=    ${TRUE}
-    EXCEPT
-        VAR    ${is_suspend_performed_correctly}=    ${FALSE}
+    IF    "s3" in "${mode}"
+    
+        TRY
+            Should Contain    ${test_result}    0 failed
+            Should Contain    ${test_result}    0 warning
+            Should Contain    ${test_result}    0 aborted
+            Should Contain    ${test_result}    0 skipped
+            VAR    ${is_suspend_performed_correctly}=    ${TRUE}
+        EXCEPT
+            VAR    ${is_suspend_performed_correctly}=    ${FALSE}
+        END
+    ELSE IF    "s0idle" in "${mode}"
+        TRY
+            Should Contain    ${test_result}    PASSED
+            VAR    ${is_suspend_performed_correctly}=    ${TRUE}
+        EXCEPT
+            VAR    ${is_suspend_performed_correctly}=    ${FALSE}
+        END
     END
     RETURN    ${is_suspend_performed_correctly}
+
+Get Current Suspend Mode For FWTS Linux
+    [Documentation]    Returns either `s3` or `s0idle` depending
+    ...    on which sleep mode is currently active on linux,
+    ...    The output should be 
+    ${out}=    Execute Command In Terminal    cat /sys/power/mem_sleep
+    IF    '[s2idle]' in """${out}"""
+        RETURN    s0idle
+    ELSE IF    '[deep]' in """${out}"""
+        RETURN    s3
+    END
+    RETURN    unknown sleep mode
 
 Perform Hibernation Test Using FWTS
     [Documentation]    Keyword allows to perform hibernation and resume procedure
