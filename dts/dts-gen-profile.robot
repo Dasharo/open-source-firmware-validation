@@ -25,7 +25,11 @@ DTG001.001 Generate Profile for DTS UEFI Update Workflow
     ...    FW_FILE    "Flash earlier version of Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
-        Set UEFI Option    MeMode    Disabled (HAP)
+        TRY
+            Set UEFI Option    MeMode    Disabled (HAP)
+        EXCEPT
+            Log    Couldn't disable ME, previous fw likely doesn't have that option
+        END
     END
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
@@ -73,7 +77,11 @@ DTS005.001 Generate Profile for DTS Heads Transition workflow
     ...    FW_FILE    "Flash Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
-        Set UEFI Option    MeMode    Disabled (HAP)
+        TRY
+            Set UEFI Option    MeMode    Disabled (HAP)
+        EXCEPT
+            Log    Couldn't disable ME, previous fw likely doesn't have that option
+        END
     END
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
