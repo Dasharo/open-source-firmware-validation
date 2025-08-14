@@ -31,7 +31,6 @@ DTG001.001 Generate Profile for DTS UEFI Update Workflow
             Log    Couldn't disable ME, previous fw likely doesn't have that option
         END
     END
-    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Prepare DTS For Profile Generation
@@ -77,7 +76,6 @@ DTG005.001 Generate Profile for DTS Heads Transition workflow
             Log    Couldn't disable ME
         END
     END
-    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Prepare DTS For Profile Generation
@@ -99,7 +97,6 @@ DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
             Log    Couldn't disable ME
         END
     END
-    Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Prepare DTS For Profile Generation
