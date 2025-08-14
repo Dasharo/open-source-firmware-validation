@@ -50,7 +50,7 @@ DTG002.001 Generate Profile for DTS SeaBIOS Update Workflow
     ${dpp_keys_defined}=    Are DPP Keys Defined
     IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
     Go Through Update    skip_me=${TRUE}
-    Get Profile After Workflow
+    Get Profile After Workflow    trim_last_line=${TRUE}
 
 DTG003.001 Generate Profile for DTS UEFI Initial Deployment workflow
     [Documentation]    Generate profile for DTS UEFI initial deployment
@@ -147,6 +147,7 @@ Get Profile After Workflow
     [Documentation]    Should be called after workflow completes. This keyword
     ...    should be used with update/initial deployment/transition workflows
     ...    which end up with reboot.
+    [Arguments]    ${trim_last_line}=${FALSE}
     # After fake 'reboot' call DTS displays DTS_CONFIRM_CHECKPOINT prompt
     Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
     Wait For Checkpoint    ${DTS_CHECKPOINT}
@@ -156,6 +157,11 @@ Get Profile After Workflow
     # get all logs + profiles
     Get File From DUT    /tmp/logs/*
     ...    ${CURDIR}/dts-gen-profiles/${date}-${TEST_NAME}/    verify=${FALSE}
+    IF    ${trim_last_line}
+        ${rc}=    Run And Return Rc
+        ...    sed -i '$ d' "${CURDIR}/dts-gen-profiles/${date}-${TEST_NAME}/profile"
+        Should Be Equal As Integers    ${rc}    0
+    END
 
 Are DPP Keys Defined
     ${email}=    Run Keyword And Return Status
