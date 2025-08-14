@@ -59,13 +59,13 @@ DTG003.001 Generate Profile for DTS UEFI Initial Deployment workflow
     Go Through Initial Deployment    ${version}    skip_me=${TRUE}
     Get Profile After Workflow
 
-DTS004.001 Generate Profile for DTS SeaBIOS Initial Deployment workflow
+DTG004.001 Generate Profile for DTS SeaBIOS Initial Deployment workflow
     [Documentation]    Generate profile for DTS SeaBIOS initial deployment
     ${version}=    Prepare For Initial Deployment    seabios=${True}
     Go Through Initial Deployment    ${version}
     Get Profile After Workflow
 
-DTS005.001 Generate Profile for DTS Heads Transition workflow
+DTG005.001 Generate Profile for DTS Heads Transition workflow
     [Documentation]    Generate profile for DTS Heads transition
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash Dasharo firmware"
@@ -87,7 +87,7 @@ DTS005.001 Generate Profile for DTS Heads Transition workflow
     Wait For Checkpoint    Rebooting
     Get Profile After Workflow
 
-DTS006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
+DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
     [Documentation]    Generate profile for DTS SeaBIOS->UEFI initial deployment
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash Dasharo firmware"
@@ -111,7 +111,7 @@ DTS006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
     Go Through Transition    ${version}    skip_me=${TRUE}
     Get Profile After Workflow
 
-DTS007.001 Generate Profile for DTS SeaBIOS->UEFI Transition workflow
+DTG007.001 Generate Profile for DTS SeaBIOS->UEFI Transition workflow
     [Documentation]    Generate profile for DTS SeaBIOS->UEFI initial deployment
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash Dasharo SeaBIOS firmware"
