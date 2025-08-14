@@ -6,11 +6,6 @@ Resource    include/default.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       SSH
-${DUT_CONNECTION_METHOD}=               SSH
-${OPTIONS_LIB}=                         options-lib_dcu
-${POWER_CTRL}=                          none
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}

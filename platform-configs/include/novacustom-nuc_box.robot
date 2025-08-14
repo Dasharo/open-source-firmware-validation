@@ -30,4 +30,4 @@ ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 
 # DTS E2E test variables
 @{DTS_TEST_WORKFLOWS}=                  @{EMPTY}
-${PLATFORM_SLEEP_TYPE_SELECTABLE}=      ${TRUE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=     ${TRUE}
