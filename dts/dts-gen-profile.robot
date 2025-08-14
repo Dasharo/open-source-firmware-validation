@@ -62,7 +62,7 @@ DTG003.001 Generate Profile for DTS UEFI Initial Deployment workflow
 DTG004.001 Generate Profile for DTS SeaBIOS Initial Deployment workflow
     [Documentation]    Generate profile for DTS SeaBIOS initial deployment
     ${version}=    Prepare For Initial Deployment    seabios=${True}
-    Go Through Initial Deployment    ${version}
+    Go Through Initial Deployment    ${version}    skip_me=${TRUE}
     Get Profile After Workflow
 
 DTG005.001 Generate Profile for DTS Heads Transition workflow
@@ -99,6 +99,8 @@ DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
             Log    Couldn't disable ME
         END
     END
+    Make Sure That Network Boot Is Enabled
+    Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Prepare DTS For Profile Generation
     ${dpp_keys_defined}=    Are DPP Keys Defined
