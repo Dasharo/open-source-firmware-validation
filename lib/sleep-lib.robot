@@ -93,6 +93,10 @@ Perform Suspend Test Using FWTS
         Execute Command In Terminal
         ...    fwts s3 --s3-sleep=5 --s3-max-delay=10 -f -r /tmp/suspend_test_log.log
         ...    ${test_time_out}s
+        # Clean up console before reading file
+        Read From Terminal
+        Write Bare Into Terminal    ${ENTER}
+        Read From Terminal Until Prompt
     ELSE
         Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
         Sleep    ${test_duration}s
@@ -110,6 +114,18 @@ Perform Suspend Test Using FWTS
         VAR    ${is_suspend_performed_correctly}=    ${FALSE}
     END
     RETURN    ${is_suspend_performed_correctly}
+
+Get Current Suspend Mode For FWTS Linux
+    [Documentation]    Returns either `s3` or `s0idle` depending
+    ...    on which sleep mode is currently active on linux,
+    ...    The output should be
+    ${out}=    Execute Command In Terminal    cat /sys/power/mem_sleep
+    IF    '[s2idle]' in """${out}"""
+        RETURN    s0idle
+    ELSE IF    '[deep]' in """${out}"""
+        RETURN    s3
+    END
+    RETURN    unknown sleep mode
 
 Perform Hibernation Test Using FWTS
     [Documentation]    Keyword allows to perform hibernation and resume procedure
