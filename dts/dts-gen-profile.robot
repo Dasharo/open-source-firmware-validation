@@ -66,13 +66,7 @@ DTS004.001 Generate Profile for DTS SeaBIOS Initial Deployment workflow
     Get Profile After Workflow
 
 DTS005.001 Generate Profile for DTS Heads Transition workflow
-    [Documentation]    This test aims to verify that Heads Transition by using
-    ...    DTS built-in script works correctly.
-    ...    Test expects FW_FILE variable to contain path to Dasharo fw with
-    ...    enabled serial console from which we will attempt to transition to
-    ...    heads. If FW_FILE isn't defined then test waits for user to flash
-    ...    correct FW. If DPP_EMAIL and DPP_PASSWORD are defined then test will
-    ...    load DPP credentials before trying to deploy firmware.
+    [Documentation]    Generate profile for DTS Heads transition
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
@@ -80,7 +74,7 @@ DTS005.001 Generate Profile for DTS Heads Transition workflow
         TRY
             Set UEFI Option    MeMode    Disabled (HAP)
         EXCEPT
-            Log    Couldn't disable ME, previous fw likely doesn't have that option
+            Log    Couldn't disable ME
         END
     END
     Make Sure That Network Boot Is Enabled
@@ -90,8 +84,43 @@ DTS005.001 Generate Profile for DTS Heads Transition workflow
     ${dpp_keys_defined}=    Are DPP Keys Defined
     IF    ${dpp_keys_defined} == ${TRUE}    Provide DPP Credentials
     Go Through Heads Transition
-    Wait For Checkpoint    Rebooting in
     Wait For Checkpoint    Rebooting
+    Get Profile After Workflow
+
+DTS006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
+    [Documentation]    Generate profile for DTS SeaBIOS->UEFI initial deployment
+    Flash FW Automatically Or Manually
+    ...    FW_FILE    "Flash Dasharo firmware"
+    Make Sure That Flash Locks Are Disabled
+    IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
+        TRY
+            Set UEFI Option    MeMode    Disabled (HAP)
+        EXCEPT
+            Log    Couldn't disable ME
+        END
+    END
+    Enter Shell In DTS
+    Prepare DTS For Profile Generation
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    IF    ${dpp_keys_defined} == ${TRUE}
+        Provide DPP Credentials
+        VAR    ${version}=    DPP UEFI
+    ELSE
+        VAR    ${version}=    DCR UEFI
+    END
+    Go Through Transition    ${version}    skip_me=${TRUE}
+    Get Profile After Workflow
+
+DTS007.001 Generate Profile for DTS SeaBIOS->UEFI Transition workflow
+    [Documentation]    Generate profile for DTS SeaBIOS->UEFI initial deployment
+    Flash FW Automatically Or Manually
+    ...    FW_FILE    "Flash Dasharo SeaBIOS firmware"
+    Execute Manual Step While Freeing Serial Connection
+    ...    "Boot into DTS. Continue after DTS UI is shown"
+    Enter Shell In DTS
+    Prepare DTS For Profile Generation
+    Provide DPP Credentials
+    Go Through Transition    DPP SeaBIOS    skip_me=${TRUE}
     Get Profile After Workflow
 
 
