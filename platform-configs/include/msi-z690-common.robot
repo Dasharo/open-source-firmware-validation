@@ -118,6 +118,13 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 ${DTS_TEST_SYSTEM_VENDOR}=                      Micro-Star International Co., Ltd.
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update    UEFI->Heads Transition
 
+&{DTS_TEST_EXPORTS}=
+...                                             &{DTS_TEST_BASE_EXPORTS}
+...                                             TEST_BOARD_HAS_BOOTSPLASH=false
+...                                             TEST_VBOOT_KEYS=true
+...                                             TEST_FMAP_REGIONS=BOOTSPLASH
+...                                             TEST_ME_HAP_DISABLED=true
+
 
 *** Keywords ***
 Power On
