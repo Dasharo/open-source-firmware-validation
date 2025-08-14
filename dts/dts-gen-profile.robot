@@ -100,14 +100,8 @@ DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Prepare DTS For Profile Generation
-    ${dpp_keys_defined}=    Are DPP Keys Defined
-    IF    ${dpp_keys_defined} == ${TRUE}
-        Provide DPP Credentials
-        VAR    ${version}=    DPP UEFI
-    ELSE
-        VAR    ${version}=    DCR UEFI
-    END
-    Go Through Transition    ${version}    skip_me=${TRUE}
+    Provide DPP Credentials
+    Go Through Transition    DPP SeaBIOS    skip_me=${TRUE}
     Get Profile After Workflow
 
 DTG007.001 Generate Profile for DTS SeaBIOS->UEFI Transition workflow
@@ -118,8 +112,14 @@ DTG007.001 Generate Profile for DTS SeaBIOS->UEFI Transition workflow
     ...    "Boot into DTS. Continue after DTS UI is shown"
     Enter Shell In DTS
     Prepare DTS For Profile Generation
-    Provide DPP Credentials
-    Go Through Transition    DPP SeaBIOS    skip_me=${TRUE}
+    ${dpp_keys_defined}=    Are DPP Keys Defined
+    IF    ${dpp_keys_defined} == ${TRUE}
+        Provide DPP Credentials
+        VAR    ${version}=    DPP UEFI
+    ELSE
+        VAR    ${version}=    DCR UEFI
+    END
+    Go Through Transition    ${version}    skip_me=${TRUE}
     Get Profile After Workflow
 
 
