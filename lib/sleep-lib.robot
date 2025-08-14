@@ -7,23 +7,22 @@ Resource            ../keywords.robot
 *** Keywords ***
 Check If Platform Sleep Type Can Be Selected
     [Documentation]    Check if there is a Platform sleep type option
+    VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${FALSE}    scope=GLOBAL
     IF    not ${TESTS_IN_FIRMWARE_SUPPORT}
-        VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${FALSE}    scope=SUITE
         RETURN
     END
     IF    ${DASHARO_POWER_MGMT_MENU_SUPPORT} == ${FALSE}
-        VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${FALSE}    scope=SUITE
         RETURN
     END
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${EMPTY}    scope=SUITE
-    ${platform_sleep_type_selectable}=    Run Keyword And Return Status
+    ${selectable}=    Run Keyword And Return Status
     ...    Get Option State
     ...    ${power_menu}
     ...    Platform sleep type
+    VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${selectable}    scope=GLOBAL
     Save Changes And Reset
 
 Set Platform Sleep Type
