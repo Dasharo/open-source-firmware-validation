@@ -83,6 +83,9 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
 # Test module: dasharo-stability
 ${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
 
+# Test module: dasharo-security
+${SOVEREIGN_BOOT_SUPPORT}=                  ${TRUE}
+
 
 *** Keywords ***
 Power On
