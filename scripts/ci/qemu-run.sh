@@ -186,7 +186,7 @@ QEMU_PARAMS_OS="-object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
   -device virtio-net,netdev=vmnic \
   -netdev user,id=vmnic,hostfwd=tcp::5222-:22 \
-  -drive file=${HDD_PATH},if=ide"
+  -drive file=${HDD_PATH},if=virtio"
 
 QEMU_PARAMS_OS_AUDIO="-device ich9-intel-hda \
   -device hda-duplex,audiodev=hda \
@@ -194,7 +194,7 @@ QEMU_PARAMS_OS_AUDIO="-device ich9-intel-hda \
 
 if [[ -f ${HDD2_PATH} ]]; then
   QEMU_PARAMS_OS+=" \
-  -drive file=${HDD2_PATH},if=ide"
+  -drive file=${HDD2_PATH},if=virtio"
 
   echo "Using ${HDD2_PATH} as the second drive"
 fi
