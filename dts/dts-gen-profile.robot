@@ -155,11 +155,15 @@ Get Profile After Workflow
     ${date}=    Get Current Date    exclude_millis=${TRUE}
     Execute Command In Terminal    systemctl start sshd
     # get all logs + profiles
+    VAR    ${logs_dir}=    ${CURDIR}/dts-gen-profiles/${date}-${CONFIG}-${TEST_NAME}
     Get File From DUT    /tmp/logs/*
-    ...    ${CURDIR}/dts-gen-profiles/${date}-${TEST_NAME}/    verify=${FALSE}
+    ...    ${logs_dir}/    verify=${FALSE}
     IF    ${trim_last_line}
         ${rc}=    Run And Return Rc
-        ...    sed -i '$ d' "${CURDIR}/dts-gen-profiles/${date}-${TEST_NAME}/profile"
+        ...    sed -i '$ d' "${logs_dir}/profile"
+        Should Be Equal As Integers    ${rc}    0
+        ${rc}=    Run And Return Rc
+        ...    sed -i '$ d' "${logs_dir}/debug_profile"
         Should Be Equal As Integers    ${rc}    0
     END
 
