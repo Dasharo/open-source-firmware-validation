@@ -20,7 +20,11 @@ Test Setup          DTS Gen Test Setup
 
 *** Test Cases ***
 DTG001.001 Generate Profile for DTS UEFI Update Workflow
-    [Documentation]    Generate profile for UEFI update workflow.
+    [Documentation]
+    ...    Generate profile for UEFI update workflow. ${FW_FILE} variable
+    ...    should contain path to earlier UEFI fw release that allows for
+    ...    update workflow. If ${FW_FILE} isn't defined then you'll be asked to
+    ...    manually flash correct fw version on DUT
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash earlier version of Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
@@ -40,7 +44,11 @@ DTG001.001 Generate Profile for DTS UEFI Update Workflow
     Get Profile After Workflow
 
 DTG002.001 Generate Profile for DTS SeaBIOS Update Workflow
-    [Documentation]    Generate profile for SeaBIOS update workflow.
+    [Documentation]
+    ...    Generate profile for SeaBIOS update workflow. ${FW_FILE} variable
+    ...    should contain path to earlier SeaBIOS fw release that allows for
+    ...    update workflow. If ${FW_FILE} isn't defined then you'll be asked to
+    ...    manually flash correct fw version on DUT
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash earlier version of Dasharo firmware"
     Execute Manual Step While Freeing Serial Connection
@@ -53,19 +61,31 @@ DTG002.001 Generate Profile for DTS SeaBIOS Update Workflow
     Get Profile After Workflow    trim_last_line=${TRUE}
 
 DTG003.001 Generate Profile for DTS UEFI Initial Deployment workflow
-    [Documentation]    Generate profile for DTS UEFI initial deployment
+    [Documentation]
+    ...    Generate profile for DTS UEFI initial deployment. ${FW_FILE}
+    ...    variable should contain path to original/propertiary fw release that
+    ...    allows for initial deployment workflow. If ${FW_FILE} isn't defined
+    ...    then you'll be asked to manually flash correct fw version on DUT
     ${version}=    Prepare For Initial Deployment    seabios=${False}
     Go Through Initial Deployment    ${version}    skip_me=${TRUE}
     Get Profile After Workflow
 
 DTG004.001 Generate Profile for DTS SeaBIOS Initial Deployment workflow
-    [Documentation]    Generate profile for DTS SeaBIOS initial deployment
+    [Documentation]
+    ...    Generate profile for DTS SeaBIOS initial deployment. ${FW_FILE}
+    ...    variable should contain path to original/propertiary fw release that
+    ...    allows for initial deployment workflow. If ${FW_FILE} isn't defined
+    ...    then you'll be asked to manually flash correct fw version on DUT
     ${version}=    Prepare For Initial Deployment    seabios=${True}
     Go Through Initial Deployment    ${version}    skip_me=${TRUE}
     Get Profile After Workflow
 
 DTG005.001 Generate Profile for DTS Heads Transition workflow
-    [Documentation]    Generate profile for DTS Heads transition
+    [Documentation]
+    ...    Generate profile for DTS Heads transition. ${FW_FILE}
+    ...    variable should contain path to UEFI fw release that
+    ...    allows for heads transition workflow. If ${FW_FILE} isn't defined
+    ...    then you'll be asked to manually flash correct fw version on DUT
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
@@ -86,7 +106,11 @@ DTG005.001 Generate Profile for DTS Heads Transition workflow
     Get Profile After Workflow
 
 DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
-    [Documentation]    Generate profile for DTS SeaBIOS->UEFI initial deployment
+    [Documentation]
+    ...    Generate profile for DTS SeaBIOS->UEFI initial deployment.
+    ...    ${FW_FILE} variable should contain path to UEFI fw release that
+    ...    allows for SeaBIOS transition workflow. If ${FW_FILE} isn't defined
+    ...    then you'll be asked to manually flash correct fw version on DUT
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
@@ -105,7 +129,11 @@ DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
     Get Profile After Workflow
 
 DTG007.001 Generate Profile for DTS SeaBIOS->UEFI Transition workflow
-    [Documentation]    Generate profile for DTS SeaBIOS->UEFI initial deployment
+    [Documentation]
+    ...    Generate profile for DTS SeaBIOS->UEFI initial deployment.
+    ...    ${FW_FILE} variable should contain path to SeaBIOS fw release that
+    ...    allows for UEFI transition workflow. If ${FW_FILE} isn't defined
+    ...    then you'll be asked to manually flash correct fw version on DUT
     Flash FW Automatically Or Manually
     ...    FW_FILE    "Flash Dasharo SeaBIOS firmware"
     Execute Manual Step While Freeing Serial Connection
