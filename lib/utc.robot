@@ -586,7 +586,6 @@ Docking Station Detection After Suspend Then Hotplug (S3)
 
 Pause Execution In Console
     [Documentation]    Pauses execution until user press ENTER.
-    [Tags]    robot:private
     [Arguments]    ${message}= Press ENTER to continue...
     Run    notify-send "Please execute Manual Step in ${TEST_NAME}"    # GUI message
     Run    echo -ne '\007'    # ASCII BEL (\007)

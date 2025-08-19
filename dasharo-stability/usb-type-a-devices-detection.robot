@@ -183,7 +183,6 @@ SUD006.202 USB devices detection after suspension (Fedora) (S3)
 USB Devices Detection After Suspension
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
-    [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     ${out}=    List Devices In Linux    usb
@@ -197,7 +196,6 @@ USB Devices Detection After Suspension
 USB Devices Detection After Warm Boot
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a warm boot.
-    [Tags]    robot:private
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
 
@@ -213,7 +211,6 @@ USB Devices Detection After Warm Boot
 USB Devices Detection After Reboot
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a reboot.
-    [Tags]    robot:private
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${USB_DEVICE}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}

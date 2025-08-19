@@ -149,7 +149,6 @@ Save Measurements
 Verify Fan Speeds
     [Documentation]    Compares RPM/PWM to target values depending
     ...    on CPU temperature and a fan curve.
-    [Tags]    robot:private
     [Arguments]    ${range_data}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
 
     ${expected_fan_speed}=    Calculate Expected Speed    ${cpu_temp}    ${fan_mode}    ${range_data}
@@ -190,7 +189,6 @@ Get Fan Curve Range
 Get Fan Curve Range From Curve
     [Documentation]    Returns the dictionary with settings for temperature
     ...    range where the current temperature fits
-    [Tags]    robot:private
     [Arguments]    ${temperature}    @{temperature_curve}
 
     ${expected_speed}=    Evaluate    -1
@@ -205,7 +203,6 @@ Calculate Expected Speed
     ...    for a given temperature based on an algorithm and a
     ...    defined curve. Speed unit should be defined as "pwm" or "rpm" to
     ...    choose the curve unit.
-    [Tags]    robot:private
     [Arguments]    ${temperature}    ${speed_unit}    ${range_data}
 
     ${expected_speed}=    Evaluate    -1

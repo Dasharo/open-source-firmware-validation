@@ -278,7 +278,6 @@ Check Cache Support
 CPU Cache Enabled Linux
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
-    [Tags]    robot:private
     ${mem_info}=    Execute Linux Command    getconf -a | grep CACHE
     Check Cache Support    ${mem_info}    LEVEL1
     Pass Execution If    not ${L2_CACHE_SUPPORT}    DUT supports only L1 cache
@@ -290,7 +289,6 @@ CPU Cache Enabled Linux
 
 Multiple CPU Support Linux
     [Documentation]    Check whether the DUT has multiple CPU support.
-    [Tags]    robot:private
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.001 not supported
     ${cpu_info}=    Execute Linux Command    lscpu
     ${cpu}=    Get Lines Matching Regexp    ${cpu_info}    ^CPU\\(s\\):\\s+\\d+$    flags=MULTILINE
@@ -300,7 +298,6 @@ Multiple CPU Support Linux
 
 Multiple-Core Support Linux
     [Documentation]    Check whether the DUT has multi-core support.
-    [Tags]    robot:private
     ${cpu_info}=    Execute Linux Command    lscpu
     ${sockets}=    Get Lines Containing String    ${cpu_info}    Socket(s):
     Should Contain    ${sockets}    ${DEF_SOCKETS}    Different number of sockets than ${DEF_SOCKETS}

@@ -178,7 +178,6 @@ External HDMI Display
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -189,7 +188,6 @@ External HDMI Display
 
 Internal Display In OS
     [Documentation]    Check whether an internal display is visible
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -202,7 +200,6 @@ External DP Display In OS
     [Documentation]    Check whether an external Display Port is visible in
     ...    Linux OS. An external Display Port must be provided in
     ...    the platform config.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}

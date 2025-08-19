@@ -217,7 +217,6 @@ USB003.301 Upload 1GB file on USB storage (Windows)
 *** Keywords ***
 Prepare USB HID Test Suite
     [Documentation]    Prepare this test suite
-    [Tags]    robot:private
     Prepare Test Suite
     IF    "${DEVICE_USB_KEYBOARD}" != "${EMPTY}" or "${DUT_CONNECTION_METHOD}" == "pikvm"
         VAR    ${HAS_KEYBOARD}=    ${TRUE}    scope=SUITE
@@ -239,7 +238,6 @@ Prepare USB HID Test Suite
 USB Devices Detected By OS
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Linux OS.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -254,7 +252,6 @@ USB Devices Detected By OS
 USB Keyboard In OS
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Linux OS.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -266,7 +263,6 @@ USB Keyboard In OS
 Upload 1GB File On USB Storage
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${os_id}

@@ -134,7 +134,6 @@ Verify If No Reboot Occurs In Linux
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -162,7 +161,6 @@ Verify If No Reboot Occurs In Linux
 Verify If No Unexpected Boot Errors Appear In Linux Logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${os_id}

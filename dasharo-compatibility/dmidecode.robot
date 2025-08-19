@@ -182,7 +182,6 @@ Get SMBIOS Values
     ...    and Chassis) and store them in suite variables. Each table is stored
     ...    in a dedicated variable because their fields have generic names (e.g.
     ...    Type) that is later extracted in the test cases.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${os_id}

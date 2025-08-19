@@ -112,7 +112,6 @@ CBNT005.201 Converged Boot Guard and TXT - Fused platform EoM set and FPFs Commi
 Check TPM Startup From Locality 3
     [Documentation]    Check TPM Startup locality print in cbmem to verify
     ...    that TPM started from locality 3
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Startup
@@ -122,7 +121,6 @@ Check TPM Startup From Locality 3
 Check EoM And FPFs Committed
     [Documentation]    Check Manufacturing Mode and FPFs Committed
     ...    prints in cbmem for the expected state
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep ME
@@ -133,7 +131,6 @@ Check EoM And FPFs Committed
 Check CBnT Profile 5
     [Documentation]    Check if F, V and M components of the boot policy match
     ...    profile 5
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1
@@ -145,7 +142,6 @@ Check CBnT Profile 5
 Boot OS And Enter Root Shell
     [Documentation]    Boots a specified OS and prepares for running commands as
     ...    root
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}

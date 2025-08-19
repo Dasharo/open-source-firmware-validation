@@ -329,7 +329,6 @@ AUD007.301 HDMI Audio recognition
 Audio Subsystem Detection Linux
     [Documentation]    Ensures Ubuntu is currently active and that the
     ...    audio chip was detected.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -340,7 +339,6 @@ Audio Subsystem Detection Linux
 Get Sound Devices In Windows
     [Documentation]    Get and return sound devices via PowerShell
     ...    filtered as all devices, audio-sink only, or microphones only
-    [Tags]    robot:private
     [Arguments]    ${class}=all
     IF    '${class}' == 'all'
         VAR    ${filter_condition}=    {$_.Class -match "Audio"}
@@ -362,7 +360,6 @@ Get Sound Devices In Windows
 Switch Active Sink Port Using Pactl
     [Documentation]    Using Pulse Audio Controller (pactl), attempt to switch
     ...    to specified sink port.
-    [Tags]    robot:private
     [Arguments]    ${class}
     ${sink}=    Execute Command In Terminal
     ...    pactl list short sinks | awk '{print $1}'
@@ -385,7 +382,6 @@ Switch Active Source Port Using Pactl
     ...    to set a source port, we need to specify device by full name,
     ...    so we filter it with "grep alsa_input", in contrast to sink change
     ...    which only requires a numeric ID.
-    [Tags]    robot:private
     [Arguments]    ${class}
     ${source}=    Execute Command In Terminal
     ...    pactl list sources | grep alsa_input | awk 'NR==1 {print $2}'
@@ -403,7 +399,6 @@ Switch Active Source Port Using Pactl
 Verify Active Sink Port Using Pactl
     [Documentation]    Using Pulse Audio Controller (pactl), verify that specified
     ...    class of sink ports aka audio output is available
-    [Tags]    robot:private
     [Arguments]    ${class}
     ${sinks}=    Execute Command In Terminal    pactl list sinks | grep "Active Port"
     Should Not Be Empty    ${sinks}
@@ -421,7 +416,6 @@ Verify Active Sink Port Using Pactl
 Verify Active Source Port Using Pactl
     [Documentation]    Using Pulse Audio Controller (pactl), verify that specified
     ...    class of source ports is available
-    [Tags]    robot:private
     [Arguments]    ${class}
     ${sources}=    Execute Command In Terminal    pactl list sources | grep "Active Port"
     Should Not Be Empty    ${sources}
@@ -437,7 +431,6 @@ Verify Active Source Port Using Pactl
 Verify External Headset Is Plugged In
     [Documentation]    Using Pulse Audio Controller (pactl), verify that
     ...    external headset is plugged in.
-    [Tags]    robot:private
     ${result}=    Execute Command In Terminal
     ...    pactl list sinks | grep analog-output-headphones | awk 'NR==1'
     Should Not Contain    ${result}    not available

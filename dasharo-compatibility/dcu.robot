@@ -141,7 +141,6 @@ Verify SMMSTORE Changes (Setup Menu)
 Verify SMMSTORE Changes (DCU)
     [Documentation]    This keyword verifies that changes made to the
     ...    SMMSTORE via DCU are properly applied and visible in DCU.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     # Initial value cannot be checked and restored using DCU because the
     # variable store may not be initialized yet.
@@ -168,7 +167,6 @@ Make Sure New Firmware Is Booted After Flashing
     ...    Platforms without POWER_CTRL typically do nothing
     ...    as an implementation of Power On etc. and they need a reboot after
     ...    flashing
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     IF    '''${POWER_CTRL}''' == '''none'''
         Power On
@@ -181,7 +179,6 @@ Make Sure New Firmware Is Booted After Flashing
 Change The UUID
     [Documentation]    This test case verifies that the UUID encoded in the DMI
     ...    table of an image can be changed using DCU.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -201,7 +198,6 @@ Change The UUID
 Change The Serial Number
     [Documentation]    This test case verifies that the serial number encoded
     ...    in the DMI table of an image can be changed using DCU.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -223,7 +219,6 @@ Change The Bootsplash Logo
     ...    into an image can be changed using DCU.
     ...    PLEASE NOTE that a display device needs to be physically connected
     ...    to the DUT for this test to work.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -255,7 +250,6 @@ Verify SMMSTORE Changes
     ...    Verified using Setup menu where possible. When tested on a device
     ...    which uses DCU for accessing Setup variables the results might not
     ...    be trustworthy.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     IF    "${OPTIONS_LIB}"=="options-lib_uefi-setup-menu"
         Verify SMMSTORE Changes (Setup Menu)    ${os_id}

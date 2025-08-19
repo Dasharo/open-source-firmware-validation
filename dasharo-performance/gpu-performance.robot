@@ -47,7 +47,6 @@ GPP002.201 GPU Performance Measure (Ubuntu) (Battery)
 *** Keywords ***
 GPU Performance Suite Setup
     [Documentation]    Load config and download tooling for supported OSes
-    [Tags]    robot:private
     Prepare Test Suite
     Skip If    not ${GPU_PERFORMANCE_TESTS_SUPPORT}
     ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S

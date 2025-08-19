@@ -130,7 +130,6 @@ MWL002.301 Wi-Fi scanning (Windows)
 Wireless Card Detection
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -144,7 +143,6 @@ Wi-Fi Scanning
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -157,7 +155,6 @@ Bluetooth Scanning
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -169,7 +166,6 @@ Bluetooth Scanning
 LTE Card Detection
     [Documentation]    Check whether the LTE card is detected correctly in the
     ...    operating system.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}

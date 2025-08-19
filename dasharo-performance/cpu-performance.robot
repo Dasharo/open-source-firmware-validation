@@ -84,7 +84,6 @@ CPP004.201 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
 
 *** Keywords ***
 CPU Performance Suite Setup
-    [Tags]    robot:private
     Prepare Test Suite
     Skip If    not ${CPU_PERFORMANCE_TESTS_SUPPORT}
     Check Power Supply
@@ -115,7 +114,6 @@ CPU Performance Suite Setup
 
 Run C-Ray Single-thread Render
     [Documentation]    Run C-Ray benchmark with all resolutions (1080p, 4K, 5K) on single thread
-    [Tags]    robot:private
     Log To Console    \n    # new line for readability
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
@@ -133,7 +131,6 @@ Run C-Ray Single-thread Render
 
 Run Coremark Single-thread
     [Documentation]    Run Coremark benchmark on single thread
-    [Tags]    robot:private
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
@@ -152,7 +149,6 @@ Run Coremark Single-thread
 
 7-Zip Multi-thread Compression And Decompression Average
     [Documentation]    Run 7-Zip Multi-thread Compression and Decompression benchmark on multiple threads
-    [Tags]    robot:private
     Log To Console    \n    # new line for readability
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
@@ -169,7 +165,6 @@ Run Coremark Single-thread
     RETURN    ${test_passed}
 
 Read The Results
-    [Tags]    robot:private
     [Arguments]    ${perf_results_path_ubuntu}    ${test_name_to_path}    ${test_description}
     VAR    ${awk_commmand}=
     ...    awk -F '[<>]' '/<Description>${test_description}<\\/Description>/
@@ -180,7 +175,6 @@ Read The Results
     RETURN    ${test_result_values}
 
 Validate The Results
-    [Tags]    robot:private
     [Arguments]    ${nums}    ${combined_ref_val}
     ${ref_val}=    Convert To Number    ${combined_ref_val}
     ${min}=    Evaluate    ${ref_val} * ${DEVIATION_DOWN}
@@ -202,7 +196,6 @@ Validate The Results
     RETURN    ${return_val}
 
 Validate Multiple Results
-    [Tags]    robot:private
     [Arguments]    ${perf_results_path_ubuntu}    ${test_name_to_path}    @{reference_data}
     Should Not Be Empty    ${reference_data}
     VAR    ${test_passed}=    ${True}

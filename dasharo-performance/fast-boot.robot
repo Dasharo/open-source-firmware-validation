@@ -55,7 +55,6 @@ FBT001.201 Fast Boot Reduces Boot Time
 *** Keywords ***
 Set Fast Boot State
     [Documentation]    Set fast boot to on/off via Linux Shell
-    [Tags]    robot:private
     [Arguments]    ${state}
 
     ${var_file_name}=    Execute Linux Command
@@ -82,7 +81,6 @@ Set Fast Boot State
 Measure FW Boot Time On Linux
     [Documentation]    Performs a measurement of firmware boot time
     ...    over number of iterations provided as argument.
-    [Tags]    robot:private
     [Arguments]    ${iterations}
     VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
@@ -103,7 +101,6 @@ Measure FW Boot Time On Linux
 
 Get FW Boot Time From Systemd-analyze
     [Documentation]    Use systemd-analyze to get firmware boot time
-    [Tags]    robot:private
     FOR    ${index}    IN RANGE    0    10
         ${boot_time}=    Execute Linux Command
         ...    systemd-analyze | awk 'NR==1 {print $4}' | sed 's/s//g'
@@ -121,7 +118,6 @@ Get FW Boot Time From Systemd-analyze
 Initialize Fast Boot Suite
     [Documentation]    Use efibootmgr to list entries, and set new order,
     ...    with Ubuntu at the top of the list.
-    [Tags]    robot:private
     Prepare Test Suite
     Skip If    not ${FAST_AND_QUIET_BOOT_SUPPORT}    Boot performance measurement tests not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Boot performance measurement tests not supported

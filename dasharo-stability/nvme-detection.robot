@@ -182,7 +182,6 @@ SNV006.202 NVMe detection after suspension (Fedora) (S3)
 NVMe Detection After Suspension
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
-    [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     ${out}=    List Devices In Linux    pci
@@ -196,7 +195,6 @@ NVMe Detection After Suspension
 NVMe Detection After Reboot
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a reboot.
-    [Tags]    robot:private
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
@@ -211,7 +209,6 @@ NVMe Detection After Reboot
 NVMe Detection After Warm Boot
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a warm boot.
-    [Tags]    robot:private
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}

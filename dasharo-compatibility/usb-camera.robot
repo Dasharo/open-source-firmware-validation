@@ -100,7 +100,6 @@ Integrated Webcam Linux
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
-    [Tags]    robot:private
     ${out}=    List Devices In Linux    usb
     Should Contain Any    ${out}    Camera    BisonCam
     ${out0}=    Execute Linux Command    ffprobe /dev/video0
@@ -114,7 +113,6 @@ Integrated IR Camera Linux
     ...    initialized correctly and can be accessed from the Linux OS.
     ...    Assumption: No external camera connected. Camera exposes separate
     ...    devnodes for visible-spectrum and IR modes, in that order.
-    [Tags]    robot:private
     ${out}=    List Devices In Linux    usb
     Should Contain Any    ${out}    Camera    BisonCam
     ${out0}=    Execute Linux Command    ffprobe /dev/video2

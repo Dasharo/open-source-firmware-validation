@@ -293,7 +293,6 @@ Get Default PCRs State
     ...    configuration to default and then returns PCRs values. Next call
     ...    return values measured in first call (remembers value in whole
     ...    Test Suite).
-    [Tags]    robot:private
     ${default_pcr_state}=    Get Variable Value    $DEFAULT_PCR_STATE_SUITE
     IF    ${default_pcr_state} is ${NONE}
         Restore SB And Tianocore Defaults And Reset
@@ -305,7 +304,6 @@ Get Default PCRs State
 
 Boot Linux And Login To Root
     [Documentation]    Boots Ubuntu and logins as root
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
@@ -314,13 +312,11 @@ Boot Linux And Login To Root
 Restore SB And Tianocore Defaults And Reset
     [Documentation]    Restores Secure Boot and Tianocore to defaults and then
     ...    restarts
-    [Tags]    robot:private
     Restore Secure Boot Defaults
     Reset To Defaults Tianocore
     Save Changes And Reset
 
 Measured Boot Suite Setup
-    [Tags]    robot:private
     Prepare Test Suite
     Skip If    ${TPM_SUPPORTED_VERSION} == None    Measured boot tests require TPM
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
@@ -335,7 +331,6 @@ Measured Boot Suite Setup
 Linux Measured Boot Support
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
-    [Tags]    robot:private
     ${pcr_hashes}=    Get PCRs State From Linux    [0-3]
     FOR    ${pcr_hash}    IN    @{pcr_hashes}
         ${pcr}    ${hash}=    Split String    ${pcr_hash}    separator=:

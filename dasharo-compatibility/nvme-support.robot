@@ -96,7 +96,6 @@ NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
 NVMe Support In OS
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
     Boot System Or From Connected Disk    ${os_id}

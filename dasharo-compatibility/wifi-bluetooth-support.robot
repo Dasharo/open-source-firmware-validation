@@ -155,7 +155,6 @@ WLE001.205 Wireless card detection (XCP-NG)
 Wireless Card Detection
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
@@ -174,7 +173,6 @@ Wi-Fi Scanning
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system..
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
@@ -201,7 +199,6 @@ Bluetooth Scanning
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN

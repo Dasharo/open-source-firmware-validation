@@ -468,7 +468,6 @@ CPF012.301 CPU with load runs on expected frequency (Windows) (USB-PD)
 
 *** Keywords ***
 CPU Not Stuck On Initial Frequency (Linux)
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -478,7 +477,6 @@ CPU Not Stuck On Initial Frequency (Linux)
     Check If CPU Not Stuck On Initial Frequency In Linux
 
 CPU Not Stuck On Initial Frequency (Windows)
-    [Tags]    robot:private
     Power On
     Login To Windows
     Sleep    10s
@@ -486,7 +484,6 @@ CPU Not Stuck On Initial Frequency (Windows)
     Execute Shutdown Command
 
 CPU Not Stuck On Initial Frequency (Heads+Debian)
-    [Tags]    robot:private
     Power On
     Detect Heads Main Menu
     # Proceed with default boot
@@ -498,7 +495,6 @@ CPU Not Stuck On Initial Frequency (Heads+Debian)
     Check If CPU Not Stuck On Initial Frequency In Linux
 
 CPU Runs On Expected Frequency (Linux)
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
     ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
@@ -523,7 +519,6 @@ CPU Runs On Expected Frequency (Linux)
     END
 
 CPU Runs On Expected Frequency (Windows)
-    [Tags]    robot:private
     Power On
     Login To Windows
     ${timer}=    Convert To Integer    0
@@ -537,7 +532,6 @@ CPU Runs On Expected Frequency (Windows)
     Execute Shutdown Command
 
 CPU With Load Runs On Expected Frequency (Linux)
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
     ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
@@ -563,7 +557,6 @@ CPU With Load Runs On Expected Frequency (Linux)
     END
 
 CPU With Load Runs On Expected Frequency (Windows)
-    [Tags]    robot:private
     Power On
     Login To Windows
     SSHLibrary.Put File    stress-test-windows.ps1    /C:/Users/user

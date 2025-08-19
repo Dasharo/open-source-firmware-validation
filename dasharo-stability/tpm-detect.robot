@@ -76,7 +76,6 @@ TPD004.202 Detect TPM after platform suspend (Fedora)
 Detect TPM After Platform Reboot
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.
-    [Tags]    robot:private
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
     FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}

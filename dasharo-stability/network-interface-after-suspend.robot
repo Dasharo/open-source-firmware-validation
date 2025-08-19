@@ -162,7 +162,6 @@ NET006.202 NET controller after suspend (Fedora) (S3)
 
 *** Keywords ***
 NET Controller After Suspend
-    [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     ${is_suspend_performed_correctly}=    Perform Suspend Test Using FWTS
@@ -175,7 +174,6 @@ NET Controller After Suspend
 Net Controller After Warmboot
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
-    [Tags]    robot:private
     FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Perform Warmboot Using Rtcwake
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
@@ -188,7 +186,6 @@ Net Controller After Warmboot
 Net Controller After Reboot
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
-    [Tags]    robot:private
     FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Execute Reboot Command
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}

@@ -195,7 +195,6 @@ SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
 
 *** Keywords ***
 Wi-fi Connection After Suspension
-    [Tags]    robot:private
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
 
@@ -213,7 +212,6 @@ Wi-fi Connection After Suspension
 Wi-Fi Connection After Warm Boot
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
-    [Tags]    robot:private
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux
@@ -231,7 +229,6 @@ Wi-Fi Connection After Warm Boot
 Wi-Fi Connection After Reboot
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a reboot.
-    [Tags]    robot:private
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux

@@ -68,19 +68,16 @@ BLS002.202 BIOS lock support deactivation (Fedora)
 
 *** Keywords ***
 BIOS Lock Support
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     ${pr0}=    Get Bios Lock State    ${os_id}
     Should Not Be Empty    ${pr0}
 
 BIOS Lock Support Deactivation
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     ${pr0}=    Get Bios Lock State    ${os_id}
     Should Not Be Empty    ${pr0}
 
 Get Bios Lock State
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Set UEFI Option    LockBios    ${TRUE}
     Power On

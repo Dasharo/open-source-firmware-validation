@@ -64,7 +64,6 @@ WBS002.202 Wifi and Bluetooth card power switch enabled (Fedora)
 Wifi And Bluetooth Card Power Switch Disabled
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to false
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -81,7 +80,6 @@ Wifi And Bluetooth Card Power Switch Disabled
 Wifi And Bluetooth Card Power Switch
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to true
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}

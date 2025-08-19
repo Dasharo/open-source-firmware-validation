@@ -88,7 +88,6 @@ Serial Boot Time Measure Coreboot Booting Time After Coldboot
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     ${min}    ${max}    ${average}    ${stddev}=
     ...    Measure Coldboot Time    ${ITERATIONS}    ${os_id}
@@ -106,7 +105,6 @@ Serial Boot Time Measure Coreboot Booting Time After Warmboot
     [Documentation]    Check whether the DUT boots after warmboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     ${min}    ${max}    ${average}    ${stddev}=
     ...    Measure Warmboot Time    ${ITERATIONS}    ${os_id}
@@ -124,7 +122,6 @@ Serial Boot Time Measure Coreboot Booting Time After System Reboot
     [Documentation]    Check whether the DUT boots after system reboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.001 not supported
 

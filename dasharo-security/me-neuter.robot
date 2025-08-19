@@ -103,7 +103,6 @@ MNE006.202 Check Intel ME version (Fedora)
 Intel ME Mode Option Enabled Works Correctly
     [Documentation]    Check whether the Intel ME mode option in state Enabled
     ...    works correctly.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Enabled
     Boot System Or From Connected Disk    ${os_id}
@@ -115,7 +114,6 @@ Intel ME Mode Option Enabled Works Correctly
 Intel ME Mode Option Disabled (Soft) Works Correctly
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (Soft) works correctly
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Disabled (Soft)
     Boot System Or From Connected Disk    ${os_id}
@@ -131,7 +129,6 @@ Intel ME Mode Option Disabled (Soft) Works Correctly
 Intel ME Mode Option Disabled (HAP) Works Correctly
     [Documentation]    Check whether the Intel ME mode option in state
     ...    Disabled (HAP) works correctly.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Disabled (HAP)
     Boot System Or From Connected Disk    ${os_id}
@@ -148,7 +145,6 @@ Check Intel ME Version
     [Documentation]    This test aims to verify that the Intel ME version might
     ...    be read on the Operating System level. The read version should be
     ...    the same as in the release notes.
-    [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Enabled
     Power On

@@ -488,7 +488,6 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
 Keyboard Function Key Brightness Down In Linux
     [Documentation]    Check whether function key: brightness down works in
     ...    Linux OS.
-    [Tags]    robot:private
     Turn On ACPI CALL Module In Linux
     ${max_brightness}=    Get Maximum Brightness In Linux
     Set Brightness In Linux    ${max_brightness}
@@ -500,7 +499,6 @@ Keyboard Function Key Brightness Down In Linux
 Keyboard Function Key Brightness Up In Linux
     [Documentation]    Check whether function key: brightness up works in
     ...    Linux OS.
-    [Tags]    robot:private
     Turn On ACPI CALL Module In Linux
     Set Brightness In Linux    0
     ${brightness1}=    Get Current Brightness In Linux
@@ -510,7 +508,6 @@ Keyboard Function Key Brightness Up In Linux
 
 Keyboard Function Key Camera OnOff In Linux
     [Documentation]    Check whether the camera on/off hotkey works correctly.
-    [Tags]    robot:private
     Turn On ACPI CALL Module In Linux
     ${out}=    List Devices In Linux    usb
     Should Contain Any    ${out}    Camera    BisonCam
@@ -524,7 +521,6 @@ Keyboard Function Key Camera OnOff In Linux
 Keyboard Function Key Flight Mode In Linux
     [Documentation]    Check whether function key: flight mode works in
     ...    Linux OS.
-    [Tags]    robot:private
     Turn On ACPI CALL Module In Linux
     ${wifi_status}=    Get WiFi Block Status
     ${bt_status}=    Get Bluetooth Block Status

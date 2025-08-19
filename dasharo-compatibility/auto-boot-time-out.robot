@@ -95,7 +95,6 @@ BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
 *** Keywords ***
 Try To Insert Non-numeric Values Into Numeric Option
     [Documentation]    Check whether accepts only numeric values.
-    [Tags]    robot:private
     [Arguments]    ${menu}    ${option}
 
     VAR    ${non_numeric_characters}=
