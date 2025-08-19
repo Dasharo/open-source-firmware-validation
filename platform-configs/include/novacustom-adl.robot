@@ -25,3 +25,13 @@ ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.7.2
 ${DMIDECODE_RELEASE_DATE}=          03/17/2022
 
 ${L3_CACHE_SUPPORT}=                ${TRUE}
+
+# DTS E2E variables
+&{DTS_TEST_EXPORTS}=
+...                                 &{DTS_TEST_BASE_EXPORTS}
+...                                 TEST_AC_PRESENT=true
+...                                 TEST_ME_DISABLED=false
+...                                 TEST_ME_OP_MODE=1
+...                                 TEST_VBOOT_KEYS=true
+...                                 TEST_FMAP_REGIONS=BOOTSPLASH
+...                                 TEST_BOARD_HAS_BOOTSPLASH=false
