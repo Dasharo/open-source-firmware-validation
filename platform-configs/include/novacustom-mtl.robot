@@ -40,4 +40,10 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
 # DTS E2E variables
 &{DTS_TEST_EXPORTS}=
 ...                                                 &{DTS_TEST_BASE_EXPORTS}
+...                                                 TEST_AC_PRESENT=true
 ...                                                 TEST_NOVACUSTOM_MODEL=${DTS_TEST_BOARD_MODEL}
+...                                                 TEST_FMAP_REGIONS=BOOTSPLASH
+...                                                 TEST_BOARD_HAS_BOOTSPLASH=false
+...                                                 TEST_HCI_PRESENT=true
+...                                                 TEST_ME_HAP_DISABLED=true
+...                                                 TEST_ME_OP_MODE=2
