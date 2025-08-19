@@ -4275,22 +4275,57 @@
   },
   {
     "doc": {
-      "_id": "MBO003.202",
-      "name": "Intel ME mode option Disabled (Soft) works correctly (Fedora)",
+      "_id": "MBO003.001",
+      "name": "Changing Secure Boot certificate changes only PCR-7",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO004.202",
-      "name": "Intel ME mode option Disabled (HAP) works correctly (Fedora)",
+      "_id": "MBO004.001",
+      "name": "Changing Dasharo network boot settings changes only PCR-1",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO006.202",
-      "name": "Check Intel ME version (Fedora)",
+      "_id": "MBO004.002",
+      "name": "Changing Dasharo security settings changes only PCR-1",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MBO004.003",
+      "name": "Changing Dasharo APU settings changes only PCR-1",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MBO005.001",
+      "name": "Flashing firmware and reset to defaults results in same measurement",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MBO005.002",
+      "name": "Multiple reset to defaults results in identical measurements",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MBO006.001",
+      "name": "Identical configuration results in identical measurements",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MBO006.002",
+      "name": "Identical configuration after reset results in identical measurements",
       "module": "Dasharo Security"
     }
   },
