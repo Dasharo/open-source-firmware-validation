@@ -105,13 +105,12 @@ ${TRENCHBOOT_SUPPORT}=                      ${TRUE}
 
 # DTS E2E variables
 ${DTS_TEST_SYSTEM_VENDOR}=                  PC Engines
-${DTS_TEST_BIOS_VENDOR}=                    coreboot
 &{DTS_TEST_VERSIONS}=                       &{DTS_TEST_VERSIONS_BASE}
 ...                                         SeaBIOS Update=v24.04.00.05    SeaBIOS->UEFI Transition=v24.04.00.05
 @{DTS_TEST_WORKFLOWS}=                      UEFI Update    SeaBIOS Update    SeaBIOS->UEFI Transition
 # TODO: Also seabios, add to tests
 @{DTS_TEST_DEFAULT_RELEASES}=               DPP
-${DTS_TEST_BOARD_MODEL}=                    ${DTS_TEST_SYSTEM_MODEL}
+${DTS_TEST_BOARD_MODEL}=                    ${DMIDECODE_PRODUCT_NAME}
 &{DTS_TEST_EXPORTS}=
 ...                                         &{DTS_TEST_BASE_EXPORTS}
 ...                                         TEST_INTERNAL_MULTIPLE_DEFINITIONS=true

@@ -95,6 +95,5 @@ ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    24.0    # FPS
 &{DTS_TEST_VERSIONS}=
 ...                                     &{DTS_TEST_VERSIONS_BASE}
 ...                                     UEFI->Heads Transition=Dasharo (coreboot+UEFI) 0.9.0
-${DTS_TEST_SYSTEM_MODEL}=               V5xTNC_TND_TNE
 ${DTS_TEST_BOARD_MODEL}=                V560TNx
 @{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update

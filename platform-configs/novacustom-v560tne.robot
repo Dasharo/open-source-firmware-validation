@@ -61,6 +61,5 @@ ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    26.2    # FPS
 ${OPTIONS_LIB}=                         options-lib_dcu
 
 # DTS E2E variables
-${DTS_TEST_SYSTEM_MODEL}=               V5xTNC_TND_TNE
 ${DTS_TEST_BOARD_MODEL}=                V560TNx
 @{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update

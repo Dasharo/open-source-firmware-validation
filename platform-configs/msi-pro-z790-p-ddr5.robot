@@ -16,6 +16,5 @@ ${CPU_MIN_FREQUENCY}=               300
 &{DTS_TEST_VERSIONS}=
 ...                                 &{DTS_TEST_VERSIONS_BASE}
 ...                                 UEFI->Heads Transition=Dasharo (coreboot+UEFI) 0.9.2
-${DTS_TEST_SYSTEM_MODEL}=           MS-7E06
 ${DTS_TEST_BOARD_MODEL}=            PRO Z790-P WIFI (MS-7E06)
 @{DTS_TEST_DEFAULT_RELEASES}=       DPP
