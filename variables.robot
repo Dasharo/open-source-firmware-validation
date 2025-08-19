@@ -273,6 +273,11 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=Clevo
 ...                         sonoff_ip=192.168.10.229
 
+# NovaCustom NUC BOX desktop
+&{RTE74}=                   ip=192.168.10.254
+...                         platform=novacustom-nuc_box
+...                         platform_vendor=Clevo
+
 @{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
 ...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
 ...                         &{RTE15}    &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}
@@ -286,7 +291,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE55}    &{RTE56}    &{RTE57}    &{RTE58}    &{RTE59}
 ...                         &{RTE60}    &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}
 ...                         &{RTE65}    &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
-...                         &{RTE70}    &{RTE71}    &{RTE72}    &{RTE73}
+...                         &{RTE70}    &{RTE71}    &{RTE72}    &{RTE73}    &{RTE74}
 
 # hardware database:
 # -----------------------------------------------------------------------------

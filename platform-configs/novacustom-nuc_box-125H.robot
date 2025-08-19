@@ -6,6 +6,17 @@ Resource    include/default.robot
 
 
 *** Variables ***
+${INITIAL_DUT_CONNECTION_METHOD}=       SSH
+${DUT_CONNECTION_METHOD}=               SSH
+${POWER_CTRL}=                          sonoff
+# ${OPTIONS_LIB}=    options-lib_dcu
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
+${LAPTOP_PLATFORM}=                     ${FALSE}
+
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
+@{TESTED_LINUX_DISTROS}=
+...                                     ${ENV_ID_FEDORA}
+
 ${CPU}=                                 Intel(R) Core(TM) Ultra 5 125H
 ${DEF_CORES_PER_SOCKET}=                14
 ${DEF_THREADS_TOTAL}=                   18

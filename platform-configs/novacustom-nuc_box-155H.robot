@@ -14,6 +14,7 @@ ${DEF_THREADS_TOTAL}=                   22
 # TODO: remove, the value below can be inferred from the one above
 ${DEF_ONLINE_CPU}=                      0-21
 ${DEF_SOCKETS}=                         1
+${LAPTOP_PLATFORM}=                     ${FALSE}
 
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   200

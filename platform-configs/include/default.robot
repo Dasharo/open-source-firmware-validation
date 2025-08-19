@@ -40,6 +40,7 @@ ${SB_ERROR_STRING}=                                 The image signature is inval
 
 # See: https://github.com/Dasharo/dasharo-issues/issues/614
 ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
+${LAPTOP_PLATFORM}=                                 ${TBD}
 
 # Library config
 # Option library: UEFI configuration variable backend.

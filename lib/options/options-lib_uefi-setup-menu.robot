@@ -91,7 +91,7 @@ Measure Coldboot Time
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
         Power Cycle On
-        Boot System Or From Connected Disk    ${os_id}
+        #    Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get Boot Time From Cbmem
