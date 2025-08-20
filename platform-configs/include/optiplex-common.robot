@@ -95,13 +95,20 @@ ${FAMILY_VERIFICATION}=                         ${TRUE}
 ${NETBOOT_UTILITIES_SUPPORT}=                   ${FALSE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 
-${DMIDECODE_SERIAL_NUMBER}=     123456789
-${DMIDECODE_MANUFACTURER}=      Dell Inc.
+${DMIDECODE_SERIAL_NUMBER}=                     123456789
+${DMIDECODE_MANUFACTURER}=                      Dell Inc.
 
 # DTS E2E variables
 ${DTS_TEST_SYSTEM_VENDOR}=                      Dell Inc.
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
 @{DTS_TEST_DEFAULT_RELEASES}=                   DPP
+&{DTS_TEST_EXPORTS}=
+...                                             &{DTS_TEST_BASE_EXPORTS}
+...                                             TEST_SOUND_CARD_PRESENT=false
+...                                             TEST_MEI_CONF_PRESENT=false
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=
+...                                             &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+...                                             UEFI Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_ME_DISABLED": "false", "TEST_ME_HAP_DISABLED": "true"} }}
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                             ${{ ("Initial Deployment", "DPP") }}
 ...                                             ${{ ("UEFI Update", "DPP") }}
