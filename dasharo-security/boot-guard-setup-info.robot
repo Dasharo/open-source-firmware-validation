@@ -16,8 +16,10 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${INTEL_CBNT_SUPPORT}    Intel CBnT not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -28,6 +30,8 @@ Default Tags        automated
 BGSM001.201 Setup Menu BtG info
     [Documentation]    Check whether setting Auto Boot Time-out to 7 the value
     ...    is remembered after restart
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_system_features_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -37,20 +41,18 @@ BGSM001.201 Setup Menu BtG info
     VAR    ${cpu_debug}=    ${False}
     VAR    ${bsp_init}=    ${False}
     VAR    ${reg_cont}=    ${False}
-
     VAR    ${nem_enabled}=    ${False}
     VAR    ${tpm_success}=    ${False}
     VAR    ${measured_boot}=    ${False}
     VAR    ${verified_boot}=    ${False}
     VAR    ${boot_guard}=    ${False}
-    VAR    ${acm_valid}=    ${False}
     VAR    ${dma_protection}=    ${False}
     Write Bare Into Terminal    ${ARROW_UP}    # this is necessary to unlock next keyword for good
     FOR    ${i}    IN RANGE    0    45
         ${submenu}=    Get Submenu Construction
         Match BtG Option State    ${submenu}    S-ACM Startup Success <Yes>    s_acm_success
         Match BtG Option State    ${submenu}    CPU Debugging    cpu_debug    Boot Policy: Disable <Yes>
-        Match BtG Option State    ${submenu}    BSP #INIT    bsp_init    Boot Policy: Disable <Yes>
+        Match BtG Option State    ${submenu}    BSP #INIT    bsp_init    Boot Policy: Protected <Yes>
         Match BtG Option State    ${submenu}    Register Contents <No>    reg_cont    Valid
         Match BtG Option State    ${submenu}    DMA Protection <Yes>    dma_protection
         Match BtG Option State    ${submenu}    TPM Success <Yes>    tpm_success
