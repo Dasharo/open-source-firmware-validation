@@ -127,12 +127,16 @@ Read From Terminal Until
     [Arguments]    ${expected}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         ${output}=    Telnet.Read Until Fuzzy    ${expected}    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read Until    ${expected}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read Until    ${expected}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         ${output}=    Telnet.Read Until Fuzzy    ${expected} max_errors=${TELNET_FUZZY_MAX_ERRORS}
+        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
     ELSE
         ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
     END

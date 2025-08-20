@@ -25,6 +25,9 @@ ${MAX_CPU_TEMP}=                                    82
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${FLASHING_METHOD}=                                 internal
 ${CHECK_POWER_LED_SUPPORT}=                         ${FALSE}
+${TELNET_FUZZY_MAX_ERRORS}=                         5
+${TELNET_FUZZY_MAX_INSERTIONS}=                     5
+${TELNET_FUZZY_MAX_DELETIONS}=                      1
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_MANUFACTURER}=                          Notebook
