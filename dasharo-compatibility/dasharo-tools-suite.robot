@@ -251,31 +251,6 @@ DTS011.001 Heads Transition by using DTS via iPXE works correctly
 
 
 *** Keywords ***
-Are DPP Keys Defined
-    ${email}=    Run Keyword And Return Status
-    ...    Variable Should Exist    $DPP_EMAIL
-    ${password}=    Run Keyword And Return Status
-    ...    Variable Should Exist    $DPP_PASSWORD
-    ${status}=    Run Keyword And Return Status    Should Be True
-    ...    ${email} and ${password}
-    RETURN    ${status}
-
-Flash FW Automatically Or Manually
-    [Documentation]    Flash firmware automatically if it's possible and
-    ...    variable with name passed in fw_var exists
-    [Arguments]    ${fw_var}    ${msg}="Flash firmware"
-    ${variable_exists}=    Run Keyword And Return Status
-    ...    Variable Should Exist    \${${fw_var}}
-    # Without POWER_CTRL Flash Firmware will try to boot into Linux which won't
-    # work
-    IF    not ${variable_exists} or '''${POWER_CTRL}''' == '''none'''
-        Execute Manual Step While Freeing Serial Connection    ${msg}
-    ELSE
-        Flash Firmware    ${${fw_var}}
-        Power On
-        Set DUT Response Timeout    5m
-    END
-
 Prepare For Initial Deployment
     [Documentation]    Prepare for deployment, from flashing up to entering
     ...    DPP keys. Returns deployment type to pass to
@@ -307,12 +282,3 @@ Prepare For Initial Deployment
         VAR    ${version}=    DCR UEFI
     END
     RETURN    ${version}
-
-Execute Manual Step While Freeing Serial Connection
-    [Documentation]    In case you need to connect to DUT via serial to do
-    ...    manual steps. Arguments are the same as for 'Execute Manual Step'
-    [Arguments]    ${msg}
-    Telnet.Close All Connections
-    Execute Manual Step
-    ...    ${msg}. Make sure to close serial connection before continuing
-    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
