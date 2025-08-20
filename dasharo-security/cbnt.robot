@@ -107,6 +107,58 @@ CBNT005.201 Converged Boot Guard and TXT - Fused platform EoM set and FPFs Commi
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT005.201 not supported
     Check EoM And FPFs Committed    ${ENV_ID_UBUNTU}
 
+CBNT006.101 Setup Menu Boot Guard Information
+    [Documentation]    Check whether setting Auto Boot Time-out to 7 the value
+    ...    is remembered after restart
+    Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
+
+    Power On
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_system_features_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${submenu}=    Enter Dasharo Submenu    ${dasharo_system_features_menu}    Intel Management Engine Options
+
+    VAR    ${s_acm_success}=    ${False}
+    VAR    ${cpu_debug}=    ${False}
+    VAR    ${bsp_init}=    ${False}
+    VAR    ${reg_cont}=    ${False}
+    VAR    ${nem_enabled}=    ${False}
+    VAR    ${tpm_success}=    ${False}
+    VAR    ${measured_boot}=    ${False}
+    VAR    ${verified_boot}=    ${False}
+    VAR    ${boot_guard}=    ${False}
+    VAR    ${dma_protection}=    ${False}
+    Write Bare Into Terminal    ${ARROW_UP}    # this is necessary to unlock next keyword for good
+
+    FOR    ${i}    IN RANGE    0    45
+        ${submenu}=    Get Submenu Construction
+        Match BtG Option State    ${submenu}    S-ACM Startup Success <Yes>    s_acm_success
+        Match BtG Option State    ${submenu}    CPU Debugging    cpu_debug    Boot Policy: Disable <Yes>
+        Match BtG Option State    ${submenu}    BSP #INIT    bsp_init    Boot Policy: Protected <Yes>
+        Match BtG Option State    ${submenu}    Register Contents <No>    reg_cont    Valid
+        Match BtG Option State    ${submenu}    DMA Protection <Yes>    dma_protection
+        Match BtG Option State    ${submenu}    TPM Success <Yes>    tpm_success
+        Match BtG Option State    ${submenu}    NEM Enabled <Yes>    nem_enabled
+        Match BtG Option State    ${submenu}    Verified Boot <Yes>    verified_boot
+
+        Write Bare Into Terminal    ${ARROW_DOWN}
+        Sleep    1s
+    END
+
+    ${all_found}=    Evaluate
+    ...    ${s_acm_success} and ${cpu_debug} and ${bsp_init} and ${reg_cont} and ${tpm_success} and ${dma_protection} and ${nem_enabled} and ${verified_boot}
+    # Final verification
+    Log To Console    \n===== Results =====
+    Log To Console    S-ACM Startup Success: ${s_acm_success}
+    Log To Console    CPU Debugging (Boot Policy: Disable <Yes>): ${cpu_debug}
+    Log To Console    BSP #INIT (Boot Policy: Disable <Yes>): ${bsp_init}
+    Log To Console    Register Contents Valid: ${reg_cont}
+    Log To Console    DMA Protection <Yes>: ${dma_protection}
+    Log To Console    TPM Success <Yes>: ${tpm_success}
+    Log To Console    NEM Enabled <Yes>: ${nem_enabled}
+    Log To Console    Verified Boot <Yes>: ${verified_boot}
+    Log To Console    =====================
+    Should Be True    ${all_found}
+
 
 *** Keywords ***
 Check TPM Startup From Locality 3
@@ -147,3 +199,26 @@ Boot OS And Enter Root Shell
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
+
+Match BtG Option State
+    [Arguments]    ${submenu}    ${wanted_option}    ${varname}    ${second_option}=None
+    VAR    ${final_match}=    ${False}
+
+    ${index1}=    Get Index From List    ${submenu}    ${wanted_option}
+    IF    ${index1} != -1
+        IF    '${second_option}' != 'None'
+            ${index2}=    Evaluate    ${index1} + 1
+            IF    ${index2} < len(${submenu})
+                ${final_match}=    Run Keyword And Return Status
+                ...    Should Contain
+                ...    '${submenu}[${index2}]'
+                ...    '${second_option}'
+            END
+        ELSE
+            VAR    ${final_match}=    ${True}
+        END
+    END
+
+    IF    ${final_match}
+        VAR    ${${varname}}=    ${True}    scope=TEST
+    END

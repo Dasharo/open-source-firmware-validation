@@ -879,6 +879,27 @@
   },
   {
     "doc": {
+      "_id": "CBNT004.201",
+      "name": "Converged Boot Guard and TXT - TPM Startup from locality 3 (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+    {
+    "doc": {
+      "_id": "CBNT005.201",
+      "name": "Converged Boot Guard and TXT - Fused platform EoM set and FPFs Committed (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+    {
+    "doc": {
+      "_id": "CBNT006.101",
+      "name": "Setup Menu Boot Guard Information",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "CBO001.002",
       "name": "Custom Boot Order",
       "module": "Dasharo Compatibility"
