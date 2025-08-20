@@ -29,3 +29,12 @@ ${L3_CACHE_SUPPORT}=                ${TRUE}
 # DTS-E2E variables
 &{DTS_TEST_VERSIONS}=               &{DTS_TEST_VERSIONS_BASE}
 ...                                 UEFI Update=Dasharo (coreboot+UEFI) v1.5.0
+
+&{DTS_TEST_EXPORTS}=
+...                                 &{DTS_TEST_BASE_EXPORTS}
+...                                 TEST_AC_PRESENT=true
+...                                 TEST_ME_DISABLED=false
+...                                 TEST_ME_OP_MODE=1
+...                                 TEST_VBOOT_KEYS=true
+...                                 TEST_FMAP_REGIONS=BOOTSPLASH
+...                                 TEST_BOARD_HAS_BOOTSPLASH=false
