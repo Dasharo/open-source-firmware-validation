@@ -8,7 +8,6 @@ ${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
 ${DUT_CONNECTION_METHOD}=               Telnet
 ${POWER_CTRL}=                          sonoff
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
-${TELNET_FUZZY_MAX_ERRORS}=             0
 # CPU
 ${CPU}=
 ...                                     Intel(R) Core(TM) Ultra 7 155H
