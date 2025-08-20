@@ -26,7 +26,7 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${FLASHING_METHOD}=                                 internal
 ${CHECK_POWER_LED_SUPPORT}=                         ${FALSE}
 ${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
-${TELNET_FUZZY_MAX_SUBSTITUTIONS}=                  0
+${TELNET_FUZZY_MAX_SUBSTITUTIONS}=                  1
 ${TELNET_FUZZY_MAX_INSERTIONS}=                     5
 ${TELNET_FUZZY_MAX_DELETIONS}=                      1
 
