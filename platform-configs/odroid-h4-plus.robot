@@ -110,9 +110,7 @@ ${DTS_SUPPORT}=                                 ${TRUE}
 
 # DTS E2E variables
 ${DTS_TEST_SYSTEM_VENDOR}=                      HARDKERNEL
-${DTS_TEST_SYSTEM_MODEL}=                       ODROID-H4
 ${DTS_TEST_BOARD_MODEL}=                        ODROID-H4
-${DTS_TEST_CPU_VERSION}=                        Intel(R) N97
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
 ...                                             Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
 ...                                             Dasharo (Slim Bootloader+UEFI) Initial Deployment

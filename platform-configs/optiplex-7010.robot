@@ -31,4 +31,3 @@ ${DMIDECODE_MANUFACTURER}=      Dell Inc.
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 
 # DTS E2E variables
-${DTS_TEST_SYSTEM_MODEL}=       OptiPlex 7010

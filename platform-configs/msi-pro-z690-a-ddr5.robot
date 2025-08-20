@@ -24,5 +24,4 @@ ${CPU_E_CORES_MAX}=                 8
 
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=               &{DTS_TEST_VERSIONS_BASE}    UEFI->Heads Transition=Dasharo (coreboot+UEFI) 1.1.4
-${DTS_TEST_SYSTEM_MODEL}=           MS-7D25
 ${DTS_TEST_BOARD_MODEL}=            PRO Z690-A WIFI (MS-7D25)

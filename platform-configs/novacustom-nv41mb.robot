@@ -30,4 +30,3 @@ ${CACHEBENCH_TEST_SCORE}=           104565.1
 ${BLAKE2_TEST_SCORE}=               3.64
 
 # DTS E2E variables
-${DTS_TEST_SYSTEM_MODEL}=           NV4XMB,ME,MZ

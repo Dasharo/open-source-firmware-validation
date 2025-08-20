@@ -24,4 +24,3 @@ ${CPU_MIN_FREQUENCY}=           300
 ${OPTIONS_LIB}=                 options-lib_dcu
 
 # DTS E2E variables
-${DTS_TEST_SYSTEM_MODEL}=       NS5x_NS7xPU
