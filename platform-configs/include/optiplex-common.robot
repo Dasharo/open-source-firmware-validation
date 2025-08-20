@@ -95,6 +95,9 @@ ${FAMILY_VERIFICATION}=                         ${TRUE}
 ${NETBOOT_UTILITIES_SUPPORT}=                   ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 
+${DMIDECODE_SERIAL_NUMBER}=     123456789
+${DMIDECODE_MANUFACTURER}=      Dell Inc.
+
 # DTS E2E variables
 ${DTS_TEST_SYSTEM_VENDOR}=                      Dell Inc.
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
