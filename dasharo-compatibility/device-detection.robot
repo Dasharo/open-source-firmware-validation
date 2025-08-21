@@ -19,6 +19,8 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Skip If    not ${DEVICE_DETECT_TEST_IN_SCOPE}
+...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
