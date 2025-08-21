@@ -123,11 +123,14 @@ ${DTS_TEST_SYSTEM_VENDOR}=                      Micro-Star International Co., Lt
 ...                                             TEST_BOARD_HAS_BOOTSPLASH=false
 ...                                             TEST_VBOOT_KEYS=true
 ...                                             TEST_FMAP_REGIONS=BOOTSPLASH
+...                                             TEST_SOUND_CARD_PRESENT=false
+...                                             TEST_BOARD_HAS_GBE_REGION=false
 
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=
 ...                                             &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 ...                                             UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
 ...                                             UEFI->Heads Transition=&{{ { "TEST_IS_COREBOOT": "true", "TEST_ME_DISABLED": "false" } }}
+...                                             Initial Deployment=&{{ {"TEST_HCI_PRESENT": "true", "TEST_FMAP_REGIONS": ""} }}
 
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
 ...                                             ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false"} }}
