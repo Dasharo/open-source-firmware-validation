@@ -48,7 +48,8 @@ Print Test Names And Exports
     Log To Console    --------------------------------------------------
     FOR    ${platform_workflows}    IN    @{workflows}
         ${workflow}    ${release}=    Set Variable    ${platform_workflows}
-        @{exports}=    Prepare Test Exports    ${workflow}    ${platform_variables}    ${DTS_CONFIG_REF}
+        @{exports}=    Prepare Test Exports    ${workflow}    ${release}
+        ...    ${platform_variables}    ${DTS_CONFIG_REF}
         Log To Console    ---------------
         Log To Console    ${platform} ${workflow} - ${release}
         Log To Console    ---------------

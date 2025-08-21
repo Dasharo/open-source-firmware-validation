@@ -455,46 +455,58 @@ Go Through Heads Transition
 
 Export Shell Variables For Emulation
     [Documentation]    Export variables needed for this test
-    [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}=refs/heads/main
-    @{exports}=    Prepare Test Exports    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}
+    [Arguments]    ${workflow}
+    ...    ${release}
+    ...    ${dts_test_variables}
+    ...    ${dts_config_ref_value}=refs/heads/main
+    @{exports}=    Prepare Test Exports    ${workflow}    ${release}
+    ...    ${dts_test_variables}    ${dts_config_ref_value}
     FOR    ${export_string}    IN    @{exports}
         Execute Command In Terminal    ${export_string}
     END
 
 Prepare Test Exports
     [Documentation]    Create list with 'export VARIABLE=VALUE` strings.
-    [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}=refs/heads/main
+    [Arguments]    ${workflow}
+    ...    ${release}
+    ...    ${dts_test_variables}
+    ...    ${dts_config_ref_value}=refs/heads/main
     VAR    &{exports_dict}=    &{dts_test_variables}[DTS_TEST_EXPORTS]
-    Set To Dictionary    ${exports_dict}    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
-    Set To Dictionary    ${exports_dict}    DTS_CONFIG_REF=${dts_config_ref_value}
-    IF    "Initial Deployment" in "${workflow}"
-        Set To Dictionary    ${exports_dict}    TEST_BIOS_VENDOR=proprietary
-    ELSE
-        IF    ${dts_test_variables}[DTS_TEST_HAS_EC]
-            Set To Dictionary    ${exports_dict}    TEST_USING_OPENSOURCE_EC_FIRM=true
-        END
-    END
-    IF    "SeaBIOS Update" in "${workflow}" or "SeaBIOS->" in "${workflow}"
-        Set To Dictionary    ${exports_dict}    TEST_EFI_PRESENT=false
-        Set To Dictionary    ${exports_dict}    TEST_IS_SEABIOS=true
-    END
 
-    VAR    @{exports}=    @{EMPTY}
+    # Base exports for every workflow
+    VAR    &{exports}=    &{EMPTY}
+    Set To Dictionary    ${exports}
+    ...    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
+    ...    DTS_CONFIG_REF=${dts_config_ref_value}
     FOR    ${export_variable}    ${export_value}    IN    &{exports_dict}
-        Append To List    ${exports}
-        ...    export ${export_variable}="${export_value}"
+        Set To Dictionary    ${exports}    ${export_variable}=${export_value}
     END
 
+    # Specific, per workflow exports
     &{workflow_exports}=    Get From Dictionary
     ...    ${dts_test_variables}[DTS_TEST_EXPORTS_PER_WORKFLOW]    ${workflow}
     ...    default=&{EMPTY}
-
     FOR    ${export_variable}    ${export_value}    IN    &{workflow_exports}
-        Append To List    ${exports}
+        Set To Dictionary    ${exports}    ${export_variable}=${export_value}
+    END
+
+    # Most specific exports, per workflow & release version
+    &{full_workflow_exports}=    Get From Dictionary
+    ...    ${dts_test_variables}[DTS_TEST_EXPORTS_PER_FULL_WORKFLOW]
+    ...    ${{ ("${workflow}", "${release}") }}
+    ...    default=&{EMPTY}
+    FOR    ${export_variable}    ${export_value}    IN    &{full_workflow_exports}
+        Set To Dictionary    ${exports}    ${export_variable}=${export_value}
+    END
+
+    # Create list of export strings
+    VAR    @{export_strings}=    @{EMPTY}
+    FOR    ${export_variable}    ${export_value}    IN    &{exports}
+        Append To List    ${export_strings}
         ...    export ${export_variable}="${export_value}"
     END
 
-    RETURN    ${exports}
+    RETURN    ${export_strings}
 
 Are DPP Keys Defined
     ${email}=    Run Keyword And Return Status

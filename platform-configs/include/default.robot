@@ -25,7 +25,7 @@ ${POWER_CTRL}=                                      ${TBD}
 ${FLASH_VERIFY_METHOD}=                             ${TBD}
 ${WIFI_CARD}=                                       ${TBD}
 ${MAX_CPU_TEMP}=                                    ${TBD}
-${INTERNAL_PROGRAMMER_CHIPNAME}=                    "Opaque flash chip"
+${INTERNAL_PROGRAMMER_CHIPNAME}=                    Opaque flash chip
 ${FLASHING_METHOD}=                                 external
 ${SNIPEIT}=                                         yes
 ${SEABIOS_BOOT_DEVICE}=                             ${EMPTY}
@@ -413,15 +413,25 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 TEST_BIOS_VENDOR=${DMIDECODE_VENDOR}
 ...                                                 TEST_CPU_VERSION=${CPU}
 ...                                                 TEST_INTERNAL_PROGRAMMER_CHIPNAME=${INTERNAL_PROGRAMMER_CHIPNAME}
+...                                                 TEST_USING_OPENSOURCE_EC_FIRM=${{"true" if ${DTS_TEST_HAS_EC} else "false" }}
 &{DTS_TEST_EXPORTS}=                                &{DTS_TEST_BASE_EXPORTS}
 &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}=
 ...                                                 UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
-...                                                 SeaBIOS Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 SeaBIOS Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_EFI_PRESENT": "false", "TEST_IS_SEABIOS": "true"} }}
 ...                                                 UEFI->Heads Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
-...                                                 SeaBIOS->UEFI Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 SeaBIOS->UEFI Transition=&{{ {"TEST_IS_COREBOOT": "true", "TEST_EFI_PRESENT": "false", "TEST_IS_SEABIOS": "true"} }}
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 Initial Deployment=&{{ {"TEST_BIOS_VENDOR": "proprietary", "TEST_USING_OPENSOURCE_EC_FIRM": "false"} }}
 # dict[workflow, dict[variable, value]]
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=                   &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+# dict[tuple[workflow,release], dict[variable, value]]
+# Export variables per matching workflow and release
+# Used if e.g. DCR and DPP updates need different exports
+# Example usage:
+# &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
+# ...    ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false"] }}
+# ...    ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_FMAP_REGIONS": "BOOTSPLASH"] }}
+&{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=              &{EMPTY}
 # Possible values: check DTS_TEST_POSSIBLE_WORKFLOWS
 @{DTS_TEST_WORKFLOWS}=                              @{EMPTY}
 @{DTS_TEST_POSSIBLE_WORKFLOWS}=
