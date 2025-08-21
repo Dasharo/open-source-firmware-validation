@@ -308,6 +308,9 @@ Get Menu Construction
     ...    \ the top of the menu
     ...    - ``${lines_bot}``: ``integer`` - number of lines to be dropped from
     ...    \ the bottom of the menu
+    ...    - ``${first_line}``: ``string`` - drops all lines up to this one. Helps
+    ...    \ to prevent unwanted elements being parsed as the menu contents when
+    ...    \ connection errors are present
     ...
     ...    === Return Value ===
     ...    - ``string`` - The setup menu construction, line by line
@@ -369,6 +372,7 @@ Parse Menu Snapshot Into Construction
         # A little workaround for random characters creating non-existent entries
         IF    ${TELNET_FUZZY_MAX_INSERTIONS} + ${TELNET_FUZZY_MAX_ERRORS} > 0
             ${line_valid}=    Evaluate    ($length > 1) or ($length > 0 and $line not in ["@", "`"])
+            ${line_valid}=    Evaluate    $line_valid and "----------" not in $line
         END
 
         IF    ${line_valid}   Append To List    ${construction}    ${line}
@@ -437,20 +441,23 @@ Get Submenu Construction
     ...    \ the bottom of the menu
     ...    - ``${opt_only}``: ``boolean`` - if ``${TRUE}``, filters the menu
     ...    \ for configurable UEFI options
+    ...    - ``${first_line}``: ``string`` - drops all lines up to this one. Helps
+    ...    \ to prevent unwanted elements being parsed as the menu contents when
+    ...    \ connection errors are present
     ...
     ...    === Return Value ===
     ...    - ``string`` - The setup menu construction, line by line
     ...
     ...    === Effects ===
     ...    - The setup submenu is read from the serial buffer
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"
+    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"    ${first_line}=${NONE}
 
     # In most cases, we need to strip two lines:
     #    TOP:
     #    Title line, such as:    Dasharo System Features
     #    BOTTOM:
     #    Help line, such as:    F9=Reset to Defaults    Esc=Exit
-    ${submenu}=    Get Menu Construction    ${checkpoint}    ${lines_top}    ${lines_bot}
+    ${submenu}=    Get Menu Construction    ${checkpoint}    ${lines_top}    ${lines_bot}    first_line=${first_line}
     # Handling of additional exceptions appearing in submenus:
     #    1. Drop unselectable strings from Device Manager
     Remove Values From List    ${submenu}    Devices List
@@ -511,6 +518,9 @@ Enter Submenu From Snapshot And Return Construction
     ...    - ``${option}``: ``string`` - the name of the submenu to enter
     ...    - ``${opt_only}``: ``boolean`` - if ``${TRUE}``, filters the returned
     ...    \ menu contents for configurable UEFI options
+    ...    - ``${first_line}``: ``string`` - drops all lines up to this one. Helps
+    ...    \ to prevent unwanted elements being parsed as the menu contents when
+    ...    \ connection errors are present
     ...
     ...    === Return Value ===
     ...    - ``string`` - The setup menu contents, line by line
@@ -518,10 +528,10 @@ Enter Submenu From Snapshot And Return Construction
     ...    === Effects ===
     ...    - A setup submenu is entered
     ...    - The setup submenu is read from the serial buffer
-    [Arguments]    ${menu}    ${option}    ${opt_only}=${FALSE}
+    [Arguments]    ${menu}    ${option}    ${opt_only}=${FALSE}    ${first_line}=${NONE}
 
     Enter Submenu From Snapshot    ${menu}    ${option}
-    ${submenu}=    Get Submenu Construction    opt_only=${opt_only}
+    ${submenu}=    Get Submenu Construction    opt_only=${opt_only}    first_line=${first_line}
     RETURN    ${submenu}
 
 Enter Dasharo System Features
@@ -546,6 +556,7 @@ Enter Dasharo System Features
     ${dasharo_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
     ...    Dasharo System Features
+    ...    first_line=> Dasharo Security Options
     RETURN    ${dasharo_menu}
 
 Enter Dasharo APU Configuration
