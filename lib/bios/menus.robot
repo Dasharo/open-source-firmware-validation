@@ -957,7 +957,16 @@ Enter IPXE
     ...
     ...    === Effects ===
     ...    - The iPXE menu is entered
+    ...    - might change the Enable Network Boot UEFI setting and reboot the device
+    ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE Inner
+    IF    not ${ipxe_entered}    # It might just be disabled
+        Set UEFI Option    NetworkBoot    ${TRUE}
+        Power On
+        Enter IPXE Inner
+    END
 
+Enter IPXE Inner
+    [Tags]    robot:private
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}

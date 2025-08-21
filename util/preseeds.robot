@@ -52,12 +52,7 @@ Restore Disk Clonezilla
     ${target_disk}=    Get Envvar    TARGET_DISK
 
     Power On
-    ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE
-    IF    not ${ipxe_entered}    # It might just be disabled
-        Set UEFI Option    NetworkBoot    ${TRUE}
-        Power On
-        Enter IPXE
-    END
+    Enter IPXE
     Execute Command In Terminal
     ...    dhcp
     ...    timeout=5m
