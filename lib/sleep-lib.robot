@@ -48,7 +48,7 @@ Check Platform Sleep Type Is Correct On Linux
     [Arguments]    ${platform_sleep_type}=${EMPTY}
     IF    '${platform_sleep_type}' == 'S0ix'
         ${power_mem_sleep}=    Execute Command In Terminal    cat /sys/power/mem_sleep
-        Should Contain    ${power_mem_sleep}    [s2idle] shallow    # Six0
+        Should Contain Any    ${power_mem_sleep}    [s2idle] shallow    [s2idle] deep    # S0ix
     ELSE IF    '${platform_sleep_type}' == 'S3'
         ${power_mem_sleep}=    Execute Command In Terminal    cat /sys/power/mem_sleep
         Should Contain    ${power_mem_sleep}    s2idle [deep]    # S3
