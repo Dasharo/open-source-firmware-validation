@@ -365,7 +365,13 @@ Parse Menu Snapshot Into Construction
         ${line}=    Remove String Using Regexp    ${line}    ^[\\|\\s/\\\\-]+$
         # If the resulting line is not empty, add it as a menu entry
         ${length}=    Get Length    ${line}
-        IF    ${length} > 0    Append To List    ${construction}    ${line}
+        ${line_valid}=    Evaluate    ${length} > 0
+        # A little workaround for random characters creating non-existent entries
+        IF    ${TELNET_FUZZY_MAX_INSERTIONS} + ${TELNET_FUZZY_MAX_ERRORS} > 0
+            ${line_valid}=    Evaluate    ($length > 1) or ($length > 0 and $line not in ["@", "`"])
+        END
+
+        IF    ${line_valid}   Append To List    ${construction}    ${line}
     END
     Log    ${construction}
     ${construction}=    Get Slice From List    ${construction}    ${slice_start}    ${slice_end}
