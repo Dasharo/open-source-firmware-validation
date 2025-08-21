@@ -123,14 +123,14 @@ ${DTS_TEST_SYSTEM_VENDOR}=                      Micro-Star International Co., Lt
 ...                                             TEST_BOARD_HAS_BOOTSPLASH=false
 ...                                             TEST_VBOOT_KEYS=true
 ...                                             TEST_FMAP_REGIONS=BOOTSPLASH
-...                                             TEST_ME_HAP_DISABLED=true
 
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=
 ...                                             &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 ...                                             UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                             UEFI->Heads Transition=&{{ { "TEST_IS_COREBOOT": "true", "TEST_ME_DISABLED": "false" } }}
 
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
-...                                             ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_HAP_DISABLED": "false", "TEST_ME_DISABLED": "false"} }}
+...                                             ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false"} }}
 ...                                             ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_ME_OP_MODE": "2", "TEST_ME_HAP_DISABLED": "true"} }}
 
 
