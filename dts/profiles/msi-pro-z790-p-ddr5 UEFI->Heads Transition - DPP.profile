@@ -1,3 +1,4 @@
+# don't trust this profile: https://github.com/Dasharo/dasharo-issues/issues/1536
 dmidecode -s system-manufacturer 0
 dmidecode -s system-product-name 0
 dmidecode -s baseboard-product-name 0
