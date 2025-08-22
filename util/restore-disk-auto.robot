@@ -37,9 +37,10 @@ Restore Disk Clonezilla
         ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${source_image}&disk=${target_disk}
         ...    interval=0.5
         Press Enter
-        VAR    ${msg}=     Running clonezilla on the device's display.
-        ...    No serial logs will be collected. The test case will end now.
-        ...    Monitor the progress manually.    
+        VAR    ${msg}=     Disk cloning has started.
+        ...    No tty was configured - running clonezilla on the device's display.
+        ...    No serial logs will be collected, so the process must be monitored manually.
+        ...    The test case will end now.
         Log    ${msg}    level=WARN
         Execute Manual Step    ${msg}
     END
