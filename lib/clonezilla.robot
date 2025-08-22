@@ -1,5 +1,6 @@
 *** Settings ***
-Library         OperatingSystem
+Library     OperatingSystem
+
 
 *** Variables ***
 ${CLONEZILLA_IPXE_SERVER}=      http://192.168.10.217:8080

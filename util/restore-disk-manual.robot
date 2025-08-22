@@ -7,16 +7,13 @@ Resource        ../lib/clonezilla.robot
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
-
 # Test suite used to quickly flash disk images with preinstalled OSes.
 # An environment variables must be set prior to running it:
 # Optional:
 # - CLONEZILLA_TTY
-
 # Example usage:
 # - Launch clonezilla in manual mode over chosen serial console (for restore or upload):
 #    CLONEZILLA_TTY=ttyUSB0 ./scripts/run.sh util/restore-disk-manual.robot
-
 
 
 *** Test Cases ***

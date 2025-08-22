@@ -7,7 +7,6 @@ Resource        ../lib/clonezilla.robot
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
-
 # Test suite used to quickly flash disk images with preinstalled OSes using Clonezilla.
 # Two environment variables must be set prior to running it:
 # - SOURCE_IMAGE
@@ -20,6 +19,7 @@ Suite Setup     Run Keywords
 #    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 ./scripts/run.sh util/restore-disk-auto.robot
 # - The same, but redirect the Clonezilla's output onto ttyS0 if video output is not available:
 #    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 CLONEZILLA_TTY=ttyS0 ./scripts/run.sh util/restore-disk-auto.robot
+
 
 *** Test Cases ***
 Restore Disk Clonezilla
@@ -37,7 +37,7 @@ Restore Disk Clonezilla
         ...    chain ${CLONEZILLA_IPXE_SERVER}/boot.ipxe?image=${source_image}&disk=${target_disk}
         ...    interval=0.5
         Press Enter
-        VAR    ${msg}=     Disk cloning has started.
+        VAR    ${msg}=    Disk cloning has started.
         ...    No tty was configured - running clonezilla on the device's display.
         ...    No serial logs will be collected, so the process must be monitored manually.
         ...    The test case will end now.
