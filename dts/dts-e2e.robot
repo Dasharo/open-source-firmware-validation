@@ -141,9 +141,9 @@ Prepare E2E Test
     [Documentation]    Prepare everything needed for platform and workflow
     ...    emulation. Keyword has to be run in shell. After keyword ends we
     ...    should be in DTS menu
-    ${platform}=    Evaluate    ${TEST_NAME}.split()[0]
-    ${release}=    Evaluate    ${TEST_NAME}.split()[-1]
-    ${workflow}=    Evaluate    ${TEST_NAME}.split()[1:-2]
+    ${platform}=    Evaluate    '${TEST_NAME}'.split()[1]
+    ${release}=    Evaluate    '${TEST_NAME}'.split()[-1]
+    ${workflow}=    Evaluate    ' '.join('${TEST_NAME}'.split()[2:-2])
     # Verify if DTS_CONFIG_REF is set via `-v` argument
     Variable Should Exist    ${DTS_CONFIG_REF}
     Export Shell Variables For Emulation
