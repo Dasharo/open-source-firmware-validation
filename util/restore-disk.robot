@@ -27,11 +27,11 @@ Suite Setup     Run Keywords
 #
 # Example usage:
 # - Flash the `1_windows_ubuntu` image onto the `nvme0n1` disk on the device using ${RTE_IP}:
-#    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 ./scripts/run.sh util/preseeds.robot -- -t "Restore Disk*"
+#    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 ./scripts/run.sh util/restore-disk.robot -- -t "Restore Disk*"
 # - The same, but redirect the Clonezilla's output onto ttyS0 if video output is not available:
-#    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 CLONEZILLA_TTY=ttyS0 ./scripts/run.sh util/preseeds.robot -- -t "Restore Disk*"
+#    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 CLONEZILLA_TTY=ttyS0 ./scripts/run.sh util/restore-disk.robot -- -t "Restore Disk*"
 # - Launch clonezilla in manual mode over chosen serial console (for restore or upload):
-#    CLONEZILLA_TTY=ttyUSB0 ./scripts/run.sh util/preseeds.robot -- -t "Manual*"
+#    CLONEZILLA_TTY=ttyUSB0 ./scripts/run.sh util/restore-disk.robot -- -t "Manual*"
 #
 #    Important: Don't run the whole test suite. Every test case is a
 #    separate functionality and running them all after each other does not
