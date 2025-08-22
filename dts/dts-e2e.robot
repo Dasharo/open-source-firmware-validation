@@ -170,16 +170,25 @@ Teardown DTS Test
     SSHLibrary.Close Connection
     Set Prompt For Terminal    bash-5.2#
     TRY
-        # strip 'E2Exxx: ' prefix from test name
-        ${profile_name}=    Evaluate    $TEST_NAME.split(":")[1].strip()
-        VAR    ${profile}=    ${CURDIR}/profiles/${profile_name}.profile
-        ${profile_exists}=    Run Keyword And Return Status
-        ...    OperatingSystem.File Should Exist    ${profile}
-        IF    "${TEST_STATUS}" == "PASS" and ${profile_exists}
-            Get File From DUT    /tmp/logs/profile    /tmp/robotframework-dts-profile
-            ${rc}    ${output}=    Run And Return Rc And Output
-            ...    diff -u1 /tmp/robotframework-dts-profile "${profile}"
-            Should Be Equal As Integers    ${rc}    0    Profiles are not identical!
+        ${platform}=    Evaluate    '${TEST_NAME}'.split()[1]
+        ${release}=    Evaluate    '${TEST_NAME}'.split()[-1]
+        ${workflow}=    Evaluate    ' '.join('${TEST_NAME}'.split()[2:-2])
+        VAR    @{profiles}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_WORKFLOW_PROFILES]
+        ${verify_profile}=    Run Keyword And Return Status    List Should Contain Value
+        ...    ${profiles}    ${{ ("${workflow}", "${release}" ) }}
+        IF    ${verify_profile}
+            # strip 'E2Exxx: ' prefix from test name
+            ${profile_name}=    Evaluate    $TEST_NAME.split(":")[1].strip()
+            VAR    ${profile}=    ${CURDIR}/profiles/${profile_name}.profile
+            OperatingSystem.File Should Exist    ${profile}
+            IF    "${TEST_STATUS}" == "PASS"
+                Get File From DUT    /tmp/logs/profile    /tmp/robotframework-dts-profile
+                ${rc}    ${output}=    Run And Return Rc And Output
+                ...    diff -u1 /tmp/robotframework-dts-profile "${profile}"
+                Should Be Equal As Integers    ${rc}    0    Profiles are not identical!
+            END
+        ELSE
+            Log    Workflow isn't configured for profile verification.    WARN
         END
     FINALLY
         Execute Linux Command

@@ -32,3 +32,7 @@ ${DTS_TEST_BOARD_MODEL}=                PRO Z690-A WIFI (MS-7D25)
 ...                                     UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
 ...                                     UEFI->Heads Transition=&{{ { "TEST_IS_COREBOOT": "true", "TEST_ME_DISABLED": "false", "TEST_ME_HAP_DISABLED": "true" } }}
 ...                                     Initial Deployment=&{{ {"TEST_HCI_PRESENT": "true", "TEST_FMAP_REGIONS": ""} }}
+
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
+...                                     ${{ ("UEFI Update", "DPP") }}

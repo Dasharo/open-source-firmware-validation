@@ -35,3 +35,6 @@ ${L3_CACHE_SUPPORT}=                ${TRUE}
 ...                                 TEST_VBOOT_KEYS=true
 ...                                 TEST_FMAP_REGIONS=BOOTSPLASH
 ...                                 TEST_BOARD_HAS_BOOTSPLASH=false
+
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                 ${{ ("UEFI Update", "DCR") }}

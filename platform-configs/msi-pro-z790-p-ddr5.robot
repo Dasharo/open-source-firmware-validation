@@ -34,3 +34,7 @@ ${DTS_TEST_BOARD_MODEL}=                PRO Z790-P WIFI (MS-7E06)
 ...                                     &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 ...                                     UEFI Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH"} }}
 ...                                     UEFI->Heads Transition=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH"} }}
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
+...                                     ${{ ("UEFI Update", "DPP") }}
+...                                     ${{ ("Initial Deployment", "DPP") }}

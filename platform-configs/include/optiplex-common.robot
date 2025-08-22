@@ -99,6 +99,9 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 ${DTS_TEST_SYSTEM_VENDOR}=                      Dell Inc.
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
 @{DTS_TEST_DEFAULT_RELEASES}=                   DPP
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                             ${{ ("Initial Deployment", "DPP") }}
+...                                             ${{ ("UEFI Update", "DPP") }}
 
 
 *** Keywords ***

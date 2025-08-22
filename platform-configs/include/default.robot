@@ -453,6 +453,12 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 UEFI->Heads Transition=@{{["DPP"]}}
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=@{{["DPP"]}}
 ...                                                 Dasharo (Slim Bootloader+UEFI) Initial Deployment=@{{["DPP"]}}
+# List of workflows which require profile comparison in the format:
+# list[tuple[workflow, release]] e.g.:
+# @{DTS_TEST_WORKFLOW_PROFILES}=
+# ...    ${{ ("UEFI->Heads Transition", "DPP") }}
+# ...    ${{ ("UEFI Update", "DPP") }}
+@{DTS_TEST_WORKFLOW_PROFILES}=                      @{EMPTY}
 
 
 *** Keywords ***

@@ -77,3 +77,5 @@ ${OPTIONS_LIB}=                         options-lib_dcu
 ...                                     UEFI->Heads Transition=Dasharo (coreboot+UEFI) 0.9.0
 ${DTS_TEST_BOARD_MODEL}=                V560TU
 @{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update    UEFI->Heads Transition
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                     ${{ ("UEFI->Heads Transition", "DPP") }}

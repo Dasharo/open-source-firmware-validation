@@ -117,6 +117,9 @@ ${DTS_TEST_BOARD_MODEL}=                    ${DMIDECODE_PRODUCT_NAME}
 ...                                         TEST_BOARD_HAS_BOOTSPLASH=false
 ...                                         TEST_BOARD_HAS_FD_REGION=false
 ...                                         TEST_BOARD_HAS_ME_REGION=false
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                         ${{ ("SeaBIOS->UEFI Transition", "DPP") }}
+...                                         ${{ ("SeaBIOS Update", "DPP") }}
 
 
 *** Keywords ***

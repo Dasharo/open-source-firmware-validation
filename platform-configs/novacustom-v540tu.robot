@@ -91,6 +91,9 @@ ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    20.3    # FPS
 ${DTS_TEST_BOARD_MODEL}=                V540TU
 @{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update    UEFI->Heads Transition
 
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
+
 
 *** Keywords ***
 Power On
