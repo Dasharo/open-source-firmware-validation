@@ -48,5 +48,10 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
 ...                                                 TEST_HCI_PRESENT=true
 ...                                                 TEST_ME_HAP_DISABLED=true
 ...                                                 TEST_ME_OP_MODE=2
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=
+...                                                 &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+...                                                 UEFI Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_DIFFERENT_FMAP": "true"} }}
+
+# End DTS E2E variables
 
 ${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}

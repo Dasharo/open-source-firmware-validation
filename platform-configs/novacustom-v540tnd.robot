@@ -115,3 +115,5 @@ ${OPTIONS_LIB}=                                 options-lib_dcu
 ...                                             UEFI->Heads Transition=Dasharo (coreboot+UEFI) 0.9.0
 ${DTS_TEST_BOARD_MODEL}=                        V540TNx
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                             ${{ ("UEFI Update", "DCR") }}

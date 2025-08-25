@@ -93,3 +93,5 @@ ${OPTIONS_LIB}=                         options-lib_dcu
 # DTS E2E variables
 ${DTS_TEST_BOARD_MODEL}=                V560TNx
 @{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                     ${{ ("UEFI Update", "DCR") }}
