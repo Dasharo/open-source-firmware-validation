@@ -226,7 +226,7 @@ Change The Bootsplash Logo
     [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
-    Boot System Or From Connected Disk    ${os_id}
+    #Boot System Or From Connected Disk    ${os_id}
     VAR    ${img_sum}=    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
     ${logo_path}=    Join Path    ${TEST_DATA_DIR}/dcu    logo.bmp
     Read Firmware    ${FW_COPY}
@@ -235,7 +235,7 @@ Change The Bootsplash Logo
     Make Sure New Firmware Is Booted After Flashing
 
     Power On
-    Boot System Or From Connected Disk    ${os_id}
+    #Boot System Or From Connected Disk    ${os_id}
     VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     Login To Linux
     Switch To Root User

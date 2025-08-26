@@ -137,7 +137,7 @@ Verify If No Reboot Occurs In Linux
     [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
-    Boot System Or From Connected Disk    ${os_id}
+    #Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     ${timer}=    Convert To Integer    0
@@ -165,7 +165,7 @@ Verify If No Unexpected Boot Errors Appear In Linux Logs
     [Tags]    robot:private
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Power On
-    Boot System Or From Connected Disk    ${os_id}
+    #Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
     Check Unexpected Boot Errors

@@ -332,7 +332,7 @@ Audio Subsystem Detection Linux
     [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
-    Boot System Or From Connected Disk    ${os_id}
+    #Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     ${out}=    Execute Command In Terminal    cat /sys/class/sound/card0/hwC0D*/chip_name
     Should Not Contain    ${out}    No such file or directory

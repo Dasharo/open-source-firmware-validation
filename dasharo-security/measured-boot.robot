@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -318,6 +319,11 @@ Restore SB And Tianocore Defaults And Reset
     Restore Secure Boot Defaults
     Reset To Defaults Tianocore
     Save Changes And Reset
+
+    Power Off
+    Execute Manual Step    Now restore serial console redirection.
+    Power On
+
 
 Measured Boot Suite Setup
     [Tags]    robot:private

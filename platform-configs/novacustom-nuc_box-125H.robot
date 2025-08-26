@@ -6,6 +6,15 @@ Resource    include/default.robot
 
 
 *** Variables ***
+${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
+${DUT_CONNECTION_METHOD}=               Telnet
+${POWER_CTRL}=                          sonoff
+${LAPTOP_PLATFORM}=                     ${FALSE}
+
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
+@{TESTED_LINUX_DISTROS}=
+...                                     ${ENV_ID_UBUNTU}
+
 ${CPU}=                                 Intel(R) Core(TM) Ultra 5 125H
 ${DEF_CORES_PER_SOCKET}=                14
 ${DEF_THREADS_TOTAL}=                   18
@@ -14,6 +23,8 @@ ${CPU_MIN_FREQUENCY}=                   300
 ${PLATFORM_CPU_SPEED}=                  3.0
 ${DEF_ONLINE_CPU}=                      0-17
 ${DEF_SOCKETS}=                         1
+${PLATFORM_RAM_SPEED}=                  5600
+${PLATFORM_RAM_SIZE}=                   32768
 
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
@@ -56,6 +67,8 @@ ${WIN_RAND_WRITE_NONQUE}=               239.6    # MB/s
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     20.6    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    20.3    # FPS
 
+${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
+${RESET_TO_DEFAULTS_SUPPORT}=           ${TRUE}
 
 *** Keywords ***
 Power On

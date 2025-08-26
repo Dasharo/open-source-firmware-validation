@@ -1,16 +1,16 @@
 *** Variables ***
 ${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
 ${DUT_CONNECTION_METHOD}=               Telnet
-${POWER_CTRL}=                          sonoff
+${POWER_CTRL}=                          none
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
 
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v0.9.0-rc2
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v0.9.0-rc4
 ${DMIDECODE_PRODUCT_NAME}=              NUC_BOX
 ${DMIDECODE_MANUFACTURER}=              NovaCustom
 ${DMIDECODE_TYPE}=                      Desktop
 ${FLASH_LENGTH}=                        ${TBD}
-${FW_VERSION}=                          v0.9.0-rc2
-${DMIDECODE_RELEASE_DATE}=              07/14/2025
+${FW_VERSION}=                          v0.9.0-rc4
+${DMIDECODE_RELEASE_DATE}=              08/19/2025
 ${FLASHROM_FLAGS}=                      ${EMPTY}
 
 ${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi WiFi
@@ -27,6 +27,7 @@ ${ESP_SCANNING_SUPPORT}=                ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
+${IPXE_BOOT_SUPPORT}=                   ${TRUE}
 
 # DTS E2E test variables
 @{DTS_TEST_WORKFLOWS}=                  @{EMPTY}
