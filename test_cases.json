@@ -801,14 +801,14 @@
   {
     "doc": {
       "_id": "CBMEM001.201",
-      "name": "Serial boot time measure: coreboot booting time after coldboot",
+      "name": "Serial boot time measure: coreboot booting time after coldboot (Ubuntu)",
       "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "CBMEM001.202",
-      "name": "Serial boot time measure: coreboot booting time after coldboot",
+      "name": "Serial boot time measure: coreboot booting time after coldboot (Fedora)",
       "module": "Dasharo Performance"
     }
   },
@@ -823,14 +823,14 @@
   {
     "doc": {
       "_id": "CBMEM002.201",
-      "name": "Serial boot time measure: coreboot booting time after warmboot",
+      "name": "Serial boot time measure: coreboot booting time after warmboot (Ubuntu)",
       "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "CBMEM002.202",
-      "name": "Serial boot time measure: coreboot booting time after warmboot",
+      "name": "Serial boot time measure: coreboot booting time after warmboot (Fedora)",
       "module": "Dasharo Performance"
     }
   },
@@ -845,14 +845,14 @@
   {
     "doc": {
       "_id": "CBMEM003.201",
-      "name": "Serial boot time measure: coreboot booting time after system reboot",
+      "name": "Serial boot time measure: coreboot booting time after system reboot (Ubuntu)",
       "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "CBMEM003.202",
-      "name": "Serial boot time measure: coreboot booting time after system reboot",
+      "name": "Serial boot time measure: coreboot booting time after system reboot (Fedora)",
       "module": "Dasharo Performance"
     }
   },
