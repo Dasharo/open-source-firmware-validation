@@ -5652,28 +5652,32 @@
     "doc": {
       "_id": "SMW0001.001",
       "name": "Wi-fi connection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW001.001"
     }
   },
   {
     "doc": {
       "_id": "SMW0002.001",
       "name": "Wi-fi connection after warm boot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW002.201"
     }
   },
   {
     "doc": {
       "_id": "SMW0003.001",
       "name": "Wi-fi connection after reboot (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW003.201"
     }
   },
   {
     "doc": {
       "_id": "SMW0004.001",
       "name": "Wi-fi connection after suspension (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW004.201"
     }
   },
   {
@@ -6182,14 +6186,14 @@
   {
     "doc": {
       "_id": "STB002.201",
-      "name": "Verify if no unexpected boot errors appear in Linux logs",
+      "name": "Verify if no unexpected boot errors appear in Linux logs (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "STB002.202",
-      "name": "Verify if no unexpected boot errors appear in Linux logs",
+      "name": "Verify if no unexpected boot errors appear in Linux logs (Fedora)",
       "module": "Dasharo Compatibility"
     }
   },
