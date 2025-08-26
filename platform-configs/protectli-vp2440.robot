@@ -51,6 +51,5 @@ ${ETHERNET_ID}=                     8086:125c
 
 ${TPM_EXPECTED_CHIP}=               SLB9670
 ${SATA_SUPPORT}=                    ${TRUE}
-${CLEVO_DISK}=                      Protectli 256GB M.2
 ${DEVICE_NVME_DISK}=
 ...                                 Non-Volatile memory controller: Phison Electronics Corporation PS5019-E19 PCIe4 NVMe Controller

@@ -34,7 +34,6 @@ ${DEVICE_AUDIO2}=                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=               High Definition Audio Controller
 
 ${DEVICE_NVME_DISK}=                Non-Volatile memory controller
-${CLEVO_DISK}=                      N/A
 
 @{ETH_PORTS}=                       64-62-66-23-90-47
 ...                                 64-62-66-23-90-48

@@ -323,7 +323,6 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                3
 
 ${BLUETOOTH_CARD_UBUNTU}=                           ${TBD}
 ${CLEVO_BATTERY_CAPACITY}=                          ${TBD}
-${CLEVO_DISK}=                                      ${TBD}
 ${CLEVO_USB_C_HUB}=                                 ${TBD}
 ${COREMARK_SINGLE}=                                 ${TBD}
 ${CPU_E_CORES_MAX}=                                 ${TBD}
