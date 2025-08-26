@@ -27,6 +27,7 @@ ${USB_DEVICE}=                                  Multifunction Composite Gadget
 ${FLASHROM_FLAGS}=                              ${TBD}
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
+${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=               ${TRUE}
 ${DCU_UUID_SUPPORT}=                            ${TRUE}
