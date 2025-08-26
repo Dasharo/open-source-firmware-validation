@@ -52,6 +52,7 @@ ${CPU_MAX_FREQUENCY}=                           3600
 ${PLATFORM_RAM_SPEED}=                          4800
 ${PLATFORM_RAM_SIZE}=                           8192
 ${E_MMC_NAME}=                                  PJ3032
+${MAX_CPU_TEMP_THRESHOLD}=                      95
 ${DEF_THREADS_TOTAL}=                           4
 ${DEF_THREADS_PER_CORE}=                        1
 ${DEF_CORES_PER_SOCKET}=                        4
