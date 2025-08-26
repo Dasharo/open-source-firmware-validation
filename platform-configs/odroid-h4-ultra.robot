@@ -23,7 +23,6 @@ ${DMIDECODE_FAMILY}=                            H4
 ${DMIDECODE_TYPE}=                              Desktop
 ${DEVICE_USB_KEYBOARD}=                         Logitech, Inc. Keyboard K120
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
-${CLEVO_DISK}=                                  SSDPR-CX400-256-G2
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
 ${FLASHROM_FLAGS}=                              ${TBD}
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}

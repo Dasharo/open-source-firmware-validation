@@ -23,7 +23,6 @@ ${DMIDECODE_FAMILY}=                            Default String
 ${DMIDECODE_TYPE}=                              Desktop
 ${DEVICE_USB_KEYBOARD}=                         Logitech, Inc. Keyboard K120
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
-${CLEVO_DISK}=                                  Samsung SSD 990 PRO 1TB
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
 ${FLASHROM_FLAGS}=                              ${TBD}
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
