@@ -34,7 +34,16 @@ NVM001.001 NVMe support in firmware
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Power On
     ${out}=    Enter Boot Menu Tianocore And Return Construction
-    Should Contain    ${out}    ${CLEVO_DISK}
+    ${ssd_list}=    Get Current CONFIG List Element    Storage_SSD
+    ${ssd_list_length}=    Get Length    ${ssd_list}
+    IF    ${ssd_list_length} == 0    Fail    No SSD disks connected
+    FOR    ${disk}    IN    @{ssd_list}
+        IF    '${disk.interface}' == 'NVME'
+            ${found}=    Evaluate    '${disk.boot_name}' in ${out}
+            IF    ${found}    BREAK
+        END
+    END
+    Should Be True    ${found}    None of the connected disks is visible in boot menu
 
 NVM001.201 NVMe support in OS (Ubuntu)
     [Documentation]    Check whether the Operating System can boot from NVMe

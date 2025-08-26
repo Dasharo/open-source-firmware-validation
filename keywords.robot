@@ -422,11 +422,11 @@ Get Current CONFIG Stop Index
     ...    Returns -1 if CONFIG not found in variables.robot.
     [Arguments]    ${config_list}    ${start}
     ${length}=    Get Length    ${config_list}
-    VAR    ${index}=    ${start}
+    VAR    ${index}=    ${start+1}
+    IF    '${start}'=='${length-1}'    RETURN    ${length}
     FOR    ${config}    IN    @{config_list[${index}:]}
         ${result}=    Evaluate    ${config}.get("ip")
         IF    '${result}'!='None'    RETURN    ${index}
-        IF    '${index}'=='${length-1}'    RETURN    ${index+1}
         VAR    ${index}=    ${index+1}
     END
     RETURN    ${-1}
@@ -439,7 +439,7 @@ Get Current CONFIG
     Should Not Be Equal    ${start}    ${-1}    msg=Current CONFIG not found in hw-matrix
     ${stop}=    Get Current CONFIG Stop Index    ${config_list}    ${start}
     Should Not Be Equal    ${stop}    ${-1}    msg=Current CONFIG not found in hw-matrix
-    ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop+1}
+    ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop}
     RETURN    ${config}
 
 Get Current CONFIG Item
@@ -1501,13 +1501,28 @@ Get Current CONFIG List Param
     ${config}=    Get Current CONFIG    ${CONFIG_LIST}
     ${length}=    Get Length    ${config}
     Should Be True    ${length} > 1
-    VAR    @{attached_usb_list}=    @{EMPTY}
+    VAR    @{attached_item_list}=    @{EMPTY}
     FOR    ${element}    IN    @{config[1:]}
         IF    '${element.type}'=='${item}'
-            Append To List    ${attached_usb_list}    ${element.${param}}
+            Append To List    ${attached_item_list}    ${element.${param}}
         END
     END
-    RETURN    @{attached_usb_list}
+    RETURN    @{attached_item_list}
+
+Get Current CONFIG List Element
+    [Documentation]    Returns current CONFIG list elements specified in the
+    ...    arguments.
+    [Arguments]    ${item}
+    ${config}=    Get Current CONFIG    ${CONFIG_LIST}
+    ${length}=    Get Length    ${config}
+    Should Be True    ${length} > 1
+    VAR    @{attached_item_list}=    @{EMPTY}
+    FOR    ${element}    IN    @{config[1:]}
+        IF    '${element.type}'=='${item}'
+            Append To List    ${attached_item_list}    ${element}
+        END
+    END
+    RETURN    @{attached_item_list}
 
 Reboot In OPNsense
     [Documentation]    Perform reboot in OPNsense.
