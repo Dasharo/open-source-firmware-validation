@@ -49,6 +49,8 @@ ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
 ${EXTERNAL_HEADSET_SUPPORT}=                    ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${TRUE}
+${DUT_HAS_RESET_BUTTON}=                        ${FALSE}
+${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 
 ${INITIAL_CPU_FREQUENCY}=                       800
 ${PLATFORM_CPU_SPEED}=                          1.80
@@ -69,6 +71,11 @@ ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                           ${TRUE}
 ${DASHARO_NETWORKING_MENU_SUPPORT}=             ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=               ${TRUE}
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=               ${TRUE}
+${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
+${DASHARO_MEMORY_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_SERIAL_PORT_MENU_SUPPORT}=            ${TRUE}
 ${SERIAL_NUMBER_VERIFICATION}=                  ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=                   ${TRUE}
 ${MANUFACTURER_VERIFICATION}=                   ${TRUE}
@@ -112,13 +119,8 @@ ${USB_MASS_STORAGE_SUPPORT}=                    ${TRUE}
 # Dasharo stability
 ${NVME_DETECTION_SUPPORT}=                      ${FALSE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
+${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
-
-${DASHARO_INTEL_ME_MENU_SUPPORT}=               ${TRUE}
-${DASHARO_PCI_PCIE_MENU_SUPPORT}=               ${TRUE}
-${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
-${DASHARO_MEMORY_MENU_SUPPORT}=                 ${TRUE}
-${DASHARO_SERIAL_PORT_MENU_SUPPORT}=            ${TRUE}
 
 ${CUSTOM_BOOT_ORDER_SUPPORT}=                   ${TRUE}
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
@@ -128,6 +130,8 @@ ${MEMORY_IBECC_SUPPORT}=                        ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=               ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
 ${ODROID_NETCARD_SUPPORT}=                      ${TRUE}
+
+${DTS_SUPPORT}=                                 ${TRUE}
 
 
 *** Keywords ***
