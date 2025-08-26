@@ -32,7 +32,7 @@ ${ITERATIONS}=      5
 
 
 *** Test Cases ***
-CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot
+CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot (Ubuntu)
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
@@ -42,7 +42,7 @@ CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.201 not supported
     Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_UBUNTU}
 
-CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot
+CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot (Ubuntu)
     [Documentation]    Check whether the DUT boots after warmboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
@@ -51,7 +51,7 @@ CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM002.201 not supported
     Serial Boot Time Measure Coreboot Booting Time After Warmboot    ${ENV_ID_UBUNTU}
 
-CBMEM003.201 Serial boot time measure: coreboot booting time after system reboot
+CBMEM003.201 Serial boot time measure: coreboot booting time after system reboot (Ubuntu)
     [Documentation]    Check whether the DUT boots after system reboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
@@ -60,7 +60,7 @@ CBMEM003.201 Serial boot time measure: coreboot booting time after system reboot
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM003.201 not supported
     Serial Boot Time Measure Coreboot Booting Time After System Reboot    ${ENV_ID_UBUNTU}
 
-CBMEM001.202 Serial boot time measure: coreboot booting time after coldboot
+CBMEM001.202 Serial boot time measure: coreboot booting time after coldboot (Fedora)
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
@@ -68,14 +68,14 @@ CBMEM001.202 Serial boot time measure: coreboot booting time after coldboot
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.202 not supported
     Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_FEDORA}
 
-CBMEM002.202 Serial boot time measure: coreboot booting time after warmboot
+CBMEM002.202 Serial boot time measure: coreboot booting time after warmboot (Fedora)
     [Documentation]    Check whether the DUT boots after warmboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM002.202 not supported
     Serial Boot Time Measure Coreboot Booting Time After Warmboot    ${ENV_ID_FEDORA}
 
-CBMEM003.202 Serial boot time measure: coreboot booting time after system reboot
+CBMEM003.202 Serial boot time measure: coreboot booting time after system reboot (Fedora)
     [Documentation]    Check whether the DUT boots after system reboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
