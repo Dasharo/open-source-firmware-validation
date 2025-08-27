@@ -9,7 +9,6 @@ DRIVE_LABEL=CAPSULE_USB
 FILES_DIR=dasharo-stability/capsule-update-files
 CAPSULE_FILES_DIR=dl-cache/edk2
 
-
 if [[ -z $1 ]]; then
     echo "Usage:
     $0 <flash_drive_device_file>
@@ -55,7 +54,7 @@ CAPSULE_BASENAME=$(basename "$CAPSULE_BASENAME")
 CAPSULE_BASENAME="${CAPSULE_BASENAME%.*}"
 
 # copy files
-cp $FILES_DIR/Shell.efi "$mount_point"/EFI/BOOT/bootx64.efi
+cp osfv-test-data/uefi-shell/Shell.efi "$mount_point"/EFI/BOOT/bootx64.efi
 cp $FILES_DIR/CapsuleApp.efi "$mount_point"/CapsuleApp.efi
 cp $FILES_DIR/capsule-update-startup.nsh "$mount_point"/startup.nsh
 cp $FILES_DIR/variable_capsule_file.nsh "$mount_point"/variable_capsule_file.nsh
