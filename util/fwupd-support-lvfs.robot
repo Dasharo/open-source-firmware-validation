@@ -63,7 +63,7 @@ Fwupd LVFS Firmware Update Linux
 
     Switch To Root User
     Setup Fwupd Embargo Config Linux    ${username}    ${password}
-    Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' | sudo tee /etc/fwupd/fwupd.conf
+    Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' > /etc/fwupd/fwupd.conf
     Execute Command In Terminal    fwupdmgr refresh
     VAR    ${id_extract_command}=
     ...    fwupdmgr get-devices 2>/dev/null
