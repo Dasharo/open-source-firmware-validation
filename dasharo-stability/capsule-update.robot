@@ -145,7 +145,7 @@ CUP170.301 Verifying UUID (Windows)
 
     # dmidecode reports `Not Settable` for all zeroes
     IF    '${ORIGINAL_UUID}' == 'Not Settable'
-        Should Be Equal    ${ORIGINAL_UUID}    00000000-0000-0000-0000-000000000000
+        Should Be Equal    ${WIN_UPDATED_UUID}    00000000-0000-0000-0000-000000000000
     ELSE
         Should Be Equal    ${ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
     END
