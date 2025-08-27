@@ -22,6 +22,7 @@ ${DTS_HEADS_SWITCH_QUESTION}=                   Would you like to switch to Dash
 ${DTS_ME_WARN}=
 ...                                             Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
 ${DTS_BOARD_QUESTION}=                          Choose your board model:
+${DTS_13_GEN_REGRESSION}=                       Aborting deployment...
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=                      Community version
 ${DTS_DPP_UEFI_MENUPOINT}=                      DPP version (coreboot + UEFI)

@@ -53,6 +53,26 @@ E2E001.001 HCL Report test
     # 5) Wait for final HCL Report checkpoint:
     Wait For Checkpoint    ${HCL_REPORT_CHECKPOINT}
 
+E2E002.001 DCR Initial Deployment On Msi-pro-z690-a-ddr5 With 13th Gen CPU Should Fail
+    [Documentation]    Check if installing DCR v1.1.1 fails on
+    ...    msi-pro-z690-a-ddr5 with 13gen CPU.
+    Perform DCR Initial Deployment On Incompatible CPU Regression Test    msi-pro-z690-a-ddr5
+
+E2E002.002 DCR Initial Deployment On Msi-pro-z690-a-wifi-ddr4 With 13th Gen CPU Should Fail
+    [Documentation]    Check if installing DCR v1.1.1 fails on
+    ...    msi-pro-z690-a-wifi-ddr4 with 13gen CPU.
+    Perform DCR Initial Deployment On Incompatible CPU Regression Test    msi-pro-z690-a-wifi-ddr4
+
+E2E003.001 DCR UEFI Update On Msi-pro-z690-a-ddr5 With 13th Gen CPU Should Fail
+    [Documentation]    Check if updating to DCR v1.1.1 fails on
+    ...    msi-pro-z690-a-ddr5 with 13gen CPU.
+    Perform DCR UEFI Update On Incompatible CPU Regression Test    msi-pro-z690-a-ddr5
+
+E2E003.002 DCR UEFI Update On Msi-pro-z690-a-wifi-ddr4 With 13th Gen CPU Should Fail
+    [Documentation]    Check if updating to DCR v1.1.1 fails on
+    ...    msi-pro-z690-a-wifi-ddr4 with 13gen CPU.
+    Perform DCR UEFI Update On Incompatible CPU Regression Test    msi-pro-z690-a-wifi-ddr4
+
 
 *** Keywords ***
 # robocop: disable:0919
@@ -240,3 +260,56 @@ Prepare DTS E2E Test Suite
     Power On And Enter DTS Shell
     Set Prompt For Terminal    bash-5.2#
     Execute Command In Terminal    systemctl start sshd
+
+Perform DCR Initial Deployment On Incompatible CPU Regression Test
+    [Documentation]    Given a board with DCR-incompatible CPU, expect an error
+    ...    when trying to perform an Initial Deployment
+    [Arguments]    ${board}
+
+    # 1) Prepare DTS for testing:
+    Export Shell Variables For Emulation
+    ...    Initial Deployment
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[${board}]
+    ...    ${DTS_CONFIG_REF}
+
+    Execute Command In Terminal
+    ...    export TEST_CPU_VERSION="13th Gen Intel(R) Core(TM) i9-13900K"
+
+    Write Into Terminal    dts-boot
+
+    # 2) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 3) Wait for HCL report to do its work:
+    # Accept hw-probe question from HCL report:
+    Wait For Checkpoint And Write    ${DTS_HW_PROBE_WARN}    N
+
+    # 4) Choose version to install:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DCR_UEFI_OPT}
+
+    # 5) Pass the test if the "Aborting deployment..." message shows up:
+    ${checkpoint}=    Wait For Checkpoint    ${DTS_13_GEN_REGRESSION}
+
+Perform DCR UEFI Update On Incompatible CPU Regression Test
+    [Documentation]    Given a board with DCR-incompatible CPU, expect an error
+    ...    when trying to perform UEFI Update
+    [Arguments]    ${board}
+
+    # 1) Prepare DTS for testing:
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[${board}]
+    ...    ${DTS_CONFIG_REF}
+
+    Execute Command In Terminal
+    ...    export TEST_CPU_VERSION="13th Gen Intel(R) Core(TM) i9-13900K"
+
+    Write Into Terminal    dts-boot
+
+    # 2) Select initial deployment:
+    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+
+    # 3) Pass the test if the "Aborting deployment..." message shows up:
+    ${checkpoint}=    Wait For Checkpoint    ${DTS_13_GEN_REGRESSION}
