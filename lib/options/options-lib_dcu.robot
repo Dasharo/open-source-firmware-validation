@@ -157,7 +157,7 @@ Set Nextboot Bootentry
     ${boot_entries}=    Execute Command In Terminal    efibootmgr
 
     @{lines}=    Split To Lines    ${boot_entries}
-    ${os_boot_id}=    Set Variable    ${EMPTY}
+    VAR    ${os_boot_id}=    ${EMPTY}
     FOR    ${line}    IN    @{lines}
         ${tmp}=    Encode String To Bytes    ${line}    ASCII    errors=replace
         ${line}=    Decode Bytes To String    ${tmp}    ASCII    errors=replace

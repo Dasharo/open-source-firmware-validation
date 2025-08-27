@@ -69,7 +69,7 @@ CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
         Power On
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
-        Set Suite Variable    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}    ${state}
+        VAR    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}=    ${state}    scope=SUITE
         ${new_state}=    Evaluate    not ${state}
         Set UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_state}
     END
@@ -122,7 +122,7 @@ CUP170.301 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
-    
+
     Go To Windows Prompt
     Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
 
@@ -267,7 +267,7 @@ Flash Firmware If Not QEMU
     IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         VAR    ${msg}=    Flashing tends to make Windows the default boot option,
         ...    which breaks tests. Make the OS with ID ${DEFAULT_BOOT_OS_ID}
-        ...    the defualt boot option and reboot the device.
+        ...    the default boot option and reboot the device.
         Execute Manual Step    ${msg}
     END
 
@@ -389,7 +389,7 @@ Upload Required Files SSH
     ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     VAR    ${commands}=    pushd osfv;
-    ...    git switch novacustom-capsule-tests;        # TODO temporary, remove before merging
+    ...    git switch novacustom-capsule-tests;    # TODO temporary, remove before merging
     ...    git submodule update --init --checkout;
     ...    export FW_FILE=/root/${fw_filename};
     ...    export CAPSULE_FW_FILE=/root/${caps_filename};
@@ -397,7 +397,7 @@ Upload Required Files SSH
     ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
     ...    popd;
     Execute Command In Terminal    ${commands}
-    
+
 Perform Capsule Update
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
@@ -526,8 +526,10 @@ Display Preparation Instructions
         Log To Console    1. Prepare a valid capsule file(*) and set the environment variable
         Log To Console    \ \ \ CAPSULE_FW_FILE to the path to the capsule.
         Log To Console    2. Plug a USB flash drive into the DUT
-        Log To Console    3. Set ENV variable CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to the name of the bootentry that Dasharo UEFI gives this drive
-        Log To Console    4. Set ENV variable CAPSULE_UPDATE_DISK_MODEL to the name of the drive as in `/sys/block/sdX/device/model` (replace `sdX` with real device file name, like `sda`)
+        Log To Console
+        ...    3. Set ENV variable CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to the name of the bootentry that Dasharo UEFI gives this drive
+        Log To Console
+        ...    4. Set ENV variable CAPSULE_UPDATE_DISK_MODEL to the name of the drive as in `/sys/block/sdX/device/model` (replace `sdX` with real device file name, like `sda`)
         Log To Console    \ \ \ \ scripts/run.sh dasharo-stability/capsule-update.robot
         Log To Console    \n******************************************************************************
     END
@@ -612,7 +614,7 @@ Prepare For ROMHOLE Persistence Test
     END
 
 Get Firmware UUID (Windows)
-    ${uuid}=    Execute Command In Terminal   Get-CimInstance Win32_ComputerSystemProduct | Select-Object UUID
+    ${uuid}=    Execute Command In Terminal    Get-CimInstance Win32_ComputerSystemProduct | Select-Object UUID
     @{uuid}=    Split To Lines    ${uuid}
     VAR    ${var}=    ${uuid}[-1]
     ${var}=    Strip String    ${var}
@@ -681,7 +683,7 @@ Get CUP Environment Variables
 
     ${bootentry}=    Get Environment Variable    CAPSULE_UPDATE_DISK_BOOTENTRY_NAME
     IF    $bootentry is not None
-    ${disk_model}=    Get Environment Variable    CAPSULE_UPDATE_DISK_MODEL
+        ${disk_model}=    Get Environment Variable    CAPSULE_UPDATE_DISK_MODEL
         Log To Console    Settning CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to ${bootentry}
         VAR    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=    ${bootentry}    scope=GLOBAL
     END
