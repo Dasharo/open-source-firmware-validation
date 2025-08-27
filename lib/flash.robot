@@ -20,8 +20,8 @@ Flash Via Internal Programmer
     ${out_flashrom_probe}=    Execute Command In Terminal    flashrom -p internal
     ${read_only}=    Run Keyword And Return Status
     ...    Should Contain    ${out_flashrom_probe}    read-only
-
-    Send File To DUT    ${fw_file_path}    /tmp/${fw_file_path}
+    ${filename}=    Evaluate    os.path.basename(r"${fw_file_path}")
+    Send File To DUT    ${fw_file_path}    /tmp/${filename}
     # TODO: automatically check and seck locs - reuse keywords from this suite, but it does not exist it seems
     IF    ${read_only}
         Fail    Make sure that SPI locks are disabled prior flashing internally
@@ -35,7 +35,7 @@ Flash Via Internal Programmer
     END
     Wait Until Keyword Succeeds    2
     ...    1s
-    ...    Flash Via Internal Programmer With Args    /tmp/${fw_file_path}    ${args}
+    ...    Flash Via Internal Programmer With Args    /tmp/${filename}    ${args}
 
 Check If RW SECTION B Is Present In A Firmware File
     [Documentation]    Parses ROM with cbfstool to check if A or A + B sections are there
