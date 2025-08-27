@@ -19,6 +19,10 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'
+...                     AND
+...                     Skip If    '${DUT_CONNECTION_METHOD}' == 'telnet'
+...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
 Suite Teardown      Run Keywords
 ...                     Set UEFI Option    UsbDriverStack    Enabled
