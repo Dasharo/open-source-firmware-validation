@@ -32,6 +32,7 @@ Resource            ../lib/options/options-lib_dcu.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
 ...                     Display Preparation Instructions    AND
+...                     Get CUP Environment Variables    AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported    AND
 ...                     Ensure Capsule Files Are Present    AND
 ...                     Prepare For Logo Persistence Test    AND
@@ -48,10 +49,12 @@ Suite Teardown      Run Keywords
 *** Variables ***
 ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
-${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=      Wilk
-${CAPSULE_UPDATE_DISK_MODEL}=               USB DISK 3.0
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
+
+# Default values. Change to reflect the used USB flash drive in case of testing via SSH
+${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=      Wilk
+${CAPSULE_UPDATE_DISK_MODEL}=               USB DISK 3.0
 
 
 *** Test Cases ***
@@ -659,7 +662,7 @@ Get Capsule Update Logs
         # uefi shell runs and reboots the platform
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux With Root Privileges
-        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}>
+        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
         ${mount_point}=    Mount USB    ${capsule_disk}
 
         # UEFI Shell uses UTF-16LE and SSHLibrary will panic if the file is read
@@ -691,3 +694,18 @@ Set Startup Nsh Variable
     ${out}=    Execute Command In Terminal
     ...    echo "set ${variable_name} ${value}" > ${mount_point}/variable_${file_name}.nsh
     Should Not Contain    ${out}    No such file
+
+Get CUP Environment Variables
+    [Documentation]    Saves the env variables to robot variables that might be different
+    ...    depending on the configuration used during testing
+
+    ${bootentry}=    Get Environment Variable    CAPSULE_UPDATE_DISK_BOOTENTRY_NAME
+    IF    $bootentry is not None
+    ${disk_model}=    Get Environment Variable    CAPSULE_UPDATE_DISK_MODEL
+        Log To Console    Settning CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to ${bootentry}
+        VAR    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=    ${bootentry}    scope=GLOBAL
+    END
+    IF    $disk_model is not None
+        Log To Console    Settning CAPSULE_UPDATE_DISK_MODEL to ${disk_model}
+        VAR    ${CAPSULE_UPDATE_DISK_MODEL}=    ${disk_model}    scope=GLOBAL
+    END
