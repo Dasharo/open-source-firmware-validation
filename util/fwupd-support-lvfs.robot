@@ -98,4 +98,4 @@ Setup Fwupd Embargo Config Linux
     Execute Command In Terminal    printf "${embargo_config}" > /etc/fwupd/remotes.d/3mdeb-embargo.conf
 
 Clean Up Fwupd Embargo Config Linux
-    Execute Command In Terminal    rm -rf /etc/fwupd/remotes.d/3mdeb-embargo.conf
+    Execute Command In Terminal    rm -f /etc/fwupd/remotes.d/3mdeb-embargo.conf
