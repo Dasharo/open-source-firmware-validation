@@ -29,7 +29,6 @@ FAN001.201 CPU fan speed measure
     [Documentation]    Check whether there's a possibility to measure CPU fan
     ...    current speed.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN001.201 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN001.201 not supported
     Power On
     Login To Linux
     ${output}=    Execute Linux Command
@@ -40,7 +39,6 @@ FAN001.201 CPU fan speed measure
 FAN002.201 All available fans are running
     [Documentation]    Check if all available fans are running
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN002.201 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN002.201 not supported
     Power On
     Login To Linux
     Switch To Root User
@@ -58,7 +56,6 @@ FAN003.201 Fans are turning off during suspend mode with ME Enabled
     [Documentation]    Check for correct behavior
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.201 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN003.201 not supported
     Power On
     Set UEFI Option    MeMode    Enabled
     Login To Linux
@@ -71,7 +68,6 @@ FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
     [Documentation]    Check for correct behavior
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN004.201 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN004.201 not supported
     Power On
     Set UEFI Option    MeMode    Disabled (Soft)
     Login To Linux
@@ -84,7 +80,6 @@ FAN005.201 Fans are turning off during suspend mode with ME HAP disabled
     [Documentation]    Check for correct behavior
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN005.201 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN005.201 not supported
     Power On
     Set UEFI Option    MeMode    Disabled (HAP)
     Login To Linux
@@ -98,7 +93,6 @@ FAN006.201 GPU fan speed measure
     ...    This test aims to verify that the fan curve is configured correctly
     ...    and the fan spins up and down according to the defined values.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN006.201 not supported
-    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    FAN006.201 not supported
     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    FAN006.201 not supported
     Power On
     Login To Linux
@@ -112,6 +106,7 @@ FAN006.201 GPU fan speed measure
 Prepare CPU Fan Speed Measure Suite
     [Documentation]    Prepare packages for testing CPU fans
     Prepare Test Suite
+    Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    Fan speed measure tests not supported
     Power On
     Login To Linux
     Switch To Root User
