@@ -30,8 +30,8 @@ Resource            ../lib/options/options-lib_dcu.robot
 # - go through them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
-...                     Display Preparation Instructions    AND
 ...                     Prepare Test Suite    AND
+...                     Display Preparation Instructions    AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported    AND
 ...                     Ensure Capsule Files Are Present    AND
 ...                     Prepare For Logo Persistence Test    AND
