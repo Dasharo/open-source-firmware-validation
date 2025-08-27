@@ -4314,6 +4314,20 @@
   },
   {
     "doc": {
+      "_id": "IBECC001.201",
+      "name": "Verify IBECC does not work when disabled (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "IBECC002.201",
+      "name": "Verify IBECC works when enabled (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "LBT003.001",
       "name": "Debian stable installation on Hard Disk",
       "module": "Dasharo Compatibility"
@@ -4898,6 +4912,13 @@
       "_id": "NET006.202",
       "name": "NET controller after suspend (Fedora) (S3)",
       "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NETCARD001.201",
+      "name": "Check Performance of 2.5G Wired Network Interface On Netcard (Ubuntu)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -10378,27 +10399,6 @@
     "doc": {
       "_id": "WLE003.202",
       "name": "Bluetooth scanning (Fedora)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "IBECC001.201",
-      "name": "Verify IBECC does not work when disabled (Ubuntu)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "IBECC002.201",
-      "name": "Verify IBECC works when enabled (Ubuntu)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NETCARD001.201",
-      "name": "Check Performance of 2.5G Wired Network Interface On Netcard (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   }
