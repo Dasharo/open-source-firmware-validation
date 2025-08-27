@@ -136,12 +136,9 @@ CUP170.301 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
-
-    ${tmp}=    Get Variable Value    $WIN_UPDATED_UUID
-    IF    '${tmp}' == 'None'
-        Go To Windows Prompt
-        Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
-    END
+    
+    Go To Windows Prompt
+    Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
     Log To Console    \n[After Update] ${WIN_UPDATED_UUID}
