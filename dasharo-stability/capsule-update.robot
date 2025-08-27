@@ -15,20 +15,6 @@ Resource            ../keys.robot
 Resource            ../lib/bios/menus.robot
 Resource            ../lib/options/options-lib_dcu.robot
 
-# WARNING! MANUAL INTERVENTION MIGHT BE NEEDED
-# The suite flashes the firmware two times.
-# If the platform does not support serial connection, then on every
-# flash the boot order will be restored to the defaults.
-# If Windows is installed, it will always end up as the first boot entry
-# and break the tests.
-#
-# In that case the boot entry must be adjusted manually, so that
-# ${DEFAULT_BOOT_OS_ID} is the first boot entry, on every flashing.
-#
-# TODO:
-# - document which setup/teardown keywords to use and what are they doing
-# - go through them and make sure they are doing what the name suggest (not
-# exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
 ...                     Display Preparation Instructions    AND
@@ -154,7 +140,7 @@ CUP170.301 Verifying UUID (Windows)
         Should Be Equal    ${WIN_UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
     END
 
-CUP180.001 Verifying Serial Number (Ubuntu)
+CUP180.201 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
     [Tags]    automated
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
@@ -169,7 +155,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
 
     Should Be Equal    ${ORIGINAL_SERIAL}    ${UPDATED_SERIAL}
 
-CUP180.002 Verifying Serial Number (Windows)
+CUP180.301 Verifying Serial Number (Windows)
     [Documentation]    Check if serial number didn't change after Capsule Update.
     [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.002 not supported
@@ -184,7 +170,7 @@ CUP180.002 Verifying Serial Number (Windows)
 
     Should Be Equal    ${ORIGINAL_SERIAL}    ${WIN_UPDATED_SERIAL}
 
-CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
+CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
     [Tags]    automated
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported

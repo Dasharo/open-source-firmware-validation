@@ -884,14 +884,14 @@
       "module": "Dasharo Security"
     }
   },
-    {
+  {
     "doc": {
       "_id": "CBNT005.201",
       "name": "Converged Boot Guard and TXT - Fused platform EoM set and FPFs Committed (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
-    {
+  {
     "doc": {
       "_id": "CBNT006.101",
       "name": "Setup Menu Boot Guard Information",
@@ -2198,12 +2198,28 @@
     "doc": {
       "_id": "CUP170.001",
       "name": "Verifying UUID (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "CUP170.201"
     }
   },
   {
     "doc": {
       "_id": "CUP170.002",
+      "name": "Verifying UUID (Windows)",
+      "module": "Dasharo Stability",
+      "changed_to": "CUP170.301"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP170.201",
+      "name": "Verifying UUID (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP170.301",
       "name": "Verifying UUID (Windows)",
       "module": "Dasharo Stability"
     }
@@ -2212,12 +2228,28 @@
     "doc": {
       "_id": "CUP180.001",
       "name": "Verifying Serial Number (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "CUP180.201"
     }
   },
   {
     "doc": {
       "_id": "CUP180.002",
+      "name": "Verifying Serial Number (Windows)",
+      "module": "Dasharo Stability",
+      "changed_to": "CUP180.301"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP180.201",
+      "name": "Verifying Serial Number (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP180.301",
       "name": "Verifying Serial Number (Windows)",
       "module": "Dasharo Stability"
     }
@@ -2225,6 +2257,14 @@
   {
     "doc": {
       "_id": "CUP190.001",
+      "name": "Verifying If Custom Logo Persists Across updates (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "CUP190.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP190.201",
       "name": "Verifying If Custom Logo Persists Across updates (Ubuntu)",
       "module": "Dasharo Stability"
     }
