@@ -609,7 +609,7 @@ Prepare For ROMHOLE Persistence Test
     END
 
 Get Firmware UUID (Windows)
-    ${uuid}=    Execute Command In Terminal    wmic path win32_computersystemproduct get UUID
+    ${uuid}=    Execute Command In Terminal   Get-CimInstance Win32_ComputerSystemProduct | Select-Object UUID
     @{uuid}=    Split To Lines    ${uuid}
     VAR    ${var}=    ${uuid}[-1]
     ${var}=    Strip String    ${var}
@@ -617,7 +617,7 @@ Get Firmware UUID (Windows)
     RETURN    ${var}
 
 Get Firmware Serial Number (Windows)
-    ${serial}=    Execute Command In Terminal    wmic bios get serialnumber
+    ${serial}=    Execute Command In Terminal    Get-CimInstance Win32_BIOS | Select-Object SerialNumber
     @{serial}=    Split To Lines    ${serial}
     VAR    ${var}=    ${serial}[-1]
     ${var}=    Strip String    ${var}
