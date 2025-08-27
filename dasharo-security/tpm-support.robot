@@ -134,8 +134,8 @@ TPM002.301 Verify TPM version (Windows)
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal
-    ...    wmic /namespace:\\\\root\\cimv2\\security\\microsofttpm path win32_tpm get * /format:textvaluelist.xsl
-    Should Contain    ${out}    SpecVersion=2.0
+    ...    (Get-CimInstance -Namespace "Root\\CIMv2\\Security\\MicrosoftTpm" -ClassName Win32_Tpm).SpecVersion | ForEach-Object { "SpecVersion:$($_)" }
+    Should Contain    ${out}    SpecVersion:2.0
 
 TPM003.301 Check TPM Physical Presence Interface (Windows)
     [Documentation]    This test aims to verify that the TPM Physical Presence
