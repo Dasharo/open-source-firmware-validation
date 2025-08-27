@@ -119,7 +119,7 @@ CUP170.201 Verifying UUID (Ubuntu)
     [Tags]    automated
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP170.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_UUID
-    IF    '${tmp}' == 'None'
+    IF    $tmp == 'None'
         Go To Linux Prompt    ${ENV_ID_UBUNTU}
         Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
@@ -162,7 +162,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
     [Tags]    automated
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
-    IF    '${tmp}' == 'None'
+    IF    $tmp is None
         Go To Linux Prompt    ${ENV_ID_UBUNTU}
         Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
@@ -177,7 +177,7 @@ CUP180.002 Verifying Serial Number (Windows)
     [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
-    IF    '${tmp}' == 'None'
+    IF    $tmp is None
         Go To Windows Prompt
         Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
     END
@@ -193,7 +193,7 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
-    IF    '${tmp}' == 'None'
+    IF    $tmp is None
         Go To Linux Prompt    ${ENV_ID_UBUNTU}
         Get System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
