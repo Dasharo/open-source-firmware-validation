@@ -230,7 +230,7 @@ AUD001.301 Audio subsystem detection
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
-    ${out}=    Execute Command    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
+    ${out}=    Execute Command In Terminal    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
     Should Contain    ${out}    Running
     Execute Shutdown Command
 
