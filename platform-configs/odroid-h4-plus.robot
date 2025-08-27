@@ -119,7 +119,6 @@ ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
 ${CUSTOM_BOOT_ORDER_SUPPORT}=                   ${TRUE}
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 ${HYPER_THREADING_SUPPORT}=                     ${TRUE}
-${INTEL_HYBRID_ARCH_SUPPORT}=                   ${TRUE}
 ${MEMORY_IBECC_SUPPORT}=                        ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=               ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
