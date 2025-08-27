@@ -21,9 +21,9 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
 Suite Teardown      Run Keywords
-...                     Log Out And Close Connection
-...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
+...                     AND
+...                     Log Out And Close Connection
 
 Default Tags        automated
 
