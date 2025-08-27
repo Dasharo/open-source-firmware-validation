@@ -18,7 +18,7 @@ Send File To DUT
             VAR    ${ip_address}=    localhost
             VAR    ${port}=    5222
         ELSE
-            Wait Until Keyword Succeeds    5x    10s
+            Wait Until Keyword Succeeds    5x    15s
             ...    Get Hostname Ip
             ${ip_address}=    Get Hostname Ip
             VAR    ${port}=    22
@@ -56,7 +56,7 @@ Get File From DUT
             VAR    ${ip_address}=    localhost
             VAR    ${port}=    5222
         ELSE
-            Wait Until Keyword Succeeds    5x    10s
+            Wait Until Keyword Succeeds    5x    15s
             ...    Get Hostname Ip
             ${ip_address}=    Get Hostname Ip
             VAR    ${port}=    22
@@ -91,7 +91,7 @@ Get Hostname Ip
 
 Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
-    Wait Until Keyword Succeeds    5x    10s
+    Wait Until Keyword Succeeds    5x    15s
     ...    Get Hostname Ip
     ${out}=    Execute Command In Terminal    ping -c 4 google-public-dns-a.google.com
     Should Contain    ${out}    , 0% packet loss
