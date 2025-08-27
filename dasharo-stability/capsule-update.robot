@@ -258,7 +258,6 @@ Perform Capsule Update And Return Status
     END
 
 Flash Firmware If Not QEMU
-    [Tags]    robot:private
     [Arguments]    ${logo_type}=custom
     Log To Console    PREPARE: Flashing Firmware
     IF    '${MANUFACTURER}' != 'QEMU'
@@ -287,7 +286,6 @@ Flash Firmware If Not QEMU
     END
 
 Check The Update Screen For The Correct UX
-    [Tags]    robot:private
     VAR    ${message}=
     ...    Please check the platform screen now, and verify that the UX is the
     ...    \ same as expected in the docs. Most importantly, the progress bar
@@ -298,7 +296,6 @@ Check The Update Screen For The Correct UX
     Execute Manual Step    ${message}
 
 Get Key To Press
-    [Tags]    robot:private
     [Arguments]    ${text}
     ${matches}=    Get Regexp Matches    ${text}    [0-9]
     VAR    ${digit}=    ${matches[0]}
@@ -306,7 +303,6 @@ Get Key To Press
     RETURN    ${digit}
 
 Extract BIOS Version
-    [Tags]    robot:private
     [Arguments]    ${text}
     ${lines}=    Split To Lines    ${text}
     VAR    ${bios_version}=    None
@@ -326,7 +322,6 @@ Extract BIOS Version
     RETURN    ${bios_version}
 
 Get BIOS Version
-    [Tags]    robot:private
     [Arguments]    ${label}
     ${out}=    Execute UEFI Shell Command    smbiosview -t 0
     ${bios_version}=    Extract BIOS Version    ${out}
@@ -334,14 +329,12 @@ Get BIOS Version
     RETURN    ${bios_version}
 
 Get BIOS Version Linux
-    [Tags]    robot:private
     [Arguments]    ${label}
     ${bios_version}=    Get Firmware Version From Dmidecode
     Log To Console    \n[${label}] ${bios_version}
     RETURN    ${bios_version}
 
 Upload Required Files
-    [Tags]    robot:private
     Log To Console    PREPARE: Upload Files
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
 
@@ -393,7 +386,6 @@ Upload Required Files
     END
 
 Perform Capsule Update
-    [Tags]    robot:private
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
@@ -433,7 +425,6 @@ Perform Capsule Update
     END
 
 Get File Name Without Extension
-    [Tags]    robot:private
     [Arguments]    ${file_path}
     ${path_components}=    Split String    ${file_path}    /
     ${base_name}=    Get From List    ${path_components}    -1
@@ -442,7 +433,6 @@ Get File Name Without Extension
     RETURN    ${result}
 
 Ensure Capsule Files Are Present
-    [Tags]    robot:private
     Variable Should Exist
     ...    ${CAPSULE_FW_FILE}
     ...    capsule_fw_file parameter missing. Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
@@ -464,7 +454,6 @@ Ensure Capsule Files Are Present
     END
 
 Enter Capsule Testing Folder
-    [Tags]    robot:private
     ${fss}=    Get FS From Uefi Shell
     FOR    ${fs}    IN    @{fss}
         Set Prompt For Terminal    ${fs}:\\>
@@ -480,13 +469,11 @@ Enter Capsule Testing Folder
     Set Prompt For Terminal    ${fs}:\\capsule_testing\\>
 
 Get FS From Uefi Shell
-    [Tags]    robot:private
     ${map}=    Execute UEFI Shell Command    map
     ${fss}=    Get Regexp Matches    ${map}    FS[0-9]{,2}
     RETURN    ${fss}
 
 Display Preparation Instructions
-    [Tags]    robot:private
     Log To Console    ******************************************************************************\n
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         Log To Console    To run tests first prepare a valid capsule file(*) and then use this capsule
@@ -545,7 +532,6 @@ Display Preparation Instructions
     END
 
 Prepare For Logo Persistence Test
-    [Tags]    robot:private
     Log To Console    PREPARE: Logo Persistence Test
     Run    cp ${FW_FILE} dcu/coreboot.rom
 
@@ -558,7 +544,6 @@ Prepare For Logo Persistence Test
     END
 
 Go To Linux Prompt
-    [Tags]    robot:private
     [Arguments]    ${os_id}
     Power On
     Boot System Or From Connected Disk    ${os_id}
@@ -569,7 +554,6 @@ Go To Linux Prompt
     Switch To Root User
 
 Go To Windows Prompt
-    [Tags]    robot:private
     Power On
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
@@ -577,7 +561,6 @@ Go To Windows Prompt
     Login To Windows
 
 Get System Values
-    [Tags]    robot:private
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Get Ubuntu System Values    ORIGINAL_SERIAL    ORIGINAL_UUID    ORIGINAL_LOGO_SHA256
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
@@ -587,7 +570,6 @@ Get System Values
     END
 
 Get Ubuntu System Values
-    [Tags]    robot:private
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
     ${serial}=    Get Firmware Serial Number
@@ -608,7 +590,6 @@ Get Ubuntu System Values
     END
 
 Get Windows System Values
-    [Tags]    robot:private
     [Arguments]    ${var_serial}    ${var_uuid}
 
     ${serial}=    Get Firmware Serial Number (Windows)
@@ -619,7 +600,6 @@ Get Windows System Values
 
 Prepare For ROMHOLE Persistence Test
     [Documentation]    This is a part which works only on MSI platforms.
-    [Tags]    robot:private
     Log To Console    PREPARE: ROMHOLE Persistence Test
 
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
@@ -629,7 +609,6 @@ Prepare For ROMHOLE Persistence Test
     END
 
 Get Firmware UUID (Windows)
-    [Tags]    robot:private
     ${uuid}=    Execute Command In Terminal    wmic path win32_computersystemproduct get UUID
     @{uuid}=    Split To Lines    ${uuid}
     VAR    ${var}=    ${uuid}[-1]
@@ -638,7 +617,6 @@ Get Firmware UUID (Windows)
     RETURN    ${var}
 
 Get Firmware Serial Number (Windows)
-    [Tags]    robot:private
     ${serial}=    Execute Command In Terminal    wmic bios get serialnumber
     @{serial}=    Split To Lines    ${serial}
     VAR    ${var}=    ${serial}[-1]
@@ -647,7 +625,6 @@ Get Firmware Serial Number (Windows)
 
 Get Capsule Update Logs
     [Documentation]    Gets the capsule update logs from CapsuleApp.efi -S
-    [Tags]    robot:private
     [Arguments]    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
@@ -677,7 +654,6 @@ Get Capsule Update Logs
 Mount USB
     [Documentation]    mounts the block device using udisksctl in linux
     ...    and returns the mountpoint
-    [Tags]    robot:private
     [Arguments]    ${block_dev}
     # doesn't matter if mounting fails, because its already mounted
     Execute Command In Terminal    udisksctl mount -b ${block_dev}
@@ -688,7 +664,6 @@ Mount USB
 Set Startup Nsh Variable
     [Documentation]    The variables that control the startup.nsh script
     ...    are written to files
-    [Tags]    robot:private
     [Arguments]    ${name}    ${value}    ${capsule_disk}
     ${variable_name}=    Convert To Upper Case    ${name}
     ${file_name}=    Convert To Lower Case    ${name}
