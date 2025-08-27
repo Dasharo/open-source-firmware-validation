@@ -94,7 +94,6 @@ Setup Fwupd Embargo Config Linux
     ...    Password=${password}
     ...    separator=${EMPTY}
 
-    Execute Command In Terminal    touch /etc/fwupd/remotes.d/3mdeb-embargo.conf
     Execute Command In Terminal    printf "${embargo_config}" > /etc/fwupd/remotes.d/3mdeb-embargo.conf
 
 Clean Up Fwupd Embargo Config Linux
