@@ -69,13 +69,12 @@ done
 
 
 exit_code=0
-i=0
-for code in "${statuses[@]}"; do
+for i in "${!statuses[@]}"; do
+    code=${statuses[$i]}
     if [[ "$code" -ne 0 ]]; then
         echo "Run ${i} failed with exit code ${code}. Check $LOGS_DIR/run_${i}.log for details."
         exit_code=1
     fi
-    (( i++))
 done
 
 exit $exit_code
