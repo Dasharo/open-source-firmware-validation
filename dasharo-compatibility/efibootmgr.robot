@@ -35,6 +35,12 @@ EBM001.201 Network Boot enable
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
     Set UEFI Option    NetworkBoot    ${TRUE}
+
+    IF    '${ENV_ID_FEDORA}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    ELSE IF    '${ENV_ID_UBUNTU}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    END
     Login To Linux
     Switch To Root User
 
@@ -49,6 +55,12 @@ EBM002.201 Network Boot disable
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
     Set UEFI Option    NetworkBoot    ${FALSE}
+
+    IF    '${ENV_ID_FEDORA}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    ELSE IF    '${ENV_ID_UBUNTU}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    END
     Login To Linux
     Switch To Root User
 
@@ -59,6 +71,13 @@ EBM003.201 Custom Boot Order Add
     [Documentation]    Test if adding a custom boot entry works.
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM003.001 not supported
 
+    Power On
+
+    IF    '${ENV_ID_FEDORA}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    ELSE IF    '${ENV_ID_UBUNTU}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    END
     Login To Linux
     Switch To Root User
 
@@ -81,9 +100,15 @@ EBM003.201 Custom Boot Order Add
 
     # Check if entry persists after reboot
     Execute Reboot Command
-    Sleep    10s
+
+    IF    '${ENV_ID_FEDORA}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    ELSE IF    '${ENV_ID_UBUNTU}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    END
     Login To Linux
     Switch To Root User
+
     ${out}=    Execute Command In Terminal    efibootmgr
     Should Contain    ${out}    ${TEST_BOOT_ENTRY_NAME}
 
@@ -91,6 +116,12 @@ EBM004.201 Custom Boot Order Remove
     [Documentation]    Test if removing a custom boot entry works.
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM004.001 not supported
 
+    Power On
+    IF    '${ENV_ID_FEDORA}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    ELSE IF    '${ENV_ID_UBUNTU}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    END
     Login To Linux
     Switch To Root User
 
@@ -102,7 +133,11 @@ EBM004.201 Custom Boot Order Remove
 
     # Check if entry stays removed after reboot
     Execute Reboot Command
-    Sleep    10s
+    IF    '${ENV_ID_FEDORA}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    ELSE IF    '${ENV_ID_UBUNTU}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    END
     Login To Linux
     Switch To Root User
 
@@ -113,7 +148,11 @@ EBM004.201 Custom Boot Order Remove
 *** Keywords ***
 Login And Remove Test Boot Entry
     Power Cycle On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    IF    '${ENV_ID_FEDORA}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    ELSE IF    '${ENV_ID_UBUNTU}' in ${TESTED_LINUX_DISTROS}
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    END
     Login To Linux
     Switch To Root User
     Remove Test Boot Entry Return Bootorder
