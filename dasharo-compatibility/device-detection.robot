@@ -21,6 +21,10 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${DEVICE_DETECT_TEST_IN_SCOPE}
 ...                     AND
+...                     Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'
+...                     AND
+...                     Skip If    '${DUT_CONNECTION_METHOD}' == 'telnet'
+...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
