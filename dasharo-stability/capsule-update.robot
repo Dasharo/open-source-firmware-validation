@@ -37,7 +37,6 @@ Suite Setup         Run Keywords
 ...                     Ensure Capsule Files Are Present    AND
 ...                     Prepare For Logo Persistence Test    AND
 ...                     Prepare For ROMHOLE Persistence Test    AND    # MSI Only
-...                     Flash Firmware If Not QEMU    AND
 ...                     Upload Required Files    AND
 ...                     Get System Values    AND
 ...                     Set UEFI Option    MeMode    Disabled (HAP)    AND
