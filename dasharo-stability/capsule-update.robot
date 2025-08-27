@@ -336,8 +336,14 @@ Get BIOS Version Linux
 
 Upload Required Files
     Log To Console    PREPARE: Upload Files
-    ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Upload Required Files Serial
+    ELSE
+        Upload Required Files SSH
+    END
 
+Upload Required Files Serial
+    ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Go To Linux Prompt    ${ENV_ID_UBUNTU}
         # Send File To DUT uses regular user, so prepare target directory in as root
@@ -385,6 +391,26 @@ Upload Required Files
         Fail    No Ubuntu nor Windows support.
     END
 
+Upload Required Files SSH
+    ${fw_filename}=    Get File Name Without Extension    ${FW_FILE}
+    ${caps_filename}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux
+    Switch To Root User
+    Send File To DUT    ${FW_FILE}    /root/${fw_filename}
+    Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
+    ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
+    Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
+    VAR    ${commands}=    pushd osfv;
+    ...    git submodule update --init --checkout;
+    ...    export FW_FILE=/root/${fw_filename};
+    ...    export CAPSULE_FW_FILE=/root/${caps_filename};
+    ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
+    ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
+    ...    popd;
+    Execute Command In Terminal    ${commands}
+    
 Perform Capsule Update
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
@@ -562,8 +588,10 @@ Go To Windows Prompt
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
+        Go To Linux Prompt    ${ENV_ID_UBUNTU}
         Get Ubuntu System Values    ORIGINAL_SERIAL    ORIGINAL_UUID    ORIGINAL_LOGO_SHA256
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
+        Go To Windows Prompt
         Get Windows System Values    ORIGINAL_SERIAL    ORIGINAL_UUID
     ELSE
         Fail    No Windows nor Ubuntu support available
