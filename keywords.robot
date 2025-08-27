@@ -700,7 +700,10 @@ Power Cycle On
         END
         Rte Psu On
     END
-    IF    '${DEFAULT_POWER_STATE_AFTER_FAIL}' == 'Powered Off'    Rte Power On
+    IF    '${DEFAULT_POWER_STATE_AFTER_FAIL}' == 'Powered Off'
+        Sleep    2s
+        Rte Power On
+    END
 
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         FOR    ${i}    IN RANGE    10
