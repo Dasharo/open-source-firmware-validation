@@ -25,7 +25,7 @@ ${POWER_CTRL}=                                      ${TBD}
 ${FLASH_VERIFY_METHOD}=                             ${TBD}
 ${WIFI_CARD}=                                       ${TBD}
 ${MAX_CPU_TEMP}=                                    ${TBD}
-${INTERNAL_PROGRAMMER_CHIPNAME}=                    "Opaque flash chip"
+${INTERNAL_PROGRAMMER_CHIPNAME}=                    Opaque flash chip
 ${FLASHING_METHOD}=                                 external
 ${SNIPEIT}=                                         yes
 ${SEABIOS_BOOT_DEVICE}=                             ${EMPTY}
@@ -406,18 +406,36 @@ ${DTS_TEST_VERSION_BASE}=                           v0.0.0
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 &{DTS_TEST_VERSIONS}=                               &{DTS_TEST_VERSIONS_BASE}
 # TEST_SYSTEM_MODEL, TEST_BOARD_MODEL, TEST_SYSTEM_VENDOR variables to export
-${DTS_TEST_SYSTEM_MODEL}=                           ${EMPTY}
 ${DTS_TEST_BOARD_MODEL}=                            ${EMPTY}
 ${DTS_TEST_SYSTEM_VENDOR}=                          ${EMPTY}
-${DTS_TEST_BIOS_VENDOR}=                            3mdeb
 ${DTS_TEST_HAS_EC}=                                 ${False}
 &{DTS_TEST_BASE_EXPORTS}=
-...                                                 TEST_SYSTEM_MODEL=${DTS_TEST_SYSTEM_MODEL}
+...                                                 DTS_TESTING=true
+...                                                 TEST_SYSTEM_MODEL=${DMIDECODE_PRODUCT_NAME}
 ...                                                 TEST_BOARD_MODEL=${DTS_TEST_BOARD_MODEL}
 ...                                                 TEST_SYSTEM_VENDOR=${DTS_TEST_SYSTEM_VENDOR}
-...                                                 TEST_BIOS_VENDOR=${DTS_TEST_BIOS_VENDOR}
-...                                                 DTS_TESTING=true
+...                                                 TEST_BIOS_VENDOR=${DMIDECODE_VENDOR}
+...                                                 TEST_CPU_VERSION=${CPU}
+...                                                 TEST_INTERNAL_PROGRAMMER_CHIPNAME=${INTERNAL_PROGRAMMER_CHIPNAME}
+...                                                 TEST_USING_OPENSOURCE_EC_FIRM=${{"true" if ${DTS_TEST_HAS_EC} else "false" }}
 &{DTS_TEST_EXPORTS}=                                &{DTS_TEST_BASE_EXPORTS}
+&{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}=
+...                                                 UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 SeaBIOS Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_EFI_PRESENT": "false", "TEST_IS_SEABIOS": "true"} }}
+...                                                 UEFI->Heads Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 SeaBIOS->UEFI Transition=&{{ {"TEST_IS_COREBOOT": "true", "TEST_EFI_PRESENT": "false", "TEST_IS_SEABIOS": "true"} }}
+...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                                 Initial Deployment=&{{ {"TEST_BIOS_VENDOR": "proprietary", "TEST_USING_OPENSOURCE_EC_FIRM": "false"} }}
+# dict[workflow, dict[variable, value]]
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=                   &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+# dict[tuple[workflow,release], dict[variable, value]]
+# Export variables per matching workflow and release
+# Used if e.g. DCR and DPP updates need different exports
+# Example usage:
+# &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
+# ...    ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false"] }}
+# ...    ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_FMAP_REGIONS": "BOOTSPLASH"] }}
+&{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=              &{EMPTY}
 # Possible values: check DTS_TEST_POSSIBLE_WORKFLOWS
 @{DTS_TEST_WORKFLOWS}=                              @{EMPTY}
 @{DTS_TEST_POSSIBLE_WORKFLOWS}=
@@ -439,6 +457,12 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 UEFI->Heads Transition=@{{["DPP"]}}
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=@{{["DPP"]}}
 ...                                                 Dasharo (Slim Bootloader+UEFI) Initial Deployment=@{{["DPP"]}}
+# List of workflows which require profile comparison in the format:
+# list[tuple[workflow, release]] e.g.:
+# @{DTS_TEST_WORKFLOW_PROFILES}=
+# ...    ${{ ("UEFI->Heads Transition", "DPP") }}
+# ...    ${{ ("UEFI Update", "DPP") }}
+@{DTS_TEST_WORKFLOW_PROFILES}=                      @{EMPTY}
 
 
 *** Keywords ***

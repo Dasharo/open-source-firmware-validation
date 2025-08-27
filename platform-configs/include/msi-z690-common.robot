@@ -118,6 +118,24 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 ${DTS_TEST_SYSTEM_VENDOR}=                      Micro-Star International Co., Ltd.
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update    UEFI->Heads Transition
 
+&{DTS_TEST_EXPORTS}=
+...                                             &{DTS_TEST_BASE_EXPORTS}
+...                                             TEST_BOARD_HAS_BOOTSPLASH=false
+...                                             TEST_VBOOT_KEYS=true
+...                                             TEST_FMAP_REGIONS=BOOTSPLASH
+...                                             TEST_SOUND_CARD_PRESENT=false
+...                                             TEST_BOARD_HAS_GBE_REGION=false
+
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=
+...                                             &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+...                                             UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
+...                                             UEFI->Heads Transition=&{{ { "TEST_IS_COREBOOT": "true", "TEST_ME_DISABLED": "false" } }}
+...                                             Initial Deployment=&{{ {"TEST_HCI_PRESENT": "true", "TEST_FMAP_REGIONS": ""} }}
+
+&{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
+...                                             ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false"} }}
+...                                             ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_ME_OP_MODE": "2", "TEST_ME_HAP_DISABLED": "true"} }}
+
 
 *** Keywords ***
 Power On

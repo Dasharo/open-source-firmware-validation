@@ -45,4 +45,3 @@ ${CACHEBENCH_TEST_SCORE}=               97428.4
 ${BLAKE2_TEST_SCORE}=                   3.51
 
 # DTS E2E variables
-${DTS_TEST_SYSTEM_MODEL}=               NS50_70MU
