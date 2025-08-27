@@ -173,7 +173,7 @@ CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.001 not supported
     Go To Linux Prompt    ${ENV_ID_UBUNTU}
-    Get System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
+    Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
 CUP250.001 Capsule Update Progress Bar - Default Logo
