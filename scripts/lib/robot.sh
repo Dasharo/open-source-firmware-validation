@@ -204,7 +204,7 @@ execute_robot() {
     fi
 
     if [ -n "${_REGRESSION_RUN}" ]; then
-      local _logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regresion_${RUN_DATE}"
+      local _logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}"
     else
       local _logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}${_test_scope_name}_${RUN_DATE}"
     fi
