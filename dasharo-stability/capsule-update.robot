@@ -122,7 +122,7 @@ CUP170.201 Verifying UUID (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_UUID
     IF    '${tmp}' == 'None'
         Go To Linux Prompt    ${ENV_ID_UBUNTU}
-        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -165,7 +165,7 @@ CUP180.001 Verifying Serial Number (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    '${tmp}' == 'None'
         Go To Linux Prompt    ${ENV_ID_UBUNTU}
-        Get Ubuntu System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
 
     Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
@@ -196,7 +196,7 @@ CUP190.001 Verifying If Custom Logo Persists Across updates (Ubuntu)
     ${tmp}=    Get Variable Value    $UPDATED_LOGO_SHA256
     IF    '${tmp}' == 'None'
         Go To Linux Prompt    ${ENV_ID_UBUNTU}
-        Get System Values    $UPDATED_SERIAL    $UPDATED_UUID    $UPDATED_LOGO_SHA256
+        Get System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
@@ -588,10 +588,10 @@ Get Ubuntu System Values
     [Tags]    robot:private
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
 
-    VAR    ${serial}=    Get Firmware Serial Number
+    ${serial}=    Get Firmware Serial Number
     VAR    ${${var_serial}}=    ${serial}    scope=SUITE
 
-    VAR    ${uuid}=    Get Firmware UUID
+    ${uuid}=    Get Firmware UUID
     VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
