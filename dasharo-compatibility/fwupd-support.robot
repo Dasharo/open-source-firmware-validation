@@ -100,8 +100,7 @@ Fwupd Devices Detected Linux
         Append To List    ${devices}    TPM
     END
 
-    Should Contain    ${out}
-    ...    @{devices}
+    Should Contain    ${out}    @{devices}
 
 Fwupd Local Firmware Update Linux
     ${cabinet_given}=    Run Keyword And Return Status
