@@ -525,22 +525,10 @@ Display Preparation Instructions
         Log To Console    To run tests:
         Log To Console    1. Prepare a valid capsule file(*) and set the environment variable
         Log To Console    \ \ \ CAPSULE_FW_FILE to the path to the capsule.
-        Log To Console    2. Generate invalid capsules required by the tests by running the script:
-        Log To Console    \ \ \ \ ./scripts/capsules/capsule_update_tests.sh $CAPSULE_FW_FILE
-        Log To Console    3. Prepare a flash drive with UEFI Shell and the capsule file using
-        Log To Console    using the script:
-        Log To Console    \ \ \ \ ./scripts/capsules/prepare_capsule_update_tests_drive.sh <block device>
-        Log To Console    4. Plug the flash drive into the DUT and run the tests:
+        Log To Console    2. Plug a USB flash drive into the DUT
+        Log To Console    3. Set ENV variable CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to the name of the bootentry that Dasharo UEFI gives this drive
+        Log To Console    4. Set ENV variable CAPSULE_UPDATE_DISK_MODEL to the name of the drive as in `/sys/block/sdX/device/model` (replace `sdX` with real device file name, like `sda`)
         Log To Console    \ \ \ \ scripts/run.sh dasharo-stability/capsule-update.robot
-        Log To Console    WARNING! MANUAL INTERVENTION MIGHT BE NEEDED\n
-        Log To Console    The suite flashes the firmware two times.\n
-        Log To Console    If the platform does not support serial connection, then on every\n
-        Log To Console    flash the boot order will be restored to the defaults.\n
-        Log To Console    If Windows is installed, it will always end up as the first boot entry\n
-        Log To Console    and break the tests.\n
-        Log To Console    \n
-        Log To Console    In that case the boot entry must be adjusted manually, so that\n
-        Log To Console    \${DEFAULT_BOOT_OS_ID} is the first boot entry, on every flashing.\n
         Log To Console    \n******************************************************************************
     END
 
