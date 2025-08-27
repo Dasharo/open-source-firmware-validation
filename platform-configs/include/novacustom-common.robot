@@ -151,6 +151,9 @@ ${DTS_TEST_SYSTEM_VENDOR}=                          Notebook
 # deploys EC in those cases
 @{DTS_TEST_WORKFLOWS}=                              Initial Deployment    UEFI Update
 @{DTS_TEST_DEFAULT_RELEASES}=                       DCR
+&{DTS_TEST_EXPORTS}=
+...                                                 &{DTS_TEST_BASE_EXPORTS}
+...                                                 TEST_AC_PRESENT=${TRUE}
 
 
 *** Keywords ***

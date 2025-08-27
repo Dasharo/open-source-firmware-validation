@@ -24,11 +24,8 @@ ${DEF_CPU}=                     2
 ${DRAM_SIZE}=                   ${16384}
 ${PLATFORM_RAM_SIZE}=           16384
 
-${DMIDECODE_PRODUCT_NAME}=      OptiPlex 9010
-${DMIDECODE_SERIAL_NUMBER}=     123456789
-${DMIDECODE_MANUFACTURER}=      Dell Inc.
+${DMIDECODE_PRODUCT_NAME}=      OptiPlex 7010
 
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 
 # DTS E2E variables
-${DTS_TEST_SYSTEM_MODEL}=       OptiPlex 7010
