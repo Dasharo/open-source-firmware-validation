@@ -63,84 +63,100 @@ ${platform} ${workflow} - ${release}
 
 ${platform} UEFI Update - DCR
     [Documentation]    Update workflow for Dasharo Community Release
-    Prepare E2E Test    ${platform}    UEFI Update
-    Go Through Update
-    Wait For Checkpoint    Rebooting
+    Prepare E2E Test
+    Go Through Update    skip_me=${TRUE}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} SeaBIOS Update - DCR
     [Documentation]    Update workflow for Dasharo Community Release
-    Prepare E2E Test    ${platform}    SeaBIOS Update
+    Prepare E2E Test
     Go Through Update
-    Wait For Checkpoint    Rebooting
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} Initial Deployment - DCR
     [Documentation]    Initial deployment workflow for Dasharo Community Release
-    Prepare E2E Test    ${platform}    Initial Deployment
-    Go Through Initial Deployment    DCR UEFI
-    Wait For Checkpoint    Rebooting
+    Prepare E2E Test
+    Go Through Initial Deployment    DCR UEFI    skip_me=${TRUE}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} UEFI Update - DPP
     [Documentation]    Update workflow with DPP credentials
-    Prepare E2E Test    ${platform}    UEFI Update
+    Prepare E2E Test
     Provide DPP Credentials
-    Go Through Update
-    Wait For Checkpoint    Rebooting
+    Go Through Update    skip_me=${TRUE}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} SeaBIOS Update - DPP
     [Documentation]    Update workflow with DPP credentials
-    Prepare E2E Test    ${platform}    SeaBIOS Update
+    Prepare E2E Test
     Provide DPP Credentials
     Go Through Update
-    Wait For Checkpoint    Rebooting
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} Initial Deployment - DPP
     [Documentation]    Initial deployment workflow with DPP credentials
-    Prepare E2E Test    ${platform}    Initial Deployment
+    Prepare E2E Test
     Provide DPP Credentials
-    Go Through Initial Deployment    DPP UEFI
-    Wait For Checkpoint    Rebooting
+    Go Through Initial Deployment    DPP UEFI    skip_me=${TRUE}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} UEFI->Heads Transition - DPP
     [Documentation]    Heads transition workflow with DPP credentials
-    Prepare E2E Test    ${platform}    UEFI->Heads Transition
+    Prepare E2E Test
     Provide DPP Credentials
-    Go Through Heads Transition
-    Wait For Checkpoint    Rebooting
+    Go Through Heads Transition    skip_me=${TRUE}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} SeaBIOS->UEFI Transition - DPP
     [Documentation]    Heads transition workflow with DPP credentials
-    Prepare E2E Test    ${platform}    SeaBIOS->UEFI Transition
+    Prepare E2E Test
     Provide DPP Credentials
     Go Through Transition    DPP UEFI
-    Wait For Checkpoint    Rebooting
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} Dasharo (coreboot+UEFI) To Dasharo (Slim Bootloader+UEFI) Transition - DPP
     [Documentation]    Transition to Dasharo (Slim) workflow with DPP credentials
-    Prepare E2E Test    ${platform}    Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
+    Prepare E2E Test
     Provide DPP Credentials
-    Go Through Transition    DPP Slim Bootloader + UEFI
-    Wait For Checkpoint    Rebooting
+    Go Through Transition    DPP Slim Bootloader + UEFI    skip_me=${TRUE}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 ${platform} Dasharo (Slim Bootloader+UEFI) Initial Deployment - DPP
     [Documentation]    Initial deployment workflow for Slim Bootloadere + UEFI
-    Prepare E2E Test    ${platform}    Dasharo (Slim Bootloader+UEFI) Initial Deployment
+    Prepare E2E Test
     Provide DPP Credentials
-    Go Through Initial Deployment    DPP Slim Bootloader + UEFI
+    Go Through Initial Deployment    DPP Slim Bootloader + UEFI    skip_me=${TRUE}
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
 
 Prepare E2E Test
     [Documentation]    Prepare everything needed for platform and workflow
     ...    emulation. Keyword has to be run in shell. After keyword ends we
     ...    should be in DTS menu
-    [Arguments]    ${platform}    ${workflow}
+    ${platform}=    Evaluate    '${TEST_NAME}'.split()[1]
+    ${release}=    Evaluate    '${TEST_NAME}'.split()[-1]
+    ${workflow}=    Evaluate    ' '.join('${TEST_NAME}'.split()[2:-2])
     # Verify if DTS_CONFIG_REF is set via `-v` argument
     Variable Should Exist    ${DTS_CONFIG_REF}
     Export Shell Variables For Emulation
     ...    ${workflow}
+    ...    ${release}
     ...    ${DTS_PLATFORM_VARIABLES}[${platform}]
     ...    ${DTS_CONFIG_REF}
     # TODO: needed by 'Go Through Initial Deployment' keyword for couple of
     # NovaCustom boards
     VAR    ${DTS_TEST_BOARD_MODEL}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_BOARD_MODEL]    scope=TEST
+    Execute Command In Terminal
+    ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs/*profile /tmp/dts-temp-files
     Write Into Terminal    dts-boot
 
 Prepare DTS Test
@@ -156,7 +172,31 @@ Teardown DTS Test
     # background
     SSHLibrary.Close Connection
     Set Prompt For Terminal    bash-5.2#
-    Execute Linux Command    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz
+    TRY
+        ${platform}=    Evaluate    '${TEST_NAME}'.split()[1]
+        ${release}=    Evaluate    '${TEST_NAME}'.split()[-1]
+        ${workflow}=    Evaluate    ' '.join('${TEST_NAME}'.split()[2:-2])
+        VAR    ${profiles}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_WORKFLOW_PROFILES]
+        ${verify_profile}=    Run Keyword And Return Status    List Should Contain Value
+        ...    ${profiles}    ${{ ("${workflow}", "${release}" ) }}
+        IF    ${verify_profile}
+            # strip 'E2Exxx: ' prefix from test name
+            ${profile_name}=    Evaluate    $TEST_NAME.split(":")[1].strip()
+            VAR    ${profile}=    ${CURDIR}/profiles/${profile_name}.profile
+            OperatingSystem.File Should Exist    ${profile}
+            IF    "${TEST_STATUS}" == "PASS"
+                Get File From DUT    /tmp/logs/profile    /tmp/robotframework-dts-profile
+                ${rc}    ${output}=    Run And Return Rc And Output
+                ...    diff -u1 /tmp/robotframework-dts-profile "${profile}"
+                Should Be Equal As Integers    ${rc}    0    Profiles are not identical!
+            END
+        ELSE
+            Log    Workflow isn't configured for profile verification.    WARN
+        END
+    FINALLY
+        Execute Command In Terminal
+        ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs /tmp/dts-temp-files
+    END
 
 Start New DTS SSH Session In QEMU
     [Documentation]    Changes connection method to ssh and logs in to DTS
@@ -183,6 +223,8 @@ Prepare DTS E2E Test Suite
     Skip If    not ${DTS_SUPPORT}
     &{dts_vars}=    Get DTS Test Variables
     VAR    ${DTS_PLATFORM_VARIABLES}=    ${dts_vars}    scope=SUITE
+    VAR    ${DEVICE_OS_USERNAME}=    root    scope=SUITE
+    VAR    ${DEVICE_OS_PASSWORD}=    ${EMPTY}    scope=SUITE
     Power On And Enter DTS Shell
     Set Prompt For Terminal    bash-5.2#
-    Execute Linux Command    systemctl start sshd
+    Execute Command In Terminal    systemctl start sshd

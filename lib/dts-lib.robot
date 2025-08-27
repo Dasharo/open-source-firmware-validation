@@ -66,7 +66,7 @@ Boot Dasharo Tools Suite Via IPXE Shell
     Set DUT Response Timeout    60s
 
     # 4) Try to boot via the link:
-    Write Bare Into Terminal    chain ${dts_chain_link}\n
+    Write Bare Into Terminal    chain ${dts_chain_link}\n    interval=0.2
     Set DUT Response Timeout    5m
     Read From Terminal Until    .cpio.gz...
     Read From Terminal Until    ok
@@ -299,8 +299,27 @@ Wait For Checkpoint And Press Enter
     [Arguments]    ${checkpoint}    ${regexp}=${FALSE}
     ${out}=    Wait For Checkpoint    ${checkpoint}    ${regexp}
     Sleep    1s
-    Write Bare Into Terminal    \r\n
+    Write Bare Into Terminal    ${ENTER}
     RETURN    ${out}
+
+Wait For ME Warning Or Reboot
+    [Documentation]    Helper keyword to deal with ME warning that shows up
+    ...    during multiple workflows
+    [Arguments]    ${skip_me}
+    ${checkpoint}=    Wait For Either Checkpoint
+    ...    ${DTS_ME_WARN}
+    ...    Rebooting
+    IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
+        IF    ${skip_me}
+            Write Into Terminal    Y
+            ${checkpoint2}=    Wait For Checkpoint    Rebooting in
+            VAR    ${checkpoint}=    ${checkpoint}    ${checkpoint2}    separator=\n
+        ELSE
+            Fail    Cannot update Intel ME
+        END
+    END
+
+    RETURN    ${checkpoint}
 
 Go Through Initial Deployment
     [Documentation]    This KW goes through standard Dasharo initial deployment
@@ -308,7 +327,7 @@ Go Through Initial Deployment
     ...    only thing which needs to be specified - the Dasharo version to
     ...    deploy (first argument), available versions: DCR UEFI, DPP UEFI, DPP
     ...    SeaBIOS.
-    [Arguments]    ${dasharo_version}
+    [Arguments]    ${dasharo_version}    ${skip_me}=${FALSE}
 
     IF    '${dasharo_version}' == 'DCR UEFI'
         VAR    ${opt}=    ${DTS_DCR_UEFI_OPT}
@@ -357,13 +376,16 @@ Go Through Initial Deployment
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
+    Wait For ME Warning Or Reboot    ${skip_me}
+    Wait For Checkpoint    Rebooting
+
 Go Through Transition
     [Documentation]    This KW goes through standard Dasharo Transition
     ...    choosing all needed menu options and answering all questions. The
     ...    only thing which needs to be specified - the Dasharo version to
     ...    transit to (first argument), available versions: DCR UEFI, DPP UEFI,
     ...    DPP SeaBIOS.
-    [Arguments]    ${dasharo_version}
+    [Arguments]    ${dasharo_version}    ${skip_me}=${FALSE}
     # 1) Select transition:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
 
@@ -388,6 +410,9 @@ Go Through Transition
     Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
 
+    Wait For ME Warning Or Reboot    ${skip_me}
+    Wait For Checkpoint    Rebooting
+
 Go Through Update
     [Documentation]    This KW goes through standard Dasharo update workflow
     ...    choosing all needed menu options and answering all questions.
@@ -407,21 +432,14 @@ Go Through Update
     END
     Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
     Set DUT Response Timeout    5m
-    ${dts_me_warn_escaped}=    Evaluate    re.escape("""${DTS_ME_WARN}""")
-    ${checkpoint}=    Wait For Checkpoint
-    ...    ${dts_me_warn_escaped}|Rebooting    regexp=${TRUE}
-    IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
-        IF    ${skip_me}
-            Write Into Terminal    Y
-            Wait For Checkpoint    Rebooting
-        ELSE
-            Fail    Cannot update Intel ME
-        END
-    END
+
+    Wait For ME Warning Or Reboot    ${skip_me}
+    Wait For Checkpoint    Rebooting
 
 Go Through Heads Transition
     [Documentation]    This KW goes through transition to Dasharo Heads choosing
     ...    all needed menu options and answering all questions.
+    [Arguments]    ${skip_me}=${FALSE}
     Set DUT Response Timeout    120s
     # 1) Start update:
     Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
@@ -433,39 +451,107 @@ Go Through Heads Transition
 
     Set DUT Response Timeout    5m
     # 3) Check for Heads firmware deployment success:
-    Wait For Checkpoint    Successfully switched to Dasharo Heads firmware
-    Wait For Checkpoint And Write    ${DTS_CONFIRM_CHECKPOINT}    1
+    ${checkpoint}=    Wait For Either Checkpoint
+    ...    ${DTS_ME_WARN}
+    ...    Successfully switched to Dasharo Heads firmware
+    IF    """${DTS_ME_WARN}""" in """${checkpoint}"""
+        IF    ${skip_me}
+            Write Into Terminal    Y
+            Wait For Checkpoint
+            ...    Successfully switched to Dasharo Heads firmware
+        ELSE
+            Fail    Cannot update Intel ME
+        END
+    END
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    Rebooting in
+    Wait For Checkpoint    Rebooting
 
 Export Shell Variables For Emulation
     [Documentation]    Export variables needed for this test
-    [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}=refs/heads/main
-    @{exports}=    Prepare Test Exports    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}
+    [Arguments]    ${workflow}
+    ...    ${release}
+    ...    ${dts_test_variables}
+    ...    ${dts_config_ref_value}=refs/heads/main
+    @{exports}=    Prepare Test Exports    ${workflow}    ${release}
+    ...    ${dts_test_variables}    ${dts_config_ref_value}
     FOR    ${export_string}    IN    @{exports}
-        Execute Command In Terminal    export ${export_string}
+        Execute Command In Terminal    ${export_string}
     END
 
 Prepare Test Exports
     [Documentation]    Create list with 'export VARIABLE=VALUE` strings.
-    [Arguments]    ${workflow}    ${dts_test_variables}    ${dts_config_ref_value}=refs/heads/main
+    [Arguments]    ${workflow}
+    ...    ${release}
+    ...    ${dts_test_variables}
+    ...    ${dts_config_ref_value}=refs/heads/main
     VAR    &{exports_dict}=    &{dts_test_variables}[DTS_TEST_EXPORTS]
-    Set To Dictionary    ${exports_dict}    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
-    Set To Dictionary    ${exports_dict}    DTS_CONFIG_REF=${dts_config_ref_value}
-    IF    "Initial Deployment" in "${workflow}"
-        Set To Dictionary    ${exports_dict}    TEST_BIOS_VENDOR=proprietary
-    ELSE
-        IF    ${dts_test_variables}[DTS_TEST_HAS_EC]
-            Set To Dictionary    ${exports_dict}    TEST_USING_OPENSOURCE_EC_FIRM=true
-        END
-    END
-    IF    "SeaBIOS Update" in "${workflow}" or "SeaBIOS->" in "${workflow}"
-        Set To Dictionary    ${exports_dict}    TEST_EFI_PRESENT=false
-        Set To Dictionary    ${exports_dict}    TEST_IS_SEABIOS=true
+
+    # Base exports for every workflow
+    VAR    &{exports}=    &{EMPTY}
+    Set To Dictionary    ${exports}
+    ...    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
+    ...    DTS_CONFIG_REF=${dts_config_ref_value}
+    FOR    ${export_variable}    ${export_value}    IN    &{exports_dict}
+        Set To Dictionary    ${exports}    ${export_variable}=${export_value}
     END
 
-    VAR    @{exports}=    @{EMPTY}
-    FOR    ${export_variable}    ${export_value}    IN    &{exports_dict}
-        Append To List    ${exports}
+    # Specific, per workflow exports
+    &{workflow_exports}=    Get From Dictionary
+    ...    ${dts_test_variables}[DTS_TEST_EXPORTS_PER_WORKFLOW]    ${workflow}
+    ...    default=&{EMPTY}
+    FOR    ${export_variable}    ${export_value}    IN    &{workflow_exports}
+        Set To Dictionary    ${exports}    ${export_variable}=${export_value}
+    END
+
+    # Most specific exports, per workflow & release version
+    &{full_workflow_exports}=    Get From Dictionary
+    ...    ${dts_test_variables}[DTS_TEST_EXPORTS_PER_FULL_WORKFLOW]
+    ...    ${{ ("${workflow}", "${release}") }}
+    ...    default=&{EMPTY}
+    FOR    ${export_variable}    ${export_value}    IN    &{full_workflow_exports}
+        Set To Dictionary    ${exports}    ${export_variable}=${export_value}
+    END
+
+    # Create list of export strings
+    VAR    @{export_strings}=    @{EMPTY}
+    FOR    ${export_variable}    ${export_value}    IN    &{exports}
+        Append To List    ${export_strings}
         ...    export ${export_variable}="${export_value}"
     END
 
-    RETURN    ${exports}
+    RETURN    ${export_strings}
+
+Are DPP Keys Defined
+    ${email}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_EMAIL
+    ${password}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $DPP_PASSWORD
+    ${status}=    Run Keyword And Return Status    Should Be True
+    ...    ${email} and ${password}
+    RETURN    ${status}
+
+Flash FW Automatically Or Manually
+    [Documentation]    Flash firmware automatically if it's possible and
+    ...    variable with name passed in fw_var exists
+    [Arguments]    ${fw_var}    ${msg}="Flash firmware"
+    ${variable_exists}=    Run Keyword And Return Status
+    ...    Variable Should Exist    \${${fw_var}}
+    # Without POWER_CTRL Flash Firmware will try to boot into Linux which won't
+    # work
+    IF    not ${variable_exists} or '''${POWER_CTRL}''' == '''none'''
+        Execute Manual Step While Freeing Serial Connection    ${msg}
+    ELSE
+        Flash Firmware    ${${fw_var}}
+        Power On
+        Set DUT Response Timeout    5m
+    END
+
+Execute Manual Step While Freeing Serial Connection
+    [Documentation]    In case you need to connect to DUT via serial to do
+    ...    manual steps. Arguments are the same as for 'Execute Manual Step'
+    [Arguments]    ${msg}
+    Telnet.Close All Connections
+    Execute Manual Step
+    ...    ${msg}. Make sure to close serial connection before continuing
+    Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}
