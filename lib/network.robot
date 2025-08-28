@@ -6,6 +6,10 @@ Library             SSHLibrary
 Resource            ../keywords.robot
 
 
+*** Variables ***
+${GET_IP_INTERVAL}=     30s
+
+
 *** Keywords ***
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
@@ -18,7 +22,7 @@ Send File To DUT
             VAR    ${ip_address}=    localhost
             VAR    ${port}=    5222
         ELSE
-            Wait Until Keyword Succeeds    5x    15s
+            Wait Until Keyword Succeeds    5x    ${GET_IP_INTERVAL}
             ...    Get Hostname Ip
             ${ip_address}=    Get Hostname Ip
             VAR    ${port}=    22
@@ -56,7 +60,7 @@ Get File From DUT
             VAR    ${ip_address}=    localhost
             VAR    ${port}=    5222
         ELSE
-            Wait Until Keyword Succeeds    5x    15s
+            Wait Until Keyword Succeeds    5x    ${GET_IP_INTERVAL}
             ...    Get Hostname Ip
             ${ip_address}=    Get Hostname Ip
             VAR    ${port}=    22
@@ -91,7 +95,7 @@ Get Hostname Ip
 
 Check Internet Connection On Linux
     [Documentation]    Check internet connection on Linux.
-    Wait Until Keyword Succeeds    5x    15s
+    Wait Until Keyword Succeeds    5x    ${GET_IP_INTERVAL}
     ...    Get Hostname Ip
     ${out}=    Execute Command In Terminal    ping -c 4 google-public-dns-a.google.com
     Should Contain    ${out}    , 0% packet loss
