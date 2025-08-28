@@ -42,8 +42,8 @@ ${USB_DEVICE}=                      SanDisk
 @{ATTACHED_USB}=                    SanDisk
 
 ${ESP_SCANNING_SUPPORT}=            ${TRUE}
-@{ETH_PORTS}=                       00-e0-97-1b-95-25
-...                                 00-e0-97-1b-95-26
+@{ETH_PORTS}=                       64-62-66-25-05-61
+...                                 64-62-66-25-05-62
 
 @{ETH_PERF_PAIR_2_G}=               enp3s0    enp4s0
 
