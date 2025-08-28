@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-RUN_DATE="$(date +%Y_%m_%d_%H_%M_%S)"
+RUN_DATE="${RUN_DATE:-$(date '+%Y_%m_%d_%H_%M_%S')}"
 
 if [[ -z $LOGS_DIR ]]; then
   LOGS_DIR="logs"
