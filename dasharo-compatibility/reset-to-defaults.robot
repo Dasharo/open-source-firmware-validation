@@ -242,6 +242,8 @@ RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     ...    Suspend to Idle
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD013.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD013.001 not supported
+    Check If Platform Sleep Type Can Be Selected
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    RTD013.201 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
