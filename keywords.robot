@@ -1544,3 +1544,13 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
+
+Deploy Uefi Shell
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/Shell.efi    /tmp/Shell.efi
+    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/deploy-shell-efi.sh    /tmp/deploy-shell-efi.sh
+    Execute Command In Terminal    /tmp/deploy-shell-efi.sh /tmp/Shell.efi
+    Execute Command In Terminal    sync

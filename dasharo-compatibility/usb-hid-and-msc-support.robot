@@ -42,6 +42,7 @@ USB002.001 USB keyboard detected in FW
     [Tags]    automated    minimal-regression
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
+    Deploy Uefi Shell
     Power On
     Enter UEFI Shell
     ${out}=    Execute UEFI Shell Command    devices
