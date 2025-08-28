@@ -220,6 +220,8 @@ RTD011.001 F9 resets Watchdog timeout value to 500
 RTD012.001 F9 resets Fan profile to Silent
     [Documentation]    Check whether pressing F9 resets Fan profile to Silent
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD012.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    RTD012.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    RTD012.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD012.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
