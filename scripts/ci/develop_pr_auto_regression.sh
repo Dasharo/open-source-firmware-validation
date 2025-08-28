@@ -72,7 +72,8 @@ exit_code=0
 for i in "${!statuses[@]}"; do
     code=${statuses[$i]}
     if [[ "$code" -ne 0 ]]; then
-        echo "Run ${i} failed with exit code ${code}. Check $LOGS_DIR/run_${i}.log for details."
+        echo "Run ${i} failed with exit code ${code}."
+        cat "$LOGS_DIR/run_${i}.log"
         exit_code=1
     fi
 done
