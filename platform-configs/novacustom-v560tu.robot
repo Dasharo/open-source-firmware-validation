@@ -38,18 +38,35 @@ ${CRAY_4_K_RENDER}=                     1349.461    # sec
 ${CRAY_1080_P_RENDER}=                  308.289    # sec
 ${COREMARK_SINGLE}=                     92891.774    # iterations/s
 
-
 # cpu performance Windows
 # reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
-&{UPP_SMALLPT_BENCHMARK}    name=smallpt    score=19.02    scale=lower_is_better    dev=0.2    type=singlecore
+&{UPP_SMALLPT_BENCHMARK}=
+...                                     name=smallpt
+...                                     score=19.02
+...                                     scale=lower_is_better
+...                                     dev=0.2
+...                                     type=singlecore
 # reference score for 155H from https://openbenchmarking.org/test/pts/crafty
-&{UPP_CRAFTY_BENCHMARK}    name=crafty    score=10919999    scale=higher_is_better    dev=0.2    type=singlecore
-# reference score for 155H from https://openbenchmarking.org/result/2508217-NE-AAAAAAA9714    
-&{UPP_CACHEBENCH_BENCHMARK}    name=cachebench    score=106987    scale=higher_is_better    dev=0.2    type=multicore
-# reference score for 155H from  https://openbenchmarking.org/result/2508292-NE-20250829131
-&{UPP_BLAKE2_BENCHMARK}    name=blake2    score=4.06    scale=lower_is_better    dev=0.2   type=multicore
-@{UPP_BENCHMARKS}=    &{UPP_SMALLPT_BENCHMARK}    &{UPP_CRAFTY_BENCHMARK}    &{UPP_CACHEBENCH_BENCHMARK}    &{UPP_BLAKE2_BENCHMARK}
-
+&{UPP_CRAFTY_BENCHMARK}=
+...                                     name=crafty
+...                                     score=10919999
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=singlecore
+# reference score for 155H from https://openbenchmarking.org/result/2508217-NE-AAAAAAA9714
+&{UPP_CACHEBENCH_BENCHMARK}=
+...                                     name=cachebench
+...                                     score=106987
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=multicore
+# reference score for 155H from    https://openbenchmarking.org/result/2508292-NE-20250829131
+&{UPP_BLAKE2_BENCHMARK}=                name=blake2    score=4.06    scale=lower_is_better    dev=0.2    type=multicore
+@{UPP_BENCHMARKS}=
+...                                     &{UPP_SMALLPT_BENCHMARK}
+...                                     &{UPP_CRAFTY_BENCHMARK}
+...                                     &{UPP_CACHEBENCH_BENCHMARK}
+...                                     &{UPP_BLAKE2_BENCHMARK}
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                 5953.5    # MB/s

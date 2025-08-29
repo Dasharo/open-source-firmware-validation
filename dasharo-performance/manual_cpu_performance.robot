@@ -22,7 +22,7 @@ Default Tags    semiauto
 
 
 *** Variables ***
-${DEVIATION}=        0.2
+${DEVIATION}=       0.2
 
 
 *** Test Cases ***
@@ -53,7 +53,7 @@ Run Supported Benchmarks
     [Arguments]    ${target_type}    # singlecore / multicore
 
     VAR    ${any_failed}=    ${FALSE}
-    ${errors}=    Create List
+    VAR    @{errors}=    @{EMPTY}
     FOR    ${benchmark_dict}    IN    @{UPP_BENCHMARKS}
         ${type}=    Get From Dictionary    ${benchmark_dict}    type
         IF    '${type}' == '${target_type}'
@@ -104,10 +104,10 @@ Run A Test Manually
         VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
         ...    is over ${deviation_percent}% better than reference value: ${ref_score}
         Log    ${msg}    WARN
-        RETURN    ${TRUE}    ${msg}  
+        RETURN    ${TRUE}    ${msg}
     ELSE IF    ${fail_condition}
         VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
-        ...    is over ${deviation_percent}% worse then the reference value: ${ref_score}  
+        ...    is over ${deviation_percent}% worse then the reference value: ${ref_score}
         Log    ${msg}    ERROR
         RETURN    ${FALSE}    ${msg}
     END
@@ -115,7 +115,6 @@ Run A Test Manually
     ...    is acceptable for reference value of ${ref_score}
     Log    ${msg}    CONSOLE
     RETURN    ${TRUE}    ${msg}
-    
 
 Detect Or Install Phoronix Test Suite On Windows
     [Documentation]    Detecting Or Installing Phoronix Test Suite On Windows
@@ -141,10 +140,10 @@ Detect Or Install Phoronix Test Suite On Windows
 
 Install Phoronix On Windows Manually
     [Documentation]    Installing Phoronix On Windows Manually
-    ${TESTS}=    Create List
-    FOR    ${benchmark}    IN     @{UPP_BENCHMARKS}
+    VAR    @{tests}=    @{EMPTY}
+    FOR    ${benchmark}    IN    @{UPP_BENCHMARKS}
         ${name}=    Get From Dictionary    ${benchmark}    name
-        Append To List    ${TESTS}    ${name}
+        Append To List    ${tests}    ${name}
     END
     Log To Console    Command: Test-Path "C:\\phoronix-test-suite\\phoronix-test-suite.bat"
     Execute Manual Step
@@ -171,25 +170,25 @@ Install Phoronix On Windows Manually
     Log To Console    Command: .\\phoronix-test-suite
     Execute Manual Step
     ...    Installation [7/14] Execute command in terminal: ${\n}.\\phoronix-test-suite - this may take a long time to execute
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[0]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[0]
     Execute Manual Step
-    ...    Installation [8/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[0]
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[1]
+    ...    Installation [8/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[0]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[1]
     Execute Manual Step
-    ...    Installation [9/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[1]
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[2]
+    ...    Installation [9/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[1]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[2]
     Execute Manual Step
-    ...    Installation [10/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[2]
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[3]
+    ...    Installation [10/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[2]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[3]
     Execute Manual Step
-    ...    Installation [11/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[3]
+    ...    Installation [11/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[3]
     Log To Console    Command: .\\phoronix-test-suite list-installed-tests
     Execute Manual Step
     ...    Installation [13/14] Execute command in terminal: ${\n}.\\phoronix-test-suite list-installed-tests
     ${out}=    Get Selections From User    [14/14] Output should contain:
-    ...    @{TESTS}
+    ...    @{tests}
 
-    IF    ${TESTS} != ${out}    Fail    Not all tests installed
+    IF    ${tests} != ${out}    Fail    Not all tests installed
 
 Setup Phoronix Batch Mode
     [Documentation]    Configure batch mode required for more automated tests.

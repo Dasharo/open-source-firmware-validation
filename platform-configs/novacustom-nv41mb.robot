@@ -24,11 +24,24 @@ ${NVIDIA_GRAPHICS_CARD_SUPPORT}=    ${TRUE}
 ${OPTIONS_LIB}=                     options-lib_dcu
 
 # cpu performance Windows
-&{UPP_SMALLPT_BENCHMARK}    name=smallpt    score=35.376    scale=lower_is_better    dev=0.2    type=singlecore
-&{UPP_CRAFTY_BENCHMARK}    name=crafty    score=9224291    scale=higher_is_better    dev=0.2    type=singlecore
-&{UPP_CACHEBENCH_BENCHMARK}    name=cachebench    score=104565.1    scale=higher_is_better    dev=0.2    type=multicore
-&{UPP_BLAKE2_BENCHMARK}    name=blake2    score=3.64    scale=lower_is_better    dev=0.2   type=multicore
-@{UPP_BENCHMARKS}=    &{UPP_SMALLPT_BENCHMARK}    &{UPP_CRAFTY_BENCHMARK}    &{UPP_CACHEBENCH_BENCHMARK}    &{UPP_BLAKE2_BENCHMARK}
-
+&{UPP_SMALLPT_BENCHMARK}=           name=smallpt    score=35.376    scale=lower_is_better    dev=0.2    type=singlecore
+&{UPP_CRAFTY_BENCHMARK}=
+...                                 name=crafty
+...                                 score=9224291
+...                                 scale=higher_is_better
+...                                 dev=0.2
+...                                 type=singlecore
+&{UPP_CACHEBENCH_BENCHMARK}=
+...                                 name=cachebench
+...                                 score=104565.1
+...                                 scale=higher_is_better
+...                                 dev=0.2
+...                                 type=multicore
+&{UPP_BLAKE2_BENCHMARK}=            name=blake2    score=3.64    scale=lower_is_better    dev=0.2    type=multicore
+@{UPP_BENCHMARKS}=
+...                                 &{UPP_SMALLPT_BENCHMARK}
+...                                 &{UPP_CRAFTY_BENCHMARK}
+...                                 &{UPP_CACHEBENCH_BENCHMARK}
+...                                 &{UPP_BLAKE2_BENCHMARK}
 
 # DTS E2E variables

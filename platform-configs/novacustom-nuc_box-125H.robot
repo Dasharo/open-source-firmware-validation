@@ -29,11 +29,30 @@ ${CRAY_1080_P_RENDER}=                  80.547    # sec
 ${COREMARK_SINGLE}=                     407451.446    # iterations/s
 
 # cpu performance Windows
-&{UPP_SMALLPT_BENCHMARK}    name=smallpt    score=12.454    scale=lower_is_better    dev=0.2    type=singlecore
-&{UPP_CRAFTY_BENCHMARK}    name=crafty    score=9289333    scale=higher_is_better    dev=0.2    type=singlecore
-&{UPP_CACHEBENCH_BENCHMARK}    name=cachebench    score=108463.4    scale=higher_is_better    dev=0.2    type=multicore
-&{UPP_BLAKE2_BENCHMARK}    name=blake2    score=4.08    scale=lower_is_better    dev=0.2   type=multicore
-@{UPP_BENCHMARKS}=    &{UPP_SMALLPT_BENCHMARK}    &{UPP_CRAFTY_BENCHMARK}    &{UPP_CACHEBENCH_BENCHMARK}    &{UPP_BLAKE2_BENCHMARK}
+&{UPP_SMALLPT_BENCHMARK}=
+...                                     name=smallpt
+...                                     score=12.454
+...                                     scale=lower_is_better
+...                                     dev=0.2
+...                                     type=singlecore
+&{UPP_CRAFTY_BENCHMARK}=
+...                                     name=crafty
+...                                     score=9289333
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=singlecore
+&{UPP_CACHEBENCH_BENCHMARK}=
+...                                     name=cachebench
+...                                     score=108463.4
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=multicore
+&{UPP_BLAKE2_BENCHMARK}=                name=blake2    score=4.08    scale=lower_is_better    dev=0.2    type=multicore
+@{UPP_BENCHMARKS}=
+...                                     &{UPP_SMALLPT_BENCHMARK}
+...                                     &{UPP_CRAFTY_BENCHMARK}
+...                                     &{UPP_CACHEBENCH_BENCHMARK}
+...                                     &{UPP_BLAKE2_BENCHMARK}
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                 4677    # MB/s

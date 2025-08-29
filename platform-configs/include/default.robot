@@ -234,8 +234,11 @@ ${MAX_ACCEPTABLE_REBOOT_TIME_STD_DEV_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_S}=                    20
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${FALSE}
 
-@{UPP_BENCHMARKS}=                                  @{EMPTY}
-
+@{UPP_BENCHMARKS}=                                  ${TBD}
+&{UPP_BLAKE2_BENCHMARK}=                            &{EMPTY}
+&{UPP_CACHEBENCH_BENCHMARK}=                        &{EMPTY}
+&{UPP_CRAFTY_BENCHMARK}=                            &{EMPTY}
+&{UPP_SMALLPT_BENCHMARK}=                           &{EMPTY}
 
 # Test module: dasharo-stab
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
