@@ -52,11 +52,25 @@ Run Supported Benchmarks
     [Documentation]    Runs all benchmarks by the given type
     [Arguments]    ${target_type}    # singlecore / multicore
 
+    VAR    ${any_failed}=    ${FALSE}
+    ${errors}=    Create List
     FOR    ${benchmark_dict}    IN    @{UPP_BENCHMARKS}
         ${type}=    Get From Dictionary    ${benchmark_dict}    type
         IF    '${type}' == '${target_type}'
-            Run A Test Manually    ${benchmark_dict}
+            ${result}    ${msg}=    Run A Test Manually    ${benchmark_dict}
+            IF    not $result
+                VAR    ${any_failed}=    ${TRUE}
+                Append To List    ${errors}    ${msg}
+            END
         END
+    END
+
+    IF    ${any_failed}
+        Log    Some benchmarks have failed:    ERROR
+        FOR    ${msg}    IN    @{errors}
+            Log    ${msg}    ERROR
+        END
+        Fail    Some benchmarks have failed
     END
 
 Run A Test Manually
@@ -87,12 +101,20 @@ Run A Test Manually
     END
 
     IF    ${too_good_condition}
-        Log To Console    The measured score of ${benchmark_score} is over ${deviation_percent}% better than reference value: ${ref_score}    WARN
+        VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+        ...    is over ${deviation_percent}% better than reference value: ${ref_score}
+        Log    ${msg}    WARN
+        RETURN    ${TRUE}    ${msg}  
     ELSE IF    ${fail_condition}
-        Fail    The measured score of ${benchmark_score} is over ${deviation_percent}% worse then the reference value: ${ref_score}
-    ELSE
-        Log To Console    The measured score of ${benchmark_score} is acceptable for reference value of ${ref_score}
+        VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+        ...    is over ${deviation_percent}% worse then the reference value: ${ref_score}  
+        Log    ${msg}    ERROR
+        RETURN    ${FALSE}    ${msg}
     END
+    VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+    ...    is acceptable for reference value of ${ref_score}
+    Log    ${msg}    CONSOLE
+    RETURN    ${TRUE}    ${msg}
     
 
 Detect Or Install Phoronix Test Suite On Windows
