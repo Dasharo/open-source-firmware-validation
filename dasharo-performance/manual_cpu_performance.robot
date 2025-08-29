@@ -11,7 +11,7 @@ Resource        ../keys.robot
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
 ...                 AND
-...                 Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
+...                 Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Tests in Windows not supported
 ...                 AND
 ...                 Pause Execution    It is advised to run this test via Powershell by ssh
 ...                 AND
@@ -28,7 +28,6 @@ ${DEVIATION}=        0.2
 *** Test Cases ***
 UPP001.301 Manual Single Threaded CPU Benchmark (Windows) (AC)
     [Documentation]    tbd you can do this test in ssh terminal
-    # Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UPP001.301 not supported
     Pause Execution
     ...    This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
     Execute Manual Step    Single Threaded [1/8] Power on the DUT
@@ -39,7 +38,6 @@ UPP001.301 Manual Single Threaded CPU Benchmark (Windows) (AC)
 
 UPP002.301 Manual Multi Threaded CPU Benchmark (Windows) (AC)
     [Documentation]    tbd you can do this test in ssh terminal
-    # Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UPP001.302 not supported
     Pause Execution
     ...    This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
     Execute Manual Step    [1/8] Power on the DUT
