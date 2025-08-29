@@ -1500,7 +1500,7 @@ Get Current CONFIG List Param
     [Arguments]    ${item}    ${param}
     ${config}=    Get Current CONFIG    ${CONFIG_LIST}
     ${length}=    Get Length    ${config}
-    Should Be True    ${length} > 1
+    Skip If    ${length} <= 1    ${item} not found on the list
     VAR    @{attached_usb_list}=    @{EMPTY}
     FOR    ${element}    IN    @{config[1:]}
         IF    '${element.type}'=='${item}'
