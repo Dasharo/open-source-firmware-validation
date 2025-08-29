@@ -40,10 +40,14 @@ ${COREMARK_SINGLE}=                     92891.774    # iterations/s
 
 
 # cpu performance Windows
-&{UPP_SMALLPT_BENCHMARK}    name=smallpt    score=14.876    scale=lower_is_better    dev=0.2    type=singlecore
-&{UPP_CRAFTY_BENCHMARK}    name=crafty    score=10237829    scale=higher_is_better    dev=0.2    type=singlecore
-&{UPP_CACHEBENCH_BENCHMARK}    name=cachebench    score=125588.2    scale=higher_is_better    dev=0.2    type=multicore
-&{UPP_BLAKE2_BENCHMARK}    name=blake2    score=4.08    scale=lower_is_better    dev=0.2   type=multicore
+# reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
+&{UPP_SMALLPT_BENCHMARK}    name=smallpt    score=19.02    scale=lower_is_better    dev=0.2    type=singlecore
+# reference score for 155H from https://openbenchmarking.org/test/pts/crafty
+&{UPP_CRAFTY_BENCHMARK}    name=crafty    score=10919999    scale=higher_is_better    dev=0.2    type=singlecore
+# reference score for 155H from https://openbenchmarking.org/result/2508217-NE-AAAAAAA9714    
+&{UPP_CACHEBENCH_BENCHMARK}    name=cachebench    score=106987    scale=higher_is_better    dev=0.2    type=multicore
+# reference score for 155H from  https://openbenchmarking.org/result/2508292-NE-20250829131
+&{UPP_BLAKE2_BENCHMARK}    name=blake2    score=4.06    scale=lower_is_better    dev=0.2   type=multicore
 @{UPP_BENCHMARKS}=    &{UPP_SMALLPT_BENCHMARK}    &{UPP_CRAFTY_BENCHMARK}    &{UPP_CACHEBENCH_BENCHMARK}    &{UPP_BLAKE2_BENCHMARK}
 
 
