@@ -201,7 +201,7 @@ Setup Phoronix Batch Mode
     Execute Manual Step
     ...    Batch setup [3/8]${\n}Open the web browser automatically when in batch mode (y/N):${\n}Execute command in terminal: n
     Execute Manual Step
-    ...    Batch setup [4/8]${\n}Auto upload the results to OpenBenchmarking.org (Y/n):${\n}Execute command in terminal: n
+    ...    Batch setup [4/8]${\n}Auto upload the results to OpenBenchmarking.org (Y/n):${\n}Execute command in terminal: y
     Execute Manual Step
     ...    Batch setup [5/8]${\n}Prompt for test identifier (Y/n):${\n}Execute command in terminal: n
     Execute Manual Step
