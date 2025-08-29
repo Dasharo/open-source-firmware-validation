@@ -38,11 +38,14 @@ ${CRAY_4_K_RENDER}=                     1349.461    # sec
 ${CRAY_1080_P_RENDER}=                  308.289    # sec
 ${COREMARK_SINGLE}=                     92891.774    # iterations/s
 
-# cpu performance Windows for processor ultra 5 125H
-${SMALLPT_TEST_SCORE}=                  14.876
-${CRAFTY_TEST_SCORE}=                   10237829
-${CACHEBENCH_TEST_SCORE}=               125588.2
-${BLAKE2_TEST_SCORE}=                   4.08
+
+# cpu performance Windows
+&{UPP_SMALLPT_BENCHMARK}    name=smallpt    score=14.876    scale=lower_is_better    dev=0.2    type=singlecore
+&{UPP_CRAFTY_BENCHMARK}    name=crafty    score=10237829    scale=higher_is_better    dev=0.2    type=singlecore
+&{UPP_CACHEBENCH_BENCHMARK}    name=cachebench    score=125588.2    scale=higher_is_better    dev=0.2    type=multicore
+&{UPP_BLAKE2_BENCHMARK}    name=blake2    score=4.08    scale=lower_is_better    dev=0.2   type=multicore
+@{UPP_BENCHMARKS}=    &{UPP_SMALLPT_BENCHMARK}    &{UPP_CRAFTY_BENCHMARK}    &{UPP_CACHEBENCH_BENCHMARK}    &{UPP_BLAKE2_BENCHMARK}
+
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                 5953.5    # MB/s

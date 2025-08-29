@@ -47,10 +47,11 @@ ${CRAY_1080_P_RENDER}=                          90.8    # sec
 ${COREMARK_SINGLE}=                             400079.5    # iterations/s
 
 # cpu performance Windows
-${SMALLPT_TEST_SCORE}=                          20.895
-${CRAFTY_TEST_SCORE}=                           5562941
-${CACHEBENCH_TEST_SCORE}=                       73323.8
-${BLAKE2_TEST_SCORE}=                           4.06
+&{UPP_SMALLPT_BENCHMARK}    name=smallpt    score=20.895    scale=lower_is_better    dev=0.2    type=singlecore
+&{UPP_CRAFTY_BENCHMARK}    name=crafty    score=5562941    scale=higher_is_better    dev=0.2    type=singlecore
+&{UPP_CACHEBENCH_BENCHMARK}    name=cachebench    score=73323.8    scale=higher_is_better    dev=0.2    type=multicore
+&{UPP_BLAKE2_BENCHMARK}    name=blake2    score=4.06    scale=lower_is_better    dev=0.2   type=multicore
+@{UPP_BENCHMARKS}=    &{UPP_SMALLPT_BENCHMARK}    &{UPP_CRAFTY_BENCHMARK}    &{UPP_CACHEBENCH_BENCHMARK}    &{UPP_BLAKE2_BENCHMARK}
 
 # disk i-o
 ${UBU_SEQ_READ_QUEUED}=                         4677    # MB/s
