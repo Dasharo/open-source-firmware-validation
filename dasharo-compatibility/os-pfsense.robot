@@ -14,13 +14,11 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_LINUX_DISTROS}    pfSense tests not supported
+...                     Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}    pfSense tests not supported
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword
 ...                     Restore Initial DUT Connection Method
-
-Default Tags        semiauto
 
 
 *** Test Cases ***
@@ -29,6 +27,7 @@ PFS001.502 Install operating system on disk (pfSense)
     ...    USB stick on disk. Refer to test case PFS006.502 for preseed.
     ...
     ...    Previous IDs: PFS001.001
+    [Tags]    semiauto
     Power On
     Boot PfSense Installer
     VAR    ${installer_message}=
@@ -39,8 +38,6 @@ PFS001.502 Install operating system on disk (pfSense)
 
 PFS002.502 Boot operating system from disk (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk.
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
     ...
     ...    Previous IDs: PFS001.002
     Power On
@@ -48,8 +45,6 @@ PFS002.502 Boot operating system from disk (pfSense)
 
 PFS003.502 Boot operating system from disk after cold-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after cold-boot
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
     ...
     ...    Previous IDs: BPS001.001
     VAR    @{supported_power_ctrls}=    RteCtrl    sonoff
@@ -63,8 +58,6 @@ PFS003.502 Boot operating system from disk after cold-boot (pfSense)
 
 PFS004.502 Boot operating system from disk after warm-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after warm-boot
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
     ...
     ...    Previous IDs: BPS002.001
     Power On
@@ -80,8 +73,6 @@ PFS004.502 Boot operating system from disk after warm-boot (pfSense)
 
 PFS005.502 Boot operating system from disk after reboot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after reboot
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
     ...
     ...    Previous IDs: BPS003.001
     Power On
@@ -99,6 +90,7 @@ PFS006.502 Preseed operating system installer (pfSense)
     ...    pfSense installer to PFEFI.
     ...    This test depends on semi-manual OS installatio media preparation,
     ...    thus it's marked as semiauto.
+    [Tags]    semiauto
     VAR    ${pfefi_message}=
     ...    Rename ESP partition of pfSense
     ...    serial installer to PFEFI.\nOn Linux: (sudo) fatlabel /dev/sdX1
@@ -127,8 +119,6 @@ PFS006.502 Preseed operating system installer (pfSense)
 
 PFS007.502 Boot operating system installer into rescue shell (pfSense)
     [Documentation]    Boot installer into rescue shell.
-    ...    This test depends on semi-manual OS installatio media preparation,
-    ...    thus it's marked as semiauto.
     Power On
     Boot PfSense Installer
     Enter PfSense Rescue Shell

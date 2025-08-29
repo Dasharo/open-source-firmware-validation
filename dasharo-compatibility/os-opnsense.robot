@@ -14,13 +14,11 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    '${ENV_ID_OPNSENSE}' not in ${TESTED_LINUX_DISTROS}    OPNsense tests not supported
+...                     Skip If    '${ENV_ID_OPNSENSE}' not in ${TESTED_BSD_DISTROS}    OPNsense tests not supported
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword
 ...                     Restore Initial DUT Connection Method
-
-Default Tags        semiauto
 
 
 *** Test Cases ***
@@ -32,6 +30,7 @@ OPN001.503 Install operating system on disk (OPNsense)
     ...    modification.
     ...
     ...    Previous IDs: OPN001.001
+    [Tags]    semiauto
     Power On
     Boot OPNsense Installer
     VAR    ${installer_message}=
@@ -43,16 +42,13 @@ OPN001.503 Install operating system on disk (OPNsense)
 
 OPN002.503 Boot operating system from disk (OPNsense)
     [Documentation]    Boot OPNsense (serial output) from disk.
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
+    ...
     ...    Previous IDs: OPN001.002
     Power On
     Boot OPNsense
 
 OPN003.503 Boot operating system from disk after cold-boot (OPNsense)
     [Documentation]    Boot OPNsense (serial output) from disk after cold-boot
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
     ...
     ...    Previous IDs: BOS001.001
     VAR    @{supported_power_ctrls}=    RteCtrl    sonoff
@@ -66,8 +62,6 @@ OPN003.503 Boot operating system from disk after cold-boot (OPNsense)
 
 OPN004.503 Boot operating system from disk after warm-boot (OPNsense)
     [Documentation]    Boot OPNsense (serial output) from disk after warm-boot
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
     ...
     ...    Previous IDs: BOS002.001
     Power On
@@ -83,8 +77,6 @@ OPN004.503 Boot operating system from disk after warm-boot (OPNsense)
 
 OPN005.503 Boot operating system from disk after reboot (OPNsense)
     [Documentation]    Boot OPNsense (serial output) from disk after reboot
-    ...    This test depends on semi-manual OS installation, thus it's
-    ...    marked as semiauto.
     ...
     ...    Previous IDs: BOS003.001
     Power On
