@@ -1,12 +1,13 @@
 *** Settings ***
-Library         DateTime
-Library         Dialogs
-Resource        ../variables.robot
-Resource        ../keywords.robot
-Resource        ../lib/clonezilla.robot
+Library             DateTime
+Library             Dialogs
+Resource            ../variables.robot
+Resource            ../keywords.robot
+Resource            ../lib/clonezilla.robot
 
-Suite Setup     Run Keywords
-...                 Prepare Test Suite
+Suite Setup         Run Keywords
+...                     Prepare Test Suite
+Suite Teardown      Log    <pre>${LOG}</pre>    html=True
 # Test suite used to quickly flash disk images with preinstalled OSes using Clonezilla.
 # Two environment variables must be set prior to running it:
 # - SOURCE_IMAGE
@@ -19,6 +20,10 @@ Suite Setup     Run Keywords
 #    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 ./scripts/run.sh util/restore-disk-auto.robot
 # - The same, but redirect the Clonezilla's output onto ttyS0 if video output is not available:
 #    SOURCE_IMAGE=1_windows_ubuntu TARGET_DISK=nvme0n1 CLONEZILLA_TTY=ttyS0 ./scripts/run.sh util/restore-disk-auto.robot
+
+
+*** Variables ***
+${LOG}=     ${EMPTY}
 
 
 *** Test Cases ***
@@ -54,7 +59,10 @@ Restore Disk Clonezilla
     WHILE    ${current_time} < ${end_time}
         ${out}=    Read From Terminal
         ${len}=    Get Length    ${out}
-        IF    ${len} > 0    Log To Console    ${out}
+        IF    ${len} > 0
+            Log To Console    ${out}
+            VAR    ${LOG}=    ${LOG}${out}    scope=SUITE
+        END
         Sleep    1s
 
         ${rebooted}=    Run Keyword And Return Status    Should Contain    ${out}    ${TIANOCORE_STRING}
