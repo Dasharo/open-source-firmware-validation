@@ -13,6 +13,8 @@ Resource            ../keys.robot
 # Log Out And Close Connection - elementary teardown keyword for all tests.
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_LINUX_DISTROS}    pfSense tests not supported
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword
