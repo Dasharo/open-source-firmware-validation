@@ -22,9 +22,7 @@ Default Tags    semiauto
 
 
 *** Variables ***
-@{TESTS}=               smallpt    crafty    cachebench    blake2
-${DEVIATION_UP}=        1.2    # acceptable deviation +/-20%
-${DEVIATION_DOWN}=      0.8
+${DEVIATION}=        0.2
 
 
 *** Test Cases ***
@@ -37,8 +35,7 @@ UPP001.301 Manual Single Threaded CPU Benchmark (Windows) (AC)
     Execute Manual Step    Single Threaded [2/8] Boot into Windows
     Execute Manual Step    Single Threaded [3/8] Login with default login and password
     Execute Manual Step    Single Threaded [4/8] Enter powershell as administrator
-    Run A Test Manually    smallpt    ${SMALLPT_TEST_SCORE}    # run smallpt
-    Run A Test Manually    crafty    ${CRAFTY_TEST_SCORE}    # run crafty
+    Run Supported Benchmarks    singlecore
 
 UPP002.301 Manual Multi Threaded CPU Benchmark (Windows) (AC)
     [Documentation]    tbd you can do this test in ssh terminal
@@ -49,16 +46,30 @@ UPP002.301 Manual Multi Threaded CPU Benchmark (Windows) (AC)
     Execute Manual Step    [2/8] Boot into Windows
     Execute Manual Step    [3/8] Login with default login and password
     Execute Manual Step    [4/8] Enter powershell as administrator
-    Run A Test Manually    cachebench    ${CACHEBENCH_TEST_SCORE}    # run cachebench
-    Run A Test Manually    blake2    ${BLAKE2_TEST_SCORE}    # run blake2
+    Run Supported Benchmarks    multicore
 
 
 *** Keywords ***
+Run Supported Benchmarks
+    [Documentation]    Runs all benchmarks by the given type
+    [Arguments]    ${target_type}    # singlecore / multicore
+
+    FOR    ${benchmark_dict}    IN    @{UPP_BENCHMARKS}
+        ${type}=    Get From Dictionary    ${benchmark_dict}    type
+        IF    '${type}' == '${target_type}'
+            Run A Test Manually    ${benchmark_dict}
+        END
+    END
+
 Run A Test Manually
     [Documentation]    Conducting the whole test manually and comparing its result
     ...    with reference value.
-    [Arguments]    ${phoronix_test_name}    ${ref_val}
-
+    [Arguments]    ${benchmark_dict}
+    ${phoronix_test_name}=    Get From Dictionary    ${benchmark_dict}    name
+    ${ref_score}=    Get From Dictionary    ${benchmark_dict}    score
+    ${scale}=    Get From Dictionary    ${benchmark_dict}    scale
+    ${deviation}=    Get From Dictionary    ${benchmark_dict}    dev
+    ${deviation_percent}=    Evaluate    float(${deviation})*100
     Log To Console    ${\n}.\\phoronix-test-suite batch-run ${phoronix_test_name}
     Execute Manual Step
     ...    [6/8] Execute command in terminal:${\n}.\\phoronix-test-suite batch-run ${phoronix_test_name}
@@ -66,14 +77,25 @@ Run A Test Manually
     ...    [7/8] Wait until test finishes and prints the results on console
     ${benchmark_score}=    Get Value From User
     ...    [8/8] Enter benchmark score:
-    ${lower_bound}=    Evaluate    ${ref_val} * ${DEVIATION_DOWN}
-    ${higher_bound}=    Evaluate    ${ref_val} * ${DEVIATION_UP}
-    IF    ${benchmark_score} > ${higher_bound} or ${benchmark_score} < ${lower_bound}
-        Pause Execution    Results are out of acceptable values: ${higher_bound} - ${lower_bound}\n
-        Fail    Results are out of acceptable values: ${higher_bound} - ${lower_bound}\n
-    ELSE
-        Log To Console    The ${phoronix_test_name} passed with benchmark score: ${benchmark_score}
+    ${lower_bound}=    Evaluate    ${ref_score} * (1 - ${deviation})
+    ${higher_bound}=    Evaluate    ${ref_score} * (1 + ${deviation})
+
+    IF    '${scale}' == 'higher_is_better'
+        ${fail_condition}=    Evaluate    ${benchmark_score} < ${lower_bound}
+        ${too_good_condition}=    Evaluate    ${benchmark_score} > ${higher_bound}
+    ELSE IF    '${scale}' == 'lower_is_better'
+        ${fail_condition}=    Evaluate    ${benchmark_score} > ${higher_bound}
+        ${too_good_condition}=    Evaluate    ${benchmark_score} < ${lower_bound}
     END
+
+    IF    ${too_good_condition}
+        Log To Console    The measured score of ${benchmark_score} is over ${deviation_percent}% better than reference value: ${ref_score}    WARN
+    ELSE IF    ${fail_condition}
+        Fail    The measured score of ${benchmark_score} is over ${deviation_percent}% worse then the reference value: ${ref_score}
+    ELSE
+        Log To Console    The measured score of ${benchmark_score} is acceptable for reference value of ${ref_score}
+    END
+    
 
 Detect Or Install Phoronix Test Suite On Windows
     [Documentation]    Detecting Or Installing Phoronix Test Suite On Windows
@@ -99,6 +121,11 @@ Detect Or Install Phoronix Test Suite On Windows
 
 Install Phoronix On Windows Manually
     [Documentation]    Installing Phoronix On Windows Manually
+    ${TESTS}=    Create List
+    FOR    ${benchmark}    IN     @{UPP_BENCHMARKS}
+        ${name}=    Get From Dictionary    ${benchmark}    name
+        Append To List    ${TESTS}    ${name}
+    END
     Log To Console    Command: Test-Path "C:\\phoronix-test-suite\\phoronix-test-suite.bat"
     Execute Manual Step
     ...    Installation [1/14] Execute command in terminal: ${\n}Test-Path "C:\\phoronix-test-suite\\phoronix-test-suite.bat"
