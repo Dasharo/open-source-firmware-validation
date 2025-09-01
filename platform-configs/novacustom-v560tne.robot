@@ -4,6 +4,12 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
+${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
+${DUT_CONNECTION_METHOD}=               Telnet
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
+${POWER_CTRL}=                          sonoff
+
 ${CPU}=                                 Intel(R) Core(TM) Ultra 7 155H
 
 ${3_MDEB_WIFI_NETWORK}=                 3mdeb_abr
@@ -57,8 +63,6 @@ ${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=        ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     114    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    26.2    # FPS
-
-${OPTIONS_LIB}=                         options-lib_dcu
 
 # DTS E2E variables
 ${DTS_TEST_BOARD_MODEL}=                V560TNx
