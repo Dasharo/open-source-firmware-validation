@@ -238,3 +238,29 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
     Execute Linux Command    rm -f hmac.out hmac.key secret.data primary_key.ctx key.pub key.priv
     Should Contain    ${out1}    hmac.out
     Should Not Contain    ${out2}    hmac.out
+
+
+*** Keywords ***
+TPM2 Suite Setup
+    Prepare Test Suite
+    Skip If    '${TPM_SUPPORTED_VERSION}' != '2'    TPM commands tests supported only TPM2
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Verify Presence Of TPM Via Sysfs
+    Detect Or Install Package    tpm2-tools
+    ${passed}=    Run Keyword And Return Status
+    ...    Check If SHA1 And SHA256 Banks Are Enabled
+    IF    not ${passed}
+        # Restore default allocations in case any bank was disabled and reboot
+        Execute Linux Command    tpm2_pcrallocate
+        Execute Reboot Command
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Login To Linux
+        Switch To Root User
+    END
+    ${sha1_state}    ${sha256_state}=    Check Which TPM2 Banks Are Enabled
+    VAR    ${SHA1_ENABLED}=    ${sha1_state}    scope=SUITE
+    VAR    ${SHA256_ENABLED}=    ${sha256_state}    scope=SUITE

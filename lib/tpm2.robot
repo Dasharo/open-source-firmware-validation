@@ -27,30 +27,6 @@ Check If SHA1 And SHA256 Banks Are Enabled
     Should Be True    ${sha1}
     Should Be True    ${sha256}
 
-TPM2 Suite Setup
-    Prepare Test Suite
-    Skip If    '${TPM_SUPPORTED_VERSION}' != '2'    TPM commands tests supported only TPM2
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Verify Presence Of TPM Via Sysfs
-    Detect Or Install Package    tpm2-tools
-    ${passed}=    Run Keyword And Return Status
-    ...    Check If SHA1 And SHA256 Banks Are Enabled
-    IF    not ${passed}
-        # Restore default allocations in case any bank was disabled and reboot
-        Execute Linux Command    tpm2_pcrallocate
-        Execute Reboot Command
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-    END
-    VAR    ${SHA1_ENABLED}=    ${EMPTY}    scope=SUITE
-    VAR    ${SHA256_ENABLED}=    ${EMPTY}    scope=SUITE
-    ${sha1_enabled}    ${sha256_enabled}=    Check Which TPM2 Banks Are Enabled
-
 Check TPM2 Banks State After FW Changes
     [Documentation]    Verifies the state of TPM Banks. Fails test if they are different than input.
     [Arguments]    ${sha1_desired}    ${sha256_desired}
