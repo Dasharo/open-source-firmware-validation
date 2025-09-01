@@ -48,8 +48,8 @@ TPM2 Suite Setup
         Switch To Root User
     END
     ${sha1_on}    ${sha256_on}=    Check Which TPM2 Banks Are Enabled
-    VAR    ${SHA1_ENABLED}=    ${sha1_on}    scope=SUITE
-    VAR    ${SHA256_ENABLED}=    ${sha256_on}    scope=SUITE
+    VAR    ${SHA1_ENABLED}=    ${sha1_on}    scope=GLOBAL
+    VAR    ${SHA256_ENABLED}=    ${sha256_on}    scope=GLOBAL
 
 Check TPM2 Banks State After FW Changes
     [Documentation]    Verifies the state of TPM Banks. Fails test if they are different than input.
