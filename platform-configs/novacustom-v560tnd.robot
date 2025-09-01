@@ -17,8 +17,10 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 
 ${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
 ${DUT_CONNECTION_METHOD}=               Telnet
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
 ${POWER_CTRL}=                          sonoff
-${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
+${CHECK_POWER_LED_SUPPORT}=             ${FALSE}
 ${DTS_SUPPORT}=                         ${TRUE}
 
 ${CLEVO_BATTERY_CAPACITY}=              5100*1000
