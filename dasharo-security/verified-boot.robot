@@ -285,3 +285,4 @@ Prepare Tools, Keys And Binaries
     Install Docker Packages
     Generate Verified Boot Keys
     Resign Existing Firmware Image With Generated Keys
+    Execute Command In Terminal    sync
