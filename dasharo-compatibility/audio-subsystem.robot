@@ -21,19 +21,11 @@ Default Tags        automated
 *** Variables ***
 # Pactl names are uniform for all devices, and in theory
 # across multiple Linux distributions
-${PACTL_STR_INTERNAL_OUT}=          analog-output-speaker
-${PACTL_STR_INTERNAL_IN}=           analog-input-internal-mic
-${PACTL_STR_HEADSET_OUT}=           analog-output-headphones
-${PACTL_STR_HEADSET_IN}=            analog-input-headset-mic
-${PACTL_STR_HDMI_OUT}=              hdmi-output-0
-# The same is not a guarantee for Windows
-${POWERSHELL_STR_INTERNAL_OUT}=     Speakers (Realtek(R) Audio)
-${POWERSHELL_STR_INTERNAL_IN}=      Microphone Array (Realtek(R) Audio)
-# Since Realtek driver shows the same device for Headset and Internal audio
-# for now we just copy the value, and will need better solution in future.
-${POWERSHELL_STR_HEADSET_OUT}=      ${POWERSHELL_STR_INTERNAL_OUT}
-${POWERSHELL_STR_HEADSET_IN}=       Microphone (Realtek(R) Audio)
-${POWERSHELL_STR_HDMI_OUT}=         Audio Driver for Display Audio
+${PACTL_STR_INTERNAL_OUT}=      analog-output-speaker
+${PACTL_STR_INTERNAL_IN}=       analog-input-internal-mic
+${PACTL_STR_HEADSET_OUT}=       analog-output-headphones
+${PACTL_STR_HEADSET_IN}=        analog-input-headset-mic
+${PACTL_STR_HDMI_OUT}=          hdmi-output-0
 
 
 *** Test Cases ***

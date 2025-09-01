@@ -97,6 +97,9 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=            2
 ${USB_DETECTION_ITERATIONS_NUMBER}=             5
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
+${POWERSHELL_STR_HEADSET_OUT}=                  Headphones (2- High Definition Audio Device)
+${POWERSHELL_STR_HEADSET_IN}=                   Microphone (2- High Definition Audio Device)
+
 # Dasharo performance
 ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}
