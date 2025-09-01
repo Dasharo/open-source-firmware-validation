@@ -188,6 +188,15 @@ ${IR_CAMERA_SUPPORT}=                               ${FALSE}
 ${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${TRUE}
 ${EXTRA_1_TB_DISK}=                                 ${FALSE}
 ${ODROID_NETCARD_SUPPORT}=                          ${FALSE}
+# The same is not a guarantee for Windows
+${POWERSHELL_STR_INTERNAL_OUT}=                     Speakers (Realtek(R) Audio)
+${POWERSHELL_STR_INTERNAL_IN}=                      Microphone Array (Realtek(R) Audio)
+# Since Realtek driver shows the same device for Headset and Internal audio
+# for now we just copy the value, and will need better solution in future.
+${POWERSHELL_STR_HEADSET_OUT}=                      ${POWERSHELL_STR_INTERNAL_OUT}
+${POWERSHELL_STR_HEADSET_IN}=                       Microphone (Realtek(R) Audio)
+${POWERSHELL_STR_HDMI_OUT}=                         Audio Driver for Display Audio
+
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}
 ${TPM_EXPECTED_CHIP}=                               FILL_WITH_CORRECT_VALUE_BEFORE_TESTING
