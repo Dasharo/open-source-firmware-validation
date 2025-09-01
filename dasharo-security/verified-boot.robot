@@ -103,7 +103,13 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     # extended FW boot times
     Set DUT Response Timeout    300s
     ${recovery_popup}=    Read From Terminal Until    Press ENTER key to continue
+    # Workaround for laptops tested using sonoff & without a battery
     Should Contain    ${recovery_popup}    !!! WARNING !!!
+    IF    'battery is not detected' in $recovery_popup
+        Sleep    12s
+        Read From Terminal
+        ${recovery_popup}=    Read From Terminal Until    Press ENTER key to continue
+    END
     Should Contain    ${recovery_popup}    Recovery reason code:
     Should Contain    ${recovery_popup}    Recovery reason:
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
