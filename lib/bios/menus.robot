@@ -450,8 +450,7 @@ Get Submenu Construction
     ...
     ...    === Effects ===
     ...    - The setup submenu is read from the serial buffer
-    [Arguments]
-    ...    ${checkpoint}=Esc=Exit
+    [Arguments]    ${checkpoint}=Esc=Exit
     ...    ${lines_top}=1
     ...    ${lines_bot}=1
     ...    ${opt_only}="${FALSE}"
