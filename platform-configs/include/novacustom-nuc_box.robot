@@ -30,4 +30,7 @@ ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 
 # DTS E2E test variables
-@{DTS_TEST_WORKFLOWS}=                  @{EMPTY}
+@{DTS_TEST_WORKFLOWS}=                  Initial Deployment
+${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
+&{DTS_TEST_EXPORTS}=
+...                                     &{DTS_TEST_BASE_EXPORTS}
