@@ -20,7 +20,8 @@
                     "env_vars": {
                         "RTE_IP": "192.168.10.171",
                         "SNIPEIT_NO": "true",
-                        "CONFIG": "pcengines-apu3"
+                        "CONFIG": "pcengines-apu3",
+                        "FW_FILE": "pcengines_apu3_v0.9.1-rc2.rom"
                     },
                     "files": {
                         "mode": "${FULL_FILENAME_MATCH}"
