@@ -275,7 +275,7 @@ AUD004.301 External headset recognition
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
-    ${out}=    Get Sound Devices In Windows    speakers
+    ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
     Should Contain    ${out}    OK
@@ -288,7 +288,7 @@ AUD005.301 External headset audio playback
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
-    ${out}=    Get Sound Devices In Windows    speakers
+    ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
     Should Contain    ${out}    OK
@@ -345,6 +345,9 @@ Get Sound Devices In Windows
     ELSE IF    '${class}' == 'speakers'
         VAR    ${filter_condition}=
         ...    {$_.Class -match "Audio" -and ($_.Name -match "Speaker" -or $_.Name -match "Output")}
+    ELSE IF    '${class}' == 'headphones'
+        VAR    ${filter_condition}=
+        ...    {$_.Class -match "Audio" -and ($_.Name -match "Headphones" -or $_.Name -match "Output")}
     ELSE IF    '${class}' == 'microphone'
         VAR    ${filter_condition}=    {$_.Class -match "Audio" -and $_.Name -match "Microphone"}
     ELSE IF    '${class}' == 'display'
