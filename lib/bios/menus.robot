@@ -1361,7 +1361,13 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     ELSE
         ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
     END
-    Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+    ${os_count}=    Get Length    ${menu_construction}
+    IF    ${system_index} >= ${os_count}/2
+        ${key_presses}=    Evaluate    ${os_count} - ${system_index}
+        Press Key N Times And Enter    ${key_presses}    ${ARROW_UP}
+    ELSE
+        Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+    END
 
 Make Sure That Network Boot Is Enabled
     [Documentation]    Checks that "Enable network boot" in
