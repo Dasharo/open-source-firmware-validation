@@ -390,4 +390,4 @@ Parse FIO Result
     ${parsed}=    Evaluate    json.loads("""${json_data}""")    json
     VAR    ${bw}=    ${parsed}[jobs][0][${operation}][bw]
     Sleep    10s
-    RETURN    ${bw}/1024
+    RETURN    ${bw/1024}
