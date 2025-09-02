@@ -36,6 +36,8 @@ DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     Should Be True
     ...    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85
     ...    Sequential Read Non-Queued is below expected ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}
+    Log To Console    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}
+    Log To Console    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}
 
 DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded read
@@ -62,6 +64,8 @@ DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     Should Be True
     ...    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85
     ...    Sequential Read Non-Queued is below expected ${seq_read_nonque} < ${UBU_SEQ_READ_NONQUE}
+    Log To Console    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}
+    Log To Console    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}
 
 DIO003.201 Sequential Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single-threaded write
@@ -85,6 +89,8 @@ DIO003.201 Sequential Write Performance (Ubuntu) (AC)
     Should Be True
     ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
     ...    Sequential Write Non-Queued is below expected ${seq_write_nonque} < ${UBU_SEQ_WRITE_NONQUE}
+    Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
+    Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
 
 DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded write
@@ -111,6 +117,8 @@ DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     Should Be True
     ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
     ...    Sequential Write Non-Queued is below expected ${seq_write_nonque} < ${UBU_SEQ_WRITE_NONQUE}
+    Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
+    Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
 
 DIO005.201 Random Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random read performance
@@ -134,6 +142,8 @@ DIO005.201 Random Read Performance (Ubuntu) (AC)
     Should Be True
     ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
     ...    Random Read BW Non-Queued is below expected ${rand_read_nonque} < ${UBU_RAND_READ_NONQUE}
+    Log To Console    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}
+    Log To Console    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}
 
 DIO006.201 Random Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of random read performance
@@ -160,6 +170,8 @@ DIO006.201 Random Read Performance (Ubuntu) (Battery)
     Should Be True
     ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
     ...    Random Read BW Non-Queued is below expected ${rand_read_nonque} < ${UBU_RAND_READ_NONQUE}
+    Log To Console    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}
+    Log To Console    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}
 
 DIO007.201 Random Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random write performance
@@ -183,6 +195,8 @@ DIO007.201 Random Write Performance (Ubuntu) (AC)
     Should Be True
     ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
     ...    Random Write BW Non-Queued is below expected ${rand_write_nonque} < ${UBU_RAND_WRITE_NONQUE}
+    Log To Console    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}
+    Log To Console    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}
 
 DIO008.201 Random Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of sequential write performance
@@ -209,6 +223,8 @@ DIO008.201 Random Write Performance (Ubuntu) (Battery)
     Should Be True
     ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
     ...    Random Write BW Non-Queued is below expected ${rand_write_nonque} < ${UBU_RAND_WRITE_NONQUE}
+    Log To Console    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}
+    Log To Console    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}
 
 DIO001.003 Sequential Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded read
