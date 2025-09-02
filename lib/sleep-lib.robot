@@ -89,19 +89,19 @@ Perform Suspend Test Using FWTS
     [Arguments]    ${test_duration}=40
     VAR    ${is_suspend_performed_correctly}=    ${FALSE}
     VAR    ${test_time_out}=    ${${test_duration}-5}
+    Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
+    Sleep    ${test_duration}s
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Execute Command In Terminal    fwts s3 -f -r /tmp/suspend_test_log.log    ${test_time_out}s
-    ELSE
-        Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
-        Sleep    ${test_duration}s
+        # Clean up console before reading file
+        Read From Terminal
+        Write Bare Into Terminal    ${ENTER}
+        Read From Terminal Until Prompt
+    END
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Linux
         Switch To Root User
     END
-    # Clean up console before reading file
-    Read From Terminal
-    Write Bare Into Terminal    ${ENTER}
-    Read From Terminal Until Prompt
-    ${test_result}=    Execute Linux Command    cat /tmp/suspend_test_log.log
+    ${test_result}=    Execute Command In Terminal    cat /tmp/suspend_test_log.log
     TRY
         Should Contain    ${test_result}    0 failed
         Should Contain    ${test_result}    0 warning
