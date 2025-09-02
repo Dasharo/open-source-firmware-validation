@@ -1308,7 +1308,7 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     IF    '''${boot_menu}''' == 'NOT_SET'
         ${menu_construction}=    Enter Boot Menu Tianocore And Return Construction
     ELSE
-        VAR    ${menu_construction}=    @{boot_menu}
+        VAR    ${menu_construction}=    ${boot_menu}
     END
 
     # When ESP scanning feature is there, boot entries are named differently than
