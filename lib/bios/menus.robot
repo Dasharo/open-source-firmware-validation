@@ -375,7 +375,7 @@ Parse Menu Snapshot Into Construction
             ${line_valid}=    Evaluate    $line_valid and "----------" not in $line
         END
 
-        IF    ${line_valid}   Append To List    ${construction}    ${line}
+        IF    ${line_valid}    Append To List    ${construction}    ${line}
     END
     Log    ${construction}
     ${construction}=    Get Slice From List    ${construction}    ${slice_start}    ${slice_end}
@@ -450,7 +450,12 @@ Get Submenu Construction
     ...
     ...    === Effects ===
     ...    - The setup submenu is read from the serial buffer
-    [Arguments]    ${checkpoint}=Esc=Exit    ${lines_top}=1    ${lines_bot}=1    ${opt_only}="${FALSE}"    ${first_line}=${NONE}
+    [Arguments]
+    ...    ${checkpoint}=Esc=Exit
+    ...    ${lines_top}=1
+    ...    ${lines_bot}=1
+    ...    ${opt_only}="${FALSE}"
+    ...    ${first_line}=${NONE}
 
     # In most cases, we need to strip two lines:
     #    TOP:
