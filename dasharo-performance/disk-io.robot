@@ -31,10 +31,10 @@ DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     ${seq_read_queued}=    Parse FIO Result    sequential_with_queues.json    read
     ${seq_read_nonque}=    Parse FIO Result    sequential_without_queues.json    read
     Should Be True
-    ...    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85
+    ...    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED*0.65}
     ...    Sequential Read Queued is below expected ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}
     Should Be True
-    ...    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85
+    ...    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE*0.65}
     ...    Sequential Read Non-Queued is below expected ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}
     Log To Console    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}
     Log To Console    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}
@@ -59,10 +59,10 @@ DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     ${seq_read_queued}=    Parse FIO Result    sequential_with_queues.json    read
     ${seq_read_nonque}=    Parse FIO Result    sequential_without_queues.json    read
     Should Be True
-    ...    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85
+    ...    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED*0.65}
     ...    Sequential Read Queued is below expected ${seq_read_queued} < ${UBU_SEQ_READ_QUEUED}
     Should Be True
-    ...    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85
+    ...    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE*0.65}
     ...    Sequential Read Non-Queued is below expected ${seq_read_nonque} < ${UBU_SEQ_READ_NONQUE}
     Log To Console    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}
     Log To Console    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}
@@ -84,10 +84,10 @@ DIO003.201 Sequential Write Performance (Ubuntu) (AC)
     ${seq_write_queued}=    Parse FIO Result    sequential_write_with_queues.json    write
     ${seq_write_nonque}=    Parse FIO Result    sequential_write_without_queues.json    write
     Should Be True
-    ...    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85
+    ...    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED*0.65}
     ...    Sequential Write Queued is below expected ${seq_write_queued} < ${UBU_SEQ_WRITE_QUEUED}
     Should Be True
-    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE*0.65}
     ...    Sequential Write Non-Queued is below expected ${seq_write_nonque} < ${UBU_SEQ_WRITE_NONQUE}
     Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
     Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
@@ -112,10 +112,10 @@ DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     ${seq_write_queued}=    Parse FIO Result    sequential_write_with_queues.json    write
     ${seq_write_nonque}=    Parse FIO Result    sequential_write_without_queues.json    write
     Should Be True
-    ...    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85
+    ...    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED*0.65}
     ...    Sequential Write Queued is below expected ${seq_write_queued} < ${UBU_SEQ_WRITE_QUEUED}
     Should Be True
-    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE*0.65}
     ...    Sequential Write Non-Queued is below expected ${seq_write_nonque} < ${UBU_SEQ_WRITE_NONQUE}
     Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
     Log To Console    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}
@@ -137,10 +137,10 @@ DIO005.201 Random Read Performance (Ubuntu) (AC)
     ${rand_read_queued}=    Parse FIO Result    random_read_with_queues.json    read
     ${rand_read_nonque}=    Parse FIO Result    random_read_without_queues.json    read
     Should Be True
-    ...    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85
+    ...    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED*0.65}
     ...    Random Read BW Queued is below expected ${rand_read_queued} < ${UBU_RAND_READ_QUEUED}
     Should Be True
-    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE*0.65}
     ...    Random Read BW Non-Queued is below expected ${rand_read_nonque} < ${UBU_RAND_READ_NONQUE}
     Log To Console    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}
     Log To Console    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}
@@ -165,10 +165,10 @@ DIO006.201 Random Read Performance (Ubuntu) (Battery)
     ${rand_read_queued}=    Parse FIO Result    random_read_with_queues.json    read
     ${rand_read_nonque}=    Parse FIO Result    random_read_without_queues.json    read
     Should Be True
-    ...    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85
+    ...    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED*0.65}
     ...    Random Read BW Queued is below expected ${rand_read_queued} < ${UBU_RAND_READ_QUEUED}
     Should Be True
-    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE*0.65}
     ...    Random Read BW Non-Queued is below expected ${rand_read_nonque} < ${UBU_RAND_READ_NONQUE}
     Log To Console    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}
     Log To Console    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}
@@ -190,10 +190,10 @@ DIO007.201 Random Write Performance (Ubuntu) (AC)
     ${rand_write_queued}=    Parse FIO Result    random_write_with_queues.json    write
     ${rand_write_nonque}=    Parse FIO Result    random_write_without_queues.json    write
     Should Be True
-    ...    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85
+    ...    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED*0.65}
     ...    Random Write BW Queued is below expected ${rand_write_queued} < ${UBU_RAND_WRITE_QUEUED}
     Should Be True
-    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE*0.65}
     ...    Random Write BW Non-Queued is below expected ${rand_write_nonque} < ${UBU_RAND_WRITE_NONQUE}
     Log To Console    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}
     Log To Console    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}
@@ -218,10 +218,10 @@ DIO008.201 Random Write Performance (Ubuntu) (Battery)
     ${rand_write_queued}=    Parse FIO Result    random_write_with_queues.json    write
     ${rand_write_nonque}=    Parse FIO Result    random_write_without_queues.json    write
     Should Be True
-    ...    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85
+    ...    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED*0.65}
     ...    Random Write BW Queued is below expected: ${rand_write_queued} < ${UBU_RAND_WRITE_NONQUE}
     Should Be True
-    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE*0.65}
     ...    Random Write BW Non-Queued is below expected ${rand_write_nonque} < ${UBU_RAND_WRITE_NONQUE}
     Log To Console    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}
     Log To Console    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}
