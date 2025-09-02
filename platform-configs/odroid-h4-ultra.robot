@@ -50,7 +50,6 @@ ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
 ${EXTERNAL_HEADSET_SUPPORT}=                    ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=               ${TRUE}
-${FAN_SPEED_MEASURE_SUPPORT}=                   ${FALSE}
 ${DUT_HAS_RESET_BUTTON}=                        ${FALSE}
 ${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 
