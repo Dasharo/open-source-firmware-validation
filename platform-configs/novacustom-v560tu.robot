@@ -20,7 +20,7 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 ${BLUETOOTH_CARD_UBUNTU}=               8087:0033
 ${WEBCAM_UBUNTU}=                       USB2.0 Camera
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
-
+${WIFI_CARD_UBUNTU}=                    Intel Corporation Wi-Fi 7
 ${POWER_CTRL}=                          none
 ${SNIPEIT}=                             no
 ${FLASH_SIZE}=                          33554432
