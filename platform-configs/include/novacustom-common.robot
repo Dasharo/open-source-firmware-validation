@@ -39,6 +39,7 @@ ${DMIDECODE_TYPE}=                                  Notebook
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
 ${CLEVO_USB_C_HUB}=                                 4-port
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
+${OPTIONS_LIB}=                                     options-lib_uefi-setup-menu
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
