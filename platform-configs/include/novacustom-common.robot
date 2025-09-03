@@ -101,7 +101,7 @@ ${DTS_SUPPORT}=                                     ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${TRUE}
 ${ACPI_DRIVER_SUPPORT}=                             ${TRUE}
-${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${FALSE}
+${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${TRUE}
 ${INTEL_CBNT_SUPPORT}=                              ${TRUE}
 
 # Test module: dasharo-security
