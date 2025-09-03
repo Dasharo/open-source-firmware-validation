@@ -30,7 +30,7 @@ Default Tags        automated
 
 *** Variables ***
 @{EXPECTED_OUTPUT}=
-...                     dasharo_acpi-acpi-0
+...                     dasharo_acpi
 ...                     Adapter: ACPI interface
 @{SUCCESS_OUTPUT}=
 ...                     Complete!
