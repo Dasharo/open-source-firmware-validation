@@ -48,7 +48,7 @@ patch_esp_command()
 }
 
 umount ${INSTALLER_MOUNT_DIR}
-mount -w /dev/da0p4 ${INSTALLER_MOUNT_DIR}
+mount -w ${INSTALLER_ROOT_PARTITION} ${INSTALLER_MOUNT_DIR}
 ls -l ${INSTALLER_MOUNT_DIR}${BSDINSTALL_DIR}/*zfs*
 
 for installer_file in ${TARGET_FILES}; do
