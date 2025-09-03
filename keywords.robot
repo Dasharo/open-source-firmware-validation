@@ -1239,7 +1239,7 @@ Download File
     Wait Until Keyword Succeeds    5x    1s
     ...    Check Internet Connection On Linux
     ${out}=    Execute Linux Command
-    ...    wget --content-disposition --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
+    ...    wget --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
     ...    ${timeout}
     Should Contain Any    ${out}    200 OK    HTTP response 200
     Should Contain    ${out}    ${local_path}
