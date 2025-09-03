@@ -114,5 +114,5 @@ Fwupd Local Firmware Update Linux
     Switch To Root User
     Send File To DUT    ${fwupd_cabinet}    target_path=${cabinet}
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
-    ${out}=    Execute Command In Terminal    yes n | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older
+    ${out}=    Execute Command In Terminal    yes n | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older    timeout=300s
     Should Contain    ${out}    Successfully installed firmware
