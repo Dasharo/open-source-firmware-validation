@@ -136,6 +136,29 @@ ${ODROID_NETCARD_SUPPORT}=                      ${TRUE}
 
 ${DTS_SUPPORT}=                                 ${TRUE}
 
+# DTS E2E variables
+${DTS_TEST_SYSTEM_VENDOR}=                      HARDKERNEL
+${DTS_TEST_BOARD_MODEL}=                        ODROID-H4
+@{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
+...                                             Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
+...                                             Dasharo (Slim Bootloader+UEFI) Initial Deployment
+@{DTS_TEST_DEFAULT_RELEASES}=                   DPP
+&{DTS_TEST_EXPORTS}=                            &{DTS_TEST_BASE_EXPORTS}
+...                                             TEST_ME_DISABLED=false
+...                                             TEST_FMAP_REGIONS=RW_SECTION_A
+...                                             TEST_VBOOT_ENABLED=true
+...                                             TEST_BOARD_HAS_GBE_REGION=false
+...                                             TEST_SOUND_CARD_PRESENT=false
+...                                             TEST_HCI_PRESENT=true
+
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=
+...                                             &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+...                                             UEFI Update=&{{ {"TEST_VBOOT_KEYS": "true", "TEST_IS_COREBOOT": "true"} }}
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                             ${{ ("Initial Deployment", "DPP") }}
+...                                             ${{ ("Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition", "DPP") }}
+...                                             ${{ ("Dasharo (Slim Bootloader+UEFI) Initial Deployment", "DPP") }}
+
 
 *** Keywords ***
 Power On
