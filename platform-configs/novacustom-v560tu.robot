@@ -31,6 +31,7 @@ ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
 ${USB_STACK_SUPPORT}=                   ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=              4602000
+${USB_DEVICE}=                          SanDisk
 
 # cpu performance Ubuntu for processor ultra 5 125H
 ${ZIP_MULTI_COMPRESSION}=               15923    # MIPS
