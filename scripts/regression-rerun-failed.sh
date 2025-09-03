@@ -71,6 +71,7 @@ rerun_suite () {
 
 rerun_suite dasharo-compatibility "${@}"
 rerun_suite dasharo-security "${@}"
+rerun_suite dasharo-stability "${@}"
 if [ -z "$NO_PERFORMANCE" ]; then
     rerun_suite dasharo-performance "${@}"
 fi
