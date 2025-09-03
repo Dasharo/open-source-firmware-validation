@@ -25,7 +25,7 @@ ${POWER_CTRL}=                          none
 ${SNIPEIT}=                             no
 ${FLASH_SIZE}=                          33554432
 
-${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
+${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
@@ -97,8 +97,6 @@ ${WIN_RAND_WRITE_NONQUE}=               ${EMPTY}    # MB/s
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     24.5    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    23.5    # FPS
-
-${OPTIONS_LIB}=                         options-lib_dcu
 
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=
