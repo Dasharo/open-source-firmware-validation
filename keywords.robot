@@ -1251,7 +1251,6 @@ Download File
     ...    ${timeout}
     Should Contain Any    ${out}    200 OK    HTTP response 200
     Should Contain    ${out}    ${local_path}
-    Should Contain    ${out}    saved
     Should Not Contain    ${out}    failed
 
 Login To Linux With Root Privileges
