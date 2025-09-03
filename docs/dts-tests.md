@@ -93,7 +93,8 @@ You can check which variables are exported by default for each workflow by
 running:
 
 ```sh
-robot -L TRACE -v config:<platform> -t "E2EH002*" dts/dts-e2e-helper.robot`
+robot -L TRACE -v config:<platform> -v dts_config_ref:'refs/heads/main' \
+  -t "E2EH002*" dts/dts-e2e-helper.robot
 ```
 
 To add completely new workflow you need to at minimum add it to
