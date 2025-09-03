@@ -125,9 +125,13 @@ Read From Terminal Until
     ...    ${expected}. Everything after ``${expected}`` stays in the buffer.
     [Arguments]    ${expected}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read Until Fuzzy    ${expected}    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
-        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+        IF    ${TELNET_FUZZY_MAX_ERRORS}>0 or ${TELNET_FUZZY_MAX_INSERTIONS}>0 or ${TELNET_FUZZY_MAX_DELETIONS}>0
+            ${output}=    Telnet.Read Until Fuzzy    ${expected}    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+            ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+            ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+        ELSE
+            ${output}=    Telnet.Read Until    ${expected}
+        END
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read Until    ${expected}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
