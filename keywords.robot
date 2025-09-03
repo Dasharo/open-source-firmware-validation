@@ -1249,7 +1249,7 @@ Download File
     ${out}=    Execute Linux Command
     ...    wget --content-disposition --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
     ...    ${timeout}
-    Should Contain    ${out}    200 OK
+    Should Contain Any    ${out}    200 OK    HTTP response 200
     Should Contain    ${out}    ${local_path}
     Should Contain    ${out}    saved
     Should Not Contain    ${out}    failed
