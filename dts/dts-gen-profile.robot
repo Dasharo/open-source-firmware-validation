@@ -168,7 +168,7 @@ Prepare DTS For Profile Generation
     Execute Command In Terminal    mkdir -p /tmp/bin
     Execute Command In Terminal    echo '#!/bin/bash' >/tmp/bin/reboot
     Execute Command In Terminal    chmod +x /tmp/bin/reboot
-    Execute Command In Terminal    export DTS_CONFIG_REF="${dts_config_ref}"
+    Execute Command In Terminal    export DTS_CONFIG_REF="${DTS_CONFIG_REF}"
     Write Into Terminal    PATH="/tmp/bin:$PATH" dts-boot
 
 Get Profile After Workflow
