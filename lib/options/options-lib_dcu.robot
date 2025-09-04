@@ -142,7 +142,6 @@ Make Sure That Flash Locks Are Disabled
 Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
-    Sleep    60s
     Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 
 Set Nextboot
