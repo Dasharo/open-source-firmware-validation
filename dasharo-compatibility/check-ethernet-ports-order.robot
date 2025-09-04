@@ -23,7 +23,7 @@ Default Tags        automated
 SPS001.001 Ethernet ports are in order
     [Documentation]    This test automates the verification of port order based
     ...    on PCIe bus numbers and checks PCIe switching.
-    Depends On    '${ETH_PORTS}' != '@{EMPTY}'    not supported
+    Depends On    ${ETH_PORTS} != @{EMPTY}    not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
