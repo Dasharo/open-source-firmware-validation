@@ -195,7 +195,10 @@ Boot System Or From Connected Disk
 
     IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
         Execute Reboot Command    windows
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Import Variables    ${CURDIR}/../../os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
+        VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
+        Sleep    30s
+        RETURN
     END
 
     VAR    ${os_boot_id}=    ${EMPTY}
