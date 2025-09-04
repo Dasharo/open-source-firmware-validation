@@ -30,4 +30,18 @@ ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 
 # DTS E2E test variables
-@{DTS_TEST_WORKFLOWS}=                  @{EMPTY}
+@{DTS_TEST_WORKFLOWS}=                  Initial Deployment
+${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
+&{DTS_TEST_EXPORTS}=
+...                                     &{DTS_TEST_BASE_EXPORTS}
+...                                     TEST_SOUND_CARD_PRESENT=false
+...                                     TEST_BOARD_HAS_GBE_REGION=false
+...                                     TEST_HCI_PRESENT=true
+...                                     TEST_MEI_AMT_CHECK=true
+# robocop: off=LEN08
+&{DTS_TEST_EXPORTS_PER_WORKFLOW}=
+...                                     &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
+...                                     Initial Deployment=&{{ {"TEST_SYSTEM_MODEL": "NUC BOX-125H", "TEST_SYSTEM_VENDOR": "ASRock Industrial", "TEST_BIOS_VENDOR": "proprietary", "TEST_USING_OPENSOURCE_EC_FIRM": "false"} }}
+# robocop: off=LEN08
+@{DTS_TEST_WORKFLOW_PROFILES}=
+...                                     ${{ ("Initial Deployment", "DCR") }}
