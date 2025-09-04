@@ -23,7 +23,7 @@ cat <<EOF > "$IPXE_PATH/dts.ipxe"
 #!ipxe
 imgfetch --name file_kernel $BZ_IMAGE_FILENAME
 imgfetch --name file_initrd $DTS_IMAGE_FILENAME
-kernel file_kernel initrd=file_initrd
+kernel file_kernel initrd=file_initrd console=ttyUSB0
 boot
 EOF
 
