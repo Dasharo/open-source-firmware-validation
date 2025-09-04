@@ -1486,7 +1486,7 @@ Identify Path To USB
     END
     ${out}=    Execute Linux Command
     ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk}
-    IF    'part' in '${out}'
+    IF    'part' in $out
         ${out}=    Get Regexp Matches    ${out}    part
     END
     ${split}=    Split String    ${out}
