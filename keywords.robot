@@ -1487,15 +1487,15 @@ Identify Path To USB
     ${out}=    Execute Linux Command
     ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk}
     IF    'part' in $out
-        ${out}=    Get Regexp Matches    ${out}    part
+        ${out}=    Get Regexp Matches    ${out}    part.*$
         IF    len($out)>0
             ${out}=    Get From List    ${out}    0
         ELSE
-            ${out}=    ${EMPTY}
+            ${out}=    Set Variable    ${EMPTY}
         END
     END
     ${split}=    Split String    ${out}
-    ${path_to_usb}=    Get From List    ${split}    2
+    ${path_to_usb}=    Get From List    ${split}    1
     RETURN    ${path_to_usb}
 
 Get Current CONFIG List Param
