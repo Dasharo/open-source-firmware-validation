@@ -34,13 +34,14 @@ ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                         ${TRUE}
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
-@{ETH_PORTS}=                                   00-1e-06-45-ab-ba
-...                                             00-1e-06-45-ab-bb
+@{ETH_PORTS}=                                   00-1e-06-45-c4-ae
+...                                             00-1e-06-45-c4-af
 ...                                             00-1e-06-45-88-d8
 ...                                             00-1e-06-45-88-d7
 ...                                             00-1e-06-45-88-d6
 ...                                             00-1e-06-45-88-d5
 @{ETH_PERF_PAIR_2_G}=                           enp4s0    enp5s0
+${ETHERNET_ID}=                                 8086:125c
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${FALSE}
