@@ -573,7 +573,8 @@ Prepare To Serial Connection
     ELSE IF    '${CONFIG}' == 'no-rte'
         VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
     ELSE
-        ${platform}=    Get Current RTE Param    platform
+        ${platform_param}=    Get Current RTE Param    platform
+        VAR    ${PLATFORM}=    ${platform_param}    scope=GLOBAL
     END
     Get DUT To Start State
     # the following TRY/EXCEPT exposes telnet connection error preemptively
