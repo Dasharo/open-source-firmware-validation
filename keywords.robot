@@ -1488,6 +1488,11 @@ Identify Path To USB
     ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk}
     IF    'part' in $out
         ${out}=    Get Regexp Matches    ${out}    part
+        IF    len($out)>0
+            ${out}=    Get From List    ${out}    0
+        ELSE
+            ${out}=    ${EMPTY}
+        END
     END
     ${split}=    Split String    ${out}
     ${path_to_usb}=    Get From List    ${split}    2
