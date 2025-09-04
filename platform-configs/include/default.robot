@@ -276,7 +276,7 @@ ${FREQUENCY_TEST_MEASURE_INTERVAL}=                 1
 # Temperature measure test duration
 ${TEMPERATURE_TEST_DURATION}=                       3600
 # Interval between the following readings in temperature measure tests
-${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
+${TEMPERATURE_TEST_MEASURE_INTERVAL}=               60
 # Custom fan curve tests duration in minutes
 ${CUSTOM_FAN_CURVE_TEST_DURATION}=                  30
 # Interval between the following readings in custom fan curve tests
