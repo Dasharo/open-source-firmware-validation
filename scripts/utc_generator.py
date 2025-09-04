@@ -330,12 +330,6 @@ for idx, row in enumerate(test_rows):
             f"    Skip If    '{os_id_variable_names[row['OS ID']]}' not in ${{TESTED_LINUX_DISTROS}}    {row['Test ID']} not supported\n"
         )
 
-    # Semiauto skip
-    if row["automation"] == "semi":
-        robot_tests_lines[idx].append(
-            f"    Skip If    not ${{SEMI_AUTO}}    semi auto test skipped: SEMI_AUTO==${{SEMI_AUTO}}\n"
-        )
-
     # call the generic keyword for that test case type
     keyword_call = f"{row['Test Name'].title()}    {os_id_variable_names[row['OS ID']]}    {row['ME State']}    {row['Dock']}\n"
     robot_tests_lines[idx].append(f"    {keyword_call}\n")
