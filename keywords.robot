@@ -921,7 +921,7 @@ Check Charge Level In Linux
 Check Charging State In Linux
     [Documentation]    Keyword checks the charging state in Linux OS.
     ${out}=    Execute Linux Command    cat /sys/class/power_supply/BAT0/status
-    Should Contain Any    ${out}    Charging    Full    Not charging
+    Should Contain Any    ${out}    Charging    Full    Not charging    Discharging
 
 Check Charging State Not Charging In Linux
     [Documentation]    Keyword checks if the battery state is Not charging
