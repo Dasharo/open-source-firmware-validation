@@ -37,4 +37,3 @@ flashrom -p internal -N --fmap -i RW_SECTION_A -i WP_RO -w /tmp/biosupdate 0
 flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate 0
 reboot  0
 dmidecode  0
-dmidecode  0
