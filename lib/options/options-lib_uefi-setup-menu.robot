@@ -36,6 +36,11 @@ Set UEFI Option
     END
 
     Set Option State    ${menu}    ${option_path[${path_len}-1]}    ${value}
+
+    IF    '${option_name}' == 'PowerStateAfterPowerAcLoss'
+        VAR    ${POWER_STATE_AFTER_FAIL}=    ${value}    scope=GLOBAL
+    END
+
     Save Changes And Reset
 
 Get UEFI Option

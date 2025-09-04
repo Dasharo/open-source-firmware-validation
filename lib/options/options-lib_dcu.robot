@@ -22,6 +22,9 @@ Set UEFI Option
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${option_name}    ${value}
+    IF    '${option_name}' == 'PowerStateAfterPowerAcLoss'
+        VAR    ${POWER_STATE_AFTER_FAIL}=    ${value}    scope=GLOBAL
+    END
     Sleep    20s
 
 Get UEFI Option
