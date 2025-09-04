@@ -77,6 +77,7 @@ PSF004.002 Previous Power State Restoration Test - Powered On
     [Documentation]    This test ensures that the feature is able to correctly
     ...    restore the power state from the moment of failure, in this case to
     ...    power the DUT back on after power failure
+    [Tags]    BUG-ODROID
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF004.002 not supported
     Set UEFI Option    PowerStateAfterPowerAcLoss    The state at the moment of power failure
     Enter Setup Menu Tianocore
