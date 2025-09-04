@@ -677,9 +677,15 @@ Power Cycle On
     ...    by setting power supply to OFF, and then to ON. If platform needs
     ...    additional power button press, it will be used as well, so at the
     ...    end of this keyword platform starts booting. This is controlled via
-    ...    the DEFAULT_POWER_STATE_AFTER_FAIL variable defined in platform config.
-
+    ...    the POWER_STATE_AFTER_FAIL variable updated runtime during tests. If
+    ...    it does not exist, DEFAULT_POWER_STATE_AFTER_FAIL variable defined
+    ...    in platform config is used.
     Variable Should Exist    ${DEFAULT_POWER_STATE_AFTER_FAIL}
+    ${status}=    Run Keyword And Return Status    Variable Should Exist    ${POWER_STATE_AFTER_FAIL}
+    IF    not ${status}
+        VAR    ${POWER_STATE_AFTER_FAIL}=    ${DEFAULT_POWER_STATE_AFTER_FAIL}    scope=GLOBAL
+    END
+
     IF    "${OPTIONS_LIB}"=="options-lib_dcu" and "${POWER_CTRL}"=="none"
         Execute Reboot Command
         Sleep    5s
@@ -700,7 +706,7 @@ Power Cycle On
         END
         Rte Psu On
     END
-    IF    '${DEFAULT_POWER_STATE_AFTER_FAIL}' == 'Powered Off'
+    IF    '${POWER_STATE_AFTER_FAIL}' == 'Powered Off'
         Sleep    2s
         Rte Power On
     END

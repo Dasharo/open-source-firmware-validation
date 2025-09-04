@@ -22,7 +22,9 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    Power after fail tests not supported
-Suite Teardown      Run Keyword
+Suite Teardown      Run Keywords
+...                     Set UEFI Option    PowerStateAfterPowerAcLoss    ${DEFAULT_POWER_STATE_AFTER_FAIL}
+...                     AND
 ...                     Log Out And Close Connection
 
 Default Tags        automated
@@ -33,23 +35,14 @@ PSF001.001 Check Power State After Power Failure default state (firmware)
     [Documentation]    This test ensures that the option is present, and the
     ...    default state of this option after flashing is correct.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF001.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    ${state}=    Get Option State    ${pwr_menu}    Power state after
+    ${state}=    Get UEFI Option    PowerStateAfterPowerAcLoss
     Should Be Equal    ${state}    ${DEFAULT_POWER_STATE_AFTER_FAIL}
 
 PSF002.001 Powered Off State Restoration Test
     [Documentation]    This test ensures that the feature is able to
     ...    keep the DUT powered off after power failure.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF002.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${pwr_menu}    Power state after    Powered Off
-    Save Changes And Reset
+    Set UEFI Option    PowerStateAfterPowerAcLoss    Powered Off
     Enter Setup Menu Tianocore
     Simulate Power Failure
     ${output}=    Run Keyword And Return Status
@@ -60,12 +53,7 @@ PSF003.001 Powered On State Restoration Test
     [Documentation]    This test ensures that the feature is able to correctly
     ...    power the DUT back on after failure.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF003.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${pwr_menu}    Power state after    Powered On
-    Save Changes And Reset
+    Set UEFI Option    PowerStateAfterPowerAcLoss    Powered On
     Enter Setup Menu Tianocore
     Simulate Power Failure
     Enter Setup Menu Tianocore
@@ -75,15 +63,11 @@ PSF004.001 Previous Power State Restoration Test - Powered Off
     ...    restore the power state from the moment of failure, in this case to
     ...    keep the DUT powered off.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF004.001 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${pwr_menu}    Power state after    The state at the moment of power failure
-    Save Changes And Reset
+    Set UEFI Option    PowerStateAfterPowerAcLoss    The state at the moment of power failure
     Enter Setup Menu Tianocore
     # Power button press to power off the machine
     Rte Power On
+    VAR    ${POWER_STATE_AFTER_FAIL}=    Powered Off    scope=GLOBAL
     Simulate Power Failure
     ${output}=    Run Keyword And Return Status
     ...    Enter Setup Menu Tianocore
@@ -94,12 +78,8 @@ PSF004.002 Previous Power State Restoration Test - Powered On
     ...    restore the power state from the moment of failure, in this case to
     ...    power the DUT back on after power failure
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF004.002 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${pwr_menu}    Power state after    The state at the moment of power failure
-    Save Changes And Reset
+    Set UEFI Option    PowerStateAfterPowerAcLoss    The state at the moment of power failure
     Enter Setup Menu Tianocore
+    VAR    ${POWER_STATE_AFTER_FAIL}=    Powered On    scope=GLOBAL
     Simulate Power Failure
     Enter Setup Menu Tianocore
