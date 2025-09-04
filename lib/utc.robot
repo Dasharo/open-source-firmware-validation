@@ -22,7 +22,7 @@ Resource    options/options-lib_dcu.robot
 
 *** Keywords ***
 Prepare UTC Test Suite
-    VAR    ${UTC_CURRENT_ME_STATE}=    unknown    scope=SUITE
+    VAR    ${UTC_CURRENT_ME_STATE}=    unknown    scope=GLOBAL
 
 Ensure ME State
     [Arguments]    ${me_state}
@@ -32,14 +32,14 @@ Ensure ME State
         ELSE
             Set UEFI Option    MeMode    Disabled (HAP)
         END
-        VAR    ${UTC_CURRENT_ME_STATE}=    ${me_state}    scope=SUITE
+        VAR    ${UTC_CURRENT_ME_STATE}=    ${me_state}    scope=GLOBAL
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux
+        Switch To Root User
+        ${actual_me_state}=    Check ME Out
+        Should Contain    ${actual_me_state}    ${me_state}
+        Exit From Root User
     END
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Login To Linux
-    Switch To Root User
-    ${actual_me_state}=    Check ME Out
-    Should Contain    ${actual_me_state}    ${me_state}
-    Exit From Root User
 
 # Not automated
 # Usb Type-A Charging Capability
