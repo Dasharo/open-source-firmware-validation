@@ -19,6 +19,13 @@ Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     ...    The device has to be ON and logged in to Ubuntu
     [Arguments]    ${option_name}    ${value}
+    # Ensure a linux is booted
+    Power On
+    IF    '${BOOTED_OS_ID}'.startswith('2')
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    ELSE
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    END
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${option_name}    ${value}
