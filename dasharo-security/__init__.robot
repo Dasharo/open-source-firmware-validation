@@ -40,7 +40,7 @@ Prepare Platform
         Variable Should Exist    ${FW_FILE}
         Prepare Test Suite
         Flash Firmware    ${FW_FILE}
-        Power Cycle On
+        Power On
         ${version}=    Get Firmware Version
         ${coreboot_version}=    Get Firmware Version From Binary    ${FW_FILE}
         Log Out And Close Connection
