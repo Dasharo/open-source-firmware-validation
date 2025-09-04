@@ -132,6 +132,7 @@ ${DTS_TEST_BOARD_MODEL}=                        ODROID-H4
 ...                                             ${{ ("Initial Deployment", "DPP") }}
 ...                                             ${{ ("Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition", "DPP") }}
 ...                                             ${{ ("Dasharo (Slim Bootloader+UEFI) Initial Deployment", "DPP") }}
+...                                             ${{ ("UEFI Update", "DPP") }}
 
 
 *** Keywords ***
