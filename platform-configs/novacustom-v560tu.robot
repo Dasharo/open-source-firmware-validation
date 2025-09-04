@@ -33,6 +33,7 @@ ${USB_STACK_SUPPORT}=                   ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=              4602000
 ${USB_DEVICE}=                          SanDisk
 ${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=         ${TRUE}
 
 # cpu performance Ubuntu for processor ultra 5 125H
 ${ZIP_MULTI_COMPRESSION}=               15923    # MIPS
