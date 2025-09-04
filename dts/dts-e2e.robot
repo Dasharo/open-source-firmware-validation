@@ -29,6 +29,7 @@ Create tests
             END
         END
     END
+    [Teardown]    Teardown Template E2E DTS Test
 
 E2E001.001 HCL Report test
     [Documentation]    Verify that HCL Report is being executed with all
@@ -164,9 +165,9 @@ Prepare DTS Test
     ...    with clean shell environment for each test
     Start New DTS SSH Session In QEMU
 
-Teardown DTS Test
-    [Documentation]    Close SSH session and cleanup all possible changes made
-    ...    during test
+Teardown Template E2E DTS Test
+    [Documentation]    Close SSH session, verify profile if needed and cleanup
+    ...    all possible changes made during test
     Restore Initial DUT Connection Method
     # not sure if it's needed if we don't want to keep multiple sessions in
     # background
@@ -197,6 +198,17 @@ Teardown DTS Test
         Execute Command In Terminal
         ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs /tmp/dts-temp-files
     END
+
+Teardown DTS Test
+    [Documentation]    Close SSH session and cleanup all possible changes made
+    ...    during test
+    Restore Initial DUT Connection Method
+    # not sure if it's needed if we don't want to keep multiple sessions in
+    # background
+    SSHLibrary.Close Connection
+    Set Prompt For Terminal    bash-5.2#
+    Execute Command In Terminal
+    ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs /tmp/dts-temp-files
 
 Start New DTS SSH Session In QEMU
     [Documentation]    Changes connection method to ssh and logs in to DTS
