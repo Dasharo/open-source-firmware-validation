@@ -717,10 +717,7 @@ Power Cycle On
             IF    '${out}' == 'high'    RETURN
             Sleep    0.5s
         END
-        IF    '${out}' != 'high'
-            FAIL    Power LED didn't light up! Setup needs manual verification,
-            ...    or Power State After Power Failure is set incorrectly.
-        END
+        Should Be Equal As Strings    ${out}    high
     END
 
 OBMC Power Cycle On
