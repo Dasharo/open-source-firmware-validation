@@ -114,8 +114,10 @@ ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    20.3    # FPS
 ...                                     &{DTS_TEST_VERSIONS_BASE}
 ...                                     UEFI->Heads Transition=Dasharo (coreboot+UEFI) 0.9.0
 ...                                     UEFI Update=Dasharo (coreboot+UEFI) 0.9.0
+...                                     Fuse Platform=Dasharo (coreboot+UEFI) 1.0.0
 ${DTS_TEST_BOARD_MODEL}=                V540TU
-@{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update    UEFI->Heads Transition
+@{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update
+...                                     UEFI->Heads Transition    Fuse Platform
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                     ${{ ("UEFI Update", "DCR") }}

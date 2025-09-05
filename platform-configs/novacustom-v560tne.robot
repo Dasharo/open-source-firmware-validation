@@ -91,7 +91,11 @@ ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    26.2    # FPS
 ${OPTIONS_LIB}=                         options-lib_dcu
 
 # DTS E2E variables
+&{DTS_TEST_VERSIONS}=
+...                                     &{DTS_TEST_VERSIONS_BASE}
+...                                     Fuse Platform=Dasharo (coreboot+UEFI) 1.0.0
 ${DTS_TEST_BOARD_MODEL}=                V560TNx
 @{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update
+...                                     Fuse Platform
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI Update", "DCR") }}
