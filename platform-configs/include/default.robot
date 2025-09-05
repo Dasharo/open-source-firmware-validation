@@ -407,6 +407,7 @@ ${DTS_TEST_VERSION_BASE}=                           v0.0.0
 ...                                                 UEFI Update=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 ...                                                 UEFI->Heads Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
+...                                                 Fuse Platform=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 &{DTS_TEST_VERSIONS}=                               &{DTS_TEST_VERSIONS_BASE}
 # TEST_SYSTEM_MODEL, TEST_BOARD_MODEL, TEST_SYSTEM_VENDOR variables to export
 ${DTS_TEST_BOARD_MODEL}=                            ${EMPTY}
@@ -449,6 +450,7 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 SeaBIOS->UEFI Transition
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
 ...                                                 Dasharo (Slim Bootloader+UEFI) Initial Deployment
+...                                                 Fuse Platform
 # Set to e.g. DPP for platforms where only DPP workflows work
 @{DTS_TEST_DEFAULT_RELEASES}=                       DCR    DPP
 &{DTS_TEST_WORKFLOW_RELEASES_BASE}=
@@ -460,6 +462,7 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 UEFI->Heads Transition=@{{["DPP"]}}
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=@{{["DPP"]}}
 ...                                                 Dasharo (Slim Bootloader+UEFI) Initial Deployment=@{{["DPP"]}}
+...                                                 Fuse Platform=@{{["DCR"]}}
 # List of workflows which require profile comparison in the format:
 # list[tuple[workflow, release]] e.g.:
 # @{DTS_TEST_WORKFLOW_PROFILES}=

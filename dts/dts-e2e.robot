@@ -418,6 +418,13 @@ ${platform} Dasharo (Slim Bootloader+UEFI) Initial Deployment - DPP
     Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
     Wait For Checkpoint    ${DTS_CHECKPOINT}
 
+${platform} Fuse Platform - DCR
+    [Documentation]    Platform fusing workflow for DCR release
+    Prepare E2E Test
+    Go Through Fusing Platform
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+
 Prepare E2E Test
     [Documentation]    Prepare everything needed for platform and workflow
     ...    emulation. Keyword has to be run in shell. After keyword ends we

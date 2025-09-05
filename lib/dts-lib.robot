@@ -22,6 +22,7 @@ ${DTS_HEADS_SWITCH_QUESTION}=                   Would you like to switch to Dash
 ${DTS_ME_WARN}=
 ...                                             Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
 ${DTS_BOARD_QUESTION}=                          Choose your board model:
+${DTS_FUSE_WARN}=                               Fusing is irreversible. Are you sure you want to continue? [n/y]
 ${DTS_13_GEN_REGRESSION}=                       Aborting deployment...
 ${DPP_EMAIL_CHECKPOINT}=                        Enter DPP email:
 ${DPP_PASSWORD_CHECKPOINT}=                     Enter password:
@@ -37,6 +38,7 @@ ${DTS_HCL_OPT}=                                 1
 ${DTS_DEPLOY_OPT}=                              2
 ${DTS_CREDENTIALS_OPT}=                         4
 ${DTS_TRANSITION_OPT}=                          6
+${DTS_FUSE_OPT}=                                7
 ${DTS_DCR_UEFI_OPT}=                            c
 ${DTS_DPP_UEFI_OPT}=                            d
 ${DTS_DPP_SEA_OPT}=                             s
@@ -477,6 +479,20 @@ Go Through Heads Transition
         END
     END
     Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    Rebooting in
+    Wait For Checkpoint    Rebooting
+
+Go Through Fusing Platform
+    [Documentation]    This KW goes through standard Dasharo workflow which
+    ...    deploys binary that'll fuse platform, choosing all needed menu
+    ...    options and answering all questions.
+    Set DUT Response Timeout    120s
+
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_FUSE_OPT}
+    Wait For Checkpoint And Write    ${DTS_FUSE_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+
     Wait For Checkpoint    Rebooting in
     Wait For Checkpoint    Rebooting
 
