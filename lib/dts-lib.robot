@@ -254,14 +254,23 @@ Wait For Checkpoint
     Log    ${out}
     RETURN    ${out}
 
-Wait For Checkpoint And Write
+Wait For Checkpoint And Write Bare
     [Documentation]    This KW waits for checkpoint (first argument)
     ...    and writes specified answer (second argument), with logging all
     ...    output before the checkpoint.
     [Arguments]    ${checkpoint}    ${to_write}    ${regexp}=${FALSE}
     ${out}=    Wait For Checkpoint    ${checkpoint}    ${regexp}
     Sleep    1s
-    Write Into Terminal    ${to_write}
+    Write Bare Into Terminal    ${to_write}
+    RETURN    ${out}
+
+Wait For Checkpoint And Write
+    [Documentation]    This KW waits for checkpoint (first argument)
+    ...    and writes specified answer (second argument), with logging all
+    ...    output before the checkpoint.
+    [Arguments]    ${checkpoint}    ${to_write}    ${regexp}=${FALSE}
+    ${out}=    Wait For Checkpoint And Write Bare
+    ...    ${checkpoint}    ${to_write}${ENTER}    ${regexp}
     RETURN    ${out}
 
 Wait For Either Checkpoint And Write
