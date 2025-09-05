@@ -34,10 +34,25 @@ ${TPM_EXPECTED_CHIP}=               SLB9670
 ${OPTIONS_LIB}=                     options-lib_dcu
 
 # cpu performance Windows
-${SMALLPT_TEST_SCORE}=              30.796
-${CRAFTY_TEST_SCORE}=               7480997
-${CACHEBENCH_TEST_SCORE}=           75584.7
-${BLAKE2_TEST_SCORE}=               3.22
+&{UPP_SMALLPT_BENCHMARK}=           name=smallpt    score=30.796    scale=lower_is_better    dev=0.2    type=singlecore
+&{UPP_CRAFTY_BENCHMARK}=
+...                                 name=crafty
+...                                 score=7480997
+...                                 scale=higher_is_better
+...                                 dev=0.2
+...                                 type=singlecore
+&{UPP_CACHEBENCH_BENCHMARK}=
+...                                 name=cachebench
+...                                 score=75584.7
+...                                 scale=higher_is_better
+...                                 dev=0.2
+...                                 type=multicore
+&{UPP_BLAKE2_BENCHMARK}=            name=blake2    score=3.22    scale=lower_is_better    dev=0.2    type=multicore
+@{UPP_BENCHMARKS}=
+...                                 &{UPP_SMALLPT_BENCHMARK}
+...                                 &{UPP_CRAFTY_BENCHMARK}
+...                                 &{UPP_CACHEBENCH_BENCHMARK}
+...                                 &{UPP_BLAKE2_BENCHMARK}
 
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=               &{DTS_TEST_VERSIONS_BASE}    UEFI->Heads Transition=Dasharo (coreboot+UEFI) 1.7.2

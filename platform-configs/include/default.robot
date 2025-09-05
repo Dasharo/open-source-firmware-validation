@@ -234,6 +234,12 @@ ${MAX_ACCEPTABLE_REBOOT_TIME_STD_DEV_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_S}=                    20
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${FALSE}
 
+@{UPP_BENCHMARKS}=                                  ${TBD}
+&{UPP_BLAKE2_BENCHMARK}=                            &{EMPTY}
+&{UPP_CACHEBENCH_BENCHMARK}=                        &{EMPTY}
+&{UPP_CRAFTY_BENCHMARK}=                            &{EMPTY}
+&{UPP_SMALLPT_BENCHMARK}=                           &{EMPTY}
+
 # Test module: dasharo-stab
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}
 ${TPM_DETECT_SUPPORT}=                              ${FALSE}
@@ -312,9 +318,7 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                3
 # These were missing in default.robot and have been automatically
 # identified and added via: ./scripts/ci/check_platform_configs_vars.py
 
-${BLAKE2_TEST_SCORE}=                               ${TBD}
 ${BLUETOOTH_CARD_UBUNTU}=                           ${TBD}
-${CACHEBENCH_TEST_SCORE}=                           ${TBD}
 ${CLEVO_BATTERY_CAPACITY}=                          ${TBD}
 ${CLEVO_DISK}=                                      ${TBD}
 ${CLEVO_USB_C_HUB}=                                 ${TBD}
@@ -324,7 +328,6 @@ ${CPU_MAX_FREQUENCY}=                               ${TBD}
 ${CPU_MIN_FREQUENCY}=                               ${TBD}
 ${CPU_P_CORES_MAX}=                                 ${TBD}
 ${CPU_TEMPERATURE_MEASUREMENT_METHOD}=              ${TBD}
-${CRAFTY_TEST_SCORE}=                               ${TBD}
 ${CRAY_1080_P_RENDER}=                              ${TBD}
 ${CRAY_4_K_RENDER}=                                 ${TBD}
 ${CRAY_5_K_RENDER}=                                 ${TBD}
@@ -372,7 +375,6 @@ ${PLATFORM_RAM_SIZE}=                               ${TBD}
 ${PLATFORM_RAM_SPEED}=                              ${TBD}
 ${SD_WIRES_CONNECTED}=                              ${TBD}
 ${SD_WIRE_SERIAL1}=                                 ${TBD}
-${SMALLPT_TEST_SCORE}=                              ${TBD}
 ${UBU_RAND_READ_NONQUE}=                            ${TBD}
 ${UBU_RAND_READ_QUEUED}=                            ${TBD}
 ${UBU_RAND_WRITE_NONQUE}=                           ${TBD}

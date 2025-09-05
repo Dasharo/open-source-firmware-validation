@@ -11,7 +11,7 @@ Resource        ../keys.robot
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
 ...                 AND
-...                 Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
+...                 Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Tests in Windows not supported
 ...                 AND
 ...                 Pause Execution    It is advised to run this test via Powershell by ssh
 ...                 AND
@@ -22,43 +22,66 @@ Default Tags    semiauto
 
 
 *** Variables ***
-@{TESTS}=               smallpt    crafty    cachebench    blake2
-${DEVIATION_UP}=        1.2    # acceptable deviation +/-20%
-${DEVIATION_DOWN}=      0.8
+${DEVIATION}=       0.2
 
 
 *** Test Cases ***
 UPP001.301 Manual Single Threaded CPU Benchmark (Windows) (AC)
     [Documentation]    tbd you can do this test in ssh terminal
-    # Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UPP001.301 not supported
     Pause Execution
     ...    This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
     Execute Manual Step    Single Threaded [1/8] Power on the DUT
     Execute Manual Step    Single Threaded [2/8] Boot into Windows
     Execute Manual Step    Single Threaded [3/8] Login with default login and password
     Execute Manual Step    Single Threaded [4/8] Enter powershell as administrator
-    Run A Test Manually    smallpt    ${SMALLPT_TEST_SCORE}    # run smallpt
-    Run A Test Manually    crafty    ${CRAFTY_TEST_SCORE}    # run crafty
+    Run Supported Benchmarks    singlecore
 
 UPP002.301 Manual Multi Threaded CPU Benchmark (Windows) (AC)
     [Documentation]    tbd you can do this test in ssh terminal
-    # Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UPP001.302 not supported
     Pause Execution
     ...    This is semi-manual execution, in next step there will be instruction checklist of DUT setup modification.
     Execute Manual Step    [1/8] Power on the DUT
     Execute Manual Step    [2/8] Boot into Windows
     Execute Manual Step    [3/8] Login with default login and password
     Execute Manual Step    [4/8] Enter powershell as administrator
-    Run A Test Manually    cachebench    ${CACHEBENCH_TEST_SCORE}    # run cachebench
-    Run A Test Manually    blake2    ${BLAKE2_TEST_SCORE}    # run blake2
+    Run Supported Benchmarks    multicore
 
 
 *** Keywords ***
+Run Supported Benchmarks
+    [Documentation]    Runs all benchmarks by the given type
+    [Arguments]    ${target_type}    # singlecore / multicore
+
+    VAR    ${any_failed}=    ${FALSE}
+    VAR    @{errors}=    @{EMPTY}
+    FOR    ${benchmark_dict}    IN    @{UPP_BENCHMARKS}
+        ${type}=    Get From Dictionary    ${benchmark_dict}    type
+        IF    '${type}' == '${target_type}'
+            ${result}    ${msg}=    Run A Test Manually    ${benchmark_dict}
+            IF    not $result
+                VAR    ${any_failed}=    ${TRUE}
+                Append To List    ${errors}    ${msg}
+            END
+        END
+    END
+
+    IF    ${any_failed}
+        Log    Some benchmarks have failed:    ERROR
+        FOR    ${msg}    IN    @{errors}
+            Log    ${msg}    ERROR
+        END
+        Fail    Some benchmarks have failed
+    END
+
 Run A Test Manually
     [Documentation]    Conducting the whole test manually and comparing its result
     ...    with reference value.
-    [Arguments]    ${phoronix_test_name}    ${ref_val}
-
+    [Arguments]    ${benchmark_dict}
+    ${phoronix_test_name}=    Get From Dictionary    ${benchmark_dict}    name
+    ${ref_score}=    Get From Dictionary    ${benchmark_dict}    score
+    ${scale}=    Get From Dictionary    ${benchmark_dict}    scale
+    ${deviation}=    Get From Dictionary    ${benchmark_dict}    dev
+    ${deviation_percent}=    Evaluate    float(${deviation})*100
     Log To Console    ${\n}.\\phoronix-test-suite batch-run ${phoronix_test_name}
     Execute Manual Step
     ...    [6/8] Execute command in terminal:${\n}.\\phoronix-test-suite batch-run ${phoronix_test_name}
@@ -66,14 +89,32 @@ Run A Test Manually
     ...    [7/8] Wait until test finishes and prints the results on console
     ${benchmark_score}=    Get Value From User
     ...    [8/8] Enter benchmark score:
-    ${lower_bound}=    Evaluate    ${ref_val} * ${DEVIATION_DOWN}
-    ${higher_bound}=    Evaluate    ${ref_val} * ${DEVIATION_UP}
-    IF    ${benchmark_score} > ${higher_bound} or ${benchmark_score} < ${lower_bound}
-        Pause Execution    Results are out of acceptable values: ${higher_bound} - ${lower_bound}\n
-        Fail    Results are out of acceptable values: ${higher_bound} - ${lower_bound}\n
-    ELSE
-        Log To Console    The ${phoronix_test_name} passed with benchmark score: ${benchmark_score}
+    ${lower_bound}=    Evaluate    ${ref_score} * (1 - ${deviation})
+    ${higher_bound}=    Evaluate    ${ref_score} * (1 + ${deviation})
+
+    IF    '${scale}' == 'higher_is_better'
+        ${fail_condition}=    Evaluate    ${benchmark_score} < ${lower_bound}
+        ${too_good_condition}=    Evaluate    ${benchmark_score} > ${higher_bound}
+    ELSE IF    '${scale}' == 'lower_is_better'
+        ${fail_condition}=    Evaluate    ${benchmark_score} > ${higher_bound}
+        ${too_good_condition}=    Evaluate    ${benchmark_score} < ${lower_bound}
     END
+
+    IF    ${too_good_condition}
+        VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+        ...    is over ${deviation_percent}% better than reference value: ${ref_score}
+        Log    ${msg}    WARN
+        RETURN    ${TRUE}    ${msg}
+    ELSE IF    ${fail_condition}
+        VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+        ...    is over ${deviation_percent}% worse then the reference value: ${ref_score}
+        Log    ${msg}    ERROR
+        RETURN    ${FALSE}    ${msg}
+    END
+    VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+    ...    is acceptable for reference value of ${ref_score}
+    Log    ${msg}    CONSOLE
+    RETURN    ${TRUE}    ${msg}
 
 Detect Or Install Phoronix Test Suite On Windows
     [Documentation]    Detecting Or Installing Phoronix Test Suite On Windows
@@ -99,6 +140,11 @@ Detect Or Install Phoronix Test Suite On Windows
 
 Install Phoronix On Windows Manually
     [Documentation]    Installing Phoronix On Windows Manually
+    VAR    @{tests}=    @{EMPTY}
+    FOR    ${benchmark}    IN    @{UPP_BENCHMARKS}
+        ${name}=    Get From Dictionary    ${benchmark}    name
+        Append To List    ${tests}    ${name}
+    END
     Log To Console    Command: Test-Path "C:\\phoronix-test-suite\\phoronix-test-suite.bat"
     Execute Manual Step
     ...    Installation [1/14] Execute command in terminal: ${\n}Test-Path "C:\\phoronix-test-suite\\phoronix-test-suite.bat"
@@ -124,25 +170,25 @@ Install Phoronix On Windows Manually
     Log To Console    Command: .\\phoronix-test-suite
     Execute Manual Step
     ...    Installation [7/14] Execute command in terminal: ${\n}.\\phoronix-test-suite - this may take a long time to execute
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[0]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[0]
     Execute Manual Step
-    ...    Installation [8/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[0]
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[1]
+    ...    Installation [8/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[0]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[1]
     Execute Manual Step
-    ...    Installation [9/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[1]
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[2]
+    ...    Installation [9/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[1]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[2]
     Execute Manual Step
-    ...    Installation [10/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[2]
-    Log To Console    Command: .\\phoronix-test-suite install ${TESTS}[3]
+    ...    Installation [10/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[2]
+    Log To Console    Command: .\\phoronix-test-suite install ${tests}[3]
     Execute Manual Step
-    ...    Installation [11/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${TESTS}[3]
+    ...    Installation [11/14] Execute command in terminal: ${\n}.\\phoronix-test-suite install ${tests}[3]
     Log To Console    Command: .\\phoronix-test-suite list-installed-tests
     Execute Manual Step
     ...    Installation [13/14] Execute command in terminal: ${\n}.\\phoronix-test-suite list-installed-tests
     ${out}=    Get Selections From User    [14/14] Output should contain:
-    ...    @{TESTS}
+    ...    @{tests}
 
-    IF    ${TESTS} != ${out}    Fail    Not all tests installed
+    IF    ${tests} != ${out}    Fail    Not all tests installed
 
 Setup Phoronix Batch Mode
     [Documentation]    Configure batch mode required for more automated tests.
@@ -154,7 +200,7 @@ Setup Phoronix Batch Mode
     Execute Manual Step
     ...    Batch setup [3/8]${\n}Open the web browser automatically when in batch mode (y/N):${\n}Execute command in terminal: n
     Execute Manual Step
-    ...    Batch setup [4/8]${\n}Auto upload the results to OpenBenchmarking.org (Y/n):${\n}Execute command in terminal: n
+    ...    Batch setup [4/8]${\n}Auto upload the results to OpenBenchmarking.org (Y/n):${\n}Execute command in terminal: y
     Execute Manual Step
     ...    Batch setup [5/8]${\n}Prompt for test identifier (Y/n):${\n}Execute command in terminal: n
     Execute Manual Step

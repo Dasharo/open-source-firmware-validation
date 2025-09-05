@@ -39,9 +39,29 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 
 # cpu performance Windows
-${SMALLPT_TEST_SCORE}=                  38.263
-${CRAFTY_TEST_SCORE}=                   8494085
-${CACHEBENCH_TEST_SCORE}=               97428.4
-${BLAKE2_TEST_SCORE}=                   3.51
+&{UPP_SMALLPT_BENCHMARK}=
+...                                     name=smallpt
+...                                     score=38.263
+...                                     scale=lower_is_better
+...                                     dev=0.2
+...                                     type=singlecore
+&{UPP_CRAFTY_BENCHMARK}=
+...                                     name=crafty
+...                                     score=8494085
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=singlecore
+&{UPP_CACHEBENCH_BENCHMARK}=
+...                                     name=cachebench
+...                                     score=97428.4
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=multicore
+&{UPP_BLAKE2_BENCHMARK}=                name=blake2    score=3.51    scale=lower_is_better    dev=0.2    type=multicore
+@{UPP_BENCHMARKS}=
+...                                     &{UPP_SMALLPT_BENCHMARK}
+...                                     &{UPP_CRAFTY_BENCHMARK}
+...                                     &{UPP_CACHEBENCH_BENCHMARK}
+...                                     &{UPP_BLAKE2_BENCHMARK}
 
 # DTS E2E variables
