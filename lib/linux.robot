@@ -46,6 +46,7 @@ Check Unexpected Boot Errors
     Append To List    ${dmesg_err_allowlist}    i915 0000:00:02.0: [drm] *ERROR* GT1: GSC proxy handler failed to init
     # Not our bug
     Append To List    ${dmesg_err_allowlist}    proc_thermal_pci 0000:00:04.0: error: proc_thermal_add, will continue
+    Append To List    ${dmesg_err_allowlist}    tmpfs: Unsupported parameter 'huge'
     ${dmesg_err_txt}=    Execute Linux Command    dmesg -t -l err,crit,alert,emerg
     @{dmesg_err_list}=    Split To Lines    ${dmesg_err_txt}
     FOR    ${error}    IN    @{dmesg_err_list}
