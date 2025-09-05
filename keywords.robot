@@ -820,7 +820,7 @@ Execute Reboot Command
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
             Set Nextboot    ${BOOTED_OS_ID}
             Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
-            VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=SUITE
+            VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=GLOBAL
         END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'
