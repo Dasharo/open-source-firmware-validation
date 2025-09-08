@@ -23,6 +23,8 @@ ${DTS_ME_WARN}=
 ...                                             Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
 ${DTS_BOARD_QUESTION}=                          Choose your board model:
 ${DTS_13_GEN_REGRESSION}=                       Aborting deployment...
+${DPP_EMAIL_CHECKPOINT}=                        Enter DPP email:
+${DPP_PASSWORD_CHECKPOINT}=                     Enter password:
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=                      Community version
 ${DTS_DPP_UEFI_MENUPOINT}=                      DPP version (coreboot + UEFI)
@@ -223,12 +225,13 @@ Provide DPP Credentials
 
     # Enter email:
     Variable Should Exist    ${DPP_EMAIL}
-    Write Into Terminal    ${DPP_EMAIL}
+    Wait For Checkpoint And Write    ${DPP_EMAIL_CHECKPOINT}    ${DPP_EMAIL}
     # Enter password:
     Variable Should Exist    ${DPP_PASSWORD}
-    Write Into Terminal    ${DPP_PASSWORD}
+    Wait For Checkpoint And Write    ${DPP_PASSWORD_CHECKPOINT}    ${DPP_PASSWORD}
 
-    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    ${out}=    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    RETURN    ${out}
 
 Provide DPP Credentials Without Packages
     [Documentation]    This KW automatically writes DPP credentials that do not
