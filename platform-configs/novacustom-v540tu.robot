@@ -95,6 +95,8 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 
+${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
+
 
 *** Keywords ***
 Power On
