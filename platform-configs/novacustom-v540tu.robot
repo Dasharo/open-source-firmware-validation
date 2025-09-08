@@ -124,7 +124,7 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 ...                                     ${{ ("Fuse Platform", "DCR") }}
 
 ${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
-${FLASHING_METHOD}=                     ${NONE}
+
 
 *** Keywords ***
 Power On
