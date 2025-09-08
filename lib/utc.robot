@@ -26,19 +26,26 @@ Prepare UTC Test Suite
 
 Ensure ME State
     [Arguments]    ${me_state}
-    IF    '${me_state}' != '${UTC_CURRENT_ME_STATE}'
-        IF    '${me_state}' == 'Enabled'
-            Set UEFI Option    MeMode    Enabled
-        ELSE
-            Set UEFI Option    MeMode    Disabled (HAP)
-        END
-        VAR    ${UTC_CURRENT_ME_STATE}=    ${me_state}    scope=GLOBAL
+    IF    '${me_state}' not in '${UTC_CURRENT_ME_STATE}'
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux
         Switch To Root User
         ${actual_me_state}=    Check ME Out
-        Should Contain    ${actual_me_state}    ${me_state}
-        Exit From Root User
+        VAR    ${UTC_CURRENT_ME_STATE}=    ${actual_me_state}    scope=GLOBAL
+        IF    '${me_state}' not in '${UTC_CURRENT_ME_STATE}'
+            IF    '${me_state}' == 'Enabled'
+                Set UEFI Option    MeMode    Enabled
+            ELSE
+                Set UEFI Option    MeMode    Disabled (HAP)
+            END
+            Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+            Login To Linux
+            Switch To Root User
+            ${actual_me_state}=    Check ME Out
+            Should Contain    ${actual_me_state}    ${me_state}
+            VAR    ${UTC_CURRENT_ME_STATE}=    ${me_state}    scope=GLOBAL
+            Exit From Root User
+        END
     END
 
 # Not automated
