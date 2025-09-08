@@ -185,13 +185,19 @@ Prepare E2E Test
     # TODO: needed by 'Go Through Initial Deployment' keyword for couple of
     # NovaCustom boards
     VAR    ${DTS_TEST_BOARD_MODEL}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_BOARD_MODEL]    scope=TEST
+    Clean Up DTS Environment
+    Write Into Terminal    dts-boot
+
+Clean Up DTS Environment
+    [Documentation]    Remove and clean up everything that might affect tests.
+    ...    Should be run in DTS shell
     Execute Command In Terminal
     ...    rm -rf /etc/cloud-pass /root/.mc /*.tar.gz /root/*.tar.gz /tmp/logs/*profile /tmp/dts-temp-files
-    Write Into Terminal    dts-boot
 
 Prepare DTS Test
     [Documentation]    Used as test setup. Starts new SSH session so we start
     ...    with clean shell environment for each test
+    Execute Command In Terminal    systemctl start sshd
     Start New DTS SSH Session In QEMU
 
 Teardown Template E2E DTS Test
@@ -268,7 +274,6 @@ Prepare DTS E2E Test Suite
     VAR    ${DEVICE_OS_PASSWORD}=    ${EMPTY}    scope=SUITE
     Power On And Enter DTS Shell
     Set Prompt For Terminal    bash-5.2#
-    Execute Command In Terminal    systemctl start sshd
 
 Perform DCR Initial Deployment On Incompatible CPU Regression Test
     [Documentation]    Given a board with DCR-incompatible CPU, expect an error
