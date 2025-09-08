@@ -96,7 +96,7 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 
 ${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
-${FLASHING_METHOD}=                     ${NONE}
+
 
 *** Keywords ***
 Power On
