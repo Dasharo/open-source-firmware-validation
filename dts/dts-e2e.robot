@@ -77,11 +77,261 @@ E2E003.002 DCR UEFI Update On Msi-pro-z690-a-wifi-ddr4 With 13th Gen CPU Should 
 # Credentials tests:
 ################################################################################
 
-E2E007.001 QEMU Check credentials are being saved correctly
-E2E007.002 QEMU Check old credentials are being overwritten by new
-E2E007.003 QEMU Check wrong credentials should not allow to log into DPP services
-E2E007.004 QEMU Check correct credentials should allow to log into DPP services
-E2E007.005 QEMU Check empty credentials should not pass
+E2E007.001 Check credentials are being saved correctly
+    [Documentation]    Check that credentials are saved to /etc/cloud-pass and
+    ...    to mc correctly
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Write Into Terminal    dts-boot
+
+    Provide DPP Credentials
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Enter Shell In DTS
+    ${creds}=    Execute Command In Terminal    cat /etc/cloud-pass
+    @{lines}=    Split To Lines    ${creds}
+    ${line_num}=    Get Length    ${lines}
+    Should Be Equal As Integers    ${line_num}    2    cloud-pass file should have only 2 lines
+    IF    "${lines}[0]" != "${DPP_EMAIL}" or "${lines}[1]" != "${DPP_PASSWORD}"
+        Fail    E-mail or password is different from expected
+    END
+    ${creds2}=    Execute Command In Terminal    mc alias ls premium | grep "Key" | awk '{print $3}'
+    Should Be Equal    ${creds}    ${creds2}
+    ...    /etc/cloud-pass and mc credentials differ
+
+E2E007.002 Check old credentials are being overwritten by new
+    [Documentation]    Make sure that entering new credentials results in old
+    ...    being overwritten. Requires 2 sets of working credentials as mc
+    ...    doesn't save credentials that do not work.
+    Depends On Variable    \${DPP_EMAIL_FW_ONLY}
+    Depends On Variable    \${DPP_PASSWORD_FW_ONLY}
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Write Into Terminal    dts-boot
+
+    Provide DPP Credentials
+    VAR    ${DPP_EMAIL}=    ${DPP_EMAIL_FW_ONLY}    scope=TEST
+    VAR    ${DPP_PASSWORD}=    ${DPP_PASSWORD_FW_ONLY}    scope=TEST
+    Provide DPP Credentials
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Enter Shell In DTS
+
+    ${creds}=    Execute Command In Terminal    cat /etc/cloud-pass
+    @{lines}=    Split To Lines    ${creds}
+    ${line_num}=    Get Length    ${lines}
+    Should Be Equal As Integers    ${line_num}    2    cloud-pass file should have only 2 lines
+    IF    "${lines}[0]" != "${DPP_EMAIL_FW_ONLY}" or "${lines}[1]" != "${DPP_PASSWORD_FW_ONLY}"
+        Fail    E-mail or password is different from expected
+    END
+    ${creds2}=    Execute Command In Terminal    mc alias ls premium | grep "Key" | awk '{print $3}'
+    Should Be Equal    ${creds}    ${creds2}
+    ...    /etc/cloud-pass and mc credentials differ
+
+E2E007.003 Check wrong credentials should not allow to log into DPP services
+    [Documentation]    Entering wrong credentials shouldn't allow access to DPP
+    ...    services and shouldn't be saved
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Write Into Terminal    dts-boot
+
+    VAR    ${DPP_EMAIL}=    test@email.com    scope=TEST
+    VAR    ${DPP_PASSWORD}=    test-password    scope=TEST
+    ${out}=    Provide DPP Credentials
+    Should Contain    ${out}    Cannot log in to DPP server.
+    Should Not Contain    ${out}    Dasharo DPP credentials have been saved
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Enter Shell In DTS
+    ${creds}=    Execute Command In Terminal    cat /etc/cloud-pass
+    Should Not Contain Any    ${creds}    ${DPP_EMAIL}    ${DPP_PASSWORD}
+    ${creds2}=    Execute Command In Terminal
+    ...    mc alias ls premium | grep "Key" | awk '{print $3}'
+    Should Not Contain Any    ${creds2}    ${DPP_EMAIL}    ${DPP_PASSWORD}
+
+E2E007.004 Check correct credentials should allow to log into DPP services
+    [Documentation]    Entering correct credentials should allow access to DPP
+    ...    services
+    Clean Up DTS Environment
+    # We need to simulate supported platform
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[odroid-h4-plus]
+    ...    ${DTS_CONFIG_REF}
+    Write Into Terminal    dts-boot
+
+    ${out}=    Provide DPP Credentials
+    Should Contain    ${out}    Dasharo Pro Package (DPP): YES
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Enter Shell In DTS
+    ${rc}=    Execute Command In Terminal And Return RC    mc ls premium
+    Should Be Equal As Integers    ${rc}    0
+    ...    mc command failed to list buckets
+
+E2E007.005 Check empty e-mail should not pass
+    [Documentation]    Entering empty e-mail shouldn't be allowed
+    Clean Up DTS Environment
+    Write Into Terminal    dts-boot
+    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
+    Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
+    Wait For Checkpoint And Press Enter    ${DPP_EMAIL_CHECKPOINT}
+    Set DUT Response Timeout    15s
+    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Enter Shell In DTS
+    ${lines}=    Execute Command In Terminal
+    ...    cat /etc/cloud-pass 2>/dev/null | wc -l
+    Should Be Equal As Integers    ${lines}    0    cloud-pass shouldn't exist or at least be empty
+
+E2E007.006 Check empty password should not pass
+    [Documentation]    Entering empty password shouldn't be allowed
+    Clean Up DTS Environment
+    Write Into Terminal    dts-boot
+    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
+    Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
+    Wait For Checkpoint And Write    ${DPP_EMAIL_CHECKPOINT}    ${DPP_EMAIL}
+    Wait For Checkpoint And Press Enter    ${DPP_PASSWORD_CHECKPOINT}
+    ${out}=    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Should Not Contain    ${out}    Dasharo Pro Package (DPP):
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Enter Shell In DTS
+    ${lines}=    Execute Command In Terminal
+    ...    cat /etc/cloud-pass 2>/dev/null | wc -l
+    Should Be Equal As Integers    ${lines}    0    cloud-pass shouldn't exist or at least be empty
+
+E2E007.008 Check DPP credentials with access to only firmware
+    [Documentation]    Those credentials should allow access only to DPP
+    ...    firmware
+    Depends On Variable    \${DPP_EMAIL_FW_ONLY}
+    Depends On Variable    \${DPP_PASSWORD_FW_ONLY}
+    Clean Up DTS Environment
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[odroid-h4-plus]
+    ...    ${DTS_CONFIG_REF}
+    Write Into Terminal    dts-boot
+
+    VAR    ${DPP_EMAIL}=    ${DPP_EMAIL_FW_ONLY}    scope=TEST
+    VAR    ${DPP_PASSWORD}=    ${DPP_PASSWORD_FW_ONLY}    scope=TEST
+    ${out}=    Provide DPP Credentials
+    Should Contain    ${out}    Dasharo Pro Package (DPP): YES
+    Should Contain    ${out}    DTS Extensions: NO
+
+E2E007.009 Check DPP credentials with access to only extensions
+    [Documentation]    Those credentials should allow access only to DTS
+    ...    extensions
+    Depends On Variable    \${DPP_EMAIL_EXTENSIONS_ONLY}
+    Depends On Variable    \${DPP_PASSWORD_EXTENSIONS_ONLY}
+    Clean Up DTS Environment
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[odroid-h4-plus]
+    ...    ${DTS_CONFIG_REF}
+    Write Into Terminal    dts-boot
+
+    VAR    ${DPP_EMAIL}=    ${DPP_EMAIL_EXTENSIONS_ONLY}    scope=TEST
+    VAR    ${DPP_PASSWORD}=    ${DPP_PASSWORD_EXTENSIONS_ONLY}    scope=TEST
+    ${out}=    Provide DPP Credentials
+    Should Contain    ${out}    Dasharo Pro Package (DPP): NO
+    Should Contain    ${out}    DTS Extensions: YES
+
+E2E007.010 Check DPP credentials without DPP access
+    [Documentation]    Those credentials shouldn't allow access to any firmware
+    ...    or DTS extensions
+    Depends On Variable    \${DPP_EMAIL_NO_ACCESS}
+    Depends On Variable    \${DPP_PASSWORD_NO_ACCESS}
+    Clean Up DTS Environment
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[odroid-h4-plus]
+    ...    ${DTS_CONFIG_REF}
+    Write Into Terminal    dts-boot
+
+    VAR    ${DPP_EMAIL}=    ${DPP_EMAIL_NO_ACCESS}    scope=TEST
+    VAR    ${DPP_PASSWORD}=    ${DPP_PASSWORD_NO_ACCESS}    scope=TEST
+    ${out}=    Provide DPP Credentials
+    Should Contain    ${out}    Something may be wrong with the DPP credentials
+    ${out}=    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Should Contain    ${out}    Dasharo Pro Package (DPP): NO
+    Should Contain    ${out}    DTS Extensions: NO
+
+E2E007.011 Check DPP credentials with both DPP firmware and DTS extensions access
+    [Documentation]    Those credentials should allow access to both DPP
+    ...    firmware and DTS extensions
+    Clean Up DTS Environment
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[odroid-h4-plus]
+    ...    ${DTS_CONFIG_REF}
+    Write Into Terminal    dts-boot
+
+    ${out}=    Provide DPP Credentials
+    Should Contain    ${out}    Dasharo Pro Package (DPP): YES
+    Should Contain    ${out}    DTS Extensions: YES
+
+E2E008.001 Reboot UI Option Calls Reboot Command
+    [Documentation]    Reboot (R) UI option should call mocked reboot command
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Write Into Terminal    dts-boot
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Write Bare Into Terminal    R
+    Wait For Checkpoint    common_mock: using reboot
+
+E2E008.002 Poweroff UI Option Calls Poweroff Command
+    [Documentation]    Poweroff (P) UI option should call mocked poweroff
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Write Into Terminal    dts-boot
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Write Bare Into Terminal    P
+    Wait For Checkpoint    common_mock: using poweroff
+
+E2E008.003 Launch SSH Server UI Option Enables SSH Server Command
+    [Documentation]    Launch SSH Server (K) UI option should start sshd server
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Execute Command In Terminal    systemctl stop sshd
+    Write Into Terminal    dts-boot
+    ${out}=    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Should Not Contain    ${out}    SSH status: ON
+    Write Bare Into Terminal    K
+    ${out}=    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
+    Should Contain All    ${out}    Starting SSH server!    Listening on IPs
+    ${out}=    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Should Contain    ${out}    SSH status: ON
+
+E2E008.004 Enable Sending Logs UI Option Should Enable DTS Log Sending
+    [Documentation]    Enable Sending DTS Logs (L) should enable automatic log
+    ...    sending e.g. when entering shell
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Write Into Terminal    dts-boot
+    ${out}=    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Should Contain    ${out}    L to enable
+    Write Bare Into Terminal    L
+    ${out}=    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Should Contain    ${out}    L to disable
+    Write Bare Into Terminal    S
+    SSHLibrary.Read Until    Sending logs...
+
+E2E009.001 DTS extensions are installed and can be used
+    [Documentation]    Test that DTS extensions are installed after entering DPP
+    ...    keys with access to them and that they can be used after.
+    Clean Up DTS Environment
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Write Into Terminal    dts-boot
+
+    ${out}=    Provide DPP Credentials
+    Should Contain    ${out}
+    ...    Package txeconfigtool-git-r0.core2_64.rpm have been installed successfully!
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+    Enter Shell In DTS
+    ${rc}=    Execute Command In Terminal And Return RC    command -V txeconfigtool
+    Should Be Equal As Integers    ${rc}    0    txeconfigtool can't be found
+
 
 *** Keywords ***
 # robocop: disable:0919
