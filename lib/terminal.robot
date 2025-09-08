@@ -303,6 +303,30 @@ Execute Command In Terminal
     ${output}=    Strip String    ${output}    mode=right    characters=\n\r
     RETURN    ${output}
 
+Execute Command In Terminal And Return RC
+    [Documentation]    Universal keyword to execute command regardless of the
+    ...    used method of connection to the DUT (Telnet or SSH). The DUT Response
+    ...    Timeout is changed to ``${timeout}`` and not restored.
+    ...
+    ...    === Requirements ===
+    ...    The command prompt has to be set using ``Set Prompt For Terminal``
+    ...
+    ...    === Arguments ===
+    ...    - ``${command}``: ``string`` - The command to execute
+    ...    - ``${timeout}``: ``string`` = ``30s`` - The DUT Response Timeout for
+    ...    \ executing the command
+    ...
+    ...    === Return Value ===
+    ...    ``string`` - Return code of the executed function (as returned by $?)
+    ...
+    ...    === Effects ===
+    ...    The ``${command}`` is written to the terminal and the keyword waits
+    ...    until the execution ends or ``${timeout}`` passes.
+    [Arguments]    ${command}    ${timeout}=30s
+    Execute Command In Terminal    ${command}    ${timeout}
+    ${rc}=    Execute Command In Terminal    echo $?    ${timeout}
+    RETURN    ${rc}
+
 Execute UEFI Shell Command
     [Documentation]
     ...    Executes a command in UEFI Shell. For some reason, text longer than
