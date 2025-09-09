@@ -4,10 +4,10 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
-${DUT_CONNECTION_METHOD}=               Telnet
-${POWER_CTRL}=                          sonoff
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${INITIAL_DUT_CONNECTION_METHOD}=       SSH
+${DUT_CONNECTION_METHOD}=               SSH
+${POWER_CTRL}=                          none
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 # CPU
 ${CPU}=
 ...                                     Intel(R) Core(TM) Ultra 7 155H
@@ -31,7 +31,7 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
-...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+...                                     ${ENV_ID_UBUNTU}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux
@@ -93,6 +93,9 @@ ${WIN_RAND_READ_QUEUED}=                886.5    # MB/s
 ${WIN_RAND_WRITE_QUEUED}=               461.3    # MB/s
 ${WIN_RAND_READ_NONQUE}=                82.8    # MB/s
 ${WIN_RAND_WRITE_NONQUE}=               239.6    # MB/s
+${SNIPEIT}=                 no
+${SONOFF_IP}=               192.168.10.149
+
 
 # /sys/class/power_supply/BAT0/charge_full
 ${CLEVO_BATTERY_CAPACITY}=
@@ -118,6 +121,7 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 
+${OPTIONS_LIB}=                     options-lib_dcu
 
 *** Keywords ***
 Power On

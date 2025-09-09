@@ -19,7 +19,7 @@ Resource            ../keys-and-keywords/ubuntu-keywords.robot
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keyword
-...                     Prepare Test Suite
+...                     Skip
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 

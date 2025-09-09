@@ -262,10 +262,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.10.57
 
 # NovaCustom V540TU test rack
-&{RTE72}=                   ip=192.168.10.15
-...                         platform=novacustom-v540tu
+&{RTE72}=                   ip=192.168.4.106
+...                         platform=novacustom-v560tu
 ...                         platform_vendor=Clevo
-...                         sonoff_ip=192.168.10.150
+...                         sonoff_ip=192.168.10.149
 
 # NovaCustom V560TND test desktop
 &{RTE73}=                   ip=192.168.10.25

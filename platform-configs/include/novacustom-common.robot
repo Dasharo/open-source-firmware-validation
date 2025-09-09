@@ -7,7 +7,7 @@ Resource    ../../lib/novacustom-lib.robot
 # For the pikvm connection, we switch between pikvm/SSH when in firmware/OS.
 # We need to go back to the initial method (pikvm) when switching back from
 # OS to firmware (e.g. when rebooting inside a single test case).
-${INITIAL_DUT_CONNECTION_METHOD}=                   SSH
+${INITIAL_DUT_CONNECTION_METHOD}=                   Telnet
 ${DUT_CONNECTION_METHOD}=                           ${INITIAL_DUT_CONNECTION_METHOD}
 ${PAYLOAD}=                                         tianocore
 ${TIANOCORE_STRING}=                                to boot directly

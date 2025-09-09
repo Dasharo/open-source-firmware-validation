@@ -98,6 +98,8 @@ ${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=     24.5    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    23.5    # FPS
 
+${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
+
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=
 ...                                     &{DTS_TEST_VERSIONS_BASE}

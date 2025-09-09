@@ -1,5 +1,5 @@
 *** Variables ***
-${POWER_CTRL}=                                      none
+${POWER_CTRL}=                                      sonoff
 
 # Flash
 ${FLASH_SIZE}=                                      ${32*1024*1024}
