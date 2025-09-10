@@ -116,3 +116,6 @@ Fwupd Local Firmware Update Linux
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
     ${out}=    Execute Command In Terminal    yes n | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older    timeout=300s
     Should Contain    ${out}    Successfully installed firmware
+    Execute Reboot Command
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux
