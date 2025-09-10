@@ -20,13 +20,13 @@ ${3_MDEB_WIFI_NETWORK}=                         3mdeb_abr
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                         Keyboard
 ${DMIDECODE_PRODUCT_NAME}=                      V5xTNC_TND_TNE
-${EXTERNAL_HEADSET}=                            USB PnP Audio Device
+${EXTERNAL_HEADSET}=                            JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                           4800
 ${CPU_MIN_FREQUENCY}=                           200
 ${PLATFORM_CPU_SPEED}=                          3.0
 
 ${DGPU_ONLY_SUPPORT}=                           ${TRUE}
-${TESTS_IN_WINDOWS_SUPPORT}=                    ${FALSE}    # change windows/ubuntu support depending
+${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}    # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}    # on which OS is first in the boot order
 
 ${WIFI_CARD_UBUNTU}=
@@ -60,6 +60,7 @@ ${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
 ${ZIP_MULTI_COMPRESSION}=                       63476    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=                     39336    # MIPS
 ${CRAY_5_K_RENDER}=                             654.5    # sec
+${CRAY_4_K_RENDER}=                             356.9    # sec
 ${CRAY_4_K_RENDER}=                             356.9    # sec
 ${CRAY_1080_P_RENDER}=                          90.8    # sec
 ${COREMARK_SINGLE}=                             400079.5    # iterations/s
