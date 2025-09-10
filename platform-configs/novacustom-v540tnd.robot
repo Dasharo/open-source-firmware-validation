@@ -9,7 +9,7 @@ ${DUT_CONNECTION_METHOD}=               SSH
 ${POWER_CTRL}=                          none
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 ${OPTIONS_LIB}=                         options-lib_dcu
-${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
@@ -47,6 +47,14 @@ ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}
 
 ${TPM_SUPPORTED_VERSION}=                       2
 ${TPM_EXPECTED_CHIP}=                           SLB9672
+${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
+# /sys/class/power_supply/BAT0/charge_full
+${CLEVO_BATTERY_CAPACITY}=
+...                                     4636000
+${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
+${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
+${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
 
 # cpu performance Ubuntu
 ${ZIP_MULTI_COMPRESSION}=                       63476    # MIPS
