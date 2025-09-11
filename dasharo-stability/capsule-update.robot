@@ -384,7 +384,6 @@ Upload Required Files SSH
     ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     VAR    ${commands}=    pushd osfv;
-    ...    git switch novacustom-capsule-tests;    # TODO temporary, remove before merging
     ...    git submodule update --init --checkout;
     ...    export FW_FILE=/root/${fw_filename};
     ...    export CAPSULE_FW_FILE=/root/${caps_filename};
