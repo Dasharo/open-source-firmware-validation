@@ -39,7 +39,7 @@ fi
 # try to unmount, fails if not mounted
 udisksctl unmount -b $DRIVE || true
 # format to fat32
-mkfs.vfat $DRIVE    # requires root privilege
+mkfs.vfat -I $DRIVE   # requires root privilege
 fatlabel $DRIVE $DRIVE_LABEL
 sleep 1
 # mount drive
