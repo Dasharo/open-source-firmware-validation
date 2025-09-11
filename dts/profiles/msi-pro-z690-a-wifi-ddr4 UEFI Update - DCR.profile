@@ -20,7 +20,6 @@ dmidecode -s bios-version 0
 flashrom -p internal --flash-name 0
 flashrom -p internal --flash-size 0
 fsread_tool test -e /sys/class/power_supply/AC/online 1
-lscpu  0
 flashrom -p internal 0
 flashrom -p internal -r /tmp/dasharo_dump.rom --fmap -i FMAP -i SMMSTORE 0
 cbfstool /tmp/dasharo_dump.rom read -r SMMSTORE -f /tmp/smmstore.bin 0
