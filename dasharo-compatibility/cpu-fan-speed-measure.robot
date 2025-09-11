@@ -64,7 +64,7 @@ FAN003.201 Fans are turning off during suspend mode with ME Enabled
     Login To Linux
     Switch To Root User
     Log To Console    \nFan test started, please check fan state manually
-    Execute Command In Terminal    fwts s3 -f -r /tmp/suspend_test_log.log    90
+    Perform Suspend Test Using FWTS
     Log To Console    \nFan state test ended, please note the result
 
 FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
@@ -77,7 +77,7 @@ FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
     Login To Linux
     Switch To Root User
     Log To Console    \nFan test started, please check fan state manually
-    Execute Command In Terminal    fwts s3 -f -r /tmp/suspend_test_log.log    90
+    Perform Suspend Test Using FWTS
     Log To Console    \nFan state test ended, please note the result
 
 FAN005.201 Fans are turning off during suspend mode with ME HAP disabled
@@ -90,7 +90,7 @@ FAN005.201 Fans are turning off during suspend mode with ME HAP disabled
     Login To Linux
     Switch To Root User
     Log To Console    \nFan test started, please check fan state manually
-    Execute Command In Terminal    fwts s3 -f -r /tmp/suspend_test_log.log    90
+    Perform Suspend Test Using FWTS
     Log To Console    \nFan state test ended, please note the result
 
 FAN006.201 GPU fan speed measure
