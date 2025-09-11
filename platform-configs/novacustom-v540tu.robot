@@ -121,6 +121,7 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                     ${{ ("UEFI Update", "DCR") }}
+...                                     ${{ ("Fuse Platform", "DCR") }}
 
 
 *** Keywords ***

@@ -107,3 +107,4 @@ ${DTS_TEST_BOARD_MODEL}=                V560TU
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                     ${{ ("UEFI Update", "DCR") }}
+...                                     ${{ ("Fuse Platform", "DCR") }}
