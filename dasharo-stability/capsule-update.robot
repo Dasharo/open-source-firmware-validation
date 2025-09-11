@@ -390,7 +390,7 @@ Upload Required Files SSH
     ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
     ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
     ...    popd;
-    Execute Command In Terminal    ${commands}
+    Execute Command In Terminal    ${commands}    timeout=120s
 
 Perform Capsule Update
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
