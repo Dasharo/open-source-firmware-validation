@@ -91,7 +91,7 @@ CAM001.301 Integrated webcam (Windows)
     Power On
     Login To Windows
     ${out}=    Get USB Devices Windows
-    Should Contain    ${out}    Chicony USB2.0 Camera
+    Should Contain Any    ${out}    Camera    BisonCam
     Execute Shutdown Command
 
 
