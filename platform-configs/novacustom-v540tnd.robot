@@ -4,11 +4,11 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       SSH
-${DUT_CONNECTION_METHOD}=               SSH
-${POWER_CTRL}=                          none
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
-${OPTIONS_LIB}=                         options-lib_dcu
+${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
+${DUT_CONNECTION_METHOD}=               Telnet
+${POWER_CTRL}=                          sonoff
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
