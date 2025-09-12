@@ -58,7 +58,7 @@ Get Boot Menu Construction
     ...    === Effects ===
     ...    - The boot menu is read from the serial buffer
 
-    ${menu}=    Read From Terminal Until    exit
+    ${menu}=    Read From Terminal Until    ESC to exit
     # Lines to strip:
     #    TOP:
     #    Please select boot device:
