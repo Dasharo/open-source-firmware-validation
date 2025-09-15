@@ -2410,48 +2410,111 @@
     "doc": {
       "_id": "DIO001.202",
       "name": "Sequential Read Performance (Ubuntu) (Battery)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "DIO002.201"
     }
   },
   {
     "doc": {
       "_id": "DIO002.201",
       "name": "Sequential Write Performance (Ubuntu) (AC)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "DIO003.201"
     }
   },
   {
     "doc": {
       "_id": "DIO002.202",
       "name": "Sequential Write Performance (Ubuntu) (Battery)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "DIO004.201"
     }
   },
   {
     "doc": {
       "_id": "DIO003.201",
       "name": "Random Read Performance (Ubuntu) (AC)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "DIO005.201"
     }
   },
   {
     "doc": {
       "_id": "DIO003.202",
       "name": "Random Read Performance (Ubuntu) (Battery)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "DIO006.201"
     }
   },
   {
     "doc": {
       "_id": "DIO004.201",
       "name": "Random Write Performance (Ubuntu) (AC)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "DIO007.201"
     }
   },
   {
     "doc": {
       "_id": "DIO004.202",
       "name": "Random Write Performance (Ubuntu) (Battery)",
+      "module": "Dasharo Performance",
+      "changed_to": "DIO008.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO001.301",
+      "name": "Sequential Read Performance (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO002.301",
+      "name": "Sequential Read Performance (Windows) (Battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO003.301",
+      "name": "Sequential Write Performance (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO004.301",
+      "name": "Sequential Write Performance (Windows) (Battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO005.301",
+      "name": "Random Read Performance (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO006.301",
+      "name": "Random Read Performance (Windows) (Battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO007.301",
+      "name": "Random Write Performance (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DIO008.301",
+      "name": "Random Write Performance (Windows) (Battery)",
       "module": "Dasharo Performance"
     }
   },

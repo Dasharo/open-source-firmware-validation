@@ -190,7 +190,7 @@ DIO008.201 Random Write Performance (Ubuntu) (Battery)
     ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
     ...    Random Write BW Non-Queued is below expected
 
-DIO001.003 Sequential Read Performance (Windows) (AC)
+DIO001.301 Sequential Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
@@ -203,7 +203,7 @@ DIO001.003 Sequential Read Performance (Windows) (AC)
     Run FIO On Windows    sequential_with_queues_mt
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
-DIO001.004 Sequential Read Performance (Windows) (Battery)
+DIO002.301 Sequential Read Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while powered by inbuilt battery. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
@@ -218,7 +218,7 @@ DIO001.004 Sequential Read Performance (Windows) (Battery)
     Run FIO On Windows    sequential_with_queues_mt
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
 
-DIO002.003 Sequential Write Performance (Windows) (AC)
+DIO003.301 Sequential Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
@@ -233,7 +233,7 @@ DIO002.003 Sequential Write Performance (Windows) (AC)
     Power Cycle Into Ubuntu    # as of march 4 2025, running tests on novacustom is rather
     # primitive and default starting point is ubuntu
 
-DIO002.004 Sequential Write Performance (Windows) (Battery)
+DIO004.301 Sequential Write Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of multi threaded write
     ...    performance, while powered by inbuilt battery. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
@@ -249,7 +249,7 @@ DIO002.004 Sequential Write Performance (Windows) (Battery)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     Power Cycle Into Ubuntu
 
-DIO003.003 Random Read Performance (Windows) (AC)
+DIO005.301 Random Read Performance (Windows) (AC)
     [Documentation]    Check various scenarios of single threaded write
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
@@ -259,7 +259,7 @@ DIO003.003 Random Read Performance (Windows) (AC)
     ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
     Power Cycle Into Ubuntu
 
-DIO003.004 Random Read Performance (Windows) (Battery)
+DIO006.301 Random Read Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of single threaded write
     ...    performance, while powered by inbuilt battery. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
@@ -271,7 +271,7 @@ DIO003.004 Random Read Performance (Windows) (Battery)
     ...    --rw=randread --bs=4K --iodepth=32 --numjobs=1 --size=10G
     Power Cycle Into Ubuntu
 
-DIO004.003 Random Write Performance (Windows) (AC)
+DIO007.301 Random Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
     ...    performance, while connected to power supply unit. (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
@@ -281,7 +281,7 @@ DIO004.003 Random Write Performance (Windows) (AC)
     ...    --rw=randwrite --bs=4K --iodepth=32 --numjobs=4 --size=10G
     Power Cycle Into Ubuntu
 
-DIO004.004 Random Write Performance (Windows) (Battery)
+DIO008.301 Random Write Performance (Windows) (Battery)
     [Documentation]    Check various scenarios of multi threaded write
     ...    performance, while powered by inbuilt battery.(Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
