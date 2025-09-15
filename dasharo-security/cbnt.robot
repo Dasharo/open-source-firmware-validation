@@ -185,7 +185,7 @@ Check CBnT Profile 5
     ...    profile 5
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -1    timeout=120s
     Should Match Regexp    ${out_cbmem}    FACB:\\s+1\\n
     Should Match Regexp    ${out_cbmem}    measured boot:\\s+1\\n
     Should Match Regexp    ${out_cbmem}    verified boot:\\s+1\\n
