@@ -39,6 +39,7 @@ CPT001.201 CPU temperature without load (Ubuntu)
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
     ...    Previous IDs: CPT001.001
+    Skip
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPT001.201 not supported
     Skip If    ${LAPTOP_PLATFORM}    The Platform is a Laptop

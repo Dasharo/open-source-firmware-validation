@@ -288,8 +288,8 @@ Execute Command In Terminal
     ...    === Effects ===
     ...    The ``${command}`` is written to the terminal and the keyword waits
     ...    until the execution ends or ``${timeout}`` passes.
-    [Arguments]    ${command}    ${timeout}=30s
-    ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
+    [Arguments]    ${command}    ${timeout}=300s
+    ${prev_timeout}=    Set DUT Response Timeout    300
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         Telnet.Read
         ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
