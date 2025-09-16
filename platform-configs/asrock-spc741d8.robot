@@ -42,23 +42,19 @@ ${MAX_CPU_TEMP}=                                80
 
 ${WATCHDOG_SUPPORT}=                            ${FALSE}
 
-${DEF_THREADS_TOTAL}=                           4
-${DEF_THREADS_PER_CORE}=                        1
-${DEF_CORES_PER_SOCKET}=                        4
+${DEF_THREADS_TOTAL}=                           24
+${DEF_THREADS_PER_CORE}=                        2
+${DEF_CORES_PER_SOCKET}=                        12
 ${DEF_SOCKETS}=                                 1
-${DEF_ONLINE_CPU}=                              0-3
+${DEF_ONLINE_CPU}=                              0-23
 
 # get-robot-variables suggests 3,40, but 0,80 is what setup menu shows
-${PLATFORM_CPU_SPEED}=
-...                                             0.80
-${PLATFORM_RAM_SPEED}=                          4800
-${PLATFORM_RAM_SIZE}=                           49152
+${PLATFORM_CPU_SPEED}=                          2.0
+${PLATFORM_RAM_SPEED}=                          4000
+${PLATFORM_RAM_SIZE}=                           16384
 
 ${CPU}=                                         Intel(R) Xeon(R) Silver 4410Y
 
-${WIFI_CARD}=                                   MEDIATEK Corp. Device 7906
-${WIFI_CARD_UBUNTU}=                            MEDIATEK Corp. Device 7906
-${BLUETOOTH_CARD_UBUNTU}=                       Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)
 ${USB_MODEL}=                                   SanDisk
 ${USB_DEVICE}=                                  SanDisk
 @{ATTACHED_USB}=                                SanDisk
@@ -124,6 +120,9 @@ ${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
 ${ROMHOLE_SUPPORT}=                             ${TRUE}
 ${USB_DETECTION_ITERATIONS_NUMBER}=             5
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
+
+${DCU_UUID_SUPPORT}=                            ${TRUE}
+${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 
 
 *** Keywords ***
