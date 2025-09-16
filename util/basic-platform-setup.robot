@@ -23,7 +23,7 @@ Suite Setup         Run Keyword
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
-Default Tags        automated
+Default Tags        automated    minimal-regression
 
 
 *** Test Cases ***
