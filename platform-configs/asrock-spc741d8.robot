@@ -1,68 +1,67 @@
+*** Comments ***
 # SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
+
 
 *** Settings ***
 Resource    include/default.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=     Telnet
-${DUT_CONNECTION_METHOD}=             Telnet
+${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
+${DUT_CONNECTION_METHOD}=                       Telnet
 
-${FLASH_SIZE}=                          ${64*1024*1024}
+${FLASH_SIZE}=                                  ${64*1024*1024}
 
-${INITIAL_CPU_FREQUENCY}=           2000
-${FLASHING_METHOD}=                 external
+${INITIAL_CPU_FREQUENCY}=                       2000
+${FLASHING_METHOD}=                             external
 
 # dmidecode.robot
-${MANUFACTURER}=                    ASROCK
-${DMIDECODE_VENDOR}=                3mdeb
-${DMIDECODE_SERIAL_NUMBER}=         123456789
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.0-rc3
-${DMIDECODE_PRODUCT_NAME}=          SPC741D8-2L2T/BCM
-${DMIDECODE_RELEASE_DATE}=          09/12/2025
-${DMIDECODE_TYPE}=                  Desktop
-${CHECK_POWER_LED_SUPPORT}=         ${FALSE}
-${FLASH_VERIFY_METHOD}=             iPXE-boot
-${TESTS_IN_UBUNTU_SUPPORT}=         ${TRUE}
-${TESTS_IN_FIRMWARE_SUPPORT}=       ${TRUE}
+${MANUFACTURER}=                                ASROCK
+${DMIDECODE_VENDOR}=                            3mdeb
+${DMIDECODE_SERIAL_NUMBER}=                     123456789
+${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v0.9.0-rc3
+${DMIDECODE_PRODUCT_NAME}=                      SPC741D8-2L2T/BCM
+${DMIDECODE_RELEASE_DATE}=                      09/12/2025
+${DMIDECODE_TYPE}=                              Desktop
+${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
+${FLASH_VERIFY_METHOD}=                         iPXE-boot
+${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 
-
-${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
+${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
-...                                     ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
-
+...                                             ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
 
 # CPF
-${CPU_MAX_FREQUENCY}=               3999
-${CPU_MIN_FREQUENCY}=               700
-${MAX_CPU_TEMP}=                    80
+${CPU_MAX_FREQUENCY}=                           3999
+${CPU_MIN_FREQUENCY}=                           700
+${MAX_CPU_TEMP}=                                80
 
-${WATCHDOG_SUPPORT}=                ${FALSE}
+${WATCHDOG_SUPPORT}=                            ${FALSE}
 
-${DEF_THREADS_TOTAL}=               4
-${DEF_THREADS_PER_CORE}=            1
-${DEF_CORES_PER_SOCKET}=            4
-${DEF_SOCKETS}=                     1
-${DEF_ONLINE_CPU}=                  0-3
+${DEF_THREADS_TOTAL}=                           4
+${DEF_THREADS_PER_CORE}=                        1
+${DEF_CORES_PER_SOCKET}=                        4
+${DEF_SOCKETS}=                                 1
+${DEF_ONLINE_CPU}=                              0-3
 
-${PLATFORM_CPU_SPEED}=              0.80    # get-robot-variables suggests 3,40, but 0,80 is what setup menu shows
-${PLATFORM_RAM_SPEED}=              4800
-${PLATFORM_RAM_SIZE}=               49152
+# get-robot-variables suggests 3,40, but 0,80 is what setup menu shows
+${PLATFORM_CPU_SPEED}=
+...                                             0.80
+${PLATFORM_RAM_SPEED}=                          4800
+${PLATFORM_RAM_SIZE}=                           49152
 
-${CPU}=                             Intel(R) Xeon(R) Silver 4410Y
+${CPU}=                                         Intel(R) Xeon(R) Silver 4410Y
 
-${WIFI_CARD}=                       MEDIATEK Corp. Device 7906
-${WIFI_CARD_UBUNTU}=                MEDIATEK Corp. Device 7906
-${BLUETOOTH_CARD_UBUNTU}=           Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)
-${USB_MODEL}=                       SanDisk
-${USB_DEVICE}=                      SanDisk
-@{ATTACHED_USB}=                    SanDisk
-
-
-
+${WIFI_CARD}=                                   MEDIATEK Corp. Device 7906
+${WIFI_CARD_UBUNTU}=                            MEDIATEK Corp. Device 7906
+${BLUETOOTH_CARD_UBUNTU}=                       Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter (rev 32)
+${USB_MODEL}=                                   SanDisk
+${USB_DEVICE}=                                  SanDisk
+@{ATTACHED_USB}=                                SanDisk
 
 ${DASHARO_SECURITY_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
@@ -126,11 +125,6 @@ ${ROMHOLE_SUPPORT}=                             ${TRUE}
 ${USB_DETECTION_ITERATIONS_NUMBER}=             5
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
-
-
-
-${ESP_SCANNING_SUPPORT}=            ${TRUE}
-${SATA_SUPPORT}=                    ${TRUE}
 
 *** Keywords ***
 Power On
