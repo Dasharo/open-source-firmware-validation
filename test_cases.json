@@ -4585,6 +4585,14 @@
     "doc": {
       "_id": "MNE002.001",
       "name": "ME disable option off works correctly (Ubuntu)",
+      "module": "Dasharo Security",
+      "changed_to": "MNE002.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MNE002.201",
+      "name": "ME disable option off works correctly (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
@@ -4592,12 +4600,28 @@
     "doc": {
       "_id": "MNE003.001",
       "name": "ME disable option soft disable works correctly (Ubuntu)",
+      "module": "Dasharo Security",
+      "changed_to": "MNE003.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MNE003.201",
+      "name": "ME disable option soft disable works correctly (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "MNE004.001",
+      "name": "ME disable HAP bit option works correctly (Ubuntu)",
+      "module": "Dasharo Security",
+      "changed_to": "MNE004.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MNE004.201",
       "name": "ME disable HAP bit option works correctly (Ubuntu)",
       "module": "Dasharo Security"
     }
@@ -5033,7 +5057,8 @@
     "doc": {
       "_id": "NVI002.002",
       "name": "NVIDIA Graphics power management (Windows)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "NVI002.301"
     }
   },
   {
@@ -5047,6 +5072,13 @@
     "doc": {
       "_id": "NVI002.202",
       "name": "NVIDIA Graphics power management (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NVI002.301",
+      "name": "NVIDIA Graphics power management (Windows)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6761,7 +6793,8 @@
     "doc": {
       "_id": "TPD004.001",
       "name": "Detect TPM after platform suspend (Ubuntu)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "TPD004.201"
     }
   },
   {
