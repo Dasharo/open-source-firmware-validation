@@ -9,13 +9,11 @@ Resource    include/default.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=               SSH
-${DUT_CONNECTION_METHOD}=                       SSH
-${POWER_CTRL}=                                  none
-${TESTS_IN_FIRMWARE_SUPPORT}=                   ${FALSE}
-${OPTIONS_LIB}=                                 options-lib_dcu
-
+${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
+${DUT_CONNECTION_METHOD}=                       Telnet
+${POWER_CTRL}=                                  sonoff
 ${FLASH_SIZE}=                                  ${64*1024*1024}
+
 ${INITIAL_CPU_FREQUENCY}=                       2000
 ${FLASHING_METHOD}=                             external
 
@@ -30,6 +28,7 @@ ${DMIDECODE_TYPE}=                              Desktop
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
 ${FLASH_VERIFY_METHOD}=                         iPXE-boot
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
+${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 
 ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
