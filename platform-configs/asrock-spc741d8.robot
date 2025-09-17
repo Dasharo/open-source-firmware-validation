@@ -11,7 +11,7 @@ Resource    include/default.robot
 *** Variables ***
 ${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
 ${DUT_CONNECTION_METHOD}=                       Telnet
-
+${POWER_CTRL}=                                  sonoff
 ${FLASH_SIZE}=                                  ${64*1024*1024}
 
 ${INITIAL_CPU_FREQUENCY}=                       2000
@@ -52,7 +52,7 @@ ${DEF_ONLINE_CPU}=                              0-23
 ${PLATFORM_CPU_SPEED}=                          2.0
 ${PLATFORM_RAM_SPEED}=                          4000
 ${PLATFORM_RAM_SIZE}=                           16384
-
+${MAX_CPU_TEMP_THRESHOLD}=                      93
 ${CPU}=                                         Intel(R) Xeon(R) Silver 4410Y
 
 ${USB_MODEL}=                                   SanDisk
@@ -123,6 +123,22 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
 ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
+
+
+
+${DASHARO_PCI_PCIE_MENU_SUPPORT}=               ${TRUE}
+${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
+${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=         ${TRUE}
+${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
+${SERIAL_NUMBER_VERIFICATION}=                  ${TRUE}
+${FAMILY_VERIFICATION}=                         ${TRUE}
+${ME_STATICALLY_DISABLED}=                      ${TRUE}
+${TPM_EXPECTED_CHIP}=                           ${TBD}    # Can't read it as TPM doesn't work as of today
+${USB_STACK_SUPPORT}=                           ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
+${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
+
+
 
 
 *** Keywords ***
