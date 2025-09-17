@@ -29,11 +29,6 @@ Enter Boot Menu Tianocore
     ...    === Effects ===
     ...    - UEFI Boot menu is entered
 
-    # Workaround for extremely long boot times on the server platform
-    IF    '${DMIDECODE_PRODUCT_NAME}' == 'SPC741D8-2L2T/BCM'
-        Set DUT Response Timeout    300s
-    END
-
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${BOOT_MENU_KEY}

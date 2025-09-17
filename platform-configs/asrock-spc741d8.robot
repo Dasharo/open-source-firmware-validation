@@ -144,4 +144,6 @@ ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
 *** Keywords ***
 Power On
     [Documentation]    Implementation of keywords.Power On
+    # Workaround for extremely long boot times on the server platform
+    Set DUT Response Timeout    300s
     Power On Default
