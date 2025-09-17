@@ -22,30 +22,30 @@ Default Tags        automated
 *** Test Cases ***
 # Tests will work on laptops with access to the serial console and possibility
 # of remote power control
-# SMW001.001 Wi-fi connection after cold boot (Ubuntu)
-#    [Documentation]    Check whether the Wi-Fi card is detected and working
-#    ...    correctly after performing a cold boot.
-#    Skip If    not ${m2_wifi_support}    SMW001.001 not supported
-#    Skip If    not ${tests_in_ubuntu_support}    SMW001.001 not supported
-#    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-#    Should Match    ${out}    *${wifi_card_ubuntu}*
-#    Scan for Wi-Fi in Linux
+SMW001.001 Wi-fi connection after cold boot (Ubuntu)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a cold boot.
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW001.001 not supported
+    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+    Scan For Wi-Fi In Linux
 
-#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_reboot_iterations}
-#    Power Cycle On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-#    Should Match    ${out}    *${wifi_card_ubuntu}*
-#    Scan for Wi-Fi in Linux
-#    END
-#    Exit from root user
+    FOR    ${index}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+        Power Cycle On
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Login To Linux
+        Switch To Root User
+        ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+        Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+        Scan For Wi-Fi In Linux
+    END
+    Exit From Root User
 
 SMW002.201 Wi-fi connection after warm boot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working

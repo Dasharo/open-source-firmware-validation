@@ -116,11 +116,11 @@ CPT005.201 CPU temperature after stress test (Ubuntu)
     CPU Temperature After Stress Test
     Exit From Root User
 
-CPT006.002 CPU temperature after stress test (Ubuntu) (battery)
+CPT006.201 CPU temperature after stress test (Ubuntu) (battery)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
-    ...    Previous IDs: CPT002.002
+    ...    Previous IDs: CPT002.002 CPT006.002
     Skip If    not ${CPU_TEMPERATURE_MEASURE}    CPT006.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPT006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPT006.201 not supported
