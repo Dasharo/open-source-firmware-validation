@@ -29,9 +29,11 @@ our [config parser](config-parser.md) to get at least some flags automatically.
 
 ## Adding a brand new platform
 
-- Create a new file for your mainboard in `platform-configs/`. For most
-  platforms this file will be called `[platform-vendor]-[platform-model].robot`.
-- Copy the contents of `include/default.robot` to your platform config
+- Create a new file for your mainboard in `platform-configs/` using the
+  `scripts/create_platform_config.py` script.
+  For most platforms this file will be called
+  `[platform-vendor]-[platform-model].robot`.
+
 - Modify the file for your platform:
     + Modify the settings appropriately for your mainboard
     + Remove any unmodified lines - they will be sourced from `default.robot`
@@ -42,6 +44,12 @@ our [config parser](config-parser.md) to get at least some flags automatically.
     *** Settings ***
     Resource    default.robot
     ```
+
+- At any point you  can use `scripts/ci/check_platform_config_all_defined.py` to
+  list all variables, that are still at the default value. This will help with
+  finding what variables need to be set in the newly created config.
+    + If a release test scope is available, pay special attention to the
+      variables used in the scoped test suites.
 
 - Add the platform configuration to `variables.robot:
     + Create a new configuration of RTE, if you are using one, e.g.:
@@ -101,15 +109,12 @@ Some boards come in multiple variants, where the majority of properties and
 features can be shared. For these cases, we have shared "base" configs in
 `platform-configs/include/`. This way we don't need to copy-paste entire config
 files, making maintenance easier. In this example we'll be adding a new PC
-Engines apu variant, using an existing pcengines base config:
+Engines apu variant, `pcengines-apu4.robot`, using an existing pcengines base
+config `pcengines.robot`:
 
-- Create a config file in `platform-configs` for your platform
-- Add the following to your platform config
-
-```robot
-*** Settings ***
-Resource    include/pcengines.robot
-```
+- Create a config file in `platform-configs` for your platform using
+  `scripts/create_platform_config.py`.
+  Example: `./scripts/create_platform_config.py pcengines-apu4 pcengines`
 
 - Add variant-specific settings for your platform - in this case, only the
   SMBIOS product name field:
@@ -118,6 +123,12 @@ Resource    include/pcengines.robot
 *** Variables ***
 ${DMIDECODE_PRODUCT_NAME}=      apu4
 ```
+
+- At any point you  can use `scripts/ci/check_platform_config_all_defined.py` to
+  list all variables, that are still at the default value. This will help with
+  finding what variables need to be set in the newly created config.
+    + If a release test scope is available, pay special attention to the
+      variables used in the scoped test suites.
 
 - Proceed with adding the platform to `variables.robot` as per
 [Adding a brand new platform](#adding-a-brand-new-platform).
