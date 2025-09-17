@@ -124,8 +124,6 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 
-
-
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=         ${TRUE}
@@ -137,8 +135,6 @@ ${TPM_EXPECTED_CHIP}=                           ${TBD}    # Can't read it as TPM
 ${USB_STACK_SUPPORT}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
-
-
 
 
 *** Keywords ***
