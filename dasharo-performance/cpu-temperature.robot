@@ -302,7 +302,7 @@ CPT008.202 CPU temperature after stress test (Fedora) (USB-PD)
 
 *** Keywords ***
 CPU Temperature Without Load
-    Execute Command In Terminal    sensors-detect --auto
+    Execute Command In Terminal    yes | sensors-detect --auto    timeout=300s
     ${timer}=    Convert To Integer    0
     VAR    @{temperature_list}=    @{EMPTY}
     VAR    ${max_temperature}=    0
@@ -339,7 +339,7 @@ CPU Temperature Without Load
     Should Be True    ${average} < ${MAX_CPU_TEMP}
 
 CPU Temperature After Stress Test
-    Execute Command In Terminal    sensors-detect --auto
+    Execute Command In Terminal    yes | sensors-detect --auto    timeout=300s
     Stress Test    ${TEMPERATURE_TEST_DURATION}s
     ${timer}=    Convert To Integer    0
     VAR    @{temperature_list}=    @{EMPTY}

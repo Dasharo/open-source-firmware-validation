@@ -40,7 +40,7 @@ Prepare Sensors
     END
 
     IF    ${lm_sensors_used} == ${TRUE}
-        Execute Command In Terminal    sudo sensors-detect --auto
+        Execute Command In Terminal    yes | sensors-detect --auto    timeout=300s
     END
 
 Get CPU Temperature
