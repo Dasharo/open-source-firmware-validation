@@ -82,12 +82,7 @@ Set Selected OS As First In Boot Order Via EDK2
         Write Bare Into Terminal    ${F10}
         Sleep    1s
         Write Bare Into Terminal    y
-        # Return to main menu
-        Press Key N Times    3    ${ESC}
-        Sleep    1s
-        # Issue reset in the menu
-        Press Key N Times    2    ${ARROW_DOWN}
-        Press Enter
+        Tianocore Reset System
     END
 
 Set Selected OS As First In Boot Order Via Efibootmgr
