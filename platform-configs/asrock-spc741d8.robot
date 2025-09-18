@@ -60,6 +60,7 @@ ${CPU}=                                         Intel(R) Xeon(R) Silver 4410Y
 ${USB_MODEL}=                                   SanDisk
 ${USB_DEVICE}=                                  SanDisk
 @{ATTACHED_USB}=                                SanDisk
+${CLEVO_DISK}=                                  KINGSTON SKC3000S512G
 
 ${DASHARO_SECURITY_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
