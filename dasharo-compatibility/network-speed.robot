@@ -77,6 +77,13 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
         Lists Should Be Equal    ${manual_eth_restore}    ${dut_restore_values}
     END
 
+    # ODROID
+    IF    ${ODROID_NETCARD_SUPPORT}
+        # Test second pair of network ports on netcard
+        Configure Network Interfaces For Testing    enp6s0    enp7s0
+        Test Network Performance    2.35
+    END
+
 ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     ...
@@ -92,3 +99,25 @@ ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     ${eth_2}=    Get From List    ${ETH_PERF_PAIR_10_G}    1
     Configure Network Interfaces For Testing    ${eth_1}    ${eth_2}
     Test Network Performance    9.35
+
+ETHPERF003.201 Check Performance of 2.5G Wired Network Interface on Net Card (Ubuntu)
+    [Documentation]    This test aims to verify the performance of Ethernet connection
+    ...    on ODROID-H4 with Net Card 2 module.
+    [Tags]    automated
+    Skip If    not ${ODROID_NETCARD_SUPPORT}    ETHPERF003.201 not supported
+    Depends On    ${ETH_PERF_PAIR_2_G} != @{EMPTY}
+    Depends On    ${ETH_PORTS} != @{EMPTY}
+
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+
+    ${eth_1}=    Get From List    ${ETH_PERF_PAIR_2_G}    0
+    ${eth_2}=    Get From List    ${ETH_PERF_PAIR_2_G}    1
+    Configure Network Interfaces For Testing    ${eth_1}    ${eth_2}
+    Test Network Performance    2.35
+
+    # Test second pair of network ports on netcard
+    Configure Network Interfaces For Testing    enp6s0    enp7s0
+    Test Network Performance    2.35

@@ -3964,6 +3964,13 @@
   },
   {
     "doc": {
+      "_id": "ETHPERF003.201",
+      "name": "Check Performance of 2.5G Wired Network Interface on Net Card (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "FAN001.201",
       "name": "CPU fan speed measure",
       "module": "Dasharo Compatibility"
@@ -4912,13 +4919,6 @@
       "_id": "NET006.202",
       "name": "NET controller after suspend (Fedora) (S3)",
       "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NETCARD001.201",
-      "name": "Check Performance of 2.5G Wired Network Interface On Netcard (Ubuntu)",
-      "module": "Dasharo Compatibility"
     }
   },
   {
