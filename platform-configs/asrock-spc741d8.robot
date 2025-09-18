@@ -65,7 +65,8 @@ ${DASHARO_SECURITY_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
 ${DASHARO_NETWORKING_MENU_SUPPORT}=             ${TRUE}
 ${DASHARO_INTEL_ME_MENU_SUPPORT}=               ${TRUE}
-${DASHARO_POWER_MGMT_MENU_SUPPORT}=             ${TRUE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=             ${FALSE}
+${PLATFORM_SLEEP_TYPE_SELECTABLE}=              ${FALSE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                 ${TRUE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
