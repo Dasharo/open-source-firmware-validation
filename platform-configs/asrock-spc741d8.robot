@@ -19,12 +19,14 @@ ${FLASHING_METHOD}=                             external
 
 # dmidecode.robot
 ${MANUFACTURER}=                                ASROCK
+${DMIDECODE_MANUFACTURER}=                      ${MANUFACTURER}
 ${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_SERIAL_NUMBER}=                     123456789
-${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v0.9.0-rc3
+${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v0.9.0-rc4
 ${DMIDECODE_PRODUCT_NAME}=                      SPC741D8-2L2T/BCM
-${DMIDECODE_RELEASE_DATE}=                      09/12/2025
+${DMIDECODE_RELEASE_DATE}=                      09/17/2025
 ${DMIDECODE_TYPE}=                              Desktop
+${DMIDECODE_FAMILY}=                            Not Specified
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
 ${FLASH_VERIFY_METHOD}=                         iPXE-boot
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
