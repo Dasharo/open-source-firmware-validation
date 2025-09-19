@@ -69,7 +69,8 @@ Dasharo OSFV consists of following modules:
 * `dasharo-compatibility`,
 * `dasharo-security`,
 * `dasharo-performance`,
-* `dasharo-stability`.
+* `dasharo-stability`,
+* `dasharo-oses`.
 
 ## Supported platforms
 

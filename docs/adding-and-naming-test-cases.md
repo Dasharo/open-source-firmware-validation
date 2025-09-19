@@ -129,6 +129,13 @@ Few examples of test cases in the mentioned JSON file:
       "name": "Bluetooth scanning (Fedora)",
       "module": "Dasharo Compatibility"
     }
+  },
+  {
+    "doc": {
+      "_id": "PFS009.502",
+      "name": "Warm reboot (pfSense)",
+      "module": "Dasharo OSes"
+    }
   }
 ]
 ```
@@ -144,8 +151,8 @@ Important to note:
   ease of navigation, keep the as first fields of an object, in that order. New
   fields may be added in the future.
 - `module` must be one of `Dasharo Compatibility`, `Dasharo Performance`,
-  `Dasharo Security` or `Dasharo Stability`, case sensitive - both words start
-  with a capital letter.
+  `Dasharo Security`, `Dasharo Stability` or `Dasharo OSes`, case sensitive -
+  both words start with a capital letter.
 - `changed_to` is optional, if it is present, it indicates that the `_id` is
   obsolete and shouldn't be used in new releases. When it exists, it must contain
   another existing test case ID (which may also have a `changed_to` field,

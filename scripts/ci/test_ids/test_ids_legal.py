@@ -15,6 +15,7 @@ paths = [
     "dasharo-performance",
     "dasharo-security",
     "dasharo-stability",
+    "dasharo-oses"
 ]
 
 
