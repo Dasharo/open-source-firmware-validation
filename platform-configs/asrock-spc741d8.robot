@@ -9,13 +9,16 @@ Resource    include/default.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
-${DUT_CONNECTION_METHOD}=                       Telnet
-${POWER_CTRL}=                                  sonoff
+${INITIAL_DUT_CONNECTION_METHOD}=               SSH
+${DUT_CONNECTION_METHOD}=                       SSH
+${POWER_CTRL}=                                  none
+${TESTS_IN_FIRMWARE_SUPPORT}=                   ${FALSE}
+${OPTIONS_LIB}=                                 options-lib_dcu
+${FLASHING_METHOD}=                             internal
+
 ${FLASH_SIZE}=                                  ${64*1024*1024}
 
 ${INITIAL_CPU_FREQUENCY}=                       2000
-${FLASHING_METHOD}=                             external
 
 # dmidecode.robot
 ${MANUFACTURER}=                                ASROCK
@@ -30,7 +33,6 @@ ${DMIDECODE_FAMILY}=                            Not Specified
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
 ${FLASH_VERIFY_METHOD}=                         iPXE-boot
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
-${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 
 ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
@@ -145,5 +147,7 @@ ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
 Power On
     [Documentation]    Implementation of keywords.Power On
     # Workaround for extremely long boot times on the server platform
-    Set DUT Response Timeout    300s
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        Set DUT Response Timeout    300s
+    END
     Power On Default
