@@ -41,6 +41,7 @@ ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
 ...                                             00-1e-06-45-88-d6
 ...                                             00-1e-06-45-88-d5
 @{ETH_PERF_PAIR_2_G}=                           enp4s0    enp5s0
+@{ETH_PERF_2_ND_PAIR_2_G}=                      enp6s0    enp7s0
 ${ETHERNET_ID}=                                 8086:125c
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}

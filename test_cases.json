@@ -3964,13 +3964,6 @@
   },
   {
     "doc": {
-      "_id": "ETHPERF003.201",
-      "name": "Check Performance of 2.5G Wired Network Interface on Net Card (Ubuntu)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "FAN001.201",
       "name": "CPU fan speed measure",
       "module": "Dasharo Compatibility"

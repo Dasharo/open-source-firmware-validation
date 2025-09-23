@@ -322,6 +322,7 @@ ${TESTS_IN_ESXI_SUPPORT}=                           ${FALSE}
 @{ETH_PERF_PAIR_10_G}=                              @{EMPTY}
 @{ETH_PERF_PAIR_1_G}=                               @{EMPTY}
 @{ETH_PERF_PAIR_2_G}=                               @{EMPTY}
+@{ETH_PERF_2_ND_PAIR_2_G}=                          @{EMPTY}
 @{ETH_PORTS}=                                       @{EMPTY}
 @{ETH_SFP_PORTS}=                                   @{EMPTY}
 
