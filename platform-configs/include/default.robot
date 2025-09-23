@@ -187,7 +187,6 @@ ${ROMHOLE_SUPPORT}=                                 ${FALSE}
 ${IR_CAMERA_SUPPORT}=                               ${FALSE}
 ${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${TRUE}
 ${EXTRA_1_TB_DISK}=                                 ${FALSE}
-${ODROID_NETCARD_SUPPORT}=                          ${FALSE}
 # The same is not a guarantee for Windows
 ${POWERSHELL_STR_INTERNAL_OUT}=                     Speakers (Realtek(R) Audio)
 ${POWERSHELL_STR_INTERNAL_IN}=                      Microphone Array (Realtek(R) Audio)

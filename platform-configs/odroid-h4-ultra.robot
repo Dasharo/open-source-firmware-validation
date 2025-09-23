@@ -134,7 +134,6 @@ ${HYPER_THREADING_SUPPORT}=                     ${TRUE}
 ${MEMORY_IBECC_SUPPORT}=                        ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=               ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
-${ODROID_NETCARD_SUPPORT}=                      ${TRUE}
 
 ${DTS_SUPPORT}=                                 ${TRUE}
 
