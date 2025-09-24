@@ -414,9 +414,12 @@ ${DEVICE_DETECT_TEST_IN_SCOPE}=                     ${FALSE}
 # Base fw version set for every workflow
 ${DTS_TEST_VERSION_BASE}=                           v0.0.0
 &{DTS_TEST_VERSIONS_BASE}=
-...                                                 &{{ {workflow: "${DTS_TEST_VERSION_BASE}" for workflow in ${DTS_TEST_POSSIBLE_WORKFLOWS} } }}
+...                                                 &{{ {workflow: "Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}" for workflow in ${DTS_TEST_POSSIBLE_WORKFLOWS} } }}
 ...                                                 UEFI Update=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
+...                                                 SeaBIOS Update=Dasharo (coreboot+SeaBIOS) ${DTS_TEST_VERSION_BASE}
 ...                                                 UEFI->Heads Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
+...                                                 SeaBIOS->UEFI Transition=Dasharo (coreboot+SeaBIOS) ${DTS_TEST_VERSION_BASE}
+=======
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 ...                                                 Fuse Platform=Dasharo (coreboot+UEFI) ${DTS_TEST_VERSION_BASE}
 &{DTS_TEST_VERSIONS}=                               &{DTS_TEST_VERSIONS_BASE}

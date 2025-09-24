@@ -106,7 +106,7 @@ ${TRENCHBOOT_SUPPORT}=                      ${TRUE}
 # DTS E2E variables
 ${DTS_TEST_SYSTEM_VENDOR}=                  PC Engines
 &{DTS_TEST_VERSIONS}=                       &{DTS_TEST_VERSIONS_BASE}
-...                                         SeaBIOS Update=v24.04.00.05    SeaBIOS->UEFI Transition=v24.04.00.05
+...                                         SeaBIOS Update=Dasharo (coreboot+SeaBIOS) v24.04.00.05    SeaBIOS->UEFI Transition=Dasharo (coreboot+SeaBIOS) v24.04.00.05
 @{DTS_TEST_WORKFLOWS}=                      UEFI Update    SeaBIOS Update    SeaBIOS->UEFI Transition
 # TODO: Also seabios, add to tests
 @{DTS_TEST_DEFAULT_RELEASES}=               DPP
