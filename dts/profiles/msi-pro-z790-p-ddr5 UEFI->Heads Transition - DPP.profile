@@ -23,9 +23,6 @@ flashrom -p internal --flash-name 0
 flashrom -p internal --flash-size 0
 fsread_tool test -e /sys/class/power_supply/AC/online 1
 flashrom -p internal 0
-flashrom -p internal -r /tmp/dasharo_dump.rom --fmap -i FMAP -i SMMSTORE 0
-cbfstool /tmp/dasharo_dump.rom read -r SMMSTORE -f /tmp/smmstore.bin 0
-cbfstool /tmp/biosupdate write -r SMMSTORE -f /tmp/smmstore.bin -u 1
 flashrom -p internal -r /tmp/dasharo_dump.rom --fmap -i FMAP -i BOOTSPLASH 0
 cbfstool /tmp/dasharo_dump.rom extract -r BOOTSPLASH -n logo.bmp -f /tmp/logo.bmp 1
 cbfstool /tmp/biosupdate extract -r COREBOOT -n config -f /tmp/biosupdate_config 0
