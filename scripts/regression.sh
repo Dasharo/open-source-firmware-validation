@@ -27,4 +27,5 @@ fi
 
 execute_robot "dasharo-compatibility" "${@}"
 execute_robot "dasharo-security" "${@}"
+execute_robot "dasharo-stability" "${@}"
 execute_robot "dasharo-performance" "${@}"

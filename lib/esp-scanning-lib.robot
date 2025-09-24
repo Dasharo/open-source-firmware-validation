@@ -68,3 +68,4 @@ Remove All Supported Systems From Efi
     FOR    ${dir}    IN    @{dirs}
         Execute Command In Terminal    rm -r /boot/efi/EFI/${dir}
     END
+    Execute Command In Terminal    sync

@@ -2,7 +2,7 @@
 Documentation       Collection of keywords related to the Power State After
 ...                 Power Fail option
 
-Library             terminal
+Resource            terminal.robot
 
 
 *** Keywords ***

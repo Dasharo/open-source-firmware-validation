@@ -50,5 +50,4 @@ ${ETHERNET_ID}=                     8086:125c
 
 ${TPM_EXPECTED_CHIP}=               SLB9670
 ${SATA_SUPPORT}=                    ${TRUE}
-${CLEVO_DISK}=                      KINGSTON SNV3S500G
 ${DEVICE_NVME_DISK}=                Non-Volatile memory controller: Kingston Technology Company

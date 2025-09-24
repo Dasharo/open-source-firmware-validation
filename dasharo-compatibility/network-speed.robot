@@ -12,6 +12,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/performance/network.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -29,8 +30,8 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     ...
     ...    Previous IDs: ETHPERF001.001
     [Tags]    semiauto
-    Depends On    '${ETH_PERF_PAIR_2_G}' != '@{EMPTY}'
-    Depends On    '${ETH_PORTS}' != '@{EMPTY}'
+    Depends On    ${ETH_PERF_PAIR_2_G} != @{EMPTY}
+    Depends On    ${ETH_PORTS} != @{EMPTY}
 
     ${eth_ports_number}=    Get Length    ${ETH_PORTS}
     IF    '${eth_ports_number}' == '2'
@@ -76,12 +77,20 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
         Lists Should Be Equal    ${manual_eth_restore}    ${dut_restore_values}
     END
 
+    # Teste second pair of thernet interfaces if provided
+    IF    ${ETH_PERF_2_ND_PAIR_2_G} != @{EMPTY}
+        ${eth_3}=    Get From List    ${ETH_PERF_2_ND_PAIR_2_G}    0
+        ${eth_4}=    Get From List    ${ETH_PERF_2_ND_PAIR_2_G}    1
+        Configure Network Interfaces For Testing    ${eth_3}    ${eth_4}
+        Test Network Performance    2.35
+    END
+
 ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     ...
     ...    Previous IDs: ETHPERF002.001
     [Tags]    automated
-    Depends On    '${ETH_PERF_PAIR_10_G}' != '@{EMPTY}'
+    Depends On    ${ETH_PERF_PAIR_10_G} != @{EMPTY}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -91,46 +100,3 @@ ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     ${eth_2}=    Get From List    ${ETH_PERF_PAIR_10_G}    1
     Configure Network Interfaces For Testing    ${eth_1}    ${eth_2}
     Test Network Performance    9.35
-
-
-*** Keywords ***
-Test Network Performance
-    [Documentation]    Tests network performance between two previously configured interfaces and compare with the given target bitrate
-    [Arguments]    ${target_bitrate}
-    Execute Command In Terminal    killall iperf3
-    Execute Command In Terminal    ip netns exec ns_server iperf3 -s &
-    ${out}=    Execute Command In Terminal    ip netns exec ns_client iperf3 -c 10.1.1.1
-    ${bitrate}=    Extract Bitrate From Iperf Log    ${out}
-    Should Be True    ${bitrate} >= ${target_bitrate}
-
-    Execute Command In Terminal    killall iperf3
-    Execute Command In Terminal    ip netns exec ns_client iperf3 -s &
-    ${out}=    Execute Command In Terminal    ip netns exec ns_server iperf3 -c 10.1.1.2
-    ${bitrate}=    Extract Bitrate From Iperf Log    ${out}
-    Should Be True    ${bitrate} >= ${target_bitrate}
-
-    Execute Command In Terminal    killall iperf3
-    Execute Command In Terminal    ip netns del ns_server
-    Execute Command In Terminal    ip netns del ns_client
-
-Configure Network Interfaces For Testing
-    [Documentation]    Configures network interfaces for iperf test
-    [Arguments]    ${eth_1}    ${eth_2}
-    Execute Command In Terminal    ip link set ${eth_1} mtu 9000
-    Execute Command In Terminal    ip link set ${eth_2} mtu 9000
-    Execute Command In Terminal    ip netns add ns_server
-    Execute Command In Terminal    ip netns add ns_client
-    Execute Command In Terminal    ip link set ${eth_1} netns ns_server
-    Execute Command In Terminal    ip link set ${eth_2} netns ns_client
-    Execute Command In Terminal    ip netns exec ns_server ip addr add dev ${eth_1} 10.1.1.1/24
-    Execute Command In Terminal    ip netns exec ns_client ip addr add dev ${eth_2} 10.1.1.2/24
-    Execute Command In Terminal    ip netns exec ns_server ip link set dev ${eth_1} up
-    Execute Command In Terminal    ip netns exec ns_client ip link set dev ${eth_2} up
-
-Extract Bitrate From Iperf Log
-    [Documentation]    Extracts average bitrate from iperf3 network performance test log
-    [Arguments]    ${iperf_log}
-    ${bitrate}=    Get Regexp Matches    ${iperf_log}    .*GBytes\\s+(\\d+\\.\\d+)\\s+Gbits\\/sec.*sender    1
-    Should Not Be Empty    ${bitrate}
-    Log    The bitrate is: ${bitrate}[0]
-    RETURN    ${bitrate}[0]

@@ -422,11 +422,11 @@ Get Current CONFIG Stop Index
     ...    Returns -1 if CONFIG not found in variables.robot.
     [Arguments]    ${config_list}    ${start}
     ${length}=    Get Length    ${config_list}
-    VAR    ${index}=    ${start}
+    VAR    ${index}=    ${start+1}
+    IF    '${start}'=='${length-1}'    RETURN    ${length}
     FOR    ${config}    IN    @{config_list[${index}:]}
         ${result}=    Evaluate    ${config}.get("ip")
         IF    '${result}'!='None'    RETURN    ${index}
-        IF    '${index}'=='${length-1}'    RETURN    ${index+1}
         VAR    ${index}=    ${index+1}
     END
     RETURN    ${-1}
@@ -439,7 +439,7 @@ Get Current CONFIG
     Should Not Be Equal    ${start}    ${-1}    msg=Current CONFIG not found in hw-matrix
     ${stop}=    Get Current CONFIG Stop Index    ${config_list}    ${start}
     Should Not Be Equal    ${stop}    ${-1}    msg=Current CONFIG not found in hw-matrix
-    ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop+1}
+    ${config}=    Get Slice From List    ${config_list}    ${start}    ${stop}
     RETURN    ${config}
 
 Get Current CONFIG Item
@@ -677,9 +677,15 @@ Power Cycle On
     ...    by setting power supply to OFF, and then to ON. If platform needs
     ...    additional power button press, it will be used as well, so at the
     ...    end of this keyword platform starts booting. This is controlled via
-    ...    the DEFAULT_POWER_STATE_AFTER_FAIL variable defined in platform config.
-
+    ...    the POWER_STATE_AFTER_FAIL variable updated runtime during tests. If
+    ...    it does not exist, DEFAULT_POWER_STATE_AFTER_FAIL variable defined
+    ...    in platform config is used.
     Variable Should Exist    ${DEFAULT_POWER_STATE_AFTER_FAIL}
+    ${status}=    Run Keyword And Return Status    Variable Should Exist    ${POWER_STATE_AFTER_FAIL}
+    IF    not ${status}
+        VAR    ${POWER_STATE_AFTER_FAIL}=    ${DEFAULT_POWER_STATE_AFTER_FAIL}    scope=GLOBAL
+    END
+
     IF    "${OPTIONS_LIB}"=="options-lib_dcu" and "${POWER_CTRL}"=="none"
         Execute Reboot Command
         Sleep    5s
@@ -700,7 +706,10 @@ Power Cycle On
         END
         Rte Psu On
     END
-    IF    '${DEFAULT_POWER_STATE_AFTER_FAIL}' == 'Powered Off'    Rte Power On
+    IF    '${POWER_STATE_AFTER_FAIL}' == 'Powered Off'
+        Sleep    2s
+        Rte Power On
+    END
 
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         FOR    ${i}    IN RANGE    10
@@ -708,10 +717,7 @@ Power Cycle On
             IF    '${out}' == 'high'    RETURN
             Sleep    0.5s
         END
-        IF    '${out}' != 'high'
-            FAIL    Power LED didn't light up! Setup needs manual verification,
-            ...    or Power State After Power Failure is set incorrectly.
-        END
+        Should Be Equal As Strings    ${out}    high
     END
 
 OBMC Power Cycle On
@@ -1500,14 +1506,29 @@ Get Current CONFIG List Param
     [Arguments]    ${item}    ${param}
     ${config}=    Get Current CONFIG    ${CONFIG_LIST}
     ${length}=    Get Length    ${config}
-    Skip If    ${length} <= 1    ${item} not found on the list
-    VAR    @{attached_usb_list}=    @{EMPTY}
+    Should Be True    ${length} > 1
+    VAR    @{attached_item_list}=    @{EMPTY}
     FOR    ${element}    IN    @{config[1:]}
         IF    '${element.type}'=='${item}'
-            Append To List    ${attached_usb_list}    ${element.${param}}
+            Append To List    ${attached_item_list}    ${element.${param}}
         END
     END
-    RETURN    @{attached_usb_list}
+    RETURN    @{attached_item_list}
+
+Get Current CONFIG List Element
+    [Documentation]    Returns current CONFIG list elements specified in the
+    ...    arguments.
+    [Arguments]    ${item}
+    ${config}=    Get Current CONFIG    ${CONFIG_LIST}
+    ${length}=    Get Length    ${config}
+    Should Be True    ${length} > 1
+    VAR    @{attached_item_list}=    @{EMPTY}
+    FOR    ${element}    IN    @{config[1:]}
+        IF    '${element.type}'=='${item}'
+            Append To List    ${attached_item_list}    ${element}
+        END
+    END
+    RETURN    @{attached_item_list}
 
 Reboot In OPNsense
     [Documentation]    Perform reboot in OPNsense.
@@ -1526,3 +1547,13 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
+
+Deploy Uefi Shell
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/Shell.efi    /tmp/Shell.efi
+    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/deploy-shell-efi.sh    /tmp/deploy-shell-efi.sh
+    Execute Command In Terminal    /tmp/deploy-shell-efi.sh /tmp/Shell.efi
+    Execute Command In Terminal    sync

@@ -21,19 +21,11 @@ Default Tags        automated
 *** Variables ***
 # Pactl names are uniform for all devices, and in theory
 # across multiple Linux distributions
-${PACTL_STR_INTERNAL_OUT}=          analog-output-speaker
-${PACTL_STR_INTERNAL_IN}=           analog-input-internal-mic
-${PACTL_STR_HEADSET_OUT}=           analog-output-headphones
-${PACTL_STR_HEADSET_IN}=            analog-input-headset-mic
-${PACTL_STR_HDMI_OUT}=              hdmi-output-0
-# The same is not a guarantee for Windows
-${POWERSHELL_STR_INTERNAL_OUT}=     Speakers (Realtek(R) Audio)
-${POWERSHELL_STR_INTERNAL_IN}=      Microphone Array (Realtek(R) Audio)
-# Since Realtek driver shows the same device for Headset and Internal audio
-# for now we just copy the value, and will need better solution in future.
-${POWERSHELL_STR_HEADSET_OUT}=      ${POWERSHELL_STR_INTERNAL_OUT}
-${POWERSHELL_STR_HEADSET_IN}=       Microphone (Realtek(R) Audio)
-${POWERSHELL_STR_HDMI_OUT}=         Audio Driver for Display Audio
+${PACTL_STR_INTERNAL_OUT}=      analog-output-speaker
+${PACTL_STR_INTERNAL_IN}=       analog-input-internal-mic
+${PACTL_STR_HEADSET_OUT}=       analog-output-headphones
+${PACTL_STR_HEADSET_IN}=        analog-input-headset-mic
+${PACTL_STR_HDMI_OUT}=          hdmi-output-0
 
 
 *** Test Cases ***
@@ -230,7 +222,7 @@ AUD001.301 Audio subsystem detection
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
-    ${out}=    Execute Command    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
+    ${out}=    Execute Command In Terminal    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
     Should Contain    ${out}    Running
     Execute Shutdown Command
 
@@ -275,7 +267,7 @@ AUD004.301 External headset recognition
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
-    ${out}=    Get Sound Devices In Windows    speakers
+    ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
     Should Contain    ${out}    OK
@@ -288,7 +280,7 @@ AUD005.301 External headset audio playback
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
-    ${out}=    Get Sound Devices In Windows    speakers
+    ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
     Should Contain    ${out}    OK
@@ -345,6 +337,9 @@ Get Sound Devices In Windows
     ELSE IF    '${class}' == 'speakers'
         VAR    ${filter_condition}=
         ...    {$_.Class -match "Audio" -and ($_.Name -match "Speaker" -or $_.Name -match "Output")}
+    ELSE IF    '${class}' == 'headphones'
+        VAR    ${filter_condition}=
+        ...    {$_.Class -match "Audio" -and ($_.Name -match "Headphones" -or $_.Name -match "Output")}
     ELSE IF    '${class}' == 'microphone'
         VAR    ${filter_condition}=    {$_.Class -match "Audio" -and $_.Name -match "Microphone"}
     ELSE IF    '${class}' == 'display'

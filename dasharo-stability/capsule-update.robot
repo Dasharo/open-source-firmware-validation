@@ -26,6 +26,7 @@ Suite Setup         Run Keywords
 ...                     Upload Required Files    AND
 ...                     Get System Values    AND
 ...                     Set UEFI Option    MeMode    Disabled (HAP)    AND
+...                     Deploy Uefi Shell    AND
 ...                     Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection

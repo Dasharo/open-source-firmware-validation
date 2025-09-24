@@ -158,6 +158,7 @@ ${L2_CACHE_SUPPORT}=                                ${TRUE}
 ${L3_CACHE_SUPPORT}=                                ${FALSE}
 ${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
+${MEMORY_IBECC_SUPPORT}=                            ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
@@ -186,6 +187,14 @@ ${ROMHOLE_SUPPORT}=                                 ${FALSE}
 ${IR_CAMERA_SUPPORT}=                               ${FALSE}
 ${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${TRUE}
 ${EXTRA_1_TB_DISK}=                                 ${FALSE}
+# The same is not a guarantee for Windows
+${POWERSHELL_STR_INTERNAL_OUT}=                     Speakers (Realtek(R) Audio)
+${POWERSHELL_STR_INTERNAL_IN}=                      Microphone Array (Realtek(R) Audio)
+# Since Realtek driver shows the same device for Headset and Internal audio
+# for now we just copy the value, and will need better solution in future.
+${POWERSHELL_STR_HEADSET_OUT}=                      ${POWERSHELL_STR_INTERNAL_OUT}
+${POWERSHELL_STR_HEADSET_IN}=                       Microphone (Realtek(R) Audio)
+${POWERSHELL_STR_HDMI_OUT}=                         Audio Driver for Display Audio
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}
@@ -312,6 +321,7 @@ ${TESTS_IN_ESXI_SUPPORT}=                           ${FALSE}
 @{ETH_PERF_PAIR_10_G}=                              @{EMPTY}
 @{ETH_PERF_PAIR_1_G}=                               @{EMPTY}
 @{ETH_PERF_PAIR_2_G}=                               @{EMPTY}
+@{ETH_PERF_2_ND_PAIR_2_G}=                          @{EMPTY}
 @{ETH_PORTS}=                                       @{EMPTY}
 @{ETH_SFP_PORTS}=                                   @{EMPTY}
 
@@ -322,7 +332,6 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                3
 
 ${BLUETOOTH_CARD_UBUNTU}=                           ${TBD}
 ${CLEVO_BATTERY_CAPACITY}=                          ${TBD}
-${CLEVO_DISK}=                                      ${TBD}
 ${CLEVO_USB_C_HUB}=                                 ${TBD}
 ${COREMARK_SINGLE}=                                 ${TBD}
 ${CPU_E_CORES_MAX}=                                 ${TBD}

@@ -33,6 +33,7 @@ STB001.001 Verify if no reboot occurs in the firmware
     ...    does not reset. The test is performed in multiple iterations - after
     ...    a defined time an attempt to read the same menu is repeated.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    STB001.001 not supported
+    Deploy Uefi Shell
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell

@@ -153,8 +153,8 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=protectli
 # 3mdeb Protectli FW4C -------------------------------------------------------
 &{RTE41}=                   ip=192.168.10.168
-...                         platform=protectli-fw4c
-...                         platform_vendor=protectli
+...                         platform=odroid-h4-plus
+...                         platform_vendor=Hardkernel
 # 3mdeb Protectli VP2410 ------------------------------------------------------
 &{RTE42}=                   ip=192.168.10.233
 ...                         platform=protectli-vp2410
@@ -231,7 +231,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=optiplex-7010
 ...                         platform_vendor=DELL    sonoff_ip=192.168.10.250
 # Odroid-H4 Plus
-&{RTE66}=                   ip=192.168.10.193    platform=odroid-h4-Plus
+&{RTE66}=                   ip=192.168.10.193    platform=odroid-h4-plus
 ...                         platform_vendor=Hardkernel
 # Protectli VP3230
 &{RTE67}=                   ip=192.168.10.35
@@ -278,6 +278,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=asrock-spc741d8
 ...                         platform_vendor=ASRock
 ...                         sonoff_ip=192.168.10.130
+
+# Odroid-H4 Ultra
+&{RTE75}=                   ip=192.168.10.88    platform=odroid-h4-ultra
+...                         platform_vendor=Hardkernel
 
 @{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
 ...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
@@ -355,16 +359,17 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD18}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
 ...                         boot_name=Samsung SSD 990 PRO 1TB
 &{SSD19}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
-...                         boot_name=SD Device
 ...                         interface=NVME    count=1
 ...                         boot_name=Samsung SSD 870 EVO 1TB
 &{SSD20}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
-...                         boot_name=SD Device
 ...                         interface=NVME    count=1
 ...                         boot_name=SSDPR-PX700-01T-80
-&{SSD21}=                   vendor=Kingston    volume=512GB    type=Storage_SSD
+&{SSD21}=                   vendor=KINGSTON    volume=512GB    type=Storage_SSD
 ...                         interface=NVME    count=1
 ...                         boot_name=KINGSTON SKC3000S512G
+&{SSD22}=                   vendor=TOSHIBA    volume=240GB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=TOSHIBA-TR200
 
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
@@ -397,7 +402,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
 &{EMMC02}=                  vendor=Samsung    volume=8GB    type=MMC_Storage
 ...                         interface=eMMC    count=1    boot_name=eMMC Device
-@{MMC_LIST}=                &{EMMC01}
+&{EMMC03}=                  vendor=Kingston    volume=32GB    type=MMC_Storage
+...                         interface=eMMC    count=1    boot_name=eMMC Device
+
+@{MMC_LIST}=                &{EMMC01}    &{EMMC02}    &{EMMC03}
 
 # -----------------------------------------------------------------------------
 &{MODULE01}=                vendor=HUAWEI    type=LTE_Module    interface=mPCIe
@@ -471,7 +479,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG30}=                &{RTE38}
 @{CONFIG31}=                &{RTE39}    &{SSD08}
 @{CONFIG32}=                &{RTE40}    &{SSD11}
-@{CONFIG33}=                &{RTE41}
+@{CONFIG33}=                &{RTE41}    &{SSD21}
 @{CONFIG34}=                &{RTE42}    &{SSD13}    &{EMMC02}
 @{CONFIG35}=                &{RTE43}    &{EMMC01}
 @{CONFIG36}=                &{RTE44}    &{EMMC01}
@@ -488,7 +496,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG47}=                &{RTE63}    &{EMMC01}
 @{CONFIG48}=                &{RTE64}    &{SSD17}
 @{CONFIG49}=                &{RTE65}    &{SSD17}
-@{CONFIG50}=                &{RTE66}    &{SSD18}    # Borrowed from NV41PZ
+@{CONFIG50}=                &{RTE66}    &{EMMC03}    &{SSD21}
 @{CONFIG51}=                &{RTE67}
 @{CONFIG52}=                &{RTE68}    &{SSD18}
 @{CONFIG53}=                &{RTE69}
@@ -497,6 +505,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG56}=                &{RTE72}    &{SSD20}
 @{CONFIG57}=                &{RTE73}
 @{CONFIG58}=                &{RTE74}    &{SSD21}
+@{CONFIG59}=                &{RTE75}    &{EMMC03}    &{SSD22}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -512,4 +521,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
 ...                         @{CONFIG50}    @{CONFIG51}    @{CONFIG52}    @{CONFIG53}
 ...                         @{CONFIG54}    @{CONFIG55}    @{CONFIG56}    @{CONFIG57}
-...                         @{CONFIG58}
+...                         @{CONFIG58}    @{CONFIG59}

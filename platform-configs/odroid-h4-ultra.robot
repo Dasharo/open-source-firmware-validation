@@ -8,7 +8,7 @@ ${DUT_CONNECTION_METHOD}=                       Telnet
 ${FLASH_SIZE}=                                  ${16*1024*1024}
 ${FLASH_LENGTH}=                                ${TBD}
 ${MANUFACTURER}=                                Hardkernel
-${CPU}=                                         Intel(R) N97
+${CPU}=                                         Intel(R) Core(TM) i3-N305
 ${POWER_CTRL}=                                  RteCtrl
 ${FLASH_VERIFY_METHOD}=                         none
 ${MAX_CPU_TEMP}=                                105
@@ -34,9 +34,19 @@ ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
 ${CUSTOM_LOGO_SUPPORT}=                         ${TRUE}
 ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}=     ${EMPTY}
+@{ETH_PORTS}=                                   00-1e-06-45-c4-ae
+...                                             00-1e-06-45-c4-af
+...                                             00-1e-06-45-88-d8
+...                                             00-1e-06-45-88-d7
+...                                             00-1e-06-45-88-d6
+...                                             00-1e-06-45-88-d5
+@{ETH_PERF_PAIR_2_G}=                           enp4s0    enp5s0
+@{ETH_PERF_2_ND_PAIR_2_G}=                      enp6s0    enp7s0
+${ETHERNET_ID}=                                 8086:125c
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
-${NVME_DISK_SUPPORT}=                           ${TRUE}
+${NVME_DISK_SUPPORT}=                           ${FALSE}
+${SATA_SUPPORT}=                                ${TRUE}
 ${EMMC_SUPPORT}=                                ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
 ${EXTERNAL_HEADSET_SUPPORT}=                    ${TRUE}
@@ -46,18 +56,18 @@ ${DUT_HAS_RESET_BUTTON}=                        ${FALSE}
 ${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 
 ${INITIAL_CPU_FREQUENCY}=                       800
-${PLATFORM_CPU_SPEED}=                          2.0
+${PLATFORM_CPU_SPEED}=                          1.80
 ${CPU_MIN_FREQUENCY}=                           800
-${CPU_MAX_FREQUENCY}=                           3600
+${CPU_MAX_FREQUENCY}=                           3800
 ${PLATFORM_RAM_SPEED}=                          4800
 ${PLATFORM_RAM_SIZE}=                           8192
 ${E_MMC_NAME}=                                  PJ3032
 ${MAX_CPU_TEMP_THRESHOLD}=                      100
-${DEF_THREADS_TOTAL}=                           4
+${DEF_THREADS_TOTAL}=                           8
 ${DEF_THREADS_PER_CORE}=                        1
-${DEF_CORES_PER_SOCKET}=                        4
+${DEF_CORES_PER_SOCKET}=                        8
 ${DEF_SOCKETS}=                                 1
-${DEF_ONLINE_CPU}=                              0-3
+${DEF_ONLINE_CPU}=                              0-7
 ${FLASH_VERIFY_OPTION}=                         UEFI Shell    # Selected One Time Boot option
 ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
@@ -113,7 +123,7 @@ ${USB_STACK_SUPPORT}=                           ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                    ${TRUE}
 
 # Dasharo stability
-${NVME_DETECTION_SUPPORT}=                      ${TRUE}
+${NVME_DETECTION_SUPPORT}=                      ${FALSE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
 ${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
@@ -149,7 +159,6 @@ ${DTS_TEST_BOARD_MODEL}=                        ODROID-H4
 ...                                             ${{ ("Initial Deployment", "DPP") }}
 ...                                             ${{ ("Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition", "DPP") }}
 ...                                             ${{ ("Dasharo (Slim Bootloader+UEFI) Initial Deployment", "DPP") }}
-...                                             ${{ ("UEFI Update", "DPP") }}
 
 
 *** Keywords ***

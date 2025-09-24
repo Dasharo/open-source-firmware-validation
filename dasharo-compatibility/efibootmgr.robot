@@ -31,10 +31,14 @@ EBM001.201 Network Boot enable
     [Documentation]    Test if enabling network boot entry works.
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM001.001 not supported
 
+    Set UEFI Option    NetworkBoot    ${FALSE}
+
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
     Set UEFI Option    NetworkBoot    ${TRUE}
+
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 
@@ -49,6 +53,8 @@ EBM002.201 Network Boot disable
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
     Set UEFI Option    NetworkBoot    ${FALSE}
+
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 
@@ -59,6 +65,9 @@ EBM003.201 Custom Boot Order Add
     [Documentation]    Test if adding a custom boot entry works.
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM003.001 not supported
 
+    Power On
+
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 
@@ -81,9 +90,11 @@ EBM003.201 Custom Boot Order Add
 
     # Check if entry persists after reboot
     Execute Reboot Command
-    Sleep    10s
+
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
+
     ${out}=    Execute Command In Terminal    efibootmgr
     Should Contain    ${out}    ${TEST_BOOT_ENTRY_NAME}
 
@@ -91,6 +102,8 @@ EBM004.201 Custom Boot Order Remove
     [Documentation]    Test if removing a custom boot entry works.
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM004.001 not supported
 
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 
@@ -102,7 +115,7 @@ EBM004.201 Custom Boot Order Remove
 
     # Check if entry stays removed after reboot
     Execute Reboot Command
-    Sleep    10s
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 

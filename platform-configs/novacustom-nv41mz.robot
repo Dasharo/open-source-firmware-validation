@@ -10,7 +10,6 @@ ${CPU}=                         Intel(R) Core(TM) i7-1165G7 CPU
 # Test configuration
 ${3_MDEB_WIFI_NETWORK}=         3mdeb_abr
 ${CLEVO_BATTERY_CAPACITY}=      3200*1000
-${CLEVO_DISK}=                  Samsung SSD 980 PRO
 ${CLEVO_USB_C_HUB}=             4-port
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=         Logitech, Inc. Keyboard K120

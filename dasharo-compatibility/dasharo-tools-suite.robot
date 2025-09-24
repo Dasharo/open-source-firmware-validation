@@ -72,12 +72,13 @@ DTS005.001 Flash device from DTS shell by using flashrom works correctly
     ...    flash the DUT firmware by using flashrom in DTS Shell.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS006.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS006.001 not supported
+    Skip If    '${FW_NO_EC_SYNC_DOWNLOAD_LINK}' == '${TBD}'    DTS006.001 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
     Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
-    Flash Via Internal Programmer    /tmp/coreboot.rom
+    Flash Via Internal Programmer With Args    /tmp/coreboot.rom    ${EMPTY}
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS

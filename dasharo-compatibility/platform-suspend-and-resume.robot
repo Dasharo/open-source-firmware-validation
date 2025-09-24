@@ -13,6 +13,9 @@ Resource            ../keys.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    Suspend and resume tests not supported
+...                     AND
 ...                     Check If Platform Sleep Type Can Be Selected
 Suite Teardown      Log Out And Close Connection
 
@@ -24,7 +27,6 @@ SUSP005.201 Cyclic platform suspend and resume (Ubuntu)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
     ...    Previous IDs: SUSP005.001
-    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP005.201 not supported
@@ -39,7 +41,6 @@ SUSP006.201 Cyclic platform suspend and resume (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
     ...    Previous IDs: SUSP005.002
-    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP006.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP006.201 not supported
@@ -55,7 +56,6 @@ SUSP007.201 Cyclic platform suspend and resume (Ubuntu) (S3)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
     ...    Previous IDs: SUSP005.003
-    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP007.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP007.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP007.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP007.201 not supported
@@ -70,7 +70,6 @@ SUSP007.201 Cyclic platform suspend and resume (Ubuntu) (S3)
 SUSP005.202 Cyclic platform suspend and resume (Fedora)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
-    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP005.202 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUSP005.202 not supported
     Power On
@@ -83,7 +82,6 @@ SUSP005.202 Cyclic platform suspend and resume (Fedora)
 SUSP006.202 Cyclic platform suspend and resume (Fedora) (S0ix)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
-    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP006.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUSP006.202 not supported
     Set Platform Sleep Type    S0ix
@@ -97,7 +95,6 @@ SUSP006.202 Cyclic platform suspend and resume (Fedora) (S0ix)
 SUSP007.202 Cyclic platform suspend and resume (Fedora) (S3)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
-    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUSP007.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP007.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUSP007.202 not supported
     Set Platform Sleep Type    S3

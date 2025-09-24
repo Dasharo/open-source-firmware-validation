@@ -170,53 +170,12 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
     FOR    ${index}    IN RANGE    2
         Execute Reboot Command
-        Read From Terminal Until    Press ENTER key to continue
-        Write Into Terminal    ${ENTER}
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-        ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
-        Should Contain    ${out_vboot}    Recovery boot mode
-    END
-    # 3. Flash again with correctly signed firmware
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
-    Execute Reboot Command
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
-    Should Contain    ${out_vboot}    Normal boot mode
-
-VBO011.001 Recovery popup is not displayed when correctly signed firmware is flashed in RW_A (no TESTS_IN_FIRMWARE_SUPPORT)
-    [Documentation]    Check whether after flashing the DUT with the valid
-    ...    binary, the DUT will boot correctly from the default slot.
-    # Relevant issues:
-    # https://github.com/Dasharo/dasharo-issues/issues/185
-    # https://github.com/Dasharo/dasharo-issues/issues/269
-    # https://github.com/Dasharo/dasharo-issues/issues/320
-    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO011.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO011.001 not supported
-    Variable Should Exist    ${FW_FILE}
-    # 1. Start with flashing of correctly signed firmware
-    Set DUT Response Timeout    180s
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
-    FOR    ${index}    IN RANGE    2
-        Execute Reboot Command
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Switch To Root User
-    END
-    ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
-    Should Contain    ${out_vboot}    Normal boot mode
-    # 2. Flash incorrectly signed firmware and boot 2 times. Recovery popup
-    # should be displayed, and recovery request should be logged in cbmem.
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
-    FOR    ${index}    IN RANGE    2
-        Execute Reboot Command
-        Sleep    15s    # Wait for the pop-up to disappear automatically
+        IF    ${TESTS_IN_FIRMWARE_SUPPORT}
+            Read From Terminal Until    Press ENTER key to continue
+            Write Into Terminal    ${ENTER}
+        ELSE
+            Sleep    15s    # Wait for the pop-up to disappear automatically
+        END
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
@@ -285,3 +244,4 @@ Prepare Tools, Keys And Binaries
     Install Docker Packages
     Generate Verified Boot Keys
     Resign Existing Firmware Image With Generated Keys
+    Execute Command In Terminal    sync

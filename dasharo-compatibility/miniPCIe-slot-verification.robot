@@ -18,8 +18,8 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-# ...    AND
-# ...    Skip If    not ${MINI_PC_IE_SLOT_SUPPORT}    MiniPCIe slot tests not supported
+...                     AND
+...                     Skip If    not ${MINI_PC_IE_SLOT_SUPPORT}    MiniPCIe slot tests not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -40,7 +40,6 @@ MWL002.201 Wi-Fi scanning (Ubuntu)
     ...    initialized correctly and can be used from within the
     ...    operating system..
     ...    Previous IDs: MWL002.001
-    Skip If    not ${MINI_PC_IE_SLOT_SUPPORT}    MWL002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL002.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL002.201 not supported
     Wi-Fi Scanning    ${ENV_ID_UBUNTU}

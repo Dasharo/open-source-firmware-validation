@@ -16,8 +16,15 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND
+...                     Skip If    not ${IPXE_BOOT_SUPPORT}    iPXE Network Boot not supported
+...                     AND
+...                     Skip If    not ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}
+...                     AND
+...                     Run Keyword If    ${DASHARO_NETWORKING_MENU_SUPPORT}
+...                     Make Sure That Network Boot Is Enabled
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -29,7 +36,6 @@ CNB001.201 Only one iPXE in boot menu
     [Documentation]    Check whether the network boot option with iPXE appears
     ...    only once in the boot option list.
     ...    Previous IDs: CNB001.001
-    Skip If    not ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}    CNB001.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CNB001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CNB001.201 not supported
     Power On
@@ -40,7 +46,6 @@ CNB001.201 Only one iPXE in boot menu
 CNB001.202 Only one iPXE in boot menu
     [Documentation]    Check whether the network boot option with iPXE appears
     ...    only once in the boot option list.
-    Skip If    not ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}    CNB001.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CNB001.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}

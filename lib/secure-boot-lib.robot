@@ -242,6 +242,10 @@ Enter UEFI Shell
     Set Prompt For Terminal    Shell>
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
+    Read From Terminal Until    skip startup.nsh or any other key to continue.
+    # Skip startup.nsh counting. If not skipped, a next boot entry may be booted
+    # autoamtically for some reason.
+    Press Key N Times    1    ${ESC}
     Read From Terminal Until Prompt
     Sleep    1s
 
