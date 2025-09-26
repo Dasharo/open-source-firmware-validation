@@ -5917,12 +5917,28 @@
     "doc": {
       "_id": "SMW001.001",
       "name": "Wi-fi connection after cold boot (Ubuntu)",
+      "module": "Dasharo Stability",
+      "changed_to": "SMW001.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SMW001.201",
+      "name": "Wi-fi connection after cold boot (Ubuntu)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
       "_id": "SMW001.002",
+      "name": "Wi-fi connection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "SMW001.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SMW001.203",
       "name": "Wi-fi connection after cold boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
