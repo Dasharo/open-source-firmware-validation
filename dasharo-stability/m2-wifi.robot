@@ -22,7 +22,7 @@ Default Tags        automated
 *** Test Cases ***
 # Tests will work on laptops with access to the serial console and possibility
 # of remote power control
-SMW001.001 Wi-fi connection after cold boot (Ubuntu)
+SMW001.201 Wi-fi connection after cold boot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a cold boot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW001.001 not supported
