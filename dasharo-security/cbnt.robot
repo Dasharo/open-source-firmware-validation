@@ -133,7 +133,7 @@ CBNT006.101 Setup Menu Boot Guard Information
         ${submenu}=    Get Submenu Construction
         Match BtG Option State    ${submenu}    S-ACM Startup Success <Yes>    s_acm_success
         Match BtG Option State    ${submenu}    CPU Debugging    cpu_debug    Boot Policy: Disable <Yes>
-        Match BtG Option State    ${submenu}    BSP #INIT    bsp_init    Boot Policy: Protected <Yes>
+        Match BtG Option State    ${submenu}    BSP #INIT    bsp_init    Boot Policy: Protect <Yes>
         Match BtG Option State    ${submenu}    Register Contents <No>    reg_cont    Valid
         Match BtG Option State    ${submenu}    DMA Protection <Yes>    dma_protection
         Match BtG Option State    ${submenu}    TPM Success <Yes>    tpm_success
