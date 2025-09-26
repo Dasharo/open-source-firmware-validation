@@ -6,29 +6,28 @@
 # The script is used to generate the humongous UTC test suite.
 # All modifications to the suite file should be performed from within this script
 
-import pandas as pd
-import sys
-from pathlib import Path
 import importlib
 import inspect
+import sys
+from pathlib import Path
+
+import pandas as pd
 
 # Import variables from  os-config/environment-test-ids.py
 # workaround because `import` does not work with files containing "-"
-os_config_file=Path("os-config/environment-test-ids.py")
+os_config_file = Path("os-config/environment-test-ids.py")
 spec = importlib.util.spec_from_file_location("my_file_alias", os_config_file)
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
 # Init variables
 ENV_ID_FRIENDLY_NAMES: dict[str]
-globals().update({
-    k: v for k, v in vars(mod).items()
-    if k in ("ENV_ID_FRIENDLY_NAMES")
-})
+globals().update({k: v for k, v in vars(mod).items() if k in ("ENV_ID_FRIENDLY_NAMES")})
 
-UTC_SUITE_FILE="utc_test_file.robot"
-UTC_LIB_FILE="utc_test_keywords.robot"
-UTC_SUITE_HEADER="""*** Comments ***
-# robocop: disable=too-many-test-cases
+UTC_SUITE_FILE = "utc_test_file.robot"
+UTC_LIB_FILE = "utc_test_keywords.robot"
+UTC_SUITE_HEADER = """*** Comments ***
+# robocop:off too-many-test-cases
+# robocop:off file-too-long
 
 
 *** Settings ***
@@ -126,14 +125,26 @@ test_names = {
         "docking_stations": ["1", "2", "3"],
     },
     "USB Type-C docking station USB devices recognition": {
-        "env_ids": {"001": "manual", "201": "auto", "202": "auto", "301": "auto", "203": "manual"},
+        "env_ids": {
+            "001": "manual",
+            "201": "auto",
+            "202": "auto",
+            "301": "auto",
+            "203": "manual",
+        },
         "doc": """Check whether the external USB devices connected to the
     ...    docking station are detected correctly""",
         "skips": ["not ${DOCKING_STATION_USB_SUPPORT}"],
         "docking_stations": ["1", "2", "3"],
     },
     "USB Type-C docking station USB keyboard": {
-        "env_ids": {"001": "manual", "201": "auto", "202": "auto", "301": "auto", "203": "manual"},
+        "env_ids": {
+            "001": "manual",
+            "201": "auto",
+            "202": "auto",
+            "301": "auto",
+            "203": "manual",
+        },
         "doc": """Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.""",
         "skips": ["not ${DOCKING_STATION_KEYBOARD_SUPPORT}"],
@@ -313,7 +324,9 @@ for dock_idx in docking_stations.keys():
             # find out test cases on given os
             # to order them by OS and possibly speeding up execution
             tests_for_os = [
-                name for name in test_names.keys() if os in test_names[name]["env_ids"].keys()
+                name
+                for name in test_names.keys()
+                if os in test_names[name]["env_ids"].keys()
             ]
 
             for test_name in tests_for_os:
@@ -344,12 +357,12 @@ def full_test_name(test_row):
     line += f" {test_row['Test Name']}"
     line += f" ({oses[test_row['OS ID']]})"
     line += f" (ME: {test_row['ME State']})"
-    if test_row['Dock'] != "none":
+    if test_row["Dock"] != "none":
         line += f" ({test_row['Dock']})"
     return line
 
 
-# Genearte test suite file
+# Generate test suite file
 robot_tests_lines = []
 for idx, row in enumerate(test_rows):
     robot_tests_lines.append([])
@@ -391,11 +404,10 @@ for idx, row in enumerate(test_rows):
 
     # call the generic keyword for that test case type
     if row["automation"] == "manual":
-        keyword_call = f"Skip    {row['Test ID']} not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/\n"
+        keyword_call = f"Skip    {row['Test ID']}\n... not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/\n"
     else:
         keyword_call = f"{row['Test Name'].title()}    {os_id_variable_names[row['OS ID']]}    {row['ME State']}    {row['Dock']}\n"
     robot_tests_lines[idx].append(f"    {keyword_call}\n")
-
 
 
 # Generate keywords
@@ -408,7 +420,9 @@ for idx, test_name in enumerate(test_names.keys()):
     )
 
     # Comment out keywords for tests that are not implemented
-    if not any(state in test_names[test_name]["env_ids"].values() for state in ["auto", "semi"]):
+    if not any(
+        state in test_names[test_name]["env_ids"].values() for state in ["auto", "semi"]
+    ):
         keywords[idx] = ["# " + line for line in keywords[idx]]
         keywords[idx].insert(0, "# Not automated\n")
     keywords[idx].append("\n")
@@ -426,4 +440,3 @@ with open(UTC_LIB_FILE, "w") as file:
     for kw in keywords:
         file.writelines(kw)
 print("UTC Library generated at", UTC_LIB_FILE)
-
