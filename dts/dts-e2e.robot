@@ -80,7 +80,6 @@ E2E003.002 DCR UEFI Update On Msi-pro-z690-a-wifi-ddr4 With 13th Gen CPU Should 
 E2E007.001 Check credentials are being saved correctly
     [Documentation]    Check that credentials are saved to /etc/cloud-pass and
     ...    to mc correctly
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Write Into Terminal    dts-boot
 
@@ -104,7 +103,6 @@ E2E007.002 Check old credentials are being overwritten by new
     ...    doesn't save credentials that do not work.
     Depends On Variable    \${DPP_EMAIL_FW_ONLY}
     Depends On Variable    \${DPP_PASSWORD_FW_ONLY}
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Write Into Terminal    dts-boot
 
@@ -129,7 +127,6 @@ E2E007.002 Check old credentials are being overwritten by new
 E2E007.003 Check wrong credentials should not allow to log into DPP services
     [Documentation]    Entering wrong credentials shouldn't allow access to DPP
     ...    services and shouldn't be saved
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Write Into Terminal    dts-boot
 
@@ -149,7 +146,6 @@ E2E007.003 Check wrong credentials should not allow to log into DPP services
 E2E007.004 Check correct credentials should allow to log into DPP services
     [Documentation]    Entering correct credentials should allow access to DPP
     ...    services
-    Clean Up DTS Environment
     # We need to simulate supported platform
     Export Shell Variables For Emulation
     ...    UEFI Update
@@ -168,7 +164,6 @@ E2E007.004 Check correct credentials should allow to log into DPP services
 
 E2E007.005 Check empty e-mail should not pass
     [Documentation]    Entering empty e-mail shouldn't be allowed
-    Clean Up DTS Environment
     Write Into Terminal    dts-boot
     ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
     Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
@@ -183,7 +178,6 @@ E2E007.005 Check empty e-mail should not pass
 
 E2E007.006 Check empty password should not pass
     [Documentation]    Entering empty password shouldn't be allowed
-    Clean Up DTS Environment
     Write Into Terminal    dts-boot
     ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
     Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
@@ -202,7 +196,6 @@ E2E007.008 Check DPP credentials with access to only firmware
     ...    firmware
     Depends On Variable    \${DPP_EMAIL_FW_ONLY}
     Depends On Variable    \${DPP_PASSWORD_FW_ONLY}
-    Clean Up DTS Environment
     Export Shell Variables For Emulation
     ...    UEFI Update
     ...    DPP
@@ -221,7 +214,6 @@ E2E007.009 Check DPP credentials with access to only extensions
     ...    extensions
     Depends On Variable    \${DPP_EMAIL_EXTENSIONS_ONLY}
     Depends On Variable    \${DPP_PASSWORD_EXTENSIONS_ONLY}
-    Clean Up DTS Environment
     Export Shell Variables For Emulation
     ...    UEFI Update
     ...    DPP
@@ -240,7 +232,6 @@ E2E007.010 Check DPP credentials without DPP access
     ...    or DTS extensions
     Depends On Variable    \${DPP_EMAIL_NO_ACCESS}
     Depends On Variable    \${DPP_PASSWORD_NO_ACCESS}
-    Clean Up DTS Environment
     Export Shell Variables For Emulation
     ...    UEFI Update
     ...    DPP
@@ -259,7 +250,6 @@ E2E007.010 Check DPP credentials without DPP access
 E2E007.011 Check DPP credentials with both DPP firmware and DTS extensions access
     [Documentation]    Those credentials should allow access to both DPP
     ...    firmware and DTS extensions
-    Clean Up DTS Environment
     Export Shell Variables For Emulation
     ...    UEFI Update
     ...    DPP
@@ -273,7 +263,6 @@ E2E007.011 Check DPP credentials with both DPP firmware and DTS extensions acces
 
 E2E008.001 Reboot UI Option Calls Reboot Command
     [Documentation]    Reboot (R) UI option should call mocked reboot command
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Write Into Terminal    dts-boot
     Wait For Checkpoint    ${DTS_CHECKPOINT}
@@ -282,7 +271,6 @@ E2E008.001 Reboot UI Option Calls Reboot Command
 
 E2E008.002 Poweroff UI Option Calls Poweroff Command
     [Documentation]    Poweroff (P) UI option should call mocked poweroff
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Write Into Terminal    dts-boot
     Wait For Checkpoint    ${DTS_CHECKPOINT}
@@ -291,7 +279,6 @@ E2E008.002 Poweroff UI Option Calls Poweroff Command
 
 E2E008.003 Launch SSH Server UI Option Enables SSH Server Command
     [Documentation]    Launch SSH Server (K) UI option should start sshd server
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Execute Command In Terminal    systemctl stop sshd
     Write Into Terminal    dts-boot
@@ -306,7 +293,6 @@ E2E008.003 Launch SSH Server UI Option Enables SSH Server Command
 E2E008.004 Enable Sending Logs UI Option Should Enable DTS Log Sending
     [Documentation]    Enable Sending DTS Logs (L) should enable automatic log
     ...    sending e.g. when entering shell
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Write Into Terminal    dts-boot
     ${out}=    Wait For Checkpoint    ${DTS_CHECKPOINT}
@@ -320,7 +306,6 @@ E2E008.004 Enable Sending Logs UI Option Should Enable DTS Log Sending
 E2E009.001 DTS extensions are installed and can be used
     [Documentation]    Test that DTS extensions are installed after entering DPP
     ...    keys with access to them and that they can be used after.
-    Clean Up DTS Environment
     Execute Command In Terminal    export DTS_TESTING="true"
     Write Into Terminal    dts-boot
 
@@ -442,7 +427,6 @@ Prepare E2E Test
     # TODO: needed by 'Go Through Initial Deployment' keyword for couple of
     # NovaCustom boards
     VAR    ${DTS_TEST_BOARD_MODEL}=    ${DTS_PLATFORM_VARIABLES}[${platform}][DTS_TEST_BOARD_MODEL]    scope=TEST
-    Clean Up DTS Environment
     Write Into Terminal    dts-boot
 
 Clean Up DTS Environment
@@ -456,6 +440,7 @@ Prepare DTS Test
     ...    with clean shell environment for each test
     Execute Command In Terminal    systemctl start sshd
     Start New DTS SSH Session In QEMU
+    Clean Up DTS Environment
 
 Teardown Template E2E DTS Test
     [Documentation]    Close SSH session, verify profile if needed and cleanup
