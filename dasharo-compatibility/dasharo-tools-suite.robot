@@ -41,8 +41,7 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    1
-    Read From Terminal Until
-    ...    Do you want to support Dasharo development by sending us logs with your hardware configuration? [N/y]
+    Read From Terminal Until    ${HCL_REPORT_SENDINGLOGS}
     Write Into Terminal    N
     Set DUT Response Timeout    5m
     Read From Terminal Until    Done! Logs saved to:
