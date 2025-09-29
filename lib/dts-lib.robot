@@ -340,6 +340,61 @@ Wait For ME Warning Or Reboot
 
     RETURN    ${checkpoint}
 
+Add Checkpoint And Write
+    [Documentation]    Add required checkpoint to list. ${checkpoints}
+    ...    has to be list variable
+    [Arguments]    ${checkpoints}    ${checkpoint}    ${to_write}    ${regexp}=${FALSE}    ${bare}=${FALSE}
+    IF    ${bare} == ${FALSE}
+        VAR    ${to_write}=    ${to_write}${ENTER}
+    END
+    Append To List    ${checkpoints}
+    ...    ${{("""${checkpoint}""", """${to_write}""", """${regexp}""", "${TRUE}")}}
+
+Add Optional Checkpoint And Write
+    [Documentation]    Add optional checkpoint to list. ${checkpoints}
+    ...    has to be list variable
+    [Arguments]    ${checkpoints}    ${checkpoint}    ${to_write}    ${regexp}=${FALSE}    ${bare}=${FALSE}
+    IF    ${bare} == ${FALSE}
+        VAR    ${to_write}=    ${to_write}${ENTER}
+    END
+    Append To List    ${checkpoints}
+    ...    ${{("""${checkpoint}""", """${to_write}""", """${regexp}""", "${FALSE}")}}
+
+Wait For Checkpoints
+    [Documentation]    Run checkpoint based workflow waiting for checkpoints
+    ...    based on order they are defined. Optional checkpoints don't have to
+    ...    be present to succeed. ${checkpoints} argument has to be created via
+    ...    'Add Checkpoint' keywords. Last checkpoint has to be required one.
+    [Arguments]    ${checkpoints}
+    VAR    ${output}=    ${EMPTY}
+    WHILE    ${checkpoints}
+        VAR    @{wait_for_checkpoints}=    ${checkpoints}[0]
+        Remove From List    ${checkpoints}    0
+        # checkpoints format is a list of:
+        # checkpoint, what to write, is what to write regexp, is it required
+        WHILE    ${wait_for_checkpoints}[-1][-1] != ${TRUE}
+            Append To List    ${wait_for_checkpoints}    ${checkpoints}[0]
+            Remove From List    ${checkpoints}    0
+        END
+
+        # repeat until we deal with all checkpoints
+        WHILE    ${wait_for_checkpoints}
+            ${out}=    Wait For Either Checkpoint And Write
+            ...    bare=${TRUE}
+            ...    &{{{checkpoint[0]: checkpoint[1] for checkpoint in ${wait_for_checkpoints}}}}
+            VAR    ${output}=    ${output}    ${out}    separator=${SPACE}
+            WHILE    ${wait_for_checkpoints}
+                IF    """${wait_for_checkpoints}[0][0]""" in """${out}"""
+                    Remove From List    ${wait_for_checkpoints}    0
+                    BREAK
+                ELSE
+                    Remove From List    ${wait_for_checkpoints}    0
+                END
+            END
+        END
+    END
+    RETURN    ${output}
+
 Go Through Initial Deployment
     [Documentation]    This KW goes through standard Dasharo initial deployment
     ...    choosing all needed menu options and answering all questions. The
