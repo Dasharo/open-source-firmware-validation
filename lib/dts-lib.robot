@@ -15,6 +15,7 @@ ${HCL_REPORT_CHECKPOINT}=
 ...                                             Please consider contributing to the "Hardware for Linux" project in the future.
 ${HCL_REPORT_SENDINGLOGS}=
 ...                                             Do you want to support Dasharo development by sending us logs with your hardware configuration? [y|n]
+${ERROR_LOGS_QUESTION}=                         Do you want to send console logs to 3mdeb? [y|n]:
 ${DTS_SPECIFICATION_WARN}=                      Does it match your actual specification? [y|n]
 ${DTS_DEPLOY_WARN}=                             Do you want to deploy this Dasharo Firmware on your platform [y|n]
 ${DTS_HW_PROBE_WARN}=                           Do you want to participate in this project?
@@ -26,6 +27,7 @@ ${DTS_FUSE_WARN}=                               Fusing is irreversible. Are you 
 ${DTS_13_GEN_REGRESSION}=                       Aborting deployment...
 ${DPP_EMAIL_CHECKPOINT}=                        Enter DPP email:
 ${DPP_PASSWORD_CHECKPOINT}=                     Enter password:
+${DTS_ASK_FOR_CHOICE_PROMPT}=                   Select an option:
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=                      Community version
 ${DTS_DPP_UEFI_MENUPOINT}=                      DPP version (coreboot + UEFI)
@@ -44,6 +46,8 @@ ${DTS_DPP_UEFI_OPT}=                            d
 ${DTS_DPP_SEA_OPT}=                             s
 ${DTS_DPP_SLIM_BOOTLOADER_UEFI_OPT}=            l
 ${DTS_LOGS_OPT}=                                l
+${DTS_FUM_UPDATE_OPT}=                          1
+${DTS_FUM_MENU_OPT}=                            9
 # DTS release checkpoints:
 ${DTS_NOACCESS_DPP_UEFI}=                       Dasharo Pro Package version (coreboot + UEFI) is also available.
 ${DTS_NOACCESS_DPP_SEABIOS}=                    Dasharo Pro Package version (coreboot + SeaBIOS) is also available.
