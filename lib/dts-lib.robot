@@ -273,12 +273,14 @@ Wait For Checkpoint And Write
     [Arguments]    ${checkpoint}    ${to_write}    ${regexp}=${FALSE}
     ${out}=    Wait For Checkpoint And Write Bare
     ...    ${checkpoint}    ${to_write}${ENTER}    ${regexp}
+    Log    Waited for """${checkpoint}""" and written "${to_write}"
     RETURN    ${out}
 
 Wait For Either Checkpoint And Write
     [Documentation]    Keywords waits for any of the ${checkpoints} key and if
     ...    it matches then writes value of this element to the console
     [Arguments]    ${bare}=${FALSE}    &{checkpoints}
+    Log    Waiting for either checkpoint: ${checkpoints}
     ${out}=    Wait For Either Checkpoint    @{checkpoints}
     # Find which checkpoint we found
     Sleep    1s
@@ -289,6 +291,7 @@ Wait For Either Checkpoint And Write
             ELSE
                 Write Into Terminal    ${checkpoints}[${checkpoint}]
             END
+            Log    Waited for """${checkpoint}""" and written "${checkpoints}[${checkpoint}]"
             RETURN    ${out}
         END
     END
@@ -385,6 +388,7 @@ Wait For Checkpoints
             VAR    ${output}=    ${output}    ${out}    separator=${SPACE}
             WHILE    ${wait_for_checkpoints}
                 IF    """${wait_for_checkpoints}[0][0]""" in """${out}"""
+                    Log    Checkpoint reached: ${wait_for_checkpoints}[0][0]
                     Remove From List    ${wait_for_checkpoints}    0
                     BREAK
                 ELSE
