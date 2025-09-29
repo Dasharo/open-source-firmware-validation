@@ -278,13 +278,17 @@ Wait For Checkpoint And Write
 Wait For Either Checkpoint And Write
     [Documentation]    Keywords waits for any of the ${checkpoints} key and if
     ...    it matches then writes value of this element to the console
-    [Arguments]    &{checkpoints}
+    [Arguments]    ${bare}=${FALSE}    &{checkpoints}
     ${out}=    Wait For Either Checkpoint    @{checkpoints}
     # Find which checkpoint we found
     Sleep    1s
     FOR    ${checkpoint}    ${write}    IN    &{checkpoints}
         IF    """${checkpoint}""" in """${out}"""
-            Write Into Terminal    ${checkpoints}[${checkpoint}]
+            IF    ${bare}
+                Write Bare Into Terminal    ${checkpoints}[${checkpoint}]
+            ELSE
+                Write Into Terminal    ${checkpoints}[${checkpoint}]
+            END
             RETURN    ${out}
         END
     END
@@ -361,7 +365,7 @@ Go Through Initial Deployment
     END
 
     # 1) Select initial deployment:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 2) Wait for HCL report to do its work, might take some time:
     Set DUT Response Timeout    5m
@@ -402,7 +406,7 @@ Go Through Transition
     ...    DPP SeaBIOS.
     [Arguments]    ${dasharo_version}    ${skip_me}=${FALSE}
     # 1) Select transition:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_TRANSITION_OPT}
 
     # 2) Choose version to transit to:
     IF    '${dasharo_version}' == 'DCR UEFI'
@@ -436,7 +440,7 @@ Go Through Update
     [Arguments]    ${skip_me}=${FALSE}
     Set DUT Response Timeout    120s
     # 1) Select update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 2) Check out all warnings. Decline Heads if asked
     ${checkpoint}=    Wait For Either Checkpoint And Write
@@ -457,7 +461,7 @@ Go Through Heads Transition
     [Arguments]    ${skip_me}=${FALSE}
     Set DUT Response Timeout    120s
     # 1) Start update:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 2) Check out all warnings:
     Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    Y

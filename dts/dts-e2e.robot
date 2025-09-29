@@ -40,7 +40,7 @@ E2E001.001 HCL Report test
     Write Into Terminal    dts-boot
 
     # 3) Launch HCL report:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_HCL_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_HCL_OPT}
 
     # 4) Check out all HCL Report questions:
     Wait For Checkpoint And Write    ${HCL_REPORT_SENDINGLOGS}    N
@@ -165,8 +165,7 @@ E2E007.004 Check correct credentials should allow to log into DPP services
 E2E007.005 Check empty e-mail should not pass
     [Documentation]    Entering empty e-mail shouldn't be allowed
     Write Into Terminal    dts-boot
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_CREDENTIALS_OPT}
     Wait For Checkpoint And Press Enter    ${DPP_EMAIL_CHECKPOINT}
     Set DUT Response Timeout    15s
     Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
@@ -179,8 +178,7 @@ E2E007.005 Check empty e-mail should not pass
 E2E007.006 Check empty password should not pass
     [Documentation]    Entering empty password shouldn't be allowed
     Write Into Terminal    dts-boot
-    ${out}=    Read From Terminal Until    ${DTS_CHECKPOINT}
-    Write Bare Into Terminal    ${DTS_CREDENTIALS_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_CREDENTIALS_OPT}
     Wait For Checkpoint And Write    ${DPP_EMAIL_CHECKPOINT}    ${DPP_EMAIL}
     Wait For Checkpoint And Press Enter    ${DPP_PASSWORD_CHECKPOINT}
     ${out}=    Wait For Checkpoint And Press Enter    ${DTS_CONFIRM_CHECKPOINT}
@@ -535,7 +533,7 @@ Perform DCR Initial Deployment On Incompatible CPU Regression Test
     Write Into Terminal    dts-boot
 
     # 2) Select initial deployment:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 3) Wait for HCL report to do its work:
     # Accept hw-probe question from HCL report:
@@ -565,7 +563,7 @@ Perform DCR UEFI Update On Incompatible CPU Regression Test
     Write Into Terminal    dts-boot
 
     # 2) Select initial deployment:
-    Wait For Checkpoint And Write    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
 
     # 3) Pass the test if the "Aborting deployment..." message shows up:
     ${checkpoint}=    Wait For Checkpoint    ${DTS_13_GEN_REGRESSION}
