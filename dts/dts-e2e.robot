@@ -315,6 +315,105 @@ E2E009.001 DTS extensions are installed and can be used
     ${rc}=    Execute Command In Terminal And Return RC    command -V txeconfigtool
     Should Be Equal As Integers    ${rc}    0    txeconfigtool can't be found
 
+E2E010.001 Failure to read flash during update should stop workflow
+    [Documentation]    Test that update stops if flash read in
+    ...    set_flashrom_update_params function fails.
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_LAYOUT_READ_SHOULD_FAIL="true"
+    Write Into Terminal    dts-boot
+
+    VAR    @{checkpoints}=    @{EMPTY}
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}    bare=${TRUE}
+    Add Optional Checkpoint And Write    ${checkpoints}    ${DTS_HEADS_SWITCH_QUESTION}    N
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_SPECIFICATION_WARN}    Y
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_DEPLOY_WARN}    Y
+    Wait For Checkpoints    ${checkpoints}
+    Wait For Checkpoint    Couldn't read flash
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
+E2E011.001 Aborting update after smmstore migration failure should stop workflow
+    [Documentation]    Test that update stops if user doesn't want to continue
+    ...    update after smmstore migration failure
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BOARD_HAS_SMMSTORE="false"
+    Write Into Terminal    dts-boot
+
+    VAR    @{checkpoints}=    @{EMPTY}
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}    bare=${TRUE}
+    Add Optional Checkpoint And Write    ${checkpoints}    ${DTS_HEADS_SWITCH_QUESTION}    N
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_SPECIFICATION_WARN}    Y
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_DEPLOY_WARN}    Y
+    Add Checkpoint And Write    ${checkpoints}    Do you want to proceed with update    N
+    ${out}=    Wait For Checkpoints    ${checkpoints}
+    Should Contain    ${out}    Couldn't migrate BIOS configuration
+    Wait For Checkpoint    Aborting...
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
+E2E012.001 Continuing update after smmstore migration failure should succeed
+    [Documentation]    Test that update succeeds if user wants to continue even
+    ...    if smmstore migration failed
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BOARD_HAS_SMMSTORE="false"
+    Write Into Terminal    dts-boot
+
+    VAR    @{checkpoints}=    @{EMPTY}
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}    bare=${TRUE}
+    Add Optional Checkpoint And Write    ${checkpoints}    ${DTS_HEADS_SWITCH_QUESTION}    N
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_SPECIFICATION_WARN}    Y
+    Add Checkpoint And Write    ${checkpoints}    ${DTS_DEPLOY_WARN}    Y
+    Add Checkpoint And Write    ${checkpoints}    Do you want to proceed with update    Y
+    ${out}=    Wait For Checkpoints    ${checkpoints}
+    Should Contain    ${out}    Couldn't migrate BIOS configuration
+    Wait For Checkpoint    Continuing update without migrating BIOS configuration
+    Wait For Checkpoint    Rebooting in
+    Wait For Checkpoint    Rebooting
+
+E2E013.001 Verify that FUM update doesn't start automatically
+    [Documentation]    Test that booting via FUM doesn't start update without
+    ...    user input
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Execute Command In Terminal    export TEST_FUM="true"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint    You have entered Firmware Update Mode
+    Wait For Checkpoint    ${DTS_ASK_FOR_CHOICE_PROMPT}
+
+E2E014.001 Verify that FUM update succeeds
+    [Documentation]    Test that FUM update succeeds without user input
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_FUM="true"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_UPDATE_OPT}
+    Wait For Checkpoint    Rebooting in
+    Wait For Checkpoint    Rebooting
+
+E2E015.001 Verify that entering DTS menu in FUM works
+    [Documentation]    Test that booting via FUM doesn't start update without
+    ...    user input
+    Execute Command In Terminal    export DTS_TESTING="true"
+    Execute Command In Terminal    export TEST_FUM="true"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_MENU_OPT}
+    Wait For Checkpoint    ${DTS_CHECKPOINT}
+
 
 *** Keywords ***
 # robocop: disable:0919
