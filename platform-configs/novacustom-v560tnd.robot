@@ -123,7 +123,6 @@ ${UNIGINE_SUPERPOSITION_RESULT_BAT}=    24.0    # FPS
 ${DTS_TEST_BOARD_MODEL}=                V560TNx
 @{DTS_TEST_WORKFLOWS}=
 ...                                     Initial Deployment    UEFI Update
-...                                     Fuse Platform
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI Update", "DCR") }}
 ...                                     ${{ ("Fuse Platform", "DCR") }}

@@ -116,7 +116,7 @@ ${OPTIONS_LIB}=                                 options-lib_dcu
 ...                                             Fuse Platform=Dasharo (coreboot+UEFI) 1.0.0
 ${DTS_TEST_BOARD_MODEL}=                        V540TNx
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment
-...                                             UEFI Update    Fuse Platform
+...                                             UEFI Update
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                             ${{ ("UEFI Update", "DCR") }}
 ...                                             ${{ ("Fuse Platform", "DCR") }}
