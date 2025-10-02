@@ -48,6 +48,9 @@
       ansible.builtin.command: gsettings set org.gnome.desktop.session idle-delay 0
     - name: Systemd turn off suspend
       ansible.builtin.command: systemctl mask suspend.target
+    - name: Install docker
+      import_role:
+        name: geerlingguy.docker
 
 - name: OS specific tasks
   hosts: host
