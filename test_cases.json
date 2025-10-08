@@ -2169,6 +2169,27 @@
   },
   {
     "doc": {
+      "_id": "CRB001.201",
+      "name": "Boot Slot A After Clearing CMOS (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CRB002.201",
+      "name": "Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CRB003.201",
+      "name": "Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "CUP001.001",
       "name": "Capsule Update With Wrong Keys",
       "module": "Dasharo Stability"
