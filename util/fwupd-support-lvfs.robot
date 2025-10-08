@@ -58,12 +58,18 @@ FWUPD003.203 Fwupd LVFS Firmware Update (QubesOS)
 
 *** Keywords ***
 Fwupd LVFS Firmware Update Linux
-    ${username}=    Get Environment Variable    LVFS_USERNAME
-    ${password}=    Get Environment Variable    LVFS_PASSWORD
-
+    ${username}=    Get Environment Variable    LVFS_USERNAME    default=${EMPTY}
+    ${password}=    Get Environment Variable    LVFS_PASSWORD    default=${EMPTY}
+    IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
+        VAR    ${USE_EMBARGO}=    ${TRUE}
+    ELSE
+        VAR    ${USE_EMBARGO}=    ${FALSE}
+    END
     Switch To Root User
-    Setup Fwupd Embargo Config Linux    ${username}    ${password}
-    Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' > /etc/fwupd/fwupd.conf
+    IF    ${USE_EMBARGO}
+        Setup Fwupd Embargo Config Linux    ${username}    ${password}
+        Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' > /etc/fwupd/fwupd.conf
+    END
     Execute Command In Terminal    fwupdmgr refresh
     VAR    ${id_extract_command}=
     ...    fwupdmgr get-devices 2>/dev/null
@@ -72,8 +78,14 @@ Fwupd LVFS Firmware Update Linux
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Execute Command In Terminal    yes n | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older
-    Clean Up Fwupd Embargo Config Linux
+    ${out}=    Execute Command In Terminal    fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    # wait for boot to the OS to allow for the update to end
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux
+    IF    ${USE_EMBARGO}
+        Clean Up Fwupd Embargo Config Linux
+    END
+
 
     Should Not Contain    ${out}    failed to find    ignore_case=${True}
     Should Not Contain    ${out}    No updatable devices    ignore_case=${True}
