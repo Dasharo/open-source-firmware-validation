@@ -36,6 +36,7 @@ FWUPD001.201 Fwupd Devices Detected (Ubuntu)
 FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    using local unsigned cabinet
+    [Tags]    semiauto
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -54,6 +55,7 @@ FWUPD001.202 Fwupd Devices Detected (Fedora)
 FWUPD002.202 Fwupd Local Firmware Update (Fedora)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    using local unsigned cabinet
+    [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
@@ -100,7 +102,7 @@ Fwupd Devices Detected Linux
         Append To List    ${devices}    TPM
     END
 
-    Should Contain    ${out}    @{devices}
+    Should Contain All    ${out}    @{devices}
 
 Fwupd Local Firmware Update Linux
     ${cabinet_given}=    Run Keyword And Return Status
@@ -114,8 +116,10 @@ Fwupd Local Firmware Update Linux
     Switch To Root User
     Send File To DUT    ${fwupd_cabinet}    target_path=${cabinet}
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
-    ${out}=    Execute Command In Terminal    fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes
+    ${out}=    Execute Command In Terminal    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes
+    ...    timeout=300s
     Should Contain    ${out}    Successfully installed firmware
-    # wait for boot to the OS to allow for the update to end
+    IF   "${POWER_CTRL}"=="none"
+        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+    END
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux

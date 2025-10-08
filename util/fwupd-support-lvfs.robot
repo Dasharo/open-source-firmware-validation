@@ -27,6 +27,7 @@ ${CABINET_ENVVAR}=      FWUPD_CABINET_FILE
 FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
+    [Tags]    semiauto
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -36,6 +37,7 @@ FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
 FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
+    [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
@@ -78,14 +80,17 @@ Fwupd LVFS Firmware Update Linux
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Execute Command In Terminal    fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
-    # wait for boot to the OS to allow for the update to end
+    ${out}=    Execute Command In Terminal    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    ...    timeout=300s
+    IF   "${POWER_CTRL}"=="none"
+        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+    END
+    Set DUT Response Timeout    300s
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
     IF    ${USE_EMBARGO}
         Clean Up Fwupd Embargo Config Linux
     END
-
 
     Should Not Contain    ${out}    failed to find    ignore_case=${True}
     Should Not Contain    ${out}    No updatable devices    ignore_case=${True}
