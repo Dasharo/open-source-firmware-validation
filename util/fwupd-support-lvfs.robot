@@ -64,6 +64,7 @@ Fwupd LVFS Firmware Update Linux
     ${password}=    Get Environment Variable    LVFS_PASSWORD    default=${EMPTY}
     IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
         VAR    ${USE_EMBARGO}=    ${TRUE}
+        Log    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone.    level=WARN
     ELSE
         VAR    ${USE_EMBARGO}=    ${FALSE}
     END
@@ -82,6 +83,7 @@ Fwupd LVFS Firmware Update Linux
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
     ${out}=    Execute Command In Terminal    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
     ...    timeout=300s
+    Should Not Contain    ${out}    AC power    AC is disconnected, connect AC. (Or its a bug - AC it not detected if internal battery is full. Discharge the battery a bit and try again.)\n\n
     IF   "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END

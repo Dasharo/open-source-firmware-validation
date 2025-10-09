@@ -118,8 +118,10 @@ Fwupd Local Firmware Update Linux
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
     ${out}=    Execute Command In Terminal    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes
     ...    timeout=300s
+    Should Not Contain    ${out}    AC power    AC is disconnected, connect AC. (Or its a bug - AC it not detected if internal battery is full. Discharge the battery a bit and try again.)\n\n
     Should Contain    ${out}    Successfully installed firmware
     IF   "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux
