@@ -30,6 +30,7 @@ FAN001.201 CPU fan speed measure
     ...    current speed.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN001.201 not supported
     Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     ${output}=    Execute Linux Command
     ...    sensors | grep "CPU 0:" | awk 'NR==1 {print $3}'
@@ -40,6 +41,7 @@ FAN002.201 All available fans are running
     [Documentation]    Check if all available fans are running
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN002.201 not supported
     Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Stress Test
@@ -58,6 +60,7 @@ FAN003.201 Fans are turning off during suspend mode with ME Enabled
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.201 not supported
     Power On
     Set UEFI Option    MeMode    Enabled
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Log To Console    \nFan test started, please check fan state manually
@@ -70,6 +73,7 @@ FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN004.201 not supported
     Power On
     Set UEFI Option    MeMode    Disabled (Soft)
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Log To Console    \nFan test started, please check fan state manually
@@ -82,6 +86,7 @@ FAN005.201 Fans are turning off during suspend mode with ME HAP disabled
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN005.201 not supported
     Power On
     Set UEFI Option    MeMode    Disabled (HAP)
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Log To Console    \nFan test started, please check fan state manually
@@ -95,6 +100,7 @@ FAN006.201 GPU fan speed measure
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN006.201 not supported
     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    FAN006.201 not supported
     Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     ${output}=    Execute Linux Command
     ...    sensors | grep "GPU 0:" | awk 'NR==1 {print $3}'
@@ -108,6 +114,7 @@ Prepare CPU Fan Speed Measure Suite
     Prepare Test Suite
     Skip If    not ${FAN_SPEED_MEASURE_SUPPORT}    Fan speed measure tests not supported
     Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Detect Or Install FWTS
