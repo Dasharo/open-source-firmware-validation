@@ -14,6 +14,7 @@ ENV_ID_FEDORA = "202"
 ENV_ID_QUBES = "203"
 ENV_ID_TRENCHBOOT = "204"
 ENV_ID_XCP_NG = "205"
+ENV_ID_ZARHUS = "206"
 
 # 3xx - Windows
 ENV_ID_WINDOWS = "301"
@@ -33,6 +34,8 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_TRENCHBOOT: "trenchboot",
     ENV_ID_ESXI: "ESXi",
     ENV_ID_XCP_NG: "XCP-ng",
+    # Or 'ZarhusOS A' and 'ZarhusOS B' if using A/B update feature
+    ENV_ID_ZARHUS: "ZarhusOS",
 }
 
 ENV_ID_FRIENDLY_NAMES = {
@@ -46,4 +49,5 @@ ENV_ID_FRIENDLY_NAMES = {
     ENV_ID_TRENCHBOOT: "TrenchBoot",
     ENV_ID_ESXI: "ESXi",
     ENV_ID_QUBES: "QubesOS",
+    ENV_ID_ZARHUS: "ZarhusOS",
 }
