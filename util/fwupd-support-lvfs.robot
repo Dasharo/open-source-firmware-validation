@@ -16,7 +16,7 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
-Default Tags        automated
+Default Tags        semiauto
 
 
 *** Variables ***
@@ -27,7 +27,6 @@ ${CABINET_ENVVAR}=      FWUPD_CABINET_FILE
 FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
-    [Tags]    semiauto
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -37,7 +36,6 @@ FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
 FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
-    [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
@@ -47,7 +45,6 @@ FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
 FWUPD003.203 Fwupd LVFS Firmware Update (QubesOS)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
-    [Tags]    semiauto
     Execute Manual Step    Power on and boot into QubesOS
     Execute Manual Step    Open dom0 terminal
     Execute Manual Step
@@ -63,13 +60,13 @@ Fwupd LVFS Firmware Update Linux
     ${username}=    Get Environment Variable    LVFS_USERNAME    default=${EMPTY}
     ${password}=    Get Environment Variable    LVFS_PASSWORD    default=${EMPTY}
     IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
-        VAR    ${USE_EMBARGO}=    ${TRUE}
+        VAR    ${use_embargo}=    ${TRUE}
         Log    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone.    level=WARN
     ELSE
-        VAR    ${USE_EMBARGO}=    ${FALSE}
+        VAR    ${use_embargo}=    ${FALSE}
     END
     Switch To Root User
-    IF    ${USE_EMBARGO}
+    IF    ${use_embargo}
         Setup Fwupd Embargo Config Linux    ${username}    ${password}
         Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' > /etc/fwupd/fwupd.conf
     END
@@ -81,18 +78,20 @@ Fwupd LVFS Firmware Update Linux
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Execute Command In Terminal    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    ${out}=    Execute Command In Terminal
+    ...    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
     ...    timeout=300s
-    Should Not Contain    ${out}    AC power    AC is disconnected, connect AC. (Or its a bug - AC it not detected if internal battery is full. Discharge the battery a bit and try again.)\n\n
-    IF   "${POWER_CTRL}"=="none"
+    Should Not Contain
+    ...    ${out}
+    ...    AC power
+    ...    AC is disconnected, connect AC. (Or its a bug - AC it not detected if internal battery is full. Discharge the battery a bit and try again.)\n\n
+    IF    "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END
     Set DUT Response Timeout    300s
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
-    IF    ${USE_EMBARGO}
-        Clean Up Fwupd Embargo Config Linux
-    END
+    IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
 
     Should Not Contain    ${out}    failed to find    ignore_case=${True}
     Should Not Contain    ${out}    No updatable devices    ignore_case=${True}
