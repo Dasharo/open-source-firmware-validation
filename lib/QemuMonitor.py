@@ -131,7 +131,7 @@ class QemuMonitor:
                 pass
 
     @keyword("Add USB To Qemu")
-    def usb_add(self, img_path, name="unnamed"):
+    def usb_add(self, img_path, name="unnamed", read_only=True, removable=False):
         contains_file_node = self._check_if_block_node_exists(
             self._usb_file_nodename(name)
         )
@@ -163,7 +163,7 @@ class QemuMonitor:
             "node-name": self._usb_file_nodename(name),  # "file_iso"
             "driver": "file",
             "filename": img_path,
-            "auto-read-only": True,
+            "auto-read-only": read_only,
             "discard": "unmap",
         }
         self._send_cmd("blockdev-add", **blockdev_params)
@@ -172,7 +172,7 @@ class QemuMonitor:
             "driver": "raw",
             "file": self._usb_file_nodename(name),
             "node-name": self._usb_nodename(name),  # "drive-iso",
-            "read-only": True,
+            "read-only": read_only,
             "discard": "unmap",
         }
         self._send_cmd("blockdev-add", **drive_params)
@@ -181,6 +181,7 @@ class QemuMonitor:
             "driver": "usb-storage",
             "id": self._usb_devid(name),  # "usbdisk",
             "drive": self._usb_nodename(name),
+            "removable": removable,
         }
         self._send_cmd("device_add", **usb_storage_params)
 
