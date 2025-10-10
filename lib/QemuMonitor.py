@@ -132,32 +132,7 @@ class QemuMonitor:
 
     @keyword("Add USB To Qemu")
     def usb_add(self, img_path, name="unnamed", read_only=True, removable=False):
-        contains_file_node = self._check_if_block_node_exists(
-            self._usb_file_nodename(name)
-        )
-        logger.trace(f"contains file node: {contains_file_node}")
-
-        if contains_file_node:
-            try:
-                self._send_cmd("device_del", id=self._usb_devid(name))
-            except Exception:
-                pass
-            time.sleep(2)
-
-            blockdev_del_params = {
-                "node-name": self._usb_nodename(name),
-            }
-            try:
-                self._send_cmd("blockdev-del", **blockdev_del_params)
-            except Exception:
-                pass
-            time.sleep(2)
-
-            blockdev_del_params = {
-                "node-name": self._usb_file_nodename(name),
-            }
-            self._send_cmd("blockdev-del", **blockdev_del_params)
-            time.sleep(2)
+        self.usb_del(name)
 
         blockdev_params = {
             "node-name": self._usb_file_nodename(name),  # "file_iso"
@@ -189,6 +164,35 @@ class QemuMonitor:
             self._usb_file_nodename(name)
         )
         logger.trace(f"contains file node: {contains_file_node}")
+
+    @keyword("Remove USB from Qemu")
+    def usb_del(self, name="unnamed"):
+        contains_file_node = self._check_if_block_node_exists(
+            self._usb_file_nodename(name)
+        )
+        logger.trace(f"contains file node: {contains_file_node}")
+
+        if contains_file_node:
+            try:
+                self._send_cmd("device_del", id=self._usb_devid(name))
+            except Exception:
+                pass
+            time.sleep(2)
+
+            blockdev_del_params = {
+                "node-name": self._usb_nodename(name),
+            }
+            try:
+                self._send_cmd("blockdev-del", **blockdev_del_params)
+            except Exception:
+                pass
+            time.sleep(2)
+
+            blockdev_del_params = {
+                "node-name": self._usb_file_nodename(name),
+            }
+            self._send_cmd("blockdev-del", **blockdev_del_params)
+            time.sleep(2)
 
     def _usb_file_nodename(self, name):
         return "usb_file_node_" + name
