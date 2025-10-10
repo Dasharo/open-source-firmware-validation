@@ -88,6 +88,7 @@ ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
 ${TESTS_IN_METATB_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_HEADS_SUPPORT}=                          ${FALSE}
 ${TESTS_IN_FEDORA_SUPPORT}=                         ${FALSE}
+${TESTS_IN_OPENWRT_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
@@ -264,6 +265,13 @@ ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}
+
+# OpenWRT-specific variables
+${OPENWRT_IMAGE_FILE}=                              ${TBD}
+${OPENWRT_TARGET_DEVICE}=                           ${TBD}
+${OPENWRT_ETHERNET_CONTROLLER}=                     ${TBD}
+${OPENWRT_WIFI_UP_ATTEMPTS}=                        ${TBD}
+${OPENWRT_WIFI_SCAN_ATTEMPTS}=                      ${TBD}
 
 # Test cases iterations number
 # Booting OS from USB stick test cases

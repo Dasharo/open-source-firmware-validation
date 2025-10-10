@@ -42,6 +42,7 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
 ${TESTS_IN_ESXI_SUPPORT}=                       ${TRUE}
+${TESTS_IN_OPENWRT_SUPPORT}=                    ${TRUE}
 
 # Regression test flags
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
@@ -141,6 +142,13 @@ ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}=     2
 ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}=     2
 ${STABILITY_DETECTION_REBOOT_ITERATIONS}=       5
 ${STABILITY_DETECTION_SUSPEND_ITERATIONS}=      5
+
+# OpenWRT-specific variables
+${OPENWRT_IMAGE_FILE}=                          openwrt_combined_efi.img
+${OPENWRT_TARGET_DEVICE}=                       nvme0n1
+${OPENWRT_ETHERNET_CONTROLLER}=                 Intel Corporation Ethernet Controller
+${OPENWRT_WIFI_UP_ATTEMPTS}=                    512
+${OPENWRT_WIFI_SCAN_ATTEMPTS}=                  8
 
 
 *** Keywords ***
