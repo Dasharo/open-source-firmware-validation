@@ -11,6 +11,29 @@ ${GET_IP_INTERVAL}=     30s
 
 
 *** Keywords ***
+Send File To DUT Directly
+    [Documentation]    Same as Send File To DUT but without any checks,
+    ...    permission changes, and temporary files. Can be used to send files
+    ...    that won't fit in RAM or /tmp/ directly to e.g. device.
+    [Arguments]    ${source_path}    ${target_path}
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
+        IF    '${MANUFACTURER}' == 'QEMU'
+            VAR    ${ip_address}=    localhost
+            VAR    ${port}=    5222
+        ELSE
+            Wait Until Keyword Succeeds    5x    ${GET_IP_INTERVAL}
+            ...    Get Hostname Ip
+            ${ip_address}=    Get Hostname Ip
+            VAR    ${port}=    22
+        END
+        SSHLibrary.Open Connection    ${ip_address}    port=${port}
+        SSHLibrary.Login    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+        SSHLibrary.Put File    ${source_path}    ${target_path}
+        SSHLibrary.Close Connection
+    ELSE
+        SSHLibrary.Put File    ${source_path}    ${target_path}
+    END
+
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
     [Arguments]    ${source_path}    ${target_path}    ${switch_root}=${TRUE}
