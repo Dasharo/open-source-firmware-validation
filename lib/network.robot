@@ -13,7 +13,7 @@ ${GET_IP_INTERVAL}=     30s
 *** Keywords ***
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
-    [Arguments]    ${source_path}    ${target_path}
+    [Arguments]    ${source_path}    ${target_path}    ${switch_root}=${TRUE}
     ${filename}=    Evaluate    os.path.basename(r"${target_path}")
     VAR    ${tmp_target}=    /tmp/${filename}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
@@ -40,10 +40,10 @@ Send File To DUT
     Should Be Equal    ${hash_source}    ${hash_target}    msg=File was not correctly sent to DUT
 
     ${issuer}=    Execute Command In Terminal    whoami
-    IF    '${issuer}' != 'root'    Switch To Root User
+    IF    '${issuer}' != 'root' and ${switch_root}    Switch To Root User
     Execute Command In Terminal    mv --force ${tmp_target} ${target_path}
     Execute Command In Terminal    chown ${issuer}:${issuer} ${target_path}
-    IF    '${issuer}' != 'root'    Exit From Root User
+    IF    '${issuer}' != 'root' and ${switch_root}    Exit From Root User
 
 Get File From DUT
     [Documentation]    Downloads a file from DUT and saves it at given location
