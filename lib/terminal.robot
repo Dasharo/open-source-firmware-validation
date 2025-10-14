@@ -327,6 +327,32 @@ Execute Command In Terminal And Return RC
     ${rc}=    Execute Command In Terminal    echo $?    ${timeout}
     RETURN    ${rc}
 
+Execute Command In Terminal Should Succeed
+    [Documentation]    Universal keyword to execute command regardless of the
+    ...    used method of connection to the DUT (Telnet or SSH). The DUT Response
+    ...    Timeout is changed to ``${timeout}`` and not restored. Keyword fails
+    ...    if executed command fails (returns non-zero return code)
+    ...
+    ...    === Requirements ===
+    ...    The command prompt has to be set using ``Set Prompt For Terminal``
+    ...
+    ...    === Arguments ===
+    ...    - ``${command}``: ``string`` - The command to execute
+    ...    - ``${timeout}``: ``string`` = ``30s`` - The DUT Response Timeout for
+    ...    \ executing the command
+    ...    - ``${err_msg}``: ``string`` = ``${NONE}`` - Error message to log in
+    ...    \ case of failure
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Effects ===
+    ...    The ``${command}`` is written to the terminal and the keyword waits
+    ...    until the execution ends or ``${timeout}`` passes.
+    [Arguments]    ${command}    ${err_msg}=${NONE}    ${timeout}=30s
+    ${rc}=    Execute Command In Terminal And Return RC    ${command}    ${timeout}
+    Should Be Equal As Integers    ${rc}    0    msg=${err_msg}
+
 Execute UEFI Shell Command
     [Documentation]
     ...    Executes a command in UEFI Shell. For some reason, text longer than
