@@ -29,14 +29,20 @@ Default Tags        automated
 
 
 *** Variables ***
-@{EXPECTED_OUTPUT}=
-...                     dasharo_acpi
-...                     Adapter: ACPI interface
+@{EXPECTED_OUTPUT_1}=
+...                         dasharo_acpi-isa-0000
+...                         Adapter: ISA adapter
+@{EXPECTED_OUTPUT_2}=
+...                         dasharo_acpi-acpi-0
+...                         Adapter: ACPI interface
+
+@{EXPECTED_OUTPUTS}=        ${EXPECTED_OUTPUT_1}    ${EXPECTED_OUTPUT_2}
 @{SUCCESS_OUTPUT}=
-...                     Complete!
-...                     already installed
-...                     0 newly installed
-...                     Upgrading: 0, Installing: 0, Removing: 0
+...                         Complete!
+...                         already installed
+...                         0 newly installed
+...                         Upgrading: 0, Installing: 0, Removing: 0
+...                         1 newly installed,
 
 
 *** Test Cases ***
@@ -50,8 +56,8 @@ ACPI001.201 ACPI driver test (Ubuntu)
     Switch To Root User
     ${out}=    Execute Command In Terminal    dpkg -s dasharo-acpi-dkms
     IF    "Status: install ok installed" not in """${out}"""
-        Download File
-        ...    https://github.com/Dasharo/osfv-test-data/raw/refs/heads/master/dasharo-driver/dasharo-acpi-dkms_0.0.1-1_amd64.deb
+        Send File To DUT
+        ...    ${TEST_DATA_DIR}/dasharo-driver/dasharo-acpi-dkms_0.9.1_amd64.deb
         ...    /home/ubuntu/dasharo-acpi-dkms.deb
         ${out}=    Execute Command In Terminal    apt install /home/ubuntu/dasharo-acpi-dkms.deb -y
         ...    timeout=60s
@@ -59,10 +65,17 @@ ACPI001.201 ACPI driver test (Ubuntu)
     END
     Detect Or Install Package    dkms
     ${out}=    Execute Command In Terminal    modprobe dasharo-acpi
+    IF    "modprobe: ERROR: could not insert 'dasharo_acpi'" in """${out}"""
+        Log To Console    Rebuilding dasharo-acpi DKMS module due to modprobe failure
+        Execute Command In Terminal    sudo dkms remove dasharo-acpi/0.9.1 --all
+        Execute Command In Terminal    sudo dkms build dasharo-acpi/0.9.1
+        Execute Command In Terminal    sudo dkms install dasharo-acpi/0.9.1
+        ${out}=    Execute Command In Terminal    modprobe dasharo-acpi
+    END
     Should Be Empty    ${out}
     Detect Or Install Package    lm-sensors
     ${out}=    Execute Command In Terminal    sensors
-    Should Contain All    ${out}    @{EXPECTED_OUTPUT}
+    Should Contain All From Any    ${out}    ${EXPECTED_OUTPUT_1}    ${EXPECTED_OUTPUT_2}
 
 ACPI001.202 ACPI driver test (Fedora)
     [Documentation]    Tests if ACPI drivers can be recognised
@@ -75,8 +88,8 @@ ACPI001.202 ACPI driver test (Fedora)
     ${out}=    Execute Command In Terminal    rpm -q dasharo-acpi-dkms
     # Should Contain    ${out}
     IF    "dasharo-acpi-dkms-0.0.1-1.x86_64" not in """${out}"""
-        Download File
-        ...    https://github.com/Dasharo/osfv-test-data/raw/refs/heads/master/dasharo-driver/dasharo-acpi-dkms_0.0.1-1.x86_64.rpm
+        Send File To DUT
+        ...    ${TEST_DATA_DIR}/dasharo-driver/dasharo-acpi-dkms-0.9.1.x86_64.rpm
         ...    /home/linux/dasharo-acpi-dkms.rpm
         ${out}=    Execute Command In Terminal    sudo dnf install /home/linux/dasharo-acpi-dkms.rpm -y
         ...    timeout=60s
@@ -91,4 +104,14 @@ ACPI001.202 ACPI driver test (Fedora)
     ...    timeout=60s
     Should Contain Any    ${out}    @{SUCCESS_OUTPUT}
     ${out}=    Execute Command In Terminal    sensors
-    Should Contain All    ${out}    @{EXPECTED_OUTPUT}
+    Should Contain All From Any    ${out}    ${EXPECTED_OUTPUT_1}    ${EXPECTED_OUTPUT_2}
+
+
+*** Keywords ***
+Should Contain All From Any
+    [Arguments]    ${out}    @{expected_lists}
+    FOR    ${expected_list}    IN    @{expected_lists}
+        ${ok}=    Evaluate    all(word in """${out}""" for word in ${expected_list})
+        IF    ${ok}    RETURN
+    END
+    Fail    Output did not match any expected list

@@ -1249,8 +1249,9 @@ Download File
     ${out}=    Execute Linux Command
     ...    wget --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
     ...    ${timeout}
-    Should Contain Any    ${out}    200 OK    HTTP response 200
+    Should Contain Any    ${out}    200    200 OK
     Should Contain    ${out}    ${local_path}
+    Should Contain Any    ${out}    saved    Saving
     Should Not Contain    ${out}    failed
 
 Login To Linux With Root Privileges
