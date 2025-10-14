@@ -192,6 +192,11 @@ getoptionpath = {
         "PCI/PCIe Configuration",
         "Enable PCIe Resizeable",
     ],
+    "OptionROMExecutionPolicy": [
+        "Dasharo System Features",
+        "PCI/PCIe Configuration",
+        "OptionROM Execution Policy",
+    ],
     "HyperThreading": [
         "Dasharo System Features",
         "CPU Configuration",
