@@ -44,7 +44,7 @@ Set UEFI Option
     Save Changes And Reset
 
 Get UEFI Option
-    [Documentation]    Set an UEFI option to a value.
+    [Documentation]    Get an UEFI option value.
     ...    TODO: Only works with options following the submenu/submenu/option
     ...    pattern (e.g. all Dasharo System Features options).
     ...    Uses the ``Power On`` keyword
