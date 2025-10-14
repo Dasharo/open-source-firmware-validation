@@ -1,5 +1,6 @@
 *** Settings ***
 Library     OperatingSystem
+Resource    terminal.robot
 
 
 *** Variables ***
@@ -74,3 +75,31 @@ Check USB Stick Detection In Edk2
     END
 
     RETURN    ${found}
+
+Get First USB Stick In Linux
+    [Documentation]    Return <device> in /dev/<device> that is USB stick
+    ...    (removable USB storage). Returns first found device
+    ...
+    ...    === Requirements ===
+    ...    - Logged into Linux OS
+    ...
+    ...    === Arguments ===
+    ...
+    ...    === Return Value ===
+    ...    - ``string``
+    ...
+    ...    === Effects ===
+    ${devices}=    Execute Command In Terminal
+    ...    ls -A1 /dev/disk/by-id/"usb-"* | xargs readlink -f | sed 's|/dev/||g'
+    @{dev_list}=    Split To Lines    ${devices}
+    FOR    ${device}    IN    @{dev_list}
+        # Removable USB storage (size > 0), that is not partition
+        VAR    ${command}=
+        ...    test ! -f "/sys/class/block/${device}/partition"
+        ...    test "\$(cat /sys/class/block/${device}/size)" -gt 0
+        ...    cat "/sys/class/block/${device}/removable"
+        ...    separator=${SPACE}\&\&${SPACE}
+        ${removable}=    Execute Command In Terminal    ${command}
+        IF    "${removable}" == "1"    RETURN    ${device}
+    END
+    Fail    Couldn't find any USB stick
