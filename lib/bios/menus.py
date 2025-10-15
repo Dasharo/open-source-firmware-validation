@@ -158,7 +158,7 @@ getoptionpath = {
     "SmmBwp": [
         "Dasharo System Features",
         "Dasharo Security Options",
-        "Enable SMM BIOS write protection",
+        "Enable SMM BIOS write",
     ],
     "MeMode": [
         "Dasharo System Features",
