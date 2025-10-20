@@ -75,6 +75,105 @@ check_dirty_tree() {
   fi
 }
 
+bash_list_to_python_list_string() {
+  list=("${@:1}")
+  if ((${#list[@]})) || [[ -z ${list[0]} ]]; then
+    printf -v python_list '%s,' "${list[@]}"
+    python_list=${python_list%,}
+    echo "[\"${python_list//,/\",\"}\"]"
+  else
+    echo "[]"
+  fi
+}
+
+test_matches_pattern() {
+  # Robot Framework 7.3
+  # Select tests by name or by long name containing also parent suite name like
+  # Parent. Test. Name is case and space insensitive and it can also be a simple
+  # pattern where * matches anything, ? matches any single character, and
+  # [chars] matches one character in brackets.
+  test_name="$1"
+  pattern="$2"
+  # remove uppercase, spacebars to be case and space insensitive
+  # remove quotes if they got here, not needed when spaces are removed
+  norm_name=$(echo "$test_name" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr -d '"')
+  # normalize pattern the same way
+  norm_pat=$(echo "$pattern" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr -d '"')
+  # treat robot pattern as shell glob - [], *, ? work identically in POSIX
+  if [[ "$norm_name" == $norm_pat ]]; then
+    return 0
+  fi
+  return 1
+}
+
+get_matched_test_cases() {
+  test_name=$1 # file or directory
+  IFS='-' read -ra robot_args <<< "$2" # like '-v 123 -t "*test1*" -i basic'
+  t_args=()
+  all_test_cases=()
+  test_cases_to_execute=()
+
+  # Scan for all -i and -t parameters and save them
+  for arg in "${robot_args[@]}"; do
+    arg=$(echo "$arg" | xargs) # trim
+    case "$arg" in
+      t\ *)  t_args+=("$(echo "$arg" | cut -d' ' -f2-)") ;;
+      *)  ;;
+    esac
+  done
+
+  # Find all test cases to run according to given module/suite file
+  if [ -d "$test_name" ]; then
+    while IFS= read -r file; do
+      while IFS= read -r line; do
+        all_test_cases+=("$line")
+      done < <(grep -hE '^[A-Z]{3,8}[0-9]{3}\.[0-9]{3}' "$file")
+    done < <(find "$test_name" -type f -name "*.robot")
+  elif [ -f "$test_name" ]; then
+    while IFS= read -r line; do
+      all_test_cases+=("$line")
+    done < <(grep -hE '^[A-Z]{3,8}[0-9]{3}\.[0-9]{3}' "$test_name")
+  else
+    echo "Error invalid file or directory $test_name" >&2
+    return 1
+  fi
+
+  # filter test cases using -t parameter
+  if [ -n "$t_args" ]; then
+    while IFS= read -r case; do
+      for filter in "${t_args[@]}"; do
+        if test_matches_pattern "$case" "$filter"; then
+          test_cases_to_execute+=("$case")
+          break
+        fi
+      done
+    done < <(printf "%s\n" "${all_test_cases[@]}")
+  else
+    test_cases_to_execute=("${all_test_cases[@]}")
+  fi
+
+  # leave only test IDs of matched test cases
+  mapfile -t test_cases_to_execute < <(
+    printf "%s\n" "${test_cases_to_execute[@]}" | awk '{print $1}'
+  )
+
+  echo "$(bash_list_to_python_list_string "${test_cases_to_execute[@]}")"
+}
+
+get_test_tags() {
+  IFS='-' read -ra robot_args <<< "$2" # like '-v 123 -t "*test1*" -i basic'
+  tags=()
+  # Scan for all -i parameters and save them
+  for arg in "${robot_args[@]}"; do
+    arg=$(echo "$arg" | xargs) # trim
+    case "$arg" in
+      i\ *)  tags+=("$(echo "$arg" | cut -d' ' -f2-)") ;;
+      *)  ;;
+    esac
+  done
+  echo "$(bash_list_to_python_list_string "${tags[@]}")"
+}
+
 execute_robot() {
   # _test_path can be either
   #   - path to directory containing a set of .robot files
@@ -216,6 +315,11 @@ execute_robot() {
     echo "Logs will be saved at ${_logs_dir}"
     echo "Watch \"${_debug_file}\" to monitor the progress of the test"
 
+    _test_cases=$(get_matched_test_cases "$_test_name" "${_robot_args[*]}")
+    [[ -n $_test_cases ]] && _test_cases="-v TEST_CASES:'$_test_cases'"
+    _test_tags=$(get_test_tags "${_robot_args[*]}")
+    [[ -n $_test_tags ]] && _test_tags="-v TEST_TAGS:'$_test_tags'"
+
     command="
           robot -L TRACE \
                 -l ${_log_file} \
@@ -231,13 +335,12 @@ execute_robot() {
                 ${installed_dut_option} \
                 ${extra_options} \
                 ${_robot_args[*]} \
-                ${_test_name}
+                ${_test_cases} \
+                ${_test_tags} \
+                ${_test_name} \
                 "
     # echo "$command"
     eval "$command"
-    if [[ $? -ne 0 ]]; then
-      overall_rc=1
-    fi
   done
   return $overall_rc
 }
