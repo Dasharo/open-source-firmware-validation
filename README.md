@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 
 The following repository contains set of tests and other features to conduct
 Dasharo firmware validation procedures.
+This is test sentence.
 
 ## Warning
 
