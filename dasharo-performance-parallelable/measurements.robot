@@ -33,7 +33,7 @@ ${STABILITY_TEST_DURATION}=    5
 _PARALLEL_Background Measurements Immediate (no load) (Ubuntu)
     # immediately skip if no tests want these measurements
     ${will_any_be_run}=    Will Parallel Test Be Run Regex
-    ...    (CPF001).201
+    ...    (CPF001)|(STB002).201
     Skip If    not ${will_any_be_run}
 
     Power On
@@ -50,6 +50,14 @@ _PARALLEL_Background Measurements Immediate (no load) (Ubuntu)
         Set Parallel Test Outputs    ${parallel_test_id}    ${frequencies}
     END
 
+    # STB002.201 steps
+    VAR    ${parallel_test_id}=    STB002.201
+    ${check_logs}=    Will Parallel Test Be Run    ${parallel_test_id}
+    IF    ${check_logs}
+        ${dmesg_err_txt}=    Execute Linux Command    dmesg -t -l err,crit,alert,emerg
+        Set Parallel Test Outputs    ${parallel_test_id}    ${dmesg_err_txt}
+    END
+
 CPF001.201 CPU not stuck on initial frequency (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
@@ -59,13 +67,22 @@ CPF001.201 CPU not stuck on initial frequency (Ubuntu)
     ${outs}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
+STB002.201 Verify if no unexpected boot errors appear in Linux logs
+    [Documentation]    This test aims to verify that there are no unexpected
+    ...    error ,essages in Linux kernel logs.
+    ...    Previous IDs: STB002.001
+    VAR    ${parallel_test_id}=    STB001.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${outs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check Unexpected Boot Errors    ${outs}
+
 #############################################################################
 #    Tests that gather measurements on Ubuntu, no load, n/a power source    #
 #############################################################################
 
 _PARALLEL_Background Measurements (no load) (Ubuntu)
     ${will_any_be_run}=    Will Parallel Test Be Run Regex
-    ...    (CPF005)|(CPT001).201
+    ...    (CPF005)|(CPT001)|(STB001).201
     Skip If    not ${will_any_be_run}
 
     Power On
@@ -75,6 +92,7 @@ _PARALLEL_Background Measurements (no load) (Ubuntu)
 
     ${gather_temps}=    Will Parallel Test Be Run Regex    CPT
     ${gather_freqs}=    Will Parallel Test Be Run Regex    CPF
+    ${gather_stab}=    Will Parallel Test Be Run Regex    STB
     IF    ${gather_temps}
         VAR    ${gather_temps}=    CPT001.201
     ELSE
@@ -84,6 +102,11 @@ _PARALLEL_Background Measurements (no load) (Ubuntu)
         VAR    ${gather_freqs}=    CPF005.201
     ELSE
         VAR    ${gather_freqs}=    ${None}
+    END
+    IF    ${gather_stab}
+        VAR    ${gather_stab}=    STB001.201
+    ELSE
+        VAR    ${gather_stab}=    ${None}
     END
 
     Background Measurements
@@ -101,13 +124,24 @@ CPF005.201 CPU runs on expected frequency (Ubuntu)
     ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Freqs    ${freqs}
 
+STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
+    [Documentation]    This test aims to verify that the DUT booted to the
+    ...    Operating System does not reset. The test is performed in multiple
+    ...    iterations - after a defined time an attempt to read the output of
+    ...    specific commands confirming the stability of work is repeated.
+    ...    Previous IDs: STB001.002
+    VAR    ${parallel_test_id}=    STB001.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${measurements}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check Platform Stability    ${measurements}
+
 #############################################################################
 #    Tests that gather measurements on Ubuntu, load, n/a power source    #
 #############################################################################
 
 _PARALLEL_Background Measurements (load) (Ubuntu)
     ${will_any_be_run}=    Will Parallel Test Be Run Regex
-    ...    (CPF005)|(CPT001).201
+    ...    (CPF005)|(CPT001)|(STB001).201
     Skip If    not ${will_any_be_run}
 
     Power On
@@ -151,10 +185,11 @@ CPF009.201 CPU runs on expected frequency (Ubuntu)
 
 *** Keywords ***
 Background Measurements
-    [Arguments]    ${id_temp}=${None}    ${id_freq}=${None}
+    [Arguments]    ${id_temp}=${None}    ${id_freq}=${None}    ${id_stab}=${None}
     # Initialization
     VAR    @{temp_list}=    @{EMPTY}
     VAR    @{freq_list}=    @{EMPTY}
+    VAR    @{stab_list}=    @{EMPTY}
     IF    ${id_temp} is not ${None}
         VAR    ${next_temp_time}=    0
     ELSE
@@ -165,9 +200,13 @@ Background Measurements
     ELSE
         VAR    ${next_freq_time}=    999999
     END
-
+    IF    ${id_stab} is not ${None}
+        VAR    ${next_stab_time}=    0
+    ELSE
+        VAR    ${next_stab_time}=    999999
+    END
     VAR    ${longest_duration}=
-    ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION})
+    ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION}, ${STABILITY_TEST_DURATION})
     ${start}=    DateTime.Get Current Date
     ${timer}=    Evaluate    0
 
@@ -190,20 +229,41 @@ Background Measurements
             Log To Console    ${timer}s: Frequencies: ${freqs}
         END
 
-        ${time_to_next_interval}=    Evaluate    min(${next_temp_time}, ${next_freq_time})
+        IF    ${FREQUENCY_TEST_DURATION} >= ${timer} >= ${next_freq_time}
+            ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno' | grep -Eo 'UP|DOWN'
+            ${uptime_output}=    Execute Command In Terminal    cat /proc/uptime
+            ${uptime_list}=    Split String    ${uptime_output}    ${SPACE}
+            ${current_uptime}=    Convert To Number    ${uptime_list}[0]
+            VAR    &{stab_data}=    network=${network_status}    uptime=${current_uptime}
+            ${next_stab_time}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
+            Append To List    ${freq_list}    ${stab_data}
+            Log To Console    ${timer}s: Stability: uptime ${current_uptime}
+        END
+
+        ${time_to_next_interval}=    Evaluate    min(${next_temp_time}, ${next_stab_time}, ${next_freq_time})
         Sleep    ${time_to_next_interval}
     END
 
     Set Parallel Test Outputs    ${id_temp}    ${temp_list}
     Set Parallel Test Outputs    ${id_freq}    ${freq_list}
+    Set Parallel Test Outputs    ${id_stab}    ${stab_list}
 
 Prepare Parallel Test Suite
     # Preparing parallel test cases
+    # STB
+    VAR    ${PARALLEL_TEST_ID}=    STB001.201    scope=TEST
+    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.201 not supported
+    Add Parallel Test Skip Condition    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB001.201 not supported
+    VAR    ${PARALLEL_TEST_ID}=    STB002.201    scope=TEST
+    Add Parallel Test Skip Condition    not ${PLATFORM_STABILITY_CHECKING}    STB002.201 not supported
+    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
+    Add Parallel Test Skip Condition    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
+
+    #CPF
     VAR    ${PARALLEL_TEST_ID}=    CPF001.201    scope=TEST
     Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
     Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
-
     VAR    ${PARALLEL_TEST_ID}=    CPF005.201    scope=TEST
     Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
@@ -274,4 +334,44 @@ Check CPU Freqs
             ${in_range}=    Evaluate    ${cpu_min_frequency_tol} <= ${core} <= ${cpu_max_frequency_tol}
             Should Be True    ${in_range}    Encountered invalid frequency: ${in_range} MHz
         END
+    END
+
+Check Platform Stability
+    [Documentation]    Check if a list of stability measurements shows
+    ...    the platform is stable
+    [Arguments]    ${measurements}
+    ${last_uptime}=    Evaluate    0
+    FOR    ${measurement}    IN    @{measurements}
+        # no reboot since previous measurement
+        Should Be True    float(${measurement["uptime"]}) > float(${last_uptime})
+        # the network interface is up
+        Should Be Equal    ${measurement["network"]}    UP
+    END
+
+Check Unexpected Boot Errors
+    [Documentation]    This keyword checks if any unexpected boot messages
+    ...    appear in kernel logs. Messages with loglevel 3 (error) or lower
+    ...    (more critical) are considered.
+    [Arguments]    ${log}
+    VAR    @{dmesg_err_allowlist}=    @{EMPTY}
+    # Harmless error on Bluetooth modules
+    Append To List    ${dmesg_err_allowlist}    Bluetooth: hci0: Malformed MSFT vendor event: 0x02
+    # Intel AX-series WiFi+BT adapters throw these when debug features are disabled
+    Append To List    ${dmesg_err_allowlist}    Bluetooth: hci0: No support for _PRR ACPI method
+    Append To List    ${dmesg_err_allowlist}    iwlwifi 0000:00:14.3: WRT: Invalid buffer destination
+    Append To List
+    ...    ${dmesg_err_allowlist}
+    ...    iwlwifi 0000:00:14.3: Not valid error log pointer 0x0027B0C0 for RT uCode
+    # GSC firmware loading via MEI fails when ME is disabled - not our bug
+    Append To List
+    ...    ${dmesg_err_allowlist}
+    ...    i915 0000:00:02.0: [drm] *ERROR* GT1: GSC proxy component didn't bind within the expected timeout
+    Append To List    ${dmesg_err_allowlist}    i915 0000:00:02.0: [drm] *ERROR* GT1: GSC proxy handler failed to init
+    # Not our bug
+    Append To List    ${dmesg_err_allowlist}    proc_thermal_pci 0000:00:04.0: error: proc_thermal_add, will continue
+    Append To List    ${dmesg_err_allowlist}    tmpfs: Unsupported parameter 'huge'
+    Append To List    ${dmesg_err_allowlist}    x86/mktme: No known encryption algorithm is supported: 0x4
+    @{log}=    Split To Lines    ${log}
+    FOR    ${error}    IN    @{log}
+        Should Contain    ${dmesg_err_allowlist}    ${error}
     END
