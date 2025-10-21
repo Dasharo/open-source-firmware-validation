@@ -17,6 +17,14 @@ Suite Setup     Run Keywords
 ...                 AND    Init Parallel Testing
 ...                 AND    Prepare Parallel Test Suite
 
+*** Variables ***
+# TODO: remove, temporary debug values
+${FREQUENCY_TEST_MEASURE_INTERVAL}=    1
+${TEMPERATURE_TEST_MEASURE_INTERVAL}=    1
+${STABILITY_TEST_MEASURE_INTERVAL}=    1
+${TEMPERATURE_TEST_DURATION}=    5
+${FREQUENCY_TEST_DURATION}=    5
+${STABILITY_TEST_DURATION}=    5
 
 *** Test Cases ***
 ############################################
@@ -65,12 +73,6 @@ _PARALLEL_Background Measurements (no load) (Ubuntu)
     Login To Linux
     Switch To Root User
 
-    # TODO temporary debug values
-    VAR    ${frequency_test_measure_interval}=    1
-    VAR    ${temperature_test_measure_interval}=    1
-    VAR    ${temperature_test_duration}=    5
-    VAR    ${frequency_test_duration}=    5
-
     ${gather_temps}=    Will Parallel Test Be Run Regex    CPT
     ${gather_freqs}=    Will Parallel Test Be Run Regex    CPF
     IF    ${gather_temps}
@@ -113,12 +115,6 @@ _PARALLEL_Background Measurements (load) (Ubuntu)
     Login To Linux
     Switch To Root User
 
-    # TODO temporary debug values
-    VAR    ${frequency_test_measure_interval}=    1
-    VAR    ${temperature_test_measure_interval}=    1
-    VAR    ${temperature_test_duration}=    5
-    VAR    ${frequency_test_duration}=    5
-
     ${gather_temps}=    Will Parallel Test Be Run Regex    CPT
     ${gather_freqs}=    Will Parallel Test Be Run Regex    CPF
     IF    ${gather_temps}
@@ -133,7 +129,7 @@ _PARALLEL_Background Measurements (load) (Ubuntu)
     END
     # Start CPU Stress
     ${stress_duration}=    Evaluate
-    ...    max(${temperature_test_duration}, ${frequency_test_duration})
+    ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION})
     Stress Test    ${stress_duration}s
     Background Measurements
     ...    id_temp=${gather_temps}    id_freq=${gather_freqs}
