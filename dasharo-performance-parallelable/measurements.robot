@@ -73,10 +73,19 @@ _PARALLEL_Background Measurements (no load) (Ubuntu)
 
     ${gather_temps}=    Will Parallel Test Be Run Regex    CPT
     ${gather_freqs}=    Will Parallel Test Be Run Regex    CPF
-    ${gather_temps}=    Set Variable If    ${gather_temps}    CPT001.201    ${None}
-    ${gather_freqs}=    Set Variable If    ${gather_freqs}    CPF005.201    ${None}
+    IF    ${gather_temps}
+        VAR    ${gather_temps}=    CPT001.201
+    ELSE
+        VAR    ${gather_temps}=    ${None}
+    END
+    IF    ${gather_freqs}
+        VAR    ${gather_freqs}=    CPF005.201
+    ELSE
+        VAR    ${gather_freqs}=    ${None}
+    END
+
     Background Measurements
-    ...    id_temp=${gather_temps}   id_freq=${gather_freqs}
+    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}
 
 CPT001.201 CPU temperature without load (Ubuntu)
     VAR    ${parallel_test_id}=    CPT001.201
@@ -84,8 +93,60 @@ CPT001.201 CPU temperature without load (Ubuntu)
     ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Temps    ${temps}
 
-
 CPF005.201 CPU runs on expected frequency (Ubuntu)
+    VAR    ${parallel_test_id}=    CPF005.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Freqs    ${freqs}
+
+#############################################################################
+#    Tests that gather measurements on Ubuntu, load, n/a power source    #
+#############################################################################
+
+_PARALLEL_Background Measurements (load) (Ubuntu)
+    ${will_any_be_run}=    Will Parallel Test Be Run Regex
+    ...    (CPF005)|(CPT001).201
+    Skip If    not ${will_any_be_run}
+
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+
+    # TODO temporary debug values
+    VAR    ${frequency_test_measure_interval}=    1
+    VAR    ${temperature_test_measure_interval}=    1
+    VAR    ${temperature_test_duration}=    5
+    VAR    ${frequency_test_duration}=    5
+
+    ${gather_temps}=    Will Parallel Test Be Run Regex    CPT
+    ${gather_freqs}=    Will Parallel Test Be Run Regex    CPF
+    IF    ${gather_temps}
+        VAR    ${gather_temps}=    CPT005.201
+    ELSE
+        VAR    ${gather_temps}=    ${None}
+    END
+    IF    ${gather_freqs}
+        VAR    ${gather_freqs}=    CPF009.201
+    ELSE
+        VAR    ${gather_freqs}=    ${None}
+    END
+    # Start CPU Stress
+    ${stress_duration}=    Evaluate
+    ...    max(${temperature_test_duration}, ${frequency_test_duration})
+    Stress Test    ${stress_duration}s
+    Background Measurements
+    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}
+    # Make sure to stop any CPU stress after we end
+    Execute Command In Terminal    pkill stress-ng
+
+CPT005.201 CPU temperature without load (Ubuntu)
+    VAR    ${parallel_test_id}=    CPT001.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Temps    ${temps}
+
+CPF009.201 CPU runs on expected frequency (Ubuntu)
     VAR    ${parallel_test_id}=    CPF005.201
     Skip If Parallel Test Not Supported    ${parallel_test_id}
     ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
@@ -152,14 +213,27 @@ Prepare Parallel Test Suite
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
     Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
     Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    VAR    ${PARALLEL_TEST_ID}=    CPF009.201    scope=TEST
+    Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
+    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
+    Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
+    Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
 
+    #CPT
     VAR    ${PARALLEL_TEST_ID}=    CPT001.201    scope=TEST
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
     Add Parallel Test Skip Condition
     ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
     Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    VAR    ${PARALLEL_TEST_ID}=    CPT005.201    scope=TEST
+    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
+    Add Parallel Test Skip Condition
+    ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    ...    Ubuntu not in tested distros
+    Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
 
+    # Log to console to inform tester about the scope
     Log To Console    Tests to run:
     ${tests}=    Get Parallel Tests To Run
     Log To Console    ${tests}
