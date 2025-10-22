@@ -13,8 +13,12 @@ Resource        ../lib/parallel-testing.robot
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
 ...                 AND    Check Power Supply
+...                 AND    Prepare Sensors
 ...                 AND    Init Parallel Testing
-...                 AND    Prepare Parallel Test Suite
+...                 AND    Prepare CPT
+...                 AND    Prepare CPF
+...                 AND    Prepare STB
+...                 AND    Print Parallel Tests Summary
 
 
 *** Variables ***
@@ -33,7 +37,7 @@ ${STABILITY_TEST_DURATION}=                 5
 ############################################
 _PARALLEL_Background Measurements Immediate (no load) (Ubuntu)
     # immediately skip if no tests want these measurements
-    ${will_any_be_run}=    Will Parallel Test Be Run Regex
+    ${will_any_be_run}=    Check Parallel Test Supported Regex
     ...    (CPF001)|(STB002).201
     Skip If    not ${will_any_be_run}    No test depends on this step
 
@@ -44,7 +48,7 @@ _PARALLEL_Background Measurements Immediate (no load) (Ubuntu)
 
     # CPF001.201 steps
     VAR    ${parallel_test_id}=    CPF001.201
-    ${check_frequency}=    Will Parallel Test Be Run    ${parallel_test_id}
+    ${check_frequency}=    Check Parallel Test Supported    ${parallel_test_id}
     IF    ${check_frequency}
         Sleep    10s
         @{frequencies}=    Get CPU Frequencies In Ubuntu
@@ -53,7 +57,7 @@ _PARALLEL_Background Measurements Immediate (no load) (Ubuntu)
 
     # STB002.201 steps
     VAR    ${parallel_test_id}=    STB002.201
-    ${check_logs}=    Will Parallel Test Be Run    ${parallel_test_id}
+    ${check_logs}=    Check Parallel Test Supported    ${parallel_test_id}
     IF    ${check_logs}
         ${dmesg_err_txt}=    Execute Linux Command    dmesg -t -l err,crit,alert,emerg
         Set Parallel Test Outputs    ${parallel_test_id}    ${dmesg_err_txt}
@@ -82,36 +86,22 @@ STB002.201 Verify if no unexpected boot errors appear in Linux logs
 #############################################################################
 
 _PARALLEL_Background Measurements (no load) (Ubuntu)
-    ${will_any_be_run}=    Will Parallel Test Be Run Regex
-    ...    (CPF005)|(CPT001)|(STB001).201
-    Skip If    not ${will_any_be_run}    No test depends on this step
+    ${gather_temps}=    Will Parallel Test Be Run    CPT001.201
+    ${gather_freqs}=    Will Parallel Test Be Run    CPF005.201
+    ${gather_stab}=    Will Parallel Test Be Run    STB001.201
+    Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 
-    ${gather_temps}=    Will Parallel Test Be Run Regex    CPT
-    ${gather_freqs}=    Will Parallel Test Be Run Regex    CPF
-    ${gather_stab}=    Will Parallel Test Be Run Regex    STB
-    IF    ${gather_temps}
-        VAR    ${gather_temps}=    CPT001.201
-    ELSE
-        VAR    ${gather_temps}=    ${None}
-    END
-    IF    ${gather_freqs}
-        VAR    ${gather_freqs}=    CPF005.201
-    ELSE
-        VAR    ${gather_freqs}=    ${None}
-    END
-    IF    ${gather_stab}
-        VAR    ${gather_stab}=    STB001.201
-    ELSE
-        VAR    ${gather_stab}=    ${None}
-    END
+    ${gather_temps}=    Evaluate    "CPT001.201" if ${gather_temps} else ${None}
+    ${gather_freqs}=    Evaluate    "CPF005.201" if ${gather_freqs} else ${None}
+    ${gather_stab}=    Evaluate    "STB001.201" if ${gather_stab} else ${None}
 
     Background Measurements
-    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}
+    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}    id_stab=${gather_stab}
 
 CPT001.201 CPU temperature without load (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
@@ -148,33 +138,26 @@ STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
 #############################################################################
 
 _PARALLEL_Background Measurements (load) (Ubuntu)
-    ${will_any_be_run}=    Will Parallel Test Be Run Regex
-    ...    (CPF005)|(CPT001)|(STB001).201
-    Skip If    not ${will_any_be_run}    No test depends on this step
+    ${gather_temps}=    Will Parallel Test Be Run    CPT005.201
+    ${gather_freqs}=    Will Parallel Test Be Run    CPF009.201
+    ${gather_stab}=    Will Parallel Test Be Run    STB001.201
+    Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
 
-    ${gather_temps}=    Will Parallel Test Be Run Regex    CPT
-    ${gather_freqs}=    Will Parallel Test Be Run Regex    CPF
-    IF    ${gather_temps}
-        VAR    ${gather_temps}=    CPT005.201
-    ELSE
-        VAR    ${gather_temps}=    ${None}
-    END
-    IF    ${gather_freqs}
-        VAR    ${gather_freqs}=    CPF009.201
-    ELSE
-        VAR    ${gather_freqs}=    ${None}
-    END
+    ${gather_temps}=    Evaluate    "CPT005.201" if ${gather_temps} else ${None}
+    ${gather_freqs}=    Evaluate    "CPF009.201" if ${gather_freqs} else ${None}
+    ${gather_stab}=    Evaluate    "STB001.201" if ${gather_stab} else ${None}
+
     # Start CPU Stress
     ${stress_duration}=    Evaluate
-    ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION})
+    ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION}, ${STABILITY_TEST_DURATION})
     Stress Test    ${stress_duration}s
     Background Measurements
-    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}
+    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}    id_stab=${gather_stab}
     # Make sure to stop any CPU stress after we end
     Execute Command In Terminal    pkill stress-ng
 
@@ -267,10 +250,8 @@ Background Measurements
     Set Parallel Test Outputs    ${id_freq}    ${freq_list}
     Set Parallel Test Outputs    ${id_stab}    ${stab_list}
 
-Prepare Parallel Test Suite
-    [Documentation]    Setup all parallel tests skip conditions and run preparation steps
-    # Preparing parallel test cases
-    # STB
+Prepare STB
+    [Documentation]    Setup STB parallel test contexts
     VAR    ${PARALLEL_TEST_ID}=    STB001.201    scope=TEST
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.201 not supported
     Add Parallel Test Skip Condition    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB001.201 not supported
@@ -279,7 +260,8 @@ Prepare Parallel Test Suite
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
     Add Parallel Test Skip Condition    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
 
-    # CPF
+Prepare CPF
+    [Documentation]    Setup CPF parallel test contexts
     VAR    ${PARALLEL_TEST_ID}=    CPF001.201    scope=TEST
     Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
@@ -295,7 +277,8 @@ Prepare Parallel Test Suite
     Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
     Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
 
-    # CPT
+Prepare CPT
+    [Documentation]    Setup CPT parallel test contexts
     VAR    ${PARALLEL_TEST_ID}=    CPT001.201    scope=TEST
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
     Add Parallel Test Skip Condition
@@ -308,17 +291,6 @@ Prepare Parallel Test Suite
     ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
     Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-
-    # Log to console to inform tester about the scope
-    Log To Console    Tests to run:
-    ${tests}=    Get Parallel Tests To Run
-    Log To Console    ${tests}
-
-    # Preparation steps
-    ${prepare_sensors}=    Will Parallel Test Be Run Regex    CP[TF]
-    IF    ${prepare_sensors}    Prepare Sensors
-    ${check_psu}=    Will Parallel Test Be Run Regex    CP[TF]
-    IF    ${check_psu}    Check Power Supply
 
 Check CPU Frequencies Not Stuck
     [Documentation]    Check if a list of CPU frequencies shows them being stuck
