@@ -5,7 +5,6 @@ Library     DateTime
 
 *** Variables ***
 &{PARALLEL_TESTS}=      &{EMPTY}
-${PARALLEL_TEST_ID}=    ${EMPTY}
 
 
 *** Keywords ***
@@ -13,7 +12,6 @@ Init Parallel Testing
     [Documentation]    Initializes variables used by the parallel testing library.
     ...    Needs to be called before any other library keyword is called.
     VAR    &{PARALLEL_TESTS}=    &{EMPTY}    scope=GLOBAL
-    VAR    ${PARALLEL_TEST_ID}=    ${EMPTY}    scope=GLOBAL
 
 Wait Until Time
     [Documentation]    Sleeps until given DateTime is reached.
@@ -28,11 +26,10 @@ Add Parallel Test Skip Condition
     [Documentation]    Creates a parallel test context if does not exist.
     ...    Verifies a skip condition immediately and saves the skip state and
     ...    a skip reason if the skip condition is true.
-    [Arguments]    ${condition}    ${skip_reason}
-    # [Globals]    ${TESTS_TO_RUN}    ${TEST_ID}
-    ${current_details}=    Get From Dictionary    ${PARALLEL_TESTS}    ${PARALLEL_TEST_ID}    default=${FALSE}
+    [Arguments]    ${test_id}    ${condition}    ${skip_reason}
+    ${current_details}=    Get From Dictionary    ${PARALLEL_TESTS}    ${test_id}    default=${FALSE}
     IF    not ${current_details}
-        VAR    &{support_details}=    test=${PARALLEL_TEST_ID}    run=${TRUE}    skip_reason=supported
+        VAR    &{support_details}=    test=${test_id}    run=${TRUE}    skip_reason=supported
     ELSE
         VAR    ${support_details}=    ${current_details}
     END
@@ -40,7 +37,7 @@ Add Parallel Test Skip Condition
     IF    ${run} and (${condition})
         Set To Dictionary    ${support_details}    run=${FALSE}    skip_reason=${skip_reason}
     END
-    Set To Dictionary    ${PARALLEL_TESTS}    ${PARALLEL_TEST_ID}=${support_details}
+    Set To Dictionary    ${PARALLEL_TESTS}    ${test_id}=${support_details}
 
 Check Parallel Test Supported
     [Documentation]    Returns TRUE/FALSE if the given parallel test case will

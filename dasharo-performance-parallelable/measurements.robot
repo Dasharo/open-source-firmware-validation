@@ -72,6 +72,33 @@ CPF001.201 CPU not stuck on initial frequency (Ubuntu)
     ${outs}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
+CPF002.201 CPU not stuck on initial frequency (Battery) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.001
+    VAR    ${parallel_test_id}=    CPF002.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${outs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Frequencies Not Stuck    ${outs}
+
+CPF003.201 CPU not stuck on initial frequency (AC) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.001
+    VAR    ${parallel_test_id}=    CPF003.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${outs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Frequencies Not Stuck    ${outs}
+
+CPF004.201 CPU not stuck on initial frequency (USB-PD) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU does not
+    ...    stuck on the initial frequency after booting into the OS.
+    ...    Previous IDs: CPF001.001
+    VAR    ${parallel_test_id}=    CPF004.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${outs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Frequencies Not Stuck    ${outs}
+
 STB002.201 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
@@ -113,11 +140,68 @@ CPT001.201 CPU temperature without load (Ubuntu)
     ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Temps    ${temps}
 
+CPT002.201 CPU temperature without load (Battery) (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    ...    Previous IDs: CPT001.001
+    VAR    ${parallel_test_id}=    CPT002.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Temps    ${temps}
+
+CPT003.201 CPU temperature without load (AC) (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    ...    Previous IDs: CPT001.001
+    VAR    ${parallel_test_id}=    CPT003.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Temps    ${temps}
+
+CPT004.201 CPU temperature without load (USB-PD) (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    ...    Previous IDs: CPT001.001
+    VAR    ${parallel_test_id}=    CPT004.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Temps    ${temps}
+
 CPF005.201 CPU runs on expected frequency (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
     ...    Previous IDs: CPF002.001
     VAR    ${parallel_test_id}=    CPF005.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Freqs    ${freqs}
+
+CPF006.201 CPU runs on expected frequency (Battery) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.001
+    VAR    ${parallel_test_id}=    CPF006.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Freqs    ${freqs}
+
+CPF007.201 CPU runs on expected frequency (AC) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.001
+    VAR    ${parallel_test_id}=    CPF007.201
+    Skip If Parallel Test Not Supported    ${parallel_test_id}
+    ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
+    Check CPU Freqs    ${freqs}
+
+CPF008.201 CPU runs on expected frequency (USB-PD) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.001
+    VAR    ${parallel_test_id}=    CPF008.201
     Skip If Parallel Test Not Supported    ${parallel_test_id}
     ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Freqs    ${freqs}
@@ -192,21 +276,9 @@ Background Measurements
     VAR    @{temp_list}=    @{EMPTY}
     VAR    @{freq_list}=    @{EMPTY}
     VAR    @{stab_list}=    @{EMPTY}
-    IF    ${id_temp} is not ${None}
-        VAR    ${next_temp_time}=    0
-    ELSE
-        VAR    ${next_temp_time}=    999999
-    END
-    IF    ${id_freq} is not ${None}
-        VAR    ${next_freq_time}=    0
-    ELSE
-        VAR    ${next_freq_time}=    999999
-    END
-    IF    ${id_stab} is not ${None}
-        VAR    ${next_stab_time}=    0
-    ELSE
-        VAR    ${next_stab_time}=    999999
-    END
+    ${next_temp_time}=    Evaluate    0 if $id_temp is not ${None} else 999999
+    ${next_freq_time}=    Evaluate    0 if $id_freq is not ${None} else 999999
+    ${next_stab_time}=    Evaluate    0 if $id_stab is not ${None} else 999999
     VAR    ${longest_duration}=
     ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION}, ${STABILITY_TEST_DURATION})
     ${start}=    DateTime.Get Current Date
@@ -252,45 +324,125 @@ Background Measurements
 
 Prepare STB
     [Documentation]    Setup STB parallel test contexts
-    VAR    ${PARALLEL_TEST_ID}=    STB001.201    scope=TEST
-    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    STB001.201 not supported
-    Add Parallel Test Skip Condition    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB001.201 not supported
-    VAR    ${PARALLEL_TEST_ID}=    STB002.201    scope=TEST
-    Add Parallel Test Skip Condition    not ${PLATFORM_STABILITY_CHECKING}    STB002.201 not supported
-    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
-    Add Parallel Test Skip Condition    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
+    # Stability check
+    Add Parallel Test Skip Condition
+    ...    STB001.201
+    ...    not ${PLATFORM_STABILITY_CHECKING}
+    ...    Stability checking not supported
+    Add Parallel Test Skip Condition
+    ...    STB001.201
+    ...    not ${TESTS_IN_UBUNTU_SUPPORT}
+    ...    Tests in Ubuntu not supported
+    Add Parallel Test Skip Condition
+    ...    STB001.201
+    ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    ...    Ubuntu not in tested distros
+    # Linux dmesg check
+    Add Parallel Test Skip Condition
+    ...    STB002.201
+    ...    not ${PLATFORM_STABILITY_CHECKING}
+    ...    Stability checking not supported
+    Add Parallel Test Skip Condition
+    ...    STB002.201
+    ...    not ${TESTS_IN_UBUNTU_SUPPORT}
+    ...    Tests in Ubuntu not supported
+    Add Parallel Test Skip Condition
+    ...    STB002.201
+    ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    ...    Ubuntu not in tested distros
 
 Prepare CPF
     [Documentation]    Setup CPF parallel test contexts
-    VAR    ${PARALLEL_TEST_ID}=    CPF001.201    scope=TEST
-    Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
-    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
-    Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
-    VAR    ${PARALLEL_TEST_ID}=    CPF005.201    scope=TEST
-    Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
-    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
-    Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
-    Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    VAR    ${PARALLEL_TEST_ID}=    CPF009.201    scope=TEST
-    Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
-    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
-    Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
-    Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
+    IF    not ${LAPTOP_PLATFORM}
+        VAR    ${CPF_STUCK_ID}=    CPF001    scope=SUITE
+        VAR    ${CPF_NO_LOAD_ID}=    CPF005    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPF009    scope=SUITE
+    ELSE IF    ${BATTERY_PRESENT}
+        VAR    ${CPF_STUCK_ID}=    CPF002    scope=SUITE
+        VAR    ${CPF_NO_LOAD_ID}=    CPF006    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPF010    scope=SUITE
+    ELSE IF    ${AC_CONNECTED}
+        VAR    ${CPF_STUCK_ID}=    CPF003    scope=SUITE
+        VAR    ${CPF_NO_LOAD_ID}=    CPF007    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPF011    scope=SUITE
+    ELSE IF    ${USB_PD_CONNECTED}
+        VAR    ${CPF_STUCK_ID}=    CPF004    scope=SUITE
+        VAR    ${CPF_NO_LOAD_ID}=    CPF008    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPF012    scope=SUITE
+    END
+    # Not Stuck Ubuntu
+    Add Parallel Test Skip Condition
+    ...    ${CPF_STUCK_ID}.201
+    ...    not ${CPU_FREQUENCY_MEASURE}
+    ...    frequency measure not supported
+    Add Parallel Test Skip Condition
+    ...    ${CPF_STUCK_ID}.201
+    ...    not ${TESTS_IN_UBUNTU_SUPPORT}
+    ...    tests in Ubuntu not supported
+    Add Parallel Test Skip Condition
+    ...    ${CPF_STUCK_ID}.201
+    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    Ubuntu not in tested distros
+    # No load Ubuntu
+    Add Parallel Test Skip Condition
+    ...    ${CPF_NO_LOAD_ID}.201
+    ...    not ${CPU_FREQUENCY_MEASURE}
+    ...    frequency measure not supported
+    Add Parallel Test Skip Condition
+    ...    ${CPF_NO_LOAD_ID}.201
+    ...    not ${TESTS_IN_UBUNTU_SUPPORT}
+    ...    tests in Ubuntu not supported
+    Add Parallel Test Skip Condition
+    ...    ${CPF_NO_LOAD_ID}.201
+    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    Ubuntu not in tested distros
+    # Load Ubuntu
+    Add Parallel Test Skip Condition
+    ...    ${CPF_LOAD_ID}.201
+    ...    not ${CPU_FREQUENCY_MEASURE}
+    ...    frequency measure not supported
+    Add Parallel Test Skip Condition
+    ...    ${CPF_LOAD_ID}.201
+    ...    not ${TESTS_IN_UBUNTU_SUPPORT}
+    ...    tests in Ubuntu not supported
+    Add Parallel Test Skip Condition
+    ...    ${CPF_LOAD_ID}.201
+    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    Ubuntu not in tested distros
 
 Prepare CPT
     [Documentation]    Setup CPT parallel test contexts
-    VAR    ${PARALLEL_TEST_ID}=    CPT001.201    scope=TEST
-    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
+    IF    not ${LAPTOP_PLATFORM}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT001    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPT005    scope=SUITE
+    ELSE IF    ${BATTERY_PRESENT}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT002    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPT006    scope=SUITE
+    ELSE IF    ${AC_CONNECTED}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT003    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPT007    scope=SUITE
+    ELSE IF    ${USB_PD_CONNECTED}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT004    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPT008    scope=SUITE
+    END
+
+    # No load Ubuntu
     Add Parallel Test Skip Condition
+    ...    ${CPT_NO_LOAD_ID}.201
+    ...    not ${TESTS_IN_UBUNTU_SUPPORT}
+    ...    tests in Ubuntu not supported
+    Add Parallel Test Skip Condition
+    ...    ${CPT_NO_LOAD_ID}.201
     ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
-    Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
-    VAR    ${PARALLEL_TEST_ID}=    CPT005.201    scope=TEST
-    Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
+    # Load Ubuntu
     Add Parallel Test Skip Condition
+    ...    ${CPF_LOAD_ID}.201
+    ...    not ${TESTS_IN_UBUNTU_SUPPORT}
+    ...    tests in Ubuntu not supported
+    Add Parallel Test Skip Condition    ${CPF_LOAD_ID}.201
     ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
-    Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
 
 Check CPU Frequencies Not Stuck
     [Documentation]    Check if a list of CPU frequencies shows them being stuck
