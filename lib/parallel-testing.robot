@@ -1,10 +1,12 @@
 *** Settings ***
-Library    DateTime
-Library    Collections
+Library     Collections
+Library     DateTime
+
 
 *** Variables ***
-&{PARALLEL_TESTS}=    &{EMPTY}
+&{PARALLEL_TESTS}=      &{EMPTY}
 ${PARALLEL_TEST_ID}=    ${EMPTY}
+
 
 *** Keywords ***
 Init Parallel Testing
@@ -89,7 +91,7 @@ Get Parallel Tests To Run
     [Documentation]    Returns a list of all the parallel test cases that are
     ...    to be run according to their skip conditions.
     ...    Configured using `Add Parallel Test Skip Condition`.
-    ${tests}=    Create List
+    VAR    @{tests}=    @{EMPTY}
     FOR    ${key}    IN    @{PARALLEL_TESTS.keys()}
         VAR    ${run}=    ${PARALLEL_TESTS["${key}"]["run"]}
         IF    ${run}    Append To List    ${tests}    ${key}

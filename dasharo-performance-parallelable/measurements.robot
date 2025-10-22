@@ -12,19 +12,20 @@ Resource        ../lib/parallel-testing.robot
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
-...                 AND    Run Keyword If    "CPT" in " ".join($TEST_CASES) or "CPF" in " ".join($TEST_CASES)
-...                 Check Power Supply
+...                 AND    Check Power Supply
 ...                 AND    Init Parallel Testing
 ...                 AND    Prepare Parallel Test Suite
 
+
 *** Variables ***
 # TODO: remove, temporary debug values
-${FREQUENCY_TEST_MEASURE_INTERVAL}=    1
-${TEMPERATURE_TEST_MEASURE_INTERVAL}=    1
-${STABILITY_TEST_MEASURE_INTERVAL}=    1
-${TEMPERATURE_TEST_DURATION}=    5
-${FREQUENCY_TEST_DURATION}=    5
-${STABILITY_TEST_DURATION}=    5
+${FREQUENCY_TEST_MEASURE_INTERVAL}=         1
+${TEMPERATURE_TEST_MEASURE_INTERVAL}=       1
+${STABILITY_TEST_MEASURE_INTERVAL}=         1
+${TEMPERATURE_TEST_DURATION}=               5
+${FREQUENCY_TEST_DURATION}=                 5
+${STABILITY_TEST_DURATION}=                 5
+
 
 *** Test Cases ***
 ############################################
@@ -34,7 +35,7 @@ _PARALLEL_Background Measurements Immediate (no load) (Ubuntu)
     # immediately skip if no tests want these measurements
     ${will_any_be_run}=    Will Parallel Test Be Run Regex
     ...    (CPF001)|(STB002).201
-    Skip If    not ${will_any_be_run}
+    Skip If    not ${will_any_be_run}    No test depends on this step
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -83,7 +84,7 @@ STB002.201 Verify if no unexpected boot errors appear in Linux logs
 _PARALLEL_Background Measurements (no load) (Ubuntu)
     ${will_any_be_run}=    Will Parallel Test Be Run Regex
     ...    (CPF005)|(CPT001)|(STB001).201
-    Skip If    not ${will_any_be_run}
+    Skip If    not ${will_any_be_run}    No test depends on this step
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -113,12 +114,19 @@ _PARALLEL_Background Measurements (no load) (Ubuntu)
     ...    id_temp=${gather_temps}    id_freq=${gather_freqs}
 
 CPT001.201 CPU temperature without load (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    ...    Previous IDs: CPT001.001
     VAR    ${parallel_test_id}=    CPT001.201
     Skip If Parallel Test Not Supported    ${parallel_test_id}
     ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Temps    ${temps}
 
 CPF005.201 CPU runs on expected frequency (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency.
+    ...    Previous IDs: CPF002.001
     VAR    ${parallel_test_id}=    CPF005.201
     Skip If Parallel Test Not Supported    ${parallel_test_id}
     ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
@@ -142,7 +150,7 @@ STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
 _PARALLEL_Background Measurements (load) (Ubuntu)
     ${will_any_be_run}=    Will Parallel Test Be Run Regex
     ...    (CPF005)|(CPT001)|(STB001).201
-    Skip If    not ${will_any_be_run}
+    Skip If    not ${will_any_be_run}    No test depends on this step
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -170,13 +178,20 @@ _PARALLEL_Background Measurements (load) (Ubuntu)
     # Make sure to stop any CPU stress after we end
     Execute Command In Terminal    pkill stress-ng
 
-CPT005.201 CPU temperature without load (Ubuntu)
+CPT005.201 CPU temperature after stress test (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    ...    Previous IDs: CPT002.001
     VAR    ${parallel_test_id}=    CPT001.201
     Skip If Parallel Test Not Supported    ${parallel_test_id}
     ${temps}=    Get Parallel Test Outputs    ${parallel_test_id}
     Check CPU Temps    ${temps}
 
-CPF009.201 CPU runs on expected frequency (Ubuntu)
+CPF009.201 CPU with load runs on expected frequency (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.001
     VAR    ${parallel_test_id}=    CPF005.201
     Skip If Parallel Test Not Supported    ${parallel_test_id}
     ${freqs}=    Get Parallel Test Outputs    ${parallel_test_id}
@@ -185,6 +200,10 @@ CPF009.201 CPU runs on expected frequency (Ubuntu)
 
 *** Keywords ***
 Background Measurements
+    [Documentation]    Keyword for gathering CPU temps, freqs and stability info
+    ...    in parallel. Set '${id_*}' vars to a test case ID to save the results
+    ...    for this type of measurements under a chosen ID. Set to none to skip
+    ...    measurements of the given type.
     [Arguments]    ${id_temp}=${None}    ${id_freq}=${None}    ${id_stab}=${None}
     # Initialization
     VAR    @{temp_list}=    @{EMPTY}
@@ -249,6 +268,7 @@ Background Measurements
     Set Parallel Test Outputs    ${id_stab}    ${stab_list}
 
 Prepare Parallel Test Suite
+    [Documentation]    Setup all parallel tests skip conditions and run preparation steps
     # Preparing parallel test cases
     # STB
     VAR    ${PARALLEL_TEST_ID}=    STB001.201    scope=TEST
@@ -259,7 +279,7 @@ Prepare Parallel Test Suite
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    STB002.201 not supported
     Add Parallel Test Skip Condition    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    STB002.201 not supported
 
-    #CPF
+    # CPF
     VAR    ${PARALLEL_TEST_ID}=    CPF001.201    scope=TEST
     Add Parallel Test Skip Condition    not ${CPU_FREQUENCY_MEASURE}    frequency measure not supported
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
@@ -275,7 +295,7 @@ Prepare Parallel Test Suite
     Add Parallel Test Skip Condition    '201' not in ${TESTED_LINUX_DISTROS}    Ubuntu not in tested distros
     Add Parallel Test Skip Condition    ${LAPTOP_PLATFORM}    The Platform is a Laptop
 
-    #CPT
+    # CPT
     VAR    ${PARALLEL_TEST_ID}=    CPT001.201    scope=TEST
     Add Parallel Test Skip Condition    not ${TESTS_IN_UBUNTU_SUPPORT}    tests in Ubuntu not supported
     Add Parallel Test Skip Condition
@@ -294,12 +314,15 @@ Prepare Parallel Test Suite
     ${tests}=    Get Parallel Tests To Run
     Log To Console    ${tests}
 
+    # Preparation steps
     ${prepare_sensors}=    Will Parallel Test Be Run Regex    CP[TF]
     IF    ${prepare_sensors}    Prepare Sensors
     ${check_psu}=    Will Parallel Test Be Run Regex    CP[TF]
     IF    ${check_psu}    Check Power Supply
 
 Check CPU Frequencies Not Stuck
+    [Documentation]    Check if a list of CPU frequencies shows them being stuck
+    ...    to defaults.
     [Arguments]    ${frequencies}
     ${first_frequency}=    Get From List    ${frequencies}    0
     FOR    ${frequency}    IN    @{frequencies}
@@ -310,6 +333,8 @@ Check CPU Frequencies Not Stuck
     Fail    CPU stuck on initial frequency: ${INITIAL_CPU_FREQUENCY}
 
 Check CPU Temps
+    [Documentation]    Check if a list of temperature measurements shows
+    ...    acceptable temperature values
     [Arguments]    ${temps}
     ${sum}=    Evaluate    0
     ${len}=    Get Length    ${temps}
@@ -326,6 +351,8 @@ Check CPU Temps
     Should Be True    ${avg} < ${MAX_CPU_TEMP}    Average is higher than threshold
 
 Check CPU Freqs
+    [Documentation]    Check if a list of frequency measurements shows
+    ...    acceptable frequency values
     [Arguments]    ${freqs}
     ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
     ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
