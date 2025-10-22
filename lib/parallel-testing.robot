@@ -135,7 +135,8 @@ Skip If Parallel Test Wont Be Run Regex
 Get Parallel Test Value
     [Documentation]    Returns a value for a given key in a parallel test context.
     [Arguments]    ${test}    ${key}
-    ${test}=    Get From Dictionary    ${PARALLEL_TESTS}    ${test}
+    ${test}=    Get From Dictionary    ${PARALLEL_TESTS}    ${test}    ${None}
+    IF    $test is ${None}    RETURN    ${None}
     ${value}=    Get From Dictionary    ${test}    ${key}    ${EMPTY}
     RETURN    ${value}
 
@@ -148,7 +149,11 @@ Get Parallel Test Outputs
 Set Parallel Test Value
     [Documentation]    Sets the value of a given key for a parallel test context.
     [Arguments]    ${test_id}    ${key}    ${value}
-    ${test}=    Get From Dictionary    ${PARALLEL_TESTS}    ${test_id}
+    ${test}=    Get From Dictionary    ${PARALLEL_TESTS}    ${test_id}    ${None}
+    IF    $test is ${None}
+        Log    Test ${test_id} was not initialized
+        RETURN
+    END
     Set To Dictionary    ${test}    ${key}=${value}
     Set To Dictionary    ${PARALLEL_TESTS}    ${test_id}=${test}
 
