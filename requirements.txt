@@ -68,7 +68,7 @@ requests==2.32.4
 reuse==5.0.2
 rich==14.1.0
 rich-click==1.8.9
-robotframework @ git+https://github.com/3mdeb/robotframework@4da93513dcec495e34445151f62246782cd889d8
+robotframework @ git+https://github.com/3mdeb/robotframework@4725e9c5ef498600490719de9e0197d3b8849463
 robotframework-csvlibrary==0.0.5
 robotframework-faker==6.0.0
 robotframework-requests==0.9.4
@@ -80,7 +80,7 @@ setuptools==80.9.0
 six==1.17.0
 SQLAlchemy==2.0.41
 tabulate==0.9.0
-telnetlib @ git+https://github.com/3mdeb/telnetlib@4e2d613f9d1da022f7bf3c634f5068960df29a35
+telnetlib @ git+https://github.com/3mdeb/telnetlib@6c12ff08b06f04010a9a565ba90f87f2251fba3c
 termcolor==3.1.0
 toml==0.10.2
 tomli==2.2.1

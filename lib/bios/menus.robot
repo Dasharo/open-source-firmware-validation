@@ -370,7 +370,7 @@ Parse Menu Snapshot Into Construction
         ${length}=    Get Length    ${line}
         ${line_valid}=    Evaluate    ${length} > 0
         # A little workaround for random characters creating non-existent entries
-        IF    ${TELNET_FUZZY_MAX_INSERTIONS} + ${TELNET_FUZZY_MAX_ERRORS} > 0
+        IF    ${TELNET_FUZZY_MAX_INSERTIONS} + ${TELNET_FUZZY_MAX_DELETIONS} + ${TELNET_FUZZY_MAX_SUBSTITUTIONS} > 0
             ${line_valid}=    Evaluate    ($length > 1) or ($length > 0 and $line not in ["@", "`"])
             ${line_valid}=    Evaluate    $line_valid and "----------" not in $line
         END
@@ -383,7 +383,9 @@ Parse Menu Snapshot Into Construction
         ${idx}=    Get Index From List Fuzzy
         ...    ${construction}
         ...    Select Language <Standard English>
-        ...    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+        ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
         ${construction}=    Get Slice From List    ${construction}    ${idx}
     END
     # TODO: Improve parsing of the menu into construction. It can probably be
@@ -632,7 +634,10 @@ Get Index Of Matching Option In Menu
 
     FOR    ${element}    IN    @{menu_construction}
         ${matches}=    Run Keyword And Return Status
-        ...    Should Match Fuzzy    ${element}    ${option}    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+        ...    Should Match Fuzzy    ${element}    ${option}
+        ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
         IF    ${matches}
             VAR    ${option}=    ${element}
             BREAK

@@ -26,7 +26,9 @@ Default Tags        automated
 
 *** Test Cases ***
 Traditional Serial
-    VAR    ${TELNET_FUZZY_MAX_ERRORS}=    0    scope=GLOBAL
+    VAR    ${TELNET_FUZZY_MAX_INSERTIONS}=    0    scope=GLOBAL
+    VAR    ${TELNET_FUZZY_MAX_DELETIONS}=    0    scope=GLOBAL
+    VAR    ${TELNET_FUZZY_MAX_SUBSTITUTIONS}=    0    scope=GLOBAL
     VAR    ${failed}=    ${FALSE}
     FOR    ${i}    IN RANGE    10
         ${st}=    Run Keyword And Return Status    Test
@@ -40,7 +42,9 @@ Traditional Serial
     Should Not Be True    $failed
 
 Fuzzy Serial
-    VAR    ${TELNET_FUZZY_MAX_ERRORS}=    1    scope=GLOBAL
+    VAR    ${TELNET_FUZZY_MAX_INSERTIONS}=    3    scope=GLOBAL
+    VAR    ${TELNET_FUZZY_MAX_DELETIONS}=    1    scope=GLOBAL
+    VAR    ${TELNET_FUZZY_MAX_SUBSTITUTIONS}=    1    scope=GLOBAL
     VAR    ${failed}=    ${FALSE}
     FOR    ${i}    IN RANGE    10
         ${st}=    Run Keyword And Return Status    Test Fuzzy
@@ -74,18 +78,18 @@ Test
 Test Fuzzy
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
-    List Should Contain Value Fuzzy    ${menu}    > User Password Management    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > Device Manager    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > Dasharo System Features    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > One Time Boot    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > Boot Maintenance Manager    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+    List Should Contain Value Fuzzy    ${menu}    > User Password Management    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > Device Manager    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > Dasharo System Features    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > One Time Boot    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > Boot Maintenance Manager    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
     ${menu}=    Enter Dasharo System Features    ${menu}
-    List Should Contain Value Fuzzy    ${menu}    > Dasharo Security Options    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > Networking Options    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > USB Configuration    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+    List Should Contain Value Fuzzy    ${menu}    > Dasharo Security Options    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > Networking Options    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > USB Configuration    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
     List Should Contain Value Fuzzy
     ...    ${menu}
     ...    > Intel Management Engine Options
-    ...    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > Power Management Options    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-    List Should Contain Value Fuzzy    ${menu}    > Serial Port Configuration    max_errors=${TELNET_FUZZY_MAX_ERRORS}
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > Power Management Options    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy    ${menu}    > Serial Port Configuration    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}

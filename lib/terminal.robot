@@ -124,18 +124,19 @@ Read From Terminal Until
     ...    The terminal buffer is read and consequently cleared up until
     ...    ${expected}. Everything after ``${expected}`` stays in the buffer.
     [Arguments]    ${expected}
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read Until Fuzzy    ${expected}    max_errors=${TELNET_FUZZY_MAX_ERRORS}
-        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
-        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet' or '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        IF    ${TELNET_FUZZY_MAX_INSERTIONS} + ${TELNET_FUZZY_MAX_DELETIONS} + ${TELNET_FUZZY_MAX_SUBSTITUTIONS} == 0
+            ${output}=    Telnet.Read Until    ${expected}
+        ELSE
+            ${output}=    Telnet.Read Until Fuzzy    ${expected}
+            ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+            ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+            ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+        END
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read Until    ${expected}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read Until    ${expected}
-    ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${output}=    Telnet.Read Until Fuzzy    ${expected} max_errors=${TELNET_FUZZY_MAX_ERRORS}
-        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
-        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
     ELSE
         ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
     END
