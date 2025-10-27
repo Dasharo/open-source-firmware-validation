@@ -905,7 +905,7 @@ Check External HDMI In Linux
 Check External DP In Linux
     [Documentation]    Keyword checks if an external Display Port device is
     ...    visible in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/class/drm/card*-DP-*/status
+    ${out}=    Execute Linux Command    cat /sys/class/drm/card*-*DP-*/status
     ${words}=    Split To Lines    ${out}
     Should Contain    ${words}    connected
 
