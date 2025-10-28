@@ -40,6 +40,6 @@ ${TPM_EXPECTED_CHIP}=               SLB9665
 
 ${AUDIO_SUBSYSTEM_SUPPORT}=         ${TRUE}
 ${EXTERNAL_HEADSET_SUPPORT}=        ${TRUE}
-${POWERSHELL_STR_HEADSET_OUT}=      High Definition Audio Device
-${POWERSHELL_STR_HEADSET_IN}=       Microphone (Realtek(R) Audio)
-${POWERSHELL_STR_HDMI_OUT}=         Audio Driver for Display Audio
+${POWERSHELL_STR_HEADSET_OUT}=      Headphones (2- High Definition Audio Device)
+${POWERSHELL_STR_HEADSET_IN}=       Microphone (2- High Definition Audio Device)
+${POWERSHELL_STR_HDMI_OUT}=         Display Audio

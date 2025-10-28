@@ -870,7 +870,7 @@ Check HDMI Windows
 Check DP Windows
     [Documentation]    Check if DP display is recognized by Windows OS.
     ${out}=    Check Displays Windows
-    IF    '${PLATFORM}' == 'protectli-vp4630' or '${PLATFORM}' == 'protectli-vp4650' or '${PLATFORM}' == 'protectli-vp4670'
+    IF    '${PLATFORM}' == 'protectli-vp4630' or '${PLATFORM}' == 'protectli-vp4650' or '${PLATFORM}' == 'protectli-vp4651' or '${PLATFORM}' == 'protectli-vp4670'
         Should Contain Any
         ...    ${out}
         ...    VideoOutputTechnology : 10
