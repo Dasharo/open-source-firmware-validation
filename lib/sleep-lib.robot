@@ -86,18 +86,16 @@ Get And Install FWTS
 Perform Suspend Test Using FWTS
     [Documentation]    Keyword allows to perform suspend and resume procedure
     ...    test by using Firmware Test Suite tool
-    [Arguments]    ${test_duration}=40
+    [Arguments]    ${test_duration}=15
     VAR    ${is_suspend_performed_correctly}=    ${FALSE}
     VAR    ${test_time_out}=    ${${test_duration}-5}
-    Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
-    Sleep    ${test_duration}s
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        # Clean up console before reading file
-        Read From Terminal
-        Write Bare Into Terminal    ${ENTER}
-        Read From Terminal Until Prompt
-    END
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        Execute Command In Terminal
+        ...    fwts s3 --s3-sleep=5 --s3-max-delay=10 -f -r /tmp/suspend_test_log.log
+        ...    ${test_time_out}s
+    ELSE
+        Write Into Terminal    fwts s3 -f -r /tmp/suspend_test_log.log
+        Sleep    ${test_duration}s
         Login To Linux
         Switch To Root User
     END
