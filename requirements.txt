@@ -22,7 +22,7 @@ Faker==37.4.2
 filelock==3.18.0
 fire==0.7.0
 fonttools==4.59.0
-fuzzysearch==0.8.0
+fuzzysearch @ git+https://github.com/Dasharo/fuzzysearch@5262ef339a857c42e8e035b40e73a6e31f7ad402
 git-cliff==2.9.1
 greenlet==3.2.3
 gspread==6.2.1
