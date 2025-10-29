@@ -165,9 +165,7 @@ ${DTS_TEST_SYSTEM_VENDOR}=                          Notebook
 *** Keywords ***
 Power On
     [Documentation]    Implementation of keywords.Power On
-    IF    "${POWER_CTRL}"=="none"    RETURN
-    Power Cycle On
-# TODO make these generic
+    Power On Default
 
 Configure Wake In Linux
     [Documentation]    Keyword prepares platform for wake by platform specific

@@ -24,6 +24,7 @@ Prepare Platform
     ...    used.
     ...    -> for the platforms that don't both don't have external flashing
     ...    enabled and OBMC, internal flashing mechanism is used.
+    Init Power State Control
     IF    '${CONFIG}'=='raptor-cs_talos2'
         Variable Should Exist    ${FW_FILE}
         Variable Should Exist    ${BOOTBLOCK_FILE}

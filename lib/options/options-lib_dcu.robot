@@ -190,7 +190,7 @@ Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
     [Arguments]    ${env_id}
 
-    IF    '${BOOTED_OS_ID}' == '${env_id}'
+    IF   '${PLATFORM_BOOT_STATE}' == 'os' and '${BOOTED_OS_ID}' == '${env_id}'
         Log    Target OS already booted
         RETURN
     END
@@ -198,9 +198,9 @@ Boot System Or From Connected Disk
     IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
         Execute Reboot Command    windows
         Import Variables    ${CURDIR}/../../os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
+        Boot State Control Notify State    booting
         VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
-        Sleep    30s
-        RETURN
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     END
 
     VAR    ${os_boot_id}=    ${EMPTY}
@@ -215,6 +215,7 @@ Boot System Or From Connected Disk
 
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
     VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
+    Boot State Control Notify State    os
     Sleep    30s
 
 Login To Windows Via SSH

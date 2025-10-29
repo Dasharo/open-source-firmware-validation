@@ -7,12 +7,72 @@ Library             Process
 Library             String
 Library             RequestsLibrary
 Library             SSHLibrary
+
 Resource            ../../variables.robot
 Resource            ../../keywords.robot
 Resource            ../../keys.robot
+Resource            boot_state.robot
 
 
 *** Keywords ***
+Init Power State Control
+    Try Check Power State
+
+Power Control Notify Power State On
+    VAR    ${POWER_STATE_POWERED_ON}=    ${TRUE}    scope=GLOBAL
+    Boot State Control Notify State    booting
+
+Power Control Notify Power State Off
+    VAR    ${POWER_STATE_POWERED_ON}=    ${FALSE}    scope=GLOBAL
+    Boot State Control Notify State    ${None}
+
+Power On Default
+    [Documentation]    The default implementation of the Power On keyword.
+    ...    Keyword clears terminal buffer and sets Device Under Test
+    ...    into Power On state using RTE OC buffers.
+    Restore Initial DUT Connection Method
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH' or '${POWER_CTRL}' == 'none'    RETURN
+    Sleep    2s
+
+    VAR    ${BOOTED_OS_ID}=    ${None}
+    Boot State Control Notify State    ${None}
+    # Only Power Off and sleep if not already powered off
+    IF    $POWER_STATE_POWERED_ON is ${None}    Try Check Power State
+    IF    ${POWER_STATE_POWERED_ON} or $POWER_STATE_POWERED_ON is ${None}
+        Rte Power Off
+        Sleep    10s
+    END
+    Read From Terminal
+    Power Cycle On
+    Boot State Control Notify State    booting
+
+Power On Ex
+    [Arguments]    ${force_reboot}=${TRUE}
+    IF    ${force_reboot}
+        Power On
+    ELSE
+        Ensure Powered On
+    END
+    Power Control Notify Power State On
+
+Ensure Powered On
+    IF    $POWER_STATE_POWERED_ON is ${None}    Try Check Power State
+    IF    not ${POWER_STATE_POWERED_ON}    Power On
+
+Try Check Power State
+    IF    ${CHECK_POWER_LED_SUPPORT}
+        ${out}=    Rte Check Power Led
+        IF    '${out}' == 'low'
+            VAR    ${POWER_STATE_POWERED_ON}=    ${FALSE}    scope=GLOBAL
+            VAR    ${PLATFORM_BOOT_STATE}=    ${None}    scope=GLOBAL
+        ELSE IF    '${out}' == 'high'
+            VAR    ${POWER_STATE_POWERED_ON}=    ${TRUE}    scope=GLOBAL
+        ELSE
+            VAR    ${POWER_STATE_POWERED_ON}=    ${None}    scope=GLOBAL
+        END
+    END
+
+
 Check Power Supply
     ${is_laptop}=    Check The Platform Is A Laptop
     VAR    ${LAPTOP_PLATFORM}=    ${is_laptop}    scope=SUITE

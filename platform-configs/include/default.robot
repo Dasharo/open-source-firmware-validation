@@ -500,14 +500,3 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 
 
 *** Keywords ***
-Power On Default
-    [Documentation]    The default implementation of the Power On keyword.
-    ...    Keyword clears terminal buffer and sets Device Under Test
-    ...    into Power On state using RTE OC buffers.
-    Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
-    Sleep    2s
-    Rte Power Off
-    Sleep    10s
-    Read From Terminal
-    Power Cycle On

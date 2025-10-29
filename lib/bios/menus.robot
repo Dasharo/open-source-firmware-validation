@@ -1259,6 +1259,7 @@ Tianocore Reset System
     ELSE
         FAIL    Unknown connection method for config: ${CONFIG}
     END
+    Boot State Control Notify State    booting
 
 Save Changes
     [Documentation]
@@ -1321,12 +1322,26 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     ...    === Effects ===
     ...    - Boots into the selected OS
     [Arguments]    ${env_id}    ${boot_menu}=NOT_SET
-    ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
-    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
+
+    ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
+    IF   '${PLATFORM_BOOT_STATE}' == 'os' and '${BOOTED_OS_ID}' == '${env_id}'
+        Log    ${system_name} already booted.
+        RETURN
+    END
+
+    # None if `POWER ON` was called before, if not then it needs to be called
+    # to allow entering bootmenu
+    IF    $BOOTED_OS_ID is not ${None} and '''${boot_menu}''' == 'NOT_SET'
+        Power On
+    END
+
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
 
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
+    IF    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH' and '${POWER_CTRL}' == 'none'
+        WARN    ${OPTIONS_LIB} not supported with POWER_CTRL==none and SSH
+        RETURN
+    END
 
     IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
         Read From Terminal Until    Press F10 key now for boot menu
@@ -1395,6 +1410,7 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
         ${system_index}=    Get Index Of Matching Option In Menu    ${menu_construction}    ${system_name}
     END
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
+    VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
 
 Make Sure That Network Boot Is Enabled
     [Documentation]    Checks that "Enable network boot" in

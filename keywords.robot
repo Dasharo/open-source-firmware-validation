@@ -17,6 +17,7 @@ Resource    lib/me.robot
 Resource    lib/network.robot
 Resource    lib/bsd.robot
 Resource    lib/openwrt.robot
+Resource    lib/platform/power.robot
 
 
 *** Keywords ***
@@ -512,6 +513,7 @@ Prepare Test Suite
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
     Set Library Search Order    ${CONFIG}    ${OPTIONS_LIB}
+    Init Power State Control
     Log Variables
 
 Import Osfv Libraries
@@ -827,7 +829,6 @@ Execute Reboot Command
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
             Set Nextboot    ${BOOTED_OS_ID}
             Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
-            VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=GLOBAL
         END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'
