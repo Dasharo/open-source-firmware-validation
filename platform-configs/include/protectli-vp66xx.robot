@@ -33,4 +33,6 @@ ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${TRUE}
 ${SENSORS_CONFIG_FILE}=                             include/sensors/protectli-vp66xx-sensors-config.yaml
 ${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/protectli-vp66xx-fan-curve-config.yaml
 
-${CAPSULE_UPDATE_SUPPORT}=                          ${True}
+${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
