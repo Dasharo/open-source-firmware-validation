@@ -13002,13 +13002,6 @@
   },
   {
     "doc": {
-      "_id": "WLE003.002",
-      "name": "Bluetooth scanning (Windows)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "WLE003.201",
       "name": "Bluetooth scanning (Ubuntu)",
       "module": "Dasharo Compatibility"
