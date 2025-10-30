@@ -157,7 +157,7 @@ CPF005.201 CPU runs on expected frequency (Ubuntu)
     VAR    ${concurrent_test_id}=    CPF005.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check CPU Freqs    ${freqs}
+    Check CPU Freqs Linux    ${freqs}
 
 CPF006.201 CPU runs on expected frequency (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
@@ -166,7 +166,7 @@ CPF006.201 CPU runs on expected frequency (Battery) (Ubuntu)
     VAR    ${concurrent_test_id}=    CPF006.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check CPU Freqs    ${freqs}
+    Check CPU Freqs Linux    ${freqs}
 
 CPF007.201 CPU runs on expected frequency (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
@@ -175,7 +175,7 @@ CPF007.201 CPU runs on expected frequency (AC) (Ubuntu)
     VAR    ${concurrent_test_id}=    CPF007.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check CPU Freqs    ${freqs}
+    Check CPU Freqs Linux    ${freqs}
 
 CPF008.201 CPU runs on expected frequency (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
@@ -184,7 +184,7 @@ CPF008.201 CPU runs on expected frequency (USB-PD) (Ubuntu)
     VAR    ${concurrent_test_id}=    CPF008.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check CPU Freqs    ${freqs}
+    Check CPU Freqs Linux    ${freqs}
 
 STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
     [Documentation]    This test aims to verify that the DUT booted to the
@@ -242,7 +242,7 @@ CPF009.201 CPU with load runs on expected frequency (Ubuntu)
     VAR    ${concurrent_test_id}=    CPF005.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check CPU Freqs    ${freqs}
+    Check CPU Freqs Linux    ${freqs}
 
 *** Keywords ***
 Prepare STB
