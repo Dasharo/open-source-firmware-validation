@@ -73,20 +73,21 @@ Check If CPU Not Stuck On Initial Frequency In Windows
         Should Not Be Equal    ${out}    ${out2}
     END
 
+Get CPU Frequency In Windows
+    ${freq_current_info}=    Execute Command In Terminal
+    ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
+    ${freq_current_line}=    Get Line    ${freq_current_info}    -1
+    ${matches}=    Get Regexp Matches    ${freq_current_line}    \\d+(?:\\.\\d+)?
+    ${freq_current}=    Get From List    ${matches}    0
+    Should Not Be Empty    ${freq_current}    Failed to get current frequency
+    ${freq_current}=    Convert To Number    ${freq_current}
+    RETURN    ${freq_current}
+
 Check CPU Frequency In Windows
     [Documentation]    Check that CPU is running on expected frequency.
     ${freq_max_info}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed
-    FOR    ${number}    IN RANGE    0    10
-        ${freq_current_info}=    Execute Command In Terminal
-        ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
-        ${freq_current_line}=    Get Line    ${freq_current_info}    -1
-        ${matches}=    Get Regexp Matches    ${freq_current_line}    \\d+(?:\\.\\d+)?
-        ${freq_current}=    Get From List    ${matches}    0
-        Should Not Be Empty    ${freq_current}    Failed to get current frequency
-        ${freq_current}=    Convert To Number    ${freq_current}
-        Run Keyword And Continue On Failure
-        ...    Should Be True    ${CPU_MAX_FREQUENCY} >= ${freq_current}
-    END
+    ${freq}=    Get CPU Frequency In Windows
+    Should Be True    ${CPU_MAX_FREQUENCY} >= ${freq}
 
 Stress Test
     [Documentation]    Proceed with the stress test.
