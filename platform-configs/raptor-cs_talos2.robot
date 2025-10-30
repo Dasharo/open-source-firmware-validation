@@ -148,18 +148,18 @@ ${USB_DETECTION_ITERATIONS_NUMBER}=                 0
 # Other platform flags and counters
 # Cooling procedure iterations
 ${COOLING_PROCEDURE_ITERATIONS}=                    0
-# Stability tests duration in minutes
-${STABILITY_TEST_DURATION}=                         15
+# Stability tests duration in seconds
+${STABILITY_TEST_DURATION}=                         900
 # Interval between the following readings in stability tests
-${STABILITY_TEST_MEASURE_INTERVAL}=                 5
+${STABILITY_TEST_MEASURE_INTERVAL}=                 300
 # Frequency measure test duration
-${FREQUENCY_TEST_DURATION}=                         60
+${FREQUENCY_TEST_DURATION}=                         3600
 # Interval between the following readings in frequency measure tests
-${FREQUENCY_TEST_MEASURE_INTERVAL}=                 1
+${FREQUENCY_TEST_MEASURE_INTERVAL}=                 60
 # Temperature measure test duration
 ${TEMPERATURE_TEST_DURATION}=                       3600
 # Interval between the following readings in temperature measure tests
-${TEMPERATURE_TEST_MEASURE_INTERVAL}=               1
+${TEMPERATURE_TEST_MEASURE_INTERVAL}=               60
 # Fan control measure tests duration in minutes
 # Interval between the following readings in fan control tests
 # Custom fan curve tests duration in minutes

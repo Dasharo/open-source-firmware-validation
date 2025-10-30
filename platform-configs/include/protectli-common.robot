@@ -112,18 +112,18 @@ ${USB_DETECTION_ITERATIONS_NUMBER}=             5
 # Other platform flags and counters
 # Cooling procedure iterations
 ${COOLING_PROCEDURE_ITERATIONS}=                0
-# Stability tests duration in minutes
-${STABILITY_TEST_DURATION}=                     300
+# Stability tests duration in seconds
+${STABILITY_TEST_DURATION}=                     1800
 # Interval between the following readings in stability tests
-${STABILITY_TEST_MEASURE_INTERVAL}=             10
+${STABILITY_TEST_MEASURE_INTERVAL}=             600
 # Frequency measure test duration
-${FREQUENCY_TEST_DURATION}=                     60
+${FREQUENCY_TEST_DURATION}=                     3600
 # Interval between the following readings in frequency measure tests
-${FREQUENCY_TEST_MEASURE_INTERVAL}=             1
+${FREQUENCY_TEST_MEASURE_INTERVAL}=             60
 # Temperature measure test duration
 ${TEMPERATURE_TEST_DURATION}=                   3600
 # Interval between the following readings in temperature measure tests
-${TEMPERATURE_TEST_MEASURE_INTERVAL}=           1
+${TEMPERATURE_TEST_MEASURE_INTERVAL}=           60
 # Custom fan curve tests duration in minutes
 ${CUSTOM_FAN_CURVE_TEST_DURATION}=              2
 # Delay between tests to allow the cpu to cool down
