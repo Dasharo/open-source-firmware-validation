@@ -19,6 +19,15 @@ former method was testing our laptops over SSH with the help of
 [DCU](https://github.com/Dasharo/dcu). You can find the instructions for both
 approaches below.
 
+## Warning: Downgrading firmware
+
+Downgrading to v0.9.0 may trigger a bug, where the EC firmware update feature in
+coreboot may cause an EC brick.
+
+To work around this issue, you **must downgrade the BIOS and the EC at the same
+time**. First, downgrade the BIOS, then, without rebooting in between, downgrade
+the EC firmware.
+
 ## FTDI converter
 
 The obvious prerequisite is that you have an FTDI FT232-based USB-TTL
