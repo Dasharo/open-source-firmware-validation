@@ -16,7 +16,7 @@ resource - the DUT.
 This is most apparent when a test needs to perform a reboot, a suspend,
 to boot some OS, to enter the setup menu or just access any of them using the
 serial console, sharing of which would require complex management between
-test runs. If two tests would be run at the same time, none of them would pass
+test runs. If two tests were run at the same time, none of them would pass
 because they would interfere with each other.
 
 The document suggests an approach for running multiple tests at the same time
@@ -34,7 +34,7 @@ The image above shows the traditional way of executing four tests:
 - CPF under load
 
 The tests are a good target of converting to concurrent execution, because they
-all run in the same environment, have the and have the same requirements
+all run in the same environment and have the same requirements
 (single OS, with/without load).
 
 To help visualise where the concurrency can be performed, the tests are split
@@ -72,12 +72,12 @@ by gathering them at the same time.
 ## Robot Framework limitations
 
 Implementing such testing workflow encounters a limitation in Robot Framework
-though. To gether the test data for multiple test cases and not waste time on
+though. To gather the test data for multiple test cases and not waste time on
 gathering useless information, the test scope must somehow be determined before
 the gathering starts.
 
 It is impossible for RF code to access the information about which test cases
-are to be run though. The test scope of a `robot` exection is defined by, but
+are to be run though. The test scope of a `robot` execution is defined by, but
 not limited to:
 - file/directory passed to `robot`
 - `-t` flag for filtering test case names
@@ -114,8 +114,8 @@ To implement concurrent test cases:
      determine which data needs to be gathered
    - `Set Concurrent Test Outputs` to save the gathered test data and link it to
      a test case
-5. Create `interpret` test cases witht the name of test case that should
-   PASS/FAIL depending on the results of gahered data:
+5. Create `interpret` test cases with the name of test case that should
+   PASS/FAIL depending on the results of gathered data:
    - `Skip If Concurrent Test Wont Be Run` etc. to skip the test case using the
      skip conditions from the suite setup
    - `Get Concurrent Test Outputs` to get the outputs saved during `gather` step
