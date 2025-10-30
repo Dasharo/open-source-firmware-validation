@@ -1,5 +1,5 @@
 *** Settings ***
-Resource        ../common.resource
+Resource        ./common.resource
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
@@ -31,7 +31,7 @@ _CONCURRENT_Background Measurements Immediate (no load) (Ubuntu)
     ${check_frequency}=    Check Concurrent Test Supported    ${concurrent_test_id}
     IF    ${check_frequency}
         Sleep    10s
-        @{frequencies}=    Get CPU Frequencies In Ubuntu
+        @{frequencies}=    Get CPU Frequencies In Linux
         Set Concurrent Test Outputs    ${concurrent_test_id}    ${frequencies}
     END
 

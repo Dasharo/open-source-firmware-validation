@@ -27,7 +27,7 @@ Get CPU Frequency MIN
     ${freq}=    Evaluate    ${freq}-100
     RETURN    ${freq}
 
-Get CPU Frequencies In Ubuntu
+Get CPU Frequencies In Linux
     [Documentation]    Get all CPU frequencies in Ubuntu OS. Keyword returns
     ...    list of current CPU frequencies
     VAR    @{frequency_list}=    @{EMPTY}
@@ -44,7 +44,7 @@ Get CPU Frequencies In Ubuntu
 Check If CPU Not Stuck On Initial Frequency In Linux
     [Documentation]    Check that CPU not stuck on initial frequency.
     VAR    ${are_frequencies_equal}=    ${TRUE}
-    @{frequencies}=    Get CPU Frequencies In Ubuntu
+    @{frequencies}=    Get CPU Frequencies In Linux
     ${first_frequency}=    Get From List    ${frequencies}    0
     FOR    ${frequency}    IN    @{frequencies}
         IF    ${frequency} != ${first_frequency}

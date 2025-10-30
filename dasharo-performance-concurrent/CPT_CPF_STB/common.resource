@@ -42,7 +42,7 @@ Background Measurements
         END
 
         IF    ${FREQUENCY_TEST_DURATION} >= ${timer} >= ${next_freq_time}
-            ${freqs}=    Get CPU Frequencies In Ubuntu
+            ${freqs}=    Get CPU Frequencies In Linux
             ${next_freq_time}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
             Append To List    ${freq_list}    ${freqs}
             Log To Console    ${timer}s: Frequencies: ${freqs}

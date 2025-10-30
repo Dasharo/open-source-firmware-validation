@@ -509,7 +509,7 @@ CPU Runs On Expected Frequency (Linux)
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        @{frequencies}=    Get CPU Frequencies In Ubuntu
+        @{frequencies}=    Get CPU Frequencies In Linux
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
             ...    Should Be True    ${cpu_max_frequency_tol} >= ${frequency}
@@ -549,7 +549,7 @@ CPU With Load Runs On Expected Frequency (Linux)
     FOR    ${i}    IN RANGE    (${FREQUENCY_TEST_DURATION} / ${FREQUENCY_TEST_MEASURE_INTERVAL})
         Log To Console    \n ----------------------------------------------------------------
         Log To Console    ${timer} min.
-        @{frequencies}=    Get CPU Frequencies In Ubuntu
+        @{frequencies}=    Get CPU Frequencies In Linux
         FOR    ${frequency}    IN    @{frequencies}
             Run Keyword And Continue On Failure
             ...    Should Be True    ${cpu_max_frequency_tol} >= ${frequency}

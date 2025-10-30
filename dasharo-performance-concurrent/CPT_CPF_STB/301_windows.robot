@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../common.resource
+Resource    ./common.resource
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
