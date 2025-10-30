@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ./common.resource
+Resource        ./common.resource
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
@@ -68,7 +68,6 @@ CPF004.301 CPU not stuck on initial frequency (USB-PD) (Windows)
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Frequencies Not Stuck    ${outs}
-
 
 #############################################################################
 #    Tests that gather measurements on Windows, no load, n/a power source    #
@@ -168,14 +167,14 @@ CPF009.301 CPU with load runs on expected frequency (Windows)
     VAR    ${concurrent_test_id}=    CPF005.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check CPU Freqs Windows   ${freqs}
+    Check CPU Freqs Windows    ${freqs}
+
 
 *** Keywords ***
 Stress Test Windows
     SSHLibrary.Put File    stress-test-windows.ps1    /C:/Users/user
     SSHLibrary.Execute Command    .\\stress-test-windows.ps1
 
-*** Keywords ***
 Prepare CPF
     [Documentation]    Setup CPF concurrent test contexts
     IF    not ${LAPTOP_PLATFORM}

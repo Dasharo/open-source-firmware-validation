@@ -11,6 +11,7 @@ Suite Setup     Run Keywords
 ...                 AND    Prepare STB
 ...                 AND    Print Concurrent Tests Summary
 
+
 *** Test Cases ***
 ############################################
 #    Tests that can be done immediately    #
@@ -243,6 +244,7 @@ CPF009.201 CPU with load runs on expected frequency (Ubuntu)
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Linux    ${freqs}
+
 
 *** Keywords ***
 Prepare STB

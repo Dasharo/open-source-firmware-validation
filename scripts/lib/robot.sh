@@ -100,7 +100,7 @@ test_matches_pattern() {
   # normalize pattern the same way
   norm_pat=$(echo "$pattern" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr -d '"')
   # treat robot pattern as shell glob - [], *, ? work identically in POSIX
-  if [[ "$norm_name" == $norm_pat ]]; then
+  if [[ "$norm_name" == "$norm_pat" ]]; then
     return 0
   fi
   return 1
@@ -139,7 +139,7 @@ get_matched_test_cases() {
   fi
 
   # filter test cases using -t parameter
-  if [ -n "$t_args" ]; then
+  if [ ${#t_args[@]} -gt 0 ]; then
     while IFS= read -r case; do
       for filter in "${t_args[@]}"; do
         if test_matches_pattern "$case" "$filter"; then

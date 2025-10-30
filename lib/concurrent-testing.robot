@@ -4,7 +4,7 @@ Library     DateTime
 
 
 *** Variables ***
-&{CONCURRENT_TESTS}=      &{EMPTY}
+&{CONCURRENT_TESTS}=    &{EMPTY}
 
 
 *** Keywords ***
@@ -92,7 +92,7 @@ Will Concurrent Test Be Run
     [Arguments]    ${test_id}
     ${run}=    Check Concurrent Test Supported    ${test_id}
     ${outputs}=    Get Concurrent Test Outputs    ${test_id}
-    IF    ${run} and $outputs != ${None}   RETURN    ${TRUE}
+    IF    ${run} and $outputs != ${None}    RETURN    ${TRUE}
     RETURN    ${FALSE}
 
 Will Concurrent Test Be Run Regex
@@ -109,12 +109,12 @@ Will Concurrent Test Be Run Regex
             ${id}=    Evaluate    $match.string
             ${run}=    Check Concurrent Test Supported    ${id}
             ${outputs}=    Get Concurrent Test Outputs    ${id}
-            IF    ${run} and $outputs != ${None}   RETURN    ${TRUE}
+            IF    ${run} and $outputs != ${None}    RETURN    ${TRUE}
         END
     END
     RETURN    ${FALSE}
 
-Skip If Concurrent Test Wont Be Run
+Skip If Concurrent Test Won't Be Run
     [Documentation]    Skips execution if the concurrent test context shows that
     ...    the test should be skipped or the test was already run.
     ...    Configured using `Add Concurrent Test Skip Condition`.
@@ -123,7 +123,7 @@ Skip If Concurrent Test Wont Be Run
     Skip If    not $will_be_run    ${reason}
     RETURN    ${FALSE}
 
-Skip If Concurrent Test Wont Be Run Regex
+Skip If Concurrent Test Won't Be Run Regex
     [Documentation]    Skips execution if the concurrent test context shows that
     ...    the test should be skipped or the test was already run.
     ...    Configured using `Add Concurrent Test Skip Condition`.

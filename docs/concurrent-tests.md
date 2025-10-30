@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+
+SPDX-License-Identifier: Apache-2.0
+-->
 # Concurrent tests
 
 ## Introduction
@@ -8,7 +13,7 @@ time. It is especially noticeable among the `dasharo-performance` tests like
 regular intervals.
 
 The tool `pabot` allows running robot tests in parallel, all at the same time,
-but it does not offer any solutions for resource sharing and synchonization.
+but it does not offer any solutions for resource sharing and synchronization.
 
 All OSFV tests share a single very important and required on almost every step
 resource - the DUT.
@@ -85,7 +90,7 @@ not limited to:
 
 There were two approaches suggested to solve this:
 - create pseudo test cases with the same name as the original ones
-  - the test cases would just set some flag informing the gathering step about
+    + the test cases would just set some flag informing the gathering step about
     the scope
 - create an RF fork that would allow to access that information using a keyword
 - use an external tool to intercept the parameters to `robot` and pass them to
@@ -100,7 +105,7 @@ for `robot` is already widely used.
 To implement concurrent test cases:
 1. Identify which test cases, or their parts, can be performed at the same time
    and plan the scope of test cases to join:
-   - e.g. we can perform one suspend, and in one go check if:
+   + e.g. we can perform one suspend, and in one go check if:
      - M2 drivers work (SMW)
      - network interface works (NET)
      - USB devices are detected (SUD)
@@ -110,13 +115,13 @@ To implement concurrent test cases:
 3. Use `Add Concurrent Test Skip Condition` to create skip conditions for test
    cases that use concurrent data gathering in suite setup.
 4. Create a `_CONCURRENT_` pseudo test case, that will `gather` the test data:
-   - `Check Concurrent Test Supported`, `Will Concurrent Test Be Run` etc. to
+   + `Check Concurrent Test Supported`, `Will Concurrent Test Be Run` etc. to
      determine which data needs to be gathered
-   - `Set Concurrent Test Outputs` to save the gathered test data and link it to
+   + `Set Concurrent Test Outputs` to save the gathered test data and link it to
      a test case
 5. Create `interpret` test cases with the name of test case that should
    PASS/FAIL depending on the results of gathered data:
-   - `Skip If Concurrent Test Wont Be Run` etc. to skip the test case using the
+   + `Skip If Concurrent Test Won't Be Run` etc. to skip the test case using the
      skip conditions from the suite setup
-   - `Get Concurrent Test Outputs` to get the outputs saved during `gather` step
+   + `Get Concurrent Test Outputs` to get the outputs saved during `gather` step
      and decide on PASS / FAIL

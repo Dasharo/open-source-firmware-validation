@@ -1,14 +1,17 @@
 *** Settings ***
-Library         Collections
-Library         DateTime
-Library         String
-Library         Telnet    timeout=20 seconds    connection_timeout=120 seconds
-Library         SSHLibrary    timeout=90 seconds
-Resource        ../../variables.robot
-Resource        ../../keywords.robot
-Resource        ../../lib/performance/cpu.robot
-Resource        ../../lib/sensors/sensors.robot
-Resource        ../../lib/concurrent-testing.robot
+Documentation       common keywords for CPT_CPF_STB concurrent tests
+
+Library             Collections
+Library             DateTime
+Library             String
+Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             SSHLibrary    timeout=90 seconds
+Resource            ../../variables.robot
+Resource            ../../keywords.robot
+Resource            ../../lib/performance/cpu.robot
+Resource            ../../lib/sensors/sensors.robot
+Resource            ../../lib/concurrent-testing.robot
+
 
 *** Keywords ***
 Background Measurements
@@ -96,7 +99,8 @@ Background Measurements Windows
         END
 
         IF    ${STABILITY_TEST_DURATION} >= ${timer} >= ${next_stab_time}
-            ${uptime_output}=    Execute Command In Terminal    (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
+            ${uptime_output}=    Execute Command In Terminal
+            ...    (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
             ${network_status}=    Execute Command In Terminal    Get-NetAdapter -Name "Ethernet*"
             ${total_seconds_line}=    Get Lines Matching Regexp    ${uptime_output}    .*TotalSeconds.*
             @{line_parts}=    Split String    ${total_seconds_line}    :
