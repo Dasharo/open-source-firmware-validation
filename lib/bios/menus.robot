@@ -28,7 +28,9 @@ Enter Boot Menu Tianocore
     ...
     ...    === Effects ===
     ...    - UEFI Boot menu is entered
-
+    IF    $PLATFORM_BOOT_STATE is ${None} or (${POWER_STATE_POWERED_ON} and '${PLATFORM_BOOT_STATE}' != 'booting')
+        Power On Ex    force_reboot=${TRUE}
+    END
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${BOOT_MENU_KEY}
@@ -40,6 +42,7 @@ Enter Boot Menu Tianocore
         Press Key N Times    1    ${ARROW_DOWN}
         Press Key N Times    1    ${ARROW_UP}
     END
+    Boot State Control Notify State    bootmenu
 
 Get Boot Menu Construction
     [Documentation]
@@ -258,12 +261,26 @@ Enter Setup Menu Tianocore
     ...    === Effects ===
     ...    - UEFI Setup menu is entered
 
+    # IF    $PLATFORM_BOOT_STATE != 'setup'
+        # not possible to go back to main screen now as it wont
+        # be printed in full again, only the changes which doesnt
+        # allow to parse it
+    # END
+
+    # not in setup, reboot needed
+    IF    $PLATFORM_BOOT_STATE != 'booting'
+        # not booting currently, reboot needed
+        Power On Ex    force_reboot=${TRUE}
+    END
+
     Read From Terminal Until    ${TIANOCORE_STRING}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    ${SETUP_MENU_KEY}
     ELSE
         Write Bare Into Terminal    ${SETUP_MENU_KEY}
     END
+    Boot State Control Notify State    setup
+
 
 Get Setup Menu Construction
     [Documentation]

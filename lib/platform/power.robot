@@ -17,12 +17,14 @@ Resource            boot_state.robot
 *** Keywords ***
 Init Power State Control
     Try Check Power State
+    Init Platform State Control
 
 Power Control Notify Power State On
+    IF    not ${PLATFORM_STATE_CONTROL}    RETURN
     VAR    ${POWER_STATE_POWERED_ON}=    ${TRUE}    scope=GLOBAL
-    Boot State Control Notify State    booting
 
 Power Control Notify Power State Off
+    IF    not ${PLATFORM_STATE_CONTROL}    RETURN
     VAR    ${POWER_STATE_POWERED_ON}=    ${FALSE}    scope=GLOBAL
     Boot State Control Notify State    ${None}
 
@@ -48,7 +50,7 @@ Power On Default
 
 Power On Ex
     [Arguments]    ${force_reboot}=${TRUE}
-    IF    ${force_reboot}
+    IF    not ${PLATFORM_STATE_CONTROL} or ${force_reboot}
         Power On
     ELSE
         Ensure Powered On

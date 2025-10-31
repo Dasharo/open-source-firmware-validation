@@ -15,10 +15,10 @@ Resource            ../../keys.robot
 
 *** Keywords ***
 Init Platform State Control
-    IF    '${POWER_CTRL}'=='none'
-        VAR    ${PLATFORM_BOOT_STATE}=    os    scope=GLOBAL
-    ELSE
+    IF    not ${PLATFORM_STATE_CONTROL} or '${POWER_CTRL}' != 'none'
         VAR    ${PLATFORM_BOOT_STATE}=    ${None}    scope=GLOBAL
+    ELSE
+        VAR    ${PLATFORM_BOOT_STATE}=    os    scope=GLOBAL
     END
 
 Boot State Control Notify State
@@ -29,5 +29,7 @@ Boot State Control Notify State
     ...    bootmenu
     ...    os
     [Arguments]    ${state}
-    VAR    ${POWER_STATE_POWERED_ON}=    ${state}    scope=GLOBAL
+    IF    ${PLATFORM_STATE_CONTROL}
+        VAR    ${PLATFORM_BOOT_STATE}=    ${state}    scope=GLOBAL
+    END
 
