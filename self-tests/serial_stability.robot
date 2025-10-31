@@ -78,18 +78,70 @@ Test
 Test Fuzzy
     Power On
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
-    List Should Contain Value Fuzzy    ${menu}    > User Password Management    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > Device Manager    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > Dasharo System Features    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > One Time Boot    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > Boot Maintenance Manager    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > User Password Management
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > Device Manager
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > Dasharo System Features
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > One Time Boot
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > Boot Maintenance Manager
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
     ${menu}=    Enter Dasharo System Features    ${menu}
-    List Should Contain Value Fuzzy    ${menu}    > Dasharo Security Options    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > Networking Options    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > USB Configuration    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > Dasharo Security Options
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > Networking Options
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > USB Configuration
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
     List Should Contain Value Fuzzy
     ...    ${menu}
     ...    > Intel Management Engine Options
-    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > Power Management Options    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-    List Should Contain Value Fuzzy    ${menu}    > Serial Port Configuration    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > Power Management Options
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
+    List Should Contain Value Fuzzy
+    ...    ${menu}
+    ...    > Serial Port Configuration
+    ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
+    ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+    ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
