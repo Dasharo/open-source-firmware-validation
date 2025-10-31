@@ -816,10 +816,12 @@ Execute Shutdown Command
         END
     END
     Restore Initial DUT Connection Method
+    Boot State Control Notify State    ${None}
 
 Execute Poweroff Command
     Write Into Terminal    poweroff
     Set DUT Response Timeout    180 seconds
+    Boot State Control Notify State    ${None}
     Restore Initial DUT Connection Method
 
 Execute Reboot Command
@@ -828,13 +830,18 @@ Execute Reboot Command
     IF    '${os}' == 'linux'
         # if the OS cannot be chosen from the bootmanager and rebooting
         # always boots the default one
-        IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
-            Set Nextboot    ${BOOTED_OS_ID}
-            Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
+        IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+            IF    ${assume_correct_boot} == ${False}
+                Set Nextboot    ${BOOTED_OS_ID}
+                Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
+            END
+        ELSE
+            Boot State Control Notify State    booting
         END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'
         Write Into Terminal    shutdown /r /f /t 0
+        Boot State Control Notify State    booting
     ELSE
         Fail    Unknown OS: ${os} given as an argument.
     END

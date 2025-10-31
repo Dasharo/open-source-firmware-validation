@@ -1428,6 +1428,7 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     END
     Press Key N Times And Enter    ${system_index}    ${ARROW_DOWN}
     VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
+    Boot State Control Notify State    os
 
 Make Sure That Network Boot Is Enabled
     [Documentation]    Checks that "Enable network boot" in
