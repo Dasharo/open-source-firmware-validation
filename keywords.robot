@@ -58,7 +58,12 @@ Login To Linux
         Login To Linux Via OBMC    root    root
     ELSE
         Press Enter
-        Login To Linux Over Serial Console    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+        ${line}=    Read From Terminal
+        IF    $DEVICE_OS_ROOT_PROMPT in $line
+            Exit From Root User
+        ELSE IF    $DEVICE_OS_USER_PROMPT not in $line
+            Login To Linux Over Serial Console    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+        END
     END
 
 Login To Linux Via OBMC
