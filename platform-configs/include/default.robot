@@ -203,6 +203,7 @@ ${POWERSHELL_STR_HDMI_OUT}=                         Audio Driver for Display Aud
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}
 ${TPM_EXPECTED_CHIP}=                               FILL_WITH_CORRECT_VALUE_BEFORE_TESTING
+${TPM_SINGLE_BANK}=                                 ${FALSE}
 ${VERIFIED_BOOT_SUPPORT}=                           ${FALSE}
 ${VERIFIED_BOOT_POPUP_SUPPORT}=                     ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                           ${FALSE}
