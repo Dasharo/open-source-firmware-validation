@@ -27,6 +27,8 @@ ${PACTL_STR_HEADSET_OUT}=       analog-output-headphones
 ${PACTL_STR_HEADSET_IN}=        analog-input-headset-mic
 ${PACTL_STR_HDMI_OUT}=          hdmi-output-0
 
+${PLATFORM_STATE_CONTROL}=    ${TRUE}
+
 
 *** Test Cases ***
 AUD001.201 Audio subsystem detection
@@ -220,11 +222,9 @@ AUD001.301 Audio subsystem detection
     ...    and can be detected in Windows 11. To do so, we attemptt detection
     ...    of the Audio Service, and verify it is in Running state.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
-    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
     Should Contain    ${out}    Running
-    Execute Shutdown Command
 
 AUD002.301 Internal Audio playback
     [Documentation]    Check whether the audio subsystem is able to playback
@@ -233,7 +233,6 @@ AUD002.301 Internal Audio playback
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
-    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Sound Devices In Windows    speakers
     Should Not Be Empty    ${out}
@@ -251,7 +250,6 @@ AUD003.301 Internal Audio capture
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
-    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Sound Devices In Windows    microphone
     Should Not Be Empty    ${out}
@@ -265,7 +263,6 @@ AUD004.301 External headset recognition
     ...    after plugging in micro jack into slot.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
-    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
@@ -278,7 +275,6 @@ AUD005.301 External headset audio playback
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
-    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
@@ -294,7 +290,6 @@ AUD006.301 External headset audio capture
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
-    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Sound Devices In Windows    microphone
     Should Not Be Empty    ${out}
@@ -309,7 +304,6 @@ AUD007.301 HDMI Audio recognition
     ...    properly in Windows 11 after connecting HDMI display.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
-    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Sound Devices In Windows    display
     Should Not Be Empty    ${out}
@@ -322,7 +316,6 @@ Audio Subsystem Detection Linux
     [Documentation]    Ensures Ubuntu is currently active and that the
     ...    audio chip was detected.
     [Arguments]    ${os_id}
-    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     ${out}=    Execute Command In Terminal    cat /sys/class/sound/card0/hwC0D*/chip_name

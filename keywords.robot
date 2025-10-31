@@ -520,7 +520,6 @@ Prepare Test Suite
 
     Set Library Search Order    ${CONFIG}    ${OPTIONS_LIB}
     Init Power State Control
-    VAR    ${PLATFORM_STATE_CONTROL}=    ${FALSE}    scope=GLOBAL
     Log Variables
 
 Import Osfv Libraries

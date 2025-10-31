@@ -498,5 +498,6 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 # ...    ${{ ("UEFI Update", "DPP") }}
 @{DTS_TEST_WORKFLOW_PROFILES}=                      @{EMPTY}
 
+${PLATFORM_STATE_CONTROL}=                          ${FALSE}
 
 *** Keywords ***
