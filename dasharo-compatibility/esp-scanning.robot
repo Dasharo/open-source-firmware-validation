@@ -22,7 +22,7 @@ Default Tags        automated
 ESP001.001 ESP Scan with OS-specific .efi files added
     [Documentation]    This test aims to verify that any properly added .efi
     ...    files will have boot menu entries created for them.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
         Should Contain Match    ${boot_menu}    ${system}*
@@ -35,9 +35,9 @@ ESP003.001 ESP Scan ignores OSes on removable media
     [Documentation]    This test aims to verify that the bootable /EFI
     ...    partitions of removable media are ignored by the scan and aren't
     ...    listed in boot menu, except for DTS.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Mount USB Disk Image    ${TEST_DATA_DIR}/iso/TinyCore-15.0.iso    required=${FALSE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Not Contain Match    ${boot_menu}    *CorePlus*
 
@@ -45,7 +45,7 @@ ESP004.001 ESP Scan does not create duplicate entries
     [Documentation]    This test aims to verify that the firmware will not
     ...    create duplicate entries, for example, if both shimx64 and grubx64
     ...    are present for a single OS.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
 
     # In general, boot entries may be duplicated if created by other means.
@@ -60,16 +60,16 @@ ESP005.001 ESP Scan detects Dasharo Tools Suite
     [Documentation]    This test aims to verify that the firmware detects
     ...    Dasharo Tools Suite boot media and creates a corresponding boot
     ...    menu entry.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Mount USB Disk Image    ${TEST_DATA_DIR}/dts/dts-base-image-v2.1.3.wic
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain Match    ${boot_menu}    Dasharo Tools Suite (on *
 
 ESP006.001 ESP Scan does not find non-block boot devices
     [Documentation]    This test aims to verify that the firmware will not
     ...    find non-block boot devices
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     FOR    ${boot_option}    IN    @{boot_menu}
         Should Not Contain    ${boot_option}    on Non-Block Boot Device
@@ -78,9 +78,9 @@ ESP006.001 ESP Scan does not find non-block boot devices
 ESP002.001 ESP Scan after deleting additional .efi files
     [Documentation]    This test aims to verify that none of the systems linger
     ...    on in the boot menu after we've deleted their files from /EFI/.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Clear Out EFI Partition
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     FOR    ${system}    IN    @{SYSTEMS_FOR_ESP_TESTING}
         Should Not Contain Match    ${boot_menu}    ${system}*

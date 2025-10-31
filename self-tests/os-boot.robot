@@ -37,7 +37,7 @@ BOT001.001 Boot To Ubuntu Multiple Times
     FOR    ${i}    IN RANGE    5
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
@@ -50,7 +50,7 @@ BOT002.001 Boot To Windows Multiple Times
     FOR    ${i}    IN RANGE    5
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Login To Windows
         ${out}=    Execute Command In Terminal    ls
     END
@@ -63,11 +63,11 @@ BOT003.001 Boot To Ubuntu Then Boot To Windows
     FOR    ${i}    IN RANGE    5
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
         Switch To Root User
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Login To Windows
         Execute Command In Terminal    ls
     END

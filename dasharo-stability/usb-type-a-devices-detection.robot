@@ -32,7 +32,7 @@ Default Tags        automated
 #    ...    correctly after a cold boot.
 #    Skip If    not ${tests_in_ubuntu_support}    SUD001.001 not supported
 #    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
-#    Power On
+#    Power On Ex    force_reboot=${TRUE}
 #    Boot operating system    ubuntu
 #    Login to Linux
 #    Switch to root user
@@ -54,7 +54,7 @@ SUD002.201 USB devices detection after warm boot (Ubuntu)
     ...    Previous IDs: SUD002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -67,7 +67,7 @@ SUD003.201 USB devices detection after reboot (Ubuntu)
     ...    Previous IDs: SUD003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD003.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -81,7 +81,7 @@ SUD004.201 USB devices detection after suspension (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD004.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -96,7 +96,7 @@ SUD005.201 USB devices detection after suspension (Ubuntu) (S0ix)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD005.201 not supported
     Set Platform Sleep Type    S0ix
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -111,7 +111,7 @@ SUD006.201 USB devices detection after suspension (Ubuntu) (S3)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD006.201 not supported
     Set Platform Sleep Type    S3
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -122,7 +122,7 @@ SUD002.202 USB devices detection after warm boot (Fedora)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a warm boot.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -133,7 +133,7 @@ SUD003.202 USB devices detection after reboot (Fedora)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a reboot.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD003.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -145,7 +145,7 @@ SUD004.202 USB devices detection after suspension (Fedora)
     ...    correctly after suspension.
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD004.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -158,7 +158,7 @@ SUD005.202 USB devices detection after suspension (Fedora) (S0ix)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD005.202 not supported
     Set Platform Sleep Type    S0ix
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -171,7 +171,7 @@ SUD006.202 USB devices detection after suspension (Fedora) (S3)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD006.202 not supported
     Set Platform Sleep Type    S3
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User

@@ -57,7 +57,7 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
         Pause Execution    [4/6] Click OK to begin speed testing.
     END
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -91,7 +91,7 @@ ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     ...    Previous IDs: ETHPERF002.001
     [Tags]    automated
     Depends On    ${ETH_PERF_PAIR_10_G} != @{EMPTY}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

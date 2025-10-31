@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 Get Current State Of List Option In ME Menu
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
@@ -39,7 +39,7 @@ Get Current State Of List Option In ME Menu
 
 Parse Available Selections Of List Option In Me Menu
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${me_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Intel Management Engine Options
@@ -54,7 +54,7 @@ Parse Available Selections Of List Option In Me Menu
 Select Invalid State Of List Option In ME Menu
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${status}=    Run Keyword And Return Status
     ...    Set ME State    Fake State
     Should Not Be True    ${status}
@@ -62,7 +62,7 @@ Select Invalid State Of List Option In ME Menu
 Select State Of List Option In ME Menu (top-bottom)
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     VAR    @{me_states}=    Enabled    Disabled (Soft)
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
@@ -72,7 +72,7 @@ Select State Of List Option In ME Menu (top-bottom)
 Select State Of List Option In ME Menu (bottom-top)
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     VAR    @{me_states}=    Disabled (Soft)    Enabled
     FOR    ${state}    IN    @{me_states}
         Set ME State    ${state}
@@ -86,7 +86,7 @@ Select State Of List Option In ME Menu (bottom-top)
 Get Current State Of List Option In Memory Menu
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_MEMORY_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration
@@ -96,7 +96,7 @@ Get Current State Of List Option In Memory Menu
 
 Parse Available Selections Of List Option In Memory Menu
     Skip If    not ${DASHARO_MEMORY_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${memory_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Memory Configuration

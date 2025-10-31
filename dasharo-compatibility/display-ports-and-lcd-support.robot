@@ -50,7 +50,7 @@ DSP001.301 - Internal display in OS (Windows)
 
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP001.002 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     Check Internal LCD Windows
 
@@ -82,7 +82,7 @@ DSP002.301 - External HDMI display in OS (Windows)
 
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP002.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     Check HDMI Windows
 
@@ -142,7 +142,7 @@ DSP003.301 - External DP display in OS (Windows)
 
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    301.002 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     Check DP Windows
 
@@ -181,7 +181,7 @@ External HDMI Display
     ...    Linux OS. An external HDMI display must be provided in
     ...    the platform config.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -191,7 +191,7 @@ External HDMI Display
 Internal Display In OS
     [Documentation]    Check whether an internal display is visible
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -203,7 +203,7 @@ External DP Display In OS
     ...    Linux OS. An external Display Port must be provided in
     ...    the platform config.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

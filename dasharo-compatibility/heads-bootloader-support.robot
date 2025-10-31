@@ -47,7 +47,7 @@ HDS001.001 Heads installation
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Heads bootloader
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     # Factory reset. Additional window if /boot already has Heads stuff in it.
     ${output}=    Read From Terminal Until    ┘
     ${output}=    Get Lines Containing String    ${output}    F${SPACE}${SPACE}OEM Factory Reset / Re-Ownership
@@ -94,7 +94,7 @@ HDS002.001 Boot into Heads
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Heads bootloader
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${output}=    Detect Heads Main Menu
     ${totp_dut}=    Get Regexp Matches    ${output}    TOTP: (......)    1
     ${totp_real}=    Get Totp From Uri    ${TOTP_URI}

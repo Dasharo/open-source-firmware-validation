@@ -31,7 +31,7 @@ TPD001.004 Detect TPM after coldboot (heads)
     Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL
     VAR    @{pcrs_subsequent_boots}=    @{EMPTY}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     FOR    ${index}    IN RANGE    0    3
         TRY
             Detect Heads Main Menu
@@ -57,7 +57,7 @@ TPD002.004 Detect TPM after warmboot (heads)
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD002.004 not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL
     VAR    @{pcrs_subsequent_boots}=    @{EMPTY}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     FOR    ${index}    IN RANGE    0    3
         TRY
             Detect Heads Main Menu
@@ -68,7 +68,7 @@ TPD002.004 Detect TPM after warmboot (heads)
         EXCEPT
             ${failed_detects}=    Evaluate    ${FAILED_DETECTS} + 1
         END
-        Power On
+        Power On Ex    force_reboot=${TRUE}
     END
     IF    '${failed_detects}' > '0'
         FAIL    \nTest case marked as Failed; ${failed_detects} iterations failed.
@@ -83,7 +83,7 @@ TPD003.004 Detect TPM after platform reboot (heads)
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD003.004 not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL
     VAR    @{pcrs_subsequent_boots}=    @{EMPTY}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     FOR    ${index}    IN RANGE    0    3
         TRY
             Detect Heads Main Menu

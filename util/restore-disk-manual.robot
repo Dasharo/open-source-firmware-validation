@@ -20,11 +20,11 @@ Suite Setup     Run Keywords
 Restore Disk Manually Clonezilla
     ${clonezilla_tty}=    Get Envvar    CLONEZILLA_TTY    ${TRUE}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE
     IF    not ${ipxe_entered}    # It might just be disabled
         Set UEFI Option    NetworkBoot    ${TRUE}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Enter IPXE
     END
     Execute Command In Terminal

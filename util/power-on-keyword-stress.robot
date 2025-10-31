@@ -48,13 +48,13 @@ Stress test Power On keyword for stability when in OS
 
 *** Keywords ***
 Test Power On Kwd In Firmware
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     Sleep    10s
 
 Test Power On Kwd In OS
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

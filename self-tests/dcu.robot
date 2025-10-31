@@ -27,12 +27,12 @@ Suite Teardown      Run Keyword
 Boot System Or From Connected Disk
     Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    DCU not supported
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
 
     Dcu.Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     Dcu.Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Dcu.Boot System Or From Connected Disk    ${OS_UBUNTU}
 
     Login To Linux

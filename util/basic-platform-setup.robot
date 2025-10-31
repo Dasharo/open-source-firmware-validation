@@ -31,7 +31,7 @@ BPS001.001 Power Control - PSU ON and serial output
     [Documentation]    Verifies if PSU can be turned ON and if the serial output can be read.
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
 
@@ -39,7 +39,7 @@ BPS002.001 Power control - PSU OFF
     [Documentation]    Verifies if PSU can be turned OFF
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
 
@@ -55,7 +55,7 @@ BPS003.001 RTE Power On
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DUT_HAS_POWER_BUTTON}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
 
@@ -74,7 +74,7 @@ BPS004.001 RTE Reset
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DUT_HAS_RESET_BUTTON}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
     Rte Reset
@@ -85,7 +85,7 @@ BPS004.001 RTE Reset
 BPS005.001 Boot to OS - Ubuntu
     [Documentation]    This test verifies if platform can be booted to Ubunto and if correct credentials are set.
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -100,7 +100,7 @@ BPS005.001 Boot to OS - Ubuntu
 BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
     Skip If    not "${TESTS_IN_WINDOWS_SUPPORT}"
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
 
 BPS006.001 Ensure test dependencies
@@ -117,7 +117,7 @@ BPS007.001 External flashing
 BPS007.002 Internal flashing
     [Documentation]    This test verifies if flashrom can detect the die.
     Skip If    '${FLASHING_METHOD}' == 'none'
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -131,7 +131,7 @@ BPS008.001 RTE CMOS clear
     # CMOS should be cleared when platform is cut off from power
     Rte Psu Off
     Rte Clear Cmos
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     # TODO: Can we do it without Linux?
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -237,7 +237,7 @@ Run Ansible Playbooks
 
     FOR    ${distro_id}    IN    @{TESTED_LINUX_DISTROS}
         Log To Console    "Ansible setup for ENV_ID ${distro_id}"
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${distro_id}
         # ansible will fail no matter the timeouts if host is unreachable
         # (not booted yet)

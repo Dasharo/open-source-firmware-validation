@@ -50,7 +50,7 @@ ${TPM_EXPECTED_CHIP}=               SLB9670
 *** Keywords ***
 Flash Protectli VP2420 Internal
     Make Sure That Flash Locks Are Disabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

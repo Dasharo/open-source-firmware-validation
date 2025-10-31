@@ -197,7 +197,7 @@ Login To Windows Via SSH
                 Fail
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
-            Power On
+            Power On Ex    force_reboot=${TRUE}
             # TODO: This keyword needs improved. We could simply lock the whole
             # power on - login procedure in single keyword, and use
             # Run Keyword Until Succeeds?
@@ -734,7 +734,7 @@ OBMC Power Cycle On
         Sleep    15s
     END
     Read From Terminal
-    Power On
+    Power On Ex    force_reboot=${TRUE}
 
 Get Power Supply State
     [Documentation]    Returns the power supply state.
@@ -1557,7 +1557,7 @@ Should Contain All
     END
 
 Deploy Uefi Shell
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

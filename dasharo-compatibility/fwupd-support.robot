@@ -28,7 +28,7 @@ FWUPD001.201 Fwupd Devices Detected (Ubuntu)
     [Documentation]    Test if the supported hardware is properly detected
     ...    by fwupd
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Fwupd Devices Detected Linux
@@ -38,7 +38,7 @@ FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
     ...    using local unsigned cabinet
     [Tags]    semiauto
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Fwupd Local Firmware Update Linux
@@ -47,7 +47,7 @@ FWUPD001.202 Fwupd Devices Detected (Fedora)
     [Documentation]    Test if the supported hardware is properly detected
     ...    by fwupd
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Fwupd Devices Detected Linux
@@ -57,7 +57,7 @@ FWUPD002.202 Fwupd Local Firmware Update (Fedora)
     ...    using local unsigned cabinet
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Fwupd Local Firmware Update Linux

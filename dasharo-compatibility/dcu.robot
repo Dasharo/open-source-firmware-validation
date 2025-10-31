@@ -120,7 +120,7 @@ Verify SMMSTORE Changes (Setup Menu)
     ${initial_value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     ${new_value}=    Evaluate    not ${initial_value}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -129,7 +129,7 @@ Verify SMMSTORE Changes (Setup Menu)
     ${value}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
     Should Be Equal    ${value}    ${new_value}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -169,7 +169,7 @@ Make Sure New Firmware Is Booted After Flashing
     ...    flashing
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     IF    '''${POWER_CTRL}''' == '''none'''
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
@@ -180,7 +180,7 @@ Change The UUID
     [Documentation]    This test case verifies that the UUID encoded in the DMI
     ...    table of an image can be changed using DCU.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
 
     ${uuid}=    Uuid 4
@@ -188,7 +188,7 @@ Change The UUID
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing    ${os_id}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -199,7 +199,7 @@ Change The Serial Number
     [Documentation]    This test case verifies that the serial number encoded
     ...    in the DMI table of an image can be changed using DCU.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     ${serial_no}=    Random Int    min=10000000    max=99999999
     Read Firmware    ${FW_COPY}
@@ -207,7 +207,7 @@ Change The Serial Number
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing    ${os_id}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -220,7 +220,7 @@ Change The Bootsplash Logo
     ...    PLEASE NOTE that a display device needs to be physically connected
     ...    to the DUT for this test to work.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     VAR    ${img_sum}=    f91fe017bef1f98ce292bde1c2c7c61edf7b51e9c96d25c33bfac90f50de4513
     ${logo_path}=    Join Path    ${TEST_DATA_DIR}/dcu    logo.bmp
@@ -229,7 +229,7 @@ Change The Bootsplash Logo
     Flash Firmware    ${FW_COPY}
     Make Sure New Firmware Is Booted After Flashing
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     Login To Linux

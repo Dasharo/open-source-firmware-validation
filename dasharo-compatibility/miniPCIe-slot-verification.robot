@@ -94,7 +94,7 @@ MWL001.301 Wireless card detection (Windows)
     ...    correctly and can be detected from the operating system.
     ...    Previous IDs: MWL001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
     Should Contain    ${out}    ${WIFI_CARD}
@@ -105,7 +105,7 @@ MWL002.301 Wi-Fi scanning (Windows)
     ...    correctly and can be detected from the operating system.
     ...    Previous IDs: MWL002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MLW002.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Execute Command In Terminal    netsh wlan show network
     Should Contain    ${out}    3mdeb_abr
@@ -119,7 +119,7 @@ MWL002.301 Wi-Fi scanning (Windows)
 #    [Documentation]    Check whether the LTE card is detected correctly in the
 #    ...    Windows OS.
 #    Skip If    not ${tests_in_windows_support}    MWL004.002 not supported
-#    Power On
+#    Power On Ex    force_reboot=${TRUE}
 #    Login to Windows
 #    ${out}=    List Windows USB Devices
 #    Should Contain    ${out}    ${LTE_card}
@@ -130,7 +130,7 @@ Wireless Card Detection
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -143,7 +143,7 @@ Wi-Fi Scanning
     ...    initialized correctly and can be used from within the
     ...    operating system.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -155,7 +155,7 @@ Bluetooth Scanning
     ...    initialized correctly and can be used from within the
     ...    operating system.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -166,7 +166,7 @@ LTE Card Detection
     [Documentation]    Check whether the LTE card is detected correctly in the
     ...    operating system.
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

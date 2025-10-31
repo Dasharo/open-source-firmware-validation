@@ -48,7 +48,7 @@ CPU001.201 CPU works (Ubuntu)
     ...    Previous IDs: CPU001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
@@ -57,7 +57,7 @@ CPU001.401 CPU works (ESXi)
     ...    The test passes if the ESXi login screen (DCUI) is visible after boot.
     ...    Previous IDs: CPU001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
 
@@ -67,7 +67,7 @@ CPU002.201 CPU cache enabled (Ubuntu)
     ...    Previous IDs: CPU002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     CPU Cache Enabled Linux
@@ -77,7 +77,7 @@ CPU002.401 CPU cache enabled (ESXi)
     ...    Expected output includes L2 and L3 cache size, associativity, and CPU count.
     ...    Previous IDs: CPU002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -92,7 +92,7 @@ CPU003.201 Multiple CPU support (Ubuntu)
     ...    Previous IDs: CPU003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU003.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Multiple CPU Support Linux
@@ -101,7 +101,7 @@ CPU003.401 Multiple CPU support (ESXi)
     [Documentation]    Verify that ESXi detects more than one CPU core, indicating multi-CPU support.
     ...    Previous IDs: CPU003.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU003.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -116,7 +116,7 @@ CPU004.201 Multiple-core support (Ubuntu)
     ...    Previous IDs: CPU004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU004.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Multiple-Core Support Linux
@@ -125,7 +125,7 @@ CPU004.401 Multiple-core support (ESXi)
     [Documentation]    Verify that the system supports multiple CPU cores using Package ID mapping.
     ...    Previous IDs: CPU004.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -140,7 +140,7 @@ CPU004.401 Multiple-core support (ESXi)
 CPU001.202 CPU works (Fedora)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
 
@@ -148,7 +148,7 @@ CPU002.202 CPU cache enabled (Fedora)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     CPU Cache Enabled Linux
@@ -156,7 +156,7 @@ CPU002.202 CPU cache enabled (Fedora)
 CPU003.202 Multiple CPU support (Fedora)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU003.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Multiple CPU Support Linux
@@ -164,7 +164,7 @@ CPU003.202 Multiple CPU support (Fedora)
 CPU004.202 Multiple-core support (Fedora)
     [Documentation]    Check whether the DUT has multi-core support.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU004.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Multiple-Core Support Linux
@@ -173,7 +173,7 @@ CPU001.301 CPU works (Windows)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     ...    Previous IDs: CPU001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     Execute Shutdown Command
 
@@ -182,7 +182,7 @@ CPU002.301 CPU cache enabled (Windows)
     ...    are enabled.
     ...    Previous IDs: CPU002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${mem_info}=    Execute Command In Terminal
     ...    Get-Wmiobject -class win32_cachememory | fl Purpose, CacheType, InstalledSize
@@ -199,7 +199,7 @@ CPU003.301 Multiple CPU support (Windows)
     [Documentation]    Check whether the DUT has multiple CPU support.
     ...    Previous IDs: CPU003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal    (Get-CimInstance -ClassName Win32_Processor).NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1
@@ -211,7 +211,7 @@ CPU004.301 Multiple-core support (Windows)
     [Documentation]    Check whether the DUT has multi-core support.
     ...    Previous IDs: CPU004.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${cpu_info}=    Execute Command In Terminal
     ...    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
@@ -229,7 +229,7 @@ CPU001.205 CPU works (XCP-NG)
     ...    Previous IDs: CPU001.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU001.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU001.205 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
 
 CPU002.205 CPU cache enabled (XCP-NG)
@@ -238,7 +238,7 @@ CPU002.205 CPU cache enabled (XCP-NG)
     ...    Previous IDs: CPU002.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU002.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     CPU Cache Enabled Linux
 
@@ -247,7 +247,7 @@ CPU003.205 Multiple CPU support (XCP-NG)
     ...    Previous IDs: CPU003.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU003.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU003.203 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     Multiple CPU Support Linux
 
@@ -256,7 +256,7 @@ CPU004.205 Multiple-core support (XCP-NG)
     ...    Previous IDs: CPU004.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU004.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     Multiple-Core Support Linux
 

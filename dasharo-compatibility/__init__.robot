@@ -32,7 +32,7 @@ Prepare Platform
         Prepare Test Suite
         Flash Heads From OpenBMC    ${BOOTBLOCK_FILE}    ${FW_FILE}    ${Z_IMAGE_FILE}
         ${fw_ver_file}=    Get Firmware Version From Coreboot File    ${FW_FILE}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         ${fw_ver_bootblock}    ${fw_ver_romstage}=    Get Firmware Version From Bootlogs
         Log Out And Close Connection
         Should Be Equal    ${fw_ver_file}    ${fw_ver_bootblock}

@@ -31,7 +31,7 @@ WDT001.001 Check if watchdog option is available
     ...    configuration submenu.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT001.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
@@ -42,7 +42,7 @@ WDT002.001 Enable watchdog
     ...    it resets the platform.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
@@ -59,7 +59,7 @@ WDT003.001 Disable watchdog
     ...    not reset the platform anymore.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT003.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
@@ -82,7 +82,7 @@ WDT004.001 Change watchdog timeout
     ...    and verify that it resets the platform.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT004.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
@@ -112,7 +112,7 @@ WDT005.001 Watchdog is detected by OS (Ubuntu)
     ...    that the OS detects and stops the watchdog.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
@@ -141,7 +141,7 @@ WTD006.001 Watchdog resets platform on kernel crash (Ubuntu 22.04)
     ...    and verify that the watchdog resets the machine.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration

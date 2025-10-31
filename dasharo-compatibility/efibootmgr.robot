@@ -65,7 +65,7 @@ EBM003.201 Custom Boot Order Add
     [Documentation]    Test if adding a custom boot entry works.
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM003.001 not supported
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
 
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -102,7 +102,7 @@ EBM004.201 Custom Boot Order Remove
     [Documentation]    Test if removing a custom boot entry works.
     Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM004.001 not supported
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

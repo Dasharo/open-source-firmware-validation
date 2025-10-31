@@ -98,7 +98,7 @@ Check The Platform Is A Laptop
     RETURN    ${laptop_platform}
 
 Check Power Supply On Linux
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux
     ${bat0_present_raw}=    Execute Command In Terminal    cat /sys/class/power_supply/BAT0/present
@@ -117,7 +117,7 @@ Check Power Supply On Linux
     RETURN    ${bat0_present}    ${ac_online}    ${usb_pd_online}
 
 Check Power Supply On Windows
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${raw_output}=    Execute Command In Terminal    (Get-WmiObject Win32_Battery).BatteryStatus
     ${bat0_present}=    Run Keyword And Return Status    Should Not Be Empty    ${raw_output}
@@ -160,21 +160,21 @@ Check Battery Level On Windows
     RETURN    ${power_level}
 
 Power Cycle Into Ubuntu
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    201
     Login To Linux
 
 Power Cycle Into Windows
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
 
 Power Cycle Into Firmware Setup
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
 
 Execute Cold Boot
     [Documentation]    Performs cold boot, either with RTE relay or Sonoff
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set UEFI Option    PowerStateAfterPowerAcLoss    Powered On
     Sleep    2
     IF    '${POWER_CTRL}' == 'RteCtrl'

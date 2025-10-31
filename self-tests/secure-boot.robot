@@ -27,7 +27,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Enter Secure Boot Menu
     [Documentation]    Test Enter Secure Boot Menu kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Secure Boot Menu
     ${out}=    Read From Terminal Until    Esc=Exit
     Should Contain    ${out}    Secure Boot Configuration
@@ -35,7 +35,7 @@ Enter Secure Boot Menu
 
 Enter Secure Boot Menu And Return Construction
     [Documentation]    Test Enter Secure Boot Menu And Return Construction kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Should Not Contain    ${sb_menu}    Secure Boot Configuration
     Should Match Regexp    ${sb_menu}[0]    ^Current Secure Boot State.*$
@@ -45,7 +45,7 @@ Enter Secure Boot Menu And Return Construction
 
 Enter Advanced Secure Boot Keys Management
     [Documentation]    Test Enter Advanced Secure Boot Keys Management kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enter Advanced Secure Boot Keys Management    ${sb_menu}
     ${out}=    Read From Terminal Until    Esc=Exit
@@ -55,7 +55,7 @@ Enter Advanced Secure Boot Keys Management
 
 Enter Advanced Secure Boot Keys Management And Return Construction
     [Documentation]    Test Enter Advanced Secure Boot Keys Management And Return Construction kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Log    ${advanced_menu}
@@ -69,7 +69,7 @@ Enter Advanced Secure Boot Keys Management And Return Construction
 
 Reset To Default Secure Boot Keys
     [Documentation]    Test Reset To Default Secure Boot Keys kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
@@ -82,7 +82,7 @@ Reset To Default Secure Boot Keys
 
 Erase All Secure Boot Keys
     [Documentation]    Test Erase All Secure Boot Keys kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${advanced_menu}
@@ -94,7 +94,7 @@ Erase All Secure Boot Keys
     Should Contain    ${out}    Custom and enroll the keys/PK first.
 
 Secure Boot Menu Parsing With Default Keys
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
@@ -110,7 +110,7 @@ Secure Boot Menu Parsing With Default Keys
 
 Secure Boot Menu Parsing With Erased Keys
     [Documentation]    Test Enter Secure Boot Menu And Return Construction kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${advanced_menu}
@@ -125,7 +125,7 @@ Secure Boot Menu Parsing With Erased Keys
 
 Return Secure Boot State
     [Documentation]    Test Return Secure Boot State kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_state}=    Return Secure Boot State    ${sb_menu}
     Should Contain Any    ${sb_state}    Enabled    Disabled
@@ -133,7 +133,7 @@ Return Secure Boot State
 Make Sure That Keys Are Provisioned
     [Documentation]    Test Make Sure That Keys Are Provisioned kwd
     # 1. Erase All SB keys
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Erase All Secure Boot Keys    ${advanced_menu}
@@ -158,7 +158,7 @@ Make Sure That Keys Are Provisioned
 
 Enable Secure Boot
     [Documentation]    Test Enable Secure Boot kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     Save Changes And Reset
@@ -169,7 +169,7 @@ Enable Secure Boot
 
 Disable Secure Boot
     [Documentation]    Test Disable Secure Boot kwd
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
     Save Changes And Reset
@@ -180,7 +180,7 @@ Disable Secure Boot
 
 Enable and Disable Secure Boot Multiple Times
     [Documentation]    Test Enabling and Disabling Secure Boot 5 times
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     FOR    ${index}    IN RANGE    5
         Enable Secure Boot    ${sb_menu}
@@ -200,7 +200,7 @@ Enable and Disable Secure Boot Multiple Times
 
 Enter Enroll Signature Using File In DB Options
     [Documentation]    Test if we can enter File Manager in DB Options, correctly parsing all menus on our way.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Log    ${advanced_menu}

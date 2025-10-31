@@ -994,7 +994,7 @@ Enter IPXE
     ${ipxe_entered}=    Run Keyword And Return Status    Enter IPXE Inner
     IF    not ${ipxe_entered}    # It might just be disabled
         Set UEFI Option    NetworkBoot    ${TRUE}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Enter IPXE Inner
     END
 
@@ -1333,7 +1333,7 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     # None if `POWER ON` was called before, if not then it needs to be called
     # to allow entering bootmenu
     IF    $BOOTED_OS_ID is not ${None} and '''${boot_menu}''' == 'NOT_SET'
-        Power On
+        Power On Ex    force_reboot=${TRUE}
     END
 
     Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py

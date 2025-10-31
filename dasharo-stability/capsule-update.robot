@@ -61,7 +61,7 @@ CUP002.001 Capsule Update With Wrong GUID
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
         ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
 
@@ -69,7 +69,7 @@ CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
         Save Changes And Reset
     ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         # no serial connection
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
         VAR    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}=    ${state}    scope=SUITE
@@ -89,7 +89,7 @@ CUP150.001 Capsule Update
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
         ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
 
@@ -97,7 +97,7 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
         Should Be Equal    ${updated_state}    32123
     ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         # no serial connection
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
         Should Not Be Equal    ${state}    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}
@@ -182,7 +182,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
     Set UEFI Option    MeMode    Disabled (HAP)
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         Enter UEFI Shell
         Perform Capsule Update    valid_capsule.cap
@@ -198,7 +198,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
 Perform Capsule Update And Return Status
     [Arguments]    ${capsule_file}
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Enter UEFI Shell
         ${original_bios_version}=    Get BIOS Version    Before update
 
@@ -215,14 +215,14 @@ Perform Capsule Update And Return Status
         RETURN    ${logs}    ${version_changed}
     ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         # Platform does not have a serial connection
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux With Root Privileges
         ${original_bios_version}=    Get BIOS Version Linux    Before update
 
         Perform Capsule Update    ${capsule_file}    use_uefi_shell=${False}
 
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux With Root Privileges
         ${updated_bios_version}=    Get BIOS Version Linux    After update
@@ -243,7 +243,7 @@ Flash Firmware If Not QEMU
         ELSE IF    '${logo_type}' == 'custom'
             Flash Firmware    ./dcu/coreboot.rom
         END
-        Power On
+        Power On Ex    force_reboot=${TRUE}
     ELSE
         VAR    ${message}=
         ...    Please make sure QEMU is running firmware with
@@ -371,7 +371,7 @@ Upload Required Files Serial
 Upload Required Files SSH
     ${fw_filename}=    Get File Name Without Extension    ${FW_FILE}
     ${caps_filename}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux
     Switch To Root User
@@ -411,7 +411,7 @@ Perform Capsule Update
         ${digit}=    Get Key To Press    ${out}
         Write Bare Into Terminal    ${digit}
     ELSE
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux With Root Privileges
         # hardcoded fatlabel of the partition, might change if not created using prepare_capsule_update_tests_drive.sh
@@ -538,7 +538,7 @@ Prepare For Logo Persistence Test
 
 Go To Linux Prompt
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
@@ -547,7 +547,7 @@ Go To Linux Prompt
     Switch To Root User
 
 Go To Windows Prompt
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END

@@ -32,7 +32,7 @@ NVM001.001 NVMe support in firmware
     ...    NVMe disk in M.2 slot.
     Depends On    ${NVME_DISK_SUPPORT}
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${out}=    Enter Boot Menu Tianocore And Return Construction
     ${ssd_list}=    Get Current CONFIG List Element    Storage_SSD
     ${ssd_list_length}=    Get Length    ${ssd_list}
@@ -64,7 +64,7 @@ NVM001.205 NVMe support in OS (XCP-NG)
     ...    disk in M.2 slot.
     ...    Previous IDs: NVM001.010
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    NVM001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
@@ -74,7 +74,7 @@ NVM001.301 NVMe support in OS (Windows)
     ...    disk in M.2 slot.
     ...    Previous IDs: NVM001.003
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     # Switch to root user
     ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" | where { $_.InstanceId -like "*NVME*"}
@@ -87,7 +87,7 @@ NVM001.401 NVMe support in OS (ESXi)
     ...    Check that NVMe is detected and marked as the boot device.
     ...    Previous IDs: NVM001.011
     Depends On    ${TESTS_IN_ESXI_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -106,7 +106,7 @@ NVMe Support In OS
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -116,7 +116,7 @@ NVMe Support In OS
 
 NVMe Slot Change Support In OS
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

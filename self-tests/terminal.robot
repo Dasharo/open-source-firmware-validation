@@ -33,7 +33,7 @@ Execute Command In Terminal over SSH (Windows)
     ...    Usually containing parts of previously run command.
 
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Execute Command In Terminal over SSH (Windows) not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     VAR    ${COMMAND}=    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }    scope=TEST
     ${out1}=    Execute Command In Terminal    ${COMMAND}

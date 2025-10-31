@@ -39,7 +39,7 @@ MEM001.401 Expected RAM size detected in OS (ESXi)
     ...    Total memory reported should match the expected amount within a reasonable margin.
     ...    Previous IDs: MEM001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    MEM001.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -65,7 +65,7 @@ RAM Size Detected In OS
     [Documentation]    Power on, boot, login, and verify RAM size in OS.
     [Arguments]    ${expected_kb}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
 
     ${meminfo}=    Execute Linux Command    cat /proc/meminfo | grep ^MemTotal

@@ -21,7 +21,7 @@ _CONCURRENT_Background Measurements Immediate (no load) (Windows)
     ...    CPF001.301
     Skip If    not ${will_any_be_run}    No test depends on this step
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
 
     # CPF001.301 steps
@@ -79,7 +79,7 @@ _CONCURRENT_Background Measurements (no load) (Windows)
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.301
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
 
     ${gather_temps}=    Evaluate    "CPT001.301" if ${gather_temps} else ${None}
@@ -146,7 +146,7 @@ _CONCURRENT_Background Measurements (load) (Windows)
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.301
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
 
     ${gather_temps}=    Evaluate    "CPT005.301" if ${gather_temps} else ${None}

@@ -30,7 +30,7 @@ MMC001.001 eMMC support (Ubuntu)
     ...    Operating System.
     Skip If    not ${EMMC_SUPPORT}    MMC001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MMC001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

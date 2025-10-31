@@ -34,7 +34,7 @@ CAM001.201 Integrated webcam (Ubuntu)
     ...    Previous IDs: CAM001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CAM001.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -50,7 +50,7 @@ CAM002.201 Integrated IR Camera (Ubuntu)
     Skip If    not ${IR_CAMERA_SUPPORT}    CAM002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CAM002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -62,7 +62,7 @@ CAM001.202 Integrated webcam (Fedora)
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CAM001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -76,7 +76,7 @@ CAM002.202 Integrated IR Camera (Fedora)
     ...    devnodes for visible-spectrum and IR modes, in that order.
     Skip If    not ${IR_CAMERA_SUPPORT}    CAM002.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CAM002.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -88,7 +88,7 @@ CAM001.301 Integrated webcam (Windows)
     ...    correctly and can be accessed from the Windows OS.
     ...    Previous IDs: CAM001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get USB Devices Windows
     Should Contain Any    ${out}    Camera    BisonCam

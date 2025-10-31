@@ -31,7 +31,7 @@ USB001.001 USB devices detected in FW
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check USB Stick Detection In Edk2    ${boot_menu}
 
@@ -43,7 +43,7 @@ USB002.001 USB keyboard detected in FW
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Deploy Uefi Shell
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter UEFI Shell
     ${out}=    Execute UEFI Shell Command    devices
     Should Contain    ${out}    Usb Keyboard
@@ -62,7 +62,7 @@ USB001.401 USB devices detection in OS (ESXi)
     ...    in VMware ESXi using lsusb monitoring.
     ...    Previous IDs: USB001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -109,7 +109,7 @@ USB002.401 USB keyboard detection in OS (ESXi)
     ...    Detection includes visibility in `lsusb` and verification of working input via basic typing test.
     ...    Previous IDs: USB002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -131,7 +131,7 @@ USB001.205 USB devices detected by OS (XCP-NG)
     ...    Previous IDs: USB001.010
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    Human Interface Device
@@ -144,7 +144,7 @@ USB002.205 USB keyboard in OS (XCP-NG)
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
@@ -156,7 +156,7 @@ USB003.205 Upload 1GB file on USB storage (XCP-NG)
     Depends On    ${UPLOAD_ON_USB_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     Execute Linux Command    openssl rand -out test_file.txt -base64 $(( 2**30 * 3/4 ))
     ${path_to_usb}=    Identify Path To USB
@@ -173,7 +173,7 @@ USB001.301 USB devices detected by OS (Windows)
     ...    Previous IDs: USB001.003
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Execute Command In Terminal
     ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
@@ -187,7 +187,7 @@ USB002.301 USB keyboard in OS (Windows)
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
     ${keyboard}=    Get Lines Matching Regexp    ${out}    ^CreationClassName\\s+:\\sWin32_Keyboard.*$
@@ -200,7 +200,7 @@ USB003.301 Upload 1GB file on USB storage (Windows)
     Depends On    ${UPLOAD_ON_USB_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     Generate 1GB File In Windows
     # Work only with one attached USB storage
@@ -240,7 +240,7 @@ USB Devices Detected By OS
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Linux OS.
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -254,7 +254,7 @@ USB Keyboard In OS
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Linux OS.
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -265,7 +265,7 @@ Upload 1GB File On USB Storage
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

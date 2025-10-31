@@ -29,7 +29,7 @@ Test Setup          Restore Initial DUT Connection Method
 TXE001.001 Check if platform is not fused
     [Documentation]    This test aims to verify that the platform is not fused
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter UEFI Shell
     Set Prompt For Terminal    FS2:\\>
     Execute UEFI Shell Command    fs2:

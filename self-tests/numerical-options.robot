@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 Set numerical option
     [Documentation]    Checks whether the numerical option can be set.
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_manager}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}

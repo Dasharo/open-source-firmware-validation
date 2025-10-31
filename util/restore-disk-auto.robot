@@ -27,7 +27,7 @@ Restore Disk Clonezilla
     ${source_image}=    Get Envvar    SOURCE_IMAGE
     ${target_disk}=    Get Envvar    TARGET_DISK
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter IPXE
     Execute Command In Terminal
     ...    dhcp

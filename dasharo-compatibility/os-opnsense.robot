@@ -31,7 +31,7 @@ OPN001.503 Install operating system on disk (OPNsense)
     ...
     ...    Previous IDs: OPN001.001
     [Tags]    semiauto
-    Power On
+        Power On Ex    force_reboot=${TRUE}
     Boot OPNsense Installer
     VAR    ${installer_message}=
     ...    Click OK,
@@ -44,7 +44,7 @@ OPN002.503 Boot operating system from disk (OPNsense)
     [Documentation]    Boot OPNsense (serial output) from disk.
     ...
     ...    Previous IDs: OPN001.002
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot OPNsense
 
 OPN003.503 Boot operating system from disk after cold-boot (OPNsense)
@@ -64,11 +64,11 @@ OPN004.503 Boot operating system from disk after warm-boot (OPNsense)
     [Documentation]    Boot OPNsense (serial output) from disk after warm-boot
     ...
     ...    Previous IDs: BOS002.001
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot OPNsense
     Enter OPNsense Shell
     Write Into Terminal    poweroff
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${start_date}=    Get Current Date
     Boot OPNsense
     ${end_date}=    Get Current Date
@@ -79,7 +79,7 @@ OPN005.503 Boot operating system from disk after reboot (OPNsense)
     [Documentation]    Boot OPNsense (serial output) from disk after reboot
     ...
     ...    Previous IDs: BOS003.001
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot OPNsense
     Enter OPNsense Shell
     Write Into Terminal    reboot

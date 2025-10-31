@@ -49,7 +49,7 @@ Boot Zarhus OS
     ...    === Effects ===
     ...    - Power platform on
     ...    - Boots and logs into Zarhus OS
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Zarhus OS
 
 Flash Zarhus OS
@@ -155,7 +155,7 @@ Zarhus First Boot Setup
     Press Enter
     Read From Terminal Until Prompt
     Execute Command In Terminal    sync
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
 
 Prepare Zarhus OS

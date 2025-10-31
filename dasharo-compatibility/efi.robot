@@ -32,7 +32,7 @@ EFI001.201 Boot into UEFI OS (Ubuntu)
     ...    possibility to identify the system.
     ...    Previous IDs: EFI001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EFI001.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -44,7 +44,7 @@ EFI001.301 Boot into UEFI OS (Windows)
     ...    possibility to identify the system
     ...    Previous IDs: EFI001.301
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Execute Command In Terminal    (Get-WmiObject -class Win32_OperatingSystem).Caption
     Should Contain    ${out}    Microsoft Windows 11

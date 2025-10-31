@@ -59,7 +59,7 @@ Check Intel ME Version
     ...    the same as in the release notes.
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Set UEFI Option    MeMode    Enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

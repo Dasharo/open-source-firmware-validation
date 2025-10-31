@@ -57,7 +57,7 @@ USS003.001 Enable USB Mass Storage (firmware)
     Skip If    not ${USB_MASS_STORAGE_SUPPORT}    USS003.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS003.001 not supported
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
@@ -81,7 +81,7 @@ USS004.001 Disable USB Mass Storage (firmware)
     Skip If    not ${USB_MASS_STORAGE_SUPPORT}    USS004.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS004.001 not supported
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     # Enable USB stack first to get mass storage option
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}

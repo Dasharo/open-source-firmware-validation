@@ -29,7 +29,7 @@ Suite Teardown      Run Keyword
 OSS001.201 Boot to OS (Ubuntu)
     [Documentation]    This test verifies if platform with non-Dasharo firmware
     ...    can be booted to Ubuntu and if correct credentials are set.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Execute Manual Step    Boot to Ubuntu
     Login To Linux
     Switch To Root User
@@ -38,6 +38,6 @@ OSS001.301 Boot to OS (Windows 11)
     [Documentation]    This test verifies if platform with non-Dasharo firmware
     ...    can be booted to Windows, if SSH server is enabled and if correct
     ...    credentials are set.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Execute Manual Step    Boot to Windows
     Login To Windows Via SSH

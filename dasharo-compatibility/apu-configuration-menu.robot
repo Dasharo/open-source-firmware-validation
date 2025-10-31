@@ -31,7 +31,7 @@ Default Tags        automated
 APU001.001 Check if apu2 watchdog option is available
     [Documentation]    Check if the watchdog timer can be enabled in the apu2
     ...    configuration submenu.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     Should Contain Match    ${apu_menu}    Enable watchdog*
@@ -39,7 +39,7 @@ APU001.001 Check if apu2 watchdog option is available
 APU002.001 Enable apu2 watchdog
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
     ...    that it resets the platform.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     Set Option State    ${apu_menu}    Enable watchdog    ${TRUE}
@@ -53,7 +53,7 @@ APU002.001 Enable apu2 watchdog
 APU003.001 Disable apu2 watchdog
     [Documentation]    Disable the watchdog after enabling it to verify it does
     ...    not reset the platform anymore.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     Set Option State    ${apu_menu}    Enable watchdog    ${FALSE}
@@ -73,7 +73,7 @@ APU003.001 Disable apu2 watchdog
 APU004.001 Change apu2 watchdog timeout
     [Documentation]    Enable apu2 watchdog with a higher timeout than default
     ...    and verify that it resets the platform.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     Set Option State    ${apu_menu}    Enable watchdog    ${TRUE}
@@ -99,7 +99,7 @@ APU004.001 Change apu2 watchdog timeout
 
 APU005.001 Check if disabling CPB decreases performance
     [Documentation]    This Test Checks Whether Performance Changes With Core Performance Boost Disabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Core Performance Boost    ${FALSE}
@@ -111,7 +111,7 @@ APU005.001 Check if disabling CPB decreases performance
     ...    dd if=/dev/zero of=/dev/null bs=64k count=1M 2>&1 | awk 'END{printf $(NF-3)}' > .dd_time
     ...    300
     ${first_check}=    Execute Command In Terminal    cat .dd_time
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Core Performance Boost    ${TRUE}
@@ -128,7 +128,7 @@ APU005.001 Check if disabling CPB decreases performance
 
 APU006.001 Check whether disabling "Enable PCIe power management features" disables ASPM
     [Documentation]    Checks whether disabling PCIe power management features disables ASPM
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Enable PCI Express power    ${FALSE}
@@ -143,7 +143,7 @@ APU006.001 Check whether disabling "Enable PCIe power management features" disab
 
 APU006.002 Check whether enabling "Enable PCIe power management features" enables ASPM
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
     Set Option State    ${apu_menu}    Enable PCI Express power    ${TRUE}

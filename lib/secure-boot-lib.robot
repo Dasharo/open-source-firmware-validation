@@ -262,7 +262,7 @@ Execute File In UEFI Shell
 Restore Secure Boot Defaults
     [Documentation]    Restore SB settings to default, by resetting keys
     ...    and disabling SB, so it does not interfere with the followup tests.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}

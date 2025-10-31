@@ -32,7 +32,7 @@ DVT001.001 Node with coreboot existst
     [Documentation]    Check whether the node with the coreboot exists in
     ...    Device Tree.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Detect Heads Main Menu
     Enter Heads Recovery Shell
     ${coreboot_node}=    Execute Linux Command    xxd /sys/firmware/devicetree/base/firmware/coreboot/compatible
@@ -41,7 +41,7 @@ DVT001.001 Node with coreboot existst
 DVT002.001 Memory for coreboot is reserved
     [Documentation]    Check whether the memory for coreboot is reserved.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT002.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Detect Heads Main Menu
     Enter Heads Recovery Shell
     ${coreboot_region}=    Execute Linux Command    xxd /sys/firmware/devicetree/base/firmware/coreboot/reg

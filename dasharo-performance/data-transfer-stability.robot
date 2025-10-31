@@ -35,7 +35,7 @@ UTS001.201 USB Stability Under 400GB Transfer (Ubuntu)
     ...    of data from a USB device to the Ubuntu system. This test is focused on detecting freezes or system hangs.
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    USB001.101 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

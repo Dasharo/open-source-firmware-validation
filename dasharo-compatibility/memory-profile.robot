@@ -43,7 +43,7 @@ MPS001.001 Switching to XMP profile
     # Training 32 GiB of DDR5 takes longer than 3 minutes
     Telnet.Set Timeout    5 min
     # Boot and remember current memory speed
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${old_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
@@ -69,7 +69,7 @@ MPS002.001 Switching back to JEDEC profile
     ...    We should be able to select it again.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS002.001 not supported
     # Boot and remember current memory speed
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${old_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*

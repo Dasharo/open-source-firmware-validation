@@ -40,7 +40,7 @@ CBNT002.101 Converged Boot Guard and TXT Status Menu is visible
     ...    size and the current test keywords not handling scrolling.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CBNT002.101 not supported
     Skip If    not ${INTEL_CBNT_STATUS_MENU_SUPPORT}    CBNT002.101 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     Enter Submenu From Snapshot    ${dasharo_menu}    Intel Management Engine Options
@@ -112,7 +112,7 @@ CBNT006.101 Setup Menu Boot Guard Information
     ...    is remembered after restart
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_system_features_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${submenu}=    Enter Dasharo Submenu    ${dasharo_system_features_menu}    Intel Management Engine Options
@@ -195,7 +195,7 @@ Boot OS And Enter Root Shell
     [Documentation]    Boots a specified OS and prepares for running commands as
     ...    root
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

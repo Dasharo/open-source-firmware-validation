@@ -135,7 +135,7 @@ Make Sure That Flash Locks Are Disabled
     ...    platform to disable the locks. The name is the same as the in UEFI
     ...    menu options for compatibility's sake.
     IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Linux
     Switch To Root User
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
@@ -143,7 +143,7 @@ Make Sure That Flash Locks Are Disabled
     IF    not ${ro}    Set UEFI Option    LockBios    Disabled
 
 Login To Windows
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 

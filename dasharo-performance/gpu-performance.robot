@@ -14,7 +14,7 @@ GPP001.201 GPU Performance Measure (Ubuntu) (AC)
     [Documentation]    Test GPU performance for Ubuntu on AC
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    Cannot run this test on battery
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     # Pass condition, that is at least 90% of original benchmark
@@ -29,7 +29,7 @@ GPP002.201 GPU Performance Measure (Ubuntu) (Battery)
     [Documentation]    Test GPU performance for Ubuntu on Battery
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    ${AC_CONNECTED}    You must run this test on battery
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     ${power_level}=    Check Battery Level On Linux

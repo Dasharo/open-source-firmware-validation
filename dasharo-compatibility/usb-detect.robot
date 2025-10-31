@@ -53,7 +53,7 @@ UDT001.002 USB detection after warmboot
     ...    turning on).
     VAR    ${failed_detection}=    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
         ${found}=    Check USB Stick Detection In Edk2    ${boot_menu}
 
@@ -70,7 +70,7 @@ UDT001.003 USB detection after system reboot
     ...    the system reboot (reboot performing by relevant command).
     VAR    ${failed_detection}=    0
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
         ${found}=    Check USB Stick Detection In Edk2    ${boot_menu}

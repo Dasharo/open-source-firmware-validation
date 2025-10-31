@@ -24,7 +24,7 @@ SAT001.001 SATA support in firmware
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${SATA_SUPPORT}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -54,7 +54,7 @@ SAT001.205 SATA support in OS (XCP-NG)
     Depends On    ${TESTS_IN_XCP_NG_SUPPORT}
     Depends On    ${SATA_SUPPORT}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
 
     ${lsblk_out}=    Execute Command In Terminal    lsblk -d -o NAME -n
@@ -80,7 +80,7 @@ SAT001.401 SATA support in OS (ESXi)
     ...    and optionally check SMART data if available.
     ...    Previous IDs: SAT001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    SAT001.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -95,7 +95,7 @@ SAT001.301 SATA support in OS (Windows)
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${SATA_SUPPORT}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_WINDOWS}
     ${output}=    Execute Command In Terminal
     ...    Get-PhysicalDisk | Select-Object DeviceID, MediaType, BusType, Model
@@ -106,7 +106,7 @@ SAT001.301 SATA support in OS (Windows)
 SATA Support In OS
     [Arguments]    ${env_id}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User

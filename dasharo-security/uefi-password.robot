@@ -42,7 +42,7 @@ PSW001.001 Check Password Setup option availability and default state
     ...    correct default state.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -58,9 +58,9 @@ PSW002.001 Password setting mechanism correctness checking
     ...    displayed
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW002.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set Password 5 Times
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${output}=    Read From Terminal Until    password
     Should Contain    ${output}    Please input admin password
@@ -70,7 +70,7 @@ PSW003.001 Attempt to log in with a correct password
     ...    correct Setup password, the Setup menu will be displayed.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW003.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW003.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
     Type In The Password    ${DEFAULT_PASSWORD}
@@ -85,7 +85,7 @@ PSW004.001 Attempt to log in with an incorrect password
     ...    re-entering the password will be displayed.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW004.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
     Type In The Password    ${WRONG_PASSWORD}
@@ -100,7 +100,7 @@ PSW005.001 Attempt to log in with an incorrect password 3 times
     ...    re-entering the password will be displayed.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW005.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
     FOR    ${counter}    IN RANGE    0    2
@@ -119,7 +119,7 @@ PSW006.001 Attempt to turn off setup password functionality
     ...    empty password.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW006.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
     Type In The Password    ${DEFAULT_PASSWORD}
@@ -138,7 +138,7 @@ PSW006.001 Attempt to turn off setup password functionality
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Contain    ${result}    New password is updated successfully
     Press Key N Times    1    ${ENTER}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Sleep    1s
     ${output}=    Read From Terminal
@@ -149,7 +149,7 @@ PSW007.001 Attempt to set non-compliant password
     ...    a non-compliant password will be rejected.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW007.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -171,7 +171,7 @@ PSW008.001 Attempt to set old password
     ...    set old password again will be rejected.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW008.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}

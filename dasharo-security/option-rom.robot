@@ -19,7 +19,7 @@ Default Tags        automated
 SOR001.001 Check that all options in OptionROMs are available
     [Documentation]    This test checks if all OptionROM options are available
     Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}    SOR001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${menu_construction}=    Enter Dasharo Submenu    ${dasharo_menu}    PCI/PCIe Configuration

@@ -30,7 +30,7 @@ BMM001.001 Change Auto Boot Time-out and check after reboot
     ...    is remembered after restart
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM001.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -53,7 +53,7 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     [Tags]    automated    minimal-regression
     Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM002.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM002.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -84,7 +84,7 @@ BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
     ...    values.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM003.001 not supported
     Skip If    "${DUT_CONNECTION_METHOD}" == "pikvm"    BMM003.001 not supported with PiKVM input
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}

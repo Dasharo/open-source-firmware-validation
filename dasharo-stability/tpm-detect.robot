@@ -26,7 +26,7 @@ TPD003.201 Detect TPM after platform reboot (Ubuntu)
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPD003.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -40,7 +40,7 @@ TPD004.201 Detect TPM after platform suspend (Ubuntu)
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPD004.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -52,7 +52,7 @@ TPD003.202 Detect TPM after platform reboot (Fedora)
     ...    correctly after the platform's reboot.
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPD003.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -64,7 +64,7 @@ TPD004.202 Detect TPM after platform suspend (Fedora)
     ...    correctly after the platform's reboot.
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPD004.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User

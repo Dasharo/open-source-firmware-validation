@@ -75,7 +75,7 @@ Flash Firmware
         Rte Flash Write    ${fw_file}
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         Make Sure That Flash Locks Are Disabled
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
         Switch To Root User
@@ -85,7 +85,7 @@ Flash Firmware
     END
 
     IF    '''${POWER_CTRL}''' == '''none'''
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
         Switch To Root User
@@ -176,7 +176,7 @@ Read Firmware
         Rte Flash Read    ${file}
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         # TODO
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux
         Switch To Root User

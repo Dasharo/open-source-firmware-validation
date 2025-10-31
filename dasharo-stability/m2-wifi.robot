@@ -28,7 +28,7 @@ SMW001.201 Wi-fi connection after cold boot (Ubuntu)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW001.001 not supported
     Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -54,7 +54,7 @@ SMW002.201 Wi-fi connection after warm boot (Ubuntu)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -68,7 +68,7 @@ SMW003.201 Wi-fi connection after reboot (Ubuntu)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW003.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -83,7 +83,7 @@ SMW004.201 Wi-fi connection after suspension (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW004.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -99,7 +99,7 @@ SMW005.201 Wi-fi connection after suspension (Ubuntu) (S0ix)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW005.201 not supported
     Set Platform Sleep Type    S0ix
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -115,7 +115,7 @@ SMW006.201 Wi-fi connection after suspension (Ubuntu) (S3)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW006.201 not supported
     Set Platform Sleep Type    S3
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -128,7 +128,7 @@ SMW002.202 Wi-fi connection after warm boot (Fedora)
     ...    Previous IDs: SMW002.001
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW002.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -141,7 +141,7 @@ SMW003.202 Wi-fi connection after reboot (Fedora)
     ...    Previous IDs: SMW003.202
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW003.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -155,7 +155,7 @@ SMW004.202 Wi-fi connection after suspension (Fedora)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.202 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW004.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -170,7 +170,7 @@ SMW005.202 Wi-fi connection after suspension (Fedora) (S0ix)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW005.202 not supported
     Set Platform Sleep Type    S0ix
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -185,7 +185,7 @@ SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW006.202 not supported
     Set Platform Sleep Type    S3
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User

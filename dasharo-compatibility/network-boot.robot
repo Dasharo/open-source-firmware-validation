@@ -35,7 +35,7 @@ PXE001.001 Dasharo Network Boot is available
     ...    is bootable in the boot menu and whether, after selecting this boot
     ...    option, Dasharo Network Boot Menu is displayed.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${out}=    Read From Terminal Until    ${EDK2_IPXE_CHECKPOINT}
@@ -45,7 +45,7 @@ PXE002.001 Dasharo network boot menu boot options order is correct
     [Documentation]    This test aims to verify that Dasharo Network Boot Menu
     ...    contains all of the needed options which are in the correct order.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE002.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
@@ -58,7 +58,7 @@ PXE003.001 Autoboot option is available and works correctly
     [Documentation]    This test aims to verify that the Autoboot option in
     ...    Dasharo Network Boot Menu works correctly.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE003.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
@@ -71,7 +71,7 @@ PXE004.001 DTS option is available and works correctly
     ...    option in Dasharo Network Boot Menu allows booting into DTS.
     [Tags]    automated    minimal-regression
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE004.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
@@ -89,7 +89,7 @@ PXE005.001 OS installation option is available and works correctly
     [Documentation]    This test aims to verify that the OS installation option
     ...    in Dasharo Network Boot Menu allows booting into netboot.xyz server.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE005.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
@@ -106,7 +106,7 @@ PXE006.001 iPXE shell option is available and works correctly
     [Documentation]    This test aims to verify that the iPXE Shell option in
     ...    Dasharo Network Boot Menu works correctly.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE006.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
@@ -118,7 +118,7 @@ PXE007.001 Dasharo Network Boot over https not http
     ...    https:// and not via http://.
     Skip If    not ${IPXE_BOOT_SUPPORT}    PXE007.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE007.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction

@@ -36,7 +36,7 @@ NBT001.001 Netboot is available
     [Documentation]    Check whether netboot option exist, and if after
     ...    selection proper menu apperas.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
@@ -48,7 +48,7 @@ NBT002.001 OS selection & utilities is available
     [Documentation]    Check whether whether selection & utilities is available,
     ...    and if after selection proper menu apperas.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    120s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
@@ -60,7 +60,7 @@ NBT003.001 iPXE boot is available
     [Documentation]    Check whether iPXE boot is available, and if after
     ...    selection iPXE menu appears.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT003.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
     ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
@@ -72,7 +72,7 @@ NBT004.001 iPXE shell is available
     [Documentation]    Check whether iPXE shell is available, and if after
     ...    selection iPXE shell appears.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT004.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
@@ -85,7 +85,7 @@ NBT005.001 iPXE shell works correctly
     [Documentation]    Check whether iPXE shell works correctly by configuring
     ...    network interface and booting to selected address.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT005.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
@@ -105,7 +105,7 @@ NBT006.001 Advanced option is available
     [Documentation]    Check whether advanced option is available, and if after
     ...    selection proper menu apperas.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT006.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
@@ -118,7 +118,7 @@ NBT007.001 Change netboot URL option works correctly
     [Documentation]    Check whether it's possible to change netboot url, and
     ...    boot to it.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT007.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
@@ -148,7 +148,7 @@ NBT008.001 iPXE Autoboot is disabled
     [Documentation]    Check whether platform can reenter the IPXE menu
     ...    without booting automatically
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT008.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
     ${ipxe_menu_initial}=    Get IPXE Boot Menu Construction

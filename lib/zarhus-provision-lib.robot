@@ -159,7 +159,7 @@ Prepare ZPB OS
 
         # On hardware this'll be done by configuring firmware binary before
         # flashing it
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
         ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
         Erase All Secure Boot Keys    ${advanced_menu}
@@ -170,7 +170,7 @@ Prepare ZPB OS
     Install ZPB OS    ${disk}
     # Dasharo issue - can't modify Dasharo Security BIOS config after this
     # moment. Boot from USB as we can't enable Network Boot.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    USB
     Enter Shell In DTS
     # Make sure Zarhus is first boot entry
@@ -242,7 +242,7 @@ Setup ZPB
     Read From Terminal Until Prompt
     Execute Command In Terminal    sync
     IF    '${MANUFACTURER}' == 'QEMU'
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         ${sb_menu}=    Enter Secure Boot Menu And Return Construction
         Enable Secure Boot    ${sb_menu}
         Save Changes And Reset

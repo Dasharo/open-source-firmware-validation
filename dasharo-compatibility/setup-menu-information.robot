@@ -32,7 +32,7 @@ Default Tags        automated
 SET001.001 CPU clock speed displayed in setup menu
     [Documentation]    This test case verifies that CPU clock speed is
     ...    correctly indicated in setup menu.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${cpu_line}=    Get Lines Matching Regexp    ${out}    .*GHz
@@ -44,7 +44,7 @@ SET001.001 CPU clock speed displayed in setup menu
 SET002.001 RAM speed displayed in setup menu
     [Documentation]    This test case verifies that RAM speed is correctly
     ...    indicated in setup menu.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
@@ -56,7 +56,7 @@ SET002.001 RAM speed displayed in setup menu
 SET003.001 RAM size displayed in setup menu
     [Documentation]    This test case verifies that RAM size is correctly
     ...    indicated in setup menu.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*MB RAM.*
@@ -69,7 +69,7 @@ SET004.001 Expected CPU clock speed displayed in setup menu
     [Documentation]    This test case verifies that CPU clock speed is
     ...    correctly indicated in setup menu.
     Depends On Variable    \${PLATFORM_CPU_SPEED}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${cpu_line}=    Get Lines Matching Regexp    ${out}    .*GHz
@@ -82,7 +82,7 @@ SET005.001 Expected RAM speed displayed in setup menu
     [Documentation]    This test case verifies that RAM speed is correctly
     ...    indicated in setup menu.
     Depends On Variable    \${PLATFORM_RAM_SPEED}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
@@ -95,7 +95,7 @@ SET006.001 Expected RAM size displayed in setup menu
     [Documentation]    This test case verifies that RAM size is correctly
     ...    indicated in setup menu.
     Depends On Variable    \${PLATFORM_RAM_SIZE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     ${out}=    Read From Terminal Until    <Enter>=Select Entry
     ${ram_line}=    Get Lines Matching Regexp    ${out}    .*MB RAM.*

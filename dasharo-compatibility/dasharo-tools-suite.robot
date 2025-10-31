@@ -31,7 +31,7 @@ DTS001.001 Booting DTS from USB works correctly
     ...    from USB.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS001.001 not supported
     Mount USB Disk Image    ${TEST_DATA_DIR}/dts/dts-base-image-v2.1.3.wic
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    USB
 
 DTS002.001 DTS option Creating Dasharo HCL report works correctly
@@ -93,7 +93,7 @@ DTS006.001 Flash device EC firmware by using DTS built-in script works correctly
     Boot Dasharo Tools Suite    iPXE
     Run EC Transition
     Set DUT Response Timeout    320s
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check EC Firmware Version
@@ -109,7 +109,7 @@ DTS007.001 Update device EC firmware by using DTS works correctly
     Enter Shell In DTS
     Flash EC Firmware
     Set DUT Response Timeout    320s
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check EC Firmware Version

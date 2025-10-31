@@ -36,7 +36,7 @@ ETH001.401 All expected NET controllers detected (ESXi)
     ...    are detected and reported by ESXi with valid driver, link, and MAC.
     ...    Previous IDs: ETH001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    ETH001.401 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
     Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
@@ -75,7 +75,7 @@ All Expected NET Controllers Detected
     [Documentation]    Power on, boot, login, and verify that all expected Ethernet controllers are detected.
     [Arguments]    ${env_id}    @{expected_controllers}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${env_id}
 
     ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i ethernet
@@ -89,7 +89,7 @@ All Expected SFP Controllers Detected
     [Documentation]    Power on, boot, login, and verify that all expected SFP controllers are detected.
     [Arguments]    ${env_id}    @{expected_sfp}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${env_id}
 
     ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i SFP

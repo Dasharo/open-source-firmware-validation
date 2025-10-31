@@ -30,7 +30,7 @@ Default Tags        automated
 HWP001.001 Hardware flash write protection support
     [Documentation]    Check whether the DUT support hardware write protection
     ...    mechanism.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -39,7 +39,7 @@ HWP001.001 Hardware flash write protection support
 HWP002.001 Hardware flash write protection enable / disable
     [Documentation]    Check whether there is a possibility to set and erase
     ...    hardware write protection on the DUT.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

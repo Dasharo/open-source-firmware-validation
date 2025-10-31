@@ -65,10 +65,10 @@ Wifi And Bluetooth Card Power Switch Disabled
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to false
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Set UEFI Option    EnableWifiBt    ${FALSE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -81,10 +81,10 @@ Wifi And Bluetooth Card Power Switch
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to true
     [Arguments]    ${os_id}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Set UEFI Option    EnableWifiBt    ${TRUE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

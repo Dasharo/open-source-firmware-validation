@@ -10,7 +10,7 @@ Check If Platform Sleep Type Can Be Selected
     VAR    ${PLATFORM_SLEEP_TYPE_SELECTABLE}=    ${FALSE}    scope=GLOBAL
     IF    not ${TESTS_IN_FIRMWARE_SUPPORT}    RETURN
     IF    ${DASHARO_POWER_MGMT_MENU_SUPPORT} == ${FALSE}    RETURN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
@@ -24,7 +24,7 @@ Check If Platform Sleep Type Can Be Selected
 Set Platform Sleep Type
     [Documentation]    Set Platform sleep type to the given value
     [Arguments]    ${platform_sleep_type}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${platform_sleep_type}' == 'S0ix'
         VAR    ${platform_sleep_type_text}=    Suspend to Idle (S0ix)
     ELSE IF    '${platform_sleep_type}' == 'S3'

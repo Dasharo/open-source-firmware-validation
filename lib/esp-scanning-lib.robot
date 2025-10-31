@@ -28,7 +28,7 @@ Prepare EFI Partition With System Files
     ...    by mounting a hard drive in Qemu, or creating files on the DUT
     ...    via PiKVM
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    "${MANUFACTURER}" == "QEMU"
         Add HDD To Qemu    img_path=${TEST_DATA_DIR}/esp-scanning/esp-scanning-disk.img
         # Add HDD To Qemu    img_path=esp-scanning-disk.img
@@ -51,7 +51,7 @@ Clear Out EFI Partition
     ...    by unmounting the hard drive in Qemu, or erasing files on the DUT
     ...    via PiKVM
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
 
     IF    "${MANUFACTURER}" == "QEMU"
         Remove Drive From Qemu

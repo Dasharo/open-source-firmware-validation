@@ -28,7 +28,7 @@ PFS001.502 Install operating system on disk (pfSense)
     ...
     ...    Previous IDs: PFS001.001
     [Tags]    semiauto
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot PfSense Installer
     VAR    ${installer_message}=
     ...    Click OK, after test execution ends,
@@ -40,7 +40,7 @@ PFS002.502 Boot operating system from disk (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk.
     ...
     ...    Previous IDs: PFS001.002
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot PfSense
 
 PFS003.502 Boot operating system from disk after cold-boot (pfSense)
@@ -60,11 +60,11 @@ PFS004.502 Boot operating system from disk after warm-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after warm-boot
     ...
     ...    Previous IDs: BPS002.001
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot PfSense
     Enter PfSense Shell
     Write Into Terminal    poweroff
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${start_date}=    Get Current Date
     Boot PfSense
     ${end_date}=    Get Current Date
@@ -75,7 +75,7 @@ PFS005.502 Boot operating system from disk after reboot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after reboot
     ...
     ...    Previous IDs: BPS003.001
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot PfSense
     Enter PfSense Shell
     Write Into Terminal    reboot
@@ -99,7 +99,7 @@ PFS006.502 Preseed operating system installer (pfSense)
     Execute Manual Step    ${pfefi_message}
     Execute Manual Step    Connect pfSense serial installer USB stick to DUT.
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot PfSense Installer
     Enter PfSense Rescue Shell
     VAR    ${awk_args}=
@@ -119,7 +119,9 @@ PFS006.502 Preseed operating system installer (pfSense)
 
 PFS007.502 Boot operating system installer into rescue shell (pfSense)
     [Documentation]    Boot installer into rescue shell.
-    Power On
+    ...    This test depends on semi-manual OS installation media preparation,
+    ...    thus it's marked as semiauto.
+    Power On Ex    force_reboot=${TRUE}
     Boot PfSense Installer
     Enter PfSense Rescue Shell
     ${output}=    Execute Command In Terminal    ls

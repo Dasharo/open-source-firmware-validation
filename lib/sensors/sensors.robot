@@ -12,7 +12,7 @@ Prepare Sensors
     [Documentation]    Do any preparation work needed for accessing sensors
 
     # Might only do this when any method is said to be lm-sensors.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
     Switch To Root User

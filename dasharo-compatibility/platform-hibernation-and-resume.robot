@@ -38,7 +38,7 @@ HIB001.001 Cyclic platform hibernation and resume (Ubuntu)
     Skip If    not ${HIBERNATION_AND_RESUME_SUPPORT}    HIB001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HIB001.001 not supported
     VAR    ${hibernation_detected_fails}=    ${0}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

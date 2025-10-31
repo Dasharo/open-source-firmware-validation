@@ -31,7 +31,7 @@ Default Tags        automated
 #    Skip If    not ${nvme_detection_support}    SNV001.001 not supported
 #    Skip If    not ${tests_in_ubuntu_support}    SNV001.001 not supported
 #    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
-#    Power On
+#    Power On Ex    force_reboot=${TRUE}
 #    Boot operating system    ubuntu
 #    Login to Linux
 #    Switch to root user
@@ -53,7 +53,7 @@ SNV002.201 NVMe detection after warm boot (Ubuntu)
     ...    Previous IDs: SNV002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -66,7 +66,7 @@ SNV003.201 NVMe detection after reboot (Ubuntu)
     ...    Previous IDs: SNV003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV003.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -80,7 +80,7 @@ SNV004.201 NVMe detection after suspension (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV004.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -95,7 +95,7 @@ SNV005.201 NVMe detection after suspension (Ubuntu) (S0ix)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV005.201 not supported
     Set Platform Sleep Type    S0ix
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -110,7 +110,7 @@ SNV006.201 NVMe detection after suspension (Ubuntu) (S3)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV006.201 not supported
     Set Platform Sleep Type    S3
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -121,7 +121,7 @@ SNV002.202 NVMe detection after warm boot (Fedora)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a warm boot.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV002.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -132,7 +132,7 @@ SNV003.202 NVMe detection after reboot (Fedora)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a reboot.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV003.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -144,7 +144,7 @@ SNV004.202 NVMe detection after suspension (Fedora)
     ...    performing suspension.
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV004.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -157,7 +157,7 @@ SNV005.202 NVMe detection after suspension (Fedora) (S0ix)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV005.202 not supported
     Set Platform Sleep Type    S0ix
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -170,7 +170,7 @@ SNV006.202 NVMe detection after suspension (Fedora) (S3)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV006.202 not supported
     Set Platform Sleep Type    S3
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User

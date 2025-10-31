@@ -28,7 +28,7 @@ Suite Teardown      Run Keyword
 *** Test Cases ***
 Enter Dasharo System Features Menu
     [Documentation]    Check if Dasharo System Features menu can be entered.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${setup_menu}    Dasharo System Features
     ${out}=    Read From Terminal Until    Esc=Exit
@@ -37,7 +37,7 @@ Enter Dasharo System Features Menu
 
 Parse Dasharo System Features Menu
     [Documentation]    Check if Dasharo System Features menu can be parsed.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     List Should Contain Value    ${dasharo_menu}    > Serial Port Configuration
@@ -182,7 +182,7 @@ Enter Dasharo Submenu Verification
     [Documentation]    Enters Dasharo System Features submenu as in the given
     ...    ${submenu_name}. Checks whether the menu can be entered properly.
     [Arguments]    ${submenu_name}    ${skip_last_line_check}=${FALSE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     Enter Submenu From Snapshot    ${dasharo_menu}    ${submenu_name}
@@ -197,7 +197,7 @@ Parsing Dasharo Submenu Verification
     [Documentation]    Enters Dasharo System Features submenu as in the given
     ...    ${submenu_name}. Returns parsed submenu construction.
     [Arguments]    ${submenu_name}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${dasharo_submenu}=    Enter Dasharo Submenu    ${dasharo_menu}    ${submenu_name}

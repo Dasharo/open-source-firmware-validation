@@ -33,7 +33,7 @@ MBO001.201 Measured Boot support (Ubuntu)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
     ...    Previous IDs: MBO001.001
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root    ${ENV_ID_UBUNTU}
     Linux Measured Boot Support
 
@@ -41,7 +41,7 @@ MBO002.201 Check if event log PCRs match actual values (Ubuntu)
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
     ...    Previous IDs: MBO002.001
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root    ${ENV_ID_UBUNTU}
     Validate PCRs Against Event Log    /sys/kernel/security/tpm0/binary_bios_measurements
 
@@ -49,7 +49,7 @@ MBO001.202 Measured Boot support (Fedora)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MBO001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root    ${ENV_ID_FEDORA}
     Linux Measured Boot Support
 
@@ -57,7 +57,7 @@ MBO002.202 Check if event log PCRs match actual values (Fedora)
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MBO002.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root    ${ENV_ID_FEDORA}
     Validate PCRs Against Event Log    /sys/kernel/security/tpm0/binary_bios_measurements
 
@@ -74,7 +74,7 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
     Boot Linux And Login To Root
     ${default_hashes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${sb_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     ${sb_menu}=    Enter Submenu From Snapshot And Return Construction    ${sb_menu}    DBX Options
@@ -101,11 +101,11 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    Tests in Dasharo Networking Menu are not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root
     @{hashes_before_changes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
     ${menu}=    Enter Dasharo Submenu    ${menu}    Networking Options
@@ -130,11 +130,11 @@ MBO004.002 Changing Dasharo security settings changes only PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}    Tests in Dasharo Security Menu are not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root
     @{hashes_before_changes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo System Features    ${menu}
     ${menu}=    Enter Dasharo Submenu    ${menu}    Dasharo Security Options
@@ -159,11 +159,11 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    Tests in Dasharo APU Menu are not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root
     @{hashes_before_changes}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
     ${menu}=    Enter Dasharo APU Configuration    ${menu}
     ${core_boost_state}=    Get Option State    ${menu}    Core Performance Boost
@@ -321,7 +321,7 @@ Measured Boot Suite Setup
     Skip If    ${TPM_SUPPORTED_VERSION} == None    Measured boot tests require TPM
     Skip If    not ${MEASURED_BOOT_SUPPORT}    Measured boot is not supported
     Skip If    not '${DEFAULT_BOOT_OS_ID}' in ${TESTED_LINUX_DISTROS}    Tests in Linux are not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Linux And Login To Root
     Verify Presence Of TPM Via Sysfs
 

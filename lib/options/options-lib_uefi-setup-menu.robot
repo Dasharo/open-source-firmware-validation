@@ -24,7 +24,7 @@ Set UEFI Option
         Skip    Setting option ${option_name} is currently unimplemented.
     END
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
 
     ${path_len}=    Get Length    ${option_path}
@@ -57,7 +57,7 @@ Get UEFI Option
         Skip    Setting option ${option_name} is currently unimplemented.
     END
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${menu}=    Enter Setup Menu Tianocore And Return Construction
 
     ${path_len}=    Get Length    ${option_path}
@@ -73,7 +73,7 @@ Get UEFI Option
 
 Reset UEFI Options To Defaults
     [Documentation]    Resets all UEFI options to defaults
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -81,7 +81,7 @@ Reset UEFI Options To Defaults
 Get UEFI Boot Manager Entries
     [Documentation]    Read list of UEFI boot manager
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     RETURN    ${boot_menu}
@@ -116,7 +116,7 @@ Measure Warmboot Time
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.
     FOR    ${index}    IN RANGE    0    ${iterations}+1
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${os_id}
         Login To Linux
         Switch To Root User
@@ -134,7 +134,7 @@ Measure Reboot Time
     ...    boot time
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     VAR    ${average}=    0
     VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
@@ -157,7 +157,7 @@ Make Sure That Flash Locks Are Disabled
     [Documentation]    Keyword makes sure firmware flashing is not prevented by
     ...    any Dasharo Security Options, if they are present.
     IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
     ${index}=    Get Index Of Matching Option In Menu

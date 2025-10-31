@@ -33,7 +33,7 @@ SDC001.201 SD Card reader detection (Ubuntu)
     ...    Previous IDs: SDC001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SDC001.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -47,7 +47,7 @@ SDC002.201 SD Card read/write (Ubuntu)
     ...    Previous IDs: SDC002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SDC002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -62,7 +62,7 @@ SDC001.202 SD Card reader detection (Fedora)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SDC001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -74,7 +74,7 @@ SDC002.202 SD Card read/write (Fedora)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SDC002.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -90,7 +90,7 @@ SDC001.301 SD Card reader detection (Windows)
     ...    and can be detected from the operating system.
     ...    Previous IDs: SDC001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     # Switch to root user
     ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" -Class "DiskDrive"
@@ -103,7 +103,7 @@ SDC002.301 SD Card read/write (Windows)
     ...    and can be used from the operating system.
     ...    Previous IDs: SDC002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     ${drive_letter}=    Identify Path To SD Card In Windows

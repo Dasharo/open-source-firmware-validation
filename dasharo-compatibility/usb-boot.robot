@@ -53,7 +53,7 @@ UBT002.001 USB detect and boot after warmboot
     VAR    ${failed_boot}=    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
-            Power On
+            Power On Ex    force_reboot=${TRUE}
             Boot Dasharo Tools Suite    USB
         EXCEPT
             ${failed_boot}=    Evaluate    ${failed_boot} + 1
@@ -68,7 +68,7 @@ UBT003.001 USB detect and boot after system reboot
     ...    boots into the operating system after system reboot
     ...    (reboot performing by relevant command).
     VAR    ${failed_boot}=    0
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
             Boot Dasharo Tools Suite    USB

@@ -80,7 +80,7 @@ BIOS Lock Support Deactivation
 Get Bios Lock State
     [Arguments]    ${os_id}
     Set UEFI Option    LockBios    ${TRUE}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

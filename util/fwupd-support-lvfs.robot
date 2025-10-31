@@ -28,7 +28,7 @@ FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Fwupd LVFS Firmware Update Linux
@@ -37,7 +37,7 @@ FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Fwupd LVFS Firmware Update Linux

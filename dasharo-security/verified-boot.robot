@@ -29,7 +29,7 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword
-...                     Power On
+...                     Power On Ex    force_reboot=${TRUE}
 
 Default Tags        automated
 
@@ -202,7 +202,7 @@ VBO012.001 Self-signed binary is bootable without errors
     ...    entire SPI flash is flashed. This verifies that the signing scripts
     ...    used by the end users are correct and don't cause bricks.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO012.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -234,7 +234,7 @@ Resign Existing Firmware Image With Generated Keys
     ...    msg=Size of resigned firmware is incorrect. Resigning failed.
 
 Prepare Tools, Keys And Binaries
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     # TODO: store the disk boot entry in platform config, or figure out how
     # to handle UEFI boot entries in a reliable manner
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

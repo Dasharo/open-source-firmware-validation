@@ -91,7 +91,7 @@ WLE001.301 Wireless card detection (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Execute Command In Terminal
     ...    Get-PnpDevice -PresentOnly | Where-Object {$_.Class -eq "Net" -and $_.FriendlyName -match "Wireless|Wi-Fi" -and $_.FriendlyName -notmatch "Virtual|Tunnel|TAP"}
@@ -108,7 +108,7 @@ WLE002.301 Wi-Fi scanning (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE002.301 not supported
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     Execute Command In Terminal    Start-Service WlanSvc
     # Ensure WiFi is enabled
@@ -129,7 +129,7 @@ WLE001.205 Wireless card detection (XCP-NG)
     Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.203 not supported
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    WLE001.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    WLE001.203 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
@@ -144,7 +144,7 @@ WLE001.205 Wireless card detection (XCP-NG)
 #    ...    operating system.
 #    Skip If    not ${wireless_card_bluetooth_support}    WLE003.002 not supported
 #    Skip If    not ${tests_in_windows_support}    WLE003.002 not supported
-#    Power On
+#    Power On Ex    force_reboot=${TRUE}
 #    Login to Windows
 #    ${out}=    Execute Command in Terminal    Get-PnpDevice -class Bluetooth
 #    Should Contain X Times    ${out}    OK    4
@@ -158,7 +158,7 @@ Wireless Card Detection
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -176,7 +176,7 @@ Wi-Fi Scanning
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
@@ -202,7 +202,7 @@ Bluetooth Scanning
     [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User

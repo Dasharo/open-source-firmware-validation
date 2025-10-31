@@ -59,7 +59,7 @@ Ensure ME State
 Usb Type-C Pd Power Input
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -76,7 +76,7 @@ Usb Type-C Pd Power Input
 Usb Type-C Display Output
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -91,7 +91,7 @@ Usb Type-C Display Output
 Usb Type-C Docking Station Hdmi Display
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -114,7 +114,7 @@ Usb Type-C Docking Station Hdmi Display
 Usb Type-C Docking Station Dp Display
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -141,7 +141,7 @@ Usb Type-C Docking Station Dp Display
 Usb Type-C Docking Station Usb Devices Recognition
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -161,7 +161,7 @@ Usb Type-C Docking Station Usb Devices Recognition
 Usb Type-C Docking Station Usb Keyboard
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -184,7 +184,7 @@ Usb Type-C Docking Station Usb Keyboard
 Usb Type-C Docking Station Ethernet Connection
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -201,7 +201,7 @@ Usb Type-C Docking Station Ethernet Connection
 Usb Type-C Docking Station Audio Recognition
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -224,7 +224,7 @@ Usb Type-C Docking Station Audio Recognition
 Usb Type-C Docking Station Sd Card Reader Detection
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -252,7 +252,7 @@ Usb Type-C Docking Station Sd Card Reader Detection
 Usb Type-C Docking Station Sd Card Read/Write
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     IF    '${env_id}'.startswith('2')    # Linux
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -279,7 +279,7 @@ Docking Station Detection After Coldboot
         Fail    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
@@ -312,7 +312,7 @@ Docking Station Detection After Warmboot
         Fail    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
@@ -345,7 +345,7 @@ Docking Station Detection After Reboot
         Fail    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
@@ -374,7 +374,7 @@ Docking Station Detection After Suspend
         Fail    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
@@ -417,7 +417,7 @@ Docking Station Detection After Coldboot Then Hotplug
     END
     Ensure ME State    ${me_state}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
@@ -429,7 +429,7 @@ Docking Station Detection After Coldboot Then Hotplug
         Log To Console    Coldboot the DUT manually
         # coldboot - msi ./sonoff, protectli RteCtrl -rel, novacustom ???
         Pause Execution In Console    Do power cut-off, reconnect and press ENTER.
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
         Switch To Root User
@@ -465,7 +465,7 @@ Docking Station Detection After Warmboot Then Hotplug
     END
     Ensure ME State    ${me_state}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
@@ -476,7 +476,7 @@ Docking Station Detection After Warmboot Then Hotplug
     WHILE    '${out_before_reboot}' == '${out_after_reboot}'
         Perform Warmboot Using Rtcwake
         Pause Execution In Console    Press power button on platform and press ENTER.
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
         Switch To Root User
@@ -512,7 +512,7 @@ Docking Station Detection After Reboot Then Hotplug
     END
     Ensure ME State    ${me_state}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
@@ -547,7 +547,7 @@ Docking Station Detection After Suspend Then Hotplug
         Fail    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}

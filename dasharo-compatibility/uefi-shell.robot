@@ -31,7 +31,7 @@ USH001.001 UEFI Shell
     [Documentation]    Check whether the UEFI Shell is available, and whether
     ...    UEFI Shell was sourced from coreboot image, or from OS drive.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
     Read From Terminal Until    Shell>

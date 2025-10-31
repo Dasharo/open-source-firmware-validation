@@ -42,7 +42,7 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.001 not supported
 
     Set UEFI Option    FanCurveOption    Silent
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -56,7 +56,7 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.001 not supported
 
     Set UEFI Option    FanCurveOption    Performance
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -70,7 +70,7 @@ CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.001 not supported
 
     Set UEFI Option    FanCurveOption    Fans Off
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

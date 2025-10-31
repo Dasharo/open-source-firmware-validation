@@ -56,7 +56,7 @@ CCC002.001 Check core count with HT enabled
 
 CCC003.001 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -73,7 +73,7 @@ CCC003.001 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
 
 CCC004.001 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -90,7 +90,7 @@ CCC004.001 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
 
 CCC005.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -107,7 +107,7 @@ CCC005.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
 
 CCC006.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -124,7 +124,7 @@ CCC006.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
 
 CCC007.001 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -141,7 +141,7 @@ CCC007.001 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
 
 CCC008.001 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -158,7 +158,7 @@ CCC008.001 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
 
 CCC009.001 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -177,7 +177,7 @@ CCC009.001 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
 
 CCC010.001 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -195,7 +195,7 @@ CCC010.001 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
 
 CCC011.001 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset
@@ -213,7 +213,7 @@ CCC011.001 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
 
 CCC012.001 Check core count (HT Disabled, P: A, E: 1) (Ubuntu)
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset

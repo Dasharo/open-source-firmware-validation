@@ -22,7 +22,7 @@ _CONCURRENT_Background Measurements Immediate (no load) (Ubuntu)
     ...    (CPF001)|(STB002).201
     Skip If    not ${will_any_be_run}    No test depends on this step
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -99,7 +99,7 @@ _CONCURRENT_Background Measurements (no load) (Ubuntu)
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.201
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -208,7 +208,7 @@ _CONCURRENT_Background Measurements (load) (Ubuntu)
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.201
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User

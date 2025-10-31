@@ -31,7 +31,7 @@ BBB001.001 Boot blocking (charger disconnected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
     ...    blocked.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Linux
     Switch To Root User
     Sonoff Off
@@ -42,7 +42,7 @@ BBB001.002 Boot blocking (charger connected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
     ...    blocked.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Linux
     Switch To Root User
     Sonoff Off

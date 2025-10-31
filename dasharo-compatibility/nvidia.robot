@@ -33,7 +33,7 @@ NVI001.201 NVIDIA Graphics detect (Ubuntu)
     ...    Previous IDs: NVI001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI001.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    NVI001.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -47,7 +47,7 @@ NVI002.201 NVIDIA Graphics power management (Ubuntu)
     ...    Previous IDs: NVI002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NVI002.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    NVI002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -58,7 +58,7 @@ NVI001.202 NVIDIA Graphics detect (Fedora)
     [Documentation]    Check whether the NVIDIA graphics card is initialized
     ...    correctly and can be detected by the Linux OS.
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    NVI001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -70,7 +70,7 @@ NVI002.202 NVIDIA Graphics power management (Fedora)
     [Documentation]    Check whether the NVIDIA graphics power management is
     ...    functional and the card powers on only while it's used.
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    NVI001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -82,7 +82,7 @@ NVI001.301 NVIDIA Graphics detect (Windows)
     ...    correctly and can be detected by the Windows 11.
     ...    Previous IDs: NVI001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVI001.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Video Controllers Windows
     Should Contain    ${out}    NVIDIA GeForce

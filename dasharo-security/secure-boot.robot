@@ -45,7 +45,7 @@ SBO001.001 Check Secure Boot default state (firmware)
     ...    correct.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -64,7 +64,7 @@ SBO002.001 UEFI Secure Boot (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.001 not supported
 
     # 1. Make sure that SB is enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
@@ -101,7 +101,7 @@ SBO002.002 UEFI Secure Boot (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.002 not supported
 
     # 1. Make sure that SB is enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
@@ -135,7 +135,7 @@ SBO003.001 Attempt to boot file with the correct key from Boot Maintenance Manag
     ...    signed file with a correct key.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     # Save Changes
@@ -161,7 +161,7 @@ SBO004.001 Attempt to boot file without the key from Boot Maintenance Manager (f
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
     # 1. Make sure that SB is enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
@@ -179,7 +179,7 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Boot Maintenance 
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
     # 1. Make sure that SB is enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     # Save Changes And Reset
@@ -196,7 +196,7 @@ SBO006.001 Reset Secure Boot Keys option availability (firmware)
     ...    option is available
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -212,7 +212,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     ...    removes any custom added certificates.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     # Save Changes
@@ -233,7 +233,7 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Execute File In File Explorer    hello-dasharo-signed-good.efi
     Read From Terminal Until    ${HELLO_EFI_STRING}
 
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Reset To Default Secure Boot Keys    ${advanced_menu}
@@ -252,7 +252,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
     # 1. Make sure that SB is enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
     # Changes to Secure Boot take action immediately, so we can just continue
@@ -267,7 +267,7 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
 
 *** Keywords ***
 Set Secure Boot State To Disabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Disable Secure Boot    ${sb_menu}
     # Changes to Secure Boot menu take action immediately, so we can just reset

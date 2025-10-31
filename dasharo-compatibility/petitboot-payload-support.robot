@@ -34,7 +34,7 @@ PBT002.001 Boot into Petitboot
     [Documentation]    This test verifies that the DUT during booting procedure
     ...    reaches Petitboot menu.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT002.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
 
@@ -42,7 +42,7 @@ PBT003.001 Read System Information from Petitboot
     [Documentation]    This test verifies that Petitboot System Information
     ...    option is available and works correctly.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT003.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
     Write Bare Into Terminal    ${ARROW_DOWN}
@@ -53,7 +53,7 @@ PBT004.001 Rescan Devices by Petitboot
     [Documentation]    This test verifies that Petitboot Rescan Device option
     ...    is available and works correctly.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT004.001 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
     Sleep    2s

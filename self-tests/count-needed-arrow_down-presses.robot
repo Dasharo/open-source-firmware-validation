@@ -25,7 +25,7 @@ Suite Teardown      Run Keyword
 Search For Option Not Visible After Entering Menu - Test
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" works
     ...    correctly.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -44,7 +44,7 @@ Search For Option Not Visible After Entering Menu - Test
 Search For Option Visible At First Menu Entrance
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" returns
     ...    a proper message when the searched option is visible at first menu entrance.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -61,7 +61,7 @@ Search For Option Visible At First Menu Entrance
 Search Option In Menu Smaller Than 11 Entries
     [Documentation]    Chcesks if the Key Word "Search For Option Not Visible After Entering Menu" returns
     ...    a proper message when the searched option is visible at first menu entrance.
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_manager_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}

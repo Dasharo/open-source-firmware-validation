@@ -33,7 +33,7 @@ ECR001.201 Battery monitoring - charge level in OS (Ubuntu)
     ...    Previous IDs: ECR001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR001.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR001.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -46,7 +46,7 @@ ECR002.201 Battery monitoring - charging state in OS (Ubuntu)
     ...    Previous IDs: ECR002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR002.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR002.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -61,7 +61,7 @@ ECR003.201 Touchpad in OS - (Ubuntu)
     ...    Previous IDs: ECR003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR003.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR003.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -113,7 +113,7 @@ ECR014.201 Keyboard (function key: brightness down) in OS (Ubuntu)
     ...    Previous IDs: ECR014.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR014.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0014.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -127,7 +127,7 @@ ECR015.201 Keyboard (function key: brightness up) in OS (Ubuntu)
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR015.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0015.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -142,7 +142,7 @@ ECR016.201 Keyboard (function key: camera on/off) in OS (Ubuntu)
     Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR016.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0016.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -158,7 +158,7 @@ ECR017.201 Keyboard (function key: flight mode) in OS (Ubuntu)
     Skip If    not ${WIRELESS_CARD_SUPPORT}    ECR017.201 not supported
     Skip If    '${DUT_CONNECTION_METHOD}' == 'SSH'    ECR017.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0017.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -168,7 +168,7 @@ ECR017.201 Keyboard (function key: flight mode) in OS (Ubuntu)
 # ECR018.001 Keyboard (function key: sleep) in OS (Ubuntu)
 #    [Documentation]    Check whether function key: sleep works in Linux OS.
 #    IF    not ${ec_and_super_io_support}    SKIP    ECR019.001 not supported
-#    Power On
+#    Power On Ex    force_reboot=${TRUE}
 #    Login to Linux
 #    Switch to root user
 #
@@ -183,7 +183,7 @@ ECR019.201 Buttons (button: power) in OS (Ubuntu)
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR019.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR019.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0019.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -199,7 +199,7 @@ ECR020.201 Charging until 98% level in OS (Ubuntu)
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR020.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR020.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0020.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -214,7 +214,7 @@ ECR021.201 Not charging between 95% and 98% in OS (Ubuntu)
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR021.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR021.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0021.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -225,7 +225,7 @@ ECR001.202 Battery monitoring - charge level in OS (Fedora)
     [Documentation]    Check whether the battery charge level can be read
     ...    (in mAh) in Linux OS.
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR001.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -236,7 +236,7 @@ ECR001.202 Battery monitoring - charge level in OS (Fedora)
 ECR002.202 Battery monitoring - charging state in OS (Fedora)
     [Documentation]    Check whether the battery state can be read in Linux OS.
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR002.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -249,7 +249,7 @@ ECR003.202 Touchpad in OS - (Fedora)
     ...    Touchpad steering and effect detection must be checked
     ...    manually.
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR002.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -261,7 +261,7 @@ ECR014.202 Keyboard (function key: brightness down) in OS (Fedora)
     [Documentation]    Check whether function key: brightness down works in
     ...    Linux OS.
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0014.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -273,7 +273,7 @@ ECR015.202 Keyboard (function key: brightness up) in OS (Fedora)
     ...    Linux OS.
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0015.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -286,7 +286,7 @@ ECR016.202 Keyboard (function key: camera on/off) in OS (Fedora)
     Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.202 not supported
     Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.201 not supported
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0016.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -300,7 +300,7 @@ ECR017.202 Keyboard (function key: flight mode) in OS (Fedora)
     Skip If    not ${WIRELESS_CARD_SUPPORT}    ECR017.202 not supported
     Skip If    '${DUT_CONNECTION_METHOD}' == 'SSH'    ECR017.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0017.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -311,7 +311,7 @@ ECR019.202 Buttons (button: power) in OS (Fedora)
     [Documentation]    Check whether button: power is detected in Linux OS.
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR019.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0019.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -326,7 +326,7 @@ ECR020.202 Charging until 98% level in OS (Fedora)
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR020.202 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR020.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0020.201 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -339,7 +339,7 @@ ECR021.202 Not charging between 95% and 98% in OS (Fedora)
     Skip If    '${POWER_CTRL}' != 'sonoff'    ECR021.202 not supported
     Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR021.202 not supported
     Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0021.202 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -351,7 +351,7 @@ ECR001.301 Battery monitoring - charge level in OS (Windows)
     ...    Windows OS.
     ...    Previous IDs: ECR001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR001.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Battery Power Level Windows
     Should Be True    ${out} > 0 and ${out} < 101
@@ -362,7 +362,7 @@ ECR002.301 Battery monitoring - charging state in OS (Windows)
     ...    OS.
     ...    Previous IDs: ECR002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR002.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     Check If Battery Is Charging Windows
     Execute Shutdown Command
@@ -373,7 +373,7 @@ ECR003.301 Touchpad in OS - (Windows)
     ...    manually.
     ...    Previous IDs: ECR003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR003.301 not supported
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Login To Windows
     ${out}=    Get Pointing Devices Windows
     Should Contain    ${out}    HID-compliant mouse
@@ -388,7 +388,7 @@ ECR022.001 EC sync update with power adapter connected works correctly
     # Flash old fw version without ec sync
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
@@ -397,13 +397,13 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Flash EC Firmware
     ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
     Sleep    15s
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Execute Manual Step    Enable console redirection
 
     # Make sure both coreboot and EC was flashed
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
@@ -416,10 +416,10 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Should Contain    ${flash_result}    VERIFIED
     Write Into Terminal    reboot
     Sleep    20s
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Execute Manual Step    Enable console redirection
     Make Sure That Network Boot Is Enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Run Keyword And Expect Error    *    Check Firmware Version
@@ -443,7 +443,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     # Connect Laptop to power adapter
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Set DUT Response Timeout    320s
@@ -452,11 +452,11 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Flash EC Firmware
     ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
     Sleep    15s
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Execute Manual Step    Enable console redirection
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
@@ -472,10 +472,10 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Sonoff Off
     Write Into Terminal    reboot
     Sleep    20
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Execute Manual Step    Enable console redirection
     Make Sure That Network Boot Is Enabled
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
     Run Keyword And Expect Error    *    Check Firmware Version

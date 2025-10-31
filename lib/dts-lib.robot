@@ -208,7 +208,7 @@ Power On And Enter DTS Shell
     ...    DTS_BOOT_TYPE or the default one. After booting DTS shell is being
     ...    entered.
     # 1) Boot up to DTS UI:
-    Power On
+    Power On Ex    force_reboot=${TRUE}
     Boot Dasharo Tools Suite    ${DTS_BOOT_TYPE}
 
     # 2) Enter shell:
@@ -484,7 +484,7 @@ Flash FW Automatically Or Manually
         Execute Manual Step While Freeing Serial Connection    ${msg}
     ELSE
         Flash Firmware    ${${fw_var}}
-        Power On
+        Power On Ex    force_reboot=${TRUE}
         Set DUT Response Timeout    5m
     END
 
