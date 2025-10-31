@@ -902,6 +902,14 @@
     "doc": {
       "_id": "CBO001.002",
       "name": "Custom Boot Order",
+      "module": "Dasharo Compatibility",
+      "changed_to": "CBO001.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBO001.101",
+      "name": "Custom Boot Order",
       "module": "Dasharo Compatibility"
     }
   },
@@ -1072,14 +1080,14 @@
   {
     "doc": {
       "_id": "CNB001.201",
-      "name": "Only one iPXE in boot menu",
+      "name": "Only one iPXE in boot menu (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "CNB001.202",
-      "name": "Only one iPXE in boot menu",
+      "name": "Only one iPXE in boot menu (Fedora)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2287,13 +2295,13 @@
   {
     "doc": {
       "_id": "DCU001.201",
-      "name": "Change the UUID",
+      "name": "Change the UUID (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DCU001.202",
+      "_id": "DCU001.202 (Fedora)",
       "name": "Change the UUID",
       "module": "Dasharo Compatibility"
     }
@@ -2308,14 +2316,14 @@
   },
   {
     "doc": {
-      "_id": "DCU002.201",
+      "_id": "DCU002.201 (Ubuntu)",
       "name": "Change the serial number",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DCU002.202",
+      "_id": "DCU002.202 (Fedora)",
       "name": "Change the serial number",
       "module": "Dasharo Compatibility"
     }
@@ -2330,14 +2338,14 @@
   },
   {
     "doc": {
-      "_id": "DCU003.201",
+      "_id": "DCU003.201 (Ubuntu)",
       "name": "Change the bootsplash logo",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DCU003.202",
+      "_id": "DCU003.202 (Fedora)",
       "name": "Change the bootsplash logo",
       "module": "Dasharo Compatibility"
     }
@@ -2353,14 +2361,14 @@
   {
     "doc": {
       "_id": "DCU004.201",
-      "name": "Verify SMMSTORE changes",
+      "name": "Verify SMMSTORE changes (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "DCU004.202",
-      "name": "Verify SMMSTORE changes",
+      "name": "Verify SMMSTORE changes (Fedora)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5599,7 +5607,8 @@
     "doc": {
       "_id": "SAT001.003",
       "name": "SATA support in OS (Windows}",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "SAT001.301"
     }
   },
   {
@@ -5629,6 +5638,13 @@
     "doc": {
       "_id": "SAT001.205",
       "name": "SATA Support (XCP-NG)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SAT001.301",
+      "name": "SATA support in OS (Windows}",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12722,41 +12738,6 @@
       "_id": "UTS001.201",
       "name": "USB Stability Under 400GB Transfer (Ubuntu)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "VBO001.001",
-      "name": "Generating keys for Verified Boot",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "VBO002.001",
-      "name": "Signing image without rebuild",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "VBO003.001",
-      "name": "Flashing device with the signed firmware",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "VBO004.001",
-      "name": "Adding keys and building image",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "VBO005.001",
-      "name": "Flashing device with built firmware",
-      "module": "Dasharo Security"
     }
   },
   {

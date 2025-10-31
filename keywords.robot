@@ -870,7 +870,7 @@ Check HDMI Windows
 Check DP Windows
     [Documentation]    Check if DP display is recognized by Windows OS.
     ${out}=    Check Displays Windows
-    IF    '${PLATFORM}' == 'protectli-vp4630' or '${PLATFORM}' == 'protectli-vp4650' or '${PLATFORM}' == 'protectli-vp4670'
+    IF    'protectli-vp46' in '${PLATFORM}'
         Should Contain Any
         ...    ${out}
         ...    VideoOutputTechnology : 10
@@ -905,7 +905,7 @@ Check External HDMI In Linux
 Check External DP In Linux
     [Documentation]    Keyword checks if an external Display Port device is
     ...    visible in Linux OS.
-    ${out}=    Execute Linux Command    cat /sys/class/drm/card*-DP-*/status
+    ${out}=    Execute Linux Command    cat /sys/class/drm/card*-*DP-*/status
     ${words}=    Split To Lines    ${out}
     Should Contain    ${words}    connected
 

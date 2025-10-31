@@ -32,7 +32,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-CNB001.201 Only one iPXE in boot menu
+CNB001.201 Only one iPXE in boot menu (Ubuntu)
     [Documentation]    Check whether the network boot option with iPXE appears
     ...    only once in the boot option list.
     ...    Previous IDs: CNB001.001
@@ -43,7 +43,7 @@ CNB001.201 Only one iPXE in boot menu
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Contain X Times    ${boot_menu}    ${IPXE_BOOT_ENTRY}    1
 
-CNB001.202 Only one iPXE in boot menu
+CNB001.202 Only one iPXE in boot menu (Fedora)
     [Documentation]    Check whether the network boot option with iPXE appears
     ...    only once in the boot option list.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CNB001.202 not supported
