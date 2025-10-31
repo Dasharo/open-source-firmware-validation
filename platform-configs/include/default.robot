@@ -8,6 +8,9 @@ ${TBD}=
 ...                                                 TBD_variable_not_set_and_should_be_defined_in_platform_config_if_needed
 ${INITIAL_DUT_CONNECTION_METHOD}=                   ${TBD}
 ${DUT_CONNECTION_METHOD}=                           ${TBD}
+${TELNET_FUZZY_MAX_SUBSTITUTIONS}=                  0
+${TELNET_FUZZY_MAX_INSERTIONS}=                     0
+${TELNET_FUZZY_MAX_DELETIONS}=                      0
 ${PAYLOAD}=                                         tianocore
 ${RTE_S2_N_PORT}=                                   13541
 ${FLASH_SIZE}=                                      ${TBD}
