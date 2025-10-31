@@ -218,7 +218,7 @@ Switch To Root User
     # the "sudo -S" to pass password from stdin does not work correctly with
     # the su command and we need to type in the password
     Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo: authenticate] Password:
+    Read From Terminal Until    [sudo
     Write Into Terminal    ${DEVICE_OS_PASSWORD}
     Set Prompt For Terminal    ${DEVICE_OS_ROOT_PROMPT}
     Read From Terminal Until Prompt
