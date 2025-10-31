@@ -57,6 +57,7 @@ Login To Linux
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
+        Press Enter
         Login To Linux Over Serial Console    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
     END
 
