@@ -313,6 +313,33 @@ TPM013.301 TPM PPI Prompt (Windows)
     ${new_key}=    TPM2 Get Owner Key Windows
     Should Not Be Equal As Strings    ${new_key}    ${owner_key}
 
+TPM014.101 TPM single bank detection
+    [Documentation]    TBD
+    #Power On
+    Enter The TCG Configuration Menu
+    ${last_sha}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA384
+    IF    ${last_sha} == -1
+        Reenter Menu
+        ${last_sha}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
+    END
+    IF    ${last_sha} == -1
+        Reenter Menu
+        ${last_sha}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
+    END
+    Press Key N Times    ${last_sha}    ${ARROW_DOWN}
+    VAR    ${checkpoint}=    F9=Reset to Defaults
+    ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
+    Log To Console    ${last_sha}
+    Log To Console    ${tpm2_operation_menu}
+    IF    ${TPM_SINGLE_BANK} == ${TRUE}
+        Log To Console    TPM_SINGLE_BANK True
+
+    ELSE
+        Log To Console    TPM_SINGLE_BANK False
+    END
+
+
+
 TPM001.205 TPM Support (XCP-NG)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the XCP-NG OS.

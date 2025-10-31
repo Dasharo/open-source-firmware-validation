@@ -163,8 +163,8 @@ Search For Option Not Visible After Entering Menu
         Remove Values From List    ${construction}    Devices List
         ${key_down_qtty}=
         ...    Get Index Of Matching Option In Menu    ${construction}    ${option}
-        Should Not Be Equal As Integers    ${key_down_qtty}    -1
-        ...    msg=Option '${option}' not found in menu
+        #Should Not Be Equal As Integers    ${key_down_qtty}    -1
+        #...    msg=Option '${option}' not found in menu
         RETURN    ${key_down_qtty}
     END
     Fail    msg=Option '${option}' not found in menu.
