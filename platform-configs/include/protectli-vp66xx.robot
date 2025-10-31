@@ -27,7 +27,6 @@ ${ETHERNET_ID}=                                     8086:125c
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${TRUE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${TRUE}
 ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}=               ${TRUE}
-${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
 
 # Variables used in lib/sensors to determine platform-specific methods of
 # measuring temperatures, fans etc.

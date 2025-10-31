@@ -10,6 +10,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/options/options-lib_uefi-setup-menu.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
@@ -17,6 +18,8 @@ Suite Setup         Run Keywords
 ...                     Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    Suspend and resume tests not supported
 ...                     AND
 ...                     Check If Platform Sleep Type Can Be Selected
+...                     AND
+...                     Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}    Set UEFI Option    MeMode    Enabled
 Suite Teardown      Log Out And Close Connection
 
 Default Tags        automated
