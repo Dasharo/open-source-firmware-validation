@@ -190,7 +190,7 @@ Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
     [Arguments]    ${env_id}
 
-    IF   '${PLATFORM_BOOT_STATE}' == 'os' and '${BOOTED_OS_ID}' == '${env_id}'
+    IF    '${PLATFORM_BOOT_STATE}' == 'os' and '${BOOTED_OS_ID}' == '${env_id}'
         Log    Target OS already booted
         RETURN
     END

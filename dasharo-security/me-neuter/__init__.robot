@@ -8,4 +8,3 @@ Suite Setup       Run Keywords
 ...                   AND    Log Out And Close Connection
 
 *** Keywords ***
-

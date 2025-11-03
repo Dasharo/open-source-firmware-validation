@@ -1,12 +1,13 @@
 *** Settings ***
-Resource    common.resource
+Resource            common.resource
+
+Suite Setup         Prepare Test Suite
+Suite Teardown      Log Out And Close Connection
+
 Default Tags        automated
 
-Suite Setup       Prepare Test Suite
-Suite Teardown    Log Out And Close Connection
 
 *** Test Cases ***
-
 MNE001.001 Intel ME mode option is available and has the correct default state
     [Documentation]    Check whether the Intel ME mode state after flashing the
     ...    platform with the Dasharo firmware is correct.

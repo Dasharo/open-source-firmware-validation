@@ -7,7 +7,6 @@ Library             Process
 Library             String
 Library             RequestsLibrary
 Library             SSHLibrary
-
 Resource            ../../variables.robot
 Resource            ../../keywords.robot
 Resource            ../../keys.robot
@@ -32,4 +31,3 @@ Boot State Control Notify State
     IF    ${PLATFORM_STATE_CONTROL}
         VAR    ${PLATFORM_BOOT_STATE}=    ${state}    scope=GLOBAL
     END
-

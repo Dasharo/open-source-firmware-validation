@@ -1,4 +1,12 @@
+*** Comments ***
+# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+
 *** Settings ***
+Documentation       Common variables and keywords for MNE tests
+
 Library             Collections
 Library             OperatingSystem
 Library             Process
@@ -6,10 +14,10 @@ Library             String
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
-
 Resource            ../../variables.robot
 Resource            ../../keywords.robot
 Resource            ../../keys.robot
+
 
 *** Keywords ***
 Intel ME Mode Option Enabled Works Correctly

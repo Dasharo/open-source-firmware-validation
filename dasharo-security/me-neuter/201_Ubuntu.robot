@@ -1,12 +1,13 @@
 *** Settings ***
-Resource    common.resource
+Resource            common.resource
+
+Suite Setup         Prepare Test Suite
+Suite Teardown      Log Out And Close Connection
+
 Default Tags        automated
 
-Suite Setup       Prepare Test Suite
-Suite Teardown    Log Out And Close Connection
 
 *** Test Cases ***
-
 MNE002.201 Intel ME mode option Enabled works correctly (Ubuntu)
     [Documentation]    Check whether the Intel ME mode option in state Enabled
     ...    works correctly.

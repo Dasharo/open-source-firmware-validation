@@ -1,5 +1,6 @@
 *** Settings ***
-Resource    common.resource
+Resource            common.resource
+
 Suite Setup         Prepare Test Suite
 Suite Teardown      Log Out And Close Connection
 

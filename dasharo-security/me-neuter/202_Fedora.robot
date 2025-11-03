@@ -1,12 +1,13 @@
 *** Settings ***
-Resource    common.resource
+Resource            common.resource
+
+Suite Setup         Prepare Test Suite
+Suite Teardown      Log Out And Close Connection
+
 Default Tags        automated
 
-Suite Setup       Prepare Test Suite
-Suite Teardown    Log Out And Close Connection
 
 *** Test Cases ***
-
 MNE002.202 Intel ME mode option Enabled works correctly (Fedora)
     [Documentation]    Check whether the Intel ME mode option in state Enabled
     ...    works correctly.

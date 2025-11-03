@@ -1,4 +1,12 @@
+*** Comments ***
+# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+
 *** Settings ***
+Documentation       Common variables and keywords for AUD tests
+
 Library             Collections
 Library             OperatingSystem
 Library             Process
@@ -21,7 +29,7 @@ ${PACTL_STR_INTERNAL_IN}=       analog-input-internal-mic
 ${PACTL_STR_HEADSET_OUT}=       analog-output-headphones
 ${PACTL_STR_HEADSET_IN}=        analog-input-headset-mic
 ${PACTL_STR_HDMI_OUT}=          hdmi-output-0
-${PLATFORM_STATE_CONTROL}=    ${TRUE}
+${PLATFORM_STATE_CONTROL}=      ${TRUE}
 
 
 *** Keywords ***

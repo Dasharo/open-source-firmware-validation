@@ -262,9 +262,9 @@ Enter Setup Menu Tianocore
     ...    - UEFI Setup menu is entered
 
     # IF    $PLATFORM_BOOT_STATE != 'setup'
-        # not possible to go back to main screen now as it wont
-        # be printed in full again, only the changes which doesnt
-        # allow to parse it
+    # not possible to go back to main screen now as it won't
+    # be printed in full again, only the changes which doesn't
+    # allow to parse it
     # END
 
     # not in setup, reboot needed
@@ -280,7 +280,6 @@ Enter Setup Menu Tianocore
         Write Bare Into Terminal    ${SETUP_MENU_KEY}
     END
     Boot State Control Notify State    setup
-
 
 Get Setup Menu Construction
     [Documentation]
@@ -1340,9 +1339,8 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     ...    - Boots into the selected OS
     [Arguments]    ${env_id}    ${boot_menu}=NOT_SET
 
-
     ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
-    IF   '${PLATFORM_BOOT_STATE}' == 'os' and '${BOOTED_OS_ID}' == '${env_id}'
+    IF    '${PLATFORM_BOOT_STATE}' == 'os' and '${BOOTED_OS_ID}' == '${env_id}'
         Log    ${system_name} already booted.
         RETURN
     END

@@ -7,7 +7,6 @@ Library             Process
 Library             String
 Library             RequestsLibrary
 Library             SSHLibrary
-
 Resource            ../../variables.robot
 Resource            ../../keywords.robot
 Resource            ../../keys.robot
@@ -33,10 +32,12 @@ Power On Default
     ...    Keyword clears terminal buffer and sets Device Under Test
     ...    into Power On state using RTE OC buffers.
     Restore Initial DUT Connection Method
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH' or '${POWER_CTRL}' == 'none'    RETURN
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH' or '${POWER_CTRL}' == 'none'
+        RETURN
+    END
     Sleep    2s
 
-    VAR    ${BOOTED_OS_ID}=    ${None}
+    VAR    ${booted_os_id}=    ${None}
     Boot State Control Notify State    ${None}
     # Only Power Off and sleep if not already powered off
     IF    $POWER_STATE_POWERED_ON is ${None}    Try Check Power State
@@ -73,7 +74,6 @@ Try Check Power State
             VAR    ${POWER_STATE_POWERED_ON}=    ${None}    scope=GLOBAL
         END
     END
-
 
 Check Power Supply
     ${is_laptop}=    Check The Platform Is A Laptop
