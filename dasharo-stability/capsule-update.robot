@@ -31,6 +31,8 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
+Default Tags        semiauto
+
 
 *** Variables ***
 ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
@@ -103,7 +105,6 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
 
 CUP170.201 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
-    [Tags]    automated
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP170.001 not supported
     Go To Linux Prompt    ${ENV_ID_UBUNTU}
     Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
@@ -118,7 +119,6 @@ CUP170.201 Verifying UUID (Ubuntu)
 
 CUP170.301 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
-    [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
 
     Go To Windows Prompt
@@ -140,7 +140,6 @@ CUP170.301 Verifying UUID (Windows)
 
 CUP180.201 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
-    [Tags]    automated
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    $tmp is None
@@ -155,7 +154,6 @@ CUP180.201 Verifying Serial Number (Ubuntu)
 
 CUP180.301 Verifying Serial Number (Windows)
     [Documentation]    Check if serial number didn't change after Capsule Update.
-    [Tags]    automated
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
     IF    $tmp is None
@@ -170,7 +168,6 @@ CUP180.301 Verifying Serial Number (Windows)
 
 CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
-    [Tags]    automated
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.001 not supported
     Go To Linux Prompt    ${ENV_ID_UBUNTU}
@@ -181,7 +178,6 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     [Documentation]    Verify that the Capsule Update screen looks as expected
     ...    and the progress bar is scaled properly using a default logo.
     # Ensure we're running FW with the default logo
-    [Tags]    semiauto
     Flash Firmware If Not QEMU    default
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
@@ -384,14 +380,13 @@ Upload Required Files SSH
     ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     VAR    ${commands}=    pushd osfv;
-    ...    git switch novacustom-capsule-tests;    # TODO temporary, remove before merging
     ...    git submodule update --init --checkout;
     ...    export FW_FILE=/root/${fw_filename};
     ...    export CAPSULE_FW_FILE=/root/${caps_filename};
     ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
     ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
     ...    popd;
-    Execute Command In Terminal    ${commands}
+    Execute Command In Terminal    ${commands}    timeout=120s
 
 Perform Capsule Update
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}

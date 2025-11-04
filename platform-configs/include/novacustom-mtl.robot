@@ -35,9 +35,6 @@ ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
 
 ${L3_CACHE_SUPPORT}=                                ${TRUE}
 
-# Only S0ix is available on MTL
-${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${FALSE}
-
 # DTS E2E variables
 &{DTS_TEST_EXPORTS}=
 ...                                                 &{DTS_TEST_BASE_EXPORTS}

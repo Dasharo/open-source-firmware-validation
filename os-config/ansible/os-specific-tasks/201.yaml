@@ -13,3 +13,10 @@
 
 - name: Install UEFI Shell
   ansible.builtin.command: /tmp/deploy-shell-efi.sh /tmp/Shell.efi
+
+- name: Make python3 accessible as python
+  ansible.builtin.package:
+    update_cache: true
+    name:
+      - python-is-python3
+    state: present

@@ -26,7 +26,7 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                6
 ${FLASHING_METHOD}=                                 internal
 ${CHECK_POWER_LED_SUPPORT}=                         ${FALSE}
 ${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
-${TELNET_FUZZY_MAX_SUBSTITUTIONS}=                  0
+${TELNET_FUZZY_MAX_SUBSTITUTIONS}=                  1
 ${TELNET_FUZZY_MAX_INSERTIONS}=                     5
 ${TELNET_FUZZY_MAX_DELETIONS}=                      1
 
@@ -103,6 +103,7 @@ ${DTS_EC_FLASHING_SUPPORT}=                         ${TRUE}
 ${ACPI_DRIVER_SUPPORT}=                             ${TRUE}
 ${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${TRUE}
 ${INTEL_CBNT_SUPPORT}=                              ${TRUE}
+${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           2

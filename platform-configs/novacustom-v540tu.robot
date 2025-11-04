@@ -4,10 +4,11 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
-${DUT_CONNECTION_METHOD}=               Telnet
-${POWER_CTRL}=                          sonoff
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${INITIAL_DUT_CONNECTION_METHOD}=       SSH
+${DUT_CONNECTION_METHOD}=               SSH
+${POWER_CTRL}=                          none
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
+${OPTIONS_LIB}=                         options-lib_dcu
 # CPU
 ${CPU}=
 ...                                     Intel(R) Core(TM) Ultra 7 155H
@@ -28,7 +29,7 @@ ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
 ${PLATFORM_CPU_SPEED}=                  3.0
 
-${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
@@ -121,6 +122,8 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                     ${{ ("UEFI Update", "DCR") }}
 ...                                     ${{ ("Fuse Platform", "DCR") }}
+
+${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
 
 
 *** Keywords ***

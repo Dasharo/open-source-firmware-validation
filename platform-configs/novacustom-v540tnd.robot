@@ -4,19 +4,29 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
+${INITIAL_DUT_CONNECTION_METHOD}=               SSH
+${DUT_CONNECTION_METHOD}=                       SSH
+${POWER_CTRL}=                                  none
+${TESTS_IN_FIRMWARE_SUPPORT}=                   ${FALSE}
+${OPTIONS_LIB}=                                 options-lib_dcu
+${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_FEDORA}
+# ${ENV_ID_FEDORA}
+@{TESTED_LINUX_DISTROS}=
+...                                             ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+
 ${CPU}=                                         Intel(R) Core(TM) Ultra 7 155H
 
 ${3_MDEB_WIFI_NETWORK}=                         3mdeb_abr
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                         Keyboard
 ${DMIDECODE_PRODUCT_NAME}=                      V5xTNC_TND_TNE
-${EXTERNAL_HEADSET}=                            USB PnP Audio Device
+${EXTERNAL_HEADSET}=                            JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                           4800
 ${CPU_MIN_FREQUENCY}=                           200
 ${PLATFORM_CPU_SPEED}=                          3.0
 
 ${DGPU_ONLY_SUPPORT}=                           ${TRUE}
-${TESTS_IN_WINDOWS_SUPPORT}=                    ${FALSE}    # change windows/ubuntu support depending
+${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}    # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}    # on which OS is first in the boot order
 
 ${WIFI_CARD_UBUNTU}=
@@ -37,6 +47,13 @@ ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}
 
 ${TPM_SUPPORTED_VERSION}=                       2
 ${TPM_EXPECTED_CHIP}=                           SLB9672
+${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
+# /sys/class/power_supply/BAT0/charge_full
+${CLEVO_BATTERY_CAPACITY}=
+...                                             4636000
+${FAN_SPEED_MEASURE_SUPPORT}=                   ${TRUE}
+${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 
 # cpu performance Ubuntu
 ${ZIP_MULTI_COMPRESSION}=                       63476    # MIPS
@@ -106,8 +123,6 @@ ${GPU_PERFORMANCE_TESTS_SUPPORT}=               ${TRUE}
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=             94.4    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=            21.9    # FPS
-
-${OPTIONS_LIB}=                                 options-lib_dcu
 
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=
