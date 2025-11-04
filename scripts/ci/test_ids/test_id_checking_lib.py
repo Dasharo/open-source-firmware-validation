@@ -111,7 +111,9 @@ def get_id(test):
 
 
 def id_valid(test):
-    return get_id(test) is not None
+    # pseudo test cases used as helpers start with _
+    # they are technically valid to use
+    return get_id(test) is not None or test.name.startswith("_")
 
 
 def os_valid(test):
