@@ -4,15 +4,15 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       SSH
-${DUT_CONNECTION_METHOD}=               SSH
-${POWER_CTRL}=                          none
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
-${OPTIONS_LIB}=                         options-lib_dcu
-${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
+${INITIAL_DUT_CONNECTION_METHOD}=               SSH
+${DUT_CONNECTION_METHOD}=                       SSH
+${POWER_CTRL}=                                  none
+${TESTS_IN_FIRMWARE_SUPPORT}=                   ${FALSE}
+${OPTIONS_LIB}=                                 options-lib_dcu
+${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_FEDORA}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
-...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+...                                             ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
 
 ${CPU}=                                         Intel(R) Core(TM) Ultra 7 155H
 
@@ -51,16 +51,14 @@ ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
 # /sys/class/power_supply/BAT0/charge_full
 ${CLEVO_BATTERY_CAPACITY}=
-...                                     4636000
-${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
-${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
-${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
+...                                             4636000
+${FAN_SPEED_MEASURE_SUPPORT}=                   ${TRUE}
+${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 
 # cpu performance Ubuntu
 ${ZIP_MULTI_COMPRESSION}=                       63476    # MIPS
 ${ZIP_MULTI_DECOMPRESSION}=                     39336    # MIPS
 ${CRAY_5_K_RENDER}=                             654.5    # sec
-${CRAY_4_K_RENDER}=                             356.9    # sec
 ${CRAY_4_K_RENDER}=                             356.9    # sec
 ${CRAY_1080_P_RENDER}=                          90.8    # sec
 ${COREMARK_SINGLE}=                             400079.5    # iterations/s

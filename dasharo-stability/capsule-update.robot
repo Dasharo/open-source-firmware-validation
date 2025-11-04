@@ -33,6 +33,7 @@ Suite Teardown      Run Keywords
 
 Default Tags        semiauto
 
+
 *** Variables ***
 ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
