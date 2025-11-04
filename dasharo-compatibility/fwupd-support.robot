@@ -80,7 +80,8 @@ FWUPD002.203 Fwupd Local Firmware Update (QubesOS)
     [Tags]    semiauto
     Execute Manual Step    Power on and boot into QubesOS
     Execute Manual Step    Open sys-net terminal
-    Execute Manual Step    Send the \$FWUPD_CABINET_FILE to sys-net using ssh or by hosting in using HTTP server like 'python -m http.server'
+    Execute Manual Step
+    ...    Send the \$FWUPD_CABINET_FILE to sys-net using ssh or by hosting in using HTTP server like 'python -m http.server'
     VAR    ${msg}=    Transfer the \$FWUPD_CABINET_FILE to the `dom0`.
     ...    (For example by starting sshd in sys-net, sending the file via `scp`,
     ...    and sending it back to `dom0` using `qvm-copy` command.)

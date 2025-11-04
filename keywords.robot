@@ -1499,7 +1499,7 @@ Identify Path To USB
         IF    len($out)>0
             ${out}=    Get From List    ${out}    0
         ELSE
-            ${out}=    Set Variable    ${EMPTY}
+            VAR    ${out}=    ${EMPTY}
         END
     END
     ${split}=    Split String    ${out}
