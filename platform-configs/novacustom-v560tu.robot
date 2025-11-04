@@ -13,22 +13,27 @@ ${3_MDEB_WIFI_NETWORK}=                 3mdeb_abr
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                 Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
-${EXTERNAL_HEADSET}=                    USB PnP Audio Device
+${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4500
 ${CPU_MIN_FREQUENCY}=                   300
 ${PLATFORM_CPU_SPEED}=                  3.0
 ${BLUETOOTH_CARD_UBUNTU}=               8087:0033
 ${WEBCAM_UBUNTU}=                       USB2.0 Camera
 ${CLEVO_USB_C_HUB}=                     Thunderbolt 4 Dock
-
+${WIFI_CARD_UBUNTU}=                    Intel Corporation Wi-Fi 7
 ${POWER_CTRL}=                          none
 ${SNIPEIT}=                             no
 ${FLASH_SIZE}=                          33554432
 
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}
+@{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
 ${USB_STACK_SUPPORT}=                   ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=              4602000
+${USB_DEVICE}=                          SanDisk
+${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 
 # cpu performance Ubuntu for processor ultra 5 125H
 ${ZIP_MULTI_COMPRESSION}=               15923    # MIPS

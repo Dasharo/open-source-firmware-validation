@@ -396,12 +396,6 @@ for idx, row in enumerate(test_rows):
             f"    Skip If    '{os_id_variable_names[row['OS ID']]}' not in ${{TESTED_LINUX_DISTROS}}    {row['Test ID']} not supported\n"
         )
 
-    # Semiauto skip
-    if row["automation"] == "semi":
-        robot_tests_lines[idx].append(
-            f"    Skip If    not ${{SEMI_AUTO}}    semi auto test skipped: SEMI_AUTO==${{SEMI_AUTO}}\n"
-        )
-
     # call the generic keyword for that test case type
     if row["automation"] == "manual":
         keyword_call = f"Skip    {row['Test ID']}\n... not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/\n"

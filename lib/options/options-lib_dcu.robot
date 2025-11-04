@@ -19,6 +19,13 @@ Set UEFI Option
     [Documentation]    Set an UEFI option to a value.
     ...    The device has to be ON and logged in to Ubuntu
     [Arguments]    ${option_name}    ${value}
+    # Ensure a linux is booted
+    Power On
+    IF    '${BOOTED_OS_ID}'.startswith('2')
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    ELSE
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    END
     Login To Linux
     Switch To Root User
     DCU Variable Set UEFI Option In DUT    ${option_name}    ${value}
@@ -138,7 +145,6 @@ Make Sure That Flash Locks Are Disabled
 Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
-    Sleep    60s
     Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 
 Set Nextboot
@@ -191,7 +197,10 @@ Boot System Or From Connected Disk
 
     IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
         Execute Reboot Command    windows
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Import Variables    ${CURDIR}/../../os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
+        VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
+        Sleep    30s
+        RETURN
     END
 
     VAR    ${os_boot_id}=    ${EMPTY}

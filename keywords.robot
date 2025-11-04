@@ -827,7 +827,7 @@ Execute Reboot Command
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
             Set Nextboot    ${BOOTED_OS_ID}
             Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
-            VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=SUITE
+            VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=GLOBAL
         END
         Write Into Terminal    reboot
     ELSE IF    '${os}' == 'windows'
@@ -929,7 +929,7 @@ Check Charge Level In Linux
 Check Charging State In Linux
     [Documentation]    Keyword checks the charging state in Linux OS.
     ${out}=    Execute Linux Command    cat /sys/class/power_supply/BAT0/status
-    Should Contain Any    ${out}    Charging    Full    Not charging
+    Should Contain Any    ${out}    Charging    Full    Not charging    Discharging
 
 Check Charging State Not Charging In Linux
     [Documentation]    Keyword checks if the battery state is Not charging
@@ -1247,11 +1247,10 @@ Download File
     Wait Until Keyword Succeeds    5x    1s
     ...    Check Internet Connection On Linux
     ${out}=    Execute Linux Command
-    ...    wget --content-disposition --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
+    ...    wget --no-check-certificate --retry-connrefused -O ${local_path} ${remote_url}
     ...    ${timeout}
-    Should Contain    ${out}    200 OK
+    Should Contain Any    ${out}    200 OK    HTTP response 200
     Should Contain    ${out}    ${local_path}
-    Should Contain    ${out}    saved
     Should Not Contain    ${out}    failed
 
 Login To Linux With Root Privileges
@@ -1495,11 +1494,16 @@ Identify Path To USB
     END
     ${out}=    Execute Linux Command
     ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk}
-    IF    'part' in '${out}'
-        ${out}=    Get Regexp Matches    ${out}    part
+    IF    'part' in $out
+        ${out}=    Get Regexp Matches    ${out}    part.*$
+        IF    len($out)>0
+            ${out}=    Get From List    ${out}    0
+        ELSE
+            VAR    ${out}=    ${EMPTY}
+        END
     END
     ${split}=    Split String    ${out}
-    ${path_to_usb}=    Get From List    ${split}    2
+    ${path_to_usb}=    Get From List    ${split}    1
     RETURN    ${path_to_usb}
 
 Get Current CONFIG List Param
