@@ -120,3 +120,61 @@ Enter The TCG Configuration Menu
         ...    ${device_manager_menu}
         ...    TCG Configuration
     END
+
+Check TPM PCR Banks State In FW
+    Read From Terminal
+    Press Key N Times    1    ${ARROW_UP}
+    VAR    ${checkpoint}=    F9=Reset to Defaults
+    ${tpm2_operation_menu}=    Read From Terminal Until    ${checkpoint}
+    ${TGC2_menu_protocol_part}=    Parse Menu Snapshot Into Construction    ${tpm2_operation_menu}    6    1
+    ${sha_banks}=    Get Matches    ${TGC2_menu_protocol_part}    PCR Bank: SHA*
+    &{sha_state}=    Create Dictionary
+    FOR  ${item}  IN  @{sha_banks}
+        IF    'PCR Bank: SHA1 [' in '${item}'
+            IF    '[X]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA1=${TRUE}
+            ELSE IF    '[ ]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA1=${FALSE}
+            END
+        ELSE IF    'PCR Bank: SHA256 [' in '${item}'
+            IF    '[X]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA256=${TRUE}
+            ELSE IF    '[ ]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA256=${FALSE}
+            END
+        ELSE IF    'PCR Bank: SHA384 [' in '${item}'
+            IF    '[X]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA384=${TRUE}
+            ELSE IF    '[ ]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA384=${FALSE}
+            END
+        ELSE IF    'PCR Bank: SHA512 [' in '${item}'
+            IF    '[X]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA512=${TRUE}
+            ELSE IF    '[ ]' in '${item}'
+                Set To Dictionary    ${sha_state}    SHA512=${FALSE}
+            END
+         ELSE IF    'PCR Bank: SM3_256 [' in '${item}'    # highly experimental
+            IF    '[X]' in '${item}'
+                Set To Dictionary    ${sha_state}    SM3_256=${TRUE}
+            ELSE IF    '[ ]' in '${item}'
+                Set To Dictionary    ${sha_state}    SM3_256=${FALSE}
+            END
+        END
+    END
+    RETURN    ${sha_state}
+
+Get TPM PCR Banks Menu Positions In FW
+    [Arguments]    ${pcr_banks}
+    &{sha_positions}=    Create Dictionary
+    FOR    ${bank_name}    IN    @{pcr_banks}
+        ${real_bank_name}=    Catenate    PCR Bank:    ${bank_name}
+        ${position}=    Search For Option Not Visible After Entering Menu    ${real_bank_name}
+        Set To Dictionary    ${sha_positions}    ${bank_name}=${position}
+    END
+    RETURN    ${sha_positions}
+
+Toggle TPM PCR Bank In FW
+    [Arguments]    ${bank_positions}    ${bank_name}
+    Press Key N Times And Enter    ${bank_positions["${bank_name}"]}+1    ${ARROW_DOWN}
+    RETURN    ${bank_name}

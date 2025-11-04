@@ -41,7 +41,7 @@ ${TPM_DETECT_SUPPORT}=                          ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 ${HIBERNATION_ITERATIONS_NUMBER}=               5
-${TPM_SINGLE_BANK}=                             ${TRUE}
+${TPM_MULTIPLE_BANK_SUPPORT}=                   ${FALSE}
 
 *** Keywords ***
 Flash Device Via External Programmer

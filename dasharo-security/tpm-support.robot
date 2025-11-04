@@ -317,28 +317,46 @@ TPM014.101 TPM single bank detection
     [Documentation]    TBD
     #Power On
     Enter The TCG Configuration Menu
-    ${last_sha}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA384
-    IF    ${last_sha} == -1
-        Reenter Menu
-        ${last_sha}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
-    END
-    IF    ${last_sha} == -1
-        Reenter Menu
-        ${last_sha}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
-    END
-    Press Key N Times    ${last_sha}    ${ARROW_DOWN}
-    VAR    ${checkpoint}=    F9=Reset to Defaults
-    ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
-    Log To Console    ${last_sha}
-    Log To Console    ${tpm2_operation_menu}
-    IF    ${TPM_SINGLE_BANK} == ${TRUE}
-        Log To Console    TPM_SINGLE_BANK True
+    &{banks_state}=    Check TPM PCR Banks State In FW
+    Reenter Menu
+    &{banks_positions}=    Get TPM PCR Banks Menu Positions In FW    ${banks_state}
 
+    VAR    ${active_banks}=    ${0}
+    VAR    ${bank_to_set}=    ${EMPTY}
+    FOR    ${state_name}    IN    @{banks_state}
+        IF    '$bank_to_set == $EMPTY'
+            IF    ${banks_state["${state_name}"]} == ${FALSE}
+                VAR    ${bank_to_set}=    ${state_name}
+            END
+        END
+        IF    ${banks_state["${state_name}"]} == ${TRUE}
+            VAR    ${active_banks}=    ${active_banks+1}
+            VAR    ${active_bank}=    ${state_name}
+        END
+    END
+    Should Be Equal As Integers    ${active_banks}    1    More than one PCR bank active at the beginning
+    Toggle TPM PCR Bank In FW    ${banks_positions}    ${bank_to_set}
+    Save Changes And Reset
+
+    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${FALSE}
+        Log To Console    TPM_MULTIPLE_BANK_SUPPORT False
+        # New pop-up
+    END
+    Read From Terminal Until
+    ...    Press F12 to change the boot measurements to use PCR bank(s) of the TPM
+    Press Key N Times    1    ${F12}
+
+    Enter The TCG Configuration Menu
+    ${banks_state_after}=    Check TPM PCR Banks State In FW
+    &{expected_state}=    Copy Dictionary    ${banks_state}
+    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${FALSE}
+        Set To Dictionary    ${expected_state}    ${active_bank}=${FALSE}
+        Set To Dictionary    ${expected_state}    ${bank_to_set}=${TRUE}
     ELSE
-        Log To Console    TPM_SINGLE_BANK False
+        Set To Dictionary    ${expected_state}    ${active_bank}=${TRUE}
+        Set To Dictionary    ${expected_state}    ${bank_to_set}=${TRUE}
     END
-
-
+    Dictionaries Should Be Equal    ${expected_state}    ${banks_state_after}    PCR Bank state not as expected.
 
 TPM001.205 TPM Support (XCP-NG)
     [Documentation]    Check whether the TPM is initialized correctly and the
