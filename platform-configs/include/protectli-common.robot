@@ -43,6 +43,7 @@ ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
 ${TESTS_IN_ESXI_SUPPORT}=                       ${TRUE}
 ${TESTS_IN_OPENWRT_SUPPORT}=                    ${TRUE}
+@{TESTED_BSD_DISTROS}=                          ${ENV_ID_PFSENSE}    ${ENV_ID_OPNSENSE}
 
 # Regression test flags
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
