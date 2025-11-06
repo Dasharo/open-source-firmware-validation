@@ -1,3 +1,9 @@
+*** Comments ***
+# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+
 *** Settings ***
 Documentation       common keywords for CPT_CPF_STB concurrent tests
 
