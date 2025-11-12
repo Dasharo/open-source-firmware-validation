@@ -75,10 +75,10 @@ Login To Windows
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
@@ -92,10 +92,10 @@ Login To OS
     Boot System Or From Connected Disk    ${env_id}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
@@ -202,7 +202,7 @@ Login To Windows Via SSH
             # Run Keyword Until Succeeds?
             Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
-            VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=TEST
+            VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
         END
     END
     IF    ${reboot_count} >= 1
