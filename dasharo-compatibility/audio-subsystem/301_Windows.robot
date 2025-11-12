@@ -2,9 +2,9 @@
 Resource            common.resource
 
 Suite Setup         Run Keywords
-...    Prepare Test Suite
-...    AND    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Windows not supported
-...    AND    Init AUD Windows
+...                     Prepare Test Suite
+...                     AND    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Windows not supported
+...                     AND    Init AUD Windows
 Suite Teardown      Log Out And Close Connection
 
 
