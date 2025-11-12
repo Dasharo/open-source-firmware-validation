@@ -43,6 +43,7 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 ${HIBERNATION_ITERATIONS_NUMBER}=               5
 ${TPM_MULTIPLE_BANK_SUPPORT}=                   ${FALSE}
 
+
 *** Keywords ***
 Flash Device Via External Programmer
     [Documentation]    Keyword allows to flash Device Under Test firmware by

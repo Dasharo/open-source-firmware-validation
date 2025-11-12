@@ -122,14 +122,16 @@ Enter The TCG Configuration Menu
     END
 
 Check TPM PCR Banks State In FW
+    [Documentation]    Build & return dictionary containing all existing PCR bank options
+    ...    and state of each.
     Read From Terminal
     Press Key N Times    1    ${ARROW_UP}
     VAR    ${checkpoint}=    F9=Reset to Defaults
     ${tpm2_operation_menu}=    Read From Terminal Until    ${checkpoint}
-    ${TGC2_menu_protocol_part}=    Parse Menu Snapshot Into Construction    ${tpm2_operation_menu}    6    1
-    ${sha_banks}=    Get Matches    ${TGC2_menu_protocol_part}    PCR Bank: SHA*
-    &{sha_state}=    Create Dictionary
-    FOR  ${item}  IN  @{sha_banks}
+    ${tgc2_menu_protocol_part}=    Parse Menu Snapshot Into Construction    ${tpm2_operation_menu}    6    1
+    ${sha_banks}=    Get Matches    ${tgc2_menu_protocol_part}    PCR Bank: SHA*
+    VAR    &{sha_state}=    &{EMPTY}
+    FOR    ${item}    IN    @{sha_banks}
         IF    'PCR Bank: SHA1 [' in '${item}'
             IF    '[X]' in '${item}'
                 Set To Dictionary    ${sha_state}    SHA1=${TRUE}
@@ -154,7 +156,7 @@ Check TPM PCR Banks State In FW
             ELSE IF    '[ ]' in '${item}'
                 Set To Dictionary    ${sha_state}    SHA512=${FALSE}
             END
-         ELSE IF    'PCR Bank: SM3_256 [' in '${item}'    # highly experimental
+        ELSE IF    'PCR Bank: SM3_256 [' in '${item}'    # highly experimental
             IF    '[X]' in '${item}'
                 Set To Dictionary    ${sha_state}    SM3_256=${TRUE}
             ELSE IF    '[ ]' in '${item}'
@@ -165,16 +167,55 @@ Check TPM PCR Banks State In FW
     RETURN    ${sha_state}
 
 Get TPM PCR Banks Menu Positions In FW
+    [Documentation]    Returns dictionary containing menu positions od PCR bank options.
+    ...    Requires dictionary containing available bank names as keys as an argument.
     [Arguments]    ${pcr_banks}
-    &{sha_positions}=    Create Dictionary
+    VAR    &{sha_positions}=    &{EMPTY}
     FOR    ${bank_name}    IN    @{pcr_banks}
-        ${real_bank_name}=    Catenate    PCR Bank:    ${bank_name}
+        VAR    ${real_bank_name}=    PCR Bank:    ${bank_name}    separator=${SPACE}
         ${position}=    Search For Option Not Visible After Entering Menu    ${real_bank_name}
         Set To Dictionary    ${sha_positions}    ${bank_name}=${position}
     END
     RETURN    ${sha_positions}
 
 Toggle TPM PCR Bank In FW
+    [Documentation]    Toggle PCR bank option at given position by pressing Enter key.
     [Arguments]    ${bank_positions}    ${bank_name}
     Press Key N Times And Enter    ${bank_positions["${bank_name}"]}+1    ${ARROW_DOWN}
     RETURN    ${bank_name}
+
+Single PCR Bank Confirm In FW Popup
+    [Documentation]    When only one active PCR bank is allowed and at least two
+    ...    PCR baks are selected, pop-up is displayed after reset, to select single
+    ...    active PCR bank.
+    ...    Parse pop-up bank list and press corresponding key to select active bank.
+    [Arguments]    ${bank_to_be_confirmed}
+    Read From Terminal Until    Multiple PCR banks have been selected, but the current TPM supports
+    Read From Terminal Until    only one active bank at a time.
+    ${slice}=    Read From Terminal Until    Press ESC to stay with the previously active bank.
+    @{matches}=    Get Regexp Matches    ${slice}    ([0-9])\\)\\sSHA[0-9]+
+    Should Not Be Empty    ${matches}    Can not parse list of PCR banks & keys from pop-up.
+    VAR    &{bank_keys}=    &{EMPTY}
+    FOR    ${match}    IN    @{matches}
+        @{split}=    Split String    ${match}    \)${SPACE}
+        VAR    ${bank_name}=    ${split[1]}
+        Set To Dictionary    ${bank_keys}    ${bank_name}=${split[0]}
+    END
+    Press Key N Times    1    ${bank_keys["${bank_to_be_confirmed}"]}
+
+Prepare Dictionary Containing Expected PCRs State
+    [Documentation]    Generate dictionary describing expected PCRs menu state
+    ...    for platforms with multiple PCR bank support and for those with single.
+    ...    Requires already generated dictionary on input, it's size and keys are
+    ...    reused.
+    [Arguments]    ${current}    ${active}    ${to_set}
+    Variable Should Exist    ${TPM_MULTIPLE_BANK_SUPPORT}
+    &{expected}=    Copy Dictionary    ${current}
+    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${FALSE}
+        Set To Dictionary    ${expected}    ${active}=${FALSE}
+        Set To Dictionary    ${expected}    ${to_set}=${TRUE}
+    ELSE
+        Set To Dictionary    ${expected}    ${active}=${TRUE}
+        Set To Dictionary    ${expected}    ${to_set}=${TRUE}
+    END
+    RETURN    ${expected}
