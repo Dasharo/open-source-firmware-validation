@@ -314,8 +314,12 @@ TPM013.301 TPM PPI Prompt (Windows)
     Should Not Be Equal As Strings    ${new_key}    ${owner_key}
 
 TPM014.101 TPM single bank detection
-    [Documentation]    TBD
-    #Power On
+    [Documentation]    Test verifies if only one PCR bank is active, finds inactive
+    ...    PCR bank, activates it, then reboots.
+    ...    If platform supports only single PCR bank, firmware pop-up is handled.
+    ...    After reboot, state of PCR banks in firmware is verified.
+    Variable Should Exist    ${TPM_MULTIPLE_BANK_SUPPORT}
+    Power On
     Enter The TCG Configuration Menu
     &{banks_state}=    Check TPM PCR Banks State In FW
     Reenter Menu
@@ -334,28 +338,28 @@ TPM014.101 TPM single bank detection
             VAR    ${active_bank}=    ${state_name}
         END
     END
+
     Should Be Equal As Integers    ${active_banks}    1    More than one PCR bank active at the beginning
+
     Toggle TPM PCR Bank In FW    ${banks_positions}    ${bank_to_set}
     Save Changes And Reset
 
-    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${FALSE}
-        Log To Console    TPM_MULTIPLE_BANK_SUPPORT False
-        # New pop-up
-    END
     Read From Terminal Until
     ...    Press F12 to change the boot measurements to use PCR bank(s) of the TPM
     Press Key N Times    1    ${F12}
 
+    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${FALSE}
+        Single PCR Bank Confirm In FW Popup    ${bank_to_set}
+
+        Read From Terminal Until
+        ...    Press F12 to change the boot measurements to use PCR bank(s) of the TPM
+        Press Key N Times    1    ${F12}
+    END
+
     Enter The TCG Configuration Menu
     ${banks_state_after}=    Check TPM PCR Banks State In FW
-    &{expected_state}=    Copy Dictionary    ${banks_state}
-    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${FALSE}
-        Set To Dictionary    ${expected_state}    ${active_bank}=${FALSE}
-        Set To Dictionary    ${expected_state}    ${bank_to_set}=${TRUE}
-    ELSE
-        Set To Dictionary    ${expected_state}    ${active_bank}=${TRUE}
-        Set To Dictionary    ${expected_state}    ${bank_to_set}=${TRUE}
-    END
+    ${expected_state}=    Prepare Dictionary Containing Expected PCRs State    ${banks_state}
+    ...    ${active_bank}    ${bank_to_set}
     Dictionaries Should Be Equal    ${expected_state}    ${banks_state_after}    PCR Bank state not as expected.
 
 TPM001.205 TPM Support (XCP-NG)
