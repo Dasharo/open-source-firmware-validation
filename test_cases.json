@@ -2301,8 +2301,8 @@
   },
   {
     "doc": {
-      "_id": "DCU001.202 (Fedora)",
-      "name": "Change the UUID",
+      "_id": "DCU001.202",
+      "name": "Change the UUID (Fedora)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2316,15 +2316,15 @@
   },
   {
     "doc": {
-      "_id": "DCU002.201 (Ubuntu)",
-      "name": "Change the serial number",
+      "_id": "DCU002.201",
+      "name": "Change the serial number (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DCU002.202 (Fedora)",
-      "name": "Change the serial number",
+      "_id": "DCU002.202",
+      "name": "Change the serial number (Fedora)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2338,15 +2338,15 @@
   },
   {
     "doc": {
-      "_id": "DCU003.201 (Ubuntu)",
-      "name": "Change the bootsplash logo",
+      "_id": "DCU003.201",
+      "name": "Change the bootsplash logo (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DCU003.202 (Fedora)",
-      "name": "Change the bootsplash logo",
+      "_id": "DCU003.202",
+      "name": "Change the bootsplash logo (Fedora)",
       "module": "Dasharo Compatibility"
     }
   },
