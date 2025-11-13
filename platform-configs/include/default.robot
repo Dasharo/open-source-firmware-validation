@@ -155,6 +155,7 @@ ${DOCKING_STATION_DISPLAY_PORT}=                    ${FALSE}
 ${UPLOAD_ON_USB_SUPPORT}=                           ${FALSE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${FALSE}
+${CPU_CORES_TESTS_SUPPORT}=                         ${FALSE}
 ${HYPER_THREADING_SUPPORT}=                         ${FALSE}
 ${INTEL_HYBRID_ARCH_SUPPORT}=                       ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}

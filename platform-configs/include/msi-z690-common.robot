@@ -79,6 +79,7 @@ ${UPLOAD_ON_USB_SUPPORT}=                       ${TRUE}
 ${CPU_TESTS_SUPPORT}=                           ${TRUE}
 ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
+${CPU_CORES_TESTS_SUPPORT}=                     ${TRUE}
 ${INTEL_HYBRID_ARCH_SUPPORT}=                   ${TRUE}
 ${HYPER_THREADING_SUPPORT}=                     ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                      ${TRUE}

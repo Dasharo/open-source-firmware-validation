@@ -15,6 +15,7 @@ ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v0.9
 ${DMIDECODE_RELEASE_DATE}=                          05/26/2025
 
 ${EMMC_SUPPORT}=                                    ${FALSE}
+${CPU_CORES_TESTS_SUPPORT}=                         ${TRUE}
 ${HYPER_THREADING_SUPPORT}=                         ${TRUE}
 ${INTEL_HYBRID_ARCH_SUPPORT}=                       ${TRUE}
 @{ETH_PERF_PAIR_2_G}=                               enp5s0    enp6s0
