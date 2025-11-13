@@ -7233,6 +7233,13 @@
   },
   {
     "doc": {
+      "_id": "UCODE001.201",
+      "name": "Check if firmware runs on expected microcode revision",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "UDT001.001",
       "name": "USB detection after coldboot",
       "module": "Dasharo Compatibility"

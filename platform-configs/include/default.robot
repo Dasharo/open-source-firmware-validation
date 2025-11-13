@@ -339,6 +339,8 @@ ${TESTS_IN_ESXI_SUPPORT}=                           ${FALSE}
 
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                3
 
+@{MICROCODE_REVISIONS}=                             @{EMPTY}
+
 # These were missing in default.robot and have been automatically
 # identified and added via: ./scripts/ci/check_platform_configs_vars.py
 
