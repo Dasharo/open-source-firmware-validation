@@ -190,7 +190,7 @@ Single PCR Bank Confirm In FW Popup
     ...    active PCR bank.
     ...    Parse pop-up bank list and press corresponding key to select active bank.
     [Arguments]    ${bank_to_be_confirmed}
-    Read From Terminal Until    Multiple PCR banks have been selected, but the current TPM supports
+    Read From Terminal Until    Multiple PCR banks have been selected, but the current TPM
     Read From Terminal Until    only one active bank at a time.
     ${slice}=    Read From Terminal Until    Press ESC to stay with the previously active bank.
     @{matches}=    Get Regexp Matches    ${slice}    ([0-9])\\)\\sSHA[0-9]+
