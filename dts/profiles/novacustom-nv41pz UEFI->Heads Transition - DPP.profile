@@ -12,6 +12,7 @@ dmidecode -s processor-version 0
 dmidecode -s bios-vendor 0
 dmidecode -s bios-version 0
 dmidecode  0
+dmidecode -s baseboard-version 0
 dmidecode  0
 dmidecode -s system-manufacturer 0
 dmidecode -s system-product-name 0
@@ -21,6 +22,7 @@ dmidecode -s bios-vendor 0
 dmidecode -s bios-version 0
 flashrom -p internal --flash-name 0
 flashrom -p internal --flash-size 0
+dmidecode -s baseboard-version 0
 fsread_tool test -e /sys/class/power_supply/AC/online 0
 fsread_tool cat /sys/class/power_supply/AC/online 0
 flashrom -p internal 0
