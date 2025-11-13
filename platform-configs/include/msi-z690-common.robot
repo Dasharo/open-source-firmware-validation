@@ -98,6 +98,8 @@ ${BIOS_LOCK_SUPPORT}=                           ${TRUE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
 ${EARLY_BOOT_DMA_SUPPORT}=                      ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                       ${TRUE}
+# IMPORTANT! Update the revisions with new releases
+@{MICROCODE_REVISIONS}=                         0x3d    0x132
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}
