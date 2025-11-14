@@ -7121,6 +7121,13 @@
   },
   {
     "doc": {
+      "_id": "TPM014.101",
+      "name": "TPM single bank detection",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "TPMCMD001.001",
       "name": "Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)",
       "module": "Dasharo Security"
