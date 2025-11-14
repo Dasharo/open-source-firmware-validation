@@ -27,6 +27,8 @@ fsread_tool test -e /sys/class/power_supply/AC/online 0
 fsread_tool cat /sys/class/power_supply/AC/online 0
 flashrom -p internal 0
 dasharo_ectool info 0
+flashrom -p internal -r /tmp/dasharo_dump.rom --fmap -i FMAP -i BOOTSPLASH 0
+cbfstool /tmp/dasharo_dump.rom extract -r BOOTSPLASH -n logo.bmp -f /tmp/logo.bmp 1
 cbfstool /tmp/biosupdate extract -r COREBOOT -n config -f /tmp/biosupdate_config 0
 flashrom -p internal 0
 ifdtool -d /tmp/biosupdate 0
