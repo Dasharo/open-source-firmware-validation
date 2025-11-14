@@ -25,6 +25,7 @@ superiotool -deV 0
 ectool -ip 0
 msrtool  1
 dmidecode  0
+amdtool -a 1
 dmesg  0
 fsread_tool test -f /sys/class/sound/card0/hw*/init_pin_configs 1
 fsread_tool test -f /sys/class/sound/card0/hw*/init_pin_configs 1
