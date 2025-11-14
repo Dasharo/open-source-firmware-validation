@@ -190,7 +190,7 @@ Wi-Fi Scanning
     IF    "${BOOTED_OS_ID}"=="${ENV_ID_UBUNTU}"
         Detect Or Install Package    pciutils
     END
-    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
+    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Exit From Root User
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
