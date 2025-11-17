@@ -428,6 +428,7 @@ ${ZIP_MULTI_COMPRESSION}=                           ${TBD}
 ${ZIP_MULTI_DECOMPRESSION}=                         ${TBD}
 ${FAN_RPM_MEASUREMENT_SENSOR_MODULE}=               ${TBD}
 ${DEVICE_DETECT_TEST_IN_SCOPE}=                     ${FALSE}
+${APU_FLASH_WP_GPIO}=                               ${TBD}
 
 #### DTS E2E variables, should start with DTS_TEST_ ####
 # Base fw version set for every workflow
