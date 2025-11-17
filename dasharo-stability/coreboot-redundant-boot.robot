@@ -21,17 +21,26 @@ ${NVRAM_ATTEMPT_B_FLAG_CLR}=    0    # TBD
 CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
     [Documentation]    Check if clearing the CMOS makes the DUT boot from slot A
     ...    which should contain a recovery firmware
-    [Tags]    semiauto
-    Execute Manual Step    Disconnect the CMOS battery
-    Sleep    5s
-    Execute Manual Step    Connect the CMOS battery
+    [Tags]    automated
+
+    IF    ${DUT_HAS_CMOS_RESET}
+        Rte Psu Off
+        Rte CMOS Clear
+    ELSE
+        Log    RTE CMOS clear not supported. Test becomes semiauto.    level=WARN
+        Skip If    'semiauto' not in ${TEST_TAGS}    `semiauto` tag not selected
+
+        Execute Manual Step    Disconnect the CMOS battery
+        Sleep    5s
+        Execute Manual Step    Connect the CMOS battery and assemble back the device completely
+        IF    ${POWER_CTRL} == 'none'    Execute Manual Step    Make sure the device is ON
+    END
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Should Have Booted From Slot    A
-
 
 CRB002.201 Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)
     [Documentation]    Check if setting the Attempt Slot B flag the device boots
