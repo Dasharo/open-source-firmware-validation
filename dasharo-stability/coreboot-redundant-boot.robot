@@ -13,9 +13,9 @@ Suite Teardown      Run Keyword
 Default Tags        automated
 
 *** Variables ***
-${NVRAM_ATTEMPT_B_FLAG}=        Attempt Slot B    #TBD
-${NVRAM_ATTEMPT_B_FLAG_SET}=    1    # TBD
-${NVRAM_ATTEMPT_B_FLAG_CLR}=    0    # TBD
+${NVRAM_ATTEMPT_B_FLAG}=        attempt_slot_b    #TBD
+${NVRAM_ATTEMPT_B_FLAG_SET}=    Enable     # TBD
+${NVRAM_ATTEMPT_B_FLAG_CLR}=    Disable    # TBD
 
 *** Test Cases ***
 CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
