@@ -173,6 +173,7 @@ Read Firmware
     [Arguments]    ${file}
 
     IF    '${FLASHING_METHOD}' == 'external'
+        Rte Gpio Set    1    low
         Rte Flash Read    ${file}
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         # TODO
