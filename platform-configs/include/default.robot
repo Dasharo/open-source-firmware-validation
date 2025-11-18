@@ -89,6 +89,7 @@ ${TESTS_IN_METATB_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_HEADS_SUPPORT}=                          ${FALSE}
 ${TESTS_IN_FEDORA_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_OPENWRT_SUPPORT}=                        ${FALSE}
+${TESTS_IN_QUBESOS_SUPPORT}=                        ${FALSE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${FALSE}
