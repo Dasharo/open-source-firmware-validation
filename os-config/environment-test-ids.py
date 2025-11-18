@@ -38,6 +38,7 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     # Or 'ZarhusOS A' and 'ZarhusOS B' if using A/B update feature
     ENV_ID_ZARHUS: "ZarhusOS",
     ENV_ID_OPENWRT: "OpenWrt",
+    ENV_ID_QUBES: "Qubes OS",
 }
 
 ENV_ID_FRIENDLY_NAMES = {
