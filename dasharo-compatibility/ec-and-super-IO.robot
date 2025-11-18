@@ -682,6 +682,85 @@ ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
     Execute Manual Step
     ...    [4/4] Verify if the keyboard brightness is set to the level used before the cold boot.
 
+ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Choose any keyboard brightness (Fn+F4) as a means to test this feature
+    ...    (for example, the last level before black for easier tracking).
+    Execute Manual Step    [3/4] Perform a cold boot and boot into Qubes OS once again.
+    Execute Manual Step
+    ...    [4/4] Verify if the keyboard brightness is set to the level used before the cold boot.
+
+ECR026.203 Permanent keyboard illumination after warm boot (Qubes OS)
+    [Documentation]    Check whether keyboard backlight level persists after warm boot.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
+    Execute Manual Step    [3/5] Perform a warm boot (reboot from OS).
+    Execute Manual Step    [4/5] Boot into Qubes OS again.
+    Execute Manual Step    [5/5] Verify the keyboard backlight level is the same as before reboot.
+
+ECR027.203 Permanent keyboard illumination after reboot (Qubes OS)
+    [Documentation]    Check whether keyboard backlight level persists after cold reboot.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
+    Execute Manual Step    [3/5] Shut down the DUT completely.
+    Execute Manual Step    [4/5] Power on and boot into Qubes OS.
+    Execute Manual Step    [5/5] Verify the keyboard backlight level is preserved.
+
+ECR028.203 Permanent keyboard illumination after suspension (Qubes OS)
+    [Documentation]    Check whether keyboard backlight level persists after suspend/resume.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
+    Execute Manual Step    [3/5] Suspend the system (close lid or use suspend option).
+    Execute Manual Step    [4/5] Resume the system.
+    Execute Manual Step    [5/5] Verify the keyboard backlight level is unchanged.
+
+ECR029.203 FnLock Hotkey (Qubes OS)
+    [Documentation]    Check whether FnLock hotkey toggles function key behavior.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/6] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/6] Open Dom0 Xfce Terminal or any text editor.
+    Execute Manual Step    [3/6] Press a function key (e.g. F5) and observe its default behavior.
+    Execute Manual Step    [4/6] Press FnLock key combination.
+    Execute Manual Step    [5/6] Press the same function key again.
+    Execute Manual Step    [6/6] Verify the function key behavior has changed accordingly.
+
+ECR030.203 Charging until 98% level in OS (Qubes OS)
+    [Documentation]    Check whether the DUT stops charging the battery when 98% level is reached.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Connect the power adapter.
+    Execute Manual Step    [3/5] Monitor battery level until it reaches 98%.
+    Execute Manual Step    [4/5] Verify charging stops at or before 98%.
+    Execute Manual Step    [5/5] Disconnect the power adapter.
+
+ECR031.203 Not charging between 95% and 98% in OS (Qubes OS)
+    [Documentation]    Check whether the DUT does not charge battery between 95% and 98%.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Ensure battery level is between 95% and 98%.
+    Execute Manual Step    [3/5] Connect the power adapter.
+    Execute Manual Step    [4/5] Observe battery charging state for several minutes.
+    Execute Manual Step    [5/5] Verify battery does not start charging.
+
 
 *** Keywords ***
 Keyboard Function Key Brightness Down In Linux
