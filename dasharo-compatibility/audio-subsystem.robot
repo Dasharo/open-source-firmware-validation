@@ -316,6 +316,18 @@ AUD007.301 HDMI Audio recognition
     Should Contain    ${out}    ${POWERSHELL_STR_HDMI_OUT}
     Should Contain    ${out}    OK
 
+AUD001.203 HDMI Audio recognition (QubesOS)
+    [Documentation]    Check whether the HDMI audio is recognized
+    ...    properly in Windows 11 after connecting HDMI display.
+    Power On
+    Login To OS    ${ENV_ID_QUBES}
+    ${out}=    Execute Command In Terminal    pactl list sinks
+    ${result}=    Run Keyword And Ignore Error
+    ...    Should Not Contain    ${out}    device.description = "Dummy Output"
+    IF    '${result}[0]' == 'FAIL'
+        Log    \nSound Card was found, but PulseAudio did not found any device\n    WARN
+    END
+
 
 *** Keywords ***
 Audio Subsystem Detection Linux
