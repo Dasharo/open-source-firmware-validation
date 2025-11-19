@@ -45,7 +45,7 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE12}=                   ip=192.168.10.175
 ...                         platform=apu5
 ...                         platform_vendor=PC Engines
-&{RTE13}=                   ip=192.168.10.176
+&{RTE13}=                   ip=192.168.10.249
 ...                         platform=apu6
 ...                         platform_vendor=PC Engines
 &{RTE14}=                   ip=192.168.10.200
