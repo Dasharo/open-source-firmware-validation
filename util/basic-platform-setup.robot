@@ -99,7 +99,7 @@ BPS005.001 Boot to OS - Ubuntu
 
 BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
-    Skip If    not "${TESTS_IN_WINDOWS_SUPPORT}"
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
     Login To Windows
 
@@ -111,7 +111,13 @@ BPS006.001 Ensure test dependencies
 BPS007.001 External flashing
     [Documentation]    This test verifies if the flash die can be detected.
     Skip If    '${FLASHING_METHOD}' != 'external'
+    IF    '${MANUFACTURER}' == 'PC Engines' and '${APU_FLASH_WP_GPIO}' != '${TBD}'
+        Rte Gpio Set    ${APU_FLASH_WP_GPIO}    low
+    END
     ${rc}=    Rte Flash Probe
+    IF    '${MANUFACTURER}' == 'PC Engines' and '${APU_FLASH_WP_GPIO}' != '${TBD}'
+        Rte Gpio Set    ${APU_FLASH_WP_GPIO}    high-z
+    END
     Should Be Equal As Integers    ${rc}    0
 
 BPS007.002 Internal flashing
