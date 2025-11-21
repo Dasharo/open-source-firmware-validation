@@ -17,6 +17,7 @@ Suite Setup     Run Keywords
 #    Tests that can be done immediately    #
 ############################################
 _CONCURRENT_Background Measurements Immediate (no load) (Ubuntu)
+    [Tags]    minimal-regression
     # immediately skip if no tests want these measurements
     ${will_any_be_run}=    Check Concurrent Test Supported Regex
     ...    (CPF001)|(STB002).201
@@ -84,6 +85,7 @@ STB002.201 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
     ...    Previous IDs: STB002.001
+    [Tags]    minimal-regression
     VAR    ${concurrent_test_id}=    STB001.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
