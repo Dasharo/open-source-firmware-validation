@@ -173,11 +173,11 @@ Read Firmware
     [Arguments]    ${file}
 
     IF    '${FLASHING_METHOD}' == 'external'
-        IF    '${MANUFACTURER}' == 'PC Engines' and '${APU_FLASH_WP_GPIO}' != '${TBD}'
+        IF    '${APU_FLASH_WP_GPIO}' != '${TBD}'
             Rte Gpio Set    ${APU_FLASH_WP_GPIO}    low
         END
         Rte Flash Read    ${file}
-        IF    '${MANUFACTURER}' == 'PC Engines' and '${APU_FLASH_WP_GPIO}' != '${TBD}'
+        IF    '${APU_FLASH_WP_GPIO}' != '${TBD}'
             Rte Gpio Set    ${APU_FLASH_WP_GPIO}    high-z
         END
     ELSE IF    '${FLASHING_METHOD}' == 'internal'

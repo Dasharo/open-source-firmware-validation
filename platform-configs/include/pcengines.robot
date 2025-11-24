@@ -39,6 +39,7 @@ ${DMIDECODE_FAMILY}=                        N/A
 # TODO
 ${DMIDECODE_TYPE}=                          Desktop
 ${INTERNAL_PROGRAMMER_CHIPNAME}=            W25Q64BV/W25Q64CV/W25Q64FV
+${DEVICE_USB_KEYBOARD}=                     ${EMPTY}
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
@@ -80,6 +81,7 @@ ${ESP_SCANNING_SUPPORT}=                    ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=           ${TRUE}
 ${MINI_PC_IE_SLOT_SUPPORT}=                 ${TRUE}
 ${APU_CONFIGURATION_MENU_SUPPORT}=          ${TRUE}
+${DUT_HAS_CMOS_RESET}=                      ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                   2

@@ -111,11 +111,11 @@ BPS006.001 Ensure test dependencies
 BPS007.001 External flashing
     [Documentation]    This test verifies if the flash die can be detected.
     Skip If    '${FLASHING_METHOD}' != 'external'
-    IF    '${MANUFACTURER}' == 'PC Engines' and '${APU_FLASH_WP_GPIO}' != '${TBD}'
+    IF    '${APU_FLASH_WP_GPIO}' != '${TBD}'
         Rte Gpio Set    ${APU_FLASH_WP_GPIO}    low
     END
     ${rc}=    Rte Flash Probe
-    IF    '${MANUFACTURER}' == 'PC Engines' and '${APU_FLASH_WP_GPIO}' != '${TBD}'
+    IF    '${APU_FLASH_WP_GPIO}' != '${TBD}'
         Rte Gpio Set    ${APU_FLASH_WP_GPIO}    high-z
     END
     Should Be Equal As Integers    ${rc}    0
