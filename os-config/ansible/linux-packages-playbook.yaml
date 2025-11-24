@@ -40,10 +40,10 @@
         - src: "./../../osfv-test-data/coreboot-tools/cbmem"
         - src: "./../../osfv-test-data/coreboot-tools/cbfstool"
 
-#    - name: Gnome turn off automatic suspend on AC
-#      ansible.builtin.command: gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
-#    - name: Gnome turn off automatic suspend on battery
-#      ansible.builtin.command: gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0
+    - name: Gnome turn off automatic suspend on AC
+      ansible.builtin.command: gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+    - name: Gnome turn off automatic suspend on battery
+      ansible.builtin.command: gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0
     - name: Gnome turn off automatic screen lock
       ansible.builtin.command: gsettings set org.gnome.desktop.session idle-delay 0
     - name: Systemd turn off suspend
