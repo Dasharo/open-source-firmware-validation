@@ -224,6 +224,42 @@ CPU004.301 Multiple-core support (Windows)
     Should Be True    ${cpu_count} / ${socket_count} > 1
     Execute Shutdown Command
 
+CPU001.203 CPU works (QubesOS)
+    [Documentation]    Check whether the CPU mounted on the DUT works.
+    ...    Previous IDs: CPU001.010
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    CPU001.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU001.203 not supported
+    Power On
+    Login To OS    ${ENV_ID_QUBES}
+
+CPU002.203 CPU cache enabled (QubesOS)
+    [Documentation]    Check whether all declared for the DUT cache levels
+    ...    are enabled.
+    ...    Previous IDs: CPU002.010
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    CPU002.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
+    Power On
+    Login To OS    ${ENV_ID_QUBES}
+    CPU Cache Enabled Linux
+
+CPU003.203 Multiple CPU support (QubesOS)
+    [Documentation]    Check whether the DUT has multiple CPU support.
+    ...    Previous IDs: CPU003.010
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    CPU003.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU003.203 not supported
+    Power On
+    Login To OS    ${ENV_ID_QUBES}
+    Multiple CPU Support Linux
+
+CPU004.203 Multiple-core support (QubesOS)
+    [Documentation]    Check whether the DUT has multi-core support
+    ...    Previous IDs: CPU004.010
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU004.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
+    Power On
+    Login To OS    ${ENV_ID_QUBES}
+    Multiple-Core Support Linux
+
 CPU001.205 CPU works (XCP-NG)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     ...    Previous IDs: CPU001.010
@@ -236,7 +272,7 @@ CPU002.205 CPU cache enabled (XCP-NG)
     [Documentation]    Check whether all declared for the DUT cache levels
     ...    are enabled.
     ...    Previous IDs: CPU002.010
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU002.203 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU002.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
     Power On
     Login To OS    ${ENV_ID_XCP_NG}
@@ -245,8 +281,8 @@ CPU002.205 CPU cache enabled (XCP-NG)
 CPU003.205 Multiple CPU support (XCP-NG)
     [Documentation]    Check whether the DUT has multiple CPU support.
     ...    Previous IDs: CPU003.010
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU003.203 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU003.203 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU003.205 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU003.205 not supported
     Power On
     Login To OS    ${ENV_ID_XCP_NG}
     Multiple CPU Support Linux
@@ -254,8 +290,8 @@ CPU003.205 Multiple CPU support (XCP-NG)
 CPU004.205 Multiple-core support (XCP-NG)
     [Documentation]    Check whether the DUT has multi-core support
     ...    Previous IDs: CPU004.010
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU004.203 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU004.205 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU004.205 not supported
     Power On
     Login To OS    ${ENV_ID_XCP_NG}
     Multiple-Core Support Linux
