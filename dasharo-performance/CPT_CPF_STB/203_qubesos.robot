@@ -27,9 +27,10 @@ _CONCURRENT_Background Measurements Immediate (no load) (QubesOS)
     ${check}=    Check Concurrent Test Supported    ${con_id}
     IF    ${check}
         Sleep    5s
-        ${raw}=    Execute Command In Terminal    xenpm start 1 | grep -oP '\d+(\.\d+)?'
+        ${raw}=    Execute Command In Terminal    xenpm start 1 | grep -i "avg freq" | awk '{print $3}'
+        ${raw}=    Replace String    ${raw}    \r    ${EMPTY}
         @{freqs}=    Split String    ${raw}    \n
-        @{freqs}=    Remove Values From List    ${freqs}    ${EMPTY}
+        Log To Console    CPU freqs: @{freqs}
         Set Concurrent Test Outputs    ${con_id}    ${freqs}
     END
 
@@ -39,6 +40,15 @@ _CONCURRENT_Background Measurements Immediate (no load) (QubesOS)
     IF    ${check}
         ${dmesg_err}=    Execute Command In Terminal    sudo dmesg -t -l err,crit,alert,emerg
         Set Concurrent Test Outputs    ${con_id}    ${dmesg_err}
+    END
+    VAR    @{tests}=    CPF001.203    CPF005.203    CPF009.203    CPT001.203    CPT005.203    STB001.203    STB002.203
+    FOR    ${t}    IN    @{tests}
+        ${supported}=    Check Concurrent Test Supported    ${t}
+        ${outs}=    Get Concurrent Test Outputs    ${con_id}
+        Log To Console    -----------------------------
+        Log To Console    Test: ${t}
+        Log To Console    Supported: ${supported}
+        Log To Console    Outputs: ${outs}
     END
 
 ############################################
