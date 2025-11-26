@@ -12,10 +12,12 @@ Suite Teardown      Run Keyword
 
 Default Tags        automated
 
+
 *** Variables ***
-${NVRAM_ATTEMPT_B_FLAG}=        attempt_slot_b    #TBD
-${NVRAM_ATTEMPT_B_FLAG_SET}=    Enable     # TBD
+${NVRAM_ATTEMPT_B_FLAG}=        attempt_slot_b    # TBD
+${NVRAM_ATTEMPT_B_FLAG_SET}=    Enable    # TBD
 ${NVRAM_ATTEMPT_B_FLAG_CLR}=    Disable    # TBD
+
 
 *** Test Cases ***
 CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
@@ -33,7 +35,9 @@ CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
         Execute Manual Step    Disconnect the CMOS battery
         Sleep    5s
         Execute Manual Step    Connect the CMOS battery and assemble back the device completely
-        IF    ${POWER_CTRL} == 'none'    Execute Manual Step    Make sure the device is ON
+        IF    ${POWER_CTRL} == 'none'
+            Execute Manual Step    Make sure the device is ON
+        END
     END
 
     Power On
