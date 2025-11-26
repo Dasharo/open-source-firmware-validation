@@ -192,6 +192,55 @@ SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
     Wi-fi Connection After Suspension    S3
     Exit From Root User
 
+SMW201.203 Wi-fi detection after cold boot (QubesOS)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a cold boot.
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW201.203 not supported
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW201.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW201.203 not supported
+    Execute Manual Step    [1/5] Power On the DUT by performing the cold boot
+    Execute Manual Step    [2/5] Boot into QubesOS
+    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
+    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+
+SMW202.203 Wi-fi detection after warm boot (QubesOS)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a warm boot.
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW202.203 not supported
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW202.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW202.203 not supported
+    Execute Manual Step    [1/5] Power On the DUT by performing the warm boot
+    Execute Manual Step    [2/5] Boot into QubesOS
+    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
+    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+
+SMW203.203 Wi-fi detection after reboot (QubesOS)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after performing a reboot.
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW203.203 not supported
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW203.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW203.203 not supported
+    Execute Manual Step    [1/5] Power On the DUT by performing the reboot
+    Execute Manual Step    [2/5] Boot into QubesOS
+    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
+    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+
+SMW204.203 Wi-fi detection after suspension (QubesOS)
+    [Documentation]    Check whether the Wi-Fi card is detected and working
+    ...    correctly after resuming from suspension.
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW204.203 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW204.203 not supported
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW204.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW204.203 not supported
+    Execute Manual Step    [1/5] Power On the DUT
+    Execute Manual Step    [2/5] Boot into QubesOS and perform a suspend
+    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
+    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+
 
 *** Keywords ***
 Wi-fi Connection After Suspension
