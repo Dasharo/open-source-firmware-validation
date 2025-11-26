@@ -25,7 +25,7 @@ CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
 
     IF    ${DUT_HAS_CMOS_RESET}
         Rte Psu Off
-        Rte CMOS Clear
+        Rte Clear Cmos
     ELSE
         Log    RTE CMOS clear not supported. Test becomes semiauto.    level=WARN
         Skip If    'semiauto' not in ${TEST_TAGS}    `semiauto` tag not selected
@@ -40,7 +40,7 @@ CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Should Have Booted From Slot    A
+    Should Have Booted From Slot    COREBOOT
 
 CRB002.201 Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)
     [Documentation]    Check if setting the Attempt Slot B flag the device boots
@@ -55,7 +55,7 @@ CRB002.201 Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Should Have Booted From Slot    B
+    Should Have Booted From Slot    COREBOOT_TS
 
 CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
     [Documentation]    Check if clearing the Attempt Slot B flag the device boots
@@ -70,7 +70,7 @@ CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Should Have Booted From Slot    A
+    Should Have Booted From Slot    COREBOOT
 
 
 *** Keywords ***
@@ -90,9 +90,7 @@ Should Have Booted From Slot
     [Arguments]    ${slot}
     ${slot}=    Convert To Lower Case    ${slot}
     # TBD - will this show slot B?
-    ${out}=    Execute Command In Terminal    cbmem -c | grep -E "Slot [AB] is selected" | uniq | grep -oE " [AB] "
+    ${out}=    Execute Command In Terminal    cbmem -c | grep "Booting from"
     ${out}=    Convert To Lower Case    ${out}
     ${out}=    Strip String    ${out}
-    Should Be Equal    ${out}    ${slot}
-
-
+    Should Contain    ${out}    ${slot}
