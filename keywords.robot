@@ -498,6 +498,7 @@ Prepare Test Suite
         Import Osfv Libraries
     END
     VAR    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}=    ${TRUE}    scope=GLOBAL
+    Restore Initial DUT Connection Method
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Prepare To SSH Connection
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
