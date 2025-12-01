@@ -144,6 +144,7 @@ pip install -U -r requirements-openbmc.txt
 
 ```bash
 pip install -r requirements.txt
+ansible-galaxy install -r requirements.yml
 ```
 
 * Follow the initialization instructions in `osfv-test-data/README.md`:
@@ -162,12 +163,15 @@ If you try to run the environment again after the first initialization
 python3 -m virtualenv venv
 source venv/bin/activate
 pip install -r ./requirements.txt
+ansible-galaxy install -r requirements.yml
 ```
 
 * Or just create an alias:
 
 ```bash
-alias penv="python3 -m virtualenv venv && source venv/bin/activate && pip install -r ./requirements.txt"
+alias penv="python3 -m virtualenv venv && source venv/bin/activate && \
+            pip install -r ./requirements.txt && \
+            ansible-galaxy install -r requirements.yml"
 ```
 
 > NOTE: `keywords.robot` requires osfv_cli to be installed on the host system.
