@@ -32,7 +32,7 @@ BPS001.001 Power Control - PSU ON and serial output
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
     Power On
-    ${result}=    Wait For Serial Output
+    ${result}=    Wait For Serial Output    300
     Should Be True    ${result}    msg=Power On keyword failed
 
 BPS002.001 Power control - PSU OFF
@@ -192,7 +192,7 @@ Wait For Serial Output
     ...    it returns True. If it fails to receive any non-whitespace
     ...    characters as output during period defined as ${timeout} argument,
     ...    it returns False.
-    [Arguments]    ${timeout}=120
+    [Arguments]    ${timeout}=300
 
     FOR    ${i}    IN RANGE    ${timeout}
         Sleep    1s
