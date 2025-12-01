@@ -195,11 +195,17 @@ Read Firmware
 Get Flashrom Regions
     ${output}=    Execute Command In Terminal    flashrom -p internal
     ${lines}=    Split To Lines    ${output}
-    ${dict}=    Create Dictionary
+    VAR    &{dict}=    &{EMPTY}
     FOR    ${l}    IN    @{lines}
-        ${m}=    Get Regexp Matches    ${l}    FREG[0-9]+: (.+) region \\((0x[0-9a-f]+)-(0x[0-9a-f]+)\\) is (.+)    1    2    3    4
+        ${m}=    Get Regexp Matches
+        ...    ${l}
+        ...    FREG[0-9]+: (.+) region \\((0x[0-9a-f]+)-(0x[0-9a-f]+)\\) is (.+)
+        ...    1
+        ...    2
+        ...    3
+        ...    4
         IF    ${m} != []
-            ${region}=    Create Dictionary    start=${m[0][1]}    end=${m[0][2]}    state=${m[0][3]}
+            VAR    &{region}=    start=${m[0][1]}    end=${m[0][2]}    state=${m[0][3]}
             Set To Dictionary    ${dict}    ${m[0][0]}=${region}
         END
     END
@@ -208,11 +214,11 @@ Get Flashrom Regions
 Get Flashrom Readonly Offsets
     ${output}=    Execute Command In Terminal    flashrom -p internal
     ${lines}=    Split To Lines    ${output}
-    ${list}=    Create List
+    VAR    @{list}=    @{EMPTY}
     FOR    ${l}    IN    @{lines}
         ${m}=    Get Regexp Matches    ${l}    Warning: (0x[0-9a-f]+)-(0x[0-9a-f]+) is read-only    1    2
         IF    ${m} != []
-            ${region}=    Create Dictionary    start=${m[0][0]}    end=${m[0][1]}
+            VAR    &{region}=    start=${m[0][0]}    end=${m[0][1]}
             Append To List    ${list}    ${region}
         END
     END
@@ -226,7 +232,7 @@ Calculate Expected Flashrom Readonly Region
     ${bios_end}=    Get From Dictionary    ${flashrom_regions['${region_name}']}    end
     ${expected_readonly_start}=    Evaluate    hex(${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.start})
     ${expected_readonly_end}=    Evaluate    hex(${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.end})
-    ${expected_readonly}=    Create Dictionary    start=${expected_readonly_start}    end=${expected_readonly_end}
+    VAR    &{expected_readonly}=    start=${expected_readonly_start}    end=${expected_readonly_end}
     RETURN    ${expected_readonly}
 
 Verify Region Range Protected

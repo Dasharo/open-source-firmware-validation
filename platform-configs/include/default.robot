@@ -201,6 +201,7 @@ ${POWERSHELL_STR_HEADSET_IN}=                       Microphone (Realtek(R) Audio
 ${POWERSHELL_STR_HDMI_OUT}=                         Audio Driver for Display Audio
 ${COREBOOT_REDUNDANT_BOOT_SUPPORT}=                 ${FALSE}
 ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET}=        ${NONE}
+${COREBOOT_REDUNDANT_BOOT_COREBOOT_OFFSET}=         ${NONE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}
