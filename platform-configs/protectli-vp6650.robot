@@ -39,6 +39,9 @@ ${SATA_SUPPORT}=                        ${True}
 ${TESTS_IN_XCP_NG_SUPPORT}=             ${True}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_XCP_NG}
 
+# TODO - define in platform configs depending on platforms fmap
+${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET}=    ${None}
+${COREBOOT_REDUNDANT_BOOT_COREBOOT_OFFSET}=    ${None}
 
 *** Keywords ***
 Power On
