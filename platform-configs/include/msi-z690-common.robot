@@ -105,6 +105,7 @@ ${UEFI_PASSWORD_SUPPORT}=                       ${TRUE}
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                     ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
+${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 
 # Test module: dasharo-stab
 ${TPM_DETECT_SUPPORT}=                          ${TRUE}
