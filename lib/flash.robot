@@ -191,3 +191,67 @@ Read Firmware
     ELSE
         Fail    Read firmware not implemented for platform config ${CONFIG}
     END
+
+Get Flashrom Regions
+    ${output}=    Execute Command In Terminal    flashrom -p internal
+    ${lines}=    Split To Lines    ${output}
+    ${dict}=    Create Dictionary
+    FOR    ${l}    IN    @{lines}
+        ${m}=    Get Regexp Matches    ${l}    FREG[0-9]+: (.+) region \\((0x[0-9a-f]+)-(0x[0-9a-f]+)\\) is (.+)    1    2    3    4
+        IF    ${m} != []
+            ${region}=    Create Dictionary    start=${m[0][1]}    end=${m[0][2]}    state=${m[0][3]}
+            Set To Dictionary    ${dict}    ${m[0][0]}=${region}
+        END
+    END
+    RETURN    ${dict}
+
+Get Flashrom Readonly Offsets
+    ${output}=    Execute Command In Terminal    flashrom -p internal
+    ${lines}=    Split To Lines    ${output}
+    ${list}=    Create List
+    FOR    ${l}    IN    @{lines}
+        ${m}=    Get Regexp Matches    ${l}    Warning: (0x[0-9a-f]+)-(0x[0-9a-f]+) is read-only    1    2
+        IF    ${m} != []
+            ${region}=    Create Dictionary    start=${m[0][0]}    end=${m[0][1]}
+            Append To List    ${list}    ${region}
+        END
+    END
+    RETURN    ${list}
+
+Calculate Expected Flashrom Readonly Region
+    [Tags]    robot:private
+    [Arguments]    ${region_name}    ${start_offset}    ${end_offset}
+    ${flashrom_regions}=    Get Flashrom Regions
+    ${bios_start}=    Get From Dictionary    ${flashrom_regions['${region_name}']}    start
+    ${bios_end}=    Get From Dictionary    ${flashrom_regions['${region_name}']}    end
+    ${expected_readonly_start}=    Evaluate    hex(${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.start})
+    ${expected_readonly_end}=    Evaluate    hex(${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.end})
+    ${expected_readonly}=    Create Dictionary    start=${expected_readonly_start}    end=${expected_readonly_end}
+    RETURN    ${expected_readonly}
+
+Verify Region Range Protected
+    [Arguments]    ${region_name}    ${expected_start}    ${expected_end}
+    ${readonly_regions}=    Get Flashrom Readonly Offsets
+    IF    len(${readonly_regions}) == 0
+        Fail    No readonly regions found in flashrom output
+    END
+
+    ${expected_readonly_bootblock}=    Calculate Expected Flashrom Readonly Region
+    ...    region_name=${region_name}
+    ...    start_offset=${expected_start}
+    ...    end_offset=${expected_end}
+
+    VAR    ${expected_readonly_found}=    ${FALSE}
+    FOR    ${region}    IN    @{readonly_regions}
+        Log To Console    Found readonly region: ${region}
+        Log To Console    Expected readonly region: ${expected_readonly_bootblock}
+        ${start_matches}=    Evaluate    int(${region['start']}) == int(${expected_readonly_bootblock['start']})
+        ${end_matches}=    Evaluate    int(${region['end']}) == int(${expected_readonly_bootblock['end']})
+        IF    ${start_matches} and ${end_matches}
+            VAR    ${expected_readonly_found}=    ${TRUE}
+            BREAK
+        END
+    END
+    IF    not ${expected_readonly_found}
+        Fail    Expected readonly region ${expected_readonly_bootblock} not found in flashrom output
+    END
