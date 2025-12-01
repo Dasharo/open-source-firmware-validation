@@ -3,11 +3,11 @@ Resource    include/msi-z690-common.robot
 
 
 *** Variables ***
-${FW_VERSION}=                          v1.1.4-rc1
+${FW_VERSION}=                          v1.1.6
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.1.4-rc1
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=              MS-7D25
-${DMIDECODE_RELEASE_DATE}=              10/07/2024
+${DMIDECODE_RELEASE_DATE}=              11/29/2025
 
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                    Intel Corporation Alder Lake-S PCH CNVi WiFi (rev 11)
@@ -33,7 +33,7 @@ ${CPU_E_CORES_MAX}=                     12
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=
 ...                                     &{DTS_TEST_VERSIONS_BASE}
-...                                     UEFI->Heads Transition=Dasharo (coreboot+UEFI) 1.1.4
+...                                     UEFI->Heads Transition=Dasharo (coreboot+UEFI) 1.1.6
 ${DTS_TEST_BOARD_MODEL}=                PRO Z690-A WIFI DDR4(MS-7D25)
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
