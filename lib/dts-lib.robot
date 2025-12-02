@@ -15,16 +15,16 @@ ${DTS_CONFIRM_CHECKPOINT}=                      Press Enter to continue
 ${HCL_REPORT_CHECKPOINT}=
 ...                                             Please consider contributing to the "Hardware for Linux" project in the future.
 ${HCL_REPORT_SENDINGLOGS}=
-...                                             Do you want to support Dasharo development by sending us logs with your hardware configuration? [y|n]
-${ERROR_LOGS_QUESTION}=                         Do you want to send console logs to 3mdeb? [y|n]:
-${DTS_SPECIFICATION_WARN}=                      Does it match your actual specification? [y|n]
-${DTS_DEPLOY_WARN}=                             Do you want to deploy this Dasharo Firmware on your platform [y|n]
+...                                             Do you want to support Dasharo development by sending us logs with your hardware configuration? (Y|n)
+${ERROR_LOGS_QUESTION}=                         Do you want to send console logs to 3mdeb?
+${DTS_SPECIFICATION_WARN}=                      Does it match your actual specification? (Y|n)
+${DTS_DEPLOY_WARN}=                             Do you want to deploy this Dasharo Firmware on your platform (Y|n)
 ${DTS_HW_PROBE_WARN}=                           Do you want to participate in this project?
-${DTS_HEADS_SWITCH_QUESTION}=                   Would you like to switch to Dasharo heads firmware? [y|n]
+${DTS_HEADS_SWITCH_QUESTION}=                   Would you like to switch to Dasharo heads firmware? (Y|n)
 ${DTS_ME_WARN}=
-...                                             Skip ME flashing and proceed with BIOS/firmware flashing/updating? [y|n]
+...                                             Skip ME flashing and proceed with BIOS/firmware flashing/updating? (Y|n)
 ${DTS_BOARD_QUESTION}=                          Choose your board model:
-${DTS_FUSE_WARN}=                               Fusing is irreversible. Are you sure you want to continue? [y|n]
+${DTS_FUSE_WARN}=                               Fusing is irreversible. Are you sure you want to continue? (Y|n)
 ${DTS_13_GEN_REGRESSION}=                       Aborting deployment...
 ${DPP_EMAIL_CHECKPOINT}=                        Enter DPP email:
 ${DPP_PASSWORD_CHECKPOINT}=                     Enter password:
