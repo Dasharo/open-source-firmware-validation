@@ -89,7 +89,7 @@ Login To Windows
 Login To OS
     [Documentation]    Universal login to ESXi.
     [Arguments]    ${env_id}
-    Boot System Or From Connected Disk    ${env_id}
+    # Boot System Or From Connected Disk    ${env_id}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
