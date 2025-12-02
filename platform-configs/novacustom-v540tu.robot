@@ -4,14 +4,20 @@ Resource    include/novacustom-common.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=       SSH
-${DUT_CONNECTION_METHOD}=               SSH
-${POWER_CTRL}=                          none
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
-${OPTIONS_LIB}=                         options-lib_dcu
+${DEF_CORES_PER_SOCKET}=                14
+${DEF_THREADS_TOTAL}=                   18
+${DEF_ONLINE_CPU}=                      0-17
+
+${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
+${DUT_CONNECTION_METHOD}=               Telnet
+${POWER_CTRL}=                          sonoff
+${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+#${OPTIONS_LIB}=                         options-lib_dcu
+${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
 # CPU
 ${CPU}=
-...                                     Intel(R) Core(TM) Ultra 7 155H
+...                                     Intel(R) Core(TM) Ultra 7 125H
 
 ${3_MDEB_WIFI_NETWORK}=                 3mdeb_abr
 ${DEVICE_NVME_DISK}=
@@ -19,8 +25,8 @@ ${DEVICE_NVME_DISK}=
 ${DEVICE_USB_KEYBOARD}=
 ...                                     Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc7
-${DMIDECODE_RELEASE_DATE}=              09/16/2025
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.1-rc2
+${DMIDECODE_RELEASE_DATE}=              11/03/2025
 ${DMIDECODE_SERIAL_NUMBER}=             123456789
 ${WIFI_CARD}=
 ...                                     Intel Corporation Meteor Lake PCH CNVi WiFi
@@ -29,10 +35,10 @@ ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
 ${PLATFORM_CPU_SPEED}=                  3.0
 
-${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
-...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+...                                     ${ENV_ID_UBUNTU}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux

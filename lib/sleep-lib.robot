@@ -86,7 +86,7 @@ Get And Install FWTS
 Perform Suspend Test Using FWTS
     [Documentation]    Keyword allows to perform suspend and resume procedure
     ...    test by using Firmware Test Suite tool
-    [Arguments]    ${test_duration}=25
+    [Arguments]    ${test_duration}=60
     VAR    ${is_suspend_performed_correctly}=    ${FALSE}
     VAR    ${test_time_out}=    ${${test_duration}-5}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'

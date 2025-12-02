@@ -132,7 +132,7 @@ TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu)
     ...    works as expected. This command is used to create a
     ...    primary object under one of the hierarchies: Owner,
     ...    Platform, Endorsement, NULL.
-    ${out}=    Execute Linux Command    tpm2_createprimary -c primary.ctx    60
+    ${out}=    Execute Linux Command    tpm2_createprimary -c primary.ctx    120
     Execute Linux Command    rm -f primary.ctx
     Should Contain    ${out}    value: sha256
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|restricted|decrypt

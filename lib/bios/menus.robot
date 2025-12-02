@@ -875,7 +875,9 @@ Set Option State
                 Press Key N Times    1    ${ARROW_UP}
             END
 
-            ${out}=    Read From Terminal Until    ---/
+            Sleep    1s
+            ${out}=    Read From Terminal
+            # Until    ---/
             ${list}=    Extract Strings From Frame    ${out}
             # TODO: Temporarily disabled due to the complexity with
             # options spanning into multiple lines.
@@ -961,6 +963,15 @@ Reset To Defaults Tianocore
         EXCEPT
             Set Option State    ${serial_menu}    Enable Serial Port    ${TRUE}
         END
+#        ${is_laptop}=    Check The Platform Is A Laptop
+#        VAR    ${LAPTOP_PLATFORM}=    ${is_laptop}    scope=SUITE
+#        IF    ${LAPTOP_PLATFORM}
+#            Tianocore Reset System
+#            ${main_menu}=    Enter Setup Menu Tianocore And Return Construction
+#            ${dasharo_menu}=    Enter Dasharo System Features    ${main_menu}
+#            ${power_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+#            Set Option State    ${power_menu}    Power state after    Powered On
+#        END
     END
 
 # TODO:
