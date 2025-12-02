@@ -94,6 +94,16 @@ CAM001.301 Integrated webcam (Windows)
     Should Contain Any    ${out}    Camera    BisonCam
     Execute Shutdown Command
 
+CAM001.203 Integrated webcam (QubesOS)
+    [Documentation]    Check whether the integrated USB camera is initialized
+    ...    correctly and can be accessed from the Linux OS. Assumption: No
+    ...    external cameras connected.
+    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    CAM001.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CAM001.203 not supported
+    Login To OS    ${ENV_ID_QUBES}
+    ${info}=    Execute Linux Command    qvm-usb
+    Should Contain Any    ${info}    Camera    BisonCam
+
 
 *** Keywords ***
 Integrated Webcam Linux
