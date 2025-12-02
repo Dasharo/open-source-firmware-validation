@@ -106,7 +106,7 @@ DTG005.001 Generate Profile for DTS Heads Transition workflow
 
 DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
     [Documentation]
-    ...    Generate profile for DTS SeaBIOS->UEFI initial deployment.
+    ...    Generate profile for DTS UEFI->SeaBIOS initial deployment.
     ...    ${FW_FILE} variable should contain path to UEFI fw release that
     ...    allows for SeaBIOS transition workflow. If ${FW_FILE} isn't defined
     ...    then you'll be asked to manually flash correct fw version on DUT
