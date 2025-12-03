@@ -26,3 +26,5 @@ ipxe/
 /logs
 dts/dts-gen-profiles/
 UEFI
+_envvars/
+_roms/
