@@ -1,4 +1,5 @@
 *** Settings ***
+Library     Collections
 Library     OperatingSystem
 Library     String
 
@@ -58,14 +59,24 @@ Validate PCRs Against Event Log
     ${tpm2_eventlog}=    Execute Command In Terminal
     ...    tpm2_eventlog ${binary_log_file}
     Should Not Contain    ${tpm2_eventlog}    ERROR: Unable to run tpm2_eventlog
+    VAR    @{invalid_prcs}=    @{EMPTY}
     FOR    ${algo}    IN    sha1    sha256
         ${eventlog_pcrs}=    Get PCRs From Eventlog    ${tpm2_eventlog}    ${algo}
         FOR    ${pcr_element}    IN    @{eventlog_pcrs}
             ${pcr}    ${hash}=    Split String    ${pcr_element}    separator=:
             ${sha_hash}=    Execute Command In Terminal
             ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}
-            Should Contain    ${hash}    ${sha_hash}    ignore_case=${TRUE}
+            ${status}=    Run Keyword And Return Status
+            ...    Should Contain    ${hash}    ${sha_hash}    ignore_case=${TRUE}
+            IF    not ${status}
+                VAR    &{pcr_fail}=    pcr=pcr${pcr}-${algo}    log_hash=${hash}    real_hash=${sha_hash}
+                Append To List    ${invalid_prcs}    ${pcr_fail}
+            END
         END
+    END
+    IF    ${invalid_prcs} is not &{EMPTY}
+        Log To Console    ${invalid_prcs}
+        Fail    Invalid PCRs found
     END
 
 Validate Expected TPM Version Via Sysfs
