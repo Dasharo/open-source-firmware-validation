@@ -700,6 +700,19 @@ ECR020.203 Buttons (button: lid switch) in OS (Qubes OS)
     Execute Manual Step
     ...    [5/5] Wake the DUT with any key or power button.
 
+ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot.
+    [Tags]    semiauto
+    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/5] Power on the DUT by performing a cold boot.
+    Execute Manual Step    [2/5] Boot into Qubes OS.
+    Execute Manual Step    [3/5] Choose any keyboard brightness (Fn+F4) as a means to test this feature
+    ...    (for example, the last level before black for easier tracking).
+    Execute Manual Step    [4/5] Perform a cold boot and boot into Qubes OS once again.
+    Execute Manual Step
+    ...    [5/5] Verify if the keyboard brightness is set to the level used before the cold boot.
+
 
 *** Keywords ***
 Keyboard Function Key Brightness Down In Linux
