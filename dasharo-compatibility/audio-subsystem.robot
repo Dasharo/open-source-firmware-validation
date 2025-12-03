@@ -316,10 +316,10 @@ AUD007.301 HDMI Audio recognition
     Should Contain    ${out}    ${POWERSHELL_STR_HDMI_OUT}
     Should Contain    ${out}    OK
 
-AUD001.203 HDMI Audio recognition (QubesOS)
-    [Documentation]    Check whether the HDMI audio is recognized
-    ...    properly in Windows 11 after connecting HDMI display.
-    Power On
+AUD001.203 Audio subsystem detection (QubesOS)
+    [Documentation]    Check whether the audio subsystem is initialized correctly
+    ...    and can be detected in QubesOS. To do so, we attemptt detection
+    ...    of the Audio Service, and verify it is in Running state.
     Login To OS    ${ENV_ID_QUBES}
     ${out}=    Execute Command In Terminal    pactl list sinks
     ${result}=    Run Keyword And Ignore Error
