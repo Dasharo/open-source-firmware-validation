@@ -12,10 +12,14 @@ Prepare Sensors
     [Documentation]    Do any preparation work needed for accessing sensors
 
     # Might only do this when any method is said to be lm-sensors.
-    # Power On
-    # Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux
-    # Switch To Root User
+    IF    ${DEFAULT_BOOT_OS_ID}==${ENV_ID_QUBES}
+        Login To OS    ${ENV_ID_QUBES}
+    ELSE
+        Power On
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+    END
     Import Variables    ${CURDIR}/../../platform-configs/${SENSORS_CONFIG_FILE}
     ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
     ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
