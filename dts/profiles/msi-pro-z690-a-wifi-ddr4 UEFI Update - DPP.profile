@@ -1,3 +1,4 @@
+https://github.com/Dasharo/open-source-firmware-validation/pull/1166#issuecomment-3626438373
 dmidecode -s system-manufacturer 0
 dmidecode -s system-product-name 0
 dmidecode -s baseboard-product-name 0
