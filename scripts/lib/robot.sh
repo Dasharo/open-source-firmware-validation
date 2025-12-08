@@ -341,6 +341,9 @@ execute_robot() {
                 "
     # echo "$command"
     eval "$command"
+    if [[ $? -ne 0 ]]; then
+      overall_rc=1
+    fi
   done
   return $overall_rc
 }
