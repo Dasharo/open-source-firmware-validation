@@ -122,6 +122,7 @@ ${DTS_TEST_BOARD_MODEL}=                    ${DMIDECODE_PRODUCT_NAME}
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                         ${{ ("SeaBIOS->UEFI Transition", "DPP") }}
 ...                                         ${{ ("SeaBIOS Update", "DPP") }}
+...                                         ${{ ("UEFI Update", "DPP") }}
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=
 ...                                         &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 ...                                         UEFI Update=&{{ {"TEST_FMAP_REGIONS": "RW_SECTION_A", "TEST_IS_COREBOOT": "true"} }}
