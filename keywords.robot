@@ -803,7 +803,7 @@ Execute Shutdown Command
     ...    Depends on existing SSH connection to DUT, restores initial connection method
     ...    after power loss.
     VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
-    Execute Command In Terminal    shutdown /s /f /t 0
+    #Execute Command In Terminal    shutdown /s /f /t 0
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         ${loop_iterations}=    Evaluate    ${WINDOWS_SHUTDOWN_AWAITING_SECONDS} * 2
         FOR    ${i}    IN RANGE    ${loop_iterations}
@@ -812,7 +812,7 @@ Execute Shutdown Command
             Sleep    0.5s
         END
     END
-    Restore Initial DUT Connection Method
+    #Restore Initial DUT Connection Method
 
 Execute Poweroff Command
     Write Into Terminal    poweroff

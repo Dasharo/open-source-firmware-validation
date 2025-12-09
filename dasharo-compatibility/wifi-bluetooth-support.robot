@@ -98,7 +98,7 @@ WLE001.301 Wireless card detection (Windows)
     Should Match    ${out}    *${WIFI_CARD}*
     Log To Console    The test passed for the ${WIFI_CARD} wireless card
     Log    The test passed for the ${WIFI_CARD} wireless card    WARN
-    Execute Shutdown Command
+#    Execute Shutdown Command
 
 WLE002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
@@ -120,7 +120,7 @@ WLE002.301 Wi-Fi scanning (Windows)
     ...    Execute Command In Terminal    Get-NetAdapter -Name "Wi-Fi" | Format-List -Property "InterfaceDescription"
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
-    Execute Shutdown Command
+#    Execute Shutdown Command
 
 WLE001.205 Wireless card detection (XCP-NG)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated

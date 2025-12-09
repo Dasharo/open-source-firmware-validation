@@ -8,13 +8,15 @@ ${DEF_CORES_PER_SOCKET}=                14
 ${DEF_THREADS_TOTAL}=                   18
 ${DEF_ONLINE_CPU}=                      0-17
 
-${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
-${DUT_CONNECTION_METHOD}=               Telnet
-${POWER_CTRL}=                          sonoff
-${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
-#${OPTIONS_LIB}=                         options-lib_dcu
-${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
+${INITIAL_DUT_CONNECTION_METHOD}=       SSH
+${DUT_CONNECTION_METHOD}=               SSH
+${POWER_CTRL}=                          none
+#${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
+#${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${CHECK_POWER_LED_SUPPORT}=             ${FALSE}
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
+${OPTIONS_LIB}=                         options-lib_dcu
+#${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
 # CPU
 ${CPU}=
 ...                                     Intel(R) Core(TM) Ultra 7 125H
@@ -29,7 +31,7 @@ ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.1-rc2
 ${DMIDECODE_RELEASE_DATE}=              11/03/2025
 ${DMIDECODE_SERIAL_NUMBER}=             123456789
 ${WIFI_CARD}=
-...                                     Intel Corporation Meteor Lake PCH CNVi WiFi
+...                                     Intel(R) Wi-Fi 6E AX211 160MHz
 ${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300

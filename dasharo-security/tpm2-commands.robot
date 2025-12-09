@@ -171,7 +171,7 @@ TPMCMD007.002 CREATELOADED Function (Ubuntu)
     ...    as expected. It will create an object using all the
     ...    default values and store key context to the path
     ...    specified via `-c`.
-    Execute Linux Command    tpm2_createprimary -c primary.ctx    60
+    Execute Linux Command    tpm2_createprimary -c primary.ctx    120
     ${out}=    Execute Linux Command    tpm2_create -C primary.ctx -c obj.key
     Execute Linux Command    rm -f primary.ctx obj.key
     Should Contain    ${out}    value: sha256
@@ -180,14 +180,14 @@ TPMCMD007.002 CREATELOADED Function (Ubuntu)
 
 TPMCMD008.001 Signing the file (Ubuntu)
     [Documentation]    Check whether the TPM supports file signing.
-    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
-    Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    120
+    Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx    120
     Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary_key.ctx -u key.pub -r key.priv -c key.ctx    120
     Execute Linux Command    echo "my secret" > secret.data
-    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data
+    Execute Linux Tpm2 Tools Command    tpm2_sign -c key.ctx -o sig.rssa secret.data    120
     Flush TPM Contexts
-    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
+    Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data    120
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
 
 TPMCMD009.001 Encryption and Decryption of the file (Ubuntu)

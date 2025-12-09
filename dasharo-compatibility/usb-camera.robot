@@ -92,7 +92,7 @@ CAM001.301 Integrated webcam (Windows)
     Login To Windows
     ${out}=    Get USB Devices Windows
     Should Contain Any    ${out}    Camera    BisonCam
-    Execute Shutdown Command
+#    Execute Shutdown Command
 
 
 *** Keywords ***
