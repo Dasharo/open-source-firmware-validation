@@ -201,7 +201,7 @@ CPF012.301 CPU with load runs on expected frequency (Windows)
 *** Keywords ***
 Stress Test Windows
     SSHLibrary.Put File    stress-test-windows.ps1    /C:/Users/user
-    SSHLibrary.Execute Command    .\\stress-test-windows.ps1
+    Execute Command In Terminal    .\\stress-test-windows.ps1
 
 Prepare CPF
     [Documentation]    Setup CPF concurrent test contexts
