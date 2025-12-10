@@ -4,6 +4,7 @@ Documentation       Library for UEFI configuration using Dasharo Configuration
 ...                 available.
 
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -60,10 +61,28 @@ Get UEFI Boot Manager Entries
     RETURN    ${boot_menu}
 
 Measure Coldboot Time
-    [Documentation]    Performs a measurement of average coldboot
-    ...    boot. Not supported in this variant of options lib.
+    [Documentation]    Performs a measurement of warmboot boot time
+    ...    The device does not need to be logged in to Ubuntu if $DUT_CONNETION_METHOD == SSH.
+    ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
+    ...    off, and the login prompt must be available in the Telnet buffer.
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
 
-    Skip    Coldboot not supported without serial connection
+    VAR    @{durations}=    @{EMPTY}
+    Log To Console    \n
+
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        Execute Manual Step    message=Perform a coldboot
+
+        Boot System Or From Connected Disk    ${os_id}
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s
+        Append To List    ${durations}    ${boot_time}
+    END
+    ${min}    ${max}    ${average}    ${stddev}=
+    ...    Calculate Boot Time Statistics    ${durations}
+    RETURN    ${min}    ${max}    ${average}    ${stddev}
 
 Measure Warmboot Time
     [Documentation]    Performs a measurement of warmboot boot time

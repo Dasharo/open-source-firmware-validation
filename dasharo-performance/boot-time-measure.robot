@@ -37,8 +37,11 @@ CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot (Ubu
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
     ...    Previous IDs: CBMEM001.001
+    [Tags]    automated    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.201 not supported
-    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
+    Skip If
+    ...    '${POWER_CTRL}' == 'none' and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    Coldboot automatic tests not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.201 not supported
     Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_UBUNTU}
 
@@ -64,7 +67,10 @@ CBMEM001.202 Serial boot time measure: coreboot booting time after coldboot (Fed
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
-    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
+    [Tags]    automated    semiauto
+    Skip If
+    ...    '${POWER_CTRL}' == 'none' and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    Coldboot automatic tests not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.202 not supported
     Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_FEDORA}
 
