@@ -41,20 +41,21 @@ Background Measurements
     VAR    ${time_to_next_interval}=    0
     # measurement loop
     WHILE    ${timer} < ${longest_duration}
-        Sleep    ${time_to_next_interval}
+        Sleep    ${time_to_next_interval}s
+        Log To Console    === ${timer} s:
 
         IF    ${TEMPERATURE_TEST_DURATION} >= ${timer} >= ${next_temp_time}
             ${temperature}=    Get CPU Temperature
             ${next_temp_time}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
             Append To List    ${temp_list}    ${temperature}
-            Log To Console    ${timer}s: Temperature: ${temperature}
+            Log To Console    Temperature: ${temperature}
         END
 
         IF    ${FREQUENCY_TEST_DURATION} >= ${timer} >= ${next_freq_time}
             ${freqs}=    Get CPU Frequencies In Linux
             ${next_freq_time}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
             Append To List    ${freq_list}    ${freqs}
-            Log To Console    ${timer}s: Frequencies: ${freqs}
+            Log To Console    Frequencies: ${freqs}
         END
 
         IF    ${STABILITY_TEST_DURATION} >= ${timer} >= ${next_stab_time}
@@ -65,12 +66,13 @@ Background Measurements
             VAR    &{stab_data}=    network=${network_status}    uptime=${current_uptime}
             ${next_stab_time}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
             Append To List    ${stab_list}    ${stab_data}
-            Log To Console    ${timer}s: Stability: uptime ${current_uptime}
+            Log To Console    Stability: uptime ${current_uptime}
         END
 
         ${now}=    Get Current Date
         ${timer}=    Subtract Date From Date    ${now}    ${start}
-        ${time_to_next_interval}=    Evaluate    max(0, ${timer} - min(${next_stab_time}, ${next_freq_time}))
+        ${time_to_next_interval}=    Evaluate
+        ...    max(0, min(${next_stab_time}, ${next_freq_time}, ${next_temp_time}) - ${timer})
     END
 
     Set Concurrent Test Outputs    ${id_temp}    ${temp_list}
@@ -124,7 +126,8 @@ Background Measurements Windows
 
         ${now}=    Get Current Date
         ${timer}=    Subtract Date From Date    ${now}    ${start}
-        ${time_to_next_interval}=    Evaluate    max(0, ${timer} - min(${next_stab_time}, ${next_freq_time}))
+        ${time_to_next_interval}=    Evaluate
+        ...    max(0, min(${next_stab_time}, ${next_freq_time}, ${NEXT_TEMP_TIME}) - ${timer})
     END
 
     Set Concurrent Test Outputs    ${id_freq}    ${freq_list}
