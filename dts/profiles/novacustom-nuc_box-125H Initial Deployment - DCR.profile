@@ -45,6 +45,7 @@ flashrom -V -p internal:laptop=force_I_want_a_brick -r logs/rom.bin --ifd -i fd 
 dmesg  0
 cbmem  1
 cbmem -1 1
+dump_pcrs  0
 mei-amt-check  0
 intelmetool -m 0
 dmidecode -s system-manufacturer 0
