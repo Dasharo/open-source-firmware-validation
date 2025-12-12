@@ -192,6 +192,34 @@ Read Firmware
         Fail    Read firmware not implemented for platform config ${CONFIG}
     END
 
+Get Flashrom FMAP Regions
+    # ${output}=    Execute Command In Terminal    flashrom -p internal -r coreboot.rom    timeout=300s
+    ${output}=    Execute Command In Terminal    cbfstool coreboot.rom layout -w
+    ${lines}=    Split To Lines    ${output}
+    VAR    &{dict}=    &{EMPTY}
+    FOR    ${l}    IN    @{lines}
+        ${m}=    Get Regexp Matches
+        ...    ${l}
+        ...    ^'([A-Z_]+)' \\(([a-zA-Z_\-]+, )?size ([0-9]+), offset ([0-9]+)\\)$
+        ...    1
+        ...    2
+        ...    3
+        ...    4
+
+        IF    ${m} != []
+            VAR    ${name}=    ${m}[0][0]
+            VAR    ${type}=    ${m}[0][1]
+            VAR    ${size}=    ${m}[0][2]
+            VAR    ${offset}=    ${m}[0][3]
+            ${start}=    Evaluate    ${offset}
+            ${end}=    Evaluate    ${start} + ${size}
+
+            VAR    &{region}=    start=${start}    end=${end}    type=${type}
+            Set To Dictionary    ${dict}    ${name}=${region}
+        END
+    END
+    RETURN    ${dict}
+
 Get Flashrom Regions
     ${output}=    Execute Command In Terminal    flashrom -p internal
     ${lines}=    Split To Lines    ${output}
@@ -205,8 +233,14 @@ Get Flashrom Regions
         ...    3
         ...    4
         IF    ${m} != []
-            VAR    &{region}=    start=${m[0][1]}    end=${m[0][2]}    state=${m[0][3]}
-            Set To Dictionary    ${dict}    ${m[0][0]}=${region}
+            VAR    ${name}=    ${m}[0][0]
+            VAR    ${start}=    ${m}[0][1]
+            VAR    ${end}=    ${m}[0][2]
+            VAR    ${state}=    ${m}[0][3]
+            ${start}=    Evaluate    int(${start})
+            ${end}=    Evaluate    int(${end})
+            VAR    &{region}=    start=${start}    end=${end}    state=${state}
+            Set To Dictionary    ${dict}    ${name}=${region}
         END
     END
     RETURN    ${dict}
@@ -218,7 +252,9 @@ Get Flashrom Readonly Offsets
     FOR    ${l}    IN    @{lines}
         ${m}=    Get Regexp Matches    ${l}    Warning: (0x[0-9a-f]+)-(0x[0-9a-f]+) is read-only    1    2
         IF    ${m} != []
-            VAR    &{region}=    start=${m[0][0]}    end=${m[0][1]}
+            ${start}=    Evaluate    int(${m[0][0]})
+            ${end}=    Evaluate    int(${m[0][1]}) + 1    # inclusive
+            VAR    &{region}=    start=${start}    end=${end}
             Append To List    ${list}    ${region}
         END
     END
@@ -230,8 +266,8 @@ Calculate Expected Flashrom Readonly Region
     ${flashrom_regions}=    Get Flashrom Regions
     ${bios_start}=    Get From Dictionary    ${flashrom_regions['${region_name}']}    start
     ${bios_end}=    Get From Dictionary    ${flashrom_regions['${region_name}']}    end
-    ${expected_readonly_start}=    Evaluate    hex(${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.start})
-    ${expected_readonly_end}=    Evaluate    hex(${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.end})
+    ${expected_readonly_start}=    Evaluate    ${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.start}
+    ${expected_readonly_end}=    Evaluate    ${bios_start} + ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.end}
     VAR    &{expected_readonly}=    start=${expected_readonly_start}    end=${expected_readonly_end}
     RETURN    ${expected_readonly}
 
@@ -251,8 +287,8 @@ Verify Region Range Protected
     FOR    ${region}    IN    @{readonly_regions}
         Log To Console    Found readonly region: ${region}
         Log To Console    Expected readonly region: ${expected_readonly_bootblock}
-        ${start_matches}=    Evaluate    int(${region['start']}) == int(${expected_readonly_bootblock['start']})
-        ${end_matches}=    Evaluate    int(${region['end']}) == int(${expected_readonly_bootblock['end']})
+        ${start_matches}=    Evaluate    ${region['start']} == ${expected_readonly_bootblock['start']}
+        ${end_matches}=    Evaluate    ${region['end']} == ${expected_readonly_bootblock['end']}
         IF    ${start_matches} and ${end_matches}
             VAR    ${expected_readonly_found}=    ${TRUE}
             BREAK
@@ -260,4 +296,36 @@ Verify Region Range Protected
     END
     IF    not ${expected_readonly_found}
         Fail    Expected readonly region ${expected_readonly_bootblock} not found in flashrom output
+    END
+
+Flashrom Verify FMAP Regions Protected
+    [Arguments]    @{region_names}
+    ${fmap_regions}=    Get Flashrom FMAP Regions
+    ${protected_offsets}=    Get Flashrom Readonly Offsets
+    VAR    @{failed_regions}=    @{EMPTY}
+
+    FOR    ${region_name}    IN    @{region_names}
+        ${region}=    Get From Dictionary    ${fmap_regions}    ${region_name}    default=${None}
+        IF    $region is ${None}
+            Fail    Region ${region_name} does not exist in the FMAP
+        END
+        VAR    ${protected}=    ${FALSE}
+        FOR    ${offsets}    IN    @{protected_offsets}
+            IF    ${offsets.start} <= ${region.start} and ${offsets.end} >= ${region.end}
+                VAR    ${protected}=    ${TRUE}
+                BREAK
+            END
+        END
+        IF    not ${protected}
+            Set To Dictionary    ${region}    name=${region_name}
+            Append To List    ${failed_regions}    ${region}
+        END
+    END
+
+    IF    len($failed_regions) > 0
+        FOR    ${region}    IN    @{failed_regions}
+            Log To Console    Region ${region.name}(${region.start}-${region.end}) is not protected!
+        END
+        Log To Console    Protected ranges: ${protected_offsets}
+        Fail    Not every region is protected.
     END
