@@ -192,7 +192,7 @@ Set Nextboot Bootentry
         ${line}=    Get Substring    ${line}    0    150
         ${line}=    Convert To Lower Case    ${line}
 
-        IF    '${bootentry_name}' in '${line}'
+        IF    $bootentry_name in $line
             VAR    ${os_boot_id}=    ${line}
             BREAK
         END
