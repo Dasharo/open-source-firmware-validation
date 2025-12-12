@@ -7,7 +7,7 @@ Resource            ../keywords.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND    Skip If    not ${COREBOOT_REDUNDANT_BOOT_SUPPORT}
+# ...    AND    Skip If    not ${COREBOOT_REDUNDANT_BOOT_SUPPORT}    coreboot redundant boot not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -80,9 +80,7 @@ CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
 CRB004.201 Slot A Protection (Ubuntu)
     [Documentation]    Check if the coreboot Slot A is protected with the
     ...    redundant boot feature turned on.
-    Skip If
-    ...    ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET} is ${None}
-    ...    ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET} not defined, skipping test
+
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -94,15 +92,7 @@ CRB004.201 Slot A Protection (Ubuntu)
     Login To Linux
     Switch To Root User
 
-    Verify Region Range Protected    # BOOTBLOCK
-    ...    BIOS
-    ...    ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.start}
-    ...    ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET.end}
-
-    Verify Region Range Protected    # COREBOOT
-    ...    BIOS
-    ...    ${COREBOOT_REDUNDANT_BOOT_COREBOOT_OFFSET.start}
-    ...    ${COREBOOT_REDUNDANT_BOOT_COREBOOT_OFFSET.end}
+    Flashrom Verify FMAP Regions Protected    BOOTBLOCK    COREBOOT
 
 
 *** Keywords ***
