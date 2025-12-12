@@ -72,7 +72,7 @@ fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 0
 setpci -s 00:16.0 42.B 0
 cbfstool /tmp/biosupdate extract -r COREBOOT -n config -f /tmp/biosupdate_config 0
 cbfstool /tmp/biosupdate layout -w 0
-flashrom -p internal -r /tmp/dasharo_dump.rom --ifd -i fd -i bios -i me --fmap -i FMAP -i BOOTSPLASH 1
+flashrom -p internal -r /tmp/dasharo_dump.rom --fmap -i FMAP -i BOOTSPLASH 1
 cbfstool /tmp/dasharo_dump.rom extract -r BOOTSPLASH -n logo.bmp -f /tmp/logo.bmp 1
 dmidecode -s system-uuid 0
 dmidecode -s baseboard-serial-number 0
