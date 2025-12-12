@@ -27,8 +27,9 @@ ${FLASH_SIZE}=                          33554432
 
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}
-@{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
-${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_FEDORA}
+@{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}    ${ENV_ID_QUBES}
+${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_QUBES}
+${TESTS_IN_QUBESOS_SUPPORT}=            ${TRUE}
 ${USB_STACK_SUPPORT}=                   ${TRUE}
 ${CLEVO_BATTERY_CAPACITY}=              4602000
 ${USB_DEVICE}=                          SanDisk
