@@ -119,7 +119,7 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
 # DTS E2E variables
 ${DTS_TEST_SYSTEM_VENDOR}=                      Micro-Star International Co., Ltd.
-@{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
+@{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update    UEFI->Heads Transition
 
 &{DTS_TEST_EXPORTS}=
 ...                                             &{DTS_TEST_BASE_EXPORTS}
