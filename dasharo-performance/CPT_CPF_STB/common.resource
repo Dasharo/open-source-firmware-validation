@@ -50,12 +50,18 @@ Background Measurements
             Append To List    ${temp_list}    ${temperature}
             Log To Console    Temperature: ${temperature}
         END
+        IF    ${timer} > ${TEMPERATURE_TEST_DURATION}
+            VAR    ${next_temp_time}=    999999
+        END
 
         IF    ${FREQUENCY_TEST_DURATION} >= ${timer} >= ${next_freq_time}
             ${freqs}=    Get CPU Frequencies In Linux
             ${next_freq_time}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
             Append To List    ${freq_list}    ${freqs}
             Log To Console    Frequencies: ${freqs}
+        END
+        IF    ${timer} > ${FREQUENCY_TEST_DURATION}
+            VAR    ${next_freq_time}=    999999
         END
 
         IF    ${STABILITY_TEST_DURATION} >= ${timer} >= ${next_stab_time}
@@ -67,6 +73,9 @@ Background Measurements
             ${next_stab_time}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
             Append To List    ${stab_list}    ${stab_data}
             Log To Console    Stability: uptime ${current_uptime}
+        END
+        IF    ${timer} > ${STABILITY_TEST_DURATION}
+            VAR    ${next_stab_time}=    999999
         END
 
         ${now}=    Get Current Date
@@ -108,6 +117,9 @@ Background Measurements Windows
             Append To List    ${freq_list}    ${freqs}
             Log To Console    ${timer}s: Frequencies: ${freqs}
         END
+        IF    ${timer} > ${FREQUENCY_TEST_DURATION}
+            VAR    ${next_freq_time}=    999999
+        END
 
         IF    ${STABILITY_TEST_DURATION} >= ${timer} >= ${next_stab_time}
             ${uptime_output}=    Execute Command In Terminal
@@ -122,6 +134,9 @@ Background Measurements Windows
             ${next_stab_time}=    Evaluate    ${timer} + ${STABILITY_TEST_MEASURE_INTERVAL}
             Append To List    ${stab_list}    ${stab_data}
             Log To Console    ${timer}s: Stability: uptime ${total_seconds}
+        END
+        IF    ${timer} > ${STABILITY_TEST_DURATION}
+            VAR    ${next_stab_time}=    999999
         END
 
         ${now}=    Get Current Date
