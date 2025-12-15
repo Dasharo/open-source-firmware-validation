@@ -193,7 +193,7 @@ Read Firmware
     END
 
 Get Flashrom FMAP Regions
-    # ${output}=    Execute Command In Terminal    flashrom -p internal -r coreboot.rom    timeout=300s
+    ${output}=    Execute Command In Terminal    flashrom -p internal -r coreboot.rom    timeout=300s
     ${output}=    Execute Command In Terminal    cbfstool coreboot.rom layout -w
     ${lines}=    Split To Lines    ${output}
     VAR    &{dict}=    &{EMPTY}
