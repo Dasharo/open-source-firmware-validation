@@ -7,7 +7,7 @@ Resource            ../keywords.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-# ...    AND    Skip If    not ${COREBOOT_REDUNDANT_BOOT_SUPPORT}    coreboot redundant boot not supported
+...                     AND    Skip If    not ${COREBOOT_REDUNDANT_BOOT_SUPPORT}    coreboot redundant boot not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
