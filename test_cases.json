@@ -2190,6 +2190,13 @@
   },
   {
     "doc": {
+      "_id": "CRB004.201",
+      "name": "Slot A Protection (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "CUP001.001",
       "name": "Capsule Update With Wrong Keys",
       "module": "Dasharo Stability"
@@ -5258,49 +5265,49 @@
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR001.207",
       "name": "Install operating system on disk (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR002.207",
       "name": "Boot operating system from disk (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR003.207",
       "name": "Boot operating system from disk after cold-boot (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR004.207",
       "name": "Boot operating system from disk after warm-boot (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR005.207",
       "name": "Boot operating system from disk after reboot (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR006.207",
       "name": "Scan WiFi networks (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR007.207",
       "name": "Ethernet controller detection (OpenWrt)",
       "module": "Dasharo Compatibility"
