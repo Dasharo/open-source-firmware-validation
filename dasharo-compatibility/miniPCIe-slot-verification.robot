@@ -110,8 +110,7 @@ MWL002.301 Wi-Fi scanning (Windows)
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal    netsh wlan show network
-    Should Contain    ${out}    3mdeb_abr
-    Should Contain    ${out}    3mdeb_abr_5GHz
+    Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
     Execute Shutdown Command
 
 # MWL003.002 Bluetooth scanning (Windows)
