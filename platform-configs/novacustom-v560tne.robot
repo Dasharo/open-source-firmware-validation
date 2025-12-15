@@ -17,9 +17,10 @@ ${PLATFORM_CPU_SPEED}=                      3.0
 ${PLATFORM_RAM_SPEED}=                      5600
 ${PLATFORM_RAM_SIZE}=                       32768
 
-${INITIAL_DUT_CONNECTION_METHOD}=           SSH
-${DUT_CONNECTION_METHOD}=                   SSH
-${POWER_CTRL}=                              none
+${INITIAL_DUT_CONNECTION_METHOD}=           Telnet
+${DUT_CONNECTION_METHOD}=                   Telnet
+${POWER_CTRL}=                              sonoff
+${OPTIONS_LIB}=                             options-lib_uefi-setup-menu
 ${CHECK_POWER_LED_SUPPORT}=                 ${FALSE}
 ${DTS_SUPPORT}=                             ${TRUE}
 
@@ -116,8 +117,6 @@ ${UNIGINE_SUPERPOSITION_RESULT_BAT}=        26.2    # FPS
 ...                                         &{UPP_CRAFTY_BENCHMARK}
 ...                                         &{UPP_CACHEBENCH_BENCHMARK}
 ...                                         &{UPP_BLAKE2_BENCHMARK}
-
-${OPTIONS_LIB}=                             options-lib_dcu
 
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=
