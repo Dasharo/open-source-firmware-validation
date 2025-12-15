@@ -104,6 +104,8 @@ ${ACPI_DRIVER_SUPPORT}=                             ${TRUE}
 ${ACPI_CAMERA_SWITCH_SUPPORT}=                      ${TRUE}
 ${INTEL_CBNT_SUPPORT}=                              ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=             ${TRUE}
+${DUT_HAS_CMOS_RESET}=                              ${FALSE}
+${DUT_HAS_POWER_BUTTON}=                            ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           2
