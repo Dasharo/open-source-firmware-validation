@@ -53,7 +53,7 @@ DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
     [Arguments]    ${out_file}
 
-    Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
+    ${out}=    Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE
     Execute Command In Terminal    chmod 666 coreboot.rom
     Get File From DUT    coreboot.rom    ${out_file}
 
