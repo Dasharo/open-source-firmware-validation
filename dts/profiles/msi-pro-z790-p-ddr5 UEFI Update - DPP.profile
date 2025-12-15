@@ -40,6 +40,7 @@ cbfstool /tmp/biosupdate layout -w 0
 futility show /tmp/biosupdate 0
 flashrom -p internal --ifd -i bios -r /tmp/bios.bin 0
 futility show /tmp/bios.bin 0
+flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate 0
 flashrom -p internal --ifd -i bios -i fd -i me -w /tmp/biosupdate 0
 flashrom -p internal --ifd -i bios -i fd -i me -w /tmp/biosupdate 0
 reboot  0

@@ -34,6 +34,7 @@ dmidecode -s baseboard-serial-number 0
 cbfstool /tmp/biosupdate layout -w 1
 cbfstool /tmp/biosupdate layout -w 1
 cbfstool /tmp/biosupdate layout -w 1
+flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate 0
 flashrom -p internal -N --ifd -i bios -i fd -w /tmp/biosupdate 0
 reboot  0
 dmidecode  0

@@ -72,6 +72,7 @@ ifdtool -d /tmp/biosupdate 0
 fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 0
 setpci -s 00:16.0 42.B 0
 cbfstool /tmp/biosupdate extract -r COREBOOT -n config -f /tmp/biosupdate_config 0
+flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate 0
 flashrom -p internal -N --ifd -i bios -i fd -w /tmp/biosupdate 0
 reboot  0
 dmidecode  0

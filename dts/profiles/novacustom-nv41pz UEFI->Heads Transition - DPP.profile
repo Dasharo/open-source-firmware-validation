@@ -38,6 +38,7 @@ cbmem -1 0
 flashrom -p internal -N --ifd -i bios -r /tmp/bios.bin 0
 cbfstool /tmp/bios.bin layout -w 0
 cbfstool /tmp/biosupdate layout -w 0
+flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate 0
 flashrom -p internal --ifd -i bios -i fd -w /tmp/biosupdate 0
 flashrom -p internal --ifd -i bios -i fd -w /tmp/biosupdate 0
 dasharo_ectool flash /tmp/ecupdate 0
