@@ -84,6 +84,7 @@ cbfstool /tmp/biosupdate expand -r FW_MAIN_A 0
 cbfstool /tmp/biosupdate add -f /tmp/serial_number.txt -n serial_number -t raw -r FW_MAIN_A 0
 cbfstool /tmp/biosupdate add -f /tmp/system_uuid.txt -n system_uuid -t raw -r FW_MAIN_A 0
 cbfstool /tmp/biosupdate truncate -r FW_MAIN_A 0
+flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate_resigned.rom 0
 flashrom -p internal -N --ifd -i bios -i fd -w /tmp/biosupdate_resigned.rom 0
 reboot  0
 dmidecode  0
