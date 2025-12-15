@@ -52,3 +52,4 @@ ${L3_CACHE_SUPPORT}=                                ${TRUE}
 # End DTS E2E variables
 
 ${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
+${USB_MODEL}=                                       SanDisk
