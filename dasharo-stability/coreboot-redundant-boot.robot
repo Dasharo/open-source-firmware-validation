@@ -5,8 +5,9 @@ Library             String
 Resource            ../variables.robot
 Resource            ../keywords.robot
 
-Suite Setup         Run Keyword
+Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND    Skip If    not ${COREBOOT_REDUNDANT_BOOT_SUPPORT}    coreboot redundant boot not supported
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -14,9 +15,9 @@ Default Tags        automated
 
 
 *** Variables ***
-${NVRAM_ATTEMPT_B_FLAG}=        attempt_slot_b    # TBD
-${NVRAM_ATTEMPT_B_FLAG_SET}=    Enable    # TBD
-${NVRAM_ATTEMPT_B_FLAG_CLR}=    Disable    # TBD
+${NVRAM_ATTEMPT_B_FLAG}=        attempt_slot_b
+${NVRAM_ATTEMPT_B_FLAG_SET}=    Enable
+${NVRAM_ATTEMPT_B_FLAG_CLR}=    Disable
 
 
 *** Test Cases ***
@@ -76,6 +77,23 @@ CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
     Switch To Root User
     Should Have Booted From Slot    COREBOOT
 
+CRB004.201 Slot A Protection (Ubuntu)
+    [Documentation]    Check if the coreboot Slot A is protected with the
+    ...    redundant boot feature turned on.
+
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Set Attempt Slot B Flag    ${TRUE}
+    Execute Reboot Command
+
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+
+    Flashrom Verify FMAP Regions Protected    BOOTBLOCK    COREBOOT
+
 
 *** Keywords ***
 Set Attempt Slot B Flag
@@ -93,7 +111,6 @@ Set Attempt Slot B Flag
 Should Have Booted From Slot
     [Arguments]    ${slot}
     ${slot}=    Convert To Lower Case    ${slot}
-    # TBD - will this show slot B?
     ${out}=    Execute Command In Terminal    cbmem -c | grep "Booting from"
     ${out}=    Convert To Lower Case    ${out}
     ${out}=    Strip String    ${out}
