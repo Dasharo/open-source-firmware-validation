@@ -57,7 +57,7 @@ ACPI001.201 ACPI driver test (Ubuntu)
     ${out}=    Execute Command In Terminal    dpkg -s dasharo-acpi-dkms
     IF    "Status: install ok installed" not in """${out}"""
         Send File To DUT
-        ...    ${TEST_DATA_DIR}/dasharo-driver/dasharo-acpi-dkms_0.9.1_amd64.deb
+        ...    ${TEST_DATA_DIR}/dasharo-driver/dasharo-acpi-dkms-0.9.1_amd64.deb
         ...    /home/ubuntu/dasharo-acpi-dkms.deb
         ${out}=    Execute Command In Terminal    apt install /home/ubuntu/dasharo-acpi-dkms.deb -y
         ...    timeout=60s
