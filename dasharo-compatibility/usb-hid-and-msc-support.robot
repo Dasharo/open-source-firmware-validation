@@ -221,7 +221,7 @@ USB001.203 USB devices detected by OS (QubesOS)
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB001.203 not supported
     Login To OS    ${ENV_ID_QUBES}
     ${out}=    Execute Linux Command    qvm-usb
-    Should Contain    ${out}    ${USB_MODEL}
+    Should Contain    ${out}    ${USB_MODEL}    ignore_case=${TRUE}
 
 USB002.203 USB keyboard detected by OS (QubesOS)
     [Documentation]    Check whether the external USB keyboard is detected
@@ -230,7 +230,7 @@ USB002.203 USB keyboard detected by OS (QubesOS)
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB02.203 not supported
     Login To OS    ${ENV_ID_QUBES}
     ${out}=    Execute Linux Command    qvm-usb
-    Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
+    Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}    ignore_case=${TRUE}
 
 
 *** Keywords ***
