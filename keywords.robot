@@ -172,12 +172,11 @@ Login To Linux Via SSH
         ...    newline=LF
         ${status}=    Run Keyword And Return Status
         ...    SSHLibrary.Login    ${username}    ${password}
-        IF    ${status}
-            RETURN
-        END
+        IF    ${status}    RETURN
         Sleep    1
     END
     Fail    Unable to login to ${username}@${DEVICE_IP}
+
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
     ...    username and password respectively. The optional timeout
@@ -226,10 +225,13 @@ Switch To Root User
     # the "sudo -S" to pass password from stdin does not work correctly with
     # the su command and we need to type in the password
     Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo
-    Write Into Terminal    ${DEVICE_OS_PASSWORD}
     Set Prompt For Terminal    ${DEVICE_OS_ROOT_PROMPT}
-    Read From Terminal Until Prompt
+    Sleep    2s
+    ${out}=    Read From Terminal
+    IF    "[sudo" in $out
+        Write Into Terminal    ${DEVICE_OS_PASSWORD}
+        Read From Terminal Until Prompt
+    END
 
 Exit From Root User
     [Documentation]    Exit from the root environment
