@@ -87,15 +87,30 @@ CPU Performance Suite Setup
     Prepare Test Suite
     Skip If    not ${CPU_PERFORMANCE_TESTS_SUPPORT}
     Check Power Supply
-    IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        Power On
-        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-        Login To Linux
-        Detect Or Install Phoronix Test Suite On Ubuntu
-        Execute Linux Command    phoronix-test-suite install c-ray    300
-        Execute Linux Command    phoronix-test-suite install compress-7zip    300
-        Execute Linux Command    phoronix-test-suite install coremark    300
-    END
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Detect Or Install Phoronix Test Suite On Ubuntu
+    Execute Linux Command    phoronix-test-suite install c-ray    300
+    Execute Linux Command    phoronix-test-suite install compress-7zip    300
+    Execute Linux Command    phoronix-test-suite install coremark    300
+    Write Into Terminal    phoronix-test-suite batch-setup
+    Read From Terminal Until    Save test results when in batch mode
+    Write Into Terminal    y
+    Read From Terminal Until    Open the web browser automatically when in batch mode
+    Write Into Terminal    n
+    Read From Terminal Until    Auto upload the results to OpenBenchmarking.org
+    Write Into Terminal    y
+    Read From Terminal Until    Prompt for test identifier
+    Write Into Terminal    n
+    Read From Terminal Until    Prompt for test description
+    Write Into Terminal    n
+    Read From Terminal Until    Prompt for saved results file-name
+    Write Into Terminal    n
+    Read From Terminal Until    Run all test options
+    Write Into Terminal    y
+    Read From Terminal Until Prompt
     Log To Console    The result of the benchmarks depends on the processor and
     ...    RAM in the device. Please make sure that the hardware under test is
     ...    compatible with the one given in the reference values.
