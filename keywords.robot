@@ -183,18 +183,21 @@ Login To Windows Via SSH
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
     [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
-    SSHLibrary.Set Client Configuration
-    ...    timeout=${timeout}
-    ...    term_type=vt100
-    ...    width=400
-    ...    height=100
-    ...    escape_ansi=True
-    ...    newline=CRLF
     FOR    ${reboot_count}    IN RANGE    3
-        ${login}=    Run Keyword And Return Status
-        ...    Wait Until Keyword Succeeds    5x    20s
-        ...    SSHLibrary.Login    ${username}    ${password}
+        FOR    ${i}    IN RANGE    20
+            SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
+            SSHLibrary.Set Client Configuration
+            ...    timeout=${timeout}
+            ...    term_type=vt100
+            ...    width=400
+            ...    height=100
+            ...    escape_ansi=True
+            ...    newline=CRLF
+            ${login}=    Run Keyword And Return Status
+            ...    SSHLibrary.Login    ${username}    ${password}
+            IF    ${login} == ${TRUE}    BREAK    ELSE    Sleep    5s
+        END
+
         IF    ${login} == ${TRUE}
             BREAK
         ELSE
