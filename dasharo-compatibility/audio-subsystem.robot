@@ -320,6 +320,7 @@ AUD001.203 Audio subsystem detection (QubesOS)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in QubesOS. To do so, we attemptt detection
     ...    of the Audio Service, and verify it is in Running state.
+    ...    Previous IDs: AUD001.003
     Login To OS    ${ENV_ID_QUBES}
     ${out}=    Execute Command In Terminal    pactl list sinks
     ${result}=    Run Keyword And Ignore Error
