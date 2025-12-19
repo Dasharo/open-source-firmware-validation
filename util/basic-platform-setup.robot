@@ -170,6 +170,19 @@ BPS008.001 RTE CMOS clear
     ...    ignore_case=True
     ...    msg=CMOS is invalid after reboot. Either the CMOS battery is not connected or the connection is wrong. Check DUT setup.
 
+BPS009.001 OSFV boot entries
+    [Documentation]    Creates boot entries for every Linux distro configured in ${TESTED_LINUX_DISTROS}.
+    ${distros_len}=    Get Length    ${TESTED_LINUX_DISTROS}
+    Skip If    ${distros_len} == 0    BPS009.001 not supported
+
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux
+    Switch To Root User
+    FOR    ${distro_id}    IN    @{TESTED_LINUX_DISTROS}
+        Create OSFV Boot Entry For Linux Distro    ${distro_id}
+    END
+
 
 *** Keywords ***
 Check If Empty
@@ -279,3 +292,45 @@ Run Ansible Playbooks
 
         Should Be Equal As Integers    ${rc}    0
     END
+
+Create OSFV Boot Entry For Linux Distro
+    [Documentation]    Creates a custom boot entry for the provided Linux distro.
+    [Arguments]    ${distro_id}
+    ${friendly_name}=    Get From Dictionary    ${ENV_ID_FRIENDLY_NAMES}    ${distro_id}
+    ${system_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${distro_id}
+    VAR    ${entry_label}=    ${friendly_name} OSFV
+
+    ${boot_menu}=    Execute Command In Terminal    efibootmgr
+    ${boot_menu_lower}=    Convert To Lowercase    ${boot_menu}
+    ${entry_label_lower}=    Convert To Lowercase    ${entry_label}
+    ${already_created}=    Run Keyword And Return Status
+    ...    Should Contain
+    ...    ${boot_menu_lower}
+    ...    ${entry_label_lower}
+    IF    ${already_created}
+        Log To Console    Boot entry ${entry_label} already exists
+        RETURN
+    END
+
+    ${loader_path}=    Get Linux Boot Loader Path From Efibootmgr    ${system_name}
+    Create Boot Entry From Loader    ${entry_label}    ${loader_path}
+
+Get Linux Boot Loader Path From Efibootmgr
+    [Documentation]    Returns the loader path for the first boot entry that matches the given system name.
+    [Arguments]    ${system_name}
+    ${entry_line}=    Execute Command In Terminal
+    ...    efibootmgr | grep -i "${system_name}" | head -n 1
+    Should Not Be Empty    ${entry_line}
+    ${loader_path}=    Evaluate
+    ...    __import__('re').search(r'(\\EFI[^ ]+)$', line, flags=__import__('re').IGNORECASE).group(1)
+    ...    line=${entry_line}
+    ${loader_path}=    Strip String    ${loader_path}
+    RETURN    ${loader_path}
+
+Create Boot Entry From Loader
+    [Documentation]    Adds a new boot entry whose loader matches the provided path.
+    [Arguments]    ${entry_label}    ${loader_path}
+    VAR    ${cmd}=    efibootmgr -c -L "${entry_label}" -l ${loader_path}
+    ${out}=    Execute Command In Terminal    ${cmd}
+    Should Not Be Empty    ${out}
+    Log To Console    Created boot entry ${entry_label}
