@@ -21,6 +21,7 @@ Suite Setup         Run Keywords
 ...                     AND    Display Preparation Instructions
 ...                     AND    Get CUP Environment Variables
 ...                     AND    Ensure Capsule Files Are Present
+...                     Ensure BtG Testing Capsule Is Present    AND
 ...                     AND    Prepare For Logo Persistence Test
 ...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
 ...                     AND    Run Keyword If    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'    Upload Required Files
@@ -57,6 +58,21 @@ CUP002.001 Capsule Update With Wrong GUID
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
+
+CUP003.001 Capsule Update with wrong BtG key
+    [Documentation]    Check that the DUT rejects updates signed with the wrong BtG key on a fused platform.
+    Skip If    not ${INTEL_CBNT_SUPPORT}    CUP003.001 not supported on this system
+    Skip If    not ${INTEL_CBNT_BOOTGUARD_FUSED}    CUP003.001 not supported on this system
+    Power On
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Enter UEFI Shell
+        Perform Capsule Update    invalid_btg_signature.cap
+    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux With Root Privileges
+        Perform Capsule Update    invalid_btg_signature.cap    use_uefi_shell=${False}
+    END
+    Check The Update Screen For BtG Error Message
 
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
@@ -272,6 +288,17 @@ Check The Update Screen For The Correct UX
     ...    separator=${EMPTY}
     Execute Manual Step    ${message}
 
+Check The Update Screen For BtG Error Message
+    VAR    ${message}=
+    ...    Please check the platform screen now, verify that the orange BtG
+    ...    \ error message popup screen appears on the screen. Ensure that the
+    ...    \ update abort reason and the fused OEM RK hash are printed, and that
+    ...    \ the popup fits on the screen and is readable. See the screenshot at
+    ...    \ https://docs.dasharo.com/guides/capsule-update#troubleshooting for
+    ...    \ reference.
+    ...    separator=${EMPTY}
+    Execute Manual Step    ${message}
+
 Get Key To Press
     [Arguments]    ${text}
     ${matches}=    Get Regexp Matches    ${text}    [0-9]
@@ -335,6 +362,8 @@ Upload Required Files Serial
         Send File To DUT    ./dl-cache/edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         Send File To DUT    ./dl-cache/edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
+        Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
+        Send File To DUT    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}    /capsule_testing/invalid_btg_signature.cap
         # Move the directory to ESP partition so the tests work even if root
         # file-system is part of LVM
         Execute Command In Terminal    rm -r /boot/efi/capsule_testing
@@ -353,6 +382,8 @@ Upload Required Files Serial
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_wrong_cert.cap    C:\\capsule_testing\\wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_invalid_guid.cap    C:\\capsule_testing\\invalid_guid.cap
+        Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
+        SSHLibrary.Put File    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}    C:\\capsule_testing\\invalid_btg_signature.cap
         Execute Command In Terminal    mountvol b: /s
         Set Prompt For Terminal    PS B:\\>
         Execute Command In Terminal    b:
@@ -438,11 +469,11 @@ Get File Name Without Extension
 Ensure Capsule Files Are Present
     Variable Should Exist
     ...    ${CAPSULE_FW_FILE}
-    ...    capsule_fw_file parameter missing. Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
+    ...    capsule_fw_file parameter missing. Please add: -v capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
 
     OperatingSystem.File Should Exist
     ...    ${CAPSULE_FW_FILE}
-    ...    capsule_fw_file parameter incorrect. Please add: -v capsule_fw_file:<capsule_to_be_testes>.cap to the robot command line and try again.
+    ...    capsule_fw_file parameter incorrect. Please add: -v capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
 
     ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
     ${f1}=    Run Keyword And Return Status
@@ -455,6 +486,15 @@ Ensure Capsule Files Are Present
     IF    not ${f1} or not ${f2}
         Run    ./scripts/capsules/capsule_update_tests.sh ${CAPSULE_FW_FILE}
     END
+
+Ensure BtG Testing Capsule Is Present
+    Variable Should Exist
+    ...    ${BTG_CAPSULE_FW_FILE}
+    ...    btg_capsule_fw_file parameter missing. Please add: -v btg_capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
+
+    OperatingSystem.File Should Exist
+    ...    ${BTG_CAPSULE_FW_FILE}
+    ...    btg_capsule_fw_file parameter incorrect. Please add: -v btg_capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
 
 Enter Capsule Testing Folder
     ${fss}=    Get FS From Uefi Shell

@@ -262,6 +262,13 @@ execute_robot() {
     capsule_fw_file_option=""
   fi
 
+  # BTG_CAPSULE_FW_FILE environment variable is required for the capsule update test
+  if [ -n "${BTG_CAPSULE_FW_FILE}" ]; then
+    btg_capsule_fw_file_option="-v btg_capsule_fw_file:${BTG_CAPSULE_FW_FILE}"
+  else
+    btg_capsule_fw_file_option=""
+  fi
+
   extra_options=""
   # By default use snipeit, if SNIPEIT_NO is not set
   if [ -n "${SNIPEIT_NO}" ]; then
@@ -317,6 +324,7 @@ execute_robot() {
               ${device_ip_option} \
               ${fw_file_option} \
               ${capsule_fw_file_option} \
+              ${btg_capsule_fw_file_option} \
               ${installed_dut_option} \
               ${extra_options} \
               ${_robot_args[*]} \
