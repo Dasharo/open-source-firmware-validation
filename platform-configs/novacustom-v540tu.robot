@@ -124,6 +124,8 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 
 ${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
 
+${INTEL_CBNT_BOOTGUARD_FUSED}=          ${TRUE}
+
 
 *** Keywords ***
 Power On
