@@ -811,11 +811,15 @@ Restore Initial DUT Connection Method
     END
 
 Execute Shutdown Command
-    [Documentation]    Windows shutdown keyword, checks power LED state where available.
+    [Documentation]    OS shutdown keyword, checks power LED state where available.
     ...    Depends on existing SSH connection to DUT, restores initial connection method
     ...    after power loss.
-    VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
-    Execute Command In Terminal    shutdown /s /f /t 0
+    IF    '${BOOTED_OS_ID}'.startswith("2")
+        Execute Command In Terminal    shutdown 0
+    ELSE IF    '${BOOTED_OS_ID}' == '${ENV_ID_WINDOWS}'
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
+        Execute Command In Terminal    shutdown /s /f /t 0
+    END
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         ${loop_iterations}=    Evaluate    ${WINDOWS_SHUTDOWN_AWAITING_SECONDS} * 2
         FOR    ${i}    IN RANGE    ${loop_iterations}
@@ -823,6 +827,9 @@ Execute Shutdown Command
             IF    '${out}' == 'low'    RETURN
             Sleep    0.5s
         END
+    ELSE
+        # TODO find out a better way, maybe ping DEVICE_IP
+        Sleep    30s    Making sure the device shuts down
     END
     Restore Initial DUT Connection Method
 
