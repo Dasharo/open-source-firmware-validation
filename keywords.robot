@@ -831,6 +831,9 @@ Execute Shutdown Command
             IF    '${out}' == 'low'    RETURN
             Sleep    0.5s
         END
+    ELSE
+        # TODO find out a better way, maybe ping DEVICE_IP
+        Sleep    30s    Making sure the device shuts down
     END
     Restore Initial DUT Connection Method
 
