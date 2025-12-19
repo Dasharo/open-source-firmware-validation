@@ -33,6 +33,10 @@ NET002.201 Net controller after warmboot (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
     ...    Previous IDs: NET002.001
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET002.201 not supported
     Power On
@@ -102,6 +106,10 @@ NET002.202 Net controller after warmboot (Fedora)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
     ...    Previous IDs: NET005.003
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET002.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
@@ -175,7 +183,16 @@ Net Controller After Warmboot
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
     FOR    ${ind}    IN RANGE    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Perform Warmboot Using Rtcwake
+        IF    ${RTC_BOOT_SUPPORT}
+            Perform Warmboot Using Rtcwake
+        ELSE
+            Execute Shutdown Command
+            IF    '${POWER_CTRL}' == 'none'
+                Execute Manual Step    Turn on the device
+            ELSE
+                Power On
+            END
+        END
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
         Switch To Root User
