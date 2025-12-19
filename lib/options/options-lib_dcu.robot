@@ -105,7 +105,16 @@ Measure Warmboot Time
         # would hang here and fail.
         # Sometimes it may take long to shutdown all systemd services,
         # so the waiting times have to be excessive to avoid false negatives.
-        Perform Warmboot Using Rtcwake
+        IF    ${RTC_BOOT_SUPPORT}
+            Perform Warmboot Using Rtcwake
+        ELSE
+            Execute Shutdown Command
+            IF    '${POWER_CTRL}' == 'none'
+                Execute Manual Step    Turn on the device
+            ELSE
+                Power On
+            END
+        END
 
         Boot System Or From Connected Disk    ${os_id}
         Login To Linux
