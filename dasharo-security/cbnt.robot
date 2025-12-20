@@ -132,9 +132,24 @@ CBNT006.101 Setup Menu Boot Guard Information
     FOR    ${i}    IN RANGE    0    45
         ${submenu}=    Get Submenu Construction
         Match BtG Option State    ${submenu}    S-ACM Startup Success <Yes>    s_acm_success
-        Match BtG Option State    ${submenu}    CPU Debugging    cpu_debug    Boot Policy: Disable <Yes>
-        Match BtG Option State    ${submenu}    BSP #INIT    bsp_init    Boot Policy: Protect <Yes>
-        Match BtG Option State    ${submenu}    Register Contents <No>    reg_cont    Valid
+        # Boot Policy: Disable CPU Debugging
+        Match BtG Option State
+        ...    ${submenu}
+        ...    Boot Policy: Disable <Yes>
+        ...    cpu_debug
+        ...    CPU Debugging
+        # Boot Policy: Disable BSP #INIT
+        Match BtG Option State
+        ...    ${submenu}
+        ...    Boot Policy: Disable <Yes>
+        ...    bsp_init
+        ...    BSP #INIT
+        # Register Contents Valid
+        Match BtG Option State
+        ...    ${submenu}
+        ...    Register Contents <No>
+        ...    reg_cont
+        ...    Valid
         Match BtG Option State    ${submenu}    DMA Protection <Yes>    dma_protection
         Match BtG Option State    ${submenu}    TPM Success <Yes>    tpm_success
         Match BtG Option State    ${submenu}    NEM Enabled <Yes>    nem_enabled
@@ -149,8 +164,8 @@ CBNT006.101 Setup Menu Boot Guard Information
     # Final verification
     Log To Console    \n===== Results =====
     Log To Console    S-ACM Startup Success: ${s_acm_success}
-    Log To Console    CPU Debugging (Boot Policy: Disable <Yes>): ${cpu_debug}
-    Log To Console    BSP #INIT (Boot Policy: Disable <Yes>): ${bsp_init}
+    Log To Console    Boot Policy: Disable CPU Debugging <Yes>: ${cpu_debug}
+    Log To Console    Boot Policy: Disable BSP #INIT <Yes>: ${bsp_init}
     Log To Console    Register Contents Valid: ${reg_cont}
     Log To Console    DMA Protection <Yes>: ${dma_protection}
     Log To Console    TPM Success <Yes>: ${tpm_success}
@@ -185,7 +200,7 @@ Check CBnT Profile 5
     ...    profile 5
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
-    ${out_cbmem}=    Execute Command In Terminal    cbmem -1
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -1    timeout=180s
     Should Match Regexp    ${out_cbmem}    FACB:\\s+1\\n
     Should Match Regexp    ${out_cbmem}    measured boot:\\s+1\\n
     Should Match Regexp    ${out_cbmem}    verified boot:\\s+1\\n
