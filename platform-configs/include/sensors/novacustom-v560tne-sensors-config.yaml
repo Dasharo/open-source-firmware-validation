@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+cpu_temperature_measurement:
+  method: lm-sensors
+  lm_sensors_sensor_name: dasharo_acpi-isa-0000
+
+fan_pwm_measurement:
+  method: none
+
+fan_rpm_measurement:
+  method: lm-sensors
+  lm_sensors_sensor_name: dasharo_acpi-isa-0000
+
+sensors_kernel_modules:

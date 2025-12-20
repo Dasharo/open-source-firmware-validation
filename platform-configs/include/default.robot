@@ -301,10 +301,15 @@ ${FREQUENCY_TEST_MEASURE_INTERVAL}=                 60
 ${TEMPERATURE_TEST_DURATION}=                       3600
 # Interval between the following readings in temperature measure tests
 ${TEMPERATURE_TEST_MEASURE_INTERVAL}=               60
-# Custom fan curve tests duration in minutes
-${CUSTOM_FAN_CURVE_TEST_DURATION}=                  30
-# Interval between the following readings in custom fan curve tests
-${CUSTOM_FAN_CURVE_MEASURE_INTERVAL}=               1
+# Custom fan curve tests duration in seconds
+${CUSTOM_FAN_CURVE_TEST_DURATION}=                  1000
+# Cooldown time after test ends to limit affecting further tests
+${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}=               10
+# CPU loads range to test during test, [start, end, step]
+# adjust to catch both the min and max temperature ranges
+@{CUSTOM_FAN_CURVE_CPU_USAGE_RANGE}=                1    100    1
+# Wait a fraction of measurement time for the temps to stabilise
+${CUSTOM_FAN_CURVE_STABILISE_TIME_FRACTION}=        0.5
 # Maximum fails during during performing test suite usb-boot.robot
 ${ALLOWED_FAILS_USB_BOOT}=                          0
 # Maximum fails during during performing test suite usb-detect.robot
@@ -361,7 +366,6 @@ ${CRAFTY_TEST_SCORE}=                               ${TBD}
 ${CRAY_1080_P_RENDER}=                              ${TBD}
 ${CRAY_4_K_RENDER}=                                 ${TBD}
 ${CRAY_5_K_RENDER}=                                 ${TBD}
-${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}=               ${TBD}
 ${DEF_CORES_PER_SOCKET}=                            ${TBD}
 ${DEF_CORES}=                                       ${TBD}
 ${DEF_CPU}=                                         ${TBD}

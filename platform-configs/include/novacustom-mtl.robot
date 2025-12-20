@@ -32,6 +32,9 @@ ${DMIDECODE_RELEASE_DATE}=                          03/17/2022
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+${CUSTOM_FAN_CURVE_TEST_DURATION}=                  600
+@{CUSTOM_FAN_CURVE_CPU_USAGE_RANGE}=                30    90    2
+${CUSTOM_FAN_CURVE_STABILISE_TIME_FRACTION}=        0.9
 
 ${L3_CACHE_SUPPORT}=                                ${TRUE}
 

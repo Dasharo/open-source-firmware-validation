@@ -268,10 +268,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.10.150
 
 # NovaCustom V560TND test desktop
-&{RTE73}=                   ip=192.168.10.25
-...                         platform=novacustom-v560tnd
+&{RTE73}=                   ip=192.168.10.86
+...                         platform=novacustom-v560tne
 ...                         platform_vendor=Clevo
-...                         sonoff_ip=192.168.10.229
+...                         sonoff_ip=192.168.10.130
 
 # ASRock SPC741D8-2L2T/BCM
 &{RTE74}=                   ip=192.168.4.122
