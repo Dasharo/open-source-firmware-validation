@@ -13,8 +13,8 @@ ${DUT_CONNECTION_METHOD}=               SSH
 ${POWER_CTRL}=                          none
 #${CHECK_POWER_LED_SUPPORT}=             ${TRUE}
 #${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
-${CHECK_POWER_LED_SUPPORT}=             ${FALSE}
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
+#${CHECK_POWER_LED_SUPPORT}=             ${FALSE}
+#${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
 ${OPTIONS_LIB}=                         options-lib_dcu
 #${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
 # CPU

@@ -32,6 +32,7 @@ BBB001.001 Boot blocking (charger disconnected) (Ubuntu)
     ...    blocked.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported
     Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Sonoff Off
@@ -43,6 +44,7 @@ BBB001.002 Boot blocking (charger connected) (Ubuntu)
     ...    blocked.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported
     Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Sonoff Off
