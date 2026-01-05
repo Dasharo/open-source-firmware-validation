@@ -178,6 +178,48 @@ SUD006.202 USB devices detection after suspension (Fedora) (S3)
     USB Devices Detection After Suspension    S3
     Exit From Root User
 
+SUD001.203 USB devices detection in OS (Qubes OS)
+    [Documentation]    Verify that an external USB device is detected correctly in Qubes OS.
+    [Tags]    manual
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Connect an external USB device to the DUT.
+    Execute Manual Step    [3/5] Assign the USB device to any AppVM.
+    Execute Manual Step    [4/5] Verify the USB device is visible inside the AppVM.
+    Execute Manual Step    [5/5] Confirm the device functions as expected.
+
+SUD002.203 USB devices detection after warmboot (Qubes OS)
+    [Documentation]    Verify that an external USB device is detected correctly
+    ...    after a warmboot in Qubes OS.
+    [Tags]    manual
+    Execute Manual Step    [1/6] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/6] Connect an external USB device to the DUT.
+    Execute Manual Step    [3/6] Perform a warmboot (restart initiated from the OS).
+    Execute Manual Step    [4/6] Wait for Qubes OS to boot completely.
+    Execute Manual Step    [5/6] Assign the USB device to any AppVM.
+    Execute Manual Step    [6/6] Verify the USB device is visible and operational inside the AppVM.
+
+SUD003.203 USB devices detection after reboot (Qubes OS)
+    [Documentation]    Verify that an external USB device is detected correctly
+    ...    after a full system reboot in Qubes OS.
+    [Tags]    manual
+    Execute Manual Step    [1/6] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/6] Connect an external USB device to the DUT.
+    Execute Manual Step    [3/6] Perform a full system reboot.
+    Execute Manual Step    [4/6] Wait for Qubes OS to boot completely.
+    Execute Manual Step    [5/6] Assign the USB device to any AppVM.
+    Execute Manual Step    [6/6] Verify the USB device is visible and operational inside the AppVM.
+
+SUD004.203 USB devices detection after suspend (Qubes OS)
+    [Documentation]    Verify that an external USB device is detected correctly
+    ...    after suspend and resume in Qubes OS.
+    [Tags]    manual
+    Execute Manual Step    [1/6] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/6] Connect an external USB device to the DUT.
+    Execute Manual Step    [3/6] Suspend the system.
+    Execute Manual Step    [4/6] Resume the system from suspend.
+    Execute Manual Step    [5/6] Assign the USB device to any AppVM.
+    Execute Manual Step    [6/6] Verify the USB device is visible and operational inside the AppVM.
+
 
 *** Keywords ***
 USB Devices Detection After Suspension

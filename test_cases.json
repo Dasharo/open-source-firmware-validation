@@ -6891,6 +6891,14 @@
     "doc": {
       "_id": "SUD0001.002",
       "name": "USB devices detection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD002.203"
+    }
+  },
+    {
+    "doc": {
+      "_id": "SUD0001.203",
+      "name": "USB devices detection after cold boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6906,6 +6914,14 @@
     "doc": {
       "_id": "SUD0002.002",
       "name": "USB devices detection after warm boot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD002.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD0002.203",
+      "name": "USB devices detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6920,6 +6936,14 @@
   {
     "doc": {
       "_id": "SUD0003.002",
+      "name": "USB devices detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD003.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD0003.203",
       "name": "USB devices detection after reboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
@@ -6951,6 +6975,14 @@
   {
     "doc": {
       "_id": "SUD0004.004",
+      "name": "USB devices detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD004.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD0004.203",
       "name": "USB devices detection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
