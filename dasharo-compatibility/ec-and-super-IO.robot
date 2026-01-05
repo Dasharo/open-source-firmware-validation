@@ -743,6 +743,7 @@ ECR031.203 Not charging between 95% and 98% in OS (Qubes OS)
     Execute Manual Step    [4/5] Observe battery charging state for several minutes.
     Execute Manual Step    [5/5] Verify battery does not start charging.
 
+
 *** Keywords ***
 Keyboard Function Key Brightness Down In Linux
     [Documentation]    Check whether function key: brightness down works in

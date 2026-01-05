@@ -345,7 +345,6 @@ AUD003.203 Internal Audio capture (Qubes OS)
     Execute Manual Step    [3/4] Speak into the internal microphone.
     Execute Manual Step    [4/4] Verify recorded audio is clear and audible.
 
-
 AUD004.203 External headset recognition (Qubes OS)
     [Documentation]    Verify recognition of an external headset in Qubes OS.
     [Tags]    manual
@@ -385,6 +384,7 @@ AUD008.203 HDMI Audio playback (Qubes OS)
     Execute Manual Step    [2/4] Connect an HDMI display with speakers.
     Execute Manual Step    [3/4] Play a test audio file in any AppVM.
     Execute Manual Step    [4/4] Verify sound is audible via HDMI-connected speakers.
+
 
 *** Keywords ***
 Audio Subsystem Detection Linux
