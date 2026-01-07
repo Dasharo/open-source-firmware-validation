@@ -488,13 +488,15 @@ Ensure Capsule Files Are Present
     END
 
 Ensure BtG Testing Capsule Is Present
-    Variable Should Exist
-    ...    ${BTG_CAPSULE_FW_FILE}
-    ...    btg_capsule_fw_file parameter missing. Please add: -v btg_capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
+    IF    ${INTEL_CBNT_BOOTGUARD_FUSED}
+        Variable Should Exist
+        ...    ${BTG_CAPSULE_FW_FILE}
+        ...    btg_capsule_fw_file parameter missing. Please add: -v btg_capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
 
-    OperatingSystem.File Should Exist
-    ...    ${BTG_CAPSULE_FW_FILE}
-    ...    btg_capsule_fw_file parameter incorrect. Please add: -v btg_capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
+        OperatingSystem.File Should Exist
+        ...    ${BTG_CAPSULE_FW_FILE}
+        ...    btg_capsule_fw_file parameter incorrect. Please add: -v btg_capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
+    END
 
 Enter Capsule Testing Folder
     ${fss}=    Get FS From Uefi Shell
