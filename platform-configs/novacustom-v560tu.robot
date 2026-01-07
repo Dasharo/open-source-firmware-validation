@@ -111,3 +111,5 @@ ${DTS_TEST_BOARD_MODEL}=                V560TU
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                     ${{ ("UEFI Update", "DCR") }}
 ...                                     ${{ ("Fuse Platform", "DCR") }}
+
+${INTEL_CBNT_BOOTGUARD_FUSED}=          ${TRUE}
