@@ -39,12 +39,12 @@ Default Tags        automated
 
 
 *** Test Cases ***
-SBO001.001 Check Secure Boot default state (firmware)
+SBO001.101 Check Secure Boot default state (firmware)
     [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
     ...    correct.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -56,12 +56,12 @@ SBO001.001 Check Secure Boot default state (firmware)
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
     Should Contain    ${sb_state}[0]    ${SECURE_BOOT_DEFAULT_STATE}
 
-SBO002.001 UEFI Secure Boot (Ubuntu)
+SBO002.201 UEFI Secure Boot (Ubuntu)
     [Documentation]    This test verifies that Secure Boot can be enabled from
     ...    boot menu and, after the DUT reset, it is seen from
     ...    the OS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.201 not supported
 
     # 1. Make sure that SB is enabled
     Power On
@@ -93,12 +93,12 @@ SBO002.001 UEFI Secure Boot (Ubuntu)
     ${sb_status}=    Check Secure Boot In Linux
     Should Not Be True    ${sb_status}
 
-SBO002.002 UEFI Secure Boot (Windows)
+SBO002.301 UEFI Secure Boot (Windows)
     [Documentation]    This test verifies that Secure Boot can be enabled from
     ...    boot menu and, after the DUT reset, it is seen from
     ...    the OS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.301 not supported
 
     # 1. Make sure that SB is enabled
     Power On
@@ -130,11 +130,11 @@ SBO002.002 UEFI Secure Boot (Windows)
 # keywords and menu layout changes.
 #
 
-SBO003.001 Attempt to boot file with the correct key from Boot Maintenance Manager (firmware)
+SBO003.101 Attempt to boot file with the correct key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot allows booting a
     ...    signed file with a correct key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.101 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -155,11 +155,11 @@ SBO003.001 Attempt to boot file with the correct key from Boot Maintenance Manag
     Execute File In File Explorer    hello-dasharo-signed-good.efi
     Read From Terminal Until    ${HELLO_EFI_STRING}
 
-SBO004.001 Attempt to boot file without the key from Boot Maintenance Manager (firmware)
+SBO004.101 Attempt to boot file without the key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot blocks booting a file
     ...    without a key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.101 not supported
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -173,11 +173,11 @@ SBO004.001 Attempt to boot file without the key from Boot Maintenance Manager (f
     Execute File In File Explorer    hello-dasharo.efi
     Read From Terminal Until    ${SB_ERROR_STRING}
 
-SBO005.001 Attempt to boot file with the wrong-signed key from Boot Maintenance Manager (firmware)
+SBO005.101 Attempt to boot file with the wrong-signed key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot disallows booting
     ...    a signed file with a wrong-signed key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.101 not supported
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -191,11 +191,11 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Boot Maintenance 
     Execute File In File Explorer    hello-dasharo-signed-bad.efi
     Read From Terminal Until    ${SB_ERROR_STRING}
 
-SBO006.001 Reset Secure Boot Keys option availability (firmware)
+SBO006.101 Reset Secure Boot Keys option availability (firmware)
     [Documentation]    This test verifies that the Reset Secure Boot Keys
     ...    option is available
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -207,11 +207,11 @@ SBO006.001 Reset Secure Boot Keys option availability (firmware)
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
     Should Contain    ${advanced_menu}    > Reset to default Secure Boot Keys
 
-SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
+SBO007.101 Attempt to boot the file after restoring keys to default (firmware)
     [Documentation]    This test verifies that restoring the keys to default
     ...    removes any custom added certificates.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.101 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}
@@ -246,11 +246,11 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     Execute File In File Explorer    hello-dasharo-signed-good.efi
     Read From Terminal Until    ${SB_ERROR_STRING}
 
-SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
+SBO008.101 Attempt to enroll the key in the incorrect format (firmware)
     [Documentation]    This test verifies that it is impossible to load
     ...    a certificate in the wrong file format.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.101 not supported
     # 1. Make sure that SB is enabled
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
