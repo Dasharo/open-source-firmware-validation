@@ -6167,6 +6167,13 @@
   },
   {
     "doc": {
+      "_id": "SDC001.203",
+      "name": "SD Card reader detection (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "SDC001.301",
       "name": "SD Card reader detection (Windows)",
       "module": "Dasharo Compatibility"
@@ -6207,6 +6214,13 @@
     "doc": {
       "_id": "SDC002.202",
       "name": "SD Card read/write (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SDC002.203",
+      "name": "SD Card read/write (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6403,6 +6417,13 @@
   },
   {
     "doc": {
+      "_id": "SMW002.203",
+      "name": "Wi-fi connection after warm boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SMW003.001",
       "name": "Wi-fi connection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
@@ -6428,6 +6449,13 @@
     "doc": {
       "_id": "SMW003.202",
       "name": "Wi-fi connection after reboot (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SMW003.203",
+      "name": "Wi-fi connection after reboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6479,6 +6507,13 @@
   },
   {
     "doc": {
+      "_id": "SMW004.203",
+      "name": "Wi-fi connection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SMW005.201",
       "name": "Wi-fi connection after suspension (Ubuntu) (S0ix)",
       "module": "Dasharo Stability"
@@ -6522,6 +6557,13 @@
   },
   {
     "doc": {
+      "_id": "SNV0001.203",
+      "name": "NVMe detection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SNV0002.001",
       "name": "NVMe detection after warm boot (Ubuntu)",
       "module": "Dasharo Stability",
@@ -6538,6 +6580,13 @@
   },
   {
     "doc": {
+      "_id": "SNV0002.203",
+      "name": "NVMe detection after warm boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SNV0003.001",
       "name": "NVMe detection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
@@ -6550,6 +6599,13 @@
       "name": "NVMe detection after reboot (Qubes OS)",
       "module": "Dasharo Stability",
       "changed_to": "SNV003.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV0003.203",
+      "name": "NVMe detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability"
     }
   },
   {
@@ -6582,6 +6638,13 @@
       "name": "NVMe detection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability",
       "changed_to": "SNV004.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV0004.203",
+      "name": "NVMe detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability"
     }
   },
   {
