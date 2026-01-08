@@ -766,6 +766,13 @@
   },
   {
     "doc": {
+      "_id": "CAM001.203",
+      "name": "USB Camera (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CAM001.301",
       "name": "Integrated webcam (Windows)",
       "module": "Dasharo Compatibility"
