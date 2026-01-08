@@ -2990,7 +2990,8 @@
     "doc": {
       "_id": "ECR001.005",
       "name": "Battery monitoring - charge level in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR001.203"
     }
   },
   {
@@ -3004,6 +3005,13 @@
     "doc": {
       "_id": "ECR001.202",
       "name": "Battery monitoring - charge level in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR001.203",
+      "name": "Battery monitoring - charge level in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3054,6 +3062,13 @@
   },
   {
     "doc": {
+      "_id": "ECR002.203",
+      "name": "Battery monitoring - charging state in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR002.301",
       "name": "Battery monitoring - charging state in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3094,6 +3109,13 @@
     "doc": {
       "_id": "ECR003.202",
       "name": "Touchpad in OS - (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR003.203",
+      "name": "Touchpad in OS - (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3144,6 +3166,13 @@
   },
   {
     "doc": {
+      "_id": "ECR004.203",
+      "name": "Keyboard (standard keypad) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR004.301",
       "name": "Keyboard (standard keypad) in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3177,6 +3206,13 @@
     "doc": {
       "_id": "ECR005.201",
       "name": "Keyboard (function key: play/pause) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR005.203",
+      "name": "Keyboard (function key: play/pause) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3220,6 +3256,13 @@
   },
   {
     "doc": {
+      "_id": "ECR006.203",
+      "name": "Keyboard (function key: cooling mode) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR006.301",
       "name": "Keyboard (function key: cooling mode) in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3247,6 +3290,13 @@
       "name": "Keyboard (function key: touchpad on/off) in OS (Qubes OS)",
       "module": "Dasharo Compatibility",
       "changed_to": "ECR007.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR007.003",
+      "name": "Keyboard (function key: touchpad on/off) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -3283,6 +3333,13 @@
     "doc": {
       "_id": "ECR008.201",
       "name": "Keyboard (function key: display on/off) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR008.203",
+      "name": "Keyboard (function key: display on/off) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3326,6 +3383,13 @@
   },
   {
     "doc": {
+      "_id": "ECR009.203",
+      "name": "Keyboard (function key: mute) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR009.301",
       "name": "Keyboard (function key: mute) in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3359,6 +3423,13 @@
     "doc": {
       "_id": "ECR010.201",
       "name": "Keyboard (function key: keyboard backlight) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR010.203",
+      "name": "Keyboard (function key: keyboard backlight) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3402,6 +3473,13 @@
   },
   {
     "doc": {
+      "_id": "ECR011.203",
+      "name": "Keyboard (function key: volume down) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR011.301",
       "name": "Keyboard (function key: volume down) in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3440,6 +3518,13 @@
   },
   {
     "doc": {
+      "_id": "ECR012.203",
+      "name": "Keyboard (function key: volume up) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR012.301",
       "name": "Keyboard (function key: volume up) in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3473,6 +3558,13 @@
     "doc": {
       "_id": "ECR013.201",
       "name": "Keyboard (function key: display switch) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR013.203",
+      "name": "Keyboard (function key: display switch) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3522,6 +3614,13 @@
   },
   {
     "doc": {
+      "_id": "ECR014.203",
+      "name": "Keyboard (function key: brightness down) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR015.001",
       "name": "Keyboard (function key: brightness up) in OS (Ubuntu)",
       "module": "Dasharo Compatibility",
@@ -3554,6 +3653,13 @@
     "doc": {
       "_id": "ECR015.202",
       "name": "Keyboard (function key: brightness up) in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR015.203",
+      "name": "Keyboard (function key: brightness up) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3596,6 +3702,13 @@
   },
   {
     "doc": {
+      "_id": "ECR016.203",
+      "name": "Keyboard (function key: camera on/off) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR017.001",
       "name": "Keyboard (function key: flight mode) in OS (Ubuntu)",
       "module": "Dasharo Compatibility",
@@ -3633,6 +3746,13 @@
   },
   {
     "doc": {
+      "_id": "ECR017.203",
+      "name": "Keyboard (function key: flight mode) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR018.001",
       "name": "Keyboard (function key: sleep) in OS (Ubuntu)",
       "module": "Dasharo Compatibility",
@@ -3664,6 +3784,13 @@
   },
   {
     "doc": {
+      "_id": "ECR018.203",
+      "name": "Keyboard (function key: sleep) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR018.301",
       "name": "Keyboard (function key: sleep) in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3690,6 +3817,13 @@
       "name": "Buttons (button: power) in OS (Qubes OS)",
       "module": "Dasharo Compatibility",
       "changed_to": "ECR019.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR019.003",
+      "name": "Buttons (button: power) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -3731,6 +3865,13 @@
   },
   {
     "doc": {
+      "_id": "ECR020.203",
+      "name": "Buttons (button: lid switch) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR022.001",
       "name": "EC sync update with power adapter connected works correctly",
       "module": "Dasharo Compatibility"
@@ -3763,6 +3904,13 @@
       "name": "Permanent keyboard illumination after cold boot (Qubes OS)",
       "module": "Dasharo Compatibility",
       "changed_to": "ECR025.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR025.203",
+      "name": "Permanent keyboard illumination after cold boot (Qubes OS)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
