@@ -199,12 +199,11 @@ SMW001.203 Wi-fi detection after cold boot (QubesOS)
     ...    correctly after performing a cold boot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW001.203 not supported
     Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW001.203 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW201.203 not supported
-    Execute Manual Step    [1/5] Power On the DUT by performing the cold boot
-    Execute Manual Step    [2/5] Boot into QubesOS
-    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
-    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
-    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW001.203 not supported
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [4/4] Match the command output with actual DUT's hardware
 
 SMW002.203 Wi-fi detection after warm boot (QubesOS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
@@ -212,11 +211,10 @@ SMW002.203 Wi-fi detection after warm boot (QubesOS)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.203 not supported
     Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW002.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW002.203 not supported
-    Execute Manual Step    [1/5] Power On the DUT by performing the warm boot
-    Execute Manual Step    [2/5] Boot into QubesOS
-    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
-    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
-    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [4/4] Match the command output with actual DUT's hardware
 
 SMW003.203 Wi-fi detection after reboot (QubesOS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
@@ -224,11 +222,10 @@ SMW003.203 Wi-fi detection after reboot (QubesOS)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.203 not supported
     Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW003.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW003.203 not supported
-    Execute Manual Step    [1/5] Power On the DUT by performing the reboot
-    Execute Manual Step    [2/5] Boot into QubesOS
-    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
-    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
-    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [4/4] Match the command output with actual DUT's hardware
 
 SMW004.203 Wi-fi detection after suspension (QubesOS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
@@ -237,11 +234,10 @@ SMW004.203 Wi-fi detection after suspension (QubesOS)
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.203 not supported
     Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW004.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW004.203 not supported
-    Execute Manual Step    [1/5] Power On the DUT
-    Execute Manual Step    [2/5] Boot into QubesOS and perform a suspend
-    Execute Manual Step    [3/5] Open Dom0 Xfce Terminal
-    Execute Manual Step    [4/5] Execute the following command: `lspci | grep "Network controller:"`
-    Execute Manual Step    [5/5] Match the command output with actual DUT's hardware
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Execute the following command: `lspci | grep "Network controller:"`
+    Execute Manual Step    [4/4] Match the command output with actual DUT's hardware
 
 
 *** Keywords ***
