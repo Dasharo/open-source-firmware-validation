@@ -332,6 +332,32 @@ Execute Command In Terminal And Return RC
     ${rc}=    Execute Command In Terminal    echo $?    ${timeout}
     RETURN    ${rc}
 
+Execute Command In Terminal And Return Output And RC
+    [Documentation]    Universal keyword to execute command regardless of the
+    ...    used method of connection to the DUT (Telnet or SSH). The DUT Response
+    ...    Timeout is changed to ``${timeout}`` and not restored.
+    ...
+    ...    === Requirements ===
+    ...    The command prompt has to be set using ``Set Prompt For Terminal``
+    ...
+    ...    === Arguments ===
+    ...    - ``${command}``: ``string`` - The command to execute
+    ...    - ``${timeout}``: ``string`` = ``30s`` - The DUT Response Timeout for
+    ...    \ executing the command
+    ...
+    ...    === Return Value ===
+    ...    ``string`` - The full command output, or up to the time ``${timeout}``
+    ...    passes.
+    ...    ``string`` - Return code of the executed function (as returned by $?)
+    ...
+    ...    === Effects ===
+    ...    The ``${command}`` is written to the terminal and the keyword waits
+    ...    until the execution ends or ``${timeout}`` passes.
+    [Arguments]    ${command}    ${timeout}=30s
+    ${out}=    Execute Command In Terminal    ${command}    ${timeout}
+    ${rc}=    Execute Command In Terminal    echo $?    ${timeout}
+    RETURN    ${out}    ${rc}
+
 Execute Command In Terminal Should Succeed
     [Documentation]    Universal keyword to execute command regardless of the
     ...    used method of connection to the DUT (Telnet or SSH). The DUT Response
