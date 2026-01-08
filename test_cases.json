@@ -13449,6 +13449,13 @@
   },
   {
     "doc": {
+      "_id": "WLE001.203",
+      "name": "Wireless card detection (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "WLE001.205",
       "name": "Wireless card detection (XCP-NG)",
       "module": "Dasharo Compatibility"
@@ -13496,6 +13503,13 @@
     "doc": {
       "_id": "WLE002.202",
       "name": "Wi-Fi scanning (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "WLE002.203",
+      "name": "Wi-Fi scanning (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
