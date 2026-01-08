@@ -4666,6 +4666,14 @@
     "doc": {
       "_id": "MNE006.001",
       "name": "Check Intel ME version",
+      "module": "Dasharo Security",
+      "changed_to": "MNE006.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "MNE006.201",
+      "name": "Check Intel ME version",
       "module": "Dasharo Security"
     }
   },
@@ -5258,49 +5266,49 @@
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR001.207",
       "name": "Install operating system on disk (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR002.207",
       "name": "Boot operating system from disk (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR003.207",
       "name": "Boot operating system from disk after cold-boot (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR004.207",
       "name": "Boot operating system from disk after warm-boot (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR005.207",
       "name": "Boot operating system from disk after reboot (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR006.207",
       "name": "Scan WiFi networks (OpenWrt)",
       "module": "Dasharo Compatibility"
     }
   },
   {
-      "doc": {
+    "doc": {
       "_id": "OWR007.207",
       "name": "Ethernet controller detection (OpenWrt)",
       "module": "Dasharo Compatibility"
@@ -5729,6 +5737,14 @@
     "doc": {
       "_id": "SBO001.001",
       "name": "Check Secure Boot default state (firmware)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO001.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO001.001",
+      "name": "Check Secure Boot default state (firmware)",
       "module": "Dasharo Security"
     }
   },
@@ -5736,12 +5752,28 @@
     "doc": {
       "_id": "SBO002.001",
       "name": "UEFI Secure Boot (Ubuntu)",
-      "module": "Dasharo Security"
+      "module": "Dasharo Security",
+      "changed_to": "SBO002.201"
     }
   },
   {
     "doc": {
       "_id": "SBO002.002",
+      "name": "UEFI Secure Boot (Windows)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO002.301"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO002.201",
+      "name": "UEFI Secure Boot (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO002.301",
       "name": "UEFI Secure Boot (Windows)",
       "module": "Dasharo Security"
     }
@@ -5750,12 +5782,28 @@
     "doc": {
       "_id": "SBO003.001",
       "name": "Attempt to boot file with the correct key from Shell (firmware)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO001.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO003.101",
+      "name": "Attempt to boot file with the correct key from Shell (firmware)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "SBO004.001",
+      "name": "Attempt to boot file without the key from Shell (firmware)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO004.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO004.101",
       "name": "Attempt to boot file without the key from Shell (firmware)",
       "module": "Dasharo Security"
     }
@@ -5764,12 +5812,28 @@
     "doc": {
       "_id": "SBO005.001",
       "name": "Attempt to boot file with the wrong-signed key from Shell (firmware)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO005.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO005.101",
+      "name": "Attempt to boot file with the wrong-signed key from Shell (firmware)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "SBO006.001",
+      "name": "Reset Secure Boot Keys option availability (firmware)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO006.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO006.101",
       "name": "Reset Secure Boot Keys option availability (firmware)",
       "module": "Dasharo Security"
     }
@@ -5778,12 +5842,28 @@
     "doc": {
       "_id": "SBO007.001",
       "name": "Attempt to boot the file after restoring keys to default (firmware)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO007.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO007.101",
+      "name": "Attempt to boot the file after restoring keys to default (firmware)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "SBO008.001",
+      "name": "Attempt to enroll the key in the incorrect format (firmware)",
+      "module": "Dasharo Security",
+      "changed_to": "SBO008.101"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO008.101",
       "name": "Attempt to enroll the key in the incorrect format (firmware)",
       "module": "Dasharo Security"
     }
