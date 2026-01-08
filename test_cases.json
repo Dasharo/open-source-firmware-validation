@@ -125,6 +125,13 @@
   },
   {
     "doc": {
+      "_id": "AUD001.203",
+      "name": "Audio subsystem detection (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "AUD001.301",
       "name": "Audio subsystem detection (Windows)",
       "module": "Dasharo Compatibility"
