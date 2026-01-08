@@ -414,6 +414,68 @@ E2E015.001 Verify that entering DTS menu in FUM works
     Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_MENU_OPT}
     Wait For Checkpoint    ${DTS_CHECKPOINT}
 
+################################################################################
+# IBG signature tests
+################################################################################
+
+E2E016.001 Verify that btg_key_validator prints expected error on unknown platform
+    [Documentation]    Call btg_key_validator on platform that doesn't support
+    ...    fusing
+    ${out}    ${rc}=    Execute Command In Terminal And Return Output And RC
+    ...    btg_key_validator
+    Should Contain    ${out}    Platform configuration is missing expected key hash
+    Should Not Be Equal As Integers    ${rc}    0
+
+E2E016.002 Verify that btg_key_validator prints expected error on failure to read flash
+    [Documentation]    Call btg_key_validator on platform that doesn't support
+    ...    reading flash
+    ${out}    ${rc}=    Execute Command In Terminal And Return Output And RC
+    ...    btg_key_validator --key-hash z
+    Should Contain    ${out}    Failed to read flash
+    Should Not Be Equal As Integers    ${rc}    0
+
+E2E016.003 Verify that btg_key_validator prints expected error on failure to export manifest
+    [Documentation]    Call btg_key_validator on malformed binary
+    ${out}    ${rc}=    Execute Command In Terminal And Return Output And RC
+    ...    touch /tmp/test_binary && btg_key_validator --key-hash z --file /tmp/test_binary
+    Should Contain    ${out}    Failed to export key manifest
+    Should Not Be Equal As Integers    ${rc}    0
+
+E2E016.004 Verify that btg_key_validator prints expected error if hashes don't match
+    [Documentation]    Call btg_key_validator on binary signed with unexpected key
+    Execute Command In Terminal Should Succeed
+    ...    wget -O /tmp/test_binary https://dl.3mdeb.com/open-source-firmware/Dasharo/novacustom_v5x0_mtl/novacustom_mtl_igpu/novacustom_v540tu_mtl/uefi/v1.0.0/novacustom_v54x_mtl_igpu_v1.0.0_btg_provisioned.cap
+    ${out}    ${rc}=    Execute Command In Terminal And Return Output And RC
+    ...    btg_key_validator --key-hash z --file /tmp/test_binary
+    Should Contain    ${out}    Firmware signature doesn't match expected hash
+    Should Not Be Equal As Integers    ${rc}    0
+
+E2E016.005 Verify that btg_key_validator prints expected message if hashes match
+    [Documentation]    Call btg_key_validator on binary signed with expected key
+    Execute Command In Terminal Should Succeed
+    ...    wget -O /tmp/test_binary https://dl.3mdeb.com/open-source-firmware/Dasharo/novacustom_v5x0_mtl/novacustom_mtl_igpu/novacustom_v540tu_mtl/uefi/v1.0.0/novacustom_v54x_mtl_igpu_v1.0.0_btg_provisioned.cap
+    ${out}    ${rc}=    Execute Command In Terminal And Return Output And RC
+    ...    btg_key_validator --key-hash e64b6b0e82c68fecc58f750d3696c26e1c98bf9e3149c81f3b2ed775eb9d2c157a99c103c62c44c0cdc61be971caeae1 --file /tmp/test_binary
+    Should Contain    ${out}    Firmware is signed with expected key hash
+    Should Be Equal As Integers    ${rc}    0
+
+E2E016.006 Verify that fuse workflow uses and verifies btg_key_validator
+    [Documentation]    Run fuse workflow and simulate btg_key_validator failure
+    Export Shell Variables For Emulation
+    ...    Fuse Platform
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_KEY_VALIDATOR_RESULT="fail_hash"
+    Write Into Terminal    dts-boot
+
+    Set DUT Response Timeout    120s
+
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_FUSE_OPT}
+    Wait For Checkpoint And Write    ${DTS_FUSE_WARN}    Y
+    Wait For Checkpoint    Firmware signature doesn't match expected hash
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
 
 *** Keywords ***
 # robocop: disable:0919
