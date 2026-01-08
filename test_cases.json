@@ -1236,6 +1236,13 @@
   },
   {
     "doc": {
+      "_id": "CPF001.203",
+      "name": "CPU not stuck on initial frequency (Qubes OS)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF001.301",
       "name": "CPU not stuck on initial frequency (Windows)",
       "module": "Dasharo Performance"
@@ -1485,6 +1492,20 @@
     "doc": {
       "_id": "CPF005.202",
       "name": "CPU runs on expected frequency (Fedora)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF005.203",
+      "name": "CPU runs on expected frequency (Qubes OS)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF005.203",
+      "name": "CPU with load runs on expected frequency (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1943,6 +1964,13 @@
   },
   {
     "doc": {
+      "_id": "CPU001.203",
+      "name": "CPU works (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPU001.205",
       "name": "CPU works (XCP-NG)",
       "module": "Dasharo Compatibility"
@@ -2013,6 +2041,13 @@
     "doc": {
       "_id": "CPU002.202",
       "name": "CPU cache enabled (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU002.203",
+      "name": "CPU cache enabled (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2093,6 +2128,13 @@
   },
   {
     "doc": {
+      "_id": "CPU003.203",
+      "name": "Multiple CPU support (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPU003.205",
       "name": "Multiple CPU support (XCP-NG)",
       "module": "Dasharo Compatibility"
@@ -2163,6 +2205,13 @@
     "doc": {
       "_id": "CPU004.202",
       "name": "Multiple-core support (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU004.203",
+      "name": "Multiple-core support (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2728,7 +2777,8 @@
     "doc": {
       "_id": "DSP001.004",
       "name": "Internal LCD in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "DSP001.203"
     }
   },
   {
@@ -2742,6 +2792,13 @@
     "doc": {
       "_id": "DSP001.202",
       "name": "Internal display in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP001.203",
+      "name": "Internal LCD in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2779,7 +2836,8 @@
     "doc": {
       "_id": "DSP002.004",
       "name": "External HDMI display in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "DSP002.203"
     }
   },
   {
@@ -2809,6 +2867,13 @@
     "doc": {
       "_id": "DSP002.202",
       "name": "External HDMI display in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP002.203",
+      "name": "External HDMI display in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
