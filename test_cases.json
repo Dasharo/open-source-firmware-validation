@@ -6911,6 +6911,13 @@
   },
   {
     "doc": {
+      "_id": "STB001.203",
+      "name": "Verify if no reboot occurs in the OS (Qubes OS)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "STB001.301",
       "name": "Verify if no reboot occurs in the OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -6944,6 +6951,13 @@
       "_id": "STB002.202",
       "name": "Verify if no unexpected boot errors appear in Linux logs (Fedora)",
       "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "STB002.203",
+      "name": "No unexpected boot errors (Qubes OS)",
+      "module": "Dasharo Performance"
     }
   },
   {
