@@ -114,7 +114,7 @@ Cyclic Platform Suspend And Resume
     VAR    ${suspend_detected_fails}=    ${0}
     Check Platform Sleep Type Is Correct On Linux    ${platform_sleep_type}
     FOR    ${index}    IN RANGE    0    ${SUSPEND_ITERATIONS_NUMBER}
-        ${is_suspend_performed_correctly}=    Perform Suspend Test Using FWTS
+        ${is_suspend_performed_correctly}=    Perform Suspend Test Using FWTS    40
         IF    not ${is_suspend_performed_correctly}
             ${suspend_detected_fails}=    Evaluate    ${suspend_detected_fails} + 1
         END

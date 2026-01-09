@@ -11,16 +11,18 @@ Suite Setup     Run Keywords
 ...                 AND    Prepare STB
 ...                 AND    Print Concurrent Tests Summary
 
+Default Tags    automated
+
 
 *** Test Cases ***
 ############################################
 #    Tests that can be done immediately    #
 ############################################
 _CONCURRENT_Background Measurements Immediate (no load) (Ubuntu)
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     # immediately skip if no tests want these measurements
     ${will_any_be_run}=    Check Concurrent Test Supported Regex
-    ...    (CPF001)|(STB002).201
+    ...    (${CPF_STUCK_ID})|(STB002).201
     Skip If    not ${will_any_be_run}    No test depends on this step
 
     Power On
@@ -28,8 +30,8 @@ _CONCURRENT_Background Measurements Immediate (no load) (Ubuntu)
     Login To Linux
     Switch To Root User
 
-    # CPF001.201 steps
-    VAR    ${concurrent_test_id}=    CPF001.201
+    # CPF001.201 / CPF002.201 / CPF003.201 steps
+    VAR    ${concurrent_test_id}=    ${CPF_STUCK_ID}.201
     ${check_frequency}=    Check Concurrent Test Supported    ${concurrent_test_id}
     IF    ${check_frequency}
         Sleep    10s
@@ -85,19 +87,19 @@ STB002.201 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
     ...    Previous IDs: STB002.001
-    [Tags]    minimal-regression
+    [Tags]    automated    minimal-regression
     VAR    ${concurrent_test_id}=    STB001.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check Unexpected Boot Errors    ${outs}
 
 #############################################################################
-#    Tests that gather measurements on Ubuntu, no load, n/a power source    #
+#    Tests that gather measurements on Ubuntu, no load,                     #
 #############################################################################
 
 _CONCURRENT_Background Measurements (no load) (Ubuntu)
-    ${gather_temps}=    Will Concurrent Test Be Run    CPT001.201
-    ${gather_freqs}=    Will Concurrent Test Be Run    CPF005.201
+    ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_NO_LOAD_ID}.201
+    ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_NO_LOAD_ID}.201
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.201
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
@@ -106,8 +108,8 @@ _CONCURRENT_Background Measurements (no load) (Ubuntu)
     Login To Linux
     Switch To Root User
 
-    ${gather_temps}=    Evaluate    "CPT001.201" if ${gather_temps} else ${None}
-    ${gather_freqs}=    Evaluate    "CPF005.201" if ${gather_freqs} else ${None}
+    ${gather_temps}=    Evaluate    "${CPT_NO_LOAD_ID}.201" if ${gather_temps} else ${None}
+    ${gather_freqs}=    Evaluate    "${CPF_NO_LOAD_ID}.201" if ${gather_freqs} else ${None}
     ${gather_stab}=    Evaluate    "STB001.201" if ${gather_stab} else ${None}
 
     Background Measurements
@@ -127,7 +129,7 @@ CPT002.201 CPU temperature without load (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    ...    Previous IDs: CPT001.001
+    ...    Previous IDs: CPT001.002
     VAR    ${concurrent_test_id}=    CPT002.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -137,7 +139,7 @@ CPT003.201 CPU temperature without load (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    ...    Previous IDs: CPT001.001
+    ...    Previous IDs: CPT001.003
     VAR    ${concurrent_test_id}=    CPT003.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -147,7 +149,7 @@ CPT004.201 CPU temperature without load (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    ...    Previous IDs: CPT001.001
+    ...    Previous IDs: CPT001.004
     VAR    ${concurrent_test_id}=    CPT004.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -165,7 +167,7 @@ CPF005.201 CPU runs on expected frequency (Ubuntu)
 CPF006.201 CPU runs on expected frequency (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.001
+    ...    Previous IDs: CPF002.003
     VAR    ${concurrent_test_id}=    CPF006.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -174,7 +176,7 @@ CPF006.201 CPU runs on expected frequency (Battery) (Ubuntu)
 CPF007.201 CPU runs on expected frequency (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.001
+    ...    Previous IDs: CPF002.005
     VAR    ${concurrent_test_id}=    CPF007.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -183,30 +185,19 @@ CPF007.201 CPU runs on expected frequency (AC) (Ubuntu)
 CPF008.201 CPU runs on expected frequency (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.001
+    ...    Previous IDs: CPF002.007
     VAR    ${concurrent_test_id}=    CPF008.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Linux    ${freqs}
 
-STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
-    [Documentation]    This test aims to verify that the DUT booted to the
-    ...    Operating System does not reset. The test is performed in multiple
-    ...    iterations - after a defined time an attempt to read the output of
-    ...    specific commands confirming the stability of work is repeated.
-    ...    Previous IDs: STB001.002
-    VAR    ${concurrent_test_id}=    STB001.201
-    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
-    ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check Platform Stability    ${measurements}
-
 #############################################################################
-#    Tests that gather measurements on Ubuntu, load, n/a power source    #
+#    Tests that gather measurements on Ubuntu, load                         #
 #############################################################################
 
 _CONCURRENT_Background Measurements (load) (Ubuntu)
-    ${gather_temps}=    Will Concurrent Test Be Run    CPT005.201
-    ${gather_freqs}=    Will Concurrent Test Be Run    CPF009.201
+    ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_LOAD_ID}.201
+    ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_LOAD_ID}.201
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.201
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
@@ -215,8 +206,8 @@ _CONCURRENT_Background Measurements (load) (Ubuntu)
     Login To Linux
     Switch To Root User
 
-    ${gather_temps}=    Evaluate    "CPT005.201" if ${gather_temps} else ${None}
-    ${gather_freqs}=    Evaluate    "CPF009.201" if ${gather_freqs} else ${None}
+    ${gather_temps}=    Evaluate    "${CPT_LOAD_ID}.201" if ${gather_temps} else ${None}
+    ${gather_freqs}=    Evaluate    "${CPF_LOAD_ID}.201" if ${gather_freqs} else ${None}
     ${gather_stab}=    Evaluate    "STB001.201" if ${gather_stab} else ${None}
 
     # Start CPU Stress
@@ -233,7 +224,37 @@ CPT005.201 CPU temperature after stress test (Ubuntu)
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
     ...    Previous IDs: CPT002.001
-    VAR    ${concurrent_test_id}=    CPT001.201
+    VAR    ${concurrent_test_id}=    CPT005.201
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT006.201 CPU temperature after stress test (Battery) (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    ...    Previous IDs: CPT002.002
+    VAR    ${concurrent_test_id}=    CPT006.201
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT007.201 CPU temperature after stress test (AC) (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    ...    Previous IDs: CPT002.003
+    VAR    ${concurrent_test_id}=    CPT007.201
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT008.201 CPU temperature after stress test (USB-PD) (Ubuntu)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    ...    Previous IDs: CPT002.004
+    VAR    ${concurrent_test_id}=    CPT007.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Temps    ${temps}
@@ -241,11 +262,53 @@ CPT005.201 CPU temperature after stress test (Ubuntu)
 CPF009.201 CPU with load runs on expected frequency (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.001
-    VAR    ${concurrent_test_id}=    CPF005.201
+    ...    Previous IDs: CPF004.002
+    VAR    ${concurrent_test_id}=    CPF009.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Linux    ${freqs}
+
+CPF010.201 CPU with load runs on expected frequency (Battery) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.004
+    VAR    ${concurrent_test_id}=    CPF010.201
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Freqs Linux    ${freqs}
+
+CPF011.201 CPU with load runs on expected frequency (AC) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.006
+    VAR    ${concurrent_test_id}=    CPF011.201
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Freqs Linux    ${freqs}
+
+CPF012.201 CPU with load runs on expected frequency (USB-PD) (Ubuntu)
+    [Documentation]    This test aims to verify whether the mounted CPU is
+    ...    running on expected frequency after stress test.
+    ...    Previous IDs: CPF004.008
+    VAR    ${concurrent_test_id}=    CPF012.201
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Freqs Linux    ${freqs}
+
+#############################################################################
+#    Tests that gather measurements on Ubuntu, n\a load                     #
+#############################################################################
+
+STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
+    [Documentation]    This test aims to verify that the DUT booted to the
+    ...    Operating System does not reset. The test is performed in multiple
+    ...    iterations - after a defined time an attempt to read the output of
+    ...    specific commands confirming the stability of work is repeated.
+    ...    Previous IDs: STB001.002
+    VAR    ${concurrent_test_id}=    STB001.201
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check Platform Stability    ${measurements}
 
 
 *** Keywords ***
@@ -341,16 +404,16 @@ Prepare CPT
     [Documentation]    Setup CPT concurrent test contexts
     IF    not ${LAPTOP_PLATFORM}
         VAR    ${CPT_NO_LOAD_ID}=    CPT001    scope=SUITE
-        VAR    ${CPF_LOAD_ID}=    CPT005    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT005    scope=SUITE
     ELSE IF    ${BATTERY_PRESENT}
         VAR    ${CPT_NO_LOAD_ID}=    CPT002    scope=SUITE
-        VAR    ${CPF_LOAD_ID}=    CPT006    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT006    scope=SUITE
     ELSE IF    ${AC_CONNECTED}
         VAR    ${CPT_NO_LOAD_ID}=    CPT003    scope=SUITE
-        VAR    ${CPF_LOAD_ID}=    CPT007    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT007    scope=SUITE
     ELSE IF    ${USB_PD_CONNECTED}
         VAR    ${CPT_NO_LOAD_ID}=    CPT004    scope=SUITE
-        VAR    ${CPF_LOAD_ID}=    CPT008    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT008    scope=SUITE
     END
 
     # No load Ubuntu
@@ -364,9 +427,9 @@ Prepare CPT
     ...    Ubuntu not in tested distros
     # Load Ubuntu
     Add Concurrent Test Skip Condition
-    ...    ${CPF_LOAD_ID}.201
+    ...    ${CPT_LOAD_ID}.201
     ...    not ${TESTS_IN_UBUNTU_SUPPORT}
     ...    tests in Ubuntu not supported
-    Add Concurrent Test Skip Condition    ${CPF_LOAD_ID}.201
+    Add Concurrent Test Skip Condition    ${CPT_LOAD_ID}.201
     ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
