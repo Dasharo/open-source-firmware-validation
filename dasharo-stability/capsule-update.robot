@@ -417,8 +417,9 @@ Upload Required Files SSH
     Switch To Root User
     Send File To DUT    ${FW_FILE}    /root/${fw_filename}
     Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
-    Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
+    Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
     ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
+    Execute Command In Terminal    rm -rf osfv
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
         VAR    ${commands}=    pushd osfv;
