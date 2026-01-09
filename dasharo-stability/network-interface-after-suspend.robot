@@ -161,7 +161,7 @@ NET006.202 NET controller after suspend (Fedora) (S3)
 
 NET001.203 Network controller basic connectivity (Qubes OS)
     [Documentation]    Verify basic network connectivity in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Start any AppVM with network access.
     Execute Manual Step    [3/4] Attempt to access a known network resource (e.g. website or ping).
@@ -170,7 +170,7 @@ NET001.203 Network controller basic connectivity (Qubes OS)
 NET002.203 Network controller after warmboot (Qubes OS)
     [Documentation]    Verify that the network controller functions correctly
     ...    after a warmboot in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Perform a warmboot (restart initiated from the OS).
     Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
@@ -180,7 +180,7 @@ NET002.203 Network controller after warmboot (Qubes OS)
 NET003.203 Network controller after reboot (Qubes OS)
     [Documentation]    Verify that the network controller functions correctly
     ...    after a full system reboot in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Perform a full system reboot.
     Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
@@ -190,7 +190,7 @@ NET003.203 Network controller after reboot (Qubes OS)
 NET004.203 Network controller after suspend (Qubes OS)
     [Documentation]    Verify that the network controller functions correctly
     ...    after system suspend and resume in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Suspend the system.
     Execute Manual Step    [3/5] Resume the system from suspend.

@@ -180,7 +180,7 @@ SUD006.202 USB devices detection after suspension (Fedora) (S3)
 
 SUD001.203 USB devices detection in OS (Qubes OS)
     [Documentation]    Verify that an external USB device is detected correctly in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Connect an external USB device to the DUT.
     Execute Manual Step    [3/5] Assign the USB device to any AppVM.
@@ -190,7 +190,7 @@ SUD001.203 USB devices detection in OS (Qubes OS)
 SUD002.203 USB devices detection after warmboot (Qubes OS)
     [Documentation]    Verify that an external USB device is detected correctly
     ...    after a warmboot in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
     Execute Manual Step    [3/6] Perform a warmboot (restart initiated from the OS).
@@ -201,7 +201,7 @@ SUD002.203 USB devices detection after warmboot (Qubes OS)
 SUD003.203 USB devices detection after reboot (Qubes OS)
     [Documentation]    Verify that an external USB device is detected correctly
     ...    after a full system reboot in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
     Execute Manual Step    [3/6] Perform a full system reboot.
@@ -212,7 +212,7 @@ SUD003.203 USB devices detection after reboot (Qubes OS)
 SUD004.203 USB devices detection after suspend (Qubes OS)
     [Documentation]    Verify that an external USB device is detected correctly
     ...    after suspend and resume in Qubes OS.
-    [Tags]    manual
+    [Tags]    semiauto
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
     Execute Manual Step    [3/6] Suspend the system.
