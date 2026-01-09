@@ -362,8 +362,10 @@ Upload Required Files Serial
         Send File To DUT    ./dl-cache/edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         Send File To DUT    ./dl-cache/edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
-        Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
-        Send File To DUT    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}    /capsule_testing/invalid_btg_signature.cap
+        IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+            Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
+            Send File To DUT    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}    /capsule_testing/invalid_btg_signature.cap
+        END
         # Move the directory to ESP partition so the tests work even if root
         # file-system is part of LVM
         Execute Command In Terminal    rm -r /boot/efi/capsule_testing
@@ -382,8 +384,12 @@ Upload Required Files Serial
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_wrong_cert.cap    C:\\capsule_testing\\wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_invalid_guid.cap    C:\\capsule_testing\\invalid_guid.cap
-        Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
-        SSHLibrary.Put File    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}    C:\\capsule_testing\\invalid_btg_signature.cap
+        IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+            Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
+            SSHLibrary.Put File
+            ...    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
+            ...    C:\\capsule_testing\\invalid_btg_signature.cap
+        END
         Execute Command In Terminal    mountvol b: /s
         Set Prompt For Terminal    PS B:\\>
         Execute Command In Terminal    b:
@@ -402,21 +408,36 @@ Upload Required Files Serial
 Upload Required Files SSH
     ${fw_filename}=    Get File Name Without Extension    ${FW_FILE}
     ${caps_filename}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
+    IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+        ${btg_caps_filename}=    Get File Name Without Extension    ${BTG_CAPSULE_FW_FILE}
+    END
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux
     Switch To Root User
     Send File To DUT    ${FW_FILE}    /root/${fw_filename}
     Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
+    Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
     ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
-    VAR    ${commands}=    pushd osfv;
-    ...    git submodule update --init --checkout;
-    ...    export FW_FILE=/root/${fw_filename};
-    ...    export CAPSULE_FW_FILE=/root/${caps_filename};
-    ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
-    ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
-    ...    popd;
+    IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+        VAR    ${commands}=    pushd osfv;
+        ...    git submodule update --init --checkout;
+        ...    export FW_FILE=/root/${fw_filename};
+        ...    export CAPSULE_FW_FILE=/root/${caps_filename};
+        ...    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename};
+        ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
+        ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
+        ...    popd;
+    ELSE
+        VAR    ${commands}=    pushd osfv;
+        ...    git submodule update --init --checkout;
+        ...    export FW_FILE=/root/${fw_filename};
+        ...    export CAPSULE_FW_FILE=/root/${caps_filename};
+        ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
+        ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
+        ...    popd;
+    END
     Execute Command In Terminal    ${commands}    timeout=120s
 
 Perform Capsule Update
