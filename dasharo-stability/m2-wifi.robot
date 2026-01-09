@@ -198,7 +198,6 @@ SMW001.203 Wi-fi detection after cold boot (QubesOS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a cold boot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW001.203 not supported
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW001.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW001.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
@@ -209,7 +208,6 @@ SMW002.203 Wi-fi detection after warm boot (QubesOS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.203 not supported
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW002.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW002.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
@@ -220,7 +218,6 @@ SMW003.203 Wi-fi detection after reboot (QubesOS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a reboot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.203 not supported
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW003.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW003.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
@@ -232,7 +229,6 @@ SMW004.203 Wi-fi detection after suspension (QubesOS)
     ...    correctly after resuming from suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.203 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.203 not supported
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SMW004.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW004.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).

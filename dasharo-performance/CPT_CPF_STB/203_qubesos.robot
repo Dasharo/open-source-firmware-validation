@@ -166,12 +166,12 @@ CPF009.203 CPU with load runs on expected frequency (QubesOS)
 Prepare STB QUBES
     Add Concurrent Test Skip Condition
     ...    STB001.203
-    ...    not ${TESTS_IN_QUBESOS_SUPPORT}
+    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     ...    Tests in QubesOS not supported
 
     Add Concurrent Test Skip Condition
     ...    STB002.203
-    ...    not ${TESTS_IN_QUBESOS_SUPPORT}
+    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     ...    Tests in QubesOS not supported
 
 Prepare CPF QUBES
@@ -200,10 +200,10 @@ Prepare CPT QUBES
 
     Add Concurrent Test Skip Condition
     ...    ${CPT_NO_LOAD_ID}.203
-    ...    not ${TESTS_IN_QUBESOS_SUPPORT}
+    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     ...    tests in QubesOS not supported
 
     Add Concurrent Test Skip Condition
     ...    ${CPT_LOAD_ID}.203
-    ...    not ${TESTS_IN_QUBESOS_SUPPORT}
+    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     ...    tests in QubesOS not supported
