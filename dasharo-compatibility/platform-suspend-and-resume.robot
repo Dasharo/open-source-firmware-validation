@@ -107,6 +107,41 @@ SUSP007.202 Cyclic platform suspend and resume (Fedora) (S3)
     Cyclic Platform Suspend And Resume    S3
     Exit From Root User
 
+SUSP001.203 Platform suspend and resume (Qubes OS)
+    [Documentation]    Verify that platform suspend and resume works correctly on Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Initiate system suspend from the Qubes OS menu.
+    Execute Manual Step    [3/4] Wait until the platform enters suspend state.
+    Execute Manual Step    [4/4] Resume the system and verify the desktop is restored and responsive.
+
+SUSP002.203 Cyclic platform suspend and resume (Qubes OS)
+    [Documentation]    Verify stability of cyclic suspend and resume on Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Initiate system suspend.
+    Execute Manual Step    [3/5] Resume the system.
+    Execute Manual Step    [4/5] Repeat suspend and resume cycle at least 5 times.
+    Execute Manual Step    [5/5] Verify no crashes, freezes, or system errors occur.
+
+SUSP003.203 Suspend and resume with running AppVMs (Qubes OS)
+    [Documentation]    Verify suspend and resume behavior with running AppVMs on Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Start at least one AppVM and perform basic activity inside it.
+    Execute Manual Step    [3/5] Initiate system suspend from the Qubes OS menu.
+    Execute Manual Step    [4/5] Resume the system.
+    Execute Manual Step    [5/5] Verify the AppVM is still running and responsive after resume.
+
+SUSP007.203 Suspend and resume with external devices connected (Qubes OS)
+    [Documentation]    Verify suspend and resume functionality in Qubes OS with external devices connected.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Connect an external device (e.g. USB mouse, keyboard, or storage).
+    Execute Manual Step    [3/5] Initiate system suspend.
+    Execute Manual Step    [4/5] Resume the system.
+    Execute Manual Step    [5/5] Verify the external device works correctly after resume.
+
 
 *** Keywords ***
 Cyclic Platform Suspend And Resume

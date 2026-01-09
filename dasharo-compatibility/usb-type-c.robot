@@ -899,108 +899,211 @@ UTC105.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E
     ...    without reconnecting the USB-C cable.
 
 UTC107.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the DUT can detect the USB Type-C hub.
+    [Documentation]    Verify USB Type-C display output via docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC107.203 not supported
-    Skip
-    ...    UTC107.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/10] Boot into **dom0**.
+    Execute Manual Step    [3/10] Connect the docking station to AC power.
+    Execute Manual Step    [4/10] Connect the docking station to the DUT via USB Type-C.
+    Execute Manual Step    [5/10] Connect an external display to the dock (USB-C / DP Alt Mode).
+    Execute Manual Step    [6/10] Verify the display is detected in dom0 display settings.
+    Execute Manual Step    [7/10] Enable the external display (mirror or extend desktop).
+    Execute Manual Step    [8/10] Set native resolution on the external display.
+    Execute Manual Step    [9/10] Observe video output for at least 1 minute.
+    Execute Manual Step    [10/10] Verify stable video output with no flickering or artifacts.
 
 UTC109.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the display connected with
-    ...    the HDMI cable to the docking station is correctly
-    ...    recognized by the OPERATING_SYSTEM.
+    [Documentation]    Verify HDMI display output via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_HDMI}    UTC109.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC109.203 not supported
-    Skip
-    ...    UTC109.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/10] Boot into **dom0**.
+    Execute Manual Step    [3/10] Connect the docking station to AC power.
+    Execute Manual Step    [4/10] Connect the docking station to the DUT.
+    Execute Manual Step    [5/10] Connect an HDMI monitor to the docking station.
+    Execute Manual Step    [6/10] Verify HDMI display is detected in dom0.
+    Execute Manual Step    [7/10] Enable the HDMI display.
+    Execute Manual Step    [8/10] Set correct resolution and refresh rate.
+    Execute Manual Step    [9/10] Move windows between internal and HDMI display.
+    Execute Manual Step    [10/10] Verify stable video output.
 
 UTC111.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the display connected with
-    ...    the HDMI cable to the docking station is correctly
-    ...    recognized by the OPERATING_SYSTEM.
+    [Documentation]    Verify DisplayPort output via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC111.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC111.203 not supported
-    Skip
-    ...    UTC111.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/10] Boot into **dom0**.
+    Execute Manual Step    [3/10] Connect the docking station to AC power.
+    Execute Manual Step    [4/10] Connect the docking station to the DUT.
+    Execute Manual Step    [5/10] Connect a DisplayPort monitor to the dock.
+    Execute Manual Step    [6/10] Verify DP display is detected in dom0.
+    Execute Manual Step    [7/10] Enable the DP display.
+    Execute Manual Step    [8/10] Set native resolution.
+    Execute Manual Step    [9/10] Observe display stability for at least 1 minute.
+    Execute Manual Step    [10/10] Verify no visual artifacts or signal loss.
 
 UTC113.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the three display
-    ...    simultaneously connected to the docking station is correctly
-    ...    recognized by the OPERATING_SYSTEM.
+    [Documentation]    Verify triple display configuration via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC113.203 not supported
-    Skip
-    ...    UTC113.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/11] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/11] Boot into **dom0**.
+    Execute Manual Step    [3/11] Connect the docking station to AC power.
+    Execute Manual Step    [4/11] Connect the docking station to the DUT.
+    Execute Manual Step    [5/11] Connect three external displays to the dock (HDMI/DP/USB-C).
+    Execute Manual Step    [6/11] Verify all displays are detected in dom0.
+    Execute Manual Step    [7/11] Configure extended desktop across all displays.
+    Execute Manual Step    [8/11] Arrange displays logically.
+    Execute Manual Step    [9/11] Move windows across all displays.
+    Execute Manual Step    [10/11] Observe system stability for at least 2 minutes.
+    Execute Manual Step    [11/11] Verify no display disconnects or freezes occur.
 
 UTC115.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the external USB devices connected to the
-    ...    docking station are detected correctly
+    [Documentation]    Verify USB device recognition via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC115.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC115.203 not supported
-    Skip
-    ...    UTC115.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/10] Boot into **dom0**.
+    Execute Manual Step    [3/10] Connect the docking station to AC power.
+    Execute Manual Step    [4/10] Connect the docking station to the DUT.
+    Execute Manual Step    [5/10] Connect multiple USB devices to the dock.
+    Execute Manual Step    [6/10] Verify devices appear in Qubes device widget.
+    Execute Manual Step    [7/10] Assign devices to a test VM.
+    Execute Manual Step    [8/10] Use each device in the VM.
+    Execute Manual Step    [9/10] Disconnect and reconnect one device.
+    Execute Manual Step    [10/10] Verify devices reappear and function correctly.
 
 UTC117.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    Check whether the external USB keyboard connected to the
-    ...    docking station is detected correctly.
+    [Documentation]    Verify USB keyboard via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC117.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC117.203 not supported
-    Skip
-    ...    UTC117.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/9] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/9] Boot into **dom0**.
+    Execute Manual Step    [3/9] Connect the docking station to AC power.
+    Execute Manual Step    [4/9] Connect the docking station to the DUT.
+    Execute Manual Step    [5/9] Connect a USB keyboard to the dock.
+    Execute Manual Step    [6/9] Verify keyboard appears in device list.
+    Execute Manual Step    [7/9] Assign keyboard to dom0 or a VM.
+    Execute Manual Step    [8/9] Type text continuously for 1 minute.
+    Execute Manual Step    [9/9] Verify no input lag or disconnects.
 
 UTC119.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the 1GB file can be
-    ...    transferred from the OPERATING_SYSTEM to the USB storage
-    ...    connected to the docking station.
+    [Documentation]    Verify stability and performance of USB storage data transfer via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC119.203 not supported
-    Skip
-    ...    UTC119.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/10] Boot into **dom0**.
+    Execute Manual Step    [3/10] Connect the docking station to AC power.
+    Execute Manual Step    [4/10] Connect the docking station to the DUT via USB Type-C.
+    Execute Manual Step    [5/10] Connect a USB storage device to the docking station.
+    Execute Manual Step    [6/10] Verify the USB storage device appears in the Qubes device list.
+    Execute Manual Step    [7/10] Assign the USB storage device to a test VM.
+    Execute Manual Step    [8/10] Copy a 1GB file from the VM to the USB storage.
+    Execute Manual Step    [9/10] Monitor transfer for errors or disconnects.
+    Execute Manual Step    [10/10] Verify file integrity after transfer completes.
 
 UTC121.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the connection to internet
-    ...    via docking station's Ethernet port can be obtained on
-    ...    OPERATING_SYSTEM.
+    [Documentation]    Verify Ethernet connectivity via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC121.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC121.203 not supported
-    Skip
-    ...    UTC121.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/9] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/9] Boot into **dom0**.
+    Execute Manual Step    [3/9] Connect the docking station to AC power.
+    Execute Manual Step    [4/9] Connect the docking station to the DUT.
+    Execute Manual Step    [5/9] Connect an Ethernet cable to the docking station.
+    Execute Manual Step    [6/9] Verify a wired network interface appears in dom0.
+    Execute Manual Step    [7/9] Confirm the interface obtains an IP address.
+    Execute Manual Step    [8/9] Verify network connectivity (e.g. ping a known host).
+    Execute Manual Step    [9/9] Observe connection stability for at least 1 minute.
 
 UTC123.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the external headset is
-    ...    properly recognized after plugging in the 3.5 mm jack into
-    ...    the docking station.
+    [Documentation]    Verify audio device recognition via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC123.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC123.203 not supported
-    Skip
-    ...    UTC123.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/9] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/9] Boot into **dom0**.
+    Execute Manual Step    [3/9] Connect the docking station to AC power.
+    Execute Manual Step    [4/9] Connect the docking station to the DUT.
+    Execute Manual Step    [5/9] Connect speakers or headphones to the dock.
+    Execute Manual Step    [6/9] Verify an audio output device appears in dom0.
+    Execute Manual Step    [7/9] Select the dock audio device as default output.
+    Execute Manual Step    [8/9] Verify no audio-related errors are reported.
+    Execute Manual Step    [9/9] Confirm the device remains visible after 1 minute.
 
 UTC125.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the audio subsystem is able
-    ...    to playback audio recordings by using the external headset
-    ...    speakers connected to the docking station.
+    [Documentation]    Verify audio playback via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC125.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC125.203 not supported
-    Skip
-    ...    UTC125.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/10] Boot into **dom0**.
+    Execute Manual Step    [3/10] Connect the docking station to AC power.
+    Execute Manual Step    [4/10] Connect the docking station to the DUT.
+    Execute Manual Step    [5/10] Connect speakers or headphones to the dock.
+    Execute Manual Step    [6/10] Assign an AppVM for audio playback.
+    Execute Manual Step    [7/10] Select the dock audio device as output.
+    Execute Manual Step    [8/10] Play a test audio file in the AppVM.
+    Execute Manual Step    [9/10] Listen for clarity, distortion, or dropouts.
+    Execute Manual Step    [10/10] Verify stable audio playback for at least 1 minute.
 
 UTC127.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
-    [Documentation]    This test aims to verify that the audio subsystem is able
-    ...    to capture audio from external headset connected to the
-    ...    docking station.
+    [Documentation]    Verify audio capture via USB Type-C docking station on Qubes OS.
     [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC127.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC127.203 not supported
-    Skip
-    ...    UTC127.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Pause Execution
+    Execute Manual Step
+    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled. Save & reboot DUT.
+    ...    (You may skip this step if on Heads)
+
+    Execute Manual Step    [2/10] Boot into **dom0**.
+    Execute Manual Step    [3/10] Connect the docking station to AC power.
+    Execute Manual Step    [4/10] Connect the docking station to the DUT.
+    Execute Manual Step    [5/10] Connect a microphone or headset with mic to the dock.
+    Execute Manual Step    [6/10] Verify an audio input device appears in dom0.
+    Execute Manual Step    [7/10] Assign an AppVM for audio recording.
+    Execute Manual Step    [8/10] Record a short audio sample in the AppVM.
+    Execute Manual Step    [9/10] Play back the recording.
+    Execute Manual Step    [10/10] Verify audio is captured clearly without noise or dropouts.
 
 UTC129.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
