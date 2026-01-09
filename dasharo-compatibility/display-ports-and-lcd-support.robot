@@ -181,7 +181,6 @@ DSP001.203 - Internal display in OS (Qubes OS)
     ...    Previous IDs: DSP002.010
     [Tags]    semiauto
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.203 not supported
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    DSP002.203 not supported
     Pause Execution
     ...    This is a manual test to verify internal display on Qubes OS.
     Execute Manual Step    [1/3] Power on the DUT
@@ -194,7 +193,6 @@ DSP002.203 - External HDMI display in OS (Qubes OS)
     ...    the platform config.
     [Tags]    semiauto
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.203 not supported
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    DSP002.203 not supported
     Pause Execution
     ...    This is a manual test to verify HDMI output on Qubes OS.
     Execute Manual Step    [1/4] Connect an external display to the DUT via HDMIs
