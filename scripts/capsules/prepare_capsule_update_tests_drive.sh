@@ -61,8 +61,10 @@ cp $FILES_DIR/variable_capsule_file.nsh "$mount_point"/variable_capsule_file.nsh
 cp $FILES_DIR/variable_step.nsh "$mount_point"/variable_step.nsh
 cp $CAPSULE_FILES_DIR/${CAPSULE_BASENAME}_wrong_cert.cap "$mount_point"/wrong_cert.cap
 cp $CAPSULE_FILES_DIR/${CAPSULE_BASENAME}_invalid_guid.cap "$mount_point"/invalid_guid.cap
+cp $CAPSULE_FILES_DIR/${CAPSULE_BASENAME}_invalid_btg_signature.cap "$mount_point"/invalid_btg_signature.cap
 cp $CAPSULE_FW_FILE "$mount_point"/valid_capsule.cap
 cp $FW_FILE "$mount_point"/pre-capsule.rom
+
 
 # cleanup
 udisksctl unmount -b $DRIVE
