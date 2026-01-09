@@ -32,7 +32,6 @@ ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_QUBES}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}    ${ENV_ID_QUBES}
-${TESTS_IN_QUBESOS_SUPPORT}=            ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 ${CLEVO_USB_C_HUB}=                     Billboard Device
 ${USB_DEVICE}=                          Linux

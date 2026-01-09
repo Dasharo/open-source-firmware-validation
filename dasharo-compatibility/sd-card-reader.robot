@@ -113,7 +113,6 @@ SDC002.301 SD Card read/write (Windows)
 SDC001.203 SD Card reader detection (QubesOS)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SDC001.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SDC001.203 not supported
     Login To OS    ${ENV_ID_QUBES}
     ${disks}=    Identify Disks In QubesOS
@@ -122,7 +121,6 @@ SDC001.203 SD Card reader detection (QubesOS)
 SDC002.203 SD Card read/write (QubesOS)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    SDC001.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SDC001.203 not supported
     Login To OS    ${ENV_ID_QUBES}
     Execute Linux Command    sudo dd if=/dev/urandom of=/tmp/in.bin bs=4K count=100

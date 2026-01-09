@@ -67,7 +67,6 @@ UTC033.203 USB Type-C PD current limiting (QubesOS) (ME: Enabled)
     ...    power supply does not exceed the limits of the power supply's
     ...    specifications.
     [Tags]    semiauto
-    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    UTC033.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC033.203 not supported
     Pause Execution
     Execute Manual Step
