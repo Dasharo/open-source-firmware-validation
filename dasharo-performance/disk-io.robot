@@ -20,9 +20,9 @@ ${RESULTS_DIR_WINDOWS}=         C:\fio-results
 DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while connected to power supply unit. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    Sleep    20s
     Power Cycle Into Ubuntu
     Run FIO On Ubuntu    sequential_with_queues
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=2G
@@ -36,11 +36,11 @@ DIO001.201 Sequential Read Performance (Ubuntu) (AC)
 DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded read
     ...    performance, while powered by inbuilt battery. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    Sleep    20s
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -58,9 +58,9 @@ DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
 DIO003.201 Sequential Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single-threaded write
     ...    performance while powered by AC adapter. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    Sleep    20s
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    sequential_write_with_queues
@@ -79,11 +79,11 @@ DIO003.201 Sequential Write Performance (Ubuntu) (AC)
 DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded write
     ...    performance, while powered by inbuilt battery. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    Sleep    20s
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -103,9 +103,9 @@ DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
 DIO005.201 Random Read Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random read performance
     ...    while connected to power supply unit. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    Sleep    20s
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    random_read_with_queues
@@ -124,11 +124,11 @@ DIO005.201 Random Read Performance (Ubuntu) (AC)
 DIO006.201 Random Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of random read performance
     ...    while running on battery power. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    Sleep    20s
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -148,9 +148,9 @@ DIO006.201 Random Read Performance (Ubuntu) (Battery)
 DIO007.201 Random Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of random write performance
     ...    while connected to power supply unit. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    Sleep    20s
     Power Cycle Into Ubuntu
     Switch To Root User
     Run FIO On Ubuntu    random_write_with_queues
@@ -169,11 +169,11 @@ DIO007.201 Random Write Performance (Ubuntu) (AC)
 DIO008.201 Random Write Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of sequential write performance
     ...    while connected to power supply unit. (Ubuntu)
-    Sleep    20s
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    Sleep    20s
     Skip If Battery Level Below 30 Percent
     Power Cycle Into Ubuntu
     Switch To Root User
@@ -301,9 +301,12 @@ Disk IO Suite Setup
     Prepare Test Suite
     Skip If    not ${DISK_IO_PERFORMANCE_TESTS}
     ...    Disk IO tests not enabled for this platform config
+    Skip If    '${DISK_IO_REFERENCE_DISK_NAME}' == '${TBD}'    Reference disk name not set
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Power Cycle Into Ubuntu
         Switch To Root User
+        ${disk}=    Execute Command In Terminal    lshw -class disk -class storage
+        Should Contain    ${disk}    ${DISK_IO_REFERENCE_DISK_NAME}
         Detect Or Install Package    fio
         Exit From Root User
         Execute Linux Command    mkdir ~/${RESULTS_DIR_UBUNTU}

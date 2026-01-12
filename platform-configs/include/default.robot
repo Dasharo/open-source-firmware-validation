@@ -408,6 +408,7 @@ ${PLATFORM_RAM_SPEED}=                              ${TBD}
 ${SD_WIRES_CONNECTED}=                              ${TBD}
 ${SD_WIRE_SERIAL1}=                                 ${TBD}
 ${SMALLPT_TEST_SCORE}=                              ${TBD}
+${DISK_IO_REFERENCE_DISK_NAME}=                     ${TBD}
 ${UBU_RAND_READ_NONQUE}=                            ${TBD}
 ${UBU_RAND_READ_QUEUED}=                            ${TBD}
 ${UBU_RAND_WRITE_NONQUE}=                           ${TBD}

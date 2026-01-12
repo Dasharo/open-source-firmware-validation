@@ -15,13 +15,14 @@ Run Unigine Superposition On Ubuntu
     # Required for graphical benchmarking over ssh
     Execute Manual Step    Please ensure DUT has active desktop session
     ...    by logging into Gnome Desktop.
-    VAR    ${cmd}=    DISPLAY=:0
+    # TODO BUG: Might also be :0, it depends on device https://github.com/Dasharo/open-source-firmware-validation/issues/1215
+    VAR    ${cmd}=    DISPLAY=:1
 
     IF    ${NVIDIA_GRAPHICS_CARD_SUPPORT}
-        VAR    ${cmd}=    ${cmd}    __GLX_VENDOR_LIBRARY_NAME=nvidia __NV_PRIME_RENDER_OFFLOAD=1    separator=${SPACE}
-        VAR    ${cmd}=
-        ...    ${cmd}
-        ...    __VK_LAYER_NV_optimus=NVIDIA_only VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+        VAR    ${cmd}=    ${cmd}
+        ...    __GLX_VENDOR_LIBRARY_NAME=nvidia __NV_PRIME_RENDER_OFFLOAD=1    separator=${SPACE}
+        ...    __VK_LAYER_NV_optimus=NVIDIA_only
+        ...    VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
         ...    separator=${SPACE}
     END
 
