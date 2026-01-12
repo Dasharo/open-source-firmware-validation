@@ -64,10 +64,9 @@ GPU Performance Suite Setup
         ${out}=    Execute Command In Terminal
         ...    phoronix-test-suite list-installed-tests 2>/dev/null | grep "pts/unigine-super"
 
-        IF    '${out}' == '${EMPTY}'
+        IF    $out == ''
             # 10 Minute timeout to download ~1.5GB
-            Execute Linux Command    DISPLAY=:0 phoronix-test-suite install-test unigine-super    600
-            Read From Terminal Until Prompt
+            Execute Command In Terminal    DISPLAY=:0 phoronix-test-suite install-test unigine-super    600
         END
 
         Setup Phoronix Batch Mode
