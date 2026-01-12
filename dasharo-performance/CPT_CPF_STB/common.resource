@@ -89,7 +89,7 @@ Background Measurements
     Set Concurrent Test Outputs    ${id_stab}    ${stab_list}
 
 Background Measurements Windows
-    [Documentation]    Keyword for gathering CPU temps, freqs and stability info
+    [Documentation]    Keyword for gathering CPU freqs and stability info
     ...    in concurrent. Set '${id_*}' vars to a test case ID to save the results
     ...    for this type of measurements under a chosen ID. Set to none to skip
     ...    measurements of the given type.
@@ -111,8 +111,6 @@ Background Measurements Windows
 
         IF    ${FREQUENCY_TEST_DURATION} >= ${timer} >= ${next_freq_time}
             ${freqs}=    Get CPU Frequency In Windows
-            VAR    @{freqs}=    ${freqs}
-            # Only single value can be read using this KWd in
             ${next_freq_time}=    Evaluate    ${timer} + ${FREQUENCY_TEST_MEASURE_INTERVAL}
             Append To List    ${freq_list}    ${freqs}
             Log To Console    ${timer}s: Frequencies: ${freqs}
@@ -142,7 +140,7 @@ Background Measurements Windows
         ${now}=    Get Current Date
         ${timer}=    Subtract Date From Date    ${now}    ${start}
         ${time_to_next_interval}=    Evaluate
-        ...    max(0, min(${next_stab_time}, ${next_freq_time}, ${NEXT_TEMP_TIME}) - ${timer})
+        ...    max(0, min(${next_stab_time}, ${next_freq_time}) - ${timer})
     END
 
     Set Concurrent Test Outputs    ${id_freq}    ${freq_list}
@@ -187,7 +185,7 @@ Check CPU Freqs Linux
     FOR    ${freqs_cores}    IN    @{freqs}
         FOR    ${core}    IN    @{freqs_cores}
             ${in_range}=    Evaluate    ${cpu_min_frequency_tol} <= ${core} <= ${cpu_max_frequency_tol}
-            Should Be True    ${in_range}    Encountered invalid frequency: ${in_range} MHz
+            Should Be True    ${in_range}    Encountered invalid frequency: ${core} MHz
         END
     END
 
@@ -195,17 +193,11 @@ Check CPU Freqs Windows
     [Documentation]    Check if a list of frequency measurements shows
     ...    acceptable frequency values
     [Arguments]    ${freqs}
-    ${freq_max_info}=    Execute Command In Terminal    (Get-CimInstance CIM_Processor).MaxClockSpeed
-    FOR    ${number}    IN RANGE    0    10
-        ${freq_current_info}=    Execute Command In Terminal
-        ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
-        ${freq_current_line}=    Get Line    ${freq_current_info}    -1
-        ${matches}=    Get Regexp Matches    ${freq_current_line}    \\d+(?:\\.\\d+)?
-        ${freq_current}=    Get From List    ${matches}    0
-        Should Not Be Empty    ${freq_current}    Failed to get current frequency
-        ${freq_current}=    Convert To Number    ${freq_current}
-        Run Keyword And Continue On Failure
-        ...    Should Be True    ${CPU_MAX_FREQUENCY} >= ${freq_current}
+    ${cpu_max_frequency_tol}=    Evaluate    ${CPU_MAX_FREQUENCY} * 1.125
+    ${cpu_min_frequency_tol}=    Evaluate    ${CPU_MIN_FREQUENCY} * 0.875
+    FOR    ${freq}    IN    @{freqs}
+        ${in_range}=    Evaluate    ${cpu_min_frequency_tol} <= ${freq} <= ${cpu_max_frequency_tol}
+        Should Be True    ${in_range}    Encountered invalid frequency: ${freq} MHz
     END
 
 Check Platform Stability
