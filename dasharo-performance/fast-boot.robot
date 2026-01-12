@@ -87,7 +87,6 @@ Measure FW Boot Time On Linux
 
     FOR    ${index}    IN RANGE    0    ${iterations}
         Execute Reboot Command    linux    ${True}
-        Sleep    5s
         Login To Linux
         Switch To Root User
         ${boot_time}=    Get FW Boot Time From Systemd-analyze
@@ -101,7 +100,7 @@ Measure FW Boot Time On Linux
 
 Get FW Boot Time From Systemd-analyze
     [Documentation]    Use systemd-analyze to get firmware boot time
-    FOR    ${index}    IN RANGE    0    10
+    FOR    ${index}    IN RANGE    0    30
         ${boot_time}=    Execute Linux Command
         ...    systemd-analyze | awk 'NR==1 {print $4}' | sed 's/s//g'
 
