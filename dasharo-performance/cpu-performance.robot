@@ -111,6 +111,8 @@ CPU Performance Suite Setup
     Read From Terminal Until    Run all test options
     Write Into Terminal    y
     Read From Terminal Until Prompt
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=3
+    Execute Command In Terminal    export FORCE_MIN_TIMES_TO_RUN=1
     Log To Console    The result of the benchmarks depends on the processor and
     ...    RAM in the device. Please make sure that the hardware under test is
     ...    compatible with the one given in the reference values.

@@ -72,6 +72,8 @@ GPU Performance Suite Setup
         END
 
         Setup Phoronix Batch Mode
+        Execute Command In Terminal    export FORCE_TIMES_TO_RUN=3
+        Execute Command In Terminal    export FORCE_MIN_TIMES_TO_RUN=1
     END
 
     Check Power Supply

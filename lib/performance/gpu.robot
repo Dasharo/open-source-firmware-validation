@@ -20,14 +20,15 @@ Run Unigine Superposition On Ubuntu
 
     IF    ${NVIDIA_GRAPHICS_CARD_SUPPORT}
         VAR    ${cmd}=    ${cmd}
-        ...    __GLX_VENDOR_LIBRARY_NAME=nvidia __NV_PRIME_RENDER_OFFLOAD=1    separator=${SPACE}
+        ...    __GLX_VENDOR_LIBRARY_NAME=nvidia __NV_PRIME_RENDER_OFFLOAD=1
         ...    __VK_LAYER_NV_optimus=NVIDIA_only
         ...    VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
         ...    separator=${SPACE}
     END
 
-    VAR    ${cmd}=    ${cmd}    phoronix-test-suite batch-run    separator=${SPACE}
-    VAR    ${cmd}=    ${cmd}    unigine-super RESULT_NAME=${test_run_name}    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}
+    ...    phoronix-test-suite batch-run
+    ...    unigine-super RESULT_NAME=${test_run_name}    separator=${SPACE}
 
     Write Into Terminal    ${cmd}
     # Test options

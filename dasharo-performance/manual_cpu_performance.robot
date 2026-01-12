@@ -137,6 +137,8 @@ Detect Or Install Phoronix Test Suite On Windows
         Pause Execution    Error, the process will now kill itself
         Fail    Different Output
     END
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=3
+    Execute Command In Terminal    export FORCE_MIN_TIMES_TO_RUN=1
 
 Install Phoronix On Windows Manually
     [Documentation]    Installing Phoronix On Windows Manually
