@@ -58,7 +58,9 @@ GPU Performance Suite Setup
         Execute Manual Step    Please ensure DUT has active desktop session
         ...    by logging into X11 Gnome Desktop.
         Detect Or Install Phoronix Test Suite On Ubuntu
-
+        ${out}=    Execute Command In Terminal
+        ...    loginctl show-session $(loginctl | awk '/tty|pts/ {print $1;}') -p Type
+        Should Contain    ${out}    Type=x11    No X11 session running!
         # Error redirection; for unknown reason to me, DTS throws
         # "sh: 1: kill: No such process" from time to time
         ${out}=    Execute Command In Terminal
