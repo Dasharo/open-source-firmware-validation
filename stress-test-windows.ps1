@@ -12,8 +12,3 @@ foreach ($loopnumber in 1..$numCores){
         }
     }
 }
-
-Wait-Job *
-Clear-Host
-Receive-Job *
-Remove-Job *
