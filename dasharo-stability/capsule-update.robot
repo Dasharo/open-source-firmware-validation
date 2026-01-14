@@ -422,23 +422,16 @@ Upload Required Files SSH
     Execute Command In Terminal    rm -rf osfv
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
-        VAR    ${commands}=    pushd osfv;
-        ...    git submodule update --init --checkout;
-        ...    export FW_FILE=/root/${fw_filename};
-        ...    export CAPSULE_FW_FILE=/root/${caps_filename};
-        ...    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename};
-        ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
-        ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
-        ...    popd;
-    ELSE
-        VAR    ${commands}=    pushd osfv;
-        ...    git submodule update --init --checkout;
-        ...    export FW_FILE=/root/${fw_filename};
-        ...    export CAPSULE_FW_FILE=/root/${caps_filename};
-        ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
-        ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
-        ...    popd;
+        Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}
     END
+    VAR    ${commands}=    pushd osfv;
+    ...    git checkout f672379ed071edc836164fd4f998fe2e5fb8d725;
+    ...    git submodule update --init --checkout;
+    ...    export FW_FILE=/root/${fw_filename};
+    ...    export CAPSULE_FW_FILE=/root/${caps_filename};
+    ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
+    ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
+    ...    popd;
     Execute Command In Terminal    ${commands}    timeout=120s
 
 Perform Capsule Update
