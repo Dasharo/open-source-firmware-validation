@@ -58,6 +58,7 @@ ${CRAY_1080_P_RENDER}=                      80.547    # sec
 ${COREMARK_SINGLE}=                         407451.446    # iterations/s
 
 # disk i-o
+${DISK_IO_REFERENCE_DISK_NAME}=             SSDPR-PX700
 ${UBU_SEQ_READ_QUEUED}=                     5953.5    # MB/s
 ${UBU_SEQ_WRITE_QUEUED}=                    5728.6    # MB/s
 ${UBU_SEQ_READ_NONQUE}=                     4357.4    # MB/s

@@ -301,9 +301,12 @@ Disk IO Suite Setup
     Prepare Test Suite
     Skip If    not ${DISK_IO_PERFORMANCE_TESTS}
     ...    Disk IO tests not enabled for this platform config
+    Skip If    '${DISK_IO_REFERENCE_DISK_NAME}' == '${TBD}'    Reference disk name not set
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Power Cycle Into Ubuntu
         Switch To Root User
+        ${disk}=    Execute Command In Terminal    lshw -class disk -class storage
+        Should Contain    ${disk}    ${DISK_IO_REFERENCE_DISK_NAME}
         Detect Or Install Package    fio
         Exit From Root User
         Execute Linux Command    mkdir ~/${RESULTS_DIR_UBUNTU}
