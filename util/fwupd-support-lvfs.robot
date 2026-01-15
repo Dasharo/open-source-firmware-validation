@@ -104,7 +104,7 @@ Setup Fwupd Embargo Config Linux
     ...    MetadataURI=https://fwupd.org/downloads/firmware-3c81bfdc9db5c8a42c09d38091944bc1a05b27b0.xml.gz\\n
     ...    ReportURI=https://fwupd.org/lvfs/firmware/report\\n
     ...    OrderBefore=lvfs,fwupd\\n
-    ...    Username=${username}
+    ...    Username=${username}\\n
     ...    Password=${password}
     ...    separator=${EMPTY}
 
