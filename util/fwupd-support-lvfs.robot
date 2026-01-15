@@ -19,10 +19,6 @@ Suite Teardown      Run Keyword
 Default Tags        semiauto
 
 
-*** Variables ***
-${CABINET_ENVVAR}=      FWUPD_CABINET_FILE
-
-
 *** Test Cases ***
 FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
     [Documentation]    Test if a firmware update can be performed using fwupd
