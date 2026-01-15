@@ -34,13 +34,12 @@ flashrom -p internal 0
 ifdtool -d /tmp/biosupdate 0
 fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 1
 cbmem -1 0
-cbmem -1 0
 flashrom -p internal -N --ifd -i bios -r /tmp/bios.bin 0
 cbfstool /tmp/bios.bin layout -w 0
 cbfstool /tmp/biosupdate layout -w 0
 flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate 0
-flashrom -p internal --ifd -i bios -i fd -w /tmp/biosupdate 0
-flashrom -p internal --ifd -i bios -i fd -w /tmp/biosupdate 0
+flashrom -p internal --ifd -i bios -i fd -i me -w /tmp/biosupdate 0
+flashrom -p internal --ifd -i bios -i fd -i me -w /tmp/biosupdate 0
 dasharo_ectool flash /tmp/ecupdate 0
 reboot  0
 dmidecode  0

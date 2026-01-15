@@ -472,8 +472,8 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 # Used if e.g. DCR and DPP updates need different exports
 # Example usage:
 # &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
-# ...    ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false"] }}
-# ...    ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_FMAP_REGIONS": "BOOTSPLASH"] }}
+# ...    ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false"} }}
+# ...    ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_FMAP_REGIONS": "BOOTSPLASH"} }}
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=              &{EMPTY}
 # Possible values: check DTS_TEST_POSSIBLE_WORKFLOWS
 @{DTS_TEST_WORKFLOWS}=                              @{EMPTY}
