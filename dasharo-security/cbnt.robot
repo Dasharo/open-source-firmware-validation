@@ -182,7 +182,7 @@ Check TPM Startup From Locality 3
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep Startup
-    Should Match Regexp    ${out_cbmem}    TPM Startup locality:\\s+3\\n
+    Should Match Regexp    ${out_cbmem}    TPM Startup locality:\\s+3
     Exit From Root User
 
 Check EoM And FPFs Committed
@@ -191,8 +191,8 @@ Check EoM And FPFs Committed
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep ME
-    Should Match Regexp    ${out_cbmem}    Manufacturing Mode\\s+:\\s+NO\n
-    Should Match Regexp    ${out_cbmem}    FPFs Committed\\s+:\\s+YES\n
+    Should Match Regexp    ${out_cbmem}    Manufacturing Mode\\s+:\\s+NO
+    Should Match Regexp    ${out_cbmem}    FPFs Committed\\s+:\\s+YES
     Exit From Root User
 
 Check CBnT Profile 5
@@ -201,9 +201,9 @@ Check CBnT Profile 5
     [Arguments]    ${os_id}
     Boot OS And Enter Root Shell    ${os_id}
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1    timeout=180s
-    Should Match Regexp    ${out_cbmem}    FACB:\\s+1\\n
-    Should Match Regexp    ${out_cbmem}    measured boot:\\s+1\\n
-    Should Match Regexp    ${out_cbmem}    verified boot:\\s+1\\n
+    Should Match Regexp    ${out_cbmem}    FACB:\\s+1
+    Should Match Regexp    ${out_cbmem}    measured boot:\\s+1
+    Should Match Regexp    ${out_cbmem}    verified boot:\\s+1
     Exit From Root User
 
 Boot OS And Enter Root Shell
