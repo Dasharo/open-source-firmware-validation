@@ -3,6 +3,7 @@ Resource        ./common.resource
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
+...                 AND    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
 ...                 AND    Check Power Supply
 ...                 AND    Prepare Sensors
 ...                 AND    Init Concurrent Testing
@@ -19,11 +20,11 @@ Suite Setup     Run Keywords
 ############################################
 _CONCURRENT_Background Measurements Immediate (no load) (QubesOS)
     ${will_any_be_run}=    Check Concurrent Test Supported Regex
-    ...    (CPF001)|(STB002).203
+    ...    (${CPF_STUCK_ID})|(STB002).203
     Skip If    not ${will_any_be_run}    No test depends on this step
 
-    # CPU stuck freq (CPF001.203)
-    VAR    ${con_id}=    CPF001.203
+    # CPU stuck freq (${CPF_STUCK_ID}.203)
+    VAR    ${con_id}=    ${CPF_STUCK_ID}.203
     ${check}=    Check Concurrent Test Supported    ${con_id}
     IF    ${check}
         Sleep    5s
@@ -41,7 +42,14 @@ _CONCURRENT_Background Measurements Immediate (no load) (QubesOS)
         ${dmesg_err}=    Execute Command In Terminal    sudo dmesg -t -l err,crit,alert,emerg
         Set Concurrent Test Outputs    ${con_id}    ${dmesg_err}
     END
-    VAR    @{tests}=    CPF001.203    CPF005.203    CPF009.203    CPT001.203    CPT005.203    STB001.203    STB002.203
+    VAR    @{tests}=
+    ...    ${CPF_STUCK_ID}.203
+    ...    ${CPF_NO_LOAD_ID}.203
+    ...    ${CPF_LOAD_ID}.203
+    ...    ${CPT_NO_LOAD_ID}.203
+    ...    ${CPT_LOAD_ID}.203
+    ...    STB001.203
+    ...    STB002.203
     FOR    ${t}    IN    @{tests}
         ${supported}=    Check Concurrent Test Supported    ${t}
         ${outs}=    Get Concurrent Test Outputs    ${con_id}
@@ -94,19 +102,19 @@ STB002.203 Verify if no unexpected boot errors appear in logs (QubesOS)
 ############################################
 
 _CONCURRENT_Background Measurements (no load) (QubesOS)
-    ${gather_temps}=    Will Concurrent Test Be Run    CPT001.203
-    ${gather_freqs}=    Will Concurrent Test Be Run    CPF005.203
+    ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_NO_LOAD_ID}.203
+    ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_NO_LOAD_ID}.203
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.203
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
-    ${gather_temps}=    Evaluate    "CPT001.203" if ${gather_temps} else ${None}
-    ${gather_freqs}=    Evaluate    "CPF005.203" if ${gather_freqs} else ${None}
-    ${gather_stab}=    Evaluate    "STB001.203" if ${gather_stab} else ${None}
+    ${id_temp}=    Evaluate    "${CPT_NO_LOAD_ID}.203" if ${gather_temps} else ${None}
+    ${id_freq}=    Evaluate    "${CPF_NO_LOAD_ID}.203" if ${gather_freqs} else ${None}
+    ${id_stab}=    Evaluate    "STB001.203" if ${gather_stab} else ${None}
 
     Background Measurements
-    ...    id_temp=${gather_temps}
-    ...    id_freq=${gather_freqs}
-    ...    id_stab=${gather_stab}
+    ...    id_temp=${id_temp}
+    ...    id_freq=${id_freq}
+    ...    id_stab=${id_stab}
 
 CPT001.203 CPU temperature without load (QubesOS)
     VAR    ${con_id}=    CPT001.203
@@ -131,22 +139,23 @@ STB001.203 Verify if no reboot occurs (QubesOS)
 ############################################
 
 _CONCURRENT_Background Measurements (load) (QubesOS)
-    ${gather_temps}=    Will Concurrent Test Be Run    CPT005.203
-    ${gather_freqs}=    Will Concurrent Test Be Run    CPF009.203
+    ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_LOAD_ID}.203
+    ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_LOAD_ID}.203
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.203
-
     Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
+
+    ${id_temp}=    Evaluate    "${CPT_LOAD_ID}.203" if ${gather_temps} else ${None}
+    ${id_freq}=    Evaluate    "${CPF_LOAD_ID}.203" if ${gather_freqs} else ${None}
+    ${id_stab}=    Evaluate    "STB001.203" if ${gather_stab} else ${None}
 
     ${stress_duration}=    Evaluate
     ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION}, ${STABILITY_TEST_DURATION})
 
     Execute Command In Terminal    stress-ng --cpu 8 --timeout ${stress_duration}s &
-
     Background Measurements
-    ...    id_temp=${gather_temps}
-    ...    id_freq=${gather_freqs}
-    ...    id_stab=${gather_stab}
-
+    ...    id_temp=${id_temp}
+    ...    id_freq=${id_freq}
+    ...    id_stab=${id_stab}
     Execute Command In Terminal    pkill stress-ng
 
 CPT005.203 CPU temperature after stress test (QubesOS)
@@ -166,13 +175,13 @@ CPF009.203 CPU with load runs on expected frequency (QubesOS)
 Prepare STB QUBES
     Add Concurrent Test Skip Condition
     ...    STB001.203
-    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    Tests in QubesOS not supported
+    ...    not ${PLATFORM_STABILITY_CHECKING}
+    ...    Stability checking not supported
 
     Add Concurrent Test Skip Condition
     ...    STB002.203
-    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    Tests in QubesOS not supported
+    ...    not ${PLATFORM_STABILITY_CHECKING}
+    ...    Stability checking not supported
 
 Prepare CPF QUBES
     VAR    ${CPF_STUCK_ID}=    CPF001    scope=SUITE
@@ -200,10 +209,10 @@ Prepare CPT QUBES
 
     Add Concurrent Test Skip Condition
     ...    ${CPT_NO_LOAD_ID}.203
-    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    tests in QubesOS not supported
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
 
     Add Concurrent Test Skip Condition
     ...    ${CPT_LOAD_ID}.203
-    ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    tests in QubesOS not supported
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
