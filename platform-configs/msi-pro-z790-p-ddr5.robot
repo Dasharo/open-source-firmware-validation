@@ -13,11 +13,12 @@ ${CPU_MAX_FREQUENCY}=                   5200
 ${CPU_MIN_FREQUENCY}=                   300
 
 # DTS E2E variables
+${DTS_TEST_BOARD_MODEL}=                PRO Z790-P WIFI (MS-7E06)
+@{DTS_TEST_DEFAULT_RELEASES}=           DPP
 &{DTS_TEST_VERSIONS}=
 ...                                     &{DTS_TEST_VERSIONS_BASE}
 ...                                     UEFI->Heads Transition=Dasharo (coreboot+UEFI) 0.9.4
-${DTS_TEST_BOARD_MODEL}=                PRO Z790-P WIFI (MS-7E06)
-@{DTS_TEST_DEFAULT_RELEASES}=           DPP
+...                                     UEFI Update=Dasharo (coreboot+UEFI) 0.9.3
 &{DTS_TEST_EXPORTS}=
 ...                                     &{DTS_TEST_BASE_EXPORTS}
 ...                                     TEST_BOARD_HAS_BOOTSPLASH=false
@@ -32,7 +33,7 @@ ${DTS_TEST_BOARD_MODEL}=                PRO Z790-P WIFI (MS-7E06)
 # robocop: off=LEN08
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=
 ...                                     &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
-...                                     UEFI Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH", "TEST_HCI_PRESENT": "false", "TEST_BOARD_FD_REGION_RW": "true", "TEST_BOARD_ME_REGION_RW": "true"} }}
+...                                     UEFI Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH", "TEST_HCI_PRESENT": "false", "TEST_BOARD_FD_REGION_RW": "true", "TEST_BOARD_ME_REGION_RW": "true", "TEST_ME_OP_MODE": "2"} }}
 ...                                     UEFI->Heads Transition=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH", "TEST_HCI_PRESENT": "false", "TEST_BOARD_FD_REGION_RW": "true", "TEST_BOARD_ME_REGION_RW": "true"} }}
 # robocop: on=LEN08
 @{DTS_TEST_WORKFLOW_PROFILES}=
