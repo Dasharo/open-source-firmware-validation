@@ -216,14 +216,20 @@ test_names = {
         "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "manual"},
         "doc": """Check whether he DUT properly detects the docking station
     ...    after coldboot.""",
-        "skips": ["'${POWER_CTRL}' == 'none'", "not ${DOCKING_STATION_DETECT_SUPPORT}"],
+        "skips": [
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "not ${DOCKING_STATION_DETECT_SUPPORT}",
+        ],
         "docking_stations": ["1", "2", "3"],
     },
     "Docking station detection after warmboot": {
         "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "manual"},
         "doc": """Check whether he DUT properly detects the docking station
     ...    after warmboot.""",
-        "skips": ["not ${DOCKING_STATION_DETECT_SUPPORT}"],
+        "skips": [
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "not ${DOCKING_STATION_DETECT_SUPPORT}",
+        ],
         "docking_stations": ["1", "2", "3"],
     },
     "Docking station detection after reboot": {
@@ -267,14 +273,20 @@ test_names = {
         "env_ids": {"201": "semi", "202": "semi", "301": "manual", "203": "manual"},
         "doc": """Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.""",
-        "skips": ["'${POWER_CTRL}' == 'none'", "not ${DOCKING_STATION_DETECT_SUPPORT}"],
+        "skips": [
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "not ${DOCKING_STATION_DETECT_SUPPORT}",
+        ],
         "docking_stations": ["1", "2", "3"],
     },
     "Docking station detection after warmboot then hotplug": {
         "env_ids": {"201": "semi", "202": "semi", "301": "manual", "203": "manual"},
         "doc": """Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.""",
-        "skips": ["not ${DOCKING_STATION_DETECT_SUPPORT}"],
+        "skips": [
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "not ${DOCKING_STATION_DETECT_SUPPORT}",
+        ],
         "docking_stations": ["1", "2", "3"],
     },
     "Docking station detection after reboot then hotplug": {
@@ -398,7 +410,7 @@ for idx, row in enumerate(test_rows):
 
     # call the generic keyword for that test case type
     if row["automation"] == "manual":
-        keyword_call = f"Skip    {row['Test ID']}\n... not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/\n"
+        keyword_call = f"Skip\n    ...    {row['Test ID']} not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/\n"
     else:
         keyword_call = f"{row['Test Name'].title()}    {os_id_variable_names[row['OS ID']]}    {row['ME State']}    {row['Dock']}\n"
     robot_tests_lines[idx].append(f"    {keyword_call}\n")
