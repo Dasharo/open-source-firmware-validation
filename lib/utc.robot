@@ -355,6 +355,7 @@ Docking Station Detection After Reboot
         Log To Console    Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
             Execute Reboot Command
+            Sleep    10s    Time for the device to reboot
             Boot System Or From Connected Disk    ${env_id}
             Login To Linux
             Switch To Root User
@@ -519,6 +520,7 @@ Docking Station Detection After Reboot Then Hotplug
     Run Keyword And Expect Error    * does not contain *    Detect Docking Station In Linux    ${dock_name}
     VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
     Execute Reboot Command
+    Sleep    10s    Wait for reboot
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
     Switch To Root User
