@@ -82,7 +82,7 @@ FWUPD002.203 Fwupd Local Firmware Update (QubesOS)
 
 *** Keywords ***
 Fwupd Devices Detected Linux
-    ${out}=    Execute Command In Terminal    fwupdmgr get-devices
+    ${out}=    Execute Command In Terminal    fwupdmgr get-devices --assume-yes
 
     VAR    @{devices}=    System Firmware    UEFI dbx
 
