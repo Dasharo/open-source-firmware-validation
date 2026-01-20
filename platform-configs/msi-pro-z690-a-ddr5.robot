@@ -40,3 +40,4 @@ ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI (MS-7D25)
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                         ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                         ${{ ("UEFI Update", "DPP") }}
+...                                         ${{ ("Initial Deployment", "DPP") }}
