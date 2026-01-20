@@ -346,9 +346,9 @@ Execute Command In Terminal And Return Output And RC
     ...    \ executing the command
     ...
     ...    === Return Value ===
-    ...    ``string`` - The full command output, or up to the time ``${timeout}``
+    ...    - ``string`` - The full command output, or up to the time ``${timeout}``
     ...    passes.
-    ...    ``string`` - Return code of the executed function (as returned by $?)
+    ...    - ``string`` - Return code of the executed function (as returned by $?)
     ...
     ...    === Effects ===
     ...    The ``${command}`` is written to the terminal and the keyword waits
