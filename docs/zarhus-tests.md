@@ -154,7 +154,7 @@ but we could:
 
 ### QEMU
 
-Zarhus Provisioning Box tests don't support QEMU. For Zarhus OS:
+Zarhus OS tests:
 
 1. Run QEMU
 
@@ -227,6 +227,11 @@ sudo cp <path/to/>zarhus-base-image-genericx86-64.rootfs.wic.{gz,bmap} /mnt/
 sudo umount /mnt
 sudo losetup -d "${loop_dev}"
 ```
+
+##### QEMU
+
+`zarhus-provisioning-preparation` suite doesn't support QEMU tests as it
+tests platform preparation, and it's state after.
 
 ### Test Variables
 

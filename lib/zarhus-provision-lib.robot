@@ -5,6 +5,9 @@ Resource    zarhus-lib.robot
 *** Variables ***
 ${ENCRYPTED_STORAGE_PASSWORD}=      1234567
 ${ENCRYPTED_STORAGE_PROMPT}=        Enter password for encrypted storage:
+${ZPB_IBG_KEY_NAME}=                ZPB_IBG
+${KEY_CHOICE_PROMPT}=               Your choice:
+${ZPB_FW_BOOTSTRAP_FILE}=           zarhus-dtrpb-fw.cap
 
 
 *** Keywords ***
@@ -144,19 +147,18 @@ Prepare ZPB OS
     [Arguments]    ${disk}=nvme0n1
     IF    '${MANUFACTURER}' == 'QEMU'
         VAR    ${disk}=    sda
-        VAR    ${STORAGE_1}=    ${EMPTY}    scope=Suite
-        VAR    ${STORAGE_2}=    ${EMPTY}    scope=Suite
-        ${storage_1}=    Run    mktemp -p ${TEMPDIR} encrypted_storage.XXXXXXXX
-        ${storage_2}=    Run    mktemp -p ${TEMPDIR} encrypted_storage.XXXXXXXX
-        Run    dd if=/dev/zero of="${storage_1}" bs=1 count=0 seek=300M
-        Run    dd if=/dev/zero of="${storage_2}" bs=1 count=0 seek=300M
+        ${st_1}=    Run    mktemp -p ${TEMPDIR} encrypted_storage.XXXXXXXX
+        ${st_2}=    Run    mktemp -p ${TEMPDIR} encrypted_storage.XXXXXXXX
+        Run    dd if=/dev/zero of="${st_1}" bs=1 count=0 seek=300M
+        Run    dd if=/dev/zero of="${st_2}" bs=1 count=0 seek=300M
         Add USB To Qemu
         ...    ${ZARHUS_BOOTSTRAP_FILE}    bootstrap    read_only=${FALSE}    removable=${TRUE}
         Add USB To Qemu
-        ...    ${storage_1}    storage_1    read_only=${FALSE}    removable=${TRUE}
+        ...    ${st_1}    storage_1    read_only=${FALSE}    removable=${TRUE}
         Add USB To Qemu
-        ...    ${storage_2}    storage_2    read_only=${FALSE}    removable=${TRUE}
-
+        ...    ${st_2}    storage_2    read_only=${FALSE}    removable=${TRUE}
+        VAR    ${STORAGE_1}=    ${st_1}    scope=Suite
+        VAR    ${STORAGE_2}=    ${st_2}    scope=Suite
         # On hardware this'll be done by configuring firmware binary before
         # flashing it
         Power On
@@ -210,16 +212,24 @@ Setup ZPB
     ...    - Ends up in BIOS Setup Menu
     Boot Zarhus OS
     Create Encrypted Storage
+    Set DUT Response Timeout    5m
+    # Provision Intel BtG
     IF    '${MANUFACTURER}' != 'QEMU'
-        # Provision Intel BtG
         Write Into Terminal    zarhus prepare --no-eom
-        Set DUT Response Timeout    5m
-        Wait For Checkpoint And Write    ${ENCRYPTED_STORAGE_PROMPT}    ${ENCRYPTED_STORAGE_PASSWORD}
-        Wait For Checkpoint And Write
-        ...    Choose your Intel BootGuard keys name (without spaces)    ZPB_IBG
+    ELSE
+        Execute Command In Terminal Should Succeed    sudo mount /dev/disk/by-label/zarhus-dtrpb /mnt
+        Write Into Terminal    zarhus provision --provisioning-box /mnt/zarhus-dtrpb-fw.cap
+    END
+    Wait For Checkpoint And Write    ${ENCRYPTED_STORAGE_PROMPT}    ${ENCRYPTED_STORAGE_PASSWORD}
+    Wait For Checkpoint And Write
+    ...    Choose your Intel BootGuard keys name (without spaces)    ${ZPB_IBG_KEY_NAME}
+    IF    '${MANUFACTURER}' != 'QEMU'
         Wait For Checkpoint And Press Enter    Press Enter to reboot
         # Wait for update to finish
         Login To Zarhus OS
+    ELSE
+        ${out}=    Read From Terminal Until Prompt
+        Should Contain    ${out}    was provisioned successfully
     END
     Set UEFI Option    MeMode    Enabled
     Boot Zarhus OS
@@ -269,7 +279,7 @@ Create Encrypted Storage
     ...    \ bootstrap one (unless ``${allow_bootstrap}`` is true)
     [Arguments]    ${allow_bootstrap}=${FALSE}
     Write Into Terminal    zarhus storage create
-    ${choices}=    Read From Terminal Until    Your choice:
+    ${choices}=    Read From Terminal Until    ${KEY_CHOICE_PROMPT}
 
     ${choices}=    Get Lines Containing String    ${choices}    /dev/
     @{choices_list}=    Split To Lines    ${choices}
@@ -303,10 +313,10 @@ Teardown ZPB Test Suite
         Remove USB From Qemu    storage_1
         Remove USB From Qemu    storage_2
         ${status}=    Run Keyword And Return Status
-        ...    Variable Should Exist    STORAGE_1
+        ...    Variable Should Exist    $STORAGE_1
         IF    ${status}    Run    test -f "${STORAGE_1}" && rm ${STORAGE_1}
         ${status}=    Run Keyword And Return Status
-        ...    Variable Should Exist    STORAGE_2
+        ...    Variable Should Exist    $STORAGE_2
         IF    ${status}    Run    test -f "${STORAGE_2}" && rm ${STORAGE_2}
     END
 
