@@ -81,6 +81,22 @@ flashrom -p internal -r /tmp/rom.bin --ifd -i bios 0
 cbfstool /tmp/biosupdate write -r ROMHOLE -f /tmp/romhole.bin -u 0
 flashrom -p internal -r /tmp/dasharo_dump.rom --fmap -i FMAP -i BOOTSPLASH 1
 cbfstool /tmp/dasharo_dump.rom extract -r BOOTSPLASH -n logo.bmp -f /tmp/logo.bmp 1
-flashrom -p internal -N --ifd -i bios -N -w /tmp/biosupdate 0
+dmidecode -s system-uuid 0
+dmidecode -s baseboard-serial-number 0
+cbfstool /tmp/biosupdate layout -w 0
+cbfstool /tmp/biosupdate layout -w 0
+cbfstool /tmp/biosupdate layout -w 0
+cbfstool /tmp/biosupdate add -f /tmp/serial_number.txt -n serial_number -t raw -r COREBOOT 0
+cbfstool /tmp/biosupdate add -f /tmp/system_uuid.txt -n system_uuid -t raw -r COREBOOT 0
+cbfstool /tmp/biosupdate expand -r FW_MAIN_A 0
+cbfstool /tmp/biosupdate add -f /tmp/serial_number.txt -n serial_number -t raw -r FW_MAIN_A 0
+cbfstool /tmp/biosupdate add -f /tmp/system_uuid.txt -n system_uuid -t raw -r FW_MAIN_A 0
+cbfstool /tmp/biosupdate truncate -r FW_MAIN_A 0
+cbfstool /tmp/biosupdate expand -r FW_MAIN_B 0
+cbfstool /tmp/biosupdate add -f /tmp/serial_number.txt -n serial_number -t raw -r FW_MAIN_B 0
+cbfstool /tmp/biosupdate add -f /tmp/system_uuid.txt -n system_uuid -t raw -r FW_MAIN_B 0
+cbfstool /tmp/biosupdate truncate -r FW_MAIN_B 0
+flashrom -p internal -N --ifd -i fd -w /tmp/biosupdate_resigned.rom 0
+flashrom -p internal -N --ifd -i bios -i fd -w /tmp/biosupdate_resigned.rom 0
 reboot  0
 dmidecode  0
