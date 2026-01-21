@@ -105,7 +105,7 @@ Fwupd Local Firmware Update Linux
     Send File To DUT    ${fwupd_cabinet}    target_path=${cabinet}
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
     ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes
+    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes --force
     ...    timeout=300s
     Should Not Contain
     ...    ${out}
