@@ -24,7 +24,7 @@ ${DMIDECODE_RELEASE_DATE}=              09/16/2025
 ${DMIDECODE_SERIAL_NUMBER}=             123456789
 ${WIFI_CARD}=
 ...                                     Intel Corporation Meteor Lake PCH CNVi WiFi
-${EXTERNAL_HEADSET}=                    JMTek, LLC. USB Audio
+@{EXTERNAL_HEADSETS}=                   JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
 ${PLATFORM_CPU_SPEED}=                  3.0
