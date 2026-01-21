@@ -858,6 +858,9 @@ Execute Reboot Command
     # We do not want to sleep if we switched to SSH only temporarily.
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    180 seconds
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Sleep    20s    Time for the device to reboot
+    END
 
 Check Displays Windows
     [Documentation]    Check and return all displays with PowerShell in Windows.

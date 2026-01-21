@@ -355,7 +355,6 @@ Docking Station Detection After Reboot
         Log To Console    Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
             Execute Reboot Command
-            Sleep    10s    Time for the device to reboot
             Boot System Or From Connected Disk    ${env_id}
             Login To Linux
             Switch To Root User
