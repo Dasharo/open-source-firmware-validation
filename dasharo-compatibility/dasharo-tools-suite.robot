@@ -138,7 +138,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
-        Set UEFI Option    MeMode    Disabled (HAP)
+        Set UEFI Option    MeMode    Disabled (Soft)
     END
     Boot Dasharo Tools Suite    USB
     # To refresh screen as next keyword expects DTS checkpoint
@@ -164,7 +164,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     ...    FW_FILE_PREV    "Flash earlier version of Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
-        Set UEFI Option    MeMode    Disabled (HAP)
+        Set UEFI Option    MeMode    Disabled (Soft)
     END
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
@@ -233,7 +233,7 @@ DTS011.001 Heads Transition by using DTS via iPXE works correctly
     ...    FW_FILE    "Flash Dasharo firmware"
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
-        Set UEFI Option    MeMode    Disabled (HAP)
+        Set UEFI Option    MeMode    Disabled (Soft)
     END
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE

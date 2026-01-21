@@ -30,7 +30,7 @@ DTG001.001 Generate Profile for DTS UEFI Update Workflow
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
         TRY
-            Set UEFI Option    MeMode    Disabled (HAP)
+            Set UEFI Option    MeMode    Disabled (Soft)
         EXCEPT
             Log    Couldn't disable ME, previous fw likely doesn't have that option
         END
@@ -91,7 +91,7 @@ DTG005.001 Generate Profile for DTS Heads Transition workflow
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
         TRY
-            Set UEFI Option    MeMode    Disabled (HAP)
+            Set UEFI Option    MeMode    Disabled (Soft)
         EXCEPT
             Log    Couldn't disable ME
         END
@@ -115,7 +115,7 @@ DTG006.001 Generate Profile for DTS UEFI->SeaBIOS Transition workflow
     Make Sure That Flash Locks Are Disabled
     IF    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
         TRY
-            Set UEFI Option    MeMode    Disabled (HAP)
+            Set UEFI Option    MeMode    Disabled (Soft)
         EXCEPT
             Log    Couldn't disable ME
         END

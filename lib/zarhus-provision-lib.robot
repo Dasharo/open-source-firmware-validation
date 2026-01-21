@@ -65,7 +65,7 @@ Install ZPB OS
         Boot Dasharo Tools Suite    iPXE
     ELSE
         Make Sure That Flash Locks Are Disabled
-        Set UEFI Option    MeMode    Disabled (HAP)
+        Set UEFI Option    MeMode    Disabled (Soft)
         Flash Bootstrap USB    ${ZARHUS_BOOTSTRAP_FILE}
         # Boot into bootstrap USB stick
         Execute Reboot Command

@@ -36,7 +36,7 @@ Ensure ME State
             IF    '${me_state}' == 'Enabled'
                 Set UEFI Option    MeMode    Enabled
             ELSE
-                Set UEFI Option    MeMode    Disabled (HAP)
+                Set UEFI Option    MeMode    Disabled (Soft)
             END
             Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
             Login To Linux
