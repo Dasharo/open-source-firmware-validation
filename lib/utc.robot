@@ -443,13 +443,13 @@ Docking Station Detection After Coldboot Then Hotplug
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         Log To Console    Hotplug after Cold boot iteration ${iteration+1}/${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
         END
@@ -490,13 +490,13 @@ Docking Station Detection After Warmboot Then Hotplug
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Log To Console    Hotplug after Warm boot iteration ${iteration+1}/${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
         END
@@ -527,12 +527,12 @@ Docking Station Detection After Reboot Then Hotplug
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Log To Console    Hotplug after Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
             ...    ${dock_name}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
@@ -561,13 +561,13 @@ Docking Station Detection After Suspend Then Hotplug
         Log To Console
         ...    Hotplug after Suspend ${platform_sleep_type} iteration ${iteration+1}/${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
         EXCEPT    message
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION}+1
         END
