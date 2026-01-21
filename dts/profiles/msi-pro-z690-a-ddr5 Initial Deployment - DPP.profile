@@ -62,8 +62,6 @@ dmidecode -s bios-vendor 0
 dmidecode -s bios-version 0
 fsread_tool test -f /sys/class/mei/mei0/fw_status 0
 fsread_tool cat /sys/class/mei/mei0/fw_status 0
-rdmsr 0x13a -0 0
-rdmsr 0x13a -0 0
 flashrom -p internal --flash-name 0
 flashrom -p internal --flash-size 0
 fsread_tool test -e /sys/class/power_supply/AC/online 1
