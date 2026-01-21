@@ -207,7 +207,7 @@ Usb Type-C Docking Station Audio Recognition
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    usb
-        Should Contain    ${out}    ${EXTERNAL_HEADSET}
+        Should Contain Any    ${out}    @{EXTERNAL_HEADSETS}
         Exit From Root User
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
