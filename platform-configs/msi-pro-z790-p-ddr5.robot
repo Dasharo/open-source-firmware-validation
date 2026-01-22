@@ -34,8 +34,11 @@ ${DTS_TEST_BOARD_MODEL}=                PRO Z790-P WIFI (MS-7E06)
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=
 ...                                     &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 ...                                     UEFI Update=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH", "TEST_HCI_PRESENT": "false", "TEST_BOARD_FD_REGION_RW": "true", "TEST_BOARD_ME_REGION_RW": "true", "TEST_ME_OP_MODE": "2"} }}
-...                                     UEFI->Heads Transition=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH", "TEST_HCI_PRESENT": "false", "TEST_BOARD_FD_REGION_RW": "true", "TEST_BOARD_ME_REGION_RW": "true"} }}
+# robocop: off=LEN08
+...                                     UEFI->Heads Transition=&{{ {"TEST_IS_COREBOOT": "true", "TEST_FMAP_REGIONS": "BOOTSPLASH", "TEST_HCI_PRESENT": "false", "TEST_BOARD_FD_REGION_RW": "true", "TEST_BOARD_ME_REGION_RW": "true", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "cbfs"} }}
 # robocop: on=LEN08
+...                                     Initial Deployment=&{{ {"TEST_HCI_PRESENT": "true", "TEST_FMAP_REGIONS": "", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "flashmap"} }}
+
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                     ${{ ("UEFI Update", "DPP") }}

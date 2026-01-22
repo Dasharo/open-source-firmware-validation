@@ -129,12 +129,6 @@ ${DTS_TEST_SYSTEM_VENDOR}=                      Micro-Star International Co., Lt
 ...                                             TEST_SOUND_CARD_PRESENT=false
 ...                                             TEST_BOARD_HAS_GBE_REGION=false
 
-&{DTS_TEST_EXPORTS_PER_WORKFLOW}=
-...                                             &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
-...                                             UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
-...                                             UEFI->Heads Transition=&{{ { "TEST_IS_COREBOOT": "true", "TEST_ME_DISABLED": "false" } }}
-...                                             Initial Deployment=&{{ {"TEST_HCI_PRESENT": "true", "TEST_FMAP_REGIONS": ""} }}
-
 
 *** Keywords ***
 Power On

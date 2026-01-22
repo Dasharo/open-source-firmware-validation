@@ -476,6 +476,91 @@ E2E016.006 Verify that fuse workflow uses and verifies btg_key_validator
     Wait For Checkpoint    Firmware signature doesn't match expected hash
     Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
 
+################################################################################
+# ROMHOLE migration tests
+################################################################################
+
+E2E017.001 Firmware installation should stop if ROMHOLE cannot be read for migration
+    [Documentation]    Test checks whether DTS logic prevents user from
+    ...    Overwriting ROMHOLE Region In Case There Was A Failure During Read
+    Export Shell Variables For Emulation
+    ...    UEFI->Heads Transition
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[msi-pro-z790-p-ddr5]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_READ_ROMHOLE_FAIL="true"
+    Write Into Terminal    dts-boot
+
+    ${out}=    Provide DPP Credentials
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    Y
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Wait For Checkpoint    Failed to migrate ROMHOLE.
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
+E2E017.002 Firmware installation should stop if there is no place to migrate ROMHOLE to
+    [Documentation]    Test checks whether DTS logic prevents user from
+    ...    Overwriting ROMHOLE Region In Case There Is No Place To Migrate
+    ...    ROMHOLE To
+    Export Shell Variables For Emulation
+    ...    UEFI->Heads Transition
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[msi-pro-z790-p-ddr5]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_ROMHOLE_MIGRATION_TO=""
+    Write Into Terminal    dts-boot
+
+    ${out}=    Provide DPP Credentials
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    Y
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Wait For Checkpoint    ROMHOLE not found in the firmware file to be flashed. Cannot migrate ROMHOLE.
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
+E2E017.003 Firmware installation should stop in case of ROMHOLE migration from CBFS to flashmap
+    [Documentation]    Test checks whether DTS logic prevents user from
+    ...    potential brick during migration from CBFS to flashmap which is not
+    ...    supported yet
+    Export Shell Variables For Emulation
+    ...    UEFI->Heads Transition
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[msi-pro-z790-p-ddr5]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_ROMHOLE_MIGRATION_FROM="cbfs"
+    Execute Command In Terminal    export TEST_ROMHOLE_MIGRATION_TO="flashmap"
+    Write Into Terminal    dts-boot
+
+    ${out}=    Provide DPP Credentials
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    Y
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Wait For Checkpoint    ROMHOLE migration from CBFS is not supported yet. Cannot migrate ROMHOLE.
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
+E2E017.004 Firmware installation should stop in case of ROMHOLE migration from CBFS to CBFS
+    [Documentation]    Test checks whether DTS logic prevents user from
+    ...    potential brick during migration from CBFS to flashmap which is not
+    ...    supported yet
+    Export Shell Variables For Emulation
+    ...    UEFI->Heads Transition
+    ...    DPP
+    ...    ${DTS_PLATFORM_VARIABLES}[msi-pro-z790-p-ddr5]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_ROMHOLE_MIGRATION_FROM="cbfs"
+    Execute Command In Terminal    export TEST_ROMHOLE_MIGRATION_TO="cbfs"
+    Write Into Terminal    dts-boot
+
+    ${out}=    Provide DPP Credentials
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write    ${DTS_HEADS_SWITCH_QUESTION}    Y
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Wait For Checkpoint    ROMHOLE migration from CBFS is not supported yet. Cannot migrate ROMHOLE.
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
 
 *** Keywords ***
 # robocop: disable:0919
