@@ -217,7 +217,7 @@ test_names = {
         "doc": """Check whether he DUT properly detects the docking station
     ...    after coldboot.""",
         "skips": [
-            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}",
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "docking_stations": ["1", "2", "3"],
@@ -232,7 +232,7 @@ test_names = {
         "doc": """Check whether he DUT properly detects the docking station
     ...    after warmboot.""",
         "skips": [
-            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}",
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "docking_stations": ["1", "2", "3"],
@@ -279,7 +279,7 @@ test_names = {
         "doc": """Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.""",
         "skips": [
-            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}",
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "docking_stations": ["1", "2", "3"],
@@ -294,7 +294,7 @@ test_names = {
         "doc": """Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.""",
         "skips": [
-            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}",
+            "'${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}",
             "not ${DOCKING_STATION_DETECT_SUPPORT}",
         ],
         "docking_stations": ["1", "2", "3"],

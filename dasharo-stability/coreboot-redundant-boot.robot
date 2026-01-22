@@ -31,7 +31,7 @@ CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
         Rte Clear Cmos
     ELSE
         Log    RTE CMOS clear not supported. Test becomes semiauto.    level=WARN
-        Skip If    'semiauto' not in ${TEST_TAGS}    `semiauto` tag not selected
+        Skip If    'semiauto' not in ${INCLUDE_TAGS}    `semiauto` tag not selected
 
         Execute Manual Step    Disconnect the CMOS battery
         Sleep    5s

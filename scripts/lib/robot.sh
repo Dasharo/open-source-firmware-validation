@@ -300,7 +300,7 @@ execute_robot() {
   _test_cases=$(get_matched_test_cases "${_test_path[*]}" "${_robot_args[*]}")
   [[ -n $_test_cases ]] && _test_cases="-v TEST_CASES:'$_test_cases'"
   _test_tags=$(get_test_tags "${_robot_args[*]}")
-  [[ -n $_test_tags ]] && _test_tags="-v TEST_TAGS:'$_test_tags'"
+  [[ -n $_test_tags ]] && _test_tags="-v INCLUDE_TAGS:'$_test_tags'"
 
   command="
         robot -L TRACE \

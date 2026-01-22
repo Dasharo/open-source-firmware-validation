@@ -35,7 +35,7 @@ UDT001.001 USB detection after coldboot
     ...    then cutting on).
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     VAR    ${failed_detection}=    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power Cycle On
@@ -56,7 +56,7 @@ UDT001.002 USB detection after warmboot
     ...    turning on).
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     VAR    ${failed_detection}=    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power On

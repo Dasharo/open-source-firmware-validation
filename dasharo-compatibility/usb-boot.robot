@@ -35,7 +35,7 @@ UBT001.001 USB detect and boot after coldboot
     ...    realized by power supply cutting off then cutting on).
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     VAR    ${failed_boot}=    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
@@ -55,7 +55,7 @@ UBT002.001 USB detect and boot after warmboot
     ...    realized by device turning off then turning on).
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     VAR    ${failed_boot}=    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
