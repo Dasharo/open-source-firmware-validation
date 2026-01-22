@@ -74,6 +74,7 @@ fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 0
 setpci -s 00:16.0 42.B 0
 cbfstool /tmp/biosupdate extract -r COREBOOT -n config -f /tmp/biosupdate_config 0
 cbfstool /tmp/biosupdate layout -w 0
+cbfstool /tmp/biosupdate print -r COREBOOT 0
 flashrom -p internal -r /tmp/rom.bin --ifd -i bios 0
 cbfstool /tmp/biosupdate write -r ROMHOLE -f /tmp/romhole.bin -u 0
 flashrom -p internal -r /tmp/dasharo_dump.rom --fmap -i FMAP -i BOOTSPLASH 1

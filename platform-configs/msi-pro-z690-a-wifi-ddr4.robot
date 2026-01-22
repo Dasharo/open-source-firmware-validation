@@ -46,9 +46,9 @@ ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI DDR4(MS-7D25)
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=
 ...                                         &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 ...                                         UEFI Update=&{{ {"TEST_IS_COREBOOT": "true"} }}
-...                                         UEFI->Heads Transition=&{{ { "TEST_IS_COREBOOT": "true", "TEST_ME_DISABLED": "false", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "cbfs" } }}
+...                                         UEFI->Heads Transition=&{{ { "TEST_IS_COREBOOT": "true", "TEST_ME_HAP_DISABLED": "false", "TEST_ME_DISABLED": "true", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "cbfs" } }}
 ...                                         Initial Deployment=&{{ {"TEST_HCI_PRESENT": "true", "TEST_FMAP_REGIONS": "", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "flashmap"} }}
 # robocop: off=LEN08
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
-...                                         ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_BIOS_VERSION": "Dasharo (coreboot+UEFI) 0.0.0", "TEST_FMAP_REGIONS": "", "TEST_ME_DISABLED": "false", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "flashmap" } }}
+...                                         ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_BIOS_VERSION": "Dasharo (coreboot+UEFI) 0.0.0", "TEST_FMAP_REGIONS": "", "TEST_ME_HAP_DISABLED": "false", "TEST_ME_DISABLED": "true", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "flashmap" } }}
 ...                                         ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_ME_OP_MODE": "2", "TEST_ME_HAP_DISABLED": "true"} }}
