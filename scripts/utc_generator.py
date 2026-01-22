@@ -223,7 +223,12 @@ test_names = {
         "docking_stations": ["1", "2", "3"],
     },
     "Docking station detection after warmboot": {
-        "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "manual"},
+        "env_ids": {
+            "201": "depends",
+            "202": "depends",
+            "301": "manual",
+            "203": "manual",
+        },
         "doc": """Check whether he DUT properly detects the docking station
     ...    after warmboot.""",
         "skips": [
@@ -280,7 +285,12 @@ test_names = {
         "docking_stations": ["1", "2", "3"],
     },
     "Docking station detection after warmboot then hotplug": {
-        "env_ids": {"201": "semi", "202": "semi", "301": "manual", "203": "manual"},
+        "env_ids": {
+            "201": "depends",
+            "202": "depends",
+            "301": "manual",
+            "203": "manual",
+        },
         "doc": """Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.""",
         "skips": [
@@ -388,6 +398,8 @@ for idx, row in enumerate(test_rows):
     # Semiauto tag
     if row["automation"] == "semi" or row["automation"] == "manual":
         robot_tests_lines[idx].append(f"    [Tags]    semiauto\n")
+    elif row["automation"] == "depends":
+        robot_tests_lines[idx].append(f"    [Tags]    automated    semiauto\n")
 
     for skip in row["skips"]:
         robot_tests_lines[idx].append(
