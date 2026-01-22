@@ -308,6 +308,8 @@ Docking Station Detection After Coldboot
 
 Docking Station Detection After Warmboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
     IF    not '${env_id}'.startswith('2')
         Fail    Not implemented on ENV_ID ${env_id}
     END

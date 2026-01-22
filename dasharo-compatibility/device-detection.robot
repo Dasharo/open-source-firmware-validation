@@ -70,6 +70,9 @@ DDET002.001 USB Stack enable
 
 DDET003.001 Usb Devices Detected In Firmware Warmboot
     [Documentation]    Test if USB devices are detected after a warmboot
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
     Login To Linux With Root Privileges
     Perform Warmboot Using Rtcwake
     Login To Linux With Root Privileges
