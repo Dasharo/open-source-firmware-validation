@@ -33,6 +33,9 @@ UBT001.001 USB detect and boot after coldboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after coldboot (reboot
     ...    realized by power supply cutting off then cutting on).
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
     VAR    ${failed_boot}=    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY
@@ -50,6 +53,9 @@ UBT002.001 USB detect and boot after warmboot
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after warmboot (reboot
     ...    realized by device turning off then turning on).
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
     VAR    ${failed_boot}=    0
     FOR    ${index}    IN RANGE    0    ${BOOT_FROM_USB_ITERATIONS_NUMBER}
         TRY

@@ -66,6 +66,8 @@ Measure Coldboot Time
     ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
     ...    off, and the login prompt must be available in the Telnet buffer.
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
 
     VAR    @{durations}=    @{EMPTY}
     Log To Console    \n

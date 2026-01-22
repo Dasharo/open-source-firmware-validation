@@ -152,6 +152,8 @@ Perform Hibernation Test Using FWTS
 
 Perform Warmboot Using Rtcwake
     [Documentation]    Executes a command that will cause a warmboot
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
 
     # Using "Execute Command In Terimal" will cause the test to wait
     # for command prompt to appear before continuing but the prompt

@@ -50,6 +50,7 @@ CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot (Ubu
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
     ...    Previous IDs: CBMEM002.001
+    [Tags]    automated    semiauto
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
     ...    The test is semiauto on this device. Semiauto tag was not selected.
