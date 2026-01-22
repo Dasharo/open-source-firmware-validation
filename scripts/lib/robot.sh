@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -161,7 +161,7 @@ get_matched_test_cases() {
 }
 
 get_test_tags() {
-  IFS='-' read -ra robot_args <<< "$2" # like '-v 123 -t "*test1*" -i basic'
+  IFS='-' read -ra robot_args <<< "$1" # like '-v 123 -t "*test1*" -i basic'
   tags=()
   # Scan for all -i parameters and save them
   for arg in "${robot_args[@]}"; do
@@ -282,68 +282,77 @@ execute_robot() {
 
   check_dirty_tree
 
-  # To save the logs from test modules into separate files robot is called
-  # multiple times.
-  #
-  # Thanks to detecting spacebars in arguments before _robot_args can now
-  # safely be concatenated into a string and these arguments will still be
-  # passed correctly.
-  #
-  # Firstly, the provided argument will be parsed to get the proper name
-  # for the results directory.
   overall_rc=0
-  for _test_name in "${_test_path[@]}"; do
-    if [[ "$_test_name" == *"/"* && "$_test_name" != */ ]]; then
-      _test_scope_name="${_test_name##*/}"
-      if [[ "$_test_scope_name" == *".robot"* ]]; then
-        _test_scope_name="${_test_scope_name%%.*}"
-      fi
-    else
-      _test_scope_name="${_test_name%%/*}"
+  if [ -n "${_REGRESSION_RUN}" ]; then
+    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}"
+  else
+    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}all_${RUN_DATE}"
+  fi
+  mkdir -p "$_root_logs_dir"
+  _output="${_root_logs_dir}/full_out.xml"
+  _debug="${_root_logs_dir}/full_debug.log"
+  _log="${_root_logs_dir}/full_log.html"
+  _report="${_root_logs_dir}/full_report.html"
+
+  echo "Logs will be saved at ${_root_logs_dir}"
+  echo "Watch \"${_debug}\" to monitor the progress of the test"
+
+  _test_cases=$(get_matched_test_cases "${_test_path[*]}" "${_robot_args[*]}")
+  [[ -n $_test_cases ]] && _test_cases="-v TEST_CASES:'$_test_cases'"
+  _test_tags=$(get_test_tags "${_robot_args[*]}")
+  [[ -n $_test_tags ]] && _test_tags="-v TEST_TAGS:'$_test_tags'"
+
+  command="
+        robot -L TRACE \
+              -l ${_log} \
+              -r ${_report} \
+              -o ${_output} \
+              -b ${_debug} \
+              ${rte_ip_option} \
+              -v config:${CONFIG} \
+              -v logs_dir:${_root_logs_dir} \
+              ${device_ip_option} \
+              ${fw_file_option} \
+              ${capsule_fw_file_option} \
+              ${installed_dut_option} \
+              ${extra_options} \
+              ${_robot_args[*]} \
+              ${_test_cases} \
+              ${_test_tags} \
+              ${_test_path[*]} \
+              "
+
+  robot_pid=""
+  interrupted=0
+
+  cleanup_and_split() {
+    python "scripts/lib/rebot_splitter.py" "$_output" "$_root_logs_dir"
+  }
+
+  on_int() {
+    interrupted=1
+    if [[ -n "$robot_pid" ]]; then
+      # Send SIGINT to the whole process group (closest to real Ctrl+C)
+      kill -INT -"${robot_pid}" 2>/dev/null || true
     fi
+  }
 
-    if [ -n "${_REGRESSION_RUN}" ]; then
-      local _logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}"
-    else
-      local _logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}${_test_scope_name}_${RUN_DATE}"
-    fi
-    local _log_file="${_logs_dir}/${_test_scope_name}_log.html"
-    local _report_file="${_logs_dir}/${_test_scope_name}_report.html"
-    local _output_file="${_logs_dir}/${_test_scope_name}_out.xml"
-    local _debug_file="${_logs_dir}/${_test_scope_name}_debug.log"
+  trap on_int INT
+  trap cleanup_and_split EXIT
 
-    echo "Logs will be saved at ${_logs_dir}"
-    echo "Watch \"${_debug_file}\" to monitor the progress of the test"
+  # Start robot in its own process group so kill -INT -$pid works
+  set -m
+  eval "${command}" &
+  robot_pid=$!
 
-    _test_cases=$(get_matched_test_cases "$_test_name" "${_robot_args[*]}")
-    [[ -n $_test_cases ]] && _test_cases="-v TEST_CASES:'$_test_cases'"
-    _test_tags=$(get_test_tags "${_robot_args[*]}")
-    [[ -n $_test_tags ]] && _test_tags="-v TEST_TAGS:'$_test_tags'"
+  fg %1
+  robot_rc=$?
 
-    command="
-          robot -L TRACE \
-                -l ${_log_file} \
-                -r ${_report_file} \
-                -o ${_output_file} \
-                -b ${_debug_file} \
-                ${rte_ip_option} \
-                -v config:${CONFIG} \
-                -v logs_dir:${_logs_dir} \
-                ${device_ip_option} \
-                ${fw_file_option} \
-                ${capsule_fw_file_option} \
-                ${installed_dut_option} \
-                ${extra_options} \
-                ${_robot_args[*]} \
-                ${_test_cases} \
-                ${_test_tags} \
-                ${_test_name} \
-                "
-    # echo "$command"
-    eval "$command"
-    if [[ $? -ne 0 ]]; then
-      overall_rc=1
-    fi
-  done
+  if [[ $interrupted -eq 1 && $robot_rc -eq 130 ]]; then
+    overall_rc=130
+  else
+    overall_rc=$robot_rc
+  fi
+
   return $overall_rc
 }
