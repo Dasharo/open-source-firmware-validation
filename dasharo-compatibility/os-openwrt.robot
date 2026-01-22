@@ -87,7 +87,7 @@ OWR004.207 Boot operating system from disk after warm-boot (OpenWrt)
     [Documentation]    Boot OpenWrt from hard disk after warm-boot.
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     Skip If    not ${TESTS_IN_OPENWRT_SUPPORT}    OWR004.207 not supported
     Power On
     Boot OpenWrt

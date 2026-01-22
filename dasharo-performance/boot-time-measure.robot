@@ -40,7 +40,7 @@ CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot (Ubu
     [Tags]    automated    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.201 not supported
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.201 not supported
     Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_UBUNTU}
@@ -52,7 +52,7 @@ CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot (Ubu
     ...    Previous IDs: CBMEM002.001
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM002.201 not supported
@@ -73,7 +73,7 @@ CBMEM001.202 Serial boot time measure: coreboot booting time after coldboot (Fed
     ...    CPU is serial initialized.
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM001.202 not supported
     Serial Boot Time Measure Coreboot Booting Time After Coldboot    ${ENV_ID_FEDORA}
@@ -84,7 +84,7 @@ CBMEM002.202 Serial boot time measure: coreboot booting time after warmboot (Fed
     ...    CPU is serial initialized.
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CBMEM002.202 not supported
     Serial Boot Time Measure Coreboot Booting Time After Warmboot    ${ENV_ID_FEDORA}

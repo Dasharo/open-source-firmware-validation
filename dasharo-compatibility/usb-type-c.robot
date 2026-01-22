@@ -269,7 +269,7 @@ UTC131.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
 UTC135.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC135.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC135.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC135.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC135.201 not supported
@@ -324,7 +324,7 @@ UTC147.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: E
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC147.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC147.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC147.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC147.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC147.201 not supported
@@ -496,7 +496,7 @@ UTC131.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
 UTC135.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC135.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC135.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC135.202 not supported
     Docking Station Detection After Coldboot    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -545,7 +545,7 @@ UTC147.202 Docking station detection after coldboot then hotplug (Fedora) (ME: E
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC147.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC147.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC147.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC147.202 not supported
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.E
@@ -716,7 +716,7 @@ UTC135.301 Docking station detection after coldboot (Windows) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC135.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC135.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC135.301 not supported
     Skip
@@ -726,7 +726,7 @@ UTC137.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC137.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC137.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC137.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC137.301 not supported
     Skip
@@ -775,7 +775,7 @@ UTC147.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC147.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC147.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC147.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC147.301 not supported
     Skip
@@ -785,7 +785,7 @@ UTC149.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC149.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC149.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC149.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC149.301 not supported
     Skip
@@ -966,7 +966,7 @@ UTC135.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC135.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC135.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC135.203 not supported
     Skip
@@ -976,7 +976,7 @@ UTC137.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC137.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC137.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC137.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC137.203 not supported
     Skip
@@ -1025,7 +1025,7 @@ UTC147.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC147.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC147.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC147.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC147.203 not supported
     Skip
@@ -1035,7 +1035,7 @@ UTC149.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC149.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC149.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC149.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC149.203 not supported
     Skip
@@ -1227,7 +1227,7 @@ UTC132.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
 UTC136.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC136.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC136.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC136.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC136.201 not supported
@@ -1282,7 +1282,7 @@ UTC148.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: D
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC148.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC148.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC148.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC148.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC148.201 not supported
@@ -1454,7 +1454,7 @@ UTC132.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
 UTC136.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC136.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC136.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC136.202 not supported
     Docking Station Detection After Coldboot    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1503,7 +1503,7 @@ UTC148.202 Docking station detection after coldboot then hotplug (Fedora) (ME: D
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC148.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC148.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC148.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC148.202 not supported
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.E
@@ -1674,7 +1674,7 @@ UTC136.301 Docking station detection after coldboot (Windows) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC136.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC136.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC136.301 not supported
     Skip
@@ -1684,7 +1684,7 @@ UTC138.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC138.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC138.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC138.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC138.301 not supported
     Skip
@@ -1733,7 +1733,7 @@ UTC148.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC148.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC148.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC148.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC148.301 not supported
     Skip
@@ -1743,7 +1743,7 @@ UTC150.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC150.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC150.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC150.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC150.301 not supported
     Skip
@@ -1924,7 +1924,7 @@ UTC136.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC136.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC136.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC136.203 not supported
     Skip
@@ -1934,7 +1934,7 @@ UTC138.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC138.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC138.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC138.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC138.203 not supported
     Skip
@@ -1983,7 +1983,7 @@ UTC148.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC148.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC148.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC148.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC148.203 not supported
     Skip
@@ -1993,7 +1993,7 @@ UTC150.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC150.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC150.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC150.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC150.203 not supported
     Skip
@@ -2185,7 +2185,7 @@ UTC231.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
 UTC235.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC235.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC235.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC235.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC235.201 not supported
@@ -2240,7 +2240,7 @@ UTC247.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: E
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC247.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC247.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC247.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC247.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC247.201 not supported
@@ -2412,7 +2412,7 @@ UTC231.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
 UTC235.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC235.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC235.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC235.202 not supported
     Docking Station Detection After Coldboot    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -2461,7 +2461,7 @@ UTC247.202 Docking station detection after coldboot then hotplug (Fedora) (ME: E
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC247.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC247.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC247.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC247.202 not supported
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UMD05 Pro Rev.C1
@@ -2632,7 +2632,7 @@ UTC235.301 Docking station detection after coldboot (Windows) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC235.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC235.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC235.301 not supported
     Skip
@@ -2642,7 +2642,7 @@ UTC237.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC237.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC237.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC237.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC237.301 not supported
     Skip
@@ -2691,7 +2691,7 @@ UTC247.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC247.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC247.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC247.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC247.301 not supported
     Skip
@@ -2701,7 +2701,7 @@ UTC249.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC249.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC249.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC249.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC249.301 not supported
     Skip
@@ -2882,7 +2882,7 @@ UTC235.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC235.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC235.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC235.203 not supported
     Skip
@@ -2892,7 +2892,7 @@ UTC237.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC237.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC237.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC237.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC237.203 not supported
     Skip
@@ -2941,7 +2941,7 @@ UTC247.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC247.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC247.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC247.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC247.203 not supported
     Skip
@@ -2951,7 +2951,7 @@ UTC249.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC249.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC249.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC249.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC249.203 not supported
     Skip
@@ -3143,7 +3143,7 @@ UTC232.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
 UTC236.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC236.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC236.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC236.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC236.201 not supported
@@ -3198,7 +3198,7 @@ UTC248.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: D
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC248.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC248.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC248.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC248.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC248.201 not supported
@@ -3370,7 +3370,7 @@ UTC232.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
 UTC236.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC236.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC236.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC236.202 not supported
     Docking Station Detection After Coldboot    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -3419,7 +3419,7 @@ UTC248.202 Docking station detection after coldboot then hotplug (Fedora) (ME: D
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC248.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC248.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC248.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC248.202 not supported
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UMD05 Pro Rev.C1
@@ -3590,7 +3590,7 @@ UTC236.301 Docking station detection after coldboot (Windows) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC236.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC236.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC236.301 not supported
     Skip
@@ -3600,7 +3600,7 @@ UTC238.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC238.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC238.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC238.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC238.301 not supported
     Skip
@@ -3649,7 +3649,7 @@ UTC248.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC248.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC248.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC248.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC248.301 not supported
     Skip
@@ -3659,7 +3659,7 @@ UTC250.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC250.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC250.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC250.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC250.301 not supported
     Skip
@@ -3840,7 +3840,7 @@ UTC236.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC236.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC236.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC236.203 not supported
     Skip
@@ -3850,7 +3850,7 @@ UTC238.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC238.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC238.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC238.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC238.203 not supported
     Skip
@@ -3899,7 +3899,7 @@ UTC248.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC248.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC248.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC248.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC248.203 not supported
     Skip
@@ -3909,7 +3909,7 @@ UTC250.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC250.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC250.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC250.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC250.203 not supported
     Skip
@@ -4101,7 +4101,7 @@ UTC331.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) 
 UTC335.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC335.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC335.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC335.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC335.201 not supported
@@ -4156,7 +4156,7 @@ UTC347.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: E
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC347.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC347.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC347.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC347.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC347.201 not supported
@@ -4328,7 +4328,7 @@ UTC331.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) 
 UTC335.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC335.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC335.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC335.202 not supported
     Docking Station Detection After Coldboot    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -4377,7 +4377,7 @@ UTC347.202 Docking station detection after coldboot then hotplug (Fedora) (ME: E
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC347.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC347.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC347.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC347.202 not supported
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
@@ -4548,7 +4548,7 @@ UTC335.301 Docking station detection after coldboot (Windows) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC335.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC335.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC335.301 not supported
     Skip
@@ -4558,7 +4558,7 @@ UTC337.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC337.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC337.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC337.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC337.301 not supported
     Skip
@@ -4607,7 +4607,7 @@ UTC347.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC347.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC347.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC347.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC347.301 not supported
     Skip
@@ -4617,7 +4617,7 @@ UTC349.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC349.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC349.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC349.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC349.301 not supported
     Skip
@@ -4798,7 +4798,7 @@ UTC335.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC335.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC335.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC335.203 not supported
     Skip
@@ -4808,7 +4808,7 @@ UTC337.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC337.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC337.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC337.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC337.203 not supported
     Skip
@@ -4857,7 +4857,7 @@ UTC347.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC347.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC347.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC347.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC347.203 not supported
     Skip
@@ -4867,7 +4867,7 @@ UTC349.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC349.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC349.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC349.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC349.203 not supported
     Skip
@@ -5059,7 +5059,7 @@ UTC332.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled)
 UTC336.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC336.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC336.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC336.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC336.201 not supported
@@ -5114,7 +5114,7 @@ UTC348.201 Docking station detection after coldboot then hotplug (Ubuntu) (ME: D
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC348.201 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC348.201 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC348.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC348.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC348.201 not supported
@@ -5286,7 +5286,7 @@ UTC332.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled)
 UTC336.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC336.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC336.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC336.202 not supported
     Docking Station Detection After Coldboot    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -5335,7 +5335,7 @@ UTC348.202 Docking station detection after coldboot then hotplug (Fedora) (ME: D
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC348.202 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC348.202 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC348.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC348.202 not supported
     Docking Station Detection After Coldboot Then Hotplug    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
@@ -5506,7 +5506,7 @@ UTC336.301 Docking station detection after coldboot (Windows) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC336.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC336.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC336.301 not supported
     Skip
@@ -5516,7 +5516,7 @@ UTC338.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC338.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC338.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC338.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC338.301 not supported
     Skip
@@ -5565,7 +5565,7 @@ UTC348.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC348.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC348.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC348.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC348.301 not supported
     Skip
@@ -5575,7 +5575,7 @@ UTC350.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC350.301 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC350.301 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC350.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC350.301 not supported
     Skip
@@ -5756,7 +5756,7 @@ UTC336.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC336.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC336.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC336.203 not supported
     Skip
@@ -5766,7 +5766,7 @@ UTC338.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC338.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC338.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC338.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC338.203 not supported
     Skip
@@ -5815,7 +5815,7 @@ UTC348.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC348.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC348.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC348.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC348.203 not supported
     Skip
@@ -5825,7 +5825,7 @@ UTC350.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
-    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${TEST_TAGS}    UTC350.203 not supported
+    Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC350.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC350.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC350.203 not supported
     Skip

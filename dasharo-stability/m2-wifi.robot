@@ -29,7 +29,7 @@ SMW001.201 Wi-fi connection after cold boot (Ubuntu)
     Skip If    not ${M2_WIFI_SUPPORT}    SMW001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW001.001 not supported
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -216,7 +216,7 @@ Wi-Fi Connection After Warm Boot
     ...    correctly after performing a warm boot.
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Scan For Wi-Fi In Linux

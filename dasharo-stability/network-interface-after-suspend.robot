@@ -35,7 +35,7 @@ NET002.201 Net controller after warmboot (Ubuntu)
     ...    Previous IDs: NET002.001
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET002.201 not supported
@@ -108,7 +108,7 @@ NET002.202 Net controller after warmboot (Fedora)
     ...    Previous IDs: NET005.003
     [Tags]    automated    semiauto
     Skip If
-    ...    not ${RTC_BOOT_SUPPORT} and ${TEST_TAGS} is not ${None} and 'semiauto' not in ${TEST_TAGS}
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    The test is semiauto on this device. Semiauto tag was not selected.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET002.202 not supported
     Power On
