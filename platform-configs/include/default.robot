@@ -328,7 +328,6 @@ ${WINDOWS_SHUTDOWN_AWAITING_SECONDS}=               120
 @{TESTED_LINUX_DISTROS}=                            ${ENV_ID_UBUNTU}
 @{TESTED_BSD_DISTROS}=                              @{EMPTY}
 ${DEFAULT_BOOT_OS_ID}=                              ${ENV_ID_UBUNTU}
-${BOOTED_OS_ID}=                                    ${DEFAULT_BOOT_OS_ID}
 
 ${USE_ANSIBLE}=                                     ${TRUE}
 ${TESTS_IN_XCP_NG_SUPPORT}=                         ${FALSE}

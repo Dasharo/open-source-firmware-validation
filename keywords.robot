@@ -506,6 +506,10 @@ Prepare Test Suite
     ELSE
         Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
     END
+    ${default_boot}=    Get Variable Value    ${BOOTED_OS_ID}    ${None}
+    IF    $default_boot is ${None}
+        VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
+    END
     IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
         Import Osfv Libraries
     END
@@ -567,9 +571,9 @@ Prepare To SSH Connection
     ...    sections if the communication with the platform based on
     ...    the SSH protocol
     VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
-    IF    '${DEFAULT_BOOT_OS_ID}'
-        Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
-    END
+    ${os_id}=    Get Variable Value    ${BOOTED_OS_ID}    ${DEFAULT_BOOT_OS_ID}
+    Import Variables    ${CURDIR}/os-config/${os_id}-credentials.py
+    VAR    ${BOOTED_OS_ID}=    ${os_id}    scope=GLOBAL
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN
 
