@@ -45,7 +45,7 @@ CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Should Have Booted From Slot    COREBOOT
+    RTC BUC Control Bit Should Be    0
 
 CRB002.201 Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)
     [Documentation]    Check if setting the Attempt Slot B flag the device boots
@@ -60,7 +60,7 @@ CRB002.201 Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Should Have Booted From Slot    COREBOOT_TS
+    RTC BUC Control Bit Should Be    1
 
 CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
     [Documentation]    Check if clearing the Attempt Slot B flag the device boots
@@ -75,7 +75,7 @@ CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Should Have Booted From Slot    COREBOOT
+    RTC BUC Control Bit Should Be    0
 
 CRB004.201 Slot A Protection (Ubuntu)
     [Documentation]    Check if the coreboot Slot A is protected with the
@@ -108,10 +108,8 @@ Set Attempt Slot B Flag
     ${out}=    Execute Command In Terminal    nvramtool -r ${NVRAM_ATTEMPT_B_FLAG}
     Should Contain    ${out}    ${flag_state}
 
-Should Have Booted From Slot
+RTC BUC Control Bit Should Be
     [Arguments]    ${slot}
     ${slot}=    Convert To Lower Case    ${slot}
-    ${out}=    Execute Command In Terminal    cbmem -c | grep "Booting from"
-    ${out}=    Convert To Lower Case    ${out}
-    ${out}=    Strip String    ${out}
-    Should Contain    ${out}    ${slot}
+    ${out}=    Execute Command In Terminal    cbmem -c | grep "Top Swap: RTC BUC control bit"
+    Should Contain    ${out}    Top Swap: RTC BUC control bit: ${slot}
