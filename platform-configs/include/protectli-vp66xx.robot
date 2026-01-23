@@ -36,3 +36,4 @@ ${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/protectli-vp
 ${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
 ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
 ${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
+${COREBOOT_REDUNDANT_BOOT_SUPPORT}=                 ${TRUE}
