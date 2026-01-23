@@ -29,6 +29,7 @@ Set UEFI Option
     END
     Login To Linux
     Switch To Root User
+    Set Nextboot    ${BOOTED_OS_ID}
     DCU Variable Set UEFI Option In DUT    ${option_name}    ${value}
     IF    '${option_name}' == 'PowerStateAfterPowerAcLoss'
         VAR    ${POWER_STATE_AFTER_FAIL}=    ${value}    scope=GLOBAL
