@@ -161,7 +161,7 @@ get_matched_test_cases() {
 }
 
 get_test_tags() {
-  IFS='-' read -ra robot_args <<< "$2" # like '-v 123 -t "*test1*" -i basic'
+  IFS='-' read -ra robot_args <<< "$1" # like '-v 123 -t "*test1*" -i basic'
   tags=()
   # Scan for all -i parameters and save them
   for arg in "${robot_args[@]}"; do
