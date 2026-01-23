@@ -345,7 +345,7 @@ execute_robot() {
   eval "${command}" &
   robot_pid=$!
 
-  wait "$robot_pid"
+  fg %1
   robot_rc=$?
 
   if [[ $interrupted -eq 1 && $robot_rc -eq 130 ]]; then
