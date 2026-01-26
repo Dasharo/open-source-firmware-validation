@@ -35,7 +35,7 @@ def plot_fan_curve(file_path, title):
         fmt=".",
         capsize=3,
         capthick=0.5,
-        linewidth=0.5,
+        linewidth=0.1,
     )
     plt.legend()
     plt.savefig(out_file)
@@ -45,14 +45,59 @@ def plot_fan_curve(file_path, title):
     return out_filename
 
 
+@keyword("Plot Time Fan Curve")
+def plot_time_fan_curve(file_path, title):
+    in_file = file_path + ".csv"
+    out_file = file_path + ".png"
+
+    data = pandas.read_csv(in_file)
+
+    x = data.index
+    temp = data["temp"]
+    speed = data["speed"]
+    tolerance = data["tolerance"]
+    expected = data["expected"]
+
+    fig, ax_temp = plt.subplots()
+    ax_speed = ax_temp.twinx()
+
+    fig.suptitle(title)
+    ax_temp.set_xlabel("Measurement number")
+    ax_temp.set_ylabel("Temperature")
+    ax_speed.set_ylabel("Speed")
+
+    ax_temp.plot(x, temp, label="temp", marker="+", linestyle="None")
+    ax_speed.plot(x, speed, label="speed", marker=".", linestyle="None")
+
+    ax_speed.errorbar(
+        x,
+        expected,
+        yerr=tolerance,
+        label="expected",
+        fmt=".",
+        capsize=3,
+        capthick=0.5,
+        linewidth=0.1,
+    )
+
+    lines_1, labels_1 = ax_temp.get_legend_handles_labels()
+    lines_2, labels_2 = ax_speed.get_legend_handles_labels()
+    ax_temp.legend(lines_1 + lines_2, labels_1 + labels_2)
+
+    plt.savefig(out_file)
+    plt.clf()
+
+    return os.path.basename(out_file)
+
+
 def _get_over_tolerance(measurement):
-    diff = abs(measurement["speed"] - measurement["expected"])
-    over_tolerance = max(diff - measurement["tolerance"], 0)
+    diff = abs(float(measurement["speed"]) - float(measurement["expected"]))
+    over_tolerance = max(diff - float(measurement["tolerance"]), 0)
     return over_tolerance
 
 
 def _get_diff_from_tolerance(measurement):
-    diff = abs(measurement["speed"] - measurement["expected"])
+    diff = abs(float(measurement["speed"]) - float(measurement["expected"]))
     # Measurements that are in the tolerance are always better
     # those outside tolerance. To order them according to that, the
     # weight of anything over tolerance is increased

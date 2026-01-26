@@ -23,37 +23,41 @@ Resource            ../lib/performance/cpu.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND
-...                     Skip If    '''${CUSTOM_FAN_CURVE_FILE}''' == '''${TBD}'''    CFC not supported - CUSTOM_FAN_CURVE_FILE not defined
-...                     AND
-...                     Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
+...                     AND    Skip If    '''${CUSTOM_FAN_CURVE_FILE}''' == '''${TBD}'''    CFC not supported - CUSTOM_FAN_CURVE_FILE not defined
+...                     AND    Skip If    '${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}' == '${TBD}'    CUSTOM_FAN_CURVE_COOLDOWN_SECONDS not defined
+...                     AND    Skip If    '${CUSTOM_FAN_CURVE_TEST_DURATION}' == '${TBD}'    CUSTOM_FAN_CURVE_TEST_DURATION not defined
+...                     AND    Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 Default Tags        automated
 
 
+*** Variables ***
+${TEMP_MOVING_AVERAGE}=     ${NONE}
+
+
 *** Test Cases ***
-CFC001.001 Custom fan curve silent profile measure (Ubuntu)
+CFC001.201 Custom fan curve silent profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
-    Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.201 not supported
 
-    Set UEFI Option    FanCurveOption    Silent
+    # Set UEFI Option    FanCurveOption    Silent
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Perform Custom Fan Curve Test    silent
 
-CFC002.001 Custom fan curve performance profile measure (Ubuntu)
+CFC002.201 Custom fan curve performance profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
-    Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.201 not supported
 
     Set UEFI Option    FanCurveOption    Performance
     Power On
@@ -62,12 +66,12 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     Switch To Root User
     Perform Custom Fan Curve Test    performance
 
-CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
+CFC003.201 Custom fan curve OFF profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
-    Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.201 not supported
 
     Set UEFI Option    FanCurveOption    Fans Off
     Power On
@@ -83,21 +87,28 @@ Perform Custom Fan Curve Test
     [Arguments]    ${profile}
     Prepare Sensors
     VAR    @{measurements}=    @{EMPTY}
-    ${stress_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}*5
+    ${percentile_drop}=    Get From Dictionary    ${TEMPERATURE_CURVE_SETTINGS}    percentile_drop
+    ${acceptable_invalid_percent}=    Get From Dictionary
+    ...    ${TEMPERATURE_CURVE_SETTINGS}    acceptable_invalid_percent
+    Log    ${CUSTOM_FAN_CURVE_CPU_USAGE_RANGE}
+    ${test_len}=    Evaluate    ${CUSTOM_FAN_CURVE_TEST_DURATION}
+    ${n_steps}=    Evaluate
+    ...    int((int(${CUSTOM_FAN_CURVE_CPU_USAGE_RANGE}[1]) - int(${CUSTOM_FAN_CURVE_CPU_USAGE_RANGE}[0])) / int(${CUSTOM_FAN_CURVE_CPU_USAGE_RANGE}[2]))
+    ${step_len}=    Evaluate    math.ceil(${test_len} / ${n_steps})    modules=math
     ${cpu_count}=    Execute Command In Terminal    nproc
     ${fan_mode}=    Get Fan Measurement Unit Name
 
-    FOR    ${cpu_usage}    IN RANGE    100
-        Stress Test    time=${stress_len}s    load_percent=${cpu_usage}
-        Sleep    1s    Let the CPU temperature stabilize
+    FOR    ${cpu_usage}    IN RANGE    @{CUSTOM_FAN_CURVE_CPU_USAGE_RANGE}
         ${current_time}=    Evaluate    time.time()
         VAR    ${start_time}=    ${current_time}
-        ${end_time}=    Evaluate    ${start_time} + ${CUSTOM_FAN_CURVE_TEST_DURATION}
-
+        ${end_time}=    Evaluate    ${start_time} + ${step_len}
+        Log To Console    Testing ${cpu_usage}% load for ${step_len}s
+        Stress Test Stop
+        Stress Test    time=${step_len}s    load_percent=${cpu_usage}
+        ${stabilise}=    Evaluate    ${step_len}*${CUSTOM_FAN_CURVE_STABILISE_TIME_FRACTION}
+        Sleep    ${stabilise}
         WHILE    ${current_time} < ${end_time}
             ${current_time}=    Evaluate    time.time()
-            ${duration}=    Evaluate    ${current_time} - ${start_time}
-            Log To Console    \n${duration} s.
             ${result}    ${measurement}=    Measure And Verify
             ...    ${profile}    ${fan_mode}
             Append To List    ${measurements}    ${measurement}
@@ -107,18 +118,18 @@ Perform Custom Fan Curve Test
     Stress Test Stop
     Sleep    ${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}s
 
-    ${percentile_drop}=    Get From Dictionary    ${TEMPERATURE_CURVE_SETTINGS}    percentile_drop
     ${failed_count}=    Count Failed Fan Measurements    ${measurements}
     ${filtered}=    Filter Fan Measurements    ${measurements}    ${percentile_drop}
     ${failed_after_filtering}=    Count Failed Fan Measurements    ${filtered}
-    ${image}=    Save Measurements    ${filtered}    ${profile}_filtered
-    Log    <img src="../${image}">    html=true
+    ${image}=    Save Measurements Temp    ${filtered}    ${profile}_filtered_temp
+    Log    <img src="./${image}">    html=true
+    ${failed_after_filtering}=    Count Failed Fan Measurements    ${filtered}
+    ${image}=    Save Measurements Time    ${filtered}    ${profile}_filtered_time
+    Log    <img src="./${image}">    html=true
 
     IF    ${failed_count} > 0
         ${total_measurements}=    Get Length    ${measurements}
-        ${percent_failed}=    Evaluate    ${failed_count} / ${total_measurements}
-        ${acceptable_invalid_percent}=    Get From Dictionary
-        ...    ${TEMPERATURE_CURVE_SETTINGS}    acceptable_invalid_percent
+        ${percent_failed}=    Evaluate    ${failed_count} / ${total_measurements} * 100
         Should Be True    ${percent_failed} <= ${acceptable_invalid_percent}
         ...    Too many measurements were invalid (${percent_failed} > ${acceptable_invalid_percent})
     END
@@ -127,16 +138,30 @@ Measure And Verify
     [Arguments]    ${profile}    ${fan_mode}
     ${fan_speed}=    Get Fan Speed    ${fan_mode}
     ${cpu_temp}=    Get CPU Temperature
-    ${range_data}=    Get Fan Curve Range    ${cpu_temp}    ${profile}
+    IF    $TEMP_MOVING_AVERAGE is ${None}
+        VAR    @{TEMP_MOVING_AVERAGE}=    ${cpu_temp}    ${cpu_temp}    ${cpu_temp}    scope=SUITE
+    ELSE
+        VAR    @{TEMP_MOVING_AVERAGE}=
+        ...    ${TEMP_MOVING_AVERAGE}[1]
+        ...    ${TEMP_MOVING_AVERAGE}[2]
+        ...    ${cpu_temp}
+        ...    scope=SUITE
+    END
+    ${cpu_average_temp}=    Evaluate    (${cpu_temp} + ${TEMP_MOVING_AVERAGE}[0] + ${TEMP_MOVING_AVERAGE}[1])/3
+    ${range_data}=    Get Fan Curve Range    ${cpu_average_temp}    ${profile}
     ${result}    ${expected}=    Verify Fan Speeds
-    ...    ${range_data}    ${fan_speed}    ${fan_mode}    ${cpu_temp}
+    ...    ${range_data}    ${fan_speed}    ${fan_mode}    ${cpu_average_temp}
     ${tolerance}=    Get From Dictionary    ${range_data}    tolerance_${fan_mode}
-    VAR    &{measurement}=    temp=${cpu_temp}    speed=${fan_speed}    expected=${expected}    tolerance=${tolerance}
+    VAR    &{measurement}=
+    ...    temp=${cpu_average_temp}
+    ...    speed=${fan_speed}
+    ...    expected=${expected}
+    ...    tolerance=${tolerance}
     Log To Console
-    ...    ${cpu_temp}C - ${fan_speed} ${fan_mode} (expected: ${expected} ${fan_mode} +/- ${tolerance})
+    ...    ${cpu_average_temp}C - ${fan_speed} ${fan_mode} (expected: ${expected} ${fan_mode} +/- ${tolerance})
     RETURN    ${result}    ${measurement}
 
-Save Measurements
+Save Measurements Temp
     [Documentation]    Saves fan speed & temp measurements to csv file
     [Arguments]    ${measurements}    ${name}
     VAR    @{columns}=    temp    speed    expected    tolerance
@@ -144,6 +169,16 @@ Save Measurements
     VAR    ${file_path}=    ${LOGS_DIR}/${filename}
     CSVLibrary.Csv File From Associative    ${file_path}.csv    ${measurements}    ${columns}
     ${image}=    Plot Fan Curve    ${file_path}    Fan speeds ${name}
+    RETURN    ${image}
+
+Save Measurements Time
+    [Documentation]    Saves fan speed & temp measurements to csv file
+    [Arguments]    ${measurements}    ${name}
+    VAR    @{columns}=    temp    speed    expected    tolerance
+    VAR    ${filename}=    fan_speeds_${name}
+    VAR    ${file_path}=    ${LOGS_DIR}/${filename}
+    CSVLibrary.Csv File From Associative    ${file_path}.csv    ${measurements}    ${columns}
+    ${image}=    Plot Time Fan Curve    ${file_path}    Fan speeds ${name}
     RETURN    ${image}
 
 Verify Fan Speeds

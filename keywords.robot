@@ -46,6 +46,7 @@ Login To Linux
         # Read From Terminal Until    login:
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     END
+
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Wait Until Keyword Succeeds
         ...    3x
@@ -89,7 +90,7 @@ Login To Windows
 Login To OS
     [Documentation]    Universal login to ESXi.
     [Arguments]    ${env_id}
-    Boot System Or From Connected Disk    ${env_id}
+    IF    ${env_id}!="203"    Boot System Or From Connected Disk    ${env_id}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
@@ -160,16 +161,21 @@ Login To Linux Via SSH
     Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
-    SSHLibrary.Set Client Configuration
-    ...    timeout=${timeout}
-    ...    term_type=vt100
-    ...    width=400
-    ...    height=100
-    ...    escape_ansi=True
-    ...    newline=LF
-    Wait Until Keyword Succeeds    120x    1s
-    ...    SSHLibrary.Login    ${username}    ${password}
+    FOR    ${i}    IN RANGE    1    120
+        SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
+        SSHLibrary.Set Client Configuration
+        ...    timeout=${timeout}
+        ...    term_type=vt100
+        ...    width=400
+        ...    height=100
+        ...    escape_ansi=True
+        ...    newline=LF
+        ${status}=    Run Keyword And Return Status
+        ...    SSHLibrary.Login    ${username}    ${password}
+        IF    ${status}    RETURN
+        Sleep    1
+    END
+    Fail    Unable to login to ${username}@${DEVICE_IP}
 
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
@@ -177,18 +183,21 @@ Login To Windows Via SSH
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
     [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
-    SSHLibrary.Set Client Configuration
-    ...    timeout=${timeout}
-    ...    term_type=vt100
-    ...    width=400
-    ...    height=100
-    ...    escape_ansi=True
-    ...    newline=CRLF
     FOR    ${reboot_count}    IN RANGE    3
-        ${login}=    Run Keyword And Return Status
-        ...    Wait Until Keyword Succeeds    5x    20s
-        ...    SSHLibrary.Login    ${username}    ${password}
+        FOR    ${i}    IN RANGE    20
+            SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
+            SSHLibrary.Set Client Configuration
+            ...    timeout=${timeout}
+            ...    term_type=vt100
+            ...    width=400
+            ...    height=100
+            ...    escape_ansi=True
+            ...    newline=CRLF
+            ${login}=    Run Keyword And Return Status
+            ...    SSHLibrary.Login    ${username}    ${password}
+            IF    ${login} == ${TRUE}    BREAK    ELSE    Sleep    5s
+        END
+
         IF    ${login} == ${TRUE}
             BREAK
         ELSE
@@ -219,10 +228,13 @@ Switch To Root User
     # the "sudo -S" to pass password from stdin does not work correctly with
     # the su command and we need to type in the password
     Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo
-    Write Into Terminal    ${DEVICE_OS_PASSWORD}
     Set Prompt For Terminal    ${DEVICE_OS_ROOT_PROMPT}
-    Read From Terminal Until Prompt
+    Sleep    2s
+    ${out}=    Read From Terminal
+    IF    "[sudo" in $out
+        Write Into Terminal    ${DEVICE_OS_PASSWORD}
+        Read From Terminal Until Prompt
+    END
 
 Exit From Root User
     [Documentation]    Exit from the root environment
@@ -799,11 +811,15 @@ Restore Initial DUT Connection Method
     END
 
 Execute Shutdown Command
-    [Documentation]    Windows shutdown keyword, checks power LED state where available.
+    [Documentation]    OS shutdown keyword, checks power LED state where available.
     ...    Depends on existing SSH connection to DUT, restores initial connection method
     ...    after power loss.
-    VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
-    Execute Command In Terminal    shutdown /s /f /t 0
+    IF    '${BOOTED_OS_ID}'.startswith("2")
+        Execute Command In Terminal    shutdown 0
+    ELSE IF    '${BOOTED_OS_ID}' == '${ENV_ID_WINDOWS}'
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
+        Execute Command In Terminal    shutdown /s /f /t 0
+    END
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         ${loop_iterations}=    Evaluate    ${WINDOWS_SHUTDOWN_AWAITING_SECONDS} * 2
         FOR    ${i}    IN RANGE    ${loop_iterations}
@@ -811,6 +827,9 @@ Execute Shutdown Command
             IF    '${out}' == 'low'    RETURN
             Sleep    0.5s
         END
+    ELSE
+        # TODO find out a better way, maybe ping DEVICE_IP
+        Sleep    30s    Making sure the device shuts down
     END
     Restore Initial DUT Connection Method
 

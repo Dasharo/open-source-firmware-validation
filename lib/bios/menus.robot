@@ -634,10 +634,7 @@ Get Index Of Matching Option In Menu
 
     FOR    ${element}    IN    @{menu_construction}
         ${matches}=    Run Keyword And Return Status
-        ...    Should Match Fuzzy    ${element}    ${option}
-        ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
-        ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
-        ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
+        ...    Should Match    ${element}    *${option}*
         IF    ${matches}
             VAR    ${option}=    ${element}
             BREAK
@@ -874,8 +871,8 @@ Set Option State
                 Press Key N Times    1    ${ARROW_DOWN}
                 Press Key N Times    1    ${ARROW_UP}
             END
-
-            ${out}=    Read From Terminal Until    ---/
+            Sleep    1s
+            ${out}=    Read From Terminal
             ${list}=    Extract Strings From Frame    ${out}
             # TODO: Temporarily disabled due to the complexity with
             # options spanning into multiple lines.

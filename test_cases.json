@@ -1001,12 +1001,28 @@
     "doc": {
       "_id": "CFC001.001",
       "name": "Custom fan curve silent profile measure (Ubuntu)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CFC001.201"
     }
   },
   {
     "doc": {
       "_id": "CFC001.002",
+      "name": "Custom fan curve performance profile measure (Ubuntu)",
+      "module": "Dasharo Performance",
+      "changed_to": "CFC002.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CFC001.201",
+      "name": "Custom fan curve silent profile measure (Ubuntu)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CFC002.201",
       "name": "Custom fan curve performance profile measure (Ubuntu)",
       "module": "Dasharo Performance"
     }
@@ -1014,6 +1030,14 @@
   {
     "doc": {
       "_id": "CFC003.001",
+      "name": "Custom fan curve OFF profile measure (Ubuntu)",
+      "module": "Dasharo Performance",
+      "changed_to": "CFC003.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CFC003.201",
       "name": "Custom fan curve OFF profile measure (Ubuntu)",
       "module": "Dasharo Performance"
     }

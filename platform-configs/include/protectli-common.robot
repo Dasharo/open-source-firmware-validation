@@ -124,10 +124,10 @@ ${FREQUENCY_TEST_MEASURE_INTERVAL}=             60
 ${TEMPERATURE_TEST_DURATION}=                   3600
 # Interval between the following readings in temperature measure tests
 ${TEMPERATURE_TEST_MEASURE_INTERVAL}=           60
-# Custom fan curve tests duration in minutes
-${CUSTOM_FAN_CURVE_TEST_DURATION}=              2
+# Custom fan curve tests duration in seconds
+${CUSTOM_FAN_CURVE_TEST_DURATION}=              1000
 # Delay between tests to allow the cpu to cool down
-${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}=           5
+${CUSTOM_FAN_CURVE_COOLDOWN_SECONDS}=           10
 # Maximum fails during during performing test suite usb-boot.robot
 ${ALLOWED_FAILS_USB_BOOT}=                      0
 # Maximum fails during during performing test suite usb-detect.robot

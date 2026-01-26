@@ -12,10 +12,14 @@ Prepare Sensors
     [Documentation]    Do any preparation work needed for accessing sensors
 
     # Might only do this when any method is said to be lm-sensors.
-    Power On
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux
-    Switch To Root User
+    IF    ${DEFAULT_BOOT_OS_ID}==${ENV_ID_QUBES}
+        Login To OS    ${ENV_ID_QUBES}
+    ELSE
+        Power On
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+    END
     Import Variables    ${CURDIR}/../../platform-configs/${SENSORS_CONFIG_FILE}
     ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
     ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
@@ -28,17 +32,17 @@ Prepare Sensors
     ...    '''${fan_pwm_measurement_method}''' == '''lm-sensors'''
     ...    separator=${SPACE}
     ${lm_sensors_used}=    Evaluate    ${lm_sensors_used}
-
-    FOR    ${module}    IN    @{SENSORS_KERNEL_MODULES}
-        ${module_name}=    Get From Dictionary    ${module}    module
-        ${force_id}=    Get From Dictionary    ${module}    force_id
-        VAR    ${optional_force_id}=    ${EMPTY}
-        IF    '''${force_id}''' != '''none'''
-            VAR    ${optional_force_id}=    force_id=${force_id}
+    IF    $SENSORS_KERNEL_MODULES is not ${NONE}
+        FOR    ${module}    IN    @{SENSORS_KERNEL_MODULES}
+            ${module_name}=    Get From Dictionary    ${module}    module
+            ${force_id}=    Get From Dictionary    ${module}    force_id
+            VAR    ${optional_force_id}=    ${EMPTY}
+            IF    '''${force_id}''' != '''none'''
+                VAR    ${optional_force_id}=    force_id=${force_id}
+            END
+            Execute Command In Terminal    modprobe ${module_name} ${optional_force_id}
         END
-        Execute Command In Terminal    modprobe ${module_name} ${optional_force_id}
     END
-
     IF    ${lm_sensors_used} == ${TRUE}
         Execute Command In Terminal    sudo sensors-detect --auto
     END
@@ -47,9 +51,28 @@ Get CPU Temperature
     [Documentation]    Get current CPU temperature. Might need preparing the
     ...    sensors using `Prepare Sensors` keyword.
     ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
+    ${cpu_temperature_sensor}=    Get From Dictionary
+    ...    ${CPU_TEMPERATURE_MEASUREMENT}
+    ...    lm_sensors_sensor_name
+    ...    ${NONE}
+    VAR    ${LMSENSORS_SENSOR}=    ${EMPTY}    scope=TEST
+    IF    $cpu_temperature_sensor is not ${NONE}
+        VAR    ${LMSENSORS_SENSOR}=    ${cpu_temperature_sensor}    scope=TEST
+    END
+
     IF    '''${cpu_temperature_measurement_method}''' == '''lm-sensors'''
-        ${temperature}=    Execute Command In Terminal
-        ...    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
+        IF    'dasharo_acpi' in $lmsensors_sensor
+            ${temperature}=    Execute Command In Terminal
+            ...    sensors ${LMSENSORS_SENSOR} 2>/dev/null | awk -F '[+°]' '/CPU Package 0:/ {printf $2}'
+        ELSE IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
+            ${temperature}=    Execute Command In Terminal
+            ...    sensors ${LMSENSORS_SENSOR} 2>/dev/null | grep -E 'Sensor'| head -n1 | awk -F'+' '{print $2}' | awk '{print $1}' | tr -cd '0-9.\n'
+        ELSE
+            ${temperature}=    Execute Command In Terminal
+            ...    sensors ${LMSENSORS_SENSOR} 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
+            RETURN    ${temperature}
+        END
+
         RETURN    ${temperature}
     ELSE IF    '${cpu_temperature_measurement_method}' == 'hwmon'
         ${cpu_temperature_measurement_hwmon_path}=    Get From Dictionary
@@ -100,15 +123,27 @@ Get Fan PWM
 Get Fan RPM
     [Documentation]    Get current CPU fan RPM
     ${fan_rpm_measurement_method}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    method
+    ${fan_rpm_sensor}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    lm_sensors_sensor_name    ${NONE}
+    VAR    ${LMSENSORS_SENSOR}=    ${EMPTY}    scope=TEST
+    IF    $fan_rpm_sensor is not ${NONE}
+        VAR    ${LMSENSORS_SENSOR}=    ${fan_rpm_sensor}    scope=TEST
+    END
+
     IF    '''${fan_rpm_measurement_method}''' == '''lm-sensors'''
         ${fan_rpm_measurement_sensor}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    lm_sensors_sensor_name
         IF    '''${fan_rpm_measurement_sensor}''' == '''none'''
             Fail
             ...    FAN_RPM_MEASUREMENT["lm_sensors_sensor_name"] mustn't be "none" if FAN_RPM_MEASUREMENT["method"] is "lm-sensors"
         END
-        ${rpm}=    Execute Linux Command
-        ...    sensors ${fan_rpm_measurement_sensor} 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
-        ${rpm}=    Convert To Integer    ${rpm}
+        VAR    ${rpm}=    -1
+        IF    'dasharo_acpi' in $lmsensors_sensor
+            ${rpm}=    Execute Linux Command
+            ...    sensors ${fan_rpm_measurement_sensor} 2> /dev/null | grep 'CPU 0' | grep 'RPM' | awk '{print \$3}'
+        ELSE
+            ${rpm}=    Execute Linux Command
+            ...    sensors ${fan_rpm_measurement_sensor} 2> /dev/null | grep -E 'fan1' | awk '{print \$2}'
+            ${rpm}=    Convert To Integer    ${rpm}
+        END
         RETURN    ${rpm}
     ELSE IF    '''${fan_rpm_measurement_method}''' == '''system76-acpi'''
         ${speed}=    Execute Command In Terminal    sensors | grep "CPU fan"
