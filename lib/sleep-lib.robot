@@ -85,8 +85,12 @@ Get And Install FWTS
 
 Perform Suspend Test Using FWTS
     [Documentation]    Keyword allows to perform suspend and resume procedure
-    ...    test by using Firmware Test Suite tool
-    [Arguments]    ${test_duration}=25
+    ...    test by using Firmware Test Suite tool.
+    ...    Despite the name, the `s3` test performs either an s3 deep or an
+    ...    s0ix (s2idle) suspend depending on the system default at `/sys/power/mem_sleep`.
+    ...    Type can be forced using `--s3-sleep-type deep` or `--s3-sleep-type s2idle`.
+    ...    https://github.com/fwts/fwts/blob/f299f280f2b1ceb22a6cc558aea9703ac61523c7/src/acpi/s3/s3.c#L216-L220
+    [Arguments]    ${test_duration}=25    ${sleep_type}=${None}
     VAR    ${is_suspend_performed_correctly}=    ${FALSE}
     VAR    ${test_time_out}=    ${${test_duration}-5}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
@@ -112,6 +116,7 @@ Perform Suspend Test Using FWTS
         VAR    ${is_suspend_performed_correctly}=    ${TRUE}
     EXCEPT
         VAR    ${is_suspend_performed_correctly}=    ${FALSE}
+        Log    FWTS suspend failed    WARN
     END
     RETURN    ${is_suspend_performed_correctly}
 
