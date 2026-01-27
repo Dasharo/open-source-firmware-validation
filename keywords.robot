@@ -1511,12 +1511,23 @@ Get Hash Of File
     ${hash}=    Fetch From Left    ${hash}    \r
     RETURN    ${hash}
 
+Get Disks List
+    [Arguments]    ${should_not_be_empty}=${FALSE}
+    ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
+    @{disks}=    Get Regexp Matches    ${out}    sd.
+    RETURN    ${disks}
+
+Wait For Disks
+    Wait Until Keyword Succeeds    5x    5s    Get Disks List    ${TRUE}
+    @{disks}=    Get Disks List
+    RETURN    @{disks}
+
 Identify Path To USB
     [Documentation]    Identifies path to USB storage. Setting ${USB_MODEL}
     ...    variable in .config file is required.
     [Arguments]    ${expected_usb_model}=${USB_MODEL}
-    ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
-    @{disks}=    Get Regexp Matches    ${out}    sd.
+    @{disks}=    Wait For Disks
+    VAR    ${usb_disk}=    ${NONE}
     FOR    ${disk}    IN    @{disks}
         ${model}=    Execute Linux Command    cat /sys/class/block/${disk}/device/model
         ${model_name}=    Fetch From Left    ${model}    \r\n
@@ -1524,18 +1535,19 @@ Identify Path To USB
         VAR    ${usb_disk}=    ${disk}
         IF    '${expected_usb_model}' in '${model_name}'    BREAK
     END
-    ${out}=    Execute Linux Command
-    ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk}
-    IF    'part' in $out
-        ${out}=    Get Regexp Matches    ${out}    part.*$
-        IF    len($out)>0
-            ${out}=    Get From List    ${out}    0
-        ELSE
-            VAR    ${out}=    ${EMPTY}
-        END
+    IF    $usb_disk is ${NONE}
+        Fail    Disk ${expected_usb_model} not found, detected disks: ${disks}
     END
+    ${out}=    Execute Linux Command
+    ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep "${usb_disk}"
+    IF    'part' in $out
+        ${out}=    Get Lines Matching Regexp    ${out}    part.*$    partial_match=${True}
+    ELSE
+        ${out}=    Get Lines Matching Regexp    ${out}    disk.*$    partial_match=${True}
+    END
+
     ${split}=    Split String    ${out}
-    ${path_to_usb}=    Get From List    ${split}    1
+    ${path_to_usb}=    Get From List    ${split}    2
     RETURN    ${path_to_usb}
 
 Get Current CONFIG List Param
