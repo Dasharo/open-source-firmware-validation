@@ -13,6 +13,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../keys-and-keywords/ubuntu-keywords.robot
+Resource            ../lib/custom_bootentries.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -96,6 +97,20 @@ BPS005.001 Boot to OS - Ubuntu
     END
     ${logging}=    Get Logging Level
     Should Be Equal As Integers    ${logging}    0
+
+BPS005.002 Create Custom Bootentry For Default Boot OS
+    [Documentation]    Creates a custom bootentry for the default boot os, which
+    ...    will always stay the first bootentry.
+    Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Log In To Linux
+    Switch To Root User
+
+    ${label}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${DEFAULT_BOOT_OS_ID}
+    ${custom_bootnum}=    Ensure Custom Entry    ${label}    force=${TRUE}
+    ${bootorder}=    Get BootOrder
+    BootOrder Should Start With Bootnum    ${bootorder}    ${custom_bootnum}
 
 BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
