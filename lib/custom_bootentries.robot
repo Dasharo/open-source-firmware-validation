@@ -25,7 +25,7 @@ Get Custom Bootentry Name
 
 Get Bootnum For OS
     [Arguments]    ${os_id}
-    VAR    ${label}=    ${ENV_ID_OS_BOOTMENU_NAMES[${os_id}]}
+    ${label}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${os_id}
     ${boot}=    Get Bootnum For Label    ${label}
     RETURN    ${boot}
 
@@ -48,9 +48,16 @@ Get Bootnums For OS
     RETURN    ${out}
 
 Get Bootnums For Label
-    [Arguments]    ${label}
+    [Arguments]    ${label}    ${exclude_esp_scanning}=${False}
+    IF    ${exclude_esp_scanning}
+        VAR    ${exclude_esp_grep}=    | grep -vi "(on "
+    ELSE
+        VAR    ${exclude_esp_grep}=    ${EMPTY}
+    END
+
     ${nums}=    Execute Command In Terminal
-    ...    efibootmgr | grep -F "${label}" | sed -n 's/^Boot\\([0-9A-Fa-f]\\{4\\}\\).*/\\1/p'
+    ...    efibootmgr | grep -F "${label}" ${exclude_esp_grep} | sed -n 's/^Boot\\([0-9A-Fa-f]\\{4\\}\\).*/\\1/p'
+
     ${nums}=    Strip String    ${nums}
     IF    $nums == ''
         VAR    @{out}=    @{EMPTY}
@@ -65,9 +72,13 @@ BootOrder Should Start With Bootnum
     Should Be Equal    ${entries}[0]    ${bootnum}
 
 Ensure Custom Entry
-    [Arguments]    ${os_label}    ${force}=${FALSE}
-    VAR    ${custom_label}=    ${os_label} OSFV
-    ${bootnums}=    Get Bootnums For Label    ${custom_label}
+    [Arguments]    ${os_id}    ${force}=${FALSE}    ${force_name}=${None}
+    IF    $force_name is $None and $force_name != ''
+        ${custom_label}=    Get Custom Bootentry Name    ${os_id}
+    ELSE
+        VAR    ${custom_label}=    ${force_name}
+    END
+    ${bootnums}=    Get Bootnums For Label    ${custom_label}    ${TRUE}
     ${already_exists}=    Run Keyword And Return Status    Should Not Be Empty    ${bootnums}
     IF    ${already_exists} and not ${force}
         Log    ${custom_label} Already exists at ${bootnums}    level=WARN
@@ -75,7 +86,7 @@ Ensure Custom Entry
     END
 
     # Get original bootentry
-    ${src_num}=    Get Bootnum For Label    ${os_label}
+    ${src_num}=    Get Bootnum For OS    ${os_id}
     ${src_line}=    Execute Command In Terminal    efibootmgr | grep -E "^Boot${src_num}\\*?"
     ${src_line}=    Strip String    ${src_line}
     Should Not Be Empty    ${src_line}
