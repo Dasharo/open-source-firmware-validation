@@ -31,7 +31,7 @@ ENV_ID_OPNSENSE = "503"
 ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_UBUNTU: "Ubuntu",
     ENV_ID_FEDORA: "Fedora",
-    ENV_ID_WINDOWS: "Windows Boot",
+    ENV_ID_WINDOWS: "Windows Boot Manager",
     ENV_ID_TRENCHBOOT: "trenchboot",
     ENV_ID_ESXI: "ESXi",
     ENV_ID_XCP_NG: "XCP-ng",
