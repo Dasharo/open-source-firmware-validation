@@ -21,6 +21,12 @@ DBETA001.201 Dasharo Beta LVFS Upgrade
     [Documentation]    TBD
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
+    Fwupd Get Version Linux
+    Depends On Variable    ${FWUPDMGR_VERSION}
+    Log To Console    ${FWUPDMGR_VERSION}
+    Fwupd Get FW DeviceID Linux
+    Depends On Variable    ${FWUPDMGR_DEVICE_ID}
+    Log To Console    ${FWUPDMGR_DEVICE_ID}
 
 DBETA002.201 Dasharo Beta LVFS Downgrade
     [Documentation]    TBD
@@ -33,9 +39,10 @@ DBETA001.202 Dasharo Beta LVFS Upgrade
     Login To Linux
     Fwupd Get Version Linux
     Depends On Variable    ${FWUPDMGR_VERSION}
-#    Log To Console    ${FWUPDMGR_VERSION}
-    ${get_devices_out}=    Execute Command In Terminal    fwupdmgr get-devices
-    Log To Console    ${get_devices_out}
+    Log To Console    ${FWUPDMGR_VERSION}
+    Fwupd Get FW DeviceID Linux
+    Depends On Variable    ${FWUPDMGR_DEVICE_ID}
+    Log To Console    ${FWUPDMGR_DEVICE_ID}
 
 DBETA002.202 Dasharo Beta LVFS Downgrade
     [Documentation]    TBD
