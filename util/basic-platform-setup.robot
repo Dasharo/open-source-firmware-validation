@@ -28,6 +28,21 @@ Default Tags        automated    minimal-regression
 
 
 *** Test Cases ***
+BPS009.001 Create Custom Bootentry For Default Boot OS
+    [Documentation]    Creates a custom bootentry for the default boot os, which
+    ...    will always stay the first bootentry.
+    ...    Must be performed before any other BPS on platforms without Serial.
+    Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Log In To Linux
+    Switch To Root User
+
+    ${label}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${DEFAULT_BOOT_OS_ID}
+    ${custom_bootnum}=    Ensure Custom Entry    ${label}    force=${TRUE}
+    ${bootorder}=    Get BootOrder
+    BootOrder Should Start With Bootnum    ${bootorder}    ${custom_bootnum}
+
 BPS001.001 Power Control - PSU ON and serial output
     [Documentation]    Verifies if PSU can be turned ON and if the serial output can be read.
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
@@ -97,20 +112,6 @@ BPS005.001 Boot to OS - Ubuntu
     END
     ${logging}=    Get Logging Level
     Should Be Equal As Integers    ${logging}    0
-
-BPS005.002 Create Custom Bootentry For Default Boot OS
-    [Documentation]    Creates a custom bootentry for the default boot os, which
-    ...    will always stay the first bootentry.
-    Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
-    Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Log In To Linux
-    Switch To Root User
-
-    ${label}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${DEFAULT_BOOT_OS_ID}
-    ${custom_bootnum}=    Ensure Custom Entry    ${label}    force=${TRUE}
-    ${bootorder}=    Get BootOrder
-    BootOrder Should Start With Bootnum    ${bootorder}    ${custom_bootnum}
 
 BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
