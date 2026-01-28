@@ -179,7 +179,7 @@ Set Nextboot Bootentry
         END
     END
 
-    IF    '${os_boot_id}' != '${EMPTY}'
+    IF    $os_boot_id != ''
         ${id}=    Get Substring    ${os_boot_id}    4    8
         Execute Command In Terminal    efibootmgr --bootnext ${id}
     ELSE
