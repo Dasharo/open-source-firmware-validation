@@ -21,6 +21,22 @@ Flash Via Internal Programmer
     ${read_only}=    Run Keyword And Return Status
     ...    Should Contain    ${out_flashrom_probe}    read-only
     ${filename}=    Evaluate    os.path.basename(r"${fw_file_path}")
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        # Then the platform configuration depends on the bootorder to stay the same.
+        # We must copy the current bootorder to the target binary in order to prevent
+        # it being overwritten.
+        VAR    ${smm_file}=    /tmp/smmstore.rom
+        VAR    ${bootorder_file}=    /tmp/bootorder.bin
+        VAR    ${replaced_bootorder_file}=    replaced_bootorder_coreboot.rom
+        Execute Command In Terminal    flashrom -p internal -r ${smm_file} --fmap -i FMAP -i SMMSTORE
+        Get File From DUT    ${smm_file}    ${smm_file}
+        ${out}=    Run    smmstoretool ${smm_file} list
+        Should Contain    ${out}    :BootOrder
+        Run    smmstoretool ${smm_file} get -n BootOrder -t raw -g global > ${bootorder_file}
+        Run    cp ${fw_file_path} ${replaced_bootorder_file}
+        Run    smmstoretool ${${replaced_bootorder_file}} set -n BootOrder -t raw -g global ${bootorder_file}
+        VAR    ${fw_file_path}=    ${replaced_bootorder_file}
+    END
     Send File To DUT    ${fw_file_path}    /tmp/${filename}
     # TODO: automatically check and seck locs - reuse keywords from this suite, but it does not exist it seems
     IF    ${read_only}
