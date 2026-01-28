@@ -16,18 +16,18 @@ Resource            ../lib/bios/menus.robot
 Resource            ../lib/options/options-lib_dcu.robot
 
 Suite Setup         Run Keywords
-...                     Prepare Test Suite    AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported    AND
-...                     Display Preparation Instructions    AND
-...                     Get CUP Environment Variables    AND
-...                     Ensure Capsule Files Are Present    AND
-...                     Prepare For Logo Persistence Test    AND
-...                     Prepare For ROMHOLE Persistence Test    AND    # MSI Only
-...                     Upload Required Files    AND
-...                     Get System Values    AND
-...                     Set UEFI Option    MeMode    Disabled (HAP)    AND
-...                     Deploy Uefi Shell    AND
-...                     Set DUT Response Timeout    90s    # a boot can last longer than default 30s
+...                     Prepare Test Suite
+...                     AND    Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
+...                     AND    Display Preparation Instructions
+...                     AND    Get CUP Environment Variables
+...                     AND    Ensure Capsule Files Are Present
+...                     AND    Prepare For Logo Persistence Test
+...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
+...                     AND    Run Keyword If    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'    Upload Required Files
+...                     AND    Get System Values
+...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
+...                     AND    Run Keyword If    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'    Deploy Uefi Shell
+...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 
