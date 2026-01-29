@@ -561,6 +561,30 @@ E2E017.004 Firmware installation should stop in case of ROMHOLE migration from C
     Wait For Checkpoint    ROMHOLE migration from CBFS is not supported yet. Cannot migrate ROMHOLE.
     Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
 
+################################################################################
+# Capsule update tests
+################################################################################
+
+E2E018.001 Failure to pass capsule to /dev/efi_capsule_loader is detected
+    [Documentation]    Test checks that failure to queue capsule update by
+    ...    writing it to /dev/efi_capsule_loader is detected and handled
+    ...    gracefully
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_CAPSULE_UPDATE_FAIL="true"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 1.0.0-rc8"
+    Write Into Terminal    dts-boot
+
+    Set DUT Response Timeout    120s
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_DEPLOY_OPT}
+    Wait For Checkpoint And Write    ${DTS_SPECIFICATION_WARN}    Y
+    Wait For Checkpoint And Write    ${DTS_DEPLOY_WARN}    Y
+    Wait For Checkpoint    Failed to queue capsule update!
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
 
 *** Keywords ***
 # robocop: disable:0919
