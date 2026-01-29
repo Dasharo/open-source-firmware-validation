@@ -33,3 +33,32 @@ Fwupd Get FW DeviceID Linux
     ...    System Firmware:\\r\\n.*Device ID:\\s*(\\w+)\\r\\n
     ...    1
     VAR    ${FWUPDMGR_DEVICE_ID}=    ${device_id[0]}    scope=TEST
+
+Fwupd Attempt FW Update LVFS
+    [Documentation]    TBD
+    [Arguments]    ${dasharo_version}
+
+    Write Into Terminal    fwupdmgr install ${FWUPDMGR_DEVICE_ID} --allow-reinstall --allow-older --assume-yes
+    Sleep    5s
+    ${out}=    Read From Terminal
+    Log To Console    ${out}
+    IF    "Choose release" in """${out}"""
+        ${menu_lines}=    Split To Lines    ${out}    start=1
+        Log To Console    ${menu_lines}
+        VAR    ${menu_item_index}=    0    scope=TEST
+        VAR    @{DASHARO_RELEASES}=    @{EMPTY}    scope=TEST
+        FOR    ${menu_line}    IN    @{menu_lines}
+            Log To Console    ${menu_line}
+            ${release}=    Get Regexp Matches    ${menu_line}    \\d\\.\\t*(\\S*)    1
+            IF    "${release}" != @{EMPTY}
+                Log To Console    ${release}[0]
+                Append To List    ${DASHARO_RELEASES}    ${release}[0]
+            END
+        END
+    END
+    Log To Console    ${DASHARO_RELEASES}
+    ${release_index}=    Get Index From List    ${DASHARO_RELEASES}    'Cancel'
+    Log To Console    ${release_index}
+    #Write Into Terminal    1
+    #Read From Terminal Until    An update requires a reboot to complete, Restart now?
+    #Write Into Terminal    Y

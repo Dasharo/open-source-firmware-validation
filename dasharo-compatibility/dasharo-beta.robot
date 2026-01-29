@@ -16,6 +16,8 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
 
+*** Variables ***
+
 *** Test Cases ***
 DBETA001.201 Dasharo Beta LVFS Upgrade
     [Documentation]    TBD
@@ -43,6 +45,7 @@ DBETA001.202 Dasharo Beta LVFS Upgrade
     Fwupd Get FW DeviceID Linux
     Depends On Variable    ${FWUPDMGR_DEVICE_ID}
     Log To Console    ${FWUPDMGR_DEVICE_ID}
+    Fwupd Attempt FW Update LVFS    1.0.1
 
 DBETA002.202 Dasharo Beta LVFS Downgrade
     [Documentation]    TBD
