@@ -32,6 +32,12 @@ Fwupd Get FW DeviceID Linux
     ...    ${get_devices_out}
     ...    System Firmware:\\r\\n.*Device ID:\\s*(\\w+)\\r\\n
     ...    1
+    IF    len(${device_id}) == 0
+        ${device_id}=    Get Regexp Matches
+        ...    ${get_devices_out}
+        ...    UEFI Device Firmware:\\r\\n.*Device ID:\\s*(\\w+)\\r\\n
+        ...    1
+    END
     VAR    ${FWUPDMGR_DEVICE_ID}=    ${device_id[0]}    scope=TEST
 
 Fwupd Attempt FW Update LVFS
@@ -50,15 +56,18 @@ Fwupd Attempt FW Update LVFS
         FOR    ${menu_line}    IN    @{menu_lines}
             Log To Console    ${menu_line}
             ${release}=    Get Regexp Matches    ${menu_line}    \\d\\.\\t*(\\S*)    1
-            IF    "${release}" != @{EMPTY}
+            Log To Console    ${release}
+            IF    len(${release}) == 1
                 Log To Console    ${release}[0]
                 Append To List    ${DASHARO_RELEASES}    ${release}[0]
             END
         END
+        Log To Console    ${DASHARO_RELEASES}
+        ${release_index}=    Get Index From List    ${DASHARO_RELEASES}    ${dasharo_version}
+        Log To Console    ${release_index}
+        #Write Into Terminal    1
+        #Read From Terminal Until    An update requires a reboot to complete, Restart now?
+        #Write Into Terminal    Y
+    ELSE IF    "Downloading" in """${out}"""
+        Log To Console    "D3wonloading."
     END
-    Log To Console    ${DASHARO_RELEASES}
-    ${release_index}=    Get Index From List    ${DASHARO_RELEASES}    'Cancel'
-    Log To Console    ${release_index}
-    #Write Into Terminal    1
-    #Read From Terminal Until    An update requires a reboot to complete, Restart now?
-    #Write Into Terminal    Y
