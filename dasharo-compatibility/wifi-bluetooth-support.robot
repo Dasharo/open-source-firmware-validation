@@ -155,16 +155,16 @@ WLE002.203 Wi-Fi scanning (Qubes OS)
     ...    initialized correctly and can be used from within the
     ...    operating system..
     [Tags]    automated    minimal-regression
-    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.202 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE002.202 not supported
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE002.203 not supported
     Wi-Fi Scanning QB    ${ENV_ID_QUBES}
 
 WLE003.203 Bluetooth scanning (Qubes OS)
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.
-    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.202 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE003.202 not supported
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE003.203 not supported
     Bluetooth Scanning QB    ${ENV_ID_QUBES}
 
 
@@ -225,7 +225,7 @@ Wi-Fi Scanning QB
 
     # with interfaces DOWN, dhclient takes around 37s
     Execute Command In Terminal    dhclient    60s
-    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}"
+    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}'
     Exit From Root User
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
