@@ -110,5 +110,5 @@ Set Attempt Slot B Flag
 
 RTC BUC Control Bit Should Be
     [Arguments]    ${slot}
-    ${out}=    Execute Command In Terminal    cbmem -c | grep "Top Swap: RTC BUC control bit"
+    ${out}=    Execute Command In Terminal    cbmem -1 | grep "Top Swap: RTC BUC control bit"
     Should Contain    ${out}    Top Swap: RTC BUC control bit: ${slot}
