@@ -818,6 +818,10 @@ Execute Shutdown Command
     [Documentation]    OS shutdown keyword, checks power LED state where available.
     ...    Depends on existing SSH connection to DUT, restores initial connection method
     ...    after power loss.
+    IF    '${POWER_CTRL}' == 'none'
+        # Shutdown with no way of powering back up effectively kills the device until manual intervention
+        RETURN
+    END
     IF    '${BOOTED_OS_ID}'.startswith("2")
         Execute Command In Terminal    shutdown 0
     ELSE IF    '${BOOTED_OS_ID}' == '${ENV_ID_WINDOWS}'
