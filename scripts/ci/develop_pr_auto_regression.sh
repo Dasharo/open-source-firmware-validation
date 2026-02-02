@@ -5,11 +5,29 @@
 # SPDX-License-Identifier: Apache-2.0
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "$SCRIPT_DIR/regression-scope/lib/snipeit_checkout.sh"
+# shellcheck disable=SC2317
+cleanup() {
+    snipeit_cleanup
+    for id in "${pids[@]}"; do
+        echo "killing $id"
+        kill -9 $id
+    done
+}
+trap cleanup EXIT INT TERM HUP
 
 echo "Comparing $(git rev-parse HEAD) with develop branch. Changed files:"
 git diff --name-only origin/develop
 
-mapfile -t commands < <(${SCRIPT_DIR}/regression-scope/osfv_regression_scope.py commands --compare_to origin/develop)
+if [[ -n $MANUAL_TESTS_LIST ]]; then
+    TESTS_LIST="--override_tests_list $MANUAL_TESTS_LIST"
+    echo $TESTS_LIST
+else
+    TESTS_LIST=""
+fi
+
+
+mapfile -t commands < <("${SCRIPT_DIR}"/regression-scope/osfv_regression_scope.py commands --compare_to origin/develop $TESTS_LIST)
 echo "Commands to run:"
 echo "${commands[@]}"
 printf "\n"
@@ -45,12 +63,19 @@ for command in "${commands[@]}"; do
         export_string=$(IFS='; '; echo "${exports[*]}")
         echo Run $i setting environment variables: \"${export_string}\"
         eval ${export_string}
+
+        if [[ -z $ASSET_ID ]]; then
+            echo "ASSET_ID is undefined, fail to checkout the device"
+        fi
+        trap snipeit_cleanup EXIT INT TERM HUP
+        snipeit_checkout "$ASSET_ID" || exit 2
+
         echo Run $i running basic-platform-setup
         eval ./scripts/run.sh util/basic-platform-setup.robot > "$LOGS_DIR/run_${i}.log" 2>&1
         echo Run $i executing: \"${actual_command}\"
         eval ${actual_command} >> "$LOGS_DIR/run_${i}.log" 2>&1
     ) &
-    pids[${i}]=$!
+    pids[i]=$!
     (( i++ ))
 done
 
@@ -58,7 +83,7 @@ sleep 1
 
 for idx in "${!pids[@]}"; do
     echo "Waiting for run $idx to finish..."
-    if wait ${pids[$idx]}; then
+    if wait "${pids[$idx]}"; then
         statuses[idx]=0
         echo "run $idx is done."
     else
