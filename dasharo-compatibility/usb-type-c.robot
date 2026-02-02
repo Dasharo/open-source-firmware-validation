@@ -78,7 +78,6 @@ UTC033.203 USB Type-C PD current limiting (QubesOS) (ME: Enabled)
     Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
     Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
     Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
-
     Log To Console    USB-C PD current limiting test completed
 
 UTC002.001 USB Type-A charging capability (Firmware) (ME: Disabled)
@@ -138,7 +137,6 @@ UTC034.203 USB Type-C PD current limiting (QubesOS) (ME: Disabled)
     Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
     Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
     Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
-
     Log To Console    USB-C PD current limiting test completed
 
 UTC115.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
@@ -861,37 +859,29 @@ UTC105.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E
     ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled . Save & reboot DUT. (You may skip this step if on Heads)
     Execute Manual Step    [2/10] Boot into **dom0**. Ensure AC adapter is **unplugged**.
     ...    Verify battery is discharging normally.
-
     Execute Manual Step    [3/10] Connect the docking station to AC power only
     ...    (dock should NOT be connected to the laptop yet).
-
     Execute Manual Step    [4/10] Plug the dock into the DUT’s USB-C port.
     ...    Confirm that the dock powers on (LEDs, peripherals).
-
     Execute Manual Step    [5/10] On the DUT, run in dom0 terminal:
     ...    `watch -n1 cat /sys/class/power_supply/BAT0/status`
     ...    and verify it transitions from **Discharging → Charging**.
-
     Execute Manual Step    [6/10] Check the negotiated PD contract (dom0):
     ...    - If available: `sudo journalctl -u power-profiles-daemon`
     ...    - Or check sysfs (some platforms):
     ...    `cat /sys/class/power_supply/usb-pd0/online`
     ...    `cat /sys/class/power_supply/usb-pd0/power_now`
     ...    Confirm that power > 0 and PD role = sink.
-
     Execute Manual Step    [7/10] Observe charging LED on the laptop.
     ...    Expected: Charging LED is ON or blinking per vendor spec.
-
     Execute Manual Step    [8/10] With dock connected, attach an additional USB-C high-load device
     ...    (e.g., SSD or phone fast-charging).
     ...    Verify that DUT **keeps charging** and PD contract stays stable.
-
     Execute Manual Step    [9/10] Disconnect the dock from AC while still connected to the DUT.
     ...    Expected:
     ...    - Charging stops, transitions to Discharging
     ...    - The dock powers down
     ...    - No system reboot/freeze occurs
-
     Execute Manual Step    [10/10] Reconnect AC to the dock.
     ...    Verify the DUT resumes charging automatically
     ...    without reconnecting the USB-C cable.
