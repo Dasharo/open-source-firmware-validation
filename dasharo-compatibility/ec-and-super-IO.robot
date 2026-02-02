@@ -523,7 +523,7 @@ ECR005.203 Keyboard (function key: play/pause) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys.
     Execute Manual Step
-    ...    [4/4] Press play/pause combination on DUT's keyboard (Fn+`) and observe actions listed by libuinput.
+    ...    [4/4] Press play/pause combination on DUT's keyboard (Fn+`) and observe actions listed by libinput.
 
 ECR006.203 Keyboard (function key: cooling mode) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -533,7 +533,7 @@ ECR006.203 Keyboard (function key: cooling mode) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+1) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+1) and observe actions listed by libinput
 
 ECR007.203 Keyboard (function key: touchpad on/off) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -543,7 +543,7 @@ ECR007.203 Keyboard (function key: touchpad on/off) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F1) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F1) and observe actions listed by libinput
 
 ECR009.203 Keyboard (function key: mute) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -553,7 +553,7 @@ ECR009.203 Keyboard (function key: mute) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+4) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+4) and observe actions listed by libinput
 
 ECR010.203 Keyboard (function key: keyboard backlight) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -563,7 +563,7 @@ ECR010.203 Keyboard (function key: keyboard backlight) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F4) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F4) and observe actions listed by libinput
 
 ECR011.203 Keyboard (function key: volume down) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -573,7 +573,7 @@ ECR011.203 Keyboard (function key: volume down) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F5) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F5) and observe actions listed by libinput
 
 ECR012.203 Keyboard (function key: volume up) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -583,7 +583,7 @@ ECR012.203 Keyboard (function key: volume up) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F6) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F6) and observe actions listed by libinput
 
 ECR013.203 Keyboard (function key: display switch) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -593,7 +593,7 @@ ECR013.203 Keyboard (function key: display switch) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F7) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F7) and observe actions listed by libinput
 
 ECR014.203 Keyboard (function key: brightness down) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -603,7 +603,7 @@ ECR014.203 Keyboard (function key: brightness down) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F8) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F8) and observe actions listed by libinput
 
 ECR015.203 Keyboard (function key: brightness up) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -613,7 +613,7 @@ ECR015.203 Keyboard (function key: brightness up) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F9) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F9) and observe actions listed by libinput
 
 ECR016.203 Keyboard (function key: camera on/off) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -623,7 +623,7 @@ ECR016.203 Keyboard (function key: camera on/off) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F10) and observe actions listed by libuinput
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F10) and observe actions listed by libinput
 
 ECR017.203 Keyboard (function key: flight mode on/off) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -633,7 +633,7 @@ ECR017.203 Keyboard (function key: flight mode on/off) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys.
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F11) and observe actions listed by libuinput.
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F11) and observe actions listed by libinput.
 
 ECR018.203 Keyboard (function key: sleep) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -643,7 +643,7 @@ ECR018.203 Keyboard (function key: sleep) in OS (Qubes OS)
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal .
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys.
     Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F12) and observe actions listed by libuinput.
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F12) and observe actions listed by libinput.
 
 ECR019.203 Buttons (button: power) in OS (Qubes OS)
     [Documentation]    Check whether power button works.

@@ -217,7 +217,7 @@ AUD007.202 HDMI Audio recognition
 
 AUD001.301 Audio subsystem detection
     [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Windows 11. To do so, we attemptt detection
+    ...    and can be detected in Windows 11. To do so, we attempt detection
     ...    of the Audio Service, and verify it is in Running state.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
@@ -318,7 +318,7 @@ AUD007.301 HDMI Audio recognition
 
 AUD001.203 Audio subsystem detection (QubesOS)
     [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in QubesOS. To do so, we attemptt detection
+    ...    and can be detected in QubesOS. To do so, we attempt detection
     ...    of the Audio Service, and verify it is in Running state.
     ...    Previous IDs: AUD001.003
     Login To OS    ${ENV_ID_QUBES}
