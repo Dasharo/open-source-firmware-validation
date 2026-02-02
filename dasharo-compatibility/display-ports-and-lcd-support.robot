@@ -176,7 +176,7 @@ DSP003.205 - External DP display in OS (XCP-NG)
 
 DSP001.203 - Internal display in OS (Qubes OS)
     [Documentation]    Check whether an internal display is visible in
-    ...    XCP-NG OS. An internal display must be provided in
+    ...    Qubes OS. An internal display must be provided in
     ...    the platform config.
     ...    Previous IDs: DSP002.010
     [Tags]    semiauto
