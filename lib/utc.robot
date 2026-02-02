@@ -58,14 +58,42 @@ Ensure ME State
 
 Usb Type-C Pd Power Input
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
-    Ensure ME State    ${me_state}
-    Power On
+    IF    ${env_id} != ${ENV_ID_QUBES}
+        Ensure ME State    ${me_state}
+        Power On
+    END
     IF    '${env_id}'.startswith('2')    # Linux
-        Boot System Or From Connected Disk    ${env_id}
-        Login To Linux
-        Switch To Root User
-        Check Charging State In Linux
-        Exit From Root User
+        IF    ${env_id} == ${ENV_ID_QUBES}
+            Pause Execution In Console    Qubes detected — switching to manual PD power input test
+            Execute Manual Step
+            ...    [1/10] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
+            Execute Manual Step
+            ...    [2/10] Boot into dom0. Ensure AC adapter is unplugged.
+            ...    Verify battery is discharging normally.
+            Execute Manual Step
+            ...    [3/10] Connect the docking station to AC power only.
+            Execute Manual Step
+            ...    [4/10] Plug the dock into the DUT’s USB-C port.
+            Execute Manual Step
+            ...    [5/10] Run in dom0:
+            ...    watch -n1 cat /sys/class/power_supply/BAT0/status
+            Execute Manual Step
+            ...    [6/10] Verify PD contract and power draw.
+            Execute Manual Step
+            ...    [7/10] Observe charging LED.
+            Execute Manual Step
+            ...    [8/10] Attach high-load USB-C device.
+            Execute Manual Step
+            ...    [9/10] Disconnect dock AC.
+            Execute Manual Step
+            ...    [10/10] Reconnect dock AC.
+        ELSE
+            Boot System Or From Connected Disk    ${env_id}
+            Login To Linux
+            Switch To Root User
+            Check Charging State In Linux
+            Exit From Root User
+        END
     ELSE IF    '${env_id}'.startswith('3')    # Windows
         Login To Windows
         Check Charging State In Windows
@@ -269,9 +297,37 @@ Usb Type-C Docking Station Sd Card Read/Write
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
     END
-# Not automated
-# Usb Type-C Pd Current Limiting
-#    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+
+Usb Type-C Pd Current Limiting
+    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+    IF    ${env_id} != ${ENV_ID_QUBES}
+        Ensure ME State    ${me_state}
+        Power On
+    END
+    IF    '${env_id}'.startswith('2')    # Linux
+        IF    ${env_id} == ${ENV_ID_QUBES}
+            Execute Manual Step    [1/8] Enter BIOS/UEFI and set Intel ME to Disabled . Save & reboot DUT.
+            Execute Manual Step    [2/8] Prepare USB-C PD meter.
+            Execute Manual Step    [3/8] Ensure no other USB devices are connected.
+            Execute Manual Step    [4/8] Connect charger/dock to PD meter. Verify PD profile is negotiated correctly.
+            Execute Manual Step    [5/8] Connect PD meter to DUT. Observe initial power draw.
+            Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
+            Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
+            Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
+            Log To Console    USB-C PD current limiting test completed
+        ELSE
+            Boot System Or From Connected Disk    ${env_id}
+            Login To Linux
+            Switch To Root User
+            Check Charging State In Linux
+            Exit From Root User
+        END
+    ELSE IF    '${env_id}'.startswith('3')    # Windows
+        Login To Windows
+        Check Charging State In Windows
+    ELSE
+        Fail    Not implemented on ENV_ID ${env_id}
+    END
 
 Docking Station Detection After Coldboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}

@@ -25,14 +25,16 @@ UTC001.001 USB Type-A charging capability (Firmware) (ME: Enabled)
     ...    charging to a connected smartphone.
     [Tags]    semiauto
     Skip
-    ...    UTC001.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC001.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC003.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Enabled)
     [Documentation]    This test verifies that the Thunderbolt 4 port is able
     ...    to provide charging to a USB Type-C accessory.
     [Tags]    semiauto
     Skip
-    ...    UTC003.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC003.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC033.201 USB Type-C PD current limiting (Ubuntu) (ME: Enabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -42,7 +44,8 @@ UTC033.201 USB Type-C PD current limiting (Ubuntu) (ME: Enabled)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC033.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC033.201 not supported
     Skip
-    ...    UTC033.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC033.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC033.202 USB Type-C PD current limiting (Fedora) (ME: Enabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -51,7 +54,8 @@ UTC033.202 USB Type-C PD current limiting (Fedora) (ME: Enabled)
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC033.202 not supported
     Skip
-    ...    UTC033.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC033.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC033.301 USB Type-C PD current limiting (Windows) (ME: Enabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -60,7 +64,8 @@ UTC033.301 USB Type-C PD current limiting (Windows) (ME: Enabled)
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC033.301 not supported
     Skip
-    ...    UTC033.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC033.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC033.203 USB Type-C PD current limiting (QubesOS) (ME: Enabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -68,31 +73,25 @@ UTC033.203 USB Type-C PD current limiting (QubesOS) (ME: Enabled)
     ...    specifications.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC033.203 not supported
-    Pause Execution
-    Execute Manual Step
-    ...    [1/8] Enter BIOS/UEFI and set Intel ME to Enabled . Save & reboot DUT. (You may skip this step if on Heads)
-    Execute Manual Step    [2/8] Prepare USB-C PD meter.
-    Execute Manual Step    [3/8] Ensure no other USB devices are connected.
-    Execute Manual Step    [4/8] Connect charger/dock to PD meter. Verify PD profile is negotiated correctly.
-    Execute Manual Step    [5/8] Connect PD meter to DUT. Observe initial power draw.
-    Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
-    Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
-    Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
-    Log To Console    USB-C PD current limiting test completed
+    Skip
+    ...    UTC033.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC002.001 USB Type-A charging capability (Firmware) (ME: Disabled)
     [Documentation]    This test verifies that the USB-A ports are able to provide
     ...    charging to a connected smartphone.
     [Tags]    semiauto
     Skip
-    ...    UTC002.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC002.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC004.001 Thunderbolt 4 USB Type-C power output (Firmware) (ME: Disabled)
     [Documentation]    This test verifies that the Thunderbolt 4 port is able
     ...    to provide charging to a USB Type-C accessory.
     [Tags]    semiauto
     Skip
-    ...    UTC004.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC004.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC034.201 USB Type-C PD current limiting (Ubuntu) (ME: Disabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -102,7 +101,8 @@ UTC034.201 USB Type-C PD current limiting (Ubuntu) (ME: Disabled)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC034.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC034.201 not supported
     Skip
-    ...    UTC034.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC034.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC034.202 USB Type-C PD current limiting (Fedora) (ME: Disabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -111,7 +111,8 @@ UTC034.202 USB Type-C PD current limiting (Fedora) (ME: Disabled)
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC034.202 not supported
     Skip
-    ...    UTC034.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC034.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC034.301 USB Type-C PD current limiting (Windows) (ME: Disabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -120,7 +121,8 @@ UTC034.301 USB Type-C PD current limiting (Windows) (ME: Disabled)
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC034.301 not supported
     Skip
-    ...    UTC034.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC034.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC034.203 USB Type-C PD current limiting (QubesOS) (ME: Disabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
@@ -128,16 +130,9 @@ UTC034.203 USB Type-C PD current limiting (QubesOS) (ME: Disabled)
     ...    specifications.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC034.203 not supported
-    Pause Execution
-    Execute Manual Step    [1/8] Enter BIOS/UEFI and set Intel ME to Disabled . Save & reboot DUT.
-    Execute Manual Step    [2/8] Prepare USB-C PD meter.
-    Execute Manual Step    [3/8] Ensure no other USB devices are connected.
-    Execute Manual Step    [4/8] Connect charger/dock to PD meter. Verify PD profile is negotiated correctly.
-    Execute Manual Step    [5/8] Connect PD meter to DUT. Observe initial power draw.
-    Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
-    Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
-    Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
-    Log To Console    USB-C PD current limiting test completed
+    Skip
+    ...    UTC034.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC115.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -145,7 +140,8 @@ UTC115.001 USB Type-C docking station USB devices recognition (Firmware) (ME: En
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC115.001 not supported
     Skip
-    ...    UTC115.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC115.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC117.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -153,7 +149,8 @@ UTC117.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC117.001 not supported
     Skip
-    ...    UTC117.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC117.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC105.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
@@ -164,7 +161,8 @@ UTC105.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC105.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC105.201 not supported
     Skip
-    ...    UTC105.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC105.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC107.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -199,7 +197,8 @@ UTC113.201 USB Type-C docking station Triple display (Ubuntu) (ME: Enabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC113.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC113.201 not supported
     Skip
-    ...    UTC113.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC113.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC115.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -225,7 +224,8 @@ UTC119.201 USB Type-C docking station upload 1GB file on USB storage (Ubuntu) (M
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC119.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC119.201 not supported
     Skip
-    ...    UTC119.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC119.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC121.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -254,7 +254,8 @@ UTC125.201 USB Type-C docking station audio playback (Ubuntu) (ME: Enabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC125.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC125.201 not supported
     Skip
-    ...    UTC125.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC125.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC127.201 USB Type-C docking station audio capture (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -265,7 +266,8 @@ UTC127.201 USB Type-C docking station audio capture (Ubuntu) (ME: Enabled) (WL-U
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC127.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC127.201 not supported
     Skip
-    ...    UTC127.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC127.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC129.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -404,7 +406,8 @@ UTC105.202 USB Type-C PD power input (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC105.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC105.202 not supported
     Skip
-    ...    UTC105.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC105.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC107.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -435,7 +438,8 @@ UTC113.202 USB Type-C docking station Triple display (Fedora) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC113.202 not supported
     Skip
-    ...    UTC113.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC113.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC115.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -458,7 +462,8 @@ UTC119.202 USB Type-C docking station upload 1GB file on USB storage (Fedora) (M
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC119.202 not supported
     Skip
-    ...    UTC119.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC119.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC121.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -484,7 +489,8 @@ UTC125.202 USB Type-C docking station audio playback (Fedora) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC125.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC125.202 not supported
     Skip
-    ...    UTC125.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC125.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC127.202 USB Type-C docking station audio capture (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -494,7 +500,8 @@ UTC127.202 USB Type-C docking station audio capture (Fedora) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC127.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC127.202 not supported
     Skip
-    ...    UTC127.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC127.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC129.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -619,7 +626,8 @@ UTC105.301 USB Type-C PD power input (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC105.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC105.301 not supported
     Skip
-    ...    UTC105.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC105.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC107.301 USB Type-C Display output (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -627,7 +635,8 @@ UTC107.301 USB Type-C Display output (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC107.301 not supported
     Skip
-    ...    UTC107.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC107.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC109.301 USB Type-C docking station HDMI display (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -652,7 +661,8 @@ UTC113.301 USB Type-C docking station Triple display (Windows) (ME: Enabled) (WL
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC113.301 not supported
     Skip
-    ...    UTC113.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC113.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC115.301 USB Type-C docking station USB devices recognition (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -675,7 +685,8 @@ UTC119.301 USB Type-C docking station upload 1GB file on USB storage (Windows) (
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC119.301 not supported
     Skip
-    ...    UTC119.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC119.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC121.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -693,7 +704,8 @@ UTC123.301 USB Type-C docking station audio recognition (Windows) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC123.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC123.301 not supported
     Skip
-    ...    UTC123.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC123.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC125.301 USB Type-C docking station audio playback (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -703,7 +715,8 @@ UTC125.301 USB Type-C docking station audio playback (Windows) (ME: Enabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC125.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC125.301 not supported
     Skip
-    ...    UTC125.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC125.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC127.301 USB Type-C docking station audio capture (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -713,7 +726,8 @@ UTC127.301 USB Type-C docking station audio capture (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC127.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC127.301 not supported
     Skip
-    ...    UTC127.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC127.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC129.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -737,7 +751,8 @@ UTC135.301 Docking station detection after coldboot (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC135.301 not supported
     Skip
-    ...    UTC135.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC135.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC137.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -747,7 +762,8 @@ UTC137.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC137.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC137.301 not supported
     Skip
-    ...    UTC137.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC137.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC139.301 Docking station detection after reboot (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -756,7 +772,8 @@ UTC139.301 Docking station detection after reboot (Windows) (ME: Enabled) (WL-UM
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC139.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC139.301 not supported
     Skip
-    ...    UTC139.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC139.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC141.301 Docking station detection after suspend (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -766,7 +783,8 @@ UTC141.301 Docking station detection after suspend (Windows) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC141.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC141.301 not supported
     Skip
-    ...    UTC141.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC141.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC143.301 Docking station detection after suspend (S0ix) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -776,7 +794,8 @@ UTC143.301 Docking station detection after suspend (S0ix) (Windows) (ME: Enabled
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC143.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC143.301 not supported
     Skip
-    ...    UTC143.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC143.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC145.301 Docking station detection after suspend (S3) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -786,7 +805,8 @@ UTC145.301 Docking station detection after suspend (S3) (Windows) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC145.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC145.301 not supported
     Skip
-    ...    UTC145.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC145.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC147.301 Docking station detection after coldboot then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -796,7 +816,8 @@ UTC147.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC147.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC147.301 not supported
     Skip
-    ...    UTC147.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC147.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC149.301 Docking station detection after warmboot then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -806,7 +827,8 @@ UTC149.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC149.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC149.301 not supported
     Skip
-    ...    UTC149.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC149.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC151.301 Docking station detection after reboot then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -815,7 +837,8 @@ UTC151.301 Docking station detection after reboot then hotplug (Windows) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC151.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC151.301 not supported
     Skip
-    ...    UTC151.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC151.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC153.301 Docking station detection after suspend then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -825,7 +848,8 @@ UTC153.301 Docking station detection after suspend then hotplug (Windows) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC153.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC153.301 not supported
     Skip
-    ...    UTC153.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC153.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC155.301 Docking station detection after suspend then hotplug (S0ix) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -835,7 +859,8 @@ UTC155.301 Docking station detection after suspend then hotplug (S0ix) (Windows)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC155.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC155.301 not supported
     Skip
-    ...    UTC155.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC155.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC157.301 Docking station detection after suspend then hotplug (S3) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -845,7 +870,8 @@ UTC157.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC157.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC157.301 not supported
     Skip
-    ...    UTC157.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC157.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC105.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
@@ -854,37 +880,9 @@ UTC105.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC105.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC105.203 not supported
-    Pause Execution
-    Execute Manual Step
-    ...    [1/10] Enter BIOS/UEFI and set Intel ME to Enabled . Save & reboot DUT. (You may skip this step if on Heads)
-    Execute Manual Step    [2/10] Boot into **dom0**. Ensure AC adapter is **unplugged**.
-    ...    Verify battery is discharging normally.
-    Execute Manual Step    [3/10] Connect the docking station to AC power only
-    ...    (dock should NOT be connected to the laptop yet).
-    Execute Manual Step    [4/10] Plug the dock into the DUT’s USB-C port.
-    ...    Confirm that the dock powers on (LEDs, peripherals).
-    Execute Manual Step    [5/10] On the DUT, run in dom0 terminal:
-    ...    `watch -n1 cat /sys/class/power_supply/BAT0/status`
-    ...    and verify it transitions from **Discharging → Charging**.
-    Execute Manual Step    [6/10] Check the negotiated PD contract (dom0):
-    ...    - If available: `sudo journalctl -u power-profiles-daemon`
-    ...    - Or check sysfs (some platforms):
-    ...    `cat /sys/class/power_supply/usb-pd0/online`
-    ...    `cat /sys/class/power_supply/usb-pd0/power_now`
-    ...    Confirm that power > 0 and PD role = sink.
-    Execute Manual Step    [7/10] Observe charging LED on the laptop.
-    ...    Expected: Charging LED is ON or blinking per vendor spec.
-    Execute Manual Step    [8/10] With dock connected, attach an additional USB-C high-load device
-    ...    (e.g., SSD or phone fast-charging).
-    ...    Verify that DUT **keeps charging** and PD contract stays stable.
-    Execute Manual Step    [9/10] Disconnect the dock from AC while still connected to the DUT.
-    ...    Expected:
-    ...    - Charging stops, transitions to Discharging
-    ...    - The dock powers down
-    ...    - No system reboot/freeze occurs
-    Execute Manual Step    [10/10] Reconnect AC to the dock.
-    ...    Verify the DUT resumes charging automatically
-    ...    without reconnecting the USB-C cable.
+    Skip
+    ...    UTC105.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC107.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -892,7 +890,8 @@ UTC107.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC107.203 not supported
     Skip
-    ...    UTC107.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC107.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC109.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -902,7 +901,8 @@ UTC109.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_HDMI}    UTC109.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC109.203 not supported
     Skip
-    ...    UTC109.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC109.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC111.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -912,7 +912,8 @@ UTC111.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC111.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC111.203 not supported
     Skip
-    ...    UTC111.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC111.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC113.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the three display
@@ -921,7 +922,8 @@ UTC113.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC113.203 not supported
     Skip
-    ...    UTC113.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC113.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC115.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -930,7 +932,8 @@ UTC115.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Ena
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC115.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC115.203 not supported
     Skip
-    ...    UTC115.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC115.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC117.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -939,7 +942,8 @@ UTC117.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC117.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC117.203 not supported
     Skip
-    ...    UTC117.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC117.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC119.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the 1GB file can be
@@ -948,7 +952,8 @@ UTC119.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC119.203 not supported
     Skip
-    ...    UTC119.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC119.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC121.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -958,7 +963,8 @@ UTC121.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC121.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC121.203 not supported
     Skip
-    ...    UTC121.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC121.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC123.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the external headset is
@@ -968,7 +974,8 @@ UTC123.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC123.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC123.203 not supported
     Skip
-    ...    UTC123.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC123.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC125.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -978,7 +985,8 @@ UTC125.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC125.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC125.203 not supported
     Skip
-    ...    UTC125.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC125.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC127.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -988,7 +996,8 @@ UTC127.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC127.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC127.203 not supported
     Skip
-    ...    UTC127.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC127.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC129.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -997,7 +1006,8 @@ UTC129.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: En
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC129.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC129.203 not supported
     Skip
-    ...    UTC129.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC129.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC131.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
@@ -1006,7 +1016,8 @@ UTC131.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled)
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC131.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC131.203 not supported
     Skip
-    ...    UTC131.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC131.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC135.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1016,7 +1027,8 @@ UTC135.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC135.203 not supported
     Skip
-    ...    UTC135.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC135.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC137.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1026,7 +1038,8 @@ UTC137.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC137.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC137.203 not supported
     Skip
-    ...    UTC137.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC137.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC139.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1035,7 +1048,8 @@ UTC139.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UM
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC139.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC139.203 not supported
     Skip
-    ...    UTC139.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC139.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC141.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1045,7 +1059,8 @@ UTC141.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC141.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC141.203 not supported
     Skip
-    ...    UTC141.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC141.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC143.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1055,7 +1070,8 @@ UTC143.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC143.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC143.203 not supported
     Skip
-    ...    UTC143.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC143.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC145.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1065,7 +1081,8 @@ UTC145.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC145.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC145.203 not supported
     Skip
-    ...    UTC145.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC145.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC147.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1075,7 +1092,8 @@ UTC147.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC147.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC147.203 not supported
     Skip
-    ...    UTC147.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC147.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC149.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1085,7 +1103,8 @@ UTC149.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC149.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC149.203 not supported
     Skip
-    ...    UTC149.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC149.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC151.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1094,7 +1113,8 @@ UTC151.203 Docking station detection after reboot then hotplug (QubesOS) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC151.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC151.203 not supported
     Skip
-    ...    UTC151.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC151.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC153.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1104,7 +1124,8 @@ UTC153.203 Docking station detection after suspend then hotplug (QubesOS) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC153.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC153.203 not supported
     Skip
-    ...    UTC153.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC153.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC155.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1114,7 +1135,8 @@ UTC155.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC155.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC155.203 not supported
     Skip
-    ...    UTC155.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC155.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC157.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1124,7 +1146,8 @@ UTC157.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC157.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC157.203 not supported
     Skip
-    ...    UTC157.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC157.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC116.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -1132,7 +1155,8 @@ UTC116.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Di
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC116.001 not supported
     Skip
-    ...    UTC116.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC116.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC118.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -1140,7 +1164,8 @@ UTC118.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC118.001 not supported
     Skip
-    ...    UTC118.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC118.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC106.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
@@ -1151,7 +1176,8 @@ UTC106.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC106.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC106.201 not supported
     Skip
-    ...    UTC106.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC106.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC108.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -1186,7 +1212,8 @@ UTC114.201 USB Type-C docking station Triple display (Ubuntu) (ME: Disabled) (WL
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC114.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC114.201 not supported
     Skip
-    ...    UTC114.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC114.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC116.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -1212,7 +1239,8 @@ UTC120.201 USB Type-C docking station upload 1GB file on USB storage (Ubuntu) (M
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC120.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC120.201 not supported
     Skip
-    ...    UTC120.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC120.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC122.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -1241,7 +1269,8 @@ UTC126.201 USB Type-C docking station audio playback (Ubuntu) (ME: Disabled) (WL
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC126.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC126.201 not supported
     Skip
-    ...    UTC126.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC126.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC128.201 USB Type-C docking station audio capture (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -1252,7 +1281,8 @@ UTC128.201 USB Type-C docking station audio capture (Ubuntu) (ME: Disabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC128.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC128.201 not supported
     Skip
-    ...    UTC128.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC128.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC130.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -1391,7 +1421,8 @@ UTC106.202 USB Type-C PD power input (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC106.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC106.202 not supported
     Skip
-    ...    UTC106.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC106.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC108.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -1422,7 +1453,8 @@ UTC114.202 USB Type-C docking station Triple display (Fedora) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC114.202 not supported
     Skip
-    ...    UTC114.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC114.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC116.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -1445,7 +1477,8 @@ UTC120.202 USB Type-C docking station upload 1GB file on USB storage (Fedora) (M
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC120.202 not supported
     Skip
-    ...    UTC120.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC120.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC122.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -1471,7 +1504,8 @@ UTC126.202 USB Type-C docking station audio playback (Fedora) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC126.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC126.202 not supported
     Skip
-    ...    UTC126.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC126.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC128.202 USB Type-C docking station audio capture (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -1481,7 +1515,8 @@ UTC128.202 USB Type-C docking station audio capture (Fedora) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC128.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC128.202 not supported
     Skip
-    ...    UTC128.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC128.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC130.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -1606,7 +1641,8 @@ UTC106.301 USB Type-C PD power input (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC106.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC106.301 not supported
     Skip
-    ...    UTC106.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC106.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC108.301 USB Type-C Display output (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -1614,7 +1650,8 @@ UTC108.301 USB Type-C Display output (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC108.301 not supported
     Skip
-    ...    UTC108.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC108.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC110.301 USB Type-C docking station HDMI display (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -1639,7 +1676,8 @@ UTC114.301 USB Type-C docking station Triple display (Windows) (ME: Disabled) (W
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC114.301 not supported
     Skip
-    ...    UTC114.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC114.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC116.301 USB Type-C docking station USB devices recognition (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -1662,7 +1700,8 @@ UTC120.301 USB Type-C docking station upload 1GB file on USB storage (Windows) (
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC120.301 not supported
     Skip
-    ...    UTC120.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC120.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC122.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -1680,7 +1719,8 @@ UTC124.301 USB Type-C docking station audio recognition (Windows) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC124.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC124.301 not supported
     Skip
-    ...    UTC124.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC124.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC126.301 USB Type-C docking station audio playback (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -1690,7 +1730,8 @@ UTC126.301 USB Type-C docking station audio playback (Windows) (ME: Disabled) (W
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC126.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC126.301 not supported
     Skip
-    ...    UTC126.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC126.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC128.301 USB Type-C docking station audio capture (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -1700,7 +1741,8 @@ UTC128.301 USB Type-C docking station audio capture (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC128.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC128.301 not supported
     Skip
-    ...    UTC128.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC128.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC130.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -1724,7 +1766,8 @@ UTC136.301 Docking station detection after coldboot (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC136.301 not supported
     Skip
-    ...    UTC136.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC136.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC138.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1734,7 +1777,8 @@ UTC138.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC138.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC138.301 not supported
     Skip
-    ...    UTC138.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC138.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC140.301 Docking station detection after reboot (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1743,7 +1787,8 @@ UTC140.301 Docking station detection after reboot (Windows) (ME: Disabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC140.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC140.301 not supported
     Skip
-    ...    UTC140.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC140.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC142.301 Docking station detection after suspend (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1753,7 +1798,8 @@ UTC142.301 Docking station detection after suspend (Windows) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC142.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC142.301 not supported
     Skip
-    ...    UTC142.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC142.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC144.301 Docking station detection after suspend (S0ix) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1763,7 +1809,8 @@ UTC144.301 Docking station detection after suspend (S0ix) (Windows) (ME: Disable
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC144.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC144.301 not supported
     Skip
-    ...    UTC144.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC144.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC146.301 Docking station detection after suspend (S3) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1773,7 +1820,8 @@ UTC146.301 Docking station detection after suspend (S3) (Windows) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC146.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC146.301 not supported
     Skip
-    ...    UTC146.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC146.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC148.301 Docking station detection after coldboot then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1783,7 +1831,8 @@ UTC148.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC148.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC148.301 not supported
     Skip
-    ...    UTC148.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC148.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC150.301 Docking station detection after warmboot then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1793,7 +1842,8 @@ UTC150.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC150.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC150.301 not supported
     Skip
-    ...    UTC150.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC150.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC152.301 Docking station detection after reboot then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1802,7 +1852,8 @@ UTC152.301 Docking station detection after reboot then hotplug (Windows) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC152.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC152.301 not supported
     Skip
-    ...    UTC152.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC152.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC154.301 Docking station detection after suspend then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1812,7 +1863,8 @@ UTC154.301 Docking station detection after suspend then hotplug (Windows) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC154.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC154.301 not supported
     Skip
-    ...    UTC154.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC154.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC156.301 Docking station detection after suspend then hotplug (S0ix) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1822,7 +1874,8 @@ UTC156.301 Docking station detection after suspend then hotplug (S0ix) (Windows)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC156.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC156.301 not supported
     Skip
-    ...    UTC156.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC156.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC158.301 Docking station detection after suspend then hotplug (S3) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1832,7 +1885,8 @@ UTC158.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC158.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC158.301 not supported
     Skip
-    ...    UTC158.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC158.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC106.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
@@ -1842,7 +1896,8 @@ UTC106.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC106.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC106.203 not supported
     Skip
-    ...    UTC106.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC106.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC108.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -1850,7 +1905,8 @@ UTC108.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC108.203 not supported
     Skip
-    ...    UTC108.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC108.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC110.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -1860,7 +1916,8 @@ UTC110.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_HDMI}    UTC110.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC110.203 not supported
     Skip
-    ...    UTC110.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC110.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC112.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -1870,7 +1927,8 @@ UTC112.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UM
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC112.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC112.203 not supported
     Skip
-    ...    UTC112.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC112.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC114.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the three display
@@ -1879,7 +1937,8 @@ UTC114.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (W
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC114.203 not supported
     Skip
-    ...    UTC114.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC114.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC116.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -1888,7 +1947,8 @@ UTC116.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Dis
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC116.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC116.203 not supported
     Skip
-    ...    UTC116.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC116.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC118.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -1897,7 +1957,8 @@ UTC118.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC118.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC118.203 not supported
     Skip
-    ...    UTC118.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC118.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC120.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the 1GB file can be
@@ -1906,7 +1967,8 @@ UTC120.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC120.203 not supported
     Skip
-    ...    UTC120.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC120.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC122.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
@@ -1916,7 +1978,8 @@ UTC122.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disable
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC122.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC122.203 not supported
     Skip
-    ...    UTC122.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC122.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC124.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the external headset is
@@ -1926,7 +1989,8 @@ UTC124.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC124.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC124.203 not supported
     Skip
-    ...    UTC124.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC124.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC126.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -1936,7 +2000,8 @@ UTC126.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (W
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC126.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC126.203 not supported
     Skip
-    ...    UTC126.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC126.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC128.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -1946,7 +2011,8 @@ UTC128.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC128.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC128.203 not supported
     Skip
-    ...    UTC128.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC128.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC130.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -1955,7 +2021,8 @@ UTC130.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Di
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC130.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC130.203 not supported
     Skip
-    ...    UTC130.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC130.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC132.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
@@ -1964,7 +2031,8 @@ UTC132.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC132.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC132.203 not supported
     Skip
-    ...    UTC132.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC132.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC136.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1974,7 +2042,8 @@ UTC136.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC136.203 not supported
     Skip
-    ...    UTC136.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC136.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC138.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1984,7 +2053,8 @@ UTC138.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC138.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC138.203 not supported
     Skip
-    ...    UTC138.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC138.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC140.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1993,7 +2063,8 @@ UTC140.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC140.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC140.203 not supported
     Skip
-    ...    UTC140.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC140.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC142.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2003,7 +2074,8 @@ UTC142.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC142.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC142.203 not supported
     Skip
-    ...    UTC142.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC142.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC144.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2013,7 +2085,8 @@ UTC144.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disable
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC144.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC144.203 not supported
     Skip
-    ...    UTC144.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC144.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC146.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2023,7 +2096,8 @@ UTC146.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC146.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC146.203 not supported
     Skip
-    ...    UTC146.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC146.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC148.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2033,7 +2107,8 @@ UTC148.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC148.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC148.203 not supported
     Skip
-    ...    UTC148.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC148.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC150.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2043,7 +2118,8 @@ UTC150.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC150.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC150.203 not supported
     Skip
-    ...    UTC150.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC150.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC152.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2052,7 +2128,8 @@ UTC152.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC152.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC152.203 not supported
     Skip
-    ...    UTC152.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC152.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC154.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2062,7 +2139,8 @@ UTC154.203 Docking station detection after suspend then hotplug (QubesOS) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC154.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC154.203 not supported
     Skip
-    ...    UTC154.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC154.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC156.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2072,7 +2150,8 @@ UTC156.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC156.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC156.203 not supported
     Skip
-    ...    UTC156.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC156.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC158.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2082,7 +2161,8 @@ UTC158.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC158.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC158.203 not supported
     Skip
-    ...    UTC158.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC158.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC215.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -2090,7 +2170,8 @@ UTC215.001 USB Type-C docking station USB devices recognition (Firmware) (ME: En
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC215.001 not supported
     Skip
-    ...    UTC215.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC215.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC217.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -2098,7 +2179,8 @@ UTC217.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC217.001 not supported
     Skip
-    ...    UTC217.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC217.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC205.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -2109,7 +2191,8 @@ UTC205.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC205.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC205.201 not supported
     Skip
-    ...    UTC205.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC205.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC207.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -2144,7 +2227,8 @@ UTC213.201 USB Type-C docking station Triple display (Ubuntu) (ME: Enabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC213.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC213.201 not supported
     Skip
-    ...    UTC213.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC213.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC215.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -2170,7 +2254,8 @@ UTC219.201 USB Type-C docking station upload 1GB file on USB storage (Ubuntu) (M
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC219.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC219.201 not supported
     Skip
-    ...    UTC219.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC219.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC221.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -2199,7 +2284,8 @@ UTC225.201 USB Type-C docking station audio playback (Ubuntu) (ME: Enabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC225.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC225.201 not supported
     Skip
-    ...    UTC225.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC225.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC227.201 USB Type-C docking station audio capture (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -2210,7 +2296,8 @@ UTC227.201 USB Type-C docking station audio capture (Ubuntu) (ME: Enabled) (WL-U
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC227.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC227.201 not supported
     Skip
-    ...    UTC227.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC227.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC229.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -2349,7 +2436,8 @@ UTC205.202 USB Type-C PD power input (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC205.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC205.202 not supported
     Skip
-    ...    UTC205.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC205.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC207.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -2380,7 +2468,8 @@ UTC213.202 USB Type-C docking station Triple display (Fedora) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC213.202 not supported
     Skip
-    ...    UTC213.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC213.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC215.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -2403,7 +2492,8 @@ UTC219.202 USB Type-C docking station upload 1GB file on USB storage (Fedora) (M
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC219.202 not supported
     Skip
-    ...    UTC219.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC219.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC221.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -2429,7 +2519,8 @@ UTC225.202 USB Type-C docking station audio playback (Fedora) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC225.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC225.202 not supported
     Skip
-    ...    UTC225.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC225.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC227.202 USB Type-C docking station audio capture (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -2439,7 +2530,8 @@ UTC227.202 USB Type-C docking station audio capture (Fedora) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC227.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC227.202 not supported
     Skip
-    ...    UTC227.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC227.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC229.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -2564,7 +2656,8 @@ UTC205.301 USB Type-C PD power input (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC205.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC205.301 not supported
     Skip
-    ...    UTC205.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC205.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC207.301 USB Type-C Display output (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -2572,7 +2665,8 @@ UTC207.301 USB Type-C Display output (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC207.301 not supported
     Skip
-    ...    UTC207.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC207.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC209.301 USB Type-C docking station HDMI display (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -2597,7 +2691,8 @@ UTC213.301 USB Type-C docking station Triple display (Windows) (ME: Enabled) (WL
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC213.301 not supported
     Skip
-    ...    UTC213.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC213.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC215.301 USB Type-C docking station USB devices recognition (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -2620,7 +2715,8 @@ UTC219.301 USB Type-C docking station upload 1GB file on USB storage (Windows) (
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC219.301 not supported
     Skip
-    ...    UTC219.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC219.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC221.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -2638,7 +2734,8 @@ UTC223.301 USB Type-C docking station audio recognition (Windows) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC223.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC223.301 not supported
     Skip
-    ...    UTC223.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC223.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC225.301 USB Type-C docking station audio playback (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -2648,7 +2745,8 @@ UTC225.301 USB Type-C docking station audio playback (Windows) (ME: Enabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC225.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC225.301 not supported
     Skip
-    ...    UTC225.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC225.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC227.301 USB Type-C docking station audio capture (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -2658,7 +2756,8 @@ UTC227.301 USB Type-C docking station audio capture (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC227.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC227.301 not supported
     Skip
-    ...    UTC227.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC227.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC229.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -2682,7 +2781,8 @@ UTC235.301 Docking station detection after coldboot (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC235.301 not supported
     Skip
-    ...    UTC235.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC235.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC237.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -2692,7 +2792,8 @@ UTC237.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC237.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC237.301 not supported
     Skip
-    ...    UTC237.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC237.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC239.301 Docking station detection after reboot (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2701,7 +2802,8 @@ UTC239.301 Docking station detection after reboot (Windows) (ME: Enabled) (WL-UM
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC239.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC239.301 not supported
     Skip
-    ...    UTC239.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC239.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC241.301 Docking station detection after suspend (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2711,7 +2813,8 @@ UTC241.301 Docking station detection after suspend (Windows) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC241.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC241.301 not supported
     Skip
-    ...    UTC241.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC241.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC243.301 Docking station detection after suspend (S0ix) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2721,7 +2824,8 @@ UTC243.301 Docking station detection after suspend (S0ix) (Windows) (ME: Enabled
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC243.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC243.301 not supported
     Skip
-    ...    UTC243.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC243.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC245.301 Docking station detection after suspend (S3) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2731,7 +2835,8 @@ UTC245.301 Docking station detection after suspend (S3) (Windows) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC245.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC245.301 not supported
     Skip
-    ...    UTC245.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC245.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC247.301 Docking station detection after coldboot then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2741,7 +2846,8 @@ UTC247.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC247.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC247.301 not supported
     Skip
-    ...    UTC247.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC247.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC249.301 Docking station detection after warmboot then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2751,7 +2857,8 @@ UTC249.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC249.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC249.301 not supported
     Skip
-    ...    UTC249.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC249.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC251.301 Docking station detection after reboot then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2760,7 +2867,8 @@ UTC251.301 Docking station detection after reboot then hotplug (Windows) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC251.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC251.301 not supported
     Skip
-    ...    UTC251.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC251.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC253.301 Docking station detection after suspend then hotplug (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2770,7 +2878,8 @@ UTC253.301 Docking station detection after suspend then hotplug (Windows) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC253.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC253.301 not supported
     Skip
-    ...    UTC253.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC253.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC255.301 Docking station detection after suspend then hotplug (S0ix) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2780,7 +2889,8 @@ UTC255.301 Docking station detection after suspend then hotplug (S0ix) (Windows)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC255.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC255.301 not supported
     Skip
-    ...    UTC255.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC255.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC257.301 Docking station detection after suspend then hotplug (S3) (Windows) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2790,7 +2900,8 @@ UTC257.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC257.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC257.301 not supported
     Skip
-    ...    UTC257.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC257.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC205.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -2800,7 +2911,8 @@ UTC205.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC205.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC205.203 not supported
     Skip
-    ...    UTC205.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC205.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC207.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -2808,7 +2920,8 @@ UTC207.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC207.203 not supported
     Skip
-    ...    UTC207.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC207.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC209.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -2818,7 +2931,8 @@ UTC209.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_HDMI}    UTC209.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC209.203 not supported
     Skip
-    ...    UTC209.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC209.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC211.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -2828,7 +2942,8 @@ UTC211.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC211.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC211.203 not supported
     Skip
-    ...    UTC211.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC211.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC213.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the three display
@@ -2837,7 +2952,8 @@ UTC213.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC213.203 not supported
     Skip
-    ...    UTC213.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC213.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC215.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -2846,7 +2962,8 @@ UTC215.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Ena
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC215.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC215.203 not supported
     Skip
-    ...    UTC215.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC215.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC217.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -2855,7 +2972,8 @@ UTC217.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC217.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC217.203 not supported
     Skip
-    ...    UTC217.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC217.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC219.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the 1GB file can be
@@ -2864,7 +2982,8 @@ UTC219.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC219.203 not supported
     Skip
-    ...    UTC219.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC219.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC221.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -2874,7 +2993,8 @@ UTC221.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC221.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC221.203 not supported
     Skip
-    ...    UTC221.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC221.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC223.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the external headset is
@@ -2884,7 +3004,8 @@ UTC223.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC223.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC223.203 not supported
     Skip
-    ...    UTC223.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC223.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC225.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -2894,7 +3015,8 @@ UTC225.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC225.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC225.203 not supported
     Skip
-    ...    UTC225.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC225.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC227.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -2904,7 +3026,8 @@ UTC227.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC227.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC227.203 not supported
     Skip
-    ...    UTC227.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC227.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC229.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -2913,7 +3036,8 @@ UTC229.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: En
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC229.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC229.203 not supported
     Skip
-    ...    UTC229.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC229.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC231.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
@@ -2922,7 +3046,8 @@ UTC231.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled)
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC231.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC231.203 not supported
     Skip
-    ...    UTC231.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC231.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC235.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -2932,7 +3057,8 @@ UTC235.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC235.203 not supported
     Skip
-    ...    UTC235.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC235.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC237.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -2942,7 +3068,8 @@ UTC237.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC237.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC237.203 not supported
     Skip
-    ...    UTC237.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC237.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC239.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2951,7 +3078,8 @@ UTC239.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UM
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC239.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC239.203 not supported
     Skip
-    ...    UTC239.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC239.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC241.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2961,7 +3089,8 @@ UTC241.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC241.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC241.203 not supported
     Skip
-    ...    UTC241.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC241.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC243.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2971,7 +3100,8 @@ UTC243.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC243.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC243.203 not supported
     Skip
-    ...    UTC243.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC243.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC245.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2981,7 +3111,8 @@ UTC245.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC245.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC245.203 not supported
     Skip
-    ...    UTC245.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC245.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC247.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2991,7 +3122,8 @@ UTC247.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC247.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC247.203 not supported
     Skip
-    ...    UTC247.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC247.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC249.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3001,7 +3133,8 @@ UTC249.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC249.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC249.203 not supported
     Skip
-    ...    UTC249.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC249.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC251.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3010,7 +3143,8 @@ UTC251.203 Docking station detection after reboot then hotplug (QubesOS) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC251.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC251.203 not supported
     Skip
-    ...    UTC251.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC251.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC253.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3020,7 +3154,8 @@ UTC253.203 Docking station detection after suspend then hotplug (QubesOS) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC253.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC253.203 not supported
     Skip
-    ...    UTC253.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC253.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC255.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3030,7 +3165,8 @@ UTC255.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC255.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC255.203 not supported
     Skip
-    ...    UTC255.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC255.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC257.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3040,7 +3176,8 @@ UTC257.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC257.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC257.203 not supported
     Skip
-    ...    UTC257.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC257.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC216.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -3048,7 +3185,8 @@ UTC216.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Di
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC216.001 not supported
     Skip
-    ...    UTC216.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC216.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC218.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -3056,7 +3194,8 @@ UTC218.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC218.001 not supported
     Skip
-    ...    UTC218.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC218.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC206.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -3067,7 +3206,8 @@ UTC206.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC206.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC206.201 not supported
     Skip
-    ...    UTC206.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC206.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC208.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -3102,7 +3242,8 @@ UTC214.201 USB Type-C docking station Triple display (Ubuntu) (ME: Disabled) (WL
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC214.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC214.201 not supported
     Skip
-    ...    UTC214.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC214.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC216.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -3128,7 +3269,8 @@ UTC220.201 USB Type-C docking station upload 1GB file on USB storage (Ubuntu) (M
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC220.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC220.201 not supported
     Skip
-    ...    UTC220.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC220.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC222.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -3157,7 +3299,8 @@ UTC226.201 USB Type-C docking station audio playback (Ubuntu) (ME: Disabled) (WL
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC226.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC226.201 not supported
     Skip
-    ...    UTC226.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC226.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC228.201 USB Type-C docking station audio capture (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -3168,7 +3311,8 @@ UTC228.201 USB Type-C docking station audio capture (Ubuntu) (ME: Disabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC228.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC228.201 not supported
     Skip
-    ...    UTC228.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC228.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC230.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -3307,7 +3451,8 @@ UTC206.202 USB Type-C PD power input (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC206.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC206.202 not supported
     Skip
-    ...    UTC206.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC206.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC208.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -3338,7 +3483,8 @@ UTC214.202 USB Type-C docking station Triple display (Fedora) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC214.202 not supported
     Skip
-    ...    UTC214.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC214.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC216.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -3361,7 +3507,8 @@ UTC220.202 USB Type-C docking station upload 1GB file on USB storage (Fedora) (M
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC220.202 not supported
     Skip
-    ...    UTC220.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC220.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC222.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -3387,7 +3534,8 @@ UTC226.202 USB Type-C docking station audio playback (Fedora) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC226.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC226.202 not supported
     Skip
-    ...    UTC226.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC226.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC228.202 USB Type-C docking station audio capture (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -3397,7 +3545,8 @@ UTC228.202 USB Type-C docking station audio capture (Fedora) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC228.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC228.202 not supported
     Skip
-    ...    UTC228.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC228.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC230.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -3522,7 +3671,8 @@ UTC206.301 USB Type-C PD power input (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC206.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC206.301 not supported
     Skip
-    ...    UTC206.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC206.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC208.301 USB Type-C Display output (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -3530,7 +3680,8 @@ UTC208.301 USB Type-C Display output (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC208.301 not supported
     Skip
-    ...    UTC208.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC208.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC210.301 USB Type-C docking station HDMI display (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -3555,7 +3706,8 @@ UTC214.301 USB Type-C docking station Triple display (Windows) (ME: Disabled) (W
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC214.301 not supported
     Skip
-    ...    UTC214.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC214.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC216.301 USB Type-C docking station USB devices recognition (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -3578,7 +3730,8 @@ UTC220.301 USB Type-C docking station upload 1GB file on USB storage (Windows) (
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC220.301 not supported
     Skip
-    ...    UTC220.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC220.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC222.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -3596,7 +3749,8 @@ UTC224.301 USB Type-C docking station audio recognition (Windows) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC224.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC224.301 not supported
     Skip
-    ...    UTC224.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC224.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC226.301 USB Type-C docking station audio playback (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -3606,7 +3760,8 @@ UTC226.301 USB Type-C docking station audio playback (Windows) (ME: Disabled) (W
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC226.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC226.301 not supported
     Skip
-    ...    UTC226.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC226.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC228.301 USB Type-C docking station audio capture (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -3616,7 +3771,8 @@ UTC228.301 USB Type-C docking station audio capture (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC228.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC228.301 not supported
     Skip
-    ...    UTC228.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC228.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC230.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -3640,7 +3796,8 @@ UTC236.301 Docking station detection after coldboot (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC236.301 not supported
     Skip
-    ...    UTC236.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC236.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC238.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -3650,7 +3807,8 @@ UTC238.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC238.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC238.301 not supported
     Skip
-    ...    UTC238.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC238.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC240.301 Docking station detection after reboot (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3659,7 +3817,8 @@ UTC240.301 Docking station detection after reboot (Windows) (ME: Disabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC240.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC240.301 not supported
     Skip
-    ...    UTC240.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC240.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC242.301 Docking station detection after suspend (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3669,7 +3828,8 @@ UTC242.301 Docking station detection after suspend (Windows) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC242.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC242.301 not supported
     Skip
-    ...    UTC242.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC242.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC244.301 Docking station detection after suspend (S0ix) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3679,7 +3839,8 @@ UTC244.301 Docking station detection after suspend (S0ix) (Windows) (ME: Disable
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC244.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC244.301 not supported
     Skip
-    ...    UTC244.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC244.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC246.301 Docking station detection after suspend (S3) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3689,7 +3850,8 @@ UTC246.301 Docking station detection after suspend (S3) (Windows) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC246.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC246.301 not supported
     Skip
-    ...    UTC246.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC246.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC248.301 Docking station detection after coldboot then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3699,7 +3861,8 @@ UTC248.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC248.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC248.301 not supported
     Skip
-    ...    UTC248.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC248.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC250.301 Docking station detection after warmboot then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3709,7 +3872,8 @@ UTC250.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC250.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC250.301 not supported
     Skip
-    ...    UTC250.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC250.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC252.301 Docking station detection after reboot then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3718,7 +3882,8 @@ UTC252.301 Docking station detection after reboot then hotplug (Windows) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC252.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC252.301 not supported
     Skip
-    ...    UTC252.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC252.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC254.301 Docking station detection after suspend then hotplug (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3728,7 +3893,8 @@ UTC254.301 Docking station detection after suspend then hotplug (Windows) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC254.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC254.301 not supported
     Skip
-    ...    UTC254.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC254.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC256.301 Docking station detection after suspend then hotplug (S0ix) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3738,7 +3904,8 @@ UTC256.301 Docking station detection after suspend then hotplug (S0ix) (Windows)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC256.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC256.301 not supported
     Skip
-    ...    UTC256.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC256.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC258.301 Docking station detection after suspend then hotplug (S3) (Windows) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3748,7 +3915,8 @@ UTC258.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC258.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC258.301 not supported
     Skip
-    ...    UTC258.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC258.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC206.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -3758,7 +3926,8 @@ UTC206.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC206.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC206.203 not supported
     Skip
-    ...    UTC206.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC206.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC208.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -3766,7 +3935,8 @@ UTC208.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC208.203 not supported
     Skip
-    ...    UTC208.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC208.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC210.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -3776,7 +3946,8 @@ UTC210.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_HDMI}    UTC210.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC210.203 not supported
     Skip
-    ...    UTC210.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC210.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC212.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -3786,7 +3957,8 @@ UTC212.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UM
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC212.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC212.203 not supported
     Skip
-    ...    UTC212.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC212.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC214.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the three display
@@ -3795,7 +3967,8 @@ UTC214.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (W
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC214.203 not supported
     Skip
-    ...    UTC214.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC214.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC216.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -3804,7 +3977,8 @@ UTC216.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Dis
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC216.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC216.203 not supported
     Skip
-    ...    UTC216.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC216.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC218.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -3813,7 +3987,8 @@ UTC218.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC218.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC218.203 not supported
     Skip
-    ...    UTC218.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC218.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC220.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the 1GB file can be
@@ -3822,7 +3997,8 @@ UTC220.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC220.203 not supported
     Skip
-    ...    UTC220.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC220.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC222.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -3832,7 +4008,8 @@ UTC222.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disable
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC222.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC222.203 not supported
     Skip
-    ...    UTC222.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC222.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC224.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the external headset is
@@ -3842,7 +4019,8 @@ UTC224.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC224.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC224.203 not supported
     Skip
-    ...    UTC224.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC224.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC226.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -3852,7 +4030,8 @@ UTC226.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (W
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC226.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC226.203 not supported
     Skip
-    ...    UTC226.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC226.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC228.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -3862,7 +4041,8 @@ UTC228.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC228.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC228.203 not supported
     Skip
-    ...    UTC228.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC228.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC230.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -3871,7 +4051,8 @@ UTC230.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Di
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC230.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC230.203 not supported
     Skip
-    ...    UTC230.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC230.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC232.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
@@ -3880,7 +4061,8 @@ UTC232.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC232.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC232.203 not supported
     Skip
-    ...    UTC232.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC232.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC236.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -3890,7 +4072,8 @@ UTC236.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC236.203 not supported
     Skip
-    ...    UTC236.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC236.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC238.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -3900,7 +4083,8 @@ UTC238.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC238.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC238.203 not supported
     Skip
-    ...    UTC238.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC238.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC240.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3909,7 +4093,8 @@ UTC240.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC240.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC240.203 not supported
     Skip
-    ...    UTC240.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC240.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC242.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3919,7 +4104,8 @@ UTC242.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC242.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC242.203 not supported
     Skip
-    ...    UTC242.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC242.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC244.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3929,7 +4115,8 @@ UTC244.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disable
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC244.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC244.203 not supported
     Skip
-    ...    UTC244.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC244.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC246.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3939,7 +4126,8 @@ UTC246.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC246.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC246.203 not supported
     Skip
-    ...    UTC246.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC246.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC248.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3949,7 +4137,8 @@ UTC248.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC248.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC248.203 not supported
     Skip
-    ...    UTC248.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC248.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC250.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3959,7 +4148,8 @@ UTC250.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC250.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC250.203 not supported
     Skip
-    ...    UTC250.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC250.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC252.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3968,7 +4158,8 @@ UTC252.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC252.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC252.203 not supported
     Skip
-    ...    UTC252.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC252.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC254.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3978,7 +4169,8 @@ UTC254.203 Docking station detection after suspend then hotplug (QubesOS) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC254.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC254.203 not supported
     Skip
-    ...    UTC254.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC254.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC256.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3988,7 +4180,8 @@ UTC256.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC256.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC256.203 not supported
     Skip
-    ...    UTC256.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC256.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC258.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3998,7 +4191,8 @@ UTC258.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC258.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC258.203 not supported
     Skip
-    ...    UTC258.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC258.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC315.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -4006,7 +4200,8 @@ UTC315.001 USB Type-C docking station USB devices recognition (Firmware) (ME: En
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC315.001 not supported
     Skip
-    ...    UTC315.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC315.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC317.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -4014,7 +4209,8 @@ UTC317.001 USB Type-C docking station USB keyboard (Firmware) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC317.001 not supported
     Skip
-    ...    UTC317.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC317.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC305.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -4025,7 +4221,8 @@ UTC305.201 USB Type-C PD power input (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC305.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC305.201 not supported
     Skip
-    ...    UTC305.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC305.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC307.201 USB Type-C Display output (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -4060,7 +4257,8 @@ UTC313.201 USB Type-C docking station Triple display (Ubuntu) (ME: Enabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC313.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC313.201 not supported
     Skip
-    ...    UTC313.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC313.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC315.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -4086,7 +4284,8 @@ UTC319.201 USB Type-C docking station upload 1GB file on USB storage (Ubuntu) (M
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC319.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC319.201 not supported
     Skip
-    ...    UTC319.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC319.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC321.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -4115,7 +4314,8 @@ UTC325.201 USB Type-C docking station audio playback (Ubuntu) (ME: Enabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC325.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC325.201 not supported
     Skip
-    ...    UTC325.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC325.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC327.201 USB Type-C docking station audio capture (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -4126,7 +4326,8 @@ UTC327.201 USB Type-C docking station audio capture (Ubuntu) (ME: Enabled) (WL-U
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC327.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC327.201 not supported
     Skip
-    ...    UTC327.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC327.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC329.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -4265,7 +4466,8 @@ UTC305.202 USB Type-C PD power input (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC305.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC305.202 not supported
     Skip
-    ...    UTC305.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC305.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC307.202 USB Type-C Display output (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -4296,7 +4498,8 @@ UTC313.202 USB Type-C docking station Triple display (Fedora) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC313.202 not supported
     Skip
-    ...    UTC313.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC313.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC315.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -4319,7 +4522,8 @@ UTC319.202 USB Type-C docking station upload 1GB file on USB storage (Fedora) (M
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC319.202 not supported
     Skip
-    ...    UTC319.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC319.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC321.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -4345,7 +4549,8 @@ UTC325.202 USB Type-C docking station audio playback (Fedora) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC325.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC325.202 not supported
     Skip
-    ...    UTC325.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC325.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC327.202 USB Type-C docking station audio capture (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -4355,7 +4560,8 @@ UTC327.202 USB Type-C docking station audio capture (Fedora) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC327.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC327.202 not supported
     Skip
-    ...    UTC327.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC327.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC329.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -4480,7 +4686,8 @@ UTC305.301 USB Type-C PD power input (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC305.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC305.301 not supported
     Skip
-    ...    UTC305.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC305.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC307.301 USB Type-C Display output (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -4488,7 +4695,8 @@ UTC307.301 USB Type-C Display output (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC307.301 not supported
     Skip
-    ...    UTC307.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC307.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC309.301 USB Type-C docking station HDMI display (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -4513,7 +4721,8 @@ UTC313.301 USB Type-C docking station Triple display (Windows) (ME: Enabled) (WL
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC313.301 not supported
     Skip
-    ...    UTC313.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC313.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC315.301 USB Type-C docking station USB devices recognition (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -4536,7 +4745,8 @@ UTC319.301 USB Type-C docking station upload 1GB file on USB storage (Windows) (
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC319.301 not supported
     Skip
-    ...    UTC319.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC319.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC321.301 USB Type-C docking station Ethernet connection (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -4554,7 +4764,8 @@ UTC323.301 USB Type-C docking station audio recognition (Windows) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC323.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC323.301 not supported
     Skip
-    ...    UTC323.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC323.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC325.301 USB Type-C docking station audio playback (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -4564,7 +4775,8 @@ UTC325.301 USB Type-C docking station audio playback (Windows) (ME: Enabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC325.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC325.301 not supported
     Skip
-    ...    UTC325.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC325.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC327.301 USB Type-C docking station audio capture (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -4574,7 +4786,8 @@ UTC327.301 USB Type-C docking station audio capture (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC327.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC327.301 not supported
     Skip
-    ...    UTC327.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC327.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC329.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -4598,7 +4811,8 @@ UTC335.301 Docking station detection after coldboot (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC335.301 not supported
     Skip
-    ...    UTC335.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC335.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC337.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -4608,7 +4822,8 @@ UTC337.301 Docking station detection after warmboot (Windows) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC337.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC337.301 not supported
     Skip
-    ...    UTC337.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC337.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC339.301 Docking station detection after reboot (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4617,7 +4832,8 @@ UTC339.301 Docking station detection after reboot (Windows) (ME: Enabled) (WL-UG
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC339.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC339.301 not supported
     Skip
-    ...    UTC339.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC339.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC341.301 Docking station detection after suspend (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4627,7 +4843,8 @@ UTC341.301 Docking station detection after suspend (Windows) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC341.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC341.301 not supported
     Skip
-    ...    UTC341.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC341.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC343.301 Docking station detection after suspend (S0ix) (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4637,7 +4854,8 @@ UTC343.301 Docking station detection after suspend (S0ix) (Windows) (ME: Enabled
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC343.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC343.301 not supported
     Skip
-    ...    UTC343.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC343.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC345.301 Docking station detection after suspend (S3) (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4647,7 +4865,8 @@ UTC345.301 Docking station detection after suspend (S3) (Windows) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC345.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC345.301 not supported
     Skip
-    ...    UTC345.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC345.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC347.301 Docking station detection after coldboot then hotplug (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4657,7 +4876,8 @@ UTC347.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC347.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC347.301 not supported
     Skip
-    ...    UTC347.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC347.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC349.301 Docking station detection after warmboot then hotplug (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4667,7 +4887,8 @@ UTC349.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC349.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC349.301 not supported
     Skip
-    ...    UTC349.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC349.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC351.301 Docking station detection after reboot then hotplug (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4676,7 +4897,8 @@ UTC351.301 Docking station detection after reboot then hotplug (Windows) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC351.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC351.301 not supported
     Skip
-    ...    UTC351.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC351.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC353.301 Docking station detection after suspend then hotplug (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4686,7 +4908,8 @@ UTC353.301 Docking station detection after suspend then hotplug (Windows) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC353.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC353.301 not supported
     Skip
-    ...    UTC353.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC353.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC355.301 Docking station detection after suspend then hotplug (S0ix) (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4696,7 +4919,8 @@ UTC355.301 Docking station detection after suspend then hotplug (S0ix) (Windows)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC355.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC355.301 not supported
     Skip
-    ...    UTC355.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC355.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC357.301 Docking station detection after suspend then hotplug (S3) (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4706,7 +4930,8 @@ UTC357.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC357.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC357.301 not supported
     Skip
-    ...    UTC357.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC357.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC305.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -4716,7 +4941,8 @@ UTC305.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC305.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC305.203 not supported
     Skip
-    ...    UTC305.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC305.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC307.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -4724,7 +4950,8 @@ UTC307.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC307.203 not supported
     Skip
-    ...    UTC307.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC307.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC309.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -4734,7 +4961,8 @@ UTC309.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_HDMI}    UTC309.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC309.203 not supported
     Skip
-    ...    UTC309.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC309.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC311.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -4744,7 +4972,8 @@ UTC311.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UG6
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC311.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC311.203 not supported
     Skip
-    ...    UTC311.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC311.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC313.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the three display
@@ -4753,7 +4982,8 @@ UTC313.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC313.203 not supported
     Skip
-    ...    UTC313.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC313.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC315.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -4762,7 +4992,8 @@ UTC315.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Ena
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC315.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC315.203 not supported
     Skip
-    ...    UTC315.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC315.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC317.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -4771,7 +5002,8 @@ UTC317.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC317.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC317.203 not supported
     Skip
-    ...    UTC317.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC317.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC319.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the 1GB file can be
@@ -4780,7 +5012,8 @@ UTC319.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC319.203 not supported
     Skip
-    ...    UTC319.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC319.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC321.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -4790,7 +5023,8 @@ UTC321.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC321.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC321.203 not supported
     Skip
-    ...    UTC321.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC321.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC323.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the external headset is
@@ -4800,7 +5034,8 @@ UTC323.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC323.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC323.203 not supported
     Skip
-    ...    UTC323.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC323.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC325.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -4810,7 +5045,8 @@ UTC325.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC325.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC325.203 not supported
     Skip
-    ...    UTC325.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC325.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC327.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -4820,7 +5056,8 @@ UTC327.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC327.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC327.203 not supported
     Skip
-    ...    UTC327.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC327.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC329.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -4829,7 +5066,8 @@ UTC329.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: En
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC329.203 not supported
     Skip
-    ...    UTC329.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC329.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC331.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
@@ -4838,7 +5076,8 @@ UTC331.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled)
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC331.203 not supported
     Skip
-    ...    UTC331.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC331.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC335.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -4848,7 +5087,8 @@ UTC335.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC335.203 not supported
     Skip
-    ...    UTC335.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC335.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC337.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -4858,7 +5098,8 @@ UTC337.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC337.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC337.203 not supported
     Skip
-    ...    UTC337.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC337.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC339.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4867,7 +5108,8 @@ UTC339.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UG
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC339.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC339.203 not supported
     Skip
-    ...    UTC339.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC339.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC341.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4877,7 +5119,8 @@ UTC341.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC341.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC341.203 not supported
     Skip
-    ...    UTC341.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC341.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC343.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4887,7 +5130,8 @@ UTC343.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC343.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC343.203 not supported
     Skip
-    ...    UTC343.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC343.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC345.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4897,7 +5141,8 @@ UTC345.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC345.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC345.203 not supported
     Skip
-    ...    UTC345.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC345.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC347.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4907,7 +5152,8 @@ UTC347.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC347.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC347.203 not supported
     Skip
-    ...    UTC347.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC347.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC349.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4917,7 +5163,8 @@ UTC349.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC349.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC349.203 not supported
     Skip
-    ...    UTC349.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC349.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC351.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4926,7 +5173,8 @@ UTC351.203 Docking station detection after reboot then hotplug (QubesOS) (ME: En
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC351.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC351.203 not supported
     Skip
-    ...    UTC351.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC351.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC353.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4936,7 +5184,8 @@ UTC353.203 Docking station detection after suspend then hotplug (QubesOS) (ME: E
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC353.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC353.203 not supported
     Skip
-    ...    UTC353.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC353.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC355.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4946,7 +5195,8 @@ UTC355.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC355.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC355.203 not supported
     Skip
-    ...    UTC355.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC355.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC357.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4956,7 +5206,8 @@ UTC357.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC357.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC357.203 not supported
     Skip
-    ...    UTC357.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC357.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC316.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -4964,7 +5215,8 @@ UTC316.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Di
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC316.001 not supported
     Skip
-    ...    UTC316.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC316.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC318.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -4972,7 +5224,8 @@ UTC318.001 USB Type-C docking station USB keyboard (Firmware) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC318.001 not supported
     Skip
-    ...    UTC318.001 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC318.001
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC306.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -4983,7 +5236,8 @@ UTC306.201 USB Type-C PD power input (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC306.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC306.201 not supported
     Skip
-    ...    UTC306.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC306.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC308.201 USB Type-C Display output (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -5018,7 +5272,8 @@ UTC314.201 USB Type-C docking station Triple display (Ubuntu) (ME: Disabled) (WL
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC314.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC314.201 not supported
     Skip
-    ...    UTC314.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC314.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC316.201 USB Type-C docking station USB devices recognition (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -5044,7 +5299,8 @@ UTC320.201 USB Type-C docking station upload 1GB file on USB storage (Ubuntu) (M
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC320.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC320.201 not supported
     Skip
-    ...    UTC320.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC320.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC322.201 USB Type-C docking station Ethernet connection (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -5073,7 +5329,8 @@ UTC326.201 USB Type-C docking station audio playback (Ubuntu) (ME: Disabled) (WL
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC326.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC326.201 not supported
     Skip
-    ...    UTC326.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC326.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC328.201 USB Type-C docking station audio capture (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -5084,7 +5341,8 @@ UTC328.201 USB Type-C docking station audio capture (Ubuntu) (ME: Disabled) (WL-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC328.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC328.201 not supported
     Skip
-    ...    UTC328.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC328.201
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC330.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -5223,7 +5481,8 @@ UTC306.202 USB Type-C PD power input (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC306.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC306.202 not supported
     Skip
-    ...    UTC306.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC306.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC308.202 USB Type-C Display output (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -5254,7 +5513,8 @@ UTC314.202 USB Type-C docking station Triple display (Fedora) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC314.202 not supported
     Skip
-    ...    UTC314.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC314.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC316.202 USB Type-C docking station USB devices recognition (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -5277,7 +5537,8 @@ UTC320.202 USB Type-C docking station upload 1GB file on USB storage (Fedora) (M
     [Tags]    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC320.202 not supported
     Skip
-    ...    UTC320.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC320.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC322.202 USB Type-C docking station Ethernet connection (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -5303,7 +5564,8 @@ UTC326.202 USB Type-C docking station audio playback (Fedora) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC326.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC326.202 not supported
     Skip
-    ...    UTC326.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC326.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC328.202 USB Type-C docking station audio capture (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -5313,7 +5575,8 @@ UTC328.202 USB Type-C docking station audio capture (Fedora) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC328.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC328.202 not supported
     Skip
-    ...    UTC328.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC328.202
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC330.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -5438,7 +5701,8 @@ UTC306.301 USB Type-C PD power input (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC306.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC306.301 not supported
     Skip
-    ...    UTC306.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC306.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC308.301 USB Type-C Display output (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -5446,7 +5710,8 @@ UTC308.301 USB Type-C Display output (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC308.301 not supported
     Skip
-    ...    UTC308.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC308.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC310.301 USB Type-C docking station HDMI display (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -5471,7 +5736,8 @@ UTC314.301 USB Type-C docking station Triple display (Windows) (ME: Disabled) (W
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC314.301 not supported
     Skip
-    ...    UTC314.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC314.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC316.301 USB Type-C docking station USB devices recognition (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -5494,7 +5760,8 @@ UTC320.301 USB Type-C docking station upload 1GB file on USB storage (Windows) (
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC320.301 not supported
     Skip
-    ...    UTC320.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC320.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC322.301 USB Type-C docking station Ethernet connection (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -5512,7 +5779,8 @@ UTC324.301 USB Type-C docking station audio recognition (Windows) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC324.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC324.301 not supported
     Skip
-    ...    UTC324.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC324.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC326.301 USB Type-C docking station audio playback (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -5522,7 +5790,8 @@ UTC326.301 USB Type-C docking station audio playback (Windows) (ME: Disabled) (W
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC326.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC326.301 not supported
     Skip
-    ...    UTC326.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC326.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC328.301 USB Type-C docking station audio capture (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -5532,7 +5801,8 @@ UTC328.301 USB Type-C docking station audio capture (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC328.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC328.301 not supported
     Skip
-    ...    UTC328.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC328.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC330.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -5556,7 +5826,8 @@ UTC336.301 Docking station detection after coldboot (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC336.301 not supported
     Skip
-    ...    UTC336.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC336.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC338.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -5566,7 +5837,8 @@ UTC338.301 Docking station detection after warmboot (Windows) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC338.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC338.301 not supported
     Skip
-    ...    UTC338.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC338.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC340.301 Docking station detection after reboot (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5575,7 +5847,8 @@ UTC340.301 Docking station detection after reboot (Windows) (ME: Disabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC340.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC340.301 not supported
     Skip
-    ...    UTC340.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC340.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC342.301 Docking station detection after suspend (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5585,7 +5858,8 @@ UTC342.301 Docking station detection after suspend (Windows) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC342.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC342.301 not supported
     Skip
-    ...    UTC342.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC342.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC344.301 Docking station detection after suspend (S0ix) (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5595,7 +5869,8 @@ UTC344.301 Docking station detection after suspend (S0ix) (Windows) (ME: Disable
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC344.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC344.301 not supported
     Skip
-    ...    UTC344.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC344.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC346.301 Docking station detection after suspend (S3) (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5605,7 +5880,8 @@ UTC346.301 Docking station detection after suspend (S3) (Windows) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC346.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC346.301 not supported
     Skip
-    ...    UTC346.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC346.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC348.301 Docking station detection after coldboot then hotplug (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5615,7 +5891,8 @@ UTC348.301 Docking station detection after coldboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC348.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC348.301 not supported
     Skip
-    ...    UTC348.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC348.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC350.301 Docking station detection after warmboot then hotplug (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5625,7 +5902,8 @@ UTC350.301 Docking station detection after warmboot then hotplug (Windows) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC350.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC350.301 not supported
     Skip
-    ...    UTC350.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC350.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC352.301 Docking station detection after reboot then hotplug (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5634,7 +5912,8 @@ UTC352.301 Docking station detection after reboot then hotplug (Windows) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC352.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC352.301 not supported
     Skip
-    ...    UTC352.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC352.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC354.301 Docking station detection after suspend then hotplug (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5644,7 +5923,8 @@ UTC354.301 Docking station detection after suspend then hotplug (Windows) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC354.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC354.301 not supported
     Skip
-    ...    UTC354.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC354.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC356.301 Docking station detection after suspend then hotplug (S0ix) (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5654,7 +5934,8 @@ UTC356.301 Docking station detection after suspend then hotplug (S0ix) (Windows)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC356.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC356.301 not supported
     Skip
-    ...    UTC356.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC356.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC358.301 Docking station detection after suspend then hotplug (S3) (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5664,7 +5945,8 @@ UTC358.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC358.301 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC358.301 not supported
     Skip
-    ...    UTC358.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC358.301
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC306.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
@@ -5674,7 +5956,8 @@ UTC306.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC306.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC306.203 not supported
     Skip
-    ...    UTC306.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC306.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC308.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -5682,7 +5965,8 @@ UTC308.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC308.203 not supported
     Skip
-    ...    UTC308.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC308.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC310.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -5692,7 +5976,8 @@ UTC310.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_HDMI}    UTC310.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC310.203 not supported
     Skip
-    ...    UTC310.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC310.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC312.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -5702,7 +5987,8 @@ UTC312.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UG
     Skip If    not ${DOCKING_STATION_DISPLAY_PORT}    UTC312.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC312.203 not supported
     Skip
-    ...    UTC312.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC312.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC314.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the three display
@@ -5711,7 +5997,8 @@ UTC314.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (W
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC314.203 not supported
     Skip
-    ...    UTC314.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC314.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC316.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -5720,7 +6007,8 @@ UTC316.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Dis
     Skip If    not ${DOCKING_STATION_USB_SUPPORT}    UTC316.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC316.203 not supported
     Skip
-    ...    UTC316.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC316.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC318.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
@@ -5729,7 +6017,8 @@ UTC318.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_KEYBOARD_SUPPORT}    UTC318.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC318.203 not supported
     Skip
-    ...    UTC318.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC318.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC320.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the 1GB file can be
@@ -5738,7 +6027,8 @@ UTC320.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC320.203 not supported
     Skip
-    ...    UTC320.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC320.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC322.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
@@ -5748,7 +6038,8 @@ UTC322.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disable
     Skip If    not ${DOCKING_STATION_NET_INTERFACE}    UTC322.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC322.203 not supported
     Skip
-    ...    UTC322.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC322.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC324.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the external headset is
@@ -5758,7 +6049,8 @@ UTC324.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC324.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC324.203 not supported
     Skip
-    ...    UTC324.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC324.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC326.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -5768,7 +6060,8 @@ UTC326.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (W
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC326.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC326.203 not supported
     Skip
-    ...    UTC326.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC326.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC328.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
@@ -5778,7 +6071,8 @@ UTC328.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_AUDIO_SUPPORT}    UTC328.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC328.203 not supported
     Skip
-    ...    UTC328.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC328.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC330.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
@@ -5787,7 +6081,8 @@ UTC330.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Di
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC330.203 not supported
     Skip
-    ...    UTC330.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC330.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC332.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
@@ -5796,7 +6091,8 @@ UTC332.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled
     Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC332.203 not supported
     Skip
-    ...    UTC332.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC332.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC336.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -5806,7 +6102,8 @@ UTC336.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC336.203 not supported
     Skip
-    ...    UTC336.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC336.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC338.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -5816,7 +6113,8 @@ UTC338.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC338.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC338.203 not supported
     Skip
-    ...    UTC338.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC338.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC340.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5825,7 +6123,8 @@ UTC340.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-U
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC340.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC340.203 not supported
     Skip
-    ...    UTC340.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC340.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC342.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5835,7 +6134,8 @@ UTC342.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC342.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC342.203 not supported
     Skip
-    ...    UTC342.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC342.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC344.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5845,7 +6145,8 @@ UTC344.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disable
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC344.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC344.203 not supported
     Skip
-    ...    UTC344.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC344.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC346.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5855,7 +6156,8 @@ UTC346.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC346.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC346.203 not supported
     Skip
-    ...    UTC346.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC346.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC348.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5865,7 +6167,8 @@ UTC348.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC348.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC348.203 not supported
     Skip
-    ...    UTC348.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC348.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC350.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5875,7 +6178,8 @@ UTC350.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC350.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC350.203 not supported
     Skip
-    ...    UTC350.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC350.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC352.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5884,7 +6188,8 @@ UTC352.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Di
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC352.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC352.203 not supported
     Skip
-    ...    UTC352.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC352.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC354.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5894,7 +6199,8 @@ UTC354.203 Docking station detection after suspend then hotplug (QubesOS) (ME: D
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC354.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC354.203 not supported
     Skip
-    ...    UTC354.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC354.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC356.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5904,7 +6210,8 @@ UTC356.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC356.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC356.203 not supported
     Skip
-    ...    UTC356.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC356.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC358.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5914,4 +6221,5 @@ UTC358.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC358.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC358.203 not supported
     Skip
-    ...    UTC358.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    ...    UTC358.203
+    ...    not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
