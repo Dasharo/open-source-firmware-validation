@@ -362,7 +362,8 @@ Upload Required Files Serial
         Send File To DUT    ./dl-cache/edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         Send File To DUT    ./dl-cache/edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
-        IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+        ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+        IF    $tmp is not None
             Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
             Send File To DUT    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}    /capsule_testing/invalid_btg_signature.cap
         END
@@ -384,7 +385,8 @@ Upload Required Files Serial
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_wrong_cert.cap    C:\\capsule_testing\\wrong_cert.cap
         Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
         SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_invalid_guid.cap    C:\\capsule_testing\\invalid_guid.cap
-        IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+        ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+        IF    $tmp is not None
             Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
             SSHLibrary.Put File
             ...    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
@@ -408,7 +410,8 @@ Upload Required Files Serial
 Upload Required Files SSH
     ${fw_filename}=    Get File Name Without Extension    ${FW_FILE}
     ${caps_filename}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
-    IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+    IF    $tmp is not None
         ${btg_caps_filename}=    Get File Name Without Extension    ${BTG_CAPSULE_FW_FILE}
     END
     Power On
@@ -417,11 +420,15 @@ Upload Required Files SSH
     Switch To Root User
     Send File To DUT    ${FW_FILE}    /root/${fw_filename}
     Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
-    Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
+    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+    IF    $tmp is not None
+        Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
+    END
     ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
     Execute Command In Terminal    rm -rf osfv
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
-    IF    '${BTG_CAPSULE_FW_FILE}' != '${EMPTY}'
+    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+    IF    $tmp is not None
         Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}
     END
     VAR    ${commands}=    pushd osfv;
