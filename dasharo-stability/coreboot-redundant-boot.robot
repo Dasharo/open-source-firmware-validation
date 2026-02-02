@@ -110,6 +110,5 @@ Set Attempt Slot B Flag
 
 RTC BUC Control Bit Should Be
     [Arguments]    ${slot}
-    ${slot}=    Convert To Lower Case    ${slot}
     ${out}=    Execute Command In Terminal    cbmem -c | grep "Top Swap: RTC BUC control bit"
     Should Contain    ${out}    Top Swap: RTC BUC control bit: ${slot}
