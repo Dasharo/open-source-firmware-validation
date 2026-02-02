@@ -11,7 +11,7 @@ Suite Teardown      Log Out And Close Connection
 *** Test Cases ***
 AUD001.301 Audio subsystem detection
     [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in Windows 11. To do so, we attemptt detection
+    ...    and can be detected in Windows 11. To do so, we attempt detection
     ...    of the Audio Service, and verify it is in Running state.
     ${out}=    Execute Command In Terminal    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
     Should Contain    ${out}    Running
