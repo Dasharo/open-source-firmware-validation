@@ -487,14 +487,18 @@ ECR001.203 Battery monitoring - charge level in OS (QubesOS)
     [Documentation]    Check whether the battery charge level can be read
     ...    (in mAh) in Linux OS.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ECR001.203 not supported
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
     Turn On ACPI CALL Module In Linux
     Check Charge Level In Linux
 
 ECR002.203 Battery monitoring - charging state in OS (QubesOS)
     [Documentation]    Check whether the battery state can be read in Linux OS.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ECR002.203 not supported
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
     Check Charging State In Linux
 
 ECR003.203 Touchpad in OS (QubesOS)
@@ -502,7 +506,9 @@ ECR003.203 Touchpad in OS (QubesOS)
     ...    Touchpad steering and effect detection must be checked
     ...    manually.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ECR003.203 not supported
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
     ${out}=    Execute Linux Command    sudo libinput list-devices | grep Touchpad
     Should Contain    ${out}    Touchpad
 

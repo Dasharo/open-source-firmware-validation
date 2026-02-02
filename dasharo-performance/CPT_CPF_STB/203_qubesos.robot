@@ -10,7 +10,9 @@ Suite Setup     Run Keywords
 ...                 AND    Prepare CPF QUBES
 ...                 AND    Prepare STB QUBES
 ...                 AND    Print Concurrent Tests Summary
-...                 AND    Login To OS    ${ENV_ID_QUBES}
+...                 AND    Power On
+...                 AND    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+...                 AND    Login To Linux
 
 
 *** Test Cases ***

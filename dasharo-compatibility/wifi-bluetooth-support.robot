@@ -221,7 +221,9 @@ Wi-Fi Scanning QB
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
 
     # with interfaces DOWN, dhclient takes around 37s
     Execute Command In Terminal    dhclient    60s
@@ -256,7 +258,9 @@ Bluetooth Scanning QB
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
     Scan For Bluetooth In Linux
 
     ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller:" | awk -F": " '{print $2}'

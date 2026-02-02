@@ -228,28 +228,36 @@ CPU001.203 CPU works (QubesOS)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     ...    Previous IDs: CPU001.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU001.203 not supported
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
 
 CPU002.203 CPU cache enabled (QubesOS)
     [Documentation]    Check whether all declared for the DUT cache levels
     ...    are enabled.
     ...    Previous IDs: CPU002.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
     CPU Cache Enabled Linux
 
 CPU003.203 Multiple CPU support (QubesOS)
     [Documentation]    Check whether the DUT has multiple CPU support.
     ...    Previous IDs: CPU003.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU003.203 not supported
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
     Multiple CPU Support QubesOS
 
 CPU004.203 Multiple-core support (QubesOS)
     [Documentation]    Check whether the DUT has multi-core support
     ...    Previous IDs: CPU004.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
-    Login To OS    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
     Multiple-Core Support Linux
 
 CPU001.205 CPU works (XCP-NG)

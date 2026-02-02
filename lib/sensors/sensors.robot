@@ -12,8 +12,10 @@ Prepare Sensors
     [Documentation]    Do any preparation work needed for accessing sensors
 
     # Might only do this when any method is said to be lm-sensors.
-    IF    ${DEFAULT_BOOT_OS_ID}==${ENV_ID_QUBES}
-        Login To OS    ${ENV_ID_QUBES}
+    IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
+        Power On
+        Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+        Login To Linux
     ELSE
         Power On
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
