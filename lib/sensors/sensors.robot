@@ -52,9 +52,9 @@ Get CPU Temperature
     ...    sensors using `Prepare Sensors` keyword.
     ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
     IF    '''${cpu_temperature_measurement_method}''' == '''lm-sensors'''
-        IF    ${DEFAULT_BOOT_OS_ID}==${ENV_ID_QUBES}
+        IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
             ${temperature}=    Execute Command In Terminal
-            ...    sensors 2>/dev/null | grep -E 'Sensor'| head -n1 | awk -F'+' '{print $2}' | awk '{print $1}' | tr -cd '0-9.\n'
+            ...    sensors 2>/dev/null | grep -E 'Sensor'| head -n1 | awk -F'+' '{print $2}' | awk '{print $1}' | grep -oE "[0-9]+\.[0-9]+"
         ELSE
             ${temperature}=    Execute Command In Terminal
             ...    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
