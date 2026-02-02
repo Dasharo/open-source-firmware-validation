@@ -326,7 +326,6 @@ Multiple CPU Support Linux
 
 Multiple CPU Support QubesOS
     [Documentation]    Check whether the DUT has multiple CPU support.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.001 not supported
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    (${online}-1)    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
 
