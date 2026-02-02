@@ -18,6 +18,56 @@ ${BAD_FORMAT_URL}=          https://cloud.3mdeb.com/index.php/s/AsBnATiHTZQ6jae/
 ${BAD_FORMAT_NAME}=         bad_format.img
 ${BAD_FORMAT_SHA256}=       59d17bc120dfd0f2e6948a2bfdbdf5fb06eddcb44f9a053a8e7b8f677e21858c
 
+${EFIVARFS}=                /sys/firmware/efi/efivars
+${EFI_GLOBAL_VAR_GUID}=     8be4df61-93ca-11d2-aa0d-00e098032b8c
+${SECURE_BOOT_DB_GUID}=     d719b2cb-3d3a-4596-a3bc-dad00e67656f
+
+&{PK_VAR}=                  varname=PK
+...                         guid=${EFI_GLOBAL_VAR_GUID}
+...                         length=0
+&{KEK_VAR}=                 varname=KEK
+...                         guid=${EFI_GLOBAL_VAR_GUID}
+...                         length=0
+&{DB_VAR}=                  varname=db
+...                         guid=${SECURE_BOOT_DB_GUID}
+...                         length=0
+&{DBX_VAR}=                 varname=dbx
+...                         guid=${SECURE_BOOT_DB_GUID}
+...                         length=0
+&{DBT_VAR}=                 varname=dbt
+...                         guid=${SECURE_BOOT_DB_GUID}
+...                         length=0
+&{PK_DEFAULT_VAR}=          varname=PKDefault
+...                         guid=${EFI_GLOBAL_VAR_GUID}
+...                         length=0
+&{KEK_DEFAULT_VAR}=         varname=KEKDefault
+...                         guid=${EFI_GLOBAL_VAR_GUID}
+...                         length=0
+&{DB_DEFAULT_VAR}=          varname=dbDefault
+...                         guid=${SECURE_BOOT_DB_GUID}
+...                         length=0
+&{DBX_DEFAULT_VAR}=         varname=dbxDefault
+...                         guid=${SECURE_BOOT_DB_GUID}
+...                         length=0
+&{DBT_DEFAULT_VAR}=         varname=dbtDefault
+...                         guid=${SECURE_BOOT_DB_GUID}
+...                         length=0
+&{SECURE_BOOT_VAR}=         varname=SecureBoot
+...                         guid=${EFI_GLOBAL_VAR_GUID}
+...                         length=1
+&{SETUP_MODE_VAR}=          varname=SetupMode
+...                         guid=${EFI_GLOBAL_VAR_GUID}
+...                         length=1
+&{VENDOR_KEYS_VAR}=         varname=VendorKeys
+...                         guid=${EFI_GLOBAL_VAR_GUID}
+...                         length=1
+
+@{SB_VAR_LIST}=             &{PK_VAR}    &{KEK_VAR}    &{DB_VAR}    &{DBX_VAR}
+...                         &{PK_DEFAULT_VAR}    &{KEK_DEFAULT_VAR}
+...                         &{DB_DEFAULT_VAR}    &{DBX_DEFAULT_VAR}
+...                         &{SECURE_BOOT_VAR}    &{SETUP_MODE_VAR}
+...                         &{VENDOR_KEYS_VAR}
+
 
 *** Keywords ***
 Get Secure Boot Menu Construction
@@ -276,3 +326,93 @@ Restore Secure Boot Defaults
         Enable Secure Boot    ${sb_menu}
     END
     # Changes to Secure Boot take action immediately, so we can just continue
+
+Enter PK Options And Delete PK
+    [Documentation]    Enters Advanced Secure Boot Keys Management menu and
+    ...    then PK Options, and deletes PK. Keyword assumes PK is present.
+    [Arguments]    ${advanced_menu}
+    ${pk_opts_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${advanced_menu}
+    ...    PK Options
+    ...    opt_only=${TRUE}
+    Should Contain    ${pk_opts_menu}    > Enroll PK
+    # Bug in EDK2, 'K' in Pk is small in this string
+    Should Contain Match    ${pk_opts_menu}    Delete Pk [*
+    # Select Delete PK
+    Press Key N Times And Enter    1    ${ARROW_DOWN}
+    # Consume pop-up and confirm action
+    Read From Terminal Until    Are you sure you want to delete PK?
+    Read From Terminal Until    discard change and return
+    Write Bare Into Terminal    y
+
+Generate New PK Key Set
+    [Documentation]    Creates a set of file required to manage PK via OS.
+    [Arguments]    ${basename}=PK
+    VAR    ${keygen_cmd}=
+    ...    openssl req -new -x509 -newkey rsa:2048 -subj \"/CN\=PK/\"
+    ...    -keyout ${basename}.key -out ${basename}.crt -days 3650 -nodes -sha256
+    ...    separator=${SPACE}
+    VAR    ${pk_sign_cmd}=
+    ...    sign-efi-sig-list -t "$(date --date\='1 second' +'%Y-%m-%d %H:%M:%S')"
+    ...    -k ${basename}.key -c ${basename}.crt PK ${basename}.esl ${basename}.auth
+    ...    separator=${SPACE}
+    VAR    ${no_pk_sign_cmd}=
+    ...    sign-efi-sig-list -t "$(date --date\='1 second' +'%Y-%m-%d %H:%M:%S')"
+    ...    -k ${basename}.key -c ${basename}.crt PK /dev/null no${basename}.auth
+    ...    separator=${SPACE}
+    Execute Command In Terminal    ${keygen_cmd}
+    Execute Command In Terminal    cert-to-efi-sig-list ${basename}.crt ${basename}.esl
+    # Enrolling new keys may fail if we try to use these files too quickly.
+    # Timestamp verification may fail.
+    Sleep    2s
+    Execute Command In Terminal    ${pk_sign_cmd}
+    Sleep    2s
+    Execute Command In Terminal    ${no_pk_sign_cmd}
+    Sleep    3s
+
+Get SB Variable Info
+    [Documentation]    Returns the GUID for given Secure Boot variable name.
+    [Arguments]    ${varname}
+    FOR    ${var}    IN    @{SB_VAR_LIST}
+        IF    '${var.varname}' == '${varname}'    RETURN    ${var}
+    END
+    Fail    Invalid Secure Boot Variable Name
+
+Read Secure Boot Variable
+    [Documentation]    Reads a Secure Boot variable via efivarfs
+    [Arguments]    ${var}    ${n_bytes}=0
+    ${var_info}=    Get SB Variable Info    ${var}
+    # Check if the file even exists
+    ${status}=    Execute Command In Terminal
+    ...    test -f ${EFIVARFS}/${var}-${var_info.guid}; echo $?
+    ${status}=    Convert To Integer    ${status}
+    IF    ${status} != 0    RETURN    ${EMPTY}
+    # If 0 bytes to read, read whole file, skipping the 4 first bytes
+    # indicating attribute
+    IF    ${n_bytes} == 0
+        ${ret}=    Execute Command In Terminal
+        ...    xxd -p -s +4 ${EFIVARFS}/${var}-${var_info.guid}
+    ELSE
+        # It is safe to read more than the length of the variable. 'tail' will
+        # simply return all bytes of the variable, including attribute.
+        ${ret}=    Execute Command In Terminal
+        ...    tail -c ${n_bytes} ${EFIVARFS}/${var}-${var_info.guid} | xxd -p
+    END
+    RETURN    ${ret}
+
+Enroll New PK From OS
+    [Documentation]    Enrolls a new PK from file.
+    [Arguments]    ${pk_auth_file}=PK.auth
+    ${status}=    Execute Command In Terminal
+    ...    test -f ${EFIVARFS}/${PK_VAR.varname}-${PK_VAR.guid}; echo $?
+    ${status}=    Convert To Integer    ${status}
+    # Disable immutability attribute of the file in OS
+    IF    ${status} == 0
+        Execute Command In Terminal
+        ...    chattr -i ${EFIVARFS}/${PK_VAR.varname}-${PK_VAR.guid}
+    END
+    ${out}=    Execute Command In Terminal
+    ...    efi-updatevar -f ${pk_auth_file} PK
+    ${status}=    Execute Command In Terminal    echo $?
+    ${status}=    Convert To Integer    ${status}
+    RETURN    ${status}

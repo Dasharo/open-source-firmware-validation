@@ -43,7 +43,6 @@ SBO001.001 Check Secure Boot default state (firmware)
     [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
     ...    correct.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO001.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -60,7 +59,6 @@ SBO002.001 UEFI Secure Boot (Ubuntu)
     [Documentation]    This test verifies that Secure Boot can be enabled from
     ...    boot menu and, after the DUT reset, it is seen from
     ...    the OS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.001 not supported
 
     # 1. Make sure that SB is enabled
@@ -97,7 +95,6 @@ SBO002.002 UEFI Secure Boot (Windows)
     [Documentation]    This test verifies that Secure Boot can be enabled from
     ...    boot menu and, after the DUT reset, it is seen from
     ...    the OS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.002 not supported
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.002 not supported
 
     # 1. Make sure that SB is enabled
@@ -133,7 +130,6 @@ SBO002.002 UEFI Secure Boot (Windows)
 SBO003.001 Attempt to boot file with the correct key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot allows booting a
     ...    signed file with a correct key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -158,7 +154,6 @@ SBO003.001 Attempt to boot file with the correct key from Boot Maintenance Manag
 SBO004.001 Attempt to boot file without the key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot blocks booting a file
     ...    without a key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.001 not supported
     # 1. Make sure that SB is enabled
     Power On
@@ -176,7 +171,6 @@ SBO004.001 Attempt to boot file without the key from Boot Maintenance Manager (f
 SBO005.001 Attempt to boot file with the wrong-signed key from Boot Maintenance Manager (firmware)
     [Documentation]    This test verifies that Secure Boot disallows booting
     ...    a signed file with a wrong-signed key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO005.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO005.001 not supported
     # 1. Make sure that SB is enabled
     Power On
@@ -194,7 +188,6 @@ SBO005.001 Attempt to boot file with the wrong-signed key from Boot Maintenance 
 SBO006.001 Reset Secure Boot Keys option availability (firmware)
     [Documentation]    This test verifies that the Reset Secure Boot Keys
     ...    option is available
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO006.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO006.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -210,7 +203,6 @@ SBO006.001 Reset Secure Boot Keys option availability (firmware)
 SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
     [Documentation]    This test verifies that restoring the keys to default
     ...    removes any custom added certificates.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO007.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO007.001 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
@@ -249,7 +241,6 @@ SBO007.001 Attempt to boot the file after restoring keys to default (firmware)
 SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     [Documentation]    This test verifies that it is impossible to load
     ...    a certificate in the wrong file format.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO008.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO008.001 not supported
     # 1. Make sure that SB is enabled
     Power On
@@ -263,6 +254,124 @@ SBO008.001 Attempt to enroll the key in the incorrect format (firmware)
     Enter Volume In File Explorer    BAD_INFLUE
     Select File In File Explorer    cert_fake.der
     Read From Terminal Until    ERROR: Unsupported file type!
+
+SBO009.201 Attempt to enroll and delete new PK key in OS (Ubuntu)
+    [Documentation]    This test verifies that it is impossible to load
+    ...    a certificate in the wrong file format.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO009.001 not supported
+    # 1. Make sure that SB is enabled and default keys enrolled.
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    # 2. Delete PK so that we can enroll a new one in OS
+    Enter PK Options And Delete PK    ${advanced_menu}
+    # Let the flash operation be finished before resetting
+    Sleep    1
+    Tianocore Reset System
+    # Now boot to the OS
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    # The magic starts here...
+    # Check if we are in SetupMode
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 1    Fail    Secure Boot not in setup mode
+    # Generate a new PK key and enroll the new PK. Setup mode should be cleared
+    Generate New PK Key Set
+    ${status}=    Enroll New PK From OS
+    IF    ${status} != 0    Fail    Could not enroll new PK from OS
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 0    Fail    Secure Boot not in user mode
+    # Attempt to delete PK. We should get back to Setup Mode
+    ${status}=    Enroll New PK From OS    noPK.auth
+    IF    ${status} != 0    Fail    Could not delete PK from OS
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 1    Fail    Secure Boot not in setup mode
+
+SBO010.201 Attempt to change existing PK key in OS (Ubuntu)
+    [Documentation]    This test verifies that it is impossible to load
+    ...    a certificate in the wrong file format.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO009.002 not supported
+    # 1. Make sure that SB is enabled and default keys enrolled.
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    # 2. Delete PK so that we can enroll a new one in OS
+    Enter PK Options And Delete PK    ${advanced_menu}
+    # Let the flash operation be finished before resetting
+    Sleep    1
+    Tianocore Reset System
+    # Now boot to the OS
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    # The magic starts here...
+    # Check if we are in SetupMode
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 1    Fail    Secure Boot not in setup mode
+    # Generate a new PK key and enroll the new PK. Setup mode should be cleared
+    Generate New PK Key Set
+    ${status}=    Enroll New PK From OS
+    IF    ${status} != 0    Fail    Could not enroll new PK from OS
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 0    Fail    Secure Boot not in user mode
+    # Attempt to change PK.
+    Generate New PK Key Set    newPK
+    # Sign the new PK signature list with existing PK
+    Execute Command In Terminal
+    ...    sign-efi-sig-list -k PK.key -c PK.crt PK newPK.esl newPK.auth
+    ${status}=    Enroll New PK From OS    newPK.auth
+    IF    ${status} != 0    Fail    Could not change PK from OS
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 0    Fail    Secure Boot not in user mode
+
+SBO011.201 Attempt to change PK with incorrectly signed PK in OS (Ubuntu)
+    [Documentation]    This test verifies that it is impossible to load
+    ...    a certificate in the wrong file format.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO009.003 not supported
+    # 1. Make sure that SB is enabled and default keys enrolled.
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    # 2. Delete PK so that we can enroll a new one in OS
+    Enter PK Options And Delete PK    ${advanced_menu}
+    # Let the flash operation be finished before resetting
+    Sleep    1
+    Tianocore Reset System
+    # Now boot to the OS
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    # The magic starts here...
+    # Check if we are in SetupMode
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 1    Fail    Secure Boot not in setup mode
+    # Generate a new PK key and enroll the new PK. Setup mode should be cleared
+    Generate New PK Key Set
+    ${status}=    Enroll New PK From OS
+    IF    ${status} != 0    Fail    Could not enroll new PK from OS
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 0    Fail    Secure Boot not in user mode
+    # Attempt to change PK but do not sign it with current PK.
+    Generate New PK Key Set    newPK
+    ${status}=    Enroll New PK From OS    newPK.auth
+    IF    ${status} == 0
+        Fail    Unauthorized PK has been enrolled successfully
+    END
+    ${out}=    Read Secure Boot Variable    SetupMode
+    ${setup_mode}=    Convert To Integer    ${out}
+    IF    ${setup_mode} != 0    Fail    Secure Boot not in user mode
 
 
 *** Keywords ***

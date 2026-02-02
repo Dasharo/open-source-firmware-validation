@@ -5797,6 +5797,27 @@
   },
   {
     "doc": {
+      "_id": "SBO009.201",
+      "name": "Attempt to enroll and delete new PK key in OS (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO010.201",
+      "name": "Attempt to change existing PK key in OS (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO011.201",
+      "name": "Attempt to change PK with incorrectly signed PK in OS (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "SDC001.001",
       "name": "SD Card reader detection (Ubuntu)",
       "module": "Dasharo Compatibility",

@@ -22,3 +22,4 @@ package_tpm2_tools: tpm2-tools
 package_ethtool: ethtool
 package_stress_ng: stress-ng
 package_pulseaudio_utils: pulseaudio-utils
+package_efitools: efitools
