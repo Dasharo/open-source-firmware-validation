@@ -6,6 +6,7 @@
             "run": [
                 {
                     "env_vars": {
+                        "ASSET_ID": "00039",
                         "RTE_IP": "192.168.10.199",
                         "SNIPEIT_NO": "true",
                         "CONFIG": "msi-pro-z690-a-wifi-ddr4",
@@ -18,6 +19,7 @@
                 },
                 {
                     "env_vars": {
+                        "ASSET_ID": "00252",
                         "RTE_IP": "192.168.10.171",
                         "SNIPEIT_NO": "true",
                         "CONFIG": "pcengines-apu3",
@@ -35,6 +37,7 @@
             "run": [
                 {
                     "env_vars": {
+                        "ASSET_ID": "00039",
                         "RTE_IP": "192.168.10.199",
                         "SNIPEIT_NO": "true",
                         "CONFIG": "msi-pro-z690-a-wifi-ddr4",
@@ -48,6 +51,7 @@
                 },
                 {
                     "env_vars": {
+                        "ASSET_ID": "00252",
                         "RTE_IP": "192.168.10.171",
                         "SNIPEIT_NO": "true",
                         "CONFIG": "pcengines-apu3"
