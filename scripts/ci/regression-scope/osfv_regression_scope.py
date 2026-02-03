@@ -8,11 +8,9 @@ import json
 import os
 import subprocess
 import sys
-from pprint import pprint
 import glob
 
 import fire
-import pandas as pd
 
 from lib.parser_manager import ParserManager
 
@@ -66,61 +64,63 @@ def get_files_from_list(list_path):
     Returns a list of filenames from a list of files.
     List is a TSV in form of:
     <test ID>\t<Name>\t<Automation>\t<Result>\t<Has comment>\n
-    Fields other than <test ID> are optional for easy copying from dashboard.
+    Only the first column is required; extra columns are ignored.
     """
-    table = pd.read_csv(list_path, header=None)
-    return table.iloc[:, 0].tolist()
+    files = []
+    with open(list_path, encoding="utf-8") as list_file:
+        for line in list_file:
+            line = line.strip()
+            if not line:
+                continue
+            files.append(line.split("\t", 1)[0])
+    return files
 
 class CLI:
-    def __init__(self, device_name="qemu", rules_file="scripts/ci/regression-scope/configs/rules-new.json", devices_dir="scripts/ci/regression-scope/configs/devices", override_tests_list=None, compare_to="HEAD"):
+    def __init__(
+        self,
+        rules_file="scripts/ci/regression-scope/configs/rules-new.json",
+        devices_dir="scripts/ci/regression-scope/configs/devices",
+        override_tests_list=None,
+        compare_to="HEAD",
+    ):
         self.compare_to = compare_to
         self.override_tests_list = override_tests_list
         self.rules_file = rules_file
         self.devices_dir = devices_dir
-        self.device_name = device_name
         if override_tests_list is None:
             self.get_changed_files = lambda: get_changed_files(compare_to)
         else:
             self.get_changed_files = lambda: get_files_from_list(override_tests_list)
 
+    def _prepare_parser(self, device_name):
+        device_envs = _load_device_env_vars(device_name, self.devices_dir) if device_name else []
+        with open(self.rules_file) as rules_file:
+            rules = json.load(rules_file)["rules"]
+        changed_files = self.get_changed_files()
+        parser = ParserManager(rules, changed_files, device_envs=device_envs)
+        parser.parse()
+        return parser
 
     def filenames(self, *device_name):
         """
         Print the filenames of test suites that are affected by the changes
         """
-        self.device_envs = _load_device_env_vars(device_name, self.devices_dir) if device_name else None
-        with open(self.rules_file) as rules_file:
-            self.rules = json.load(rules_file)["rules"]
-        self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files, device_envs=self.device_envs)
-        parser.parse()
+        parser = self._prepare_parser(device_name)
         print(" ".join(parser.files()))
 
     def commands(self, *device_name):
         """
         Print the commands that should be executed to test the changes
         """
-        print(self.device_name)
-        self.device_envs = _load_device_env_vars(device_name, self.devices_dir) if device_name else None
-        with open(self.rules_file) as rules_file:
-            self.rules = json.load(rules_file)["rules"]
-        self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files, device_envs=self.device_envs)
-        parser.parse()
+        parser = self._prepare_parser(device_name)
         for command in parser.commands():
             print(" ".join(command))
 
     def robot_args(self, *device_name):
         """
-        Print the parameters that should be passed to the run.sh robot wrapper to
-        test the changes. Does not
+        Print the arguments that should be passed to the run.sh robot wrapper.
         """
-        self.device_envs = _load_device_env_vars(device_name, self.devices_dir) if device_name else None
-        with open(self.rules_file) as rules_file:
-            self.rules = json.load(rules_file)["rules"]
-        self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files, device_envs=self.device_envs)
-        parser.parse()
+        parser = self._prepare_parser(device_name)
         print(" ".join(parser.wrapper_args()))
 
 

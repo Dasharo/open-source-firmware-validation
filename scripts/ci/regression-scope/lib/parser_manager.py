@@ -4,9 +4,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 from collections import defaultdict
+from copy import deepcopy
 
 from lib.rules_parser import RuleParser
-from copy import deepcopy
 
 class ParserManager:
     """
@@ -117,8 +117,12 @@ class ParserManager:
             parser = RuleParser(rule, self.changed_files)
             if not parser.match_rule():
                 continue
-            for run_data in parser.runs_data:
+            if self.device_envs:
                 for env_vars in self.device_envs:
-                    run_data["env"] = self._env_dict_to_commands(env_vars)
+                    env_commands = self._env_dict_to_commands(env_vars)
+                    for run_data in parser.runs_data:
+                        run_copy = deepcopy(run_data)
+                        run_copy["env"] = run_copy.get("env", []) + env_commands
+                        self.runs_data.append(run_copy)
             else:
-                self.runs_data += parser.runs_data
+                self.runs_data.extend(parser.runs_data)
