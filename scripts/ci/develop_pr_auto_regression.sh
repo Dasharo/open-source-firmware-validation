@@ -26,8 +26,14 @@ else
     TESTS_LIST=""
 fi
 
+RULES_FILE="${RULES_FILE:-scripts/ci/regression-scope/rules.json}"
+DEVICES="${DEVICES:-}"
+device_args=()
+if [[ -n $DEVICES ]]; then
+    read -ra device_args <<< "$DEVICES"
+fi
 
-mapfile -t commands < <("${SCRIPT_DIR}"/regression-scope/osfv_regression_scope.py commands --compare_to origin/develop $TESTS_LIST)
+mapfile -t commands < <("${SCRIPT_DIR}"/regression-scope/osfv_regression_scope.py commands --compare_to origin/develop $TESTS_LIST "$RULES_FILE" "${device_args[@]}")
 echo "Commands to run:"
 echo "${commands[@]}"
 printf "\n"

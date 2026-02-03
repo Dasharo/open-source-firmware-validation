@@ -76,6 +76,82 @@ class TestMiscellaneous(unittest.TestCase):
             ],
         )
 
+
+    def test_new_run_shorthand_dict(self):
+        rules = json.loads(
+            """
+            {
+                "rules": [
+                    {
+                        "name": "Single match",
+                        "on-changed": "(important-file.robot)",
+                        "run": {
+                            "mode": "${FULL_FILENAME_MATCH}"
+                        }
+                    }
+                ]
+            }"""
+        )["rules"]
+        changed_files = [
+            "important-file.robot",
+            "dasharo-performance/boot-time-measure.robot",
+        ]
+        parser = ParserManager(rules, changed_files)
+        parser.parse()
+        self.assertEqual(parser.files(), ["important-file.robot"])
+        self.assertEqual(
+            parser.commands(),
+            [["scripts/run.sh", "important-file.robot"]],
+        )
+
+    def test_device_expansion_from_external_env_vars(self):
+        rules = json.loads(
+            """
+            {
+                "rules": [
+                    {
+                        "name": "Single match",
+                        "on-changed": "(important-file.robot)",
+                        "run": {
+                            "mode": "${FULL_FILENAME_MATCH}"
+                        }
+                    }
+                ]
+            }"""
+        )["rules"]
+        changed_files = [
+            "important-file.robot",
+        ]
+        device_envs = [
+            {"ASSET_ID": "00039", "CONFIG": "msi-pro-z690-a-wifi-ddr4"},
+            {"ASSET_ID": "00252", "CONFIG": "pcengines-apu3"},
+        ]
+        parser = ParserManager(rules, changed_files, device_envs=device_envs)
+        parser.parse()
+        self.assertEqual(parser.files(), ["important-file.robot"])
+        self.assertEqual(
+            parser.commands(),
+            [
+                [
+                    "export",
+                    "ASSET_ID=00039;",
+                    "export",
+                    "CONFIG=msi-pro-z690-a-wifi-ddr4;",
+                    "scripts/run.sh",
+                    "important-file.robot",
+                ],
+                [
+                    "export",
+                    "ASSET_ID=00252;",
+                    "export",
+                    "CONFIG=pcengines-apu3;",
+                    "scripts/run.sh",
+                    "important-file.robot",
+                ],
+            ],
+        )
+
+
     def test_mutliple_runs_one_rule(self):
         rules = json.loads(
             """

@@ -9,12 +9,12 @@ import os
 import subprocess
 import sys
 from pprint import pprint
+import glob
 
 import fire
 import pandas as pd
 
 from lib.parser_manager import ParserManager
-from lib.rules_parser import RuleParser
 
 
 def run_command(cmd, env=os.environ.copy()):
@@ -24,6 +24,38 @@ def run_command(cmd, env=os.environ.copy()):
     out = subprocess.run(cmd, capture_output=True, env=env)
     out = out.stdout.decode("utf-8").splitlines()
     return out
+
+def _normalize_device_names(device_names):
+    normalized = []
+    for name in device_names:
+        if isinstance(name, str) and "," in name:
+            normalized.extend([p for p in name.split(",") if p])
+        else:
+            normalized.append(name)
+    return normalized
+
+def _load_device_env_vars(device_names, devices_dir):
+    envs = []
+    for name in device_names:
+        candidates = []
+        if os.path.isfile(name):
+            candidates = [name]
+        else:
+            exact = os.path.join(devices_dir, f"{name}.json")
+            if os.path.isfile(exact):
+                candidates = [exact]
+            else:
+                candidates = glob.glob(os.path.join(devices_dir, f"{name}_*.json"))
+
+        if len(candidates) != 1:
+            raise ValueError(f"Device '{name}' matched {len(candidates)} files: {candidates}")
+
+        with open(candidates[0]) as f:
+            device_cfg = json.load(f)
+        if "env_vars" not in device_cfg or not isinstance(device_cfg["env_vars"], dict):
+            raise ValueError(f"Device file '{candidates[0]}' must contain an 'env_vars' dict")
+        envs.append(device_cfg["env_vars"])
+    return envs
 
 
 def get_changed_files(compare_to):
@@ -48,48 +80,57 @@ def get_files_from_list(list_path):
     table = pd.read_csv(list_path, header=None)
     return table.iloc[:, 0].tolist()
 
-
 class CLI:
-    def __init__(self, override_tests_list=None, compare_to="HEAD"):
+    def __init__(self, rules_file="scripts/ci/regression-scope/configs/rules-new.json", devices_dir="scripts/ci/regression-scope/configs/devices", override_tests_list=None, compare_to="HEAD"):
         self.compare_to = compare_to
         self.override_tests_list = override_tests_list
+        self.rules_file = rules_file
+        self.devices_dir = devices_dir
+
         if override_tests_list is None:
             self.get_changed_files = lambda: get_changed_files(compare_to)
         else:
             self.get_changed_files = lambda: get_files_from_list(override_tests_list)
 
-    def filenames(self, rules_file="scripts/ci/regression-scope/rules.json"):
+
+    def filenames(self, *device_names):
         """
         Print the filenames of test suites that are affected by the changes
         """
-        with open(rules_file) as rules_file:
+        self.device_names = _normalize_device_names(device_names)
+        self.device_envs = _load_device_env_vars(device_names, self.devices_dir) if device_names else None
+        with open(self.rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files)
+        parser = ParserManager(self.rules, self.changed_files, device_envs=self.device_envs)
         parser.parse()
         print(" ".join(parser.files()))
 
-    def commands(self, rules_file="scripts/ci/regression-scope/rules.json"):
+    def commands(self, *device_names):
         """
         Print the commands that should be executed to test the changes
         """
-        with open(rules_file) as rules_file:
+        self.device_names = _normalize_device_names(device_names)
+        self.device_envs = _load_device_env_vars(device_names, self.devices_dir) if device_names else None
+        with open(self.rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files)
+        parser = ParserManager(self.rules, self.changed_files, device_envs=self.device_envs)
         parser.parse()
         for command in parser.commands():
             print(" ".join(command))
 
-    def robot_args(self, rules_file="scripts/ci/regression-scope/rules.json"):
+    def robot_args(self, *device_names):
         """
         Print the parameters that should be passed to the run.sh robot wrapper to
         test the changes. Does not
         """
-        with open(rules_file) as rules_file:
+        self.device_names = _normalize_device_names(device_names)
+        self.device_envs = _load_device_env_vars(device_names, self.devices_dir) if device_names else None
+        with open(self.rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files)
+        parser = ParserManager(self.rules, self.changed_files, device_envs=self.device_envs)
         parser.parse()
         print(" ".join(parser.wrapper_args()))
 
