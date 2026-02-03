@@ -80,42 +80,6 @@ class RuleParser:
                         matching.append(file)
             return matching
 
-    def _normalize_run_section(self, run_section):
-        """
-        Supported formats:
-        1) Old: "run": [ {env_vars, files:{...}, robot_args, ...}, ... ]
-        2) New: "run": { mode, search_in, regex }   (shorthand for files:{...})
-        3) Mixed: "run": { files:{...}, robot_args, ... }
-        Returns a list of run dicts in the "old" shape (with optional keys).
-        """
-        if isinstance(run_section, list):
-            runs = run_section
-        elif isinstance(run_section, dict):
-            runs = [run_section]
-        else:
-            raise TypeError("Rule 'run' must be a dict or a list of dicts")
-
-        file_choice_keys = {"mode", "search_in", "regex"}
-        normalized = []
-        for run in runs:
-            if not isinstance(run, dict):
-                raise TypeError("Each 'run' entry must be a dict")
-
-            if "files" in run:
-                normalized.append(run)
-                continue
-
-            if "mode" in run:
-                files_choice = {k: run[k] for k in file_choice_keys if k in run}
-                rest = {k: v for k, v in run.items() if k not in file_choice_keys}
-                rest["files"] = files_choice
-                normalized.append(rest)
-                continue
-
-            normalized.append(run)
-        return normalized
-
-
     def parse_run(self):
         """
         Parses the `run` section of the rule which means running robot on
@@ -128,26 +92,27 @@ class RuleParser:
             "args": optional additional robot args list
         }
         """
-        runs = self._normalize_run_section(self.rule["run"])
+        run = self.rule.get("run")
+        if not isinstance(run, dict):
+            raise ValueError("Rule 'run' must be a dict")
+
         self.runs_data = []
-        for run in runs:
-            run_data = {
-                "env": [],
-                "files": [],
-                "command": [],
-                "args": [],
-            }
-            if "env_vars" in run:
-                run_data["env"] = self.get_env_modification_commands(run)
-            if "files" in run:
-                run_data["files"] = self.get_files_choice(run["files"])
-            if "custom_command" in run:
-                run_data["command"] = run["custom_command"].split(" ")
-                self.runs_data.append(run_data)
-                continue
-            if "robot_args" in run:
-                run_data["args"] = run["robot_args"].split(" ")
+        run_data = {
+            "env": [],
+            "files": [],
+            "command": [],
+            "args": [],
+        }
+        if "env_vars" in run:
+            run_data["env"] = self.get_env_modification_commands(run)
+        if "files" in run:
+            run_data["files"] = self.get_files_choice(run["files"])
+        if "custom_command" in run:
+            run_data["command"] = run["custom_command"].split(" ")
             self.runs_data.append(run_data)
+        if "robot_args" in run:
+            run_data["args"] = run["robot_args"].split(" ")
+        self.runs_data.append(run_data)
         return self.runs_data
 
     def match_rule(self):

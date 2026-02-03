@@ -117,16 +117,10 @@ class ParserManager:
             parser = RuleParser(rule, self.changed_files)
             if not parser.match_rule():
                 continue
-
-            if (
-                self.device_envs
-                and parser.runs_data
-                and all(len(d.get("env", [])) == 0 for d in parser.runs_data)
-            ):
-                for run_data in parser.runs_data:
-                    for env_vars in self.device_envs:
-                        expanded = deepcopy(run_data)
-                        expanded["env"] = self._env_dict_to_commands(env_vars)
-                        self.runs_data.append(expanded)
+            for run_data in parser.runs_data:
+                for env_vars in self.device_envs:
+                    expanded = deepcopy(run_data)
+                    expanded["env"] = self._env_dict_to_commands(env_vars)
+                    self.runs_data.append(expanded)
             else:
                 self.runs_data += parser.runs_data
