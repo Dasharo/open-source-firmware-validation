@@ -109,7 +109,6 @@ class RuleParser:
             run_data["files"] = self.get_files_choice(run["files"])
         if "custom_command" in run:
             run_data["command"] = run["custom_command"].split(" ")
-            self.runs_data.append(run_data)
         if "robot_args" in run:
             run_data["args"] = run["robot_args"].split(" ")
         self.runs_data.append(run_data)

@@ -23,17 +23,6 @@ def run_command(cmd, env=os.environ.copy()):
     out = out.stdout.decode("utf-8").splitlines()
     return out
 
-
-def _normalize_device_names(device_names):
-    normalized = []
-    for name in device_names:
-        if isinstance(name, str) and "," in name:
-            normalized.extend([p for p in name.split(",") if p])
-        else:
-            normalized.append(name)
-    return normalized
-
-
 def _load_device_env_vars(device_names, devices_dir):
     envs = []
     for name in device_names:

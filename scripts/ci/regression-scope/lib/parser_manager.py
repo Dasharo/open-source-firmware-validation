@@ -119,10 +119,14 @@ class ParserManager:
                 continue
             if self.device_envs:
                 for env_vars in self.device_envs:
+<<<<<<< HEAD
                     env_commands = self._env_dict_to_commands(env_vars)
                     for run_data in parser.runs_data:
                         run_copy = deepcopy(run_data)
                         run_copy["env"] = run_copy.get("env", []) + env_commands
                         self.runs_data.append(run_copy)
+=======
+                    run_data["env"] = self._env_dict_to_commands(env_vars)
+>>>>>>> 1671fb8c097a (regression_scope_selftests: Adjust to simpler configs)
             else:
                 self.runs_data.extend(parser.runs_data)
