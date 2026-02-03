@@ -52,7 +52,7 @@ snipeit_cleanup() {
             sleep 5
             trial=$((trial+1))
         done
-        echo "$id checked in successdully"
+        echo "$id checked in successfully"
     done
     return 0
 }

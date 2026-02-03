@@ -1,1 +1,1 @@
-dasharo-compatibility/acpi-driver.robot
+dasharo-compatibility/test.robot

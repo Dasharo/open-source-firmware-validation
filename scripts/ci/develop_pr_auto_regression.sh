@@ -44,7 +44,7 @@ done
 
 pids=()
 statuses=()
-LOGS_DIR="./logs"
+LOGS_DIR=${LOGS_DIR:-"./logs"}
 mkdir -p $LOGS_DIR/ || true
 i=1
 for command in "${commands[@]}"; do
