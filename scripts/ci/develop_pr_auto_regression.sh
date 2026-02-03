@@ -8,10 +8,9 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "$SCRIPT_DIR/regression-scope/lib/snipeit_checkout.sh"
 # shellcheck disable=SC2317
 cleanup() {
-    snipeit_cleanup
     for id in "${pids[@]}"; do
         echo "killing $id"
-        kill -9 $id
+        kill -9 $id &> /dev/null
     done
 }
 trap cleanup EXIT INT TERM HUP
@@ -26,21 +25,22 @@ else
     TESTS_LIST=""
 fi
 
-RULES_FILE="${RULES_FILE:-scripts/ci/regression-scope/rules.json}"
-DEVICES="${DEVICES:-}"
-device_args=()
-if [[ -n $DEVICES ]]; then
-    read -ra device_args <<< "$DEVICES"
-fi
+RULES_FILE="${RULES_FILE:-scripts/ci/regression-scope/configs/pr-regression-rules.json}"
+DEVICES="${DEVICES:-scripts/ci/regression-scope/configs/pr-regression-devices.csv}"
+DEVICES=$(cat $DEVICES | tr '\n' ' ')
 
-mapfile -t commands < <("${SCRIPT_DIR}"/regression-scope/osfv_regression_scope.py commands --compare_to origin/develop $TESTS_LIST "$RULES_FILE" "${device_args[@]}")
-echo "Commands to run:"
-echo "${commands[@]}"
-printf "\n"
+mapfile -t commands < <("${SCRIPT_DIR}"/regression-scope/osfv_regression_scope.py commands $DEVICES --compare_to origin/develop $TESTS_LIST --rules_file "$RULES_FILE" )
 
 if [[ ${#commands[@]} -eq 0 ]]; then
     echo "No tests required to run for these changes."
+    exit 0
 fi
+
+echo "Commands to run:"
+for c in "${commands[@]}"; do
+    echo "$c"
+    printf "\n"
+done
 
 pids=()
 statuses=()
