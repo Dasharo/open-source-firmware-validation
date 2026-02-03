@@ -33,7 +33,7 @@ if "MANUAL_TESTS_LIST" not in env:
         "scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt"
     )
 if "DEVICES" not in env:
-    env["DEVICES"] = "scripts/ci/regression-scope/configs/release_tests_devices.csv"
+    env["DEVICES"] = "scripts/ci/regression-scope/configs/release_tests_devices.txt"
 if "RULES_FILE" not in env:
     env["RULES_FILE"] = "scripts/ci/regression-scope/configs/release_tests_rules.json"
 if "LOGS_DIR" not in env:

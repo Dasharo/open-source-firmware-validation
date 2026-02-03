@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+msi-pro-z690-a-wifi-ddr4_00039
+pcengines-apu3_00252
