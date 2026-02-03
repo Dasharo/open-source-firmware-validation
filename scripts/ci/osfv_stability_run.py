@@ -5,29 +5,48 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+import pathlib
 import shutil
+import subprocess
 import sys
+import subprocess
+import time
 
 import develop_pr_auto_regression
 import tqdm
 
-N_REPEATS = 5
-LOGS_DIR = "ci_logs"
-MANUAL_TESTS_LIST = "scripts/ci/regression-scope/configs/release_tests_suite_list.txt"
-DEVICES_LIST = "scripts/ci/regression-scope/configs/release_tests_devices.csv"
-
-
+N_REPEATS = 2
+RUN_DATE = time.strftime("%Y_%m_%d_%H_%M_%S")
+COMMIT = (
+    subprocess.run(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE)
+    .stdout.decode()
+    .strip()
+)
+BRANCH = (
+    subprocess.run(["git", "branch", "--show-current"], stdout=subprocess.PIPE)
+    .stdout.decode()
+    .strip()
+)
 env = os.environ
-env["ALLOW_DIRTY"] = "1"
-env["MANUAL_TESTS_LIST"] = MANUAL_TESTS_LIST
-env["DEVICES"] = DEVICES_LIST
+if "MANUAL_TESTS_LIST" not in env:
+    env["MANUAL_TESTS_LIST"] = (
+        "scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt"
+    )
+if "DEVICES" not in env:
+    env["DEVICES"] = "scripts/ci/regression-scope/configs/release_tests_devices.csv"
+if "RULES_FILE" not in env:
+    env["RULES_FILE"] = "scripts/ci/regression-scope/configs/release_tests_rules.json"
+if "LOGS_DIR" not in env:
+    env["LOGS_DIR"] = f"/srv/nfs/logs/osfv_stability/ci_logs"
 
-shutil.rmtree(LOGS_DIR, ignore_errors=True)
-os.makedirs(LOGS_DIR)
+RULES = "scripts/ci/regression-scope/configs/release_tests_rules.json"
+env["ALLOW_DIRTY"] = "1"
+
+os.makedirs(env["LOGS_DIR"], exist_ok=True)
 
 repeats = tqdm.tqdm(range(N_REPEATS), colour="green")
 for i in repeats:
-    logs_dir = f"{LOGS_DIR}/run{i}"
+    logs_dir = f"{env["LOGS_DIR"]}/{BRANCH}_{COMMIT}/{RUN_DATE}/run{i}"
     os.makedirs(logs_dir)
     env["LOGS_DIR"] = logs_dir
 
