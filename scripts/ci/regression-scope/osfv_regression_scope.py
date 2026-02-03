@@ -4,17 +4,15 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+import glob
 import json
 import os
 import subprocess
 import sys
-from pprint import pprint
 
 import fire
-import pandas as pd
 
 from lib.parser_manager import ParserManager
-from lib.rules_parser import RuleParser
 
 
 def run_command(cmd, env=os.environ.copy()):
@@ -24,6 +22,44 @@ def run_command(cmd, env=os.environ.copy()):
     out = subprocess.run(cmd, capture_output=True, env=env)
     out = out.stdout.decode("utf-8").splitlines()
     return out
+
+
+def _normalize_device_names(device_names):
+    normalized = []
+    for name in device_names:
+        if isinstance(name, str) and "," in name:
+            normalized.extend([p for p in name.split(",") if p])
+        else:
+            normalized.append(name)
+    return normalized
+
+
+def _load_device_env_vars(device_names, devices_dir):
+    envs = []
+    for name in device_names:
+        candidates = []
+        if os.path.isfile(name):
+            candidates = [name]
+        else:
+            exact = os.path.join(devices_dir, f"{name}.json")
+            if os.path.isfile(exact):
+                candidates = [exact]
+            else:
+                candidates = glob.glob(os.path.join(devices_dir, f"{name}_*.json"))
+
+        if len(candidates) != 1:
+            raise ValueError(
+                f"Device '{name}' matched {len(candidates)} files: {candidates}"
+            )
+
+        with open(candidates[0]) as f:
+            device_cfg = json.load(f)
+        if "env_vars" not in device_cfg or not isinstance(device_cfg["env_vars"], dict):
+            raise ValueError(
+                f"Device file '{candidates[0]}' must contain an 'env_vars' dict"
+            )
+        envs.append(device_cfg["env_vars"])
+    return envs
 
 
 def get_changed_files(compare_to):
@@ -43,54 +79,66 @@ def get_files_from_list(list_path):
     Returns a list of filenames from a list of files.
     List is a TSV in form of:
     <test ID>\t<Name>\t<Automation>\t<Result>\t<Has comment>\n
-    Fields other than <test ID> are optional for easy copying from dashboard.
+    Only the first column is required; extra columns are ignored.
     """
-    table = pd.read_csv(list_path, header=None)
-    return table.iloc[:, 0].tolist()
+    files = []
+    with open(list_path, encoding="utf-8") as list_file:
+        for line in list_file:
+            line = line.strip()
+            if not line:
+                continue
+            files.append(line.split("\t", 1)[0])
+    return files
 
 
 class CLI:
-    def __init__(self, override_tests_list=None, compare_to="HEAD"):
+    def __init__(
+        self,
+        rules_file="scripts/ci/regression-scope/configs/pr-regression-rules.json",
+        devices_dir="scripts/ci/regression-scope/configs/devices",
+        override_tests_list=None,
+        compare_to="HEAD",
+    ):
         self.compare_to = compare_to
         self.override_tests_list = override_tests_list
+        self.rules_file = rules_file
+        self.devices_dir = devices_dir
         if override_tests_list is None:
             self.get_changed_files = lambda: get_changed_files(compare_to)
         else:
             self.get_changed_files = lambda: get_files_from_list(override_tests_list)
 
-    def filenames(self, rules_file="scripts/ci/regression-scope/rules.json"):
+    def _prepare_parser(self, device_name):
+        device_envs = (
+            _load_device_env_vars(device_name, self.devices_dir) if device_name else []
+        )
+        with open(self.rules_file) as rules_file:
+            rules = json.load(rules_file)["rules"]
+        changed_files = self.get_changed_files()
+        parser = ParserManager(rules, changed_files, device_envs=device_envs)
+        parser.parse()
+        return parser
+
+    def filenames(self, *device_name):
         """
         Print the filenames of test suites that are affected by the changes
         """
-        with open(rules_file) as rules_file:
-            self.rules = json.load(rules_file)["rules"]
-        self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files)
-        parser.parse()
+        parser = self._prepare_parser(device_name)
         print(" ".join(parser.files()))
 
-    def commands(self, rules_file="scripts/ci/regression-scope/rules.json"):
+    def commands(self, *device_name):
         """
         Print the commands that should be executed to test the changes
         """
-        with open(rules_file) as rules_file:
-            self.rules = json.load(rules_file)["rules"]
-        self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files)
-        parser.parse()
+        parser = self._prepare_parser(device_name)
         for command in parser.commands():
             print(" ".join(command))
 
-    def robot_args(self, rules_file="scripts/ci/regression-scope/rules.json"):
+    def robot_args(self, *device_name):
         """
-        Print the parameters that should be passed to the run.sh robot wrapper to
-        test the changes. Does not
+        Print the arguments that should be passed to the run.sh robot wrapper.
         """
-        with open(rules_file) as rules_file:
-            self.rules = json.load(rules_file)["rules"]
-        self.changed_files = self.get_changed_files()
-        parser = ParserManager(self.rules, self.changed_files)
-        parser.parse()
+        parser = self._prepare_parser(device_name)
         print(" ".join(parser.wrapper_args()))
 
 

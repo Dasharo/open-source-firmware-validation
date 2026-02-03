@@ -4,18 +4,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 from collections import defaultdict
+from copy import deepcopy
 
 from lib.rules_parser import RuleParser
-
 
 class ParserManager:
     """
     Runs rule parsers on the rules file and presents the parsing results.
     """
 
-    def __init__(self, rules, changed_files):
+    def __init__(self, rules, changed_files, device_envs=None):
         self.rules = rules
         self.changed_files = changed_files
+        self.device_envs = device_envs or []
         self.runs_data = None
         self.parse()
 
@@ -44,6 +45,15 @@ class ParserManager:
             else:
                 run.extend(data["command"])
             commands.append(run)
+        return commands
+
+    def _env_dict_to_commands(self, env_vars):
+        """
+        Convert {"A": "a", "B": "b"} into: ["export","A=a;","export","B=b;"]
+        """
+        commands = []
+        for k in env_vars.keys():
+            commands += ["export", f"{k}={env_vars[k]};"]
         return commands
 
     def _uniqeuify_runs_data(self, parser_runs_data, by=["env", "args"]):
@@ -105,5 +115,14 @@ class ParserManager:
         self.runs_data = []
         for rule in self.rules:
             parser = RuleParser(rule, self.changed_files)
-            parser.match_rule()
-            self.runs_data += parser.runs_data
+            if not parser.match_rule():
+                continue
+            if self.device_envs:
+                for env_vars in self.device_envs:
+                    env_commands = self._env_dict_to_commands(env_vars)
+                    for run_data in parser.runs_data:
+                        run_copy = deepcopy(run_data)
+                        run_copy["env"] = run_copy.get("env", []) + env_commands
+                        self.runs_data.append(run_copy)
+            else:
+                self.runs_data.extend(parser.runs_data)

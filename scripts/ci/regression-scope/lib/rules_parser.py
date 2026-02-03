@@ -92,29 +92,27 @@ class RuleParser:
             "args": optional additional robot args list
         }
         """
-        run_dict = self.rule["run"]
-        self.runs_data = []
-        for run in run_dict:
-            run_data = {
-                "env": [],
-                "files": [],
-                "command": [],
-                "args": [],
-            }
-            if "env_vars" in run:
-                run_data["env"] = self.get_env_modification_commands(run)
-            if "files" in run:
-                run_data["files"] = self.get_files_choice(run["files"])
-            if "custom_command" in run:
-                run_data["command"] = run["custom_command"].split(" ")
-                self.runs_data.append(run_data)
-                continue
-            if "robot_args" in run:
-                run_data["args"] = run["robot_args"].split(" ")
-            if "snipeit" in run and run["snipeit"] == "no":
-                run_data["args"] += ["-v", "snipeit:no"]
+        run = self.rule.get("run")
+        if not isinstance(run, dict):
+            raise ValueError("Rule 'run' must be a dict")
 
+        self.runs_data = []
+        run_data = {
+            "env": [],
+            "files": [],
+            "command": [],
+            "args": [],
+        }
+        if "env_vars" in run:
+            run_data["env"] = self.get_env_modification_commands(run)
+        if "files" in run:
+            run_data["files"] = self.get_files_choice(run["files"])
+        if "custom_command" in run:
+            run_data["command"] = run["custom_command"].split(" ")
             self.runs_data.append(run_data)
+        if "robot_args" in run:
+            run_data["args"] = run["robot_args"].split(" ")
+        self.runs_data.append(run_data)
         return self.runs_data
 
     def match_rule(self):
@@ -142,9 +140,3 @@ class RuleParser:
             return False
         self.runs_data = self.parse_run()
         return True
-
-    def commands(self):
-        return self.assemble_commands_from_runs_data(self.runs_data)
-
-    def files(self):
-        return self.get_files_from_runs_data(self.runs_data)
