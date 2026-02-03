@@ -266,6 +266,82 @@ class TestLibsRules(unittest.TestCase):
                 ],
             ],
         )
+class TestMultipleDevices(unittest.TestCase):
+    rules = json.loads(
+        """
+        {
+            "rules": [
+                {
+                    "name": "Run changed test suites",
+                    "on-changed": "dasharo-compatibility/(.*)",
+                    "run": {
+                        "files": {
+                            "mode": "${FULL_FILENAME_MATCH}"
+                        }
+                    }
+                }
+            ]
+        }"""
+    )["rules"]
+    device_envs = [
+    {"RTE_IP": "127.0.0.1", "CONFIG": "qemu", "FW_FILE": "scripts/ci/qemu_q35.rom", "SNIPEIT_NO": "1"},
+    {"RTE_IP": "127.0.0.2", "CONFIG": "qemu2", "FW_FILE": "scripts/ci/qemu_q35.rom", "SNIPEIT_NO": "1"},
+    {"RTE_IP": "127.0.0.3", "CONFIG": "qemu3", "FW_FILE": "scripts/ci/qemu_q35.rom", "SNIPEIT_NO": "1"}
+    ]
+    device_exports = [[
+            "export", f"{list(device_envs[0])[0]}={device_envs[0][list(device_envs[0])[0]]};",
+            "export", f"{list(device_envs[0])[1]}={device_envs[0][list(device_envs[0])[1]]};",
+            "export", f"{list(device_envs[0])[2]}={device_envs[0][list(device_envs[0])[2]]};",
+            "export", f"{list(device_envs[0])[3]}={device_envs[0][list(device_envs[0])[3]]};"
+        ],
+        [
+            "export", f"{list(device_envs[1])[0]}={device_envs[1][list(device_envs[1])[0]]};",
+            "export", f"{list(device_envs[1])[1]}={device_envs[1][list(device_envs[1])[1]]};",
+            "export", f"{list(device_envs[1])[2]}={device_envs[1][list(device_envs[1])[2]]};",
+            "export", f"{list(device_envs[1])[3]}={device_envs[1][list(device_envs[1])[3]]};"
+        ],
+        [
+            "export", f"{list(device_envs[2])[0]}={device_envs[2][list(device_envs[2])[0]]};",
+            "export", f"{list(device_envs[2])[1]}={device_envs[2][list(device_envs[2])[1]]};",
+            "export", f"{list(device_envs[2])[2]}={device_envs[2][list(device_envs[2])[2]]};",
+            "export", f"{list(device_envs[2])[3]}={device_envs[2][list(device_envs[2])[3]]};"
+        ]
+    ]
+
+    def test_single_module_single_change(self):
+        changed_files = [
+            "dasharo-compatibility/audio-subsystem.robot",
+            "dasharo-performance/platform-stability.robot",
+            "lib/linux.robot",
+            "platform-configs/include/msi-common.robot",
+        ]
+        parser = ParserManager(TestMultipleDevices.rules, changed_files, TestMultipleDevices.device_envs)
+        parser.parse()
+        self.assertEqual(
+            parser.files(), ["dasharo-compatibility/audio-subsystem.robot"]
+        )
+        self.assertEqual(
+            parser.commands(),
+            [
+                [
+                    *TestMultipleDevices.device_exports[0],
+                    "scripts/run.sh",
+                    "dasharo-compatibility/audio-subsystem.robot",
+                ],
+                [
+                    *TestMultipleDevices.device_exports[1],
+                    "scripts/run.sh",
+                    "dasharo-compatibility/audio-subsystem.robot",
+                ],
+                [
+                    *TestMultipleDevices.device_exports[2],
+                    "scripts/run.sh",
+                    "dasharo-compatibility/audio-subsystem.robot",
+                ],
+            ],
+        )
+
+
 
 if __name__ == "__main__":
     unittest.main()
