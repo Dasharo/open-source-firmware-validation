@@ -69,6 +69,27 @@ def main() -> None:
             return 0
 
     run_date = sys.argv[3]
+    if not top_suites:
+        print("No top-level suites found. Treating the available suite as top-level.")
+        suite_dir = input_xml.parent
+        new_suite_dir_name = safe_dir_name(top.name) + f"_{run_date}"
+        new_suite_dir = suite_dir.parent / new_suite_dir_name
+        shutil.move(str(suite_dir), str(new_suite_dir))
+        # Rename the log, report, and output files
+        for file in new_suite_dir.glob("*"):
+            new_file_name = file.name
+            # Modify the file names if they match the output files
+            if "_out.xml" in file.name:
+                new_file_name = f"{top.name}_{run_date}_output.xml"
+            elif "_log.html" in file.name:
+                new_file_name = f"{top.name}_{run_date}_log.html"
+            elif "_report.html" in file.name:
+                new_file_name = f"{top.name}_{run_date}_report.html"
+            elif "_debug.log" in file.name:
+                new_file_name = f"{top.name}_{run_date}_debug.log"
+
+            new_file = new_suite_dir / new_file_name
+            file.rename(new_file)
 
     for suite in top_suites:
         suite_name = suite.name

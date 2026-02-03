@@ -86,6 +86,7 @@ termcolor==3.1.0
 toml==0.10.2
 tomli==2.2.1
 tomlkit==0.13.3
+tqdm==4.67.2
 typing_extensions==4.14.1
 tzdata==2025.2
 Unidecode==1.4.0
