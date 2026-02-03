@@ -25,15 +25,6 @@ def run_command(cmd, env=os.environ.copy()):
     out = out.stdout.decode("utf-8").splitlines()
     return out
 
-def _normalize_device_names(device_names):
-    normalized = []
-    for name in device_names:
-        if isinstance(name, str) and "," in name:
-            normalized.extend([p for p in name.split(",") if p])
-        else:
-            normalized.append(name)
-    return normalized
-
 def _load_device_env_vars(device_names, devices_dir):
     envs = []
     for name in device_names:
@@ -81,24 +72,23 @@ def get_files_from_list(list_path):
     return table.iloc[:, 0].tolist()
 
 class CLI:
-    def __init__(self, rules_file="scripts/ci/regression-scope/configs/rules-new.json", devices_dir="scripts/ci/regression-scope/configs/devices", override_tests_list=None, compare_to="HEAD"):
+    def __init__(self, device_name="qemu", rules_file="scripts/ci/regression-scope/configs/rules-new.json", devices_dir="scripts/ci/regression-scope/configs/devices", override_tests_list=None, compare_to="HEAD"):
         self.compare_to = compare_to
         self.override_tests_list = override_tests_list
         self.rules_file = rules_file
         self.devices_dir = devices_dir
-
+        self.device_name = device_name
         if override_tests_list is None:
             self.get_changed_files = lambda: get_changed_files(compare_to)
         else:
             self.get_changed_files = lambda: get_files_from_list(override_tests_list)
 
 
-    def filenames(self, *device_names):
+    def filenames(self, *device_name):
         """
         Print the filenames of test suites that are affected by the changes
         """
-        self.device_names = _normalize_device_names(device_names)
-        self.device_envs = _load_device_env_vars(device_names, self.devices_dir) if device_names else None
+        self.device_envs = _load_device_env_vars(device_name, self.devices_dir) if device_name else None
         with open(self.rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = self.get_changed_files()
@@ -106,12 +96,12 @@ class CLI:
         parser.parse()
         print(" ".join(parser.files()))
 
-    def commands(self, *device_names):
+    def commands(self, *device_name):
         """
         Print the commands that should be executed to test the changes
         """
-        self.device_names = _normalize_device_names(device_names)
-        self.device_envs = _load_device_env_vars(device_names, self.devices_dir) if device_names else None
+        print(self.device_name)
+        self.device_envs = _load_device_env_vars(device_name, self.devices_dir) if device_name else None
         with open(self.rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = self.get_changed_files()
@@ -120,13 +110,12 @@ class CLI:
         for command in parser.commands():
             print(" ".join(command))
 
-    def robot_args(self, *device_names):
+    def robot_args(self, *device_name):
         """
         Print the parameters that should be passed to the run.sh robot wrapper to
         test the changes. Does not
         """
-        self.device_names = _normalize_device_names(device_names)
-        self.device_envs = _load_device_env_vars(device_names, self.devices_dir) if device_names else None
+        self.device_envs = _load_device_env_vars(device_name, self.devices_dir) if device_name else None
         with open(self.rules_file) as rules_file:
             self.rules = json.load(rules_file)["rules"]
         self.changed_files = self.get_changed_files()

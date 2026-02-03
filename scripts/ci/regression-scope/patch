@@ -1,0 +1,339 @@
+diff --git a/scripts/ci/regression-scope/regression_scope_selftests.py b/scripts/ci/regression-scope/regression_scope_selftests.py
+--- a/scripts/ci/regression-scope/regression_scope_selftests.py
++++ b/scripts/ci/regression-scope/regression_scope_selftests.py
+@@ -1,5 +1,4 @@
+ #!/usr/bin/env python
+-
+ # SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+ #
+ # SPDX-License-Identifier: Apache-2.0
+@@ -10,6 +9,13 @@ import unittest
+
+ from lib.parser_manager import ParserManager
+
++DEVICE_ENVS = [
++    {"ASSET_ID": "00039", "CONFIG": "msi-pro-z690-a-wifi-ddr4"},
++]
++
++
+ class TestMiscellaneous(unittest.TestCase):
+     def test_no_matches(self):
+         rules = json.loads(
+@@ -19,10 +25,11 @@ class TestMiscellaneous(unittest.TestCase):
+                     {
+                         "name": "Single match",
+                         "on-changed": "(important-file.robot)",
+-                        "run": [{
+-                            "custom_command": "echo hello"
+-                        }]
++                        "run": {
++                            "command": "echo hello"
++                        }
+                     }
+                 ]
+             }"""
+@@ -32,10 +39,10 @@ class TestMiscellaneous(unittest.TestCase):
+             "important-file.robot",
+             "dasharo-performance/boot-time-measure.robot",
+         ]
+-        parser = ParserManager(rules, changed_files)
++        parser = ParserManager(rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(parser.files(), [])
+         self.assertEqual(
+@@ -54,12 +61,11 @@ class TestMiscellaneous(unittest.TestCase):
+                     {
+                         "name": "Single match",
+                         "on-changed": "(important-file.robot)",
+-                        "run": [{
+-                            "files": {
+-                                "mode": "${FULL_FILENAME_MATCH}"
+-                            },
+-                            "robot_args": "-i minimal-regression"
+-                        }]
++                        "run": {
++                            "files": { "mode": "${FULL_FILENAME_MATCH}" },
++                            "robot_args": "-i minimal-regression"
++                        }
+                     }
+                 ]
+             }"""
+@@ -69,7 +75,7 @@ class TestMiscellaneous(unittest.TestCase):
+             "important-file.robot",
+             "dasharo-performance/boot-time-measure.robot",
+         ]
+-        parser = ParserManager(rules, changed_files)
++        parser = ParserManager(rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(parser.files(), ["important-file.robot"])
+         self.assertEqual(
+@@ -90,7 +96,7 @@ class TestMiscellaneous(unittest.TestCase):
+             "important-file.robot",
+             "dasharo-performance/boot-time-measure.robot",
+         ]
+-        parser = ParserManager(rules, changed_files)
++        parser = ParserManager(rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(parser.files(), ["important-file.robot"])
+         self.assertEqual(
+@@ -100,51 +106,6 @@ class TestMiscellaneous(unittest.TestCase):
+         )
+
+
+-    def test_device_expansion_from_external_env_vars(self):
+-        rules = json.loads(
+-            """
+-            {
+-                "rules": [
+-                    {
+-                        "name": "Single match",
+-                        "on-changed": "(important-file.robot)",
+-                        "run": {
+-                            "mode": "${FULL_FILENAME_MATCH}"
+-                        }
+-                    }
+-                ]
+-            }"""
+-        )["rules"]
+-        changed_files = [
+-            "important-file.robot",
+-        ]
+-        device_envs = [
+-            {"ASSET_ID": "00039", "CONFIG": "msi-pro-z690-a-wifi-ddr4"},
+-            {"ASSET_ID": "00252", "CONFIG": "pcengines-apu3"},
+-        ]
+-        parser = ParserManager(rules, changed_files, device_envs=device_envs)
+-        parser.parse()
+-        self.assertEqual(parser.files(), ["important-file.robot"])
+-        self.assertEqual(
+-            parser.commands(),
+-            [
+-                [
+-                    "export",
+-                    "ASSET_ID=00039;",
+-                    "export",
+-                    "CONFIG=msi-pro-z690-a-wifi-ddr4;",
+-                    "scripts/run.sh",
+-                    "important-file.robot",
+-                ],
+-                [
+-                    "export",
+-                    "ASSET_ID=00252;",
+-                    "export",
+-                    "CONFIG=pcengines-apu3;",
+-                    "scripts/run.sh",
+-                    "important-file.robot",
+-                ],
+-            ],
+-        )
+-
+-
+-    def test_mutliple_runs_one_rule(self):
+-        rules = json.loads(
+-            """
+-            {
+-                "rules": [
+-                    {
+-                        "name": "Single match",
+-                        "on-changed": "(important-file.robot)",
+-                        "run": [
+-                            {
+-                                "files": {
+-                                    "mode": "${FULL_FILENAME_MATCH}"
+-                                },
+-                                "robot_args": "-i minimal-regression"
+-                            },
+-                            {
+-                                "files": {
+-                                    "mode": "${FULL_FILENAME_MATCH}"
+-                                },
+-                                "robot_args": "-i some_other:tag"
+-                            }
+-                        ]
+-                    }
+-                ]
+-            }"""
+-        )["rules"]
+-        changed_files = [
+-            "important-file.robot",
+-            "dasharo-performance/boot-time-measure.robot",
+-        ]
+-        parser = ParserManager(rules, changed_files)
+-        parser.parse()
+-        self.assertEqual(parser.files(), ["important-file.robot"])
+-        self.assertEqual(
+-            parser.commands(),
+-            [
+-                [
+-                    "scripts/run.sh",
+-                    "important-file.robot",
+-                    "--",
+-                    "-i",
+-                    "minimal-regression",
+-                ],
+-                [
+-                    "scripts/run.sh",
+-                    "important-file.robot",
+-                    "--",
+-                    "-i",
+-                    "some_other:tag",
+-                ],
+-            ],
+-        )
+-
+-
+ class TestModulesRules(unittest.TestCase):
+     rules = json.loads(
+         """
+@@ -156,10 +117,10 @@ class TestModulesRules(unittest.TestCase):
+                         "name": "Run changed test suites",
+                         "on-changed": "dasharo-compatibility/(.*)",
+-                        "run": [{
+-                            "files": {
+-                                "mode": "${FULL_FILENAME_MATCH}"
+-                            },
+-                            "snipeit": "no"
+-                        }]
++                        "run": {
++                            "files": { "mode": "${FULL_FILENAME_MATCH}" },
++                            "snipeit": "no"
++                        }
+                     }
+                 ]
+             }"""
+@@ -174,7 +135,7 @@ class TestModulesRules(unittest.TestCase):
+             "lib/linux.robot",
+             "platform-configs/include/msi-common.robot",
+         ]
+-        parser = ParserManager(TestModulesRules.rules, changed_files)
++        parser = ParserManager(TestModulesRules.rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(
+             parser.files(), ["dasharo-compatibility/audio-subsystem.robot"]
+@@ -198,7 +159,7 @@ class TestModulesRules(unittest.TestCase):
+             "lib/linux.robot",
+             "platform-configs/include/msi-common.robot",
+         ]
+-        parser = ParserManager(TestModulesRules.rules, changed_files)
++        parser = ParserManager(TestModulesRules.rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(
+             parser.files(),
+@@ -232,12 +193,11 @@ class TestLibsRules(unittest.TestCase):
+                     "name": "Run suites that use a modified lib",
+                     "on-changed": "lib/(.*)",
+-                    "run": [{
+-                        "files": {
+-                            "mode": "${FILE_CONTAINS_MATCH}",
+-                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+-                        },
+-                        "snipeit": "no"
+-                    }]
++                    "run": {
++                        "files": {
++                            "mode": "${FILE_CONTAINS_MATCH}",
++                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
++                        },
++                        "snipeit": "no"
++                    }
+                 }
+             ]
+@@ -253,7 +213,7 @@ class TestLibsRules(unittest.TestCase):
+             "lib/performance/gpu.robot",
+             "platform-configs/include/msi-common.robot",
+         ]
+-        parser = ParserManager(TestLibsRules.rules, changed_files)
++        parser = ParserManager(TestLibsRules.rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(
+             parser.files(),
+@@ -280,7 +240,7 @@ class TestLibsRules(unittest.TestCase):
+             "lib/linux.robot",
+             "platform-configs/include/msi-common.robot",
+         ]
+-        parser = ParserManager(TestLibsRules.rules, changed_files)
++        parser = ParserManager(TestLibsRules.rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(
+             parser.files(),
+@@ -310,7 +270,7 @@ class TestLibsRules(unittest.TestCase):
+             "lib/tpm.robot",
+             "lib/tpm2.robot" "platform-configs/include/msi-common.robot",
+         ]
+-        parser = ParserManager(TestLibsRules.rules, changed_files)
++        parser = ParserManager(TestLibsRules.rules, changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(
+             parser.files(),
+@@ -350,12 +310,11 @@ class TestLibsMultipleRules(unittest.TestCase):
+                     "name": "Run suites that use a modified lib",
+                     "on-changed": "lib/(tpm.robot)",
+-                    "run": [{
+-                        "files": {
+-                            "mode": "${FILE_CONTAINS_MATCH}",
+-                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+-                        },
+-                        "snipeit": "no"
+-                    }]
++                    "run": {
++                        "files": {
++                            "mode": "${FILE_CONTAINS_MATCH}",
++                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
++                        },
++                        "snipeit": "no"
++                    }
+                 },
+@@ -365,12 +324,11 @@ class TestLibsMultipleRules(unittest.TestCase):
+                     "name": "Run suites that use a modified lib",
+                     "on-changed": "lib/(tpm2.robot)",
+-                    "run": [{
+-                        "files": {
+-                            "mode": "${FILE_CONTAINS_MATCH}",
+-                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+-                        },
+-                        "snipeit": "no"
+-                    }]
++                    "run": {
++                        "files": {
++                            "mode": "${FILE_CONTAINS_MATCH}",
++                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
++                        },
++                        "snipeit": "no"
++                    }
+                 }
+             ]
+@@ -379,7 +337,7 @@ class TestLibsMultipleRules(unittest.TestCase):
+
+-        parser = ParserManager(rules, TestLibsMultipleRules.changed_files)
++        parser = ParserManager(rules, TestLibsMultipleRules.changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(
+             parser.files(),
+@@ -416,13 +374,12 @@ class TestLibsMultipleRules(unittest.TestCase):
+                     "name": "Run suites that use a modified lib",
+                     "on-changed": "lib/(tpm2.robot)",
+-                    "run": [{
+-                        "files": {
+-                            "mode": "${FILE_CONTAINS_MATCH}",
+-                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
+-                        },
+-                        "robot_args": "-i some_other:tag",
+-                        "snipeit": "no"
+-                    }]
++                    "run": {
++                        "files": {
++                            "mode": "${FILE_CONTAINS_MATCH}",
++                            "search_in": ["dasharo-compatibility", "dasharo-security", "dasharo-performance", "dasharo-stability"]
++                        },
++                        "robot_args": "-i some_other:tag",
++                        "snipeit": "no"
++                    }
+                 }
+             ]
+@@ -431,7 +388,7 @@ class TestLibsMultipleRules(unittest.TestCase):
+
+-        parser = ParserManager(rules, TestLibsMultipleRules.changed_files)
++        parser = ParserManager(rules, TestLibsMultipleRules.changed_files, DEVICE_ENVS)
+         parser.parse()
+         self.assertEqual(
+             parser.files(),

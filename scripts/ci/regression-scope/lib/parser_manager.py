@@ -119,8 +119,6 @@ class ParserManager:
                 continue
             for run_data in parser.runs_data:
                 for env_vars in self.device_envs:
-                    expanded = deepcopy(run_data)
-                    expanded["env"] = self._env_dict_to_commands(env_vars)
-                    self.runs_data.append(expanded)
+                    run_data["env"] = self._env_dict_to_commands(env_vars)
             else:
                 self.runs_data += parser.runs_data

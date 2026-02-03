@@ -2,7 +2,6 @@
     "env_vars": {
         "ASSET_ID": "00252",
         "RTE_IP": "192.168.10.171",
-        "SNIPEIT_NO": "true",
         "CONFIG": "pcengines-apu3",
         "FW_FILE": "~/actions-runner/osfv-test-binaries/pcengines_apu3_v0.9.1-rc2.rom"
     }
