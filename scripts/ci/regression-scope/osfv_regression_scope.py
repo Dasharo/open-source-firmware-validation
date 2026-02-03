@@ -23,6 +23,7 @@ def run_command(cmd, env=os.environ.copy()):
     out = out.stdout.decode("utf-8").splitlines()
     return out
 
+
 def _load_device_env_vars(device_names, devices_dir):
     envs = []
     for name in device_names:

@@ -9,6 +9,7 @@ import unittest
 
 from lib.parser_manager import ParserManager
 
+
 class TestMiscellaneous(unittest.TestCase):
     def test_no_matches(self):
         rules = json.loads(
@@ -39,11 +40,13 @@ class TestMiscellaneous(unittest.TestCase):
 
     def test_additional_robot_args(self):
         device_envs = [
-        {"ASSET_ID": "00039", "CONFIG": "msi-pro-z690-a-wifi-ddr4"},
+            {"ASSET_ID": "00039", "CONFIG": "msi-pro-z690-a-wifi-ddr4"},
         ]
         device_exports = [
-            "export", f"{list(device_envs[0])[0]}={device_envs[0][list(device_envs[0])[0]]};",
-            "export", f"{list(device_envs[0])[1]}={device_envs[0][list(device_envs[0])[1]]};",
+            "export",
+            f"{list(device_envs[0])[0]}={device_envs[0][list(device_envs[0])[0]]};",
+            "export",
+            f"{list(device_envs[0])[1]}={device_envs[0][list(device_envs[0])[1]]};",
         ]
         rules = json.loads(
             """
@@ -83,6 +86,7 @@ class TestMiscellaneous(unittest.TestCase):
             ],
         )
 
+
 class TestModulesRules(unittest.TestCase):
     rules = json.loads(
         """
@@ -101,13 +105,22 @@ class TestModulesRules(unittest.TestCase):
         }"""
     )["rules"]
     device_envs = [
-    {"RTE_IP": "127.0.0.1", "CONFIG": "qemu", "FW_FILE": "scripts/ci/qemu_q35.rom", "SNIPEIT_NO": "1"}
+        {
+            "RTE_IP": "127.0.0.1",
+            "CONFIG": "qemu",
+            "FW_FILE": "scripts/ci/qemu_q35.rom",
+            "SNIPEIT_NO": "1",
+        }
     ]
     device_exports = [
-        "export", f"{list(device_envs[0])[0]}={device_envs[0][list(device_envs[0])[0]]};",
-        "export", f"{list(device_envs[0])[1]}={device_envs[0][list(device_envs[0])[1]]};",
-        "export", f"{list(device_envs[0])[2]}={device_envs[0][list(device_envs[0])[2]]};",
-        "export", f"{list(device_envs[0])[3]}={device_envs[0][list(device_envs[0])[3]]};"
+        "export",
+        f"{list(device_envs[0])[0]}={device_envs[0][list(device_envs[0])[0]]};",
+        "export",
+        f"{list(device_envs[0])[1]}={device_envs[0][list(device_envs[0])[1]]};",
+        "export",
+        f"{list(device_envs[0])[2]}={device_envs[0][list(device_envs[0])[2]]};",
+        "export",
+        f"{list(device_envs[0])[3]}={device_envs[0][list(device_envs[0])[3]]};",
     ]
 
     def test_single_module_single_change(self):
@@ -117,7 +130,9 @@ class TestModulesRules(unittest.TestCase):
             "lib/linux.robot",
             "platform-configs/include/msi-common.robot",
         ]
-        parser = ParserManager(TestModulesRules.rules, changed_files, TestModulesRules.device_envs)
+        parser = ParserManager(
+            TestModulesRules.rules, changed_files, TestModulesRules.device_envs
+        )
         parser.parse()
         self.assertEqual(
             parser.files(), ["dasharo-compatibility/audio-subsystem.robot"]
@@ -141,7 +156,9 @@ class TestModulesRules(unittest.TestCase):
             "lib/linux.robot",
             "platform-configs/include/msi-common.robot",
         ]
-        parser = ParserManager(TestModulesRules.rules, changed_files, TestModulesRules.device_envs)
+        parser = ParserManager(
+            TestModulesRules.rules, changed_files, TestModulesRules.device_envs
+        )
         parser.parse()
         self.assertEqual(
             parser.files(),
@@ -266,6 +283,8 @@ class TestLibsRules(unittest.TestCase):
                 ],
             ],
         )
+
+
 class TestMultipleDevices(unittest.TestCase):
     rules = json.loads(
         """
@@ -284,28 +303,56 @@ class TestMultipleDevices(unittest.TestCase):
         }"""
     )["rules"]
     device_envs = [
-    {"RTE_IP": "127.0.0.1", "CONFIG": "qemu", "FW_FILE": "scripts/ci/qemu_q35.rom", "SNIPEIT_NO": "1"},
-    {"RTE_IP": "127.0.0.2", "CONFIG": "qemu2", "FW_FILE": "scripts/ci/qemu_q35.rom", "SNIPEIT_NO": "1"},
-    {"RTE_IP": "127.0.0.3", "CONFIG": "qemu3", "FW_FILE": "scripts/ci/qemu_q35.rom", "SNIPEIT_NO": "1"}
+        {
+            "RTE_IP": "127.0.0.1",
+            "CONFIG": "qemu",
+            "FW_FILE": "scripts/ci/qemu_q35.rom",
+            "SNIPEIT_NO": "1",
+        },
+        {
+            "RTE_IP": "127.0.0.2",
+            "CONFIG": "qemu2",
+            "FW_FILE": "scripts/ci/qemu_q35.rom",
+            "SNIPEIT_NO": "1",
+        },
+        {
+            "RTE_IP": "127.0.0.3",
+            "CONFIG": "qemu3",
+            "FW_FILE": "scripts/ci/qemu_q35.rom",
+            "SNIPEIT_NO": "1",
+        },
     ]
-    device_exports = [[
-            "export", f"{list(device_envs[0])[0]}={device_envs[0][list(device_envs[0])[0]]};",
-            "export", f"{list(device_envs[0])[1]}={device_envs[0][list(device_envs[0])[1]]};",
-            "export", f"{list(device_envs[0])[2]}={device_envs[0][list(device_envs[0])[2]]};",
-            "export", f"{list(device_envs[0])[3]}={device_envs[0][list(device_envs[0])[3]]};"
+    device_exports = [
+        [
+            "export",
+            f"{list(device_envs[0])[0]}={device_envs[0][list(device_envs[0])[0]]};",
+            "export",
+            f"{list(device_envs[0])[1]}={device_envs[0][list(device_envs[0])[1]]};",
+            "export",
+            f"{list(device_envs[0])[2]}={device_envs[0][list(device_envs[0])[2]]};",
+            "export",
+            f"{list(device_envs[0])[3]}={device_envs[0][list(device_envs[0])[3]]};",
         ],
         [
-            "export", f"{list(device_envs[1])[0]}={device_envs[1][list(device_envs[1])[0]]};",
-            "export", f"{list(device_envs[1])[1]}={device_envs[1][list(device_envs[1])[1]]};",
-            "export", f"{list(device_envs[1])[2]}={device_envs[1][list(device_envs[1])[2]]};",
-            "export", f"{list(device_envs[1])[3]}={device_envs[1][list(device_envs[1])[3]]};"
+            "export",
+            f"{list(device_envs[1])[0]}={device_envs[1][list(device_envs[1])[0]]};",
+            "export",
+            f"{list(device_envs[1])[1]}={device_envs[1][list(device_envs[1])[1]]};",
+            "export",
+            f"{list(device_envs[1])[2]}={device_envs[1][list(device_envs[1])[2]]};",
+            "export",
+            f"{list(device_envs[1])[3]}={device_envs[1][list(device_envs[1])[3]]};",
         ],
         [
-            "export", f"{list(device_envs[2])[0]}={device_envs[2][list(device_envs[2])[0]]};",
-            "export", f"{list(device_envs[2])[1]}={device_envs[2][list(device_envs[2])[1]]};",
-            "export", f"{list(device_envs[2])[2]}={device_envs[2][list(device_envs[2])[2]]};",
-            "export", f"{list(device_envs[2])[3]}={device_envs[2][list(device_envs[2])[3]]};"
-        ]
+            "export",
+            f"{list(device_envs[2])[0]}={device_envs[2][list(device_envs[2])[0]]};",
+            "export",
+            f"{list(device_envs[2])[1]}={device_envs[2][list(device_envs[2])[1]]};",
+            "export",
+            f"{list(device_envs[2])[2]}={device_envs[2][list(device_envs[2])[2]]};",
+            "export",
+            f"{list(device_envs[2])[3]}={device_envs[2][list(device_envs[2])[3]]};",
+        ],
     ]
 
     def test_single_module_single_change(self):
@@ -315,7 +362,9 @@ class TestMultipleDevices(unittest.TestCase):
             "lib/linux.robot",
             "platform-configs/include/msi-common.robot",
         ]
-        parser = ParserManager(TestMultipleDevices.rules, changed_files, TestMultipleDevices.device_envs)
+        parser = ParserManager(
+            TestMultipleDevices.rules, changed_files, TestMultipleDevices.device_envs
+        )
         parser.parse()
         self.assertEqual(
             parser.files(), ["dasharo-compatibility/audio-subsystem.robot"]
@@ -342,7 +391,5 @@ class TestMultipleDevices(unittest.TestCase):
         )
 
 
-
 if __name__ == "__main__":
     unittest.main()
-

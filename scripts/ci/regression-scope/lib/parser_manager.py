@@ -8,6 +8,7 @@ from copy import deepcopy
 
 from lib.rules_parser import RuleParser
 
+
 class ParserManager:
     """
     Runs rule parsers on the rules file and presents the parsing results.
