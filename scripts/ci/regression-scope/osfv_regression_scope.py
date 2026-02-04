@@ -77,6 +77,8 @@ def get_files_from_list(list_path):
             line = line.strip()
             if not line:
                 continue
+            if line.startswith("#"):  # skip comments
+                continue
             files.append(line.split("\t", 1)[0])
     return files
 
