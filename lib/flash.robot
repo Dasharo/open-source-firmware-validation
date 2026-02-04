@@ -1,5 +1,6 @@
 *** Settings ***
 Resource    ../keywords.robot
+Resource    custom_bootentries.robot
 
 
 *** Keywords ***
@@ -7,6 +8,16 @@ Flash Via Internal Programmer With Args
     [Documentation]    Execute flashrom write operation on the given binary,
     ...    using extra arguments.
     [Arguments]    ${fw_file_path}    ${args}    ${timeout}=3m
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        # Then the platform configuration depends on the bootorder to stay the same.
+        # We must copy the current smmstore to the target binary in order to prevent
+        # it being overwritten.
+        VAR    ${smm_file}=    /tmp/smmstore.rom
+        VAR    ${replaced_bootorder_file}=    replaced_bootorder_coreboot.rom
+        ${custom_bootname}=    Get Custom Bootentry Name    ${DEFAULT_BOOT_OS_ID}
+        ${custom_bootid}=    Get Bootnum For Label    ${custom_bootname}
+        Execute Command In Terminal    flashrom -p internal -r ${smm_file} --fmap -i FMAP -i SMMSTORE
+    END
     ${out_flash}=    Execute Command In Terminal
     ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} ${args}
     ...    timeout=${timeout}
@@ -14,6 +25,12 @@ Flash Via Internal Programmer With Args
         RETURN
     END
     Should Contain    ${out_flash}    VERIFIED
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        # Then restore smmstore (UEFI variables)
+        ${out_flash}=    Execute Command In Terminal
+        ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${smm_file} --fmap -i FMAP -i SMMSTORE
+        ...    timeout=${timeout}
+    END
 
 Flash Via Internal Programmer
     [Arguments]    ${fw_file_path}    ${region}=${EMPTY}

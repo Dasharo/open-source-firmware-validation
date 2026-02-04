@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -13,6 +14,7 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../keys-and-keywords/ubuntu-keywords.robot
+Resource            ../lib/custom_bootentries.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -27,6 +29,30 @@ Default Tags        automated    minimal-regression
 
 
 *** Test Cases ***
+BPS009.001 Create Custom Bootentry For Default Boot OS
+    [Documentation]    Creates a custom bootentry for the default boot os, which
+    ...    will always stay the first bootentry.
+    ...    Must be performed before any other BPS on platforms without Serial.
+    [Tags]    semiauto    automated
+    Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
+    ${default_boot}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${DEFAULT_BOOT_OS_ID}
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Log In To Linux
+    Switch To Root User
+    ${windows_entries}=    Get Bootnums For OS    ${ENV_ID_WINDOWS}
+    ${windows_amount}=    Get Length    ${windows_entries}
+    IF    ${windows_amount} == 1 and ${TEST_TAGS} is not @{EMPTY} and "semiauto" in ${TEST_TAGS}
+        Execute Manual Step
+        ...    Boot Windows once and reboot. Make sure a second `Windows Boot Manager` boot entry was created in the Boot Menu. Boot back to DEFAULT_BOOT_OS_ID (${default_boot}).
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux
+        Switch To Root User
+    END
+    ${custom_bootnum}=    Ensure Custom Entry    ${DEFAULT_BOOT_OS_ID}    force=${TRUE}
+    ${bootorder}=    Get BootOrder
+    BootOrder Should Start With Bootnum    ${bootorder}    ${custom_bootnum}
+
 BPS001.001 Power Control - PSU ON and serial output
     [Documentation]    Verifies if PSU can be turned ON and if the serial output can be read.
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
