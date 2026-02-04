@@ -68,6 +68,8 @@ def main() -> None:
             print(f"{GREEN}Results under:{RESET} {new_suite_dir}")
             return 0
 
+    run_date = sys.argv[3]
+
     for suite in top_suites:
         suite_name = suite.name
         suite_dir = out_root / (safe_dir_name(suite_name) + f"_{run_date}")
