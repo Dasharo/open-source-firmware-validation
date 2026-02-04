@@ -7,8 +7,10 @@
 from __future__ import annotations
 
 import re
+import shutil
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from robot.api import ExecutionResult
@@ -41,12 +43,34 @@ def main() -> None:
     top = result.suite
     top_suites = list(top.suites)
 
+    run_date = sys.argv[3]
     if not top_suites:
-        raise SystemExit("ERROR: No top-level suites found in output.xml")
+        print("No top-level suites found. Treating the available suite as top-level.")
+        suite_dir = input_xml.parent
+        new_suite_dir_name = safe_dir_name(top.name) + f"_{run_date}"
+        new_suite_dir = suite_dir.parent / new_suite_dir_name
+        shutil.move(str(suite_dir), str(new_suite_dir))
+        # Rename the log, report, and output files
+        for file in new_suite_dir.glob("*"):
+            new_file_name = file.name
+            # Modify the file names if they match the output files
+            if "_out.xml" in file.name:
+                new_file_name = f"{top.name}_{run_date}_out.xml"
+            elif "_log.html" in file.name:
+                new_file_name = f"{top.name}_{run_date}_log.html"
+            elif "_report.html" in file.name:
+                new_file_name = f"{top.name}_{run_date}_report.html"
+            elif "_debug.log" in file.name:
+                new_file_name = f"{top.name}_{run_date}_debug.log"
+
+            new_file = new_suite_dir / new_file_name
+            file.rename(new_file)
+            print(f"{GREEN}Results under:{RESET} {new_suite_dir}")
+            return 0
 
     for suite in top_suites:
         suite_name = suite.name
-        suite_dir = out_root / safe_dir_name(suite_name)
+        suite_dir = out_root / (safe_dir_name(suite_name) + f"_{run_date}")
         suite_dir.mkdir(parents=True, exist_ok=True)
 
         # One rebot run per suite:
@@ -60,18 +84,18 @@ def main() -> None:
             "--outputdir",
             str(suite_dir),
             "--output",
-            "output.xml",
+            f"{suite_name}_{run_date}_output.xml",
             "--log",
-            "log.html",
+            f"{suite_name}_{run_date}_log.html",
             "--report",
-            "report.html",
+            f"{suite_name}_{run_date}_report.html",
             str(input_xml),
         ]
 
         print(f"{GREEN}{suite_name}{RESET} -> {suite_dir}")
         subprocess.run(cmd, check=True)
 
-    print(f"{GREEN}Created per-suite results under:{RESET} {out_root}")
+    print(f"{GREEN}Merged results under:{RESET} {input_xml.parent}")
 
 
 if __name__ == "__main__":

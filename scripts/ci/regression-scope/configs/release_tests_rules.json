@@ -1,0 +1,13 @@
+{
+    "rules": [
+        {
+            "name": "Run changed test suites",
+            "on-changed": "[a-z\\-/]*([^\\n\\.\\/]+\\.robot)",
+            "run": {
+                "files": {
+                    "mode": "${FULL_FILENAME_MATCH}"
+                }
+            }
+        }
+    ]
+}

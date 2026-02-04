@@ -229,7 +229,7 @@ execute_robot() {
 
   # DIR_PREFIX (optional) additional description of test result dir
   if [ -n "${DIR_PREFIX}" ]; then
-    dir_prefix="${DIR_PREFIX}_"
+    dir_prefix="${DIR_PREFIX}/"
   else
     dir_prefix=""
   fi
@@ -285,16 +285,19 @@ execute_robot() {
   overall_rc=0
   if [ -n "${_REGRESSION_RUN}" ]; then
     _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}"
+    _merged_logs_dir="$_root_logs_dir"
   else
-    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}all_${RUN_DATE}"
+    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}"
+    _merged_logs_dir="${_root_logs_dir}/${dir_prefix}merged_${RUN_DATE}"
   fi
   mkdir -p "$_root_logs_dir"
-  _output="${_root_logs_dir}/full_out.xml"
-  _debug="${_root_logs_dir}/full_debug.log"
-  _log="${_root_logs_dir}/full_log.html"
-  _report="${_root_logs_dir}/full_report.html"
+  mkdir -p "$_merged_logs_dir"
+  _output="${_merged_logs_dir}/merged_out.xml"
+  _debug="${_merged_logs_dir}/merged_debug.log"
+  _log="${_merged_logs_dir}/merged_log.html"
+  _report="${_merged_logs_dir}/merged_report.html"
 
-  echo "Logs will be saved at ${_root_logs_dir}"
+  echo "Logs will be saved at ${_merged_logs_dir}"
   echo "Watch \"${_debug}\" to monitor the progress of the test"
 
   _test_cases=$(get_matched_test_cases "${_test_path[*]}" "${_robot_args[*]}")
@@ -310,7 +313,7 @@ execute_robot() {
               -b ${_debug} \
               ${rte_ip_option} \
               -v config:${CONFIG} \
-              -v logs_dir:${_root_logs_dir} \
+              -v logs_dir:${_merged_logs_dir} \
               ${device_ip_option} \
               ${fw_file_option} \
               ${capsule_fw_file_option} \
@@ -326,7 +329,7 @@ execute_robot() {
   interrupted=0
 
   cleanup_and_split() {
-    python "scripts/lib/rebot_splitter.py" "$_output" "$_root_logs_dir"
+    python "scripts/lib/rebot_splitter.py" "$_output" "$_root_logs_dir" "$RUN_DATE"
   }
 
   on_int() {
