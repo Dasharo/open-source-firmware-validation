@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+dasharo-compatibility/dmidecode.robot
+dasharo-compatibility/acpi-driver.robot
+dasharo-compatibility/cpu-status.robot
+dasharo-compatibility/uefi-shell.robot
+dasharo-compatibility/dcu.robot
+dasharo-compatibility/usb-hid-and-msc-support.robot
+
+dasharo-security/tpm-support.robot
+dasharo-security/verified-boot.robot
+dasharo-security/secure-boot.robot
+
+dasharo-performance/CPT_CPF_STB
+dasharo-performance/cpu-performance.robot
+
+dasharo-stability/capsule-update.robot
+dasharo-stability/tpm-detect.robot
