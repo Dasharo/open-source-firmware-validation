@@ -316,15 +316,8 @@ Usb Type-C Pd Current Limiting
             Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
             Log To Console    USB-C PD current limiting test completed
         ELSE
-            Boot System Or From Connected Disk    ${env_id}
-            Login To Linux
-            Switch To Root User
-            Check Charging State In Linux
-            Exit From Root User
+            Fail    Not implemented on ENV_ID ${env_id}
         END
-    ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
-        Check Charging State In Windows
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
     END
