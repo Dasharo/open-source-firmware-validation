@@ -20,7 +20,7 @@ Bootorder Persistence Via SSH
     [Documentation]    Tests if the DEFAULT_BOOT_OS is persistently the first
     ...    bootentry in the bootorder across a couple problematic scenarios.
     ...    Prerequisite: Run `util/basic-platform-setup.robot` (BPS009)
-    Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
+    # Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
 
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
