@@ -73,7 +73,6 @@ ${CPU_TESTS_SUPPORT}=                           ${TRUE}
 ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
-${DEFAULT_POWER_STATE_AFTER_FAIL}=              Powered On
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}

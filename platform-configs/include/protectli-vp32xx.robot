@@ -14,3 +14,4 @@ ${ETHERNET_ID}=                         8086:125c
 ${SENSORS_CONFIG_FILE}=                 include/sensors/default-sensors-config.yaml
 
 ${DASHARO_INTEL_ME_MENU_SUPPORT}=       ${TRUE}
+${DEFAULT_POWER_STATE_AFTER_FAIL}=      Powered Off

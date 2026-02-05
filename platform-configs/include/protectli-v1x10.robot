@@ -42,6 +42,7 @@ ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${HIBERNATION_AND_RESUME_SUPPORT}=              ${TRUE}
 ${HIBERNATION_ITERATIONS_NUMBER}=               5
 ${TPM_MULTIPLE_BANK_SUPPORT}=                   ${FALSE}
+${DEFAULT_POWER_STATE_AFTER_FAIL}=              Powered On
 
 
 *** Keywords ***

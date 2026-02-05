@@ -48,3 +48,4 @@ ${PLATFORM_RAM_SIZE}=                   8192
 ...                                     64-62-66-21-03-bb
 
 ${ETHERNET_ID}=                         8086:1539
+${DEFAULT_POWER_STATE_AFTER_FAIL}=      Powered On

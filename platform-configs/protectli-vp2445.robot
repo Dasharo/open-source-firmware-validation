@@ -56,3 +56,5 @@ ${TPM_EXPECTED_CHIP}=                   SLB9670
 ${SATA_SUPPORT}=                        ${TRUE}
 ${DEVICE_NVME_DISK}=
 ...                                     Non-Volatile memory controller: Phison Electronics Corporation PS5019-E19 PCIe4 NVMe Controller
+
+${DEFAULT_POWER_STATE_AFTER_FAIL}=      Powered Off
