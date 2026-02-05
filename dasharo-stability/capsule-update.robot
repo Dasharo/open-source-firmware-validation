@@ -21,7 +21,7 @@ Suite Setup         Run Keywords
 ...                     AND    Display Preparation Instructions
 ...                     AND    Get CUP Environment Variables
 ...                     AND    Ensure Capsule Files Are Present
-...                     Ensure BtG Testing Capsule Is Present    AND
+...                     AND    Ensure BtG Testing Capsule Is Present
 ...                     AND    Prepare For Logo Persistence Test
 ...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
 ...                     AND    Run Keyword If    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'    Upload Required Files
@@ -211,6 +211,22 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
 
 
 *** Keywords ***
+Check Platform Fused
+    [Documentation]    Check if the platform FPFs are committed and set a
+    ...    variable for use by other keywords.
+    IF    not ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}
+        Log To Console    Platform cannot be fused. Will skip tests that depend
+        ...    on platform fusing.
+        VAR    ${INTEL_CBNT_BOOTGUARD_FUSED}=    ${FALSE}    scope=GLOBAL
+        RETURN
+    END
+    Boot OS And Enter Root Shell    ${DEFAULT_BOOT_OS_ID}
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep ME
+    VAR    ${INTEL_CBNT_BOOTGUARD_FUSED}=    Run Keyword And Return Status
+    ...    Should Match Regexp    ${out_cbmem}    FPFs Committed\\s+:\\s+YES\n
+    ...    scope=GLOBAL
+    Exit From Root User
+
 Perform Capsule Update And Return Status
     [Arguments]    ${capsule_file}
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'

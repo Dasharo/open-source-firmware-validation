@@ -103,7 +103,7 @@ CBNT005.201 Converged Boot Guard and TXT - Fused platform EoM set and FPFs Commi
     ...    - ME Manufacturing Mode is NOT enabled
     ...    - Field Programmable Fuses (FPFs) are committed
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBNT005.201 not supported on this system
-    Skip If    not ${INTEL_CBNT_BOOTGUARD_FUSED}    CBNT005.201 not supported on this system
+    Skip If    not ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}    CBNT005.201 not supported on this system
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT005.201 not supported
     Check EoM And FPFs Committed    ${ENV_ID_UBUNTU}
 
