@@ -24,7 +24,7 @@ ${DTS_HEADS_SWITCH_QUESTION}=                   Would you like to switch to Dash
 ${DTS_ME_WARN}=
 ...                                             Skip ME flashing and proceed with BIOS/firmware flashing/updating? [y|n]
 ${DTS_BOARD_QUESTION}=                          Choose your board model:
-${DTS_FUSE_WARN}=                               Fusing is irreversible. Are you sure you want to continue? [y|n]
+${DTS_FUSE_WARN}=                               Are you sure you want to continue? [y|n]
 ${DTS_13_GEN_REGRESSION}=                       Aborting deployment...
 ${DPP_EMAIL_CHECKPOINT}=                        Enter DPP email:
 ${DPP_PASSWORD_CHECKPOINT}=                     Enter password:
