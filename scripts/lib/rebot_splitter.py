@@ -17,6 +17,8 @@ from robot.api import ExecutionResult
 
 GREEN = "\033[92m"
 RESET = "\033[0m"
+RED = "\033[31m"
+YELLOW = "\033[33m"
 
 
 def safe_dir_name(name: str) -> str:
@@ -25,6 +27,10 @@ def safe_dir_name(name: str) -> str:
     name = re.sub(r"[<>:\"/\\|?*\x00-\x1F]", "_", name)
     name = re.sub(r"\s+", " ", name)
     return name[:150] if len(name) > 150 else name
+
+
+def get_recovered_path(out_xml: Path) -> Path:
+    return out_xml.with_name(out_xml.name + "_recovered")
 
 
 def main() -> None:
@@ -39,7 +45,31 @@ def main() -> None:
     out_root = Path(sys.argv[2]).resolve()
     out_root.mkdir(parents=True, exist_ok=True)
 
-    result = ExecutionResult(str(input_xml))
+    try:
+        result = ExecutionResult(input_xml)
+    except:
+        print(f"{YELLOW}WARNING{RESET}: invalid xml: {input_xml}")
+        try:
+            recovered_path = get_recovered_path(input_xml)
+            out = subprocess.run(
+                [
+                    "xmllint",
+                    f"{input_xml}",
+                    "--recover",
+                    "--output",
+                    f"{recovered_path}",
+                ],
+                capture_output=True,
+            )
+            print(out.stderr.decode("utf-8"))
+            input_xml = recovered_path
+            result = ExecutionResult(recovered_path)
+        except Exception as e:
+            print(
+                f"{RED}WARNING{RESET}: could not recover xml, skipping suite: {input_xml}"
+            )
+            print(e)
+            return 0
     top = result.suite
     top_suites = list(top.suites)
 
