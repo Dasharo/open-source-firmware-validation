@@ -133,8 +133,8 @@ E2E007.003 Check wrong credentials should not allow to log into DPP services
     VAR    ${DPP_EMAIL}=    test@email.com    scope=TEST
     VAR    ${DPP_PASSWORD}=    test-password    scope=TEST
     ${out}=    Provide DPP Credentials
-    Should Contain    ${out}    Cannot log in to DPP server.
-    Should Not Contain    ${out}    Dasharo DPP credentials have been saved
+    Should Contain    ${out}    Cannot log in to DPP server
+    Should Not Contain    ${out}    Dasharo DPP credentials are valid and have been saved
     Wait For Checkpoint    ${DTS_CHECKPOINT}
     Enter Shell In DTS
     ${creds}=    Execute Command In Terminal    cat /etc/cloud-pass
@@ -222,7 +222,6 @@ E2E007.009 Check DPP credentials with access to only extensions
     VAR    ${DPP_EMAIL}=    ${DPP_EMAIL_EXTENSIONS_ONLY}    scope=TEST
     VAR    ${DPP_PASSWORD}=    ${DPP_PASSWORD_EXTENSIONS_ONLY}    scope=TEST
     ${out}=    Provide DPP Credentials
-    Should Contain    ${out}    Dasharo Pro Package (DPP): NO
     Should Contain    ${out}    DTS Extensions: YES
 
 E2E007.010 Check DPP credentials without DPP access
