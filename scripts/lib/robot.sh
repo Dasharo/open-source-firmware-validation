@@ -284,7 +284,7 @@ execute_robot() {
 
   overall_rc=0
   if [ -n "${_REGRESSION_RUN}" ]; then
-    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}"
+    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}/${_test_path[0]}"
     _merged_logs_dir="$_root_logs_dir"
   else
     _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}"
