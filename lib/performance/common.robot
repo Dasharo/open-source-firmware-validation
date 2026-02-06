@@ -72,7 +72,7 @@ Setup Phoronix Batch Mode
     Read From Terminal Until    Open the web browser automatically when in batch mode (y/N):
     Write Into Terminal    n
     Read From Terminal Until    Auto upload the results to OpenBenchmarking.org (Y/n):
-    Write Into Terminal    n
+    Write Into Terminal    y
     Read From Terminal Until    Prompt for test identifier (Y/n):
     Write Into Terminal    n
     Read From Terminal Until    Prompt for test description (Y/n):

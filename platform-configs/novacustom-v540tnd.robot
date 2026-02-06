@@ -9,7 +9,7 @@ ${DUT_CONNECTION_METHOD}=                       SSH
 ${POWER_CTRL}=                                  none
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${FALSE}
 ${OPTIONS_LIB}=                                 options-lib_dcu
-${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_FEDORA}
+${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
 ...                                             ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
@@ -20,7 +20,7 @@ ${3_MDEB_WIFI_NETWORK}=                         3mdeb_abr
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                         Keyboard
 ${DMIDECODE_PRODUCT_NAME}=                      V5xTNC_TND_TNE
-${EXTERNAL_HEADSET}=                            JMTek, LLC. USB Audio
+@{EXTERNAL_HEADSETS}=                           JMTek, LLC. USB Audio
 ${CPU_MAX_FREQUENCY}=                           4800
 ${CPU_MIN_FREQUENCY}=                           200
 ${PLATFORM_CPU_SPEED}=                          3.0

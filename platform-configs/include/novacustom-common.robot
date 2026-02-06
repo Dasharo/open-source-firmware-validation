@@ -29,6 +29,8 @@ ${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
 ${TELNET_FUZZY_MAX_SUBSTITUTIONS}=                  1
 ${TELNET_FUZZY_MAX_INSERTIONS}=                     5
 ${TELNET_FUZZY_MAX_DELETIONS}=                      1
+# https://github.com/Dasharo/open-source-firmware-validation/issues/1068
+${RTC_BOOT_SUPPORT}=                                ${FALSE}
 
 ${DMIDECODE_SERIAL_NUMBER}=                         N/A
 ${DMIDECODE_MANUFACTURER}=                          Notebook

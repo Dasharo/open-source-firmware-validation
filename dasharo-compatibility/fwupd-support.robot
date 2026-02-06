@@ -11,8 +11,8 @@ Resource            ../keywords.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    AND
-...                     Set UEFI Option    MeMode    Disabled (HAP)
+...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}
+...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -65,39 +65,24 @@ FWUPD002.202 Fwupd Local Firmware Update (Fedora)
 FWUPD001.203 Fwupd Devices Detected (QubesOS)
     [Documentation]    Test if the supported hardware is properly detected
     ...    by fwupd
-    [Tags]    semiauto
-    Execute Manual Step    Power on and boot into QubesOS
-    Execute Manual Step    Open dom0 terminal
-    Execute Manual Step    Run `fwupdmgr get-devices | grep -B1 "Device ID"`
-    Execute Manual Step    Should contain `System Firmware`
-    IF    ${TPM_SUPPORTED_VERSION} != ${NONE}
-        Execute Manual Step    Should contain `TPM`
-    END
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    Fwupd Devices Detected Linux
 
 FWUPD002.203 Fwupd Local Firmware Update (QubesOS)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    using local unsigned cabinet
-    [Tags]    semiauto
-    Execute Manual Step    Power on and boot into QubesOS
-    Execute Manual Step    Open sys-net terminal
-    Execute Manual Step
-    ...    Send the \$FWUPD_CABINET_FILE to sys-net using ssh or by hosting in using HTTP server like 'python -m http.server'
-    VAR    ${msg}=    Transfer the \$FWUPD_CABINET_FILE to the `dom0`.
-    ...    (For example by starting sshd in sys-net, sending the file via `scp`,
-    ...    and sending it back to `dom0` using `qvm-copy` command.)
-    Execute Manual Step    ${msg}
-    VAR    ${msg}=    Open dom0 terminal and locate the
-    ...    \$FWUPD_CABINET FILE (If using qvm-copy, it will be placed
-    ...    in `~/QubesIncoming/sys-net/`)
-    Execute Manual Step    ${msg}
-    Execute Manual Step    Ryun `echo "OnlyTrusted=false" | sudo tee -a /etc/fwupd/fwupd.conf`
-    Execute Manual Step    Run `yes n | fwupdmgr local-install \$FWUPD_CABINET_FILE --allow-reinstall --allow-older`
-    Execute Manual Step    Should print `Successfully installed firmware`
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    Fwupd Local Firmware Update Linux
 
 
 *** Keywords ***
 Fwupd Devices Detected Linux
-    ${out}=    Execute Command In Terminal    fwupdmgr get-devices
+    ${out}=    Execute Command In Terminal    fwupdmgr get-devices --assume-yes
 
     VAR    @{devices}=    System Firmware    UEFI dbx
 

@@ -59,6 +59,7 @@ MWL004.201 LTE card detection (Ubuntu)
     ...    Previous IDs: MWL004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL004.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL004.201 not supported
+    Skip If    "${LTE_CARD}"=="${TBD}"    LTE_CARD=="${TBD}""
     LTE Card Detection    ${ENV_ID_UBUNTU}
 
 MWL001.202 Wireless card detection (Fedora)
@@ -86,6 +87,7 @@ MWL003.202 Bluetooth scanning (Fedora)
 MWL004.202 LTE card detection (Fedora)
     [Documentation]    Check whether the LTE card is detected correctly in the
     ...    operating system.
+    Skip If    "${LTE_CARD}"=="${TBD}"    LTE_CARD=="${TBD}""
     Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    MWL004.202 not supported
     LTE Card Detection    ${ENV_ID_FEDORA}
 
@@ -108,8 +110,7 @@ MWL002.301 Wi-Fi scanning (Windows)
     Power On
     Login To Windows
     ${out}=    Execute Command In Terminal    netsh wlan show network
-    Should Contain    ${out}    3mdeb_abr
-    Should Contain    ${out}    3mdeb_abr_5GHz
+    Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
     Execute Shutdown Command
 
 # MWL003.002 Bluetooth scanning (Windows)

@@ -4,6 +4,7 @@ Documentation       Library for UEFI configuration using Dasharo Configuration
 ...                 available.
 
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -28,6 +29,7 @@ Set UEFI Option
     END
     Login To Linux
     Switch To Root User
+    Set Nextboot    ${BOOTED_OS_ID}
     DCU Variable Set UEFI Option In DUT    ${option_name}    ${value}
     IF    '${option_name}' == 'PowerStateAfterPowerAcLoss'
         VAR    ${POWER_STATE_AFTER_FAIL}=    ${value}    scope=GLOBAL
@@ -60,10 +62,30 @@ Get UEFI Boot Manager Entries
     RETURN    ${boot_menu}
 
 Measure Coldboot Time
-    [Documentation]    Performs a measurement of average coldboot
-    ...    boot. Not supported in this variant of options lib.
+    [Documentation]    Performs a measurement of coldboot boot time
+    ...    The device does not need to be logged in to Ubuntu if $DUT_CONNETION_METHOD == SSH.
+    ...    If $DUT_CONNETION_METHOD == Telnet, then the device must be logged
+    ...    off, and the login prompt must be available in the Telnet buffer.
+    [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
 
-    Skip    Coldboot not supported without serial connection
+    VAR    @{durations}=    @{EMPTY}
+    Log To Console    \n
+
+    FOR    ${index}    IN RANGE    0    ${iterations}
+        Execute Manual Step    message=Perform a coldboot
+
+        Boot System Or From Connected Disk    ${os_id}
+        Login To Linux
+        Switch To Root User
+        ${boot_time}=    Get Boot Time From Cbmem
+        Log To Console    (${index}) Boot time: ${boot_time} s
+        Append To List    ${durations}    ${boot_time}
+    END
+    ${min}    ${max}    ${average}    ${stddev}=
+    ...    Calculate Boot Time Statistics    ${durations}
+    RETURN    ${min}    ${max}    ${average}    ${stddev}
 
 Measure Warmboot Time
     [Documentation]    Performs a measurement of warmboot boot time
@@ -86,7 +108,16 @@ Measure Warmboot Time
         # would hang here and fail.
         # Sometimes it may take long to shutdown all systemd services,
         # so the waiting times have to be excessive to avoid false negatives.
-        Perform Warmboot Using Rtcwake
+        IF    ${RTC_BOOT_SUPPORT}
+            Perform Warmboot Using Rtcwake
+        ELSE
+            Execute Shutdown Command
+            IF    '${POWER_CTRL}' == 'none'
+                Execute Manual Step    Turn on the device
+            ELSE
+                Power On
+            END
+        END
 
         Boot System Or From Connected Disk    ${os_id}
         Login To Linux
@@ -173,7 +204,7 @@ Set Nextboot Bootentry
         ${line}=    Get Substring    ${line}    0    150
         ${line}=    Convert To Lower Case    ${line}
 
-        IF    '${bootentry_name}' in '${line}'
+        IF    $bootentry_name in $line
             VAR    ${os_boot_id}=    ${line}
             BREAK
         END

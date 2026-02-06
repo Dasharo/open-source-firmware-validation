@@ -53,7 +53,7 @@ DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
     [Arguments]    ${out_file}
 
-    Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE &> /dev/null
+    ${out}=    Execute Command In Terminal    flashrom -p internal -r coreboot.rom --fmap -i FMAP -i SMMSTORE
     Execute Command In Terminal    chmod 666 coreboot.rom
     Get File From DUT    coreboot.rom    ${out_file}
 
@@ -95,8 +95,6 @@ DCU Variable Set UEFI Option In DUT
     DCU Variable Set UEFI Option In File    tpm.rom    ${option_name}    ${value}
     DCU Variable Flash SMMSTORE    tpm.rom
     Execute Reboot Command
-    VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
-    Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
     Sleep    20s
 
 DCU Variable Get UEFI Option From DUT

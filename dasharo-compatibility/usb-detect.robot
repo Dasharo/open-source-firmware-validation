@@ -33,6 +33,9 @@ UDT001.001 USB detection after coldboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the coldboot (reboot realized by power supply cutting off
     ...    then cutting on).
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     VAR    ${failed_detection}=    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power Cycle On
@@ -51,6 +54,9 @@ UDT001.002 USB detection after warmboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the warmboot (reboot realized by device turning off then
     ...    turning on).
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     VAR    ${failed_detection}=    0
     FOR    ${index}    IN RANGE    0    ${USB_DETECTION_ITERATIONS_NUMBER}
         Power On

@@ -26,9 +26,11 @@ TPD001.004 Detect TPM after coldboot (heads)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's coldboot. Currently test is compatible
     ...    only with the platforms with Heads bootloader.
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.004 not supported
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD001.004 not supported
-    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL
     VAR    @{pcrs_subsequent_boots}=    @{EMPTY}
     Power On
@@ -53,6 +55,9 @@ TPD002.004 Detect TPM after warmboot (heads)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's warmboot. Currently test is compatible
     ...    only with the platforms with Heads bootloader.
+    [Tags]    automated    semiauto
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD002.004 not supported
     Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD002.004 not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL

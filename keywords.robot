@@ -46,6 +46,7 @@ Login To Linux
         # Read From Terminal Until    login:
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
     END
+
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Wait Until Keyword Succeeds
         ...    3x
@@ -160,16 +161,21 @@ Login To Linux Via SSH
     Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
-    SSHLibrary.Set Client Configuration
-    ...    timeout=${timeout}
-    ...    term_type=vt100
-    ...    width=400
-    ...    height=100
-    ...    escape_ansi=True
-    ...    newline=LF
-    Wait Until Keyword Succeeds    120x    1s
-    ...    SSHLibrary.Login    ${username}    ${password}
+    FOR    ${i}    IN RANGE    1    120
+        SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
+        SSHLibrary.Set Client Configuration
+        ...    timeout=${timeout}
+        ...    term_type=vt100
+        ...    width=400
+        ...    height=100
+        ...    escape_ansi=True
+        ...    newline=LF
+        ${status}=    Run Keyword And Return Status
+        ...    SSHLibrary.Login    ${username}    ${password}
+        IF    ${status}    RETURN
+        Sleep    1
+    END
+    Fail    Unable to login to ${username}@${DEVICE_IP}
 
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
@@ -177,18 +183,21 @@ Login To Windows Via SSH
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
     [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
-    SSHLibrary.Set Client Configuration
-    ...    timeout=${timeout}
-    ...    term_type=vt100
-    ...    width=400
-    ...    height=100
-    ...    escape_ansi=True
-    ...    newline=CRLF
     FOR    ${reboot_count}    IN RANGE    3
-        ${login}=    Run Keyword And Return Status
-        ...    Wait Until Keyword Succeeds    5x    20s
-        ...    SSHLibrary.Login    ${username}    ${password}
+        FOR    ${i}    IN RANGE    20
+            SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
+            SSHLibrary.Set Client Configuration
+            ...    timeout=${timeout}
+            ...    term_type=vt100
+            ...    width=400
+            ...    height=100
+            ...    escape_ansi=True
+            ...    newline=CRLF
+            ${login}=    Run Keyword And Return Status
+            ...    SSHLibrary.Login    ${username}    ${password}
+            IF    ${login} == ${TRUE}    BREAK    ELSE    Sleep    5s
+        END
+
         IF    ${login} == ${TRUE}
             BREAK
         ELSE
@@ -219,10 +228,13 @@ Switch To Root User
     # the "sudo -S" to pass password from stdin does not work correctly with
     # the su command and we need to type in the password
     Write Into Terminal    sudo su
-    Read From Terminal Until    [sudo
-    Write Into Terminal    ${DEVICE_OS_PASSWORD}
     Set Prompt For Terminal    ${DEVICE_OS_ROOT_PROMPT}
-    Read From Terminal Until Prompt
+    Sleep    2s
+    ${out}=    Read From Terminal
+    IF    "[sudo" in $out
+        Write Into Terminal    ${DEVICE_OS_PASSWORD}
+        Read From Terminal Until Prompt
+    END
 
 Exit From Root User
     [Documentation]    Exit from the root environment
@@ -494,6 +506,10 @@ Prepare Test Suite
     ELSE
         Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
     END
+    ${default_boot}=    Get Variable Value    ${BOOTED_OS_ID}    ${None}
+    IF    $default_boot is ${None}
+        VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
+    END
     IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
         Import Osfv Libraries
     END
@@ -555,9 +571,9 @@ Prepare To SSH Connection
     ...    sections if the communication with the platform based on
     ...    the SSH protocol
     VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
-    IF    '${DEFAULT_BOOT_OS_ID}'
-        Import Variables    ${CURDIR}/os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
-    END
+    ${os_id}=    Get Variable Value    ${BOOTED_OS_ID}    ${DEFAULT_BOOT_OS_ID}
+    Import Variables    ${CURDIR}/os-config/${os_id}-credentials.py
+    VAR    ${BOOTED_OS_ID}=    ${os_id}    scope=GLOBAL
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN
 
@@ -819,6 +835,9 @@ Execute Shutdown Command
             IF    '${out}' == 'low'    RETURN
             Sleep    0.5s
         END
+    ELSE
+        # TODO find out a better way, maybe ping DEVICE_IP
+        Sleep    30s    Making sure the device shuts down
     END
     Restore Initial DUT Connection Method
 
@@ -847,6 +866,9 @@ Execute Reboot Command
     # We do not want to sleep if we switched to SSH only temporarily.
     Restore Initial DUT Connection Method
     Set DUT Response Timeout    180 seconds
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Sleep    20s    Time for the device to reboot
+    END
 
 Check Displays Windows
     [Documentation]    Check and return all displays with PowerShell in Windows.
@@ -1489,12 +1511,23 @@ Get Hash Of File
     ${hash}=    Fetch From Left    ${hash}    \r
     RETURN    ${hash}
 
+Get Disks List
+    [Arguments]    ${should_not_be_empty}=${FALSE}
+    ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
+    @{disks}=    Get Regexp Matches    ${out}    sd.
+    RETURN    ${disks}
+
+Wait For Disks
+    Wait Until Keyword Succeeds    5x    5s    Get Disks List    ${TRUE}
+    @{disks}=    Get Disks List
+    RETURN    @{disks}
+
 Identify Path To USB
     [Documentation]    Identifies path to USB storage. Setting ${USB_MODEL}
     ...    variable in .config file is required.
     [Arguments]    ${expected_usb_model}=${USB_MODEL}
-    ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
-    @{disks}=    Get Regexp Matches    ${out}    sd.
+    @{disks}=    Wait For Disks
+    VAR    ${usb_disk}=    ${NONE}
     FOR    ${disk}    IN    @{disks}
         ${model}=    Execute Linux Command    cat /sys/class/block/${disk}/device/model
         ${model_name}=    Fetch From Left    ${model}    \r\n
@@ -1502,18 +1535,19 @@ Identify Path To USB
         VAR    ${usb_disk}=    ${disk}
         IF    '${expected_usb_model}' in '${model_name}'    BREAK
     END
-    ${out}=    Execute Linux Command
-    ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep ${usb_disk}
-    IF    'part' in $out
-        ${out}=    Get Regexp Matches    ${out}    part.*$
-        IF    len($out)>0
-            ${out}=    Get From List    ${out}    0
-        ELSE
-            VAR    ${out}=    ${EMPTY}
-        END
+    IF    $usb_disk is ${NONE}
+        Fail    Disk ${expected_usb_model} not found, detected disks: ${disks}
     END
+    ${out}=    Execute Linux Command
+    ...    lsblk --list --noheadings --output NAME,TYPE,PATH | grep "${usb_disk}"
+    IF    'part' in $out
+        ${out}=    Get Lines Matching Regexp    ${out}    part.*$    partial_match=${True}
+    ELSE
+        ${out}=    Get Lines Matching Regexp    ${out}    disk.*$    partial_match=${True}
+    END
+
     ${split}=    Split String    ${out}
-    ${path_to_usb}=    Get From List    ${split}    1
+    ${path_to_usb}=    Get From List    ${split}    2
     RETURN    ${path_to_usb}
 
 Get Current CONFIG List Param

@@ -112,6 +112,8 @@ Measure Warmboot Time
     [Documentation]    Performs a measurement of warmboot
     ...    boot time
     [Arguments]    ${iterations}    ${os_id}=${BOOTED_OS_ID}
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     VAR    @{durations}=    @{EMPTY}
     Log To Console    \n
     # Do one more iteration than requested, as we may hit first boot which is always longer.

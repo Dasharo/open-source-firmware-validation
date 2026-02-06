@@ -207,7 +207,7 @@ Usb Type-C Docking Station Audio Recognition
         Login To Linux
         Switch To Root User
         ${out}=    List Devices In Linux    usb
-        Should Contain    ${out}    ${EXTERNAL_HEADSET}
+        Should Contain Any    ${out}    @{EXTERNAL_HEADSETS}
         Exit From Root User
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
@@ -308,6 +308,8 @@ Docking Station Detection After Coldboot
 
 Docking Station Detection After Warmboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+    Skip If
+    ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     IF    not '${env_id}'.startswith('2')
         Fail    Not implemented on ENV_ID ${env_id}
     END
@@ -428,7 +430,7 @@ Docking Station Detection After Coldboot Then Hotplug
     WHILE    '${out_before_reboot}' == '${out_after_reboot}'
         Log To Console    Coldboot the DUT manually
         # coldboot - msi ./sonoff, protectli RteCtrl -rel, novacustom ???
-        Pause Execution In Console    Do power cut-off, reconnect and press ENTER.
+        Pause Execution In Console    Do power cut-off, power the device back up and press ENTER.
         Power On
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
@@ -442,13 +444,13 @@ Docking Station Detection After Coldboot Then Hotplug
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         Log To Console    Hotplug after Cold boot iteration ${iteration+1}/${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
         END
@@ -489,13 +491,13 @@ Docking Station Detection After Warmboot Then Hotplug
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         Log To Console    Hotplug after Warm boot iteration ${iteration+1}/${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
         END
@@ -525,13 +527,13 @@ Docking Station Detection After Reboot Then Hotplug
     FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
         Log To Console    Hotplug after Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
         EXCEPT
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
         END
@@ -547,6 +549,7 @@ Docking Station Detection After Suspend Then Hotplug
         Fail    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
+    Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
     Power On
     Boot System Or From Connected Disk    ${env_id}
     Login To Linux
@@ -559,13 +562,13 @@ Docking Station Detection After Suspend Then Hotplug
         Log To Console
         ...    Hotplug after Suspend ${platform_sleep_type} iteration ${iteration+1}/${STABILITY_DETECTION_SUSPEND_ITERATIONS}
         TRY
-            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
-            Detect Docking Station In Linux    ${dock_name}
             Pause Execution In Console    Disconnect docking station ${dock_name} and press ENTER.
             Run Keyword And Expect Error
             ...    * does not contain *
             ...    Detect Docking Station In Linux
             ...    ${dock_name}
+            Pause Execution In Console    Connect docking station ${dock_name} and press ENTER.
+            Detect Docking Station In Linux    ${dock_name}
         EXCEPT    message
             ${failed_detection}=    Evaluate    ${FAILED_DETECTION}+1
         END

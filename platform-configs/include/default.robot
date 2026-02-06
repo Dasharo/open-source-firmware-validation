@@ -36,7 +36,7 @@ ${CHECK_POWER_LED_SUPPORT}=                         ${TRUE}
 ${DUT_HAS_RESET_BUTTON}=                            ${TRUE}
 ${DUT_HAS_POWER_BUTTON}=                            ${TRUE}
 ${DUT_HAS_CMOS_RESET}=                              ${TRUE}
-
+${RTC_BOOT_SUPPORT}=                                ${TRUE}
 # Should semi auto tests be performed
 ${SEMI_AUTO}=                                       ${FALSE}
 
@@ -328,7 +328,6 @@ ${WINDOWS_SHUTDOWN_AWAITING_SECONDS}=               120
 @{TESTED_LINUX_DISTROS}=                            ${ENV_ID_UBUNTU}
 @{TESTED_BSD_DISTROS}=                              @{EMPTY}
 ${DEFAULT_BOOT_OS_ID}=                              ${ENV_ID_UBUNTU}
-${BOOTED_OS_ID}=                                    ${DEFAULT_BOOT_OS_ID}
 
 ${USE_ANSIBLE}=                                     ${TRUE}
 ${TESTS_IN_XCP_NG_SUPPORT}=                         ${FALSE}
@@ -383,7 +382,7 @@ ${DRAM_SIZE}=                                       ${TBD}
 ${EC_NO_SYNC_DOWNLOAD_LINK}=                        ${TBD}
 ${EC_NO_SYNC_VERSION}=                              ${TBD}
 ${ETHERNET_ID}=                                     ${TBD}
-${EXTERNAL_HEADSET}=                                ${TBD}
+@{EXTERNAL_HEADSETS}=                               ${TBD}
 ${E_MMC_NAME}=                                      ${TBD}
 ${FAN_PWM_MEASUREMENT_HWMON_PATH}=                  ${TBD}
 ${FAN_PWM_MEASUREMENT_METHOD}=                      ${TBD}
@@ -408,6 +407,7 @@ ${PLATFORM_RAM_SPEED}=                              ${TBD}
 ${SD_WIRES_CONNECTED}=                              ${TBD}
 ${SD_WIRE_SERIAL1}=                                 ${TBD}
 ${SMALLPT_TEST_SCORE}=                              ${TBD}
+${DISK_IO_REFERENCE_DISK_NAME}=                     ${TBD}
 ${UBU_RAND_READ_NONQUE}=                            ${TBD}
 ${UBU_RAND_READ_QUEUED}=                            ${TBD}
 ${UBU_RAND_WRITE_NONQUE}=                           ${TBD}

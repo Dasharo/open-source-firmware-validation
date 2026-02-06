@@ -55,22 +55,25 @@ GPU Performance Suite Setup
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
-        Execute Manual Step    Please ensure DUT has active desktop session
+        Execute Manual Step    Please ensure DUT has active X11 desktop session
         ...    by logging into X11 Gnome Desktop.
         Detect Or Install Phoronix Test Suite On Ubuntu
-
+        ${out}=    Execute Command In Terminal
+        ...    loginctl show-session $(loginctl | awk '/tty|pts/ {print $1;}') -p Type
+        Should Contain    ${out}    Type=x11    No X11 session running!
         # Error redirection; for unknown reason to me, DTS throws
         # "sh: 1: kill: No such process" from time to time
         ${out}=    Execute Command In Terminal
         ...    phoronix-test-suite list-installed-tests 2>/dev/null | grep "pts/unigine-super"
 
-        IF    '${out}' == '${EMPTY}'
+        IF    'pts/unigine-super' not in $out
             # 10 Minute timeout to download ~1.5GB
-            Execute Linux Command    DISPLAY=:0 phoronix-test-suite install-test unigine-super    600
-            Read From Terminal Until Prompt
+            Execute Command In Terminal    DISPLAY=:0 phoronix-test-suite install-test unigine-super    600
         END
 
         Setup Phoronix Batch Mode
+        Execute Command In Terminal    export FORCE_TIMES_TO_RUN=3
+        Execute Command In Terminal    export FORCE_MIN_TIMES_TO_RUN=1
     END
 
     Check Power Supply
