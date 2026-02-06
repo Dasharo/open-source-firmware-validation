@@ -20,6 +20,20 @@ Resource    ../lib/docks.robot
 Resource    options/options-lib_dcu.robot
 
 
+*** Variables ***
+@{QUBES_PD_STEPS}=
+...                     [1/10] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
+...                     [2/10] Boot into dom0. Ensure AC adapter is unplugged. Verify battery is discharging normally.
+...                     [3/10] Connect the docking station to AC power only.
+...                     [4/10] Plug the dock into the DUT’s USB-C port.
+...                     [5/10] Run in dom0: watch -n1 cat /sys/class/power_supply/BAT0/status
+...                     [6/10] Verify PD contract and power draw.
+...                     [7/10] Observe charging LED.
+...                     [8/10] Attach high-load USB-C device.
+...                     [9/10] Disconnect dock AC.
+...                     [10/10] Reconnect dock AC.
+
+
 *** Keywords ***
 Prepare UTC Test Suite
     VAR    ${UTC_CURRENT_ME_STATE}=    unknown    scope=GLOBAL
@@ -65,28 +79,16 @@ Usb Type-C Pd Power Input
     IF    '${env_id}'.startswith('2')    # Linux
         IF    ${env_id} == ${ENV_ID_QUBES}
             Pause Execution In Console    Qubes detected — switching to manual PD power input test
-            Execute Manual Step
-            ...    [1/10] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
-            Execute Manual Step
-            ...    [2/10] Boot into dom0. Ensure AC adapter is unplugged.
-            ...    Verify battery is discharging normally.
-            Execute Manual Step
-            ...    [3/10] Connect the docking station to AC power only.
-            Execute Manual Step
-            ...    [4/10] Plug the dock into the DUT’s USB-C port.
-            Execute Manual Step
-            ...    [5/10] Run in dom0:
-            ...    watch -n1 cat /sys/class/power_supply/BAT0/status
-            Execute Manual Step
-            ...    [6/10] Verify PD contract and power draw.
-            Execute Manual Step
-            ...    [7/10] Observe charging LED.
-            Execute Manual Step
-            ...    [8/10] Attach high-load USB-C device.
-            Execute Manual Step
-            ...    [9/10] Disconnect dock AC.
-            Execute Manual Step
-            ...    [10/10] Reconnect dock AC.
+            Execute Manual Step    ${QUBES_PD_STEPS}[0]
+            Execute Manual Step    ${QUBES_PD_STEPS}[1]
+            Execute Manual Step    ${QUBES_PD_STEPS}[2]
+            Execute Manual Step    ${QUBES_PD_STEPS}[3]
+            Execute Manual Step    ${QUBES_PD_STEPS}[4]
+            Execute Manual Step    ${QUBES_PD_STEPS}[5]
+            Execute Manual Step    ${QUBES_PD_STEPS}[6]
+            Execute Manual Step    ${QUBES_PD_STEPS}[7]
+            Execute Manual Step    ${QUBES_PD_STEPS}[8]
+            Execute Manual Step    ${QUBES_PD_STEPS}[9]
         ELSE
             Boot System Or From Connected Disk    ${env_id}
             Login To Linux

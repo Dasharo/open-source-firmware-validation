@@ -422,11 +422,7 @@ for idx, row in enumerate(test_rows):
 
     # call the generic keyword for that test case type
     if row["automation"] == "manual":
-<<<<<<< HEAD
         keyword_call = f"Skip\n    ...    {row['Test ID']} not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/\n"
-=======
-        keyword_call = f"Skip    \n    ...    {row['Test ID']} not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/\n"
->>>>>>> 8663c4f4 (dasharo-compatibility/usb-type-c.robot: fix inedts for Skip kwd)
     else:
         keyword_call = f"{row['Test Name'].title()}    {os_id_variable_names[row['OS ID']]}    {row['ME State']}    {row['Dock']}\n"
     robot_tests_lines[idx].append(f"    {keyword_call}\n")
