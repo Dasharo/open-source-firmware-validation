@@ -284,7 +284,7 @@ execute_robot() {
 
   overall_rc=0
   if [ -n "${_REGRESSION_RUN}" ]; then
-    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}"
+    _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}regression_${RUN_DATE}/${_test_path[0]}"
     _merged_logs_dir="$_root_logs_dir"
   else
     _root_logs_dir="$LOGS_DIR/${CONFIG}/${dir_prefix}"
@@ -327,9 +327,15 @@ execute_robot() {
 
   robot_pid=""
   interrupted=0
+  logs_split=0
 
   cleanup_and_split() {
-    python "scripts/lib/rebot_splitter.py" "$_output" "$_root_logs_dir" "$RUN_DATE"
+    # its called multiple times to make sure the
+    # logs are parsed no matter interrupts or whether its called from outside
+    if [[ $logs_split == 0 ]]; then
+      python "scripts/lib/rebot_splitter.py" "$_output" "$_root_logs_dir" "$RUN_DATE"
+      logs_split=1
+    fi
   }
 
   on_int() {
@@ -338,10 +344,10 @@ execute_robot() {
       # Send SIGINT to the whole process group (closest to real Ctrl+C)
       kill -INT -"${robot_pid}" 2>/dev/null || true
     fi
+    cleanup_and_split
   }
 
-  trap on_int INT
-  trap cleanup_and_split EXIT
+  trap on_int INT SIGINT
 
   # Start robot in its own process group so kill -INT -$pid works
   set -m
@@ -357,5 +363,6 @@ execute_robot() {
     overall_rc=$robot_rc
   fi
 
+  cleanup_and_split
   return $overall_rc
 }
