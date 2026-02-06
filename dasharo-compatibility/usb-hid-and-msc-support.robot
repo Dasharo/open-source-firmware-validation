@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/custom_bootentries.robot
 
 # Required setup keywords:
 # Prepare Test Suite - elementary setup keyword for all tests.

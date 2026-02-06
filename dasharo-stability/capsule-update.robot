@@ -14,6 +14,7 @@ Resource            ../keywords.robot
 Resource            ../keys.robot
 Resource            ../lib/bios/menus.robot
 Resource            ../lib/options/options-lib_dcu.robot
+Resource            ../lib/custom_bootentries.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
