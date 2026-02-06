@@ -379,6 +379,10 @@ E2E012.001 Continuing update after smmstore migration failure should succeed
     Wait For Checkpoint    Rebooting in
     Wait For Checkpoint    Rebooting
 
+################################################################################
+# FUM tests
+################################################################################
+
 E2E013.001 Verify that FUM update doesn't start automatically
     [Documentation]    Test that booting via FUM doesn't start update without
     ...    user input
@@ -389,13 +393,14 @@ E2E013.001 Verify that FUM update doesn't start automatically
     Wait For Checkpoint    You have entered Firmware Update Mode
     Wait For Checkpoint    ${DTS_ASK_FOR_CHOICE_PROMPT}
 
-E2E014.001 Verify that FUM update succeeds
+E2E013.002 Verify that FUM update succeeds
     [Documentation]    Test that FUM update succeeds without user input
     Export Shell Variables For Emulation
     ...    UEFI Update
     ...    DCR
     ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
     ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
     Execute Command In Terminal    export TEST_FUM="true"
     Write Into Terminal    dts-boot
 
@@ -403,7 +408,7 @@ E2E014.001 Verify that FUM update succeeds
     Wait For Checkpoint    Rebooting in
     Wait For Checkpoint    Rebooting
 
-E2E015.001 Verify that entering DTS menu in FUM works
+E2E013.003 Verify that entering DTS menu in FUM works
     [Documentation]    Test that booting via FUM doesn't start update without
     ...    user input
     Execute Command In Terminal    export DTS_TESTING="true"
@@ -412,6 +417,80 @@ E2E015.001 Verify that entering DTS menu in FUM works
 
     Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_MENU_OPT}
     Wait For Checkpoint    ${DTS_CHECKPOINT}
+
+################################################################################
+# https://github.com/Dasharo/dasharo-issues/issues/1759 tests
+################################################################################
+
+E2E014.001 Verify that capsule update while in FUM stops if unsupported
+    [Documentation]    Test that FUM update is stopped with expected error
+    ...    message when trying to use capsule update on firmware version that
+    ...    doesn't support this combination
+    Export Shell Variables For Emulation
+    ...    Fuse Platform
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 1.0.0"
+    Execute Command In Terminal    export TEST_FUM="true"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_UPDATE_OPT}
+    Wait For Checkpoint    ${CAP_FUM_ERROR}
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
+E2E014.002 Verify that fusing while in FUM stops if unsupported
+    [Documentation]    Test that fusing while in FUM is stopped with expected
+    ...    error message when trying to do it on firmware version that doesn't
+    ...    support this combination
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 1.0.0"
+    Execute Command In Terminal    export TEST_FUM="true"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_MENU_OPT}
+    Wait For Checkpoint And Write Bare    ${DTS_CHECKPOINT}    ${DTS_FUSE_OPT}
+    Wait For Checkpoint    ${CAP_FUM_ERROR}
+    Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
+
+E2E014.003 Verify that capsule update while in FUM works if supported
+    [Documentation]    Test that FUM capsule update works correctly when on
+    ...    firmware version that supports this combination
+    Export Shell Variables For Emulation
+    ...    Fuse Platform
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 1.0.1"
+    Execute Command In Terminal    export TEST_SYSTEM_VENDOR="3mdeb_test_config"
+    Execute Command In Terminal    export TEST_SYSTEM_MODEL="fum_cap_test"
+    Execute Command In Terminal    export TEST_FUM="true"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_UPDATE_OPT}
+    Wait For Checkpoint    Rebooting in
+    Wait For Checkpoint    Rebooting
+
+E2E014.004 Verify that fusing while in FUM works if supported
+    [Documentation]    Test that fusing while in FUM works if done on firmware
+    ...    version that supports this combination
+    Export Shell Variables For Emulation
+    ...    Fuse Platform
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 1.0.1"
+    Execute Command In Terminal    export TEST_SYSTEM_VENDOR="3mdeb_test_config"
+    Execute Command In Terminal    export TEST_SYSTEM_MODEL="fum_cap_test"
+    Execute Command In Terminal    export TEST_FUM="true"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_MENU_OPT}
+    Go Through Fusing Platform
 
 ################################################################################
 # IBG signature tests

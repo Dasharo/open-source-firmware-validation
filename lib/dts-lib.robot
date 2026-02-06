@@ -29,6 +29,7 @@ ${DTS_13_GEN_REGRESSION}=                       Aborting deployment...
 ${DPP_EMAIL_CHECKPOINT}=                        Enter DPP email:
 ${DPP_PASSWORD_CHECKPOINT}=                     Enter password:
 ${DTS_ASK_FOR_CHOICE_PROMPT}=                   Select an option:
+${CAP_FUM_ERROR}=                               Current firmware doesn't support capsules while in Firmware Update Mode
 # DTS initial deployment menupoints:
 ${DTS_DCR_UEFI_MENUPOINT}=                      Community version
 ${DTS_DPP_UEFI_MENUPOINT}=                      DPP version (coreboot + UEFI)
