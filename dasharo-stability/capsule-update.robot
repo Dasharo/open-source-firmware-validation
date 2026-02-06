@@ -448,7 +448,6 @@ Upload Required Files SSH
         Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}
     END
     VAR    ${commands}=    pushd osfv;
-    ...    git checkout f672379ed071edc836164fd4f998fe2e5fb8d725;
     ...    git submodule update --init --checkout;
     ...    export FW_FILE=/root/${fw_filename};
     ...    export CAPSULE_FW_FILE=/root/${caps_filename};
