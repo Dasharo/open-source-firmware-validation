@@ -322,6 +322,7 @@ E2E010.001 Failure to read flash during update should stop workflow
     ...    DCR
     ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
     ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
     Execute Command In Terminal    export TEST_LAYOUT_READ_SHOULD_FAIL="true"
     Write Into Terminal    dts-boot
 
@@ -342,6 +343,7 @@ E2E011.001 Aborting update after smmstore migration failure should stop workflow
     ...    DCR
     ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
     ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
     Execute Command In Terminal    export TEST_BOARD_HAS_SMMSTORE="false"
     Write Into Terminal    dts-boot
 
@@ -364,6 +366,7 @@ E2E012.001 Continuing update after smmstore migration failure should succeed
     ...    DCR
     ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v540tu]
     ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
     Execute Command In Terminal    export TEST_BOARD_HAS_SMMSTORE="false"
     Write Into Terminal    dts-boot
 
