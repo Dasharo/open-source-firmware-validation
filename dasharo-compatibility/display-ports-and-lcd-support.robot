@@ -178,7 +178,7 @@ DSP001.203 - Internal display in OS (Qubes OS)
     [Documentation]    Check whether an internal display is visible in
     ...    Qubes OS. An internal display must be provided in
     ...    the platform config.
-    ...    Previous IDs: DSP002.004
+    ...    Previous IDs: DSP001.004
     [Tags]    semiauto
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP001.203 not supported
     Pause Execution
