@@ -119,23 +119,40 @@ Boot Dasharo Tools Suite
         FAIL    Unknown DTS boot method: ${dts_booting_method}
     END
 
-    # For PiKVM devices, we have only input on serial, not output. The video and serial consoles are
-    # two different console in case of Linux, they are not in sync anymore as in case of firmware.
-    # We have to switch to SSH connection to continue test execution on such devices.
+    Wait For DTS To Boot
+
+Wait For DTS To Boot
+    [Documentation]    Wait for DTS to boot. If using pikvm, connect via SSH as
+    ...    a workaround for video/serial consoles being different.
+    [Arguments]    ${fum}=${FALSE}
+    # For PiKVM devices, we have only input on serial, not output. The video
+    # and serial consoles are two different console in case of Linux, they are
+    # not in sync anymore as in case of firmware. We have to switch to SSH
+    # connection to continue test execution on such devices.
+    IF    ${fum}
+        VAR    ${prompt}=    ${DTS_ASK_FOR_CHOICE_PROMPT}
+    ELSE
+        VAR    ${prompt}=    ${DTS_CHECKPOINT}
+    END
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         # Should be long enough so that DTS can boot
         ${old_timeout}=    Set Timeout    20s
         Run Keyword And Ignore Error
-        ...    Read From Terminal Until    Enter an option:
+        ...    Read From Terminal Until    ${prompt}
         Set Timeout    ${old_timeout}
-        # Enable SSH server and switch to SSH connection by writing on video console "in blind"
+        IF    ${fum}
+            Write Into Terminal    ${DTS_FUM_MENU_OPT}
+            Sleep    5s
+        END
+        # Enable SSH server and switch to SSH connection by writing on video
+        # console "in blind"
         Write Bare Into Terminal    K
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
         Login To Linux Via SSH Without Password    root    root@DasharoToolsSuite:~#
         # Spawn DTS menu on SSH console
         Write Into Terminal    dts-boot
     END
-    Read From Terminal Until    Enter an option:
+    Read From Terminal Until    ${prompt}
     Sleep    5s
 
 Check HCL Report Creation
