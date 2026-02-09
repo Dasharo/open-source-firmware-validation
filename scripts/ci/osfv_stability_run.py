@@ -39,7 +39,6 @@ if "RULES_FILE" not in env:
 if "LOGS_DIR" not in env:
     env["LOGS_DIR"] = f"/srv/nfs/logs/osfv_stability/ci_logs"
 
-RULES = "scripts/ci/regression-scope/configs/release_tests_rules.json"
 env["ALLOW_DIRTY"] = "1"
 
 os.makedirs(env["LOGS_DIR"], exist_ok=True)
