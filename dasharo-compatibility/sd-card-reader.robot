@@ -109,3 +109,51 @@ SDC002.301 SD Card read/write (Windows)
     ${drive_letter}=    Identify Path To SD Card In Windows
     Check Read Write To External Drive In Windows    ${drive_letter}
     Execute Shutdown Command
+
+SDC001.203 SD Card reader detection (QubesOS)
+    [Documentation]    Check whether the SD Card reader is enumerated correctly
+    ...    and can be detected from the operating system.
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SDC001.203 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    ${disks}=    Identify Disks In QubesOS
+    Should Match    str(${disks})    *SD*
+
+SDC002.203 SD Card read/write (QubesOS)
+    [Documentation]    Check whether the SD Card reader is initialized correctly
+    ...    and can be used from the operating system.
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SDC002.203 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    Execute Linux Command    sudo dd if=/dev/urandom of=/tmp/in.bin bs=4K count=100
+    Execute Linux Command    sudo dd if=/tmp/in.bin of=/dev/mmcblk0 bs=4K count=100
+    Execute Linux Command    sudo dd if=/dev/mmcblk0 of=/tmp/out.bin bs=4K count=100
+    ${result}=    Check If Files Are Identical In Linux    /tmp/in.bin    /tmp/out.bin
+    Should Be True    ${result}
+
+
+*** Keywords ***
+Identify Disks In QubesOS
+    [Documentation]    Check whether any disk is recognized in Linux system
+    ...    and identify their vndor and model.
+    ${out}=    Execute Linux Command    lsblk --nodeps --output NAME
+    @{disks}=    Get Regexp Matches    ${out}    sd.|mmcblk.
+    VAR    @{disks_info}=    @{EMPTY}
+    FOR    ${disk}    IN    @{disks}
+        ${vendor}=    Execute Linux Command    sudo cat /sys/class/block/${disk}/device/vendor
+        ${model}=    Execute Linux Command    sudo cat /sys/class/block/${disk}/device/model
+        ${type}=    Execute Linux Command    sudo cat /sys/class/block/${disk}/device/type
+        ${vendor_name}=    Fetch From Left    ${vendor}    \r\n
+        ${model_name}=    Fetch From Left    ${model}    \r\n
+        ${vendor_name}=    Fetch From Right    ${vendor_name}    \r
+        ${model_name}=    Fetch From Right    ${model_name}    \r
+        # ${vendor_name}=    Fetch From Left    ${vendor_name}    \x20
+        # ${model_name}=    Fetch From Left    ${model_name}    \x20
+        Append To List    ${disks_info}    ${disk}
+        Append To List    ${disks_info}    ${type}
+        Append To List    ${disks_info}    ${vendor_name}
+        Append To List    ${disks_info}    ${model_name}
+    END
+    RETURN    ${disks_info}

@@ -126,9 +126,9 @@ WLE001.205 Wireless card detection (XCP-NG)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the XCP-NG OS.
     ...    Previous IDs: WLE001.010
-    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.203 not supported
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    WLE001.203 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    WLE001.203 not supported
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.205 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    WLE001.205 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    WLE001.205 not supported
     Power On
     Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
@@ -149,6 +149,23 @@ WLE001.205 Wireless card detection (XCP-NG)
 #    ${out}=    Execute Command in Terminal    Get-PnpDevice -class Bluetooth
 #    Should Contain X Times    ${out}    OK    4
 #    Execute Shutdown Command
+
+WLE002.203 Wi-Fi scanning (Qubes OS)
+    [Documentation]    Check whether the Wi-Fi functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system..
+    [Tags]    automated    minimal-regression
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE002.203 not supported
+    Wi-Fi Scanning QB    ${ENV_ID_QUBES}
+
+WLE003.203 Bluetooth scanning (Qubes OS)
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE003.203 not supported
+    Bluetooth Scanning QB    ${ENV_ID_QUBES}
 
 
 *** Keywords ***
@@ -195,6 +212,26 @@ Wi-Fi Scanning
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN
 
+Wi-Fi Scanning QB
+    [Documentation]    Check whether the Wi-Fi functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system..
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Log To Console    Remember to test all variants of wireless cards.
+    Log    Remember to test all variants of wireless cards.    WARN
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+
+    # with interfaces DOWN, dhclient takes around 37s
+    Execute Command In Terminal    dhclient    60s
+    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller: | awk -F": " '{print $2}'
+    Exit From Root User
+    Log To Console    The test passed for the ${current_card} wireless card
+    Log    The test passed for the ${current_card} wireless card    WARN
+
 Bluetooth Scanning
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
@@ -209,6 +246,23 @@ Bluetooth Scanning
     Scan For Bluetooth In Linux
 
     ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller:" | awk -F": " '{print $2}'
-    Exit From Root User
+    Log To Console    The test passed for the ${current_card} wireless card
+    Log    The test passed for the ${current_card} wireless card    WARN
+
+Bluetooth Scanning QB
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Log To Console    Remember to test all variants of wireless cards.
+    Log    Remember to test all variants of wireless cards.    WARN
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    Scan For Bluetooth In Linux
+
+    ${current_card}=    Execute Command In Terminal    lspci | grep "Network controller:" | awk -F": " '{print $2}'
     Log To Console    The test passed for the ${current_card} wireless card
     Log    The test passed for the ${current_card} wireless card    WARN

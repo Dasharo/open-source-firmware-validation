@@ -87,7 +87,7 @@ test_names = {
         "docking_stations": ["0"],
     },
     "USB Type-C PD power input": {
-        "env_ids": {"201": "manual", "202": "manual", "301": "manual", "203": "manual"},
+        "env_ids": {"201": "manual", "202": "manual", "301": "manual", "203": "semi"},
         "doc": """Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port""",
@@ -205,7 +205,7 @@ test_names = {
         "docking_stations": ["1", "2", "3"],
     },
     "USB Type-C PD current limiting": {
-        "env_ids": {"201": "manual", "202": "manual", "301": "manual", "203": "manual"},
+        "env_ids": {"201": "manual", "202": "manual", "301": "manual", "203": "semi"},
         "doc": """This test aims to verify that the power draw from a USB-C PD
     ...    power supply does not exceed the limits of the power supply's
     ...    specifications.""",

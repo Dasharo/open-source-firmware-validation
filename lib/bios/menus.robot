@@ -862,8 +862,8 @@ Set Option State
                 Press Key N Times    1    ${ARROW_DOWN}
                 Press Key N Times    1    ${ARROW_UP}
             END
-
-            ${out}=    Read From Terminal Until    ---/
+            Sleep    1s
+            ${out}=    Read From Terminal
             ${list}=    Extract Strings From Frame    ${out}
             # TODO: Temporarily disabled due to the complexity with
             # options spanning into multiple lines.

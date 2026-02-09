@@ -68,8 +68,7 @@ UTC033.203 USB Type-C PD current limiting (QubesOS) (ME: Enabled)
     ...    specifications.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC033.203 not supported
-    Skip
-    ...    UTC033.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Current Limiting    ${ENV_ID_QUBES}    Enabled    none
 
 UTC002.001 USB Type-A charging capability (Firmware) (ME: Disabled)
     [Documentation]    This test verifies that the USB-A ports are able to provide
@@ -119,8 +118,7 @@ UTC034.203 USB Type-C PD current limiting (QubesOS) (ME: Disabled)
     ...    specifications.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC034.203 not supported
-    Skip
-    ...    UTC034.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Current Limiting    ${ENV_ID_QUBES}    Disabled    none
 
 UTC115.001 USB Type-C docking station USB devices recognition (Firmware) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -837,8 +835,7 @@ UTC105.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC105.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC105.203 not supported
-    Skip
-    ...    UTC105.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC107.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -1795,8 +1792,7 @@ UTC106.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC106.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC106.203 not supported
-    Skip
-    ...    UTC106.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC108.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -2753,8 +2749,7 @@ UTC205.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC205.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC205.203 not supported
-    Skip
-    ...    UTC205.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC207.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -3711,8 +3706,7 @@ UTC206.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC206.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC206.203 not supported
-    Skip
-    ...    UTC206.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC208.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -4669,8 +4663,7 @@ UTC305.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC305.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC305.203 not supported
-    Skip
-    ...    UTC305.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC307.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
@@ -5627,8 +5620,7 @@ UTC306.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}    UTC306.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC306.203 not supported
-    Skip
-    ...    UTC306.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC308.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.

@@ -177,6 +177,55 @@ SNV006.202 NVMe detection after suspension (Fedora) (S3)
     NVMe Detection After Suspension    S3
     Exit From Root User
 
+SNV001.203 - NVMe detection after cold boot (QubesOS)
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a cold boot.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SNV001.203 not supported
+    Pause Execution
+    ...    This is a manual test.
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Type in: `lspci`
+    Execute Manual Step    [4/4] In the command output look for DUT's NVMe
+
+SNV002.203 - NVMe detection after warm boot (QubesOS)
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a cold boot.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SNV002.203 not supported
+    Pause Execution
+    ...    This is a manual test.
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Type in: `lspci`
+    Execute Manual Step    [4/4] In the command output look for DUT's NVMe
+
+SNV003.203 - NVMe detection after reboot (QubesOS)
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a cold boot.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SNV003.203 not supported
+    Pause Execution
+    ...    This is a manual test.
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Type in: `lspci`
+    Execute Manual Step    [4/4] In the command output look for DUT's NVMe
+
+SNV004.203 - NVMe detection after suspend (QubesOS)
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a cold boot.
+    [Tags]    semiauto
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SNV004.203 not supported
+    Pause Execution
+    ...    This is a manual test.
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal (or any text editor).
+    Execute Manual Step    [3/4] Type in: `lspci`
+    Execute Manual Step    [4/4] In the command output look for DUT's NVMe
+
 
 *** Keywords ***
 NVMe Detection After Suspension

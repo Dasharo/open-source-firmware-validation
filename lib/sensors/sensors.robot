@@ -12,10 +12,16 @@ Prepare Sensors
     [Documentation]    Do any preparation work needed for accessing sensors
 
     # Might only do this when any method is said to be lm-sensors.
-    Power On
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux
-    Switch To Root User
+    IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
+        Power On
+        Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+        Login To Linux
+    ELSE
+        Power On
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        Switch To Root User
+    END
     Import Variables    ${CURDIR}/../../platform-configs/${SENSORS_CONFIG_FILE}
     ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
     ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
@@ -48,8 +54,15 @@ Get CPU Temperature
     ...    sensors using `Prepare Sensors` keyword.
     ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
     IF    '''${cpu_temperature_measurement_method}''' == '''lm-sensors'''
-        ${temperature}=    Execute Command In Terminal
-        ...    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
+        IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
+            ${temperature}=    Execute Command In Terminal
+            ...    sensors 2>/dev/null | grep -E 'Sensor'| head -n1 | awk -F'+' '{print $2}' | awk '{print $1}' | grep -oE "[0-9]+\.[0-9]+"
+        ELSE
+            ${temperature}=    Execute Command In Terminal
+            ...    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
+            RETURN    ${temperature}
+        END
+
         RETURN    ${temperature}
     ELSE IF    '${cpu_temperature_measurement_method}' == 'hwmon'
         ${cpu_temperature_measurement_hwmon_path}=    Get From Dictionary

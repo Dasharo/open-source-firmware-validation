@@ -20,6 +20,20 @@ Resource    ../lib/docks.robot
 Resource    options/options-lib_dcu.robot
 
 
+*** Variables ***
+@{QUBES_PD_STEPS}=
+...                     [1/10] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
+...                     [2/10] Boot into dom0. Ensure AC adapter is unplugged. Verify battery is discharging normally.
+...                     [3/10] Connect the docking station to AC power only.
+...                     [4/10] Plug the dock into the DUT’s USB-C port.
+...                     [5/10] Run in dom0: watch -n1 cat /sys/class/power_supply/BAT0/status
+...                     [6/10] Verify PD contract and power draw.
+...                     [7/10] Observe charging LED.
+...                     [8/10] Attach high-load USB-C device.
+...                     [9/10] Disconnect dock AC.
+...                     [10/10] Reconnect dock AC.
+
+
 *** Keywords ***
 Prepare UTC Test Suite
     VAR    ${UTC_CURRENT_ME_STATE}=    unknown    scope=GLOBAL
@@ -58,14 +72,30 @@ Ensure ME State
 
 Usb Type-C Pd Power Input
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
-    Ensure ME State    ${me_state}
-    Power On
+    IF    ${env_id} != ${ENV_ID_QUBES}
+        Ensure ME State    ${me_state}
+        Power On
+    END
     IF    '${env_id}'.startswith('2')    # Linux
-        Boot System Or From Connected Disk    ${env_id}
-        Login To Linux
-        Switch To Root User
-        Check Charging State In Linux
-        Exit From Root User
+        IF    ${env_id} == ${ENV_ID_QUBES}
+            Pause Execution In Console    Qubes detected — switching to manual PD power input test
+            Execute Manual Step    ${QUBES_PD_STEPS}[0]
+            Execute Manual Step    ${QUBES_PD_STEPS}[1]
+            Execute Manual Step    ${QUBES_PD_STEPS}[2]
+            Execute Manual Step    ${QUBES_PD_STEPS}[3]
+            Execute Manual Step    ${QUBES_PD_STEPS}[4]
+            Execute Manual Step    ${QUBES_PD_STEPS}[5]
+            Execute Manual Step    ${QUBES_PD_STEPS}[6]
+            Execute Manual Step    ${QUBES_PD_STEPS}[7]
+            Execute Manual Step    ${QUBES_PD_STEPS}[8]
+            Execute Manual Step    ${QUBES_PD_STEPS}[9]
+        ELSE
+            Boot System Or From Connected Disk    ${env_id}
+            Login To Linux
+            Switch To Root User
+            Check Charging State In Linux
+            Exit From Root User
+        END
     ELSE IF    '${env_id}'.startswith('3')    # Windows
         Login To Windows
         Check Charging State In Windows
@@ -269,9 +299,30 @@ Usb Type-C Docking Station Sd Card Read/Write
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
     END
-# Not automated
-# Usb Type-C Pd Current Limiting
-#    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+
+Usb Type-C Pd Current Limiting
+    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+    IF    ${env_id} != ${ENV_ID_QUBES}
+        Ensure ME State    ${me_state}
+        Power On
+    END
+    IF    '${env_id}'.startswith('2')    # Linux
+        IF    ${env_id} == ${ENV_ID_QUBES}
+            Execute Manual Step    [1/8] Enter BIOS/UEFI and set Intel ME to Disabled . Save & reboot DUT.
+            Execute Manual Step    [2/8] Prepare USB-C PD meter.
+            Execute Manual Step    [3/8] Ensure no other USB devices are connected.
+            Execute Manual Step    [4/8] Connect charger/dock to PD meter. Verify PD profile is negotiated correctly.
+            Execute Manual Step    [5/8] Connect PD meter to DUT. Observe initial power draw.
+            Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
+            Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
+            Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
+            Log To Console    USB-C PD current limiting test completed
+        ELSE
+            Fail    Not implemented on ENV_ID ${env_id}
+        END
+    ELSE
+        Fail    Not implemented on ENV_ID ${env_id}
+    END
 
 Docking Station Detection After Coldboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}

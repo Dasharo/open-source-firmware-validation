@@ -174,6 +174,32 @@ DSP003.205 - External DP display in OS (XCP-NG)
     Execute Manual Step    [3/4] Boot into XCP-NG
     Execute Manual Step    [4/4] Confirm that the XCP-NG interface is visible on the external DisplayPort display
 
+DSP001.203 - Internal display in OS (Qubes OS)
+    [Documentation]    Check whether an internal display is visible in
+    ...    Qubes OS. An internal display must be provided in
+    ...    the platform config.
+    ...    Previous IDs: DSP001.004
+    [Tags]    semiauto
+    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP001.203 not supported
+    Pause Execution
+    ...    This is a manual test to verify internal display on Qubes OS.
+    Execute Manual Step    [1/3] Power on the DUT
+    Execute Manual Step    [2/3] Boot into Qubes OS
+    Execute Manual Step    [3/3] Confirm that the Qubes OS interface is visible on the internal display
+
+DSP002.203 - External HDMI display in OS (Qubes OS)
+    [Documentation]    Check whether an external HDMI display is visible in
+    ...    Qubes OS. An external HDMI display must be provided in
+    ...    the platform config.
+    [Tags]    semiauto
+    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.203 not supported
+    Pause Execution
+    ...    This is a manual test to verify HDMI output on Qubes OS.
+    Execute Manual Step    [1/4] Connect an external display to the DUT via HDMIs
+    Execute Manual Step    [2/4] Power on the DUT
+    Execute Manual Step    [3/4] Boot into Qubes OS
+    Execute Manual Step    [4/4] Confirm that the Qubes OS interface is visible on the external HDMI display
+
 
 *** Keywords ***
 External HDMI Display

@@ -105,7 +105,8 @@
     "doc": {
       "_id": "AUD001.003",
       "name": "Audio subsystem detection (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "AUD001.203"
     }
   },
   {
@@ -119,6 +120,13 @@
     "doc": {
       "_id": "AUD001.202",
       "name": "Audio subsystem detection (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "AUD001.203",
+      "name": "Audio subsystem detection (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -738,7 +746,8 @@
     "doc": {
       "_id": "CAM001.003",
       "name": "USB Camera (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CAM001.203"
     }
   },
   {
@@ -752,6 +761,13 @@
     "doc": {
       "_id": "CAM001.202",
       "name": "Integrated webcam (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CAM001.203",
+      "name": "USB Camera (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -1220,6 +1236,13 @@
   },
   {
     "doc": {
+      "_id": "CPF001.203",
+      "name": "CPU not stuck on initial frequency (Qubes OS)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF001.301",
       "name": "CPU not stuck on initial frequency (Windows)",
       "module": "Dasharo Performance"
@@ -1469,6 +1492,20 @@
     "doc": {
       "_id": "CPF005.202",
       "name": "CPU runs on expected frequency (Fedora)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF005.203",
+      "name": "CPU runs on expected frequency (Qubes OS)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF005.203",
+      "name": "CPU with load runs on expected frequency (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1891,7 +1928,8 @@
     "doc": {
       "_id": "CPU001.003",
       "name": "CPU works (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU001.203"
     }
   },
   {
@@ -1921,6 +1959,13 @@
     "doc": {
       "_id": "CPU001.202",
       "name": "CPU works (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU001.203",
+      "name": "CPU works (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -1965,7 +2010,8 @@
     "doc": {
       "_id": "CPU002.003",
       "name": "CPU cache enabled (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU002.203"
     }
   },
   {
@@ -1995,6 +2041,13 @@
     "doc": {
       "_id": "CPU002.202",
       "name": "CPU cache enabled (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU002.203",
+      "name": "CPU cache enabled (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2039,7 +2092,8 @@
     "doc": {
       "_id": "CPU003.003",
       "name": "Multiple CPU support (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU003.203"
     }
   },
   {
@@ -2069,6 +2123,13 @@
     "doc": {
       "_id": "CPU003.202",
       "name": "Multiple CPU support (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU003.203",
+      "name": "Multiple CPU support (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2113,7 +2174,8 @@
     "doc": {
       "_id": "CPU004.003",
       "name": "Multiple-core support (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "CPU004.203"
     }
   },
   {
@@ -2143,6 +2205,13 @@
     "doc": {
       "_id": "CPU004.202",
       "name": "Multiple-core support (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPU004.203",
+      "name": "Multiple-core support (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2708,7 +2777,8 @@
     "doc": {
       "_id": "DSP001.004",
       "name": "Internal LCD in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "DSP001.203"
     }
   },
   {
@@ -2722,6 +2792,13 @@
     "doc": {
       "_id": "DSP001.202",
       "name": "Internal display in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP001.203",
+      "name": "Internal LCD in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2759,7 +2836,8 @@
     "doc": {
       "_id": "DSP002.004",
       "name": "External HDMI display in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "DSP002.203"
     }
   },
   {
@@ -2789,6 +2867,13 @@
     "doc": {
       "_id": "DSP002.202",
       "name": "External HDMI display in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DSP002.203",
+      "name": "External HDMI display in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2984,7 +3069,8 @@
     "doc": {
       "_id": "ECR001.005",
       "name": "Battery monitoring - charge level in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR001.203"
     }
   },
   {
@@ -2998,6 +3084,13 @@
     "doc": {
       "_id": "ECR001.202",
       "name": "Battery monitoring - charge level in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR001.203",
+      "name": "Battery monitoring - charge level in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3028,7 +3121,8 @@
     "doc": {
       "_id": "ECR002.003",
       "name": "Battery monitoring - charging state in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR002.203"
     }
   },
   {
@@ -3042,6 +3136,13 @@
     "doc": {
       "_id": "ECR002.202",
       "name": "Battery monitoring - charging state in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR002.203",
+      "name": "Battery monitoring - charging state in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3072,7 +3173,8 @@
     "doc": {
       "_id": "ECR003.003",
       "name": "Touchpad in OS - (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR003.203"
     }
   },
   {
@@ -3086,6 +3188,13 @@
     "doc": {
       "_id": "ECR003.202",
       "name": "Touchpad in OS - (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR003.203",
+      "name": "Touchpad in OS - (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3123,13 +3232,21 @@
     "doc": {
       "_id": "ECR004.004",
       "name": "Keyboard (standard keypad) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR004.203"
     }
   },
   {
     "doc": {
       "_id": "ECR004.201",
       "name": "Keyboard (standard keypad) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR004.203",
+      "name": "Keyboard (standard keypad) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3160,13 +3277,21 @@
     "doc": {
       "_id": "ECR005.003",
       "name": "Keyboard (function key: play/pause) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR005.203"
     }
   },
   {
     "doc": {
       "_id": "ECR005.201",
       "name": "Keyboard (function key: play/pause) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR005.203",
+      "name": "Keyboard (function key: play/pause) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3197,13 +3322,21 @@
     "doc": {
       "_id": "ECR006.003",
       "name": "Keyboard (function key: cooling mode) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR006.203"
     }
   },
   {
     "doc": {
       "_id": "ECR006.201",
       "name": "Keyboard (function key: cooling mode) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR006.203",
+      "name": "Keyboard (function key: cooling mode) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3228,6 +3361,14 @@
       "name": "Keyboard (function key: touchpad on/off) in OS (Windows)",
       "module": "Dasharo Compatibility",
       "changed_to": "ECR007.301"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR007.003",
+      "name": "Keyboard (function key: touchpad on/off) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR007.203"
     }
   },
   {
@@ -3276,6 +3417,13 @@
   },
   {
     "doc": {
+      "_id": "ECR008.203",
+      "name": "Keyboard (function key: display on/off) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR008.301",
       "name": "Keyboard (function key: display on/off) in OS (Windows)",
       "module": "Dasharo Compatibility"
@@ -3301,13 +3449,21 @@
     "doc": {
       "_id": "ECR009.003",
       "name": "Keyboard (function key: mute) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR009.203"
     }
   },
   {
     "doc": {
       "_id": "ECR009.201",
       "name": "Keyboard (function key: mute) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR009.203",
+      "name": "Keyboard (function key: mute) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3338,13 +3494,21 @@
     "doc": {
       "_id": "ECR010.003",
       "name": "Keyboard (function key: keyboard backlight) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR010.203"
     }
   },
   {
     "doc": {
       "_id": "ECR010.201",
       "name": "Keyboard (function key: keyboard backlight) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR010.203",
+      "name": "Keyboard (function key: keyboard backlight) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3375,13 +3539,21 @@
     "doc": {
       "_id": "ECR011.003",
       "name": "Keyboard (function key: volume down) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR011.203"
     }
   },
   {
     "doc": {
       "_id": "ECR011.201",
       "name": "Keyboard (function key: volume down) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR011.203",
+      "name": "Keyboard (function key: volume down) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3412,13 +3584,21 @@
     "doc": {
       "_id": "ECR012.003",
       "name": "Keyboard (function key: volume up) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR012.203"
     }
   },
   {
     "doc": {
       "_id": "ECR012.201",
       "name": "Keyboard (function key: volume up) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR012.203",
+      "name": "Keyboard (function key: volume up) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3449,13 +3629,21 @@
     "doc": {
       "_id": "ECR013.003",
       "name": "Keyboard (function key: display switch) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR013.203"
     }
   },
   {
     "doc": {
       "_id": "ECR013.201",
       "name": "Keyboard (function key: display switch) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR013.203",
+      "name": "Keyboard (function key: display switch) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3485,7 +3673,8 @@
     "doc": {
       "_id": "ECR014.003",
       "name": "Keyboard (function key: brightness down) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR014.203"
     }
   },
   {
@@ -3499,6 +3688,13 @@
     "doc": {
       "_id": "ECR014.202",
       "name": "Keyboard (function key: brightness down) in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR014.203",
+      "name": "Keyboard (function key: brightness down) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3521,7 +3717,8 @@
     "doc": {
       "_id": "ECR015.003",
       "name": "Keyboard (function key: brightness up) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR015.203"
     }
   },
   {
@@ -3535,6 +3732,13 @@
     "doc": {
       "_id": "ECR015.202",
       "name": "Keyboard (function key: brightness up) in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR015.203",
+      "name": "Keyboard (function key: brightness up) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3557,7 +3761,8 @@
     "doc": {
       "_id": "ECR016.003",
       "name": "Keyboard (function key: camera on/off) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR016.203"
     }
   },
   {
@@ -3571,6 +3776,13 @@
     "doc": {
       "_id": "ECR016.202",
       "name": "Keyboard (function key: camera on/off) in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR016.203",
+      "name": "Keyboard (function key: camera on/off) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3593,7 +3805,8 @@
     "doc": {
       "_id": "ECR017.003",
       "name": "Keyboard (function key: flight mode) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR017.203"
     }
   },
   {
@@ -3607,6 +3820,13 @@
     "doc": {
       "_id": "ECR017.202",
       "name": "Keyboard (function key: flight mode) in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR017.203",
+      "name": "Keyboard (function key: flight mode) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3630,13 +3850,21 @@
     "doc": {
       "_id": "ECR018.003",
       "name": "Keyboard (function key: sleep) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR018.203"
     }
   },
   {
     "doc": {
       "_id": "ECR018.201",
       "name": "Keyboard (function key: sleep) in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR018.203",
+      "name": "Keyboard (function key: sleep) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3660,6 +3888,14 @@
       "_id": "ECR019.002",
       "name": "Buttons (button: power) in OS (Windows)",
       "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR019.003",
+      "name": "Buttons (button: power) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR019.203"
     }
   },
   {
@@ -3702,6 +3938,14 @@
     "doc": {
       "_id": "ECR020.003",
       "name": "Buttons (button: lid switch) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR020.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR020.203",
+      "name": "Buttons (button: lid switch) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3736,6 +3980,14 @@
   {
     "doc": {
       "_id": "ECR025.004",
+      "name": "Permanent keyboard illumination after cold boot (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR025.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR025.203",
       "name": "Permanent keyboard illumination after cold boot (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
@@ -5895,7 +6147,8 @@
     "doc": {
       "_id": "SDC001.003",
       "name": "SD Card reader detection (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "SDC001.203"
     }
   },
   {
@@ -5909,6 +6162,13 @@
     "doc": {
       "_id": "SDC001.202",
       "name": "SD Card reader detection (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SDC001.203",
+      "name": "SD Card reader detection (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5939,7 +6199,8 @@
     "doc": {
       "_id": "SDC002.003",
       "name": "SD Card read/write (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "SDC002.203"
     }
   },
   {
@@ -5953,6 +6214,13 @@
     "doc": {
       "_id": "SDC002.202",
       "name": "SD Card read/write (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SDC002.203",
+      "name": "SD Card read/write (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6113,7 +6381,8 @@
     "doc": {
       "_id": "SMW001.203",
       "name": "Wi-fi connection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW001.203"
     }
   },
   {
@@ -6128,7 +6397,8 @@
     "doc": {
       "_id": "SMW002.002",
       "name": "Wi-fi connection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW002.203"
     }
   },
   {
@@ -6147,6 +6417,13 @@
   },
   {
     "doc": {
+      "_id": "SMW002.203",
+      "name": "Wi-fi connection after warm boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SMW003.001",
       "name": "Wi-fi connection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
@@ -6157,7 +6434,8 @@
     "doc": {
       "_id": "SMW003.002",
       "name": "Wi-fi connection after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW003.203"
     }
   },
   {
@@ -6171,6 +6449,13 @@
     "doc": {
       "_id": "SMW003.202",
       "name": "Wi-fi connection after reboot (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SMW003.203",
+      "name": "Wi-fi connection after reboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6202,7 +6487,8 @@
     "doc": {
       "_id": "SMW004.004",
       "name": "Wi-fi connection after suspension (Qubes OS) (S3)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SMW004.203"
     }
   },
   {
@@ -6216,6 +6502,13 @@
     "doc": {
       "_id": "SMW004.202",
       "name": "Wi-fi connection after suspension (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SMW004.203",
+      "name": "Wi-fi connection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
   },
@@ -6258,6 +6551,14 @@
     "doc": {
       "_id": "SNV0001.002",
       "name": "NVMe detection after cold boot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV001.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV0001.203",
+      "name": "NVMe detection after cold boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6273,6 +6574,14 @@
     "doc": {
       "_id": "SNV0002.002",
       "name": "NVMe detection after warm boot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV002.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV0002.203",
+      "name": "NVMe detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6287,6 +6596,14 @@
   {
     "doc": {
       "_id": "SNV0003.002",
+      "name": "NVMe detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV003.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV0003.203",
       "name": "NVMe detection after reboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
@@ -6318,6 +6635,14 @@
   {
     "doc": {
       "_id": "SNV0004.004",
+      "name": "NVMe detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SNV004.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV0004.203",
       "name": "NVMe detection after suspension (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
@@ -6566,7 +6891,8 @@
     "doc": {
       "_id": "STB001.004",
       "name": "Verify if no reboot occurs in the OS (Qubes OS)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "STB001.203"
     }
   },
   {
@@ -6581,6 +6907,13 @@
       "_id": "STB001.202",
       "name": "Verify if no reboot occurs in the OS (Fedora)",
       "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "STB001.203",
+      "name": "Verify if no reboot occurs in the OS (Qubes OS)",
+      "module": "Dasharo Performance"
     }
   },
   {
@@ -6602,7 +6935,8 @@
     "doc": {
       "_id": "STB002.002",
       "name": "No unexpected boot errors (Qubes OS)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "STB002.203"
     }
   },
   {
@@ -6617,6 +6951,13 @@
       "_id": "STB002.202",
       "name": "Verify if no unexpected boot errors appear in Linux logs (Fedora)",
       "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "STB002.203",
+      "name": "No unexpected boot errors (Qubes OS)",
+      "module": "Dasharo Performance"
     }
   },
   {
@@ -13073,7 +13414,8 @@
     "doc": {
       "_id": "WLE001.003",
       "name": "Wireless card detection (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "WLE001.203"
     }
   },
   {
@@ -13102,6 +13444,13 @@
     "doc": {
       "_id": "WLE001.202",
       "name": "Wireless card detection (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "WLE001.203",
+      "name": "Wireless card detection (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13139,7 +13488,8 @@
     "doc": {
       "_id": "WLE002.003",
       "name": "Wi-Fi scanning (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "WLE002.203"
     }
   },
   {
@@ -13153,6 +13503,13 @@
     "doc": {
       "_id": "WLE002.202",
       "name": "Wi-Fi scanning (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "WLE002.203",
+      "name": "Wi-Fi scanning (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },

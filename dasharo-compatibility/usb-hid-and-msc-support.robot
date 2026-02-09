@@ -214,6 +214,26 @@ USB003.301 Upload 1GB file on USB storage (Windows)
     ...    Remove-Item -Path ${drive_letter}:\\test_file.txt    120
     Should Be Equal    ${hash1}    ${hash2}
 
+USB001.203 USB devices detected by OS (QubesOS)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB001.203 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    ${out}=    Execute Linux Command    qvm-usb
+    Should Contain    ${out}    ${USB_MODEL}
+
+USB002.203 USB keyboard detected by OS (QubesOS)
+    [Documentation]    Check whether the external USB keyboard is detected
+    ...    correctly
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB02.203 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    ${out}=    Execute Linux Command    qvm-usb
+    Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
+
 
 *** Keywords ***
 Prepare USB HID Test Suite
