@@ -209,6 +209,43 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     END
     Check The Update Screen For The Correct UX
 
+CUP260.101 Capsule update in Firmware Update Mode works
+    [Documentation]    Check if capsule update works when in Firmware Update
+    ...    Mode
+    Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
+    Power On
+    # Enable FUM
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Enter Submenu From Snapshot    ${security_menu}    Enter Firmware Update Mode
+    Read From Terminal Until    Press ENTER to continue and reboot
+    Press Enter
+    ${fum_prompt}=    Read From Terminal Until Regexp    Press [0-9] to continue\.
+    ${choice}=    Get Regexp Matches
+    ...    ${fum_prompt}    .*Press \([0-9]\) to continue\..*    1
+    Write Into Terminal    ${choice}[0]
+    # Boot into DTS shell
+    Read From Terminal Until    .cpio.gz...
+    Read From Terminal Until    ok
+    Wait For DTS To Boot    fum=${TRUE}
+    Write Into Terminal    ${DTS_FUM_MENU_OPT}
+    Enter Shell In DTS
+    # Upload capsule
+    Execute Command In Terminal    systemctl start sshd
+    VAR    ${DEVICE_OS_USERNAME}=    root    scope=Test
+    VAR    ${DEVICE_OS_PASSWORD}=    ${EMPTY}    scope=Test
+    Send File To DUT    ${CAPSULE_FW_FILE}    /valid_capsule.cap
+    Execute Command In Terminal Should Succeed
+    ...    cp /valid_capsule.cap /dev/efi_capsule_loader
+    ...    Failed to queue capsule update via /dev/efi_capsule_loader
+    # Verify
+    ${dmesg}=    Execute Command In Terminal    dmesg | tail
+    Should Contain    ${dmesg}    efi: Successfully uploaded capsule
+    Write Into Terminal    reboot
+    Set DUT Response Timeout    5m
+    Enter Setup Menu Tianocore
+
 
 *** Keywords ***
 Check Platform Fused
