@@ -11,6 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import tqdm
 from robot.api import ExecutionResult
 
 LOGS_DIR = (
@@ -109,10 +110,12 @@ def is_suite_skipped(out_xml: Path) -> bool:
 
 def parse():
     TEST_DATA = {}
-    for revision_run in LOGS_DIR.iterdir():
+    for revision_run in tqdm.tqdm(LOGS_DIR.iterdir(), desc="Revisions"):
         if not revision_run.is_dir():
             continue
-        for run_date_dir in revision_run.iterdir():
+        for run_date_dir in tqdm.tqdm(
+            revision_run.iterdir(), leave=False, desc="Run dates"
+        ):
             if not run_date_dir.is_dir():
                 continue
             revision = str(revision_run.name).split("_")
@@ -139,21 +142,27 @@ def parse():
                     TEST_DATA[revision_run.name] = RUN_DATA
                     continue
 
-            for run_dir in run_date_dir.glob("run*"):
+            for run_dir in tqdm.tqdm(
+                run_date_dir.glob("run*"), leave=False, desc="Run iterations"
+            ):
                 if not run_dir.is_dir():
                     continue
 
                 run_name = run_dir.name
                 run_total_time = 0.0
 
-                for device_dir in run_dir.iterdir():
+                for device_dir in tqdm.tqdm(
+                    run_dir.iterdir(), leave=False, desc="Devices"
+                ):
                     if not device_dir.is_dir():
                         continue
 
                     device = device_dir.name
                     device_total_time = 0.0
 
-                    for suite_dir in device_dir.iterdir():
+                    for suite_dir in tqdm.tqdm(
+                        device_dir.iterdir(), leave=False, desc="Suites"
+                    ):
                         if not suite_dir.is_dir():
                             continue
 
