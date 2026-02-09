@@ -30,6 +30,7 @@ appear here.
     - [Running regression tests](#running-regression-tests)
 * [Checking Robot Framework syntax before committing](#checking-robot-framework-syntax-before-committing)
 * [Useful refactoring tools](#useful-refactoring-tools)
+* [OSFV Stability Checks](#osfv-stability-checks)
 * [Generating documentation](#generating-documentation)
 * [Additional documents](#additional-documents)
 
@@ -452,6 +453,51 @@ necessary corrections. Example workflow:
    requirements.
 4. Address any issues reported by the tool.
 5. Commit the changes and prepare the release.
+
+## OSFV Stability Checks
+
+OSFV evolves quickly and a lot of changes that often break tests in some corner
+cases are being added. Due to that the releases of OSFV were stopped for a couple
+months. In order to restore the releases and work towards improving the
+reliability and reducing fail rate caused by errors in the testing environment,
+regression tests of most OSFV test suites on multiple supported devices
+will be run to verify how many tests pass "Out of the box", and without any
+kind of maintenance.
+
+### osfv_stability_run.py
+
+`scripts/ci/osfv_stability_run.py` is used to run the test scope defined in
+`scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt` on devices
+from `scripts/ci/regression-scope/configs/release_tests_devices.txt`, more
+precisely defined in `scripts/ci/regression-scope/devices/`.
+It reuses the system used for automatic CI runs on PRs.
+
+The `osfv_stability_run.py` script will try to run the whole test scope on
+all supported devices 2 times and wait until they're free for check-out on
+Snipe-IT. It can easily take multiple hours, so always make sure to run it
+on a stable device that always has the connection to the lab network.
+
+Use `LOGS_DIR` env variable to redirect logs to NFS for future reference:
+`export LOGS_DIR=/srv/nfs/logs/osfv_stability/ci_logs`
+
+Use `MANUAL_TESTS_LIST` env var to select a list of tests to run, e.g. whole OSFV:
+`export MANUAL_TESTS_LIST="scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt"`
+
+Use `DEVICES` env var to configure list of devices to run on:
+`export DEVICES="scripts/ci/regression-scope/configs/release_tests_devices.txt"`
+
+### osfv_stability_reports.py
+
+After the results are created, use `scripts/ci/osfv_stability_reports.py` to
+create a summary of all the runs. It can take a couple minutes to parse all
+that logs.
+
+Use `LOGS_DIR` env var to direct the parser to the directory with logs.
+E.g. The NFS with all the historic official runs on OSFV releases.
+`export LOGS_DIR=/srv/nfs/logs/osfv_stability/ci_logs`
+
+Use `--json` option to format the output in json for easy processing
+`./scripts/ci/osfv_stability_reports.py --json > reports.json`
 
 ## Generating documentation
 
