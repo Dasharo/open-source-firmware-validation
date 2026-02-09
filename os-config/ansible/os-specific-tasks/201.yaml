@@ -11,9 +11,6 @@
     - src: "./../../../osfv-test-data/uefi-shell/Shell.efi"
     - src: "./../../../osfv-test-data/uefi-shell/deploy-shell-efi.sh"
 
-- name: Install UEFI Shell
-  ansible.builtin.command: /tmp/deploy-shell-efi.sh /tmp/Shell.efi
-
 - name: Make python3 accessible as python
   ansible.builtin.package:
     update_cache: true
