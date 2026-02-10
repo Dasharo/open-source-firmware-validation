@@ -91,19 +91,31 @@ Boot And Login To Windows
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     Login To Windows
 
-Login To Booted OS
+Inner Login To Booted OS
     [Documentation]    KW to log in to the booted OS
-    IF    '${BOOTED_OS_ID}'.startswith('3')
+    [Tags]    robot:private
+    IF    '${BOOTED_OS_ID}' == '${ENV_ID_WINDOWS}'
         Login To Windows
     ELSE
         Login To Linux
     END
 
+Login To Booted OS
+    [Arguments]    ${try_recover_from_invalid_os_booted}=${TRUE}
+    ${status}=    Run Keyword And Return Status    Inner Login To Booted OS
+    IF    ${status}    RETURN
+
+    IF    not ${try_recover_from_invalid_os_booted}
+        Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
+    END
+    Log    Login failed, attempting fallback across supported OSes.    WARN
+    Recover Broken Bootorder By Trying All Supported OSes
+
 Boot And Login To OS
     [Documentation]    Universal kw to boot an OS and log in to its shell.
-    [Arguments]    ${env_id}
+    [Arguments]    ${env_id}    ${try_recover_from_invalid_os_booted}=${TRUE}
     Boot System Or From Connected Disk    ${env_id}
-    Login To Booted OS
+    Login To Booted OS    ${try_recover_from_invalid_os_booted}
 
 Serial Root Login Linux
     [Documentation]    Universal telnet login to one of supported linux systems:
@@ -265,6 +277,28 @@ Open Connection And Log In
     IF    '${SNIPEIT}'=='no'    RETURN
     ${already_checked_out_manually}=    SnipeIt Checkout    ${RTE_IP}
     VAR    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}=    ${already_checked_out_manually}    scope=GLOBAL
+
+Recover Broken Bootorder By Trying All Supported OSes
+    [Documentation]    Attempt login recovery by iterating over all supported OSes.
+    # Example list, can be replaced with real data later
+    [Arguments]    ${tries}=3
+    VAR    @{supported_oses}=    @{TESTED_LINUX_DISTROS}
+    IF    ${TESTS_IN_WINDOWS_SUPPORT}
+        Append To List    ${supported_oses}    ${ENV_ID_WINDOWS}
+    END
+    Append To List    ${supported_oses}    @{TESTED_BSD_DISTROS}
+
+    FOR    ${trial}    IN RANGE    ${tries}
+        FOR    ${env_id}    IN    @{supported_oses}
+            Log    Attempting recovery login for OS: ${env_id}    WARN
+            VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
+            Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
+            ${success}=    Run Keyword And Return Status    Inner Login To Booted OS
+            IF    ${success}    RETURN
+        END
+        Log    Failed to login to any of the supported OSes: ${supported_oses}.    WARN
+    END
+    Fail    Recovery failed: unable to log in to any supported OS in ${tries} tries.
 
 Check Provided Ip
     [Documentation]    Check the correctness of the provided ip address, if the
