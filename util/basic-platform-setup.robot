@@ -37,16 +37,14 @@ BPS009.001 Create Custom Bootentry For Default Boot OS
     Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
     ${default_boot}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${DEFAULT_BOOT_OS_ID}
     Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Log In To Linux
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
     Switch To Root User
     ${windows_entries}=    Get Bootnums For OS    ${ENV_ID_WINDOWS}
     ${windows_amount}=    Get Length    ${windows_entries}
     IF    ${windows_amount} == 1 and ${TEST_TAGS} is not @{EMPTY} and "semiauto" in ${TEST_TAGS}
         Execute Manual Step
         ...    Boot Windows once and reboot. Make sure a second `Windows Boot Manager` boot entry was created in the Boot Menu. Boot back to DEFAULT_BOOT_OS_ID (${default_boot}).
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux
+        Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
         Switch To Root User
     END
     ${custom_bootnum}=    Ensure Custom Entry    ${DEFAULT_BOOT_OS_ID}    force=${TRUE}
@@ -112,8 +110,7 @@ BPS005.001 Boot to OS - Ubuntu
     [Documentation]    This test verifies if platform can be booted to Ubunto and if correct credentials are set.
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
     ${logging}=    Get Logging Level
     IF    ${logging} != 0
@@ -127,7 +124,7 @@ BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Boot And Login To Windows
+    Boot And Login To OS    ${ENV_ID_WINDOWS}
 
 BPS006.001 Ensure test dependencies
     [Documentation]    Ensure that all the dependencies for the tests are
@@ -150,8 +147,7 @@ BPS007.002 Internal flashing
     [Documentation]    This test verifies if flashrom can detect the die.
     Skip If    '${FLASHING_METHOD}' == 'none'
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    Found chipset
@@ -165,8 +161,7 @@ BPS008.001 RTE CMOS clear
     Rte Clear Cmos
     Power On
     # TODO: Can we do it without Linux?
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
     # Test relies entirely on coreboot console to print the CMOS invalid message
     ${out}=    Execute Command In Terminal
@@ -182,8 +177,7 @@ BPS008.001 RTE CMOS clear
     # Now check if the CMOS is not reset again after reboot. If CMOS fails it
     # means that either the CMOS battery is not connected at all or the
     # platform setup is incorrect.
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
 
     ${out}=    Execute Command In Terminal
@@ -276,11 +270,11 @@ Run Ansible Playbooks
     FOR    ${distro_id}    IN    @{TESTED_LINUX_DISTROS}
         Log To Console    "Ansible setup for ENV_ID ${distro_id}"
         Power On
-        Boot System Or From Connected Disk    ${distro_id}
+        Boot And Login To OS    ${distro_id}
         # ansible will fail no matter the timeouts if host is unreachable
         # (not booted yet)
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
-        Login To Linux
+        Login To Booted OS
         Check Internet Connection On Linux
 
         # Create temporary inventory file for given platform and OS

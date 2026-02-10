@@ -170,8 +170,7 @@ Prepend Bootnum To Bootorder
 
 Deploy Uefi Shell
     Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Login To Linux
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
     Switch To Root User
     Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/Shell.efi    /tmp/Shell.efi
     Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/deploy-shell-efi.sh    /tmp/deploy-shell-efi.sh
