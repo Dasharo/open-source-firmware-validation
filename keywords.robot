@@ -41,8 +41,7 @@ Serial Setup
     Telnet.Set Timeout    180s
 
 Login To Linux
-    [Documentation]    Universal login to one of the supported linux systems:
-    ...    Ubuntu or Debian.
+    [Documentation]    Universal login to one of the supported linux systems
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         # On laptopts, we have serial over EC from firmware only, so we will
         # not have Linux prompt. We try logging in multiple times anyway, so
@@ -130,15 +129,6 @@ Serial Root Login Linux
     END
     Telnet.Write Bare    \n
     Telnet.Login    root    ${passwd}
-
-Serial User Login Linux
-    [Documentation]    Universal telnet login to Linux system
-    [Arguments]    ${password}
-    Telnet.Set Prompt    :~$
-    Telnet.Set Timeout    300
-    Telnet.Login    user    ${password}
-
-# To Do: unify with keyword: Serial root login Linux
 
 Login To Linux Over Serial Console
     [Documentation]    Login to Linux over serial console, using provided
