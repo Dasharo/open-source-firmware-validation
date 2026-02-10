@@ -50,7 +50,7 @@ Flash Via Internal Programmer
     ELSE
         VAR    ${args}=    ${EMPTY}
     END
-    Wait Until Keyword Succeeds    2
+    Wait Until Keyword Succeeds    2x
     ...    1s
     ...    Flash Via Internal Programmer With Args    /tmp/${filename}    ${args}
 
