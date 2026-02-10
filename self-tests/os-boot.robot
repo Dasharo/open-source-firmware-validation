@@ -51,7 +51,7 @@ BOT002.001 Boot To Windows Multiple Times
         ${index}=    Evaluate    ${i} + 1
         Log To Console    Iteration: ${index}
         Power On
-        Login To Windows
+        Boot And Login To Windows
         ${out}=    Execute Command In Terminal    ls
     END
 
@@ -68,6 +68,6 @@ BOT003.001 Boot To Ubuntu Then Boot To Windows
         Login To Linux
         Switch To Root User
         Power On
-        Login To Windows
+        Boot And Login To Windows
         Execute Command In Terminal    ls
     END

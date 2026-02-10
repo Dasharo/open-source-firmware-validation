@@ -34,7 +34,7 @@ Execute Command In Terminal over SSH (Windows)
 
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Execute Command In Terminal over SSH (Windows) not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     VAR    ${COMMAND}=    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }    scope=TEST
     ${out1}=    Execute Command In Terminal    ${COMMAND}
     ${out2}=    Execute Command In Terminal    ${COMMAND}

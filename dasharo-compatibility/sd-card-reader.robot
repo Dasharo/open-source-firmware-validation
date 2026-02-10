@@ -91,7 +91,7 @@ SDC001.301 SD Card reader detection (Windows)
     ...    Previous IDs: SDC001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     # Switch to root user
     ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" -Class "DiskDrive"
     Should Contain    ${out}    DiskDrive
@@ -104,7 +104,7 @@ SDC002.301 SD Card read/write (Windows)
     ...    Previous IDs: SDC002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
     ${drive_letter}=    Identify Path To SD Card In Windows
     Check Read Write To External Drive In Windows    ${drive_letter}

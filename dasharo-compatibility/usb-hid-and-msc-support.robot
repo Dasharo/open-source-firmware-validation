@@ -175,7 +175,7 @@ USB001.301 USB devices detected by OS (Windows)
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal
     ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    HIDClass
@@ -189,7 +189,7 @@ USB002.301 USB keyboard in OS (Windows)
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
     ${keyboard}=    Get Lines Matching Regexp    ${out}    ^CreationClassName\\s+:\\sWin32_Keyboard.*$
     Should Not Be Empty    ${keyboard}
@@ -202,7 +202,7 @@ USB003.301 Upload 1GB file on USB storage (Windows)
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
-    Login To Windows
+    Boot And Login To Windows
     Generate 1GB File In Windows
     # Work only with one attached USB storage
     ${drive_letter}=    Get Drive Letter Of USB

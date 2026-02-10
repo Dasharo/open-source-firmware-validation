@@ -58,7 +58,7 @@ Check Power Supply On Linux
 
 Check Power Supply On Windows
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${raw_output}=    Execute Command In Terminal    (Get-WmiObject Win32_Battery).BatteryStatus
     ${bat0_present}=    Run Keyword And Return Status    Should Not Be Empty    ${raw_output}
 
@@ -106,7 +106,7 @@ Power Cycle Into Ubuntu
 
 Power Cycle Into Windows
     Power On
-    Login To Windows
+    Boot And Login To Windows
 
 Power Cycle Into Firmware Setup
     Power On

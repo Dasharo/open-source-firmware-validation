@@ -92,7 +92,7 @@ WLE001.301 Wireless card detection (Windows)
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal
     ...    Get-PnpDevice -PresentOnly | Where-Object {$_.Class -eq "Net" -and $_.FriendlyName -match "Wireless|Wi-Fi" -and $_.FriendlyName -notmatch "Virtual|Tunnel|TAP"}
     Should Match    ${out}    *${WIFI_CARD}*
@@ -109,7 +109,7 @@ WLE002.301 Wi-Fi scanning (Windows)
     Log To Console    Remember to test all variants of wireless cards.
     Log    Remember to test all variants of wireless cards.    WARN
     Power On
-    Login To Windows
+    Boot And Login To Windows
     Execute Command In Terminal    Start-Service WlanSvc
     # Ensure WiFi is enabled
     Execute Command In Terminal

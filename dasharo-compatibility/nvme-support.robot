@@ -75,7 +75,7 @@ NVM001.301 NVMe support in OS (Windows)
     ...    Previous IDs: NVM001.003
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
-    Login To Windows
+    Boot And Login To Windows
     # Switch to root user
     ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" | where { $_.InstanceId -like "*NVME*"}
     Should Contain    ${out}    DiskDrive

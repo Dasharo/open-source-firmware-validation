@@ -75,8 +75,8 @@ Login To Linux Via OBMC
     Set Prompt For Terminal    root@debian:~#
     Read From Terminal Until Prompt
 
-Login To Windows
-    [Documentation]    Universal login to Windows.
+Boot And Login To Windows
+    [Documentation]    Universal boot and login to Windows.
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'

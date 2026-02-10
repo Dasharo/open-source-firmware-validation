@@ -631,7 +631,7 @@ Go To Windows Prompt
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
-    Login To Windows
+    Boot And Login To Windows
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}

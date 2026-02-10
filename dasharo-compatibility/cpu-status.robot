@@ -174,7 +174,7 @@ CPU001.301 CPU works (Windows)
     ...    Previous IDs: CPU001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     Execute Shutdown Command
 
 CPU002.301 CPU cache enabled (Windows)
@@ -183,7 +183,7 @@ CPU002.301 CPU cache enabled (Windows)
     ...    Previous IDs: CPU002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${mem_info}=    Execute Command In Terminal
     ...    Get-Wmiobject -class win32_cachememory | fl Purpose, CacheType, InstalledSize
     Should Contain    ${mem_info}    CACHE1
@@ -200,7 +200,7 @@ CPU003.301 Multiple CPU support (Windows)
     ...    Previous IDs: CPU003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${cpu_info}=    Execute Command In Terminal    (Get-CimInstance -ClassName Win32_Processor).NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1
     ${cpu_count}=    Convert To Number    ${cpu_count}
@@ -212,7 +212,7 @@ CPU004.301 Multiple-core support (Windows)
     ...    Previous IDs: CPU004.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${cpu_info}=    Execute Command In Terminal
     ...    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1

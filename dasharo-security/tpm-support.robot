@@ -117,7 +117,7 @@ TPM001.301 TPM Support (Windows)
     ...    Previous IDs: TPM001.003
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    get-tpm
     ${tpm_present}=    Get Lines Matching Regexp    ${out}    ^TpmPresent\\s+:\\s.*$
     ${tpm_ready}=    Get Lines Matching Regexp    ${out}    ^TpmReady\\s+:\\s.*$
@@ -132,7 +132,7 @@ TPM002.301 Verify TPM version (Windows)
     ...    Previous IDs: TPM002.003
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal
     ...    tpmtool getdeviceinformation
     Should Contain    ${out}    TPM Version: 2.0
@@ -143,7 +143,7 @@ TPM003.301 Check TPM Physical Presence Interface (Windows)
     ...    Previous IDs: TPM003.003
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM003.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    tpmtool getdeviceinformation
     Should Contain    ${out}    PPI Version: 1.3
 
@@ -287,7 +287,7 @@ TPM013.301 TPM PPI Prompt (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM013.201 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM013.201 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
 
     ${owner_key}=    TPM2 Get Owner Key Windows
     TPM2 PPI Request Clear TPM Windows
@@ -298,7 +298,7 @@ TPM013.301 TPM PPI Prompt (Windows)
     ...    Press ESC to reject this change request and continue
     Should Contain    ${prompt}    clear the TPM
     Press Key N Times    1    ${ESC}
-    Login To Windows
+    Boot And Login To Windows
     ${new_key}=    TPM2 Get Owner Key Windows
     Should Be Equal    ${new_key}    ${owner_key}
     TPM2 PPI Request Clear TPM Windows
@@ -309,7 +309,7 @@ TPM013.301 TPM PPI Prompt (Windows)
     ...    Press ESC to reject this change request and continue
     Should Contain    ${prompt}    clear the TPM
     Press Key N Times    1    ${F12}
-    Login To Windows
+    Boot And Login To Windows
     ${new_key}=    TPM2 Get Owner Key Windows
     Should Not Be Equal As Strings    ${new_key}    ${owner_key}
 

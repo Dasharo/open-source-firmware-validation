@@ -127,7 +127,7 @@ BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
 
 BPS006.001 Ensure test dependencies
     [Documentation]    Ensure that all the dependencies for the tests are
