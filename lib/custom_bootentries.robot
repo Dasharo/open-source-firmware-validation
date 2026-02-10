@@ -81,10 +81,13 @@ Ensure Custom Entry
     ${bootorder}=    Get BootOrder
     ${bootnums}=    Get Bootnums For Label    ${custom_label}    ${TRUE}
     ${already_exists}=    Run Keyword And Return Status    Should Not Be Empty    ${bootnums}
-    ${is_first}=    Run Keyword And Return Status    BootOrder Should Start With Bootnum    ${bootorder}    ${BOOTNUM}
-    ${bootnum}=    Get From List    ${bootnums}    0
     IF    ${already_exists} and not ${force}
         Log    ${custom_label} Already exists at ${bootnums}    level=WARN
+        ${bootnum}=    Get From List    ${bootnums}    0
+        ${is_first}=    Run Keyword And Return Status
+        ...    BootOrder Should Start With Bootnum
+        ...    ${bootorder}
+        ...    ${bootnum}
         IF    not ${is_first}
             ${new_order}=    Prepend Bootnum To Bootorder    ${bootnum}    ${bootorder}
             Execute Command In Terminal    efibootmgr -o ${new_order}
