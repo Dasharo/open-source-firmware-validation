@@ -16,7 +16,10 @@ ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
 @{ATTACHED_USB}=                Wilk USB
 
+${DMIDECODE_FIRMWARE_VERSION}=  Dasharo (coreboot+UEFI) v0.9.3-rc4
+${DMIDECODE_RELEASE_DATE}=      01/23/2026
 ${DMIDECODE_PRODUCT_NAME}=      VP6670
+${DMIDECODE_FAMILY}=            Vault Pro
 ${HAS_E_CORES}=                 ${TRUE}
 
 ${CPU_MIN_FREQUENCY}=           400
@@ -24,6 +27,10 @@ ${CPU_MAX_FREQUENCY}=           4700
 ${PLATFORM_CPU_SPEED}=          2.60
 ${PLATFORM_RAM_SPEED}=          4200
 ${PLATFORM_RAM_SIZE}=           32768
+
+${TESTS_IN_ESXI_SUPPORT}=            ${FALSE}
+${IPXE_BOOT_SUPPORT}=                ${TRUE}
+${COREBOOT_REDUNDANT_BOOT_SUPPORT}=  ${TRUE}
 
 # List of ethernet interfaces
 @{ETH_PORTS}=                   64-62-66-22-89-99
