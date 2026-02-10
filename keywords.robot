@@ -51,10 +51,7 @@ Login To Linux
     END
 
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Wait Until Keyword Succeeds
-        ...    3x
-        ...    0
-        ...    Login To Linux Via SSH
+        Login To Linux Via SSH
         ...    ${DEVICE_OS_USERNAME}
         ...    ${DEVICE_OS_PASSWORD}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
@@ -147,6 +144,19 @@ Login To Linux Over Serial Console
     Telnet.Set Prompt    ${device_os_user_prompt}    prompt_is_regexp=False
     Telnet.Read Until Prompt
 
+Inner Login To Linux Via SSH
+    [Tags]    robot:private
+    [Arguments]    ${prompt}    ${username}    ${password}    ${timeout}
+    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
+    SSHLibrary.Set Client Configuration
+    ...    timeout=${timeout}
+    ...    term_type=vt100
+    ...    width=400
+    ...    height=100
+    ...    escape_ansi=True
+    ...    newline=LF
+    SSHLibrary.Login    ${username}    ${password}
+
 Login To Linux Via SSH
     [Documentation]    Login to Linux via SSH by using provided arguments as
     ...    username and password respectively. The optional timeout
@@ -156,20 +166,14 @@ Login To Linux Via SSH
     Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
-    FOR    ${i}    IN RANGE    1    10
-        SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
-        SSHLibrary.Set Client Configuration
-        ...    timeout=${timeout}
-        ...    term_type=vt100
-        ...    width=400
-        ...    height=100
-        ...    escape_ansi=True
-        ...    newline=LF
-        ${status}=    Run Keyword And Return Status
-        ...    SSHLibrary.Login    ${username}    ${password}
-        IF    ${status}    RETURN
-        Sleep    10
-    END
+    Wait Until Keyword Succeeds
+    ...    30
+    ...    10s
+    ...    Inner Login To Linux Via SSH
+    ...    ${prompt}
+    ...    ${username}
+    ...    ${password}
+    ...    ${timeout}
     Fail    Unable to login to ${username}@${DEVICE_IP}
 
 Login To Windows Via SSH
