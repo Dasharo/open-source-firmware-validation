@@ -368,7 +368,7 @@ TPM001.205 TPM Support (XCP-NG)
     ...    Previous IDs: TPM001.010
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM001.203 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     Verify Presence Of TPM Via Sysfs
     Verify Presence Of Any PCRs Via Sysfs
 
@@ -379,7 +379,7 @@ TPM002.205 Verify TPM version (XCP-NG)
     [Tags]    automated    minimal-regression
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM002.203 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     Verify Presence Of TPM Via Sysfs
     Validate Expected TPM Version Via Sysfs
 
@@ -389,7 +389,7 @@ TPM003.205 Check TPM Physical Presence Interface (XCP-NG)
     ...    Previous IDs: TPM003.010
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM003.203 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     Verify Presence Of TPM Via Sysfs
     Check TPM Physical Presence Interface
 

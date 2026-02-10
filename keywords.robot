@@ -91,8 +91,8 @@ Login To Windows
         Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
 
-Login To OS
-    [Documentation]    Universal login to ESXi.
+Boot And Login To OS
+    [Documentation]    Universal kw to boot an OS and log in to its shell.
     [Arguments]    ${env_id}
     Boot System Or From Connected Disk    ${env_id}
     # TODO: We need a better way of switching between SSH and serial inside tests

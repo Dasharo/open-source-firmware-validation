@@ -65,7 +65,7 @@ NVM001.205 NVMe support in OS (XCP-NG)
     ...    Previous IDs: NVM001.010
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    NVM001.202 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    List Devices In Linux    pci
     Should Contain    ${out}    ${DEVICE_NVME_DISK}
 
@@ -89,7 +89,7 @@ NVM001.401 NVMe support in OS (ESXi)
     Depends On    ${TESTS_IN_ESXI_SUPPORT}
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli storage core nvme device list
     Should Contain All    ${out}    Vendor: NVMe    Is Boot Device: true

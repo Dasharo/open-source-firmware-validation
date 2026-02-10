@@ -130,7 +130,7 @@ WLE001.205 Wireless card detection (XCP-NG)
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    WLE001.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    WLE001.205 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
     Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
     Log To Console    The test passed for the ${WIFI_CARD_UBUNTU} wireless card
