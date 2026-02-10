@@ -174,6 +174,9 @@ Make Sure That Flash Locks Are Disabled
     IF    not ${ro}    Set UEFI Option    LockBios    Disabled
 
 Login To Windows
+    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+
+Boot And Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
@@ -261,6 +264,5 @@ Login To Windows Via SSH
     ...    escape_ansi=True
     ...    newline=CRLF
 
-    ${login}=    Run Keyword And Return Status
-    ...    Wait Until Keyword Succeeds    10x    30s
+    Wait Until Keyword Succeeds    10x    30s
     ...    SSHLibrary.Login    ${username}    ${password}
