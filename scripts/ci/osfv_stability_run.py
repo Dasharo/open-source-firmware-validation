@@ -9,7 +9,6 @@ import pathlib
 import shutil
 import subprocess
 import sys
-import subprocess
 import time
 
 import develop_pr_auto_regression
