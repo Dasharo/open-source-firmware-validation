@@ -177,3 +177,23 @@ Deploy Uefi Shell
     Execute Command In Terminal    /tmp/deploy-shell-efi.sh /tmp/Shell.efi
     Execute Command In Terminal    sync
     Ensure Custom Entry    ${DEFAULT_BOOT_OS_ID}
+
+Set Nextboot
+    [Documentation]    Sets the OS of choice to be booted first on the next
+    ...    reboot. Not persistent, only changes the first boot option for
+    ...    one boot.
+    [Arguments]    ${env_id}
+    ${bootorder}=    Get BootOrder
+    ${bootnum}=    Get Bootnum For OS    ${env_id}
+    ${out}=    Execute Command In Terminal    efibootmgr --bootnext ${bootnum}
+    Should Contain    ${out}    BootNext: ${bootnum}
+
+Set Nextboot Bootentry
+    [Documentation]    Sets the botentry name of choice to be booted first on
+    ...    the next reboot. Not persistent, only changes the first boot
+    ...    option for one boot.
+    [Arguments]    ${bootentry_name}
+    ${bootorder}=    Get BootOrder
+    ${bootnum}=    Get Bootnum For Label    ${bootentry_name}
+    ${out}=    Execute Command In Terminal    efibootmgr --bootnext ${bootnum}
+    Should Contain    ${out}    BootNext: ${bootnum}

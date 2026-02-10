@@ -13,6 +13,7 @@ Resource            ../terminal.robot
 Resource            ../../keywords.robot
 Resource            ../cbmem.robot
 Resource            ../dcu.robot
+Resource            ../custom_bootentries.robot
 
 
 *** Keywords ***
@@ -181,45 +182,6 @@ Boot And Login To Windows
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
 
-Set Nextboot
-    [Documentation]    Sets the OS of choice to be booted first on the next
-    ...    reboot. Not persistent, only changes the first boot option for
-    ...    one boot.
-    [Arguments]    ${env_id}
-
-    VAR    ${os_boot_id}=    ${EMPTY}
-    ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
-    Set Nextboot Bootentry    ${os_bootentry_name}
-
-Set Nextboot Bootentry
-    [Documentation]    Sets the botentry name of choice to be booted first on
-    ...    the next reboot. Not persistent, only changes the first boot
-    ...    option for one boot.
-    [Arguments]    ${bootentry_name}
-    ${bootentry_name}=    Convert To Lower Case    ${bootentry_name}
-    ${boot_entries}=    Execute Command In Terminal    efibootmgr
-
-    @{lines}=    Split To Lines    ${boot_entries}
-    VAR    ${os_boot_id}=    ${EMPTY}
-    FOR    ${line}    IN    @{lines}
-        ${tmp}=    Encode String To Bytes    ${line}    ASCII    errors=replace
-        ${line}=    Decode Bytes To String    ${tmp}    ASCII    errors=replace
-        ${line}=    Get Substring    ${line}    0    150
-        ${line}=    Convert To Lower Case    ${line}
-
-        IF    '${bootentry_name}' in $line
-            VAR    ${os_boot_id}=    $line
-            BREAK
-        END
-    END
-
-    IF    $os_boot_id != ''
-        ${id}=    Get Substring    ${os_boot_id}    4    8
-        Execute Command In Terminal    efibootmgr --bootnext ${id}
-    ELSE
-        Fail    Os entry not found
-    END
-
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
     [Arguments]    ${env_id}
@@ -231,7 +193,7 @@ Boot System Or From Connected Disk
 
     IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
         Execute Reboot Command    windows
-        Import Variables    ${CURDIR}/../../os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
+        Load OS Credentials    ${DEFAULT_BOOT_OS_ID}
         VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
         Sleep    30s
         RETURN
@@ -240,14 +202,14 @@ Boot System Or From Connected Disk
     VAR    ${os_boot_id}=    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
-    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
-    Login To Linux
+    Load OS Credentials    ${BOOTED_OS_ID}
+    Login To Booted OS
     Switch To Root User
 
     ${os_boot_id}=    Set Nextboot    ${env_id}
     Write Into Terminal    reboot
 
-    Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
+    Load OS Credentials    ${env_id}
     VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
     Sleep    30s
 
