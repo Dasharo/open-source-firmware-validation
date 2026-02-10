@@ -180,9 +180,9 @@ Login To Windows Via SSH
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
+    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=60
     FOR    ${reboot_count}    IN RANGE    3
-        FOR    ${i}    IN RANGE    20
+        FOR    ${i}    IN RANGE    5
             SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
             SSHLibrary.Set Client Configuration
             ...    timeout=${timeout}
