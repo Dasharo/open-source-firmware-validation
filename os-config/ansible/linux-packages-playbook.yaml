@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
@@ -6,6 +6,8 @@
   hosts: host
   become: true
   tasks:
+    - name: Systemwide update
+      include_tasks: tasks/system_update.yml
     - name: Load package names
       ansible.builtin.include_vars: "{{os_id}}-packages.yaml"
     - name: Install packages
