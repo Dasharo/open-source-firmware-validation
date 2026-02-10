@@ -175,7 +175,8 @@ Make Sure That Flash Locks Are Disabled
     IF    not ${ro}    Set UEFI Option    LockBios    Disabled
 
 Login To Windows
-    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+    [Arguments]    ${retries}=30
+    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}    retries=${retries}
 
 Boot And Login To Windows
     Power On
@@ -216,7 +217,10 @@ Boot System Or From Connected Disk
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
     ...    username and password respectively.
-    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
+    [Arguments]    ${username}=${DEVICE_OS_USERNAME}
+    ...    ${password}=${DEVICE_OS_PASSWORD}
+    ...    ${timeout}=180
+    ...    ${retries}=30
     SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
     SSHLibrary.Set Client Configuration
     ...    timeout=${timeout}
@@ -226,5 +230,5 @@ Login To Windows Via SSH
     ...    escape_ansi=True
     ...    newline=CRLF
 
-    Wait Until Keyword Succeeds    10x    30s
+    Wait Until Keyword Succeeds    ${retries}x    10s
     ...    SSHLibrary.Login    ${username}    ${password}

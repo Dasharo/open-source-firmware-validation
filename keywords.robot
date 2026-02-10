@@ -48,6 +48,7 @@ Load OS Credentials
 
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems
+    [Arguments]    ${ssh_retries}=30
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         # On laptopts, we have serial over EC from firmware only, so we will
         # not have Linux prompt. We try logging in multiple times anyway, so
@@ -60,6 +61,7 @@ Login To Linux
         Login To Linux Via SSH
         ...    ${DEVICE_OS_USERNAME}
         ...    ${DEVICE_OS_PASSWORD}
+        ...    ${ssh_retries}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
@@ -79,6 +81,7 @@ Login To Linux Via OBMC
 
 Login To Windows
     [Documentation]    Log in to Windows via ssh.
+    [Arguments]    ${retries}=30
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
@@ -100,10 +103,11 @@ Boot And Login To Windows
 Inner Login To Booted OS
     [Documentation]    KW to log in to the booted OS
     [Tags]    robot:private
+    [Arguments]    ${retries}=30
     IF    '${BOOTED_OS_ID}' == '${ENV_ID_WINDOWS}'
-        Login To Windows
+        Login To Windows    ${retries}
     ELSE
-        Login To Linux
+        Login To Linux    ${retries}
     END
 
 Login To Booted OS
@@ -182,7 +186,7 @@ Login To Linux Via SSH
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}    ${password}    ${timeout}=60    ${prompt}=${DEVICE_OS_USER_PROMPT}
+    [Arguments]    ${username}    ${password}    ${timeout}=60    ${prompt}=${DEVICE_OS_USER_PROMPT}    ${retries}=30
     Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
@@ -200,9 +204,12 @@ Login To Windows Via SSH
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=60
+    [Arguments]    ${username}=${DEVICE_OS_USERNAME}
+    ...    ${password}=${DEVICE_OS_PASSWORD}
+    ...    ${timeout}=60
+    ...    ${retries}=30
     FOR    ${reboot_count}    IN RANGE    3
-        FOR    ${i}    IN RANGE    5
+        FOR    ${i}    IN RANGE    ${retries}
             SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
             SSHLibrary.Set Client Configuration
             ...    timeout=${timeout}
@@ -213,7 +220,7 @@ Login To Windows Via SSH
             ...    newline=CRLF
             ${login}=    Run Keyword And Return Status
             ...    SSHLibrary.Login    ${username}    ${password}
-            IF    ${login} == ${TRUE}    BREAK    ELSE    Sleep    5s
+            IF    ${login} == ${TRUE}    BREAK    ELSE    Sleep    10s
         END
 
         IF    ${login} == ${TRUE}
@@ -301,7 +308,7 @@ Recover Broken Bootorder By Trying All Supported OSes
             Log    Attempting recovery login for OS: ${env_id}    WARN
             VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
             Load OS Credentials    ${env_id}
-            ${success}=    Run Keyword And Return Status    Inner Login To Booted OS
+            ${success}=    Run Keyword And Return Status    Inner Login To Booted OS    1
             IF    ${success}
                 Log    Succeeded in logging into ${env_id}
                 RETURN
