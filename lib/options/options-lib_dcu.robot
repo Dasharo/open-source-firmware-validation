@@ -196,7 +196,7 @@ Boot System Or From Connected Disk
         Load OS Credentials    ${DEFAULT_BOOT_OS_ID}
         VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
         Sleep    30s
-        RETURN
+        IF    '${DEFAULT_BOOT_OS_ID}'=='${env_id}'    RETURN
     END
 
     VAR    ${os_boot_id}=    ${EMPTY}
