@@ -16,7 +16,7 @@ Boot OpenWrt
     Sleep    2
     Press Enter
     VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPENWRT}    scope=GLOBAL
-    Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
+    Load OS Credentials    ${BOOTED_OS_ID}
     Telnet.Set Prompt    ${DEVICE_OS_ROOT_PROMPT}    prompt_is_regexp=False
 
 Detect Or Install Package OpenWrt

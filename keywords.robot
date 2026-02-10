@@ -40,6 +40,12 @@ Serial Setup
     ...    window_size=400x100
     Telnet.Set Timeout    180s
 
+Load OS Credentials
+    [Documentation]    Loads os credentials from config file to global variables
+    [Arguments]    ${env_id}
+    Import Variables    ${CURDIR}/os-config/${env_id}-credentials.py
+    ${success}=    Run Keyword And Return Status    Inner Login To Booted OS
+
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
@@ -292,7 +298,7 @@ Recover Broken Bootorder By Trying All Supported OSes
         FOR    ${env_id}    IN    @{supported_oses}
             Log    Attempting recovery login for OS: ${env_id}    WARN
             VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
-            Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
+            Load OS Credentials    ${env_id}
             ${success}=    Run Keyword And Return Status    Inner Login To Booted OS
             IF    ${success}    RETURN
         END
@@ -604,7 +610,7 @@ Prepare To SSH Connection
     ...    the SSH protocol
     VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
     ${os_id}=    Get Variable Value    ${BOOTED_OS_ID}    ${DEFAULT_BOOT_OS_ID}
-    Import Variables    ${CURDIR}/os-config/${os_id}-credentials.py
+    Load OS Credentials    ${os_id}
     VAR    ${BOOTED_OS_ID}=    ${os_id}    scope=GLOBAL
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN
@@ -886,7 +892,7 @@ Execute Reboot Command
         # always boots the default one
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
             Set Nextboot    ${BOOTED_OS_ID}
-            Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
+            Load OS Credentials    ${BOOTED_OS_ID}
             VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=GLOBAL
         END
         Write Into Terminal    reboot
