@@ -95,22 +95,19 @@ Boot And Login To Windows
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
     Login To Windows
 
+Login To Booted OS
+    [Documentation]    KW to log in to the booted OS
+    IF    '${BOOTED_OS_ID}'.startswith('3')
+        Login To Windows
+    ELSE
+        Login To Linux
+    END
+
 Boot And Login To OS
     [Documentation]    Universal kw to boot an OS and log in to its shell.
     [Arguments]    ${env_id}
     Boot System Or From Connected Disk    ${env_id}
-    # TODO: We need a better way of switching between SSH and serial inside tests
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
-    END
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
-    END
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
-    ELSE
-        Fail    Login to this OS not supported. DUT_CONNECTION_METHOD must be set to SSH.
-    END
+    Login To Booted OS
 
 Serial Root Login Linux
     [Documentation]    Universal telnet login to one of supported linux systems:
