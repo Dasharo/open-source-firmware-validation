@@ -196,6 +196,12 @@ BPS008.001 RTE CMOS clear
     ...    ignore_case=True
     ...    msg=CMOS is invalid after reboot. Either the CMOS battery is not connected or the connection is wrong. Check DUT setup.
 
+BPS010.001 Deploy UEFI Shell
+    [Documentation]    Deploys UEFI Shell on the device.
+    ...    Done in RF instead of ansible because of bootorder
+    ...    guards implemented in RF keywords.
+    Deploy Uefi Shell
+
 
 *** Keywords ***
 Check If Empty
