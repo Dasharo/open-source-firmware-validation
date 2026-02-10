@@ -27,9 +27,7 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Set UEFI Option    UsbDriverStack    Enabled
 Suite Teardown      Run Keywords
-...                     Skip If    '${SUITE_STATUS}' == 'SKIP'    Skipping Teardown since Suite was skipped as well
-...                     AND
-...                     Set UEFI Option    UsbDriverStack    Enabled
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Set UEFI Option    UsbDriverStack    Enabled
 ...                     AND
 ...                     Log Out And Close Connection
 

@@ -18,9 +18,7 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
 ...                     Skip If    not ${APU_CONFIGURATION_MENU_SUPPORT}    APU configuration tests not supported.
 Suite Teardown      Run Keywords
-...                     Skip If    '${SUITE_STATUS}' == 'SKIP'    Skipping Teardown since Suite was skipped as well
-...                     AND
-...                     Flash Firmware    ${FW_FILE}
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware ${FW_FILE}
 ...                     AND
 ...                     Log Out And Close Connection
 

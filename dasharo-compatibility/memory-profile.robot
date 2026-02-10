@@ -24,9 +24,7 @@ Suite Setup         Run Keywords
 # As a result of this suite, we might get stuck with bricked platform. Make sure
 # to flash working firmware.
 Suite Teardown      Run Keywords
-...                     Skip If    '${SUITE_STATUS}' == 'SKIP'    Skipping Teardown since Suite was skipped as well
-...                     AND
-...                     Flash Firmware    ${FW_FILE}
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware ${FW_FILE}
 ...                     AND
 ...                     Log Out And Close Connection
 
