@@ -179,7 +179,7 @@ Login To Linux Via SSH
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
     Wait Until Keyword Succeeds
-    ...    30
+    ...    1
     ...    10s
     ...    Inner Login To Linux Via SSH
     ...    ${prompt}
