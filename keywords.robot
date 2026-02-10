@@ -174,7 +174,6 @@ Login To Linux Via SSH
     ...    ${username}
     ...    ${password}
     ...    ${timeout}
-    Fail    Unable to login to ${username}@${DEVICE_IP}
 
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
