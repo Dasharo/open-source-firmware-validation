@@ -115,7 +115,9 @@ Login To Booted OS
         Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
     END
     Log    Login failed, attempting fallback across supported OSes.    WARN
+    VAR    ${target_os}=    ${BOOTED_OS_ID}
     Recover Broken Bootorder By Trying All Supported OSes
+    Boot And Login To OS    ${target_os}
 
 Boot And Login To OS
     [Documentation]    Universal kw to boot an OS and log in to its shell.
@@ -300,7 +302,10 @@ Recover Broken Bootorder By Trying All Supported OSes
             VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
             Load OS Credentials    ${env_id}
             ${success}=    Run Keyword And Return Status    Inner Login To Booted OS
-            IF    ${success}    RETURN
+            IF    ${success}
+                Log    Succeeded in logging into ${env_id}
+                RETURN
+            END
         END
         Log    Failed to login to any of the supported OSes: ${supported_oses}.    WARN
     END
