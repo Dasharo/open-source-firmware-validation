@@ -43,11 +43,14 @@ env["ALLOW_DIRTY"] = "1"
 os.makedirs(env["LOGS_DIR"], exist_ok=True)
 
 repeats = tqdm.tqdm(range(N_REPEATS), colour="green")
+rcs = []
 for i in repeats:
     logs_dir = f"{env["LOGS_DIR"]}/{BRANCH}_{COMMIT}/{RUN_DATE}/run{i}"
     os.makedirs(logs_dir)
     env["LOGS_DIR"] = logs_dir
 
-    rc = develop_pr_auto_regression.main(silent=True)
-    if rc != 0:
-        sys.exit(rc)
+    rcs.append(develop_pr_auto_regression.main(silent=True))
+
+if sum(rcs) != 0:
+    print("return codes: ", rcs)
+    sys.exit(1)
