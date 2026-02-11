@@ -1,0 +1,9 @@
+{
+    "env_vars": {
+        "ASSET_ID": "00266",
+        "RTE_IP": "127.0.0.1",
+        "CONFIG": "novacustom-v540tnd",
+        "FW_FILE": "_roms/novacustom_v54x_mtl_dgpu_v1.0.0-rc10_btg_provisioned.rom",
+        "DEVICE_IP": "192.168.10.189"
+    }
+}
