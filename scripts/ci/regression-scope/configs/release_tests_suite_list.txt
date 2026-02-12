@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
+util/basic-platform-setup.robot
+
 dasharo-compatibility/acpi-driver.robot
 dasharo-compatibility/acpi-tables.robot
 dasharo-compatibility/apu-configuration-menu.robot
