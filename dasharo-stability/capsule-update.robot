@@ -25,13 +25,15 @@ Suite Setup         Run Keywords
 ...                     AND    Ensure BtG Testing Capsule Is Present
 ...                     AND    Prepare For Logo Persistence Test
 ...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
-...                     AND    Run Keyword If    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'    Upload Required Files
+...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Upload Required Files
 ...                     AND    Get System Values
 ...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Run Keyword If    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'    Deploy Uefi Shell
 ...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
-...                     Log Out And Close Connection
+...                     Run Keyword If    ${SUITE_STATUS} != 'SKIP'    Flash Firmware    ${FW_FILE}
+...                     AND    Log Out And Close Connection
 
 Default Tags        semiauto
 
@@ -441,7 +443,9 @@ Upload Required Files SSH
     IF    $tmp is not None
         Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
     END
-    ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
+    END
     Execute Command In Terminal    rm -rf osfv
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
@@ -453,7 +457,11 @@ Upload Required Files SSH
     ...    export FW_FILE=/root/${fw_filename};
     ...    export CAPSULE_FW_FILE=/root/${caps_filename};
     ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
-    ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        VAR    ${commands}=    ${commands}
+        ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
+    END
+    VAR    ${commands}=    ${commands}
     ...    popd;
     Execute Command In Terminal    ${commands}    timeout=120s
 
@@ -557,52 +565,33 @@ Get FS From Uefi Shell
     RETURN    ${fss}
 
 Display Preparation Instructions
-    Log To Console    ******************************************************************************\n
+    VAR    ${t}=    ${SPACE}${SPACE}${SPACE}
+    VAR    ${msg}=    To run tests you need to set a couple environment variables:
+    ...    1. FW_FILE contains path to the `.rom` file of tested release
+    ...    2. CAPSULE_FW_FILE contains path to the `.cap` file with the same firmware version as FW_FILE
+    ...    3. CAPSULE_UPDATE_RC0_FW_FILE contains path to a `.rom` file with either a lower RC version, or to
+    ...    ${t}the RC0 rom in case of first RC that supports capsule updates
+    ...    ${EMPTY}
+    ...    Be careful if the tested device needs some additional setup menu changes to the default setup menu
+    ...    options to work, e.g. enabling Serial Redirection or Power After AC Loss.
+    ...    These UEFI options need to be set in all the firmware files used for these tests prior to starting.
+    ...    separator=\r\n
+
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Log To Console    To run tests first prepare a valid capsule file(*) and then use this capsule
-        Log To Console    file to generate invalid capsules required by the tests by running the script:
-        Log To Console    \ \ \ \ ./scripts/capsules/capsule_update_tests.sh <capsule_file>.cap
-        Log To Console    then start the tests:
-        Log To Console    ${EMPTY}
-        Log To Console    \ on QEMU:
-        Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:127.0.0.1 -v config:qemu \\
-        Log To Console    \ \ \ \ \ \ -v capsule_fw_file:dasharo.cap dasharo-stability/capsule-update.robot
-        Log To Console    ${EMPTY}
-        Log To Console    \ on other platforms:
-        Log To Console    \ \ \ \ robot -v snipeit:no -L TRACE -v rte_ip:<rte_ip> -v config:<config> \\
-        Log To Console    \ \ \ \ \ \ -v sonoff_ip:<sonoff_ip> -v pikvm_ip:<pikvm_ip> -v device_ip:<device_ip> \\
-        Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
-        Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
-        Log To Console    \ \ or:
-        Log To Console    \ \ \ \ robot -L TRACE -v rte_ip:<rte_ip> -v config:<config> -v device_ip:<device_ip> \\
-        Log To Console    \ \ \ \ \ \ -v fw_file:<fw_file.rom> -v capsule_fw_file:<capsule_file>.cap \\
-        Log To Console    \ \ \ \ \ \ dasharo-stability/capsule-update.robot
-        Log To Console    ${EMPTY}
-        Log To Console    (*) To start tests on DUT which use PIKVM: Before preparing the capsule please
-        Log To Console    edit FW to enable Console Serial Redirection. Use the guide:
-        Log To Console
-        ...    \ \ https://github.com/Dasharo/open-source-firmware-validation/blob/develop/docs/troubleshooting.md
-        Log To Console    Without it, a successful flash of DUT will prevent tests from working
-        Log To Console    correctly.
-        Log To Console    ${EMPTY}
-        Log To Console    Mind that CONFIG_LOCALVERSION in fw_file and capsule_fw_file must be different for
-        Log To Console    tests to pass.
-        Log To Console    ${EMPTY}
-        Log To Console    Another requirement is having UEFI Shell enabled (it's disabled by default now).
-        Log To Console    ${EMPTY}
-    ELSE
-        Log To Console    ******************************************************************************
-        Log To Console    To run tests:
-        Log To Console    1. Prepare a valid capsule file(*) and set the environment variable
-        Log To Console    \ \ \ CAPSULE_FW_FILE to the path to the capsule.
-        Log To Console    2. Plug a USB flash drive into the DUT
-        Log To Console
-        ...    3. Set ENV variable CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to the name of the bootentry that Dasharo UEFI gives this drive
-        Log To Console
-        ...    4. Set ENV variable CAPSULE_UPDATE_DISK_MODEL to the name of the drive as in `/sys/block/sdX/device/model` (replace `sdX` with real device file name, like `sda`)
-        Log To Console    \ \ \ \ scripts/run.sh dasharo-stability/capsule-update.robot
-        Log To Console    \n******************************************************************************
+        VAR    ${msg}=
+        ...    ${msg}
+        ...    \nFor tests over SSH additional setup is required:
+        ...    1. Plug a USB flash drive into the DUT
+        ...    2. Set environment variables:
+        ...    ${t}1. CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to the name of the bootentry that
+        ...    ${t}${t}Dasharo UEFI gives this drive. Check in boot menu or efibootmgr
+        ...    ${t}2. CAPSULE_UPDATE_DISK_MODEL to the name of the drive as in `/sys/block/sdX/device/model`
+        ...    ${t}${t}(replace `sdX` with real device file name, like `sda`)
+        ...    separator=\r\n
     END
+    Log To Console    ******************************************************************************
+    Log To Console    ${msg}
+    Log To Console    ******************************************************************************
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
@@ -750,14 +739,18 @@ Set Startup Nsh Variable
 Get CUP Environment Variables
     [Documentation]    Saves the env variables to robot variables that might be different
     ...    depending on the configuration used during testing
+    ${rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_FW_FILE
+    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${rc0}    scope=SUITE
 
-    ${bootentry}=    Get Environment Variable    CAPSULE_UPDATE_DISK_BOOTENTRY_NAME
-    IF    $bootentry is not None
-        ${disk_model}=    Get Environment Variable    CAPSULE_UPDATE_DISK_MODEL
-        Log To Console    Settning CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to ${bootentry}
-        VAR    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=    ${bootentry}    scope=GLOBAL
-    END
-    IF    $disk_model is not None
-        Log To Console    Settning CAPSULE_UPDATE_DISK_MODEL to ${disk_model}
-        VAR    ${CAPSULE_UPDATE_DISK_MODEL}=    ${disk_model}    scope=GLOBAL
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        ${bootentry}=    Get Environment Variable    CAPSULE_UPDATE_DISK_BOOTENTRY_NAME
+        IF    $bootentry is not None
+            ${disk_model}=    Get Environment Variable    CAPSULE_UPDATE_DISK_MODEL
+            Log To Console    Settning CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to ${bootentry}
+            VAR    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=    ${bootentry}    scope=GLOBAL
+        END
+        IF    $disk_model is not None
+            Log To Console    Settning CAPSULE_UPDATE_DISK_MODEL to ${disk_model}
+            VAR    ${CAPSULE_UPDATE_DISK_MODEL}=    ${disk_model}    scope=GLOBAL
+        END
     END
