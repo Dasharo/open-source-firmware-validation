@@ -175,12 +175,15 @@ Make Sure That Flash Locks Are Disabled
 
 Login To Windows
     [Arguments]    ${retries}=30
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
+    END
     Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}    retries=${retries}
 
 Boot And Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
-    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+    Login To Windows
 
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
@@ -203,6 +206,7 @@ Boot System Or From Connected Disk
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
     Load OS Credentials    ${BOOTED_OS_ID}
+    Restore Initial DUT Connection Method
     Login To Booted OS
     Switch To Root User
 
@@ -212,22 +216,3 @@ Boot System Or From Connected Disk
     Load OS Credentials    ${env_id}
     VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
     Sleep    30s
-
-Login To Windows Via SSH
-    [Documentation]    Login to Windows via SSH by using provided arguments as
-    ...    username and password respectively.
-    [Arguments]    ${username}=${DEVICE_OS_USERNAME}
-    ...    ${password}=${DEVICE_OS_PASSWORD}
-    ...    ${timeout}=180
-    ...    ${retries}=30
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
-    SSHLibrary.Set Client Configuration
-    ...    timeout=${timeout}
-    ...    term_type=vt100
-    ...    width=400
-    ...    height=100
-    ...    escape_ansi=True
-    ...    newline=CRLF
-
-    Wait Until Keyword Succeeds    ${retries}x    10s
-    ...    SSHLibrary.Login    ${username}    ${password}

@@ -198,6 +198,19 @@ Login To Linux Via SSH
     ...    ${password}
     ...    ${timeout}
 
+Inner Login To Windows Via SSH
+    [Tags]    robot:private
+    [Arguments]    ${username}    ${password}    ${timeout}
+    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
+    SSHLibrary.Set Client Configuration
+    ...    timeout=${timeout}
+    ...    term_type=vt100
+    ...    width=400
+    ...    height=100
+    ...    escape_ansi=True
+    ...    newline=CRLF
+    SSHLibrary.Login    ${username}    ${password}
+
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
     ...    username and password respectively. The optional timeout
@@ -208,21 +221,15 @@ Login To Windows Via SSH
     ...    ${timeout}=60
     ...    ${retries}=30
     FOR    ${reboot_count}    IN RANGE    3
-        FOR    ${i}    IN RANGE    ${retries}
-            SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
-            SSHLibrary.Set Client Configuration
-            ...    timeout=${timeout}
-            ...    term_type=vt100
-            ...    width=400
-            ...    height=100
-            ...    escape_ansi=True
-            ...    newline=CRLF
-            ${login}=    Run Keyword And Return Status
-            ...    SSHLibrary.Login    ${username}    ${password}
-            IF    ${login} == ${TRUE}    BREAK    ELSE    Sleep    10s
-        END
-
-        IF    ${login} == ${TRUE}
+        ${login}=    Run Keyword And Return Status
+        ...    Wait Until Keyword Succeeds
+        ...    ${retries}x
+        ...    10s
+        ...    Inner Login To Windows Via SSH
+        ...    ${username}
+        ...    ${password}
+        ...    ${timeout}
+        IF    ${login}
             BREAK
         ELSE
             IF    ${reboot_count} == 2
@@ -230,9 +237,6 @@ Login To Windows Via SSH
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
             Power On
-            # TODO: This keyword needs improved. We could simply lock the whole
-            # power on - login procedure in single keyword, and use
-            # Run Keyword Until Succeeds?
             Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
             VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
