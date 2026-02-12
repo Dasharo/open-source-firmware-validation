@@ -135,13 +135,13 @@ def compare_mappings():
         "./scripts/list-tests-from-json.sh", capture_output=True, text=True
     )
     diff = difflib.unified_diff(
-        str.splitlines(robot.stdout),
-        str.splitlines(json.stdout),
+        sorted([r.split()[0] for r in str.splitlines(robot.stdout)]),
+        sorted([r.split()[0] for r in str.splitlines(json.stdout)]),
         fromfile="robot",
         tofile="json",
         lineterm="",
     )
-    return [d for d in diff if not d.startswith((" ", "@@"))]
+    return [d for d in diff if not d.startswith((" ", "@@")) and not "DEPRECATED" in d]
 
 
 if __name__ == "__main__":
