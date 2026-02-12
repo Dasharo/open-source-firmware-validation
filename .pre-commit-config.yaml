@@ -65,7 +65,11 @@ repos:
     rev: v6.5.0
     hooks:
       - id: robocop
+        additional_dependencies:
+          - typing_extensions
       - id: robocop-format
+        additional_dependencies:
+          - typing_extensions
 
   - repo: https://github.com/fsfe/reuse-tool
     rev: v5.0.2
