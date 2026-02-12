@@ -40,6 +40,13 @@ Send File To DUT
     ${filename}=    Evaluate    os.path.basename(r"${target_path}")
     VAR    ${tmp_target}=    /tmp/${filename}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
+    ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
+    IF    '${hash_source}' == '${hash_target}'
+        Log To Console    File ${source_path} already present at DUT: ${target_path}
+        RETURN
+    END
+    Execute Command In Terminal    rm -f ${target_path}
+
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
         IF    '${MANUFACTURER}' == 'QEMU'
             VAR    ${ip_address}=    localhost
@@ -50,7 +57,6 @@ Send File To DUT
             ${ip_address}=    Get Hostname Ip
             VAR    ${port}=    22
         END
-        Execute Command In Terminal    rm -f ${target_path}
         SSHLibrary.Open Connection    ${ip_address}    port=${port}
         SSHLibrary.Login    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
         SSHLibrary.Put File    ${source_path}    ${tmp_target}
