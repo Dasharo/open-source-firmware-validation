@@ -1349,6 +1349,13 @@
   },
   {
     "doc": {
+      "_id": "CPF002.203",
+      "name": "CPU not stuck on initial frequency (QubesOS) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF002.301",
       "name": "CPU not stuck on initial frequency (Windows) (battery)",
       "module": "Dasharo Performance"
@@ -1365,6 +1372,13 @@
     "doc": {
       "_id": "CPF003.202",
       "name": "CPU not stuck on initial frequency (Fedora) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF003.203",
+      "name": "CPU not stuck on initial frequency (QubesOS) (AC)",
       "module": "Dasharo Performance"
     }
   },
@@ -1476,6 +1490,13 @@
   },
   {
     "doc": {
+      "_id": "CPF004.203",
+      "name": "CPU not stuck on initial frequency (QubesOS) (USB-PD)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF004.301",
       "name": "CPU not stuck on initial frequency (Windows) (USB-PD)",
       "module": "Dasharo Performance"
@@ -1499,13 +1520,6 @@
     "doc": {
       "_id": "CPF005.203",
       "name": "CPU runs on expected frequency (Qubes OS)",
-      "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF005.203",
-      "name": "CPU with load runs on expected frequency (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1595,6 +1609,13 @@
   },
   {
     "doc": {
+      "_id": "CPF009.203",
+      "name": "CPU with load runs on expected frequency (Qubes OS)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF009.301",
       "name": "CPU with load runs on expected frequency (Windows)",
       "module": "Dasharo Performance"
@@ -1618,6 +1639,13 @@
     "doc": {
       "_id": "CPF010.301",
       "name": "CPU with load runs on expected frequency (Windows) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF011.201",
+      "name": "CPU with load runs on expected frequency (Ubuntu) (AC)",
       "module": "Dasharo Performance"
     }
   },
@@ -1780,6 +1808,13 @@
   },
   {
     "doc": {
+      "_id": "CPT001.203",
+      "name": "CPU temperature without load (QubesOS)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT002.001",
       "name": "CPU temperature after stress test (Ubuntu)",
       "module": "Dasharo Performance",
@@ -1863,6 +1898,13 @@
     "doc": {
       "_id": "CPT005.202",
       "name": "CPU temperature after stress test (Fedora)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPT005.203",
+      "name": "CPU temperature after stress test (QubesOS)",
       "module": "Dasharo Performance"
     }
   },
