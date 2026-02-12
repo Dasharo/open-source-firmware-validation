@@ -35,7 +35,6 @@ Set UEFI Option
     IF    '${option_name}' == 'PowerStateAfterPowerAcLoss'
         VAR    ${POWER_STATE_AFTER_FAIL}=    ${value}    scope=GLOBAL
     END
-    Sleep    20s
 
 Get UEFI Option
     [Documentation]    Read an UEFI option value.
