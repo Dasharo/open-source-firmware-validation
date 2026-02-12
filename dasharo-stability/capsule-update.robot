@@ -290,12 +290,6 @@ Flash Firmware If Not QEMU
         Pause Execution    ${message}
         Prepare To Serial Connection
     END
-    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        VAR    ${msg}=    Flashing tends to make Windows the default boot option,
-        ...    which breaks tests. Make the OS with ID ${DEFAULT_BOOT_OS_ID}
-        ...    the default boot option and reboot the device.
-        Execute Manual Step    ${msg}
-    END
 
 Check The Update Screen For The Correct UX
     VAR    ${message}=
