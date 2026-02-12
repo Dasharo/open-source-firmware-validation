@@ -7,7 +7,7 @@ Resource    custom_bootentries.robot
 Flash Via Internal Programmer With Args
     [Documentation]    Execute flashrom write operation on the given binary,
     ...    using extra arguments.
-    [Arguments]    ${fw_file_path}    ${args}    ${timeout}=3m
+    [Arguments]    ${fw_file_path}    ${args}    ${timeout}=5m
     IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         # Then the platform configuration depends on the bootorder to stay the same.
         # We must copy the current smmstore to the target binary in order to prevent
@@ -115,6 +115,7 @@ Flash Firmware
         Login To Linux
         Switch To Root User
         Execute Reboot Command
+        Sleep    30s    Additional sleep for RAM training etc. after flashing
     END
 
     # First boot after flashing may take longer than usual
