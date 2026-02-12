@@ -28,6 +28,9 @@ To work around this issue, you **must downgrade the BIOS and the EC at the same
 time**. First, downgrade the BIOS, then, without rebooting in between, downgrade
 the EC firmware.
 
+Follow [this procedudure](https://docs.dasharo.com/unified/novacustom/recovery/#ec-firmware-recovery)
+of EC downgrade.
+
 ## FTDI converter
 
 The obvious prerequisite is that you have an FTDI FT232-based USB-TTL
