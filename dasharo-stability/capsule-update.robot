@@ -11,10 +11,7 @@ Library             RequestsLibrary
 # stuff in all test cases
 Resource            ../variables.robot
 Resource            ../keywords.robot
-Resource            ../keys.robot
-Resource            ../lib/bios/menus.robot
 Resource            ../lib/options/options-lib_dcu.robot
-Resource            ../lib/custom_bootentries.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
@@ -26,16 +23,15 @@ Suite Setup         Run Keywords
 ...                     AND    Prepare For Logo Persistence Test
 ...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
 ...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
-...                     AND    Get System Values
 ...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
-...                     AND    Run Keyword If    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'    Deploy Uefi Shell
-...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
+...                     AND    Get System Values
 Suite Teardown      Run Keywords
-...                     Run Keyword If    ${SUITE_STATUS} != 'SKIP'    Flash Firmware    ${FW_FILE}
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
 ...                     AND    Log Out And Close Connection
 
-Default Tags        semiauto
+Default Tags        automated
 
 
 *** Variables ***
@@ -44,9 +40,11 @@ ${FUM_DIALOG_BOTTOM}=                       The platform will automatically rebo
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
 
-# Default values. Change to reflect the used USB flash drive in case of testing via SSH
-${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=      Wilk
-${CAPSULE_UPDATE_DISK_MODEL}=               USB DISK 3.0
+# Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
+${CAPSULE_UPDATE_SHELL_DIR}=                /boot/efi/capsule_testing
+${CAPSULE_UPDATE_STARTUP_PATH}=             /boot/efi/startup.nsh
+${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
+${CAPSULE_UPDATE_SHELL_FS_PREFIX}=          fs0:capsule_testing\\
 
 
 *** Test Cases ***
@@ -196,6 +194,7 @@ CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
 CUP250.001 Capsule Update Progress Bar - Default Logo
     [Documentation]    Verify that the Capsule Update screen looks as expected
     ...    and the progress bar is scaled properly using a default logo.
+    [Tags]    semiauto
     # Ensure we're running FW with the default logo
     Flash Firmware If Not QEMU    default
     # Bump the timeout for memory training
@@ -223,7 +222,8 @@ Check Platform Fused
         VAR    ${INTEL_CBNT_BOOTGUARD_FUSED}=    ${FALSE}    scope=GLOBAL
         RETURN
     END
-    Boot OS And Enter Root Shell    ${DEFAULT_BOOT_OS_ID}
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+    Switch To Root User
     ${out_cbmem}=    Execute Command In Terminal    cbmem -1 | grep ME
     VAR    ${INTEL_CBNT_BOOTGUARD_FUSED}=    Run Keyword And Return Status
     ...    Should Match Regexp    ${out_cbmem}    FPFs Committed\\s+:\\s+YES\n
@@ -443,9 +443,6 @@ Upload Required Files SSH
     IF    $tmp is not None
         Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
     END
-    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
-    END
     Execute Command In Terminal    rm -rf osfv
     Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
@@ -457,13 +454,42 @@ Upload Required Files SSH
     ...    export FW_FILE=/root/${fw_filename};
     ...    export CAPSULE_FW_FILE=/root/${caps_filename};
     ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
-    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        VAR    ${commands}=    ${commands}
-        ...    ./scripts/capsules/prepare_capsule_update_tests_drive.sh ${capsule_disk};
-    END
     VAR    ${commands}=    ${commands}
     ...    popd;
     Execute Command In Terminal    ${commands}    timeout=120s
+    Prepare Capsule Shell Workspace
+    Copy Capsule Files To Shell Workspace    ${caps_filename}
+
+Prepare Capsule Shell Workspace
+    Execute Command In Terminal    rm -rf ${CAPSULE_UPDATE_SHELL_DIR}
+    Execute Command In Terminal    mkdir -p ${CAPSULE_UPDATE_SHELL_DIR}
+    Execute Command In Terminal    chmod 755 ${CAPSULE_UPDATE_SHELL_DIR}
+
+Copy Capsule Files To Shell Workspace
+    [Arguments]    ${capsule_basename}
+    Log To Console    Staging capsule files at ${CAPSULE_UPDATE_SHELL_DIR}
+    Send File To DUT
+    ...    dasharo-stability/capsule-update-files/CapsuleApp.efi
+    ...    ${CAPSULE_UPDATE_SHELL_DIR}/CapsuleApp.efi
+    Send File To DUT
+    ...    dasharo-stability/capsule-update-files/capsule-update-startup.nsh
+    ...    ${CAPSULE_UPDATE_SHELL_DIR}/capsule-update-startup.nsh
+    Send File To DUT
+    ...    dasharo-stability/capsule-update-files/capsule-update-startup.nsh
+    ...    ${CAPSULE_UPDATE_STARTUP_PATH}
+    Send File To DUT    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/valid_capsule.cap
+    Send File To DUT
+    ...    ./dl-cache/edk2/${capsule_basename}_wrong_cert.cap
+    ...    ${CAPSULE_UPDATE_SHELL_DIR}/wrong_cert.cap
+    Send File To DUT
+    ...    ./dl-cache/edk2/${capsule_basename}_invalid_guid.cap
+    ...    ${CAPSULE_UPDATE_SHELL_DIR}/invalid_guid.cap
+    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+    IF    $tmp is not None
+        Send File To DUT
+        ...    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
+        ...    ${CAPSULE_UPDATE_SHELL_DIR}/invalid_btg_signature.cap
+    END
 
 Perform Capsule Update
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
@@ -491,13 +517,10 @@ Perform Capsule Update
         Power On
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux With Root Privileges
-        # hardcoded fatlabel of the partition, might change if not created using prepare_capsule_update_tests_drive.sh
-        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
-        Set Startup Nsh Variable    capsule_file    fs0:\\${capsule_file}    ${capsule_disk}
-        Set Startup Nsh Variable    step    0    ${capsule_disk}
-        Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
-        # Consider giving an ENV_ID to the capsule update disk and using Boot System...
-        Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
+        VAR    ${capsule_fs_path}=    ${CAPSULE_UPDATE_SHELL_FS_PREFIX}${capsule_file}
+        Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
+        Set Startup Nsh Variable    step    0
+        Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
         Execute Reboot Command    assume_correct_boot=${True}
         # uefi shell runs and reboots the platform
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
@@ -577,16 +600,12 @@ Display Preparation Instructions
     ...    These UEFI options need to be set in all the firmware files used for these tests prior to starting.
     ...    separator=\r\n
 
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         VAR    ${msg}=
         ...    ${msg}
-        ...    \nFor tests over SSH additional setup is required:
-        ...    1. Plug a USB flash drive into the DUT
-        ...    2. Set environment variables:
-        ...    ${t}1. CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to the name of the bootentry that
-        ...    ${t}${t}Dasharo UEFI gives this drive. Check in boot menu or efibootmgr
-        ...    ${t}2. CAPSULE_UPDATE_DISK_MODEL to the name of the drive as in `/sys/block/sdX/device/model`
-        ...    ${t}${t}(replace `sdX` with real device file name, like `sda`)
+        ...    \nFor tests over SSH the capsule files and logs are staged under ${CAPSULE_UPDATE_SHELL_DIR}
+        ...    ${t}Deploy Uefi Shell makes sure the ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME} entry exists
+        ...    ${t}startup.nsh is installed at ${CAPSULE_UPDATE_STARTUP_PATH} so no removable media is required
         ...    separator=\r\n
     END
     Log To Console    ******************************************************************************
@@ -697,60 +716,32 @@ Get Capsule Update Logs
         ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
         RETURN    ${out}
     ELSE
-        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
-        Set Startup Nsh Variable    step    1    ${capsule_disk}
-        Execute Command In Terminal    sync && udisksctl unmount -b ${capsule_disk}
-        Set Nextboot Bootentry    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}
+        Set Startup Nsh Variable    step    1
+        Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
         Execute Reboot Command    assume_correct_boot=${True}
         # uefi shell runs and reboots the platform
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux With Root Privileges
-        ${capsule_disk}=    Identify Path To USB    ${CAPSULE_UPDATE_DISK_MODEL}
-        ${mount_point}=    Mount USB    ${capsule_disk}
+        VAR    ${logs_path}=    ${CAPSULE_UPDATE_SHELL_DIR}/logs.txt
 
         # UEFI Shell uses UTF-16LE and SSHLibrary will panic if the file is read
         # to the terminal in this form
-        Execute Command In Terminal    iconv -f UTF-16LE -t UTF-8 ${mount_point}/logs.txt -o /tmp/capsule-logs.txt
+        Execute Command In Terminal    iconv -f UTF-16LE -t UTF-8 ${logs_path} -o /tmp/capsule-logs.txt
         ${logs}=    Execute Command In Terminal    cat /tmp/capsule-logs.txt
         RETURN    ${logs}
     END
 
-Mount USB
-    [Documentation]    mounts the block device using udisksctl in linux
-    ...    and returns the mountpoint
-    [Arguments]    ${block_dev}
-    # doesn't matter if mounting fails, because its already mounted
-    Execute Command In Terminal    udisksctl mount -b ${block_dev}
-    ${mount_point}=    Execute Command In Terminal
-    ...    udisksctl info -b ${block_dev} | grep -Po '^ *MountPoints: *\\K.*'
-    RETURN    ${mount_point}
-
 Set Startup Nsh Variable
     [Documentation]    The variables that control the startup.nsh script
-    ...    are written to files
-    [Arguments]    ${name}    ${value}    ${capsule_disk}
+    ...    are written to files located in the EFI shell workspace.
+    [Arguments]    ${name}    ${value}
     ${variable_name}=    Convert To Upper Case    ${name}
     ${file_name}=    Convert To Lower Case    ${name}
-    ${mount_point}=    Mount USB    ${capsule_disk}
-    ${out}=    Execute Command In Terminal
-    ...    echo "set ${variable_name} ${value}" > ${mount_point}/variable_${file_name}.nsh
-    Should Not Contain    ${out}    No such file
+    VAR    ${target}=    ${CAPSULE_UPDATE_SHELL_DIR}/variable_${file_name}.nsh
+    Execute Command In Terminal    echo "set ${variable_name} ${value}" > '${target}'
 
 Get CUP Environment Variables
     [Documentation]    Saves the env variables to robot variables that might be different
     ...    depending on the configuration used during testing
     ${rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_FW_FILE
     VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${rc0}    scope=SUITE
-
-    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        ${bootentry}=    Get Environment Variable    CAPSULE_UPDATE_DISK_BOOTENTRY_NAME
-        IF    $bootentry is not None
-            ${disk_model}=    Get Environment Variable    CAPSULE_UPDATE_DISK_MODEL
-            Log To Console    Settning CAPSULE_UPDATE_DISK_BOOTENTRY_NAME to ${bootentry}
-            VAR    ${CAPSULE_UPDATE_DISK_BOOTENTRY_NAME}=    ${bootentry}    scope=GLOBAL
-        END
-        IF    $disk_model is not None
-            Log To Console    Settning CAPSULE_UPDATE_DISK_MODEL to ${disk_model}
-            VAR    ${CAPSULE_UPDATE_DISK_MODEL}=    ${disk_model}    scope=GLOBAL
-        END
-    END
