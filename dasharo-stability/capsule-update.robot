@@ -11,7 +11,6 @@ Library             RequestsLibrary
 # stuff in all test cases
 Resource            ../variables.robot
 Resource            ../keywords.robot
-Resource            ../lib/options/options-lib_dcu.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
@@ -39,7 +38,7 @@ ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write prot
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
-
+${CUSTOM_LOGO_RC0_FW_FILE}=                 dcu/coreboot.rom
 # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
 ${CAPSULE_UPDATE_SHELL_DIR}=                /boot/efi/capsule_testing
 ${CAPSULE_UPDATE_STARTUP_PATH}=             /boot/efi/startup.nsh
@@ -65,34 +64,19 @@ CUP003.001 Capsule Update with wrong BtG key
     Skip If    not ${INTEL_CBNT_SUPPORT}    CUP003.001 not supported on this system
     Skip If    not ${INTEL_CBNT_BOOTGUARD_FUSED}    CUP003.001 not supported on this system
     Power On
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Enter UEFI Shell
-        Perform Capsule Update    invalid_btg_signature.cap
-    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux With Root Privileges
-        Perform Capsule Update    invalid_btg_signature.cap    use_uefi_shell=${False}
-    END
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux With Root Privileges
+    Perform Capsule Update    invalid_btg_signature.cap    use_uefi_shell=${False}
     Check The Update Screen For BtG Error Message
 
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     [Documentation]    Check if BIOS settings didn't change after Capsule Update.
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Power On
-        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-        ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
-
-        Set Option State    ${boot_menu}    Auto Boot Time-out    32123
-        Save Changes And Reset
-    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        # no serial connection
-        Power On
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
-        VAR    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}=    ${state}    scope=SUITE
-        ${new_state}=    Evaluate    not ${state}
-        Set UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_state}
-    END
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
+    VAR    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}=    ${state}    scope=SUITE
+    ${new_state}=    Evaluate    not ${state}
+    Set UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_state}
 
 CUP150.001 Capsule Update
     [Documentation]    Check for a successful Capsule Update.
@@ -105,25 +89,17 @@ CUP150.001 Capsule Update
     Should Not Contain    ${status}    CapsuleLast
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Power On
-        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-        ${boot_menu}=    Enter Dasharo Submenu    ${setup_menu}    Boot Maintenance Manager
-
-        ${updated_state}=    Get Option State    ${boot_menu}    Auto Boot Time-out
-        Should Be Equal    ${updated_state}    32123
-    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        # no serial connection
-        Power On
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
-        Should Not Be Equal    ${state}    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}
-    END
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    ${state}=    Get UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}
+    Should Not Be Equal    ${state}    ${SMMSTORE_VARIABLE_PERSISTENCE_INITIAL_STATE}
 
 CUP170.201 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP170.001 not supported
-    Go To Linux Prompt    ${ENV_ID_UBUNTU}
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -138,7 +114,8 @@ CUP170.301 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
 
-    Go To Windows Prompt
+    Power On
+    Boot And Login To OS    ${ENV_ID_WINDOWS}
     Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
 
     Log To Console    \n[Before Update] ${ORIGINAL_UUID}
@@ -160,7 +137,9 @@ CUP180.201 Verifying Serial Number (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    $tmp is None
-        Go To Linux Prompt    ${ENV_ID_UBUNTU}
+        Power On
+        Boot And Login To OS    ${ENV_ID_UBUNTU}
+        Switch To Root User
         Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     END
 
@@ -174,7 +153,8 @@ CUP180.301 Verifying Serial Number (Windows)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.002 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
     IF    $tmp is None
-        Go To Windows Prompt
+        Power On
+        Boot And Login To OS    ${ENV_ID_WINDOWS}
         Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
     END
 
@@ -187,7 +167,9 @@ CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
     Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.001 not supported
-    Go To Linux Prompt    ${ENV_ID_UBUNTU}
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
@@ -196,19 +178,14 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     ...    and the progress bar is scaled properly using a default logo.
     [Tags]    semiauto
     # Ensure we're running FW with the default logo
-    Flash Firmware If Not QEMU    default
+    Flash Firmware    ${FW_FILE}
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
     Set UEFI Option    MeMode    Disabled (HAP)
     Power On
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Enter UEFI Shell
-        Perform Capsule Update    valid_capsule.cap
-    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux With Root Privileges
-        Perform Capsule Update    valid_capsule.cap    use_uefi_shell=${False}
-    END
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux With Root Privileges
+    Perform Capsule Update    valid_capsule.cap
     Check The Update Screen For The Correct UX
 
 
@@ -232,64 +209,23 @@ Check Platform Fused
 
 Perform Capsule Update And Return Status
     [Arguments]    ${capsule_file}
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Power On
-        Enter UEFI Shell
-        ${original_bios_version}=    Get BIOS Version    Before update
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux With Root Privileges
+    ${original_bios_version}=    Get BIOS Version Linux    Before update
 
-        Perform Capsule Update    ${capsule_file}
+    Perform Capsule Update    ${capsule_file}
 
-        Enter UEFI Shell
-
-        ${updated_bios_version}=    Get BIOS Version    After update
-        ${version_changed}=    Run Keyword And Return Status
-        ...    Should Not Be Equal
-        ...    ${original_bios_version}
-        ...    ${updated_bios_version}
-        ${logs}=    Get Capsule Update Logs
-        RETURN    ${logs}    ${version_changed}
-    ELSE IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        # Platform does not have a serial connection
-        Power On
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux With Root Privileges
-        ${original_bios_version}=    Get BIOS Version Linux    Before update
-
-        Perform Capsule Update    ${capsule_file}    use_uefi_shell=${False}
-
-        Power On
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux With Root Privileges
-        ${updated_bios_version}=    Get BIOS Version Linux    After update
-        ${version_changed}=    Run Keyword And Return Status
-        ...    Should Not Be Equal
-        ...    ${original_bios_version}
-        ...    ${updated_bios_version}
-        ${logs}=    Get Capsule Update Logs    use_uefi_shell=${False}
-        RETURN    ${logs}    ${version_changed}
-    END
-
-Flash Firmware If Not QEMU
-    [Arguments]    ${logo_type}=custom
-    Log To Console    PREPARE: Flashing Firmware
-    IF    '${MANUFACTURER}' != 'QEMU'
-        IF    '${logo_type}' == 'default'
-            Flash Firmware    ${FW_FILE}
-        ELSE IF    '${logo_type}' == 'custom'
-            Flash Firmware    ./dcu/coreboot.rom
-        END
-        Power On
-    ELSE
-        VAR    ${message}=
-        ...    Please make sure QEMU is running firmware with
-        ...    \ the ${logo_type} logo. The default logo binary should be
-        ...    \ ${FW_FILE}, the custom logo binary has been prepared in
-        ...    \ dcu/coreboot.rom. Afterwards, please click OK to continue.
-        ...    separator=${EMPTY}
-        Log Out And Close Connection
-        Pause Execution    ${message}
-        Prepare To Serial Connection
-    END
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux With Root Privileges
+    ${updated_bios_version}=    Get BIOS Version Linux    After update
+    ${version_changed}=    Run Keyword And Return Status
+    ...    Should Not Be Equal
+    ...    ${original_bios_version}
+    ...    ${updated_bios_version}
+    ${logs}=    Get Capsule Update Logs
+    RETURN    ${logs}    ${version_changed}
 
 Check The Update Screen For The Correct UX
     VAR    ${message}=
@@ -351,109 +287,6 @@ Get BIOS Version Linux
     Log To Console    \n[${label}] ${bios_version}
     RETURN    ${bios_version}
 
-Upload Required Files
-    Log To Console    PREPARE: Upload Files
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Upload Required Files Serial
-    ELSE
-        Upload Required Files SSH
-    END
-
-Upload Required Files Serial
-    ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
-    IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        Go To Linux Prompt    ${ENV_ID_UBUNTU}
-        # Send File To DUT uses regular user, so prepare target directory in as root
-        Execute Command In Terminal    rm -r /capsule_testing
-        Execute Command In Terminal    mkdir /capsule_testing
-        Execute Command In Terminal    chmod 777 /capsule_testing
-        Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
-        Send File To DUT    ./dasharo-stability/capsule-update-files/CapsuleApp.efi    /capsule_testing/CapsuleApp.efi
-        Log To Console    Sending ${CAPSULE_FW_FILE}
-        Send File To DUT    ${CAPSULE_FW_FILE}    /capsule_testing/valid_capsule.cap
-        Log To Console    Sending ./dl-cache/edk2/${file_name}_wrong_cert.cap
-        Send File To DUT    ./dl-cache/edk2/${file_name}_wrong_cert.cap    /capsule_testing/wrong_cert.cap
-        Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
-        Send File To DUT    ./dl-cache/edk2/${file_name}_invalid_guid.cap    /capsule_testing/invalid_guid.cap
-        ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
-        IF    $tmp is not None
-            Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
-            Send File To DUT    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}    /capsule_testing/invalid_btg_signature.cap
-        END
-        # Move the directory to ESP partition so the tests work even if root
-        # file-system is part of LVM
-        Execute Command In Terminal    rm -r /boot/efi/capsule_testing
-        Execute Command In Terminal    mv --force /capsule_testing /boot/efi
-        # Make sure file-system data is pushed to disks before resetting a platform
-        Execute Command In Terminal    sync
-    ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-        Go To Windows Prompt
-        Log To Console    Sending ./dasharo-stability/capsule-update-files/CapsuleApp.efi
-        SSHLibrary.Put File
-        ...    ./dasharo-stability/capsule-update-files/CapsuleApp.efi
-        ...    C:\\capsule_testing\\CapsuleApp.efi
-        Log To Console    Sending ${CAPSULE_FW_FILE}
-        SSHLibrary.Put File    ${CAPSULE_FW_FILE}    C:\\capsule_testing\\valid_capsule.cap
-        Log To Console    Sending ./dl-cache/edk2/${file_name}_wrong_cert.cap
-        SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_wrong_cert.cap    C:\\capsule_testing\\wrong_cert.cap
-        Log To Console    Sending ./dl-cache/edk2/${file_name}_invalid_guid.cap
-        SSHLibrary.Put File    ./dl-cache/edk2/${file_name}_invalid_guid.cap    C:\\capsule_testing\\invalid_guid.cap
-        ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
-        IF    $tmp is not None
-            Log To Console    Sending ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
-            SSHLibrary.Put File
-            ...    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
-            ...    C:\\capsule_testing\\invalid_btg_signature.cap
-        END
-        Execute Command In Terminal    mountvol b: /s
-        Set Prompt For Terminal    PS B:\\>
-        Execute Command In Terminal    b:
-        Execute Command In Terminal    rmdir /q .\\capsule_testing\\
-        Execute Command In Terminal    mkdir capsule_testing
-        Execute Command In Terminal    copy C:\\capsule_testing\\*.* B:\\capsule_testing
-        Set Prompt For Terminal    PS C:\\>
-        Execute Command In Terminal    c:
-        Execute Command In Terminal    rmdir /q .\\capsule_testing\\
-        # Make sure file-system data is pushed to disks before resetting a platform
-        Execute Command In Terminal    dir
-    ELSE
-        Fail    No Ubuntu nor Windows support.
-    END
-
-Upload Required Files SSH
-    ${fw_filename}=    Get File Name Without Extension    ${FW_FILE}
-    ${caps_filename}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
-    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
-    IF    $tmp is not None
-        ${btg_caps_filename}=    Get File Name Without Extension    ${BTG_CAPSULE_FW_FILE}
-    END
-    Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Login To Linux
-    Switch To Root User
-    Send File To DUT    ${FW_FILE}    /root/${fw_filename}
-    Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
-    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
-    IF    $tmp is not None
-        Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
-    END
-    Execute Command In Terminal    rm -rf osfv
-    Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
-    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
-    IF    $tmp is not None
-        Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}
-    END
-    VAR    ${commands}=    pushd osfv;
-    ...    git submodule update --init --checkout;
-    ...    export FW_FILE=/root/${fw_filename};
-    ...    export CAPSULE_FW_FILE=/root/${caps_filename};
-    ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
-    VAR    ${commands}=    ${commands}
-    ...    popd;
-    Execute Command In Terminal    ${commands}    timeout=120s
-    Prepare Capsule Shell Workspace
-    Copy Capsule Files To Shell Workspace    ${caps_filename}
-
 Prepare Capsule Shell Workspace
     Execute Command In Terminal    rm -rf ${CAPSULE_UPDATE_SHELL_DIR}
     Execute Command In Terminal    mkdir -p ${CAPSULE_UPDATE_SHELL_DIR}
@@ -489,37 +322,17 @@ Perform Capsule Update
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
-    IF    ${use_uefi_shell}
-        Enter Capsule Testing Folder
-        ${out}=    Execute UEFI Shell Command    CapsuleApp.efi ${capsule_file} -NR
-        Should Not Contain    ${out}    is not recognised
-        Should Not Contain    ${out}    Command Error Status
-        Should Not Contain    ${out}    is not a valid capsule.
-        Should Not Contain    ${out}    failed to query capsule capability
-        Should Contain    ${out}    CapsuleApp: creating capsule descriptors at
-
-        # Reset the system manually
-        Write Bare Into Terminal    reset
-        Press Key N Times    1    ${ENTER}
-
-        # Confirm update by following instructions of Firmware Update Mode dialog
-        Read From Terminal Until    ${FUM_DIALOG_TOP}
-        ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
-        ${digit}=    Get Key To Press    ${out}
-        Write Bare Into Terminal    ${digit}
-    ELSE
-        Power On
-        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-        Login To Linux With Root Privileges
-        VAR    ${capsule_fs_path}=    ${CAPSULE_UPDATE_SHELL_FS_PREFIX}${capsule_file}
-        Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
-        Set Startup Nsh Variable    step    0
-        Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
-        Execute Reboot Command    assume_correct_boot=${True}
-        # uefi shell runs and reboots the platform
-        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-        Login To Linux
-    END
+    Power On
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux With Root Privileges
+    VAR    ${capsule_fs_path}=    ${CAPSULE_UPDATE_SHELL_FS_PREFIX}${capsule_file}
+    Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
+    Set Startup Nsh Variable    step    0
+    Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
+    Execute Reboot Command    assume_correct_boot=${True}
+    # uefi shell runs and reboots the platform
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
@@ -561,26 +374,6 @@ Ensure BtG Testing Capsule Is Present
         ...    btg_capsule_fw_file parameter incorrect. Please add: -v btg_capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
     END
 
-Enter Capsule Testing Folder
-    ${fss}=    Get FS From Uefi Shell
-    FOR    ${fs}    IN    @{fss}
-        Set Prompt For Terminal    ${fs}:\\>
-        ${out}=    Execute UEFI Shell Command    ${fs}:
-        IF    'is not a valid mapping.' in '''${out}'''
-            Fail    Failed to find a file-system with capsule_testing/
-        END
-
-        Set Prompt For Terminal    \\>
-        ${out}=    Execute UEFI Shell Command    cd capsule_testing
-        IF    'is not a directory.' not in '''${out}'''    BREAK
-    END
-    Set Prompt For Terminal    ${fs}:\\capsule_testing\\>
-
-Get FS From Uefi Shell
-    ${map}=    Execute UEFI Shell Command    map
-    ${fss}=    Get Regexp Matches    ${map}    FS[0-9]{,2}
-    RETURN    ${fss}
-
 Display Preparation Instructions
     VAR    ${t}=    ${SPACE}${SPACE}${SPACE}
     VAR    ${msg}=    To run tests you need to set a couple environment variables:
@@ -593,22 +386,13 @@ Display Preparation Instructions
     ...    options to work, e.g. enabling Serial Redirection or Power After AC Loss.
     ...    These UEFI options need to be set in all the firmware files used for these tests prior to starting.
     ...    separator=\r\n
-
-    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
-        VAR    ${msg}=
-        ...    ${msg}
-        ...    \nFor tests over SSH the capsule files and logs are staged under ${CAPSULE_UPDATE_SHELL_DIR}
-        ...    ${t}Deploy Uefi Shell makes sure the ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME} entry exists
-        ...    ${t}startup.nsh is installed at ${CAPSULE_UPDATE_STARTUP_PATH} so no removable media is required
-        ...    separator=\r\n
-    END
     Log To Console    ******************************************************************************
     Log To Console    ${msg}
     Log To Console    ******************************************************************************
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
-    Run    cp ${FW_FILE} dcu/coreboot.rom
+    Run    cp ${CAPSULE_UPDATE_RC0_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
 
     IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
         Run    cp ${TEST_DATA_DIR}/dcu/logo.bmp dcu/logo.bmp
@@ -618,29 +402,15 @@ Prepare For Logo Persistence Test
         Should Contain    ${result.stdout}    Success
     END
 
-Go To Linux Prompt
-    [Arguments]    ${os_id}
-    Power On
-    Boot System Or From Connected Disk    ${os_id}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
-    END
-    Login To Linux
-    Switch To Root User
-
-Go To Windows Prompt
-    Power On
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
-    END
-    Boot And Login To Windows
-
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
-        Go To Linux Prompt    ${ENV_ID_UBUNTU}
+        Power On
+        Boot And Login To OS    ${ENV_ID_UBUNTU}
+        Switch To Root User
         Get Ubuntu System Values    ORIGINAL_SERIAL    ORIGINAL_UUID    ORIGINAL_LOGO_SHA256
     ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
-        Go To Windows Prompt
+        Power On
+        Boot And Login To OS    ${ENV_ID_WINDOWS}
         Get Windows System Values    ORIGINAL_SERIAL    ORIGINAL_UUID
     ELSE
         Fail    No Windows nor Ubuntu support available
@@ -648,7 +418,6 @@ Get System Values
 
 Get Ubuntu System Values
     [Arguments]    ${var_serial}    ${var_uuid}    ${var_logo_sha256}
-
     ${serial}=    Get Firmware Serial Number
     VAR    ${${var_serial}}=    ${serial}    scope=SUITE
 
@@ -668,12 +437,45 @@ Get Ubuntu System Values
 
 Get Windows System Values
     [Arguments]    ${var_serial}    ${var_uuid}
-
     ${serial}=    Get Firmware Serial Number (Windows)
     VAR    ${${var_serial}}=    ${serial}    scope=SUITE
 
     ${uuid}=    Get Firmware UUID (Windows)
     VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
+
+Upload Required Files
+    ${fw_filename}=    Get File Name Without Extension    ${FW_FILE}
+    ${caps_filename}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
+    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+    IF    $tmp is not None
+        ${btg_caps_filename}=    Get File Name Without Extension    ${BTG_CAPSULE_FW_FILE}
+    END
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux
+    Switch To Root User
+    Send File To DUT    ${FW_FILE}    /root/${fw_filename}
+    Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
+    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+    IF    $tmp is not None
+        Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
+    END
+    Execute Command In Terminal    rm -rf osfv
+    Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
+    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
+    IF    $tmp is not None
+        Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}
+    END
+    VAR    ${commands}=    pushd osfv;
+    ...    git submodule update --init --checkout;
+    ...    export FW_FILE=/root/${fw_filename};
+    ...    export CAPSULE_FW_FILE=/root/${caps_filename};
+    ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
+    VAR    ${commands}=    ${commands}
+    ...    popd;
+    Execute Command In Terminal    ${commands}    timeout=120s
+    Prepare Capsule Shell Workspace
+    Copy Capsule Files To Shell Workspace    ${caps_filename}
 
 Prepare For ROMHOLE Persistence Test
     [Documentation]    This is a part which works only on MSI platforms.
@@ -702,28 +504,21 @@ Get Firmware Serial Number (Windows)
 
 Get Capsule Update Logs
     [Documentation]    Gets the capsule update logs from CapsuleApp.efi -S
-    [Arguments]    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
-    IF    ${use_uefi_shell}
-        Enter Capsule Testing Folder
-        ${out}=    Execute UEFI Shell Command    CapsuleApp.efi -S
-        RETURN    ${out}
-    ELSE
-        Set Startup Nsh Variable    step    1
-        Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
-        Execute Reboot Command    assume_correct_boot=${True}
-        # uefi shell runs and reboots the platform
-        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-        Login To Linux With Root Privileges
-        VAR    ${logs_path}=    ${CAPSULE_UPDATE_SHELL_DIR}/logs.txt
+    Set Startup Nsh Variable    step    1
+    Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
+    Execute Reboot Command    assume_correct_boot=${True}
+    # uefi shell runs and reboots the platform
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux With Root Privileges
+    VAR    ${logs_path}=    ${CAPSULE_UPDATE_SHELL_DIR}/logs.txt
 
-        # UEFI Shell uses UTF-16LE and SSHLibrary will panic if the file is read
-        # to the terminal in this form
-        Execute Command In Terminal    iconv -f UTF-16LE -t UTF-8 ${logs_path} -o /tmp/capsule-logs.txt
-        ${logs}=    Execute Command In Terminal    cat /tmp/capsule-logs.txt
-        RETURN    ${logs}
-    END
+    # UEFI Shell uses UTF-16LE and SSHLibrary will panic if the file is read
+    # to the terminal in this form
+    Execute Command In Terminal    iconv -f UTF-16LE -t UTF-8 ${logs_path} -o /tmp/capsule-logs.txt
+    ${logs}=    Execute Command In Terminal    cat /tmp/capsule-logs.txt
+    RETURN    ${logs}
 
 Set Startup Nsh Variable
     [Documentation]    The variables that control the startup.nsh script
