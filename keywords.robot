@@ -44,7 +44,6 @@ Load OS Credentials
     [Documentation]    Loads os credentials from config file to global variables
     [Arguments]    ${env_id}
     Import Variables    ${CURDIR}/os-config/${env_id}-credentials.py
-    ${success}=    Run Keyword And Return Status    Inner Login To Booted OS
 
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems
