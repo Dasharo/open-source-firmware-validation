@@ -36,16 +36,16 @@ if "DEVICES" not in env:
 if "RULES_FILE" not in env:
     env["RULES_FILE"] = "scripts/ci/regression-scope/configs/release_tests_rules.json"
 if "LOGS_DIR" not in env:
-    env["LOGS_DIR"] = f"/srv/nfs/logs/osfv_stability/ci_logs"
+    logs_base = f"/srv/nfs/logs/osfv_stability/ci_logs"
 
 env["ALLOW_DIRTY"] = "1"
 
-os.makedirs(env["LOGS_DIR"], exist_ok=True)
+os.makedirs(logs_base, exist_ok=True)
 
 repeats = tqdm.tqdm(range(N_REPEATS), colour="green")
 rcs = []
 for i in repeats:
-    logs_dir = f"{env["LOGS_DIR"]}/{BRANCH}_{COMMIT}/{RUN_DATE}/run{i}"
+    logs_dir = f"{logs_base}/{BRANCH}_{COMMIT}/{RUN_DATE}/run{i}"
     os.makedirs(logs_dir)
     env["LOGS_DIR"] = logs_dir
 
