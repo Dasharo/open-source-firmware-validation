@@ -21,6 +21,11 @@ Flash Via Internal Programmer With Args
         ...    Basic Platform Setup was not run, Custom DEFAULT_BOOT bootentry does not exist.
         Execute Command In Terminal    flashrom -p internal -r ${smm_file} --fmap -i FMAP -i SMMSTORE
     END
+    # Always flash FD first in case the layout changes
+    ${out_flash}=    Execute Command In Terminal
+    ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} --ifd -i fd
+    ...    timeout=${timeout}
+
     ${out_flash}=    Execute Command In Terminal
     ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} ${args}
     ...    timeout=${timeout}
