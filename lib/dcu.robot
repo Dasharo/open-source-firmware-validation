@@ -61,7 +61,7 @@ DCU Variable Flash SMMSTORE
     [Documentation]    Write the UEFI SMMSTORE to commit the changes
     [Arguments]    ${fw_file}
     Send File To DUT    ${fw_file}    coreboot.rom
-    Execute Command In Terminal    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all &> /dev/null
+    ${out}=    Execute Command In Terminal    flashrom -p internal -w coreboot.rom --fmap -i SMMSTORE --noverify-all
 
 DCU Variable Get UEFI Option From File
     [Documentation]    Read an UEFI option value from FW file.
@@ -95,7 +95,6 @@ DCU Variable Set UEFI Option In DUT
     DCU Variable Set UEFI Option In File    tpm.rom    ${option_name}    ${value}
     DCU Variable Flash SMMSTORE    tpm.rom
     Execute Reboot Command
-    Sleep    20s
 
 DCU Variable Get UEFI Option From DUT
     [Documentation]    Read the firmware and return a UEFI option value
