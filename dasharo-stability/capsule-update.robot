@@ -11,6 +11,7 @@ Library             RequestsLibrary
 # stuff in all test cases
 Resource            ../variables.robot
 Resource            ../keywords.robot
+Resource            ../lib/dcu.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
@@ -19,9 +20,10 @@ Suite Setup         Run Keywords
 ...                     AND    Get CUP Environment Variables
 ...                     AND    Ensure Capsule Files Are Present
 ...                     AND    Ensure BtG Testing Capsule Is Present
-...                     AND    Prepare For Logo Persistence Test
 ...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
-...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
+...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
+...                     AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
 ...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
 ...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
@@ -38,7 +40,7 @@ ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write prot
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
-${CUSTOM_LOGO_RC0_FW_FILE}=                 dcu/coreboot.rom
+${CUSTOM_LOGO_RC0_FW_FILE}=                 dcu/custom_logo.rom
 # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
 ${CAPSULE_UPDATE_SHELL_DIR}=                /boot/efi/capsule_testing
 ${CAPSULE_UPDATE_STARTUP_PATH}=             /boot/efi/startup.nsh
@@ -393,14 +395,7 @@ Display Preparation Instructions
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
     Run    cp ${CAPSULE_UPDATE_RC0_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
-
-    IF    ${CUSTOM_LOGO_SUPPORT} == ${TRUE}
-        Run    cp ${TEST_DATA_DIR}/dcu/logo.bmp dcu/logo.bmp
-        ${result}=    Run Process    bash    -c    cd ./dcu; ./dcuc logo ./coreboot.rom -l ./logo.bmp
-        Log    ${result.stdout}
-        Log    ${result.stderr}
-        Should Contain    ${result.stdout}    Success
-    END
+    DCU Logo Set In File    ${CUSTOM_LOGO_RC0_FW_FILE}    ${TEST_DATA_DIR}/dcu/logo.bmp
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
