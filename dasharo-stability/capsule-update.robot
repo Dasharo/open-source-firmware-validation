@@ -225,7 +225,17 @@ CUP260.101 Capsule update in Firmware Update Mode works
     ${choice}=    Get Regexp Matches
     ...    ${fum_prompt}    .*Press \([0-9]\) to continue\..*    1
     Write Into Terminal    ${choice}[0]
+    # Stop iPXE from booting default option as it contains workaround for this
+    # issue
+    Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
+    Press Key N Times    1    ${CTRL_C}
+    Enter IPXE Shell Submenu
+    Execute Command In Terminal    dhcp
+    # Write Bare allows to set interval between each character which might be
+    # needed on slower platforms/serial connection
+    Write Bare Into Terminal    chain http://boot.dasharo.com/dts/dts-no-fum-fix.ipxe\n    interval=0.2
     # Boot into DTS shell
+    Set DUT Response Timeout    5m
     Read From Terminal Until    .cpio.gz...
     Read From Terminal Until    ok
     Wait For DTS To Boot    fum=${TRUE}
