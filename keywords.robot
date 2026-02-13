@@ -1342,16 +1342,13 @@ Login To Linux With Root Privileges
     [Documentation]    Login to Linux to perform test on OS level. Which login
     ...    method will be used depends on: connection method and
     ...    platform type.
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Run Keywords
-        ...    Login To Linux Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
-        ...    AND
-        ...    Switch To Root User
-    END
     IF    '${CONFIG}'=='raptor-cs_talos2'
         Login To Linux Via OBMC    root    debian
     ELSE IF    '${PLATFORM[:8]}' == 'KGPE-D16'
         Serial Root Login Linux    debian
+    ELSE
+        Login To Booted OS
+        Switch To Root User
     END
 
 Compare Serial Number From MAC
