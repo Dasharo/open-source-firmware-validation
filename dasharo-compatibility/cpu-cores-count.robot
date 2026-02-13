@@ -21,11 +21,8 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported
 Suite Teardown      Run Keywords
-...                     Skip If    not ${CPU_TESTS_SUPPORT}    CPU tests not supported    AND
-...                     Power On    AND
-...                     Enter Setup Menu Tianocore    AND
-...                     Reset To Defaults Tianocore    AND
-...                     Save Changes And Reset    AND
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    CCC Teardown
+...                     AND
 ...                     Log Out And Close Connection
 
 Default Tags        automated
@@ -39,7 +36,6 @@ CCC001.001 Check core count with HT disabled (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-
     ${out}=    Get Threads Per Core
     Should Contain    ${out}    1
 
@@ -255,3 +251,8 @@ Get E Cores Count
     ...    Efficient cores
     ${count}=    Execute Command In Terminal    cpuid -l 0x1a | grep 'Intel Atom' | wc -l
     RETURN    ${count}
+
+CCC Teardown
+    Enter Setup Menu Tianocore
+    Reset To Defaults Tianocore
+    Save Changes And Reset
