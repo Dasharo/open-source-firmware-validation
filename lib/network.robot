@@ -70,7 +70,9 @@ Send File To DUT
 
     ${issuer}=    Execute Command In Terminal    whoami
     IF    '${issuer}' != 'root' and ${switch_root}    Switch To Root User
-    Execute Command In Terminal    mv --force ${tmp_target} ${target_path}
+    Execute Command In Terminal    rm -rf ${target_path}
+    ${out}=    Execute Command In Terminal    mv --force ${tmp_target} ${target_path}
+    Should Not Contain    ${out}    Could not
     Execute Command In Terminal    chown ${issuer}:${issuer} ${target_path}
     IF    '${issuer}' != 'root' and ${switch_root}    Exit From Root User
 
