@@ -117,10 +117,12 @@ Login To Booted OS
     IF    not ${try_recover_from_invalid_os_booted}
         Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
     END
-    Log    Login failed, attempting fallback across supported OSes.    WARN
-    VAR    ${target_os}=    ${BOOTED_OS_ID}
-    Recover Broken Bootorder By Trying All Supported OSes
-    Boot And Login To OS    ${target_os}
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Log    Login failed, attempting fallback across supported OSes.    WARN
+        VAR    ${target_os}=    ${BOOTED_OS_ID}
+        Recover Broken Bootorder By Trying All Supported OSes
+        Boot And Login To OS    ${target_os}
+    END
 
 Boot And Login To OS
     [Documentation]    Universal kw to boot an OS and log in to its shell.
