@@ -4,6 +4,10 @@ Library     OperatingSystem
 Library     String
 
 
+*** Variables ***
+@{ACCEPTABLE_PCR_FAILS}=    10
+
+
 *** Keywords ***
 Get PCRs State From Linux
     [Documentation]    Returns list of strings containing
@@ -59,7 +63,8 @@ Validate PCRs Against Event Log
     ${tpm2_eventlog}=    Execute Command In Terminal
     ...    tpm2_eventlog ${binary_log_file}
     Should Not Contain    ${tpm2_eventlog}    ERROR: Unable to run tpm2_eventlog
-    VAR    @{invalid_prcs}=    @{EMPTY}
+    VAR    @{acceptable_invalid_prcs}=    @{EMPTY}
+    VAR    @{critical_invalid_pcrs}=    @{EMPTY}
     FOR    ${algo}    IN    sha1    sha256
         ${eventlog_pcrs}=    Get PCRs From Eventlog    ${tpm2_eventlog}    ${algo}
         FOR    ${pcr_element}    IN    @{eventlog_pcrs}
@@ -70,13 +75,22 @@ Validate PCRs Against Event Log
             ...    Should Contain    ${hash}    ${sha_hash}    ignore_case=${TRUE}
             IF    not ${status}
                 VAR    &{pcr_fail}=    pcr=pcr${pcr}-${algo}    log_hash=${hash}    real_hash=${sha_hash}
-                Append To List    ${invalid_prcs}    ${pcr_fail}
+                IF    '${pcr}' in $ACCEPTABLE_PCR_FAILS
+                    Append To List    ${acceptable_invalid_prcs}    ${pcr_fail}
+                ELSE
+                    Append To List    ${critical_invalid_pcrs}    ${pcr_fail}
+                END
             END
         END
     END
-    IF    ${invalid_prcs} is not &{EMPTY}
-        Log To Console    ${invalid_prcs}
-        Fail    Invalid PCRs found
+    IF    @{acceptable_invalid_prcs}
+        Log    Invalid PCRs found, but they don't necessarily mean a firmware issue    WARN
+        Log To Console    ${acceptable_invalid_prcs}
+    END
+    IF    @{critical_invalid_pcrs}
+        Log    Invalid PCRs found, and they indicate a firmware issue    WARN
+        Log To Console    ${critical_invalid_pcrs}
+        Fail    Critical PCRs are invalid
     END
 
 Validate Expected TPM Version Via Sysfs
