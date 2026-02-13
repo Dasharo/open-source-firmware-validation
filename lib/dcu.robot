@@ -59,17 +59,20 @@ DCU Logo Set In File
 DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
     [Arguments]    ${out_file}
-
-    ${out}=    Execute Command In Terminal    flashrom -p internal -r ${DCU_TEMP_FILENAME} --fmap -i FMAP -i SMMSTORE
-    Execute Command In Terminal    chmod 666 ${DCU_TEMP_FILENAME}
-    Get File From DUT    ${DCU_TEMP_FILENAME}    ${out_file}
+    ${temp_filename}=    Temp Filename
+    ${out}=    Execute Command In Terminal    flashrom -p internal -r ${temp_filename} --fmap -i FMAP -i SMMSTORE
+    Execute Command In Terminal    chmod 666 ${temp_filename}
+    Get File From DUT    ${temp_filename}    ${out_file}
+    Execute Command In Terminal    rm ${temp_filename}
 
 DCU Variable Flash SMMSTORE
     [Documentation]    Write the UEFI SMMSTORE to commit the changes
     [Arguments]    ${fw_file}
-    Send File To DUT    ${fw_file}    ${DCU_TEMP_FILENAME}
+    ${temp_filename}=    Temp Filename
+    Send File To DUT    ${fw_file}    ${temp_filename}
     ${out}=    Execute Command In Terminal
-    ...    flashrom -p internal -w ${DCU_TEMP_FILENAME} --fmap -i SMMSTORE --noverify-all
+    ...    flashrom -p internal -w ${temp_filename} --fmap -i SMMSTORE --noverify-all
+    Execute Command In Terminal    rm ${temp_filename}
 
 DCU Variable Get UEFI Option From File
     [Documentation]    Read an UEFI option value from FW file.
@@ -100,17 +103,21 @@ DCU Variable Set UEFI Option In DUT
     [Documentation]    Read, modify and flash the firmware with a new value of
     ...    a UEFI option
     [Arguments]    ${option_name}    ${value}
-    DCU Variable Read SMMSTORE    ${DCU_TEMP_FILENAME}
-    DCU Variable Set UEFI Option In File    ${DCU_TEMP_FILENAME}    ${option_name}    ${value}
-    DCU Variable Flash SMMSTORE    ${DCU_TEMP_FILENAME}
+    ${temp_filename}=    Temp Filename
+    DCU Variable Read SMMSTORE    ${temp_filename}
+    DCU Variable Set UEFI Option In File    ${temp_filename}    ${option_name}    ${value}
+    DCU Variable Flash SMMSTORE    ${temp_filename}
+    Execute Command In Terminal    rm ${temp_filename}
     Execute Reboot Command
 
 DCU Variable Get UEFI Option From DUT
     [Documentation]    Read the firmware and return a UEFI option value
     [Arguments]    ${option_name}
-    DCU Variable Read SMMSTORE    ${DCU_TEMP_FILENAME}
-    ${value}=    DCU Variable Get UEFI Option From File    ${DCU_TEMP_FILENAME}    ${option_name}
+    ${temp_filename}=    Temp Filename
+    DCU Variable Read SMMSTORE    ${temp_filename}
+    ${value}=    DCU Variable Get UEFI Option From File    ${temp_filename}    ${option_name}
     ${value}=    Convert Option Value From DCU Format    ${value}
+    Execute Command In Terminal    rm ${temp_filename}
     RETURN    ${value}
 
 Convert Option Value To DCU Format
@@ -144,3 +151,9 @@ Negate DCU Boolean
     END
     Log    ${value} is not a valid DCU boolean value!    WARN
     RETURN    ${value}
+
+Temp Filename
+    [Tags]    robot:private
+    ${uuid}=    Evaluate    uuid.uuid4()    modules=uuid
+    VAR    ${temp_filename}=    ${DCU_TEMP_FILENAME}_${uuid}
+    RETURN    ${temp_filename}
