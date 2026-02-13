@@ -40,12 +40,10 @@ ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write prot
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
-${CUSTOM_LOGO_RC0_FW_FILE}=                 dcu/custom_logo.rom
 # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
-${CAPSULE_UPDATE_SHELL_DIR}=                /boot/efi/capsule_testing
-${CAPSULE_UPDATE_STARTUP_PATH}=             /boot/efi/startup.nsh
+${UEFI_SHELL_BOOT_DIR}=                     /boot/efi
+${CAPSULE_UPDATE_SHELL_DIR}=                ${UEFI_SHELL_BOOT_DIR}/capsule_testing
 ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
-${CAPSULE_UPDATE_SHELL_FS_PREFIX}=          fs0:capsule_testing\\
 
 
 *** Test Cases ***
@@ -297,15 +295,20 @@ Prepare Capsule Shell Workspace
 Copy Capsule Files To Shell Workspace
     [Arguments]    ${capsule_basename}
     Log To Console    Staging capsule files at ${CAPSULE_UPDATE_SHELL_DIR}
+    # Logic
     Send File To DUT
     ...    dasharo-stability/capsule-update-files/CapsuleApp.efi
-    ...    ${CAPSULE_UPDATE_SHELL_DIR}/CapsuleApp.efi
+    ...    ${UEFI_SHELL_BOOT_DIR}/CapsuleApp.efi
     Send File To DUT
     ...    dasharo-stability/capsule-update-files/capsule-update-startup.nsh
-    ...    ${CAPSULE_UPDATE_SHELL_DIR}/capsule-update-startup.nsh
-    Send File To DUT
-    ...    dasharo-stability/capsule-update-files/capsule-update-startup.nsh
-    ...    ${CAPSULE_UPDATE_STARTUP_PATH}
+    ...    ${UEFI_SHELL_BOOT_DIR}/startup.nsh
+    # Variables
+    Send File To DUT    dasharo-stability/capsule-update-files/variable_capsule_file.nsh
+    ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_capsule_file.nsh
+    Send File To DUT    dasharo-stability/capsule-update-files/variable_step.nsh
+    ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_step.nsh
+
+    # Capsules
     Send File To DUT    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/valid_capsule.cap
     Send File To DUT
     ...    ./dl-cache/edk2/${capsule_basename}_wrong_cert.cap
@@ -324,10 +327,7 @@ Perform Capsule Update
     [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
-    Power On
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux With Root Privileges
-    VAR    ${capsule_fs_path}=    ${CAPSULE_UPDATE_SHELL_FS_PREFIX}${capsule_file}
+    VAR    ${capsule_fs_path}=    ${capsule_file}
     Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
     Set Startup Nsh Variable    step    0
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
@@ -340,9 +340,9 @@ Perform Capsule Update
         ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
         ${digit}=    Get Key To Press    ${out}
         Write Bare Into Terminal    ${digit}
+        Read From Terminal Until    ${TIANOCORE_STRING}
     END
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
@@ -402,6 +402,8 @@ Display Preparation Instructions
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
+    ${name}=    Evaluate    '${CAPSULE_UPDATE_RC0_FW_FILE}'.split("/")[-1]
+    VAR    ${CUSTOM_LOGO_RC0_FW_FILE}=    dcu/custom_logo_${name}    scope=SUITE
     Run    cp ${CAPSULE_UPDATE_RC0_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
     DCU Logo Set In File    ${CUSTOM_LOGO_RC0_FW_FILE}    ${TEST_DATA_DIR}/dcu/logo.bmp
 
@@ -453,30 +455,15 @@ Upload Required Files
     IF    $tmp is not None
         ${btg_caps_filename}=    Get File Name Without Extension    ${BTG_CAPSULE_FW_FILE}
     END
-    Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Login To Linux
-    Switch To Root User
-    Send File To DUT    ${FW_FILE}    /root/${fw_filename}
-    Send File To Dut    ${CAPSULE_FW_FILE}    /root/${caps_filename}
     ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
     IF    $tmp is not None
-        Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}
+        Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}.cap
     END
-    Execute Command In Terminal    rm -rf osfv
-    Execute Command In Terminal    git clone https://github.com/dasharo/open-source-firmware-validation osfv
     ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
     IF    $tmp is not None
-        Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}
+        Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}.cap
     END
-    VAR    ${commands}=    pushd osfv;
-    ...    git submodule update --init --checkout;
-    ...    export FW_FILE=/root/${fw_filename};
-    ...    export CAPSULE_FW_FILE=/root/${caps_filename};
-    ...    ./scripts/capsules/capsule_update_tests.sh /root/${caps_filename};
-    VAR    ${commands}=    ${commands}
-    ...    popd;
-    Execute Command In Terminal    ${commands}    timeout=120s
+
     Prepare Capsule Shell Workspace
     Copy Capsule Files To Shell Workspace    ${caps_filename}
 
@@ -512,8 +499,10 @@ Get Capsule Update Logs
     Set Startup Nsh Variable    step    1
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
-    # uefi shell runs and reboots the platform
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Read From Terminal Until    ${TIANOCORE_STRING}
+    END
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     VAR    ${logs_path}=    ${CAPSULE_UPDATE_SHELL_DIR}/logs.txt
 
