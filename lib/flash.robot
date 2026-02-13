@@ -124,7 +124,7 @@ Flash Firmware
     END
 
     # First boot after flashing may take longer than usual
-    Set DUT Response Timeout    180s
+    Set DUT Response Timeout    300s
 
 Replace Logo In Firmware
     [Documentation]    Swap to custom logo in firmware on DUT using cbfstool according
