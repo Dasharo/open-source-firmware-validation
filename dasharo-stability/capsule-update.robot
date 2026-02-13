@@ -333,6 +333,14 @@ Perform Capsule Update
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
     # uefi shell runs and reboots the platform
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        # If serial console supported, then FUM dialog will be shown
+        # Confirm update by following instructions of Firmware Update Mode dialog
+        Read From Terminal Until    ${FUM_DIALOG_TOP}
+        ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
+        ${digit}=    Get Key To Press    ${out}
+        Write Bare Into Terminal    ${digit}
+    END
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
 
