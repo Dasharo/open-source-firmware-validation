@@ -336,6 +336,7 @@ Perform Capsule Update
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         # If serial console supported, then FUM dialog will be shown
         # Confirm update by following instructions of Firmware Update Mode dialog
+        Read From Terminal Until    ${TIANOCORE_STRING}    # booting UEFI Shell
         Handle FUM Screen
     END
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
@@ -348,9 +349,6 @@ Handle FUM Screen
         Write Bare Into Terminal    ${digit}
     ELSE
         Log    FUM screen did not appear    WARN
-    END
-    IF    '${TIANOCORE_STRING}' not in $out
-        Read From Terminal Until    ${TIANOCORE_STRING}
     END
 
 Get File Name Without Extension
