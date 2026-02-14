@@ -24,9 +24,9 @@ Suite Setup         Run Keywords
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
 ...                     AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
-...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Get System Values
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
@@ -336,13 +336,22 @@ Perform Capsule Update
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         # If serial console supported, then FUM dialog will be shown
         # Confirm update by following instructions of Firmware Update Mode dialog
-        Read From Terminal Until    ${FUM_DIALOG_TOP}
-        ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
-        ${digit}=    Get Key To Press    ${out}
-        Write Bare Into Terminal    ${digit}
-        Read From Terminal Until    ${TIANOCORE_STRING}
+        Handle FUM Screen
     END
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+
+Handle FUM Screen
+    ${out}=    Read From Terminal Until Regexp    (${TIANOCORE_STRING})|(${FUM_DIALOG_TOP})
+    IF    '${FUM_DIALOG_TOP}' in $out
+        ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
+        ${digit}=    Get Key To Press    ${fum_screen}
+        Write Bare Into Terminal    ${digit}
+    ELSE
+        Log    FUM screen did not appear    WARN
+    END
+    IF    '${TIANOCORE_STRING}' not in $out
+        Read From Terminal Until    ${TIANOCORE_STRING}
+    END
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
