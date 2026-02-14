@@ -5,6 +5,12 @@ Library     String
 
 
 *** Variables ***
+# Reconstruction of these PCRs is not critical. I.e. if their value fails to be
+# reconstructed from the TPM log, it's expected, or is not a firmware issue.
+# - 10:
+#    - this PCR is not supposed to be extended by firmware
+#    - it's the default PCR used by IMA implementation in Linux, which uses a separate log for its measurements
+#    - if compiled into the kernel, IMA cannot be completely disabled at runtime
 @{ACCEPTABLE_PCR_FAILS}=    10
 
 
