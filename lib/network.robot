@@ -72,6 +72,9 @@ Send File To DUT
     IF    '${issuer}' != 'root' and ${switch_root}    Switch To Root User
     Execute Command In Terminal    mv --force ${tmp_target} ${target_path}
     Execute Command In Terminal    chown ${issuer}:${issuer} ${target_path}
+    ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
+    Should Be Equal    ${hash_source}    ${hash_target}    msg=moving file from /tmp to target path failed
+    Execute Command In Terminal    sync
     IF    '${issuer}' != 'root' and ${switch_root}    Exit From Root User
 
 Get File From DUT
