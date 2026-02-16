@@ -1357,6 +1357,7 @@ Boot System Or From Connected Disk    # robocop: off=too-long-keyword
     END
     ${is_system_present}=    Evaluate    "${system_name}" in """${menu_construction}"""
     IF    not ${is_system_present}
+        Log    ${system_name} not found in Boot Menu
         ${ssd_list}=    Get Current CONFIG List Param    Storage_SSD    boot_name
         ${ssd_list_length}=    Get Length    ${ssd_list}
         IF    ${ssd_list_length} == 0
