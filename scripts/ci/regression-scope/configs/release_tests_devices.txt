@@ -7,4 +7,4 @@ novacustom-nuc_box-155H_00254
 # novacustom-v540tu_00191
 novacustom-v540tnd_00266
 pcengines-apu3_00252
-protectli-vp6650_00004
+protectli-vp6650_00002
