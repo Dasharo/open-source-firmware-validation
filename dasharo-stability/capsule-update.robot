@@ -221,10 +221,7 @@ CUP260.101 Capsule update in Firmware Update Mode works
     Enter Submenu From Snapshot    ${security_menu}    Enter Firmware Update Mode
     Read From Terminal Until    Press ENTER to continue and reboot
     Press Enter
-    ${fum_prompt}=    Read From Terminal Until Regexp    Press [0-9] to continue\.
-    ${choice}=    Get Regexp Matches
-    ...    ${fum_prompt}    .*Press \([0-9]\) to continue\..*    1
-    Write Into Terminal    ${choice}[0]
+    Wait For FUM Dialog And Confirm
     # Stop iPXE from booting default option as it contains workaround for this
     # issue
     Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
@@ -521,10 +518,7 @@ Perform Capsule Update
         Press Key N Times    1    ${ENTER}
 
         # Confirm update by following instructions of Firmware Update Mode dialog
-        Read From Terminal Until    ${FUM_DIALOG_TOP}
-        ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
-        ${digit}=    Get Key To Press    ${out}
-        Write Bare Into Terminal    ${digit}
+        Wait For FUM Dialog And Confirm
     ELSE
         Power On
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
@@ -807,3 +801,11 @@ Get CUP Environment Variables
         Log To Console    Settning CAPSULE_UPDATE_DISK_MODEL to ${disk_model}
         VAR    ${CAPSULE_UPDATE_DISK_MODEL}=    ${disk_model}    scope=GLOBAL
     END
+
+Wait For FUM Dialog And Confirm
+    [Documentation]    Wait for FUM dialog to show and then confirm by pressing
+    ...    expected key
+    Read From Terminal Until    ${FUM_DIALOG_TOP}
+    ${out}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
+    ${digit}=    Get Key To Press    ${out}
+    Write Bare Into Terminal    ${digit}
