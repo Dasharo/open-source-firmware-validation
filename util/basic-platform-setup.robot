@@ -276,12 +276,21 @@ Run Ansible Playbooks
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
         Login To Booted OS
         Check Internet Connection On Linux
+        ${sudo_version}=    Execute Command In Terminal    sudo --version
+        IF    'sudo-rs' in $sudo_version
+            # sudo-rs is not compatible with ansible as of sudo-rs 0.2.8 and ansible [core 2.18.6]
+            ${out}=    Execute Command In Terminal    which /usr/bin/sudo.ws
+            Should Not Contain Any    ${out}    not found    apt install    msg=Classical sudo not found on the system
+            # will replace /usr/bin/sudo with sudo.ws instead of sudo-rs
+            ${out}=    Execute Command In Terminal    sudo update-alternatives --set sudo /usr/bin/sudo.ws
+            Should Not Contain Any    ${out}    error    not setting
+        END
 
         # Create temporary inventory file for given platform and OS
         VAR    ${inventory_file}=
         ...    [host] \n
         ...    ${DEVICE_IP} ansible_user=${DEVICE_OS_USERNAME}
-        ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_sudo_pass=${DEVICE_OS_PASSWORD}
+        ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_become_password=${DEVICE_OS_PASSWORD} ansible_become_method=sudo
         ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         ...    separator=${SPACE}
         ${tmp_file_rand}=    Generate Random String    length=16
