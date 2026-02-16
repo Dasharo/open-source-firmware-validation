@@ -13,7 +13,6 @@ ${DMIDECODE_SERIAL_NUMBER}=         123456789
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.0-rc2
 ${DMIDECODE_PRODUCT_NAME}=          VP2430
 ${DMIDECODE_RELEASE_DATE}=          12/17/2024
-${DMIDECODE_TYPE}=                  Desktop
 
 ${CPU_MAX_FREQUENCY}=               3400
 ${CPU_MIN_FREQUENCY}=               700

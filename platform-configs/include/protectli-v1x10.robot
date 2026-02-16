@@ -19,10 +19,7 @@ ${E_MMC_NAME}=                                  BJTD4R
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v
 ${DMIDECODE_RELEASE_DATE}=                      ${EMPTY}
-${DMIDECODE_MANUFACTURER}=                      Protectli
-${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_FAMILY}=                            Vault
-${DMIDECODE_TYPE}=                              Desktop
 
 ${NVME_DISK_SUPPORT}=                           ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                       ${TRUE}

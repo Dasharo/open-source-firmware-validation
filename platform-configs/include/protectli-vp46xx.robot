@@ -15,7 +15,6 @@ ${E_MMC_NAME}=                      AJTD4R
 
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.2.1-rc1
 ${DMIDECODE_RELEASE_DATE}=          10/20/2025
-${DMIDECODE_FAMILY}=                Vault Pro
 ${DMIDECODE_SERIAL_NUMBER}=         123456789
 ${SERIAL_NUMBER_VERIFICATION}=      ${TRUE}
 
