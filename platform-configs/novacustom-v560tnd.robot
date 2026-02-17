@@ -27,9 +27,8 @@ ${CLEVO_BATTERY_CAPACITY}=              5100*1000
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 
 # DMI
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0-rc3
-# TODO verify
-${DMIDECODE_RELEASE_DATE}=              04/25/2025
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0
+${DMIDECODE_RELEASE_DATE}=              01/29/2026
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
