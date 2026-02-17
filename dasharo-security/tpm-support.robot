@@ -153,6 +153,7 @@ TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
     ...    Previous IDs: TPM003.004
     Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.101 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM003.101 not supported
     Power On
     Enter The TCG Configuration Menu
     ${sha1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
@@ -186,6 +187,8 @@ TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
 
 TPM012.201 Check if the ChangeEPS works (Ubuntu)
     [Documentation]    Check if the `TPM2 ChangeEPS` setup menu option works properly.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM003.101 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -318,6 +321,7 @@ TPM014.101 TPM single bank detection
     ...    PCR bank, activates it, then reboots.
     ...    If platform supports only single PCR bank, firmware pop-up is handled.
     ...    After reboot, state of PCR banks in firmware is verified.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM003.101 not supported
     Variable Should Exist    ${TPM_MULTIPLE_BANK_SUPPORT}
     Power On
     Enter The TCG Configuration Menu
