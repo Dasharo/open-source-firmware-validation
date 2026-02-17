@@ -40,11 +40,11 @@ ${USB_DEVICE}=                              Linux
 ${MAX_CPU_TEMP_THRESHOLD}=                  110
 
 # cpu performance Ubuntu
-${ZIP_MULTI_COMPRESSION}=                   63476    # MIPS
-${ZIP_MULTI_DECOMPRESSION}=                 39336    # MIPS
-${CRAY_5_K_RENDER}=                         654.5    # sec
-${CRAY_4_K_RENDER}=                         356.9    # sec
-${CRAY_1080_P_RENDER}=                      90.8    # sec
+${ZIP_MULTI_COMPRESSION}=                   69245    # MIPS
+${ZIP_MULTI_DECOMPRESSION}=                 47858    # MIPS
+${CRAY_5_K_RENDER}=                         549    # sec
+${CRAY_4_K_RENDER}=                         319    # sec
+${CRAY_1080_P_RENDER}=                      79    # sec
 ${COREMARK_SINGLE}=                         400079.5    # iterations/s
 
 # cpu performance Windows
