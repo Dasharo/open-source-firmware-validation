@@ -26,8 +26,9 @@ Suite Setup         Run Keywords
 ...                     Make Sure That Flash Locks Are Disabled
 ...                     AND
 ...                     Prepare Tools, Keys And Binaries
-Suite Teardown      Run Keyword
+Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
+...                     AND    Run    rm -rf ${KEYS_DIR}
 Test Setup          Run Keyword
 ...                     Power On
 
@@ -70,7 +71,7 @@ VBO008.001 Booting from recovery
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED_TARGET}
     Execute Reboot Command
 
     # setting 5 minutes time-out to prevent failure on platforms with
@@ -96,7 +97,7 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED_TARGET}
     Execute Reboot Command
 
     # setting 5 minutes time-out to prevent failure on platforms with
@@ -162,7 +163,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL_TARGET}
     FOR    ${index}    IN RANGE    2
         Execute Reboot Command
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -173,7 +174,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
     Should Contain    ${out_vboot}    Normal boot mode
     # 2. Flash incorrectly signed firmware and boot 2 times. Recovery popup
     # should be displayed, and recovery request should be logged in cbmem.
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED_TARGET}
     FOR    ${index}    IN RANGE    2
         Execute Reboot Command
         IF    ${TESTS_IN_FIRMWARE_SUPPORT}
@@ -189,7 +190,7 @@ VBO011.001 Recovery popup is not displayed when correctly signed firmware is fla
         Should Contain    ${out_vboot}    Recovery boot mode
     END
     # 3. Flash again with correctly signed firmware
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL}
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_ORIGINAL_TARGET}
     Execute Reboot Command
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -206,7 +207,7 @@ VBO012.001 Self-signed binary is bootable without errors
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED}
+    Flash RW Sections Via Internal Programmer    ${FW_FILE_RESIGNED_TARGET}
     Execute Reboot Command
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -215,23 +216,34 @@ VBO012.001 Self-signed binary is bootable without errors
 
 *** Keywords ***
 Generate Verified Boot Keys
-    Clone Git Repository    https://github.com/Dasharo/dasharo-tools.git
-    Execute Command In Terminal    rm -rf vboot_keys
-    ${out_genkey}=    Execute Command In Terminal    ./dasharo-tools/vboot/generate_keys vboot_keys    timeout=20m
+    ${random}=    Generate Random String    16
+    VAR    ${KEYS_DIR}=    vboot_keys_${random}    scope=SUITE
+    Run    git clone https://github.com/Dasharo/dasharo-tools.git
+    Run    rm -rf vboot_keys
+    ${out_genkey}=    Run    ./dasharo-tools/vboot/generate_keys ${KEYS_DIR}
+    Run    chmod -R a+rw ${KEYS_DIR}
     Should Contain    ${out_genkey}    The Verified Boot keys were generated into following directory
+    Run    tar -czf ${KEYS_DIR}.tar.gz ${KEYS_DIR}
+    Send File To DUT    ${KEYS_DIR}.tar.gz    vboot_keys.tar.gz
+    Execute Command In Terminal    tar -xzf vboot_keys.tar.gz
+    ${ls}=    Execute Command In Terminal    ls -l vboot_keys
+    Should Contain All    ${ls}    vboot    arv_root
 
 Resign Existing Firmware Image With Generated Keys
-    Send File To DUT    ${FW_FILE}    ${FW_FILE_ORIGINAL}
-    Execute Command In Terminal    rm -f ${FW_FILE_RESIGNED}
-    ${out_resign}=    Execute Command In Terminal    ./dasharo-tools/vboot/resign ${FW_FILE_ORIGINAL} vboot_keys
+    Send File To DUT    ${FW_FILE}    ${FW_FILE_ORIGINAL_TARGET}
+    Run    rm -f ${FW_FILE_RESIGNED_SOURCE}
+    ${out_resign}=    Run    ./dasharo-tools/vboot/resign ${FW_FILE} vboot_keys
     Should Contain    ${out_resign}    successfully saved new image to
-    Execute Command In Terminal    sync
-    ${size_original}=    Execute Command In Terminal    ls -l ${FW_FILE_ORIGINAL} | cut -d ' ' -f 5
-    ${size_resigned}=    Execute Command In Terminal    ls -l ${FW_FILE_RESIGNED} | cut -d ' ' -f 5
+    Should Contain    ${out_resign}    ${FW_FILE_RESIGNED_SOURCE}
+    Run    sync
+    ${size_original}=    Run    ls -l ${FW_FILE} | cut -d ' ' -f 5
+    ${size_resigned}=    Run    ls -l ${FW_FILE_RESIGNED_SOURCE} | cut -d ' ' -f 5
     Should Be Equal As Integers
     ...    ${size_original}
     ...    ${size_resigned}
     ...    msg=Size of resigned firmware is incorrect. Resigning failed.
+    Send File To DUT    ${FW_FILE_RESIGNED_SOURCE}    ${FW_FILE_RESIGNED_TARGET}
+    Send File To DUT    ${FW_FILE}    ${FW_FILE_ORIGINAL_TARGET}
 
 Prepare Tools, Keys And Binaries
     Power On
@@ -240,14 +252,16 @@ Prepare Tools, Keys And Binaries
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
 
     # The fw_file_original is the fw_file received as an input to the test suite
-    VAR    ${FW_FILE_ORIGINAL}=    /home/${DEVICE_OS_USERNAME}/test-firmware.rom    scope=SUITE
+    VAR    ${FW_FILE_ORIGINAL_TARGET}=    /home/${DEVICE_OS_USERNAME}/test-firmware.rom    scope=SUITE
     # The fw_file_resigned is the fw_file resigned with newly generated keys
     # (so booting it should trigger vboot recovery events)
-    VAR    ${FW_FILE_RESIGNED}=    /home/${DEVICE_OS_USERNAME}/test-firmware_resigned.rom    scope=SUITE
+    VAR    ${FW_FILE_RESIGNED_TARGET}=    /home/${DEVICE_OS_USERNAME}/test-firmware_resigned.rom    scope=SUITE
+    ${filename}=    Evaluate    ".".join('${FW_FILE}'.split(".")[:-1]) + "_resigned.rom"
+    VAR    ${FW_FILE_RESIGNED_SOURCE}=    ${filename}    scope=SUITE
 
     Login To Linux
     Switch To Root User
-    Install Docker Packages
+    Clone Git Repository    https://github.com/Dasharo/dasharo-tools.git
     Generate Verified Boot Keys
     Resign Existing Firmware Image With Generated Keys
     Execute Command In Terminal    sync
