@@ -3,7 +3,7 @@
         "ASSET_ID": "00254",
         "RTE_IP": "127.0.0.1",
         "CONFIG": "novacustom-nuc_box-155H",
-        "DEVICE_IP": "192.168.10.178",
+        "DEVICE_IP": "192.168.10.48",
         "FW_FILE": "_roms/novacustom_nuc_box_mtl_v0.9.0_dev_signed.rom"
     }
 }
