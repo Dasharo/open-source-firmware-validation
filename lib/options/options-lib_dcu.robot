@@ -188,13 +188,17 @@ Boot And Login To Windows
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
     [Arguments]    ${env_id}
+    Load OS Credentials    ${BOOTED_OS_ID}
+    Restore Initial DUT Connection Method
 
     IF    '${BOOTED_OS_ID}' == '${env_id}'
+        Login To Booted OS
         Log    Target OS already booted
         RETURN
     END
 
     IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
+        Login To Booted OS
         Execute Reboot Command    windows
         Load OS Credentials    ${DEFAULT_BOOT_OS_ID}
         VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
@@ -205,8 +209,6 @@ Boot System Or From Connected Disk
     VAR    ${os_boot_id}=    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
-    Load OS Credentials    ${BOOTED_OS_ID}
-    Restore Initial DUT Connection Method
     Login To Booted OS
     Switch To Root User
 
