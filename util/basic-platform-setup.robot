@@ -294,7 +294,7 @@ Run Ansible Playbooks
         ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         ...    separator=${SPACE}
         ${tmp_file_rand}=    Generate Random String    length=16
-        VAR    ${tmp_inventory_filename}=    ansible_inventory_${tmp_file_rand}.yaml
+        VAR    ${tmp_inventory_filename}=    /tmp/ansible_inventory_${tmp_file_rand}.yaml
         Create File    ${tmp_inventory_filename}    ${inventory_file}
 
         # Prepare and run ansible-playbook command
