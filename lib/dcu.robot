@@ -11,7 +11,7 @@ Resource            ../keywords.robot
 
 
 *** Variables ***
-${DCU_TEMP_FILENAME}=       osfv_dcu_temp.rom
+${DCU_TEMP_FILENAME}=       /tmp/osfv_dcu_temp.rom
 
 
 *** Keywords ***
