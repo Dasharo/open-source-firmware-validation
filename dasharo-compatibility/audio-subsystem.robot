@@ -316,7 +316,7 @@ AUD007.301 HDMI Audio recognition
     Should Contain    ${out}    ${POWERSHELL_STR_HDMI_OUT}
     Should Contain    ${out}    OK
 
-AUD001.203 Audio subsystem detection (QubesOS)
+AUD001.203 Audio subsystem detection (Qubes OS)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in QubesOS. To do so, we attempt detection
     ...    of the Audio Service, and verify it is in Running state.

@@ -3436,6 +3436,13 @@
   },
   {
     "doc": {
+      "_id": "ECR007.203",
+      "name": "Keyboard (function key: touchpad on/off) in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR007.301",
       "name": "Keyboard (function key: touchpad on/off) in OS (Windows)",
       "module": "Dasharo Compatibility"

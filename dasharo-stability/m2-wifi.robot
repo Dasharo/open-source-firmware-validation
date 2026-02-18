@@ -194,7 +194,7 @@ SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
     Wi-fi Connection After Suspension    S3
     Exit From Root User
 
-SMW001.203 Wi-fi detection after cold boot (QubesOS)
+SMW001.203 Wi-fi detection after cold boot (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a cold boot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW001.203 not supported
@@ -204,7 +204,7 @@ SMW001.203 Wi-fi detection after cold boot (QubesOS)
     Execute Manual Step    [3/4] Execute the following command: `lspci | grep "Network controller:"`
     Execute Manual Step    [4/4] Match the command output with actual DUT's hardware
 
-SMW002.203 Wi-fi detection after warm boot (QubesOS)
+SMW002.203 Wi-fi detection after warm boot (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.203 not supported
@@ -214,7 +214,7 @@ SMW002.203 Wi-fi detection after warm boot (QubesOS)
     Execute Manual Step    [3/4] Execute the following command: `lspci | grep "Network controller:"`
     Execute Manual Step    [4/4] Match the command output with actual DUT's hardware
 
-SMW003.203 Wi-fi detection after reboot (QubesOS)
+SMW003.203 Wi-fi detection after reboot (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a reboot.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.203 not supported
@@ -224,7 +224,7 @@ SMW003.203 Wi-fi detection after reboot (QubesOS)
     Execute Manual Step    [3/4] Execute the following command: `lspci | grep "Network controller:"`
     Execute Manual Step    [4/4] Match the command output with actual DUT's hardware
 
-SMW004.203 Wi-fi detection after suspension (QubesOS)
+SMW004.203 Wi-fi detection after suspension (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after resuming from suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.203 not supported

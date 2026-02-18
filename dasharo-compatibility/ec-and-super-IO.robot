@@ -483,7 +483,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Check EC Firmware Version
     ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
 
-ECR001.203 Battery monitoring - charge level in OS (QubesOS)
+ECR001.203 Battery monitoring - charge level in OS (Qubes OS)
     [Documentation]    Check whether the battery charge level can be read
     ...    (in mAh) in Linux OS.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ECR001.203 not supported
@@ -493,7 +493,7 @@ ECR001.203 Battery monitoring - charge level in OS (QubesOS)
     Turn On ACPI CALL Module In Linux
     Check Charge Level In Linux
 
-ECR002.203 Battery monitoring - charging state in OS (QubesOS)
+ECR002.203 Battery monitoring - charging state in OS (Qubes OS)
     [Documentation]    Check whether the battery state can be read in Linux OS.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ECR002.203 not supported
     Power On
@@ -501,7 +501,7 @@ ECR002.203 Battery monitoring - charging state in OS (QubesOS)
     Login To Linux
     Check Charging State In Linux
 
-ECR003.203 Touchpad in OS (QubesOS)
+ECR003.203 Touchpad in OS (Qubes OS)
     [Documentation]    Check whether touchpad is visible in Linux OS.
     ...    Touchpad steering and effect detection must be checked
     ...    manually.
