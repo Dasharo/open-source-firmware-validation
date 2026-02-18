@@ -217,7 +217,7 @@ Read Firmware
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux
         Switch To Root User
-        Execute Command In Terminal    flashrom -p internal --ifd -i bios -r coreboot.rom
+        Execute Command In Terminal    flashrom -p internal --ifd -i fd -i bios -i me -r coreboot.rom
         Get File From DUT    coreboot.rom    ${file}
     ELSE
         Fail    Read firmware not implemented for platform config ${CONFIG}
