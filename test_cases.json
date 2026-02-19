@@ -767,7 +767,7 @@
   {
     "doc": {
       "_id": "CAM001.203",
-      "name": "USB Camera (Qubes OS)",
+      "name": "Integrated webcam (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
