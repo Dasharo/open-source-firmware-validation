@@ -118,10 +118,23 @@ Login To Booted OS
         Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
     END
     IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        ${recovery_defined}=    Run Keyword And Return Status
+        ...    Variable Should Exist    ${RECOVERY_IN_PROGRESS}
+        IF    not ${recovery_defined}
+            VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
+        END
+        IF    ${RECOVERY_IN_PROGRESS}
+            Fail    Login to ${BOOTED_OS_ID} failed during recovery (blocked re-entrant recovery).
+        END
         Log    Login failed, attempting fallback across supported OSes.    WARN
         VAR    ${target_os}=    ${BOOTED_OS_ID}
-        Recover Broken Bootorder By Trying All Supported OSes
-        Boot And Login To OS    ${target_os}
+        VAR    ${RECOVERY_IN_PROGRESS}=    ${TRUE}    scope=GLOBAL
+        TRY
+            Recover Broken Bootorder By Trying All Supported OSes
+            Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
+        FINALLY
+            VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
+        END
     END
 
 Boot And Login To OS
