@@ -13611,5 +13611,12 @@
       "name": "Bluetooth scanning (Fedora)",
       "module": "Dasharo Compatibility"
     }
+  },
+    {
+    "doc": {
+      "_id": "WLE003.203",
+      "name": "Bluetooth scanning (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
   }
 ]
