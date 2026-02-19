@@ -177,7 +177,7 @@ SNV006.202 NVMe detection after suspension (Fedora) (S3)
     NVMe Detection After Suspension    S3
     Exit From Root User
 
-SNV001.203 - NVMe detection after cold boot (Qubes OS)
+SNV001.203 NVMe detection after cold boot (Qubes OS)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a cold boot.
     [Tags]    semiauto
@@ -189,7 +189,7 @@ SNV001.203 - NVMe detection after cold boot (Qubes OS)
     Execute Manual Step    [3/4] Type in: `lspci`
     Execute Manual Step    [4/4] In the command output look for DUT's NVMe
 
-SNV002.203 - NVMe detection after warm boot (Qubes OS)
+SNV002.203 NVMe detection after warm boot (Qubes OS)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a cold boot.
     [Tags]    semiauto
@@ -201,7 +201,7 @@ SNV002.203 - NVMe detection after warm boot (Qubes OS)
     Execute Manual Step    [3/4] Type in: `lspci`
     Execute Manual Step    [4/4] In the command output look for DUT's NVMe
 
-SNV003.203 - NVMe detection after reboot (Qubes OS)
+SNV003.203 NVMe detection after reboot (Qubes OS)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a cold boot.
     [Tags]    semiauto
@@ -213,7 +213,7 @@ SNV003.203 - NVMe detection after reboot (Qubes OS)
     Execute Manual Step    [3/4] Type in: `lspci`
     Execute Manual Step    [4/4] In the command output look for DUT's NVMe
 
-SNV004.203 - NVMe detection after suspend (Qubes OS)
+SNV004.203 NVMe detection after suspend (Qubes OS)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a cold boot.
     [Tags]    semiauto

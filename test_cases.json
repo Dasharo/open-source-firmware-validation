@@ -1237,7 +1237,7 @@
   {
     "doc": {
       "_id": "CPF001.203",
-      "name": "CPU not stuck on initial frequency (Qubes OS)",
+      "name": "CPU not stuck on initial frequency (QubesOS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1519,7 +1519,7 @@
   {
     "doc": {
       "_id": "CPF005.203",
-      "name": "CPU runs on expected frequency (Qubes OS)",
+      "name": "CPU runs on expected frequency (QubesOS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1610,7 +1610,7 @@
   {
     "doc": {
       "_id": "CPF009.203",
-      "name": "CPU with load runs on expected frequency (Qubes OS)",
+      "name": "CPU with load runs on expected frequency (QubesOS)",
       "module": "Dasharo Performance"
     }
   },
@@ -2847,7 +2847,7 @@
   {
     "doc": {
       "_id": "DSP001.203",
-      "name": "Internal LCD in OS (Qubes OS)",
+      "name": "Internal display in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3243,7 +3243,7 @@
   {
     "doc": {
       "_id": "ECR003.203",
-      "name": "Touchpad in OS - (Qubes OS)",
+      "name": "Touchpad in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3882,7 +3882,7 @@
   {
     "doc": {
       "_id": "ECR017.203",
-      "name": "Keyboard (function key: flight mode) in OS (Qubes OS)",
+      "name": "Keyboard (function key: flight mode on/off) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3972,6 +3972,13 @@
     "doc": {
       "_id": "ECR019.202",
       "name": "Buttons (button: power) in OS (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR019.203",
+      "name": "Buttons (button: power) in OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6436,7 +6443,7 @@
   {
     "doc": {
       "_id": "SMW001.203",
-      "name": "Wi-fi connection after cold boot (Qubes OS)",
+      "name": "Wi-fi detection after cold boot (Qubes OS)",
       "module": "Dasharo Stability",
       "changed_to": "SMW001.203"
     }
@@ -6474,7 +6481,7 @@
   {
     "doc": {
       "_id": "SMW002.203",
-      "name": "Wi-fi connection after warm boot (Qubes OS)",
+      "name": "Wi-fi detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6511,7 +6518,7 @@
   {
     "doc": {
       "_id": "SMW003.203",
-      "name": "Wi-fi connection after reboot (Qubes OS)",
+      "name": "Wi-fi detection after reboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6564,7 +6571,7 @@
   {
     "doc": {
       "_id": "SMW004.203",
-      "name": "Wi-fi connection after suspension (Qubes OS) (S3)",
+      "name": "Wi-fi detection after suspension (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6613,13 +6620,6 @@
   },
   {
     "doc": {
-      "_id": "SNV0001.203",
-      "name": "NVMe detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
       "_id": "SNV0002.001",
       "name": "NVMe detection after warm boot (Ubuntu)",
       "module": "Dasharo Stability",
@@ -6636,13 +6636,6 @@
   },
   {
     "doc": {
-      "_id": "SNV0002.203",
-      "name": "NVMe detection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
       "_id": "SNV0003.001",
       "name": "NVMe detection after reboot (Ubuntu)",
       "module": "Dasharo Stability",
@@ -6655,13 +6648,6 @@
       "name": "NVMe detection after reboot (Qubes OS)",
       "module": "Dasharo Stability",
       "changed_to": "SNV003.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0003.203",
-      "name": "NVMe detection after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
     }
   },
   {
@@ -6698,8 +6684,8 @@
   },
   {
     "doc": {
-      "_id": "SNV0004.203",
-      "name": "NVMe detection after suspension (Qubes OS) (S3)",
+      "_id": "SNV001.203",
+      "name": "NVMe detection after cold boot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6719,6 +6705,13 @@
   },
   {
     "doc": {
+      "_id": "SNV002.203",
+      "name": "NVMe detection after warm boot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SNV003.201",
       "name": "NVMe detection after reboot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -6733,6 +6726,13 @@
   },
   {
     "doc": {
+      "_id": "SNV003.203",
+      "name": "NVMe detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SNV004.201",
       "name": "NVMe detection after suspension (Ubuntu)",
       "module": "Dasharo Stability"
@@ -6742,6 +6742,13 @@
     "doc": {
       "_id": "SNV004.202",
       "name": "NVMe detection after suspension (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SNV004.203",
+      "name": "NVMe detection after suspend (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -6968,7 +6975,7 @@
   {
     "doc": {
       "_id": "STB001.203",
-      "name": "Verify if no reboot occurs in the OS (Qubes OS)",
+      "name": "Verify if no reboot occurs (QubesOS)",
       "module": "Dasharo Performance"
     }
   },
@@ -7012,7 +7019,7 @@
   {
     "doc": {
       "_id": "STB002.203",
-      "name": "No unexpected boot errors (Qubes OS)",
+      "name": "Verify if no unexpected boot errors appear in logs (QubesOS)",
       "module": "Dasharo Performance"
     }
   },
@@ -7938,7 +7945,7 @@
   {
     "doc": {
       "_id": "USB002.203",
-      "name": "USB keyboard in OS (Qubes OS)",
+      "name": "USB keyboard detected by OS (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
