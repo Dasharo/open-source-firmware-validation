@@ -60,7 +60,7 @@ Login To Linux
         Login To Linux Via SSH
         ...    ${DEVICE_OS_USERNAME}
         ...    ${DEVICE_OS_PASSWORD}
-        ...    ${ssh_retries}
+        ...    retries=${ssh_retries}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
@@ -89,7 +89,7 @@ Login To Windows
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}    retries=${retries}
     ELSE
         Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
