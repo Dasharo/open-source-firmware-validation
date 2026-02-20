@@ -174,11 +174,12 @@ Make Sure That Flash Locks Are Disabled
     IF    not ${ro}    Set UEFI Option    LockBios    Disabled
 
 Login To Windows
-    [Arguments]    ${retries}=30
+    [Arguments]    ${retries}=5 min    ${timeout}=60
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
-    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}    retries=${retries}
+    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+    ...    retries=${retries}    timeout=${timeout}
 
 Boot And Login To Windows
     Power On

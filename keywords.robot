@@ -47,7 +47,7 @@ Load OS Credentials
 
 Login To Linux
     [Documentation]    Universal login to one of the supported linux systems
-    [Arguments]    ${ssh_retries}=30
+    [Arguments]    ${ssh_retries}=5 min    ${timeout}=60
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         # On laptopts, we have serial over EC from firmware only, so we will
         # not have Linux prompt. We try logging in multiple times anyway, so
@@ -60,6 +60,7 @@ Login To Linux
         Login To Linux Via SSH
         ...    ${DEVICE_OS_USERNAME}
         ...    ${DEVICE_OS_PASSWORD}
+        ...    timeout=${timeout}
         ...    retries=${ssh_retries}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
@@ -80,7 +81,7 @@ Login To Linux Via OBMC
 
 Login To Windows
     [Documentation]    Log in to Windows via ssh.
-    [Arguments]    ${retries}=30
+    [Arguments]    ${retries}=5 min    ${timeout}=60
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
@@ -89,7 +90,8 @@ Login To Windows
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}    retries=${retries}
+        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+        ...    timeout=${timeout}    retries=${retries}
     ELSE
         Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
@@ -102,21 +104,15 @@ Boot And Login To Windows
 Inner Login To Booted OS
     [Documentation]    KW to log in to the booted OS
     [Tags]    robot:private
-    [Arguments]    ${retries}=30
+    [Arguments]    ${retries}=5 min    ${timeout}=60
     IF    '${BOOTED_OS_ID}' == '${ENV_ID_WINDOWS}'
-        Login To Windows    ${retries}
+        Login To Windows    ${retries}    ${timeout}
     ELSE
-        Login To Linux    ${retries}
+        Login To Linux    ${retries}    ${timeout}
     END
 
 Login To Booted OS
     [Arguments]    ${try_recover_from_invalid_os_booted}=${TRUE}
-    ${status}=    Run Keyword And Return Status    Inner Login To Booted OS
-    IF    ${status}    RETURN
-
-    IF    not ${try_recover_from_invalid_os_booted}
-        Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
-    END
     IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         ${recovery_defined}=    Run Keyword And Return Status
         ...    Variable Should Exist    ${RECOVERY_IN_PROGRESS}
@@ -126,15 +122,23 @@ Login To Booted OS
         IF    ${RECOVERY_IN_PROGRESS}
             Fail    Login to ${BOOTED_OS_ID} failed during recovery (blocked re-entrant recovery).
         END
+    END
+    ${status}=    Run Keyword And Return Status    Inner Login To Booted OS
+    IF    ${status}    RETURN
+
+    IF    not ${try_recover_from_invalid_os_booted}
+        Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
+    END
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         Log    Login failed, attempting fallback across supported OSes.    WARN
         VAR    ${target_os}=    ${BOOTED_OS_ID}
         VAR    ${RECOVERY_IN_PROGRESS}=    ${TRUE}    scope=GLOBAL
         TRY
             Recover Broken Bootorder By Trying All Supported OSes
-            Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
         FINALLY
             VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
         END
+        Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
     END
 
 Boot And Login To OS
@@ -200,12 +204,16 @@ Login To Linux Via SSH
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}    ${password}    ${timeout}=60    ${prompt}=${DEVICE_OS_USER_PROMPT}    ${retries}=30
+    [Arguments]    ${username}
+    ...    ${password}
+    ...    ${timeout}=60
+    ...    ${prompt}=${DEVICE_OS_USER_PROMPT}
+    ...    ${retries}=5 min
     Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
     Wait Until Keyword Succeeds
-    ...    ${retries}x
+    ...    ${retries}
     ...    10s
     ...    Inner Login To Linux Via SSH
     ...    ${prompt}
@@ -234,11 +242,11 @@ Login To Windows Via SSH
     [Arguments]    ${username}=${DEVICE_OS_USERNAME}
     ...    ${password}=${DEVICE_OS_PASSWORD}
     ...    ${timeout}=60
-    ...    ${retries}=30
+    ...    ${retries}=5 min
     FOR    ${reboot_count}    IN RANGE    3
         ${login}=    Run Keyword And Return Status
         ...    Wait Until Keyword Succeeds
-        ...    ${retries}x
+        ...    ${retries}
         ...    10s
         ...    Inner Login To Windows Via SSH
         ...    ${username}
@@ -326,7 +334,7 @@ Recover Broken Bootorder By Trying All Supported OSes
             Log    Attempting recovery login for OS: ${env_id}    WARN
             VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
             Load OS Credentials    ${env_id}
-            ${success}=    Run Keyword And Return Status    Inner Login To Booted OS    1
+            ${success}=    Run Keyword And Return Status    Inner Login To Booted OS    retries=30s    timeout=10
             IF    ${success}
                 Log    Succeeded in logging into ${env_id}
                 RETURN
