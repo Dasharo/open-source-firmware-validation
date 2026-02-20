@@ -98,6 +98,7 @@ CAM001.203 Integrated webcam (Qubes OS)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
+    ...    Previous IDs: CAM001.003
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CAM001.203 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}

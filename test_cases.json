@@ -3422,13 +3422,6 @@
   },
   {
     "doc": {
-      "_id": "ECR007.003",
-      "name": "Keyboard (function key: touchpad on/off) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR007.201",
       "name": "Keyboard (function key: touchpad on/off) in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3952,13 +3945,6 @@
       "name": "Buttons (button: power) in OS (Qubes OS)",
       "module": "Dasharo Compatibility",
       "changed_to": "ECR019.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR019.003",
-      "name": "Buttons (button: power) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -13507,13 +13493,6 @@
     "doc": {
       "_id": "WLE001.202",
       "name": "Wireless card detection (Fedora)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WLE001.203",
-      "name": "Wireless card detection (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },

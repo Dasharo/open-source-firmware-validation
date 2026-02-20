@@ -191,6 +191,7 @@ DSP002.203 External HDMI display in OS (Qubes OS)
     [Documentation]    Check whether an external HDMI display is visible in
     ...    Qubes OS. An external HDMI display must be provided in
     ...    the platform config.
+    ...    Previous IDs: DSP002.004
     [Tags]    semiauto
     Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.203 not supported
     Pause Execution
