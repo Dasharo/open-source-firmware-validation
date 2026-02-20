@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 msi-pro-z690-a-wifi-ddr4_00039
 # novacustom-nuc_box-125H_00145
-novacustom-nuc_box-155H_00254
+#novacustom-nuc_box-155H_00254
 # novacustom-v540tu_00191
 novacustom-v540tnd_00266
 pcengines-apu3_00252
