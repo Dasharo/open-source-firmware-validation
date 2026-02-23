@@ -179,15 +179,15 @@ def main(silent=False):
     else:
         tests = ["--compare_to", "origin/develop"]
 
-    dprint(
-        f"Comparing {run(['git','rev-parse','HEAD'],stdout=subprocess.PIPE).stdout.strip()} "
-        "with develop branch. Changed files:"
-    )
-    dprint(
-        run(
-            ["git", "diff", "--name-only", "origin/develop"], stdout=subprocess.PIPE
-        ).stdout
-    )
+        dprint(
+            f"Comparing {run(['git','rev-parse','HEAD'],stdout=subprocess.PIPE).stdout.strip()} "
+            "with develop branch. Changed files:"
+        )
+        dprint(
+            run(
+                ["git", "diff", "--name-only", "origin/develop"], stdout=subprocess.PIPE
+            ).stdout
+        )
 
     commands = collect_commands(script_dir, devices, tests, rules)
     if not commands:
