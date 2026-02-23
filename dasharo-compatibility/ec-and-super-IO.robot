@@ -551,6 +551,16 @@ ECR007.203 Keyboard (function key: touchpad on/off) in OS (Qubes OS)
     Execute Manual Step
     ...    [4/4] Press the combination on DUT's keyboard (Fn+F1) and observe actions listed by libinput
 
+ECR007.203 Keyboard (function key: display on/off) in OS (Qubes OS)
+    [Documentation]    Check whether function key works.
+    [Tags]    semiauto
+    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal
+    Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
+    Execute Manual Step
+    ...    [4/4] Press the combination on DUT's keyboard (Fn+F2) and observe actions listed by libinput
+
 ECR009.203 Keyboard (function key: mute) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
@@ -670,17 +680,6 @@ ECR020.203 Buttons (button: lid switch) in OS (Qubes OS)
     Execute Manual Step    [3/4] Open the laptop lid, the DUT should be in sleep.
     Execute Manual Step
     ...    [4/4] Wake the DUT with any key or power button.
-
-ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
-    [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot.
-    [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
-    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
-    Execute Manual Step    [2/4] Choose any keyboard brightness (Fn+F4) as a means to test this feature
-    ...    (for example, the last level before black for easier tracking).
-    Execute Manual Step    [3/4] Perform a cold boot and boot into Qubes OS once again.
-    Execute Manual Step
-    ...    [4/4] Verify if the keyboard brightness is set to the level used before the cold boot.
 
 ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
     [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot.
