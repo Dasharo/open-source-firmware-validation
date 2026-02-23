@@ -57,11 +57,12 @@ class RuleParser:
         """
         Returns a list of test files to run according to the `files` section
         """
-        if files_choice["mode"] == RULES_TAG_MATCHED_FILENAME:
-            return self.matched_files
-        elif files_choice["mode"] == RULES_TAG_FULL_MATCH:
-            return self.matched_paths
-        elif files_choice["mode"] == RULES_TAG_CONTAINING_FILENAME:
+        mode = files_choice["mode"]
+        if mode == RULES_TAG_MATCHED_FILENAME:
+            result = self.matched_files
+        elif mode == RULES_TAG_FULL_MATCH:
+            result = self.matched_paths
+        elif mode == RULES_TAG_CONTAINING_FILENAME:
             test_files = self.get_test_files_in_dirs(files_choice["search_in"])
             changes_in_deps = []
             for file in test_files:
@@ -69,8 +70,8 @@ class RuleParser:
                     for lib in self.matched_files:
                         if lib in f.read():
                             changes_in_deps.append(file)
-            return changes_in_deps
-        elif files_choice["mode"] == RULES_TAG_CONTAINS_REGEX:
+            result = changes_in_deps
+        elif mode == RULES_TAG_CONTAINS_REGEX:
             test_files = self.get_test_files_in_dirs(files_choice["search_in"])
             regex = re.compile(files_choice["regex"])
             matching = []
@@ -78,7 +79,10 @@ class RuleParser:
                 with open(file, "r") as f:
                     if regex.search(f.read()) is not None:
                         matching.append(file)
-            return matching
+            result = matching
+        else:
+            result = []
+        return result
 
     def parse_run(self):
         """

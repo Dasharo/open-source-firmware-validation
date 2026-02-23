@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 util/prepare-platform.robot
 util/basic-platform-setup.robot
+util/prepare-platform.robot
 
 dasharo-compatibility/dmidecode.robot
 dasharo-compatibility/acpi-driver.robot
