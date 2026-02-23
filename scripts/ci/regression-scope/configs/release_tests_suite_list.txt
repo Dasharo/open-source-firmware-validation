@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 util/basic-platform-setup.robot
 
+dasharo-compatibility/__init__.robot
 dasharo-compatibility/acpi-driver.robot
 dasharo-compatibility/acpi-tables.robot
 dasharo-compatibility/apu-configuration-menu.robot
@@ -37,7 +38,6 @@ dasharo-compatibility/flash-write-protection.robot
 dasharo-compatibility/fwupd-support.robot
 dasharo-compatibility/heads-bootloader-support.robot
 dasharo-compatibility/heads-device-tree.robot
-dasharo-compatibility/__init__.robot
 dasharo-compatibility/memory-ibecc.robot
 dasharo-compatibility/memory-profile.robot
 dasharo-compatibility/miniPCIe-slot-verification.robot
@@ -72,7 +72,6 @@ dasharo-security/bios-lock.robot
 dasharo-security/camera-switch.robot
 dasharo-security/cbnt.robot
 dasharo-security/early-boot-dma-protection.robot
-dasharo-security/__init__.robot
 dasharo-security/measured-boot.robot
 dasharo-security/me-neuter.robot
 dasharo-security/me-neuter-static.robot
@@ -93,7 +92,6 @@ dasharo-security/wifi-bluetooth-switch.robot
 dasharo-stability/capsule-update-files
 dasharo-stability/capsule-update.robot
 dasharo-stability/coreboot-redundant-boot.robot
-dasharo-stability/__init__.robot
 dasharo-stability/m2-wifi.robot
 dasharo-stability/network-interface-after-suspend.robot
 dasharo-stability/nvme-detection.robot
@@ -110,5 +108,4 @@ dasharo-performance/disk-io.robot
 dasharo-performance/fast-boot.robot
 dasharo-performance/gpu-performance.robot
 dasharo-performance/graphics-configuration.robot
-dasharo-performance/__init__.robot
 dasharo-performance/manual_cpu_performance.robot
