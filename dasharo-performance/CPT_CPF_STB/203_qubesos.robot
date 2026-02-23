@@ -63,19 +63,19 @@ CPF001.203 CPU not stuck on initial frequency (QubesOS)
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-CPF002.203 CPU not stuck on initial frequency (QubesOS)
+CPF002.203 CPU not stuck on initial frequency (QubesOS) (battery)
     VAR    ${con_id}=    CPF002.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-CPF003.203 CPU not stuck on initial frequency (QubesOS)
+CPF003.203 CPU not stuck on initial frequency (QubesOS) (AC)
     VAR    ${con_id}=    CPF003.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-CPF004.203 CPU not stuck on initial frequency (QubesOS)
+CPF004.203 CPU not stuck on initial frequency (QubesOS) (USB-PD)
     VAR    ${con_id}=    CPF004.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
