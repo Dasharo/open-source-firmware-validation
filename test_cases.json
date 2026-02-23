@@ -6058,6 +6058,13 @@
   },
   {
     "doc": {
+      "_id": "SBO001.101",
+      "name": "Check Secure Boot default state (firmware)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "SBO002.001",
       "name": "UEFI Secure Boot (Ubuntu)",
       "module": "Dasharo Security",
@@ -6091,7 +6098,7 @@
       "_id": "SBO003.001",
       "name": "Attempt to boot file with the correct key from Shell (firmware)",
       "module": "Dasharo Security",
-      "changed_to": "SBO001.101"
+      "changed_to": "SBO003.101"
     }
   },
   {
@@ -13590,7 +13597,7 @@
       "module": "Dasharo Compatibility"
     }
   },
-    {
+  {
     "doc": {
       "_id": "WLE003.203",
       "name": "Bluetooth scanning (Qubes OS)",
