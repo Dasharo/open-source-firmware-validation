@@ -110,7 +110,7 @@ SDC002.301 SD Card read/write (Windows)
     Check Read Write To External Drive In Windows    ${drive_letter}
     Execute Shutdown Command
 
-SDC001.203 SD Card reader detection (QubesOS)
+SDC001.203 SD Card reader detection (Qubes OS)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SDC001.203 not supported
@@ -120,7 +120,7 @@ SDC001.203 SD Card reader detection (QubesOS)
     ${disks}=    Identify Disks In QubesOS
     Should Match    str(${disks})    *SD*
 
-SDC002.203 SD Card read/write (QubesOS)
+SDC002.203 SD Card read/write (Qubes OS)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SDC002.203 not supported

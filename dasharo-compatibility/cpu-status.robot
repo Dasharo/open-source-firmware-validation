@@ -224,7 +224,7 @@ CPU004.301 Multiple-core support (Windows)
     Should Be True    ${cpu_count} / ${socket_count} > 1
     Execute Shutdown Command
 
-CPU001.203 CPU works (QubesOS)
+CPU001.203 CPU works (Qubes OS)
     [Documentation]    Check whether the CPU mounted on the DUT works.
     ...    Previous IDs: CPU001.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU001.203 not supported
@@ -232,7 +232,7 @@ CPU001.203 CPU works (QubesOS)
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
     Login To Linux
 
-CPU002.203 CPU cache enabled (QubesOS)
+CPU002.203 CPU cache enabled (Qubes OS)
     [Documentation]    Check whether all declared for the DUT cache levels
     ...    are enabled.
     ...    Previous IDs: CPU002.010
@@ -242,7 +242,7 @@ CPU002.203 CPU cache enabled (QubesOS)
     Login To Linux
     CPU Cache Enabled Linux
 
-CPU003.203 Multiple CPU support (QubesOS)
+CPU003.203 Multiple CPU support (Qubes OS)
     [Documentation]    Check whether the DUT has multiple CPU support.
     ...    Previous IDs: CPU003.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU003.203 not supported
@@ -251,7 +251,7 @@ CPU003.203 Multiple CPU support (QubesOS)
     Login To Linux
     Multiple CPU Support QubesOS
 
-CPU004.203 Multiple-core support (QubesOS)
+CPU004.203 Multiple-core support (Qubes OS)
     [Documentation]    Check whether the DUT has multi-core support
     ...    Previous IDs: CPU004.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
