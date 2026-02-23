@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
+
+util/prepare-platform.robot
 util/basic-platform-setup.robot
 
-dasharo-compatibility/__init__.robot
 dasharo-compatibility/acpi-driver.robot
 dasharo-compatibility/acpi-tables.robot
 dasharo-compatibility/apu-configuration-menu.robot
@@ -89,7 +90,6 @@ dasharo-security/usb-stack.robot
 dasharo-security/verified-boot.robot
 dasharo-security/wifi-bluetooth-switch.robot
 
-dasharo-stability/capsule-update-files
 dasharo-stability/capsule-update.robot
 dasharo-stability/coreboot-redundant-boot.robot
 dasharo-stability/m2-wifi.robot
