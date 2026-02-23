@@ -6430,8 +6430,7 @@
     "doc": {
       "_id": "SMW001.203",
       "name": "Wi-fi detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW001.203"
+      "module": "Dasharo Stability"
     }
   },
   {
