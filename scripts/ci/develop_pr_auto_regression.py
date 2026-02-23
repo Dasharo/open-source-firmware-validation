@@ -25,6 +25,9 @@ except:
     sys.exit(1)
 CHECKED_OUT = []
 PROCS = {}
+_stop_event = threading.Event()
+_snipeit_cleaned = False
+SIGKILL_GRACE_S = 30
 debug = True
 
 
@@ -60,13 +63,18 @@ def snipeit_checkout(asset_id):
             return 0
 
         dprint(f"Device not available. Sleeping {sleep_s}s before retry...")
-        time.sleep(sleep_s)
+        if _stop_event.wait(sleep_s):  # returns True immediately if event is set
+            return 1
         total_time = time.time() - t0
         sleep_s = min(sleep_s * 2, MAX_SLEEP_SECONDS)
     return 1
 
 
 def snipeit_cleanup():
+    global _snipeit_cleaned
+    if _snipeit_cleaned:
+        return
+    _snipeit_cleaned = True
     dprint(f"To check_in: {' '.join(CHECKED_OUT)}")
     for asset_id in CHECKED_OUT:
         for _ in range(10):
@@ -83,11 +91,66 @@ def snipeit_cleanup():
             time.sleep(5)
 
 
+def _iter_descendants(pid):
+    """Yield all descendant PIDs of pid by walking /proc (Linux)."""
+    try:
+        children = Path(f"/proc/{pid}/task/{pid}/children").read_text().split()
+    except (FileNotFoundError, OSError):
+        return
+    for child_str in children:
+        try:
+            child_pid = int(child_str)
+        except ValueError:
+            continue
+        yield child_pid
+        yield from _iter_descendants(child_pid)
+
+
 def _cleanup_handler(*_):
-    for p in PROCS.values():
+    _stop_event.set()
+    procs = list(PROCS.values())
+
+    # Step 1: SIGINT so bash's on_int trap fires and signals robot's process group.
+    for p in procs:
         if p.poll() is None:
-            dprint(f"killing {p.pid}")
+            dprint(f"Sending SIGINT to {p.pid}")
+            try:
+                p.send_signal(signal.SIGINT)
+            except OSError:
+                pass
+
+    # Step 2: Wait for graceful exit.
+    deadline = time.time() + SIGKILL_GRACE_S
+    for p in procs:
+        remaining = max(0.0, deadline - time.time())
+        try:
+            p.wait(timeout=remaining)
+        except subprocess.TimeoutExpired:
+            pass
+
+    # Step 3: Force-kill survivors and all their descendants (e.g. robot started
+    # in its own process group by run.sh via "set -m").
+    for p in procs:
+        if p.poll() is not None:
+            continue
+        dprint(f"Force-killing {p.pid} and its descendants")
+        for desc_pid in list(_iter_descendants(p.pid)):
+            try:
+                os.kill(desc_pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        try:
             p.kill()
+        except OSError:
+            pass
+
+    # Step 4: Reap zombies so nothing is left.
+    for p in procs:
+        try:
+            p.wait(timeout=5)
+        except (subprocess.TimeoutExpired, OSError):
+            pass
+
     snipeit_cleanup()
     sys.exit(1)
 
