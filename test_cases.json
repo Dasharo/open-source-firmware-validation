@@ -5350,7 +5350,8 @@
     "doc": {
       "_id": "NETSPD001.001",
       "name": "Check Network Speed",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ETHPERF001.201"
     }
   },
   {
