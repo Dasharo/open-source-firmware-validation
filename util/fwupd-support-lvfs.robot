@@ -8,11 +8,13 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Resource            ../keywords.robot
+Resource            ../lib/performance/cpu.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    AND
-...                     Set UEFI Option    MeMode    Disabled (HAP)
+...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}
+...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
+...                     AND    Check Power Supply
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -52,13 +54,22 @@ FWUPD003.203 Fwupd LVFS Firmware Update (QubesOS)
 
 
 *** Keywords ***
+Run Fwupd LVFS Update
+    [Arguments]    ${firmware_id}
+    ${out}=    Execute Command In Terminal
+    ...    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    ...    timeout=300s
+    RETURN    ${out}
+
 Fwupd LVFS Firmware Update Linux
     ${username}=    Get Environment Variable    LVFS_USERNAME    default=${EMPTY}
     ${password}=    Get Environment Variable    LVFS_PASSWORD    default=${EMPTY}
     IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
         VAR    ${use_embargo}=    ${TRUE}
+        Log    Using an embargoed LVFS channel    level=WARN
         Log    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone.    level=WARN
     ELSE
+        Log    Using public LVFS channel    level=WARN
         VAR    ${use_embargo}=    ${FALSE}
     END
     Switch To Root User
@@ -74,20 +85,40 @@ Fwupd LVFS Firmware Update Linux
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
-    ...    timeout=300s
-    Should Not Contain
-    ...    ${out}
-    ...    AC power
-    ...    AC is disconnected, connect AC. (Or its a bug - AC it not detected if internal battery is full. Discharge the battery a bit and try again.)\n\n
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+    TRY
+        IF    ${BATTERY_PRESENT}
+            FOR    ${i}    IN RANGE    2
+                ${out}=    Run Fwupd LVFS Update    ${firmware_id}
+                ${ac_ok}=    Run Keyword And Return Status    Should Not Contain
+                ...    ${out}
+                ...    AC power
+                ...    AC not detected,
+                IF    ${ac_ok}    BREAK
+                Log
+                ...    AC not detected, might be caused by battery charging threshold being triggered, running a stress test
+                ...    WARN
+                Stress Test    30s
+                Sleep    30s
+                Stress Test Stop
+            END
+        ELSE
+            ${out}=    Run Fwupd LVFS Update    ${firmware_id}
+        END
+
+        IF    "${POWER_CTRL}"=="none"
+            Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+        END
+        Set DUT Response Timeout    300s
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
+    FINALLY
+        # Make sure we clean up the config
+        Power On
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
     END
-    Set DUT Response Timeout    300s
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux
-    IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
 
     Should Not Contain    ${out}    failed to find    ignore_case=${True}
     Should Not Contain    ${out}    No updatable devices    ignore_case=${True}

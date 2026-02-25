@@ -188,13 +188,26 @@ Fwupd Local Firmware Update Linux
     Switch To Root User
     Send File To DUT    ${fwupd_cabinet}    target_path=${cabinet}
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
-    ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes
-    ...    timeout=300s
-    Should Not Contain
-    ...    ${out}
-    ...    AC power
-    ...    AC is disconnected, connect AC. (Or its a bug - AC it not detected if internal battery is full. Discharge the battery a bit and try again.)\n\n
+
+    IF    ${BATTERY_PRESENT}
+        FOR    ${i}    IN RANGE    5
+            ${out}=    Run Fwupd Local Update    ${cabinet}
+            ${ac_ok}=    Run Keyword And Return Status    Should Not Contain
+            ...    ${out}
+            ...    AC power
+            ...    AC not detected,
+            IF    ${ac_ok}    BREAK
+            Log
+            ...    AC not detected, might be caused by battery charging threshold being triggered, running a stress test
+            ...    WARN
+            Stress Test    10s
+            Sleep    10s
+            Stress Test Stop
+        END
+    ELSE
+        ${out}=    Run Fwupd Local Update    ${cabinet}
+    END
+
     Should Contain    ${out}    Successfully installed firmware
     IF    "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
