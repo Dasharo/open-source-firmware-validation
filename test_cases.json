@@ -4525,6 +4525,69 @@
   },
   {
     "doc": {
+      "_id": "FWUPD004.201",
+      "name": "Fwupd Installed (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD004.202",
+      "name": "Fwupd Installed (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD004.203",
+      "name": "Fwupd Installed (QubesOS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD005.201",
+      "name": "Fwupd Check For Updates (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD005.202",
+      "name": "Fwupd Check For Updates (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD005.203",
+      "name": "Fwupd Check For Updates (QubesOS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD006.201",
+      "name": "Fwupd Check Update Results (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD006.202",
+      "name": "Fwupd Check Update Results (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD006.203",
+      "name": "Fwupd Check Update Results (QubesOS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "GPP001.201",
       "name": "GPU Performance Measure  (Ubuntu) (AC)",
       "module": "Dasharo Performance"

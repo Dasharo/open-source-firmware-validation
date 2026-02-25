@@ -8,11 +8,13 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Resource            ../keywords.robot
+Resource            ../lib/performance/cpu.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
 ...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}
 ...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
+...                     AND    Check Power Supply
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
@@ -24,6 +26,22 @@ ${CABINET_ENVVAR}=      FWUPD_CABINET_FILE
 
 
 *** Test Cases ***
+FWUPD004.201 Fwupd Installed (Ubuntu)
+    [Documentation]    Check if fwupd is installed by verifying version output
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Fwupd Installed Linux
+
+FWUPD005.201 Fwupd Check For Updates (Ubuntu)
+    [Documentation]    Check for availability of a new firmware version using fwupd
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Fwupd Check For Updates Linux
+
 FWUPD001.201 Fwupd Devices Detected (Ubuntu)
     [Documentation]    Test if the supported hardware is properly detected
     ...    by fwupd
@@ -42,6 +60,32 @@ FWUPD002.201 Fwupd Local Firmware Update (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Fwupd Local Firmware Update Linux
+
+FWUPD006.201 Fwupd Check Update Results (Ubuntu)
+    [Documentation]    Verify result of the firmware update using fwupd
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Fwupd Check Update Results Linux
+
+# FWUPD003 reserved for LVFS update in util/fwupd-support-lvfs.robot
+
+FWUPD004.202 Fwupd Installed (Fedora)
+    [Documentation]    Check if fwupd is installed by verifying version output
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Fwupd Installed Linux
+
+FWUPD005.202 Fwupd Check For Updates (Fedora)
+    [Documentation]    Check for availability of a new firmware version using fwupd
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Fwupd Check For Updates Linux
 
 FWUPD001.202 Fwupd Devices Detected (Fedora)
     [Documentation]    Test if the supported hardware is properly detected
@@ -62,6 +106,30 @@ FWUPD002.202 Fwupd Local Firmware Update (Fedora)
     Login To Linux
     Fwupd Local Firmware Update Linux
 
+FWUPD006.202 Fwupd Check Update Results (Fedora)
+    [Documentation]    Verify result of the firmware update using fwupd
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Fwupd Check Update Results Linux
+
+FWUPD004.203 Fwupd Installed (QubesOS)
+    [Documentation]    Check if fwupd is installed by verifying version output
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    Fwupd Installed Linux
+
+FWUPD005.203 Fwupd Check For Updates (QubesOS)
+    [Documentation]    Check for availability of a new firmware version using fwupd
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    Fwupd Check For Updates Linux
+
 FWUPD001.203 Fwupd Devices Detected (QubesOS)
     [Documentation]    Test if the supported hardware is properly detected
     ...    by fwupd
@@ -79,6 +147,15 @@ FWUPD002.203 Fwupd Local Firmware Update (QubesOS)
     Login To Linux
     Fwupd Local Firmware Update Linux
 
+FWUPD006.203 Fwupd Check Update Results (QubesOS)
+    [Documentation]    Verify result of the firmware update using fwupd
+    Execute Manual Step    Power on and boot into QubesOS
+    Execute Manual Step    Open dom0 terminal
+    Execute Manual Step
+    ...    Run `ID=$(fwupdmgr get-devices 2>/dev/null | grep -A1 "System Firmware" | grep "Device ID" | awk '{print $NF}')`
+    Execute Manual Step    Run `fwupdmgr get-results $ID`
+    Execute Manual Step    Should print `Update State:` with value `Success`
+
 
 *** Keywords ***
 Fwupd Devices Detected Linux
@@ -91,6 +168,13 @@ Fwupd Devices Detected Linux
     END
 
     Should Contain All    ${out}    @{devices}
+
+Run Fwupd Local Update
+    [Arguments]    ${cabinet}
+    ${out}=    Execute Command In Terminal
+    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes
+    ...    timeout=300s
+    RETURN    ${out}
 
 Fwupd Local Firmware Update Linux
     ${cabinet_given}=    Run Keyword And Return Status
@@ -117,3 +201,26 @@ Fwupd Local Firmware Update Linux
     END
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
+
+Fwupd Installed Linux
+    ${out}=    Execute Command In Terminal    fwupdmgr --version
+    Should Contain    ${out}    org.freedesktop.fwupd
+
+Fwupd Check For Updates Linux
+    Execute Command In Terminal    fwupdmgr refresh
+    ${out}=    Execute Command In Terminal    fwupdmgr get-updates
+    Should Not Contain    ${out}    failed to connect    ignore_case=${True}
+    Should Not Contain    ${out}    timed out    ignore_case=${True}
+    Should Contain    ${out}    Devices with    ignore_case=${True}
+
+Fwupd Check Update Results Linux
+    VAR    ${id_extract_command}=
+    ...    fwupdmgr get-devices 2>/dev/null
+    ...    grep -A1 "System Firmware"
+    ...    grep "Device ID"
+    ...    awk '{print $NF}'
+    ...    separator= |
+    ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
+    ${out}=    Execute Command In Terminal    fwupdmgr get-results ${firmware_id}
+    ${state_line}=    Get Lines Containing String    ${out}    Update State:
+    Should Contain    ${state_line}    Success
