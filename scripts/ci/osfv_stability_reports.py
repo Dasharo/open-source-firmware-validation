@@ -110,12 +110,14 @@ def is_suite_skipped(out_xml: Path) -> bool:
 
 def parse():
     TEST_DATA = {}
-    for revision_run in tqdm.tqdm(LOGS_DIR.iterdir(), desc="Revisions"):
+    rev_bar = tqdm.tqdm(LOGS_DIR.iterdir(), desc="Revisions")
+    for revision_run in rev_bar:
+        rev_bar.set_postfix_str(str(revision_run.name).split("/")[-1])
         if not revision_run.is_dir():
             continue
-        for run_date_dir in tqdm.tqdm(
-            revision_run.iterdir(), leave=False, desc="Run dates"
-        ):
+        run_date_bar = tqdm.tqdm(revision_run.iterdir(), leave=False, desc="Run dates")
+        for run_date_dir in run_date_bar:
+            run_date_bar.set_postfix_str(str(run_date_dir.name).split("/")[-1])
             if not run_date_dir.is_dir():
                 continue
             revision = str(revision_run.name).split("_")
@@ -142,27 +144,31 @@ def parse():
                     TEST_DATA[revision_run.name] = RUN_DATA
                     continue
 
-            for run_dir in tqdm.tqdm(
+            run_bar = tqdm.tqdm(
                 run_date_dir.glob("run*"), leave=False, desc="Run iterations"
-            ):
+            )
+            for run_dir in run_bar:
+                run_bar.set_postfix_str(str(run_dir.name).split("/")[-1])
                 if not run_dir.is_dir():
                     continue
 
                 run_name = run_dir.name
                 run_total_time = 0.0
 
-                for device_dir in tqdm.tqdm(
-                    run_dir.iterdir(), leave=False, desc="Devices"
-                ):
+                device_bar = tqdm.tqdm(run_dir.iterdir(), leave=False, desc="Devices")
+                for device_dir in device_bar:
+                    device_bar.set_postfix_str(str(device_dir.name).split("/")[-1])
                     if not device_dir.is_dir():
                         continue
 
                     device = device_dir.name
                     device_total_time = 0.0
 
-                    for suite_dir in tqdm.tqdm(
+                    suite_bar = tqdm.tqdm(
                         device_dir.iterdir(), leave=False, desc="Suites"
-                    ):
+                    )
+                    for suite_dir in suite_bar:
+                        suite_bar.set_postfix_str(str(suite_dir.name).split("/")[-1])
                         if not suite_dir.is_dir():
                             continue
 
