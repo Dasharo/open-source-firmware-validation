@@ -28,6 +28,28 @@ CLEAR = "\033[0m"
 REBOT_SPLITTER = "./scripts/lib/rebot_splitter.py"
 SUITES_TO_SKIP_GLOB = ["merged"]  # Might make sense to add: "basic-platform-setup"
 
+SUITE_CACHE_FILENAME = ".suite_cache.pkl"
+
+
+def load_suite_cache(suite_dir: Path) -> dict | None:
+    cache_path = suite_dir / SUITE_CACHE_FILENAME
+    if cache_path.exists():
+        try:
+            with open(cache_path, "rb") as f:
+                return pickle.load(f)
+        except Exception:
+            return None
+    return None
+
+
+def save_suite_cache(suite_dir: Path, data: dict) -> None:
+    cache_path = suite_dir / SUITE_CACHE_FILENAME
+    try:
+        with open(cache_path, "wb") as f:
+            pickle.dump(data, f)
+    except Exception:
+        pass
+
 
 def get_recovered_path(out_xml: Path) -> Path:
     return out_xml.with_name(out_xml.name + "_recovered")
@@ -110,12 +132,14 @@ def is_suite_skipped(out_xml: Path) -> bool:
 
 def parse():
     TEST_DATA = {}
-    for revision_run in tqdm.tqdm(LOGS_DIR.iterdir(), desc="Revisions"):
+    for revision_run in (rev_bar := tqdm.tqdm(LOGS_DIR.iterdir(), desc="Revisions")):
+        rev_bar.set_postfix_str(revision_run.name)
         if not revision_run.is_dir():
             continue
-        for run_date_dir in tqdm.tqdm(
-            revision_run.iterdir(), leave=False, desc="Run dates"
+        for run_date_dir in (
+            date_bar := tqdm.tqdm(revision_run.iterdir(), leave=False, desc="Run dates")
         ):
+            date_bar.set_postfix_str(run_date_dir.name)
             if not run_date_dir.is_dir():
                 continue
             revision = str(revision_run.name).split("_")
@@ -142,70 +166,94 @@ def parse():
                     TEST_DATA[revision_run.name] = RUN_DATA
                     continue
 
-            for run_dir in tqdm.tqdm(
-                run_date_dir.glob("run*"), leave=False, desc="Run iterations"
+            for run_dir in (
+                run_bar := tqdm.tqdm(
+                    run_date_dir.glob("run*"), leave=False, desc="Run iterations"
+                )
             ):
+                run_bar.set_postfix_str(run_dir.name)
                 if not run_dir.is_dir():
                     continue
 
                 run_name = run_dir.name
                 run_total_time = 0.0
 
-                for device_dir in tqdm.tqdm(
-                    run_dir.iterdir(), leave=False, desc="Devices"
+                for device_dir in (
+                    dev_bar := tqdm.tqdm(run_dir.iterdir(), leave=False, desc="Devices")
                 ):
+                    dev_bar.set_postfix_str(device_dir.name)
                     if not device_dir.is_dir():
                         continue
 
                     device = device_dir.name
                     device_total_time = 0.0
 
-                    for suite_dir in tqdm.tqdm(
-                        device_dir.iterdir(), leave=False, desc="Suites"
+                    for suite_dir in (
+                        suite_bar := tqdm.tqdm(
+                            device_dir.iterdir(), leave=False, desc="Suites"
+                        )
                     ):
+                        suite_bar.set_postfix_str(suite_dir.name)
                         if not suite_dir.is_dir():
                             continue
 
-                        out_files = list(suite_dir.glob("*_out.xml")) + list(
-                            suite_dir.glob("*_output.xml")
-                        )
-                        if (
-                            "merged" in suite_dir.name
-                        ):  # merged need to be unpacked and left alone
-                            date = get_date_suite_dir(suite_dir)
-                            for out_f in out_files:
-                                subprocess.run(
-                                    [
-                                        REBOT_SPLITTER,
-                                        out_f.absolute(),
-                                        device_dir.absolute(),
-                                        date,
-                                    ],
-                                    stdout=subprocess.DEVNULL,
+                        # Merged suites: unpack via rebot_splitter (once), then skip.
+                        if "merged" in suite_dir.name:
+                            if load_suite_cache(suite_dir) is None:
+                                date = get_date_suite_dir(suite_dir)
+                                out_files = list(suite_dir.glob("*_out.xml")) + list(
+                                    suite_dir.glob("*_output.xml")
                                 )
+                                for out_f in out_files:
+                                    subprocess.run(
+                                        [
+                                            REBOT_SPLITTER,
+                                            out_f.absolute(),
+                                            device_dir.absolute(),
+                                            date,
+                                        ],
+                                        stdout=subprocess.DEVNULL,
+                                    )
+                                save_suite_cache(suite_dir, {"skipped": True})
+                            continue
 
                         if any(
                             ex.lower() in suite_dir.name for ex in SUITES_TO_SKIP_GLOB
                         ):
                             continue
 
-                        if not out_files:
-                            continue
-                        if is_suite_skipped(out_files[0]):
-                            continue
-                        out_xml = out_files[0]
+                        # Check suite-level cache before touching any XML.
+                        suite_cache = load_suite_cache(suite_dir)
+                        if suite_cache is not None:
+                            if suite_cache["skipped"]:
+                                continue
+                            pct = suite_cache["pct"]
+                            runtime = suite_cache["runtime"]
+                        else:
+                            out_files = list(suite_dir.glob("*_out.xml")) + list(
+                                suite_dir.glob("*_output.xml")
+                            )
+                            if not out_files:
+                                save_suite_cache(suite_dir, {"skipped": True})
+                                continue
+                            if is_suite_skipped(out_files[0]):
+                                save_suite_cache(suite_dir, {"skipped": True})
+                                continue
+                            out_xml = out_files[0]
+                            pct = suite_pass_percentage(out_xml)
+                            runtime = suite_runtime_seconds(out_xml)
+                            save_suite_cache(
+                                suite_dir,
+                                {"skipped": False, "pct": pct, "runtime": runtime},
+                            )
 
-                        pct = suite_pass_percentage(out_xml)
+                        suite_name = suite_dir.name.split("_")[0]
                         RUN_DATA["total_suites"] += 1
                         RUN_DATA["total_pass_pct_sum"] += pct
                         RUN_DATA["passes_per_device"].setdefault(device, []).append(pct)
-
-                        suite_name = suite_dir.name.split("_")[0]
                         RUN_DATA["passes_per_suite"].setdefault(suite_name, []).append(
                             pct
                         )
-
-                        runtime = suite_runtime_seconds(out_xml)
                         device_total_time += runtime
                         RUN_DATA["runtime_per_device"].setdefault(device, []).append(
                             runtime
@@ -217,8 +265,8 @@ def parse():
                             device, {}
                         ).setdefault(suite_name, []).append(runtime)
 
-                if device_total_time > run_total_time:
-                    run_total_time = device_total_time
+                    if device_total_time > run_total_time:
+                        run_total_time = device_total_time
 
                 if run_total_time > 0:
                     RUN_DATA["run_runtimes"][run_name] = run_total_time
