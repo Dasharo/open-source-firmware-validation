@@ -39,6 +39,7 @@ ${DASHARO_NETWORKING_MENU_SUPPORT}=         ${TRUE}
 ${DASHARO_CHIPSET_MENU_SUPPORT}=            ${TRUE}
 
 # Test module: dasharo-compatibility
+${BASE_PORT_LOG_CHECK_SUPPORT}=             ${TRUE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=     ${TRUE}

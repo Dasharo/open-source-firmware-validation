@@ -73,3 +73,68 @@ CBP006.001 Resource allocator v4 - allocating resources
     Power On
     Set DUT Response Timeout    120s
     Read From Terminal Until    Pass 2 (allocating resources)
+
+CBP007.001 No ASSERTION ERROR in boot log
+    [Documentation]    Check that the coreboot boot log does not contain any
+    ...    ASSERTION ERROR messages, which indicate critical
+    ...    misconfigurations such as missing PMC GPE routes.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP007.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP007.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${output}=    Execute Command In Terminal    cbmem -1
+    Should Not Contain    ${output}    ASSERTION ERROR
+
+CBP008.001 No missing static PCI devices in boot log
+    [Documentation]    Check that the coreboot boot log does not contain messages
+    ...    about static PCI devices not being found, which indicate
+    ...    wrong device states in the devicetree.cb configuration.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP008.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP008.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${output}=    Execute Command In Terminal    cbmem -1
+    Should Not Contain    ${output}    not found, disabling it.
+
+CBP009.001 No resource allocation failures in boot log
+    [Documentation]    Check that the coreboot boot log does not contain resource
+    ...    allocation failure messages, which typically indicate PCI
+    ...    resource conflicts or misconfigured hotplug ports.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP009.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${output}=    Execute Command In Terminal    cbmem -1
+    Should Not Contain    ${output}    Resource didn't fit!!!
+
+CBP010.001 No BUG messages in boot log
+    [Documentation]    Check that the coreboot boot log does not contain any BUG
+    ...    messages, which indicate code-level problems such as
+    ...    requests for hidden devices.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP010.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP010.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${output}=    Execute Command In Terminal    cbmem -1
+    Should Not Contain    ${output}    BUG:
+
+CBP011.001 No devicetree.cb warnings in boot log
+    [Documentation]    Check that the coreboot boot log does not contain messages
+    ...    suggesting the devicetree.cb needs to be reviewed, which
+    ...    indicate leftover or misconfigured static device entries.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP011.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP011.001 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${output}=    Execute Command In Terminal    cbmem -1
+    Should Not Contain    ${output}    Check your devicetree.cb

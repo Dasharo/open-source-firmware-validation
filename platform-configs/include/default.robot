@@ -171,6 +171,7 @@ ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
 ${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
 ${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${FALSE}
+${BASE_PORT_LOG_CHECK_SUPPORT}=                     ${FALSE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
