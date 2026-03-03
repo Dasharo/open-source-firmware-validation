@@ -20,6 +20,8 @@ ${USB_MODEL}=                               USB Flash Memory
 ${CPU_MAX_FREQUENCY}=                       4800
 ${CPU_MIN_FREQUENCY}=                       300
 
+@{TESTED_LINUX_DISTROS}=                    ${ENV_ID_UBUNTU}
+
 ${BLUETOOTH_CARD_UBUNTU}=                   8087:0026
 
 ${POWER_CTRL}=                              none
