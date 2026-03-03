@@ -158,12 +158,13 @@ def parse():
                 "runtime_per_suite": {},
                 "runtime_per_suite_per_device": {},
             }
-            pkl_filename = revision_run.name + ".pkl"
+            pkl_filename = revision_run.name + "_" + run_date_dir.name + ".pkl"
             pkl_file_path = revision_run.absolute() / Path(pkl_filename)
+            trial_key = revision_run.name + "/" + run_date_dir.name
             if pkl_file_path.exists():
                 with open(pkl_file_path, "rb") as cache_file:
                     RUN_DATA = pickle.load(cache_file)
-                    TEST_DATA[revision_run.name] = RUN_DATA
+                    TEST_DATA[trial_key] = RUN_DATA
                     continue
 
             for run_dir in (
@@ -273,9 +274,9 @@ def parse():
 
                 RUN_DATA["total_runs"] += 1
 
-        TEST_DATA[revision_run.name] = RUN_DATA
-        with open(pkl_file_path, "wb") as cache_file:
-            pickle.dump(RUN_DATA, cache_file)
+            TEST_DATA[trial_key] = RUN_DATA
+            with open(pkl_file_path, "wb") as cache_file:
+                pickle.dump(RUN_DATA, cache_file)
     return TEST_DATA
 
 
@@ -319,6 +320,7 @@ def print_results(test_data):
         print(f"{GREEN}Report from {run_data["total_runs"]} runs:{CLEAR}")
         print(f'Branch "{GREEN}{branch}{CLEAR}"')
         print(f'Commit "{GREEN}{commit}{CLEAR}"')
+        print(f'Date   "{GREEN}{run_data["run_date"]}{CLEAR}"')
         print(f"\n{GREEN}Total PASS percentage: {total_pass_percentage:.2f}{CLEAR} %")
 
         print(f"\nPer device PASS percentages:")
