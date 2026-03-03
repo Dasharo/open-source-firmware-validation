@@ -15,8 +15,8 @@ ${DEVICE_NVME_DISK}=                        Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                     Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=                  NV4xPZ
 @{EXTERNAL_HEADSETS}=                       USB PnP Audio Device
-${USB_DEVICE}=                              Kingston
-${USB_MODEL}=                               USB Flash Memory
+${USB_DEVICE}=                              SanDisk
+${USB_MODEL}=                               Ultra USB
 ${CPU_MAX_FREQUENCY}=                       4800
 ${CPU_MIN_FREQUENCY}=                       300
 
