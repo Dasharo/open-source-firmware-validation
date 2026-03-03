@@ -33,6 +33,10 @@ ${TPM_EXPECTED_CHIP}=                       SLB9670
 
 ${OPTIONS_LIB}=                             options-lib_dcu
 
+${PLATFORM_CPU_SPEED}=                      2.10
+${PLATFORM_RAM_SPEED}=                      3200
+${PLATFORM_RAM_SIZE}=                       16384
+
 # cpu performance Windows
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                         name=smallpt
