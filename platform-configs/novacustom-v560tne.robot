@@ -53,11 +53,11 @@ ${USB_DEVICE}=                                  SanDisk
 @{ATTACHED_USB}=                                SanDisk
 
 # performance
-${ZIP_MULTI_COMPRESSION}=                       79729    # MIPS
-${ZIP_MULTI_DECOMPRESSION}=                     52410    # MIPS
-${CRAY_5_K_RENDER}=                             585.333    # sec
-${CRAY_4_K_RENDER}=                             326.895    # sec
-${CRAY_1080_P_RENDER}=                          80.547    # sec
+${ZIP_MULTI_COMPRESSION}=                       69245    # MIPS
+${ZIP_MULTI_DECOMPRESSION}=                     47858    # MIPS
+${CRAY_5_K_RENDER}=                             549    # sec
+${CRAY_4_K_RENDER}=                             319    # sec
+${CRAY_1080_P_RENDER}=                          79    # sec
 ${COREMARK_SINGLE}=                             407451.446    # iterations/s
 
 # disk i-o
