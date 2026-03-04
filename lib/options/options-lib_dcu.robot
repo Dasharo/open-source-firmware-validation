@@ -167,7 +167,7 @@ Make Sure That Flash Locks Are Disabled
     ...    menu options for compatibility's sake.
     IF    not ${DASHARO_SECURITY_MENU_SUPPORT}    RETURN
     Power On
-    Login To Linux
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
     Switch To Root User
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     ${ro}=    Run Keyword And Return Status    Should Not Contain    ${out_flashrom}    read-only
