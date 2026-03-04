@@ -465,7 +465,7 @@ ${DTS_TEST_HAS_EC}=                                 ${False}
 ...                                                 SeaBIOS->UEFI Transition=&{{ {"TEST_IS_COREBOOT": "true", "TEST_EFI_PRESENT": "false", "TEST_IS_SEABIOS": "true"} }}
 ...                                                 Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition=&{{ {"TEST_IS_COREBOOT": "true"} }}
 ...                                                 Initial Deployment=&{{ {"TEST_BIOS_VENDOR": "proprietary", "TEST_USING_OPENSOURCE_EC_FIRM": "false"} }}
-...                                                 Fuse Platform=${{ {"TEST_MEI_CONF_PRESENT": "false"} }}
+...                                                 Fuse Platform=${{ {"TEST_MEI_CONF_PRESENT": "false", "TEST_IS_COREBOOT": "true"} }}
 # dict[workflow, dict[variable, value]]
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=                   &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 # dict[tuple[workflow,release], dict[variable, value]]

@@ -38,3 +38,17 @@ ${DASHARO_POWER_MGMT_MENU_SUPPORT}=                 ${TRUE}
 ${DASHARO_INTEL_ME_MENU_SUPPORT}=                   ${TRUE}
 ${INTEL_CBNT_SUPPORT}=                              ${TRUE}
 ${INTEL_CBNT_STATUS_MENU_SUPPORT}=                  ${TRUE}
+${DTS_SUPPORT}=                                     ${TRUE}
+
+# DTS E2E variables
+${DTS_TEST_SYSTEM_VENDOR}=                          Protectli
+@{DTS_TEST_WORKFLOWS}=                              Fuse Platform
+@{DTS_TEST_DEFAULT_RELEASES}=                       DCR
+@{DTS_TEST_WORKFLOW_PROFILES}=                      ${{ ("Fuse Platform", "DCR") }}
+&{DTS_TEST_VERSIONS}=
+...                                                 &{DTS_TEST_VERSIONS_BASE}
+...                                                 Fuse Platform=Dasharo (coreboot+UEFI) 0.9.3
+&{DTS_TEST_EXPORTS}=
+...                                                 &{DTS_TEST_BASE_EXPORTS}
+...                                                 TEST_ME_HAP_DISABLED=true
+...                                                 TEST_ME_OP_MODE=2
