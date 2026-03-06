@@ -24,10 +24,11 @@ Suite Setup         Run Keywords
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
 ...                     AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
-...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
+...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU'    Set UEFI Option    MeMode    Disabled (HAP)
+...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
 ...                     AND    Log Out And Close Connection
@@ -187,6 +188,51 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     Login To Linux With Root Privileges
     Perform Capsule Update    valid_capsule.cap
     Check The Update Screen For The Correct UX
+
+CUP260.101 Capsule update in Firmware Update Mode works
+    [Documentation]    Check if capsule update works when in Firmware Update
+    ...    Mode
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
+    Power On
+    # Enable FUM
+    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+    ${security_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Dasharo Security Options
+    Enter Submenu From Snapshot    ${security_menu}    Enter Firmware Update Mode
+    Read From Terminal Until    Press ENTER to continue and reboot
+    Press Enter
+    Handle FUM Screen
+    # Stop iPXE from booting default option as it contains workaround for this
+    # issue
+    Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
+    Press Key N Times    1    ${CTRL_C}
+    Enter IPXE Shell Submenu
+    Execute Command In Terminal    dhcp
+    # Write Bare allows to set interval between each character which might be
+    # needed on slower platforms/serial connection
+    Write Bare Into Terminal    chain http://boot.dasharo.com/dts/dts-no-fum-fix.ipxe\n    interval=0.2
+    # Boot into DTS shell
+    Set DUT Response Timeout    5m
+    Read From Terminal Until    .cpio.gz...
+    Read From Terminal Until    ok
+    Wait For DTS To Boot    fum=${TRUE}
+    Write Into Terminal    ${DTS_FUM_MENU_OPT}
+    Enter Shell In DTS
+    # Upload capsule
+    Execute Command In Terminal    systemctl start sshd
+    VAR    ${DEVICE_OS_USERNAME}=    root    scope=Test
+    VAR    ${DEVICE_OS_PASSWORD}=    ${EMPTY}    scope=Test
+    Send File To DUT    ${CAPSULE_FW_FILE}    /valid_capsule.cap
+    Execute Command In Terminal Should Succeed
+    ...    cp /valid_capsule.cap /dev/efi_capsule_loader
+    ...    Failed to queue capsule update via /dev/efi_capsule_loader
+    # Verify
+    ${dmesg}=    Execute Command In Terminal    dmesg | tail
+    Should Contain    ${dmesg}    efi: Successfully uploaded capsule
+    Write Into Terminal    reboot
+    Set DUT Response Timeout    5m
+    Enter Setup Menu Tianocore
 
 
 *** Keywords ***

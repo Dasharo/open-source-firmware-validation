@@ -991,10 +991,32 @@ Enter IPXE Inner
     # TODO:    problem with iPXE string (e.g. when 3 network interfaces are available)
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
-        ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
-    ELSE
-        ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter IPXE Shell Submenu
+
+Enter IPXE Shell Submenu
+    [Documentation]
+    ...    Enters iPXE Shell submenu
+    ...
+    ...    === Requirements ===
+    ...    - Must be called from a Network Boot menu
+    ...
+    ...    === Arguments ===
+    ...    - ``${ipxe_menu}``: str | None - Boot Menu Construction to parse. If
+    ...    \ None then read menu construction from terminal
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Effects ===
+    ...    - Enters iPXE shell
+    ...    - Sets iPXE terminal prompt
+    [Arguments]    ${ipxe_menu}=${NONE}
+    IF    $ipxe_menu is ${NONE}
+        IF    ${NETBOOT_UTILITIES_SUPPORT} == ${TRUE}
+            ${ipxe_menu}=    Get IPXE Boot Menu Construction    lines_top=2
+        ELSE
+            ${ipxe_menu}=    Get IPXE Boot Menu Construction
+        END
     END
     Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
     Set Prompt For Terminal    iPXE>

@@ -2425,6 +2425,13 @@
   },
   {
     "doc": {
+      "_id": "CUP260.101",
+      "name": "Capsule update in Firmware Update Mode works",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "DCU001.001",
       "name": "Change the UUID",
       "module": "Dasharo Compatibility",
