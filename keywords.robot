@@ -139,6 +139,8 @@ Login To Booted OS
             VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
         END
         Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
+    ELSE
+        Fail    Login to ${BOOTED_OS_ID} failed.
     END
 
 Boot And Login To OS
