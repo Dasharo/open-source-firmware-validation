@@ -109,7 +109,7 @@ SBO002.301 UEFI Secure Boot (Windows)
     Tianocore Reset System
 
     # 2. Check SB state in OS
-    Login To Windows
+    Boot And Login To Windows
     ${sb_status}=    Check Secure Boot In Windows
     Should Be True    ${sb_status}
     Execute Reboot Command    windows
@@ -122,7 +122,7 @@ SBO002.301 UEFI Secure Boot (Windows)
     Tianocore Reset System
 
     # 4. Check SB state in OS
-    Login To Windows
+    Boot And Login To Windows
     ${sb_status}=    Check Secure Boot In Windows
     Should Not Be True    ${sb_status}
 

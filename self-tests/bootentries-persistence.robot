@@ -43,7 +43,7 @@ Bootorder Persistence Via SSH
     ${bootorder}=    Get BootOrder
     Log    BootOrder immediately after Set UEFI Option: ${bootorder}    level=WARN
 
-    Login To Windows
+    Boot And Login To Windows
     Execute Reboot Command
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux

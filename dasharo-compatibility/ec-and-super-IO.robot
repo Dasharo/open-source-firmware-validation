@@ -352,7 +352,7 @@ ECR001.301 Battery monitoring - charge level in OS (Windows)
     ...    Previous IDs: ECR001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Battery Power Level Windows
     Should Be True    ${out} > 0 and ${out} < 101
     Execute Shutdown Command
@@ -363,7 +363,7 @@ ECR002.301 Battery monitoring - charging state in OS (Windows)
     ...    Previous IDs: ECR002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR002.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     Check If Battery Is Charging Windows
     Execute Shutdown Command
 
@@ -374,7 +374,7 @@ ECR003.301 Touchpad in OS - (Windows)
     ...    Previous IDs: ECR003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR003.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Pointing Devices Windows
     Should Contain    ${out}    HID-compliant mouse
     Execute Shutdown Command

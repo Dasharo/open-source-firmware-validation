@@ -13,6 +13,7 @@ Default Tags        automated
 *** Variables ***
 ${DEVIATION_UP}=        1.2    # acceptable deviation +/-20%
 ${DEVIATION_DOWN}=      0.8
+${RUNS_AMOUNT}=         3
 
 
 *** Test Cases ***
@@ -92,6 +93,9 @@ CPU Performance Suite Setup
     Login To Linux
     Switch To Root User
     Detect Or Install Phoronix Test Suite On Ubuntu
+    # Set DynamicRunCount to FALSE to prevent unstable run time
+    Execute Linux Command
+    ...    perl -pi -e 's|<DynamicRunCount>.*?</DynamicRunCount>|<DynamicRunCount>FALSE</DynamicRunCount>|' /etc/phoronix-test-suite.xml
     Execute Linux Command    phoronix-test-suite install c-ray    300
     Execute Linux Command    phoronix-test-suite install compress-7zip    300
     Execute Linux Command    phoronix-test-suite install coremark    300
@@ -111,8 +115,6 @@ CPU Performance Suite Setup
     Read From Terminal Until    Run all test options
     Write Into Terminal    y
     Read From Terminal Until Prompt
-    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=3
-    Execute Command In Terminal    export FORCE_MIN_TIMES_TO_RUN=1
     Log To Console    The result of the benchmarks depends on the processor and
     ...    RAM in the device. Please make sure that the hardware under test is
     ...    compatible with the one given in the reference values.
@@ -135,6 +137,7 @@ Run C-Ray Single-thread Render
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
     ${result}=    Execute Command In Terminal
     ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_to_path}
     ...    timeout=18000
@@ -151,6 +154,7 @@ Run Coremark Single-thread
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_to_path}
     ...    timeout=1800
@@ -170,6 +174,7 @@ Run Coremark Single-thread
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_to_path}
     ...    timeout=1800

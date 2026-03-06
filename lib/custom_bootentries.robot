@@ -78,10 +78,20 @@ Ensure Custom Entry
     ELSE
         VAR    ${custom_label}=    ${force_name}
     END
+    ${bootorder}=    Get BootOrder
     ${bootnums}=    Get Bootnums For Label    ${custom_label}    ${TRUE}
     ${already_exists}=    Run Keyword And Return Status    Should Not Be Empty    ${bootnums}
     IF    ${already_exists} and not ${force}
         Log    ${custom_label} Already exists at ${bootnums}    level=WARN
+        ${bootnum}=    Get From List    ${bootnums}    0
+        ${is_first}=    Run Keyword And Return Status
+        ...    BootOrder Should Start With Bootnum
+        ...    ${bootorder}
+        ...    ${bootnum}
+        IF    not ${is_first}
+            ${new_order}=    Prepend Bootnum To Bootorder    ${bootnum}    ${bootorder}
+            Execute Command In Terminal    efibootmgr -o ${new_order}
+        END
         RETURN
     END
 
@@ -157,3 +167,33 @@ Prepend Bootnum To Bootorder
     ${new}=    Strip String    ${new}
     Should Match Regexp    ${new}    ^[0-9A-Fa-f]{4}(,[0-9A-Fa-f]{4})*$
     RETURN    ${new}
+
+Deploy Uefi Shell
+    Power On
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+    Switch To Root User
+    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/Shell.efi    /tmp/Shell.efi
+    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/deploy-shell-efi.sh    /tmp/deploy-shell-efi.sh
+    Execute Command In Terminal    /tmp/deploy-shell-efi.sh /tmp/Shell.efi
+    Execute Command In Terminal    sync
+    Ensure Custom Entry    ${DEFAULT_BOOT_OS_ID}
+
+Set Nextboot
+    [Documentation]    Sets the OS of choice to be booted first on the next
+    ...    reboot. Not persistent, only changes the first boot option for
+    ...    one boot.
+    [Arguments]    ${env_id}
+    ${bootorder}=    Get BootOrder
+    ${bootnum}=    Get Bootnum For OS    ${env_id}
+    ${out}=    Execute Command In Terminal    efibootmgr --bootnext ${bootnum}
+    Should Contain    ${out}    BootNext: ${bootnum}
+
+Set Nextboot Bootentry
+    [Documentation]    Sets the botentry name of choice to be booted first on
+    ...    the next reboot. Not persistent, only changes the first boot
+    ...    option for one boot.
+    [Arguments]    ${bootentry_name}
+    ${bootorder}=    Get BootOrder
+    ${bootnum}=    Get Bootnum For Label    ${bootentry_name}
+    ${out}=    Execute Command In Terminal    efibootmgr --bootnext ${bootnum}
+    Should Contain    ${out}    BootNext: ${bootnum}

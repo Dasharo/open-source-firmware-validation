@@ -14,7 +14,6 @@ ${DMIDECODE_FIRMWARE_VERSION}=
 ...                                 Dasharo (coreboot+UEFI) v1.2.1-rc3
 ${DMIDECODE_PRODUCT_NAME}=          VP2420
 ${DMIDECODE_RELEASE_DATE}=          1/13/2025
-${DMIDECODE_TYPE}=                  Desktop
 
 ${CPU_MAX_FREQUENCY}=               2700
 ${CPU_MIN_FREQUENCY}=               300

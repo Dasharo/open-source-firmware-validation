@@ -6,7 +6,8 @@
             "run": {
                 "files": {
                     "mode": "${FULL_FILENAME_MATCH}"
-                }
+                },
+                "robot_args": "-i automated"
             }
         }
     ]

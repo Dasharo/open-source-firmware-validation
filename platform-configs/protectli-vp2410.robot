@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    include/protectli-common.robot
+Resource    include/protectli-vp24xx.robot
 
 
 *** Variables ***
@@ -22,10 +22,6 @@ ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v
 ${DMIDECODE_PRODUCT_NAME}=              VP2410
 ${DMIDECODE_RELEASE_DATE}=              ${TBD}
-${DMIDECODE_MANUFACTURER}=              Protectli
-${DMIDECODE_VENDOR}=                    3mdeb
-${DMIDECODE_FAMILY}=                    Vault Pro
-${DMIDECODE_TYPE}=                      Desktop
 
 ${L3_CACHE_SUPPORT}=                    ${FALSE}
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}

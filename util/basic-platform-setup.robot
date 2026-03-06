@@ -37,16 +37,14 @@ BPS009.001 Create Custom Bootentry For Default Boot OS
     Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'    Only supported when testing via SSH without Serial
     ${default_boot}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${DEFAULT_BOOT_OS_ID}
     Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Log In To Linux
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
     Switch To Root User
     ${windows_entries}=    Get Bootnums For OS    ${ENV_ID_WINDOWS}
     ${windows_amount}=    Get Length    ${windows_entries}
     IF    ${windows_amount} == 1 and ${TEST_TAGS} is not @{EMPTY} and "semiauto" in ${TEST_TAGS}
         Execute Manual Step
         ...    Boot Windows once and reboot. Make sure a second `Windows Boot Manager` boot entry was created in the Boot Menu. Boot back to DEFAULT_BOOT_OS_ID (${default_boot}).
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux
+        Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
         Switch To Root User
     END
     ${custom_bootnum}=    Ensure Custom Entry    ${DEFAULT_BOOT_OS_ID}    force=${TRUE}
@@ -112,8 +110,7 @@ BPS005.001 Boot to OS - Ubuntu
     [Documentation]    This test verifies if platform can be booted to Ubunto and if correct credentials are set.
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
     ${logging}=    Get Logging Level
     IF    ${logging} != 0
@@ -127,7 +124,7 @@ BPS005.002 Boot to OS - Windows
     [Documentation]    This test verifies if platform can be booted to Windows, if SSH server is enabled and if correct credentials are set.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To OS    ${ENV_ID_WINDOWS}
 
 BPS006.001 Ensure test dependencies
     [Documentation]    Ensure that all the dependencies for the tests are
@@ -150,8 +147,7 @@ BPS007.002 Internal flashing
     [Documentation]    This test verifies if flashrom can detect the die.
     Skip If    '${FLASHING_METHOD}' == 'none'
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     Should Contain    ${out_flashrom}    Found chipset
@@ -165,8 +161,7 @@ BPS008.001 RTE CMOS clear
     Rte Clear Cmos
     Power On
     # TODO: Can we do it without Linux?
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
     # Test relies entirely on coreboot console to print the CMOS invalid message
     ${out}=    Execute Command In Terminal
@@ -182,8 +177,7 @@ BPS008.001 RTE CMOS clear
     # Now check if the CMOS is not reset again after reboot. If CMOS fails it
     # means that either the CMOS battery is not connected at all or the
     # platform setup is incorrect.
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
 
     ${out}=    Execute Command In Terminal
@@ -195,6 +189,12 @@ BPS008.001 RTE CMOS clear
     ...    rtc_failed \= 0x1
     ...    ignore_case=True
     ...    msg=CMOS is invalid after reboot. Either the CMOS battery is not connected or the connection is wrong. Check DUT setup.
+
+BPS010.001 Deploy UEFI Shell
+    [Documentation]    Deploys UEFI Shell on the device.
+    ...    Done in RF instead of ansible because of bootorder
+    ...    guards implemented in RF keywords.
+    Deploy Uefi Shell
 
 
 *** Keywords ***
@@ -270,22 +270,31 @@ Run Ansible Playbooks
     FOR    ${distro_id}    IN    @{TESTED_LINUX_DISTROS}
         Log To Console    "Ansible setup for ENV_ID ${distro_id}"
         Power On
-        Boot System Or From Connected Disk    ${distro_id}
+        Boot And Login To OS    ${distro_id}
         # ansible will fail no matter the timeouts if host is unreachable
         # (not booted yet)
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=GLOBAL
-        Login To Linux
+        Login To Booted OS
         Check Internet Connection On Linux
+        ${sudo_version}=    Execute Command In Terminal    sudo --version
+        IF    'sudo-rs' in $sudo_version
+            # sudo-rs is not compatible with ansible as of sudo-rs 0.2.8 and ansible [core 2.18.6]
+            ${out}=    Execute Command In Terminal    which /usr/bin/sudo.ws
+            Should Not Contain Any    ${out}    not found    apt install    msg=Classical sudo not found on the system
+            # will replace /usr/bin/sudo with sudo.ws instead of sudo-rs
+            ${out}=    Execute Command In Terminal    sudo update-alternatives --set sudo /usr/bin/sudo.ws
+            Should Not Contain Any    ${out}    error    not setting
+        END
 
         # Create temporary inventory file for given platform and OS
         VAR    ${inventory_file}=
         ...    [host] \n
         ...    ${DEVICE_IP} ansible_user=${DEVICE_OS_USERNAME}
-        ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_sudo_pass=${DEVICE_OS_PASSWORD}
+        ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_become_password=${DEVICE_OS_PASSWORD} ansible_become_method=sudo
         ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         ...    separator=${SPACE}
         ${tmp_file_rand}=    Generate Random String    length=16
-        VAR    ${tmp_inventory_filename}=    ansible_inventory_${tmp_file_rand}.yaml
+        VAR    ${tmp_inventory_filename}=    /tmp/ansible_inventory_${tmp_file_rand}.yaml
         Create File    ${tmp_inventory_filename}    ${inventory_file}
 
         # Prepare and run ansible-playbook command

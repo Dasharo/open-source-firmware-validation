@@ -13,6 +13,7 @@ Resource            ../terminal.robot
 Resource            ../../keywords.robot
 Resource            ../cbmem.robot
 Resource            ../dcu.robot
+Resource            ../custom_bootentries.robot
 
 
 *** Keywords ***
@@ -34,7 +35,6 @@ Set UEFI Option
     IF    '${option_name}' == 'PowerStateAfterPowerAcLoss'
         VAR    ${POWER_STATE_AFTER_FAIL}=    ${value}    scope=GLOBAL
     END
-    Sleep    20s
 
 Get UEFI Option
     [Documentation]    Read an UEFI option value.
@@ -174,93 +174,48 @@ Make Sure That Flash Locks Are Disabled
     IF    not ${ro}    Set UEFI Option    LockBios    Disabled
 
 Login To Windows
+    [Arguments]    ${retries}=5 min    ${timeout}=60
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
+    END
+    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+    ...    retries=${retries}    timeout=${timeout}
+
+Boot And Login To Windows
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
-    Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
-
-Set Nextboot
-    [Documentation]    Sets the OS of choice to be booted first on the next
-    ...    reboot. Not persistent, only changes the first boot option for
-    ...    one boot.
-    [Arguments]    ${env_id}
-
-    VAR    ${os_boot_id}=    ${EMPTY}
-    ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
-    Set Nextboot Bootentry    ${os_bootentry_name}
-
-Set Nextboot Bootentry
-    [Documentation]    Sets the botentry name of choice to be booted first on
-    ...    the next reboot. Not persistent, only changes the first boot
-    ...    option for one boot.
-    [Arguments]    ${bootentry_name}
-    ${bootentry_name}=    Convert To Lower Case    ${bootentry_name}
-    ${boot_entries}=    Execute Command In Terminal    efibootmgr
-
-    @{lines}=    Split To Lines    ${boot_entries}
-    VAR    ${os_boot_id}=    ${EMPTY}
-    FOR    ${line}    IN    @{lines}
-        ${tmp}=    Encode String To Bytes    ${line}    ASCII    errors=replace
-        ${line}=    Decode Bytes To String    ${tmp}    ASCII    errors=replace
-        ${line}=    Get Substring    ${line}    0    150
-        ${line}=    Convert To Lower Case    ${line}
-
-        IF    '${bootentry_name}' in $line
-            VAR    ${os_boot_id}=    $line
-            BREAK
-        END
-    END
-
-    IF    $os_boot_id != ''
-        ${id}=    Get Substring    ${os_boot_id}    4    8
-        Execute Command In Terminal    efibootmgr --bootnext ${id}
-    ELSE
-        Fail    Os entry not found
-    END
+    Login To Windows
 
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
     [Arguments]    ${env_id}
+    Load OS Credentials    ${BOOTED_OS_ID}
+    Restore Initial DUT Connection Method
 
     IF    '${BOOTED_OS_ID}' == '${env_id}'
+        Login To Booted OS
         Log    Target OS already booted
         RETURN
     END
 
     IF    '${BOOTED_OS_ID}'.startswith('3')    # Windows
+        Login To Booted OS
         Execute Reboot Command    windows
-        Import Variables    ${CURDIR}/../../os-config/${DEFAULT_BOOT_OS_ID}-credentials.py
+        Load OS Credentials    ${DEFAULT_BOOT_OS_ID}
         VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
         Sleep    30s
-        RETURN
+        IF    '${DEFAULT_BOOT_OS_ID}'=='${env_id}'    RETURN
     END
 
     VAR    ${os_boot_id}=    ${EMPTY}
     ${os_bootentry_name}=    Get From Dictionary    ${ENV_ID_OS_BOOTMENU_NAMES}    ${env_id}
 
-    Import Variables    ${CURDIR}/../../os-config/${BOOTED_OS_ID}-credentials.py
-    Login To Linux
+    Login To Booted OS
     Switch To Root User
 
     ${os_boot_id}=    Set Nextboot    ${env_id}
     Write Into Terminal    reboot
 
-    Import Variables    ${CURDIR}/../../os-config/${env_id}-credentials.py
+    Load OS Credentials    ${env_id}
     VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
     Sleep    30s
-
-Login To Windows Via SSH
-    [Documentation]    Login to Windows via SSH by using provided arguments as
-    ...    username and password respectively.
-    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
-    SSHLibrary.Set Client Configuration
-    ...    timeout=${timeout}
-    ...    term_type=vt100
-    ...    width=400
-    ...    height=100
-    ...    escape_ansi=True
-    ...    newline=CRLF
-
-    ${login}=    Run Keyword And Return Status
-    ...    Wait Until Keyword Succeeds    10x    30s
-    ...    SSHLibrary.Login    ${username}    ${password}
