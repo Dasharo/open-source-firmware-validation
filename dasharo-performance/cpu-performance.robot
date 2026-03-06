@@ -137,7 +137,7 @@ Run C-Ray Single-thread Render
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
-    Execute Command In Terminal    export    FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
     ${result}=    Execute Command In Terminal
     ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_to_path}
     ...    timeout=18000
@@ -154,7 +154,7 @@ Run Coremark Single-thread
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
-    Execute Command In Terminal    export    FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_to_path}
     ...    timeout=1800
@@ -174,7 +174,7 @@ Run Coremark Single-thread
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
-    Execute Command In Terminal    export    FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
+    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
     ${result}=    Execute Command In Terminal
     ...    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_to_path}
     ...    timeout=1800
