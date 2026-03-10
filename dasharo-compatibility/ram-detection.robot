@@ -41,7 +41,7 @@ MEM001.401 Expected RAM size detected in OS (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    MEM001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli hardware memory get
     ${ram_size_line}=    Get Regexp Matches    ${out}    Physical Memory:\\s*(\\d+)    1
@@ -66,7 +66,7 @@ RAM Size Detected In OS
     [Arguments]    ${expected_kb}
 
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
 
     ${meminfo}=    Execute Linux Command    cat /proc/meminfo | grep ^MemTotal
     Log    ${meminfo}

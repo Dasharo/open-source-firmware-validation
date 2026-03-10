@@ -45,3 +45,5 @@ ${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
 # robocop: off=LEN08
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("Initial Deployment", "DCR") }}
+
+${CAPSULE_UPDATE_SUPPORT}=              ${FALSE}

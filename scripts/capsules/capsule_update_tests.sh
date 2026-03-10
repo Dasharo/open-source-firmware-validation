@@ -18,7 +18,7 @@ fi
 cd edk2 || exit
 
 # Clear files from previous invocation
-rm -rf decoded* *.json *.cap
+rm -rf decoded* ${capsule_name}*.json ${capsule_name}*.cap
 
 # Decoding the capsule
 BaseTools/BinWrappers/PosixLike/GenerateCapsule \

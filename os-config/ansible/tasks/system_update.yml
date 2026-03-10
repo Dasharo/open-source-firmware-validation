@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+- name: Update all system packages
+  block:
+    - name: Update and upgrade Debian-based systems
+      apt:
+        update_cache: true
+        upgrade: dist
+      when: ansible_pkg_mgr == "apt"
+
+    - name: Update RedHat-based systems (dnf)
+      dnf:
+        name: "*"
+        state: latest
+      when: ansible_pkg_mgr == "dnf"

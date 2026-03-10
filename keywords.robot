@@ -40,9 +40,14 @@ Serial Setup
     ...    window_size=400x100
     Telnet.Set Timeout    180s
 
+Load OS Credentials
+    [Documentation]    Loads os credentials from config file to global variables
+    [Arguments]    ${env_id}
+    Import Variables    ${CURDIR}/os-config/${env_id}-credentials.py
+
 Login To Linux
-    [Documentation]    Universal login to one of the supported linux systems:
-    ...    Ubuntu or Debian.
+    [Documentation]    Universal login to one of the supported linux systems
+    [Arguments]    ${ssh_retries}=5 min    ${timeout}=60
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         # On laptopts, we have serial over EC from firmware only, so we will
         # not have Linux prompt. We try logging in multiple times anyway, so
@@ -52,12 +57,11 @@ Login To Linux
     END
 
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Wait Until Keyword Succeeds
-        ...    3x
-        ...    0
-        ...    Login To Linux Via SSH
+        Login To Linux Via SSH
         ...    ${DEVICE_OS_USERNAME}
         ...    ${DEVICE_OS_PASSWORD}
+        ...    timeout=${timeout}
+        ...    retries=${ssh_retries}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         Login To Linux Via OBMC    root    root
     ELSE
@@ -76,8 +80,8 @@ Login To Linux Via OBMC
     Read From Terminal Until Prompt
 
 Login To Windows
-    [Documentation]    Universal login to Windows.
-    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
+    [Documentation]    Log in to Windows via ssh.
+    [Arguments]    ${retries}=5 min    ${timeout}=60
     # TODO: We need a better way of switching between SSH and serial inside tests
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
@@ -87,26 +91,63 @@ Login To Windows
     END
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+        ...    timeout=${timeout}    retries=${retries}
     ELSE
         Fail    Login to Windows not supported. DUT_CONNECTION_METHOD must be set to SSH.
     END
 
-Login To OS
-    [Documentation]    Universal login to ESXi.
-    [Arguments]    ${env_id}
-    Boot System Or From Connected Disk    ${env_id}
-    # TODO: We need a better way of switching between SSH and serial inside tests
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
-    END
-    IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
-    END
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Login To Windows Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
+Boot And Login To Windows
+    [Documentation]    Universal boot and login to Windows.
+    Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
+    Login To Windows
+
+Inner Login To Booted OS
+    [Documentation]    KW to log in to the booted OS
+    [Tags]    robot:private
+    [Arguments]    ${retries}=5 min    ${timeout}=60
+    IF    '${BOOTED_OS_ID}' == '${ENV_ID_WINDOWS}'
+        Login To Windows    ${retries}    ${timeout}
     ELSE
-        Fail    Login to this OS not supported. DUT_CONNECTION_METHOD must be set to SSH.
+        Login To Linux    ${retries}    ${timeout}
     END
+
+Login To Booted OS
+    [Arguments]    ${try_recover_from_invalid_os_booted}=${TRUE}
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        ${recovery_defined}=    Run Keyword And Return Status
+        ...    Variable Should Exist    ${RECOVERY_IN_PROGRESS}
+        IF    not ${recovery_defined}
+            VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
+        END
+        IF    ${RECOVERY_IN_PROGRESS}
+            Fail    Login to ${BOOTED_OS_ID} failed during recovery (blocked re-entrant recovery).
+        END
+    END
+    ${status}=    Run Keyword And Return Status    Inner Login To Booted OS
+    IF    ${status}    RETURN
+
+    IF    not ${try_recover_from_invalid_os_booted}
+        Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
+    END
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Log    Login failed, attempting fallback across supported OSes.    WARN
+        VAR    ${target_os}=    ${BOOTED_OS_ID}
+        VAR    ${RECOVERY_IN_PROGRESS}=    ${TRUE}    scope=GLOBAL
+        TRY
+            Recover Broken Bootorder By Trying All Supported OSes
+        FINALLY
+            VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
+        END
+        Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
+    ELSE
+        Fail    Login to ${BOOTED_OS_ID} failed.
+    END
+
+Boot And Login To OS
+    [Documentation]    Universal kw to boot an OS and log in to its shell.
+    [Arguments]    ${env_id}    ${try_recover_from_invalid_os_booted}=${TRUE}
+    Boot System Or From Connected Disk    ${env_id}
+    Login To Booted OS    ${try_recover_from_invalid_os_booted}
 
 Serial Root Login Linux
     [Documentation]    Universal telnet login to one of supported linux systems:
@@ -130,15 +171,6 @@ Serial Root Login Linux
     Telnet.Write Bare    \n
     Telnet.Login    root    ${passwd}
 
-Serial User Login Linux
-    [Documentation]    Universal telnet login to Linux system
-    [Arguments]    ${password}
-    Telnet.Set Prompt    :~$
-    Telnet.Set Timeout    300
-    Telnet.Login    user    ${password}
-
-# To Do: unify with keyword: Serial root login Linux
-
 Login To Linux Over Serial Console
     [Documentation]    Login to Linux over serial console, using provided
     ...    arguments as username and password respectively. The
@@ -156,53 +188,73 @@ Login To Linux Over Serial Console
     Telnet.Set Prompt    ${device_os_user_prompt}    prompt_is_regexp=False
     Telnet.Read Until Prompt
 
+Inner Login To Linux Via SSH
+    [Tags]    robot:private
+    [Arguments]    ${prompt}    ${username}    ${password}    ${timeout}
+    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
+    SSHLibrary.Set Client Configuration
+    ...    timeout=${timeout}
+    ...    term_type=vt100
+    ...    width=400
+    ...    height=100
+    ...    escape_ansi=True
+    ...    newline=LF
+    SSHLibrary.Login    ${username}    ${password}
+
 Login To Linux Via SSH
     [Documentation]    Login to Linux via SSH by using provided arguments as
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}    ${password}    ${timeout}=60    ${prompt}=${DEVICE_OS_USER_PROMPT}
+    [Arguments]    ${username}
+    ...    ${password}
+    ...    ${timeout}=60
+    ...    ${prompt}=${DEVICE_OS_USER_PROMPT}
+    ...    ${retries}=5 min
     Should Not Be Empty    ${DEVICE_IP}    msg=DEVICE_IP variable must be defined
     # We need this when switching from PiKVM to SSH
     Remap Keys Variables From PiKVM
-    FOR    ${i}    IN RANGE    1    10
-        SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
-        SSHLibrary.Set Client Configuration
-        ...    timeout=${timeout}
-        ...    term_type=vt100
-        ...    width=400
-        ...    height=100
-        ...    escape_ansi=True
-        ...    newline=LF
-        ${status}=    Run Keyword And Return Status
-        ...    SSHLibrary.Login    ${username}    ${password}
-        IF    ${status}    RETURN
-        Sleep    10
-    END
-    Fail    Unable to login to ${username}@${DEVICE_IP}
+    Wait Until Keyword Succeeds
+    ...    ${retries}
+    ...    10s
+    ...    Inner Login To Linux Via SSH
+    ...    ${prompt}
+    ...    ${username}
+    ...    ${password}
+    ...    ${timeout}
+
+Inner Login To Windows Via SSH
+    [Tags]    robot:private
+    [Arguments]    ${username}    ${password}    ${timeout}
+    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
+    SSHLibrary.Set Client Configuration
+    ...    timeout=${timeout}
+    ...    term_type=vt100
+    ...    width=400
+    ...    height=100
+    ...    escape_ansi=True
+    ...    newline=CRLF
+    SSHLibrary.Login    ${username}    ${password}
 
 Login To Windows Via SSH
     [Documentation]    Login to Windows via SSH by using provided arguments as
     ...    username and password respectively. The optional timeout
     ...    parameter can be used to specify how long we want to
     ...    wait for the login prompt.
-    [Arguments]    ${username}=${DEVICE_OS_USERNAME}    ${password}=${DEVICE_OS_PASSWORD}    ${timeout}=180
+    [Arguments]    ${username}=${DEVICE_OS_USERNAME}
+    ...    ${password}=${DEVICE_OS_PASSWORD}
+    ...    ${timeout}=60
+    ...    ${retries}=5 min
     FOR    ${reboot_count}    IN RANGE    3
-        FOR    ${i}    IN RANGE    20
-            SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
-            SSHLibrary.Set Client Configuration
-            ...    timeout=${timeout}
-            ...    term_type=vt100
-            ...    width=400
-            ...    height=100
-            ...    escape_ansi=True
-            ...    newline=CRLF
-            ${login}=    Run Keyword And Return Status
-            ...    SSHLibrary.Login    ${username}    ${password}
-            IF    ${login} == ${TRUE}    BREAK    ELSE    Sleep    5s
-        END
-
-        IF    ${login} == ${TRUE}
+        ${login}=    Run Keyword And Return Status
+        ...    Wait Until Keyword Succeeds
+        ...    ${retries}
+        ...    10s
+        ...    Inner Login To Windows Via SSH
+        ...    ${username}
+        ...    ${password}
+        ...    ${timeout}
+        IF    ${login}
             BREAK
         ELSE
             IF    ${reboot_count} == 2
@@ -210,9 +262,6 @@ Login To Windows Via SSH
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
             END
             Power On
-            # TODO: This keyword needs improved. We could simply lock the whole
-            # power on - login procedure in single keyword, and use
-            # Run Keyword Until Succeeds?
             Restore Initial DUT Connection Method
             Boot System Or From Connected Disk    ${ENV_ID_WINDOWS}
             VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
@@ -271,6 +320,31 @@ Open Connection And Log In
     IF    '${SNIPEIT}'=='no'    RETURN
     ${already_checked_out_manually}=    SnipeIt Checkout    ${RTE_IP}
     VAR    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}=    ${already_checked_out_manually}    scope=GLOBAL
+
+Recover Broken Bootorder By Trying All Supported OSes
+    [Documentation]    Attempt login recovery by iterating over all supported OSes.
+    # Example list, can be replaced with real data later
+    [Arguments]    ${tries}=3
+    VAR    @{supported_oses}=    @{TESTED_LINUX_DISTROS}
+    IF    ${TESTS_IN_WINDOWS_SUPPORT}
+        Append To List    ${supported_oses}    ${ENV_ID_WINDOWS}
+    END
+    Append To List    ${supported_oses}    @{TESTED_BSD_DISTROS}
+
+    FOR    ${trial}    IN RANGE    ${tries}
+        FOR    ${env_id}    IN    @{supported_oses}
+            Log    Attempting recovery login for OS: ${env_id}    WARN
+            VAR    ${BOOTED_OS_ID}=    ${env_id}    scope=GLOBAL
+            Load OS Credentials    ${env_id}
+            ${success}=    Run Keyword And Return Status    Inner Login To Booted OS    retries=30s    timeout=10
+            IF    ${success}
+                Log    Succeeded in logging into ${env_id}
+                RETURN
+            END
+        END
+        Log    Failed to login to any of the supported OSes: ${supported_oses}.    WARN
+    END
+    Fail    Recovery failed: unable to log in to any supported OS in ${tries} tries.
 
 Check Provided Ip
     [Documentation]    Check the correctness of the provided ip address, if the
@@ -576,7 +650,7 @@ Prepare To SSH Connection
     ...    the SSH protocol
     VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
     ${os_id}=    Get Variable Value    ${BOOTED_OS_ID}    ${DEFAULT_BOOT_OS_ID}
-    Import Variables    ${CURDIR}/os-config/${os_id}-credentials.py
+    Load OS Credentials    ${os_id}
     VAR    ${BOOTED_OS_ID}=    ${os_id}    scope=GLOBAL
     SSHLibrary.Set Default Configuration    timeout=60 seconds
     IF    '${SNIPEIT}'=='no'    RETURN
@@ -858,7 +932,7 @@ Execute Reboot Command
         # always boots the default one
         IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${assume_correct_boot} == ${False}
             Set Nextboot    ${BOOTED_OS_ID}
-            Import Variables    ${CURDIR}/os-config/${BOOTED_OS_ID}-credentials.py
+            Load OS Credentials    ${BOOTED_OS_ID}
             VAR    ${BOOTED_OS_ID}=    ${BOOTED_OS_ID}    scope=GLOBAL
         END
         Write Into Terminal    reboot
@@ -1293,16 +1367,13 @@ Login To Linux With Root Privileges
     [Documentation]    Login to Linux to perform test on OS level. Which login
     ...    method will be used depends on: connection method and
     ...    platform type.
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Run Keywords
-        ...    Login To Linux Via SSH    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
-        ...    AND
-        ...    Switch To Root User
-    END
     IF    '${CONFIG}'=='raptor-cs_talos2'
         Login To Linux Via OBMC    root    debian
     ELSE IF    '${PLATFORM[:8]}' == 'KGPE-D16'
         Serial Root Login Linux    debian
+    ELSE
+        Login To Booted OS
+        Switch To Root User
     END
 
 Compare Serial Number From MAC
@@ -1601,13 +1672,3 @@ Should Contain All
     FOR    ${substring}    IN    @{substrings}
         Should Contain    ${string}    ${substring}
     END
-
-Deploy Uefi Shell
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/Shell.efi    /tmp/Shell.efi
-    Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/deploy-shell-efi.sh    /tmp/deploy-shell-efi.sh
-    Execute Command In Terminal    /tmp/deploy-shell-efi.sh /tmp/Shell.efi
-    Execute Command In Terminal    sync

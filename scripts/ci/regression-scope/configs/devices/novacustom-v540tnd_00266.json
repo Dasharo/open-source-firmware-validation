@@ -3,7 +3,10 @@
         "ASSET_ID": "00266",
         "RTE_IP": "127.0.0.1",
         "CONFIG": "novacustom-v540tnd",
-        "FW_FILE": "_roms/novacustom_v54x_mtl_dgpu_v1.0.0-rc10_btg_provisioned.rom",
-        "DEVICE_IP": "192.168.10.189"
+        "DEVICE_IP": "192.168.10.44",
+        "FW_FILE": "_roms/novacustom_v54x_mtl_dgpu_v1.0.0_btg_prod.rom",
+        "CAPSULE_FW_FILE": "_roms/novacustom_v54x_mtl_dgpu_v1.0.0_btg_prod.cap",
+        "CAPSULE_UPDATE_RC0_FW_FILE": "_roms/novacustom_v54x_mtl_dgpu_v1.0.0-rc10_btg_provisioned.rom.provisioned"
+
     }
 }

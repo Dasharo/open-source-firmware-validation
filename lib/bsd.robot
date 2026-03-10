@@ -18,7 +18,7 @@ Boot PfSense Installer
     Read From Terminal Until    [Accept]
     Press Enter
     VAR    ${BOOTED_OS_ID}=    ${ENV_ID_PFSENSE}    scope=GLOBAL
-    Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
+    Load OS Credentials    ${BOOTED_OS_ID}
 
 Boot OPNsense Installer
     [Documentation]    Run /efi/boot/bootx64.efi file from OPNEFI-labeled partition;
@@ -30,7 +30,7 @@ Boot OPNsense Installer
     Read From Terminal Until    FreeBSD/amd64 (OPNsense.localdomain) (ttyu0)
     Read From Terminal Until    login:
     VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPNSENSE}    scope=GLOBAL
-    Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
+    Load OS Credentials    ${BOOTED_OS_ID}
 
 Enter PfSense Shell
     Write Into Terminal    8
@@ -66,7 +66,7 @@ Boot PfSense
     Execute File In File Explorer    bootx64.efi
     Read From Terminal Until    Enter an option:
     VAR    ${BOOTED_OS_ID}=    ${ENV_ID_PFSENSE}    scope=GLOBAL
-    Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
+    Load OS Credentials    ${BOOTED_OS_ID}
 
 Boot OPNsense
     [Documentation]    OPNBOOT -> /efi/boot/bootx64.efi
@@ -77,4 +77,4 @@ Boot OPNsense
     Execute File In File Explorer    bootx64.efi
     Read From Terminal Until    FreeBSD/amd64 (OPNsense.localdomain) (ttyu0)
     VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPNSENSE}    scope=GLOBAL
-    Import Variables    ${CURDIR}/../os-config/${BOOTED_OS_ID}-credentials.py
+    Load OS Credentials    ${BOOTED_OS_ID}

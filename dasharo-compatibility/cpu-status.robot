@@ -59,7 +59,7 @@ CPU001.401 CPU works (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
 
 CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
@@ -79,7 +79,7 @@ CPU002.401 CPU cache enabled (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Cache
     ${count}=    Evaluate
@@ -103,7 +103,7 @@ CPU003.401 Multiple CPU support (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU003.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli hardware cpu global get
     ${cores_match}=    Get Regexp Matches    ${out}    CPU Cores:\\s*(\\d+)    1
@@ -127,7 +127,7 @@ CPU004.401 Multiple-core support (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Id
     ${lines}=    Split To Lines    ${out}
@@ -174,7 +174,7 @@ CPU001.301 CPU works (Windows)
     ...    Previous IDs: CPU001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     Execute Shutdown Command
 
 CPU002.301 CPU cache enabled (Windows)
@@ -183,7 +183,7 @@ CPU002.301 CPU cache enabled (Windows)
     ...    Previous IDs: CPU002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${mem_info}=    Execute Command In Terminal
     ...    Get-Wmiobject -class win32_cachememory | fl Purpose, CacheType, InstalledSize
     Should Contain    ${mem_info}    CACHE1
@@ -200,7 +200,7 @@ CPU003.301 Multiple CPU support (Windows)
     ...    Previous IDs: CPU003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${cpu_info}=    Execute Command In Terminal    (Get-CimInstance -ClassName Win32_Processor).NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1
     ${cpu_count}=    Convert To Number    ${cpu_count}
@@ -212,7 +212,7 @@ CPU004.301 Multiple-core support (Windows)
     ...    Previous IDs: CPU004.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${cpu_info}=    Execute Command In Terminal
     ...    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
     ${cpu_count}=    Get Line    ${cpu_info}    -1
@@ -266,7 +266,7 @@ CPU001.205 CPU works (XCP-NG)
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU001.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU001.205 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
 
 CPU002.205 CPU cache enabled (XCP-NG)
     [Documentation]    Check whether all declared for the DUT cache levels
@@ -275,7 +275,7 @@ CPU002.205 CPU cache enabled (XCP-NG)
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU002.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     CPU Cache Enabled Linux
 
 CPU003.205 Multiple CPU support (XCP-NG)
@@ -284,7 +284,7 @@ CPU003.205 Multiple CPU support (XCP-NG)
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU003.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU003.205 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     Multiple CPU Support Linux
 
 CPU004.205 Multiple-core support (XCP-NG)
@@ -293,7 +293,7 @@ CPU004.205 Multiple-core support (XCP-NG)
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU004.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU004.205 not supported
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     Multiple-Core Support Linux
 
 

@@ -57,4 +57,4 @@ Set Logging Level
     [Arguments]    ${level}
     Execute Linux Command    sed -i '/kernel\.printk =/d' /etc/sysctl.d/10-console-messages.conf
     Execute Linux Command    echo "kernel.printk = ${level} 4 1 7" >> /etc/sysctl.d/10-console-messages.conf
-    Execute Linux Command    sysctl --system
+    Execute Linux Command    sysctl -w kernel.printk="${level} 4 1 7"

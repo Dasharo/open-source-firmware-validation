@@ -7,7 +7,7 @@ Resource    custom_bootentries.robot
 Flash Via Internal Programmer With Args
     [Documentation]    Execute flashrom write operation on the given binary,
     ...    using extra arguments.
-    [Arguments]    ${fw_file_path}    ${args}    ${timeout}=3m
+    [Arguments]    ${fw_file_path}    ${args}    ${timeout}=5m
     IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         # Then the platform configuration depends on the bootorder to stay the same.
         # We must copy the current smmstore to the target binary in order to prevent
@@ -15,9 +15,17 @@ Flash Via Internal Programmer With Args
         VAR    ${smm_file}=    /tmp/smmstore.rom
         VAR    ${replaced_bootorder_file}=    replaced_bootorder_coreboot.rom
         ${custom_bootname}=    Get Custom Bootentry Name    ${DEFAULT_BOOT_OS_ID}
-        ${custom_bootid}=    Get Bootnum For Label    ${custom_bootname}
+        @{custom_bootid}=    Get Bootnums For Label    ${custom_bootname}
+        Should Not Be Empty
+        ...    ${custom_bootid}
+        ...    Basic Platform Setup was not run, Custom DEFAULT_BOOT bootentry does not exist.
         Execute Command In Terminal    flashrom -p internal -r ${smm_file} --fmap -i FMAP -i SMMSTORE
     END
+    # Always flash FD first in case the layout changes
+    ${out_flash}=    Execute Command In Terminal
+    ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} --ifd -i fd
+    ...    timeout=${timeout}
+
     ${out_flash}=    Execute Command In Terminal
     ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} ${args}
     ...    timeout=${timeout}
@@ -33,7 +41,7 @@ Flash Via Internal Programmer With Args
     END
 
 Flash Via Internal Programmer
-    [Arguments]    ${fw_file_path}    ${region}=${EMPTY}
+    [Arguments]    ${fw_file_path}    @{regions}
     ${out_flashrom_probe}=    Execute Command In Terminal    flashrom -p internal
     ${read_only}=    Run Keyword And Return Status
     ...    Should Contain    ${out_flashrom_probe}    read-only
@@ -45,12 +53,15 @@ Flash Via Internal Programmer
     END
 
     # If no region is given, flash the whole binary
-    IF    "${region}" != "${EMPTY}"
-        VAR    ${args}=    -N --ifd -i ${region}
+    IF    @{regions}
+        VAR    ${args}=    -N --ifd
+        FOR    ${region}    IN    @{regions}
+            VAR    ${args}=    ${args} -i ${region}
+        END
     ELSE
         VAR    ${args}=    ${EMPTY}
     END
-    Wait Until Keyword Succeeds    2
+    Wait Until Keyword Succeeds    2x
     ...    1s
     ...    Flash Via Internal Programmer With Args    /tmp/${filename}    ${args}
 
@@ -96,9 +107,11 @@ Flash Firmware
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
         Switch To Root User
-        Flash Via Internal Programmer    ${fw_file}    region=bios
-    ELSE
-        Fail    Flash firmware not implemented for platform config ${CONFIG}
+        VAR    @{regions}=    bios
+        IF    ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}
+            VAR    @{regions}=    @{regions}    me
+        END
+        Flash Via Internal Programmer    ${fw_file}    @{regions}
     END
 
     IF    '''${POWER_CTRL}''' == '''none'''
@@ -107,10 +120,11 @@ Flash Firmware
         Login To Linux
         Switch To Root User
         Execute Reboot Command
+        Sleep    30s    Additional sleep for RAM training etc. after flashing
     END
 
     # First boot after flashing may take longer than usual
-    Set DUT Response Timeout    180s
+    Set DUT Response Timeout    300s
 
 Replace Logo In Firmware
     [Documentation]    Swap to custom logo in firmware on DUT using cbfstool according
@@ -203,7 +217,7 @@ Read Firmware
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux
         Switch To Root User
-        Execute Command In Terminal    flashrom -p internal --ifd -i bios -r coreboot.rom
+        Execute Command In Terminal    flashrom -p internal --ifd -i fd -i bios -i me -r coreboot.rom
         Get File From DUT    coreboot.rom    ${file}
     ELSE
         Fail    Read firmware not implemented for platform config ${CONFIG}

@@ -25,7 +25,7 @@ _CONCURRENT_Background Measurements Immediate (no load) (Windows)
     Skip If    not ${will_any_be_run}    No test depends on this step
 
     Power On
-    Login To Windows
+    Boot And Login To Windows
 
     # CPF001.301 steps
     VAR    ${concurrent_test_id}=    ${CPF_STUCK_ID}.301
@@ -84,7 +84,7 @@ _CONCURRENT_Background Measurements (no load) (Windows)
     Skip If    not (${gather_freqs} or ${gather_stab})    No test depends on this step
 
     Power On
-    Login To Windows
+    Boot And Login To Windows
 
     ${gather_freqs}=    Evaluate    "${CPF_NO_LOAD_ID}.301" if ${gather_freqs} else ${None}
     ${gather_stab}=    Evaluate    "STB001.301" if ${gather_stab} else ${None}
@@ -149,7 +149,7 @@ _CONCURRENT_Background Measurements (load) (Windows)
     Skip If    not (${gather_freqs} or ${gather_stab})    No test depends on this step
 
     Power On
-    Login To Windows
+    Boot And Login To Windows
 
     ${gather_freqs}=    Evaluate    "${CPF_LOAD_ID}.301" if ${gather_freqs} else ${None}
     ${gather_stab}=    Evaluate    "STB001.301" if ${gather_stab} else ${None}

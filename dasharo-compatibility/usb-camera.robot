@@ -89,7 +89,7 @@ CAM001.301 Integrated webcam (Windows)
     ...    Previous IDs: CAM001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get USB Devices Windows
     Should Contain Any    ${out}    Camera    BisonCam
     Execute Shutdown Command

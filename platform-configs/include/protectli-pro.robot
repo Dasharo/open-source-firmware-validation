@@ -3,6 +3,7 @@
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
 
 ${NVME_DISK_SUPPORT}=                   ${TRUE}
+${DMIDECODE_FAMILY}=                    Vault Pro
 
 # Test module: dasharo-security
 ${VERIFIED_BOOT_SUPPORT}=               ${TRUE}

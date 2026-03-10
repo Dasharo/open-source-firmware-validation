@@ -23,6 +23,7 @@ Default Tags    semiauto
 
 *** Variables ***
 ${DEVIATION}=       0.2
+${RUNS_AMOUNT}=     3
 
 
 *** Test Cases ***
@@ -82,9 +83,10 @@ Run A Test Manually
     ${scale}=    Get From Dictionary    ${benchmark_dict}    scale
     ${deviation}=    Get From Dictionary    ${benchmark_dict}    dev
     ${deviation_percent}=    Evaluate    float(${deviation})*100
-    Log To Console    ${\n}.\\phoronix-test-suite batch-run ${phoronix_test_name}
+    Log To Console
+    ...    ${\n}$env:FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}; .\\phoronix-test-suite batch-run ${phoronix_test_name}
     Execute Manual Step
-    ...    [6/8] Execute command in terminal:${\n}.\\phoronix-test-suite batch-run ${phoronix_test_name}
+    ...    [6/8] Execute command in terminal:${\n}$env:FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}; .\\phoronix-test-suite batch-run ${phoronix_test_name}
     Execute Manual Step
     ...    [7/8] Wait until test finishes and prints the results on console
     ${benchmark_score}=    Get Value From User
@@ -137,8 +139,6 @@ Detect Or Install Phoronix Test Suite On Windows
         Pause Execution    Error, the process will now kill itself
         Fail    Different Output
     END
-    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=3
-    Execute Command In Terminal    export FORCE_MIN_TIMES_TO_RUN=1
 
 Install Phoronix On Windows Manually
     [Documentation]    Installing Phoronix On Windows Manually

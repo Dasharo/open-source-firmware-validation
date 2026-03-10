@@ -32,7 +32,7 @@ ${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_FAMILY}=                            N/A
 ${DMIDECODE_TYPE}=                              Desktop
 
-${DEVICE_USB_KEYBOARD}=                         SiGma Micro Keyboard TRACER Gamma Ivory
+${DEVICE_USB_KEYBOARD}=                         Logitech, Inc. Keyboard K120
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${WIFI_CARD_UBUNTU}=                            ${TBD}
 ${USB_MODEL}=                                   Kingston

@@ -45,6 +45,6 @@ EFI001.301 Boot into UEFI OS (Windows)
     ...    Previous IDs: EFI001.301
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    EFI001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    (Get-WmiObject -class Win32_OperatingSystem).Caption
     Should Contain    ${out}    Microsoft Windows 11

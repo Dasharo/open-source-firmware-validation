@@ -23,8 +23,6 @@ ${EXTERNAL_DISPLAY_PORT_SUPPORT}=                   ${TRUE}
 ${WEBCAM_UBUNTU}=                                   Bison Electronics Inc. BisonCam,NB Pro
 ${USB_STACK_SUPPORT}=                               ${TRUE}
 
-# DMI
-${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.5.2
 # TODO verify
 ${DMIDECODE_RELEASE_DATE}=                          03/17/2022
 
@@ -53,3 +51,5 @@ ${L3_CACHE_SUPPORT}=                                ${TRUE}
 
 ${CAPSULE_UPDATE_SUPPORT}=                          ${TRUE}
 ${USB_MODEL}=                                       SanDisk
+
+${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}=             ${TRUE}

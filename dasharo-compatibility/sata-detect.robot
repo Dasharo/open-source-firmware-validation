@@ -55,7 +55,7 @@ SAT001.205 SATA support in OS (XCP-NG)
     Depends On    ${SATA_SUPPORT}
 
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
 
     ${lsblk_out}=    Execute Command In Terminal    lsblk -d -o NAME -n
     @{disks}=    Split String    ${lsblk_out}    \n
@@ -82,7 +82,7 @@ SAT001.401 SATA support in OS (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    SAT001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli storage core device list
     Should Contain Any    ${out}    Vendor: ATA    Vendor: SATA
@@ -96,7 +96,7 @@ SAT001.301 SATA support in OS (Windows)
     Depends On    ${SATA_SUPPORT}
 
     Power On
-    Login To OS    ${ENV_ID_WINDOWS}
+    Boot And Login To OS    ${ENV_ID_WINDOWS}
     ${output}=    Execute Command In Terminal
     ...    Get-PhysicalDisk | Select-Object DeviceID, MediaType, BusType, Model
     Should Contain    ${output}    SATA

@@ -5,6 +5,6 @@
         "CONFIG": "protectli-vp6650",
         "DEVICE_IP": "192.168.10.98",
         "FW_FILE": "_roms/protectli_vp66xx_v0.9.2_dev_signed.rom",
-        "SONOFF_IP": "192.168.10.110"
+        "SONOFF_IP": "192.168.10.119"
     }
 }
