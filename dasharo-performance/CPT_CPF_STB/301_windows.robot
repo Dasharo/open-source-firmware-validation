@@ -209,18 +209,18 @@ Prepare CPF
         VAR    ${CPF_STUCK_ID}=    CPF001    scope=SUITE
         VAR    ${CPF_NO_LOAD_ID}=    CPF005    scope=SUITE
         VAR    ${CPF_LOAD_ID}=    CPF009    scope=SUITE
-    ELSE IF    ${BATTERY_PRESENT}
-        VAR    ${CPF_STUCK_ID}=    CPF002    scope=SUITE
-        VAR    ${CPF_NO_LOAD_ID}=    CPF006    scope=SUITE
-        VAR    ${CPF_LOAD_ID}=    CPF010    scope=SUITE
-    ELSE IF    ${AC_CONNECTED}
-        VAR    ${CPF_STUCK_ID}=    CPF003    scope=SUITE
-        VAR    ${CPF_NO_LOAD_ID}=    CPF007    scope=SUITE
-        VAR    ${CPF_LOAD_ID}=    CPF011    scope=SUITE
     ELSE IF    ${USB_PD_CONNECTED}
         VAR    ${CPF_STUCK_ID}=    CPF004    scope=SUITE
         VAR    ${CPF_NO_LOAD_ID}=    CPF008    scope=SUITE
         VAR    ${CPF_LOAD_ID}=    CPF012    scope=SUITE
+    ELSE IF    ${AC_CONNECTED}
+        VAR    ${CPF_STUCK_ID}=    CPF003    scope=SUITE
+        VAR    ${CPF_NO_LOAD_ID}=    CPF007    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPF011    scope=SUITE
+    ELSE IF    ${BATTERY_PRESENT}
+        VAR    ${CPF_STUCK_ID}=    CPF002    scope=SUITE
+        VAR    ${CPF_NO_LOAD_ID}=    CPF006    scope=SUITE
+        VAR    ${CPF_LOAD_ID}=    CPF010    scope=SUITE
     END
     # Not Stuck
     Add Concurrent Test Skip Condition
