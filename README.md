@@ -12,10 +12,14 @@ Dasharo firmware validation procedures.
 ## Warning
 
 **!!! WARNING !!!**
-This repository is in the process of migration and multiple major reworks. If
-you do not know what you are doing, consider not using it until at least
-`v0.5.0` is released. When this is scheduled, link to such a milestone will
-appear here.
+This repository is in the process of stabilization after migration
+and multiple major reworks. Check the published tags and their descriptions
+for information about the expected stability on selected platform.
+It's recommended to run Dasharo regression tests on top of the most recent
+version tags, like "v0.3.0". Use `git tag` to list all the published tags.
+
+Use the top of the develop branch only if you are willing to risk unstable
+regression runs and unexpected fails for the sake of the release_tests_devices features.
 **!!! WARNING !!!**
 
 ## Table of contents
