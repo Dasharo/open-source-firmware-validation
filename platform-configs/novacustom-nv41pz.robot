@@ -81,6 +81,17 @@ ${COREMARK_SINGLE}=                         68000    # iterations/s
 ...                                         &{UPP_CACHEBENCH_BENCHMARK}
 ...                                         &{UPP_BLAKE2_BENCHMARK}
 
+# disk i-o
+${DISK_IO_REFERENCE_DISK_NAME}=             Samsung SSD 980
+${UBU_SEQ_READ_QUEUED}=                     3500    # MB/s
+${UBU_SEQ_WRITE_QUEUED}=                    3000    # MB/s
+${UBU_SEQ_READ_NONQUE}=                     1900    # MB/s
+${UBU_SEQ_WRITE_NONQUE}=                    1800    # MB/s
+${UBU_RAND_READ_QUEUED}=                    2900    # MB/s
+${UBU_RAND_WRITE_QUEUED}=                   2400    # MB/s
+${UBU_RAND_READ_NONQUE}=                    1700    # MB/s
+${UBU_RAND_WRITE_NONQUE}=                   1600    # MB/s
+
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=
 ...                                         &{DTS_TEST_VERSIONS_BASE}
