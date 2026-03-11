@@ -126,22 +126,20 @@ Login To Booted OS
     ${status}=    Run Keyword And Return Status    Inner Login To Booted OS
     IF    ${status}    RETURN
 
-    IF    not ${try_recover_from_invalid_os_booted}
-        Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
-    END
-    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu' and ${try_recover_from_invalid_os_booted}
         Log    Login failed, attempting fallback across supported OSes.    WARN
         VAR    ${target_os}=    ${BOOTED_OS_ID}
         VAR    ${RECOVERY_IN_PROGRESS}=    ${TRUE}    scope=GLOBAL
         TRY
             Recover Broken Bootorder By Trying All Supported OSes
+            Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
         FINALLY
             VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
         END
-        Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
     ELSE
         Fail    Login to ${BOOTED_OS_ID} failed.
     END
+    Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
 
 Boot And Login To OS
     [Documentation]    Universal kw to boot an OS and log in to its shell.
@@ -245,6 +243,12 @@ Login To Windows Via SSH
     ...    ${password}=${DEVICE_OS_PASSWORD}
     ...    ${timeout}=60
     ...    ${retries}=5 min
+    ${recovery_defined}=    Run Keyword And Return Status
+    ...    Variable Should Exist    ${WINDOWS_RECOVERY_REBOOTS_IN_PROGRESS}
+    IF    not ${recovery_defined}
+        VAR    ${WINDOWS_RECOVERY_REBOOTS_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
+    END
+
     FOR    ${reboot_count}    IN RANGE    3
         ${login}=    Run Keyword And Return Status
         ...    Wait Until Keyword Succeeds
@@ -254,9 +258,11 @@ Login To Windows Via SSH
         ...    ${username}
         ...    ${password}
         ...    ${timeout}
-        IF    ${login}
+        IF    ${login} or ${WINDOWS_RECOVERY_REBOOTS_IN_PROGRESS}
+            VAR    ${WINDOWS_RECOVERY_REBOOTS_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
             BREAK
         ELSE
+            VAR    ${WINDOWS_RECOVERY_REBOOTS_IN_PROGRESS}=    ${TRUE}    scope=GLOBAL
             IF    ${reboot_count} == 2
                 Fail
                 ...    SSH: Unable to connect - The platform may be in Windows "Recovery Mode" - Rebooted ${reboot_count} times.
