@@ -160,6 +160,7 @@ _CONCURRENT_Background Measurements (load) (Windows)
     Stress Test Windows
     Background Measurements Windows
     ...    id_freq=${gather_freqs}    id_stab=${gather_stab}
+    Stop Stress Test Windows
 
 CPF009.301 CPU with load runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
@@ -201,7 +202,11 @@ CPF012.301 CPU with load runs on expected frequency (Windows)
 *** Keywords ***
 Stress Test Windows
     SSHLibrary.Put File    stress-test-windows.ps1    /C:/Users/user
-    Execute Command In Terminal    .\\stress-test-windows.ps1
+    Execute Command In Terminal    Start-Job -Name cpu_stress -FilePath .\\stress-test-windows.ps1
+
+Stop Stress Test Windows
+    Execute Command In Terminal    Stop-Job cpu_stress
+    Execute Command In Terminal    Remove-Job cpu_stress
 
 Prepare CPF
     [Documentation]    Setup CPF concurrent test contexts
