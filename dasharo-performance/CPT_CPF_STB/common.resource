@@ -142,7 +142,7 @@ Background Measurements Windows
         ${now}=    Get Current Date
         ${timer}=    Subtract Date From Date    ${now}    ${start}
         ${time_to_next_interval}=    Evaluate
-        ...    max(0, min(${next_stab_time}, ${next_freq_time}, ${NEXT_TEMP_TIME}) - ${timer})
+        ...    max(0, min(${next_stab_time}, ${next_freq_time}) - ${timer})
     END
 
     Set Concurrent Test Outputs    ${id_freq}    ${freq_list}
