@@ -38,17 +38,52 @@ ${PLATFORM_RAM_SPEED}=                      3200
 ${PLATFORM_RAM_SIZE}=                       16384
 
 # cpu performance Ubuntu
-# https://openbenchmarking.org/result/2603116-NE-20260311040
-${ZIP_MULTI_COMPRESSION}=                   50000    # MIPS
-${ZIP_MULTI_DECOMPRESSION}=                 35000    # MIPS
-
 # https://openbenchmarking.org/result/2511237-NE-TEST1811909&export=html
-${CRAY_5_K_RENDER}=                         850    # sec
-${CRAY_4_K_RENDER}=                         475    # sec
-${CRAY_1080_P_RENDER}=                      118    # sec
-
+&{CPP_CRAY_1080_P_BENCHMARK}=
+...                                         name=Resolution: 1080p - Rays Per Pixel: 16
+...                                         score=118
+...                                         scale=lower_is_better
+...                                         dev=0.2
+...                                         type=singlecore
+&{CPP_CRAY_4_K_BENCHMARK}=
+...                                         name=Resolution: 4K - Rays Per Pixel: 16
+...                                         score=475
+...                                         scale=lower_is_better
+...                                         dev=0.2
+...                                         type=singlecore
+&{CPP_CRAY_5_K_BENCHMARK}=
+...                                         name=Resolution: 5K - Rays Per Pixel: 16
+...                                         score=850
+...                                         scale=lower_is_better
+...                                         dev=0.2
+...                                         type=singlecore
 # https://openbenchmarking.org/result/2603115-NE-20260311070
-${COREMARK_SINGLE}=                         68000    # iterations/s
+&{CPP_COREMARK_BENCHMARK}=
+...                                         name=CoreMark Size 666 - Iterations Per Second
+...                                         score=68000
+...                                         scale=higher_is_better
+...                                         dev=0.2
+...                                         type=singlecore
+# https://openbenchmarking.org/result/2603116-NE-20260311040
+&{CPP_ZIP_COMPRESSION_BENCHMARK}=
+...                                         name=Test: Compression Rating
+...                                         score=50000
+...                                         scale=higher_is_better
+...                                         dev=0.2
+...                                         type=multicore
+&{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
+...                                         name=Test: Decompression Rating
+...                                         score=35000
+...                                         scale=higher_is_better
+...                                         dev=0.2
+...                                         type=multicore
+@{CPP_BENCHMARKS}=
+...                                         &{CPP_CRAY_1080_P_BENCHMARK}
+...                                         &{CPP_CRAY_4_K_BENCHMARK}
+...                                         &{CPP_CRAY_5_K_BENCHMARK}
+...                                         &{CPP_COREMARK_BENCHMARK}
+...                                         &{CPP_ZIP_COMPRESSION_BENCHMARK}
+...                                         &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
 
 # cpu performance Windows
 &{UPP_SMALLPT_BENCHMARK}=

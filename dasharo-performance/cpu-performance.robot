@@ -1,4 +1,5 @@
 *** Settings ***
+Library             Collections
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Resource            ../lib/performance/common.robot
@@ -11,9 +12,7 @@ Default Tags        automated
 
 
 *** Variables ***
-${DEVIATION_UP}=        1.2    # acceptable deviation +/-20%
-${DEVIATION_DOWN}=      0.8
-${RUNS_AMOUNT}=         3
+${RUNS_AMOUNT}=     3
 
 
 *** Test Cases ***
@@ -28,10 +27,7 @@ CPP001.201 Single Threaded CPU Benchmark (Ubuntu) (AC)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${render_test_passed}=    Run C-Ray Single-thread Render
-    ${coremark_test_passed}=    Run Coremark Single-thread
-    Should Be True    ${render_test_passed}
-    Should Be True    ${coremark_test_passed}
+    Run Supported Benchmarks    singlecore
 
 CPP002.201 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test multi threaded performance using phoronix
@@ -45,8 +41,7 @@ CPP002.201 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${c_7zip_test_passed}=    7-Zip Multi-thread Compression And Decompression Average
-    Should Be True    ${c_7zip_test_passed}
+    Run Supported Benchmarks    multicore
 
 CPP003.201 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test single threaded performance using phoronix
@@ -61,10 +56,7 @@ CPP003.201 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${render_test_passed}=    Run C-Ray Single-thread Render
-    ${coremark_test_passed}=    Run Coremark Single-thread
-    Should Be True    ${render_test_passed}
-    Should Be True    ${coremark_test_passed}
+    Run Supported Benchmarks    singlecore
 
 CPP004.201 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test multi threaded performance using phoronix
@@ -79,8 +71,7 @@ CPP004.201 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${c_7zip_test_passed}=    7-Zip Multi-thread Compression And Decompression Average
-    Should Be True    ${c_7zip_test_passed}
+    Run Supported Benchmarks    multicore
 
 
 *** Keywords ***
@@ -123,68 +114,102 @@ CPU Performance Suite Setup
     ${get_date}=    Get Current Date    result_format=%d%m%Y%H%M%S
     VAR    ${CURRENT_DATE}=    ${get_date}    scope=GLOBAL
     ${laptop_platform}=    Check The Platform Is A Laptop
-    VAR    ${1080p}=    Resolution: 1080p - Rays Per Pixel: 16=${EMPTY}    ${CRAY_1080_P_RENDER}    separator=${SPACE}
-    VAR    ${4k}=    Resolution: 4K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_4_K_RENDER}    separator=${SPACE}
-    VAR    ${5k}=    Resolution: 5K - Rays Per Pixel: 16=${EMPTY}    ${CRAY_5_K_RENDER}    separator=${SPACE}
-    VAR    @{SINGLE_THREAD_RES_TESTS}=    ${1080p}    ${4k}    ${5k}    scope=GLOBAL
-    VAR    ${comp}=    Test: Compression Rating=${ZIP_MULTI_COMPRESSION}    separator=${SPACE}
-    VAR    ${decomp}=    Test: Decompression Rating=${ZIP_MULTI_DECOMPRESSION}    separator=${SPACE}
-    VAR    @{MULTI_THREAD_TESTS}=    ${comp}    ${decomp}    scope=GLOBAL
 
-Run C-Ray Single-thread Render
-    [Documentation]    Run C-Ray benchmark with all resolutions (1080p, 4K, 5K) on single thread
-    Log To Console    \n    # new line for readability
+Run Supported Benchmarks
+    [Documentation]    Runs all phoronix benchmarks and validates results by the given type
+    [Arguments]    ${target_type}    # singlecore / multicore
+
     VAR    ${test_name_to_path}=    cpuperformance
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
-    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
-    ${result}=    Execute Command In Terminal
-    ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_to_path}
-    ...    timeout=18000
-    Should Not Contain    ${result}    The batch mode must first be configured.
+    IF    '${target_type}' == 'singlecore'
+        Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
+        ${result}=    Execute Command In Terminal
+        ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_to_path}
+        ...    timeout=18000
+        Should Not Contain    ${result}    The batch mode must first be configured.
 
-    ${test_passed}=    Validate Multiple Results
+        Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
+        ${result}=    Execute Command In Terminal
+        ...    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_to_path}
+        ...    timeout=1800
+        Should Not Contain    ${result}    The batch mode must first be configured.
+    ELSE IF    '${target_type}' == 'multicore'
+        Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
+        ${result}=    Execute Command In Terminal
+        ...    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_to_path}
+        ...    timeout=1800
+        Should Not Contain    ${result}    The batch mode must first be configured.
+    END
+
+    VAR    ${any_failed}=    ${FALSE}
+    VAR    @{errors}=    @{EMPTY}
+    FOR    ${benchmark}    IN    @{CPP_BENCHMARKS}
+        ${type}=    Get From Dictionary    ${benchmark}    type
+        IF    '${type}' == '${target_type}'
+            ${result}    ${msg}=    Validate A Result    ${test_name_to_path}    ${benchmark}
+            IF    not $result
+                VAR    ${any_failed}=    ${TRUE}
+                Append To List    ${errors}    ${msg}
+            END
+        END
+    END
+
+    IF    ${any_failed}
+        Log    Some benchmarks have failed:    ERROR
+        FOR    ${msg}    IN    @{errors}
+            Log    ${msg}    ERROR
+        END
+        Fail    Some benchmarks have failed
+    END
+
+Validate A Result
+    [Documentation]    Reads a benchmark result from the phoronix XML output and validates it
+    ...    against the reference value.
+    [Arguments]    ${test_name_to_path}    ${benchmark_dict}
+    ${phoronix_test_name}=    Get From Dictionary    ${benchmark_dict}    name
+    ${ref_score}=    Get From Dictionary    ${benchmark_dict}    score
+    ${scale}=    Get From Dictionary    ${benchmark_dict}    scale
+    ${deviation}=    Get From Dictionary    ${benchmark_dict}    dev
+    ${deviation_percent}=    Evaluate    float(${deviation})*100
+    ${lower_bound}=    Evaluate    ${ref_score} * (1 - ${deviation})
+    ${higher_bound}=    Evaluate    ${ref_score} * (1 + ${deviation})
+
+    ${raw_values}=    Read The Results
     ...    ${PTS_RESULTS_DIR_LINUX_ROOT}
     ...    ${test_name_to_path}
-    ...    @{SINGLE_THREAD_RES_TESTS}
-    RETURN    ${test_passed}
+    ...    ${phoronix_test_name}
 
-Run Coremark Single-thread
-    [Documentation]    Run Coremark benchmark on single thread
-    VAR    ${test_name_to_path}=    cpuperformance
-    VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
+    Log To Console    \nResults of ${phoronix_test_name}:
+    ${num_list}=    Split String    ${raw_values}    separator=:
+    FOR    ${benchmark_score}    IN    @{num_list}
+        ${benchmark_score}=    Convert To Number    ${benchmark_score}
+        IF    '${scale}' == 'higher_is_better'
+            ${fail_condition}=    Evaluate    ${benchmark_score} < ${lower_bound}
+            ${too_good_condition}=    Evaluate    ${benchmark_score} > ${higher_bound}
+        ELSE IF    '${scale}' == 'lower_is_better'
+            ${fail_condition}=    Evaluate    ${benchmark_score} > ${higher_bound}
+            ${too_good_condition}=    Evaluate    ${benchmark_score} < ${lower_bound}
+        END
 
-    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
-    ${result}=    Execute Command In Terminal
-    ...    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_to_path}
-    ...    timeout=1800
-    Should Not Contain    ${result}    The batch mode must first be configured.
-
-    ${test_result_values}=    Read The Results
-    ...    ${PTS_RESULTS_DIR_LINUX_ROOT}
-    ...    ${test_name_to_path}
-    ...    CoreMark Size 666 - Iterations Per Second
-    Log To Console    \nResults of the CoreMark Size 666 - Iterations Per Second:\n
-    ${test_passed}=    Validate The Results    ${test_result_values}    ${COREMARK_SINGLE}
-    RETURN    ${test_passed}
-
-7-Zip Multi-thread Compression And Decompression Average
-    [Documentation]    Run 7-Zip Multi-thread Compression and Decompression benchmark on multiple threads
-    Log To Console    \n    # new line for readability
-    VAR    ${test_name_to_path}=    cpuperformance
-    VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
-
-    Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
-    ${result}=    Execute Command In Terminal
-    ...    phoronix-test-suite batch-run pts/compress-7zip TEST_RESULTS_NAME=${test_name_to_path}
-    ...    timeout=1800
-    Should Not Contain    ${result}    The batch mode must first be configured.
-
-    ${test_passed}=    Validate Multiple Results
-    ...    ${PTS_RESULTS_DIR_LINUX_ROOT}
-    ...    ${test_name_to_path}
-    ...    @{MULTI_THREAD_TESTS}
-    RETURN    ${test_passed}
+        IF    ${too_good_condition}
+            VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+            ...    is over ${deviation_percent}% better than reference value: ${ref_score}
+            Log    ${msg}    WARN
+            RETURN    ${TRUE}    ${msg}
+        ELSE IF    ${fail_condition}
+            VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+            ...    is over ${deviation_percent}% worse then the reference value: ${ref_score}
+            Log    ${msg}    ERROR
+            RETURN    ${FALSE}    ${msg}
+        ELSE
+            Log To Console    ${benchmark_score}
+        END
+    END
+    VAR    ${msg}=    ${phoronix_test_name}: The measured score of ${benchmark_score}
+    ...    is acceptable for reference value of ${ref_score}
+    Log    ${msg}    CONSOLE
+    RETURN    ${TRUE}    ${msg}
 
 Read The Results
     [Arguments]    ${perf_results_path_ubuntu}    ${test_name_to_path}    ${test_description}
@@ -195,45 +220,3 @@ Read The Results
     ...    separator=${SPACE}
     ${test_result_values}=    Execute Command In Terminal    ${awk_commmand}
     RETURN    ${test_result_values}
-
-Validate The Results
-    [Arguments]    ${nums}    ${combined_ref_val}
-    ${ref_val}=    Convert To Number    ${combined_ref_val}
-    ${min}=    Evaluate    ${ref_val} * ${DEVIATION_DOWN}
-    ${max}=    Evaluate    ${ref_val} * ${DEVIATION_UP}
-    ${num_list}=    Split String    ${nums}    separator=:
-    VAR    ${return_val}=    ${True}
-
-    ${qtty}=    Get Length    ${num_list}
-    FOR    ${i}    IN RANGE    ${qtty}
-        ${num}=    Convert To Number    ${num_list}[${i}]
-        ${i_plus_one}=    Evaluate    ${i} + 1
-        IF    ${num} < ${min} or ${num} > ${max}
-            Log To Console    ${i_plus_one}. ${num} is out of acceptable range of (${min} - ${max}).
-            VAR    ${return_val}=    ${False}
-        ELSE
-            Log To Console    ${i_plus_one}. ${num}
-        END
-    END
-    RETURN    ${return_val}
-
-Validate Multiple Results
-    [Arguments]    ${perf_results_path_ubuntu}    ${test_name_to_path}    @{reference_data}
-    Should Not Be Empty    ${reference_data}
-    VAR    ${test_passed}=    ${True}
-    FOR    ${compare_values}    IN    @{reference_data}
-        ${description_string}    ${expected_value}=    Split String    ${compare_values}    =
-        Log To Console    \nResults of the ${description_string}:
-
-        ${test_result_values}=    Read The Results
-        ...    ${perf_results_path_ubuntu}
-        ...    ${test_name_to_path}
-        ...    ${description_string}
-
-        ${result}=    Validate The Results    ${test_result_values}    ${expected_value}
-        IF    ${result} == ${False}
-            VAR    ${test_passed}=    ${False}
-            Log To Console    Test Failed for the: ${description_string}.
-        END
-    END
-    RETURN    ${test_passed}
