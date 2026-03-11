@@ -88,7 +88,7 @@ CBNT003.201 Converged Boot Guard and TXT - PCR-0 is reconstructed correctly (Ubu
 
         ${actual}=    Execute Command In Terminal
         ...    cat /sys/class/tpm/tpm0/pcr-sha1/${pcr}
-        Should Not Contain    ${expected}    ${actual}    ignore_case=${TRUE}
+        Should Contain    ${expected}    ${actual}    ignore_case=${TRUE}
     END
 
 CBNT004.201 Converged Boot Guard and TXT - TPM Startup from locality 3 (Ubuntu)
