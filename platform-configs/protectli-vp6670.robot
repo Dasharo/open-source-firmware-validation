@@ -16,10 +16,7 @@ ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${USB_MODEL}=                           SanDisk
 @{ATTACHED_USB}=                        Wilk USB
 
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v0.9.3-rc4
-${DMIDECODE_RELEASE_DATE}=              01/23/2026
 ${DMIDECODE_PRODUCT_NAME}=              VP6670
-${DMIDECODE_FAMILY}=                    Vault Pro
 ${HAS_E_CORES}=                         ${TRUE}
 
 ${CPU_MIN_FREQUENCY}=                   400

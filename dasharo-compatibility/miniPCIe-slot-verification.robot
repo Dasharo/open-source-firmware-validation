@@ -97,7 +97,7 @@ MWL001.301 Wireless card detection (Windows)
     ...    Previous IDs: MWL001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
     Should Contain    ${out}    ${WIFI_CARD}
     Execute Shutdown Command
@@ -108,7 +108,7 @@ MWL002.301 Wi-Fi scanning (Windows)
     ...    Previous IDs: MWL002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MLW002.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    netsh wlan show network
     Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
     Execute Shutdown Command

@@ -83,6 +83,6 @@ NVI001.301 NVIDIA Graphics detect (Windows)
     ...    Previous IDs: NVI001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVI001.301 not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Video Controllers Windows
     Should Contain    ${out}    NVIDIA GeForce

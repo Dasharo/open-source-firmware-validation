@@ -35,7 +35,8 @@ ${CPU_MIN_FREQUENCY}=                       300
 ${CPU_MAX_FREQUENCY}=                       1500
 ${DMIDECODE_MANUFACTURER}=                  PC Engines
 ${DMIDECODE_VENDOR}=                        3mdeb
-${DMIDECODE_FAMILY}=                        N/A
+${DMIDECODE_FAMILY}=                        Not Specified
+${DMIDECODE_SERIAL_NUMBER}=                 1278784
 # TODO
 ${DMIDECODE_TYPE}=                          Desktop
 ${INTERNAL_PROGRAMMER_CHIPNAME}=            W25Q64BV/W25Q64CV/W25Q64FV

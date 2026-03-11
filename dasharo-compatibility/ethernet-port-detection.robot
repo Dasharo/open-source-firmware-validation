@@ -38,7 +38,7 @@ ETH001.401 All expected NET controllers detected (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    ETH001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli network nic list
     ${lines}=    Split To Lines    ${out}
@@ -76,7 +76,7 @@ All Expected NET Controllers Detected
     [Arguments]    ${env_id}    @{expected_controllers}
 
     Power On
-    Login To OS    ${env_id}
+    Boot And Login To OS    ${env_id}
 
     ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i ethernet
     Log    ${lspci_out}
@@ -90,7 +90,7 @@ All Expected SFP Controllers Detected
     [Arguments]    ${env_id}    @{expected_sfp}
 
     Power On
-    Login To OS    ${env_id}
+    Boot And Login To OS    ${env_id}
 
     ${lspci_out}=    Execute Linux Command    lspci -QQnn | grep -i SFP
     Log    ${lspci_out}

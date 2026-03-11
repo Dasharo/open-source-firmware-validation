@@ -92,4 +92,4 @@ AUD007.301 HDMI Audio recognition
 *** Keywords ***
 Init AUD Windows
     Power On
-    Login To Windows
+    Boot And Login To Windows

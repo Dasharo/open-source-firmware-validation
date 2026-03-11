@@ -26,7 +26,7 @@ class ParserManager:
         Assembles the command to run given test suites with given args.
         """
         command = ["scripts/run.sh"]
-        command += sorted(files)
+        command += files
         if len(robot_args) > 0:
             command.append("--")
             command += robot_args
@@ -78,7 +78,7 @@ class ParserManager:
             for data in runs:
                 joined["files"] += data["files"]
                 joined["command"] += data["command"]
-            joined["files"] = list(set(joined["files"]))
+            joined["files"] = list(dict.fromkeys(joined["files"]))
             uniqueified_runs_data.append(joined)
         return uniqueified_runs_data
 
@@ -89,7 +89,7 @@ class ParserManager:
         files = []
         for data in self.runs_data:
             files += data["files"]
-        return sorted(list(set(files)))
+        return list(dict.fromkeys(files))
 
     def commands(self):
         """

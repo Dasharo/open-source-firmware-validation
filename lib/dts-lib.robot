@@ -499,6 +499,9 @@ Flash FW Automatically Or Manually
     # Without POWER_CTRL Flash Firmware will try to boot into Linux which won't
     # work
     IF    not ${variable_exists} or '''${POWER_CTRL}''' == '''none'''
+        IF    ${INCLUDE_TAGS} and 'semiauto' not in $INCLUDE_TAGS
+            Skip    Not performing semiauto tests, semiauto tag was not included
+        END
         Execute Manual Step While Freeing Serial Connection    ${msg}
     ELSE
         Flash Firmware    ${${fw_var}}

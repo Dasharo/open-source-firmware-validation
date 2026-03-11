@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/custom_bootentries.robot
 
 # TODO:
 # - document which setup/teardown keywords to use and what are they doing
@@ -32,12 +33,8 @@ USH001.001 UEFI Shell
     ...    UEFI Shell was sourced from coreboot image, or from OS drive.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.001 not supported
     Power On
-    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
-    Enter Submenu From Snapshot    ${boot_menu}    UEFI Shell
-    Read From Terminal Until    Shell>
-    Write Bare Into Terminal    dh
-    Press Enter
-    ${shell_dump_handle}=    Read From Terminal Until    Shell>
+    Enter UEFI Shell
+    ${shell_dump_handle}=    Execute UEFI Shell Command    dh
 
     Should Not Contain    ${shell_dump_handle}    LoadedImage(Shell)
     ...    UEFI Shell sourced from Dasharo FW image!

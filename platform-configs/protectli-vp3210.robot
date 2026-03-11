@@ -17,11 +17,8 @@ ${BLUETOOTH_CARD_UBUNTU}=           Qualcomm Atheros Communications AR3012 Bluet
 ${E_MMC_NAME}=                      BJTD4R
 ${CPU}=                             Intel(R) N100
 
-${DMIDECODE_MANUFACTURER}=          Protectli
 ${DMIDECODE_SERIAL_NUMBER}=         123456789
 ${DMIDECODE_PRODUCT_NAME}=          VP3210
-${DMIDECODE_FAMILY}=                Vault Pro
-${DMIDECODE_TYPE}=                  Desktop
 ${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.0-rc10
 ${DMIDECODE_RELEASE_DATE}=          03/14/2025
 ${DEF_THREADS_TOTAL}=               4

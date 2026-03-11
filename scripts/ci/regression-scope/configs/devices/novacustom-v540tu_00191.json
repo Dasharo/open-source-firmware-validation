@@ -3,7 +3,9 @@
         "ASSET_ID": "00191",
         "RTE_IP": "192.168.10.247",
         "CONFIG": "novacustom-v540tu",
+        "DEVICE_IP": "192.168.10.166",
         "FW_FILE": "_roms/novacustom_v54x_mtl_igpu_v1.0.1_btg_prod.rom",
-        "DEVICE_IP": "192.168.10.166"
+        "CAPSULE_FW_FILE": "_roms/novacustom_v54x_mtl_igpu_v1.0.1_btg_prod.cap",
+        "CAPSULE_UPDATE_RC0_FW_FILE": "_roms/novacustom_v54x_mtl_igpu_v1.0.1-rc3_btg_prod.rom"
     }
 }

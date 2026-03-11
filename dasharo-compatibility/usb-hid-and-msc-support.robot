@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
+Resource            ../lib/custom_bootentries.robot
 
 # Required setup keywords:
 # Prepare Test Suite - elementary setup keyword for all tests.
@@ -64,7 +65,7 @@ USB001.401 USB devices detection in OS (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    lsusb
     Should Contain    ${out}    ${USB_MODEL}
@@ -111,7 +112,7 @@ USB002.401 USB keyboard detection in OS (ESXi)
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Login To OS    ${ENV_ID_ESXI}
+    Boot And Login To OS    ${ENV_ID_ESXI}
     Sleep    5s
     ${out}=    Execute Command In Terminal    lsusb
     Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
@@ -132,7 +133,7 @@ USB001.205 USB devices detected by OS (XCP-NG)
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    Execute Command In Terminal    lsusb -v | grep bInterfaceClass
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    Human Interface Device
     IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    Mass Storage
@@ -145,7 +146,7 @@ USB002.205 USB keyboard in OS (XCP-NG)
     Depends On    ${HAS_KEYBOARD}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    List Devices In Linux    usb
     Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
 
@@ -157,7 +158,7 @@ USB003.205 Upload 1GB file on USB storage (XCP-NG)
     Depends On    ${HAS_USB_STORAGE}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
     Power On
-    Login To OS    ${ENV_ID_XCP_NG}
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
     Execute Linux Command    openssl rand -out test_file.txt -base64 $(( 2**30 * 3/4 ))
     ${path_to_usb}=    Identify Path To USB
     Execute Linux Command    mount ${path_to_usb} /mnt
@@ -174,7 +175,7 @@ USB001.301 USB devices detected by OS (Windows)
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal
     ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    HIDClass
@@ -188,7 +189,7 @@ USB002.301 USB keyboard in OS (Windows)
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
     ${keyboard}=    Get Lines Matching Regexp    ${out}    ^CreationClassName\\s+:\\sWin32_Keyboard.*$
     Should Not Be Empty    ${keyboard}
@@ -201,7 +202,7 @@ USB003.301 Upload 1GB file on USB storage (Windows)
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
-    Login To Windows
+    Boot And Login To Windows
     Generate 1GB File In Windows
     # Work only with one attached USB storage
     ${drive_letter}=    Get Drive Letter Of USB

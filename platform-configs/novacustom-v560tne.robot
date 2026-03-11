@@ -38,9 +38,8 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${FALSE}
 ${NETBOOT_UTILITIES_SUPPORT}=                   ${TRUE}
 
 # DMI
-${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v1.0.0-rc10
-# TODO verify
-${DMIDECODE_RELEASE_DATE}=                      12/03/2025
+${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v1.0.0
+${DMIDECODE_RELEASE_DATE}=                      01/29/2026
 
 ${USB_DETECTION_ITERATIONS_NUMBER}=             3
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             3

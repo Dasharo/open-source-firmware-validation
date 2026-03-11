@@ -37,6 +37,8 @@ if "RULES_FILE" not in env:
     env["RULES_FILE"] = "scripts/ci/regression-scope/configs/release_tests_rules.json"
 if "LOGS_DIR" not in env:
     logs_base = f"/srv/nfs/logs/osfv_stability/ci_logs"
+else:
+    logs_base = env["LOGS_DIR"]
 
 env["ALLOW_DIRTY"] = "1"
 

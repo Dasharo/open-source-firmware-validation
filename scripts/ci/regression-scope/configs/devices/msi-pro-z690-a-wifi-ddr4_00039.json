@@ -6,6 +6,8 @@
         "SONOFF_IP": "192.168.10.169",
         "PIKVM_IP": "192.168.10.120",
         "DEVICE_IP": "192.168.10.155",
-        "FW_FILE": "_roms/msi_ms7d25_v1.1.6_ddr5_dev_signed.rom"
+        "FW_FILE": "_roms/msi_ms7d25_v1.1.6_ddr4_dev_signed.rom",
+        "CAPSULE_FW_FILE": "_roms/msi_ms7d25_v1.1.6_ddr4_dev_signed.cap",
+        "CAPSULE_UPDATE_RC0_FW_FILE": "_roms/msi_ms7d25_v1.1.4_ddr4_dev_signed.rom"
     }
 }

@@ -97,7 +97,7 @@ Usb Type-C Pd Power Input
             Exit From Root User
         END
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         Check Charging State In Windows
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
@@ -135,7 +135,7 @@ Usb Type-C Docking Station Hdmi Display
         END
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         Check Docking Station HDMI Windows
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
@@ -158,7 +158,7 @@ Usb Type-C Docking Station Dp Display
         END
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         Check Docking Station DP Windows
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
@@ -180,7 +180,7 @@ Usb Type-C Docking Station Usb Devices Recognition
         Should Contain    ${out}    SanDisk
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         ${out}=    Execute Command In Terminal
         ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
         Should Contain    ${out}    OK${SPACE*9}DiskDrive${SPACE*8}USB${SPACE*2}SanDisk
@@ -200,7 +200,7 @@ Usb Type-C Docking Station Usb Keyboard
         Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
         Should Contain    ${out}    Description${SPACE*17}: USB Input Device    strip_spaces=True
     ELSE
@@ -222,7 +222,7 @@ Usb Type-C Docking Station Ethernet Connection
         Check Internet Connection On Linux
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         Check Internet Connection On Windows
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
@@ -263,7 +263,7 @@ Usb Type-C Docking Station Sd Card Reader Detection
         Should Match    str(${disks})    pattern=*SD*
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         ${out}=    Execute Command In Terminal
         ...    Get-PnpDevice -Status "OK" -Class "DiskDrive" | ForEach-Object { $_.FriendlyName }
         @{lines}=    Split To Lines    ${out}
@@ -293,7 +293,7 @@ Usb Type-C Docking Station Sd Card Read/Write
         END
         Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
-        Login To Windows
+        Boot And Login To Windows
         ${drive_letter}=    Identify Path To SD Card In Windows
         Check Read Write To External Drive In Windows    ${drive_letter}
     ELSE
