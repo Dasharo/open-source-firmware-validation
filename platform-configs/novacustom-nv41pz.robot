@@ -37,6 +37,19 @@ ${PLATFORM_CPU_SPEED}=                      2.10
 ${PLATFORM_RAM_SPEED}=                      3200
 ${PLATFORM_RAM_SIZE}=                       16384
 
+# cpu performance Ubuntu
+# https://openbenchmarking.org/result/2603116-NE-20260311040
+${ZIP_MULTI_COMPRESSION}=                   50000    # MIPS
+${ZIP_MULTI_DECOMPRESSION}=                 35000    # MIPS
+
+# https://openbenchmarking.org/result/2511237-NE-TEST1811909&export=html
+${CRAY_5_K_RENDER}=                         850    # sec
+${CRAY_4_K_RENDER}=                         475    # sec
+${CRAY_1080_P_RENDER}=                      118    # sec
+
+# https://openbenchmarking.org/result/2603115-NE-20260311070
+${COREMARK_SINGLE}=                         68000    # iterations/s
+
 # cpu performance Windows
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                         name=smallpt
