@@ -7,14 +7,9 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/robot.sh"
 
-# FW_FILE and DEVICE_IP are required for full regression
-check_env_variable "FW_FILE"
+# DEVICE_IP is required; firmware can be provided via FW_FILE or FW_URI
 check_env_variable "DEVICE_IP"
-
-if [ ! -f "$FW_FILE" ]; then
-    echo "Error: Environment variable FW_FILE doesn't point to a file."
-    exit 1
-fi
+resolve_fw_file
 
 _REGRESSION_RUN="True"
 export _REGRESSION_RUN

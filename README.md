@@ -226,6 +226,8 @@ Parameters should be defined as follows:
 * $FW_FILE - path to and name of the coreboot firmware file. This is usually
   not required when running single tests or suites, where flashing is not
   necessary.
+* $FW_URI - optional direct URL to firmware binary used by regression wrappers
+  when `$FW_FILE` is not set. Downloaded once and cached locally.
 * $CONFIG - platform config - see the `platform-configs` directory for
   available configurations.
 * $TEST_MODULE - name of the test module (i.e. `dasharo-compatibility`),
@@ -295,6 +297,12 @@ platform config file.
 
 ```bash
 FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh
+```
+
+Or provide a direct download URL instead of a local file:
+
+```bash
+FW_URI=https://dl.3mdeb.com/path/to/firmware.rom DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh
 ```
 
 Running regression tests without snipeit works the same way as

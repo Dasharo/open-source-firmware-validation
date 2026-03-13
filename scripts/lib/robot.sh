@@ -19,6 +19,45 @@ check_env_variable() {
   fi
 }
 
+resolve_fw_file() {
+  # Accept either FW_FILE (local path) or FW_URI (remote URL downloaded to cache)
+  if [ -n "${FW_FILE}" ]; then
+    if [ ! -f "${FW_FILE}" ]; then
+      echo "Error: Environment variable FW_FILE doesn't point to a file."
+      exit 1
+    fi
+    return 0
+  fi
+
+  if [ -z "${FW_URI}" ]; then
+    echo "Error: provide FW_FILE (local path) or FW_URI (download URL)."
+    exit 1
+  fi
+
+  local cache_root="${FW_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/osfv/firmware}"
+  mkdir -p "${cache_root}"
+
+  local file_name="${FW_URI##*/}"
+  file_name="${file_name%%\?*}"
+  if [ -z "${file_name}" ]; then
+    file_name="firmware.rom"
+  fi
+
+  local dst="${cache_root}/${file_name}"
+  if [ ! -f "${dst}" ]; then
+    echo "Downloading firmware from FW_URI to cache: ${dst}"
+    if ! curl -fL --retry 3 --retry-delay 1 -o "${dst}" "${FW_URI}"; then
+      echo "Error: failed to download firmware from FW_URI=${FW_URI}"
+      exit 1
+    fi
+  else
+    echo "Using cached firmware: ${dst}"
+  fi
+
+  FW_FILE="${dst}"
+  export FW_FILE
+}
+
 check_test_station_variables() {
   if [[ $CONFIG != *"-ts"? ]]; then
     return
