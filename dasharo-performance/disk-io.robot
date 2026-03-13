@@ -42,10 +42,10 @@ DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Sleep    20s
-    Skip If Battery Level Below 30 Percent
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
+    Skip If Battery Level Below 30 Percent
     Run FIO On Ubuntu    sequential_with_queues
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
     Run FIO On Ubuntu    sequential_without_queues
@@ -87,10 +87,10 @@ DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Sleep    20s
-    Skip If Battery Level Below 30 Percent
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
+    Skip If Battery Level Below 30 Percent
     Run FIO On Ubuntu    sequential_write_with_queues
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
     Run FIO On Ubuntu    sequential_write_without_queues
@@ -134,10 +134,10 @@ DIO006.201 Random Read Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Sleep    20s
-    Skip If Battery Level Below 30 Percent
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
+    Skip If Battery Level Below 30 Percent
     Run FIO On Ubuntu    random_read_with_queues
     ...    --rw=randread --bs=1M --iodepth=32 --numjobs=1 --size=4G
     Run FIO On Ubuntu    random_read_without_queues
@@ -181,10 +181,10 @@ DIO008.201 Random Write Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Sleep    20s
-    Skip If Battery Level Below 30 Percent
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
+    Skip If Battery Level Below 30 Percent
     Run FIO On Ubuntu    random_write_with_queues
     ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=1 --size=4G
     Run FIO On Ubuntu    random_write_without_queues
@@ -425,10 +425,12 @@ Run FIO On Windows
     [Arguments]    ${fio_test_name}    ${fio_args}
     Execute Command In Terminal    ${RESULTS_DIR_WINDOWS}
     VAR    ${cmd}=    fio.exe --name=${fio_test_name}
-    VAR    ${cmd}=    ${cmd} --ioengine=windowsaio --runtime=60s
-    VAR    ${cmd}=    ${cmd} --direct=1 --group_reporting
-    VAR    ${cmd}=    ${cmd} --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
-    VAR    ${cmd}=    ${cmd} ${fio_args}
+    VAR    ${cmd}=    ${cmd}    --ioengine=windowsaio --runtime=60s
+    VAR    ${cmd}=    ${cmd}    --direct=1 --group_reporting
+    VAR    ${cmd}=    ${cmd}    --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
+    VAR    ${cmd}=    ${cmd}    --unlink=1    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    --filename=testfile    separator=${SPACE}
+    VAR    ${cmd}=    ${cmd}    ${fio_args}    separator=${SPACE}
 
     ${result}=    Execute Command In Terminal    ${cmd}    300
     Log To Console    ${result}
@@ -438,7 +440,11 @@ Parse FIO Result
     [Arguments]    ${results_dir}    ${filename}    ${operation}
     # "cat" works on both linux&windows, thanks POSIX!
     ${json_data}=    Execute Command In Terminal    cat ${results_dir}/${filename}
-    ${parsed}=    Evaluate    json.loads("""${json_data}""")    json
+    # chr(123)='{', chr(125)='}' — strip non-JSON prefix/suffix before parsing
+    ${parsed}=    Evaluate
+    ...    (lambda s: json.loads(s[s.index(chr(123)):s.rindex(chr(125))+1]))("""${json_data}""")
+    ...    json
+    # ${parsed}=    Evaluate    json.loads("""${json_data}""")    json
     VAR    ${bw}=    ${parsed}[jobs][0][${operation}][bw]
     Sleep    10s
     RETURN    ${bw}/1024
