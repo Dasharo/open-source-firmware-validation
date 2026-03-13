@@ -219,7 +219,7 @@ Generate Verified Boot Keys
     ${random}=    Generate Random String    16
     VAR    ${KEYS_DIR}=    vboot_keys_${random}    scope=SUITE
     Run    git clone https://github.com/Dasharo/dasharo-tools.git
-    Run    rm -rf vboot_keys
+    Run    rm -rf ${KEYS_DIR}
     ${out_genkey}=    Run    ./dasharo-tools/vboot/generate_keys ${KEYS_DIR}
     Run    chmod -R a+rw ${KEYS_DIR}
     Should Contain    ${out_genkey}    The Verified Boot keys were generated into following directory
@@ -232,7 +232,7 @@ Generate Verified Boot Keys
 Resign Existing Firmware Image With Generated Keys
     Send File To DUT    ${FW_FILE}    ${FW_FILE_ORIGINAL_TARGET}
     Run    rm -f ${FW_FILE_RESIGNED_SOURCE}
-    ${out_resign}=    Run    ./dasharo-tools/vboot/resign ${FW_FILE} vboot_keys
+    ${out_resign}=    Run    ./dasharo-tools/vboot/resign ${FW_FILE} ${KEYS_DIR}
     Should Contain    ${out_resign}    successfully saved new image to
     Should Contain    ${out_resign}    ${FW_FILE_RESIGNED_SOURCE}
     Run    sync
