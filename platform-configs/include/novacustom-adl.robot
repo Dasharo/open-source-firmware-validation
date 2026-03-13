@@ -12,6 +12,7 @@ ${DEF_ONLINE_CPU}=                  0-15
 ${DEF_SOCKETS}=                     1
 
 # Connectivity
+${MINI_PC_IE_SLOT_SUPPORT}=         ${TRUE}
 ${WIFI_CARD}=                       Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                Intel Corporation Alder Lake-P PCH CNVi WiFi (rev 01)
 ${BLUETOOTH_CARD_UBUNTU}=           Intel Corp. AX201 Bluetooth
