@@ -77,7 +77,7 @@ check_dirty_tree() {
 
 bash_list_to_python_list_string() {
   list=("${@:1}")
-  if ((${#list[@]})) || [[ -z ${list[0]} ]]; then
+  if ((${#list[@]} > 0)); then
     printf -v python_list '%s,' "${list[@]}"
     python_list=${python_list%,}
     echo "[\"${python_list//,/\",\"}\"]"

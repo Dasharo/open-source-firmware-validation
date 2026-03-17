@@ -313,7 +313,7 @@ Usb Type-C Pd Current Limiting
             Execute Manual Step    [3/8] Ensure no other USB devices are connected.
             Execute Manual Step    [4/8] Connect charger/dock to PD meter. Verify PD profile is negotiated correctly.
             Execute Manual Step    [5/8] Connect PD meter to DUT. Observe initial power draw.
-            Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
+            Execute Manual Step    [6/8] After Qubes OS boots, record idle power draw.
             Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
             Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
             Log To Console    USB-C PD current limiting test completed

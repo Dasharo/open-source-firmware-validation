@@ -17,9 +17,9 @@ Suite Setup     Run Keywords
 
 *** Test Cases ***
 ############################################
-#    Immediate Measurements (QubesOS)    #
+#    Immediate Measurements (Qubes OS)    #
 ############################################
-_CONCURRENT_Background Measurements Immediate (no load) (QubesOS)
+_CONCURRENT_Background Measurements Immediate (no load) (Qubes OS)
     ${will_any_be_run}=    Check Concurrent Test Supported Regex
     ...    (CPF001)|(STB002).203
     Skip If    not ${will_any_be_run}    No test depends on this step
@@ -54,28 +54,28 @@ _CONCURRENT_Background Measurements Immediate (no load) (QubesOS)
     END
 
 ############################################
-# QubesOS CPU Frequency / Temperature Tests #
+# Qubes OS CPU Frequency / Temperature Tests #
 ############################################
 
-CPF001.203 CPU not stuck on initial frequency (QubesOS)
+CPF001.203 CPU not stuck on initial frequency (Qubes OS)
     VAR    ${con_id}=    CPF001.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-CPF002.203 CPU not stuck on initial frequency (QubesOS) (battery)
+CPF002.203 CPU not stuck on initial frequency (Qubes OS) (battery)
     VAR    ${con_id}=    CPF002.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-CPF003.203 CPU not stuck on initial frequency (QubesOS) (AC)
+CPF003.203 CPU not stuck on initial frequency (Qubes OS) (AC)
     VAR    ${con_id}=    CPF003.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-CPF004.203 CPU not stuck on initial frequency (QubesOS) (USB-PD)
+CPF004.203 CPU not stuck on initial frequency (Qubes OS) (USB-PD)
     VAR    ${con_id}=    CPF004.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
@@ -85,7 +85,7 @@ CPF004.203 CPU not stuck on initial frequency (QubesOS) (USB-PD)
 # Boot log check    #
 ############################################
 
-STB002.203 Verify if no unexpected boot errors appear in logs (QubesOS)
+STB002.203 Verify if no unexpected boot errors appear in logs (Qubes OS)
     VAR    ${con_id}=    STB002.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
@@ -95,7 +95,7 @@ STB002.203 Verify if no unexpected boot errors appear in logs (QubesOS)
 # No‑load Background Measurements    #
 ############################################
 
-_CONCURRENT_Background Measurements (no load) (QubesOS)
+_CONCURRENT_Background Measurements (no load) (Qubes OS)
     ${gather_temps}=    Will Concurrent Test Be Run    CPT001.203
     ${gather_freqs}=    Will Concurrent Test Be Run    CPF005.203
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.203
@@ -110,19 +110,19 @@ _CONCURRENT_Background Measurements (no load) (QubesOS)
     ...    id_freq=${gather_freqs}
     ...    id_stab=${gather_stab}
 
-CPT001.203 CPU temperature without load (QubesOS)
+CPT001.203 CPU temperature without load (Qubes OS)
     VAR    ${con_id}=    CPT001.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Temps    ${outs}
 
-CPF005.203 CPU runs on expected frequency (QubesOS)
+CPF005.203 CPU runs on expected frequency (Qubes OS)
     VAR    ${con_id}=    CPF005.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Freqs Linux    ${outs}
 
-STB001.203 Verify if no reboot occurs (QubesOS)
+STB001.203 Verify if no reboot occurs (Qubes OS)
     VAR    ${con_id}=    STB001.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
@@ -132,7 +132,7 @@ STB001.203 Verify if no reboot occurs (QubesOS)
 # Load Background Measurements    #
 ############################################
 
-_CONCURRENT_Background Measurements (load) (QubesOS)
+_CONCURRENT_Background Measurements (load) (Qubes OS)
     ${gather_temps}=    Will Concurrent Test Be Run    CPT005.203
     ${gather_freqs}=    Will Concurrent Test Be Run    CPF009.203
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.203
@@ -151,13 +151,13 @@ _CONCURRENT_Background Measurements (load) (QubesOS)
 
     Execute Command In Terminal    pkill stress-ng
 
-CPT005.203 CPU temperature after stress test (QubesOS)
+CPT005.203 CPU temperature after stress test (Qubes OS)
     VAR    ${con_id}=    CPT005.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
     Check CPU Temps    ${outs}
 
-CPF009.203 CPU with load runs on expected frequency (QubesOS)
+CPF009.203 CPU with load runs on expected frequency (Qubes OS)
     VAR    ${con_id}=    CPF009.203
     Skip If Concurrent Test Not Supported    ${con_id}
     ${outs}=    Get Concurrent Test Outputs    ${con_id}
@@ -169,12 +169,12 @@ Prepare STB QUBES
     Add Concurrent Test Skip Condition
     ...    STB001.203
     ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    Tests in QubesOS not supported
+    ...    Tests in Qubes OS not supported
 
     Add Concurrent Test Skip Condition
     ...    STB002.203
     ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    Tests in QubesOS not supported
+    ...    Tests in Qubes OS not supported
 
 Prepare CPF QUBES
     VAR    ${CPF_STUCK_ID}=    CPF001    scope=SUITE
@@ -203,9 +203,9 @@ Prepare CPT QUBES
     Add Concurrent Test Skip Condition
     ...    ${CPT_NO_LOAD_ID}.203
     ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    tests in QubesOS not supported
+    ...    tests in Qubes OS not supported
 
     Add Concurrent Test Skip Condition
     ...    ${CPT_LOAD_ID}.203
     ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-    ...    tests in QubesOS not supported
+    ...    tests in Qubes OS not supported
