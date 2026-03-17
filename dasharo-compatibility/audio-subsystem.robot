@@ -318,7 +318,7 @@ AUD007.301 HDMI Audio recognition
 
 AUD001.203 Audio subsystem detection (Qubes OS)
     [Documentation]    Check whether the audio subsystem is initialized correctly
-    ...    and can be detected in QubesOS. To do so, we attempt detection
+    ...    and can be detected in Qubes OS. To do so, we attempt detection
     ...    of the Audio Service, and verify it is in Running state.
     ...    Previous IDs: AUD001.003
     Power On

@@ -62,7 +62,7 @@ UTC033.301 USB Type-C PD current limiting (Windows) (ME: Enabled)
     Skip
     ...    UTC033.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC033.203 USB Type-C PD current limiting (QubesOS) (ME: Enabled)
+UTC033.203 USB Type-C PD current limiting (Qubes OS) (ME: Enabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
     ...    power supply does not exceed the limits of the power supply's
     ...    specifications.
@@ -112,7 +112,7 @@ UTC034.301 USB Type-C PD current limiting (Windows) (ME: Disabled)
     Skip
     ...    UTC034.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC034.203 USB Type-C PD current limiting (QubesOS) (ME: Disabled)
+UTC034.203 USB Type-C PD current limiting (Qubes OS) (ME: Disabled)
     [Documentation]    This test aims to verify that the power draw from a USB-C PD
     ...    power supply does not exceed the limits of the power supply's
     ...    specifications.
@@ -828,7 +828,7 @@ UTC157.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip
     ...    UTC157.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC105.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC105.203 USB Type-C PD power input (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port
@@ -837,7 +837,7 @@ UTC105.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC105.203 not supported
     Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
-UTC107.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC107.203 USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.203 not supported
@@ -845,7 +845,7 @@ UTC107.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E
     Skip
     ...    UTC107.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC109.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC109.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -855,7 +855,7 @@ UTC109.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC109.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC111.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC111.203 USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -865,7 +865,7 @@ UTC111.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD
     Skip
     ...    UTC111.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC113.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC113.203 USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the three display
     ...    simultaneously connected to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -874,7 +874,7 @@ UTC113.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL
     Skip
     ...    UTC113.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC115.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC115.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
     [Tags]    semiauto
@@ -883,7 +883,7 @@ UTC115.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Ena
     Skip
     ...    UTC115.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC117.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC117.203 USB Type-C docking station USB keyboard (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
     [Tags]    semiauto
@@ -892,7 +892,7 @@ UTC117.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC117.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC119.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC119.203 USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the 1GB file can be
     ...    transferred from the OPERATING_SYSTEM to the USB storage
     ...    connected to the docking station.
@@ -901,7 +901,7 @@ UTC119.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     Skip
     ...    UTC119.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC121.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC121.203 USB Type-C docking station Ethernet connection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
@@ -911,7 +911,7 @@ UTC121.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled
     Skip
     ...    UTC121.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC123.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC123.203 USB Type-C docking station audio recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
@@ -921,7 +921,7 @@ UTC123.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) 
     Skip
     ...    UTC123.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC125.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC125.203 USB Type-C docking station audio playback (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to playback audio recordings by using the external headset
     ...    speakers connected to the docking station.
@@ -931,7 +931,7 @@ UTC125.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL
     Skip
     ...    UTC125.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC127.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC127.203 USB Type-C docking station audio capture (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to capture audio from external headset connected to the
     ...    docking station.
@@ -941,7 +941,7 @@ UTC127.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC127.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC129.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC129.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     [Tags]    semiauto
@@ -950,7 +950,7 @@ UTC129.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: En
     Skip
     ...    UTC129.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC131.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC131.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     [Tags]    semiauto
@@ -959,7 +959,7 @@ UTC131.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled)
     Skip
     ...    UTC131.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC135.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC135.203 Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
@@ -969,7 +969,7 @@ UTC135.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC135.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC137.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC137.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
@@ -979,7 +979,7 @@ UTC137.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC137.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC139.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC139.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     [Tags]    semiauto
@@ -988,7 +988,7 @@ UTC139.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UM
     Skip
     ...    UTC139.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC141.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC141.203 Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
     [Tags]    semiauto
@@ -998,7 +998,7 @@ UTC141.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC141.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC143.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC143.203 Docking station detection after suspend (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
     [Tags]    semiauto
@@ -1008,7 +1008,7 @@ UTC143.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled
     Skip
     ...    UTC143.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC145.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC145.203 Docking station detection after suspend (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
     [Tags]    semiauto
@@ -1018,7 +1018,7 @@ UTC145.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) 
     Skip
     ...    UTC145.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC147.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC147.203 Docking station detection after coldboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
@@ -1028,7 +1028,7 @@ UTC147.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC147.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC149.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC149.203 Docking station detection after warmboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
@@ -1038,7 +1038,7 @@ UTC149.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC149.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC151.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC151.203 Docking station detection after reboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot then hotplug.
     [Tags]    semiauto
@@ -1047,7 +1047,7 @@ UTC151.203 Docking station detection after reboot then hotplug (QubesOS) (ME: En
     Skip
     ...    UTC151.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC153.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC153.203 Docking station detection after suspend then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend then hotplug.
     [Tags]    semiauto
@@ -1057,7 +1057,7 @@ UTC153.203 Docking station detection after suspend then hotplug (QubesOS) (ME: E
     Skip
     ...    UTC153.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC155.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC155.203 Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S0ix) then hotplug.
     [Tags]    semiauto
@@ -1067,7 +1067,7 @@ UTC155.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip
     ...    UTC155.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC157.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
+UTC157.203 Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3) then hotplug.
     [Tags]    semiauto
@@ -1785,7 +1785,7 @@ UTC158.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip
     ...    UTC158.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC106.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC106.203 USB Type-C PD power input (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port
@@ -1794,7 +1794,7 @@ UTC106.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC106.203 not supported
     Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
-UTC108.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC108.203 USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.203 not supported
@@ -1802,7 +1802,7 @@ UTC108.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip
     ...    UTC108.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC110.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC110.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -1812,7 +1812,7 @@ UTC110.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC110.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC112.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC112.203 USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -1822,7 +1822,7 @@ UTC112.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UM
     Skip
     ...    UTC112.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC114.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC114.203 USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the three display
     ...    simultaneously connected to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -1831,7 +1831,7 @@ UTC114.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (W
     Skip
     ...    UTC114.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC116.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC116.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
     [Tags]    semiauto
@@ -1840,7 +1840,7 @@ UTC116.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Dis
     Skip
     ...    UTC116.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC118.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC118.203 USB Type-C docking station USB keyboard (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
     [Tags]    semiauto
@@ -1849,7 +1849,7 @@ UTC118.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC118.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC120.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC120.203 USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the 1GB file can be
     ...    transferred from the OPERATING_SYSTEM to the USB storage
     ...    connected to the docking station.
@@ -1858,7 +1858,7 @@ UTC120.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     Skip
     ...    UTC120.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC122.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC122.203 USB Type-C docking station Ethernet connection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
@@ -1868,7 +1868,7 @@ UTC122.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disable
     Skip
     ...    UTC122.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC124.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC124.203 USB Type-C docking station audio recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
@@ -1878,7 +1878,7 @@ UTC124.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled)
     Skip
     ...    UTC124.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC126.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC126.203 USB Type-C docking station audio playback (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to playback audio recordings by using the external headset
     ...    speakers connected to the docking station.
@@ -1888,7 +1888,7 @@ UTC126.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (W
     Skip
     ...    UTC126.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC128.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC128.203 USB Type-C docking station audio capture (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to capture audio from external headset connected to the
     ...    docking station.
@@ -1898,7 +1898,7 @@ UTC128.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC128.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC130.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC130.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     [Tags]    semiauto
@@ -1907,7 +1907,7 @@ UTC130.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Di
     Skip
     ...    UTC130.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC132.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC132.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     [Tags]    semiauto
@@ -1916,7 +1916,7 @@ UTC132.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled
     Skip
     ...    UTC132.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC136.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC136.203 Docking station detection after coldboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
@@ -1926,7 +1926,7 @@ UTC136.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC136.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC138.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC138.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
@@ -1936,7 +1936,7 @@ UTC138.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC138.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC140.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC140.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     [Tags]    semiauto
@@ -1945,7 +1945,7 @@ UTC140.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-U
     Skip
     ...    UTC140.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC142.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC142.203 Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
     [Tags]    semiauto
@@ -1955,7 +1955,7 @@ UTC142.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC142.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC144.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC144.203 Docking station detection after suspend (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
     [Tags]    semiauto
@@ -1965,7 +1965,7 @@ UTC144.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disable
     Skip
     ...    UTC144.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC146.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC146.203 Docking station detection after suspend (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
     [Tags]    semiauto
@@ -1975,7 +1975,7 @@ UTC146.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled)
     Skip
     ...    UTC146.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC148.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC148.203 Docking station detection after coldboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
@@ -1985,7 +1985,7 @@ UTC148.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC148.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC150.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC150.203 Docking station detection after warmboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
@@ -1995,7 +1995,7 @@ UTC150.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC150.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC152.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC152.203 Docking station detection after reboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot then hotplug.
     [Tags]    semiauto
@@ -2004,7 +2004,7 @@ UTC152.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Di
     Skip
     ...    UTC152.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC154.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC154.203 Docking station detection after suspend then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend then hotplug.
     [Tags]    semiauto
@@ -2014,7 +2014,7 @@ UTC154.203 Docking station detection after suspend then hotplug (QubesOS) (ME: D
     Skip
     ...    UTC154.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC156.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC156.203 Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S0ix) then hotplug.
     [Tags]    semiauto
@@ -2024,7 +2024,7 @@ UTC156.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip
     ...    UTC156.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC158.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
+UTC158.203 Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3) then hotplug.
     [Tags]    semiauto
@@ -2742,7 +2742,7 @@ UTC257.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip
     ...    UTC257.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC205.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC205.203 USB Type-C PD power input (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port
@@ -2751,7 +2751,7 @@ UTC205.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC205.203 not supported
     Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
-UTC207.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC207.203 USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.203 not supported
@@ -2759,7 +2759,7 @@ UTC207.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C
     Skip
     ...    UTC207.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC209.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC209.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -2769,7 +2769,7 @@ UTC209.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC209.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC211.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC211.203 USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -2779,7 +2779,7 @@ UTC211.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD
     Skip
     ...    UTC211.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC213.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC213.203 USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the three display
     ...    simultaneously connected to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -2788,7 +2788,7 @@ UTC213.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL
     Skip
     ...    UTC213.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC215.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC215.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
     [Tags]    semiauto
@@ -2797,7 +2797,7 @@ UTC215.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Ena
     Skip
     ...    UTC215.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC217.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC217.203 USB Type-C docking station USB keyboard (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
     [Tags]    semiauto
@@ -2806,7 +2806,7 @@ UTC217.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC217.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC219.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC219.203 USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the 1GB file can be
     ...    transferred from the OPERATING_SYSTEM to the USB storage
     ...    connected to the docking station.
@@ -2815,7 +2815,7 @@ UTC219.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     Skip
     ...    UTC219.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC221.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC221.203 USB Type-C docking station Ethernet connection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
@@ -2825,7 +2825,7 @@ UTC221.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled
     Skip
     ...    UTC221.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC223.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC223.203 USB Type-C docking station audio recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
@@ -2835,7 +2835,7 @@ UTC223.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) 
     Skip
     ...    UTC223.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC225.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC225.203 USB Type-C docking station audio playback (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to playback audio recordings by using the external headset
     ...    speakers connected to the docking station.
@@ -2845,7 +2845,7 @@ UTC225.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL
     Skip
     ...    UTC225.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC227.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC227.203 USB Type-C docking station audio capture (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to capture audio from external headset connected to the
     ...    docking station.
@@ -2855,7 +2855,7 @@ UTC227.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC227.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC229.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC229.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     [Tags]    semiauto
@@ -2864,7 +2864,7 @@ UTC229.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: En
     Skip
     ...    UTC229.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC231.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC231.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     [Tags]    semiauto
@@ -2873,7 +2873,7 @@ UTC231.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled)
     Skip
     ...    UTC231.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC235.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC235.203 Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
@@ -2883,7 +2883,7 @@ UTC235.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC235.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC237.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC237.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
@@ -2893,7 +2893,7 @@ UTC237.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC237.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC239.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC239.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     [Tags]    semiauto
@@ -2902,7 +2902,7 @@ UTC239.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UM
     Skip
     ...    UTC239.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC241.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC241.203 Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
     [Tags]    semiauto
@@ -2912,7 +2912,7 @@ UTC241.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC241.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC243.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC243.203 Docking station detection after suspend (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
     [Tags]    semiauto
@@ -2922,7 +2922,7 @@ UTC243.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled
     Skip
     ...    UTC243.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC245.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC245.203 Docking station detection after suspend (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
     [Tags]    semiauto
@@ -2932,7 +2932,7 @@ UTC245.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) 
     Skip
     ...    UTC245.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC247.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC247.203 Docking station detection after coldboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
@@ -2942,7 +2942,7 @@ UTC247.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC247.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC249.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC249.203 Docking station detection after warmboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
@@ -2952,7 +2952,7 @@ UTC249.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC249.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC251.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC251.203 Docking station detection after reboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot then hotplug.
     [Tags]    semiauto
@@ -2961,7 +2961,7 @@ UTC251.203 Docking station detection after reboot then hotplug (QubesOS) (ME: En
     Skip
     ...    UTC251.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC253.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC253.203 Docking station detection after suspend then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend then hotplug.
     [Tags]    semiauto
@@ -2971,7 +2971,7 @@ UTC253.203 Docking station detection after suspend then hotplug (QubesOS) (ME: E
     Skip
     ...    UTC253.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC255.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC255.203 Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S0ix) then hotplug.
     [Tags]    semiauto
@@ -2981,7 +2981,7 @@ UTC255.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip
     ...    UTC255.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC257.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
+UTC257.203 Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3) then hotplug.
     [Tags]    semiauto
@@ -3699,7 +3699,7 @@ UTC258.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip
     ...    UTC258.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC206.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC206.203 USB Type-C PD power input (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port
@@ -3708,7 +3708,7 @@ UTC206.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC206.203 not supported
     Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
-UTC208.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC208.203 USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.203 not supported
@@ -3716,7 +3716,7 @@ UTC208.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.
     Skip
     ...    UTC208.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC210.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC210.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -3726,7 +3726,7 @@ UTC210.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC210.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC212.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC212.203 USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -3736,7 +3736,7 @@ UTC212.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UM
     Skip
     ...    UTC212.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC214.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC214.203 USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the three display
     ...    simultaneously connected to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -3745,7 +3745,7 @@ UTC214.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (W
     Skip
     ...    UTC214.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC216.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC216.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
     [Tags]    semiauto
@@ -3754,7 +3754,7 @@ UTC216.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Dis
     Skip
     ...    UTC216.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC218.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC218.203 USB Type-C docking station USB keyboard (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
     [Tags]    semiauto
@@ -3763,7 +3763,7 @@ UTC218.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC218.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC220.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC220.203 USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the 1GB file can be
     ...    transferred from the OPERATING_SYSTEM to the USB storage
     ...    connected to the docking station.
@@ -3772,7 +3772,7 @@ UTC220.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     Skip
     ...    UTC220.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC222.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC222.203 USB Type-C docking station Ethernet connection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
@@ -3782,7 +3782,7 @@ UTC222.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disable
     Skip
     ...    UTC222.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC224.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC224.203 USB Type-C docking station audio recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
@@ -3792,7 +3792,7 @@ UTC224.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled)
     Skip
     ...    UTC224.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC226.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC226.203 USB Type-C docking station audio playback (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to playback audio recordings by using the external headset
     ...    speakers connected to the docking station.
@@ -3802,7 +3802,7 @@ UTC226.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (W
     Skip
     ...    UTC226.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC228.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC228.203 USB Type-C docking station audio capture (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to capture audio from external headset connected to the
     ...    docking station.
@@ -3812,7 +3812,7 @@ UTC228.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC228.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC230.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC230.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     [Tags]    semiauto
@@ -3821,7 +3821,7 @@ UTC230.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Di
     Skip
     ...    UTC230.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC232.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC232.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     [Tags]    semiauto
@@ -3830,7 +3830,7 @@ UTC232.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled
     Skip
     ...    UTC232.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC236.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC236.203 Docking station detection after coldboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
@@ -3840,7 +3840,7 @@ UTC236.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC236.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC238.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC238.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
@@ -3850,7 +3850,7 @@ UTC238.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC238.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC240.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC240.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     [Tags]    semiauto
@@ -3859,7 +3859,7 @@ UTC240.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-U
     Skip
     ...    UTC240.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC242.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC242.203 Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
     [Tags]    semiauto
@@ -3869,7 +3869,7 @@ UTC242.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC242.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC244.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC244.203 Docking station detection after suspend (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
     [Tags]    semiauto
@@ -3879,7 +3879,7 @@ UTC244.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disable
     Skip
     ...    UTC244.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC246.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC246.203 Docking station detection after suspend (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
     [Tags]    semiauto
@@ -3889,7 +3889,7 @@ UTC246.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled)
     Skip
     ...    UTC246.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC248.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC248.203 Docking station detection after coldboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
@@ -3899,7 +3899,7 @@ UTC248.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC248.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC250.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC250.203 Docking station detection after warmboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
@@ -3909,7 +3909,7 @@ UTC250.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC250.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC252.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC252.203 Docking station detection after reboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot then hotplug.
     [Tags]    semiauto
@@ -3918,7 +3918,7 @@ UTC252.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Di
     Skip
     ...    UTC252.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC254.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC254.203 Docking station detection after suspend then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend then hotplug.
     [Tags]    semiauto
@@ -3928,7 +3928,7 @@ UTC254.203 Docking station detection after suspend then hotplug (QubesOS) (ME: D
     Skip
     ...    UTC254.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC256.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC256.203 Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S0ix) then hotplug.
     [Tags]    semiauto
@@ -3938,7 +3938,7 @@ UTC256.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip
     ...    UTC256.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC258.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
+UTC258.203 Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3) then hotplug.
     [Tags]    semiauto
@@ -4656,7 +4656,7 @@ UTC357.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip
     ...    UTC357.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC305.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC305.203 USB Type-C PD power input (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port
@@ -4665,7 +4665,7 @@ UTC305.203 USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC305.203 not supported
     Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
-UTC307.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC307.203 USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.203 not supported
@@ -4673,7 +4673,7 @@ UTC307.203 USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     Skip
     ...    UTC307.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC309.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC309.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -4683,7 +4683,7 @@ UTC309.203 USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC309.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC311.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC311.203 USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -4693,7 +4693,7 @@ UTC311.203 USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UG6
     Skip
     ...    UTC311.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC313.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC313.203 USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the three display
     ...    simultaneously connected to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -4702,7 +4702,7 @@ UTC313.203 USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL
     Skip
     ...    UTC313.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC315.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC315.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
     [Tags]    semiauto
@@ -4711,7 +4711,7 @@ UTC315.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Ena
     Skip
     ...    UTC315.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC317.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC317.203 USB Type-C docking station USB keyboard (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
     [Tags]    semiauto
@@ -4720,7 +4720,7 @@ UTC317.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC317.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC319.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC319.203 USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the 1GB file can be
     ...    transferred from the OPERATING_SYSTEM to the USB storage
     ...    connected to the docking station.
@@ -4729,7 +4729,7 @@ UTC319.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     Skip
     ...    UTC319.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC321.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC321.203 USB Type-C docking station Ethernet connection (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
@@ -4739,7 +4739,7 @@ UTC321.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled
     Skip
     ...    UTC321.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC323.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC323.203 USB Type-C docking station audio recognition (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
@@ -4749,7 +4749,7 @@ UTC323.203 USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) 
     Skip
     ...    UTC323.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC325.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC325.203 USB Type-C docking station audio playback (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to playback audio recordings by using the external headset
     ...    speakers connected to the docking station.
@@ -4759,7 +4759,7 @@ UTC325.203 USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL
     Skip
     ...    UTC325.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC327.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC327.203 USB Type-C docking station audio capture (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to capture audio from external headset connected to the
     ...    docking station.
@@ -4769,7 +4769,7 @@ UTC327.203 USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC327.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC329.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC329.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     [Tags]    semiauto
@@ -4778,7 +4778,7 @@ UTC329.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: En
     Skip
     ...    UTC329.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC331.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC331.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     [Tags]    semiauto
@@ -4787,7 +4787,7 @@ UTC331.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled)
     Skip
     ...    UTC331.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC335.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC335.203 Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
@@ -4797,7 +4797,7 @@ UTC335.203 Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC335.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC337.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC337.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
@@ -4807,7 +4807,7 @@ UTC337.203 Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-
     Skip
     ...    UTC337.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC339.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC339.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     [Tags]    semiauto
@@ -4816,7 +4816,7 @@ UTC339.203 Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UG
     Skip
     ...    UTC339.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC341.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC341.203 Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
     [Tags]    semiauto
@@ -4826,7 +4826,7 @@ UTC341.203 Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-U
     Skip
     ...    UTC341.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC343.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC343.203 Docking station detection after suspend (S0ix) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
     [Tags]    semiauto
@@ -4836,7 +4836,7 @@ UTC343.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled
     Skip
     ...    UTC343.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC345.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC345.203 Docking station detection after suspend (S3) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
     [Tags]    semiauto
@@ -4846,7 +4846,7 @@ UTC345.203 Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) 
     Skip
     ...    UTC345.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC347.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC347.203 Docking station detection after coldboot then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
@@ -4856,7 +4856,7 @@ UTC347.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC347.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC349.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC349.203 Docking station detection after warmboot then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
@@ -4866,7 +4866,7 @@ UTC349.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC349.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC351.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC351.203 Docking station detection after reboot then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot then hotplug.
     [Tags]    semiauto
@@ -4875,7 +4875,7 @@ UTC351.203 Docking station detection after reboot then hotplug (QubesOS) (ME: En
     Skip
     ...    UTC351.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC353.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC353.203 Docking station detection after suspend then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend then hotplug.
     [Tags]    semiauto
@@ -4885,7 +4885,7 @@ UTC353.203 Docking station detection after suspend then hotplug (QubesOS) (ME: E
     Skip
     ...    UTC353.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC355.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC355.203 Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S0ix) then hotplug.
     [Tags]    semiauto
@@ -4895,7 +4895,7 @@ UTC355.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip
     ...    UTC355.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC357.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
+UTC357.203 Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3) then hotplug.
     [Tags]    semiauto
@@ -5613,7 +5613,7 @@ UTC358.301 Docking station detection after suspend then hotplug (S3) (Windows) (
     Skip
     ...    UTC358.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC306.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC306.203 USB Type-C PD power input (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can be charged using a
     ...    PD power supply connected to the docking station, which
     ...    is connected to the USB Type-C port
@@ -5622,7 +5622,7 @@ UTC306.203 USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC306.203 not supported
     Usb Type-C Pd Power Input    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
-UTC308.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC308.203 USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT can detect the USB Type-C hub.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.203 not supported
@@ -5630,7 +5630,7 @@ UTC308.203 USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1
     Skip
     ...    UTC308.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC310.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC310.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -5640,7 +5640,7 @@ UTC310.203 USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC310.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC312.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC312.203 USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -5650,7 +5650,7 @@ UTC312.203 USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UG
     Skip
     ...    UTC312.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC314.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC314.203 USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the three display
     ...    simultaneously connected to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.
@@ -5659,7 +5659,7 @@ UTC314.203 USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (W
     Skip
     ...    UTC314.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC316.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC316.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
     ...    docking station are detected correctly
     [Tags]    semiauto
@@ -5668,7 +5668,7 @@ UTC316.203 USB Type-C docking station USB devices recognition (QubesOS) (ME: Dis
     Skip
     ...    UTC316.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC318.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC318.203 USB Type-C docking station USB keyboard (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB keyboard connected to the
     ...    docking station is detected correctly.
     [Tags]    semiauto
@@ -5677,7 +5677,7 @@ UTC318.203 USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC318.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC320.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC320.203 USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the 1GB file can be
     ...    transferred from the OPERATING_SYSTEM to the USB storage
     ...    connected to the docking station.
@@ -5686,7 +5686,7 @@ UTC320.203 USB Type-C docking station upload 1GB file on USB storage (QubesOS) (
     Skip
     ...    UTC320.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC322.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC322.203 USB Type-C docking station Ethernet connection (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the connection to internet
     ...    via docking station's Ethernet port can be obtained on
     ...    OPERATING_SYSTEM.
@@ -5696,7 +5696,7 @@ UTC322.203 USB Type-C docking station Ethernet connection (QubesOS) (ME: Disable
     Skip
     ...    UTC322.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC324.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC324.203 USB Type-C docking station audio recognition (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the external headset is
     ...    properly recognized after plugging in the 3.5 mm jack into
     ...    the docking station.
@@ -5706,7 +5706,7 @@ UTC324.203 USB Type-C docking station audio recognition (QubesOS) (ME: Disabled)
     Skip
     ...    UTC324.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC326.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC326.203 USB Type-C docking station audio playback (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to playback audio recordings by using the external headset
     ...    speakers connected to the docking station.
@@ -5716,7 +5716,7 @@ UTC326.203 USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (W
     Skip
     ...    UTC326.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC328.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC328.203 USB Type-C docking station audio capture (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the audio subsystem is able
     ...    to capture audio from external headset connected to the
     ...    docking station.
@@ -5726,7 +5726,7 @@ UTC328.203 USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC328.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC330.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC330.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
     [Tags]    semiauto
@@ -5735,7 +5735,7 @@ UTC330.203 USB Type-C docking station SD Card reader detection (QubesOS) (ME: Di
     Skip
     ...    UTC330.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC332.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC332.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
     [Tags]    semiauto
@@ -5744,7 +5744,7 @@ UTC332.203 USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled
     Skip
     ...    UTC332.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC336.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC336.203 Docking station detection after coldboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
     [Tags]    semiauto
@@ -5754,7 +5754,7 @@ UTC336.203 Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC336.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC338.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC338.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after warmboot.
     [Tags]    semiauto
@@ -5764,7 +5764,7 @@ UTC338.203 Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL
     Skip
     ...    UTC338.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC340.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC340.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot.
     [Tags]    semiauto
@@ -5773,7 +5773,7 @@ UTC340.203 Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-U
     Skip
     ...    UTC340.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC342.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC342.203 Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend.
     [Tags]    semiauto
@@ -5783,7 +5783,7 @@ UTC342.203 Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-
     Skip
     ...    UTC342.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC344.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC344.203 Docking station detection after suspend (S0ix) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend '${POWER_CTRL}' == 'none'(S0ix).
     [Tags]    semiauto
@@ -5793,7 +5793,7 @@ UTC344.203 Docking station detection after suspend (S0ix) (QubesOS) (ME: Disable
     Skip
     ...    UTC344.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC346.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC346.203 Docking station detection after suspend (S3) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3).
     [Tags]    semiauto
@@ -5803,7 +5803,7 @@ UTC346.203 Docking station detection after suspend (S3) (QubesOS) (ME: Disabled)
     Skip
     ...    UTC346.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC348.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC348.203 Docking station detection after coldboot then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after coldboot then hotplug.
     [Tags]    semiauto
@@ -5813,7 +5813,7 @@ UTC348.203 Docking station detection after coldboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC348.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC350.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC350.203 Docking station detection after warmboot then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after warmboot then hotplug.
     [Tags]    semiauto
@@ -5823,7 +5823,7 @@ UTC350.203 Docking station detection after warmboot then hotplug (QubesOS) (ME: 
     Skip
     ...    UTC350.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC352.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC352.203 Docking station detection after reboot then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after reboot then hotplug.
     [Tags]    semiauto
@@ -5832,7 +5832,7 @@ UTC352.203 Docking station detection after reboot then hotplug (QubesOS) (ME: Di
     Skip
     ...    UTC352.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC354.203 Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC354.203 Docking station detection after suspend then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend then hotplug.
     [Tags]    semiauto
@@ -5842,7 +5842,7 @@ UTC354.203 Docking station detection after suspend then hotplug (QubesOS) (ME: D
     Skip
     ...    UTC354.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC356.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC356.203 Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S0ix) then hotplug.
     [Tags]    semiauto
@@ -5852,7 +5852,7 @@ UTC356.203 Docking station detection after suspend then hotplug (S0ix) (QubesOS)
     Skip
     ...    UTC356.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC358.203 Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
+UTC358.203 Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
     ...    after suspend (S3) then hotplug.
     [Tags]    semiauto

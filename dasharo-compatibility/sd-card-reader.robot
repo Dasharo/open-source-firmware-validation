@@ -117,7 +117,7 @@ SDC001.203 SD Card reader detection (Qubes OS)
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
     Login To Linux
-    ${disks}=    Identify Disks In QubesOS
+    ${disks}=    Identify Disks In Qubes OS
     Should Match    str(${disks})    *SD*
 
 SDC002.203 SD Card read/write (Qubes OS)
@@ -135,7 +135,7 @@ SDC002.203 SD Card read/write (Qubes OS)
 
 
 *** Keywords ***
-Identify Disks In QubesOS
+Identify Disks In Qubes OS
     [Documentation]    Check whether any disk is recognized in Linux system
     ...    and identify their vndor and model.
     ${out}=    Execute Linux Command    lsblk --nodeps --output NAME

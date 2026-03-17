@@ -51,7 +51,7 @@ ENV_ID_FRIENDLY_NAMES = {
     ENV_ID_WINDOWS: "Windows",
     ENV_ID_TRENCHBOOT: "TrenchBoot",
     ENV_ID_ESXI: "ESXi",
-    ENV_ID_QUBES: "QubesOS",
+    ENV_ID_QUBES: "Qubes OS",
     ENV_ID_ZARHUS: "ZarhusOS",
     ENV_ID_OPENWRT: "OpenWrt",
 }

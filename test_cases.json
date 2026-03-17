@@ -1350,7 +1350,7 @@
   {
     "doc": {
       "_id": "CPF002.203",
-      "name": "CPU not stuck on initial frequency (QubesOS) (battery)",
+      "name": "CPU not stuck on initial frequency (Qubes OS) (battery)",
       "module": "Dasharo Performance"
     }
   },
@@ -1378,7 +1378,7 @@
   {
     "doc": {
       "_id": "CPF003.203",
-      "name": "CPU not stuck on initial frequency (QubesOS) (AC)",
+      "name": "CPU not stuck on initial frequency (Qubes OS) (AC)",
       "module": "Dasharo Performance"
     }
   },
@@ -1491,7 +1491,7 @@
   {
     "doc": {
       "_id": "CPF004.203",
-      "name": "CPU not stuck on initial frequency (QubesOS) (USB-PD)",
+      "name": "CPU not stuck on initial frequency (Qubes OS) (USB-PD)",
       "module": "Dasharo Performance"
     }
   },
@@ -1809,7 +1809,7 @@
   {
     "doc": {
       "_id": "CPT001.203",
-      "name": "CPU temperature without load (QubesOS)",
+      "name": "CPU temperature without load (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1904,7 +1904,7 @@
   {
     "doc": {
       "_id": "CPT005.203",
-      "name": "CPU temperature after stress test (QubesOS)",
+      "name": "CPU temperature after stress test (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -4477,7 +4477,7 @@
   {
     "doc": {
       "_id": "FWUPD001.203",
-      "name": "Fwupd Devices Detected (QubesOS)",
+      "name": "Fwupd Devices Detected (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4498,7 +4498,7 @@
   {
     "doc": {
       "_id": "FWUPD002.203",
-      "name": "Fwupd Local Firmware Update (QubesOS)",
+      "name": "Fwupd Local Firmware Update (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4519,7 +4519,70 @@
   {
     "doc": {
       "_id": "FWUPD003.203",
-      "name": "Fwupd LVFS Firmware Update (QubesOS)",
+      "name": "Fwupd LVFS Firmware Update (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD004.201",
+      "name": "Fwupd Installed (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD004.202",
+      "name": "Fwupd Installed (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD004.203",
+      "name": "Fwupd Installed (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD005.201",
+      "name": "Fwupd Check For Updates (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD005.202",
+      "name": "Fwupd Check For Updates (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD005.203",
+      "name": "Fwupd Check For Updates (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD006.201",
+      "name": "Fwupd Check Update Results (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD006.202",
+      "name": "Fwupd Check Update Results (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD006.203",
+      "name": "Fwupd Check Update Results (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5852,14 +5915,14 @@
   {
     "doc": {
       "_id": "QBS001.001",
-      "name": "QubesOS installation",
+      "name": "Qubes OS installation",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "QBS001.002",
-      "name": "Boot QubesOS",
+      "name": "Boot Qubes OS",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6968,7 +7031,7 @@
   {
     "doc": {
       "_id": "STB001.203",
-      "name": "Verify if no reboot occurs (QubesOS)",
+      "name": "Verify if no reboot occurs (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -7012,7 +7075,7 @@
   {
     "doc": {
       "_id": "STB002.203",
-      "name": "Verify if no unexpected boot errors appear in logs (QubesOS)",
+      "name": "Verify if no unexpected boot errors appear in logs (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -7172,7 +7235,7 @@
   {
     "doc": {
       "_id": "SUSP001.003",
-      "name": "Platform suspend and resume (QubesOS, wakeup flag)",
+      "name": "Platform suspend and resume (Qubes OS, wakeup flag)",
       "module": "Dasharo Compatibility",
       "changed_to": "SUSP001.203"
     }
@@ -7187,7 +7250,7 @@
   {
     "doc": {
       "_id": "SUSP001.203",
-      "name": "Platform suspend and resume (QubesOS, wakeup flag)",
+      "name": "Platform suspend and resume (Qubes OS, wakeup flag)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -7202,7 +7265,7 @@
   {
     "doc": {
       "_id": "SUSP002.003",
-      "name": "Platform suspend and resume (QubesOS, press key)",
+      "name": "Platform suspend and resume (Qubes OS, press key)",
       "module": "Dasharo Compatibility",
       "changed_to": "SUSP002.203"
     }
@@ -7217,7 +7280,7 @@
   {
     "doc": {
       "_id": "SUSP002.203",
-      "name": "Platform suspend and resume (QubesOS, press key)",
+      "name": "Platform suspend and resume (Qubes OS, press key)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -7232,7 +7295,7 @@
   {
     "doc": {
       "_id": "SUSP003.003",
-      "name": "Platform suspend and resume (QubesOS, power button)",
+      "name": "Platform suspend and resume (Qubes OS, power button)",
       "module": "Dasharo Compatibility",
       "changed_to": "SUSP003.203"
     }
@@ -7247,7 +7310,7 @@
   {
     "doc": {
       "_id": "SUSP003.203",
-      "name": "Platform suspend and resume (QubesOS, power button)",
+      "name": "Platform suspend and resume (Qubes OS, power button)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -8810,7 +8873,7 @@
   {
     "doc": {
       "_id": "UTC033.203",
-      "name": "USB Type-C PD current limiting (QubesOS) (ME: Enabled)",
+      "name": "USB Type-C PD current limiting (Qubes OS) (ME: Enabled)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -8838,7 +8901,7 @@
   {
     "doc": {
       "_id": "UTC034.203",
-      "name": "USB Type-C PD current limiting (QubesOS) (ME: Disabled)",
+      "name": "USB Type-C PD current limiting (Qubes OS) (ME: Disabled)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -8866,7 +8929,7 @@
   {
     "doc": {
       "_id": "UTC105.203",
-      "name": "USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C PD power input (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -8894,7 +8957,7 @@
   {
     "doc": {
       "_id": "UTC106.203",
-      "name": "USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C PD power input (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -8922,7 +8985,7 @@
   {
     "doc": {
       "_id": "UTC107.203",
-      "name": "USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -8950,7 +9013,7 @@
   {
     "doc": {
       "_id": "UTC108.203",
-      "name": "USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -8978,7 +9041,7 @@
   {
     "doc": {
       "_id": "UTC109.203",
-      "name": "USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9006,7 +9069,7 @@
   {
     "doc": {
       "_id": "UTC110.203",
-      "name": "USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9034,7 +9097,7 @@
   {
     "doc": {
       "_id": "UTC111.203",
-      "name": "USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9062,7 +9125,7 @@
   {
     "doc": {
       "_id": "UTC112.203",
-      "name": "USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9090,7 +9153,7 @@
   {
     "doc": {
       "_id": "UTC113.203",
-      "name": "USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9118,7 +9181,7 @@
   {
     "doc": {
       "_id": "UTC114.203",
-      "name": "USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9153,7 +9216,7 @@
   {
     "doc": {
       "_id": "UTC115.203",
-      "name": "USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9188,7 +9251,7 @@
   {
     "doc": {
       "_id": "UTC116.203",
-      "name": "USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9223,7 +9286,7 @@
   {
     "doc": {
       "_id": "UTC117.203",
-      "name": "USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station USB keyboard (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9258,7 +9321,7 @@
   {
     "doc": {
       "_id": "UTC118.203",
-      "name": "USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station USB keyboard (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9286,7 +9349,7 @@
   {
     "doc": {
       "_id": "UTC119.203",
-      "name": "USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9314,7 +9377,7 @@
   {
     "doc": {
       "_id": "UTC120.203",
-      "name": "USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9342,7 +9405,7 @@
   {
     "doc": {
       "_id": "UTC121.203",
-      "name": "USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station Ethernet connection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9370,7 +9433,7 @@
   {
     "doc": {
       "_id": "UTC122.203",
-      "name": "USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station Ethernet connection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9398,7 +9461,7 @@
   {
     "doc": {
       "_id": "UTC123.203",
-      "name": "USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station audio recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9426,7 +9489,7 @@
   {
     "doc": {
       "_id": "UTC124.203",
-      "name": "USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station audio recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9454,7 +9517,7 @@
   {
     "doc": {
       "_id": "UTC125.203",
-      "name": "USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station audio playback (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9482,7 +9545,7 @@
   {
     "doc": {
       "_id": "UTC126.203",
-      "name": "USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station audio playback (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9510,7 +9573,7 @@
   {
     "doc": {
       "_id": "UTC127.203",
-      "name": "USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station audio capture (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9538,7 +9601,7 @@
   {
     "doc": {
       "_id": "UTC128.203",
-      "name": "USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station audio capture (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9566,7 +9629,7 @@
   {
     "doc": {
       "_id": "UTC129.203",
-      "name": "USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9594,7 +9657,7 @@
   {
     "doc": {
       "_id": "UTC130.203",
-      "name": "USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9622,7 +9685,7 @@
   {
     "doc": {
       "_id": "UTC131.203",
-      "name": "USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9650,7 +9713,7 @@
   {
     "doc": {
       "_id": "UTC132.203",
-      "name": "USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9678,7 +9741,7 @@
   {
     "doc": {
       "_id": "UTC135.203",
-      "name": "Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9706,7 +9769,7 @@
   {
     "doc": {
       "_id": "UTC136.203",
-      "name": "Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after coldboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9734,7 +9797,7 @@
   {
     "doc": {
       "_id": "UTC137.203",
-      "name": "Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9762,7 +9825,7 @@
   {
     "doc": {
       "_id": "UTC138.203",
-      "name": "Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9790,7 +9853,7 @@
   {
     "doc": {
       "_id": "UTC139.203",
-      "name": "Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9818,7 +9881,7 @@
   {
     "doc": {
       "_id": "UTC140.203",
-      "name": "Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9846,7 +9909,7 @@
   {
     "doc": {
       "_id": "UTC141.203",
-      "name": "Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9874,7 +9937,7 @@
   {
     "doc": {
       "_id": "UTC142.203",
-      "name": "Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9902,7 +9965,7 @@
   {
     "doc": {
       "_id": "UTC143.203",
-      "name": "Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9930,7 +9993,7 @@
   {
     "doc": {
       "_id": "UTC144.203",
-      "name": "Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9958,7 +10021,7 @@
   {
     "doc": {
       "_id": "UTC145.203",
-      "name": "Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -9986,7 +10049,7 @@
   {
     "doc": {
       "_id": "UTC146.203",
-      "name": "Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10014,7 +10077,7 @@
   {
     "doc": {
       "_id": "UTC147.203",
-      "name": "Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after coldboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10042,7 +10105,7 @@
   {
     "doc": {
       "_id": "UTC148.203",
-      "name": "Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after coldboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10070,7 +10133,7 @@
   {
     "doc": {
       "_id": "UTC149.203",
-      "name": "Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after warmboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10098,7 +10161,7 @@
   {
     "doc": {
       "_id": "UTC150.203",
-      "name": "Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after warmboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10126,7 +10189,7 @@
   {
     "doc": {
       "_id": "UTC151.203",
-      "name": "Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after reboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10154,7 +10217,7 @@
   {
     "doc": {
       "_id": "UTC152.203",
-      "name": "Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after reboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10182,7 +10245,7 @@
   {
     "doc": {
       "_id": "UTC153.203",
-      "name": "Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10210,7 +10273,7 @@
   {
     "doc": {
       "_id": "UTC154.203",
-      "name": "Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10238,7 +10301,7 @@
   {
     "doc": {
       "_id": "UTC155.203",
-      "name": "Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10266,7 +10329,7 @@
   {
     "doc": {
       "_id": "UTC156.203",
-      "name": "Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10294,7 +10357,7 @@
   {
     "doc": {
       "_id": "UTC157.203",
-      "name": "Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10322,7 +10385,7 @@
   {
     "doc": {
       "_id": "UTC158.203",
-      "name": "Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
+      "name": "Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10350,7 +10413,7 @@
   {
     "doc": {
       "_id": "UTC205.203",
-      "name": "USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C PD power input (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10378,7 +10441,7 @@
   {
     "doc": {
       "_id": "UTC206.203",
-      "name": "USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C PD power input (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10406,7 +10469,7 @@
   {
     "doc": {
       "_id": "UTC207.203",
-      "name": "USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10434,7 +10497,7 @@
   {
     "doc": {
       "_id": "UTC208.203",
-      "name": "USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10462,7 +10525,7 @@
   {
     "doc": {
       "_id": "UTC209.203",
-      "name": "USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10490,7 +10553,7 @@
   {
     "doc": {
       "_id": "UTC210.203",
-      "name": "USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10518,7 +10581,7 @@
   {
     "doc": {
       "_id": "UTC211.203",
-      "name": "USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10546,7 +10609,7 @@
   {
     "doc": {
       "_id": "UTC212.203",
-      "name": "USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10574,7 +10637,7 @@
   {
     "doc": {
       "_id": "UTC213.203",
-      "name": "USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10602,7 +10665,7 @@
   {
     "doc": {
       "_id": "UTC214.203",
-      "name": "USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10637,7 +10700,7 @@
   {
     "doc": {
       "_id": "UTC215.203",
-      "name": "USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10672,7 +10735,7 @@
   {
     "doc": {
       "_id": "UTC216.203",
-      "name": "USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10707,7 +10770,7 @@
   {
     "doc": {
       "_id": "UTC217.203",
-      "name": "USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station USB keyboard (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10742,7 +10805,7 @@
   {
     "doc": {
       "_id": "UTC218.203",
-      "name": "USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station USB keyboard (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10770,7 +10833,7 @@
   {
     "doc": {
       "_id": "UTC219.203",
-      "name": "USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10798,7 +10861,7 @@
   {
     "doc": {
       "_id": "UTC220.203",
-      "name": "USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10826,7 +10889,7 @@
   {
     "doc": {
       "_id": "UTC221.203",
-      "name": "USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station Ethernet connection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10854,7 +10917,7 @@
   {
     "doc": {
       "_id": "UTC222.203",
-      "name": "USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station Ethernet connection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10882,7 +10945,7 @@
   {
     "doc": {
       "_id": "UTC223.203",
-      "name": "USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station audio recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10910,7 +10973,7 @@
   {
     "doc": {
       "_id": "UTC224.203",
-      "name": "USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station audio recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10938,7 +11001,7 @@
   {
     "doc": {
       "_id": "UTC225.203",
-      "name": "USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station audio playback (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10966,7 +11029,7 @@
   {
     "doc": {
       "_id": "UTC226.203",
-      "name": "USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station audio playback (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -10994,7 +11057,7 @@
   {
     "doc": {
       "_id": "UTC227.203",
-      "name": "USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station audio capture (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11022,7 +11085,7 @@
   {
     "doc": {
       "_id": "UTC228.203",
-      "name": "USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station audio capture (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11050,7 +11113,7 @@
   {
     "doc": {
       "_id": "UTC229.203",
-      "name": "USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11078,7 +11141,7 @@
   {
     "doc": {
       "_id": "UTC230.203",
-      "name": "USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11106,7 +11169,7 @@
   {
     "doc": {
       "_id": "UTC231.203",
-      "name": "USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11134,7 +11197,7 @@
   {
     "doc": {
       "_id": "UTC232.203",
-      "name": "USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11162,7 +11225,7 @@
   {
     "doc": {
       "_id": "UTC235.203",
-      "name": "Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11190,7 +11253,7 @@
   {
     "doc": {
       "_id": "UTC236.203",
-      "name": "Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after coldboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11218,7 +11281,7 @@
   {
     "doc": {
       "_id": "UTC237.203",
-      "name": "Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11246,7 +11309,7 @@
   {
     "doc": {
       "_id": "UTC238.203",
-      "name": "Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11274,7 +11337,7 @@
   {
     "doc": {
       "_id": "UTC239.203",
-      "name": "Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11302,7 +11365,7 @@
   {
     "doc": {
       "_id": "UTC240.203",
-      "name": "Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11330,7 +11393,7 @@
   {
     "doc": {
       "_id": "UTC241.203",
-      "name": "Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11358,7 +11421,7 @@
   {
     "doc": {
       "_id": "UTC242.203",
-      "name": "Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11386,7 +11449,7 @@
   {
     "doc": {
       "_id": "UTC243.203",
-      "name": "Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11414,7 +11477,7 @@
   {
     "doc": {
       "_id": "UTC244.203",
-      "name": "Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11442,7 +11505,7 @@
   {
     "doc": {
       "_id": "UTC245.203",
-      "name": "Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11470,7 +11533,7 @@
   {
     "doc": {
       "_id": "UTC246.203",
-      "name": "Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11498,7 +11561,7 @@
   {
     "doc": {
       "_id": "UTC247.203",
-      "name": "Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after coldboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11526,7 +11589,7 @@
   {
     "doc": {
       "_id": "UTC248.203",
-      "name": "Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after coldboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11554,7 +11617,7 @@
   {
     "doc": {
       "_id": "UTC249.203",
-      "name": "Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after warmboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11582,7 +11645,7 @@
   {
     "doc": {
       "_id": "UTC250.203",
-      "name": "Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after warmboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11610,7 +11673,7 @@
   {
     "doc": {
       "_id": "UTC251.203",
-      "name": "Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after reboot then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11638,7 +11701,7 @@
   {
     "doc": {
       "_id": "UTC252.203",
-      "name": "Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after reboot then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11666,7 +11729,7 @@
   {
     "doc": {
       "_id": "UTC253.203",
-      "name": "Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend then hotplug (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11694,7 +11757,7 @@
   {
     "doc": {
       "_id": "UTC254.203",
-      "name": "Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend then hotplug (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11722,7 +11785,7 @@
   {
     "doc": {
       "_id": "UTC255.203",
-      "name": "Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11750,7 +11813,7 @@
   {
     "doc": {
       "_id": "UTC256.203",
-      "name": "Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11778,7 +11841,7 @@
   {
     "doc": {
       "_id": "UTC257.203",
-      "name": "Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11806,7 +11869,7 @@
   {
     "doc": {
       "_id": "UTC258.203",
-      "name": "Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
+      "name": "Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11834,7 +11897,7 @@
   {
     "doc": {
       "_id": "UTC305.203",
-      "name": "USB Type-C PD power input (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C PD power input (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11862,7 +11925,7 @@
   {
     "doc": {
       "_id": "UTC306.203",
-      "name": "USB Type-C PD power input (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C PD power input (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11890,7 +11953,7 @@
   {
     "doc": {
       "_id": "UTC307.203",
-      "name": "USB Type-C Display output (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11918,7 +11981,7 @@
   {
     "doc": {
       "_id": "UTC308.203",
-      "name": "USB Type-C Display output (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11946,7 +12009,7 @@
   {
     "doc": {
       "_id": "UTC309.203",
-      "name": "USB Type-C docking station HDMI display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -11974,7 +12037,7 @@
   {
     "doc": {
       "_id": "UTC310.203",
-      "name": "USB Type-C docking station HDMI display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12002,7 +12065,7 @@
   {
     "doc": {
       "_id": "UTC311.203",
-      "name": "USB Type-C docking station DP display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12030,7 +12093,7 @@
   {
     "doc": {
       "_id": "UTC312.203",
-      "name": "USB Type-C docking station DP display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12058,7 +12121,7 @@
   {
     "doc": {
       "_id": "UTC313.203",
-      "name": "USB Type-C docking station Triple display (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12086,7 +12149,7 @@
   {
     "doc": {
       "_id": "UTC314.203",
-      "name": "USB Type-C docking station Triple display (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12121,7 +12184,7 @@
   {
     "doc": {
       "_id": "UTC315.203",
-      "name": "USB Type-C docking station USB devices recognition (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12156,7 +12219,7 @@
   {
     "doc": {
       "_id": "UTC316.203",
-      "name": "USB Type-C docking station USB devices recognition (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12191,7 +12254,7 @@
   {
     "doc": {
       "_id": "UTC317.203",
-      "name": "USB Type-C docking station USB keyboard (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station USB keyboard (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12226,7 +12289,7 @@
   {
     "doc": {
       "_id": "UTC318.203",
-      "name": "USB Type-C docking station USB keyboard (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station USB keyboard (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12254,7 +12317,7 @@
   {
     "doc": {
       "_id": "UTC319.203",
-      "name": "USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12282,7 +12345,7 @@
   {
     "doc": {
       "_id": "UTC320.203",
-      "name": "USB Type-C docking station upload 1GB file on USB storage (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station upload 1GB file on USB storage (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12310,7 +12373,7 @@
   {
     "doc": {
       "_id": "UTC321.203",
-      "name": "USB Type-C docking station Ethernet connection (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station Ethernet connection (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12338,7 +12401,7 @@
   {
     "doc": {
       "_id": "UTC322.203",
-      "name": "USB Type-C docking station Ethernet connection (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station Ethernet connection (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12366,7 +12429,7 @@
   {
     "doc": {
       "_id": "UTC323.203",
-      "name": "USB Type-C docking station audio recognition (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station audio recognition (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12394,7 +12457,7 @@
   {
     "doc": {
       "_id": "UTC324.203",
-      "name": "USB Type-C docking station audio recognition (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station audio recognition (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12422,7 +12485,7 @@
   {
     "doc": {
       "_id": "UTC325.203",
-      "name": "USB Type-C docking station audio playback (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station audio playback (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12450,7 +12513,7 @@
   {
     "doc": {
       "_id": "UTC326.203",
-      "name": "USB Type-C docking station audio playback (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station audio playback (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12478,7 +12541,7 @@
   {
     "doc": {
       "_id": "UTC327.203",
-      "name": "USB Type-C docking station audio capture (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station audio capture (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12506,7 +12569,7 @@
   {
     "doc": {
       "_id": "UTC328.203",
-      "name": "USB Type-C docking station audio capture (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station audio capture (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12534,7 +12597,7 @@
   {
     "doc": {
       "_id": "UTC329.203",
-      "name": "USB Type-C docking station SD Card reader detection (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12562,7 +12625,7 @@
   {
     "doc": {
       "_id": "UTC330.203",
-      "name": "USB Type-C docking station SD Card reader detection (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12590,7 +12653,7 @@
   {
     "doc": {
       "_id": "UTC331.203",
-      "name": "USB Type-C docking station SD Card read/write (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12618,7 +12681,7 @@
   {
     "doc": {
       "_id": "UTC332.203",
-      "name": "USB Type-C docking station SD Card read/write (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12646,7 +12709,7 @@
   {
     "doc": {
       "_id": "UTC335.203",
-      "name": "Docking station detection after coldboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12674,7 +12737,7 @@
   {
     "doc": {
       "_id": "UTC336.203",
-      "name": "Docking station detection after coldboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after coldboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12702,7 +12765,7 @@
   {
     "doc": {
       "_id": "UTC337.203",
-      "name": "Docking station detection after warmboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12730,7 +12793,7 @@
   {
     "doc": {
       "_id": "UTC338.203",
-      "name": "Docking station detection after warmboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12758,7 +12821,7 @@
   {
     "doc": {
       "_id": "UTC339.203",
-      "name": "Docking station detection after reboot (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12786,7 +12849,7 @@
   {
     "doc": {
       "_id": "UTC340.203",
-      "name": "Docking station detection after reboot (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12814,7 +12877,7 @@
   {
     "doc": {
       "_id": "UTC341.203",
-      "name": "Docking station detection after suspend (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12842,7 +12905,7 @@
   {
     "doc": {
       "_id": "UTC342.203",
-      "name": "Docking station detection after suspend (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12870,7 +12933,7 @@
   {
     "doc": {
       "_id": "UTC343.203",
-      "name": "Docking station detection after suspend (S0ix) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend (S0ix) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12898,7 +12961,7 @@
   {
     "doc": {
       "_id": "UTC344.203",
-      "name": "Docking station detection after suspend (S0ix) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend (S0ix) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12926,7 +12989,7 @@
   {
     "doc": {
       "_id": "UTC345.203",
-      "name": "Docking station detection after suspend (S3) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend (S3) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12954,7 +13017,7 @@
   {
     "doc": {
       "_id": "UTC346.203",
-      "name": "Docking station detection after suspend (S3) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend (S3) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12982,7 +13045,7 @@
   {
     "doc": {
       "_id": "UTC347.203",
-      "name": "Docking station detection after coldboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after coldboot then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13010,7 +13073,7 @@
   {
     "doc": {
       "_id": "UTC348.203",
-      "name": "Docking station detection after coldboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after coldboot then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13038,7 +13101,7 @@
   {
     "doc": {
       "_id": "UTC349.203",
-      "name": "Docking station detection after warmboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after warmboot then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13066,7 +13129,7 @@
   {
     "doc": {
       "_id": "UTC350.203",
-      "name": "Docking station detection after warmboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after warmboot then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13094,7 +13157,7 @@
   {
     "doc": {
       "_id": "UTC351.203",
-      "name": "Docking station detection after reboot then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after reboot then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13122,7 +13185,7 @@
   {
     "doc": {
       "_id": "UTC352.203",
-      "name": "Docking station detection after reboot then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after reboot then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13150,7 +13213,7 @@
   {
     "doc": {
       "_id": "UTC353.203",
-      "name": "Docking station detection after suspend then hotplug (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend then hotplug (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13178,7 +13241,7 @@
   {
     "doc": {
       "_id": "UTC354.203",
-      "name": "Docking station detection after suspend then hotplug (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend then hotplug (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13206,7 +13269,7 @@
   {
     "doc": {
       "_id": "UTC355.203",
-      "name": "Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13234,7 +13297,7 @@
   {
     "doc": {
       "_id": "UTC356.203",
-      "name": "Docking station detection after suspend then hotplug (S0ix) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend then hotplug (S0ix) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13262,7 +13325,7 @@
   {
     "doc": {
       "_id": "UTC357.203",
-      "name": "Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -13290,7 +13353,7 @@
   {
     "doc": {
       "_id": "UTC358.203",
-      "name": "Docking station detection after suspend then hotplug (S3) (QubesOS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "name": "Docking station detection after suspend then hotplug (S3) (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
