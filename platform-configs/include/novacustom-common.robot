@@ -96,6 +96,7 @@ ${FAN_SPEED_MEASURE_SUPPORT}=                       ${TRUE}
 ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${TRUE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${TRUE}
 ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
+${USB_DISKS_DETECTION_SUPPORT}=                     ${TRUE}
 # It causes "Power on AC" option to reset to disable, so we can no longer Power On using Sonoff
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
