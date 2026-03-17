@@ -249,7 +249,7 @@ CPU003.203 Multiple CPU support (Qubes OS)
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
     Login To Linux
-    Multiple CPU Support QubesOS
+    Multiple CPU Support Qubes OS
 
 CPU004.203 Multiple-core support (Qubes OS)
     [Documentation]    Check whether the DUT has multi-core support
@@ -332,7 +332,7 @@ Multiple CPU Support Linux
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    ${online}    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's
 
-Multiple CPU Support QubesOS
+Multiple CPU Support Qubes OS
     [Documentation]    Check whether the DUT has multiple CPU support.
     ${online}=    Execute Linux Command    cat /sys/devices/system/cpu/online
     Should Contain    (${online}-1)    ${DEF_ONLINE_CPU}    There are more than ${DEF_ONLINE_CPU[2]} on-line CPU's

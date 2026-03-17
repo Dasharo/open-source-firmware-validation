@@ -8,15 +8,18 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Resource            ../keywords.robot
+Resource            ../lib/performance/cpu.robot
+Resource            ../lib/fwupd.resource
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    AND
-...                     Set UEFI Option    MeMode    Disabled (HAP)
+...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}
+...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
+...                     AND    Check Power Supply
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
-Default Tags        semiauto
+Default Tags        automated    semiauto
 
 
 *** Test Cases ***
@@ -24,6 +27,9 @@ FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If
+    ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
+    ...    Semiauto tag not in scope (-i flag)
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -33,18 +39,22 @@ FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If
+    ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
+    ...    Semiauto tag not in scope (-i flag)
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Fwupd LVFS Firmware Update Linux
 
-FWUPD003.203 Fwupd LVFS Firmware Update (QubesOS)
+FWUPD003.203 Fwupd LVFS Firmware Update (Qubes OS)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
-    Execute Manual Step    Power on and boot into QubesOS
+    [Tags]    semiauto
+    Execute Manual Step    Power on and boot into Qubes OS
     Execute Manual Step    Open dom0 terminal
     Execute Manual Step
-    ...    Run `export ID=$(fwupdmgr get-devices 2>/dev/null | grep -A1 "System Firmware" | grep "Device ID" | awk '{print $NF}')`
+    ...    Run `export ID=$(fwupdmgr get-devices 2>/dev/null | grep -A1 -E "(System Firmware)|(Device Firmware)" | grep "Device ID" | awk '{print $NF}')`
     Execute Manual Step    Run `yes n | fwupdmgr install \$ID --allow-reinstall --allow-older`
     Execute Manual Step
     ...    Should not print any of: `failed to find`, `No updatable devices`, `No releases found`, `no devices`
@@ -52,13 +62,22 @@ FWUPD003.203 Fwupd LVFS Firmware Update (QubesOS)
 
 
 *** Keywords ***
+Run Fwupd LVFS Update
+    [Arguments]    ${firmware_id}
+    ${out}=    Execute Command In Terminal
+    ...    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    ...    timeout=300s
+    RETURN    ${out}
+
 Fwupd LVFS Firmware Update Linux
     ${username}=    Get Environment Variable    LVFS_USERNAME    default=${EMPTY}
     ${password}=    Get Environment Variable    LVFS_PASSWORD    default=${EMPTY}
     IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
         VAR    ${use_embargo}=    ${TRUE}
+        Log    Using an embargoed LVFS channel    level=WARN
         Log    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone.    level=WARN
     ELSE
+        Log    Using public LVFS channel    level=WARN
         VAR    ${use_embargo}=    ${FALSE}
     END
     Switch To Root User
@@ -69,25 +88,27 @@ Fwupd LVFS Firmware Update Linux
     Execute Command In Terminal    fwupdmgr refresh
     VAR    ${id_extract_command}=
     ...    fwupdmgr get-devices 2>/dev/null
-    ...    grep -A1 "System Firmware"
+    ...    grep -A1 -E "(System Firmware)|(Device Firmware)"
     ...    grep "Device ID"
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
-    ...    timeout=300s
-    Should Not Contain
-    ...    ${out}
-    ...    AC power
-    ...    AC is disconnected, connect AC. (Or its a bug - AC it not detected if internal battery is full. Discharge the battery a bit and try again.)\n\n
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+    TRY
+        ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd LVFS Update    ${firmware_id}
+        IF    "${POWER_CTRL}"=="none"
+            Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+        END
+        Set DUT Response Timeout    300s
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
+    FINALLY
+        # Make sure we clean up the config
+        Power On
+        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+        Login To Linux
+        IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
     END
-    Set DUT Response Timeout    300s
-    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-    Login To Linux
-    IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
 
     Should Not Contain    ${out}    failed to find    ignore_case=${True}
     Should Not Contain    ${out}    No updatable devices    ignore_case=${True}
