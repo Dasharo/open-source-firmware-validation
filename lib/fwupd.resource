@@ -48,5 +48,6 @@ Run Fwupd Update With Battery Check Workaround
         END
     ELSE
         ${out}=    Run Keyword    ${update_keyword}    @{args}
+        Sleep    10s
     END
     RETURN    ${out}
