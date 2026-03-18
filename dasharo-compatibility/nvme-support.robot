@@ -48,7 +48,6 @@ NVM001.001 NVMe support in firmware
 NVM001.201 NVMe support in OS (Ubuntu)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    ...    Previous IDs: NVM001.002
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
     NVMe Support In OS    ${ENV_ID_UBUNTU}
@@ -62,7 +61,6 @@ NVM001.202 NVMe support in OS (Fedora)
 NVM001.205 NVMe support in OS (XCP-NG)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    ...    Previous IDs: NVM001.010
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    NVM001.202 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_XCP_NG}
@@ -72,7 +70,6 @@ NVM001.205 NVMe support in OS (XCP-NG)
 NVM001.301 NVMe support in OS (Windows)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    ...    Previous IDs: NVM001.003
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
     Boot And Login To Windows
@@ -85,7 +82,6 @@ NVM001.301 NVMe support in OS (Windows)
 NVM001.401 NVMe support in OS (ESXi)
     [Documentation]    Verify that ESXi is installed and booted from an NVMe drive.
     ...    Check that NVMe is detected and marked as the boot device.
-    ...    Previous IDs: NVM001.011
     Depends On    ${TESTS_IN_ESXI_SUPPORT}
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0

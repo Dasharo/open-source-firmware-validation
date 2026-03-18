@@ -36,7 +36,6 @@ CBMEM001.201 Serial boot time measure: coreboot booting time after coldboot (Ubu
     [Documentation]    Check whether the DUT boots after coldboot and how
     ...    long it takes for coreboot to boot after coldboot if
     ...    CPU is serial initialized.
-    ...    Previous IDs: CBMEM001.001
     [Tags]    automated    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM001.201 not supported
     Skip If
@@ -49,7 +48,6 @@ CBMEM002.201 Serial boot time measure: coreboot booting time after warmboot (Ubu
     [Documentation]    Check whether the DUT boots after warmboot and how
     ...    long it takes for coreboot to boot after warmboot if
     ...    CPU is serial initialized.
-    ...    Previous IDs: CBMEM002.001
     [Tags]    automated    semiauto
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
@@ -62,7 +60,6 @@ CBMEM003.201 Serial boot time measure: coreboot booting time after system reboot
     [Documentation]    Check whether the DUT boots after system reboot and how
     ...    long it takes for coreboot to boot after system reboot
     ...    if CPU is serial initialized.
-    ...    Previous IDs: CBMEM003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBMEM003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBMEM003.201 not supported
     Serial Boot Time Measure Coreboot Booting Time After System Reboot    ${ENV_ID_UBUNTU}

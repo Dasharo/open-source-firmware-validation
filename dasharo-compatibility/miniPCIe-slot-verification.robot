@@ -30,7 +30,6 @@ Default Tags        automated
 MWL001.201 Wireless card detection (Ubuntu)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    ...    Previous IDs: MWL001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL001.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL001.201 not supported
     Wireless Card Detection    ${ENV_ID_UBUNTU}
@@ -39,7 +38,6 @@ MWL002.201 Wi-Fi scanning (Ubuntu)
     [Documentation]    Check whether the Wi-Fi functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system..
-    ...    Previous IDs: MWL002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL002.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL002.201 not supported
     Wi-Fi Scanning    ${ENV_ID_UBUNTU}
@@ -48,7 +46,6 @@ MWL003.201 Bluetooth scanning (Ubuntu)
     [Documentation]    Check whether the Bluetooth functionality of card is
     ...    initialized correctly and can be used from within the
     ...    operating system.
-    ...    Previous IDs: MWL003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL003.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL003.201 not supported
     Bluetooth Scanning    ${ENV_ID_UBUNTU}
@@ -56,7 +53,6 @@ MWL003.201 Bluetooth scanning (Ubuntu)
 MWL004.201 LTE card detection (Ubuntu)
     [Documentation]    Check whether the LTE card is detected correctly in the
     ...    operating system.
-    ...    Previous IDs: MWL004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MWL004.201 not supported
     Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    MWL004.201 not supported
     Skip If    "${LTE_CARD}"=="${TBD}"    LTE_CARD=="${TBD}""
@@ -94,7 +90,6 @@ MWL004.202 LTE card detection (Fedora)
 MWL001.301 Wireless card detection (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    ...    Previous IDs: MWL001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
     Power On
     Boot And Login To Windows
@@ -105,7 +100,6 @@ MWL001.301 Wireless card detection (Windows)
 MWL002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    ...    Previous IDs: MWL002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MLW002.301 not supported
     Power On
     Boot And Login To Windows

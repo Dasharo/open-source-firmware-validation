@@ -22,7 +22,6 @@ Default Tags        automated
 TPD003.201 Detect TPM after platform reboot (Ubuntu)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.
-    ...    Previous IDs: TPD003.001
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPD003.201 not supported
@@ -36,7 +35,6 @@ TPD003.201 Detect TPM after platform reboot (Ubuntu)
 TPD004.201 Detect TPM after platform suspend (Ubuntu)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.
-    ...    Previous IDs: TPD004.001
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPD004.201 not supported

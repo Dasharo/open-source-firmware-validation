@@ -32,7 +32,6 @@ Default Tags        automated
 CHS001.201 Check camera enablement
     [Documentation]    This test makes sure that camera enable option
     ...    is set, hence the camera works properly
-    ...    Previous IDs: CHS001.001
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CHS001.201 not supported
     Set UEFI Option    EnableCamera    ${TRUE}
     Power On
@@ -45,7 +44,6 @@ CHS001.201 Check camera enablement
 CHS002.201 Check camera disablement
     [Documentation]    This test makes sure that camera enable option
     ...    is not set, hence the camera is not detected by operating system
-    ...    Previous IDs: CHS002.001
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CHS002.201 not supported
     Set UEFI Option    EnableCamera    ${FALSE}
     Power On

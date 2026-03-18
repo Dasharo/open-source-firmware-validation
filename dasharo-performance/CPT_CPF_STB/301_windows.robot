@@ -42,7 +42,6 @@ _CONCURRENT_Background Measurements Immediate (no load) (Windows)
 CPF001.301 CPU not stuck on initial frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.002
     VAR    ${concurrent_test_id}=    CPF001.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -51,7 +50,6 @@ CPF001.301 CPU not stuck on initial frequency (Windows)
 CPF002.301 CPU not stuck on initial frequency (Battery) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.005
     VAR    ${concurrent_test_id}=    CPF002.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -60,7 +58,6 @@ CPF002.301 CPU not stuck on initial frequency (Battery) (Windows)
 CPF003.301 CPU not stuck on initial frequency (AC) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.008
     VAR    ${concurrent_test_id}=    CPF003.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -69,7 +66,6 @@ CPF003.301 CPU not stuck on initial frequency (AC) (Windows)
 CPF004.301 CPU not stuck on initial frequency (USB-PD) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.011
     VAR    ${concurrent_test_id}=    CPF004.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -96,7 +92,6 @@ _CONCURRENT_Background Measurements (no load) (Windows)
 CPF005.301 CPU runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.002
     VAR    ${concurrent_test_id}=    CPF005.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -105,7 +100,6 @@ CPF005.301 CPU runs on expected frequency (Windows)
 CPF006.301 CPU runs on expected frequency (Battery) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.004
     VAR    ${concurrent_test_id}=    CPF006.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -114,7 +108,6 @@ CPF006.301 CPU runs on expected frequency (Battery) (Windows)
 CPF007.301 CPU runs on expected frequency (AC) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.006
     VAR    ${concurrent_test_id}=    CPF007.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -123,7 +116,6 @@ CPF007.301 CPU runs on expected frequency (AC) (Windows)
 CPF008.301 CPU runs on expected frequency (USB-PD) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.008
     VAR    ${concurrent_test_id}=    CPF008.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -134,7 +126,6 @@ STB001.301 Verify if no reboot occurs in the OS (Windows)
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
-    ...    Previous IDs: STB001.002
     VAR    ${concurrent_test_id}=    STB001.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -166,7 +157,6 @@ _CONCURRENT_Background Measurements (load) (Windows)
 CPF009.301 CPU with load runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.002
     VAR    ${concurrent_test_id}=    CPF009.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -175,7 +165,6 @@ CPF009.301 CPU with load runs on expected frequency (Windows)
 CPF010.301 CPU with load runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.004
     VAR    ${concurrent_test_id}=    CPF010.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -184,7 +173,6 @@ CPF010.301 CPU with load runs on expected frequency (Windows)
 CPF011.301 CPU with load runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.006
     VAR    ${concurrent_test_id}=    CPF011.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -193,7 +181,6 @@ CPF011.301 CPU with load runs on expected frequency (Windows)
 CPF012.301 CPU with load runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.008
     VAR    ${concurrent_test_id}=    CPF012.301
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}

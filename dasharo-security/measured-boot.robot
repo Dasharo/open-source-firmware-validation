@@ -32,7 +32,6 @@ ${PCRS_TO_CHECK}=       [0-79]|14
 MBO001.201 Measured Boot support (Ubuntu)
     [Documentation]    Check whether Measured Boot is functional and
     ...    measurements are stored into the TPM.
-    ...    Previous IDs: MBO001.001
     Power On
     Boot Linux And Login To Root    ${ENV_ID_UBUNTU}
     Linux Measured Boot Support
@@ -40,7 +39,6 @@ MBO001.201 Measured Boot support (Ubuntu)
 MBO002.201 Check if event log PCRs match actual values (Ubuntu)
     [Documentation]    Check whether PCRs values calculated from event log match
     ...    actual PCRs values
-    ...    Previous IDs: MBO002.001
     Power On
     Boot Linux And Login To Root    ${ENV_ID_UBUNTU}
     Validate PCRs Against Event Log    /sys/kernel/security/tpm0/binary_bios_measurements

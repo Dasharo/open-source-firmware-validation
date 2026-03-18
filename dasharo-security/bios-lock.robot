@@ -34,7 +34,6 @@ BLS001.201 BIOS lock support (Ubuntu)
     ...    firmware from being flashed. This test aims to verify that,
     ...    after turning on the mechanism, the BIOS region should be correctly
     ...    recognized during attempt to overwrite it by using flashrom tool.
-    ...    Previous IDs: BLS001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    BLS001.201 not supported
     BIOS Lock Support    ${ENV_ID_UBUNTU}
@@ -44,7 +43,6 @@ BLS002.201 BIOS lock support deactivation (Ubuntu)
     ...    firmware from being flashed. This test aims to verify that, after
     ...    turning off the mechanism, the BIOS region overwriting operation is
     ...    available again.
-    ...    Previous IDs: BLS002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    BLS002.201 not supported
     BIOS Lock Support Deactivation    ${ENV_ID_UBUNTU}

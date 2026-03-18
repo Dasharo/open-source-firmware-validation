@@ -28,7 +28,6 @@ Default Tags        automated
 WBS001.201 Wifi and Bluetooth card power switch disabled (Ubuntu)
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to false
-    ...    Previous IDs: WBS001.001
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WBS001.201 not supported
@@ -37,7 +36,6 @@ WBS001.201 Wifi and Bluetooth card power switch disabled (Ubuntu)
 WBS002.201 Wifi and Bluetooth card power switch enabled (Ubuntu)
     [Documentation]    Checks whether Wifi + Bluetooth is detected by Linux
     ...    after setting Enable Wi-Fi + BT radios option to true
-    ...    Previous IDs: WBS002.001
     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}
     Skip If    not ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}    WBS002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WBS002.201 not supported

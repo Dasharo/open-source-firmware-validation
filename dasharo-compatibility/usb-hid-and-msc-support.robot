@@ -52,7 +52,6 @@ USB002.001 USB keyboard detected in FW
 USB001.201 USB devices detected by OS (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Ubuntu OS.
-    ...    Previous IDs: USB001.002
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
@@ -61,7 +60,6 @@ USB001.201 USB devices detected by OS (Ubuntu)
 USB001.401 USB devices detection in OS (ESXi)
     [Documentation]    Check whether USB devices are correctly detected
     ...    in VMware ESXi using lsusb monitoring.
-    ...    Previous IDs: USB001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -73,7 +71,6 @@ USB001.401 USB devices detection in OS (ESXi)
 USB002.201 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Ubuntu OS.
-    ...    Previous IDs: USB002.002
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
@@ -83,7 +80,6 @@ USB002.201 USB keyboard in OS (Ubuntu)
 USB003.201 Upload 1GB file on USB storage (Ubuntu)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    ...    Previous IDs: USB003.002
     Depends On    ${UPLOAD_ON_USB_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
@@ -108,7 +104,6 @@ USB002.202 USB keyboard in OS (Fedora)
 USB002.401 USB keyboard detection in OS (ESXi)
     [Documentation]    Verify that an external USB keyboard is correctly detected in ESXi.
     ...    Detection includes visibility in `lsusb` and verification of working input via basic typing test.
-    ...    Previous IDs: USB002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -129,7 +124,6 @@ USB003.202 Upload 1GB file on USB storage (Fedora)
 USB001.205 USB devices detected by OS (XCP-NG)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in XCP-NG.
-    ...    Previous IDs: USB001.010
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
     Power On
@@ -141,7 +135,6 @@ USB001.205 USB devices detected by OS (XCP-NG)
 USB002.205 USB keyboard in OS (XCP-NG)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the XCP-NG.
-    ...    Previous IDs: USB002.010
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
@@ -153,7 +146,6 @@ USB002.205 USB keyboard in OS (XCP-NG)
 USB003.205 Upload 1GB file on USB storage (XCP-NG)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    ...    Previous IDs: USB003.010
     Depends On    ${UPLOAD_ON_USB_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}
@@ -171,7 +163,6 @@ USB003.205 Upload 1GB file on USB storage (XCP-NG)
 USB001.301 USB devices detected by OS (Windows)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly in Windows OS.
-    ...    Previous IDs: USB001.003
     Depends On    ${USB_DISKS_DETECTION_SUPPORT}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
     Power On
@@ -184,7 +175,6 @@ USB001.301 USB devices detected by OS (Windows)
 USB002.301 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Windows OS.
-    ...    Previous IDs: USB002.003
     Depends On    ${USB_KEYBOARD_DETECTION_SUPPORT}
     Depends On    ${HAS_KEYBOARD}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}
@@ -197,7 +187,6 @@ USB002.301 USB keyboard in OS (Windows)
 USB003.301 Upload 1GB file on USB storage (Windows)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
-    ...    Previous IDs: USB003.003
     Depends On    ${UPLOAD_ON_USB_SUPPORT}
     Depends On    ${HAS_USB_STORAGE}
     Depends On    ${TESTS_IN_WINDOWS_SUPPORT}

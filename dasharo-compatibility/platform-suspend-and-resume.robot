@@ -29,7 +29,6 @@ Default Tags        automated
 SUSP005.201 Cyclic platform suspend and resume (Ubuntu)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
-    ...    Previous IDs: SUSP005.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP005.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP005.201 not supported
@@ -43,7 +42,6 @@ SUSP005.201 Cyclic platform suspend and resume (Ubuntu)
 SUSP006.201 Cyclic platform suspend and resume (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
-    ...    Previous IDs: SUSP005.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP006.201 not supported
@@ -58,7 +56,6 @@ SUSP006.201 Cyclic platform suspend and resume (Ubuntu) (S0ix)
 SUSP007.201 Cyclic platform suspend and resume (Ubuntu) (S3)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
-    ...    Previous IDs: SUSP005.003
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUSP007.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP007.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUSP007.201 not supported

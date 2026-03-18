@@ -31,7 +31,6 @@ CAM001.201 Integrated webcam (Ubuntu)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
-    ...    Previous IDs: CAM001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CAM001.201 not supported
     Power On
@@ -46,7 +45,6 @@ CAM002.201 Integrated IR Camera (Ubuntu)
     ...    initialized correctly and can be accessed from the Linux OS.
     ...    Assumption: No external camera connected. Camera exposes separate
     ...    devnodes for visible-spectrum and IR modes, in that order.
-    ...    Previous IDs: CAM002.001
     Skip If    not ${IR_CAMERA_SUPPORT}    CAM002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CAM002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CAM002.201 not supported
@@ -86,7 +84,6 @@ CAM002.202 Integrated IR Camera (Fedora)
 CAM001.301 Integrated webcam (Windows)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Windows OS.
-    ...    Previous IDs: CAM001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
     Power On
     Boot And Login To Windows
@@ -98,7 +95,6 @@ CAM001.203 Integrated webcam (Qubes OS)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS. Assumption: No
     ...    external cameras connected.
-    ...    Previous IDs: CAM001.003
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CAM001.203 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}

@@ -37,7 +37,6 @@ ${SIZE_OF_31_GB}=       33285996544    # 31*1024*1024*1024
 MEM001.401 Expected RAM size detected in OS (ESXi)
     [Documentation]    Verify that the installed RAM is correctly recognized by ESXi.
     ...    Total memory reported should match the expected amount within a reasonable margin.
-    ...    Previous IDs: MEM001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    MEM001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -54,7 +53,6 @@ MEM001.401 Expected RAM size detected in OS (ESXi)
 MEM001.205 Expected RAM size detected in OS (XCP-NG)
     [Documentation]    This test verifies that the installed physical memory (RAM)
     ...    is properly detected and reported by the XCP-NG OS.
-    ...    Previous IDs: MEM001.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    MEM001.203 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    MEM001.203 not supported
     RAM Size Detected In OS    ${PLATFORM_RAM_SIZE}

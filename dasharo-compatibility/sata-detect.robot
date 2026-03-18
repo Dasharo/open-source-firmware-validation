@@ -49,7 +49,6 @@ SAT001.201 SATA support in OS (Ubuntu)
 
 SAT001.205 SATA support in OS (XCP-NG)
     [Documentation]    Verify SATA support via smartctl in XCP-NG.
-    ...    Previous IDs: SAT001.010
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${TESTS_IN_XCP_NG_SUPPORT}
     Depends On    ${SATA_SUPPORT}
@@ -78,7 +77,6 @@ SAT001.205 SATA support in OS (XCP-NG)
 SAT001.401 SATA support in OS (ESXi)
     [Documentation]    Verify that a SATA storage device is detected by the ESXi system
     ...    and optionally check SMART data if available.
-    ...    Previous IDs: SAT001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    SAT001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0

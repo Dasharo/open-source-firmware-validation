@@ -51,7 +51,6 @@ _CONCURRENT_Background Measurements Immediate (no load) (Ubuntu)
 CPF001.201 CPU not stuck on initial frequency (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.001
     VAR    ${concurrent_test_id}=    CPF001.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -60,7 +59,6 @@ CPF001.201 CPU not stuck on initial frequency (Ubuntu)
 CPF002.201 CPU not stuck on initial frequency (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.004
     VAR    ${concurrent_test_id}=    CPF002.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -69,7 +67,6 @@ CPF002.201 CPU not stuck on initial frequency (Battery) (Ubuntu)
 CPF003.201 CPU not stuck on initial frequency (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.007
     VAR    ${concurrent_test_id}=    CPF003.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -78,7 +75,6 @@ CPF003.201 CPU not stuck on initial frequency (AC) (Ubuntu)
 CPF004.201 CPU not stuck on initial frequency (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU does not
     ...    stuck on the initial frequency after booting into the OS.
-    ...    Previous IDs: CPF001.010
     VAR    ${concurrent_test_id}=    CPF004.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -87,7 +83,6 @@ CPF004.201 CPU not stuck on initial frequency (USB-PD) (Ubuntu)
 STB002.201 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
-    ...    Previous IDs: STB002.001
     [Tags]    automated    minimal-regression
     VAR    ${concurrent_test_id}=    STB002.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
@@ -120,7 +115,6 @@ CPT001.201 CPU temperature without load (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    ...    Previous IDs: CPT001.001
     VAR    ${concurrent_test_id}=    CPT001.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -130,7 +124,6 @@ CPT002.201 CPU temperature without load (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    ...    Previous IDs: CPT001.002
     VAR    ${concurrent_test_id}=    CPT002.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -140,7 +133,6 @@ CPT003.201 CPU temperature without load (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    ...    Previous IDs: CPT001.003
     VAR    ${concurrent_test_id}=    CPT003.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -150,7 +142,6 @@ CPT004.201 CPU temperature without load (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of CPU
     ...    cores after system booting is not higher than the maximum
     ...    allowed temperature.
-    ...    Previous IDs: CPT001.004
     VAR    ${concurrent_test_id}=    CPT004.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -159,7 +150,6 @@ CPT004.201 CPU temperature without load (USB-PD) (Ubuntu)
 CPF005.201 CPU runs on expected frequency (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.001
     VAR    ${concurrent_test_id}=    CPF005.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -168,7 +158,6 @@ CPF005.201 CPU runs on expected frequency (Ubuntu)
 CPF006.201 CPU runs on expected frequency (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.003
     VAR    ${concurrent_test_id}=    CPF006.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -177,7 +166,6 @@ CPF006.201 CPU runs on expected frequency (Battery) (Ubuntu)
 CPF007.201 CPU runs on expected frequency (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.005
     VAR    ${concurrent_test_id}=    CPF007.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -186,7 +174,6 @@ CPF007.201 CPU runs on expected frequency (AC) (Ubuntu)
 CPF008.201 CPU runs on expected frequency (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency.
-    ...    Previous IDs: CPF002.007
     VAR    ${concurrent_test_id}=    CPF008.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -224,7 +211,6 @@ CPT005.201 CPU temperature after stress test (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
-    ...    Previous IDs: CPT002.001
     VAR    ${concurrent_test_id}=    CPT005.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -234,7 +220,6 @@ CPT006.201 CPU temperature after stress test (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
-    ...    Previous IDs: CPT002.002
     VAR    ${concurrent_test_id}=    CPT006.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -244,7 +229,6 @@ CPT007.201 CPU temperature after stress test (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
-    ...    Previous IDs: CPT002.003
     VAR    ${concurrent_test_id}=    CPT007.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -254,7 +238,6 @@ CPT008.201 CPU temperature after stress test (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
-    ...    Previous IDs: CPT002.004
     VAR    ${concurrent_test_id}=    CPT007.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -263,7 +246,6 @@ CPT008.201 CPU temperature after stress test (USB-PD) (Ubuntu)
 CPF009.201 CPU with load runs on expected frequency (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.002
     VAR    ${concurrent_test_id}=    CPF009.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -272,7 +254,6 @@ CPF009.201 CPU with load runs on expected frequency (Ubuntu)
 CPF010.201 CPU with load runs on expected frequency (Battery) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.004
     VAR    ${concurrent_test_id}=    CPF010.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -281,7 +262,6 @@ CPF010.201 CPU with load runs on expected frequency (Battery) (Ubuntu)
 CPF011.201 CPU with load runs on expected frequency (AC) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.006
     VAR    ${concurrent_test_id}=    CPF011.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -290,7 +270,6 @@ CPF011.201 CPU with load runs on expected frequency (AC) (Ubuntu)
 CPF012.201 CPU with load runs on expected frequency (USB-PD) (Ubuntu)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
-    ...    Previous IDs: CPF004.008
     VAR    ${concurrent_test_id}=    CPF012.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
@@ -305,7 +284,6 @@ STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
     ...    Operating System does not reset. The test is performed in multiple
     ...    iterations - after a defined time an attempt to read the output of
     ...    specific commands confirming the stability of work is repeated.
-    ...    Previous IDs: STB001.002
     VAR    ${concurrent_test_id}=    STB001.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}

@@ -33,7 +33,6 @@ Default Tags        automated
 NET002.201 Net controller after warmboot (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
-    ...    Previous IDs: NET002.001
     [Tags]    automated    semiauto
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
@@ -50,7 +49,6 @@ NET002.201 Net controller after warmboot (Ubuntu)
 NET003.201 Net controller after reboot (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
-    ...    Previous IDs: NET003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET003.201 not supported
     Power On
@@ -63,7 +61,6 @@ NET003.201 Net controller after reboot (Ubuntu)
 NET004.201 NET controller after suspend (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
-    ...    Previous IDs: NET004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.201 not supported
@@ -77,7 +74,6 @@ NET004.201 NET controller after suspend (Ubuntu)
 NET005.201 NET controller after suspend (Ubuntu) (S0ix)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
-    ...    Previous IDs: NET04.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET005.201 not supported
@@ -92,7 +88,6 @@ NET005.201 NET controller after suspend (Ubuntu) (S0ix)
 NET006.201 NET controller after suspend (Ubuntu) (S3)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
-    ...    Previous IDs: NET004.003
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET006.201 not supported
     Set Platform Sleep Type    S3
@@ -106,7 +101,6 @@ NET006.201 NET controller after suspend (Ubuntu) (S3)
 NET002.202 Net controller after warmboot (Fedora)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
-    ...    Previous IDs: NET005.003
     [Tags]    automated    semiauto
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}

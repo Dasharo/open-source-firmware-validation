@@ -26,7 +26,6 @@ PFS001.502 Install operating system on disk (pfSense)
     [Documentation]    Install pfSense LTS CE (serial output) from preseeded
     ...    USB stick on disk. Refer to test case PFS006.502 for preseed.
     ...
-    ...    Previous IDs: PFS001.001
     [Tags]    semiauto
     Power On
     Boot PfSense Installer
@@ -39,14 +38,12 @@ PFS001.502 Install operating system on disk (pfSense)
 PFS002.502 Boot operating system from disk (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk.
     ...
-    ...    Previous IDs: PFS001.002
     Power On
     Boot PfSense
 
 PFS003.502 Boot operating system from disk after cold-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after cold-boot
     ...
-    ...    Previous IDs: BPS001.001
     VAR    @{supported_power_ctrls}=    RteCtrl    sonoff
     Skip If    '${POWER_CTRL}' not in ${supported_power_ctrls}
     Execute Cold Boot
@@ -59,7 +56,6 @@ PFS003.502 Boot operating system from disk after cold-boot (pfSense)
 PFS004.502 Boot operating system from disk after warm-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after warm-boot
     ...
-    ...    Previous IDs: BPS002.001
     Power On
     Boot PfSense
     Enter PfSense Shell
@@ -74,7 +70,6 @@ PFS004.502 Boot operating system from disk after warm-boot (pfSense)
 PFS005.502 Boot operating system from disk after reboot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after reboot
     ...
-    ...    Previous IDs: BPS003.001
     Power On
     Boot PfSense
     Enter PfSense Shell

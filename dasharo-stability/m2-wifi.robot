@@ -52,7 +52,6 @@ SMW001.201 Wi-fi connection after cold boot (Ubuntu)
 SMW002.201 Wi-fi connection after warm boot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
-    ...    Previous IDs: SMW002.001
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW002.201 not supported
@@ -66,7 +65,6 @@ SMW002.201 Wi-fi connection after warm boot (Ubuntu)
 SMW003.201 Wi-fi connection after reboot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a reboot.
-    ...    Previous IDs: SMW003.001
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW003.201 not supported
@@ -80,7 +78,6 @@ SMW003.201 Wi-fi connection after reboot (Ubuntu)
 SMW004.201 Wi-fi connection after suspension (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
-    ...    Previous IDs: SMW004.001
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.201 not supported
@@ -95,7 +92,6 @@ SMW004.201 Wi-fi connection after suspension (Ubuntu)
 SMW005.201 Wi-fi connection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
-    ...    Previous IDs: SMW004.002
     Skip If    not ${M2_WIFI_SUPPORT}    SMW005.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.201 not supported
@@ -111,7 +107,6 @@ SMW005.201 Wi-fi connection after suspension (Ubuntu) (S0ix)
 SMW006.201 Wi-fi connection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
-    ...    Previous IDs: SMW004.003
     Skip If    not ${M2_WIFI_SUPPORT}    SMW006.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.201 not supported
@@ -127,7 +122,6 @@ SMW006.201 Wi-fi connection after suspension (Ubuntu) (S3)
 SMW002.202 Wi-fi connection after warm boot (Fedora)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
-    ...    Previous IDs: SMW002.001
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW002.202 not supported
     Power On
@@ -140,7 +134,6 @@ SMW002.202 Wi-fi connection after warm boot (Fedora)
 SMW003.202 Wi-fi connection after reboot (Fedora)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a reboot.
-    ...    Previous IDs: SMW003.202
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW003.202 not supported
     Power On
@@ -153,7 +146,6 @@ SMW003.202 Wi-fi connection after reboot (Fedora)
 SMW004.202 Wi-fi connection after suspension (Fedora)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
-    ...    Previous IDs: SMW004.001
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.202 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW004.202 not supported
@@ -167,7 +159,6 @@ SMW004.202 Wi-fi connection after suspension (Fedora)
 SMW005.202 Wi-fi connection after suspension (Fedora) (S0ix)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
-    ...    Previous IDs: SMW004.002
     Skip If    not ${M2_WIFI_SUPPORT}    SMW005.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW005.202 not supported
@@ -182,7 +173,6 @@ SMW005.202 Wi-fi connection after suspension (Fedora) (S0ix)
 SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
-    ...    Previous IDs: SMW004.003
     Skip If    not ${M2_WIFI_SUPPORT}    SMW006.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW006.202 not supported

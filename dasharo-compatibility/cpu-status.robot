@@ -45,7 +45,6 @@ ${CACHE_REGEX}=
 *** Test Cases ***
 CPU001.201 CPU works (Ubuntu)
     [Documentation]    Check whether the CPU mounted on the DUT works.
-    ...    Previous IDs: CPU001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
     Power On
@@ -55,7 +54,6 @@ CPU001.201 CPU works (Ubuntu)
 CPU001.401 CPU works (ESXi)
     [Documentation]    Verify that the CPU on the DUT is functional and boots the ESXi OS.
     ...    The test passes if the ESXi login screen (DCUI) is visible after boot.
-    ...    Previous IDs: CPU001.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -64,7 +62,6 @@ CPU001.401 CPU works (ESXi)
 CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
-    ...    Previous IDs: CPU002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
     Power On
@@ -75,7 +72,6 @@ CPU002.201 CPU cache enabled (Ubuntu)
 CPU002.401 CPU cache enabled (ESXi)
     [Documentation]    Verify that all CPU cache levels are detected and reported by ESXi.
     ...    Expected output includes L2 and L3 cache size, associativity, and CPU count.
-    ...    Previous IDs: CPU002.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -89,7 +85,6 @@ CPU002.401 CPU cache enabled (ESXi)
 
 CPU003.201 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
-    ...    Previous IDs: CPU003.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU003.201 not supported
     Power On
@@ -99,7 +94,6 @@ CPU003.201 Multiple CPU support (Ubuntu)
 
 CPU003.401 Multiple CPU support (ESXi)
     [Documentation]    Verify that ESXi detects more than one CPU core, indicating multi-CPU support.
-    ...    Previous IDs: CPU003.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU003.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -113,7 +107,6 @@ CPU003.401 Multiple CPU support (ESXi)
 
 CPU004.201 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
-    ...    Previous IDs: CPU004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU004.201 not supported
     Power On
@@ -123,7 +116,6 @@ CPU004.201 Multiple-core support (Ubuntu)
 
 CPU004.401 Multiple-core support (ESXi)
     [Documentation]    Verify that the system supports multiple CPU cores using Package ID mapping.
-    ...    Previous IDs: CPU004.011
     Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
     Power On
     IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
@@ -171,7 +163,6 @@ CPU004.202 Multiple-core support (Fedora)
 
 CPU001.301 CPU works (Windows)
     [Documentation]    Check whether the CPU mounted on the DUT works.
-    ...    Previous IDs: CPU001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
     Power On
     Boot And Login To Windows
@@ -180,7 +171,6 @@ CPU001.301 CPU works (Windows)
 CPU002.301 CPU cache enabled (Windows)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
-    ...    Previous IDs: CPU002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
     Power On
     Boot And Login To Windows
@@ -197,7 +187,6 @@ CPU002.301 CPU cache enabled (Windows)
 
 CPU003.301 Multiple CPU support (Windows)
     [Documentation]    Check whether the DUT has multiple CPU support.
-    ...    Previous IDs: CPU003.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
     Power On
     Boot And Login To Windows
@@ -209,7 +198,6 @@ CPU003.301 Multiple CPU support (Windows)
 
 CPU004.301 Multiple-core support (Windows)
     [Documentation]    Check whether the DUT has multi-core support.
-    ...    Previous IDs: CPU004.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
     Power On
     Boot And Login To Windows
@@ -226,7 +214,6 @@ CPU004.301 Multiple-core support (Windows)
 
 CPU001.203 CPU works (Qubes OS)
     [Documentation]    Check whether the CPU mounted on the DUT works.
-    ...    Previous IDs: CPU001.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU001.203 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
@@ -235,7 +222,6 @@ CPU001.203 CPU works (Qubes OS)
 CPU002.203 CPU cache enabled (Qubes OS)
     [Documentation]    Check whether all declared for the DUT cache levels
     ...    are enabled.
-    ...    Previous IDs: CPU002.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
@@ -244,7 +230,6 @@ CPU002.203 CPU cache enabled (Qubes OS)
 
 CPU003.203 Multiple CPU support (Qubes OS)
     [Documentation]    Check whether the DUT has multiple CPU support.
-    ...    Previous IDs: CPU003.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU003.203 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
@@ -253,7 +238,6 @@ CPU003.203 Multiple CPU support (Qubes OS)
 
 CPU004.203 Multiple-core support (Qubes OS)
     [Documentation]    Check whether the DUT has multi-core support
-    ...    Previous IDs: CPU004.010
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    CPU004.203 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
@@ -262,7 +246,6 @@ CPU004.203 Multiple-core support (Qubes OS)
 
 CPU001.205 CPU works (XCP-NG)
     [Documentation]    Check whether the CPU mounted on the DUT works.
-    ...    Previous IDs: CPU001.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU001.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU001.205 not supported
     Power On
@@ -271,7 +254,6 @@ CPU001.205 CPU works (XCP-NG)
 CPU002.205 CPU cache enabled (XCP-NG)
     [Documentation]    Check whether all declared for the DUT cache levels
     ...    are enabled.
-    ...    Previous IDs: CPU002.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU002.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
     Power On
@@ -280,7 +262,6 @@ CPU002.205 CPU cache enabled (XCP-NG)
 
 CPU003.205 Multiple CPU support (XCP-NG)
     [Documentation]    Check whether the DUT has multiple CPU support.
-    ...    Previous IDs: CPU003.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU003.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU003.205 not supported
     Power On
@@ -289,7 +270,6 @@ CPU003.205 Multiple CPU support (XCP-NG)
 
 CPU004.205 Multiple-core support (XCP-NG)
     [Documentation]    Check whether the DUT has multi-core support
-    ...    Previous IDs: CPU004.010
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU004.205 not supported
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU004.205 not supported
     Power On

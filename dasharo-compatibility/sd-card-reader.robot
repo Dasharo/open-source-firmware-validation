@@ -30,7 +30,6 @@ Default Tags        automated
 SDC001.201 SD Card reader detection (Ubuntu)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    ...    Previous IDs: SDC001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SDC001.201 not supported
     Power On
@@ -44,7 +43,6 @@ SDC001.201 SD Card reader detection (Ubuntu)
 SDC002.201 SD Card read/write (Ubuntu)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    ...    Previous IDs: SDC002.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SDC002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SDC002.201 not supported
     Power On
@@ -88,7 +86,6 @@ SDC002.202 SD Card read/write (Fedora)
 SDC001.301 SD Card reader detection (Windows)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
-    ...    Previous IDs: SDC001.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.301 not supported
     Power On
     Boot And Login To Windows
@@ -101,7 +98,6 @@ SDC001.301 SD Card reader detection (Windows)
 SDC002.301 SD Card read/write (Windows)
     [Documentation]    Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.
-    ...    Previous IDs: SDC002.002
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.301 not supported
     Power On
     Boot And Login To Windows

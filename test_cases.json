@@ -1,22 +1,6 @@
 [
   {
     "doc": {
-      "_id": "ACPI001.001",
-      "name": "ACPI driver test (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ACPI001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ACPI001.002",
-      "name": "ACPI driver test (Fedora)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ACPI001.202"
-    }
-  },
-  {
-    "doc": {
       "_id": "ACPI001.201",
       "name": "ACPI driver test (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -87,30 +71,6 @@
   },
   {
     "doc": {
-      "_id": "AUD001.001",
-      "name": "Audio subsystem detection (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD001.002",
-      "name": "Audio subsystem detection (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD001.003",
-      "name": "Audio subsystem detection (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD001.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "AUD001.201",
       "name": "Audio subsystem detection (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -135,22 +95,6 @@
       "_id": "AUD001.301",
       "name": "Audio subsystem detection (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD002.001",
-      "name": "Internal speaker audio playback (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD002.002",
-      "name": "Internal speaker audio playback (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD002.301"
     }
   },
   {
@@ -183,22 +127,6 @@
   },
   {
     "doc": {
-      "_id": "AUD003.001",
-      "name": "Internal microhphone audio capture (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD003.002",
-      "name": "Internal microphone audio capture (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD003.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "AUD003.003",
       "name": "Audio capture (Qubes OS)",
       "module": "Dasharo Compatibility"
@@ -223,22 +151,6 @@
       "_id": "AUD003.301",
       "name": "Internal microphone audio capture (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD004.001",
-      "name": "External headset recognition (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD004.002",
-      "name": "External headset recognition (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD004.301"
     }
   },
   {
@@ -271,22 +183,6 @@
   },
   {
     "doc": {
-      "_id": "AUD005.001",
-      "name": "External headset audio playback (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD005.002",
-      "name": "External headset audio playback (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD005.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "AUD005.003",
       "name": "External headset audio playback (Qubes OS)",
       "module": "Dasharo Compatibility"
@@ -311,22 +207,6 @@
       "_id": "AUD005.301",
       "name": "External headset audio playback (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD006.001",
-      "name": "External headset audio capture (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD006.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD006.002",
-      "name": "External headset audio capture (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD006.301"
     }
   },
   {
@@ -359,22 +239,6 @@
   },
   {
     "doc": {
-      "_id": "AUD007.001",
-      "name": "HDMI audio recognition (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD007.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD007.002",
-      "name": "HDMI audio recognition (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD007.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "AUD007.003",
       "name": "HDMI audio recognition (Qubes OS)",
       "module": "Dasharo Compatibility"
@@ -399,22 +263,6 @@
       "_id": "AUD007.301",
       "name": "HDMI audio recognition (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD008.001",
-      "name": "HDMI audio playback (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD008.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "AUD008.002",
-      "name": "HDMI audio playback (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "AUD008.301"
     }
   },
   {
@@ -503,14 +351,6 @@
   },
   {
     "doc": {
-      "_id": "BLS001.001",
-      "name": "BIOS lock support (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "BLS001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "BLS001.201",
       "name": "BIOS lock support (Ubuntu)",
       "module": "Dasharo Security"
@@ -521,14 +361,6 @@
       "_id": "BLS001.202",
       "name": "BIOS lock support (Fedora)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "BLS002.001",
-      "name": "BIOS lock support deactivation (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "BLS002.201"
     }
   },
   {
@@ -582,30 +414,6 @@
   },
   {
     "doc": {
-      "_id": "BOS001.001",
-      "name": "Boot OPNsense (serial output) from disk after cold-boot",
-      "module": "Dasharo Performance",
-      "changed_to": "OPN003.502"
-    }
-  },
-  {
-    "doc": {
-      "_id": "BOS002.001",
-      "name": "Boot OPNsense (serial output) from disk after warm-boot",
-      "module": "Dasharo Performance",
-      "changed_to": "OPN004.502"
-    }
-  },
-  {
-    "doc": {
-      "_id": "BOS003.001",
-      "name": "Boot OPNsense (serial output) from disk after reboot",
-      "module": "Dasharo Performance",
-      "changed_to": "OPN005.502"
-    }
-  },
-  {
-    "doc": {
       "_id": "BOV001.001",
       "name": "Boot OPNsense (VGA output) from disk after cold-boot",
       "module": "Dasharo Performance"
@@ -644,30 +452,6 @@
       "_id": "BPM003.001",
       "name": "Boot Proxmox Virtual Environment from disk after reboot",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "BPS001.001",
-      "name": "Boot pfSense LTS CE (serial output) from disk after cold-boot",
-      "module": "Dasharo Performance",
-      "changed_to": "PFS003.502"
-    }
-  },
-  {
-    "doc": {
-      "_id": "BPS002.001",
-      "name": "Boot pfSense LTS CE (serial output) from disk after warm-boot",
-      "module": "Dasharo Performance",
-      "changed_to": "PFS004.502"
-    }
-  },
-  {
-    "doc": {
-      "_id": "BPS003.001",
-      "name": "Boot pfSense LTS CE (serial output) from disk after reboot",
-      "module": "Dasharo Performance",
-      "changed_to": "PFS005.502"
     }
   },
   {
@@ -763,30 +547,6 @@
   },
   {
     "doc": {
-      "_id": "CAM001.001",
-      "name": "USB Camera (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CAM001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CAM001.002",
-      "name": "USB Camera (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CAM001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CAM001.003",
-      "name": "USB Camera (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CAM001.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "CAM001.201",
       "name": "Integrated webcam (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -843,14 +603,6 @@
   },
   {
     "doc": {
-      "_id": "CBMEM001.001",
-      "name": "Serial boot measure: coreboot booting time after cold boot",
-      "module": "Dasharo Performance",
-      "changed_to": "CBMEM001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "CBMEM001.201",
       "name": "Serial boot time measure: coreboot booting time after coldboot (Ubuntu)",
       "module": "Dasharo Performance"
@@ -865,14 +617,6 @@
   },
   {
     "doc": {
-      "_id": "CBMEM002.001",
-      "name": "Serial boot measure: coreboot booting time after warm boot",
-      "module": "Dasharo Performance",
-      "changed_to": "CBMEM002.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "CBMEM002.201",
       "name": "Serial boot time measure: coreboot booting time after warmboot (Ubuntu)",
       "module": "Dasharo Performance"
@@ -883,14 +627,6 @@
       "_id": "CBMEM002.202",
       "name": "Serial boot time measure: coreboot booting time after warmboot (Fedora)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CBMEM003.001",
-      "name": "Serial boot measure: coreboot booting time after system reboot",
-      "module": "Dasharo Performance",
-      "changed_to": "CBMEM003.201"
     }
   },
   {
@@ -947,14 +683,6 @@
       "_id": "CBNT006.101",
       "name": "Setup Menu Boot Guard Information",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CBO001.002",
-      "name": "Custom Boot Order",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CBO001.101"
     }
   },
   {
@@ -1134,14 +862,6 @@
   },
   {
     "doc": {
-      "_id": "CHS001.001",
-      "name": "Camera enable",
-      "module": "Dasharo Security",
-      "changed_to": "CHS001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "CHS001.201",
       "name": "Camera enable",
       "module": "Dasharo Security"
@@ -1152,14 +872,6 @@
       "_id": "CHS001.202",
       "name": "Check camera enablement",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CHS002.001",
-      "name": "Camera disable",
-      "module": "Dasharo Security",
-      "changed_to": "CHS002.201"
     }
   },
   {
@@ -1185,14 +897,6 @@
   },
   {
     "doc": {
-      "_id": "CNB001.002",
-      "name": "Only one iPXE in boot menu",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CNB001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "CNB001.201",
       "name": "Only one iPXE in boot menu (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -1207,41 +911,9 @@
   },
   {
     "doc": {
-      "_id": "CPF001.001",
-      "name": "CPU not stuck on initial frequency (Ubuntu)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF001.002",
-      "name": "CPU not stuck on initial frequency (Windows)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF001.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPF001.003",
       "name": "CPU not stuck on initial frequency (Heads+Debian)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF001.004",
-      "name": "CPU not stuck on initial frequency (Ubuntu) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF001.005",
-      "name": "CPU not stuck on initial frequency (Windows) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF002.301"
     }
   },
   {
@@ -1253,41 +925,9 @@
   },
   {
     "doc": {
-      "_id": "CPF001.007",
-      "name": "CPU not stuck on initial frequency (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF001.008",
-      "name": "CPU not stuck on initial frequency (Windows) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF003.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPF001.009",
       "name": "CPU not stuck on initial frequency (Heads+Debian) (AC)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF001.010",
-      "name": "CPU not stuck on initial frequency (Ubuntu) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF001.011",
-      "name": "CPU not stuck on initial frequency (Windows) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF004.301"
     }
   },
   {
@@ -1344,70 +984,6 @@
       "_id": "CPF001.301",
       "name": "CPU not stuck on initial frequency (Windows)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.001",
-      "name": "CPU runs on expected frequency (Ubuntu)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.002",
-      "name": "CPU runs on expected frequency (Windows)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF005.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.003",
-      "name": "CPU runs on expected frequency (Ubuntu) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF006.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.004",
-      "name": "CPU runs on expected frequency (Windows) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF006.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.005",
-      "name": "CPU runs on expected frequency (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF007.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.006",
-      "name": "CPU runs on expected frequency (Windows) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF007.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.007",
-      "name": "CPU runs on expected frequency (Ubuntu) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF008.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF002.008",
-      "name": "CPU runs on expected frequency (Windows) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF008.301"
     }
   },
   {
@@ -1485,70 +1061,6 @@
       "_id": "CPF003.301",
       "name": "CPU not stuck on initial frequency (Windows) (AC)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.001",
-      "name": "CPU with load runs on expected frequency (Ubuntu)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF009.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.002",
-      "name": "CPU with load runs on expected frequency (Windows)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF009.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.003",
-      "name": "CPU with load runs on expected frequency (Ubuntu) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF010.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.004",
-      "name": "CPU with load runs on expected frequency (Windows) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF010.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.005",
-      "name": "CPU with load runs on expected frequency (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF012.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.006",
-      "name": "CPU with load runs on expected frequency (Windows) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF011.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.007",
-      "name": "CPU with load runs on expected frequency (Ubuntu) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF012.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPF004.008",
-      "name": "CPU with load runs on expected frequency (Windows) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPF012.301"
     }
   },
   {
@@ -1784,22 +1296,6 @@
   },
   {
     "doc": {
-      "_id": "CPP001.001",
-      "name": "Single Threaded CPU Benchmark (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPP001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPP001.002",
-      "name": "Single Threaded CPU Benchmark (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPP001.202"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPP001.201",
       "name": "Single Threaded CPU Benchmark (Ubuntu) (AC)",
       "module": "Dasharo Performance"
@@ -1807,41 +1303,9 @@
   },
   {
     "doc": {
-      "_id": "CPP001.202",
-      "name": "Single Threaded CPU Benchmark (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPP003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPP002.001",
-      "name": "Multi Threaded CPU Benchmark (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPP002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPP002.002",
-      "name": "Multi Threaded CPU Benchmark (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPP002.202"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPP002.201",
       "name": "Multi Threaded CPU Benchmark (Ubuntu) (AC)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPP002.202",
-      "name": "Multi Threaded CPU Benchmark (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPP004.201"
     }
   },
   {
@@ -1856,38 +1320,6 @@
       "_id": "CPP004.201",
       "name": "Multi Threaded CPU Benchmark (Ubuntu) (Battery)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT001.001",
-      "name": "CPU temperature without load (Ubuntu)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT001.002",
-      "name": "CPU temperature without load (Ubuntu) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT001.003",
-      "name": "CPU temperature without load (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT001.004",
-      "name": "CPU temperature without load (Ubuntu) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT004.201"
     }
   },
   {
@@ -1909,38 +1341,6 @@
       "_id": "CPT001.203",
       "name": "CPU temperature without load (Qubes OS)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT002.001",
-      "name": "CPU temperature after stress test (Ubuntu)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT002.002",
-      "name": "CPU temperature after stress test (Ubuntu) (battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT006.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT002.003",
-      "name": "CPU temperature after stress test (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT007.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPT002.004",
-      "name": "CPU temperature after stress test (Ubuntu) (USB-PD)",
-      "module": "Dasharo Performance",
-      "changed_to": "CPT008.201"
     }
   },
   {
@@ -2050,46 +1450,6 @@
   },
   {
     "doc": {
-      "_id": "CPU001.001",
-      "name": "CPU works (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU001.002",
-      "name": "CPU works (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU001.003",
-      "name": "CPU works (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU001.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU001.010",
-      "name": "CPU works (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU001.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU001.011",
-      "name": "CPU works (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU001.401"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPU001.201",
       "name": "CPU works (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -2128,46 +1488,6 @@
       "_id": "CPU001.401",
       "name": "CPU works (ESXi)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU002.001",
-      "name": "CPU cache enabled (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU002.002",
-      "name": "CPU cache enabled (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU002.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU002.003",
-      "name": "CPU cache enabled (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU002.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU002.010",
-      "name": "CPU cache enabled (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU002.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU002.011",
-      "name": "CPU cache enabled (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU002.401"
     }
   },
   {
@@ -2214,46 +1534,6 @@
   },
   {
     "doc": {
-      "_id": "CPU003.001",
-      "name": "Multiple CPU support (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU003.002",
-      "name": "Multiple CPU support (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU003.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU003.003",
-      "name": "Multiple CPU support (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU003.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU003.010",
-      "name": "Multiple CPU support (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU003.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU003.011",
-      "name": "Multiple CPU support (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU003.401"
-    }
-  },
-  {
-    "doc": {
       "_id": "CPU003.201",
       "name": "Multiple CPU support (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -2292,46 +1572,6 @@
       "_id": "CPU003.401",
       "name": "Multiple CPU support (ESXi)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU004.001",
-      "name": "Multiple-core support (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU004.002",
-      "name": "Multiple-core support (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU004.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU004.003",
-      "name": "Multiple-core support (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU004.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU004.010",
-      "name": "Multiple-core  support (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU004.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CPU004.011",
-      "name": "Multiple-core  support (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "CPU004.401"
     }
   },
   {
@@ -2455,22 +1695,6 @@
   },
   {
     "doc": {
-      "_id": "CUP170.001",
-      "name": "Verifying UUID (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "CUP170.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CUP170.002",
-      "name": "Verifying UUID (Windows)",
-      "module": "Dasharo Stability",
-      "changed_to": "CUP170.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "CUP170.201",
       "name": "Verifying UUID (Ubuntu)",
       "module": "Dasharo Stability"
@@ -2485,22 +1709,6 @@
   },
   {
     "doc": {
-      "_id": "CUP180.001",
-      "name": "Verifying Serial Number (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "CUP180.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CUP180.002",
-      "name": "Verifying Serial Number (Windows)",
-      "module": "Dasharo Stability",
-      "changed_to": "CUP180.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "CUP180.201",
       "name": "Verifying Serial Number (Ubuntu)",
       "module": "Dasharo Stability"
@@ -2511,14 +1719,6 @@
       "_id": "CUP180.301",
       "name": "Verifying Serial Number (Windows)",
       "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
-      "_id": "CUP190.001",
-      "name": "Verifying If Custom Logo Persists Across updates (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "CUP190.201"
     }
   },
   {
@@ -2544,14 +1744,6 @@
   },
   {
     "doc": {
-      "_id": "DCU001.001",
-      "name": "Change the UUID",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DCU001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DCU001.201",
       "name": "Change the UUID (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -2562,14 +1754,6 @@
       "_id": "DCU001.202",
       "name": "Change the UUID  (Fedora)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DCU002.001",
-      "name": "Change the serial number",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DCU002.201"
     }
   },
   {
@@ -2588,14 +1772,6 @@
   },
   {
     "doc": {
-      "_id": "DCU003.001",
-      "name": "Change the bootsplash logo",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DCU003.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DCU003.201",
       "name": "Change the bootsplash logo (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -2606,14 +1782,6 @@
       "_id": "DCU003.202",
       "name": "Change the bootsplash logo (Fedora)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DCU004.001",
-      "name": "Verify SMMSTORE changes",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DCU004.201"
     }
   },
   {
@@ -2702,33 +1870,9 @@
   },
   {
     "doc": {
-      "_id": "DIO001.202",
-      "name": "Sequential Read Performance (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "DIO002.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DIO001.301",
       "name": "Sequential Read Performance (Windows) (AC)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DIO002.201",
-      "name": "Sequential Write Performance (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "DIO003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DIO002.202",
-      "name": "Sequential Write Performance (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "DIO004.201"
     }
   },
   {
@@ -2740,41 +1884,9 @@
   },
   {
     "doc": {
-      "_id": "DIO003.201",
-      "name": "Random Read Performance (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "DIO005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DIO003.202",
-      "name": "Random Read Performance (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "DIO006.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DIO003.301",
       "name": "Sequential Write Performance (Windows) (AC)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DIO004.201",
-      "name": "Random Write Performance (Ubuntu) (AC)",
-      "module": "Dasharo Performance",
-      "changed_to": "DIO007.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DIO004.202",
-      "name": "Random Write Performance (Ubuntu) (Battery)",
-      "module": "Dasharo Performance",
-      "changed_to": "DIO008.201"
     }
   },
   {
@@ -2842,14 +1954,6 @@
   },
   {
     "doc": {
-      "_id": "DMI001.001",
-      "name": "Verify the serial number",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DMI001.201",
       "name": "Verify the serial number",
       "module": "Dasharo Compatibility"
@@ -2860,14 +1964,6 @@
       "_id": "DMI001.202",
       "name": "Verify the device serial number",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DMI002.001",
-      "name": "Verify the firmware version",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI002.201"
     }
   },
   {
@@ -2886,14 +1982,6 @@
   },
   {
     "doc": {
-      "_id": "DMI003.001",
-      "name": "Verify the firmware product name",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI003.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DMI003.201",
       "name": "Verify the firmware product name",
       "module": "Dasharo Compatibility"
@@ -2904,14 +1992,6 @@
       "_id": "DMI003.202",
       "name": "Verify the firmware product name",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DMI004.001",
-      "name": "Verify the firmware release date",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI004.201"
     }
   },
   {
@@ -2930,14 +2010,6 @@
   },
   {
     "doc": {
-      "_id": "DMI005.001",
-      "name": "Verify the firmware manufacturer",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI005.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DMI005.201",
       "name": "Verify the firmware manufacturer",
       "module": "Dasharo Compatibility"
@@ -2948,14 +2020,6 @@
       "_id": "DMI005.202",
       "name": "Verify the firmware manufacturer",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DMI006.001",
-      "name": "Verify the firmware vendor",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI006.201"
     }
   },
   {
@@ -2974,14 +2038,6 @@
   },
   {
     "doc": {
-      "_id": "DMI007.001",
-      "name": "Verify the firmware family",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI007.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "DMI007.201",
       "name": "Verify the firmware family",
       "module": "Dasharo Compatibility"
@@ -2992,14 +2048,6 @@
       "_id": "DMI007.202",
       "name": "Verify the firmware family",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DMI008.001",
-      "name": "Verify the firmware type",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DMI008.201"
     }
   },
   {
@@ -3032,30 +2080,6 @@
   },
   {
     "doc": {
-      "_id": "DSP001.002",
-      "name": "Internal LCD in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP001.003",
-      "name": "Internal LCD in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP001.004",
-      "name": "Internal LCD in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP001.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "DSP001.201",
       "name": "Internal display in OS",
       "module": "Dasharo Compatibility"
@@ -3084,49 +2108,9 @@
   },
   {
     "doc": {
-      "_id": "DSP002.001",
-      "name": "External HDMI display in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP002.002",
-      "name": "External HDMI display in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP002.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "DSP002.003",
       "name": "External HDMI display in firmware",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP002.004",
-      "name": "External HDMI display in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP002.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP002.010",
-      "name": "External HDMI display in OS (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP002.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP002.011",
-      "name": "External HDMI display in OS (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP002.401"
     }
   },
   {
@@ -3173,41 +2157,9 @@
   },
   {
     "doc": {
-      "_id": "DSP003.001",
-      "name": "External DP display in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP003.002",
-      "name": "External DP display in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP003.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "DSP003.003",
       "name": "External DP display in firmware",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP003.010",
-      "name": "External DP display in OS (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP003.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "DSP003.011",
-      "name": "External DP display in OS (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "DSP003.401"
     }
   },
   {
@@ -3401,30 +2353,6 @@
   },
   {
     "doc": {
-      "_id": "ECR001.001",
-      "name": "Battery monitoring - charge level in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR001.002",
-      "name": "Battery monitoring - charge level in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR001.005",
-      "name": "Battery monitoring - charge level in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR001.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR001.201",
       "name": "Battery monitoring - charge level in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3453,30 +2381,6 @@
   },
   {
     "doc": {
-      "_id": "ECR002.001",
-      "name": "Battery monitoring - charging state in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR002.002",
-      "name": "Battery monitoring - charging state in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR002.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR002.003",
-      "name": "Battery monitoring - charging state in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR002.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR002.201",
       "name": "Battery monitoring - charging state in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3501,30 +2405,6 @@
       "_id": "ECR002.301",
       "name": "Battery monitoring - charging state in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR003.001",
-      "name": "Touchpad in OS - (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR003.002",
-      "name": "Touchpad in OS - (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR003.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR003.003",
-      "name": "Touchpad in OS - (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR003.203"
     }
   },
   {
@@ -3564,30 +2444,6 @@
   },
   {
     "doc": {
-      "_id": "ECR004.002",
-      "name": "Keyboard (standard keypad) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR004.003",
-      "name": "Keyboard (standard keypad) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR004.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR004.004",
-      "name": "Keyboard (standard keypad) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR004.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR004.201",
       "name": "Keyboard (standard keypad) in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3605,30 +2461,6 @@
       "_id": "ECR004.301",
       "name": "Keyboard (standard keypad) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR005.001",
-      "name": "Keyboard (function key: play/pause) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR005.002",
-      "name": "Keyboard (function key: play/pause) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR005.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR005.003",
-      "name": "Keyboard (function key: play/pause) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR005.203"
     }
   },
   {
@@ -3654,30 +2486,6 @@
   },
   {
     "doc": {
-      "_id": "ECR006.001",
-      "name": "Keyboard (function key: cooling mode) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR006.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR006.002",
-      "name": "Keyboard (function key: cooling mode) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR006.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR006.003",
-      "name": "Keyboard (function key: cooling mode) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR006.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR006.201",
       "name": "Keyboard (function key: cooling mode) in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3695,30 +2503,6 @@
       "_id": "ECR006.301",
       "name": "Keyboard (function key: cooling mode) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR007.001",
-      "name": "Keyboard (function key: touchpad on/off) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR007.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR007.002",
-      "name": "Keyboard (function key: touchpad on/off) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR007.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR007.003",
-      "name": "Keyboard (function key: touchpad on/off) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR007.203"
     }
   },
   {
@@ -3744,22 +2528,6 @@
   },
   {
     "doc": {
-      "_id": "ECR008.001",
-      "name": "Keyboard (function key: display on/off) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR008.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR008.002",
-      "name": "Keyboard (function key: display on/off) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR008.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR008.201",
       "name": "Keyboard (function key: display on/off) in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3777,30 +2545,6 @@
       "_id": "ECR008.301",
       "name": "Keyboard (function key: display on/off) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR009.001",
-      "name": "Keyboard (function key: mute) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR009.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR009.002",
-      "name": "Keyboard (function key: mute) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR009.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR009.003",
-      "name": "Keyboard (function key: mute) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR009.203"
     }
   },
   {
@@ -3826,30 +2570,6 @@
   },
   {
     "doc": {
-      "_id": "ECR010.001",
-      "name": "Keyboard (function key: keyboard backlight) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR010.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR010.002",
-      "name": "Keyboard (function key: keyboard backlight) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR010.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR010.003",
-      "name": "Keyboard (function key: keyboard backlight) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR010.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR010.201",
       "name": "Keyboard (function key: keyboard backlight) in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3867,30 +2587,6 @@
       "_id": "ECR010.301",
       "name": "Keyboard (function key: keyboard backlight) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR011.001",
-      "name": "Keyboard (function key: volume down) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR011.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR011.002",
-      "name": "Keyboard (function key: volume down) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR011.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR011.003",
-      "name": "Keyboard (function key: volume down) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR011.203"
     }
   },
   {
@@ -3916,30 +2612,6 @@
   },
   {
     "doc": {
-      "_id": "ECR012.001",
-      "name": "Keyboard (function key: volume up) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR012.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR012.002",
-      "name": "Keyboard (function key: volume up) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR012.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR012.003",
-      "name": "Keyboard (function key: volume up) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR012.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR012.201",
       "name": "Keyboard (function key: volume up) in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3957,30 +2629,6 @@
       "_id": "ECR012.301",
       "name": "Keyboard (function key: volume up) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR013.001",
-      "name": "Keyboard (function key: display switch) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR013.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR013.002",
-      "name": "Keyboard (function key: display switch) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR013.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR013.003",
-      "name": "Keyboard (function key: display switch) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR013.203"
     }
   },
   {
@@ -4006,25 +2654,9 @@
   },
   {
     "doc": {
-      "_id": "ECR014.001",
-      "name": "Keyboard (function key: brightness down) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR014.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR014.002",
       "name": "Keyboard (function key: brightness down) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR014.003",
-      "name": "Keyboard (function key: brightness down) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR014.203"
     }
   },
   {
@@ -4050,25 +2682,9 @@
   },
   {
     "doc": {
-      "_id": "ECR015.001",
-      "name": "Keyboard (function key: brightness up) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR015.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR015.002",
       "name": "Keyboard (function key: brightness up) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR015.003",
-      "name": "Keyboard (function key: brightness up) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR015.203"
     }
   },
   {
@@ -4094,25 +2710,9 @@
   },
   {
     "doc": {
-      "_id": "ECR016.001",
-      "name": "Keyboard (function key: camera on/off) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR016.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR016.002",
       "name": "Keyboard (function key: camera on/off) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR016.003",
-      "name": "Keyboard (function key: camera on/off) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR016.203"
     }
   },
   {
@@ -4138,25 +2738,9 @@
   },
   {
     "doc": {
-      "_id": "ECR017.001",
-      "name": "Keyboard (function key: flight mode) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR017.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR017.002",
       "name": "Keyboard (function key: flight mode) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR017.003",
-      "name": "Keyboard (function key: flight mode) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR017.203"
     }
   },
   {
@@ -4182,30 +2766,6 @@
   },
   {
     "doc": {
-      "_id": "ECR018.001",
-      "name": "Keyboard (function key: sleep) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR018.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR018.002",
-      "name": "Keyboard (function key: sleep) in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR018.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR018.003",
-      "name": "Keyboard (function key: sleep) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR018.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR018.201",
       "name": "Keyboard (function key: sleep) in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -4227,25 +2787,9 @@
   },
   {
     "doc": {
-      "_id": "ECR019.001",
-      "name": "Buttons (button: power) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR019.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR019.002",
       "name": "Buttons (button: power) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR019.003",
-      "name": "Buttons (button: power) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR019.203"
     }
   },
   {
@@ -4271,25 +2815,9 @@
   },
   {
     "doc": {
-      "_id": "ECR020.001",
-      "name": "Buttons (button: lid switch) in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR020.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR020.002",
       "name": "Buttons (button: lid switch) in OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR020.003",
-      "name": "Buttons (button: lid switch) in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR020.203"
     }
   },
   {
@@ -4353,14 +2881,6 @@
       "_id": "ECR025.003",
       "name": "Permanent keyboard illumination after cold boot (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ECR025.004",
-      "name": "Permanent keyboard illumination after cold boot (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR025.203"
     }
   },
   {
@@ -4491,14 +3011,6 @@
   },
   {
     "doc": {
-      "_id": "ECR031.001",
-      "name": "EC firmware sync in coreboot",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ECR031.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "ECR032.001",
       "name": "EC firmware sync in coreboot blocked when AC not connected",
       "module": "Dasharo Compatibility"
@@ -4537,22 +3049,6 @@
       "_id": "EDP002.001",
       "name": "Disable early boot DMA protection support",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "EFI001.001",
-      "name": "Boot into UEFI OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "EFI001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "EFI001.002",
-      "name": "Boot into UEFI OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "EFI001.301"
     }
   },
   {
@@ -4634,22 +3130,6 @@
   },
   {
     "doc": {
-      "_id": "ETH001.010",
-      "name": "All Expected NET Controllers Detected (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ETH001.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ETH001.011",
-      "name": "All Expected NET Controllers Detected (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ETH001.401"
-    }
-  },
-  {
-    "doc": {
       "_id": "ETH001.205",
       "name": "All Expected NET Controllers Detected (XCP-NG)",
       "module": "Dasharo Compatibility"
@@ -4660,14 +3140,6 @@
       "_id": "ETH001.401",
       "name": "All expected NET controllers detected (ESXi)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "ETH002.010",
-      "name": "All Expected SFP Controllers Detected (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ETH002.205"
     }
   },
   {
@@ -5218,14 +3690,6 @@
   },
   {
     "doc": {
-      "_id": "MBO001.001",
-      "name": "Measured Boot support (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "MBO001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "MBO001.201",
       "name": "Measured Boot support (Ubuntu)",
       "module": "Dasharo Security"
@@ -5310,22 +3774,6 @@
   },
   {
     "doc": {
-      "_id": "MEM001.010",
-      "name": "Expected RAM size detected in OS (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MEM001.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MEM001.011",
-      "name": "Expected RAM size detected in OS (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MEM001.401"
-    }
-  },
-  {
-    "doc": {
       "_id": "MEM001.205",
       "name": "Expected RAM size detected in OS (XCP-NG)",
       "module": "Dasharo Compatibility"
@@ -5361,14 +3809,6 @@
   },
   {
     "doc": {
-      "_id": "MNE002.001",
-      "name": "ME disable option off works correctly (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "MNE002.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "MNE002.201",
       "name": "ME disable option off works correctly (Ubuntu)",
       "module": "Dasharo Security"
@@ -5383,14 +3823,6 @@
   },
   {
     "doc": {
-      "_id": "MNE003.001",
-      "name": "ME disable option soft disable works correctly (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "MNE003.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "MNE003.201",
       "name": "ME disable option soft disable works correctly (Ubuntu)",
       "module": "Dasharo Security"
@@ -5401,14 +3833,6 @@
       "_id": "MNE003.202",
       "name": "Intel ME mode option Disabled (Soft) works correctly (Fedora)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MNE004.001",
-      "name": "ME disable HAP bit option works correctly (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "MNE004.201"
     }
   },
   {
@@ -5430,14 +3854,6 @@
       "_id": "MNE005.001",
       "name": "PCI Express 5.0 port is functional when ME disabled (Ubuntu)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MNE006.001",
-      "name": "Check Intel ME version",
-      "module": "Dasharo Security",
-      "changed_to": "MNE006.201"
     }
   },
   {
@@ -5484,22 +3900,6 @@
   },
   {
     "doc": {
-      "_id": "MWL001.001",
-      "name": "Wireless card detection (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MWL001.002",
-      "name": "Wireless card detection (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL001.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "MWL001.201",
       "name": "Wireless card detection (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -5517,22 +3917,6 @@
       "_id": "MWL001.301",
       "name": "Wireless card detection (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MWL002.001",
-      "name": "Wi-Fi scanning (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MWL002.002",
-      "name": "Wi-Fi scanning (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL002.301"
     }
   },
   {
@@ -5558,22 +3942,6 @@
   },
   {
     "doc": {
-      "_id": "MWL003.001",
-      "name": "Bluetooth scanning (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MWL003.002",
-      "name": "Bluetooth scanning (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL003.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "MWL003.201",
       "name": "Bluetooth scanning (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -5584,14 +3952,6 @@
       "_id": "MWL003.202",
       "name": "Bluetooth scanning (Fedora)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "MWL004.001",
-      "name": "LTE card detection (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "MWL004.201"
     }
   },
   {
@@ -5722,14 +4082,6 @@
   },
   {
     "doc": {
-      "_id": "NET003.001",
-      "name": "NET controller after reboot (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NET003.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "NET003.002",
       "name": "NET controller after reboot (Qubes OS)",
       "module": "Dasharo Stability"
@@ -5747,30 +4099,6 @@
       "_id": "NET003.202",
       "name": "Net controller after reboot (Fedora)",
       "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NET004.001",
-      "name": "NET controller after suspend (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NET004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NET004.002",
-      "name": "NET controller after suspend (Ubuntu) (S0ix)",
-      "module": "Dasharo Stability",
-      "changed_to": "NET005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NET004.003",
-      "name": "NET controller after suspend (Ubuntu) (S3)",
-      "module": "Dasharo Stability",
-      "changed_to": "NET006.201"
     }
   },
   {
@@ -5824,30 +4152,6 @@
   },
   {
     "doc": {
-      "_id": "NETSPD001.001",
-      "name": "Check Network Speed",
-      "module": "Dasharo Compatibility",
-      "changed_to": "ETHPERF001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVI001.001",
-      "name": "NVIDIA Graphics detect (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVI001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVI001.002",
-      "name": "NVIDIA Graphics detect (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVI001.301"
-    }
-  },
-  {
-    "doc": {
       "_id": "NVI001.201",
       "name": "NVIDIA Graphics detect (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -5865,22 +4169,6 @@
       "_id": "NVI001.301",
       "name": "NVIDIA Graphics detect (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVI002.001",
-      "name": "NVIDIA Graphics power management (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVI002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVI002.002",
-      "name": "NVIDIA Graphics power management (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVI002.301"
     }
   },
   {
@@ -5909,38 +4197,6 @@
       "_id": "NVM001.001",
       "name": "NVMe support in firmware",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVM001.002",
-      "name": "NVMe support in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVM001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVM001.003",
-      "name": "NVMe support in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVM001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVM001.010",
-      "name": "NVMe support (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVM001.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "NVM001.011",
-      "name": "NVMe support (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "NVM001.401"
     }
   },
   {
@@ -5983,22 +4239,6 @@
       "_id": "NVM002.201",
       "name": "NVMe slot change to x2 support in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "OPN001.001",
-      "name": "OPNsense stable (serial output) installation on Hard Disk",
-      "module": "Dasharo Compatibility",
-      "changed_to": "OPN001.503"
-    }
-  },
-  {
-    "doc": {
-      "_id": "OPN001.002",
-      "name": "Boot OPNsense stable (serial output) from Hard Disk",
-      "module": "Dasharo Compatibility",
-      "changed_to": "OPN001.503"
     }
   },
   {
@@ -6125,22 +4365,6 @@
       "_id": "PBT004.001",
       "name": "Rescan Devices by Petitboot",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "PFS001.001",
-      "name": "pfSense stable (serial output) installation on Hard Disk",
-      "module": "Dasharo Compatibility",
-      "changed_to": "PFS001.502"
-    }
-  },
-  {
-    "doc": {
-      "_id": "PFS001.002",
-      "name": "Boot pfSense stable (serial output) from Hard Disk",
-      "module": "Dasharo Compatibility",
-      "changed_to": "PFS002.502"
     }
   },
   {
@@ -6537,38 +4761,6 @@
   },
   {
     "doc": {
-      "_id": "SAT001.002",
-      "name": "SATA support in OS (Ubuntu}",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SAT001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SAT001.003",
-      "name": "SATA support in OS (Windows}",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SAT001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SAT001.010",
-      "name": "SATA Support (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SAT001.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SAT001.011",
-      "name": "SATA Support (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SAT001.401"
-    }
-  },
-  {
-    "doc": {
       "_id": "SAT001.201",
       "name": "SATA support in OS (Ubuntu}",
       "module": "Dasharo Compatibility"
@@ -6599,14 +4791,6 @@
     "doc": {
       "_id": "SBO001.001",
       "name": "Check Secure Boot default state (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO001.101"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SBO001.001",
-      "name": "Check Secure Boot default state (firmware)",
       "module": "Dasharo Security"
     }
   },
@@ -6615,22 +4799,6 @@
       "_id": "SBO001.101",
       "name": "Check Secure Boot default state (firmware)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SBO002.001",
-      "name": "UEFI Secure Boot (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SBO002.002",
-      "name": "UEFI Secure Boot (Windows)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO002.301"
     }
   },
   {
@@ -6649,25 +4817,9 @@
   },
   {
     "doc": {
-      "_id": "SBO003.001",
-      "name": "Attempt to boot file with the correct key from Shell (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO003.101"
-    }
-  },
-  {
-    "doc": {
       "_id": "SBO003.101",
       "name": "Attempt to boot file with the correct key from Shell (firmware)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SBO004.001",
-      "name": "Attempt to boot file without the key from Shell (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO004.101"
     }
   },
   {
@@ -6679,25 +4831,9 @@
   },
   {
     "doc": {
-      "_id": "SBO005.001",
-      "name": "Attempt to boot file with the wrong-signed key from Shell (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO005.101"
-    }
-  },
-  {
-    "doc": {
       "_id": "SBO005.101",
       "name": "Attempt to boot file with the wrong-signed key from Shell (firmware)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SBO006.001",
-      "name": "Reset Secure Boot Keys option availability (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO006.101"
     }
   },
   {
@@ -6709,14 +4845,6 @@
   },
   {
     "doc": {
-      "_id": "SBO007.001",
-      "name": "Attempt to boot the file after restoring keys to default (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO007.101"
-    }
-  },
-  {
-    "doc": {
       "_id": "SBO007.101",
       "name": "Attempt to boot the file after restoring keys to default (firmware)",
       "module": "Dasharo Security"
@@ -6724,41 +4852,9 @@
   },
   {
     "doc": {
-      "_id": "SBO008.001",
-      "name": "Attempt to enroll the key in the incorrect format (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "SBO008.101"
-    }
-  },
-  {
-    "doc": {
       "_id": "SBO008.101",
       "name": "Attempt to enroll the key in the incorrect format (firmware)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SDC001.001",
-      "name": "SD Card reader detection (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SDC001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SDC001.002",
-      "name": "SD Card reader detection (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SDC001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SDC001.003",
-      "name": "SD Card reader detection (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SDC001.203"
     }
   },
   {
@@ -6787,30 +4883,6 @@
       "_id": "SDC001.301",
       "name": "SD Card reader detection (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SDC002.001",
-      "name": "SD Card read/write (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SDC002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SDC002.002",
-      "name": "SD Card read/write (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SDC002.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SDC002.003",
-      "name": "SD Card read/write (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SDC002.203"
     }
   },
   {
@@ -6934,54 +5006,6 @@
   },
   {
     "doc": {
-      "_id": "SMW0001.001",
-      "name": "Wi-fi connection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW001.001"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW0002.001",
-      "name": "Wi-fi connection after warm boot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW0003.001",
-      "name": "Wi-fi connection after reboot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW0004.001",
-      "name": "Wi-fi connection after suspension (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW001.001",
-      "name": "Wi-fi connection after cold boot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW001.002",
-      "name": "Wi-fi connection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW001.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "SMW001.201",
       "name": "Wi-fi connection after cold boot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -6992,22 +5016,6 @@
       "_id": "SMW001.203",
       "name": "Wi-fi detection after cold boot (Qubes OS)",
       "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW002.001",
-      "name": "Wi-fi connection after warm boot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW002.002",
-      "name": "Wi-fi connection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW002.203"
     }
   },
   {
@@ -7033,22 +5041,6 @@
   },
   {
     "doc": {
-      "_id": "SMW003.001",
-      "name": "Wi-fi connection after reboot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW003.002",
-      "name": "Wi-fi connection after reboot (Qubes OS)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW003.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "SMW003.201",
       "name": "Wi-fi connection after reboot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -7066,38 +5058,6 @@
       "_id": "SMW003.203",
       "name": "Wi-fi detection after reboot (Qubes OS)",
       "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW004.001",
-      "name": "Wi-fi connection after suspension (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW004.002",
-      "name": "Wi-fi connection after suspension (Ubuntu) (S0ix)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW004.003",
-      "name": "Wi-fi connection after suspension (Ubuntu) (S3)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW006.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SMW004.004",
-      "name": "Wi-fi connection after suspension (Qubes OS) (S3)",
-      "module": "Dasharo Stability",
-      "changed_to": "SMW004.203"
     }
   },
   {
@@ -7154,78 +5114,6 @@
       "_id": "SNV0001.001",
       "name": "NVMe detection after cold boot (Ubuntu)",
       "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0001.002",
-      "name": "NVMe detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV001.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0002.001",
-      "name": "NVMe detection after warm boot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0002.002",
-      "name": "NVMe detection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV002.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0003.001",
-      "name": "NVMe detection after reboot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0003.002",
-      "name": "NVMe detection after reboot (Qubes OS)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV003.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0004.001",
-      "name": "NVMe detection after suspension (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0004.002",
-      "name": "NVMe detection after suspension (Ubuntu) (S0ix)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0004.003",
-      "name": "NVMe detection after suspension (Ubuntu) (S3)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV006.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SNV0004.004",
-      "name": "NVMe detection after suspension (Qubes OS) (S3)",
-      "module": "Dasharo Stability",
-      "changed_to": "SNV004.203"
     }
   },
   {
@@ -7482,30 +5370,6 @@
   },
   {
     "doc": {
-      "_id": "STB001.002",
-      "name": "Verify if no reboot occurs in the OS (Ubuntu)",
-      "module": "Dasharo Performance",
-      "changed_to": "STB001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "STB001.003",
-      "name": "Verify if no reboot occurs in the OS (Windows)",
-      "module": "Dasharo Performance",
-      "changed_to": "STB001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "STB001.004",
-      "name": "Verify if no reboot occurs in the OS (Qubes OS)",
-      "module": "Dasharo Performance",
-      "changed_to": "STB001.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "STB001.201",
       "name": "Verify if no reboot occurs in the OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -7530,22 +5394,6 @@
       "_id": "STB001.301",
       "name": "Verify if no reboot occurs in the OS (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "STB002.001",
-      "name": "Verify if no unexpected boot errors appear in Linux logs",
-      "module": "Dasharo Performance",
-      "changed_to": "STB002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "STB002.002",
-      "name": "No unexpected boot errors (Qubes OS)",
-      "module": "Dasharo Performance",
-      "changed_to": "STB002.203"
     }
   },
   {
@@ -7599,14 +5447,6 @@
   },
   {
     "doc": {
-      "_id": "SUD0002.001",
-      "name": "USB devices detection after warm boot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SUD002.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "SUD0002.002",
       "name": "USB devices detection after warm boot (Qubes OS)",
       "module": "Dasharo Stability"
@@ -7614,41 +5454,9 @@
   },
   {
     "doc": {
-      "_id": "SUD0003.001",
-      "name": "USB devices detection after reboot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SUD003.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "SUD0003.002",
       "name": "USB devices detection after reboot (Qubes OS)",
       "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUD0004.001",
-      "name": "USB devices detection after suspension (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "SUD004.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUD0004.002",
-      "name": "USB devices detection after suspension (Ubuntu) (S0ix)",
-      "module": "Dasharo Stability",
-      "changed_to": "SUD005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUD0004.003",
-      "name": "USB devices detection after suspension (Ubuntu) (S3)",
-      "module": "Dasharo Stability",
-      "changed_to": "SUD006.201"
     }
   },
   {
@@ -7730,22 +5538,6 @@
   },
   {
     "doc": {
-      "_id": "SUSP001.001",
-      "name": "Platform suspend and resume (Ubuntu, wakeup flag)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP001.003",
-      "name": "Platform suspend and resume (Qubes OS, wakeup flag)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP001.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "SUSP001.201",
       "name": "Platform suspend and resume (Ubuntu, wakeup flag)",
       "module": "Dasharo Compatibility"
@@ -7756,22 +5548,6 @@
       "_id": "SUSP001.203",
       "name": "Platform suspend and resume (Qubes OS, wakeup flag)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP002.001",
-      "name": "Platform suspend and resume (Ubuntu, press key)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP002.003",
-      "name": "Platform suspend and resume (Qubes OS, press key)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP002.203"
     }
   },
   {
@@ -7790,22 +5566,6 @@
   },
   {
     "doc": {
-      "_id": "SUSP003.001",
-      "name": "Platform suspend and resume (Ubuntu, power button)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP003.003",
-      "name": "Platform suspend and resume (Qubes OS, power button)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP003.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "SUSP003.201",
       "name": "Platform suspend and resume (Ubuntu, power button)",
       "module": "Dasharo Compatibility"
@@ -7816,38 +5576,6 @@
       "_id": "SUSP003.203",
       "name": "Platform suspend and resume (Qubes OS, power button)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP005.001",
-      "name": "Cyclic platform suspend and resume (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP005.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP005.002",
-      "name": "Cyclic platform suspend and resume (Ubuntu) (S0ix)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP006.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP005.003",
-      "name": "Cyclic platform suspend and resume (Ubuntu) (S3)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP007.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "SUSP005.004",
-      "name": "Cyclic platform suspend and resume (Qubes OS) (S3)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "SUSP007.203"
     }
   },
   {
@@ -7936,14 +5664,6 @@
   },
   {
     "doc": {
-      "_id": "TPD003.001",
-      "name": "Detect TPM after platform reboot (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "TPD003.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "TPD003.004",
       "name": "Detect TPM after platform reboot (heads)",
       "module": "Dasharo Stability"
@@ -7965,14 +5685,6 @@
   },
   {
     "doc": {
-      "_id": "TPD004.001",
-      "name": "Detect TPM after platform suspend (Ubuntu)",
-      "module": "Dasharo Stability",
-      "changed_to": "TPD004.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "TPD004.201",
       "name": "Detect TPM after platform suspend (Ubuntu)",
       "module": "Dasharo Stability"
@@ -7990,30 +5702,6 @@
       "_id": "TPM001.001",
       "name": "TPM Support (firmware)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM001.002",
-      "name": "TPM Support (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM001.003",
-      "name": "TPM Support (WIndows)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM001.010",
-      "name": "TPM Support (XCP-NG)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM001.205"
     }
   },
   {
@@ -8060,30 +5748,6 @@
   },
   {
     "doc": {
-      "_id": "TPM002.002",
-      "name": "Verify TPM version (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM002.003",
-      "name": "Verify TPM version (Windows)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM002.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM002.010",
-      "name": "Verify TPM version (XCP-NG)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM002.205"
-    }
-  },
-  {
-    "doc": {
       "_id": "TPM002.011",
       "name": "Verify TPM version (ESXi)",
       "module": "Dasharo Security"
@@ -8122,38 +5786,6 @@
       "_id": "TPM003.001",
       "name": "Check TPM Physical Presence Interface (firmware)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM003.002",
-      "name": "Check TPM Physical Presence Interface (Ubuntu)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM003.003",
-      "name": "Check TPM Physical Presence Interface (Windows)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM003.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM003.004",
-      "name": "Change active PCR banks with TPM PPI (firmware)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM003.101"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM003.010",
-      "name": "Check TPM Physical Presence Interface (XCP-NG)",
-      "module": "Dasharo Security",
-      "changed_to": "TPM003.205"
     }
   },
   {
@@ -8403,46 +6035,6 @@
   },
   {
     "doc": {
-      "_id": "USB001.002",
-      "name": "USB devices detected by OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB001.003",
-      "name": "USB devices detected by OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB001.004",
-      "name": "USB devices detected by OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB001.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB001.010",
-      "name": "USB devices detection in OS (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB001.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB001.011",
-      "name": "USB devices detection in OS (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB001.401"
-    }
-  },
-  {
-    "doc": {
       "_id": "USB001.201",
       "name": "USB devices detected by OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -8492,46 +6084,6 @@
   },
   {
     "doc": {
-      "_id": "USB002.002",
-      "name": "USB keyboard in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB002.003",
-      "name": "USB keyboard in OS (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB002.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB002.004",
-      "name": "USB keyboard in OS (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB002.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB002.010",
-      "name": "USB keyboard detection (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB002.205"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB002.011",
-      "name": "USB keyboard detection (ESXi)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB002.401"
-    }
-  },
-  {
-    "doc": {
       "_id": "USB002.201",
       "name": "USB keyboard in OS (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -8570,30 +6122,6 @@
       "_id": "USB002.401",
       "name": "USB keyboard detection in OS (ESXi)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB003.001",
-      "name": "Upload 1GB file on USB storage (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB003.002",
-      "name": "Upload 1GB file on USB storage (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB003.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USB003.010",
-      "name": "USB keyboard detection (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "USB003.205"
     }
   },
   {
@@ -8720,686 +6248,6 @@
       "_id": "UTC001.001",
       "name": "USB Type-A charging capability",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC001.002",
-      "name": "USB Type-A charging capability with ME disabled",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC002.001"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC002.001",
-      "name": "Thunderbolt 4 USB Type-C power output",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC003.001"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC002.002",
-      "name": "Thunderbolt 4 USB Type-C power output with ME disabled",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC004.001"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC003.001",
-      "name": "USB Type-C PD power input (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC105.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC003.002",
-      "name": "USB Type-C PD power input (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC105.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC003.003",
-      "name": "USB Type-C PD power input with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC106.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC003.004",
-      "name": "USB Type-C PD power input with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC106.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC004.001",
-      "name": "USB Type-C Display output (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC107.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC004.002",
-      "name": "USB Type-C Display output (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC107.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC004.003",
-      "name": "USB Type-C Display output (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC107.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC004.005",
-      "name": "USB Type-C Display output with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC108.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC004.006",
-      "name": "USB Type-C Display output with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC108.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC005.001",
-      "name": "USB Type-C docking station HDMI display (DP Alt mode) (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC109.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC005.002",
-      "name": "USB Type-C docking station HDMI display (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC109.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC005.003",
-      "name": "Docking station HDMI display in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC109.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC005.005",
-      "name": "USB Type-C docking station HDMI display with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC110.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC005.006",
-      "name": "USB Type-C docking station HDMI display with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC110.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC005.007",
-      "name": "USB Type-C docking station HDMI display with ME enabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC109.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC006.001",
-      "name": "USB Type-C docking station DP display (DP Alt mode) (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC111.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC006.002",
-      "name": "USB Type-C docking station DP display (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC111.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC006.003",
-      "name": "Docking station DP display in OS (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC111.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC006.005",
-      "name": "USB Type-C docking station DP display with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC112.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC006.006",
-      "name": "USB Type-C docking station DP display with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC112.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC006.007",
-      "name": "USB Type-C docking station DP display with ME enabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC111.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC007.001",
-      "name": "USB Type-C docking station Triple display (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC113.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC007.002",
-      "name": "USB Type-C docking station Triple display (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC113.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC007.003",
-      "name": "USB Type-C docking station Triple display (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC113.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC007.005",
-      "name": "USB Type-C docking station Triple display with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC114.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC007.006",
-      "name": "USB Type-C docking station Triple display with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC114.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC008.001",
-      "name": "USB Type-C docking station detection after coldboot (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC135.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC008.002",
-      "name": "USB Type-C docking station detection after coldboot (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC135.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC008.003",
-      "name": "USB Type-C docking station detection after coldboot (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC135.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC009.001",
-      "name": "USB Type-C docking station detection after warmboot (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC137.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC009.002",
-      "name": "USB Type-C docking station detection after warmboot (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC137.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC009.003",
-      "name": "USB Type-C docking station detection after warmboot (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC137.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC010.001",
-      "name": "USB Type-C docking station detection after reboot (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC139.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC010.002",
-      "name": "USB Type-C docking station detection after reboot (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC139.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC010.003",
-      "name": "USB Type-C docking station detection after reboot (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC139.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC011.001",
-      "name": "USB Type-C docking station detection after suspend (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC141.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC011.002",
-      "name": "USB Type-C docking station detection after suspend (Ubuntu) (S0ix)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC143.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC011.003",
-      "name": "USB Type-C docking station detection after suspend (Ubuntu) (S3)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC145.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC011.004",
-      "name": "USB Type-C docking station detection after suspend (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC141.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC011.005",
-      "name": "USB Type-C docking station USB devices recognition with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC116.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC011.006",
-      "name": "USB Type-C docking station USB devices recognition with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC116.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC012.001",
-      "name": "USB Type-C docking station USB devices recognition (firmware)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC115.001"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC012.002",
-      "name": "USB Type-C docking station USB devices recognition (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC115.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC012.003",
-      "name": "USB Type-C docking station USB devices recognition (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC115.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC012.004",
-      "name": "USB Type-C docking station USB keyboard with ME disabled(firmware)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC118.001"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC012.005",
-      "name": "USB Type-C docking station USB keyboard with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC118.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC012.006",
-      "name": "USB Type-C docking station USB keyboard with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC118.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC013.001",
-      "name": "USB Type-C docking station USB keyboard (firmware)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC117.001"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC013.002",
-      "name": "USB Type-C docking station USB keyboard (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC117.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC013.003",
-      "name": "USB Type-C docking station USB keyboard (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC117.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC013.004",
-      "name": "USB Type-C docking station upload 1GB file on USB storage with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC119.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC014.001",
-      "name": "USB Type-C docking station Ethernet connection (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC121.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC014.002",
-      "name": "USB Type-C docking station Ethernet connection (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC121.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC014.003",
-      "name": "USB Type-C docking station Ethernet connection with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC122.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC014.004",
-      "name": "USB Type-C docking station Ethernet connection with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC122.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC015.001",
-      "name": "USB Type-C docking station audio recognition (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC123.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC015.002",
-      "name": "USB Type-C docking station audio recognition (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC123.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC015.003",
-      "name": "USB Type-C docking station audio recognition with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC124.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC015.004",
-      "name": "USB Type-C docking station audio recognition with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC124.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC016.001",
-      "name": "USB Type-C docking station audio playback (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC125.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC016.002",
-      "name": "USB Type-C docking station audio playback (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC125.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC016.003",
-      "name": "USB Type-C docking station audio playback with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC126.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC016.004",
-      "name": "USB Type-C docking station audio playback with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC126.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC017.001",
-      "name": "USB Type-C docking station audio capture (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC127.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC017.002",
-      "name": "USB Type-C docking station audio capture (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC127.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC017.003",
-      "name": "USB Type-C docking station audio capture with ME disabled(Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC128.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC017.004",
-      "name": "USB Type-C docking station audio capture with ME disabled(Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC128.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC018.001",
-      "name": "USB Type-C docking station SD Card reader detection (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC129.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC018.002",
-      "name": "USB Type-C docking station SD Card reader detection (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC129.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC018.003",
-      "name": "USB Type-C docking station SD Card reader detection ME disabled (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC130.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC018.004",
-      "name": "USB Type-C docking station SD Card reader detection ME disabled (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC130.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC019.001",
-      "name": "USB Type-C docking station SD Card read/write (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC131.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC019.002",
-      "name": "USB Type-C docking station SD Card read/write (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC131.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC019.003",
-      "name": "USB Type-C docking station SD Card read/write with ME disabled (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC132.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC019.004",
-      "name": "USB Type-C docking station SD Card read/write with ME disabled (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC132.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC020.001",
-      "name": "USB Type-C PD current limiting (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC033.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC020.002",
-      "name": "USB Type-C PD current limiting (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC033.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC020.003",
-      "name": "USB Type-C PD current limiting with ME disabled (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC034.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC020.004",
-      "name": "USB Type-C PD current limiting with ME disabled (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC034.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC021.001",
-      "name": "USB Type-C laptop charging (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC105.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC021.002",
-      "name": "USB Type-C laptop charging (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC105.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "UTC021.003",
-      "name": "USB Type-C laptop charging (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "UTC105.203"
     }
   },
   {
@@ -13968,14 +10816,6 @@
   },
   {
     "doc": {
-      "_id": "WBS001.001",
-      "name": "WiFi / BT enable",
-      "module": "Dasharo Security",
-      "changed_to": "WBS001.201"
-    }
-  },
-  {
-    "doc": {
       "_id": "WBS001.201",
       "name": "WiFi / BT enable",
       "module": "Dasharo Security"
@@ -13986,14 +10826,6 @@
       "_id": "WBS001.202",
       "name": "Wifi and Bluetooth card power switch disabled (Fedora)",
       "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WBS002.001",
-      "name": "WiFi / BT disable",
-      "module": "Dasharo Security",
-      "changed_to": "WBS002.201"
     }
   },
   {
@@ -14061,38 +10893,6 @@
   },
   {
     "doc": {
-      "_id": "WLE001.001",
-      "name": "Wireless card detection (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE001.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WLE001.002",
-      "name": "Wireless card detection (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE001.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WLE001.003",
-      "name": "Wireless card detection (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE001.203"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WLE001.010",
-      "name": "Wireless card detection (XCP-NG)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE001.205"
-    }
-  },
-  {
-    "doc": {
       "_id": "WLE001.011",
       "name": "Wireless card detection (ESXi)",
       "module": "Dasharo Compatibility"
@@ -14128,30 +10928,6 @@
   },
   {
     "doc": {
-      "_id": "WLE002.001",
-      "name": "Wi-Fi scanning (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE002.201"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WLE002.002",
-      "name": "Wi-Fi scanning (Windows)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE002.301"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WLE002.003",
-      "name": "Wi-Fi scanning (Qubes OS)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE002.203"
-    }
-  },
-  {
-    "doc": {
       "_id": "WLE002.201",
       "name": "Wi-Fi scanning (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -14176,14 +10952,6 @@
       "_id": "WLE002.301",
       "name": "Wi-Fi scanning (Windows)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "WLE003.001",
-      "name": "Bluetooth scanning (Ubuntu)",
-      "module": "Dasharo Compatibility",
-      "changed_to": "WLE003.201"
     }
   },
   {
