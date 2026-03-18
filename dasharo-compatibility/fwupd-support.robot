@@ -189,7 +189,7 @@ Fwupd Devices Detected Linux
 Run Fwupd Local Update
     [Arguments]    ${cabinet}
     ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes
+    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes --force
     ...    timeout=300s
     RETURN    ${out}
 
