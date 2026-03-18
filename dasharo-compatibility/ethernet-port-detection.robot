@@ -66,6 +66,16 @@ ETH002.205 All Expected SFP Controllers Detected (XCP-NG)
     Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH002.203 not supported
     All Expected SFP Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_NET_CONTROLLERS}
 
+ETH002.401 All Expected SFP Controllers Detected (ESXi)
+    [Documentation]    This test verifies that all expected onboard SFP network
+    ...    controllers are correctly detected by ESXi.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    ETH002.401 not supported
+    Execute Manual Step    [1/4] Power on the DUT and boot into ESXi
+    Execute Manual Step    [2/4] Access the ESXi console or SSH into the host
+    Execute Manual Step    [3/4] Run: esxcli network nic list to list detected network controllers
+    Execute Manual Step    [4/4] Confirm that all expected SFP controllers are listed in the output
+
 
 *** Keywords ***
 All Expected NET Controllers Detected

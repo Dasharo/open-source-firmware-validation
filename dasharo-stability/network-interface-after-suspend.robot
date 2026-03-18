@@ -30,6 +30,16 @@ Default Tags        automated
 
 
 *** Test Cases ***
+NET001.201 NET controller after coldboot (Ubuntu)
+    [Documentation]    Check whether the network controller is detected correctly after a cold boot in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET001.201 not supported
+    Execute Manual Step    [1/4] Power off the DUT completely (cold boot)
+    Execute Manual Step    [2/4] Power on the DUT and boot into Ubuntu
+    Execute Manual Step    [3/4] Run: ip link show or nmcli device status to check network interfaces
+    Execute Manual Step    [4/4] Confirm the network controller is detected and the interface is UP
+
 NET002.201 Net controller after warmboot (Ubuntu)
     [Documentation]    This test aims to verify that the network controller works and
     ...    the platform is able to connect to the network after reboot.
@@ -191,12 +201,12 @@ NET003.203 Network controller after reboot (Qubes OS)
     Execute Manual Step    [4/5] Start any AppVM with network access.
     Execute Manual Step    [5/5] Verify network connectivity is available.
 
-NET004.203 Network controller after suspend (Qubes OS) (S3)
+NET006.203 Network controller after suspend (Qubes OS) (S3)
     [Documentation]    Verify that the network controller functions correctly
     ...    after system suspend and resume in Qubes OS.
     [Tags]    semiauto
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
-    Execute Manual Step    [2/5] Suspend the system.
+    Execute Manual Step    [2/5] Suspend the system (S3).
     Execute Manual Step    [3/5] Resume the system from suspend.
     Execute Manual Step    [4/5] Start any AppVM with network access.
     Execute Manual Step    [5/5] Verify network connectivity is available.

@@ -34,12 +34,12 @@ Default Tags        automated
 
 
 *** Test Cases ***
-CFC001.001 Custom fan curve silent profile measure (Ubuntu)
+CFC001.201 Custom fan curve silent profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
-    Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    CFC001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC001.201 not supported
 
     Set UEFI Option    FanCurveOption    Silent
     Power On
@@ -48,12 +48,12 @@ CFC001.001 Custom fan curve silent profile measure (Ubuntu)
     Switch To Root User
     Perform Custom Fan Curve Test    silent
 
-CFC002.001 Custom fan curve performance profile measure (Ubuntu)
+CFC002.201 Custom fan curve performance profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
-    Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    CFC002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC002.201 not supported
 
     Set UEFI Option    FanCurveOption    Performance
     Power On
@@ -62,12 +62,12 @@ CFC002.001 Custom fan curve performance profile measure (Ubuntu)
     Switch To Root User
     Perform Custom Fan Curve Test    performance
 
-CFC003.001 Custom fan curve OFF profile measure (Ubuntu)
+CFC003.201 Custom fan curve OFF profile measure (Ubuntu)
     [Documentation]    Check whether the fan curve is configured correctly in
     ...    silent profile and the fan spins up and down according to
     ...    the defined values.
-    Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.001 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}    CFC003.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFC003.201 not supported
 
     Set UEFI Option    FanCurveOption    Fans Off
     Power On

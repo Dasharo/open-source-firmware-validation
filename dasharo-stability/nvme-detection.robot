@@ -23,29 +23,19 @@ Default Tags        automated
 
 
 *** Test Cases ***
-# Tests will work on laptops with access to the serial console and possibility
-# of remote power control
-# SNV0001.001 NVMe detection after cold boot (Ubuntu)
-#    [Documentation]    Check whether the NVMe disk is detected and working
-#    ...    correctly after performing a cold boot.
-#    Skip If    not ${nvme_detection_support}    SNV001.001 not supported
-#    Skip If    not ${tests_in_ubuntu_support}    SNV001.001 not supported
-#    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    List devices in Linux    pci
-#    Should Contain    ${out}    ${device_nvme_disk}
-#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_coldboot_iterations}
-#    Power Cycle On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    List devices in Linux    pci
-#    Should Contain    ${out}    ${device_nvme_disk}
-#    END
-#    Exit from root user
+SNV001.201 NVMe detection after cold boot (Ubuntu)
+    [Documentation]    Check whether the NVMe disk is detected and working
+    ...    correctly after performing a cold boot.
+    [Tags]    semiauto
+    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV001.201 not supported
+    Pause Execution    This is a manual test.
+    Execute Manual Step    [1/5] Power off the DUT completely (cold boot).
+    Execute Manual Step    [2/5] Power on the DUT and boot into Ubuntu.
+    Execute Manual Step    [3/5] Log in and open a terminal.
+    Execute Manual Step    [4/5] Run: lspci | grep -i nvme
+    Execute Manual Step    [5/5] Verify that the NVMe disk is listed in the output.
 
 SNV002.201 NVMe detection after warm boot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working

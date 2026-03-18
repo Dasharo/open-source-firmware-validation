@@ -9,7 +9,7 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-AUD001.202 Audio subsystem detection
+AUD001.202 Audio subsystem detection (Fedora)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Fedora OS. To do so, we first try to detect
     ...    audio devices in sysfs. Then, we verify no dummy output is present.
@@ -17,7 +17,7 @@ AUD001.202 Audio subsystem detection
     ...    therefore, presence of it indicate failure to initialize audio for userspace
     Audio Subsystem Detection Linux    ${ENV_ID_FEDORA}
 
-AUD002.202 Internal Audio playback
+AUD002.202 Internal Audio playback (Fedora)
     [Documentation]    Check whether the audio subsystem in Fedora is able
     ...    toplayback audio recordings. To do so, first determine presence
     ...    of audio sink. Audio sink must not be a dummy. After it was
@@ -31,7 +31,7 @@ AUD002.202 Internal Audio playback
     # the sound to check if it was malformed in a way.
     Log    \Internal speakers detected, check validity of sound playback manually\n
 
-AUD003.202 Internal Audio capture
+AUD003.202 Internal Audio capture (Fedora)
     [Documentation]    Check whether the audio subsystem is able to capture
     ...    audio on Fedora. To do so, we first determine presence of internal
     ...    capture device.
@@ -43,7 +43,7 @@ AUD003.202 Internal Audio capture
     # TODO: Somehow capture sound and confirm it is not malformed.
     Log    \Internal microphone detected, check validity of sound capture manually\n
 
-AUD004.202 External headset recognition
+AUD004.202 External headset recognition (Fedora)
     [Documentation]    Check whether Fedora has recognized external headset,
     ...    after plugging in micro jack into slot.
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
@@ -52,7 +52,7 @@ AUD004.202 External headset recognition
     Switch Active Sink Port Using Pactl    headphones
     Verify Active Sink Port Using Pactl    headphones
 
-AUD005.202 External headset audio playback
+AUD005.202 External headset audio playback (Fedora)
     [Documentation]    Check whether Fedora has capability to playback
     ...    sounds via external headset.
     [Tags]    semiauto
@@ -66,7 +66,7 @@ AUD005.202 External headset audio playback
     # the microphone is physically attached to the speaker.
     Log    \nHeadset speakers detected, please verify validity of playback manually\n
 
-AUD006.202 External headset audio capture
+AUD006.202 External headset audio capture (Fedora)
     [Documentation]    Check whether Fedora has capability to capture sound
     ...    via external headset.
     [Tags]    semiauto
@@ -80,7 +80,7 @@ AUD006.202 External headset audio capture
     # the microphone is physically attached to the speaker.
     Log    \n Headset microphone detected, check validity of sound capture manually\n
 
-AUD007.202 HDMI Audio recognition
+AUD007.202 HDMI audio recognition (Fedora)
     [Documentation]    Check whether the HDMI audio is recognized
     ...    properly in Fedora after connecting HDMI display.
     Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported

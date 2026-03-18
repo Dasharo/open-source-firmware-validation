@@ -34,7 +34,7 @@ CBK001.001 Custom boot menu key
     Enter Boot Menu Tianocore
     Read From Terminal Until    ${BOOT_MENU_STRING}
 
-CBK002.001 Custom setup menu key
+CBK002.001 Custom BIOS Menu Key
     [Documentation]    Check whether the DUT is configured properly to use
     ...    custom setup menu hotkey.
     Skip If    not ${CUSTOM_SETUP_MENU_KEY_SUPPORT}    CBK002.001 not supported

@@ -162,7 +162,7 @@ CPF009.301 CPU with load runs on expected frequency (Windows)
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Windows    ${freqs}
 
-CPF010.301 CPU with load runs on expected frequency (Windows)
+CPF010.301 CPU with load runs on expected frequency (Battery) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
     VAR    ${concurrent_test_id}=    CPF010.301
@@ -170,7 +170,7 @@ CPF010.301 CPU with load runs on expected frequency (Windows)
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Windows    ${freqs}
 
-CPF011.301 CPU with load runs on expected frequency (Windows)
+CPF011.301 CPU with load runs on expected frequency (AC) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
     VAR    ${concurrent_test_id}=    CPF011.301
@@ -178,7 +178,7 @@ CPF011.301 CPU with load runs on expected frequency (Windows)
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Windows    ${freqs}
 
-CPF012.301 CPU with load runs on expected frequency (Windows)
+CPF012.301 CPU with load runs on expected frequency (USB-PD) (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
     VAR    ${concurrent_test_id}=    CPF012.301

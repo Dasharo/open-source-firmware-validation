@@ -20,7 +20,7 @@ Default Tags    semiauto
 
 
 *** Test Cases ***
-USC001.001 "USB power and charging" option is present
+USC001.001 USB power and charging option is present
     [Documentation]    This test aims to verify that "USB ports power and charging"
     ...    option is present in setup menu.
     Execute Manual Step    Power on DUT

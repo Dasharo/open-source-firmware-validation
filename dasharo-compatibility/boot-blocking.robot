@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -27,10 +28,10 @@ Default Tags        automated
 
 
 *** Test Cases ***
-BBB001.001 Boot blocking (charger disconnected) (Ubuntu)
+BBB001.201 Boot blocking (charger disconnected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
     ...    blocked.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.201 not supported
     Power On
     Login To Linux
     Switch To Root User
@@ -38,10 +39,10 @@ BBB001.001 Boot blocking (charger disconnected) (Ubuntu)
     Discharge The Battery Until Target Level In Linux    3
     Execute Command In Terminal    reboot
 
-BBB001.002 Boot blocking (charger connected) (Ubuntu)
+BBB002.201 Boot blocking (charger connected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
     ...    blocked.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BBB002.201 not supported
     Power On
     Login To Linux
     Switch To Root User
@@ -49,3 +50,14 @@ BBB001.002 Boot blocking (charger connected) (Ubuntu)
     Discharge The Battery Until Target Level In Linux    3
     Sonoff On
     Execute Command In Terminal    reboot
+
+BBB003.101 Battery not connected warning (EDK2 UEFI)
+    [Documentation]    This test aims to verify whether a warning message appears when the battery is
+    ...    disconnected from the DUT.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    Disconnect the battery from the DUT
+    Execute Manual Step    Plug the charger in without re-connecting the battery
+    Execute Manual Step    Power on the DUT
+    Execute Manual Step    After powering on the DUT, a warning should say "The laptop's battery is not detected!"
+    Execute Manual Step    After pressing enter or passing the timeout, the DUT should continue booting.

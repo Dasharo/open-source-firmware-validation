@@ -10,7 +10,7 @@ Suite Teardown      Log Out And Close Connection
 
 
 *** Test Cases ***
-AUD001.201 Audio subsystem detection
+AUD001.201 Audio subsystem detection (Ubuntu)
     [Documentation]    Check whether the audio subsystem is initialized correctly
     ...    and can be detected in Ubuntu OS. To do so, we first try to detect
     ...    audio devices in sysfs. Then, we verify no dummy output is present.
@@ -24,7 +24,7 @@ AUD001.201 Audio subsystem detection
         Log    \nSound Card was found, but PulseAudio did not found any device\n    WARN
     END
 
-AUD002.201 Internal Audio playback
+AUD002.201 Internal speaker audio playback (Ubuntu)
     [Documentation]    Check whether the audio subsystem in Ubuntu is able
     ...    toplayback audio recordings. To do so, first determine presence
     ...    of audio sink. Audio sink must not be a dummy. After it was
@@ -39,7 +39,7 @@ AUD002.201 Internal Audio playback
     # the sound to check if it was malformed in a way.
     Log    \Internal speakers detected, check validity of sound playback manually\n
 
-AUD003.201 Internal Audio capture
+AUD003.201 Internal microphone audio capture (Ubuntu)
     [Documentation]    Check whether the audio subsystem is able to capture
     ...    audio on Ubuntu. To do so, we first determine presence of internal
     ...    capture device.
@@ -51,7 +51,7 @@ AUD003.201 Internal Audio capture
     # TODO: Somehow capture sound and confirm it is not malformed.
     Log    \Internal microphone detected, check validity of sound capture manually\n
 
-AUD004.201 External headset recognition
+AUD004.201 External headset recognition (Ubuntu)
     [Documentation]    Check whether Ubuntu has recognized external headset,
     ...    after plugging in micro jack into slot.
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
@@ -60,7 +60,7 @@ AUD004.201 External headset recognition
     Switch Active Sink Port Using Pactl    headphones
     Verify Active Sink Port Using Pactl    headphones
 
-AUD005.201 External headset audio playback
+AUD005.201 External headset audio playback (Ubuntu)
     [Documentation]    Check whether Ubuntu has capability to playback
     ...    sounds via external headset.
     [Tags]    semiauto
@@ -74,7 +74,7 @@ AUD005.201 External headset audio playback
     # the microphone is physically attached to the speaker.
     Log    \nHeadset speakers detected, please verify validity of playback manually\n
 
-AUD006.201 External headset audio capture
+AUD006.201 External headset audio capture (Ubuntu)
     [Documentation]    Check whether Ubuntu has capability to capture sound
     ...    via external headset.
     [Tags]    semiauto
@@ -88,13 +88,27 @@ AUD006.201 External headset audio capture
     # the microphone is physically attached to the speaker.
     Log    \n Headset microphone detected, check validity of sound capture manually\n
 
-AUD007.201 HDMI Audio recognition
+AUD007.201 HDMI audio recognition (Ubuntu)
     [Documentation]    Check whether the HDMI audio is recognized
     ...    properly in Ubuntu after connecting HDMI display.
     Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
     Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
     Switch Active Sink Port Using Pactl    hdmi
     Verify Active Sink Port Using Pactl    hdmi
+
+AUD008.201 HDMI audio playback (Ubuntu)
+    [Documentation]    Check whether Ubuntu is able to play back audio
+    ...    via an HDMI-connected display.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
+    Execute Manual Step    [1/5] Power on the DUT
+    Execute Manual Step    [2/5] Connect an external display via HDMI and boot into Ubuntu
+    Execute Manual Step
+    ...    [3/5] Open a terminal and set HDMI as active output: pactl set-sink-port @DEFAULT_SINK@ hdmi-output-0
+    Execute Manual Step    [4/5] Play an audio file: paplay /usr/share/sounds/alsa/Front_Center.wav
+    Execute Manual Step    [5/5] Confirm that audio is audible from the HDMI-connected display speakers
 
 
 *** Keywords ***

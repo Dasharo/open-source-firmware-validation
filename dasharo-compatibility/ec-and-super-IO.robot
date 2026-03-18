@@ -28,351 +28,24 @@ Default Tags        automated
 
 
 *** Test Cases ***
-ECR001.201 Battery monitoring - charge level in OS (Ubuntu)
-    [Documentation]    Check whether the battery charge level can be read
-    ...    (in mAh) in Linux OS.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR001.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR001.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Check Charge Level In Linux
-    Exit From Root User
+# ==============================================================================
+# FIRMWARE
+# ==============================================================================
 
-ECR002.201 Battery monitoring - charging state in OS (Ubuntu)
-    [Documentation]    Check whether the battery state can be read in Linux OS.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR002.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR002.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Check Charging State In Linux
-    Exit From Root User
+ECR004.001 Keyboard (standard keypad) in firmware
+    [Documentation]    Check whether the standard keypad works correctly during
+    ...    firmware execution (UEFI Setup Menu).
+    [Tags]    semiauto
+    Execute Manual Step    [1/2] Power on the DUT and press the `BIOS_SETUP_KEY` to enter the setup menu.
+    Execute Manual Step    [2/2] Use the arrow keys and the Enter key to navigate the menus.
+    Execute Manual Step    [Expected result] All menus can be entered using the internal keyboard.
 
-ECR003.201 Touchpad in OS - (Ubuntu)
-    [Documentation]    Check whether touchpad is visible in Linux OS.
-    ...    Touchpad steering and effect detection must be checked
-    ...    manually.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR003.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR003.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Device Detection In Linux    Touchpad
-    Exit From Root User
-
-# ECR005.001 Keyboard (function key: play/pause) in OS (Ubuntu)
-#    [Documentation]    Check whether function key: play/pause works in
-#    ...    Linux OS.
-#    Skip If    not ${ec_and_super_io_support}    ECR006.001 not supported
-#    No Operation
-#    # TODO: Pi-KVM necessary
-
-# manual
-# ECR09.001 Keyboard (function key: mute) in OS (Ubuntu)
-#    [Documentation]    Check whether function key: mute works in Linux OS.
-#    Skip If    not ${ec_and_super_io_support}    ECR010.001 not supported
-#    No Operation
-#    # TODO: Pi-KVM necessary
-
-# manual
-# ECR011.001 Keyboard (function key: volume down) in OS (Ubuntu)
-#    [Documentation]    Check whether function key: volume down works in
-#    ...    Linux OS.
-#    Skip If    not ${ec_and_super_io_support}    ECR012.001 not supported
-#    No Operation
-#    # TODO: Pi-KVM necessary
-
-# manual
-# ECR012.001 Keyboard (function key: volume up) in OS (Ubuntu)
-#    [Documentation]    Check whether function key: volume up works in
-#    ...    Linux OS.
-#    Skip If    not ${ec_and_super_io_support}    ECR013.001 not supported
-#    No Operation
-#    # TODO: Pi-KVM necessary
-
-# manual
-# ECR013.001 Keyboard (function key: display switch) in OS (Ubuntu)
-#    [Documentation]    Check whether function key: display switch works in
-#    ...    Linux OS.
-#    Skip If    not ${ec_and_super_io_support}    ECR014.001 not supported
-#    No Operation
-#    # TODO: Pi-KVM necessary
-
-ECR014.201 Keyboard (function key: brightness down) in OS (Ubuntu)
-    [Documentation]    Check whether function key: brightness down works in
-    ...    Linux OS.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR014.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0014.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Brightness Down In Linux
-    Exit From Root User
-
-ECR015.201 Keyboard (function key: brightness up) in OS (Ubuntu)
-    [Documentation]    Check whether function key: brightness up works in
-    ...    Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR015.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0015.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Brightness Up In Linux
-    Exit From Root User
-
-ECR016.201 Keyboard (function key: camera on/off) in OS (Ubuntu)
-    [Documentation]    Check whether the camera on/off hotkey works correctly.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR016.201 not supported
-    Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.201 not supported
-    Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR016.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0016.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Camera OnOff In Linux
-    Exit From Root User
-
-ECR017.201 Keyboard (function key: flight mode) in OS (Ubuntu)
-    [Documentation]    Check whether function key: flight mode works in
-    ...    Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR017.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR017.201 not supported
-    Skip If    not ${WIRELESS_CARD_SUPPORT}    ECR017.201 not supported
-    Skip If    '${DUT_CONNECTION_METHOD}' == 'SSH'    ECR017.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0017.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Flight Mode In Linux
-    Exit From Root User
-
-# ECR018.001 Keyboard (function key: sleep) in OS (Ubuntu)
-#    [Documentation]    Check whether function key: sleep works in Linux OS.
-#    IF    not ${ec_and_super_io_support}    SKIP    ECR019.001 not supported
-#    Power On
-#    Login to Linux
-#    Switch to root user
-#
-#    Turn On ACPI_CALL module in Linux
-#    Enter sleep mode in Linux
-#    Wake from sleep mode in Linux
-#    Exit from root user
-
-ECR019.201 Buttons (button: power) in OS (Ubuntu)
-    [Documentation]    Check whether button: power is detected in Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR019.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR019.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0019.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Device Detection In Linux    Power
-    Exit From Root User
-
-ECR020.201 Charging until 98% level in OS (Ubuntu)
-    [Documentation]    Check whether the DUT stops charging the battery when the
-    ...    98% threshold is reached.
-    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR020.201 not supported
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR020.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR020.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0020.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Charging Until 98% Level In Linux
-    Check Charging State Not Charging In Linux
-
-ECR021.201 Not charging between 95% and 98% in OS (Ubuntu)
-    [Documentation]    Check whether the DUT does not charge the battery when
-    ...    the charge level is between 95% and 98%.
-    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR021.201 not supported
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR021.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR021.201 not supported
-    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR0021.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Not Charging Between 95% And 98% In Linux
-    Exit From Root User
-
-ECR001.202 Battery monitoring - charge level in OS (Fedora)
-    [Documentation]    Check whether the battery charge level can be read
-    ...    (in mAh) in Linux OS.
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR001.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Check Charge Level In Linux
-    Exit From Root User
-
-ECR002.202 Battery monitoring - charging state in OS (Fedora)
-    [Documentation]    Check whether the battery state can be read in Linux OS.
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR002.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Check Charging State In Linux
-    Exit From Root User
-
-ECR003.202 Touchpad in OS - (Fedora)
-    [Documentation]    Check whether touchpad is visible in Linux OS.
-    ...    Touchpad steering and effect detection must be checked
-    ...    manually.
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR002.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Device Detection In Linux    Touchpad
-    Exit From Root User
-
-ECR014.202 Keyboard (function key: brightness down) in OS (Fedora)
-    [Documentation]    Check whether function key: brightness down works in
-    ...    Linux OS.
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0014.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Brightness Down In Linux
-    Exit From Root User
-
-ECR015.202 Keyboard (function key: brightness up) in OS (Fedora)
-    [Documentation]    Check whether function key: brightness up works in
-    ...    Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0015.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Brightness Up In Linux
-    Exit From Root User
-
-ECR016.202 Keyboard (function key: camera on/off) in OS (Fedora)
-    [Documentation]    Check whether the camera on/off hotkey works correctly.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR016.202 not supported
-    Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.202 not supported
-    Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.201 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0016.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Camera OnOff In Linux
-    Exit From Root User
-
-ECR017.202 Keyboard (function key: flight mode) in OS (Fedora)
-    [Documentation]    Check whether function key: flight mode works in
-    ...    Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR017.202 not supported
-    Skip If    not ${WIRELESS_CARD_SUPPORT}    ECR017.202 not supported
-    Skip If    '${DUT_CONNECTION_METHOD}' == 'SSH'    ECR017.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0017.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Keyboard Function Key Flight Mode In Linux
-    Exit From Root User
-
-ECR019.202 Buttons (button: power) in OS (Fedora)
-    [Documentation]    Check whether button: power is detected in Linux OS.
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR019.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0019.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Turn On ACPI CALL Module In Linux
-    Device Detection In Linux    Power
-    Exit From Root User
-
-ECR020.202 Charging until 98% level in OS (Fedora)
-    [Documentation]    Check whether the DUT stops charging the battery when the
-    ...    98% threshold is reached.
-    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR020.202 not supported
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR020.202 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR020.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0020.201 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Charging Until 98% Level In Linux
-    Check Charging State Not Charging In Linux
-
-ECR021.202 Not charging between 95% and 98% in OS (Fedora)
-    [Documentation]    Check whether the DUT does not charge the battery when
-    ...    the charge level is between 95% and 98%.
-    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR021.202 not supported
-    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR021.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0021.202 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
-    Login To Linux
-    Switch To Root User
-    Not Charging Between 95% And 98% In Linux
-    Exit From Root User
-
-ECR001.301 Battery monitoring - charge level in OS (Windows)
-    [Documentation]    Check whether battery charge level can be read in
-    ...    Windows OS.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR001.301 not supported
-    Power On
-    Boot And Login To Windows
-    ${out}=    Get Battery Power Level Windows
-    Should Be True    ${out} > 0 and ${out} < 101
-    Execute Shutdown Command
-
-ECR002.301 Battery monitoring - charging state in OS (Windows)
-    [Documentation]    Check whether the battery state can be read in Windows
-    ...    OS.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR002.301 not supported
-    Power On
-    Boot And Login To Windows
-    Check If Battery Is Charging Windows
-    Execute Shutdown Command
-
-ECR003.301 Touchpad in OS - (Windows)
-    [Documentation]    Check whether touchpad is visible in Windows OS.
-    ...    Touchpad steering and effect detection must be checked
-    ...    manually.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR003.301 not supported
-    Power On
-    Boot And Login To Windows
-    ${out}=    Get Pointing Devices Windows
-    Should Contain    ${out}    HID-compliant mouse
-    Execute Shutdown Command
-
-ECR022.001 EC sync update with power adapter connected works correctly
+ECR023.001 EC sync update with power adapter connected works correctly
     [Documentation]    This test aims to verify whether coreboot update
     ...    will also update EC firmware when power adapter is connected.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR022.001 not supported
-    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR022.001 not supported
-    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR022.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR023.001 not supported
+    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR023.001 not supported
+    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR023.001 not supported
     # Flash old fw version without ec sync
     Make Sure That Flash Locks Are Disabled
     Make Sure That Network Boot Is Enabled
@@ -419,13 +92,13 @@ ECR022.001 EC sync update with power adapter connected works correctly
     Write Into Terminal    reboot
     ${out}=    Read From Terminal Until    ${TIANOCORE_STRING}
 
-ECR023.001 EC sync doesn't update with power adapter disconnected
+ECR024.001 EC sync doesn't update with power adapter disconnected
     [Documentation]    This test aims to verify whether coreboot update
     ...    will display information to connect power adapter when it's
     ...    disconnected
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS023.001 not supported
-    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS023.001 not supported
-    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS023.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR024.001 not supported
+    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR024.001 not supported
+    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR024.001 not supported
 
     # Flash old fw version without ec sync
     # Connect Laptop to power adapter
@@ -434,7 +107,7 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     Power On
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
-    Set DUT Response Timeout    320s
+    Set DUT Response Timeout    320spre
     Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
     Flash Via Internal Programmer    /tmp/coreboot.rom
     Flash EC Firmware
@@ -470,6 +143,650 @@ ECR023.001 EC sync doesn't update with power adapter disconnected
     ...    ${FW_NO_EC_SYNC_VERSION}
     Check EC Firmware Version
     ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
+
+ECR033.001 EC power button watchdog
+    [Documentation]    Check whether the EC power button watchdog functionality works correctly.
+    [Tags]    semiauto
+    Execute Manual Step    [1/3] Power on the DUT.
+    Execute Manual Step    [2/3] Hold the power button pressed for at least 10 seconds
+    Execute Manual Step    [3/3] Note the DUT behavior
+    Execute Manual Step
+    ...    [Expected result] The DUT should power off and on all within the 10 seconds of power button being pressed down
+
+# ==============================================================================
+# 203 UBUNTU
+# ==============================================================================
+
+ECR001.201 Battery monitoring - charge level in OS (Ubuntu)
+    [Documentation]    Check whether the battery charge level can be read
+    ...    (in mAh) in Linux OS.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR001.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR001.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Check Charge Level In Linux
+    Exit From Root User
+
+ECR002.201 Battery monitoring - charging state in OS (Ubuntu)
+    [Documentation]    Check whether the battery state can be read in Linux OS.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR002.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR002.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Check Charging State In Linux
+    Exit From Root User
+
+ECR003.201 Touchpad in OS - (Ubuntu)
+    [Documentation]    Check whether touchpad is visible in Linux OS.
+    ...    Touchpad steering and effect detection must be checked
+    ...    manually.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR003.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR003.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Device Detection In Linux    Touchpad
+    Exit From Root User
+
+ECR004.201 Keyboard (standard keypad) in OS (Ubuntu)
+    [Documentation]    Check whether the standard keypad works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR004.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Run `sudo libinput debug-events --show-keycodes` in the terminal.
+    Execute Manual Step    [5/5] Press each keyboard key and check the generated keycode.
+    VAR    ${result_msg}=
+    ...    All standard keyboard keys generate the correct keycodes and events as per their labels.
+    ...    Key combinations are detected correctly.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR005.201 Keyboard (function key: play/pause) in OS (Ubuntu)
+    [Documentation]    Check whether the play/pause function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR005.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR005.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Run `sudo libinput debug-events --show-keycodes` in the terminal.
+    Execute Manual Step    [5/5] Verify that pressing the play/pause key generates a `KEY_PLAYPAUSE` event.
+    Execute Manual Step    [Expected result] Pressing the play/pause hotkey generates a `KEY_PLAYPAUSE` event.
+
+ECR006.201 Keyboard (function key: cooling mode) in OS (Ubuntu)
+    [Documentation]    Check whether the cooling mode function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR006.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR006.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Press the cooling mode hotkey (Fn + 1) once and note the effect.
+    Execute Manual Step    [5/5] Press the cooling mode hotkey once again and note the effect.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should activate the cooling mode (fans should spin up to their maximum speed).
+    ...    Pressing the hotkey again should deactivate the cooling mode (fans should return to normal).
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR007.201 Keyboard (function key: touchpad on/off) in OS (Ubuntu)
+    [Documentation]    Check whether the touchpad on/off function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR007.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR007.201 not supported
+    Execute Manual Step    [1/2] Press the touchpad on/off key and try to use the touchpad.
+    Execute Manual Step    [2/2] Press the touchpad on/off key once again and try to use the touchpad again.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should deactivate the touchpad (touchpad should be completely inoperable).
+    ...    Pressing the hotkey again should reactivate the touchpad.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR008.201 Keyboard (function key: display on/off) in OS (Ubuntu)
+    [Documentation]    Check whether the display on/off function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR008.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR008.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Press the display on/off hotkey once and note the effect.
+    Execute Manual Step    [5/5] Press any key on the keyboard and note the effect.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should turn the internal LCD panel off.
+    ...    Pressing any key on the keyboard should power the internal LCD panel back on.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR009.201 Keyboard (function key: mute) in OS (Ubuntu)
+    [Documentation]    Check whether the mute function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR009.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR009.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the volume mute hotkey twice and note the effect each keypress has.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should mute or unmute the currently enabled audio output.
+    ...    Each keypress should cause a mute/unmute notification to appear in the middle of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR010.201 Keyboard (function key: keyboard backlight) in OS (Ubuntu)
+    [Documentation]    Check whether the keyboard backlight function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR010.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR010.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    VAR    ${step4_msg}=
+    ...    Press the keyboard backlight hotkey 6 times and note the effect on the
+    ...    keyboard backlight after each keypress.
+    ...    separator=${SPACE}
+    Execute Manual Step    [4/4] ${step4_msg}
+    VAR    ${result_msg}=
+    ...    The keyboard has 6 backlight settings from 0% to 100% Each keypress should
+    ...    set the keyboard to the next mode, with the last mode wrapping back around to the first.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR011.201 Keyboard (function key: volume down) in OS (Ubuntu)
+    [Documentation]    Check whether the volume down function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR011.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR011.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the volume down hotkey once and note the effects.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should decrease the volume of the currently enabled audio output.
+    ...    Each key press should cause a volume down notification to appear in the middle of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR012.201 Keyboard (function key: volume up) in OS (Ubuntu)
+    [Documentation]    Check whether the volume up function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR012.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR012.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the volume up hotkey once and note the effects.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should increase the volume of the currently enabled audio output.
+    ...    Each key press should cause a volume up notification to appear in the middle of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR013.201 Keyboard (function key: display switch) in OS (Ubuntu)
+    [Documentation]    Check whether the display switch function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR013.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR013.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Run `sudo libinput debug-events --show-keycodes` in the terminal.
+    Execute Manual Step    [5/5] Press the display switch hotkey once and note the effect.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should yield the following output in the terminal:
+    ...    -event3 KEYBOARD_KEY +0.000s KEY_LEFTMETA (125) pressed
+    ...    event3 KEYBOARD_KEY +0.004s KEY_P (25) pressed
+    ...    event3 KEYBOARD_KEY +0.010s KEY_P (25) released
+    ...    event3 KEYBOARD_KEY +0.015s KEY_LEFTMETA (125) released
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR014.201 Keyboard (function key: brightness down) in OS (Ubuntu)
+    [Documentation]    Check whether function key: brightness down works in
+    ...    Linux OS.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR014.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR014.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Brightness Down In Linux
+    Exit From Root User
+
+ECR015.201 Keyboard (function key: brightness up) in OS (Ubuntu)
+    [Documentation]    Check whether function key: brightness up works in
+    ...    Linux OS.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR015.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR015.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Brightness Up In Linux
+    Exit From Root User
+
+ECR016.201 Keyboard (function key: camera on/off) in OS (Ubuntu)
+    [Documentation]    Check whether the camera on/off hotkey works correctly.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR016.201 not supported
+    Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.201 not supported
+    Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR016.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR016.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Camera OnOff In Linux
+    Exit From Root User
+
+ECR017.201 Keyboard (function key: flight mode) in OS (Ubuntu)
+    [Documentation]    Check whether function key: flight mode works in
+    ...    Linux OS.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR017.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR017.201 not supported
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    ECR017.201 not supported
+    Skip If    '${DUT_CONNECTION_METHOD}' == 'SSH'    ECR017.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR017.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Flight Mode In Linux
+    Exit From Root User
+
+ECR018.201 Keyboard (function key: sleep) in OS (Ubuntu)
+    [Documentation]    Check whether the sleep function key works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR018.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR018.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the sleep hotkey once and note the result.
+    VAR    ${result_msg}=
+    ...    The laptop should go to sleep within seconds of the hotkey being pressed.
+    ...    The power LED should be blinking green, indicating the laptop is sleeping.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR019.201 Buttons (button: power) in OS (Ubuntu)
+    [Documentation]    Check whether button: power is detected in Linux OS.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR019.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR019.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR019.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Device Detection In Linux    Power
+    Exit From Root User
+
+ECR020.201 Buttons (button: lid switch) in OS (Ubuntu)
+    [Documentation]    Check whether the lid switch works correctly in Ubuntu OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR020.201 not supported
+    Execute Manual Step    [1/8] Power on the DUT.
+    Execute Manual Step    [2/8] Boot into the system.
+    Execute Manual Step    [3/8] Log into the system by using the proper login and password.
+    VAR    ${step4_msg}=
+    ...    Open one terminal window and run the following command:
+    ...    sudo systemd-inhibit --what handle-lid-switch --mode block watch echo "Inhibiting lid switch"
+    ...    separator=${SPACE}
+    Execute Manual Step    [4/8] ${step4_msg}
+    VAR    ${step5_msg}=
+    ...    Open another terminal and run the command
+    ...    `sleep 5 && cat /proc/acpi/button/lid/LID0/state` to read the state of the lid while it is closed.
+    ...    separator=${SPACE}
+    Execute Manual Step    [5/8] ${step5_msg}
+    Execute Manual Step    [6/8] Close the lid and wait 5 seconds.
+    Execute Manual Step    [7/8] Open the lid and note the output of the command.
+    VAR    ${step8_msg}=
+    ...    Run the command `cat /proc/acpi/button/lid/LID0/state` while the lid is
+    ...    open and note the output.
+    ...    separator=${SPACE}
+    Execute Manual Step    [8/8] ${step8_msg}
+    VAR    ${result_msg}=
+    ...    The output of the second command should report that the lid is closed.
+    ...    The output of the third command should report that the lid is open.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR021.201 Charging until 98% level in OS (Ubuntu)
+    [Documentation]    Check whether the DUT stops charging the battery when the
+    ...    98% threshold is reached.
+    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR021.201 not supported
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR021.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR021.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR021.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Charging Until 98% Level In Linux
+    Check Charging State Not Charging In Linux
+
+ECR022.201 Not charging between 95% and 98% in OS (Ubuntu)
+    [Documentation]    Check whether the DUT does not charge the battery when
+    ...    the charge level is between 95% and 98%.
+    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR022.201 not supported
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR022.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR022.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in ${TESTED_LINUX_DISTROS}    ECR022.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Not Charging Between 95% And 98% In Linux
+    Exit From Root User
+
+ECR025.201 Permanent keyboard illumination after cold boot (Ubuntu)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR025.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR025.201 not supported
+    Execute Manual Step    [1/9] Power on the DUT.
+    Execute Manual Step    [2/9] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [3/9] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [4/9] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/9] Disconnect power source, and remove battery if present.
+    Execute Manual Step    [6/9] Connect power and battery again.
+    Execute Manual Step    [7/9] Power on the DUT.
+    Execute Manual Step    [8/9] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [9/9] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [Expected result] After cold-boot keyboard brightness and colors settings remain the same.
+
+ECR026.201 Permanent keyboard illumination after warm boot (Ubuntu)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a warm boot in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR026.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR026.201 not supported
+    Execute Manual Step    [1/8] Power on the DUT.
+    Execute Manual Step    [2/8] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [3/8] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [4/8] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/8] Power off the DUT using power button.
+    Execute Manual Step    [6/8] Power on the DUT.
+    Execute Manual Step    [7/8] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [8/8] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [Expected result] After warm-boot keyboard brightness and colors settings remain the same.
+
+ECR027.201 Permanent keyboard illumination after reboot (Ubuntu)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a system reboot in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR027.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR027.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/5] Reboot the device using: `sudo reboot now`
+    Execute Manual Step    [Expected result] After reboot keyboard brightness and colors settings remain the same.
+
+ECR028.201 Permanent keyboard illumination after suspension (Ubuntu)
+    [Documentation]    Check whether keyboard illumination persists at the same level after suspension in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR028.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR028.201 not supported
+    Execute Manual Step    [1/6] Power on the DUT.
+    Execute Manual Step    [2/6] Boot into the system.
+    Execute Manual Step    [3/6] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/6] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/6] Suspend the DUT using `SUSPEND_KEY`.
+    Execute Manual Step    [6/6] Wake the device from suspend pressing any key on keyboard.
+    Execute Manual Step    [Expected result] After suspend keyboard brightness and colors settings remain the same.
+
+ECR029.201 FnLock Hotkey (Ubuntu)
+    [Documentation]    Check whether the FnLock hotkey works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR029.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR029.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Use `FN_LOCK_KEY` to activate Fn lock functionality.
+    Execute Manual Step    [5/5] Test function keys `F1` - `F12` and note the results.
+    Execute Manual Step    [Expected result] The function keys `F1` - `F12` behave as if `Fn` key is pressed.
+
+ECR030.201 Soft Switch Microphone Key (Ubuntu)
+    [Documentation]    Check whether the soft switch microphone key works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR030.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR030.201 not supported
+    Execute Manual Step    [1/6] Power on the DUT.
+    Execute Manual Step    [2/6] Boot into the system.
+    Execute Manual Step    [3/6] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/6] Go to `Settings` -> `Sound`
+    Execute Manual Step    [5/6] Observe the bar above the Input Device option
+    Execute Manual Step    [6/6] Press the `Fn+4` combination at will
+    VAR    ${result_msg}=
+    ...    The Fn+4 should toggle the mic ON and OFF and it should be seen on the
+    ...    aforementioned bar which state is currently active as noise made will
+    ...    make the bar go back and forth if ON and completely still if OFF
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR031.201 Keyboard (function key: RGB keyboard toggle) in OS (Ubuntu)
+    [Documentation]    Check whether the RGB keyboard toggle hotkey works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR031.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR031.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the RGB keyboard toggle hotkey twice and note the result each time.
+    Execute Manual Step
+    ...    [Expected result] Pressing the button once should disable the keyboard backlight. Pressing the button again should re-enable the keyboard backlight.
+
+ECR032.201 RGB keyboard next color FN key in OS (Ubuntu)
+    [Documentation]    Check whether the RGB keyboard next color FN key works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR032.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR032.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step
+    ...    [4/4] Press the RGB keyboard color hotkey repeatedly until the keyboard cycles through all color modes.
+    Execute Manual Step
+    ...    [Expected result] Pressing the button once should switch the keyboard color. All color modes according to product documentation should be accessible.
+
+ECR033.201 RGB keyboard brightness down FN key in OS (Ubuntu)
+    [Documentation]    Check whether the RGB keyboard brightness down FN key works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR033.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR033.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the RGB keyboard brightness down hotkey and note the result.
+    Execute Manual Step    [Expected result] Pressing the button once should lower the keyboard backlight
+
+ECR034.201 RGB keyboard brightness up FN key in OS (Ubuntu)
+    [Documentation]    Check whether the RGB keyboard brightness up FN key works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR034.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ECR034.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the RGB keyboard brightness up hotkey and note the result.
+    Execute Manual Step    [Expected result] Pressing the button once should increase the keyboard backlight.
+
+# ==============================================================================
+# 203 FEDORA
+# ==============================================================================
+
+ECR001.202 Battery monitoring - charge level in OS (Fedora)
+    [Documentation]    Check whether the battery charge level can be read
+    ...    (in mAh) in Linux OS.
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR001.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Check Charge Level In Linux
+    Exit From Root User
+
+ECR002.202 Battery monitoring - charging state in OS (Fedora)
+    [Documentation]    Check whether the battery state can be read in Linux OS.
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR002.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Check Charging State In Linux
+    Exit From Root User
+
+ECR003.202 Touchpad in OS - (Fedora)
+    [Documentation]    Check whether touchpad is visible in Linux OS.
+    ...    Touchpad steering and effect detection must be checked
+    ...    manually.
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR003.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Device Detection In Linux    Touchpad
+    Exit From Root User
+
+ECR014.202 Keyboard (function key: brightness down) in OS (Fedora)
+    [Documentation]    Check whether function key: brightness down works in
+    ...    Linux OS.
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0014.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Brightness Down In Linux
+    Exit From Root User
+
+ECR015.202 Keyboard (function key: brightness up) in OS (Fedora)
+    [Documentation]    Check whether function key: brightness up works in
+    ...    Linux OS.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR015.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0015.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Brightness Up In Linux
+    Exit From Root User
+
+ECR016.202 Keyboard (function key: camera on/off) in OS (Fedora)
+    [Documentation]    Check whether the camera on/off hotkey works correctly.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR016.202 not supported
+    Skip If    not ${USB_CAMERA_DETECTION_SUPPORT}    ECR016.202 not supported
+    Skip If    not ${ACPI_CAMERA_SWITCH_SUPPORT}    ECR016.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR016.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Camera OnOff In Linux
+    Exit From Root User
+
+ECR017.202 Keyboard (function key: flight mode) in OS (Fedora)
+    [Documentation]    Check whether function key: flight mode works in
+    ...    Linux OS.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR017.202 not supported
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    ECR017.202 not supported
+    Skip If    '${DUT_CONNECTION_METHOD}' == 'SSH'    ECR017.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0017.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Keyboard Function Key Flight Mode In Linux
+    Exit From Root User
+
+ECR019.202 Buttons (button: power) in OS (Fedora)
+    [Documentation]    Check whether button: power is detected in Linux OS.
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR019.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR0019.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Turn On ACPI CALL Module In Linux
+    Device Detection In Linux    Power
+    Exit From Root User
+
+ECR020.202 Buttons (button: lid switch) in OS (Fedora)
+    [Documentation]    Check whether the lid switch works correctly in Fedora OS.
+    [Tags]    semiauto
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR020.202 not supported
+    Execute Manual Step    [1/8] Power on the DUT.
+    Execute Manual Step    [2/8] Boot into the system.
+    Execute Manual Step    [3/8] Log into the system by using the proper login and password.
+    VAR    ${step4_msg}=
+    ...    Open one terminal window and run the following command:
+    ...    sudo systemd-inhibit --what handle-lid-switch --mode block watch echo "Inhibiting lid switch"
+    ...    separator=${SPACE}
+    Execute Manual Step    [4/8] ${step4_msg}
+    VAR    ${step5_msg}=
+    ...    Open another terminal and run the command
+    ...    `sleep 5 && cat /proc/acpi/button/lid/LID0/state` to read the state of the lid while it is closed.
+    ...    separator=${SPACE}
+    Execute Manual Step    [5/8] ${step5_msg}
+    Execute Manual Step    [6/8] Close the lid and wait 5 seconds.
+    Execute Manual Step    [7/8] Open the lid and note the output of the command.
+    VAR    ${step8_msg}=
+    ...    Run the command `cat /proc/acpi/button/lid/LID0/state` while the lid is
+    ...    open and note the output.
+    ...    separator=${SPACE}
+    Execute Manual Step    [8/8] ${step8_msg}
+    VAR    ${result_msg}=
+    ...    The output of the second command should report that the lid is closed.
+    ...    The output of the third command should report that the lid is open.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR021.202 Charging until 98% level in OS (Fedora)
+    [Documentation]    Check whether the DUT stops charging the battery when the
+    ...    98% threshold is reached.
+    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR021.202 not supported
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR021.202 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ECR021.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR021.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Charging Until 98% Level In Linux
+    Check Charging State Not Charging In Linux
+
+ECR022.202 Not charging between 95% and 98% in OS (Fedora)
+    [Documentation]    Check whether the DUT does not charge the battery when
+    ...    the charge level is between 95% and 98%.
+    Skip If    '${POWER_CTRL}' != 'sonoff'    ECR022.202 not supported
+    Skip If    not ${EC_AND_SUPER_IO_SUPPORT}    ECR022.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    ECR022.202 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Not Charging Between 95% And 98% In Linux
+    Exit From Root User
+
+# ==============================================================================
+# 203 QUBES OS
+# ==============================================================================
 
 ECR001.203 Battery monitoring - charge level in OS (Qubes OS)
     [Documentation]    Check whether the battery charge level can be read
@@ -540,11 +857,13 @@ ECR007.203 Keyboard (function key: touchpad on/off) in OS (Qubes OS)
     ...    [4/4] Press the combination on DUT's keyboard (Fn+F1) and observe actions listed by libinput
 
 ECR008.203 Keyboard (function key: display on/off) in OS (Qubes OS)
-    [Documentation]    Check whether function key works.
+    [Documentation]    Check whether the display on/off function key works correctly in Qubes OS.
     [Tags]    semiauto
     Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
-    Execute Manual Step    [1/2] Make sure Qubes OS is booted.
-    Execute Manual Step    [2/2] Press the combination on DUT's keyboard (Fn+F2) and observe the screen turn on/off
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Press the combination on DUT's keyboard (Fn+F2) and observe the screen turn on/off
+    Execute Manual Step    [3/4] Observe the internal display
+    Execute Manual Step    [4/4] Confirm the display turns off, then press the key again to verify it turns back on
 
 ECR009.203 Keyboard (function key: mute) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -561,10 +880,9 @@ ECR010.203 Keyboard (function key: keyboard backlight) in OS (Qubes OS)
     [Tags]    semiauto
     Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
-    Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
-    Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
-    Execute Manual Step
-    ...    [4/4] Press the combination on DUT's keyboard (Fn+F4) and observe actions listed by libinput
+    Execute Manual Step    [2/4] Press the keyboard backlight function key (Fn+F key)
+    Execute Manual Step    [3/4] Observe the keyboard backlight
+    Execute Manual Step    [4/4] Confirm the keyboard backlight changes brightness level or toggles on/off
 
 ECR011.203 Keyboard (function key: volume down) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
@@ -665,6 +983,24 @@ ECR020.203 Buttons (button: lid switch) in OS (Qubes OS)
     Execute Manual Step    [3/4] Open the laptop lid, the DUT should be in sleep.
     Execute Manual Step
     ...    [4/4] Wake the DUT with any key or power button.
+
+ECR021.203 Charging until 98% level in OS (Qubes OS)
+    [Documentation]    Check whether the DUT charges the battery up to 98% level in Qubes OS.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ECR021.203 not supported
+    Execute Manual Step    [1/4] Boot into Qubes OS with AC power connected
+    Execute Manual Step    [2/4] Monitor the battery charge level in a terminal
+    Execute Manual Step    [3/4] Wait until the battery reaches 98% charge
+    Execute Manual Step    [4/4] Confirm the battery charges up to 98% and does not exceed that level significantly
+
+ECR022.203 Not charging between 95% and 98% in OS (Qubes OS)
+    [Documentation]    Check whether the DUT does not charge the battery when it is between 95% and 98% in Qubes OS.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ECR022.203 not supported
+    Execute Manual Step    [1/4] Boot into Qubes OS with battery level between 95% and 98%
+    Execute Manual Step    [2/4] Connect AC power to the DUT
+    Execute Manual Step    [3/4] Monitor the battery charge status in a terminal
+    Execute Manual Step    [4/4] Confirm the battery is not actively charging while between 95% and 98%
 
 ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
     [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot.

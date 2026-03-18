@@ -176,8 +176,8 @@ ${ALLOWED_FAILS_USB_DETECT}=                        0
 # Number of Proxmox VE booting iterations
 # Number of pfSense (serial output) booting iterations
 # Number of pfSense (VGA output) booting iterations
-# Number of OPNsense (serial output) booting iterations
-# Number of OPNsense (VGA output) booting iterations
+# Number of OPNSense (serial output) booting iterations
+# Number of OPNSense (VGA output) booting iterations
 # Number of FreeBSD booting iterations
 # Number of Windows booting iterations
 # Maximum fails during performing booting OS tests

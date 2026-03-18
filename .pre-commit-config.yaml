@@ -110,8 +110,6 @@ repos:
         args: ["os_valid", "--print_invalid"]
         files: '^dasharo-.*/.*\.robot$'
         pass_filenames: false
-        # disable from automatic runs until we fix IDs
-        stages: [manual]
 
       - id: test-ids-mappings
         name: test-ids-mappings
@@ -124,8 +122,6 @@ repos:
         args: ["id_mapped", "--print_invalid"]
         files: '(^test_cases\.json$|^dasharo-.*/.*\.robot$)'
         pass_filenames: false
-        # disable from automatic runs until we fix IDs
-        stages: [manual]
 
       - id: test-os-skip-check
         name: test-os-skip-check

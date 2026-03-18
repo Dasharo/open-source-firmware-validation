@@ -35,7 +35,6 @@ Default Tags        automated
 CNB001.201 Only one iPXE in boot menu (Ubuntu)
     [Documentation]    Check whether the network boot option with iPXE appears
     ...    only once in the boot option list.
-    ...    Previous IDs: CNB001.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CNB001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CNB001.201 not supported
     Power On

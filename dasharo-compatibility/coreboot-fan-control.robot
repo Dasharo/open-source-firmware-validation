@@ -28,7 +28,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-CFN001.001 CPU temperature and fan speed can be read (Debian)
+CFN001.201 CPU temperature and fan speed can be read (Ubuntu)
     [Documentation]    Check whether the data of CPU temperature and CPU fan
     ...    is available and can be read.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFN001.001 not supported
@@ -41,7 +41,7 @@ CFN001.001 CPU temperature and fan speed can be read (Debian)
     IF    ${rpm}==${0}    FAIL    Fan speed not measured
     IF    ${temperature}==${0}    FAIL    Temperature not measured
 
-CFN002.001 CPU fan speed increases if the temperature rises (Debian)
+CFN002.201 CPU fan speed increases if the temperature rises (Ubuntu)
     [Documentation]    Check whether CPU fan speed increases if the CPU
     ...    temperature rises.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CFN002.001 not supported

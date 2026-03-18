@@ -27,7 +27,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-RTD001.001 F9 resets Enable USB stack option to true
+RTD001.001 F9 resets Enable USB stack option to default
     [Documentation]    Check whether pressing F9 resets Enable USB stack
     ...    option to be enabled.
     Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD001.001 not supported
@@ -46,7 +46,7 @@ RTD001.001 F9 resets Enable USB stack option to true
     ${usb_stack_state}=    Get Option State    ${usb_menu}    Enable USB stack
     Should Be True    ${usb_stack_state}
 
-RTD002.001 F9 resets Enable USB Mass Storage driver option to true
+RTD002.001 F9 resets Enable USB Mass Storage driver option to default
     [Documentation]    Check whether pressing F9 resets Enable Mass Storage
     ...    driver option to be enabled
     Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD002.001 not supported
@@ -65,7 +65,7 @@ RTD002.001 F9 resets Enable USB Mass Storage driver option to true
     ${usb_storage_state}=    Get Option State    ${usb_menu}    Enable USB Mass Storage
     Should Be True    ${usb_storage_state}
 
-RTD003.001 F9 resets Lock the BIOS boot medium option to true
+RTD003.001 F9 resets Lock the BIOS boot medium option to default
     [Documentation]    Check whether pressing F9 resets Lock the BIOS boot
     ...    medium driver option to be enabled
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD003.001 not supported
@@ -84,7 +84,7 @@ RTD003.001 F9 resets Lock the BIOS boot medium option to true
     ${bios_lock_state}=    Get Option State    ${security_menu}    Lock the BIOS boot medium
     Should Be True    ${bios_lock_state}
 
-RTD004.001 F9 resets Enable SMM BIOS write protection to false
+RTD004.001 F9 resets Enable SMM BIOS write protection to default
     [Documentation]    Check whether pressing F9 resets Enable SMM BIOS write
     ...    protection option to be disabled
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD004.001 not supported
@@ -103,7 +103,7 @@ RTD004.001 F9 resets Enable SMM BIOS write protection to false
     ${smm_state}=    Get Option State    ${security_menu}    Enable SMM BIOS write
     Should Not Be True    ${smm_state}
 
-RTD005.001 F9 resets Early boot DMA Protection to true
+RTD005.001 F9 resets Early boot DMA Protection to default
     [Documentation]    Check whether pressing F9 resets Early boot DMA
     ...    Protection option to be enabled
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD005.001 not supported
@@ -122,7 +122,7 @@ RTD005.001 F9 resets Early boot DMA Protection to true
     ${early_dma_state}=    Get Option State    ${security_menu}    Early boot DMA Protection
     Should Not Be True    ${early_dma_state}
 
-RTD007.001 F9 resets Enable network boot to false
+RTD007.001 F9 resets Intel ME mode to default
     [Documentation]    Check whether pressing F9 resets Keep IOMMU enabled when
     ...    transfer control to OS option to be disabled
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.001 not supported
@@ -141,7 +141,7 @@ RTD007.001 F9 resets Enable network boot to false
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
     Should Not Be True    ${network_boot_state}
 
-RTD008.001 F9 resets Intel ME mode to enabled
+RTD008.001 F9 resets Enable PS2 Controller to default
     [Documentation]    Check whether pressing F9 resets Intel ME mode option
     ...    to be enabled
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    RTD008.001 not supported
@@ -160,7 +160,7 @@ RTD008.001 F9 resets Intel ME mode to enabled
     ${me_mode_state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${me_mode_state}    Enabled
 
-RTD009.001 F9 resets Enable PS2 Controller to enabled
+RTD009.001 F9 resets Enable watchdog to default
     [Documentation]    Check whether pressing F9 resets Enable PS2 Controller
     ...    to be enabled
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD009.001 not supported
@@ -179,7 +179,7 @@ RTD009.001 F9 resets Enable PS2 Controller to enabled
     ${ps2_state}=    Get Option State    ${chipset_menu}    Enable PS2 Controller
     Should Be True    ${ps2_state}
 
-RTD010.001 F9 resets Enable watchdog to enabled
+RTD010.001 F9 resets Enable watchdog to default
     [Documentation]    Check whether pressing F9 resets Enable watchdog
     ...    to be enabled
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD010.001 not supported
@@ -198,7 +198,7 @@ RTD010.001 F9 resets Enable watchdog to enabled
     ${watchdog_state}=    Get Option State    ${chipset_menu}    Enable watchdog
     Should Be True    ${watchdog_state}
 
-RTD011.001 F9 resets Watchdog timeout value to 500
+RTD011.001 F9 resets Watchdog timeout value to default
     [Documentation]    Check whether pressing F9 resets Watchdog timeout value
     ...    to 500
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD011.001 not supported
@@ -348,3 +348,12 @@ RTD016.002 F9 reset is globally effective
     ${bmm_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Boot Maintenance Manager
     ${out}=    Get Option State    ${bmm_menu}    Auto Boot Time-out
     Should Not Be Equal As Integers    ${out}    123
+
+RTD006.001 F9 resets Enable network boot to default
+    [Documentation]    Check whether pressing F9 in the firmware setup menu resets
+    ...    the Enable network boot option to its default value.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
+    Execute Manual Step    [2/4] Navigate to Networking Options and change the Enable network boot setting from default
+    Execute Manual Step    [3/4] Press F9 to reset settings to defaults
+    Execute Manual Step    [4/4] Confirm the Enable network boot option has been reset to the default value

@@ -32,11 +32,11 @@ Default Tags        semiauto
 #    1. The DUT should power back on
 #    2. All previously opened windows should remain open
 
-HIB001.001 Cyclic platform hibernation and resume (Ubuntu)
+HIB001.201 Cyclic platform hibernation and resume (Ubuntu)
     [Documentation]    This test aims to verify that the DUT platform hibernation
     ...    and resume procedure performed cyclically works correctly
-    Skip If    not ${HIBERNATION_AND_RESUME_SUPPORT}    HIB001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HIB001.001 not supported
+    Skip If    not ${HIBERNATION_AND_RESUME_SUPPORT}    HIB001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HIB001.201 not supported
     VAR    ${hibernation_detected_fails}=    ${0}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -53,8 +53,27 @@ HIB001.001 Cyclic platform hibernation and resume (Ubuntu)
     ...    \n${HIBERNATION_ITERATIONS_NUMBER} iterations were performed to check the hibernation procedure. \n${hibernation_detected_fails} iterations have failed.
     IF    ${hibernation_detected_fails} > ${HIBERNATION_ALLOWED_FAILS}
         FAIL
-        ...    \nTest case HIB001.001 has been marked as failed. \nThe number of detected errors is greater than the number of allowed fails: ${HIBERNATION_ALLOWED_FAILS}.
+        ...    \nTest case HIB001.201 has been marked as failed. \nThe number of detected errors is greater than the number of allowed fails: ${HIBERNATION_ALLOWED_FAILS}.
     ELSE
         Pass Execution
-        ...    \nTest case HIB001.001 has been marked passed. \nThe number of detected errors is at least the same as the number of allowed fails: ${HIBERNATION_ALLOWED_FAILS}.
+        ...    \nTest case HIB001.201 has been marked passed. \nThe number of detected errors is at least the same as the number of allowed fails: ${HIBERNATION_ALLOWED_FAILS}.
     END
+
+HBN001.201 Platform hibernation and resume (Ubuntu)
+    [Documentation]    Check whether the platform hibernates and resumes correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HBN001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    HBN001.201 not supported
+    Execute Manual Step    [1/4] Boot into Ubuntu
+    Execute Manual Step    [2/4] Trigger hibernation (e.g. systemctl hibernate)
+    Execute Manual Step    [3/4] Wait for the system to power off and then power it back on
+    Execute Manual Step    [4/4] Confirm the system resumes from hibernation and all previous state is restored
+
+HBN001.301 Platform hibernation and resume (Windows)
+    [Documentation]    Check whether the platform hibernates and resumes correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    HBN001.301 not supported
+    Execute Manual Step    [1/4] Boot into Windows
+    Execute Manual Step    [2/4] Trigger hibernation via Start > Power > Hibernate
+    Execute Manual Step    [3/4] Wait for the system to power off and then power it back on
+    Execute Manual Step    [4/4] Confirm the system resumes from hibernation and all previous state is restored

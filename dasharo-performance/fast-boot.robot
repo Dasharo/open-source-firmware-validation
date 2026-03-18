@@ -15,7 +15,7 @@ ${ITERATIONS}=      5
 
 
 *** Test Cases ***
-FBT001.201 Fast Boot Reduces Boot Time
+FBT001.201 Fast Boot Reduces Boot Time (Ubuntu)
     [Documentation]    Check whether the DUT boot time is reduced with
     ...    fast boot enabled.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PLB001.201 not supported

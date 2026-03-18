@@ -29,7 +29,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-CHS001.201 Check camera enablement
+CHS001.201 Camera enable (Ubuntu)
     [Documentation]    This test makes sure that camera enable option
     ...    is set, hence the camera works properly
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CHS001.201 not supported
@@ -41,7 +41,7 @@ CHS001.201 Check camera enablement
     ${webcam}=    Check The Presence Of Webcam
     Should Be True    ${webcam}
 
-CHS002.201 Check camera disablement
+CHS002.201 Camera disable (Ubuntu)
     [Documentation]    This test makes sure that camera enable option
     ...    is not set, hence the camera is not detected by operating system
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CHS002.201 not supported
@@ -53,7 +53,7 @@ CHS002.201 Check camera disablement
     ${webcam}=    Check The Presence Of Webcam
     Should Not Be True    ${webcam}
 
-CHS001.202 Check camera enablement
+CHS001.202 Check camera enablement (Fedora)
     [Documentation]    This test makes sure that camera enable option
     ...    is set, hence the camera works properly
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CHS001.202 not supported
@@ -65,7 +65,7 @@ CHS001.202 Check camera enablement
     ${webcam}=    Check The Presence Of Webcam
     Should Be True    ${webcam}
 
-CHS002.202 Check camera disablement
+CHS002.202 Check camera disablement (Fedora)
     [Documentation]    This test makes sure that camera enable option
     ...    is not set, hence the camera is not detected by operating system
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CHS002.202 not supported

@@ -79,7 +79,7 @@ CPF004.202 CPU not stuck on initial frequency (USB-PD) (Fedora)
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-STB002.202 Verify if no unexpected boot errors appear in Linux logs
+STB002.202 Verify if no unexpected boot errors appear in Linux logs (Fedora)
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
     VAR    ${concurrent_test_id}=    STB001.202
@@ -224,7 +224,7 @@ CPT005.202 CPU temperature after stress test (Fedora)
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Temps    ${temps}
 
-CPT006.202 CPU temperature after stress test (Fedora)
+CPT006.202 CPU temperature after stress test (Battery) (Fedora)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
@@ -233,7 +233,7 @@ CPT006.202 CPU temperature after stress test (Fedora)
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Temps    ${temps}
 
-CPT007.202 CPU temperature after stress test (Fedora)
+CPT007.202 CPU temperature after stress test (AC) (Fedora)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
@@ -242,7 +242,7 @@ CPT007.202 CPU temperature after stress test (Fedora)
     ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Temps    ${temps}
 
-CPT008.202 CPU temperature after stress test (Fedora)
+CPT008.202 CPU temperature after stress test (USB-PD) (Fedora)
     [Documentation]    This test aims to verify whether the temperature of the
     ...    CPU cores is not higher than the maximum allowed
     ...    temperature during stress test.
@@ -275,7 +275,7 @@ CPF011.202 CPU with load runs on expected frequency (AC) (Fedora)
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Linux    ${freqs}
 
-CPF012.202 CPU with load runs on expected frequency(USB-PD) (Fedora)
+CPF012.202 CPU with load runs on expected frequency (USB-PD) (Fedora)
     [Documentation]    This test aims to verify whether the mounted CPU is
     ...    running on expected frequency after stress test.
     VAR    ${concurrent_test_id}=    CPF012.202

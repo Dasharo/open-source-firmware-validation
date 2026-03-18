@@ -29,7 +29,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-EDP001.001 Enable early Boot DMA Protection support
+EDP001.001 Enable early boot DMA protection support
     [Documentation]    This test aims to verify that the early boot DMA
     ...    protection might be activated and if the change is properly
     ...    recognized by the OS
@@ -47,7 +47,7 @@ EDP001.001 Enable early Boot DMA Protection support
     ${cbmem_output}=    Execute Command In Terminal    cbmem -1 | grep --color=never DMA
     Should Contain    ${cbmem_output}    Successfully enabled VT-d PMR DMA protection
 
-EDP002.001 Disable early Boot DMA Protection support
+EDP002.001 Disable early boot DMA protection support
     [Documentation]    This test aims to verify that the early boot DMA
     ...    protection might be deactivated and if the change is properly
     ...    recognized by the OS

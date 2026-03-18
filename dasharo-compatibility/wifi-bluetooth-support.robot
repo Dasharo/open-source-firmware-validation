@@ -161,6 +161,25 @@ WLE003.203 Bluetooth scanning (Qubes OS)
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE003.203 not supported
     Bluetooth Scanning QB    ${ENV_ID_QUBES}
 
+WLE001.401 Wireless card detection (ESXi)
+    [Documentation]    Check whether the wireless card is detected correctly in ESXi.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    WLE001.401 not supported
+    Execute Manual Step    [1/3] Power on the DUT and boot into ESXi
+    Execute Manual Step
+    ...    [2/3] Access the ESXi console and run: esxcli network nic list to check for wireless adapters
+    Execute Manual Step    [3/3] Confirm the wireless card is listed and detected correctly in ESXi
+
+WLE003.301 Bluetooth scanning (Windows)
+    [Documentation]    Check whether Bluetooth scanning works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE003.301 not supported
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.301 not supported
+    Execute Manual Step    [1/4] Boot into Windows
+    Execute Manual Step    [2/4] Enable Bluetooth via the Settings or system tray
+    Execute Manual Step    [3/4] Scan for nearby Bluetooth devices
+    Execute Manual Step    [4/4] Confirm Bluetooth scanning works and at least one device is detected
+
 
 *** Keywords ***
 Wireless Card Detection

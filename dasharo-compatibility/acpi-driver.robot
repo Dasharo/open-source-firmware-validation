@@ -79,8 +79,7 @@ ACPI001.201 ACPI driver test (Ubuntu)
 
 ACPI001.202 ACPI driver test (Fedora)
     [Documentation]    Tests if ACPI drivers can be recognised
-    # Skip If    not ${TEST_IN_FE} or    ACP001.002 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    ACP001.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux

@@ -21,10 +21,11 @@ Default Tags        automated
 
 
 *** Test Cases ***
-THR001.101 Try to enter a threshold value that's above the limit (firmware)
+THR001.101 Try to enter a threshold value that's above the limit (EDK2 UEFI)
     [Documentation]    Verify that a threshold value that's above the limit
     ...    will get rejected with a proper prompt
     Skip If    not "${OPTIONS_LIB}" == "options-lib_uefi-setup-menu"
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Set UEFI Option    CpuThrottlingThreshold    25    # Set for reference
     Set UEFI Option    CpuThrottlingThreshold    200    # This will get abbreviated to 20
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -40,10 +41,11 @@ THR001.101 Try to enter a threshold value that's above the limit (firmware)
     ${cpu_throttling_setpoint}=    Evaluate    ${MAX_CPU_TEMP_THRESHOLD} - 20
     Should Be Equal As Strings    ${current_cpu_throttling}    ${cpu_throttling_setpoint}
 
-THR002.101 Try to enter a threshold value that's below the limit (firmware)
+THR002.101 Try to enter a threshold value that's below the limit (EDK2 UEFI)
     [Documentation]    Verify that a threshold value that's below the limit
     ...    will get rejected with a proper prompt
     Skip If    not "${OPTIONS_LIB}" == "options-lib_uefi-setup-menu"
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Set UEFI Option    CpuThrottlingThreshold    -10
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_sys_menu}=    Enter Submenu From Snapshot And Return Construction

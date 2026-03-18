@@ -36,34 +36,34 @@ Default Tags        automated
 
 
 *** Test Cases ***
-VBO006.002 Check whether the verstage was run
+VBO006.201 Verified boot support (Ubuntu)
     [Documentation]    Check whether the Verified Boot is enabled and
     ...    functional.
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
 
     Login To Linux
     Switch To Root User
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO006.201 not supported
     ${out_cbmem}=    Execute Command In Terminal    cbmem -l | grep VBOOT
     Should Contain    ${out_cbmem}    VBOOT WORK
 
-VBO007.002 Boot from RW when correctly signed firmware is flashed
+VBO007.201 Booting from Slot A (Ubuntu)
     [Documentation]    Check whether the Verified Boot is proceed to boot from
     ...    Slot A/B if the signatures for firmware stored in vboot
     ...    Slot A/B are correct.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO007.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO007.201 not supported
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     ${out_vboot}=    Execute Command In Terminal    ./dasharo-tools/vboot/workbuf_parse -1 | grep "boot mode"
     Should Contain    ${out_vboot}    Normal boot mode
 
-VBO008.001 Booting from recovery
+VBO008.201 Booting from Recovery (Ubuntu)
     [Documentation]    Check whether the information about recovery mode will be
     ...    displayed after flash firmware with wrong vboot keys. The boot should
     ...    continue automatically after a 30s delay.
-    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO008.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO008.002 not supported
+    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO008.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO008.201 not supported
 
     # setting 5 minutes time-out to prevent failure on platforms with
     # either extended FW boot times, or recovery pop-up left.
@@ -83,7 +83,7 @@ VBO008.001 Booting from recovery
     ${out}=    Execute Command In Terminal    cbmem -c | grep -i recovery
     Should Contain    ${out}    Recovery requested
 
-VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A
+VBO009.001 Recovery boot popup (firmware)
     [Documentation]    Check whether the information about recovery mode will be
     ...    displayed after flash firmware with wrong vboot keys. The boot should
     ...    continue automatically after a 30s delay.
@@ -116,18 +116,7 @@ VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is 
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
-VBO009.001 Recovery boot popup is displayed when incorrectly signed firmware is flashed in RW_A (Semi-auto)
-    [Documentation]    Check whether the information about recovery mode will be
-    ...    displayed after flash firmware with wrong vboot keys. The boot should
-    ...    continue automatically after a 30s delay.
-    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO009.001 not supported
-    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}    VBO009.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO009.002 not supported
-    Log To Console    This test is semi-automatic, performed manually during VBO008.
-    Log To Console    Assume PASS if the recovery pop-up appeared in the logs
-    Skip
-
-VBO010.001 Recovery boot popup can be skipped
+VBO010.001 Recovery boot popup confirmation (firmware)
     [Documentation]    Check whether the functionality of confirming the popup:
     ...    If we press Enter, we should immediately move to the next
     ...    stages of booting.
@@ -137,16 +126,6 @@ VBO010.001 Recovery boot popup can be skipped
     Write Into Terminal    ${ENTER}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
-
-VBO010.001 Recovery boot popup can be skipped (Semi-auto)
-    [Documentation]    Check whether the functionality of confirming the popup:
-    ...    If we press Enter, we should immediately move to the next
-    ...    stages of booting.
-    Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
-    Skip If    ${TESTS_IN_FIRMWARE_SUPPORT}    VBO010.001 not supported
-    Log To Console    This test is semi-automatic, performed manually during VBO008.
-    Log To Console    Assume PASS if the recovery pop-up could be skipped
-    Skip
 
 VBO011.001 Recovery popup is not displayed when correctly signed firmware is flashed in RW_A
     [Documentation]    Check whether after flashing the DUT with the valid

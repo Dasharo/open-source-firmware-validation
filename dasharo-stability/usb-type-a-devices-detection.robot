@@ -26,28 +26,19 @@ Default Tags        automated
 
 
 *** Test Cases ***
-# Tests will work on laptops with access to the serial console and possibility
-# of remote power control
-# SUD001.001 USB devices detection after cold boot (Ubuntu)
-#    [Documentation]    Check whether the external USB devices are detected
-#    ...    correctly after a cold boot.
-#    Skip If    not ${tests_in_ubuntu_support}    SUD001.001 not supported
-#    Skip If    '${POWER_CTRL}' == 'none'    Coldboot automatic tests not supported
-#    Power On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    List devices in Linux    usb
-#    Should Contain    ${out}    ${usb_device}
-#    FOR    ${INDEX}    IN RANGE    0    ${stability_detection_coldboot_iterations}
-#    Power Cycle On
-#    Boot operating system    ubuntu
-#    Login to Linux
-#    Switch to root user
-#    ${out}=    List devices in Linux    usb
-#    Should Contain    ${out}    ${usb_device}
-#    END
-#    Exit from root user
+SUD001.201 USB devices detection after cold boot (Ubuntu)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly after a cold boot.
+    [Tags]    semiauto
+    Skip If    not ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}    SUD001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD001.201 not supported
+    Pause Execution    This is a manual test.
+    Execute Manual Step    [1/5] Connect a USB device to the DUT.
+    Execute Manual Step    [2/5] Power off the DUT completely (cold boot).
+    Execute Manual Step    [3/5] Power on the DUT and boot into Ubuntu.
+    Execute Manual Step    [4/5] Log in and open a terminal. Run: lsusb
+    Execute Manual Step    [5/5] Verify that the USB device is listed in the output.
 
 SUD002.201 USB devices detection after warm boot (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
@@ -206,13 +197,13 @@ SUD003.203 USB devices detection after reboot (Qubes OS)
     Execute Manual Step    [5/6] Assign the USB device to any AppVM.
     Execute Manual Step    [6/6] Verify the USB device is visible and operational inside the AppVM.
 
-SUD004.203 USB devices detection after suspend (Qubes OS)
+SUD006.203 USB devices detection after suspend (Qubes OS) (S3)
     [Documentation]    Verify that an external USB device is detected correctly
     ...    after suspend and resume in Qubes OS.
     [Tags]    semiauto
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
-    Execute Manual Step    [3/6] Suspend the system.
+    Execute Manual Step    [3/6] Suspend the system (S3).
     Execute Manual Step    [4/6] Resume the system from suspend.
     Execute Manual Step    [5/6] Assign the USB device to any AppVM.
     Execute Manual Step    [6/6] Verify the USB device is visible and operational inside the AppVM.

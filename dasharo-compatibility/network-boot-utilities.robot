@@ -44,7 +44,7 @@ NBT001.001 Netboot is available
     Read From Terminal Until    Network Boot and Utilities
     Read From Terminal Until    Please Select an Option
 
-NBT002.001 OS selection & utilities is available
+NBT002.001 OS Selection & Utilities is available
     [Documentation]    Check whether whether selection & utilities is available,
     ...    and if after selection proper menu apperas.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
@@ -114,7 +114,7 @@ NBT006.001 Advanced option is available
     Set DUT Response Timeout    20s
     Read From Terminal Until    Change Netboot iPXE Payload URL
 
-NBT007.001 Change netboot URL option works correctly
+NBT007.001 Change netboot URL works correctly
     [Documentation]    Check whether it's possible to change netboot url, and
     ...    boot to it.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT007.001 not supported

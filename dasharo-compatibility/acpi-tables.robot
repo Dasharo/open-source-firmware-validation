@@ -35,6 +35,7 @@ ${SIO_SER_SCOPE}=       \\_SB_.PCI0.LPCB.SIO0.SER1
 *** Test Cases ***
 ACPT001.201 SuperIO UART presence in sysfs ACPI tree (Ubuntu)
     [Documentation]    Test verifies presence of SIO ACPI entries in sysfs.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${HAS_SUPERIO_SERIAL}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

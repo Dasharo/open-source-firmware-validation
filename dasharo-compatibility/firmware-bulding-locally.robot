@@ -27,21 +27,21 @@ Default Tags        automated
 
 
 *** Test Cases ***
-FLB001.001 Firmware locally build (Ubuntu)
+FLB001.201 Firmware locally build (Ubuntu)
     [Documentation]    This test aims to verify whether there is a possibility
     ...    to build firmware on the local machine, based on
     ...    `Build manual` procedure dedicated to the platform.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FLB001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FLB001.201 not supported
     Power On
     Login To Linux
     Switch To Root User
     Install Docker Packages
     Build Firmware From Source
 
-FLB002.001 Flash locally built firmware (Ubuntu)
+FLB002.201 Flash locally built firmware (Ubuntu)
     [Documentation]    This test aims to verify whether there is a possibility
     ...    to flash the locally built firmware to the DUT.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FLB002.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FLB002.201 not supported
     Power On
     Login To Linux
     Switch To Root User

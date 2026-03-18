@@ -29,7 +29,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-DMI001.201 Verify the device serial number
+DMI001.201 Verify the serial number (Ubuntu)
     [Documentation]    Check whether the DUT serial number is the same as it is
     ...    expected.
     Skip If    not ${SERIAL_NUMBER_VERIFICATION}    DMI001.201 not supported
@@ -38,7 +38,7 @@ DMI001.201 Verify the device serial number
     Should Contain    ${DMI_SYSTEM}    Serial Number: ${DMIDECODE_SERIAL_NUMBER}
     IF    ${SERIAL_FROM_MAC}    Compare Serial Number From MAC    ${DMI_SYSTEM}
 
-DMI002.201 Verify the firmware version
+DMI002.201 Verify the firmware version (Ubuntu)
     [Documentation]    Check whether the firmware version on the DUT is the
     ...    same as it is expected.
     [Tags]    automated    minimal-regression
@@ -48,7 +48,7 @@ DMI002.201 Verify the firmware version
     Should Contain    ${DMI_BIOS}    Version: ${DMIDECODE_FIRMWARE_VERSION}
     IF    ${FIRMWARE_FROM_BINARY}    Firmware Version Verification From Binary
 
-DMI003.201 Verify the firmware product name
+DMI003.201 Verify the firmware product name (Ubuntu)
     [Documentation]    Check whether the DUT product name is the same as it is
     ...    expected.
     [Tags]    automated    minimal-regression
@@ -57,7 +57,7 @@ DMI003.201 Verify the firmware product name
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
     Should Contain    ${DMI_SYSTEM}    Product Name: ${DMIDECODE_PRODUCT_NAME}
 
-DMI004.201 Verify the firmware release date
+DMI004.201 Verify the firmware release date (Ubuntu)
     [Documentation]    Check whether the firmware release date on the DUT is
     ...    the same as it is expected.
     Skip If    not ${RELEASE_DATE_VERIFICATION}    DMI004.201 not supported
@@ -65,7 +65,7 @@ DMI004.201 Verify the firmware release date
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
     Should Contain    ${DMI_BIOS}    Release Date: ${DMIDECODE_RELEASE_DATE}
 
-DMI005.201 Verify the firmware manufacturer
+DMI005.201 Verify the firmware manufacturer (Ubuntu)
     [Documentation]    Check whether the firmware manufacturer on the DUT is
     ...    the same as it is expected.
     Skip If    not ${MANUFACTURER_VERIFICATION}    DMI005.201 not supported
@@ -74,7 +74,7 @@ DMI005.201 Verify the firmware manufacturer
     Should Contain    ${DMI_SYSTEM}    Manufacturer: ${DMIDECODE_MANUFACTURER}
     Should Contain    ${DMI_BASEBOARD}    Manufacturer: ${DMIDECODE_MANUFACTURER}
 
-DMI006.201 Verify the firmware vendor
+DMI006.201 Verify the firmware vendor (Ubuntu)
     [Documentation]    Check whether the firmware vendor on the DUT is the same
     ...    as it is expected.
     Skip If    not ${VENDOR_VERIFICATION}    DMI006.201 not supported
@@ -82,7 +82,7 @@ DMI006.201 Verify the firmware vendor
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
     Should Contain    ${DMI_BIOS}    Vendor: ${DMIDECODE_VENDOR}
 
-DMI007.201 Verify the firmware family
+DMI007.201 Verify the firmware family (Ubuntu)
     [Documentation]    Check whether the firmware family on the DUT is the same
     ...    as it is expected.
     Skip If    not ${FAMILY_VERIFICATION}    DMI007.201 not supported
@@ -90,7 +90,7 @@ DMI007.201 Verify the firmware family
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
     Should Contain    ${DMI_SYSTEM}    Family: ${DMIDECODE_FAMILY}
 
-DMI008.201 Verify the firmware type
+DMI008.201 Verify the firmware type (Ubuntu)
     [Documentation]    Check whether the firmware type on the DUT is the same
     ...    as it is expected.
     Skip If    not ${TYPE_VERIFICATION}    DMI008.201 not supported
@@ -98,7 +98,7 @@ DMI008.201 Verify the firmware type
     Get SMBIOS Values    ${ENV_ID_UBUNTU}
     Should Contain    ${DMI_CHASSIS}    Type: ${DMIDECODE_TYPE}
 
-DMI001.202 Verify the device serial number
+DMI001.202 Verify the device serial number (Fedora)
     [Documentation]    Check whether the DUT serial number is the same as it is
     ...    expected.
     Skip If    not ${SERIAL_NUMBER_VERIFICATION}    DMI001.202 not supported
@@ -107,7 +107,7 @@ DMI001.202 Verify the device serial number
     Should Contain    ${DMI_SYSTEM}    Serial Number: ${DMIDECODE_SERIAL_NUMBER}
     IF    ${SERIAL_FROM_MAC}    Compare Serial Number From MAC    ${DMI_SYSTEM}
 
-DMI002.202 Verify the firmware version
+DMI002.202 Verify the firmware version (Fedora)
     [Documentation]    Check whether the firmware version on the DUT is the
     ...    same as it is expected.
     [Tags]    automated    minimal-regression
@@ -117,7 +117,7 @@ DMI002.202 Verify the firmware version
     Should Contain    ${DMI_BIOS}    Version: ${DMIDECODE_FIRMWARE_VERSION}
     IF    ${FIRMWARE_FROM_BINARY}    Firmware Version Verification From Binary
 
-DMI003.202 Verify the firmware product name
+DMI003.202 Verify the firmware product name (Fedora)
     [Documentation]    Check whether the DUT product name is the same as it is
     ...    expected.
     [Tags]    automated    minimal-regression
@@ -126,7 +126,7 @@ DMI003.202 Verify the firmware product name
     Get SMBIOS Values    ${ENV_ID_FEDORA}
     Should Contain    ${DMI_SYSTEM}    Product Name: ${DMIDECODE_PRODUCT_NAME}
 
-DMI004.202 Verify the firmware release date
+DMI004.202 Verify the firmware release date (Fedora)
     [Documentation]    Check whether the firmware release date on the DUT is
     ...    the same as it is expected.
     Skip If    not ${RELEASE_DATE_VERIFICATION}    DMI004.202 not supported
@@ -134,7 +134,7 @@ DMI004.202 Verify the firmware release date
     Get SMBIOS Values    ${ENV_ID_FEDORA}
     Should Contain    ${DMI_BIOS}    Release Date: ${DMIDECODE_RELEASE_DATE}
 
-DMI005.202 Verify the firmware manufacturer
+DMI005.202 Verify the firmware manufacturer (Fedora)
     [Documentation]    Check whether the firmware manufacturer on the DUT is
     ...    the same as it is expected.
     Skip If    not ${MANUFACTURER_VERIFICATION}    DMI005.202 not supported
@@ -143,7 +143,7 @@ DMI005.202 Verify the firmware manufacturer
     Should Contain    ${DMI_SYSTEM}    Manufacturer: ${DMIDECODE_MANUFACTURER}
     Should Contain    ${DMI_BASEBOARD}    Manufacturer: ${DMIDECODE_MANUFACTURER}
 
-DMI006.202 Verify the firmware vendor
+DMI006.202 Verify the firmware vendor (Fedora)
     [Documentation]    Check whether the firmware vendor on the DUT is the same
     ...    as it is expected.
     Skip If    not ${VENDOR_VERIFICATION}    DMI006.202 not supported
@@ -151,7 +151,7 @@ DMI006.202 Verify the firmware vendor
     Get SMBIOS Values    ${ENV_ID_FEDORA}
     Should Contain    ${DMI_BIOS}    Vendor: ${DMIDECODE_VENDOR}
 
-DMI007.202 Verify the firmware family
+DMI007.202 Verify the firmware family (Fedora)
     [Documentation]    Check whether the firmware family on the DUT is the same
     ...    as it is expected.
     Skip If    not ${FAMILY_VERIFICATION}    DMI007.202 not supported
@@ -159,7 +159,7 @@ DMI007.202 Verify the firmware family
     Get SMBIOS Values    ${ENV_ID_FEDORA}
     Should Contain    ${DMI_SYSTEM}    Family: ${DMIDECODE_FAMILY}
 
-DMI008.202 Verify the firmware type
+DMI008.202 Verify the firmware type (Fedora)
     [Documentation]    Check whether the firmware type on the DUT is the same
     ...    as it is expected.
     Skip If    not ${TYPE_VERIFICATION}    DMI008.202 not supported

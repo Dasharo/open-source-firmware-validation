@@ -34,7 +34,7 @@ CBNT001.201 Converged Boot Guard and TXT - CBnT profile is 5 / FVME (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT001.201 not supported
     Check CBnT Profile 5    ${ENV_ID_UBUNTU}
 
-CBNT002.101 Converged Boot Guard and TXT Status Menu is visible
+CBNT002.101 Converged Boot Guard and TXT Status Menu is visible (EDK2 UEFI)
     [Documentation]    CBnT status menu must be visible. We can only test if the
     ...    first 9 lines are visible due to the limitations of a 80x25 terminal
     ...    size and the current test keywords not handling scrolling.
@@ -107,7 +107,7 @@ CBNT005.201 Converged Boot Guard and TXT - Fused platform EoM set and FPFs Commi
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CBNT005.201 not supported
     Check EoM And FPFs Committed    ${ENV_ID_UBUNTU}
 
-CBNT006.101 Setup Menu Boot Guard Information
+CBNT006.101 Setup Menu Boot Guard Information (EDK2 UEFI)
     [Documentation]    Check whether setting Auto Boot Time-out to 7 the value
     ...    is remembered after restart
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}

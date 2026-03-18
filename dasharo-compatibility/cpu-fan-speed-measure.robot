@@ -25,7 +25,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-FAN001.201 CPU fan speed measure
+FAN001.201 CPU fan speed measure (Ubuntu)
     [Documentation]    Check whether there's a possibility to measure CPU fan
     ...    current speed.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN001.201 not supported
@@ -37,7 +37,7 @@ FAN001.201 CPU fan speed measure
     Should Not Be Empty    ${output}
     Should Not Be Equal    ${output}    0
 
-FAN002.201 All available fans are running
+FAN002.201 All available fans are running (Ubuntu)
     [Documentation]    Check if all available fans are running
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN002.201 not supported
     Power On
@@ -54,7 +54,7 @@ FAN002.201 All available fans are running
         Should Not Be Equal    ${output}    0
     END
 
-FAN003.201 Fans are turning off during suspend mode with ME Enabled
+FAN003.201 Fans are turning off during suspend mode with ME Enabled (Ubuntu)
     [Documentation]    Check for correct behavior
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN003.201 not supported
@@ -67,7 +67,7 @@ FAN003.201 Fans are turning off during suspend mode with ME Enabled
     Perform Suspend Test Using FWTS
     Log To Console    \nFan state test ended, please note the result
 
-FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
+FAN004.201 Fans are turning off during suspend mode with ME Soft disabled (Ubuntu)
     [Documentation]    Check for correct behavior
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN004.201 not supported
@@ -80,7 +80,7 @@ FAN004.201 Fans are turning off during suspend mode with ME Soft disabled
     Perform Suspend Test Using FWTS
     Log To Console    \nFan state test ended, please note the result
 
-FAN005.201 Fans are turning off during suspend mode with ME HAP disabled
+FAN005.201 Fans are turning off during suspend mode with ME HAP disabled (Ubuntu)
     [Documentation]    Check for correct behavior
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FAN005.201 not supported
@@ -93,7 +93,7 @@ FAN005.201 Fans are turning off during suspend mode with ME HAP disabled
     Perform Suspend Test Using FWTS
     Log To Console    \nFan state test ended, please note the result
 
-FAN006.201 GPU fan speed measure
+FAN006.201 GPU fan speed measure (Ubuntu)
     [Documentation]    The fan has been configured to follow a custom curve.
     ...    This test aims to verify that the fan curve is configured correctly
     ...    and the fan spins up and down according to the defined values.

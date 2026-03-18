@@ -74,7 +74,7 @@ class OsConfig:
                 vars[name] = _parse_ast_node(node.value)
 
         for name, value in vars.items():
-            if name == "ENV_ID_OS_FRIENDLY_NAMES":
+            if name == "ENV_ID_FRIENDLY_NAMES":
                 self.friendly_names = value
             elif not isinstance(value, dict):
                 self.os_ids[name] = value
@@ -90,7 +90,12 @@ class OsConfig:
 OS_SKIP_VARS = [
     "TESTS_IN_WINDOWS_SUPPORT",
     "TESTS_IN_UBUNTU_SUPPORT",
+    "TESTS_IN_ESXI_SUPPORT",
+    "TESTS_IN_XCP_NG_SUPPORT",
+    "TESTS_IN_OPENWRT_SUPPORT",
+    "TESTS_IN_FIRMWARE_SUPPORT",
     "TESTED_LINUX_DISTROS",
+    "TESTED_BSD_DISTROS",
 ]
 
 _ROBOT_TEST_PATHS = [
@@ -201,7 +206,7 @@ def os_skip_valid(test):
         return True
     has_os_env = not env_id.startswith("0")
     has_skip = has_os_skip(test)
-    return not (has_os_env ^ has_skip)
+    return (not has_os_env) or has_skip
 
 
 def compare_mappings():

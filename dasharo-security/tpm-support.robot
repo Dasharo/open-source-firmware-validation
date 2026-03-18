@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -69,7 +70,7 @@ TPM001.201 TPM Support (Ubuntu)
     Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
     Verify Presence Of Any PCRs Via Sysfs
 
-TPM002.201 Verify TPM version (Ubuntu)
+TPM002.201 Verify TPM Version (Ubuntu)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     [Tags]    automated    minimal-regression
@@ -93,7 +94,7 @@ TPM001.202 TPM Support (Fedora)
     Prepare TPM Test On Linux    ${ENV_ID_FEDORA}
     Verify Presence Of Any PCRs Via Sysfs
 
-TPM002.202 Verify TPM version (Fedora)
+TPM002.202 Verify TPM Version (Fedora)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     [Tags]    automated    minimal-regression
@@ -122,7 +123,7 @@ TPM001.301 TPM Support (Windows)
     Should Contain    ${tpm_ready}    True
     Should Contain    ${tpm_enabled}    True
 
-TPM002.301 Verify TPM version (Windows)
+TPM002.301 Verify TPM Version (Windows)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM002.301 not supported
@@ -309,7 +310,7 @@ TPM013.301 TPM PPI Prompt (Windows)
     ${new_key}=    TPM2 Get Owner Key Windows
     Should Not Be Equal As Strings    ${new_key}    ${owner_key}
 
-TPM014.101 TPM single bank detection
+TPM014.101 TPM single bank detection (EDK2 UEFI)
     [Documentation]    Test verifies if only one PCR bank is active, finds inactive
     ...    PCR bank, activates it, then reboots.
     ...    If platform supports only single PCR bank, firmware pop-up is handled.
@@ -386,6 +387,218 @@ TPM003.205 Check TPM Physical Presence Interface (XCP-NG)
     Boot And Login To OS    ${ENV_ID_XCP_NG}
     Verify Presence Of TPM Via Sysfs
     Check TPM Physical Presence Interface
+
+TPM001.401 TPM Support (ESXi)
+    [Documentation]    Check whether the TPM is detected and supported in ESXi.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    TPM001.401 not supported
+    Execute Manual Step    [1/3] Power on the DUT and boot into ESXi
+    Execute Manual Step    [2/3] Access the ESXi console and run: esxcli hardware tpm get
+    Execute Manual Step    [3/3] Confirm the TPM is detected and its status shows as present/supported
+
+TPM002.401 Verify TPM version (ESXi)
+    [Documentation]    Check whether the correct TPM version is reported in ESXi.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    TPM002.401 not supported
+    Execute Manual Step    [1/3] Power on the DUT and boot into ESXi
+    Execute Manual Step    [2/3] Access the ESXi console and run: esxcli hardware tpm get
+    Execute Manual Step    [3/3] Confirm the TPM version reported matches the expected version (TPM 2.0)
+
+TPM003.401 Check TPM Physical Presence Interface (ESXi)
+    [Documentation]    Check whether the TPM Physical Presence Interface is available in ESXi.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    TPM003.401 not supported
+    Execute Manual Step    [1/3] Power on the DUT and boot into ESXi
+    Execute Manual Step    [2/3] Access the ESXi console and check TPM PPI availability
+    Execute Manual Step    [3/3] Confirm the TPM Physical Presence Interface is accessible in ESXi
+
+TPM003.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
+    [Documentation]    Check whether the active PCR banks can be changed via the TPM Physical Presence Interface in firmware.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
+    Execute Manual Step    [2/4] Navigate to the TPM configuration and request a PCR bank change via PPI
+    Execute Manual Step    [3/4] Reboot and confirm the PPI dialog appears asking for user confirmation
+    Execute Manual Step    [4/4] Confirm the PCR bank change is applied successfully
+
+TPM004.201 Check if the ChangeEPS works (Ubuntu)
+    [Documentation]    Check whether the ChangeEPS (Endorsement Primary Seed) command works in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM004.201 not supported
+    Execute Manual Step    [1/4] Boot into Ubuntu
+    Execute Manual Step    [2/4] Run: sudo tpm2_changeeps to change the TPM Endorsement Primary Seed
+    Execute Manual Step    [3/4] Verify the command completes without errors
+    Execute Manual Step    [4/4] Confirm the EPS has been changed successfully by checking TPM capabilities
+
+TPM004.001 Check TPM Clear procedure
+    [Documentation]    This test aims to verify whether the TPM Clear procedure works properly, starts
+    ...    with running TPM Clear procedure to ensure correct state of ownership.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    [1/21] Power on the DUT.
+    Execute Manual Step    [2/21] Boot into the BIOS.
+    Execute Manual Step    [3/21] Enter Device Manager.
+    Execute Manual Step    [4/21] Enter TCG2 Configuration.
+    Execute Manual Step    [5/21] Scroll down to TPM2 Operation and press Enter.
+    Execute Manual Step    [6/21] Choose "TPM2 ClearControl(NO) + Clear".
+    Execute Manual Step    [7/21] Save and Reboot.
+    Execute Manual Step    [8/21] When prompted, press F12 to clear the TPM.
+    Execute Manual Step    [9/21] Boot into the system.
+    Execute Manual Step    [10/21] Log into the system by using the proper login and password.
+    VAR    ${msg}=
+    ...    [11/21] Open the terminal and run the following commands to take ownership over TPM2:
+    ...    tpm2_changeauth --quiet -c owner pass
+    ...    tpm2_changeauth --quiet -c lockout pass
+    ...    tpm2_createprimary -Q --hierarchy=o --key-context=/tmp/test --key-auth=pass2 -P pass
+    ...    tpm2_evictcontrol -Q -C o -P pass -c /tmp/test 0x81000001
+    ...    rm /tmp/test
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    VAR    ${msg}=
+    ...    [12/21] Execute the following commands to check that the ownership is taken:
+    ...    ! tpm2_changeauth --quiet -c owner 2>/dev/null
+    ...    echo $?
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    Execute Manual Step    [13/21] Reboot the DUT and enter BIOS.
+    Execute Manual Step    [14/21] Enter Device Manager.
+    Execute Manual Step    [15/21] Enter TCG2 Configuration.
+    Execute Manual Step    [16/21] Scroll down to TPM2 Operation and press Enter.
+    Execute Manual Step    [17/21] Choose "TPM2 ClearControl(NO) + Clear".
+    Execute Manual Step    [18/21] Save and Reboot.
+    Execute Manual Step    [19/21] When prompted, press F12 to clear the TPM.
+    Execute Manual Step    [20/21] Boot into the system and log in.
+    Execute Manual Step    [21/21] Execute the commands from step 11.
+    Execute Manual Step    [Expected result 1/2] The output in step 11 should be equal 1.
+    Execute Manual Step    [Expected result 2/2] The output in step 21 should be 0.
+
+TPM005.001 Check TPM Hash Algorithm Support SHA1 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed hash algorithm (SHA1).
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the BIOS.
+    Execute Manual Step    [3/5] Enter Device Manager.
+    Execute Manual Step    [4/5] Enter TCG2 Configuration
+    Execute Manual Step    [5/5] Scroll down to "TPM2 Hardware Supported Hash Algorithm"
+    Execute Manual Step    [Expected result] The entry should contain SHA1.
+
+TPM006.001 Check TPM Hash Algorithm Support SHA256 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed hash algorithm (SHA256).
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the BIOS.
+    Execute Manual Step    [3/5] Enter Device Manager.
+    Execute Manual Step    [4/5] Enter TCG2 Configuration
+    Execute Manual Step    [5/5] Scroll down to "TPM2 Hardware Supported Hash Algorithm"
+    Execute Manual Step    [Expected result] The entry should contain SHA256.
+
+TPM007.001 Check TPM Hash Algorithm Support SHA384 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed hash algorithm (SHA384).
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the BIOS.
+    Execute Manual Step    [3/5] Enter Device Manager.
+    Execute Manual Step    [4/5] Enter TCG2 Configuration
+    Execute Manual Step    [5/5] Scroll down to "TPM2 Hardware Supported Hash Algorithm"
+    Execute Manual Step    [Expected result] The entry should contain SHA384.
+
+TPM008.001 Check TPM Hash Algorithm Support SHA512 (Firmware)
+    [Documentation]    This test aims to verify that the TPM supports needed hash algorithm (SHA512).
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the BIOS.
+    Execute Manual Step    [3/5] Enter Device Manager.
+    Execute Manual Step    [4/5] Enter TCG2 Configuration
+    Execute Manual Step    [5/5] Scroll down to "TPM2 Hardware Supported Hash Algorithm"
+    Execute Manual Step    [Expected result] The entry should contain SHA512.
+
+TPM009.201 Encrypt and Decrypt non-rootfs partition (Ubuntu)
+    [Documentation]    Test encrypting and decrypting non-rootfs partition using TPM.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM009.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM009.201 not supported
+    Execute Manual Step    [1/7] Power on the DUT.
+    Execute Manual Step    [2/7] Boot into the system.
+    Execute Manual Step    [3/7] Log into the system by using the proper login and password.
+    VAR    ${msg}=
+    ...    [4/7] Create ext4 formatted LUKS partition with "hello-world" named file on it using following commands:
+    ...    fallocate -l 20MB test-partition
+    ...    dd if=/dev/urandom bs=1 count=32 status=none > key
+    ...    cryptsetup luksFormat -q --key-file=key test-partition
+    ...    cryptsetup luksOpen --key-file=key test-partition test-partition
+    ...    mkfs.ext4 /dev/mapper/test-partition
+    ...    mount /dev/mapper/test-partition /mnt
+    ...    touch /mnt/hello-world
+    ...    umount /dev/mapper/test-partition
+    ...    cryptsetup luksClose test-partition
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    VAR    ${msg}=
+    ...    [5/7] Create the sealing object by executing the following commands:
+    ...    tpm2_createprimary -Q -C o -c prim.ctx
+    ...    cat key | tpm2_create -Q -g sha256 -u seal.pub -r seal.priv -i- -C prim.ctx
+    ...    tpm2_load -Q -C prim.ctx -u seal.pub -r seal.priv -n seal.name -c seal.ctx
+    ...    tpm2_evictcontrol -C o -c seal.ctx 0x81010001
+    ...    tpm2_unseal -Q -c 0x81010001 > key
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    VAR    ${msg}=
+    ...    [6/7] Check a file stored on the partition by executing the following commands:
+    ...    cryptsetup luksOpen ./test-partition --key-file=key test-partition
+    ...    mount /dev/mapper/test-partition /mnt
+    ...    ls /mnt | grep hello-world
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    VAR    ${msg}=
+    ...    [7/7] Clean up by executing the following commands:
+    ...    umount /mnt
+    ...    cryptsetup luksClose test-partition
+    ...    rm -f key seal.* prim.* test-partition
+    ...    tpm2_evictcontrol -c 0x81010001
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    Execute Manual Step    [Expected result] The output in step 5 should contain "hello-world".
+
+TPM010.201 Encrypt and Decrypt rootfs partition (Ubuntu)
+    [Documentation]    Test encrypting and decrypting rootfs partition using TPM.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM010.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM010.201 not supported
+    Execute Manual Step    [1/18] Power on the DUT.
+    Execute Manual Step    [2/18] Boot into the BIOS.
+    Execute Manual Step    [3/18] Enter the Boot Maintenance Manager.
+    Execute Manual Step    [4/18] Enter Boot Options.
+    Execute Manual Step    [5/18] Enter Add Boot Option.
+    Execute Manual Step    [6/18] Enter the "ubuntu-enc" volume.
+    Execute Manual Step    [7/18] Go to "<EFI>/<ubuntu>" and select "shimx64.efi".
+    Execute Manual Step    [8/18] Go to "Input the description" and enter "ubuntu-enc-rootfs".
+    Execute Manual Step    [9/18] Go to "Commit Changes and Exit" and press Enter.
+    Execute Manual Step    [10/18] Save the changes and reset.
+    Execute Manual Step    [11/18] Enter the boot menu and choose the newly added option.
+    Execute Manual Step    [12/18] Unlock the rootfs with your password.
+    Execute Manual Step    [13/18] Log into the system by using the proper login and password.
+    VAR    ${msg}=
+    ...    [14/18] Bind clevis by executing the following command:
+    ...    echo \${UBUNTU_PASSWORD} | clevis luks bind -d /dev/disk/by-label/encrypted-rootfs tpm2 '{"pcr_ids":"0,1,2,3,7"}' -s 1
+    ...    where \${UBUNTU_PASSWORD} is your password.
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    Execute Manual Step    [15/18] Reboot the system.
+    Execute Manual Step    [16/18] Wait for the partition to be unlocked.
+    Execute Manual Step    [17/18] Log into the system.
+    VAR    ${msg}=
+    ...    [18/18] Clean up by executing the following command:
+    ...    clevis luks unbind -d /dev/vda3 -f -s 1
+    ...    separator=\n
+    Execute Manual Step    ${msg}
+    Execute Manual Step    [Expected result 1/2] In step 12 you should be prompted to unlock the rootfs.
+    Execute Manual Step    [Expected result 2/2] In step 16 the partition should be unlocked automatically.
 
 
 *** Keywords ***

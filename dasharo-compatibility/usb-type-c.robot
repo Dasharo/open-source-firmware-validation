@@ -20,7 +20,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-UTC001.001 USB Type-A charging capability (Firmware) (ME: Enabled)
+UTC001.001 USB Type-A charging capability
     [Documentation]    This test verifies that the USB-A ports are able to provide
     ...    charging to a connected smartphone.
     [Tags]    semiauto

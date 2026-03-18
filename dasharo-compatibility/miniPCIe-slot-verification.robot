@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -107,8 +108,21 @@ MWL002.301 Wi-Fi scanning (Windows)
     Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
     Execute Shutdown Command
 
-# MWL003.002 Bluetooth scanning (Windows)
-#    [Documentation]    TBD
+MWL003.301 Bluetooth scanning (Windows)
+    [Documentation]    This test aims to verify that the Bluetooth functionality of card is initialized
+    ...    correctly and can be used from within the operating system.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MLW002.301 not supported
+    Execute Manual Step    Power on the DUT.
+    Execute Manual Step    Boot into the system.
+    Execute Manual Step    Log into the system by using the proper login and password.
+    Execute Manual Step    Enter `Notification Center` in the bottom right part of the screen.
+    Execute Manual Step    Using right mouse button click on the Bluetooth icon.
+    Execute Manual Step    In shown drop-down menu click `Go to settings`.
+    Execute Manual Step    Click the `+` icon described as `Add Bluetooth or other device`.
+    Execute Manual Step    In the `Add a device` menu click `Bluetooth`.
+    Execute Manual Step    Wait a few moments until DUT scans for nearby Bluetooth devices and note the result.
+    Execute Manual Step    Available Bluetooth devices should appear in the `Add a device` window.
 
 # MWL004.002 LTE card detection (Windows)
 #    [Documentation]    Check whether the LTE card is detected correctly in the

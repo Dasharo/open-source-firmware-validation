@@ -237,7 +237,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     Perform Capsule Update    valid_capsule.cap
     Check The Update Screen For The Correct UX
 
-CUP260.101 Capsule update in Firmware Update Mode works
+CUP260.101 Capsule update in Firmware Update Mode works (EDK2 UEFI)
     [Documentation]    Check if capsule update works when in Firmware Update
     ...    Mode
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}

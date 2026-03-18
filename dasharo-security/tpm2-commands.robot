@@ -19,11 +19,11 @@ Resource            ../keys.robot
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
 Suite Setup         Run Keywords
-...                     Log    ${TPM_FAILURE_CONTEXT}    WARN
+...                     Prepare Test Suite
+...                     AND    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
 ...                     AND    TPM2 Suite Setup
-Suite Teardown      Run Keywords
-...                     Log Out And Close Connection
-...                     AND    Run Keyword If    '${SUITE_STATUS}' == 'FAIL'    Log To Console    ${TPM_FAILURE_CONTEXT}
+Suite Teardown      Log Out And Close Connection
+Test Setup          Flush TPM Contexts
 
 Default Tags        automated
 
@@ -36,7 +36,7 @@ ${TPM_FAILURE_CONTEXT}=
 
 
 *** Test Cases ***
-TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)
+TPMCMD001.201 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)
     [Documentation]    This test aims to verify that `PCRALLOCATE` function
     ...    works properly. It allows the user to specify a PCR
     ...    allocation for the TPM.
@@ -44,7 +44,7 @@ TPMCMD001.001 Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)
     Should Be True    ${SHA1_ENABLED}
     Should Be True    ${SHA256_ENABLED}
 
-TPMCMD002.001 PCRREAD Function Verification (Ubuntu)
+TPMCMD002.201 PCRREAD Function Verification (Ubuntu)
     [Documentation]    This test aims to verify that PCRREAD function works
     ...    properly. Function reads contains of PCR banks and
     ...    returns it to the terminal.
@@ -55,7 +55,7 @@ TPMCMD002.001 PCRREAD Function Verification (Ubuntu)
     Should Contain    ${out}    0x0000000000000000000000000000000000000000
     Should Contain    ${out}    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
-TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu)
+TPMCMD003.201 PCREXTEND And PCRRESET Functions (Ubuntu)
     [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
     ...    functions are working properly.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
@@ -89,7 +89,7 @@ TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu)
         Should Contain    ${out3}    23: 0x${sha256_0s}
     END
 
-TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu)
+TPMCMD004.201 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu)
     [Documentation]    This test aims to verify that PCREXTEND and PCRRESET
     ...    functions are working properly when trying to modify protected PCRs.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
@@ -102,7 +102,7 @@ TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu)
     Should Contain    ${out2}    tpm:warn(2.0): bad locality
     Should Contain    ${out3}    18: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
-TPMCMD004.001 PCREVENT Function (Ubuntu)
+TPMCMD005.201 PCREVENT Function (Ubuntu)
     [Documentation]    This test aims to verify that PCREVENT function is
     ...    working properly.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
@@ -137,7 +137,7 @@ TPMCMD004.001 PCREVENT Function (Ubuntu)
         Should Contain    ${out}    23: 0x${sha256.upper()}
     END
 
-TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu)
+TPMCMD006.201 CREATEPRIMARY Function Verification (Ubuntu)
     [Documentation]    This test aims to verify that CREATEPRIMARY function
     ...    works as expected. This command is used to create a
     ...    primary object under one of the hierarchies: Owner,
@@ -148,7 +148,7 @@ TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|restricted|decrypt
     Should Contain    ${out}    bits: 2048
 
-TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu)
+TPMCMD007.201 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu)
     [Documentation]    This test aims to verify that NVDEFINE and NVUNDEFINE
     ...    functions are working as expected. Those functions are
     ...    used to define and undefine a TPM Non-Volatile index.
@@ -163,7 +163,7 @@ TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu)
     Should Contain    ${out1}    nvtest
     Should Contain    ${out2}    ERROR: Unable to run tpm2_nvread
 
-TPMCMD007.001 CREATE Function (Ubuntu)
+TPMCMD008.201 CREATE Function (Ubuntu)
     [Documentation]    This test aims to verify that CREATE function works as
     ...    expected. It will create an object using all the default
     ...    values and store the TPM sealed private and public
@@ -176,7 +176,7 @@ TPMCMD007.001 CREATE Function (Ubuntu)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
     Should Contain    ${out}    bits: 2048
 
-TPMCMD007.002 CREATELOADED Function (Ubuntu)
+TPMCMD009.201 CREATELOADED Function (Ubuntu)
     [Documentation]    This test aims to verify that CREATELOADED function works
     ...    as expected. It will create an object using all the
     ...    default values and store key context to the path
@@ -188,7 +188,7 @@ TPMCMD007.002 CREATELOADED Function (Ubuntu)
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
     Should Contain    ${out}    bits: 2048
 
-TPMCMD008.001 Signing the file (Ubuntu)
+TPMCMD010.201 Signing the file (Ubuntu)
     [Documentation]    Check whether the TPM supports file signing.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx
@@ -200,7 +200,7 @@ TPMCMD008.001 Signing the file (Ubuntu)
     Execute Linux Tpm2 Tools Command    tpm2_verifysignature -c key.ctx -s sig.rssa -m secret.data
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx sig.rssa secret.data
 
-TPMCMD009.001 Encryption and Decryption of the file (Ubuntu)
+TPMCMD011.201 Encryption and Decryption of the file (Ubuntu)
     [Documentation]    Check whether the TPM supports the encryption and
     ...    decryption of the file.
     ${out}=    Execute Linux Tpm2 Tools Command    tpm2_getcap commands
@@ -222,7 +222,7 @@ TPMCMD009.001 Encryption and Decryption of the file (Ubuntu)
     Execute Linux Command    rm -f primary_key.ctx key.pub key.priv key.ctx secret.enc secret.dec secret.data iv.bin
     Should Contain    ${out}    my secret
 
-TPMCMD010.001 Hashing the file (Ubuntu)
+TPMCMD012.201 Hashing the file (Ubuntu)
     [Documentation]    Check whether the TPM supports file hashing.
     Execute Linux Command    echo "my secret" > secret.data
     Execute Linux Tpm2 Tools Command    tpm2_hash -o hash.out -t ticket.out secret.data
@@ -235,7 +235,7 @@ TPMCMD010.001 Hashing the file (Ubuntu)
     Should Not Contain    ${out2}    hash.out
     Should Not Contain    ${out3}    ticket.out
 
-TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
+TPMCMD013.201 Performing HMAC operation on the file (Ubuntu)
     [Documentation]    Check whether the TPM supports HMAC operation.
     Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary_key.ctx    60
     Execute Linux Tpm2 Tools Command    tpm2_create -u key.pub -r key.priv -C primary_key.ctx -G hmac
@@ -249,12 +249,82 @@ TPMCMD011.001 Performing HMAC operation on the file (Ubuntu)
     Should Contain    ${out1}    hmac.out
     Should Not Contain    ${out2}    hmac.out
 
+TPMCMD014.201 Sealing and Unsealing the file without Policy (Ubuntu)
+    [Documentation]    This test verifies TPM sealing functionality.
+    VAR    ${secret}=    my sealed data
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary.ctx
+    Execute Linux Command    echo "${secret}" > seal.dat
+
+    Execute Linux Tpm2 Tools Command    tpm2_create -C primary.ctx -i seal.dat -u key.pub -r key.priv
+    Execute Linux Tpm2 Tools Command    tpm2_evictcontrol --hierarchy owner --object-context seal.ctx -o seal.handle
+
+    Execute Linux Tpm2 Tools Command    tpm2_unseal -c seal.handle > unsealed.dat
+    ${out}=    Execute Linux Command    cat unsealed.dat
+
+    Should Contain    ${out}    ${secret}
+
+TPMCMD015.201 Sealing and Unsealing with Policy - Password Only (Ubuntu)
+    [Documentation]    Check whether the TPM supports sealing and unsealing using password policy.
+    VAR    ${secret}=    password policy sealed data
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
+    Execute Linux Command    echo "${secret}" > seal.dat
+
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    Execute Linux Tpm2 Tools Command
+    ...    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat -p policypswd
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
+
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat+policypswd -c seal.ctx
+
+    Should Contain    ${out}    ${secret}
+
+TPMCMD016.201 Sealing and Unsealing with Policy - PCR Only (Ubuntu)
+    [Documentation]    Check whether the TPM supports sealing and unsealing using PCR policy.
+    VAR    ${secret}=    PCR policy sealed data
+
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
+    Execute Linux Command    echo "${secret}" > seal.dat
+
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
+
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat -c seal.ctx
+
+    Should Contain    ${out}    ${secret}
+
+TPMCMD017.201 Sealing and unsealing with Policy - Password and PCR (Ubuntu)
+    [Documentation]    Check whether the TPM supports sealing and unsealing using PCR and password
+    ...    policy at the same time.
+    VAR    ${secret}=    policy sealed data
+
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -C e -g sha256 -G ecc -c primary.ctx
+    Execute Linux Command    echo "${secret}" > seal.dat
+
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    Execute Linux Tpm2 Tools Command
+    ...    tpm2_create -Q -u key.pub -r key.priv -C primary.ctx -L policy.dat -i seal.dat -p policypswd
+    Execute Linux Tpm2 Tools Command    tpm2_load -C primary.ctx -u key.pub -r key.priv -n seal.name -c seal.ctx
+
+    Execute Linux Tpm2 Tools Command    tpm2_startauthsession --policy-session -S session.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypassword -S session.dat -L policy.dat
+    Execute Linux Tpm2 Tools Command    tpm2_policypcr -S session.dat -l "sha1:0,1,2,3,7" -L policy.dat
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_unseal -p session:session.dat+policypswd -c seal.ctx
+
+    Should Contain    ${out}    ${secret}
+
 
 *** Keywords ***
 TPM2 Suite Setup
-    Prepare Test Suite
     Skip If    '${TPM_SUPPORTED_VERSION}' != '2'    TPM commands tests supported only TPM2
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM commands tests supported only on Ubuntu
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux

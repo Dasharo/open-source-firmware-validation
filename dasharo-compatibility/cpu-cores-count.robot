@@ -29,8 +29,9 @@ Default Tags        automated
 
 
 *** Test Cases ***
-CCC001.001 Check core count with HT disabled (Ubuntu)
+CCC001.201 Check core count with HT disabled (Ubuntu)
     [Documentation]    Disable HT and check the number of cores as seen by the OS.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${HYPER_THREADING_SUPPORT}
     Set UEFI Option    HyperThreading    ${FALSE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -39,8 +40,9 @@ CCC001.001 Check core count with HT disabled (Ubuntu)
     ${out}=    Get Threads Per Core
     Should Contain    ${out}    1
 
-CCC002.001 Check core count with HT enabled
+CCC002.201 Check core count with HT enabled (Ubuntu)
     [Documentation]    Enable HT and check the number of cores as seen by the OS.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${HYPER_THREADING_SUPPORT}
     Set UEFI Option    HyperThreading    ${TRUE}
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -50,7 +52,8 @@ CCC002.001 Check core count with HT enabled
     ${out}=    Get Threads Per Core
     Should Contain    ${out}    ${DEF_THREADS_PER_CORE}
 
-CCC003.001 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
+CCC003.201 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -67,7 +70,8 @@ CCC003.001 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    ${expected_p_cores}
     Should Be Equal As Integers    ${e_cores}    0
 
-CCC004.001 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
+CCC004.201 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -84,7 +88,8 @@ CCC004.001 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    ${expected_p_cores}
     Should Be Equal As Integers    ${e_cores}    ${CPU_E_CORES_MAX}
 
-CCC005.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
+CCC005.201 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -101,7 +106,8 @@ CCC005.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    ${CPU_P_CORES_MAX}
     Should Be Equal As Integers    ${e_cores}    0
 
-CCC006.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
+CCC006.201 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -118,7 +124,8 @@ CCC006.001 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    ${CPU_P_CORES_MAX}
     Should Be Equal As Integers    ${e_cores}    0
 
-CCC007.001 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
+CCC007.201 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -135,7 +142,8 @@ CCC007.001 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    ${expected_p_cores}
     Should Be Equal As Integers    ${e_cores}    ${CPU_E_CORES_MAX}
 
-CCC008.001 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
+CCC008.201 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -152,7 +160,8 @@ CCC008.001 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    1
     Should Be Equal As Integers    ${e_cores}    ${CPU_E_CORES_MAX}
 
-CCC009.001 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
+CCC009.201 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -171,7 +180,8 @@ CCC009.001 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    ${expected_p_cores}
     Should Be Equal As Integers    ${e_cores}    1
 
-CCC010.001 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
+CCC010.201 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -189,7 +199,8 @@ CCC010.001 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    1
     Should Be Equal As Integers    ${e_cores}    1
 
-CCC011.001 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
+CCC011.201 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore
@@ -207,7 +218,8 @@ CCC011.001 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
     Should Be Equal As Integers    ${p_cores}    ${expected_p_cores}
     Should Be Equal As Integers    ${e_cores}    1
 
-CCC012.001 Check core count (HT Disabled, P: A, E: 1) (Ubuntu)
+CCC012.201 Check core count (HT Disabled, P: A, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
     Enter Setup Menu Tianocore

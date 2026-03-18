@@ -87,3 +87,12 @@ MPS002.001 Switching back to JEDEC profile
     ${new_speed}=    Get Lines Matching Regexp    ${out}    .*RAM @ \\d+ MHz.*
     Should Not Be Empty    ${new_speed}
     Should Not Be Equal    ${old_speed}    ${new_speed}
+
+MPS003.001 Booting at XMP profile 1
+    [Documentation]    Check whether the DUT can boot successfully with XMP profile 1 enabled.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
+    Execute Manual Step    [2/4] Navigate to Memory Configuration and enable XMP profile 1
+    Execute Manual Step    [3/4] Save settings and reboot the DUT
+    Execute Manual Step
+    ...    [4/4] Confirm the DUT boots successfully with XMP profile 1 and the RAM runs at the expected frequency

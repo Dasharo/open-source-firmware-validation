@@ -11,10 +11,8 @@ Resource            ../keywords.robot
 Resource            ../keys.robot
 
 # Log Out And Close Connection - elementary teardown keyword for all tests.
-Suite Setup         Run Keywords
+Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-...                     AND
-...                     Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}    pfSense tests not supported
 Suite Teardown      Run Keywords
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword
@@ -25,8 +23,8 @@ Test Setup          Run Keyword
 PFS001.502 Install operating system on disk (pfSense)
     [Documentation]    Install pfSense LTS CE (serial output) from preseeded
     ...    USB stick on disk. Refer to test case PFS006.502 for preseed.
-    ...
     [Tags]    semiauto
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
     Power On
     Boot PfSense Installer
     VAR    ${installer_message}=
@@ -37,13 +35,13 @@ PFS001.502 Install operating system on disk (pfSense)
 
 PFS002.502 Boot operating system from disk (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk.
-    ...
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
     Power On
     Boot PfSense
 
 PFS003.502 Boot operating system from disk after cold-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after cold-boot
-    ...
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
     VAR    @{supported_power_ctrls}=    RteCtrl    sonoff
     Skip If    '${POWER_CTRL}' not in ${supported_power_ctrls}
     Execute Cold Boot
@@ -55,7 +53,7 @@ PFS003.502 Boot operating system from disk after cold-boot (pfSense)
 
 PFS004.502 Boot operating system from disk after warm-boot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after warm-boot
-    ...
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
     Power On
     Boot PfSense
     Enter PfSense Shell
@@ -69,7 +67,7 @@ PFS004.502 Boot operating system from disk after warm-boot (pfSense)
 
 PFS005.502 Boot operating system from disk after reboot (pfSense)
     [Documentation]    Boot pfSense LTS CE (serial output) from disk after reboot
-    ...
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
     Power On
     Boot PfSense
     Enter PfSense Shell
@@ -86,6 +84,7 @@ PFS006.502 Preseed operating system installer (pfSense)
     ...    This test depends on semi-manual OS installatio media preparation,
     ...    thus it's marked as semiauto.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
     VAR    ${pfefi_message}=
     ...    Rename ESP partition of pfSense
     ...    serial installer to PFEFI.\nOn Linux: (sudo) fatlabel /dev/sdX1
@@ -114,9 +113,28 @@ PFS006.502 Preseed operating system installer (pfSense)
 
 PFS007.502 Boot operating system installer into rescue shell (pfSense)
     [Documentation]    Boot installer into rescue shell.
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
     Power On
     Boot PfSense Installer
     Enter PfSense Rescue Shell
     ${output}=    Execute Command In Terminal    ls
     Should Contain    ${output}    COPYRIGHT
     Should Contain    ${output}    .profile
+
+PFS002.001 pfSense stable (VGA output) installation on Hard Disk
+    [Documentation]    Check whether pfSense stable with VGA output can be installed on the hard disk.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
+    Execute Manual Step    [1/5] Prepare a pfSense stable installation medium (USB)
+    Execute Manual Step    [2/5] Power on the DUT and boot from the pfSense installation medium
+    Execute Manual Step    [3/5] Follow the pfSense installer steps to complete the installation on the hard disk
+    Execute Manual Step    [4/5] Reboot after installation completes
+    Execute Manual Step    [5/5] Confirm pfSense boots successfully from the hard disk via VGA output
+
+PFS002.002 Boot pfSense stable (VGA output) from Hard Disk
+    [Documentation]    Check whether pfSense stable with VGA output boots correctly from the hard disk.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
+    Execute Manual Step    [1/3] Power on the DUT with pfSense installed on the hard disk
+    Execute Manual Step    [2/3] Wait for pfSense to boot
+    Execute Manual Step    [3/3] Confirm pfSense boots to the console/login screen via VGA output

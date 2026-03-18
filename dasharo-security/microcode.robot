@@ -13,10 +13,11 @@ Suite Teardown      Run Keyword
 
 
 *** Test Cases ***
-UCODE001.201 Check if firmware runs on expected microcode revision
+UCODE001.201 Check if firmware runs on expected microcode revision (Ubuntu)
     [Documentation]    This test checks if firmware microcode revision matches
     ...    expected value.
     [Tags]    automated    minimal-regression
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${MICROCODE_REVISIONS} != @{EMPTY}    UCODE001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

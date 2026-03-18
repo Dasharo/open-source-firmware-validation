@@ -20,7 +20,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-SPS001.001 Ethernet ports are in order
+SPS001.001 Check Ethernet Ports Order
     [Documentation]    This test automates the verification of port order based
     ...    on PCIe bus numbers and checks PCIe switching.
     Depends On    ${ETH_PORTS} != @{EMPTY}    not supported

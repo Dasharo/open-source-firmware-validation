@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -127,3 +128,17 @@ PXE007.001 Dasharo Network Boot over https not http
     Log    ${out}
     Should Contain    ${out}    https://
     Should Not Contain    ${out}    http://
+
+PXE008.001 Firmware Update Mode
+    [Documentation]    Check whether Firmware Update Mode boots DTS automatically and begins checking for firmware updates.
+    [Tags]    semiauto
+    Execute Manual Step    [1/8] Power on the DUT.
+    Execute Manual Step    [2/8] Ensure network cable is connected to the DUT.
+    Execute Manual Step    [3/8] Hold the SETUP_MENU_KEY to enter the UEFI Boot Menu.
+    Execute Manual Step    [4/8] Select the Dasharo System Features option using the arrow keys and press Enter.
+    Execute Manual Step    [5/8] Select the Dasharo Security Options option using the arrow keys and press Enter.
+    Execute Manual Step    [6/8] Select the Firmware Update Mode option using the arrow keys and press Enter.
+    Execute Manual Step    [7/8] Press Enter when prompted. The DUT will reboot at this point.
+    Execute Manual Step    [8/8] Press the requested number on the keyboard when prompted.
+    Execute Manual Step
+    ...    [Expected result] DTS is booted automatically when Firmware Update Mode is entered. DTS automatically begins to check for a firmware update.

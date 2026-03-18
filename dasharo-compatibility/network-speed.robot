@@ -29,6 +29,7 @@ ETHPERF001.201 Check Performance of 2.5G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     ...
     [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${ETH_PERF_PAIR_2_G} != @{EMPTY}
     Depends On    ${ETH_PORTS} != @{EMPTY}
 
@@ -88,6 +89,7 @@ ETHPERF002.201 Check Performance of 10G Wired Network Interface (Ubuntu)
     [Documentation]    This test aims to verify the performance of Ethernet connection
     ...
     [Tags]    automated
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${ETH_PERF_PAIR_10_G} != @{EMPTY}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

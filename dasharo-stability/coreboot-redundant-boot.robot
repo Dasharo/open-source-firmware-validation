@@ -25,6 +25,7 @@ CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
     [Documentation]    Check if clearing the CMOS makes the DUT boot from slot A
     ...    which should contain a recovery firmware
     [Tags]    automated
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
 
     IF    ${DUT_HAS_CMOS_RESET}
         Rte Psu Off
@@ -50,6 +51,7 @@ CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
 CRB002.201 Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)
     [Documentation]    Check if setting the Attempt Slot B flag the device boots
     ...    from the slot B
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -65,6 +67,7 @@ CRB002.201 Boot Slot B After Setting Attempt Slot B Flag (Ubuntu)
 CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
     [Documentation]    Check if clearing the Attempt Slot B flag the device boots
     ...    from the slot A
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -80,6 +83,7 @@ CRB003.201 Boot Slot A After Clearing Attempt Slot B Flag (Ubuntu)
 CRB004.201 Slot A Protection (Ubuntu)
     [Documentation]    Check if the coreboot Slot A is protected with the
     ...    redundant boot feature turned on.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

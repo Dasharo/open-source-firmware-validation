@@ -3,6 +3,7 @@ Resource        ./common.resource
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
+...                 AND    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
 ...                 AND    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
 ...                 AND    Check Power Supply
 ...                 AND    Prepare Sensors
@@ -80,7 +81,7 @@ CPF004.201 CPU not stuck on initial frequency (USB-PD) (Ubuntu)
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Frequencies Not Stuck    ${outs}
 
-STB002.201 Verify if no unexpected boot errors appear in Linux logs
+STB002.201 Verify if no unexpected boot errors appear in Linux logs (Ubuntu)
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
     [Tags]    automated    minimal-regression

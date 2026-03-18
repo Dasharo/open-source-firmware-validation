@@ -83,3 +83,13 @@ NVI001.301 NVIDIA Graphics detect (Windows)
     Boot And Login To Windows
     ${out}=    Get Video Controllers Windows
     Should Contain    ${out}    NVIDIA GeForce
+
+NVI002.301 NVIDIA Graphics power management (Windows)
+    [Documentation]    Check whether the NVIDIA graphics power management is
+    ...    functional in Windows and the card powers on only while it is used.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    NVI002.301 not supported
+    Execute Manual Step    [1/4] Boot into Windows
+    Execute Manual Step    [2/4] Open Device Manager and verify the NVIDIA GPU is present under Display Adapters
+    Execute Manual Step    [3/4] Run a GPU-intensive application and check GPU usage via Task Manager or GPU-Z
+    Execute Manual Step    [4/4] Confirm the GPU activates under load and returns to low power state when idle

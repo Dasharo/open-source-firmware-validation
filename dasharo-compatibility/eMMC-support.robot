@@ -25,11 +25,11 @@ Default Tags        automated
 
 
 *** Test Cases ***
-MMC001.001 eMMC support (Ubuntu)
+MMC001.201 eMMC support (Ubuntu)
     [Documentation]    Check whether the eMMC driver is detected via the
     ...    Operating System.
-    Skip If    not ${EMMC_SUPPORT}    MMC001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MMC001.001 not supported
+    Skip If    not ${EMMC_SUPPORT}    MMC001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MMC001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
