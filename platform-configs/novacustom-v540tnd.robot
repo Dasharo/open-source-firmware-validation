@@ -12,7 +12,7 @@ ${OPTIONS_LIB}=                                 options-lib_dcu
 ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
-...                                             ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+...                                             ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}    ${ENV_ID_QUBES}
 
 ${CPU}=                                         Intel(R) Core(TM) Ultra 7 155H
 
