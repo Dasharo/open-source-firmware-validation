@@ -349,7 +349,11 @@ Docking Station Detection After Coldboot
         TRY
             ${out_before_reboot}=    Execute Linux Command    uptime --since
             WHILE    '${out_before_reboot}' == '${out_after_reboot}'
-                Power Cycle On
+                IF    '${POWER_CTRL}' == 'none'
+                    Execute Manual Step    Perform a coldboot manually
+                ELSE
+                    Power Cycle On
+                END
                 Login To Linux
                 Switch To Root User
                 ${out_after_reboot}=    Execute Linux Command    uptime --since
@@ -384,6 +388,11 @@ Docking Station Detection After Warmboot
         TRY
             ${out_before_reboot}=    Execute Linux Command    uptime --since
             WHILE    '${out_before_reboot}' == '${out_after_reboot}'
+                IF    '${POWER_CTRL}' == 'none'
+                    Execute Manual Step    Perform a coldboot manually
+                ELSE
+                    Power Cycle On
+                END
                 Perform Warmboot Using Rtcwake
                 Login To Linux
                 Switch To Root User
