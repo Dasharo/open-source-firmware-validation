@@ -132,9 +132,9 @@ Login To Booted OS
         VAR    ${RECOVERY_IN_PROGRESS}=    ${TRUE}    scope=GLOBAL
         TRY
             Recover Broken Bootorder By Trying All Supported OSes
-            Boot And Login To OS    ${target_os}    try_recover_from_invalid_os_booted=${FALSE}
         FINALLY
             VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
+            Load OS Credentials    ${target_os}
         END
     ELSE
         Fail    Login to ${BOOTED_OS_ID} failed.
