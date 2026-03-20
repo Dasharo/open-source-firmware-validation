@@ -4076,22 +4076,6 @@ UTC327.201 USB Type-C docking station audio capture (Ubuntu) (ME: Enabled) (WL-U
     Skip
     ...    UTC327.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC329.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC329.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC329.201 not supported
-    Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
-
-UTC331.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC331.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC331.201 not supported
-    Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Enabled    WL-UG69PD2 Rev.A1
-
 UTC335.201 Docking station detection after coldboot (Ubuntu) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
@@ -4305,20 +4289,6 @@ UTC327.202 USB Type-C docking station audio capture (Fedora) (ME: Enabled) (WL-U
     Skip
     ...    UTC327.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC329.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC329.202 not supported
-    Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
-
-UTC331.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC331.202 not supported
-    Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Enabled    WL-UG69PD2 Rev.A1
-
 UTC335.202 Docking station detection after coldboot (Fedora) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
@@ -4523,20 +4493,6 @@ UTC327.301 USB Type-C docking station audio capture (Windows) (ME: Enabled) (WL-
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC327.301 not supported
     Skip
     ...    UTC327.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
-
-UTC329.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC329.301 not supported
-    Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
-
-UTC331.301 USB Type-C docking station SD Card read/write (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC331.301 not supported
-    Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC335.301 Docking station detection after coldboot (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -5033,22 +4989,6 @@ UTC328.201 USB Type-C docking station audio capture (Ubuntu) (ME: Disabled) (WL-
     Skip
     ...    UTC328.201 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC330.201 USB Type-C docking station SD Card reader detection (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC330.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC330.201 not supported
-    Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
-
-UTC332.201 USB Type-C docking station SD Card read/write (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UTC332.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTC332.201 not supported
-    Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_UBUNTU}    Disabled    WL-UG69PD2 Rev.A1
-
 UTC336.201 Docking station detection after coldboot (Ubuntu) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
@@ -5262,20 +5202,6 @@ UTC328.202 USB Type-C docking station audio capture (Fedora) (ME: Disabled) (WL-
     Skip
     ...    UTC328.202 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC330.202 USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC330.202 not supported
-    Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
-
-UTC332.202 USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.202 not supported
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    UTC332.202 not supported
-    Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_FEDORA}    Disabled    WL-UG69PD2 Rev.A1
-
 UTC336.202 Docking station detection after coldboot (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
@@ -5480,20 +5406,6 @@ UTC328.301 USB Type-C docking station audio capture (Windows) (ME: Disabled) (WL
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC328.301 not supported
     Skip
     ...    UTC328.301 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
-
-UTC330.301 USB Type-C docking station SD Card reader detection (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC330.301 not supported
-    Usb Type-C Docking Station Sd Card Reader Detection    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
-
-UTC332.301 USB Type-C docking station SD Card read/write (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    UTC332.301 not supported
-    Usb Type-C Docking Station Sd Card Read/Write    ${ENV_ID_WINDOWS}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC336.301 Docking station detection after coldboot (Windows) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station

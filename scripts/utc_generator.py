@@ -195,14 +195,14 @@ test_names = {
         "doc": """Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.""",
         "skips": ["not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}"],
-        "docking_stations": ["1", "2", "3"],
+        "docking_stations": ["1", "2"],
     },
     "USB Type-C docking station SD Card read/write": {
         "env_ids": {"201": "auto", "202": "auto", "301": "auto", "203": "manual"},
         "doc": """Check whether the SD Card reader is initialized correctly
     ...    and can be used from the operating system.""",
         "skips": ["not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}"],
-        "docking_stations": ["1", "2", "3"],
+        "docking_stations": ["1", "2"],
     },
     "USB Type-C PD current limiting": {
         "env_ids": {"201": "manual", "202": "manual", "301": "manual", "203": "semi"},
