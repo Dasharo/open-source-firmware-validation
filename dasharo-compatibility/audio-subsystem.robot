@@ -332,6 +332,61 @@ AUD001.203 Audio subsystem detection (Qubes OS)
         Log    \nSound Card was found, but PulseAudio did not found any device\n    WARN
     END
 
+AUD002.203 Internal Audio playback (Qubes OS)
+    [Documentation]    Verify audio playback via internal speakers in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] In any AppVM, play a test audio file.
+    Execute Manual Step    [3/4] Listen for sound from internal speakers.
+    Execute Manual Step    [4/4] Verify audio is audible and not distorted.
+
+AUD003.203 Internal Audio capture (Qubes OS)
+    [Documentation]    Verify audio capture via internal microphone in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] In any AppVM, start an audio recording.
+    Execute Manual Step    [3/4] Speak into the internal microphone.
+    Execute Manual Step    [4/4] Verify recorded audio is clear and audible.
+
+AUD004.203 External headset recognition (Qubes OS)
+    [Documentation]    Verify recognition of an external headset in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Plug in an external headset into the audio jack.
+    Execute Manual Step    [3/4] Observe audio device changes in the system.
+    Execute Manual Step    [4/4] Verify headset audio input and output are available.
+
+AUD005.203 External headset audio playback (Qubes OS)
+    [Documentation]    Verify audio playback via an external headset in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Plug in an external headset.
+    Execute Manual Step    [3/4] Play a test audio file in any AppVM.
+    Execute Manual Step    [4/4] Verify sound is audible via headset speakers.
+
+AUD006.203 External headset audio capture (Qubes OS)
+    [Documentation]    Verify audio capture via an external headset microphone in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Plug in an external headset with microphone.
+    Execute Manual Step    [3/4] Start an audio recording in any AppVM.
+    Execute Manual Step    [4/4] Verify recorded audio is clear and audible.
+
+AUD007.203 HDMI Audio recognition (Qubes OS)
+    [Documentation]    Verify HDMI audio output recognition in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Connect an HDMI display with audio capability.
+    Execute Manual Step    [3/4] Observe available audio output devices.
+    Execute Manual Step    [4/4] Verify HDMI audio output is available.
+
+AUD008.203 HDMI Audio playback (Qubes OS)
+    [Documentation]    Verify audio playback via HDMI output in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/4] Connect an HDMI display with speakers.
+    Execute Manual Step    [3/4] Play a test audio file in any AppVM.
+    Execute Manual Step    [4/4] Verify sound is audible via HDMI-connected speakers.
 
 *** Keywords ***
 Audio Subsystem Detection Linux

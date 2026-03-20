@@ -157,13 +157,21 @@
     "doc": {
       "_id": "AUD002.003",
       "name": "Audio playback (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "AUD002.203"
     }
   },
   {
     "doc": {
       "_id": "AUD002.201",
       "name": "Internal speaker audio playback (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "AUD002.203",
+      "name": "Internal Audio playback (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -194,13 +202,21 @@
     "doc": {
       "_id": "AUD003.003",
       "name": "Audio capture (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "AUD003.203"
     }
   },
   {
     "doc": {
       "_id": "AUD003.201",
       "name": "Internal microhphone audio capture (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "AUD003.203",
+      "name": "Internal Audio capture (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -231,7 +247,8 @@
     "doc": {
       "_id": "AUD004.003",
       "name": "External headset recognition (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "AUD004.203"
     }
   },
   {
@@ -245,6 +262,13 @@
     "doc": {
       "_id": "AUD004.202",
       "name": "External headset recognition (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "AUD004.203",
+      "name": "External headset recognition (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -275,13 +299,21 @@
     "doc": {
       "_id": "AUD005.003",
       "name": "External headset audio playback (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "AUD005.203"
     }
   },
   {
     "doc": {
       "_id": "AUD005.201",
       "name": "External headset audio playback (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "AUD005.203",
+      "name": "External headset audio playback (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -312,13 +344,21 @@
     "doc": {
       "_id": "AUD006.003",
       "name": "External headset audio capture (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "AUD006.203"
     }
   },
   {
     "doc": {
       "_id": "AUD006.201",
       "name": "External headset audio capture (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "AUD006.203",
+      "name": "External headset audio capture (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -359,6 +399,13 @@
       "module": "Dasharo Compatibility"
     }
   },
+    {
+    "doc": {
+      "_id": "AUD007.203",
+      "name": "HDMI Audio recognition (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
   {
     "doc": {
       "_id": "AUD007.301",
@@ -386,13 +433,21 @@
     "doc": {
       "_id": "AUD008.003",
       "name": "HDMI audio playback (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "AUD008.203"
     }
   },
   {
     "doc": {
       "_id": "AUD008.201",
       "name": "HDMI audio playback (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "AUD008.203",
+      "name": "HDMI Audio playback (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
