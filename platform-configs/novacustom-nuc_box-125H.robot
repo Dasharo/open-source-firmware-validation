@@ -15,7 +15,6 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 ${DEF_ONLINE_CPU}=                      0-17
 ${DEF_SOCKETS}=                         1
 
-@{EXTERNAL_HEADSETS}=                   JMTek, LLC. USB Audio
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${USB_MODEL}=                           ${TBD}
 ${USB_DEVICE}=                          Linux

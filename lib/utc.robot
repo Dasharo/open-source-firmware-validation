@@ -244,8 +244,8 @@ Usb Type-C Docking Station Audio Recognition
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
         Switch To Root User
-        ${out}=    List Devices In Linux    usb
-        Should Contain Any    ${out}    @{EXTERNAL_HEADSETS}
+        ${out}=    Execute Command In Terminal    cat /proc/asound/cards
+        Should Contain Any    ${out}    USB Audio    USB-Audio    ignore_case=${TRUE}
         Exit From Root User
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}

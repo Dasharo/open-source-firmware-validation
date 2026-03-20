@@ -20,7 +20,7 @@ ${3_MDEB_WIFI_NETWORK}=                         3mdeb_abr
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                         Keyboard
 ${DMIDECODE_PRODUCT_NAME}=                      V5xTNC_TND_TNE
-@{EXTERNAL_HEADSETS}=                           JMTek, LLC. USB Audio
+
 ${CPU_MAX_FREQUENCY}=                           4800
 ${CPU_MIN_FREQUENCY}=                           200
 ${PLATFORM_CPU_SPEED}=                          3.0
