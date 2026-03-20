@@ -73,6 +73,9 @@ Detect Docking Station USB Devices In Linux
     [Documentation]    Keyword check the docking station is detected correctly.
     [Arguments]    ${docking_station_model}
     # USB devices
+    # We should be matching for VID:PID instead of device names, as the names
+    # are unstable and change often. VID:PID pair should be always consistent
+    # in the same model&revision of a USB device.
     ${out}=    List Devices In Linux    usb
     IF    '${docking_station_model}' == 'WL-UMD05 Pro Rev.E'
         Should Contain    ${out}    VIA Labs, Inc. USB2.0 Hub
@@ -93,11 +96,11 @@ Detect Docking Station USB Devices In Linux
         Should Contain    ${out}    Fresco Logic USB3.0 Hub
         Should Contain    ${out}    JMTek, LLC. USB PnP Audio Device
     ELSE IF    '${docking_station_model}' == 'WL-UG69PD2 Rev.A1'
-        Should Contain    ${out}    Genesys Logic, Inc. Hub
-        Should Contain    ${out}    Fresco Logic USB2.0 Hub
-        Should Contain    ${out}    Genesys Logic, Inc. USB3.1 Hub
-        Should Contain    ${out}    DisplayLink USB3.0 5K Graphic Docking
-        Should Contain    ${out}    Fresco Logic USB3.0 Hub
+        Should Contain    ${out}    05e3:0610    # Genesys Logic, Inc. Hub
+        Should Contain    ${out}    1d5c:5012    # Fresco Logic USB2.0 Hub
+        Should Contain    ${out}    05e3:0620    # Genesys Logic, Inc. USB3.1 Hub
+        Should Contain    ${out}    17e9:6000    # DisplayLink USB3.0 5K Graphic Docking
+        Should Contain    ${out}    1d5c:5002    # Fresco Logic USB3.0 Hub
     ELSE
         Fail    unknown docking station
     END
