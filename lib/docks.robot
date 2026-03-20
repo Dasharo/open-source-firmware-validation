@@ -30,6 +30,14 @@ Check DisplayLink Dock In Linux
     ${out}=    Execute Linux Command    cat /sys/devices/platform/evdi.*/drm/card*/card*-*/enabled
     Should Contain    ${out}    enabled
 
+Check DisplayLink Display In Linux
+    Ensure DisplayLink Driver Is Installed Linux
+    ${out}=    Execute Command In Terminal
+    ...    for dev in cat /sys/devices/platform/evdi.*/drm/card*/card*-*/status; do echo "$dev: $(cat $dev)"; done
+    ${lines}=    Get Lines Matching Regexp    ${out}    .*card\\d+-DVI-I-\\d+\/status: connected
+    ${lines}=    Split To Lines    ${lines}
+    Should Not Be Empty    ${lines}
+
 Check Docking Station HDMI Windows
     [Documentation]    Check if docking station HDMI display is recognized by
     ...    Windows OS.

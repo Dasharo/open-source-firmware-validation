@@ -129,7 +129,11 @@ Usb Type-C Docking Station Hdmi Display
         IF    '${dock_name}' == 'WL-UMD05 Pro Rev.E'
             # dp alt mode
             Check PCON On MST Hub In Linux
-        ELSE    # Exact models not specified right now, add more branches later
+        ELSE IF    '${dock_name}' == 'WL-UG69PD2 Rev.A1'
+            # displaylink
+            Log    HDMI and DP cannot be differentiated on Displaylink    WARN
+            Check DisplayLink Display In Linux
+        ELSE
             # Thunderbolt
             Check Display Port On Hub In Linux    HDMI
         END
@@ -152,6 +156,10 @@ Usb Type-C Docking Station Dp Display
         IF    '${dock_name}' == 'WL-UMD05 Pro Rev.E'
             # dp alt mode
             Check DP Port On MST Hub In Linux
+        ELSE IF    '${dock_name}' == 'WL-UG69PD2 Rev.A1'
+            # displaylink
+            Log    HDMI and DP cannot be differentiated on Displaylink    WARN
+            Check DisplayLink Display In Linux
         ELSE    # Exact models not specified right now, add more branches later
             # Thunderbolt
             Check Display Port On Hub In Linux    DP
