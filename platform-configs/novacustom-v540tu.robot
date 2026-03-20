@@ -35,7 +35,7 @@ ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 ...                                     ${ENV_ID_FEDORA}
 ...                                     ${ENV_ID_QUBES}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
-${CLEVO_USB_C_HUB}=                     Billboard Device
+
 ${USB_DEVICE}=                          Linux
 ${MAX_CPU_TEMP_THRESHOLD}=              110
 

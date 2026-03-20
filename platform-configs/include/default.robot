@@ -360,7 +360,7 @@ ${BLAKE2_TEST_SCORE}=                               ${TBD}
 ${BLUETOOTH_CARD_UBUNTU}=                           ${TBD}
 ${CACHEBENCH_TEST_SCORE}=                           ${TBD}
 ${CLEVO_BATTERY_CAPACITY}=                          ${TBD}
-${CLEVO_USB_C_HUB}=                                 ${TBD}
+
 ${CPU_E_CORES_MAX}=                                 ${TBD}
 ${CPU_MAX_FREQUENCY}=                               ${TBD}
 ${CPU_MIN_FREQUENCY}=                               ${TBD}

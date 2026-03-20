@@ -40,7 +40,7 @@ ${ME_STATICALLY_DISABLED}=                      ${TRUE}
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v1.0.0
 ${DMIDECODE_RELEASE_DATE}=                      01/29/2026
 ${TPM_DETECT_SUPPORT}=                          ${TRUE}
-${CLEVO_USB_C_HUB}=                             Thunderbolt 4 Dock
+
 ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=      ${TRUE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=               ${TRUE}
 ${VERIFIED_BOOT_SUPPORT}=                       ${TRUE}

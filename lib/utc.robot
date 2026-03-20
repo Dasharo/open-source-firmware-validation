@@ -111,8 +111,7 @@ Usb Type-C Display Output
         Boot System Or From Connected Disk    ${env_id}
         Login To Linux
         Switch To Root User
-        ${out}=    List Devices In Linux    usb
-        Should Contain    ${out}    ${CLEVO_USB_C_HUB}
+        Detect Docking Station In Linux    ${dock_name}
         Exit From Root User
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}

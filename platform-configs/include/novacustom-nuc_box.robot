@@ -21,8 +21,6 @@ ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 ...                                     ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 
-${CLEVO_USB_C_HUB}=                     Billboard Device
-
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}

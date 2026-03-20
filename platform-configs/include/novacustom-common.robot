@@ -39,7 +39,7 @@ ${DMIDECODE_FAMILY}=                                Not Applicable
 ${DMIDECODE_TYPE}=                                  Notebook
 
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
-${CLEVO_USB_C_HUB}=                                 4-port
+
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 ${OPTIONS_LIB}=                                     options-lib_dcu
 # Supported test environments
