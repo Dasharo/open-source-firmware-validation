@@ -194,7 +194,9 @@ CUP260.101 Capsule update in Firmware Update Mode works
     ...    Mode
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
-    Power On
+    IF    '${MANUFACTURER}' != 'QEMU'
+        Set UEFI Option    MeMode    Disabled (HAP)
+    END
     # Enable FUM
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
