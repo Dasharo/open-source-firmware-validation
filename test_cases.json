@@ -399,7 +399,7 @@
       "module": "Dasharo Compatibility"
     }
   },
-    {
+  {
     "doc": {
       "_id": "AUD007.203",
       "name": "HDMI Audio recognition (Qubes OS)",
@@ -1292,7 +1292,7 @@
   {
     "doc": {
       "_id": "CPF001.203",
-      "name": "CPU not stuck on initial frequency (QubesOS)",
+      "name": "CPU not stuck on initial frequency (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1371,21 +1371,24 @@
     "doc": {
       "_id": "CPF002.010",
       "name": "CPU runs on expected frequency (Qubes OS) (battery)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CPF006.203"
     }
   },
   {
     "doc": {
       "_id": "CPF002.011",
       "name": "CPU runs on expected frequency (Qubes OS) (AC)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CPF007.203"
     }
   },
   {
     "doc": {
       "_id": "CPF002.012",
       "name": "CPU runs on expected frequency (Qubes OS) (USB-PD)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CPF008.203"
     }
   },
   {
@@ -1512,21 +1515,24 @@
     "doc": {
       "_id": "CPF004.010",
       "name": "CPU with load runs on expected frequency (Qubes OS) (battery)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CPF010.203"
     }
   },
   {
     "doc": {
       "_id": "CPF004.011",
       "name": "CPU with load runs on expected frequency (Qubes OS) (AC)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CPF011.203"
     }
   },
   {
     "doc": {
       "_id": "CPF004.012",
       "name": "CPU with load runs on expected frequency (Qubes OS) (USB-PD)",
-      "module": "Dasharo Performance"
+      "module": "Dasharo Performance",
+      "changed_to": "CPF012.203"
     }
   },
   {
@@ -1574,7 +1580,7 @@
   {
     "doc": {
       "_id": "CPF005.203",
-      "name": "CPU runs on expected frequency (QubesOS)",
+      "name": "CPU runs on expected frequency (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1601,6 +1607,13 @@
   },
   {
     "doc": {
+      "_id": "CPF006.203",
+      "name": "CPU runs on expected frequency (Qubes OS) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF006.301",
       "name": "CPU runs on expected frequency (Windows) (battery)",
       "module": "Dasharo Performance"
@@ -1622,6 +1635,13 @@
   },
   {
     "doc": {
+      "_id": "CPF007.203",
+      "name": "CPU runs on expected frequency (Qubes OS) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF007.301",
       "name": "CPU runs on expected frequency (Windows) (AC)",
       "module": "Dasharo Performance"
@@ -1638,6 +1658,13 @@
     "doc": {
       "_id": "CPF008.202",
       "name": "CPU runs on expected frequency (Fedora) (USB-PD)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF008.203",
+      "name": "CPU runs on expected frequency (Qubes OS) (USB-PD)",
       "module": "Dasharo Performance"
     }
   },
@@ -1665,7 +1692,7 @@
   {
     "doc": {
       "_id": "CPF009.203",
-      "name": "CPU with load runs on expected frequency (QubesOS)",
+      "name": "CPU with load runs on expected frequency (Qubes OS)",
       "module": "Dasharo Performance"
     }
   },
@@ -1692,6 +1719,13 @@
   },
   {
     "doc": {
+      "_id": "CPF010.203",
+      "name": "CPU with load runs on expected frequency (Qubes OS) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF010.301",
       "name": "CPU with load runs on expected frequency (Windows) (battery)",
       "module": "Dasharo Performance"
@@ -1713,6 +1747,13 @@
   },
   {
     "doc": {
+      "_id": "CPF011.203",
+      "name": "CPU with load runs on expected frequency (Qubes OS) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPF011.301",
       "name": "CPU with load runs on expected frequency (Windows) (AC)",
       "module": "Dasharo Performance"
@@ -1729,6 +1770,13 @@
     "doc": {
       "_id": "CPF012.202",
       "name": "CPU with load runs on expected frequency (Fedora) (USB-PD)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPF012.203",
+      "name": "CPU with load runs on expected frequency (Qubes OS) (USB-PD)",
       "module": "Dasharo Performance"
     }
   },
@@ -1916,6 +1964,13 @@
   },
   {
     "doc": {
+      "_id": "CPT002.203",
+      "name": "CPU temperature without load (Qubes OS) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT003.201",
       "name": "CPU temperature without load (Ubuntu) (AC)",
       "module": "Dasharo Performance"
@@ -1930,6 +1985,13 @@
   },
   {
     "doc": {
+      "_id": "CPT003.203",
+      "name": "CPU temperature without load (Qubes OS) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT004.201",
       "name": "CPU temperature without load (Ubuntu) (USB-PD)",
       "module": "Dasharo Performance"
@@ -1939,6 +2001,13 @@
     "doc": {
       "_id": "CPT004.202",
       "name": "CPU temperature without load (Fedora) (USB-PD)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPT004.203",
+      "name": "CPU temperature without load (Qubes OS) (USB-PD)",
       "module": "Dasharo Performance"
     }
   },
@@ -1979,6 +2048,13 @@
   },
   {
     "doc": {
+      "_id": "CPT006.203",
+      "name": "CPU temperature after stress test (Qubes OS) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT007.201",
       "name": "CPU temperature after stress test (Ubuntu) (AC)",
       "module": "Dasharo Performance"
@@ -1993,6 +2069,13 @@
   },
   {
     "doc": {
+      "_id": "CPT007.203",
+      "name": "CPU temperature after stress test (Qubes OS) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT008.201",
       "name": "CPU temperature after stress test (Ubuntu) (USB-PD)",
       "module": "Dasharo Performance"
@@ -2002,6 +2085,13 @@
     "doc": {
       "_id": "CPT008.202",
       "name": "CPU temperature after stress test (Fedora) (USB-PD)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPT008.203",
+      "name": "CPU temperature after stress test (Qubes OS) (USB-PD)",
       "module": "Dasharo Performance"
     }
   },
@@ -4114,6 +4204,14 @@
     "doc": {
       "_id": "ECR026.004",
       "name": "Permanent keyboard illumination after warm boot (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR026.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR026.203",
+      "name": "Permanent keyboard illumination after warm boot (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4134,6 +4232,14 @@
   {
     "doc": {
       "_id": "ECR027.004",
+      "name": "Permanent keyboard illumination after reboot (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR027.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR027.203",
       "name": "Permanent keyboard illumination after reboot (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
@@ -4156,6 +4262,14 @@
     "doc": {
       "_id": "ECR028.004",
       "name": "Permanent keyboard illumination after suspension (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR028.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR028.203",
+      "name": "Permanent keyboard illumination after suspension (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4176,6 +4290,14 @@
   {
     "doc": {
       "_id": "ECR029.003",
+      "name": "FnLock Hotkey (Qubes OS)",
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR029.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR029.203",
       "name": "FnLock Hotkey (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
@@ -4198,14 +4320,16 @@
     "doc": {
       "_id": "ECR030.003",
       "name": "Charging until 98% level in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR030.203"
     }
   },
   {
     "doc": {
       "_id": "ECR030.004",
       "name": "Not charging between 95% and 98% in OS (Qubes OS)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Compatibility",
+      "changed_to": "ECR031.203"
     }
   },
   {
@@ -4217,10 +4341,24 @@
   },
   {
     "doc": {
+      "_id": "ECR030.203",
+      "name": "Charging until 98% level in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "ECR031.001",
       "name": "EC firmware sync in coreboot",
       "module": "Dasharo Compatibility",
       "changed_to": "ECR031.201"
+    }
+  },
+  {
+    "doc": {
+      "_id": "ECR031.203",
+      "name": "Not charging between 95% and 98% in OS (Qubes OS)",
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -5338,6 +5476,14 @@
     "doc": {
       "_id": "NET001.002",
       "name": "NET controller after coldboot (Qubes OS)",
+      "module": "Dasharo Stability",
+      "changed_to": "NET001.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NET001.203",
+      "name": "NET controller after coldboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -5352,7 +5498,8 @@
     "doc": {
       "_id": "NET002.002",
       "name": "NET controller after warmboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "NET002.203"
     }
   },
   {
@@ -5371,6 +5518,13 @@
   },
   {
     "doc": {
+      "_id": "NET002.203",
+      "name": "Network controller after warmboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "NET003.001",
       "name": "NET controller after reboot (Ubuntu)",
       "module": "Dasharo Compatibility",
@@ -5381,7 +5535,8 @@
     "doc": {
       "_id": "NET003.002",
       "name": "NET controller after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "NET003.203"
     }
   },
   {
@@ -5395,6 +5550,13 @@
     "doc": {
       "_id": "NET003.202",
       "name": "Net controller after reboot (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NET003.203",
+      "name": "Network controller after reboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -5426,7 +5588,8 @@
     "doc": {
       "_id": "NET004.004",
       "name": "NET controller after suspend (Qubes OS) (S3)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "NET004.203"
     }
   },
   {
@@ -5440,6 +5603,13 @@
     "doc": {
       "_id": "NET004.202",
       "name": "NET controller after suspend (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "NET004.203",
+      "name": "Network controller after suspend (Qubes OS) (S3)",
       "module": "Dasharo Stability"
     }
   },
@@ -7152,7 +7322,8 @@
     "doc": {
       "_id": "SUD0001.002",
       "name": "USB devices detection after cold boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD001.203"
     }
   },
   {
@@ -7167,7 +7338,8 @@
     "doc": {
       "_id": "SUD0002.002",
       "name": "USB devices detection after warm boot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD002.203"
     }
   },
   {
@@ -7182,7 +7354,8 @@
     "doc": {
       "_id": "SUD0003.002",
       "name": "USB devices detection after reboot (Qubes OS)",
-      "module": "Dasharo Stability"
+      "module": "Dasharo Stability",
+      "changed_to": "SUD003.203"
     }
   },
   {
@@ -7213,6 +7386,14 @@
     "doc": {
       "_id": "SUD0004.004",
       "name": "USB devices detection after suspension (Qubes OS) (S3)",
+      "module": "Dasharo Stability",
+      "changed_to": "SUD004.203"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD001.203",
+      "name": "USB devices detection after coldboot (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },
@@ -7232,6 +7413,13 @@
   },
   {
     "doc": {
+      "_id": "SUD002.203",
+      "name": "USB devices detection after warmboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SUD003.201",
       "name": "USB devices detection after reboot (Ubuntu)",
       "module": "Dasharo Stability"
@@ -7246,6 +7434,13 @@
   },
   {
     "doc": {
+      "_id": "SUD003.203",
+      "name": "USB devices detection after reboot (Qubes OS)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "SUD004.201",
       "name": "USB devices detection after suspension (Ubuntu)",
       "module": "Dasharo Stability"
@@ -7255,6 +7450,13 @@
     "doc": {
       "_id": "SUD004.202",
       "name": "USB devices detection after suspension (Fedora)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SUD004.203",
+      "name": "USB devices detection after suspend (Qubes OS)",
       "module": "Dasharo Stability"
     }
   },

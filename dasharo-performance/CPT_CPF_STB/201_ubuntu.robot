@@ -89,7 +89,7 @@ STB002.201 Verify if no unexpected boot errors appear in Linux logs
     ...    error ,essages in Linux kernel logs.
     ...    Previous IDs: STB002.001
     [Tags]    automated    minimal-regression
-    VAR    ${concurrent_test_id}=    STB001.201
+    VAR    ${concurrent_test_id}=    STB002.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check Unexpected Boot Errors    ${outs}

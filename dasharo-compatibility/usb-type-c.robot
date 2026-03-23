@@ -842,8 +842,7 @@ UTC107.203 USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC107.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC107.203 not supported
-    Skip
-    ...    UTC107.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Display Output    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC109.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -852,8 +851,7 @@ UTC109.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_HDMI}    UTC109.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC109.203 not supported
-    Skip
-    ...    UTC109.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Hdmi Display    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC111.203 USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -871,8 +869,7 @@ UTC113.203 USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (W
     ...    recognized by the OPERATING_SYSTEM.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC113.203 not supported
-    Skip
-    ...    UTC113.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Triple Display    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC115.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -966,8 +963,7 @@ UTC135.203 Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC135.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC135.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC135.203 not supported
-    Skip
-    ...    UTC135.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Coldboot    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC137.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -976,8 +972,7 @@ UTC137.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC137.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC137.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC137.203 not supported
-    Skip
-    ...    UTC137.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Warmboot    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC139.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -985,8 +980,7 @@ UTC139.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-U
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC139.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC139.203 not supported
-    Skip
-    ...    UTC139.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Reboot    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.E
 
 UTC141.203 Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1799,8 +1793,7 @@ UTC108.203 USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC108.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC108.203 not supported
-    Skip
-    ...    UTC108.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Display Output    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC110.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -1809,8 +1802,7 @@ UTC110.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_HDMI}    UTC110.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC110.203 not supported
-    Skip
-    ...    UTC110.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Hdmi Display    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC112.203 USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    This test aims to verify that the display connected with
@@ -1828,8 +1820,7 @@ UTC114.203 USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (
     ...    recognized by the OPERATING_SYSTEM.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC114.203 not supported
-    Skip
-    ...    UTC114.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Triple Display    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC116.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the external USB devices connected to the
@@ -1923,8 +1914,7 @@ UTC136.203 Docking station detection after coldboot (Qubes OS) (ME: Disabled) (W
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC136.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC136.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC136.203 not supported
-    Skip
-    ...    UTC136.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Coldboot    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC138.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -1933,8 +1923,7 @@ UTC138.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (W
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC138.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC138.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC138.203 not supported
-    Skip
-    ...    UTC138.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Warmboot    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC140.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -1942,8 +1931,7 @@ UTC140.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC140.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC140.203 not supported
-    Skip
-    ...    UTC140.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Reboot    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.E
 
 UTC142.203 Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.E)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2756,8 +2744,7 @@ UTC207.203 USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC207.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC207.203 not supported
-    Skip
-    ...    UTC207.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Display Output    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC209.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -2766,8 +2753,7 @@ UTC209.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_HDMI}    UTC209.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC209.203 not supported
-    Skip
-    ...    UTC209.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Hdmi Display    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC211.203 USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -2785,8 +2771,7 @@ UTC213.203 USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (W
     ...    recognized by the OPERATING_SYSTEM.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC213.203 not supported
-    Skip
-    ...    UTC213.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Triple Display    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC215.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -2880,8 +2865,7 @@ UTC235.203 Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC235.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC235.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC235.203 not supported
-    Skip
-    ...    UTC235.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Coldboot    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC237.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -2890,8 +2874,7 @@ UTC237.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC237.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC237.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC237.203 not supported
-    Skip
-    ...    UTC237.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Warmboot    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC239.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -2899,8 +2882,7 @@ UTC239.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-U
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC239.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC239.203 not supported
-    Skip
-    ...    UTC239.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Reboot    ${ENV_ID_QUBES}    Enabled    WL-UMD05 Pro Rev.C1
 
 UTC241.203 Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3713,8 +3695,7 @@ UTC208.203 USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC208.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC208.203 not supported
-    Skip
-    ...    UTC208.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Display Output    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC210.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -3723,8 +3704,7 @@ UTC210.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_HDMI}    UTC210.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC210.203 not supported
-    Skip
-    ...    UTC210.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Hdmi Display    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC212.203 USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    This test aims to verify that the display connected with
@@ -3742,8 +3722,7 @@ UTC214.203 USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (
     ...    recognized by the OPERATING_SYSTEM.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC214.203 not supported
-    Skip
-    ...    UTC214.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Triple Display    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC216.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -3837,8 +3816,7 @@ UTC236.203 Docking station detection after coldboot (Qubes OS) (ME: Disabled) (W
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC236.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC236.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC236.203 not supported
-    Skip
-    ...    UTC236.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Coldboot    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC238.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -3847,8 +3825,7 @@ UTC238.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (W
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC238.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC238.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC238.203 not supported
-    Skip
-    ...    UTC238.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Warmboot    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC240.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -3856,8 +3833,7 @@ UTC240.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC240.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC240.203 not supported
-    Skip
-    ...    UTC240.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Reboot    ${ENV_ID_QUBES}    Disabled    WL-UMD05 Pro Rev.C1
 
 UTC242.203 Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UMD05 Pro Rev.C1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4626,8 +4602,7 @@ UTC307.203 USB Type-C Display output (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC307.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC307.203 not supported
-    Skip
-    ...    UTC307.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Display Output    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC309.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -4636,8 +4611,7 @@ UTC309.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Enabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_HDMI}    UTC309.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC309.203 not supported
-    Skip
-    ...    UTC309.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Hdmi Display    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC311.203 USB Type-C docking station DP display (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -4655,8 +4629,7 @@ UTC313.203 USB Type-C docking station Triple display (Qubes OS) (ME: Enabled) (W
     ...    recognized by the OPERATING_SYSTEM.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC313.203 not supported
-    Skip
-    ...    UTC313.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Triple Display    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC315.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -4750,8 +4723,7 @@ UTC335.203 Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC335.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC335.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC335.203 not supported
-    Skip
-    ...    UTC335.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Coldboot    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC337.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -4760,8 +4732,7 @@ UTC337.203 Docking station detection after warmboot (Qubes OS) (ME: Enabled) (WL
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC337.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC337.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC337.203 not supported
-    Skip
-    ...    UTC337.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Warmboot    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC339.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -4769,8 +4740,7 @@ UTC339.203 Docking station detection after reboot (Qubes OS) (ME: Enabled) (WL-U
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC339.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC339.203 not supported
-    Skip
-    ...    UTC339.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Reboot    ${ENV_ID_QUBES}    Enabled    WL-UG69PD2 Rev.A1
 
 UTC341.203 Docking station detection after suspend (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5539,8 +5509,7 @@ UTC308.203 USB Type-C Display output (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A
     [Tags]    semiauto
     Skip If    not ${USB_TYPE_C_DISPLAY_SUPPORT}    UTC308.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC308.203 not supported
-    Skip
-    ...    UTC308.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Display Output    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC310.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -5549,8 +5518,7 @@ UTC310.203 USB Type-C docking station HDMI display (Qubes OS) (ME: Disabled) (WL
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_HDMI}    UTC310.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC310.203 not supported
-    Skip
-    ...    UTC310.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Hdmi Display    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC312.203 USB Type-C docking station DP display (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    This test aims to verify that the display connected with
@@ -5568,8 +5536,7 @@ UTC314.203 USB Type-C docking station Triple display (Qubes OS) (ME: Disabled) (
     ...    recognized by the OPERATING_SYSTEM.
     [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC314.203 not supported
-    Skip
-    ...    UTC314.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Usb Type-C Docking Station Triple Display    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC316.203 USB Type-C docking station USB devices recognition (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the external USB devices connected to the
@@ -5663,8 +5630,7 @@ UTC336.203 Docking station detection after coldboot (Qubes OS) (ME: Disabled) (W
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC336.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC336.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC336.203 not supported
-    Skip
-    ...    UTC336.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Coldboot    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC338.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
@@ -5673,8 +5639,7 @@ UTC338.203 Docking station detection after warmboot (Qubes OS) (ME: Disabled) (W
     Skip If    '${POWER_CTRL}' == 'none' and 'semiauto' not in ${INCLUDE_TAGS}    UTC338.203 not supported
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC338.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC338.203 not supported
-    Skip
-    ...    UTC338.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Warmboot    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC340.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station
@@ -5682,8 +5647,7 @@ UTC340.203 Docking station detection after reboot (Qubes OS) (ME: Disabled) (WL-
     [Tags]    semiauto
     Skip If    not ${DOCKING_STATION_DETECT_SUPPORT}    UTC340.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC340.203 not supported
-    Skip
-    ...    UTC340.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
+    Docking Station Detection After Reboot    ${ENV_ID_QUBES}    Disabled    WL-UG69PD2 Rev.A1
 
 UTC342.203 Docking station detection after suspend (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether the DUT properly detects the docking station

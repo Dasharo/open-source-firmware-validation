@@ -77,8 +77,6 @@ FWUPD006.201 Fwupd Check Update Results (Ubuntu)
     Login To Linux
     Fwupd Check Update Results Linux
 
-# FWUPD003 reserved for LVFS update in util/fwupd-support-lvfs.robot
-
 FWUPD004.202 Fwupd Installed (Fedora)
     [Documentation]    Check if fwupd is installed by verifying version output
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}

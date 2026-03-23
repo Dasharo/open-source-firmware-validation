@@ -95,13 +95,13 @@ test_names = {
         "docking_stations": ["1", "2", "3"],
     },
     "USB Type-C Display output": {
-        "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "manual"},
+        "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "semi"},
         "doc": """Check whether the DUT can detect the USB Type-C hub.""",
         "skips": ["not ${USB_TYPE_C_DISPLAY_SUPPORT}"],
         "docking_stations": ["1", "2", "3"],
     },
     "USB Type-C docking station HDMI display": {
-        "env_ids": {"201": "auto", "202": "auto", "301": "auto", "203": "manual"},
+        "env_ids": {"201": "auto", "202": "auto", "301": "auto", "203": "semi"},
         "doc": """This test aims to verify that the display connected with
     ...    the HDMI cable to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.""",
@@ -117,7 +117,7 @@ test_names = {
         "docking_stations": ["1", "2", "3"],
     },
     "USB Type-C docking station Triple display": {
-        "env_ids": {"201": "manual", "202": "manual", "301": "manual", "203": "manual"},
+        "env_ids": {"201": "manual", "202": "manual", "301": "manual", "203": "semi"},
         "doc": """This test aims to verify that the three display
     ...    simultaneously connected to the docking station is correctly
     ...    recognized by the OPERATING_SYSTEM.""",
@@ -213,7 +213,7 @@ test_names = {
         "docking_stations": ["0"],
     },
     "Docking station detection after coldboot": {
-        "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "manual"},
+        "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "semi"},
         "doc": """Check whether he DUT properly detects the docking station
     ...    after coldboot.""",
         "skips": [
@@ -227,7 +227,7 @@ test_names = {
             "201": "depends",
             "202": "depends",
             "301": "manual",
-            "203": "manual",
+            "203": "semi",
         },
         "doc": """Check whether he DUT properly detects the docking station
     ...    after warmboot.""",
@@ -238,7 +238,7 @@ test_names = {
         "docking_stations": ["1", "2", "3"],
     },
     "Docking station detection after reboot": {
-        "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "manual"},
+        "env_ids": {"201": "auto", "202": "auto", "301": "manual", "203": "semi"},
         "doc": """Check whether the DUT properly detects the docking station
     ...    after reboot.""",
         "skips": ["not ${DOCKING_STATION_DETECT_SUPPORT}"],

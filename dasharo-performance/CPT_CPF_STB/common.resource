@@ -24,8 +24,9 @@ Background Measurements
     [Documentation]    Keyword for gathering CPU temps, freqs and stability info
     ...    in concurrent. Set '${id_*}' vars to a test case ID to save the results
     ...    for this type of measurements under a chosen ID. Set to none to skip
-    ...    measurements of the given type.
-    [Arguments]    ${id_temp}=${None}    ${id_freq}=${None}    ${id_stab}=${None}
+    ...    measurements of the given type. Set iface_pattern to an empty string to
+    ...    skip the network interface check (e.g. for Qubes OS dom0).
+    [Arguments]    ${id_temp}=${None}    ${id_freq}=${None}    ${id_stab}=${None}    ${iface_pattern}=enp|eno
     # Initialization
     VAR    @{temp_list}=    @{EMPTY}
     VAR    @{freq_list}=    @{EMPTY}
@@ -65,7 +66,12 @@ Background Measurements
         END
 
         IF    ${STABILITY_TEST_DURATION} >= ${timer} >= ${next_stab_time}
-            ${network_status}=    Execute Command In Terminal    ip link | grep -E 'enp|eno' | grep -Eo 'UP|DOWN'
+            IF    '${iface_pattern}' != ''
+                ${network_status}=    Execute Command In Terminal
+                ...    ip link | grep -E '${iface_pattern}' | grep -Eo 'UP|DOWN'
+            ELSE
+                VAR    ${network_status}=    ${EMPTY}
+            END
             ${uptime_output}=    Execute Command In Terminal    cat /proc/uptime
             ${uptime_list}=    Split String    ${uptime_output}    ${SPACE}
             ${current_uptime}=    Convert To Number    ${uptime_list}[0]
@@ -187,7 +193,7 @@ Check CPU Freqs Linux
     FOR    ${freqs_cores}    IN    @{freqs}
         FOR    ${core}    IN    @{freqs_cores}
             ${in_range}=    Evaluate    ${cpu_min_frequency_tol} <= ${core} <= ${cpu_max_frequency_tol}
-            Should Be True    ${in_range}    Encountered invalid frequency: ${in_range} MHz
+            Should Be True    ${in_range}    Encountered invalid frequency: ${core} MHz
         END
     END
 
@@ -216,8 +222,11 @@ Check Platform Stability
     FOR    ${measurement}    IN    @{measurements}
         # no reboot since previous measurement
         Should Be True    float(${measurement["uptime"]}) > float(${last_uptime})
-        # the network interface is up
-        Should Contain    ${measurement["network"]}    UP    ignore_case=${True}
+        VAR    ${last_uptime}=    ${measurement["uptime"]}
+        # the network interface is up (skipped when network data was not collected)
+        IF    '${measurement["network"]}' != ''
+            Should Contain    ${measurement["network"]}    UP    ignore_case=${True}
+        END
     END
 
 Check Unexpected Boot Errors

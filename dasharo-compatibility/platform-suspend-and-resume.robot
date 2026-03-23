@@ -1,6 +1,7 @@
 *** Settings ***
 Library             Collections
 Library             DateTime
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -102,6 +103,48 @@ SUSP007.202 Cyclic platform suspend and resume (Fedora) (S3)
     Set Platform Sleep Type    S3
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
+    Login To Linux
+    Switch To Root User
+    Cyclic Platform Suspend And Resume    S3
+    Exit From Root User
+
+SUSP001.203 Platform suspend and resume (Qubes OS, wakeup flag)
+    [Documentation]    Verify that platform suspend and resume works correctly on Qubes OS
+    ...    using a wakeup flag set via rtcwake.
+    [Tags]    semiauto
+    Execute Manual Step    [1/7] Make sure Qubes OS is booted and open a dom0 terminal.
+    Execute Manual Step    [2/7] Set the wakeup flag by running: rtcwake --mode no --seconds 60
+    Execute Manual Step    [3/7] Enter suspend by running: pm-suspend
+    Execute Manual Step    [4/7] Wait 60 seconds for the system to resume automatically.
+    Execute Manual Step    [5/7] Log into the system again.
+    Execute Manual Step    [6/7] Check suspend result: cat /var/log/pm-suspend.log | grep 'suspend suspend: '
+    Execute Manual Step    [7/7] Check resume result: cat /var/log/pm-suspend.log | grep 'resume suspend: '
+
+SUSP002.203 Platform suspend and resume (Qubes OS, press key)
+    [Documentation]    Verify stability of cyclic suspend and resume on Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Start at least one AppVM and perform basic activity inside it.
+    Execute Manual Step    [3/5] Initiate system suspend.
+    Execute Manual Step    [4/5] Resume the system, via keyboard key press
+    Execute Manual Step    [5/5] Verify the AppVM is still running and responsive after resume.
+
+SUSP003.203 Platform suspend and resume (Qubes OS, power button)
+    [Documentation]    Verify suspend and resume behavior with running AppVMs on Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Start at least one AppVM and perform basic activity inside it.
+    Execute Manual Step    [3/5] Initiate system suspend.
+    Execute Manual Step    [4/5] Resume the system, via power button press
+    Execute Manual Step    [5/5] Verify the AppVM is still running and responsive after resume.
+
+SUSP007.203 Cyclic platform suspend and resume (Qubes OS) (S3)
+    [Documentation]    This test aims to verify that the DUT platform suspend
+    ...    and resume procedure performed cyclically works correctly
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP007.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUSP007.203 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
     Login To Linux
     Switch To Root User
     Cyclic Platform Suspend And Resume    S3

@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -166,6 +167,45 @@ NET006.202 NET controller after suspend (Fedora) (S3)
     Switch To Root User
     NET Controller After Suspend    S3
     Exit From Root User
+
+NET001.203 NET controller after coldboot (Qubes OS)
+    [Documentation]    Verify basic network connectivity in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Perform a coldboot (power cycle the device).
+    Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
+    Execute Manual Step    [4/5] Start any AppVM with network access.
+    Execute Manual Step    [5/5] Verify network connectivity is available.
+
+NET002.203 Network controller after warmboot (Qubes OS)
+    [Documentation]    Verify that the network controller functions correctly
+    ...    after a warmboot in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Perform a warmboot (poweroff/shutdown initiated from the OS).
+    Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
+    Execute Manual Step    [4/5] Start any AppVM with network access.
+    Execute Manual Step    [5/5] Verify network connectivity is available.
+
+NET003.203 Network controller after reboot (Qubes OS)
+    [Documentation]    Verify that the network controller functions correctly
+    ...    after a full system reboot in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Perform a full system reboot.
+    Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
+    Execute Manual Step    [4/5] Start any AppVM with network access.
+    Execute Manual Step    [5/5] Verify network connectivity is available.
+
+NET004.203 Network controller after suspend (Qubes OS) (S3)
+    [Documentation]    Verify that the network controller functions correctly
+    ...    after system suspend and resume in Qubes OS.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
+    Execute Manual Step    [2/5] Suspend the system.
+    Execute Manual Step    [3/5] Resume the system from suspend.
+    Execute Manual Step    [4/5] Start any AppVM with network access.
+    Execute Manual Step    [5/5] Verify network connectivity is available.
 
 
 *** Keywords ***

@@ -22,16 +22,79 @@ Resource    options/options-lib_dcu.robot
 
 *** Variables ***
 @{QUBES_PD_STEPS}=
-...                     [1/10] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
-...                     [2/10] Boot into dom0. Ensure AC adapter is unplugged. Verify battery is discharging normally.
-...                     [3/10] Connect the docking station to AC power only.
-...                     [4/10] Plug the dock into the DUT’s USB-C port.
-...                     [5/10] Run in dom0: watch -n1 cat /sys/class/power_supply/BAT0/status
-...                     [6/10] Verify PD contract and power draw.
-...                     [7/10] Observe charging LED.
-...                     [8/10] Attach high-load USB-C device.
-...                     [9/10] Disconnect dock AC.
-...                     [10/10] Reconnect dock AC.
+...                                 [1/10] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
+...                                 [2/10] Boot into dom0. Ensure AC adapter is unplugged. Verify battery is discharging normally.
+...                                 [3/10] Connect the docking station to AC power only.
+...                                 [4/10] Plug the dock into the DUT's USB-C port.
+...                                 [5/10] Run in dom0: watch -n1 cat /sys/class/power_supply/BAT0/status
+...                                 [6/10] Verify PD contract and power draw.
+...                                 [7/10] Observe charging LED.
+...                                 [8/10] Attach high-load USB-C device.
+...                                 [9/10] Disconnect dock AC.
+...                                 [10/10] Reconnect dock AC.
+@{QUBES_DISPLAY_STEPS}=
+...                                 [1/6] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
+...                                 [2/6] Boot into dom0.
+...                                 [3/6] Connect the docking station to AC power.
+...                                 [4/6] Plug the dock into the DUT's USB-C port.
+...                                 [5/6] Connect external display to the dock (HDMI/DP) and verify it is detected.
+...                                 [6/6] Disconnect and reconnect display to confirm stability.
+@{QUBES_HDMI_DISPLAY_STEPS}=
+...                                 [1/6] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
+...                                 [2/6] Boot into dom0.
+...                                 [3/6] Connect the docking station to AC power.
+...                                 [4/6] Plug the dock into the DUT's USB-C port.
+...                                 [5/6] Connect external display to the dock HDMI port.
+...                                 [6/6] Verify that the display is detected and active. Replug to confirm stability.
+@{QUBES_TRIPLE_DISPLAY_STEPS}=
+...                                 [1/7] Enter BIOS/UEFI and set Intel ME to adequate state (test specific). Save & reboot DUT. (Skip if on Heads)
+...                                 [2/7] Boot into dom0.
+...                                 [3/7] Connect the docking station to AC power.
+...                                 [4/7] Plug the dock into the DUT's USB-C port.
+...                                 [5/7] Connect three external displays to the dock (HDMI/DP).
+...                                 [6/7] Verify that all three displays are detected and active.
+...                                 [7/7] Disconnect and reconnect one display to confirm stability.
+@{QUBES_COLD_BOOT_STEPS}=
+...                                 [1/9] Boot into dom0.
+...                                 [2/9] Connect docking station to DUT.
+...                                 [3/9] Verify docking station is detected.
+...                                 [4/9] Record current system boot time (uptime --since).
+...                                 [5/9] Power cycle the DUT.
+...                                 [6/9] Boot again into dom0.
+...                                 [7/9] Verify docking station is detected after cold boot.
+...                                 [8/9] Repeat cold boot cycle for ${STABILITY_DETECTION_COLDBOOT_ITERATIONS} iterations.
+...                                 [9/9] Verify that no failed detections occurred.
+
+@{QUBES_WARM_BOOT_STEPS}=
+...                                 [1/9] Boot into dom0.
+...                                 [2/9] Connect docking station to DUT.
+...                                 [3/9] Verify docking station is detected.
+...                                 [4/9] Record current system boot time (uptime --since).
+...                                 [5/9] Perform warm boot: rtcwake --mode mem --seconds 10
+...                                 [6/9] Boot again into dom0.
+...                                 [7/9] Verify docking station is detected after warm boot.
+...                                 [8/9] Repeat warm boot cycle for ${STABILITY_DETECTION_WARMBOOT_ITERATIONS} iterations.
+...                                 [9/9] Verify that no failed detections occurred.
+
+@{QUBES_REBOOT_STEPS}=
+...                                 [1/8] Boot into dom0.
+...                                 [2/8] Connect docking station to DUT.
+...                                 [3/8] Verify docking station is detected.
+...                                 [4/8] Reboot the system.
+...                                 [5/8] Boot again into dom0.
+...                                 [6/8] Verify docking station is detected after reboot.
+...                                 [7/8] Repeat reboot cycle for ${STABILITY_DETECTION_REBOOT_ITERATIONS} iterations.
+...                                 [8/8] Verify that no failed detections occurred.
+
+@{QUBES_SUSPEND_STEPS}=
+...                                 [1/9] Boot into dom0.
+...                                 [2/9] Connect docking station to DUT.
+...                                 [3/9] Verify docking station is detected.
+...                                 [4/9] Suspend the system.
+...                                 [5/9] Resume the system.
+...                                 [6/9] Verify docking station is detected after suspend/resume.
+...                                 [7/9] Repeat suspend cycle for ${STABILITY_DETECTION_SUSPEND_ITERATIONS} iterations.
+...                                 [8/9] Verify that no failed detections occurred.
 
 
 *** Keywords ***
@@ -79,16 +142,7 @@ Usb Type-C Pd Power Input
     IF    '${env_id}'.startswith('2')    # Linux
         IF    ${env_id} == ${ENV_ID_QUBES}
             Pause Execution In Console    Qubes detected — switching to manual PD power input test
-            Execute Manual Step    ${QUBES_PD_STEPS}[0]
-            Execute Manual Step    ${QUBES_PD_STEPS}[1]
-            Execute Manual Step    ${QUBES_PD_STEPS}[2]
-            Execute Manual Step    ${QUBES_PD_STEPS}[3]
-            Execute Manual Step    ${QUBES_PD_STEPS}[4]
-            Execute Manual Step    ${QUBES_PD_STEPS}[5]
-            Execute Manual Step    ${QUBES_PD_STEPS}[6]
-            Execute Manual Step    ${QUBES_PD_STEPS}[7]
-            Execute Manual Step    ${QUBES_PD_STEPS}[8]
-            Execute Manual Step    ${QUBES_PD_STEPS}[9]
+            Run Qubes Steps    @{QUBES_PD_STEPS}
         ELSE
             Boot System Or From Connected Disk    ${env_id}
             Login To Linux
@@ -105,38 +159,54 @@ Usb Type-C Pd Power Input
 
 Usb Type-C Display Output
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
-    Ensure ME State    ${me_state}
-    Power On
+    IF    ${env_id} != ${ENV_ID_QUBES}
+        Ensure ME State    ${me_state}
+        Power On
+    END
+
     IF    '${env_id}'.startswith('2')    # Linux
-        Boot System Or From Connected Disk    ${env_id}
-        Login To Linux
-        Switch To Root User
-        Detect Docking Station In Linux    ${dock_name}
-        Exit From Root User
+        IF    ${env_id} == ${ENV_ID_QUBES}
+            Pause Execution In Console    Qubes detected — switching to manual display output test
+            Run Qubes Steps    @{QUBES_DISPLAY_STEPS}
+        ELSE
+            Boot System Or From Connected Disk    ${env_id}
+            Login To Linux
+            Switch To Root User
+            Detect Docking Station In Linux    ${dock_name}
+            Exit From Root User
+        END
     ELSE
         Fail    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Docking Station Hdmi Display
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
-    Ensure ME State    ${me_state}
-    Power On
+
+    IF    ${env_id} != ${ENV_ID_QUBES}
+        Ensure ME State    ${me_state}
+        Power On
+    END
+
     IF    '${env_id}'.startswith('2')    # Linux
-        Boot System Or From Connected Disk    ${env_id}
-        Login To Linux
-        Switch To Root User
-        IF    '${dock_name}' == 'WL-UMD05 Pro Rev.E'
-            # dp alt mode
-            Check PCON On MST Hub In Linux
-        ELSE IF    '${dock_name}' == 'WL-UG69PD2 Rev.A1'
-            # displaylink
-            Log    HDMI and DP cannot be differentiated on Displaylink    WARN
-            Check DisplayLink Display In Linux
+        IF    ${env_id} == ${ENV_ID_QUBES}
+            Pause Execution In Console    Qubes detected — switching to manual HDMI display test
+            Run Qubes Steps    @{QUBES_HDMI_DISPLAY_STEPS}
         ELSE
-            # Thunderbolt
-            Check Display Port On Hub In Linux    HDMI
+            Boot System Or From Connected Disk    ${env_id}
+            Login To Linux
+            Switch To Root User
+            IF    '${dock_name}' == 'WL-UMD05 Pro Rev.E'
+                # dp alt mode
+                Check PCON On MST Hub In Linux
+            ELSE IF    '${dock_name}' == 'WL-UG69PD2 Rev.A1'
+                # displaylink
+                Log    HDMI and DP cannot be differentiated on Displaylink    WARN
+                Check DisplayLink Display In Linux
+            ELSE
+                # Thunderbolt
+                Check Display Port On Hub In Linux    HDMI
+            END
         END
-        Exit From Root User
     ELSE IF    '${env_id}'.startswith('3')    # Windows
         Boot And Login To Windows
         Check Docking Station HDMI Windows
@@ -172,8 +242,25 @@ Usb Type-C Docking Station Dp Display
     END
 
 # Not automated
-# Usb Type-C Docking Station Triple Display
-#    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+
+Usb Type-C Docking Station Triple Display
+    [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+
+    IF    ${env_id} != ${ENV_ID_QUBES}
+        Ensure ME State    ${me_state}
+        Power On
+    END
+
+    IF    '${env_id}'.startswith('2')
+        IF    ${env_id} == ${ENV_ID_QUBES}
+            Pause Execution In Console    Qubes detected — switching to manual triple display test
+            Run Qubes Steps    @{QUBES_TRIPLE_DISPLAY_STEPS}
+        ELSE
+            Fail    Not implemented on ENV_ID ${env_id}
+        END
+    ELSE
+        Fail    Not implemented on ENV_ID ${env_id}
+    END
 
 Usb Type-C Docking Station Usb Devices Recognition
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
@@ -320,7 +407,7 @@ Usb Type-C Pd Current Limiting
             Execute Manual Step    [3/8] Ensure no other USB devices are connected.
             Execute Manual Step    [4/8] Connect charger/dock to PD meter. Verify PD profile is negotiated correctly.
             Execute Manual Step    [5/8] Connect PD meter to DUT. Observe initial power draw.
-            Execute Manual Step    [6/8] After Qubes OS boots, record idle power draw.
+            Execute Manual Step    [6/8] After QubesOS boots, record idle power draw.
             Execute Manual Step    [7/8] Start CPU stress load in a test VM (e.g. stress-ng). Observe the power draw.
             Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
             Log To Console    USB-C PD current limiting test completed
@@ -336,37 +423,45 @@ Docking Station Detection After Coldboot
     IF    not '${env_id}'.startswith('2')
         Fail    Not implemented on ENV_ID ${env_id}
     END
-    Ensure ME State    ${me_state}
-    Power On
-    Boot System Or From Connected Disk    ${env_id}
-    Login To Linux
-    Switch To Root User
-    ${out_after_reboot}=    Execute Linux Command    uptime --since
-    Detect Docking Station In Linux    ${dock_name}
-    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
-    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
-        Log To Console    Cold boot iteration ${iteration+1}/${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
-        TRY
-            ${out_before_reboot}=    Execute Linux Command    uptime --since
-            WHILE    '${out_before_reboot}' == '${out_after_reboot}'
-                IF    '${POWER_CTRL}' == 'none'
-                    Execute Manual Step    Perform a coldboot manually
-                ELSE
-                    Power Cycle On
-                END
-                Login To Linux
-                Switch To Root User
-                ${out_after_reboot}=    Execute Linux Command    uptime --since
-                Detect Docking Station In Linux    ${dock_name}
+
+    IF    ${env_id} == ${ENV_ID_QUBES}
+        Pause Execution In Console    Qubes detected — switching to manual cold boot test
+        Execute Manual Step
+        ...    Make sure Intel ME is in state: ${me_state}. Enter BIOS/UEFI if needed, save and reboot. Skip if on Heads.
+        Run Qubes Steps    @{QUBES_COLD_BOOT_STEPS}
+    ELSE
+        Ensure ME State    ${me_state}
+        Power On
+        Boot System Or From Connected Disk    ${env_id}
+        Login To Linux
+        Switch To Root User
+        ${out_after_reboot}=    Execute Linux Command    uptime --since
+        Detect Docking Station In Linux    ${dock_name}
+        VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
+        FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
+            Log To Console    Cold boot iteration ${iteration+1}/${STABILITY_DETECTION_COLDBOOT_ITERATIONS}
+            TRY
+                ${out_before_reboot}=    Execute Linux Command    uptime --since
+                WHILE    '${out_before_reboot}' == '${out_after_reboot}'
+                    IF    '${POWER_CTRL}' == 'none'
+                        Execute Manual Step    Perform a coldboot manually
+                    ELSE
+                        Power Cycle On
+                    END
+                    Login To Linux
+                    Switch To Root User
+                    ${out_after_reboot}=    Execute Linux Command    uptime --since
+                    Detect Docking Station In Linux    ${dock_name}
+                    END
+            EXCEPT
+                ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
             END
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
         END
+        IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+            FAIL    \n ${failed_detection} iterations failed.
+        END
+        Log To Console    \nAll iterations passed.
     END
-    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${failed_detection} iterations failed.
-    END
-    Log To Console    \nAll iterations passed.
 
 Docking Station Detection After Warmboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
@@ -375,67 +470,84 @@ Docking Station Detection After Warmboot
     IF    not '${env_id}'.startswith('2')
         Fail    Not implemented on ENV_ID ${env_id}
     END
-    Ensure ME State    ${me_state}
-    Power On
-    Boot System Or From Connected Disk    ${env_id}
-    Login To Linux
-    Switch To Root User
-    ${out_after_reboot}=    Execute Linux Command    uptime --since
-    Detect Docking Station In Linux    ${dock_name}
-    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
-    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
-        Log To Console    Warm boot iteration ${iteration+1}/${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
-        TRY
-            ${out_before_reboot}=    Execute Linux Command    uptime --since
-            WHILE    '${out_before_reboot}' == '${out_after_reboot}'
-                IF    '${POWER_CTRL}' == 'none'
-                    Execute Manual Step    Perform a coldboot manually
-                ELSE
-                    Power Cycle On
+
+    IF    ${env_id} == ${ENV_ID_QUBES}
+        Pause Execution In Console    Qubes detected — switching to manual warm boot test
+        Execute Manual Step
+        ...    Make sure Intel ME is in state: ${me_state}. Enter BIOS/UEFI if needed, save and reboot. Skip if on Heads.
+        Run Qubes Steps    @{QUBES_WARM_BOOT_STEPS}
+    ELSE
+        Ensure ME State    ${me_state}
+        Power On
+        Boot System Or From Connected Disk    ${env_id}
+        Login To Linux
+        Switch To Root User
+        ${out_after_reboot}=    Execute Linux Command    uptime --since
+        Detect Docking Station In Linux    ${dock_name}
+        VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
+        FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
+            Log To Console    Warm boot iteration ${iteration+1}/${STABILITY_DETECTION_WARMBOOT_ITERATIONS}
+            TRY
+                ${out_before_reboot}=    Execute Linux Command    uptime --since
+                WHILE    '${out_before_reboot}' == '${out_after_reboot}'
+                    IF    '${POWER_CTRL}' == 'none'
+                        Execute Manual Step    Perform a coldboot manually
+                    ELSE
+                        Power Cycle On
+                    END
+                    Perform Warmboot Using Rtcwake
+                    Login To Linux
+                    Switch To Root User
+                    ${out_after_reboot}=    Execute Linux Command    uptime --since
+                    Detect Docking Station In Linux    ${dock_name}
                 END
-                Perform Warmboot Using Rtcwake
-                Login To Linux
-                Switch To Root User
-                ${out_after_reboot}=    Execute Linux Command    uptime --since
-                Detect Docking Station In Linux    ${dock_name}
+            EXCEPT
+                ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
             END
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
         END
+        IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+            FAIL    \n ${failed_detection} iterations failed.
+        END
+        Log To Console    \nAll iterations passed.
     END
-    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${failed_detection} iterations failed.
-    END
-    Log To Console    \nAll iterations passed.
 
 Docking Station Detection After Reboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
+
     IF    not '${env_id}'.startswith('2')
         Fail    Not implemented on ENV_ID ${env_id}
     END
-    Ensure ME State    ${me_state}
-    Power On
-    Boot System Or From Connected Disk    ${env_id}
-    Login To Linux
-    Switch To Root User
-    Detect Docking Station In Linux    ${dock_name}
-    VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
-    FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        Log To Console    Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
-        TRY
-            Execute Reboot Command
-            Boot System Or From Connected Disk    ${env_id}
-            Login To Linux
-            Switch To Root User
-            Detect Docking Station In Linux    ${dock_name}
-        EXCEPT
-            ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+
+    IF    ${env_id} == ${ENV_ID_QUBES}
+        Pause Execution In Console    Qubes detected — switching to manual reboot test
+        Execute Manual Step
+        ...    Make sure Intel ME is in state: ${me_state}. Enter BIOS/UEFI if needed, save and reboot. Skip if on Heads.
+        Run Qubes Steps    @{QUBES_REBOOT_STEPS}
+    ELSE
+        Ensure ME State    ${me_state}
+        Power On
+        Boot System Or From Connected Disk    ${env_id}
+        Login To Linux
+        Switch To Root User
+        Detect Docking Station In Linux    ${dock_name}
+        VAR    ${FAILED_DETECTION}=    0    scope=GLOBAL
+        FOR    ${iteration}    IN RANGE    0    ${STABILITY_DETECTION_REBOOT_ITERATIONS}
+            Log To Console    Reboot iteration ${iteration+1}/${STABILITY_DETECTION_REBOOT_ITERATIONS}
+            TRY
+                Execute Reboot Command
+                Boot System Or From Connected Disk    ${env_id}
+                Login To Linux
+                Switch To Root User
+                Detect Docking Station In Linux    ${dock_name}
+            EXCEPT
+                ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
+            END
         END
+        IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
+            FAIL    \n ${failed_detection} iterations failed.
+        END
+        Log To Console    \nAll iterations passed.
     END
-    IF    '${failed_detection}' > '${ALLOWED_DOCKING_STATION_DETECT_FAILS}'
-        FAIL    \n ${failed_detection} iterations failed.
-    END
-    Log To Console    \nAll iterations passed.
 
 Docking Station Detection After Suspend
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}    ${platform_sleep_type}=${EMPTY}
@@ -669,3 +781,9 @@ Pause Execution In Console
     Log To Console    ${message}
     Run    read ignore
     Log To Console    Manual step confirmed
+
+Run Qubes Steps
+    [Arguments]    @{steps}
+    FOR    ${step}    IN    @{steps}
+        Execute Manual Step    ${step}
+    END
