@@ -130,10 +130,10 @@ ${DISK_IO_REFERENCE_DISK_NAME}=             Samsung SSD 980
 &{DISK_IO_REFERENCE_VALUES_WINDOWS}=
 ...                                         SEQ_READ_QUEUED=2400
 ...                                         SEQ_WRITE_QUEUED=1400
-...                                         SEQ_READ_NONQUE=1900
+...                                         SEQ_READ_NONQUE=1300
 ...                                         SEQ_WRITE_NONQUE=1800
-...                                         RAND_READ_QUEUED=2200
-...                                         RAND_WRITE_QUEUED=1400
+...                                         RAND_READ_QUEUED=1800
+...                                         RAND_WRITE_QUEUED=1200
 ...                                         RAND_READ_NONQUE=1100
 ...                                         RAND_WRITE_NONQUE=1000
 
