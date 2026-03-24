@@ -261,17 +261,31 @@ Perform Capsule Update And Return Status
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
 
-    Perform Capsule Update    ${capsule_file}
 
-    Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Login To Linux With Root Privileges
+    #
+    # Different routes of obtaining the logs depending on SSH or not:
+    # Prevents the logs getting purged by an extra reboot on laptops
+    # 
+    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
+        Perform Capsule Update    ${capsule_file}
+        Login To Linux With Root Privileges
+        ${logs}=    Get Capsule Update Logs
+    ELSE
+        Power On
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+        Login To Linux With Root Privileges
+    END
+
     ${updated_bios_version}=    Get BIOS Version Linux    After update
     ${version_changed}=    Run Keyword And Return Status
     ...    Should Not Be Equal
     ...    ${original_bios_version}
     ...    ${updated_bios_version}
-    ${logs}=    Get Capsule Update Logs
+
+    IF    '${DUT_CONNECTION_METHOD}' != 'SSH'
+        ${logs}=    Get Capsule Update Logs
+    END
+    
     RETURN    ${logs}    ${version_changed}
 
 Check The Update Screen For The Correct UX
