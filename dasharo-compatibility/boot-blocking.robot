@@ -18,8 +18,8 @@ Resource            ../keys.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${BOOT_BLOCKING_SUPPORT}    Boot blocking not supported
+...                     AND    Skip If    not ${BOOT_BLOCKING_SUPPORT}    Boot blocking not supported
+...                     AND    Skip If    '${POWER_CTRL}' != 'sonoff'
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
