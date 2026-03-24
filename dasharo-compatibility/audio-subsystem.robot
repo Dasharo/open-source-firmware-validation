@@ -321,6 +321,7 @@ AUD001.203 Audio subsystem detection (Qubes OS)
     ...    and can be detected in Qubes OS. To do so, we attempt detection
     ...    of the Audio Service, and verify it is in Running state.
     ...    Previous IDs: AUD001.003
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
     Login To Linux
