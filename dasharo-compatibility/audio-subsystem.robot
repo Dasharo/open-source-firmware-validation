@@ -221,7 +221,7 @@ AUD001.301 Audio subsystem detection
     ...    of the Audio Service, and verify it is in Running state.
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Execute Command In Terminal    Get-Service | Where-Object { $_.Name -eq "Audiosrv" }
     Should Contain    ${out}    Running
     Execute Shutdown Command
@@ -234,7 +234,7 @@ AUD002.301 Internal Audio playback
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Sound Devices In Windows    speakers
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_INTERNAL_OUT}
@@ -252,7 +252,7 @@ AUD003.301 Internal Audio capture
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Sound Devices In Windows    microphone
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_INTERNAL_IN}
@@ -266,7 +266,7 @@ AUD004.301 External headset recognition
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
@@ -279,7 +279,7 @@ AUD005.301 External headset audio playback
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Sound Devices In Windows    headphones
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_OUT}
@@ -295,7 +295,7 @@ AUD006.301 External headset audio capture
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${EXTERNAL_HEADSET_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Sound Devices In Windows    microphone
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HEADSET_IN}
@@ -310,7 +310,7 @@ AUD007.301 HDMI Audio recognition
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    not ${HDMI_AUDIO_SUPPORT}    ${TEST_NAME} not supported
     Power On
-    Login To Windows
+    Boot And Login To Windows
     ${out}=    Get Sound Devices In Windows    display
     Should Not Be Empty    ${out}
     Should Contain    ${out}    ${POWERSHELL_STR_HDMI_OUT}
