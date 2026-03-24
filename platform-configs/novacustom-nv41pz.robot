@@ -118,14 +118,24 @@ ${PLATFORM_RAM_SIZE}=                       16384
 
 # disk i-o
 ${DISK_IO_REFERENCE_DISK_NAME}=             Samsung SSD 980
-${UBU_SEQ_READ_QUEUED}=                     3500    # MB/s
-${UBU_SEQ_WRITE_QUEUED}=                    3000    # MB/s
-${UBU_SEQ_READ_NONQUE}=                     1900    # MB/s
-${UBU_SEQ_WRITE_NONQUE}=                    1800    # MB/s
-${UBU_RAND_READ_QUEUED}=                    2900    # MB/s
-${UBU_RAND_WRITE_QUEUED}=                   2400    # MB/s
-${UBU_RAND_READ_NONQUE}=                    1700    # MB/s
-${UBU_RAND_WRITE_NONQUE}=                   1600    # MB/s
+&{DISK_IO_REFERENCE_VALUES_UBUNTU}=
+...                                         SEQ_READ_QUEUED=3500
+...                                         SEQ_WRITE_QUEUED=3000
+...                                         SEQ_READ_NONQUE=1900
+...                                         SEQ_WRITE_NONQUE=1800
+...                                         RAND_READ_QUEUED=2900
+...                                         RAND_WRITE_QUEUED=2400
+...                                         RAND_READ_NONQUE=1700
+...                                         RAND_WRITE_NONQUE=1600
+&{DISK_IO_REFERENCE_VALUES_WINDOWS}=
+...                                         SEQ_READ_QUEUED=2400
+...                                         SEQ_WRITE_QUEUED=1400
+...                                         SEQ_READ_NONQUE=1900
+...                                         SEQ_WRITE_NONQUE=1800
+...                                         RAND_READ_QUEUED=2200
+...                                         RAND_WRITE_QUEUED=1400
+...                                         RAND_READ_NONQUE=1100
+...                                         RAND_WRITE_NONQUE=1000
 
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=

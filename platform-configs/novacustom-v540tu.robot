@@ -119,24 +119,25 @@ ${MAX_CPU_TEMP_THRESHOLD}=              110
 ...                                     &{UPP_CACHEBENCH_BENCHMARK}
 ...                                     &{UPP_BLAKE2_BENCHMARK}
 
-# disk i-o
-${UBU_SEQ_READ_QUEUED}=                 4677    # MB/s
-${UBU_SEQ_WRITE_QUEUED}=                1878.5    # MB/s
-${UBU_SEQ_READ_NONQUE}=                 2232.5    # MB/s
-${UBU_SEQ_WRITE_NONQUE}=                1884.7    # MB/s
-${UBU_RAND_READ_QUEUED}=                823    # MB/s
-${UBU_RAND_WRITE_QUEUED}=               917.3    # MB/s
-${UBU_RAND_READ_NONQUE}=                68.6    # MB/s
-${UBU_RAND_WRITE_NONQUE}=               272.1    # MB/s
+&{DISK_IO_REFERENCE_VALUES_UBUNTU}=
+...                                     SEQ_READ_QUEUED=4677
+...                                     SEQ_WRITE_QUEUED=1878
+...                                     SEQ_READ_NONQUE=2232
+...                                     SEQ_WRITE_NONQUE=1884
+...                                     RAND_READ_QUEUED=823
+...                                     RAND_WRITE_QUEUED=917
+...                                     RAND_READ_NONQUE=68
+...                                     RAND_WRITE_NONQUE=272
 
-${WIN_SEQ_READ_QUEUED}=                 7119.5    # MB/s
-${WIN_SEQ_WRITE_QUEUED}=                6511.4    # MB/s
-${WIN_SEQ_READ_NONQUE}=                 5001.2    # MB/s
-${WIN_SEQ_WRITE_NONQUE}=                5475.5    # MB/s
-${WIN_RAND_READ_QUEUED}=                886.5    # MB/s
-${WIN_RAND_WRITE_QUEUED}=               461.3    # MB/s
-${WIN_RAND_READ_NONQUE}=                82.8    # MB/s
-${WIN_RAND_WRITE_NONQUE}=               239.6    # MB/s
+&{DISK_IO_REFERENCE_VALUES_WINDOWS}=
+...                                     SEQ_READ_QUEUED=7119
+...                                     SEQ_WRITE_QUEUED=6511
+...                                     SEQ_READ_NONQUE=5001
+...                                     SEQ_WRITE_NONQUE=5475
+...                                     RAND_READ_QUEUED=886
+...                                     RAND_WRITE_QUEUED=461
+...                                     RAND_READ_NONQUE=82
+...                                     RAND_WRITE_NONQUE=239
 
 # /sys/class/power_supply/BAT0/charge_full
 ${CLEVO_BATTERY_CAPACITY}=

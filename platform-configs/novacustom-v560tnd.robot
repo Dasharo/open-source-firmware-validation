@@ -126,24 +126,17 @@ ${DISK_IO_PERFORMANCE_TESTS}=           ${TRUE}
 ...                                     &{UPP_CACHEBENCH_BENCHMARK}
 ...                                     &{UPP_BLAKE2_BENCHMARK}
 
-# disk i-o
-${UBU_SEQ_READ_QUEUED}=                 5953.5    # MB/s
-${UBU_SEQ_WRITE_QUEUED}=                5728.6    # MB/s
-${UBU_SEQ_READ_NONQUE}=                 4357.4    # MB/s
-${UBU_SEQ_WRITE_NONQUE}=                4293.5    # MB/s
-${UBU_RAND_READ_QUEUED}=                5944.8    # MB/s
-${UBU_RAND_WRITE_QUEUED}=               5634.1    # MB/s
-${UBU_RAND_READ_NONQUE}=                3653.9    # MB/s
-${UBU_RAND_WRITE_NONQUE}=               4083.7    # MB/s
+&{DISK_IO_REFERENCE_VALUES_UBUNTU}=
+...                                     SEQ_READ_QUEUED=5953
+...                                     SEQ_WRITE_QUEUED=5728
+...                                     SEQ_READ_NONQUE=4357
+...                                     SEQ_WRITE_NONQUE=4293
+...                                     RAND_READ_QUEUED=5944
+...                                     RAND_WRITE_QUEUED=5634
+...                                     RAND_READ_NONQUE=3653
+...                                     RAND_WRITE_NONQUE=4083
 
-${WIN_SEQ_READ_QUEUED}=                 ${EMPTY}    # MB/s
-${WIN_SEQ_WRITE_QUEUED}=                ${EMPTY}    # MB/s
-${WIN_SEQ_READ_NONQUE}=                 ${EMPTY}    # MB/s
-${WIN_SEQ_WRITE_NONQUE}=                ${EMPTY}    # MB/s
-${WIN_RAND_READ_QUEUED}=                ${EMPTY}    # MB/s
-${WIN_RAND_WRITE_QUEUED}=               ${EMPTY}    # MB/s
-${WIN_RAND_READ_NONQUE}=                ${EMPTY}    # MB/s
-${WIN_RAND_WRITE_NONQUE}=               ${EMPTY}    # MB/s
+&{DISK_IO_REFERENCE_VALUES_WINDOWS}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
 
 # GPU Performance
 # Reference config: Medium preset, 1920x1080, Windowed

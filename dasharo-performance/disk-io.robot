@@ -22,6 +22,9 @@ DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     ...    performance, while connected to power supply unit. (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_NONQUE    Reference values not defined
     Sleep    20s
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
@@ -31,8 +34,10 @@ DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=2G
     ${seq_read_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_with_queues.json    read
     ${seq_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_without_queues.json    read
-    Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Sequential Read Queued is below expected
-    Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85    Sequential Read Non-Queued is below expected
+    Should Be True    ${seq_read_queued} >= ${ref}[SEQ_READ_QUEUED]*0.85    Sequential Read Queued is below expected
+    Should Be True
+    ...    ${seq_read_nonque} >= ${ref}[SEQ_READ_NONQUE]*0.85
+    ...    Sequential Read Non-Queued is below expected
 
 DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     [Documentation]    Check various scenarios of single threaded read
@@ -41,6 +46,9 @@ DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_NONQUE    Reference values not defined
     Sleep    20s
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
@@ -54,14 +62,19 @@ DIO002.201 Sequential Read Performance (Ubuntu) (Battery)
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${seq_read_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_with_queues.json    read
     ${seq_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_without_queues.json    read
-    Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Sequential Read Queued is below expected
-    Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85    Sequential Read Non-Queued is below expected
+    Should Be True    ${seq_read_queued} >= ${ref}[SEQ_READ_QUEUED]*0.85    Sequential Read Queued is below expected
+    Should Be True
+    ...    ${seq_read_nonque} >= ${ref}[SEQ_READ_NONQUE]*0.85
+    ...    Sequential Read Non-Queued is below expected
 
 DIO003.201 Sequential Write Performance (Ubuntu) (AC)
     [Documentation]    Check various scenarios of single-threaded write
     ...    performance while powered by AC adapter. (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_NONQUE    Reference values not defined
     Sleep    20s
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
@@ -74,9 +87,9 @@ DIO003.201 Sequential Write Performance (Ubuntu) (AC)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${seq_write_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_write_with_queues.json    write
     ${seq_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_write_without_queues.json    write
-    Should Be True    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85    Sequential Write Queued is below expected
+    Should Be True    ${seq_write_queued} >= ${ref}[SEQ_WRITE_QUEUED]*0.85    Sequential Write Queued is below expected
     Should Be True
-    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    ${seq_write_nonque} >= ${ref}[SEQ_WRITE_NONQUE]*0.85
     ...    Sequential Write Non-Queued is below expected
 
 DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
@@ -86,6 +99,9 @@ DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_NONQUE    Reference values not defined
     Sleep    20s
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
@@ -99,9 +115,9 @@ DIO004.201 Sequential Write Performance (Ubuntu) (Battery)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${seq_write_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_write_with_queues.json    write
     ${seq_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    sequential_write_without_queues.json    write
-    Should Be True    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85    Sequential Write Queued is below expected
+    Should Be True    ${seq_write_queued} >= ${ref}[SEQ_WRITE_QUEUED]*0.85    Sequential Write Queued is below expected
     Should Be True
-    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    ${seq_write_nonque} >= ${ref}[SEQ_WRITE_NONQUE]*0.85
     ...    Sequential Write Non-Queued is below expected
 
 DIO005.201 Random Read Performance (Ubuntu) (AC)
@@ -109,6 +125,9 @@ DIO005.201 Random Read Performance (Ubuntu) (AC)
     ...    while connected to power supply unit. (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    RAND_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_READ_NONQUE    Reference values not defined
     Sleep    20s
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
@@ -121,9 +140,9 @@ DIO005.201 Random Read Performance (Ubuntu) (AC)
     ...    --rw=randread --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_read_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_read_with_queues.json    read
     ${rand_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_read_without_queues.json    read
-    Should Be True    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85    Random Read BW Queued is below expected
+    Should Be True    ${rand_read_queued} >= ${ref}[RAND_READ_QUEUED]*0.85    Random Read BW Queued is below expected
     Should Be True
-    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    ${rand_read_nonque} >= ${ref}[RAND_READ_NONQUE]*0.85
     ...    Random Read BW Non-Queued is below expected
 
 DIO006.201 Random Read Performance (Ubuntu) (Battery)
@@ -133,6 +152,9 @@ DIO006.201 Random Read Performance (Ubuntu) (Battery)
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    RAND_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_READ_NONQUE    Reference values not defined
     Sleep    20s
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
@@ -146,9 +168,9 @@ DIO006.201 Random Read Performance (Ubuntu) (Battery)
     ...    --rw=randread --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_read_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_read_with_queues.json    read
     ${rand_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_read_without_queues.json    read
-    Should Be True    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85    Random Read BW Queued is below expected
+    Should Be True    ${rand_read_queued} >= ${ref}[RAND_READ_QUEUED]*0.85    Random Read BW Queued is below expected
     Should Be True
-    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    ${rand_read_nonque} >= ${ref}[RAND_READ_NONQUE]*0.85
     ...    Random Read BW Non-Queued is below expected
 
 DIO007.201 Random Write Performance (Ubuntu) (AC)
@@ -157,6 +179,9 @@ DIO007.201 Random Write Performance (Ubuntu) (AC)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Sleep    20s
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_NONQUE    Reference values not defined
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
@@ -168,9 +193,11 @@ DIO007.201 Random Write Performance (Ubuntu) (AC)
     ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_write_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_write_with_queues.json    write
     ${rand_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_write_without_queues.json    write
-    Should Be True    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85    Random Write BW Queued is below expected
     Should Be True
-    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    ${rand_write_queued} >= ${ref}[RAND_WRITE_QUEUED]*0.85
+    ...    Random Write BW Queued is below expected
+    Should Be True
+    ...    ${rand_write_nonque} >= ${ref}[RAND_WRITE_NONQUE]*0.85
     ...    Random Write BW Non-Queued is below expected
 
 DIO008.201 Random Write Performance (Ubuntu) (Battery)
@@ -181,6 +208,9 @@ DIO008.201 Random Write Performance (Ubuntu) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Sleep    20s
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_UBUNTU}
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_NONQUE    Reference values not defined
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
@@ -193,9 +223,11 @@ DIO008.201 Random Write Performance (Ubuntu) (Battery)
     ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_write_queued}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_write_with_queues.json    write
     ${rand_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_UBUNTU}    random_write_without_queues.json    write
-    Should Be True    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85    Random Write BW Queued is below expected
     Should Be True
-    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    ${rand_write_queued} >= ${ref}[RAND_WRITE_QUEUED]*0.85
+    ...    Random Write BW Queued is below expected
+    Should Be True
+    ...    ${rand_write_nonque} >= ${ref}[RAND_WRITE_NONQUE]*0.85
     ...    Random Write BW Non-Queued is below expected
 
 DIO001.301 Sequential Read Performance (Windows) (AC)
@@ -204,28 +236,9 @@ DIO001.301 Sequential Read Performance (Windows) (AC)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power On
-    Boot And Login To OS    ${ENV_ID_WINDOWS}
-    Run FIO On Windows    sequential_with_queues
-    ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
-    Run FIO On Windows    sequential_without_queues
-    ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=4G
-    Run FIO On Windows    sequential_with_queues_mt
-    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
-    ${rand_read_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_with_queues.json    write
-    ${rand_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_without_queues.json    write
-    Should Be True    ${rand_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Random Write BW Queued is below expected
-    Should Be True
-    ...    ${rand_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85
-    ...    Random Write BW Non-Queued is below expected
-
-DIO002.301 Sequential Read Performance (Windows) (Battery)
-    [Documentation]    Check various scenarios of single threaded read
-    ...    performance, while powered by inbuilt battery. (Windows)
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
-    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
-    Skip If    not ${BATTERY_PRESENT}    Battery not present
-    Skip If    ${AC_CONNECTED}    The platform is not running on battery
-    Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_NONQUE    Reference values not defined
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Run FIO On Windows    sequential_with_queues
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -235,8 +248,35 @@ DIO002.301 Sequential Read Performance (Windows) (Battery)
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${seq_read_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_with_queues.json    read
     ${seq_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_without_queues.json    read
-    Should Be True    ${seq_read_queued} >= ${UBU_SEQ_READ_QUEUED}*0.85    Sequential Read Queued is below expected
-    Should Be True    ${seq_read_nonque} >= ${UBU_SEQ_READ_NONQUE}*0.85    Sequential Read Non-Queued is below expected
+    Should Be True    ${seq_read_queued} >= ${ref}[SEQ_READ_QUEUED]*0.85    Sequential Read Queued is below expected
+    Should Be True
+    ...    ${seq_read_nonque} >= ${ref}[SEQ_READ_NONQUE]*0.85
+    ...    Sequential Read Non-Queued is below expected
+
+DIO002.301 Sequential Read Performance (Windows) (Battery)
+    [Documentation]    Check various scenarios of single threaded read
+    ...    performance, while powered by inbuilt battery. (Windows)
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
+    Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
+    Skip If    not ${BATTERY_PRESENT}    Battery not present
+    Skip If    ${AC_CONNECTED}    The platform is not running on battery
+    Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_READ_NONQUE    Reference values not defined
+    Boot And Login To OS    ${ENV_ID_WINDOWS}
+    Run FIO On Windows    sequential_with_queues
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=4G
+    Run FIO On Windows    sequential_without_queues
+    ...    --rw=read --bs=1M --iodepth=1 --numjobs=1 --size=4G
+    Run FIO On Windows    sequential_with_queues_mt
+    ...    --rw=read --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
+    ${seq_read_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_with_queues.json    read
+    ${seq_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_without_queues.json    read
+    Should Be True    ${seq_read_queued} >= ${ref}[SEQ_READ_QUEUED]*0.85    Sequential Read Queued is below expected
+    Should Be True
+    ...    ${seq_read_nonque} >= ${ref}[SEQ_READ_NONQUE]*0.85
+    ...    Sequential Read Non-Queued is below expected
 
 DIO003.301 Sequential Write Performance (Windows) (AC)
     [Documentation]    Check various scenarios of multi threaded write
@@ -244,6 +284,9 @@ DIO003.301 Sequential Write Performance (Windows) (AC)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_NONQUE    Reference values not defined
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Run FIO On Windows    sequential_write_with_queues
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -253,9 +296,9 @@ DIO003.301 Sequential Write Performance (Windows) (AC)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${seq_write_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_write_with_queues.json    write
     ${seq_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_write_without_queues.json    write
-    Should Be True    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85    Sequential Write Queued is below expected
+    Should Be True    ${seq_write_queued} >= ${ref}[SEQ_WRITE_QUEUED]*0.85    Sequential Write Queued is below expected
     Should Be True
-    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    ${seq_write_nonque} >= ${ref}[SEQ_WRITE_NONQUE]*0.85
     ...    Sequential Write Non-Queued is below expected
 
 DIO004.301 Sequential Write Performance (Windows) (Battery)
@@ -266,6 +309,9 @@ DIO004.301 Sequential Write Performance (Windows) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    SEQ_WRITE_NONQUE    Reference values not defined
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Run FIO On Windows    sequential_write_with_queues
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -275,9 +321,9 @@ DIO004.301 Sequential Write Performance (Windows) (Battery)
     ...    --rw=write --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${seq_write_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_write_with_queues.json    write
     ${seq_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    sequential_write_without_queues.json    write
-    Should Be True    ${seq_write_queued} >= ${UBU_SEQ_WRITE_QUEUED}*0.85    Sequential Write Queued is below expected
+    Should Be True    ${seq_write_queued} >= ${ref}[SEQ_WRITE_QUEUED]*0.85    Sequential Write Queued is below expected
     Should Be True
-    ...    ${seq_write_nonque} >= ${UBU_SEQ_WRITE_NONQUE}*0.85
+    ...    ${seq_write_nonque} >= ${ref}[SEQ_WRITE_NONQUE]*0.85
     ...    Sequential Write Non-Queued is below expected
 
 DIO005.301 Random Read Performance (Windows) (AC)
@@ -286,6 +332,9 @@ DIO005.301 Random Read Performance (Windows) (AC)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    RAND_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_READ_NONQUE    Reference values not defined
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Run FIO On Windows    random_read_with_queues
     ...    --rw=randread --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -295,9 +344,9 @@ DIO005.301 Random Read Performance (Windows) (AC)
     ...    --rw=randread --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_read_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_read_with_queues.json    read
     ${rand_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_read_without_queues.json    read
-    Should Be True    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85    Random Read BW Queued is below expected
+    Should Be True    ${rand_read_queued} >= ${ref}[RAND_READ_QUEUED]*0.85    Random Read BW Queued is below expected
     Should Be True
-    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    ${rand_read_nonque} >= ${ref}[RAND_READ_NONQUE]*0.85
     ...    Random Read BW Non-Queued is below expected
 
 DIO006.301 Random Read Performance (Windows) (Battery)
@@ -308,6 +357,9 @@ DIO006.301 Random Read Performance (Windows) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    RAND_READ_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_READ_NONQUE    Reference values not defined
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Run FIO On Windows    random_read_with_queues
     ...    --rw=randread --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -317,9 +369,9 @@ DIO006.301 Random Read Performance (Windows) (Battery)
     ...    --rw=randread --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_read_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_read_with_queues.json    read
     ${rand_read_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_read_without_queues.json    read
-    Should Be True    ${rand_read_queued} >= ${UBU_RAND_READ_QUEUED}*0.85    Random Read BW Queued is below expected
+    Should Be True    ${rand_read_queued} >= ${ref}[RAND_READ_QUEUED]*0.85    Random Read BW Queued is below expected
     Should Be True
-    ...    ${rand_read_nonque} >= ${UBU_RAND_READ_NONQUE}*0.85
+    ...    ${rand_read_nonque} >= ${ref}[RAND_READ_NONQUE]*0.85
     ...    Random Read BW Non-Queued is below expected
 
 DIO007.301 Random Write Performance (Windows) (AC)
@@ -328,6 +380,9 @@ DIO007.301 Random Write Performance (Windows) (AC)
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_NONQUE    Reference values not defined
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Run FIO On Windows    random_write_with_queues
     ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -337,9 +392,11 @@ DIO007.301 Random Write Performance (Windows) (AC)
     ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_write_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_write_with_queues.json    write
     ${rand_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_write_without_queues.json    write
-    Should Be True    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85    Random Write BW Queued is below expected
     Should Be True
-    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    ${rand_write_queued} >= ${ref}[RAND_WRITE_QUEUED]*0.85
+    ...    Random Write BW Queued is below expected
+    Should Be True
+    ...    ${rand_write_nonque} >= ${ref}[RAND_WRITE_NONQUE]*0.85
     ...    Random Write BW Non-Queued is below expected
 
 DIO008.301 Random Write Performance (Windows) (Battery)
@@ -350,6 +407,9 @@ DIO008.301 Random Write Performance (Windows) (Battery)
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    The platform is not running on battery
     Power On
+    VAR    &{ref}=    &{DISK_IO_REFERENCE_VALUES_WINDOWS}
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_QUEUED    Reference values not defined
+    Dictionary Should Contain Key    ${ref}    RAND_WRITE_NONQUE    Reference values not defined
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Run FIO On Windows    random_write_with_queues
     ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=1 --size=4G
@@ -359,9 +419,11 @@ DIO008.301 Random Write Performance (Windows) (Battery)
     ...    --rw=randwrite --bs=1M --iodepth=32 --numjobs=${DEF_THREADS_TOTAL} --size=4G
     ${rand_write_queued}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_write_with_queues.json    write
     ${rand_write_nonque}=    Parse FIO Result    ${RESULTS_DIR_WINDOWS}    random_write_without_queues.json    write
-    Should Be True    ${rand_write_queued} >= ${UBU_RAND_WRITE_QUEUED}*0.85    Random Write BW Queued is below expected
     Should Be True
-    ...    ${rand_write_nonque} >= ${UBU_RAND_WRITE_NONQUE}*0.85
+    ...    ${rand_write_queued} >= ${ref}[RAND_WRITE_QUEUED]*0.85
+    ...    Random Write BW Queued is below expected
+    Should Be True
+    ...    ${rand_write_nonque} >= ${ref}[RAND_WRITE_NONQUE]*0.85
     ...    Random Write BW Non-Queued is below expected
 
 
