@@ -194,6 +194,7 @@ CUP260.101 Capsule update in Firmware Update Mode works
     ...    Mode
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
+    Skip If    not ${CAPSULE_UPDATE_IN_FUM_SUPPORT}    CUP260.101 requires iPXE+DTS FUM boot, not supported on this platform
     Power On
     # Enable FUM
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -380,21 +381,51 @@ Perform Capsule Update
     Execute Reboot Command    assume_correct_boot=${True}
     # uefi shell runs and reboots the platform
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        # If serial console supported, then FUM dialog will be shown
-        # Confirm update by following instructions of Firmware Update Mode dialog
+        # If serial console supported, then FUM dialog may be shown.
+        # Confirm update by following instructions of Firmware Update Mode dialog.
         Read From Terminal Until    ${TIANOCORE_STRING}    # booting UEFI Shell
-        Handle FUM Screen
+        ${fum_appeared}=    Handle FUM Screen
+        IF    not ${fum_appeared}
+            # No FUM: Handle FUM Screen already consumed TIANOCORE_STRING and
+            # pressed the boot menu key. Read the boot menu that is now open and
+            # navigate to the OS directly, bypassing Enter Boot Menu Tianocore
+            # (which would try to re-read the already-consumed TIANOCORE_STRING).
+            ${boot_menu}=    Get Boot Menu Construction
+            Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}    boot_menu=${boot_menu}
+            Login To Booted OS
+            RETURN
+        END
     END
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
 
 Handle FUM Screen
+    [Documentation]    Handle Firmware Update Mode dialog if it appears after capsule
+    ...    staging. Returns ${TRUE} if FUM appeared (firmware will reboot again), or
+    ...    ${FALSE} if the UEFI boot menu appeared instead (no FUM). When returning
+    ...    ${FALSE}, the boot menu key has already been pressed and
+    ...    ``Get Boot Menu Construction`` should be called next.
+    ...
+    ...    === Arguments ===
+    ...    - ``${timeout}``: ``string`` - How long to wait for FUM dialog or boot menu.
+    ...    \ Default is 6 minutes to accommodate platforms where capsule apply and
+    ...    \ the subsequent reboot together take longer than the standard 3-minute
+    ...    \ DUT response timeout.
+    [Arguments]    ${timeout}=6 minutes
+    ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
     ${out}=    Read From Terminal Until Regexp    (${TIANOCORE_STRING})|(${FUM_DIALOG_TOP})
+    Set DUT Response Timeout    ${prev_timeout}
     IF    '${FUM_DIALOG_TOP}' in $out
         ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
         ${digit}=    Get Key To Press    ${fum_screen}
         Write Bare Into Terminal    ${digit}
+        RETURN    ${TRUE}
     ELSE
+        # No FUM: the UEFI boot menu appeared. TIANOCORE_STRING was consumed, so
+        # Boot And Login To OS cannot read it again. Press the boot menu key now
+        # while the menu is still on screen and let the caller navigate from there.
         Log    FUM screen did not appear    WARN
+        Write Bare Into Terminal    ${BOOT_MENU_KEY}
+        RETURN    ${FALSE}
     END
 
 Get File Name Without Extension

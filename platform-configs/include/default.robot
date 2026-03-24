@@ -275,6 +275,11 @@ ${NVME_DETECTION_SUPPORT}=                          ${FALSE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${FALSE}
 ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
+# Whether CUP260 (capsule update inside FUM via iPXE+DTS) is supported.
+# Requires the platform to boot into iPXE after FUM is enabled, chain DTS,
+# and perform the update from the DTS shell. Platforms that just reboot
+# normally after FUM should leave this as ${FALSE}.
+${CAPSULE_UPDATE_IN_FUM_SUPPORT}=                   ${FALSE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}
