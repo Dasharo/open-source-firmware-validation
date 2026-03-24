@@ -18,11 +18,21 @@ Resource            ../keys.robot
 # - document which setup/teardown keywords to use and what are they doing
 # - go threough them and make sure they are doing what the name suggest (not
 # exactly the case right now)
-Suite Setup         TPM2 Suite Setup
-Suite Teardown      Log Out And Close Connection
-Test Setup          Flush TPM Contexts
+Suite Setup         Run Keywords
+...                     Log    ${TPM_FAILURE_CONTEXT}    WARN
+...                     AND    TPM2 Suite Setup
+Suite Teardown      Run Keywords
+...                     Log Out And Close Connection
+...                     AND    Run Keyword If    '${SUITE_STATUS}' == 'FAIL'    Log To Console    ${TPM_FAILURE_CONTEXT}
 
 Default Tags        automated
+
+
+*** Variables ***
+${TPM_FAILURE_CONTEXT}=
+...                         The suite might fail due to TPM Lockout after power cut-offs. The device might need to be left ON for some time to recover. \n
+...                         - https://github.com/Dasharo/dasharo-issues/issues/782#issuecomment-4098062653 \n
+...                         - https://www.dell.com/support/kbdoc/en-us/000142311/tpm-failure-tries-recovery-time-and-lockout-recovery
 
 
 *** Test Cases ***
