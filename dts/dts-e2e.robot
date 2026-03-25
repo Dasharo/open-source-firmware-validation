@@ -258,6 +258,10 @@ E2E007.011 Check DPP credentials with both DPP firmware and DTS extensions acces
     Should Contain    ${out}    Dasharo Pro Package (DPP): YES
     Should Contain    ${out}    DTS Extensions: YES
 
+################################################################################
+# DTS UI options tests:
+################################################################################
+
 E2E008.001 Reboot UI Option Calls Reboot Command
     [Documentation]    Reboot (R) UI option should call mocked reboot command
     Execute Command In Terminal    export DTS_TESTING="true"
@@ -299,6 +303,10 @@ E2E008.004 Enable Sending Logs UI Option Should Enable DTS Log Sending
     Should Contain    ${out}    L to disable
     Write Bare Into Terminal    S
     SSHLibrary.Read Until    Sending logs...
+
+################################################################################
+# DTS extentions tests:
+################################################################################
 
 E2E009.001 DTS extensions are installed and can be used
     [Documentation]    Test that DTS extensions are installed after entering DPP
