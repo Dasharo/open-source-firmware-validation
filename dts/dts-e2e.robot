@@ -705,6 +705,97 @@ E2E018.001 Failure to pass capsule to /dev/efi_capsule_loader is detected
     Wait For Checkpoint    Failed to queue capsule update!
     Wait For Checkpoint    ${ERROR_LOGS_QUESTION}
 
+################################################################################
+# ME operation mode detection tests
+################################################################################
+
+E2E019.001 DTS must stop update in case ME is enabled
+    [Documentation]    Flashing ME when it is enabled might cause issues, so
+    ...    DTS must detect such situation and ask whether to stop update or
+    ...    update without flashing ME.
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v560tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_FUM="true"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
+    Execute Command In Terminal    export TEST_ME_HAP_DISABLED="false"
+    Execute Command In Terminal    export TEST_ME_DISABLED="false"
+    Execute Command In Terminal    export TEST_ME_OP_MODE="0"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint    You have entered Firmware Update Mode
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_UPDATE_OPT}
+
+    Set DUT Response Timeout    120s
+    Wait For Checkpoint    ${DTS_ME_WARN}
+
+E2E019.002 DTS should continue update in case ME is HAP disabled
+    [Documentation]    HAP disabled ME operation mode is considered a safe mode
+    ...    to update ME. DTS should detect this and proceed with the update.
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v560tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_FUM="true"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint    You have entered Firmware Update Mode
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_UPDATE_OPT}
+
+    Set DUT Response Timeout    120s
+    Wait For Checkpoint    Rebooting in
+    Wait For Checkpoint    Rebooting
+
+E2E019.003 DTS should continue update in case ME is neither HAP disabled or enabled
+    [Documentation]    When the ME is neither in HAP disabled or enabled
+    ...    operation modes it is considered a safe mode to update ME. DTS should
+    ...    detect it and proceed with the update.
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v560tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_FUM="true"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
+    Execute Command In Terminal    export TEST_ME_HAP_DISABLED="false"
+    Execute Command In Terminal    export TEST_ME_DISABLED="false"
+    Execute Command In Terminal    export TEST_ME_OP_MODE="3"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint    You have entered Firmware Update Mode
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_UPDATE_OPT}
+
+    Set DUT Response Timeout    120s
+    Wait For Checkpoint    Rebooting in
+    Wait For Checkpoint    Rebooting
+
+E2E019.004 DTS must stop update in case ME operation mode was not detected
+    [Documentation]    When the ME operation mode is not detected DST must
+    ...    assume it is enabled and ask whether to stop update or
+    ...    update without flashing ME. This is because assumming ME is enabled
+    ...    is the safest assumption for the end user in such a case.
+    Export Shell Variables For Emulation
+    ...    UEFI Update
+    ...    DCR
+    ...    ${DTS_PLATFORM_VARIABLES}[novacustom-v560tu]
+    ...    ${DTS_CONFIG_REF}
+    Execute Command In Terminal    export TEST_FUM="true"
+    Execute Command In Terminal    export TEST_BIOS_VERSION="Dasharo (coreboot+UEFI) 0.9.0"
+    Execute Command In Terminal    export TEST_ME_HAP_DISABLED="false"
+    Execute Command In Terminal    export TEST_ME_DISABLED="false"
+    Execute Command In Terminal    export TEST_ME_OP_MODE="9"
+    Write Into Terminal    dts-boot
+
+    Wait For Checkpoint    You have entered Firmware Update Mode
+    Wait For Checkpoint And Write    ${DTS_ASK_FOR_CHOICE_PROMPT}    ${DTS_FUM_UPDATE_OPT}
+
+    Set DUT Response Timeout    120s
+    ${out}=    Wait For Checkpoint    ${DTS_ME_WARN}
+    Should Contain    ${out}    Can not determine if ME is disabled, assuming enabled.
 
 *** Keywords ***
 # robocop: disable:0919
