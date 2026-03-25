@@ -214,7 +214,7 @@ CUP260.101 Capsule update in Firmware Update Mode works
     Write Bare Into Terminal    chain http://boot.dasharo.com/dts/dts-no-fum-fix.ipxe\n    interval=0.2
     # Boot into DTS shell
     Set DUT Response Timeout    5m
-    Read From Terminal Until    .cpio.gz...
+    Read From Terminal Until Regexp    \.cpio\.gz\.\.\.|\.efi
     Read From Terminal Until    ok
     Wait For DTS To Boot    fum=${TRUE}
     Write Into Terminal    ${DTS_FUM_MENU_OPT}

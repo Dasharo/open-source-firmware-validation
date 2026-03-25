@@ -79,7 +79,7 @@ Boot Dasharo Tools Suite Via IPXE Shell
     # 4) Try to boot via the link:
     Write Bare Into Terminal    chain ${dts_chain_link}\n    interval=0.2
     Set DUT Response Timeout    5m
-    Read From Terminal Until    .cpio.gz...
+    Read From Terminal Until Regexp    \.cpio\.gz\.\.\.|[0-9]\.efi
     Read From Terminal Until    ok
 
 Boot Dasharo Tools Suite Via IPXE Menu
@@ -95,7 +95,7 @@ Boot Dasharo Tools Suite Via IPXE Menu
     # 3) Boot DTS:
     Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
     Set DUT Response Timeout    5m
-    Read From Terminal Until    .cpio.gz...
+    Read From Terminal Until Regexp    \.cpio\.gz\.\.\.|[0-9]\.efi
     Read From Terminal Until    ok
 
 Boot Dasharo Tools Suite
