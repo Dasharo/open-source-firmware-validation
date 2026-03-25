@@ -224,9 +224,9 @@ Generate Verified Boot Keys
     Run    chmod -R a+rw ${KEYS_DIR}
     Should Contain    ${out_genkey}    The Verified Boot keys were generated into following directory
     Run    tar -czf ${KEYS_DIR}.tar.gz ${KEYS_DIR}
-    Send File To DUT    ${KEYS_DIR}.tar.gz    vboot_keys.tar.gz
-    Execute Command In Terminal    tar -xzf vboot_keys.tar.gz
-    ${ls}=    Execute Command In Terminal    ls -l vboot_keys
+    Send File To DUT    ${KEYS_DIR}.tar.gz    ${KEYS_DIR}.tar.gz
+    Execute Command In Terminal    tar -xzf ${KEYS_DIR}.tar.gz
+    ${ls}=    Execute Command In Terminal    ls -l ${KEYS_DIR}
     Should Contain All    ${ls}    vboot    arv_root
 
 Resign Existing Firmware Image With Generated Keys
