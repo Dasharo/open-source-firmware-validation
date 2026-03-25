@@ -662,7 +662,7 @@ E2E017.003 Firmware installation should stop in case of ROMHOLE migration from C
 
 E2E017.004 Firmware installation should stop in case of ROMHOLE migration from CBFS to CBFS
     [Documentation]    Test checks whether DTS logic prevents user from
-    ...    potential brick during migration from CBFS to flashmap which is not
+    ...    potential brick during migration from CBFS to CBFS which is not
     ...    supported yet
     Export Shell Variables For Emulation
     ...    UEFI->Heads Transition
