@@ -20,7 +20,7 @@ ${DEVICE_USB_KEYBOARD}=                 Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              NS50_70MU
 
 ${USB_DEVICE}=                          SanDisk
-${USB_MODEL}=                           USB Flash Memory
+${USB_MODEL}=                           Ultra USB
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
 ${MAX_CPU_TEMP_THRESHOLD}=              100
