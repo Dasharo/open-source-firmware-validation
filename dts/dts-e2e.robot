@@ -305,7 +305,7 @@ E2E008.004 Enable Sending Logs UI Option Should Enable DTS Log Sending
     SSHLibrary.Read Until    Sending logs...
 
 ################################################################################
-# DTS extentions tests:
+# DTS extensions tests:
 ################################################################################
 
 E2E009.001 DTS extensions are installed and can be used
@@ -776,7 +776,7 @@ E2E019.003 DTS should continue update in case ME is neither HAP disabled or enab
 E2E019.004 DTS must stop update in case ME operation mode was not detected
     [Documentation]    When the ME operation mode is not detected DST must
     ...    assume it is enabled and ask whether to stop update or
-    ...    update without flashing ME. This is because assumming ME is enabled
+    ...    update without flashing ME. This is because assuming ME is enabled
     ...    is the safest assumption for the end user in such a case.
     Export Shell Variables For Emulation
     ...    UEFI Update
@@ -796,6 +796,7 @@ E2E019.004 DTS must stop update in case ME operation mode was not detected
     Set DUT Response Timeout    120s
     ${out}=    Wait For Checkpoint    ${DTS_ME_WARN}
     Should Contain    ${out}    Can not determine if ME is disabled, assuming enabled.
+
 
 *** Keywords ***
 # robocop: disable:0919

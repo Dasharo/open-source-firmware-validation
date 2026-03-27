@@ -67,10 +67,17 @@ ${OPTIONS_LIB}=                             options-lib_dcu
 &{DTS_TEST_VERSIONS}=
 ...                                         &{DTS_TEST_VERSIONS_BASE}
 ...                                         UEFI->Heads Transition=Dasharo (coreboot+UEFI) 1.7.2
-@{DTS_TEST_WORKFLOWS}=                      Initial Deployment    UEFI Update    UEFI->Heads Transition
+...                                         Fuse Platform=Dasharo (coreboot+UEFI) 1.8.0
+@{DTS_TEST_WORKFLOWS}=
+...                                         Initial Deployment
+...                                         UEFI Update
+...                                         UEFI->Heads Transition
+...                                         Fuse Platform
 
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                         ${{ ("UEFI Update", "DCR") }}
 ...                                         ${{ ("UEFI->Heads Transition", "DPP") }}
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
 ...                                         ${{ ("UEFI->Heads Transition", "DPP") }}=${{ {"TEST_ME_HAP_DISABLED": "false", "TEST_ME_DISABLED": "true"} }}
+...                                         ${{ ("UEFI Update", "DCR") }}=${{ { "TEST_ME_DISABLED": "true", "TEST_ME_OP_MODE": "3", "TEST_DIFFERENT_FMAP": "true" } }}
+...                                         ${{ ("Fuse Platform", "DCR") }}=${{ { "TEST_ME_HAP_DISABLED": "true", "TEST_ME_OP_MODE": "2", "TEST_IS_COREBOOT": "true" } }}

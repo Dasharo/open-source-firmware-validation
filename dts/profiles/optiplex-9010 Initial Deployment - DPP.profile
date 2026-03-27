@@ -73,6 +73,7 @@ ifdtool -d /tmp/biosupdate 1
 fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 1
 cbmem -1 1
 cbmem -1 1
+cbmem -1 1
 cbfstool /tmp/biosupdate extract -r COREBOOT -n config -f /tmp/biosupdate_config 0
 dmidecode -s system-uuid 0
 dmidecode -s baseboard-serial-number 0
