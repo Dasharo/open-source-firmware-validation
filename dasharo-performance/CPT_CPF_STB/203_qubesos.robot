@@ -3,6 +3,7 @@ Resource        ./common.resource
 
 Suite Setup     Run Keywords
 ...                 Prepare Test Suite
+...                 AND    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
 ...                 AND    Check Power Supply
 ...                 AND    Prepare Sensors
 ...                 AND    Init Concurrent Testing

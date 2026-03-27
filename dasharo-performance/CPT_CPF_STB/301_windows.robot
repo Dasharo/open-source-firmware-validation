@@ -3,6 +3,7 @@ Resource            ./common.resource
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
 ...                     AND    Check Power Supply
 ...                     AND    Prepare Sensors
 ...                     AND    Init Concurrent Testing
