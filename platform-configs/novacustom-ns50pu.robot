@@ -32,3 +32,5 @@ ${OPTIONS_LIB}=                     options-lib_dcu
 ...                                 Fuse Platform
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                 ${{ ("UEFI Update", "DCR") }}
+&{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
+...                                     ${{ ("UEFI Update", "DCR") }}=${{ { "TEST_ME_DISABLED": "true", "TEST_ME_OP_MODE": "3", "TEST_DIFFERENT_FMAP": "true" } }}

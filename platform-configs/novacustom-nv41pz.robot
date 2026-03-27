@@ -79,3 +79,4 @@ ${OPTIONS_LIB}=                             options-lib_dcu
 ...                                         ${{ ("UEFI->Heads Transition", "DPP") }}
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
 ...                                         ${{ ("UEFI->Heads Transition", "DPP") }}=${{ {"TEST_ME_HAP_DISABLED": "false", "TEST_ME_DISABLED": "true"} }}
+...                                     ${{ ("UEFI Update", "DCR") }}=${{ { "TEST_ME_DISABLED": "true", "TEST_ME_OP_MODE": "3", "TEST_DIFFERENT_FMAP": "true" } }}
