@@ -450,13 +450,7 @@ Disk IO Suite Setup
         Power On
         Boot And Login To OS    ${ENV_ID_WINDOWS}
         Execute Command In Terminal    mkdir ${RESULTS_DIR_WINDOWS}
-        Execute Command In Terminal
-        ...    Invoke-WebRequest -Uri "https://release-assets.githubusercontent.com/github-production-release-asset/6331631/0bcd5975-f989-4c16-b8e9-e76986d645db" -OutFile "${RESULTS_DIR_WINDOWS}\\fio.msi"
-        Execute Command In Terminal    msiexec /qn /i "${RESULTS_DIR_WINDOWS}\\fio.msi"
-        # msiexec runs a gui installer and doesn't wait for it to finish
-        Sleep    5s
-        # Reload Path after installing fio, otherwise it won't be available until
-        # the next login
+        Execute Command In Terminal    winget install fio --source winget
         Execute Command In Terminal    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
         ${out}=    Execute Command In Terminal    fio
         Should Contain    ${out}    Fio was written by
