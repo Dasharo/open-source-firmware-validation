@@ -37,6 +37,7 @@ ifdtool -d /tmp/biosupdate 1
 fsread_tool test -d /sys/class/pci_bus/0000:00/device/0000:00:16.0 1
 cbmem -1 0
 cbmem -1 0
+cbmem -1 0
 flashrom -p internal -N --ifd -i bios -r /tmp/bios.bin 0
 cbfstool /tmp/bios.bin layout -w 0
 cbfstool /tmp/biosupdate layout -w 0
