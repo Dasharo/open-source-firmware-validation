@@ -169,12 +169,11 @@ FWUPD002.203 Fwupd Local Firmware Update (Qubes OS)
 FWUPD006.203 Fwupd Check Update Results (Qubes OS)
     [Documentation]    Verify result of the firmware update using fwupd
     [Tags]    semiauto
-    Execute Manual Step    Power on and boot into Qubes OS
-    Execute Manual Step    Open dom0 terminal
-    Execute Manual Step
-    ...    Run `ID=$(fwupdmgr get-devices 2>/dev/null | grep -A1 -E "(System Firmware)|(Device Firmware)" | grep "Device ID" | awk '{print $NF}')`
-    Execute Manual Step    Run `fwupdmgr get-results $ID`
-    Execute Manual Step    Should print `Update State:` with value `Success`
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    Fwupd Check Update Results Linux
 
 
 *** Keywords ***
