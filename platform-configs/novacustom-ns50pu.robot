@@ -83,3 +83,24 @@ ${OPTIONS_LIB}=                             options-lib_dcu
 ...                                         &{CPP_COREMARK_BENCHMARK}
 ...                                         &{CPP_ZIP_COMPRESSION_BENCHMARK}
 ...                                         &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
+
+# disk i-o
+${DISK_IO_REFERENCE_DISK_NAME}=             Samsung SSD 990 PRO
+&{DISK_IO_REFERENCE_VALUES_UBUNTU}=
+...                                         SEQ_READ_QUEUED=3500
+...                                         SEQ_WRITE_QUEUED=3000
+...                                         SEQ_READ_NONQUE=1900
+...                                         SEQ_WRITE_NONQUE=1800
+...                                         RAND_READ_QUEUED=2900
+...                                         RAND_WRITE_QUEUED=2400
+...                                         RAND_READ_NONQUE=1700
+...                                         RAND_WRITE_NONQUE=1600
+&{DISK_IO_REFERENCE_VALUES_WINDOWS}=
+...                                         SEQ_READ_QUEUED=2400
+...                                         SEQ_WRITE_QUEUED=1400
+...                                         SEQ_READ_NONQUE=1300
+...                                         SEQ_WRITE_NONQUE=1800
+...                                         RAND_READ_QUEUED=1800
+...                                         RAND_WRITE_QUEUED=1200
+...                                         RAND_READ_NONQUE=1100
+...                                         RAND_WRITE_NONQUE=1000
