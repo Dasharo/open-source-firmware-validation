@@ -9,6 +9,8 @@ ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) ${FW_VERSION
 ${DMIDECODE_PRODUCT_NAME}=                  MS-7D25
 ${DMIDECODE_RELEASE_DATE}=                  11/29/2025
 
+@{TESTED_LINUX_DISTROS}=                    ${ENV_ID_UBUNTU}    ${ENV_ID_QUBES}
+
 ${WIFI_CARD}=                               Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                        Intel Corporation Alder Lake-S PCH CNVi WiFi (rev 11)
 
