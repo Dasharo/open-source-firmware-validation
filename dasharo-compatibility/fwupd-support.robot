@@ -119,7 +119,6 @@ FWUPD002.202 Fwupd Local Firmware Update (Fedora)
 
 FWUPD006.202 Fwupd Check Update Results (Fedora)
     [Documentation]    Verify result of the firmware update using fwupd
-    [Tags]    automated    semiauto
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     Skip If
     ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
@@ -168,7 +167,6 @@ FWUPD002.203 Fwupd Local Firmware Update (Qubes OS)
 
 FWUPD006.203 Fwupd Check Update Results (Qubes OS)
     [Documentation]    Verify result of the firmware update using fwupd
-    [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
