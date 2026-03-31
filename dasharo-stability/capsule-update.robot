@@ -203,7 +203,7 @@ CUP260.101 Capsule update in Firmware Update Mode works
     Enter Submenu From Snapshot    ${security_menu}    Enter Firmware Update Mode
     Read From Terminal Until    Press ENTER to continue and reboot
     Press Enter
-    Handle FUM Screen
+    Handle FUM Screen    expect_fum=${TRUE}
     # Stop iPXE from booting default option as it contains workaround for this
     # issue
     Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
@@ -262,10 +262,10 @@ Perform Capsule Update And Return Status
     ${original_bios_version}=    Get BIOS Version Linux    Before update
 
 
-    #
-    # Different routes of obtaining the logs depending on SSH or not:
-    # Prevents the logs getting purged by an extra reboot on laptops
-    # 
+    # On SSH, the SSHLibrary reconnects automatically after the update reboot, so
+    # logs can be retrieved in the same session immediately after the update.
+    # On serial, an extra power cycle before staging is needed to ensure the
+    # terminal is in a clean state; logs are then collected afterward.
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         Perform Capsule Update    ${capsule_file}
         Login To Linux With Root Privileges
@@ -274,6 +274,7 @@ Perform Capsule Update And Return Status
         Power On
         Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
         Login To Linux With Root Privileges
+        Perform Capsule Update    ${capsule_file}
     END
 
     ${updated_bios_version}=    Get BIOS Version Linux    After update
@@ -395,52 +396,55 @@ Perform Capsule Update
     Execute Reboot Command    assume_correct_boot=${True}
     # uefi shell runs and reboots the platform
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        # If serial console supported, then FUM dialog may be shown.
-        # Confirm update by following instructions of Firmware Update Mode dialog.
+        # If serial console supported, verify the FUM dialog did not appear (it
+        # would indicate a corrupted/skipped capsule). Handle FUM Screen consumes
+        # TIANOCORE_STRING and presses the boot menu key on the expected path.
         Read From Terminal Until    ${TIANOCORE_STRING}    # booting UEFI Shell
-        ${fum_appeared}=    Handle FUM Screen
-        IF    not ${fum_appeared}
-            # No FUM: Handle FUM Screen already consumed TIANOCORE_STRING and
-            # pressed the boot menu key. Read the boot menu that is now open and
-            # navigate to the OS directly, bypassing Enter Boot Menu Tianocore
-            # (which would try to re-read the already-consumed TIANOCORE_STRING).
-            ${boot_menu}=    Get Boot Menu Construction
-            Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}    boot_menu=${boot_menu}
-            Login To Booted OS
-            RETURN
-        END
+        Handle FUM Screen
+        ${boot_menu}=    Get Boot Menu Construction
+        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}    boot_menu=${boot_menu}
+        Login To Linux With Root Privileges
+        RETURN
     END
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
 
 Handle FUM Screen
-    [Documentation]    Handle Firmware Update Mode dialog if it appears after capsule
-    ...    staging. Returns ${TRUE} if FUM appeared (firmware will reboot again), or
-    ...    ${FALSE} if the UEFI boot menu appeared instead (no FUM). When returning
-    ...    ${FALSE}, the boot menu key has already been pressed and
-    ...    ``Get Boot Menu Construction`` should be called next.
+    [Documentation]    Handle (or assert absence of) the Firmware Update Mode dialog.
+    ...    When ``${expect_fum}`` is ``${FALSE}`` (default, used during capsule staging):
+    ...    FUM dialog is not expected - if it appears the test is failed immediately
+    ...    as it indicates a corrupted, coreboot-skipped capsule, or an older firmware
+    ...    version that unconditionally enters FUM on every capsule update (e.g. MSI
+    ...    z690 v1.1.4). The UEFI boot menu is the expected outcome; the boot menu key
+    ...    is pressed and ``${FALSE}`` is returned so the caller can call
+    ...    ``Get Boot Menu Construction`` next.
+    ...    When ``${expect_fum}`` is ``${TRUE}`` (used when FUM mode was explicitly
+    ...    enabled via setup menu): FUM dialog is expected and handled by pressing the
+    ...    indicated key. Returns ``${TRUE}`` so the caller knows FUM is active.
     ...
     ...    === Arguments ===
     ...    - ``${timeout}``: ``string`` - How long to wait for FUM dialog or boot menu.
     ...    \ Default is 6 minutes to accommodate platforms where capsule apply and
     ...    \ the subsequent reboot together take longer than the standard 3-minute
     ...    \ DUT response timeout.
-    [Arguments]    ${timeout}=6 minutes
+    ...    - ``${expect_fum}``: ``bool`` - Whether the FUM dialog is expected.
+    [Arguments]    ${timeout}=6 minutes    ${expect_fum}=${FALSE}
     ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
     ${out}=    Read From Terminal Until Regexp    (${TIANOCORE_STRING})|(${FUM_DIALOG_TOP})
     Set DUT Response Timeout    ${prev_timeout}
     IF    '${FUM_DIALOG_TOP}' in $out
+        IF    not ${expect_fum}
+            Fail    Unexpected FUM dialog appeared - capsule may be corrupted, skipped by coreboot, or firmware is an older version that always enters FUM
+        END
         ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
         ${digit}=    Get Key To Press    ${fum_screen}
         Write Bare Into Terminal    ${digit}
         RETURN    ${TRUE}
-    ELSE
-        # No FUM: the UEFI boot menu appeared. TIANOCORE_STRING was consumed, so
-        # Boot And Login To OS cannot read it again. Press the boot menu key now
-        # while the menu is still on screen and let the caller navigate from there.
-        Log    FUM screen did not appear    WARN
-        Write Bare Into Terminal    ${BOOT_MENU_KEY}
-        RETURN    ${FALSE}
     END
+    # No FUM: TIANOCORE_STRING was consumed, so Boot And Login To OS cannot read
+    # it again. Press the boot menu key now while the menu is still on screen and
+    # let the caller navigate from there.
+    Write Bare Into Terminal    ${BOOT_MENU_KEY}
+    RETURN    ${FALSE}
 
 Get File Name Without Extension
     [Arguments]    ${file_path}

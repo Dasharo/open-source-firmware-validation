@@ -277,9 +277,10 @@ ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${FALSE}
 ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 # Whether CUP260 (capsule update inside FUM via iPXE+DTS) is supported.
 # Requires the platform to boot into iPXE after FUM is enabled, chain DTS,
-# and perform the update from the DTS shell. Platforms that just reboot
-# normally after FUM should leave this as ${FALSE}.
-${CAPSULE_UPDATE_IN_FUM_SUPPORT}=                   ${FALSE}
+# and perform the update from the DTS shell. Platforms that reboot normally
+# after FUM (i.e. without CONFIG_EDK2_FUM_AUTO_IPXE_BOOT) should set this
+# to ${FALSE}.
+${CAPSULE_UPDATE_IN_FUM_SUPPORT}=                   ${TRUE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}
