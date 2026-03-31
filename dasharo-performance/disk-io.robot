@@ -14,6 +14,7 @@ Default Tags        automated
 ${FIO_LATEST_RELEASE_URL}=      https://api.github.com/repos/axboe/fio/releases/latest
 ${RESULTS_DIR_UBUNTU}=          fio_results
 ${RESULTS_DIR_WINDOWS}=         C:\\fio-results
+${WINDOWS_FIO_PATH}=            C:\\'Program Files'\\fio
 
 
 *** Test Cases ***
@@ -452,8 +453,7 @@ Disk IO Suite Setup
         Boot And Login To OS    ${ENV_ID_WINDOWS}
         Execute Command In Terminal    mkdir ${RESULTS_DIR_WINDOWS}
         Execute Command In Terminal    winget install fio --source winget
-        Execute Command In Terminal    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine")
-        ${out}=    Execute Command In Terminal    fio
+        ${out}=    Execute Command In Terminal    ${WINDOWS_FIO_PATH}\\fio.exe
         Should Contain    ${out}    Fio was written by
     END
 
@@ -481,7 +481,7 @@ Run FIO On Windows
     [Documentation]    Wrapper for fio.exe, with adjusted timeout.
     [Arguments]    ${fio_test_name}    ${fio_args}
     Execute Command In Terminal    ${RESULTS_DIR_WINDOWS}
-    VAR    ${cmd}=    fio.exe --name=${fio_test_name}
+    VAR    ${cmd}=    ${WINDOWS_FIO_PATH}\\fio.exe --name=${fio_test_name}
     VAR    ${cmd}=    ${cmd}    --ioengine=windowsaio --runtime=60s
     VAR    ${cmd}=    ${cmd}    --direct=1 --group_reporting
     VAR    ${cmd}=    ${cmd}    --output=${RESULTS_DIR_WINDOWS}/${fio_test_name}.json --output-format=json
