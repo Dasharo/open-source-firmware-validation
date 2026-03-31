@@ -28,6 +28,7 @@ DIO001.201 Sequential Read Performance (Ubuntu) (AC)
     Sleep    20s
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     Run FIO On Ubuntu    sequential_with_queues
     ...    --rw=read --bs=1M --iodepth=32 --numjobs=1 --size=2G
     Run FIO On Ubuntu    sequential_without_queues
