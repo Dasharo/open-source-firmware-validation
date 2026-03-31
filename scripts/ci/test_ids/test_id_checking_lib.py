@@ -6,6 +6,7 @@
 
 import ast
 import difflib
+import json
 import os
 import re
 import subprocess
@@ -86,6 +87,26 @@ class OsConfig:
         return mapping
 
 
+OS_SKIP_VARS = [
+    "TESTS_IN_WINDOWS_SUPPORT",
+    "TESTS_IN_UBUNTU_SUPPORT",
+    "TESTED_LINUX_DISTROS",
+]
+
+_ROBOT_TEST_PATHS = [
+    "dasharo-compatibility",
+    "dasharo-performance",
+    "dasharo-security",
+    "dasharo-stability",
+]
+
+_DOCS_TEST_ID_PATTERN = re.compile(
+    r"^##\s+([A-Z]{2,9}[0-9]{1,10}\.[0-9]{1,10})\s+(.+?)\s*$"
+)
+_OSFV_DOCS_SKIP_PATTERN = re.compile(r"<!--\s*OSFV_DOCS_SKIP\s*-->")
+_ROBOT_TEST_ID_PATTERN = re.compile(r"^([A-Z]{2,9}[0-9]{1,10}\.[0-9]{1,10})\s+(.+)$")
+
+
 def get_test_cases_from_dir(directory):
     builder = TestSuiteBuilder()
     try:
@@ -97,8 +118,8 @@ def get_test_cases_from_dir(directory):
         return []
     finder = TestCasesFinder()
     testsuite.visit(finder)
-
-    list_of_tests = finder.tests
+    pattern = re.compile(r"^[A-Z]*[0-9]{1,10}\.[0-9]{1,10}")
+    list_of_tests = [t for t in finder.tests if pattern.search(t.name)]
 
     return list_of_tests
 
@@ -121,10 +142,66 @@ def os_valid(test):
         re.escape(f".{key}"): re.escape(f"({value})")
         for key, value in OsConfig().get_id_to_friendly_mapping().items()
     }
+    assert len(os_ids) > 0
     for os_id in os_ids.keys():
-        if re.search(os_id, test.name) and not re.search(os_ids[os_id], test.name):
+        contains_id = re.search(os_id, test.name)
+        contains_name = re.search(os_ids[os_id], test.name)
+        if bool(contains_id) != bool(contains_name):  # xor
+            print(test.name)
             return False
     return True
+
+
+def _collect_body_strings(body):
+    """Recursively collect name/arg strings from a Robot Framework body."""
+    result = []
+    for item in body:
+        if hasattr(item, "name") and item.name:
+            result.append(item.name)
+        if hasattr(item, "args"):
+            result.extend(item.args)
+        if hasattr(item, "body") and item.body:
+            result.extend(_collect_body_strings(item.body))
+        if hasattr(item, "branches"):
+            for branch in item.branches:
+                if hasattr(branch, "body") and branch.body:
+                    result.extend(_collect_body_strings(branch.body))
+    return result
+
+
+def has_os_skip(test):
+    """Return True if the test (or its suite setup) skips based on OS support vars."""
+    strings = _collect_body_strings(test.body)
+    if test.parent and test.parent.setup:
+        suite_setup = test.parent.setup
+        if hasattr(suite_setup, "name") and suite_setup.name:
+            strings.append(suite_setup.name)
+        if hasattr(suite_setup, "args"):
+            strings.extend(suite_setup.args)
+    full = " ".join(strings)
+    return any(var in full for var in OS_SKIP_VARS)
+
+
+def get_env_id(test):
+    """Return the 3-digit ENV ID from the test name, or None."""
+    m = re.search(r"[A-Z]{2,9}[0-9]{1,10}\.([0-9]{3})", test.name)
+    return m.group(1) if m else None
+
+
+def os_skip_valid(test):
+    """Return True if OS-skip presence is consistent with the ENV ID.
+
+    Tests with a non-0xx ENV ID must skip based on OS support variables,
+    and tests that skip based on OS support must have a non-0xx ENV ID.
+    """
+    if test.name.startswith("_"):
+        return True
+    env_id = get_env_id(test)
+    if env_id is None:
+        return True
+    has_os_env = not env_id.startswith("0")
+    has_skip = has_os_skip(test)
+    return not (has_os_env ^ has_skip)
 
 
 def compare_mappings():
@@ -142,6 +219,93 @@ def compare_mappings():
         lineterm="",
     )
     return [d for d in diff if not d.startswith((" ", "@@")) and not "DEPRECATED" in d]
+
+
+def get_tests_from_docs():
+    """Extract {id: name} from unified-test-documentation markdown files.
+
+    Lines containing '<!-- OSFV_DOCS_SKIP -->' are excluded from comparison.
+    """
+    this_file = os.path.dirname(os.path.realpath(__file__))
+    docs_path = os.path.join(
+        this_file,
+        "..",
+        "..",
+        "..",
+        "docs-dasharo",
+        "docs",
+        "unified-test-documentation",
+    )
+    tests = {}
+    for dirpath, _, filenames in os.walk(docs_path):
+        for filename in sorted(filenames):
+            if not filename.endswith(".md"):
+                continue
+            filepath = os.path.join(dirpath, filename)
+            with open(filepath, "r", encoding="utf-8") as f:
+                for line in f:
+                    m = _DOCS_TEST_ID_PATTERN.match(line.rstrip())
+                    if not m:
+                        continue
+                    test_id, test_name = m.group(1), m.group(2)
+                    if _OSFV_DOCS_SKIP_PATTERN.search(test_name):
+                        continue
+                    tests[test_id] = test_name
+    return tests
+
+
+def get_tests_from_robot():
+    """Extract {id: name} from all robot test files."""
+    tests = {}
+    for path in _ROBOT_TEST_PATHS:
+        for t in get_test_cases_from_dir(path):
+            m = _ROBOT_TEST_ID_PATTERN.match(t.name)
+            if m:
+                tests[m.group(1)] = m.group(2)
+    return tests
+
+
+def compare_docs_robot():
+    """Compare tests in docs vs robot files.
+
+    Returns dict with keys:
+    - only_in_docs: {id: name} found in docs but not in robot
+    - only_in_robot: {id: name} found in robot but not in docs
+    - name_mismatches: {id: (docs_name, robot_name)} where names differ
+    """
+    docs = get_tests_from_docs()
+    robot = get_tests_from_robot()
+    return {
+        "only_in_docs": {k: v for k, v in docs.items() if k not in robot},
+        "only_in_robot": {k: v for k, v in robot.items() if k not in docs},
+        "name_mismatches": {
+            k: (docs[k], robot[k]) for k in docs if k in robot and docs[k] != robot[k]
+        },
+    }
+
+
+def get_tests_from_json(json_path="test_cases.json"):
+    """Extract {id: name} from test_cases.json, excluding deprecated tests."""
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return {
+        item["doc"]["_id"]: item["doc"]["name"]
+        for item in data
+        if "changed_to" not in item.get("doc", {})
+    }
+
+
+def compare_names_robot_json():
+    """Return list of (id, robot_name, json_name) for tests with mismatched names."""
+    robot = get_tests_from_robot()
+    json_tests = get_tests_from_json()
+    return sorted(
+        [
+            (test_id, robot[test_id], json_tests[test_id])
+            for test_id in robot
+            if test_id in json_tests and robot[test_id] != json_tests[test_id]
+        ]
+    )
 
 
 if __name__ == "__main__":

@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# 0xx - Unspecified
+ENV_ID_UNSPECIFIED = "001"
+
 # 1xx - Firmware
 ENV_ID_EDK2 = "101"
 ENV_ID_SEABIOS = "102"
@@ -16,7 +19,9 @@ ENV_ID_TRENCHBOOT = "204"
 ENV_ID_XCP_NG = "205"
 ENV_ID_ZARHUS = "206"
 ENV_ID_OPENWRT = "207"
-
+ENV_ID_DEBIAN = "208"
+ENV_ID_HEADS_DEBIAN = "209"
+ENV_ID_PROXMOX = "210"
 # 3xx - Windows
 ENV_ID_WINDOWS = "301"
 
@@ -39,6 +44,7 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_ZARHUS: "ZarhusOS",
     ENV_ID_OPENWRT: "OpenWrt",
     ENV_ID_QUBES: "Qubes OS",
+    ENV_ID_DEBIAN: "Debian",
 }
 
 ENV_ID_FRIENDLY_NAMES = {
@@ -54,4 +60,11 @@ ENV_ID_FRIENDLY_NAMES = {
     ENV_ID_QUBES: "Qubes OS",
     ENV_ID_ZARHUS: "ZarhusOS",
     ENV_ID_OPENWRT: "OpenWrt",
+    ENV_ID_DEBIAN: "Debian",
+    ENV_ID_FREEBSD: "FreeBSD",
+    ENV_ID_HEADS_DEBIAN: "Heads+Debian",
+    ENV_ID_PFSENSE: "pfSense",
+    ENV_ID_OPNSENSE: "OPNSense",
+    ENV_ID_OPENWRT: "OpenWrt",
+    ENV_ID_PROXMOX: "Proxmox",
 }

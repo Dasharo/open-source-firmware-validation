@@ -127,6 +127,42 @@ repos:
         # disable from automatic runs until we fix IDs
         stages: [manual]
 
+      - id: test-os-skip-check
+        name: test-os-skip-check
+        description: Check that OS tests have OS-support Skips and only OS tests have them
+        language: python
+        additional_dependencies:
+          - robotframework
+          - fire
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["os_skip_valid", "--print_invalid"]
+        files: '^dasharo-.*/.*\.robot$'
+        pass_filenames: false
+
+      - id: test-docs-match
+        name: test-docs-match
+        description: Check that all tests in docs-dasharo are implemented in robot code
+        language: python
+        additional_dependencies:
+          - robotframework
+          - fire
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["docs_match", "--print_invalid"]
+        files: '(^dasharo-.*/.*\.robot$|^docs-dasharo/.*\.md$)'
+        pass_filenames: false
+
+      - id: test-names-match
+        name: test-names-match
+        description: Check that test names in robot code match names in test_cases.json
+        language: python
+        additional_dependencies:
+          - robotframework
+          - fire
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["names_match", "--print_invalid"]
+        files: '(^test_cases\.json$|^dasharo-.*/.*\.robot$)'
+        pass_filenames: false
+
       - id: test-ids-sort
         name: test-ids-sort
         description: Check if test_ids.json is sorted, and fix it

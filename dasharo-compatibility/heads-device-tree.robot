@@ -28,7 +28,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-DVT001.001 Node with coreboot existst
+DVT001.001 Node with coreboot exists
     [Documentation]    Check whether the node with the coreboot exists in
     ...    Device Tree.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT001.001 not supported
