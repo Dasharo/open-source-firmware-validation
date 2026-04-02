@@ -396,26 +396,32 @@ Perform Capsule Update
     Execute Reboot Command    assume_correct_boot=${True}
     # uefi shell runs and reboots the platform
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        # If serial console supported, verify the FUM dialog did not appear (it
-        # would indicate a corrupted/skipped capsule). Handle FUM Screen consumes
-        # TIANOCORE_STRING and presses the boot menu key on the expected path.
+        # If serial console supported, check for FUM dialog. Handle FUM Screen
+        # consumes TIANOCORE_STRING. On new firmware without FUM, it presses the
+        # boot menu key and returns FALSE - use Get Boot Menu Construction then.
+        # On older firmware that always enters FUM, it dismisses the dialog and
+        # returns TRUE - fall through to Boot And Login To OS for the next boot.
         Read From Terminal Until    ${TIANOCORE_STRING}    # booting UEFI Shell
-        Handle FUM Screen
-        ${boot_menu}=    Get Boot Menu Construction
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}    boot_menu=${boot_menu}
-        Login To Linux With Root Privileges
-        RETURN
+        ${fum_appeared}=    Handle FUM Screen
+        IF    not ${fum_appeared}
+            ${boot_menu}=    Get Boot Menu Construction
+            Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}    boot_menu=${boot_menu}
+            Login To Linux With Root Privileges
+            RETURN
+        END
     END
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
 
 Handle FUM Screen
     [Documentation]    Handle (or assert absence of) the Firmware Update Mode dialog.
     ...    When ``${expect_fum}`` is ``${FALSE}`` (default, used during capsule staging):
-    ...    FUM dialog is not expected - if it appears the test is failed immediately
-    ...    as it indicates a corrupted, coreboot-skipped capsule, or an older firmware
-    ...    version that unconditionally enters FUM on every capsule update (e.g. MSI
-    ...    z690 v1.1.4). The UEFI boot menu is the expected outcome; the boot menu key
-    ...    is pressed and ``${FALSE}`` is returned so the caller can call
+    ...    FUM dialog is not expected. If it appears (e.g. older firmware like MSI
+    ...    z690 v1.1.4 that unconditionally enters FUM on every capsule update, or a
+    ...    corrupted/coreboot-skipped capsule), a warning is logged and the dialog is
+    ...    dismissed. Returns ``${TRUE}`` so the caller falls through to
+    ...    ``Boot And Login To OS`` instead of calling ``Get Boot Menu Construction``.
+    ...    When no FUM appears, the UEFI boot menu is the expected outcome; the boot
+    ...    menu key is pressed and ``${FALSE}`` is returned so the caller can call
     ...    ``Get Boot Menu Construction`` next.
     ...    When ``${expect_fum}`` is ``${TRUE}`` (used when FUM mode was explicitly
     ...    enabled via setup menu): FUM dialog is expected and handled by pressing the
@@ -433,7 +439,9 @@ Handle FUM Screen
     Set DUT Response Timeout    ${prev_timeout}
     IF    '${FUM_DIALOG_TOP}' in $out
         IF    not ${expect_fum}
-            Fail    Unexpected FUM dialog appeared - capsule may be corrupted, skipped by coreboot, or firmware is an older version that always enters FUM
+            Log
+            ...    Unexpected FUM dialog - capsule may be corrupted, skipped by coreboot, or firmware is an older version that always enters FUM
+            ...    WARN
         END
         ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
         ${digit}=    Get Key To Press    ${fum_screen}
