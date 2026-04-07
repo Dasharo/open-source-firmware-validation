@@ -260,28 +260,18 @@ Perform Capsule Update And Return Status
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
+    Perform Capsule Update    ${capsule_file}
 
-
-    # On SSH, the SSHLibrary reconnects automatically after the update reboot, so
-    # logs can be retrieved in the same session immediately after the update.
-    # On serial, an extra power cycle before staging is needed to ensure the
-    # terminal is in a clean state; logs are then collected afterward.
-    IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
-        Perform Capsule Update    ${capsule_file}
-        Login To Linux With Root Privileges
-        ${logs}=    Get Capsule Update Logs
-    ELSE
-        Power On
-        Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-        Login To Linux With Root Privileges
-        Perform Capsule Update    ${capsule_file}
-    END
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux With Root Privileges
 
     ${updated_bios_version}=    Get BIOS Version Linux    After update
     ${version_changed}=    Run Keyword And Return Status
     ...    Should Not Be Equal
     ...    ${original_bios_version}
     ...    ${updated_bios_version}
+    ${logs}=    Get Capsule Update Logs
 
     IF    '${DUT_CONNECTION_METHOD}' != 'SSH'
         ${logs}=    Get Capsule Update Logs
