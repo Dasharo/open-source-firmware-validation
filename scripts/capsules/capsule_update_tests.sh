@@ -1,92 +1,146 @@
 #!/bin/bash
 
-# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
+set -euo pipefail
+
 here=$(realpath "$(dirname "$0")")
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <capsule>"
+    exit 1
+fi
 
 capsule=$(realpath "$1")
 capsule_name=$(basename "$capsule")
 capsule_name="${capsule_name%.*}"
 
-cd dl-cache || exit
+mkdir -p dl-cache
+cd dl-cache
+
 if [ ! -d "./edk2" ]; then
-    git clone --depth 1 --branch osfv-capsule-tests https://github.com/Dasharo/edk2.git
+    git clone --depth 1 --branch capsules-v2 https://github.com/Dasharo/edk2.git
 fi
 
-cd edk2 || exit
+cd edk2
 
-# Clear files from previous invocation
-rm -rf decoded* ${capsule_name}*.json ${capsule_name}*.cap
+GEN_CAPSULE="BaseTools/BinWrappers/PosixLike/GenerateCapsule"
+TESTING_ROOT_CERT="BaseTools/Source/Python/Pkcs7Sign/TestRoot.pub.pem"
+TESTING_SUB_CERT="BaseTools/Source/Python/Pkcs7Sign/TestSub.pub.pem"
+TESTING_SIGN_CERT="BaseTools/Source/Python/Pkcs7Sign/TestCert.pem"
 
-# Decoding the capsule
-BaseTools/BinWrappers/PosixLike/GenerateCapsule \
-    --decode "$capsule" \
-    --output decoded
+# Cleanup
+rm -rf decoded* "${capsule_name}"*.json "${capsule_name}"*.cap
 
-# Extracting data
+echo "--- DECODING CAPSULE ---"
+
+# Decode outer
+$GEN_CAPSULE --decode "$capsule" --output decoded
+
+nested=0
+out_prefix="decoded"
 json_file="decoded.json"
 
-dependencies=$(jq -r '.Payloads[0].Dependencies' "$json_file")
+# Detect V2 capsule via env or structure
+if [[ -n "${CAPSULE_UPDATE_V2:-}" ]]; then
+    echo "Capsule V2 mode (nested capsules)"
+    nested=1
+
+    outer_json="$json_file"
+
+    #outer_dependencies=$(jq -r '.Payloads[0].Dependencies' "$outer_json")
+    outer_fw_version=$(jq -r '.Payloads[0].FwVersion' "$outer_json")
+    outer_guid=$(jq -r '.Payloads[0].Guid' "$outer_json")
+    #outer_hardware_instance=$(jq -r '.Payloads[0].HardwareInstance' "$outer_json")
+    outer_lowest_supported_version=$(jq -r '.Payloads[0].LowestSupportedVersion' "$outer_json")
+    #outer_monotonic_count=$(jq -r '.Payloads[0].MonotonicCount' "$outer_json")
+    outer_payload=$(jq -r '.Payloads[0].Payload' "$outer_json")
+    #outer_update_image_index=$(jq -r '.Payloads[0].UpdateImageIndex' "$outer_json")
+
+    # Collect outer drivers
+    outer_drivers=$(for f in decoded.EmbeddedDriver*; do
+        [ -f "$f" ] || continue
+        printf '        {\n            "Driver": "%s"\n        },\n' "$f"
+    done | sed '$s/,$//')
+
+    echo "--- DECODING INNER CAPSULE ---"
+    $GEN_CAPSULE --decode "$outer_payload" --output decoded_inner
+
+    out_prefix="decoded_inner"
+    json_file="decoded_inner.json"
+else
+    echo "Legacy capsule mode"
+fi
+
+# Extract inner (or single) capsule data
+#dependencies=$(jq -r '.Payloads[0].Dependencies' "$json_file")
 fw_version=$(jq -r '.Payloads[0].FwVersion' "$json_file")
 guid=$(jq -r '.Payloads[0].Guid' "$json_file")
-hardware_instance=$(jq -r '.Payloads[0].HardwareInstance' "$json_file")
+#hardware_instance=$(jq -r '.Payloads[0].HardwareInstance' "$json_file")
 lowest_supported_version=$(jq -r '.Payloads[0].LowestSupportedVersion' "$json_file")
-monotonic_count=$(jq -r '.Payloads[0].MonotonicCount' "$json_file")
+#monotonic_count=$(jq -r '.Payloads[0].MonotonicCount' "$json_file")
 payload=$(jq -r '.Payloads[0].Payload' "$json_file")
-update_image_index=$(jq -r '.Payloads[0].UpdateImageIndex' "$json_file")
+#update_image_index=$(jq -r '.Payloads[0].UpdateImageIndex' "$json_file")
 
-echo
-echo "\"Dependencies\": \"$dependencies\""
-echo "\"FwVersion\": \"$fw_version\""
-echo "\"Guid\": \"$guid\""
-echo "\"HardwareInstance\": \"$hardware_instance\""
-echo "\"LowestSupportedVersion\": \"$lowest_supported_version\""
-echo "\"MonotonicCount\": \"$monotonic_count\""
-echo "\"Payload\": \"$payload\""
-echo "\"UpdateImageIndex\": \"$update_image_index\""
+echo "--- INNER CAPSULE DATA ---"
+echo "Guid: $guid"
+echo "FwVersion: $fw_version"
 echo
 
-# This works for up to 9 drivers, after that the order gets mixed because of
-# alphabetical ordering of filenames found through pattern
-drivers=$(for f in decoded.EmbeddedDriver* ; do cat <<EOF
-        {
-            "Driver": "$f"
-        },
+# Collect drivers
+drivers=$(for f in "${out_prefix}".EmbeddedDriver*; do
+    [ -f "$f" ] || continue
+    printf '        {\n            "Driver": "%s"\n        },\n' "$f"
+done | sed '$s/,$//')
+
+wrap_outer_if_needed() {
+    local inner_cap=$1
+    local final_cap=$2
+
+    if [ "$nested" -eq 1 ]; then
+        outer_json_file="${final_cap%.cap}_outer.json"
+
+        cat > "$outer_json_file" <<EOF
+{
+  "EmbeddedDrivers": [
+$outer_drivers
+  ],
+  "Payloads": [
+    {
+      "Payload": "$inner_cap",
+      "Guid": "$outer_guid",
+      "FwVersion": "$outer_fw_version",
+      "LowestSupportedVersion": "$outer_lowest_supported_version",
+      "OpenSslSignerPrivateCertFile": "$TESTING_SIGN_CERT",
+      "OpenSslOtherPublicCertFile": "$TESTING_SUB_CERT",
+      "OpenSslTrustedPublicCertFile": "$TESTING_ROOT_CERT"
+    }
+  ]
+}
 EOF
-done)
 
-# Remove final comma, GenerateCapsule can't handle it
-drivers=${drivers%,}
+        $GEN_CAPSULE --encode \
+            --capflag PersistAcrossReset \
+            --json-file "$outer_json_file" \
+            --output "$final_cap"
+    else
+        mv "$inner_cap" "$final_cap"
+    fi
+}
 
-# Create json config files with capsule configs
 echo "--- CREATING CAPSULE WITH WRONG CERTIFICATES ---"
 
-file_descriptor="_wrong_cert"
-
-output_file="$capsule_name$file_descriptor.json"
-
-if [ -f $output_file ]; then
-    rm $output_file
-fi
+output_json="${capsule_name}_wrong_cert.json"
+output_cap="${capsule_name}_wrong_cert.cap"
 
 invalid_cert_file="$here/sign.p12"
 invalid_sub_file="$here/sub.pub.pem"
 invalid_root_file="$here/root.pub.pem"
 
-if [ ! -f $invalid_cert_file ]; then
-    echo "!!!WARNING!!! Cert file not found!"
-    fi
-if [ ! -f $invalid_sub_file ]; then
-    echo "!!!WARNING!!! Sub file not found!"
-fi
-if [ ! -f $invalid_root_file ]; then
-    echo "!!!WARNING!!! Root file not found!"
-fi
-
-# There might be an issue if more than one driver is present
-content=$(cat <<EOF
+# Inner capsule rebuilt with WRONG certs
+cat > "$output_json" <<EOF
 {
   "EmbeddedDrivers": [
 $drivers
@@ -104,29 +158,25 @@ $drivers
   ]
 }
 EOF
-)
 
-echo "$content" > "$output_file"
+inner_wrong_cap="${capsule_name}_wrong_cert_inner.cap"
 
-echo "Json file: $output_file"
-echo "Output file: $capsule_name$file_descriptor.cap"
+$GEN_CAPSULE --encode \
+    --capflag PersistAcrossReset \
+    --json-file "$output_json" \
+    --output "$inner_wrong_cap"
 
-BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
-                                                --capflag PersistAcrossReset \
-                                                --json-file $output_file \
-                                                --output $capsule_name$file_descriptor.cap
+wrap_outer_if_needed "$inner_wrong_cap" "$output_cap"
+
+echo "Output file: $output_cap"
 
 echo "--- CREATING CAPSULE WITH WRONG GUID ---"
 
-file_descriptor="_invalid_guid"
-output_file="$capsule_name$file_descriptor.json"
+inner_json="${capsule_name}_invalid_guid_inner.json"
+inner_cap="${capsule_name}_invalid_guid_inner.cap"
+final_cap="${capsule_name}_invalid_guid.cap"
 
-if [ -f $output_file ]; then
-    rm $output_file
-fi
-
-# There might be an issue if more than one driver is present
-content=$(cat <<EOF
+cat > "$inner_json" <<EOF
 {
   "EmbeddedDrivers": [
 $drivers
@@ -137,21 +187,19 @@ $drivers
       "Guid": "11111111-2222-3333-4444-abcdefabcdef",
       "FwVersion": "$fw_version",
       "LowestSupportedVersion": "$lowest_supported_version",
-      "OpenSslSignerPrivateCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestCert.pem",
-      "OpenSslOtherPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestSub.pub.pem",
-      "OpenSslTrustedPublicCertFile": "BaseTools/Source/Python/Pkcs7Sign/TestRoot.pub.pem"
+      "OpenSslSignerPrivateCertFile": "$TESTING_SIGN_CERT",
+      "OpenSslOtherPublicCertFile": "$TESTING_SUB_CERT",
+      "OpenSslTrustedPublicCertFile": "$TESTING_ROOT_CERT"
     }
   ]
 }
 EOF
-)
 
-echo "$content" > "$output_file"
+$GEN_CAPSULE --encode \
+    --capflag PersistAcrossReset \
+    --json-file "$inner_json" \
+    --output "$inner_cap"
 
-echo "Json file: $output_file"
-echo "Output file: $capsule_name$file_descriptor.cap"
+wrap_outer_if_needed "$inner_cap" "$final_cap"
 
-BaseTools/BinWrappers/PosixLike/GenerateCapsule --encode \
-                                                --capflag PersistAcrossReset \
-                                                --json-file $output_file \
-                                                --output $capsule_name$file_descriptor.cap
+echo "Output file: $final_cap"
