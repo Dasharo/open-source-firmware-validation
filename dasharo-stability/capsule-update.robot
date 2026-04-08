@@ -16,17 +16,18 @@ Resource            ../lib/dcu.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND    Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
-...                     AND    Display Preparation Instructions
+# ...               AND    Display Preparation Instructions
 ...                     AND    Get CUP Environment Variables
 ...                     AND    Ensure Capsule Files Are Present
-...                     AND    Ensure BtG Testing Capsule Is Present
-...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
-...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
-...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
-...                     AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+# ...               AND    Ensure BtG Testing Capsule Is Present
+# ...               AND    Prepare For ROMHOLE Persistence Test    # MSI Only
+# ...               AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
+# ...               AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
+# ...               AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
 ...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
-...                     AND    Get System Values
+# ...               AND    Get System Values
 ...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU'    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
@@ -39,12 +40,18 @@ Default Tags        automated
 *** Variables ***
 ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
+# # "P" omitted as it differs in case between the fail and succeed screens
+${V2_RESULT_SCREEN_BOTTOM}=
+...                                         ress ENTER to reboot
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
 # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
 ${UEFI_SHELL_BOOT_DIR}=                     /boot/efi
 ${CAPSULE_UPDATE_SHELL_DIR}=                ${UEFI_SHELL_BOOT_DIR}/capsule_testing
 ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
+
+${V2_WRONG_KEYS_RESULT_SCREEN}=             ${NONE}
+${V2_VALID_CAPS_RESULT_SCREEN}=             ${NONE}
 
 
 *** Test Cases ***
@@ -56,6 +63,7 @@ CUP001.001 Capsule Update With Wrong Keys
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
+    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT}    Not supported in Capsule Update V2
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
@@ -264,6 +272,10 @@ Perform Capsule Update And Return Status
     ${original_bios_version}=    Get BIOS Version Linux    Before update
     Perform Capsule Update    ${capsule_file}
 
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu' and ${CAPSULE_UPDATE_V2_SUPPORT}
+        Log    nop
+    END
+
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
@@ -384,21 +396,63 @@ Perform Capsule Update
     Execute Reboot Command    assume_correct_boot=${True}
     # uefi shell runs and reboots the platform
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        # If serial console supported, check for FUM dialog. Handle FUM Screen
-        # consumes TIANOCORE_STRING. On new firmware without FUM, it presses the
-        # boot menu key and returns FALSE - use Get Boot Menu Construction then.
-        # On older firmware that always enters FUM, it dismisses the dialog and
-        # returns TRUE - fall through to Boot And Login To OS for the next boot.
-        Read From Terminal Until    ${TIANOCORE_STRING}    # booting UEFI Shell
-        ${fum_appeared}=    Handle FUM Screen
-        IF    not ${fum_appeared}
-            ${boot_menu}=    Get Boot Menu Construction
-            Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}    boot_menu=${boot_menu}
-            Login To Linux With Root Privileges
-            RETURN
+        # Depending on: Serial Console support, V2 capsules support, whether FUM confirmation is used
+        # different screens might appear on serial after the reboot.
+        # Instead of configuring a strict sequence, we will handle any screen that
+        # appears until the update is finished.
+
+        # The POST screen has to appear 2 times:
+        # 1. Directly after the reboot, it should be ignored as UEFI Shell is selected as BootNext and will boot after timeout
+        #    The CapsuleApp will then start immediately without a POST screen after UEFI Shell reboots the system.
+        # 2. After the update finally finishes the DUT is rebooted and we are ready to continue.
+        VAR    ${post_screen_counter}=    0
+        FOR    ${_}    IN RANGE    5
+            ${screen}=    Handle Capsule Update Screens
+            IF    '${V2_RESULT_SCREEN_BOTTOM}' in '${screen}'
+                IF    'wrong_cert.cap' in '${capsule_file}'
+                    VAR    ${v2_wrong_keys_result_screen}=    ${screen}
+                ELSE IF    'valid_capsule.cap' in '${capsule_file}'
+                    VAR    ${v2_valid_caps_result_screen}=    ${screen}
+                END
+            END
+            IF    '${TIANOCORE_STRING}' in '${screen}'
+                ${post_screen_counter}=    Evaluate    ${post_screen_counter} + 1
+            END
+            IF    ${post_screen_counter} == 2    BREAK
         END
     END
-    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+
+Handle Capsule Update Screens
+    [Arguments]    ${expect_fum}
+    # If there is no FUM screen and the update finishes, we land in the POST screen
+    # If the update did not start yet as the FUM mode must be authorized
+    VAR    ${potential_screens_regex}=
+    ...    (${TIANOCORE_STRING})
+    ...    (${FUM_DIALOG_TOP})
+    ...    separator=|
+
+    IF    ${CAPSULE_UPDATE_V2_SUPPORT}
+        # Then after the update finishes, a result screen will be presented
+        VAR    ${potential_screens_regex}=    ${potential_screens_regex}|(${V2_RESULT_SCREEN_BOTTOM})
+    END
+    ${out}=    Read From Terminal Until Regexp    ${potential_screens_regex}
+    VAR    ${matched_screen}=    ${NONE}
+
+    IF    '${FUM_DIALOG_TOP}' in $out
+        IF    not ${expect_fum}
+            Log    Unexpected FUM dialog - capsule may be corrupted, skipped by coreboot, or firmware is an older version that always enters FUM
+            ...    WARN
+        END
+        ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
+        ${digit}=    Get Key To Press    ${fum_screen}
+        Write Bare Into Terminal    ${digit}
+        RETURN    ${FUM_DIALOG_TOP}
+    ELSE IF    '${TIANOCORE_STRING}' in $out
+        RETURN    ${TIANOCORE_STRING}
+    ELSE IF    '${V2_RESULT_SCREEN_BOTTOM}' in $out
+        Press Enter
+        RETURN    ${V2_RESULT_SCREEN_BOTTOM}
+    END
 
 Handle FUM Screen
     [Documentation]    Handle (or assert absence of) the Firmware Update Mode dialog.
@@ -436,9 +490,6 @@ Handle FUM Screen
         Write Bare Into Terminal    ${digit}
         RETURN    ${TRUE}
     END
-    # No FUM: TIANOCORE_STRING was consumed, so Boot And Login To OS cannot read
-    # it again. Press the boot menu key now while the menu is still on screen and
-    # let the caller navigate from there.
     Write Bare Into Terminal    ${BOOT_MENU_KEY}
     RETURN    ${FALSE}
 

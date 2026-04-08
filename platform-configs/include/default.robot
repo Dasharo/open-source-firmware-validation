@@ -282,6 +282,7 @@ ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 # after FUM (i.e. without CONFIG_EDK2_FUM_AUTO_IPXE_BOOT) should set this
 # to ${FALSE}.
 ${CAPSULE_UPDATE_IN_FUM_SUPPORT}=                   ${TRUE}
+${CAPSULE_UPDATE_V2_SUPPORT}=                       ${FALSE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}
