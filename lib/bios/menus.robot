@@ -9,6 +9,11 @@ Resource            ../../keys.robot
 Resource            ../../keywords.robot
 
 
+*** Variables ***
+@{NON_SELECTABLE_SETUP_MENU_LINES}=
+...                                     WARNING: The firmware accepts updates signed with a public test key
+
+
 *** Keywords ***
 Enter Boot Menu Tianocore
     [Documentation]
@@ -366,6 +371,13 @@ Parse Menu Snapshot Into Construction
         ${line}=    Strip String    ${line}
         # Drop all remaining borders
         ${line}=    Remove String Using Regexp    ${line}    ^[\\|\\s/\\\\-]+$
+        # Drop well-known lines that are not part of the menu
+        ${non_menu}=    Run Keyword And Return Status
+        ...    Should Contain Any
+        ...    ${line}
+        ...    @{NON_SELECTABLE_SETUP_MENU_LINES}
+        IF    ${non_menu}    CONTINUE
+
         # If the resulting line is not empty, add it as a menu entry
         ${length}=    Get Length    ${line}
         ${line_valid}=    Evaluate    ${length} > 0
