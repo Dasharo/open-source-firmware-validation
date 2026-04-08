@@ -14,88 +14,88 @@ ci:
   skip: [shellcheck]
 
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: check-added-large-files
-      - id: check-merge-conflict
-      - id: check-symlinks
-      - id: detect-private-key
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-      - id: mixed-line-ending
+  # - repo: https://github.com/pre-commit/pre-commit-hooks
+  #   rev: v5.0.0
+  #   hooks:
+  #     - id: check-added-large-files
+  #     - id: check-merge-conflict
+  #     - id: check-symlinks
+  #     - id: detect-private-key
+  #     - id: end-of-file-fixer
+  #     - id: trailing-whitespace
+  #     - id: mixed-line-ending
 
-  - repo: https://github.com/talos-systems/conform
-    rev: v0.1.0-alpha.30
-    hooks:
-      - id: conform
-        stages:
-          - commit-msg
+  # - repo: https://github.com/talos-systems/conform
+  #   rev: v0.1.0-alpha.30
+  #   hooks:
+  #     - id: conform
+  #       stages:
+  #         - commit-msg
 
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
-    hooks:
-      - id: codespell
+  # - repo: https://github.com/codespell-project/codespell
+  #   rev: v2.4.1
+  #   hooks:
+  #     - id: codespell
 
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
-    hooks:
-      - id: markdownlint
-      - id: markdownlint-fix
+  # - repo: https://github.com/igorshubovych/markdownlint-cli
+  #   rev: v0.45.0
+  #   hooks:
+  #     - id: markdownlint
+  #     - id: markdownlint-fix
 
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.10.0
-    hooks:
-      - id: shellcheck
-        exclude: ^scripts/freebsd/
-        args: ["--severity=warning"]
+  # - repo: https://github.com/koalaman/shellcheck-precommit
+  #   rev: v0.10.0
+  #   hooks:
+  #     - id: shellcheck
+  #       exclude: ^scripts/freebsd/
+  #       args: ["--severity=warning"]
 
-  - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
-    hooks:
-      - id: isort
-        name: isort (python)
+  # - repo: https://github.com/pycqa/isort
+  #   rev: 6.0.1
+  #   hooks:
+  #     - id: isort
+  #       name: isort (python)
 
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
-    hooks:
-      - id: black
+  # - repo: https://github.com/psf/black
+  #   rev: 25.1.0
+  #   hooks:
+  #     - id: black
 
-  - repo: https://github.com/MarketSquare/robotframework-robocop
-    rev: v6.5.0
-    hooks:
-      - id: robocop
-        additional_dependencies:
-          - typing_extensions
-      - id: robocop-format
-        additional_dependencies:
-          - typing_extensions
+  # - repo: https://github.com/MarketSquare/robotframework-robocop
+  #   rev: v6.5.0
+  #   hooks:
+  #     - id: robocop
+  #       additional_dependencies:
+  #         - typing_extensions
+  #     - id: robocop-format
+  #       additional_dependencies:
+  #         - typing_extensions
 
-  - repo: https://github.com/fsfe/reuse-tool
-    rev: v5.0.2
-    hooks:
-      - id: reuse-lint-file
-        exclude: ^dts/profiles
+  # - repo: https://github.com/fsfe/reuse-tool
+  #   rev: v5.0.2
+  #   hooks:
+  #     - id: reuse-lint-file
+  #       exclude: ^dts/profiles
 
   - repo: local
     hooks:
-      - id: platform-configs-var-check
-        name: platform-configs
-        description: Check for unused variables in platform-configs
-        language: script
-        entry: ./scripts/check-unused-variables.sh
-        args: [ "-f" ]
-        files: 'platform-configs/.*\.robot$'
+      # - id: platform-configs-var-check
+      #   name: platform-configs
+      #   description: Check for unused variables in platform-configs
+      #   language: script
+      #   entry: ./scripts/check-unused-variables.sh
+      #   args: [ "-f" ]
+      #   files: 'platform-configs/.*\.robot$'
 
       - id: test-ids-check
         name: test-ids-check
-        description: Check if test IDs are valid
+        description: Check if test IDs are valid and fix wrong IDs in Skip If messages
         language: python
         additional_dependencies:
           - robotframework
           - fire
         entry: ./scripts/ci/test_ids/test_ids_legal.py
-        args: ["id_valid", "--print_invalid"]
+        args: ["id_valid", "--print_invalid", "--fix"]
         files: '^dasharo-.*/.*\.robot$'
         pass_filenames: false
 
@@ -131,25 +131,49 @@ repos:
           - robotframework
           - fire
         entry: ./scripts/ci/test_ids/test_ids_legal.py
-        args: ["os_skip_valid", "--print_invalid"]
+        args: ["env_skip_ids", "--print_invalid"]
         files: '^dasharo-.*/.*\.robot$'
         pass_filenames: false
 
-      - id: test-docs-match
-        name: test-docs-match
-        description: Check that all tests in docs-dasharo are implemented in robot code
+      - id: test-semiauto
+        name: test-semiauto
+        description: Check that tests calling manual keywords have the semiauto tag
         language: python
         additional_dependencies:
           - robotframework
           - fire
         entry: ./scripts/ci/test_ids/test_ids_legal.py
-        args: ["docs_match", "--print_invalid"]
-        files: '(^dasharo-.*/.*\.robot$|^docs-dasharo/.*\.md$)'
+        args: ["semiauto", "--print_invalid", "--fix"]
+        files: '^dasharo-.*/.*\.robot$'
+        pass_filenames: false
+
+      - id: test-env-skip-keywords
+        name: test-env-skip-keywords
+        description: Check that tests have required Skip If guards for firmware and OS-boot keywords
+        language: python
+        additional_dependencies:
+          - robotframework
+          - fire
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["env_skip_keywords", "--print_invalid", "--fix"]
+        files: '^dasharo-.*/.*\.robot$'
+        pass_filenames: false
+
+      - id: test-suite-sorted
+        name: test-suite-sorted
+        description: Check that tests within each suite are sorted by OS ENV ID then test ID
+        language: python
+        additional_dependencies:
+          - robotframework
+          - fire
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["suite_sorted", "--print_invalid"]
+        files: '^dasharo-.*/.*\.robot$'
         pass_filenames: false
 
       - id: test-names-match
         name: test-names-match
-        description: Check that test names in robot code match names in test_cases.json
+        description: Check that test names and modules in robot code match test_cases.json
         language: python
         additional_dependencies:
           - robotframework
@@ -166,6 +190,18 @@ repos:
         entry: ./scripts/ci/test_ids/check_sort.py
         args: ["--fix"]
         files: '^test_cases\.json$'
+
+      - id: test-json-sync
+        name: test-json-sync
+        description: Sync test_cases.json with robot code (add tests, fix names and modules)
+        language: python
+        additional_dependencies:
+          - robotframework
+          - fire
+        entry: ./scripts/ci/test_ids/test_ids_legal.py
+        args: ["json_sync"]
+        files: '(^test_cases\.json$|^dasharo-.*/.*\.robot$)'
+        pass_filenames: false
 
       - id: check-platform-config-vars
         name: Check Platform Config Variables

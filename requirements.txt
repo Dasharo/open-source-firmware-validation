@@ -61,6 +61,7 @@ pyOpenSSL==25.1.0
 pyotp==2.9.0
 pyparsing==3.2.3
 pyte @ git+https://github.com/3mdeb/pyte@b81646ec9f754aab34ed671b3c852b01cc72bdb4
+pytest==9.0.3
 python-dateutil==2.9.0.post0
 python-debian==0.1.49
 pytz==2024.1

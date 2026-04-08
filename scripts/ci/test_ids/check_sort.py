@@ -52,6 +52,7 @@ def main():
             try:
                 with open(args.file, "w", encoding="utf-8") as f:
                     json.dump(sorted_data, f, indent=2)
+                    f.write("\n")
                 print("✔ JSON has been sorted and saved.")
             except Exception as e:
                 print(f"Error writing sorted JSON: {e}")
