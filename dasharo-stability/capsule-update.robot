@@ -38,20 +38,39 @@ Default Tags        automated
 
 
 *** Variables ***
+# To be read from environment variables
+# # required for the tests to run
+${CAPSULE_UPDATE_RC0_FW_FILE}=              ${NONE}
+
+# # required for some capsule V2 tests
+${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}=    ${NONE}
+${TEST_KEYS_CAPSULE_FW_FILE}=               ${NONE}
+
+# variables to be set by setup
+# # V2 specific variables
+${V2_CAP_HAS_TESTING_KEYS}=                 ${FALSE}
+${V2_CAP_TEST_FILES_PROVIDED}=              ${FALSE}
+
+# # Capsules used for testing filenames
+${WRONG_KEYS_CAP}=                          ${NONE}
+${INVALID_GUID_CAP}=                        ${NONE}
+
+# Serial console markers
 ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
-# # "P" omitted as it differs in case between the fail and succeed screens
+# # "R" omitted as it differs in case between the fail and succeed screens
 ${V2_RESULT_SCREEN_BOTTOM}=
 ...                                         ress ENTER to reboot
+
+# Capsule Statuses for verification of update rejection
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
-# Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
+
+# Setup related variables
+# # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
 ${UEFI_SHELL_BOOT_DIR}=                     /boot/efi
 ${CAPSULE_UPDATE_SHELL_DIR}=                ${UEFI_SHELL_BOOT_DIR}/capsule_testing
 ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
-
-${V2_WRONG_KEYS_RESULT_SCREEN}=             ${NONE}
-${V2_VALID_CAPS_RESULT_SCREEN}=             ${NONE}
 
 
 *** Test Cases ***
@@ -63,10 +82,19 @@ CUP001.001 Capsule Update With Wrong Keys
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
-    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT}    Not supported in Capsule Update V2
+    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not (${V2_CAP_HAS_TESTING_KEYS} or ${V2_CAP_TEST_FILES_PROVIDED})
+    ...    Capsule Update V2 - the test requires firmware with testing keys - no testing firmware provided
+
+    # Need to flash the testing firmware if the base contains production keys
+    # Can't do that in setup as setup runs before `Skip If` in test's body and we don't want useless flash operations
+    IF    ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
+        Flash Firmware    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
+    END
+
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
+    [Teardown]    Run Keyword If    '${TEST_STATUS}'!='SKIP' and ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
 
 CUP003.001 Capsule Update with wrong BtG key
     [Documentation]    Check that the DUT rejects updates signed with the wrong BtG key on a fused platform.
@@ -88,10 +116,35 @@ CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
     Set UEFI Option    ${DCU_SUPPORTED_BOOLEAN_SMMSTORE_VARIABLE}    ${new_state}
 
 CUP150.001 Capsule Update
-    [Documentation]    Check for a successful Capsule Update.
+    [Documentation]    Check for a successful Capsule Update using EDK2 testing keys.
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
+    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${V2_CAP_HAS_TESTING_KEYS}
+    ...    Capsule Update V2 - production capsule provided, no need to test on testing keys
+    IF    ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_HAS_TESTING_KEYS}
+        Log
+        ...    CAPSULE_FW_FILE contains testing keys. Assuming CAPSULE_UPDATE_RC0_FW_FILE is a testing firmware that accepts them
+        ...    level=WARN
+    END
+
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
+    Should Be True    ${version_changed}
+    Should Contain    ${status}    CapsuleMax
+    Should Not Contain    ${status}    CapsuleLast
+
+CUP151.001 Capsule Update Production Keys
+    [Documentation]    Check for a successful Capsule Update using the production keys.
+    ...    Please note that the test number is high on purpose. This test will flash FW! In future
+    ...    if additional test cases will be created - when running the whole suite - It will be good
+    ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
+    Skip If
+    ...    not ${CAPSULE_UPDATE_V2_SUPPORT}
+    ...    CAPSULE_UPDATE_V2_SUPPORT==False, Production Capsule Update keys only supported in V2 capsules
+    Skip If
+    ...    ${V2_CAP_HAS_TESTING_KEYS}
+    ...    CAPSULE_FW_FILE contains testing keys, provide production capsule to test Capsule Update with Production keys
+
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
@@ -372,12 +425,8 @@ Copy Capsule Files To Shell Workspace
 
     # Capsules
     Send File To DUT    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/valid_capsule.cap
-    Send File To DUT
-    ...    ./dl-cache/edk2/${capsule_basename}_wrong_cert.cap
-    ...    ${CAPSULE_UPDATE_SHELL_DIR}/wrong_cert.cap
-    Send File To DUT
-    ...    ./dl-cache/edk2/${capsule_basename}_invalid_guid.cap
-    ...    ${CAPSULE_UPDATE_SHELL_DIR}/invalid_guid.cap
+    Send File To DUT    ${WRONG_KEYS_CAP}    ${CAPSULE_UPDATE_SHELL_DIR}/wrong_cert.cap
+    Send File To DUT    ${INVALID_GUID_CAP}    ${CAPSULE_UPDATE_SHELL_DIR}/invalid_guid.cap
     ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
     IF    $tmp is not None
         Send File To DUT
@@ -408,13 +457,6 @@ Perform Capsule Update
         VAR    ${post_screen_counter}=    0
         FOR    ${_}    IN RANGE    5
             ${screen}=    Handle Capsule Update Screens
-            IF    '${V2_RESULT_SCREEN_BOTTOM}' in '${screen}'
-                IF    'wrong_cert.cap' in '${capsule_file}'
-                    VAR    ${v2_wrong_keys_result_screen}=    ${screen}
-                ELSE IF    'valid_capsule.cap' in '${capsule_file}'
-                    VAR    ${v2_valid_caps_result_screen}=    ${screen}
-                END
-            END
             IF    '${TIANOCORE_STRING}' in '${screen}'
                 ${post_screen_counter}=    Evaluate    ${post_screen_counter} + 1
             END
@@ -510,16 +552,31 @@ Ensure Capsule Files Are Present
     ...    ${CAPSULE_FW_FILE}
     ...    capsule_fw_file parameter incorrect. Please add: -v capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
 
-    ${file_name}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
+    IF    ${V2_CAP_TEST_FILES_PROVIDED}
+        OperatingSystem.File Should Exist
+        ...    ${TEST_KEYS_CAPSULE_FW_FILE}
+        ...    TEST_KEYS_CAPSULE_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"
+        OperatingSystem.File Should Exist
+        ...    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
+        ...    TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
+    END
+
+    VAR    ${capsule_for_decoding}=    ${CAPSULE_FW_FILE}
+    IF    ${V2_CAP_TEST_FILES_PROVIDED}
+        VAR    ${capsule_for_decoding}=    ${TEST_KEYS_CAPSULE_FW_FILE}
+    END
+
+    ${file_name}=    Get File Name Without Extension    ${capsule_for_decoding}
     ${f1}=    Run Keyword And Return Status
     ...    OperatingSystem.File Should Exist
     ...    ./dl-cache/edk2/${file_name}_wrong_cert.cap
     ${f2}=    Run Keyword And Return Status
     ...    OperatingSystem.File Should Exist
     ...    ./dl-cache/edk2/${file_name}_invalid_guid.cap
-
+    VAR    ${INVALID_GUID_CAP}=    ./dl-cache/edk2/${file_name}_invalid_guid.cap    scope=SUITE
+    VAR    ${WRONG_KEYS_CAP}=    ./dl-cache/edk2/${file_name}_wrong_cert.cap    scope=SUITE
     IF    not ${f1} or not ${f2}
-        Run    ./scripts/capsules/capsule_update_tests.sh ${CAPSULE_FW_FILE}
+        Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
     END
 
 Ensure BtG Testing Capsule Is Present
@@ -598,23 +655,15 @@ Get Windows System Values
     VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
 
 Upload Required Files
-    ${fw_filename}=    Get File Name Without Extension    ${FW_FILE}
-    ${caps_filename}=    Get File Name Without Extension    ${CAPSULE_FW_FILE}
     ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
     IF    $tmp is not None
         ${btg_caps_filename}=    Get File Name Without Extension    ${BTG_CAPSULE_FW_FILE}
-    END
-    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
-    IF    $tmp is not None
         Send File To Dut    ${BTG_CAPSULE_FW_FILE}    /root/${btg_caps_filename}.cap
-    END
-    ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
-    IF    $tmp is not None
         Execute Command In Terminal    export BTG_CAPSULE_FW_FILE=/root/${btg_caps_filename}.cap
     END
 
     Prepare Capsule Shell Workspace
-    Copy Capsule Files To Shell Workspace    ${caps_filename}
+    Copy Capsule Files To Shell Workspace
 
 Prepare For ROMHOLE Persistence Test
     [Documentation]    This is a part which works only on MSI platforms.
@@ -675,3 +724,62 @@ Get CUP Environment Variables
     ...    depending on the configuration used during testing
     ${rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_FW_FILE
     VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${rc0}    scope=SUITE
+
+    IF    ${CAPSULE_UPDATE_V2_SUPPORT}
+        # We need to use testing and production keys for V2 capsules, but the tests
+        # should stay backwards-compatible, so a few cases need to be handled
+        # for the tests that depend on them:
+        # If `TEST_KEYS...` variables are given, then its as simple as using them where we need to.
+        # 0. Setup:
+        #    - we can use CAPSULE_FW_FILE no matter whether its test or prod.
+        #    The invalid GUID capsule will not be usable if RC0 is not testing though.
+        #    - if TEST_KEYS_CAPSULE_FW_FILE, fallback to it always to simplify, TEST_KEYS_RC0 will be used for
+        #    GUID tests and it makes no difference whether we decode prod or test caps for invalid key tests.
+        # 1. wrong keys test:
+        #    - no matter whether fw is test or prod, we can use invalid keys to test, no need to check the type
+        # 2. guid test:
+        #    we need the keys accepted by firmware to recompose a capsule with invalid guid
+        #    A) receive testing binary, build capsule ourselves
+        #    B) receive prod binary and prod capsule with invalid guid
+        #    We will opt for A).
+        # 3. update:
+        #    - If the CAPSULE_FW_FILE is prod, assume RC0 is also prod and run prod update.
+        #    - If the CAPSULE_FW_FILE is test, then assume the RC0 is also test and run test update
+        #    - IF the CAPSULE_FW_FILE is prod, but the test binaries are provided - there is no need to test both test and prod update. Use them only for GUID test.
+
+        VAR    ${V2_CAP_HAS_TESTING_KEYS}=    ${FALSE}    scope=SUITE
+        VAR    ${V2_CAP_TEST_FILES_PROVIDED}=    ${FALSE}    scope=SUITE
+
+        # Check if the default capsule is a testing capsule, if not, some tests won't be possible to run
+        ${rc}=    Run And Return Rc    ./scripts/capsules/verify_testing_keys.sh ${CAPSULE_FW_FILE}
+        IF    ${rc} == '0'
+            Log
+            ...    Detected testing keys in the $CAPSULE_FW_FILE (${CAPSULE_FW_FILE}). Assuming the FW_FILE accepts testing keys.
+            ...    level=WARN
+            VAR    ${V2_CAP_HAS_TESTING_KEYS}=    ${TRUE}    scope=SUITE
+        END
+
+        # If the default capsule does not have testing keys, allow to pass both testing and production capsules to run all the tests
+        IF    not ${V2_CAP_HAS_TESTING_KEYS}
+            ${test_cap}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_FW_FILE    default=${NONE}
+            ${test_rc0}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE    default=${NONE}
+            IF    $test_cap is not ${NONE} or $test_rc0 is not ${NONE}
+                IF    $test_cap is ${NONE}
+                    Log
+                    ...    Missing optional environment variable, TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"
+                    ...    WARN
+                END
+                IF    $test_rc0 is ${NONE}
+                    Log
+                    ...    Missing optional environment variable, TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
+                    ...    WARN
+                END
+
+                IF    $test_cap is not ${NONE} and $test_rc0 is not ${NONE}
+                    VAR    ${V2_CAP_TEST_FILES_PROVIDED}=    ${TRUE}    scope=SUITE
+                    VAR    ${TEST_KEYS_CAPSULE_FW_FILE}=    ${test_cap}    scope=SUITE
+                    VAR    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}=    ${test_rc0}    scope=SUITE
+                END
+            END
+        END
+    END
