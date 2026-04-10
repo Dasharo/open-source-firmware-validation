@@ -4462,6 +4462,13 @@
   },
   {
     "doc": {
+      "_id": "FUM001.201",
+      "name": "Firmware Update Mode support (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "FWUPD001.201",
       "name": "Fwupd Devices Detected (Ubuntu)",
       "module": "Dasharo Compatibility"
