@@ -37,7 +37,7 @@ Get Bootnum For Label
     ...    ${txt}
     ...    (?m)^Boot([0-9A-Fa-f]{4})[^\\n]*\\s${label}(\\s|$)
     ...    1
-    Should Not Be Empty    ${hits}
+    Should Not Be Empty    ${hits}    Label ${label} not found in the bootorder
     ${boot}=    Get From List    ${hits}    0
     RETURN    ${boot}
 
