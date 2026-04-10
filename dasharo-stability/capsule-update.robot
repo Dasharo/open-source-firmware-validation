@@ -16,17 +16,16 @@ Resource            ../lib/dcu.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND    Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
-# ...               AND    Display Preparation Instructions
+...                     AND    Display Preparation Instructions
 ...                     AND    Ensure Capsule Files Are Present
-# ...               AND    Ensure BtG Testing Capsule Is Present
-# ...               AND    Prepare For ROMHOLE Persistence Test    # MSI Only
-# ...               AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
-# ...               AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
-# ...               AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
-...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Ensure BtG Testing Capsule Is Present
+...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
+...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
+...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
+...                     AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
 ...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
-# ...               AND    Get System Values
+...                     AND    Get System Values
 ...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU'    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
@@ -88,12 +87,16 @@ CUP002.001 Capsule Update With Wrong GUID
     # Can't do that in setup as setup runs before `Skip If` in test's body and we don't want useless flash operations
     IF    ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
         Flash Firmware    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
+        Deploy Uefi Shell
     END
 
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
-    [Teardown]    Run Keyword If    '${TEST_STATUS}'!='SKIP' and ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+    [Teardown]    Run Keyword If    '${TEST_STATUS}'!='SKIP' and ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
+    ...    Run Keywords
+    ...    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+    ...    AND    Deploy Uefi Shell
 
 CUP003.001 Capsule Update with wrong BtG key
     [Documentation]    Check that the DUT rejects updates signed with the wrong BtG key on a fused platform.
@@ -240,6 +243,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     [Tags]    semiauto
     # Ensure we're running FW with the default logo
     Flash Firmware    ${FW_FILE}
+    Deploy Uefi Shell
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
     Set UEFI Option    MeMode    Disabled (HAP)
