@@ -407,7 +407,6 @@ Prepare Capsule Shell Workspace
     Execute Command In Terminal    chmod 755 ${CAPSULE_UPDATE_SHELL_DIR}
 
 Copy Capsule Files To Shell Workspace
-    [Arguments]    ${capsule_basename}
     Log To Console    Staging capsule files at ${CAPSULE_UPDATE_SHELL_DIR}
     # Logic
     Send File To DUT
