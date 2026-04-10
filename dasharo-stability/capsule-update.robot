@@ -17,7 +17,6 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND    Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 # ...               AND    Display Preparation Instructions
-...                     AND    Get CUP Environment Variables
 ...                     AND    Ensure Capsule Files Are Present
 # ...               AND    Ensure BtG Testing Capsule Is Present
 # ...               AND    Prepare For ROMHOLE Persistence Test    # MSI Only
@@ -544,37 +543,89 @@ Get File Name Without Extension
     RETURN    ${result}
 
 Ensure Capsule Files Are Present
+    [Documentation]    Validates that all required capsule files exist and sets up suite variables for V2 capsule testing.
+
     Variable Should Exist
     ...    ${CAPSULE_FW_FILE}
     ...    capsule_fw_file parameter missing. Please add: -v capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
-
     OperatingSystem.File Should Exist
     ...    ${CAPSULE_FW_FILE}
     ...    capsule_fw_file parameter incorrect. Please add: -v capsule_fw_file:<capsule_to_be_tested>.cap to the robot command line and try again.
 
-    IF    ${V2_CAP_TEST_FILES_PROVIDED}
-        OperatingSystem.File Should Exist
-        ...    ${TEST_KEYS_CAPSULE_FW_FILE}
-        ...    TEST_KEYS_CAPSULE_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"
-        OperatingSystem.File Should Exist
-        ...    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
-        ...    TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
+    ${rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_FW_FILE
+    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${rc0}    scope=SUITE
+    OperatingSystem.File Should Exist
+    ...    ${CAPSULE_UPDATE_RC0_FW_FILE}
+    ...    CAPSULE_UPDATE_RC0_FW_FILE env variable does not point to a file! CAPSULE_UPDATE_RC0_FW_FILE="${CAPSULE_UPDATE_RC0_FW_FILE}"
+
+    IF    ${CAPSULE_UPDATE_V2_SUPPORT}
+        Ensure V2 Capsule Key Variables Are Set
     END
 
     VAR    ${capsule_for_decoding}=    ${CAPSULE_FW_FILE}
     IF    ${V2_CAP_TEST_FILES_PROVIDED}
         VAR    ${capsule_for_decoding}=    ${TEST_KEYS_CAPSULE_FW_FILE}
     END
+    Ensure Derived Capsule Files Are Present    ${capsule_for_decoding}
 
+Ensure V2 Capsule Key Variables Are Set
+    [Documentation]    Detects whether the provided capsule uses testing or production keys and sets
+    ...    suite variables accordingly. Optionally reads TEST_KEYS_* env variables when the main
+    ...    capsule uses production keys, so the GUID test can still run.
+    ...
+    ...    For V2 capsules, several cases are handled to keep tests backwards-compatible:
+    ...    - Setup: CAPSULE_FW_FILE is used regardless of key type. Invalid GUID capsule requires testing RC0.
+    ...    If TEST_KEYS_CAPSULE_FW_FILE is provided, it is always preferred to simplify key handling.
+    ...    - Wrong keys test: Works with any firmware type, no key type check needed.
+    ...    - GUID test: Requires keys accepted by firmware to recompose capsule with invalid GUID.
+    ...    Implemented by receiving a testing binary and building the capsule (option A).
+    ...    - Update test: If CAPSULE_FW_FILE has prod keys, assume RC0 is also prod and run prod update.
+    ...    If CAPSULE_FW_FILE has testing keys, assume RC0 is also testing.
+    ...    If CAPSULE_FW_FILE is prod but test binaries are provided, use them only for GUID test.
+    ${rc}=    Run And Return Rc    ./scripts/capsules/verify_testing_keys.sh ${CAPSULE_FW_FILE}
+    IF    ${rc} == 0
+        Log
+        ...    Detected testing keys in the $CAPSULE_FW_FILE (${CAPSULE_FW_FILE}). Assuming the FW_FILE accepts testing keys.
+        ...    level=WARN
+        VAR    ${V2_CAP_HAS_TESTING_KEYS}=    ${TRUE}    scope=SUITE
+        RETURN
+    END
+
+    ${test_cap}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_FW_FILE    default=${NONE}
+    ${test_rc0}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE    default=${NONE}
+    IF    $test_cap is ${NONE} and $test_rc0 is ${NONE}    RETURN
+
+    IF    $test_cap is ${NONE}
+        Log    Missing optional environment variable, TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"    WARN
+    END
+    IF    $test_rc0 is ${NONE}
+        Log
+        ...    Missing optional environment variable, TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
+        ...    WARN
+    END
+    IF    $test_cap is ${NONE} or $test_rc0 is ${NONE}    RETURN
+
+    VAR    ${V2_CAP_TEST_FILES_PROVIDED}=    ${TRUE}    scope=SUITE
+    VAR    ${TEST_KEYS_CAPSULE_FW_FILE}=    ${test_cap}    scope=SUITE
+    VAR    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}=    ${test_rc0}    scope=SUITE
+    OperatingSystem.File Should Exist
+    ...    ${TEST_KEYS_CAPSULE_FW_FILE}
+    ...    TEST_KEYS_CAPSULE_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"
+    OperatingSystem.File Should Exist
+    ...    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
+    ...    TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
+
+Ensure Derived Capsule Files Are Present
+    [Documentation]    Ensures wrong_cert and invalid_guid capsule variants exist for the given capsule,
+    ...    generating them via capsule_update_tests.sh if not already present.
+    [Arguments]    ${capsule_for_decoding}
     ${file_name}=    Get File Name Without Extension    ${capsule_for_decoding}
     ${f1}=    Run Keyword And Return Status
-    ...    OperatingSystem.File Should Exist
-    ...    ./dl-cache/edk2/${file_name}_wrong_cert.cap
+    ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_wrong_cert.cap
     ${f2}=    Run Keyword And Return Status
-    ...    OperatingSystem.File Should Exist
-    ...    ./dl-cache/edk2/${file_name}_invalid_guid.cap
-    VAR    ${INVALID_GUID_CAP}=    ./dl-cache/edk2/${file_name}_invalid_guid.cap    scope=SUITE
+    ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_invalid_guid.cap
     VAR    ${WRONG_KEYS_CAP}=    ./dl-cache/edk2/${file_name}_wrong_cert.cap    scope=SUITE
+    VAR    ${INVALID_GUID_CAP}=    ./dl-cache/edk2/${file_name}_invalid_guid.cap    scope=SUITE
     IF    not ${f1} or not ${f2}
         Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
     END
@@ -718,68 +769,3 @@ Set Startup Nsh Variable
     ${file_name}=    Convert To Lower Case    ${name}
     VAR    ${target}=    ${CAPSULE_UPDATE_SHELL_DIR}/variable_${file_name}.nsh
     Execute Command In Terminal    echo "set ${variable_name} ${value}" > '${target}'
-
-Get CUP Environment Variables
-    [Documentation]    Saves the env variables to robot variables that might be different
-    ...    depending on the configuration used during testing
-    ${rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_FW_FILE
-    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${rc0}    scope=SUITE
-
-    IF    ${CAPSULE_UPDATE_V2_SUPPORT}
-        # We need to use testing and production keys for V2 capsules, but the tests
-        # should stay backwards-compatible, so a few cases need to be handled
-        # for the tests that depend on them:
-        # If `TEST_KEYS...` variables are given, then its as simple as using them where we need to.
-        # 0. Setup:
-        #    - we can use CAPSULE_FW_FILE no matter whether its test or prod.
-        #    The invalid GUID capsule will not be usable if RC0 is not testing though.
-        #    - if TEST_KEYS_CAPSULE_FW_FILE, fallback to it always to simplify, TEST_KEYS_RC0 will be used for
-        #    GUID tests and it makes no difference whether we decode prod or test caps for invalid key tests.
-        # 1. wrong keys test:
-        #    - no matter whether fw is test or prod, we can use invalid keys to test, no need to check the type
-        # 2. guid test:
-        #    we need the keys accepted by firmware to recompose a capsule with invalid guid
-        #    A) receive testing binary, build capsule ourselves
-        #    B) receive prod binary and prod capsule with invalid guid
-        #    We will opt for A).
-        # 3. update:
-        #    - If the CAPSULE_FW_FILE is prod, assume RC0 is also prod and run prod update.
-        #    - If the CAPSULE_FW_FILE is test, then assume the RC0 is also test and run test update
-        #    - IF the CAPSULE_FW_FILE is prod, but the test binaries are provided - there is no need to test both test and prod update. Use them only for GUID test.
-
-        VAR    ${V2_CAP_HAS_TESTING_KEYS}=    ${FALSE}    scope=SUITE
-        VAR    ${V2_CAP_TEST_FILES_PROVIDED}=    ${FALSE}    scope=SUITE
-
-        # Check if the default capsule is a testing capsule, if not, some tests won't be possible to run
-        ${rc}=    Run And Return Rc    ./scripts/capsules/verify_testing_keys.sh ${CAPSULE_FW_FILE}
-        IF    ${rc} == '0'
-            Log
-            ...    Detected testing keys in the $CAPSULE_FW_FILE (${CAPSULE_FW_FILE}). Assuming the FW_FILE accepts testing keys.
-            ...    level=WARN
-            VAR    ${V2_CAP_HAS_TESTING_KEYS}=    ${TRUE}    scope=SUITE
-        END
-
-        # If the default capsule does not have testing keys, allow to pass both testing and production capsules to run all the tests
-        IF    not ${V2_CAP_HAS_TESTING_KEYS}
-            ${test_cap}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_FW_FILE    default=${NONE}
-            ${test_rc0}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE    default=${NONE}
-            IF    $test_cap is not ${NONE} or $test_rc0 is not ${NONE}
-                IF    $test_cap is ${NONE}
-                    Log
-                    ...    Missing optional environment variable, TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"
-                    ...    WARN
-                END
-                IF    $test_rc0 is ${NONE}
-                    Log
-                    ...    Missing optional environment variable, TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
-                    ...    WARN
-                END
-
-                IF    $test_cap is not ${NONE} and $test_rc0 is not ${NONE}
-                    VAR    ${V2_CAP_TEST_FILES_PROVIDED}=    ${TRUE}    scope=SUITE
-                    VAR    ${TEST_KEYS_CAPSULE_FW_FILE}=    ${test_cap}    scope=SUITE
-                    VAR    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}=    ${test_rc0}    scope=SUITE
-                END
-            END
-        END
-    END
