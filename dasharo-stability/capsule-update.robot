@@ -23,7 +23,6 @@ Suite Setup         Run Keywords
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
 ...                     AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
-...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
 ...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU'    Set UEFI Option    MeMode    Disabled (HAP)
@@ -87,16 +86,13 @@ CUP002.001 Capsule Update With Wrong GUID
     # Can't do that in setup as setup runs before `Skip If` in test's body and we don't want useless flash operations
     IF    ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
         Flash Firmware    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
-        Deploy Uefi Shell
     END
 
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
     [Teardown]    Run Keyword If    '${TEST_STATUS}'!='SKIP' and ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
-    ...    Run Keywords
     ...    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
-    ...    AND    Deploy Uefi Shell
 
 CUP003.001 Capsule Update with wrong BtG key
     [Documentation]    Check that the DUT rejects updates signed with the wrong BtG key on a fused platform.
@@ -326,6 +322,8 @@ Perform Capsule Update And Return Status
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
+    Deploy Uefi Shell    os_logged_in=${TRUE}
+    Execute Manual Step    Will run update
     Perform Capsule Update    ${capsule_file}
 
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu' and ${CAPSULE_UPDATE_V2_SUPPORT}
@@ -335,6 +333,7 @@ Perform Capsule Update And Return Status
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
+    Deploy Uefi Shell    os_logged_in=${TRUE}
 
     ${updated_bios_version}=    Get BIOS Version Linux    After update
     ${version_changed}=    Run Keyword And Return Status
@@ -709,6 +708,9 @@ Get Windows System Values
     VAR    ${${var_uuid}}=    ${uuid}    scope=SUITE
 
 Upload Required Files
+    Power On
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+    Switch To Root User
     ${tmp}=    Get Variable Value    $BTG_CAPSULE_FW_FILE
     IF    $tmp is not None
         ${btg_caps_filename}=    Get File Name Without Extension    ${BTG_CAPSULE_FW_FILE}
@@ -771,4 +773,4 @@ Set Startup Nsh Variable
     ${variable_name}=    Convert To Upper Case    ${name}
     ${file_name}=    Convert To Lower Case    ${name}
     VAR    ${target}=    ${CAPSULE_UPDATE_SHELL_DIR}/variable_${file_name}.nsh
-    Execute Command In Terminal    echo "set ${variable_name} ${value}" > '${target}'
+    Execute Command In Terminal    echo "set ${variable_name} ${value}" > '${target}' && sync
