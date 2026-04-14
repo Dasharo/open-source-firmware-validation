@@ -240,7 +240,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     ...    and the progress bar is scaled properly using a default logo.
     [Tags]    semiauto
     # Ensure we're running FW with the default logo
-    Flash Firmware    ${BASE_FW_FILE_NO_LOGO}
+    IF    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${BASE_FW_FILE_NO_LOGO}
     Deploy Uefi Shell
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
