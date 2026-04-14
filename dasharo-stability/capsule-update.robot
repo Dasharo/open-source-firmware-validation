@@ -142,6 +142,9 @@ CUP151.001 Capsule Update Production Keys
     ...    ${V2_CAP_HAS_TESTING_KEYS}
     ...    CAPSULE_FW_FILE contains testing keys, provide production capsule to test Capsule Update with Production keys
 
+    # If CAPSULE_UPDATE_V2_SUPPORT and V2_CAP_HAS_TESTING_KEYS contains the production keys base
+    # TODO: Remove the flash if we implement the testing firmware to accept both testing and production keys
+    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
