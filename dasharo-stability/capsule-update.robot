@@ -56,7 +56,7 @@ ${INVALID_GUID_CAP}=                        ${NONE}
 # Serial console markers
 ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
-# # "R" omitted as it differs in case between the fail and succeed screens
+# # "P" omitted as it differs in case between the fail and succeed screens
 ${V2_RESULT_SCREEN_BOTTOM}=
 ...                                         ress ENTER to reboot
 
@@ -264,7 +264,7 @@ CUP260.101 Capsule update in Firmware Update Mode works
     Enter Submenu From Snapshot    ${security_menu}    Enter Firmware Update Mode
     Read From Terminal Until    Press ENTER to continue and reboot
     Press Enter
-    Handle FUM Screen    expect_fum=${TRUE}
+    Handle Capsule Update Screens    expect_fum=${TRUE}
     # Stop iPXE from booting default option as it contains workaround for this
     # issue
     Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
@@ -339,7 +339,6 @@ Perform Capsule Update And Return Status
     ...    ${original_bios_version}
     ...    ${updated_bios_version}
     ${logs}=    Get Capsule Update Logs
-
     RETURN    ${logs}    ${version_changed}
 
 Check The Update Screen For The Correct UX
@@ -464,7 +463,7 @@ Perform Capsule Update
     END
 
 Handle Capsule Update Screens
-    [Arguments]    ${expect_fum}
+    [Arguments]    ${expect_fum}=${FALSE}
     # If there is no FUM screen and the update finishes, we land in the POST screen
     # If the update did not start yet as the FUM mode must be authorized
     VAR    ${potential_screens_regex}=
@@ -481,7 +480,8 @@ Handle Capsule Update Screens
 
     IF    '${FUM_DIALOG_TOP}' in $out
         IF    not ${expect_fum}
-            Log    Unexpected FUM dialog - capsule may be corrupted, skipped by coreboot, or firmware is an older version that always enters FUM
+            Log
+            ...    Unexpected FUM dialog - capsule may be corrupted, skipped by coreboot, or firmware is an older version that always enters FUM
             ...    WARN
         END
         ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
@@ -494,45 +494,6 @@ Handle Capsule Update Screens
         Press Enter
         RETURN    ${V2_RESULT_SCREEN_BOTTOM}
     END
-
-Handle FUM Screen
-    [Documentation]    Handle (or assert absence of) the Firmware Update Mode dialog.
-    ...    When ``${expect_fum}`` is ``${FALSE}`` (default, used during capsule staging):
-    ...    FUM dialog is not expected. If it appears (e.g. older firmware like MSI
-    ...    z690 v1.1.4 that unconditionally enters FUM on every capsule update, or a
-    ...    corrupted/coreboot-skipped capsule), a warning is logged and the dialog is
-    ...    dismissed. Returns ``${TRUE}`` so the caller falls through to
-    ...    ``Boot And Login To OS`` instead of calling ``Get Boot Menu Construction``.
-    ...    When no FUM appears, the UEFI boot menu is the expected outcome; the boot
-    ...    menu key is pressed and ``${FALSE}`` is returned so the caller can call
-    ...    ``Get Boot Menu Construction`` next.
-    ...    When ``${expect_fum}`` is ``${TRUE}`` (used when FUM mode was explicitly
-    ...    enabled via setup menu): FUM dialog is expected and handled by pressing the
-    ...    indicated key. Returns ``${TRUE}`` so the caller knows FUM is active.
-    ...
-    ...    === Arguments ===
-    ...    - ``${timeout}``: ``string`` - How long to wait for FUM dialog or boot menu.
-    ...    \ Default is 6 minutes to accommodate platforms where capsule apply and
-    ...    \ the subsequent reboot together take longer than the standard 3-minute
-    ...    \ DUT response timeout.
-    ...    - ``${expect_fum}``: ``bool`` - Whether the FUM dialog is expected.
-    [Arguments]    ${timeout}=6 minutes    ${expect_fum}=${FALSE}
-    ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
-    ${out}=    Read From Terminal Until Regexp    (${TIANOCORE_STRING})|(${FUM_DIALOG_TOP})
-    Set DUT Response Timeout    ${prev_timeout}
-    IF    '${FUM_DIALOG_TOP}' in $out
-        IF    not ${expect_fum}
-            Log
-            ...    Unexpected FUM dialog - capsule may be corrupted, skipped by coreboot, or firmware is an older version that always enters FUM
-            ...    WARN
-        END
-        ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
-        ${digit}=    Get Key To Press    ${fum_screen}
-        Write Bare Into Terminal    ${digit}
-        RETURN    ${TRUE}
-    END
-    Write Bare Into Terminal    ${BOOT_MENU_KEY}
-    RETURN    ${FALSE}
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
