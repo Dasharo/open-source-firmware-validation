@@ -26,7 +26,6 @@ Suite Setup         Run Keywords
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
 ...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU'    Set UEFI Option    MeMode    Disabled (HAP)
-...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
 ...                     AND    Log Out And Close Connection
