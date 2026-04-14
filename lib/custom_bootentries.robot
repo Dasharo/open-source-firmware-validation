@@ -169,9 +169,12 @@ Prepend Bootnum To Bootorder
     RETURN    ${new}
 
 Deploy Uefi Shell
-    Power On
-    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
-    Switch To Root User
+    [Arguments]    ${os_logged_in}=${FALSE}
+    IF    not ${os_logged_in}
+        Power On
+        Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+        Switch To Root User
+    END
     Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/Shell.efi    /tmp/Shell.efi
     Send File To DUT    ${TEST_DATA_DIR}/uefi-shell/deploy-shell-efi.sh    /tmp/deploy-shell-efi.sh
     Execute Command In Terminal    /tmp/deploy-shell-efi.sh /tmp/Shell.efi
