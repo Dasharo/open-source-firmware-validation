@@ -273,10 +273,6 @@ Perform Capsule Update And Return Status
     ...    ${updated_bios_version}
     ${logs}=    Get Capsule Update Logs
 
-    IF    '${DUT_CONNECTION_METHOD}' != 'SSH'
-        ${logs}=    Get Capsule Update Logs
-    END
-    
     RETURN    ${logs}    ${version_changed}
 
 Check The Update Screen For The Correct UX
