@@ -634,7 +634,7 @@ Prepare For Logo Persistence Test
     Run    cp ${BASE_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
     DCU Logo Set In File    ${CUSTOM_LOGO_RC0_FW_FILE}    ${TEST_DATA_DIR}/dcu/logo.bmp
 
-    VAR    ${base_fw_file_no_logo}=    ${BASE_FW_FILE}
+    VAR    ${BASE_FW_FILE_NO_LOGO}=    ${BASE_FW_FILE}    scope=SUITE
     VAR    ${BASE_FW_FILE}=    ${CUSTOM_LOGO_RC0_FW_FILE}    scope=SUITE
 
 Get System Values
