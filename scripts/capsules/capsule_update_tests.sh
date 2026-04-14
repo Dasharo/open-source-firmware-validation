@@ -31,9 +31,22 @@ TESTING_ROOT_CERT="BaseTools/Source/Python/Pkcs7Sign/TestRoot.pub.pem"
 TESTING_SUB_CERT="BaseTools/Source/Python/Pkcs7Sign/TestSub.pub.pem"
 TESTING_SIGN_CERT="BaseTools/Source/Python/Pkcs7Sign/TestCert.pem"
 
+check_v2() {
+    output_prefix="check_v2_decoded"
+
+    if $GEN_CAPSULE --decode "$capsule" --output "$output_prefix" &>/dev/null \
+        && $GEN_CAPSULE --decode "${output_prefix}.Payload.1.bin" --output "${output_prefix}_inner" &>/dev/null;
+    then
+      echo true
+    else
+      echo false
+    fi
+}
+
 # Cleanup
 rm -rf decoded* "${capsule_name}"*.json "${capsule_name}"*.cap
 
+V2_CAPSULE=$(check_v2 "$capsule")
 echo "--- DECODING CAPSULE ---"
 
 # Decode outer
@@ -44,7 +57,7 @@ out_prefix="decoded"
 json_file="decoded.json"
 
 # Detect V2 capsule via env or structure
-if [[ -n "${CAPSULE_UPDATE_V2:-}" ]]; then
+if $V2_CAPSULE; then
     echo "Capsule V2 mode (nested capsules)"
     nested=1
 
@@ -98,7 +111,6 @@ done | sed '$s/,$//')
 wrap_outer_if_needed() {
     local inner_cap=$1
     local final_cap=$2
-
     if [ "$nested" -eq 1 ]; then
         outer_json_file="${final_cap%.cap}_outer.json"
 
