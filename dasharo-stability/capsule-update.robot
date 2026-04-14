@@ -18,14 +18,13 @@ Suite Setup         Run Keywords
 ...                     AND    Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 ...                     AND    Display Preparation Instructions
 ...                     AND    Ensure Capsule Files Are Present
+...                     AND    DCU Variable Set UEFI Option In File    ${BASE_FW_FILE}    MeMode    Disabled (HAP)
 ...                     AND    Ensure BtG Testing Capsule Is Present
-...                     AND    Prepare For ROMHOLE Persistence Test    # MSI Only
-...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
-...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CUSTOM_LOGO_RC0_FW_FILE}
-...                     AND    Run Keyword If    not ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Prepare For ROMHOLE Persistence Test
+...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT} and '${MANUFACTURER}' != 'QEMU'    Prepare For Logo Persistence Test
+...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT} and '${MANUFACTURER}' != 'QEMU'    Flash Firmware    ${BASE_FW_FILE}
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
-...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU'    Set UEFI Option    MeMode    Disabled (HAP)
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
 ...                     AND    Log Out And Close Connection
@@ -34,6 +33,9 @@ Default Tags        automated
 
 
 *** Variables ***
+${BASE_FW_FILE}=                            ${NONE}    # Set in Suite Setup "Ensure Capsule Files Are Present"
+${BASE_FW_FILE_NO_LOGO}=                    ${NONE}    # Set in Suite Setup "Prepare For Logo Persistence Test"
+
 # To be read from environment variables
 # # required for the tests to run
 ${CAPSULE_UPDATE_RC0_FW_FILE}=              ${NONE}
@@ -83,15 +85,13 @@ CUP002.001 Capsule Update With Wrong GUID
 
     # Need to flash the testing firmware if the base contains production keys
     # Can't do that in setup as setup runs before `Skip If` in test's body and we don't want useless flash operations
-    IF    ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
-        Flash Firmware    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
-    END
+    Flash Firmware    ${BASE_FW_FILE}
 
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
     [Teardown]    Run Keyword If    '${TEST_STATUS}'!='SKIP' and ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
-    ...    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+    ...    Flash Firmware    ${BASE_FW_FILE}
 
 CUP003.001 Capsule Update with wrong BtG key
     [Documentation]    Check that the DUT rejects updates signed with the wrong BtG key on a fused platform.
@@ -237,7 +237,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     ...    and the progress bar is scaled properly using a default logo.
     [Tags]    semiauto
     # Ensure we're running FW with the default logo
-    Flash Firmware    ${FW_FILE}
+    Flash Firmware    ${BASE_FW_FILE_NO_LOGO}
     Deploy Uefi Shell
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
@@ -322,7 +322,6 @@ Perform Capsule Update And Return Status
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
     Deploy Uefi Shell    os_logged_in=${TRUE}
-    Execute Manual Step    Will run update
     Perform Capsule Update    ${capsule_file}
 
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu' and ${CAPSULE_UPDATE_V2_SUPPORT}
@@ -563,9 +562,10 @@ Ensure Capsule Files Are Present
         Ensure V2 Capsule Key Variables Are Set
     END
 
-    VAR    ${capsule_for_decoding}=    ${CAPSULE_FW_FILE}
     IF    ${V2_CAP_TEST_FILES_PROVIDED}
         VAR    ${capsule_for_decoding}=    ${TEST_KEYS_CAPSULE_FW_FILE}
+    ELSE
+        VAR    ${capsule_for_decoding}=    ${CAPSULE_FW_FILE}
     END
     Ensure Derived Capsule Files Are Present    ${capsule_for_decoding}
 
@@ -630,6 +630,13 @@ Ensure Derived Capsule Files Are Present
     IF    not ${f1} or not ${f2}
         Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
     END
+    IF    ${V2_CAP_TEST_FILES_PROVIDED}
+        VAR    ${BASE_FW_FILE}=    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}_dcu_mod.rom    scope=SUITE
+        Run    cp -f ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE} ${BASE_FW_FILE}
+    ELSE
+        VAR    ${BASE_FW_FILE}=    ${CAPSULE_UPDATE_RC0_FW_FILE}_dcu_mod.rom    scope=SUITE
+        Run    cp -f ${CAPSULE_UPDATE_RC0_FW_FILE} ${BASE_FW_FILE}
+    END
 
 Ensure BtG Testing Capsule Is Present
     IF    ${INTEL_CBNT_BOOTGUARD_FUSED}
@@ -661,9 +668,13 @@ Display Preparation Instructions
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
     ${name}=    Evaluate    '${CAPSULE_UPDATE_RC0_FW_FILE}'.split("/")[-1]
+
     VAR    ${CUSTOM_LOGO_RC0_FW_FILE}=    dcu/custom_logo_${name}    scope=SUITE
-    Run    cp ${CAPSULE_UPDATE_RC0_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
+    Run    cp ${BASE_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
     DCU Logo Set In File    ${CUSTOM_LOGO_RC0_FW_FILE}    ${TEST_DATA_DIR}/dcu/logo.bmp
+
+    VAR    ${base_fw_file_no_logo}=    ${BASE_FW_FILE}
+    VAR    ${BASE_FW_FILE}=    ${CUSTOM_LOGO_RC0_FW_FILE}    scope=SUITE
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
