@@ -273,7 +273,12 @@ CUP260.101 Capsule update in Firmware Update Mode works
     # Stop iPXE from booting default option as it contains workaround for this
     # issue
     Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
-    Press Key N Times    1    ${CTRL_C}
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        VAR    @{combo}=    ControlLeft    KeyC
+        Key Combination PiKVM    ${combo}
+    ELSE
+        Press Key N Times    1    ${CTRL_C}
+    END
     Enter IPXE Shell Submenu
     Execute Command In Terminal    dhcp
     # Write Bare allows to set interval between each character which might be
