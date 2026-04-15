@@ -551,10 +551,12 @@ Ensure Capsule Files Are Present
 
     IF    ${V2_CAP_TEST_FILES_PROVIDED}
         VAR    ${capsule_for_decoding}=    ${TEST_KEYS_CAPSULE_FW_FILE}
+        VAR    ${base_rom}=    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
     ELSE
         VAR    ${capsule_for_decoding}=    ${CAPSULE_FW_FILE}
+        VAR    ${base_rom}=    ${CAPSULE_UPDATE_RC0_FW_FILE}
     END
-    Ensure Derived Capsule Files Are Present    ${capsule_for_decoding}
+    Ensure Derived Capsule Files Are Present    ${capsule_for_decoding}    ${base_rom}
 
 Ensure V2 Capsule Key Variables Are Set
     [Documentation]    Detects whether the provided capsule uses testing or production keys and sets
@@ -606,7 +608,7 @@ Ensure V2 Capsule Key Variables Are Set
 Ensure Derived Capsule Files Are Present
     [Documentation]    Ensures wrong_cert and invalid_guid capsule variants exist for the given capsule,
     ...    generating them via capsule_update_tests.sh if not already present.
-    [Arguments]    ${capsule_for_decoding}
+    [Arguments]    ${capsule_for_decoding}    ${base_rom}
     ${file_name}=    Get File Name Without Extension    ${capsule_for_decoding}
     ${f1}=    Run Keyword And Return Status
     ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_wrong_cert.cap
@@ -617,13 +619,10 @@ Ensure Derived Capsule Files Are Present
     IF    not ${f1} or not ${f2}
         Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
     END
-    IF    ${V2_CAP_TEST_FILES_PROVIDED}
-        VAR    ${BASE_FW_FILE}=    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}_dcu_mod.rom    scope=SUITE
-        Run    cp -f ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE} ${BASE_FW_FILE}
-    ELSE
-        VAR    ${BASE_FW_FILE}=    ${CAPSULE_UPDATE_RC0_FW_FILE}_dcu_mod.rom    scope=SUITE
-        Run    cp -f ${CAPSULE_UPDATE_RC0_FW_FILE} ${BASE_FW_FILE}
-    END
+    VAR    ${BASE_FW_FILE}=    ${base_rom}_dcu_mod.rom    scope=SUITE
+    ${rc}=    Run And Return Rc    cp -f ${base_rom} ${BASE_FW_FILE}
+    Should Be Equal As Integers    ${rc}    0
+    ...    Failed to copy base ROM: `cp ${base_rom} ${BASE_FW_FILE}`
 
 Ensure BtG Testing Capsule Is Present
     IF    ${INTEL_CBNT_BOOTGUARD_FUSED}
