@@ -100,7 +100,8 @@ CUP003.001 Capsule Update with wrong BtG key
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
-    Perform Capsule Update    invalid_btg_signature.cap    use_uefi_shell=${False}
+    Check The Update Screen For BtG Error Message    pre=${TRUE}
+    Perform Capsule Update    invalid_btg_signature.cap
     Check The Update Screen For BtG Error Message
 
 CUP130.001 Verifying BIOS Settings Persistence After Update - PART 1
@@ -248,6 +249,7 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
+    Check The Update Screen For The Correct UX    pre=${TRUE}
     Perform Capsule Update    valid_capsule.cap
     Check The Update Screen For The Correct UX
 
@@ -345,24 +347,40 @@ Perform Capsule Update And Return Status
     RETURN    ${logs}    ${version_changed}
 
 Check The Update Screen For The Correct UX
+    [Arguments]    ${pre}=${FALSE}
     VAR    ${message}=
-    ...    Please check the platform screen now, and verify that the UX is the
-    ...    \ same as expected in the docs. Most importantly, the progress bar
-    ...    \ should be exactly the same width regardless of whether the default
-    ...    \ Dasharo logo or a custom one is set. See the screenshot at
-    ...    \ https://docs.dasharo.com/guides/capsule-update for reference.
-    ...    separator=${EMPTY}
+    ...    Verify that the UX is the
+    ...    same as expected in the docs. Most importantly, the progress bar
+    ...    should be exactly the same width regardless of whether the default
+    ...    Dasharo logo or a custom one is set. See the screenshot at
+    ...    https://docs.dasharo.com/guides/capsule-update for reference.
+    ...    separator=\n
+    IF    ${pre}
+        VAR    ${message}=
+        ...    A capsule update will be performed after choosing PASS.
+        ...    Observe the screen and verify the following:
+        ...    ${message}
+        ...    separator=\n
+    END
     Execute Manual Step    ${message}
 
 Check The Update Screen For BtG Error Message
+    [Arguments]    ${pre}=${FALSE}
     VAR    ${message}=
-    ...    Please check the platform screen now, verify that the orange BtG
-    ...    \ error message popup screen appears on the screen. Ensure that the
-    ...    \ update abort reason and the fused OEM RK hash are printed, and that
-    ...    \ the popup fits on the screen and is readable. See the screenshot at
-    ...    \ https://docs.dasharo.com/guides/capsule-update#troubleshooting for
-    ...    \ reference.
-    ...    separator=${EMPTY}
+    ...    Verify that the orange BtG
+    ...    error message popup screen appears on the screen. Ensure that the
+    ...    update abort reason and the fused OEM RK hash are printed, and that
+    ...    the popup fits on the screen and is readable. See the screenshot at
+    ...    https://docs.dasharo.com/guides/capsule-update#troubleshooting for
+    ...    reference.
+    ...    separator=\n
+    IF    ${pre}
+        VAR    ${message}=
+        ...    A capsule update will be performed after choosing PASS.
+        ...    Observe the screen and verify the following:
+        ...    ${message}
+        ...    separator=\n
+    END
     Execute Manual Step    ${message}
 
 Get Key To Press
@@ -436,7 +454,7 @@ Copy Capsule Files To Shell Workspace
     END
 
 Perform Capsule Update
-    [Arguments]    ${capsule_file}    ${use_uefi_shell}=${True}
+    [Arguments]    ${capsule_file}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
     VAR    ${capsule_fs_path}=    ${capsule_file}
