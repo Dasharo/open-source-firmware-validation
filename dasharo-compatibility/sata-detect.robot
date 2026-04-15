@@ -89,6 +89,7 @@ SAT001.401 SATA support in OS (ESXi)
 SAT001.301 SATA support in OS (Windows)
     [Documentation]    This test aims to verify that SATA is detected from Windows
     ...    by using powershell.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SAT001.301 not supported
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${SATA_SUPPORT}

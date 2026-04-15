@@ -139,7 +139,7 @@ CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
 
 CUP170.201 Verifying UUID (Ubuntu)
     [Documentation]    Check if UUID didn't change after Capsule Update.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP170.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP170.201 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User
@@ -155,7 +155,7 @@ CUP170.201 Verifying UUID (Ubuntu)
 
 CUP170.301 Verifying UUID (Windows)
     [Documentation]    Check if UUID didn't change after Capsule Update.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP170.301 not supported
 
     Power On
     Boot And Login To OS    ${ENV_ID_WINDOWS}
@@ -177,7 +177,7 @@ CUP170.301 Verifying UUID (Windows)
 
 CUP180.201 Verifying Serial Number (Ubuntu)
     [Documentation]    Check if serial number didn't change after Capsule Update.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP180.201 not supported
     ${tmp}=    Get Variable Value    $UPDATED_SERIAL
     IF    $tmp is None
         Power On
@@ -193,7 +193,7 @@ CUP180.201 Verifying Serial Number (Ubuntu)
 
 CUP180.301 Verifying Serial Number (Windows)
     [Documentation]    Check if serial number didn't change after Capsule Update.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.002 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CUP180.301 not supported
     ${tmp}=    Get Variable Value    $WIN_UPDATED_SERIAL
     IF    $tmp is None
         Power On
@@ -208,8 +208,8 @@ CUP180.301 Verifying Serial Number (Windows)
 
 CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
-    Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.001 not supported
+    Skip If    not ${CUSTOM_LOGO_SUPPORT}    CUP190.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CUP190.201 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_UBUNTU}
     Switch To Root User

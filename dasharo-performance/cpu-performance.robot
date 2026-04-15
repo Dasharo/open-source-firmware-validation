@@ -19,7 +19,7 @@ ${RUNS_AMOUNT}=     3
 CPP001.201 Single Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test single threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power On
@@ -32,7 +32,7 @@ CPP002.201 Multi Threaded CPU Benchmark (Ubuntu) (AC)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while connected to power supply.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP002.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${AC_CONNECTED}    The platform is not connected to AC
     Power On
@@ -44,7 +44,7 @@ CPP002.201 Multi Threaded CPU Benchmark (Ubuntu) (AC)
 CPP003.201 Single Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test single threaded performance using phoronix
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP003.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery is not present
     Skip If    ${AC_CONNECTED}    The platform is not connected to AC
@@ -58,7 +58,7 @@ CPP003.201 Single Threaded CPU Benchmark (Ubuntu) (Battery)
 CPP004.201 Multi Threaded CPU Benchmark (Ubuntu) (Battery)
     [Documentation]    Test multi threaded performance using phoronix
     ...    test suite, for Ubuntu, while powered by inbuilt battery.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP001.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPP004.201 not supported
     Skip If    not ${LAPTOP_PLATFORM}    The Platform is not a Laptop
     Skip If    not ${BATTERY_PRESENT}    Battery not present
     Skip If    ${AC_CONNECTED}    AC connected

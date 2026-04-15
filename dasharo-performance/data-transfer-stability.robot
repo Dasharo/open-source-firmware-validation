@@ -22,8 +22,6 @@ Suite Teardown      Run Keywords
 ...                     AND
 ...                     Log Out And Close Connection
 
-Default Tags        semi-auto
-
 
 *** Variables ***
 ${USB_MOUNT_POINT}=     /mnt/usb_test
@@ -33,8 +31,9 @@ ${USB_MOUNT_POINT}=     /mnt/usb_test
 UTS001.201 USB Stability Under 400GB Transfer (Ubuntu)
     [Documentation]    Verify the system remains stable and responsive while copying ~200GB
     ...    of data from a USB device to the Ubuntu system. This test is focused on detecting freezes or system hangs.
+    [Tags]    semiauto
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    USB001.101 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UTS001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux

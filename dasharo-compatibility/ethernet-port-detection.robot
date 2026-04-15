@@ -55,15 +55,15 @@ ETH001.401 All expected NET controllers detected (ESXi)
 ETH001.205 All Expected NET Controllers Detected (XCP-NG)
     [Documentation]    This test verifies that all expected onboard or add-in
     ...    Ethernet network controllers are correctly detected in XCP-NG OS.
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH001.203 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH001.203 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH001.205 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH001.205 not supported
     All Expected NET Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_NET_CONTROLLERS}
 
 ETH002.205 All Expected SFP Controllers Detected (XCP-NG)
     [Documentation]    This test verifies that all expected onboard SFP network
     ...    controllers are correctly detected by the XCP-NG OS.
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH002.203 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH002.203 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    ETH002.205 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    ETH002.205 not supported
     All Expected SFP Controllers Detected    ${ENV_ID_XCP_NG}    ${DEF_EXPECTED_NET_CONTROLLERS}
 
 ETH002.401 All Expected SFP Controllers Detected (ESXi)

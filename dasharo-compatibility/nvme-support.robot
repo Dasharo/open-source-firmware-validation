@@ -61,7 +61,7 @@ NVM001.202 NVMe support in OS (Fedora)
 NVM001.205 NVMe support in OS (XCP-NG)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    NVM001.202 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    NVM001.205 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_XCP_NG}
     ${out}=    List Devices In Linux    pci
@@ -93,7 +93,7 @@ NVM001.401 NVMe support in OS (ESXi)
 NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${NVME_X2_SLOT_SUPPORT}
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM002.201 not supported
     NVMe Slot Change Support In OS    ${ENV_ID_UBUNTU}
 
 

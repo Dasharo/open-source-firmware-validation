@@ -63,7 +63,7 @@ CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU002.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    CPU002.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -139,7 +139,7 @@ CPU001.202 CPU works (Fedora)
 CPU002.202 CPU cache enabled (Fedora)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU001.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    CPU002.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
@@ -255,7 +255,7 @@ CPU002.205 CPU cache enabled (XCP-NG)
     [Documentation]    Check whether all declared for the DUT cache levels
     ...    are enabled.
     Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    CPU002.205 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU002.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    CPU002.205 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_XCP_NG}
     CPU Cache Enabled Linux

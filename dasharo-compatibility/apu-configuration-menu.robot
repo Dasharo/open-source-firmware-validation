@@ -29,6 +29,7 @@ Default Tags        automated
 APU001.001 Check if apu2 watchdog option is available
     [Documentation]    Check if the watchdog timer can be enabled in the apu2
     ...    configuration submenu.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -37,6 +38,7 @@ APU001.001 Check if apu2 watchdog option is available
 APU002.001 Enable apu2 watchdog
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
     ...    that it resets the platform.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -51,6 +53,7 @@ APU002.001 Enable apu2 watchdog
 APU003.001 Disable apu2 watchdog
     [Documentation]    Disable the watchdog after enabling it to verify it does
     ...    not reset the platform anymore.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU003.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -71,6 +74,7 @@ APU003.001 Disable apu2 watchdog
 APU004.001 Change apu2 watchdog timeout
     [Documentation]    Enable apu2 watchdog with a higher timeout than default
     ...    and verify that it resets the platform.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU004.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -97,6 +101,9 @@ APU004.001 Change apu2 watchdog timeout
 
 APU005.001 Check if disabling CPB decreases performance
     [Documentation]    This Test Checks Whether Performance Changes With Core Performance Boost Disabled
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU005.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU005.001 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU005.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
@@ -126,6 +133,9 @@ APU005.001 Check if disabling CPB decreases performance
 
 APU006.001 Disabling Enable PCIe power management features disables ASPM
     [Documentation]    Checks whether disabling PCIe power management features disables ASPM
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU006.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU006.001 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU006.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
@@ -141,6 +151,9 @@ APU006.001 Disabling Enable PCIe power management features disables ASPM
 
 APU006.002 Enabling Enable PCIe power management features enables ASPM
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU006.002 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU006.002 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU006.002 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration

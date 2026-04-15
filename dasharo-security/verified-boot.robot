@@ -120,6 +120,8 @@ VBO010.001 Recovery boot popup confirmation (firmware)
     [Documentation]    Check whether the functionality of confirming the popup:
     ...    If we press Enter, we should immediately move to the next
     ...    stages of booting.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    VBO010.001 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    VBO010.001 not supported
     Skip If    not ${VERIFIED_BOOT_POPUP_SUPPORT}    VBO010.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    VBO010.001 not supported
     Read From Terminal Until    Press ENTER key to continue

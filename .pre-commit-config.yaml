@@ -14,78 +14,78 @@ ci:
   skip: [shellcheck]
 
 repos:
-  # - repo: https://github.com/pre-commit/pre-commit-hooks
-  #   rev: v5.0.0
-  #   hooks:
-  #     - id: check-added-large-files
-  #     - id: check-merge-conflict
-  #     - id: check-symlinks
-  #     - id: detect-private-key
-  #     - id: end-of-file-fixer
-  #     - id: trailing-whitespace
-  #     - id: mixed-line-ending
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
 
-  # - repo: https://github.com/talos-systems/conform
-  #   rev: v0.1.0-alpha.30
-  #   hooks:
-  #     - id: conform
-  #       stages:
-  #         - commit-msg
+  - repo: https://github.com/talos-systems/conform
+    rev: v0.1.0-alpha.30
+    hooks:
+      - id: conform
+        stages:
+          - commit-msg
 
-  # - repo: https://github.com/codespell-project/codespell
-  #   rev: v2.4.1
-  #   hooks:
-  #     - id: codespell
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
 
-  # - repo: https://github.com/igorshubovych/markdownlint-cli
-  #   rev: v0.45.0
-  #   hooks:
-  #     - id: markdownlint
-  #     - id: markdownlint-fix
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.45.0
+    hooks:
+      - id: markdownlint
+      - id: markdownlint-fix
 
-  # - repo: https://github.com/koalaman/shellcheck-precommit
-  #   rev: v0.10.0
-  #   hooks:
-  #     - id: shellcheck
-  #       exclude: ^scripts/freebsd/
-  #       args: ["--severity=warning"]
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+        exclude: ^scripts/freebsd/
+        args: ["--severity=warning"]
 
-  # - repo: https://github.com/pycqa/isort
-  #   rev: 6.0.1
-  #   hooks:
-  #     - id: isort
-  #       name: isort (python)
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        name: isort (python)
 
-  # - repo: https://github.com/psf/black
-  #   rev: 25.1.0
-  #   hooks:
-  #     - id: black
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
 
-  # - repo: https://github.com/MarketSquare/robotframework-robocop
-  #   rev: v6.5.0
-  #   hooks:
-  #     - id: robocop
-  #       additional_dependencies:
-  #         - typing_extensions
-  #     - id: robocop-format
-  #       additional_dependencies:
-  #         - typing_extensions
+  - repo: https://github.com/MarketSquare/robotframework-robocop
+    rev: v6.5.0
+    hooks:
+      - id: robocop
+        additional_dependencies:
+          - typing_extensions
+      - id: robocop-format
+        additional_dependencies:
+          - typing_extensions
 
-  # - repo: https://github.com/fsfe/reuse-tool
-  #   rev: v5.0.2
-  #   hooks:
-  #     - id: reuse-lint-file
-  #       exclude: ^dts/profiles
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v5.0.2
+    hooks:
+      - id: reuse-lint-file
+        exclude: ^dts/profiles
 
   - repo: local
     hooks:
-      # - id: platform-configs-var-check
-      #   name: platform-configs
-      #   description: Check for unused variables in platform-configs
-      #   language: script
-      #   entry: ./scripts/check-unused-variables.sh
-      #   args: [ "-f" ]
-      #   files: 'platform-configs/.*\.robot$'
+      - id: platform-configs-var-check
+        name: platform-configs
+        description: Check for unused variables in platform-configs
+        language: script
+        entry: ./scripts/check-unused-variables.sh
+        args: [ "-f" ]
+        files: 'platform-configs/.*\.robot$'
 
       - id: test-ids-check
         name: test-ids-check

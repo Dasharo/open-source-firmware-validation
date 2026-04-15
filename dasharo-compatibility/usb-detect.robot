@@ -74,6 +74,8 @@ UDT001.002 USB detection after warmboot
 UDT001.003 USB detection after system reboot
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the system reboot (reboot performing by relevant command).
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UDT001.003 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UDT001.003 not supported
     VAR    ${failed_detection}=    0
 
     Power On

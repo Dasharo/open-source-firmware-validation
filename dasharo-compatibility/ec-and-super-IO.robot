@@ -43,6 +43,7 @@ ECR004.001 Keyboard (standard keypad) in firmware
 ECR023.001 EC sync update with power adapter connected works correctly
     [Documentation]    This test aims to verify whether coreboot update
     ...    will also update EC firmware when power adapter is connected.
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR023.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR023.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR023.001 not supported
@@ -96,6 +97,7 @@ ECR024.001 EC sync doesn't update with power adapter disconnected
     [Documentation]    This test aims to verify whether coreboot update
     ...    will display information to connect power adapter when it's
     ...    disconnected
+    [Tags]    semiauto
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR024.001 not supported
     Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR024.001 not supported
     Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR024.001 not supported

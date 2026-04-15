@@ -108,7 +108,7 @@ SUD006.201 USB devices detection after suspension (Ubuntu) (S3)
 SUD002.202 USB devices detection after warm boot (Fedora)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after a warm boot.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD002.201 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD002.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux

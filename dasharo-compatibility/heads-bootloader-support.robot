@@ -94,7 +94,7 @@ HDS001.001 Install Heads
 HDS002.001 Boot into Heads
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Heads bootloader
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS002.001 not supported
     Power On
     ${output}=    Detect Heads Main Menu
     ${totp_dut}=    Get Regexp Matches    ${output}    TOTP: (......)    1

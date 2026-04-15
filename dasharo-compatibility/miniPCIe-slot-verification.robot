@@ -91,7 +91,7 @@ MWL004.202 LTE card detection (Fedora)
 MWL001.301 Wireless card detection (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    WLE001.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MWL001.301 not supported
     Power On
     Boot And Login To Windows
     ${out}=    Execute Command In Terminal    Get-PnpDevice -PresentOnly | Select-String -Pattern "Wi-Fi"
@@ -101,7 +101,7 @@ MWL001.301 Wireless card detection (Windows)
 MWL002.301 Wi-Fi scanning (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MLW002.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MWL002.301 not supported
     Power On
     Boot And Login To Windows
     ${out}=    Execute Command In Terminal    netsh wlan show network
@@ -112,7 +112,7 @@ MWL003.301 Bluetooth scanning (Windows)
     [Documentation]    This test aims to verify that the Bluetooth functionality of card is initialized
     ...    correctly and can be used from within the operating system.
     [Tags]    semiauto
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MLW002.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    MWL003.301 not supported
     Execute Manual Step    Power on the DUT.
     Execute Manual Step    Boot into the system.
     Execute Manual Step    Log into the system by using the proper login and password.

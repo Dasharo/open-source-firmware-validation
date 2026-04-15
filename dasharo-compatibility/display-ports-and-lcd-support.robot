@@ -39,15 +39,15 @@ DSP001.202 Internal display in OS (Fedora)
     ...    Ubuntu.
 
     Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.202 not supported
-    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP003.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in "${TESTED_LINUX_DISTROS}"    DSP001.202 not supported
     Internal Display In OS    ${ENV_ID_FEDORA}
 
 DSP001.301 Internal display in OS (Windows)
     [Documentation]    Check whether an internal display is visible in
     ...    Windows OS.
 
-    Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.002 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP001.002 not supported
+    Skip If    not ${INTERNAL_LCD_DISPLAY_SUPPORT}    DSP001.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    DSP001.301 not supported
     Power On
     Boot And Login To Windows
     Check Internal LCD Windows
@@ -99,8 +99,8 @@ DSP002.205 External HDMI display in OS (XCP-NG)
     ...    XCP-NG OS. An external HDMI display must be provided in
     ...    the platform config.
     [Tags]    semiauto
-    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.203 not supported
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    DSP002.203 not supported
+    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.205 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    DSP002.205 not supported
     Pause Execution
     ...    This is a manual test to verify HDMI output on XCP-NG.
     Execute Manual Step    [1/4] Connect an external display to the DUT via HDMI
@@ -115,7 +115,7 @@ DSP003.201 External DP display in OS (Ubuntu)
 
     Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DSP003.201 supported
-    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP001.201 not supported
+    Skip If    "${ENV_ID_UBUNTU}" not in "${TESTED_LINUX_DISTROS}"    DSP003.201 not supported
     External DP Display In OS    ${ENV_ID_UBUNTU}
 
 DSP003.202 External DP display in OS (Fedora)
@@ -155,8 +155,8 @@ DSP003.205 External DP display in OS (XCP-NG)
     ...    XCP-NG OS. An external Display Port must be provided in
     ...    the platform config.
     [Tags]    semiauto
-    Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.203 not supported
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    DSP003.203 not supported
+    Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.205 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    DSP003.205 not supported
     Pause Execution
     ...    This is a manual test to verify DisplayPort output on XCP-NG.
     Execute Manual Step    [1/4] Connect an external display to the DUT via DisplayPort

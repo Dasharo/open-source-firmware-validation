@@ -26,8 +26,8 @@ SMW001.201 Wi-fi connection after cold boot (Ubuntu)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a cold boot.
     [Tags]    automated    semiauto
-    Skip If    not ${M2_WIFI_SUPPORT}    SMW001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW001.001 not supported
+    Skip If    not ${M2_WIFI_SUPPORT}    SMW001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW001.201 not supported
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     Power On

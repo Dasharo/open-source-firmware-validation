@@ -30,6 +30,8 @@ Default Tags        automated
 HWP001.001 Hardware flash write protection support
     [Documentation]    Check whether the DUT support hardware write protection
     ...    mechanism.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HWP001.001 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    HWP001.001 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -39,6 +41,8 @@ HWP001.001 Hardware flash write protection support
 HWP002.001 Hardware flash write protection enable / disable
     [Documentation]    Check whether there is a possibility to set and erase
     ...    hardware write protection on the DUT.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HWP002.001 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    HWP002.001 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux

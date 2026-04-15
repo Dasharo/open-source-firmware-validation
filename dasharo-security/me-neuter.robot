@@ -82,7 +82,7 @@ MNE006.201 Check Intel ME version (Ubuntu)
     ...    be read on the Operating System level. The read version should be
     ...    the same as in the release notes.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    MNE006.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    MNE004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    MNE006.201 not supported
     Check Intel ME Version    ${ENV_ID_UBUNTU}
 
 MNE002.202 Intel ME mode option Enabled works correctly (Fedora)
@@ -123,7 +123,7 @@ MNE006.202 Check Intel ME version (Fedora)
     [Documentation]    This test aims to verify that the Intel ME version might
     ...    be read on the Operating System level. The read version should be
     ...    the same as in the release notes.
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    MNE004.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    MNE006.202 not supported
     Check Intel ME Version    ${ENV_ID_FEDORA}
 
 

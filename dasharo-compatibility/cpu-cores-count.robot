@@ -53,6 +53,7 @@ CCC002.201 Check core count with HT enabled (Ubuntu)
     Should Contain    ${out}    ${DEF_THREADS_PER_CORE}
 
 CCC003.201 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC003.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -71,6 +72,7 @@ CCC003.201 Check core count (HT Enabled, P: All, E: 0) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    0
 
 CCC004.201 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -89,6 +91,7 @@ CCC004.201 Check core count (HT Enabled, P: All, E: All) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    ${CPU_E_CORES_MAX}
 
 CCC005.201 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC005.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -107,6 +110,7 @@ CCC005.201 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    0
 
 CCC006.201 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC006.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -125,6 +129,7 @@ CCC006.201 Check core count (HT Disabled, P: All, E: 0) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    0
 
 CCC007.201 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC007.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -143,6 +148,7 @@ CCC007.201 Check core count (HT Enabled, P: 1, E: A) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    ${CPU_E_CORES_MAX}
 
 CCC008.201 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC008.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -161,6 +167,7 @@ CCC008.201 Check core count (HT Disabled, P: 1, E: A) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    ${CPU_E_CORES_MAX}
 
 CCC009.201 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC009.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -181,6 +188,7 @@ CCC009.201 Check core count (HT Enabled, P: 1, E: 1) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    1
 
 CCC010.201 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC010.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -200,6 +208,7 @@ CCC010.201 Check core count (HT Disabled, P: 1, E: 1) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    1
 
 CCC011.201 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC011.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On
@@ -219,6 +228,7 @@ CCC011.201 Check core count (HT Enabled, P: A, E: 1) (Ubuntu)
     Should Be Equal As Integers    ${e_cores}    1
 
 CCC012.201 Check core count (HT Disabled, P: A, E: 1) (Ubuntu)
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CCC012.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Depends On    ${INTEL_HYBRID_ARCH_SUPPORT}
     Power On

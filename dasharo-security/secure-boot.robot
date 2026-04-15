@@ -142,8 +142,8 @@ SBO002.301 UEFI Secure Boot (Windows)
 SBO003.101 Attempt to boot file with the correct key from Shell (EDK2 UEFI)
     [Documentation]    This test verifies that Secure Boot allows booting a
     ...    signed file with a correct key.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO004.101 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO004.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO003.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO003.101 not supported
     Power On
     ${sb_menu}=    Enter Secure Boot Menu And Return Construction
     Enable Secure Boot    ${sb_menu}

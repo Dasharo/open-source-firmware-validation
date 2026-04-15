@@ -18,6 +18,7 @@ Default Tags        automated
 *** Test Cases ***
 SOR001.001 Check that all options in OptionROMs are available
     [Documentation]    This test checks if all OptionROM options are available
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SOR001.001 not supported
     Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}    SOR001.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

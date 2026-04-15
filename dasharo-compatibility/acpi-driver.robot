@@ -48,8 +48,7 @@ Default Tags        automated
 *** Test Cases ***
 ACPI001.201 ACPI driver test (Ubuntu)
     [Documentation]    Tests if ACPI drivers can be recognised
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ACP001.001 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    ACPI001.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -79,7 +78,7 @@ ACPI001.201 ACPI driver test (Ubuntu)
 
 ACPI001.202 ACPI driver test (Fedora)
     [Documentation]    Tests if ACPI drivers can be recognised
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    ACP001.202 not supported
+    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    ACPI001.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux

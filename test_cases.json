@@ -3629,49 +3629,49 @@
     "doc": {
       "_id": "HDS011.001",
       "name": "Add GPG key to running BIOS and reflash",
-      "module": "Dasharo Security"
+      "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "HDS012.001",
       "name": "Add GPG key to standalone BIOS image and flash",
-      "module": "Dasharo Security"
+      "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "HDS013.001",
       "name": "Replace GPG key(s) in the current ROM and reflash",
-      "module": "Dasharo Security"
+      "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "HDS014.001",
       "name": "List GPG keys in your keyring",
-      "module": "Dasharo Security"
+      "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "HDS015.001",
       "name": "Export public GPG key to USB drive",
-      "module": "Dasharo Security"
+      "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "HDS016.001",
       "name": "Generate GPG keys manually on a USB security token",
-      "module": "Dasharo Security"
+      "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "HDS017.001",
       "name": "Clear GPG key(s) and reset all user settings",
-      "module": "Dasharo Security"
+      "module": "Dasharo Compatibility"
     }
   },
   {
@@ -3795,57 +3795,57 @@
   },
   {
     "doc": {
-      "_id": "LBT001.001",
-      "name": "Debian Stable installation on USB storage",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "LBT001.002",
-      "name": "Boot Debian from USB",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "LBT002.001",
-      "name": "Ubuntu LTS installation on USB storage",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "LBT002.002",
-      "name": "Boot Ubuntu from USB",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "LBT003.208",
-      "name": "Debian stable installation on Hard Disk (Debian)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "LBT003.208",
-      "name": "Boot Debian from Hard Disk (Debian)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "LBT004.201",
+      "_id": "LBT001.201",
       "name": "Ubuntu LTS installation on Hard Disk (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "LBT005.201",
-      "name": "Boot Ubuntu From Hard Disk (Ubuntu)",
+      "_id": "LBT001.208",
+      "name": "Debian stable installation on Hard Disk (Debian)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBT002.201",
+      "name": "Boot Ubuntu LTS From Hard Disk (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBT002.208",
+      "name": "Boot Debian from Hard Disk (Debian)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBT003.201",
+      "name": "Ubuntu LTS installation on USB storage (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBT003.208",
+      "name": "Debian Stable installation on USB storage (Debian)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBT004.201",
+      "name": "Boot Ubuntu LTS from USB (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBT004.208",
+      "name": "Boot Debian from USB (Debian)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5806,14 +5806,14 @@
     "doc": {
       "_id": "STB001.201",
       "name": "Verify if no reboot occurs in the OS (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "STB001.202",
       "name": "Verify if no reboot occurs in the OS (Fedora)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
@@ -5827,21 +5827,21 @@
     "doc": {
       "_id": "STB001.301",
       "name": "Verify if no reboot occurs in the OS (Windows)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "STB002.201",
       "name": "Verify if no unexpected boot errors appear in Linux logs (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "STB002.202",
       "name": "Verify if no unexpected boot errors appear in Linux logs (Fedora)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
@@ -6453,7 +6453,6 @@
       "module": "Dasharo Security"
     }
   },
-
   {
     "doc": {
       "_id": "TPMCMD014.201",
@@ -6482,9 +6481,6 @@
       "module": "Dasharo Security"
     }
   },
-
-
-
   {
     "doc": {
       "_id": "UBT001.001",

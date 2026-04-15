@@ -243,7 +243,7 @@ RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD013.001 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD013.001 not supported
     Check If Platform Sleep Type Can Be Selected
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    RTD013.201 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    RTD013.001 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -282,7 +282,7 @@ RTD015.001 F9 reset is effective across DSF
     [Documentation]    Check whether pressing F9 in one menu resets changes
     ...    made in another menu within Dasharo System Features
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD015.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}
     Power On
@@ -305,7 +305,7 @@ RTD016.001 F9 reset is globally effective
     [Documentation]    Check whether pressing F9 in a standard menu resets
     ...    changes made in a DSF menu.
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD016.001 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -327,7 +327,7 @@ RTD016.002 F9 reset is globally effective
     [Documentation]    Check whether pressing F9 in a DSF menu resets
     ...    changes made in a standard menu.
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD016.002 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

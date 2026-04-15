@@ -44,7 +44,7 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_ZARHUS: "ZarhusOS",
     ENV_ID_OPENWRT: "OpenWrt",
     ENV_ID_QUBES: "Qubes OS",
-    ENV_ID_DEBIAN: "Debian"
+    ENV_ID_DEBIAN: "Debian",
 }
 
 ENV_ID_FRIENDLY_NAMES = {

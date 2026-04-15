@@ -111,7 +111,7 @@ WDT005.201 Watchdog is detected by OS (Ubuntu)
     [Documentation]    Boot into an OS with the watchdog enabled and verify
     ...    that the OS detects and stops the watchdog.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT005.201 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -141,7 +141,7 @@ WTD006.201 Watchdog resets platform on kernel crash (Ubuntu)
     [Documentation]    Boot into OS with the watchdog enabled, crash the kernel
     ...    and verify that the watchdog resets the machine.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WTD006.201 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

@@ -67,7 +67,7 @@ NVI001.202 NVIDIA Graphics detect (Fedora)
 NVI002.202 NVIDIA Graphics power management (Fedora)
     [Documentation]    Check whether the NVIDIA graphics power management is
     ...    functional and the card powers on only while it's used.
-    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    NVI001.202 not supported
+    Skip If    "${ENV_ID_FEDORA}" not in ${TESTED_LINUX_DISTROS}    NVI002.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux

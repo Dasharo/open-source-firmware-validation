@@ -38,6 +38,7 @@ SMM001.201 SMM BIOS write protection enabling (Ubuntu)
     ...    Dasharo Security Options and, if the mechanism works correctly -
     ...    during the attempt of firmware flashing information about the
     ...    SMM protection is returned.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SMM001.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Power On
@@ -62,6 +63,7 @@ SMM002.201 SMM BIOS write protection disabling (Ubuntu)
     ...    Dasharo Security Options and, if the mechanism works correctly -
     ...    during the attempt of firmware flashing information about the
     ...    SMM protection is returned.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SMM002.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Power On

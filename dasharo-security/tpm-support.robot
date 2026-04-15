@@ -74,7 +74,7 @@ TPM002.201 Verify TPM Version (Ubuntu)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the operating system.
     [Tags]    automated    minimal-regression
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM002.201 not supported
     Prepare TPM Test On Linux    ${ENV_ID_UBUNTU}
     Validate Expected TPM Version Via Sysfs
@@ -145,9 +145,9 @@ TPM003.301 Check TPM Physical Presence Interface (Windows)
 TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is working properly in the firmware by changing active TPM PCR banks.
-    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM003.101 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.101 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM003.101 not supported
+    Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM011.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM011.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM011.101 not supported
     Power On
     Enter The TCG Configuration Menu
     ${sha1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
@@ -181,8 +181,8 @@ TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
 
 TPM012.201 Check if the ChangeEPS works (Ubuntu)
     [Documentation]    Check if the `TPM2 ChangeEPS` setup menu option works properly.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM003.101 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM003.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM012.201 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM012.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
@@ -281,8 +281,8 @@ TPM013.301 TPM PPI Prompt (Windows)
     ...    and that the requested operation is performed only if the user
     ...    accepts it.
     Skip If    not ${TPM_SUPPORTED_VERSION} == 2    TPM013.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM013.201 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM013.201 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    TPM013.301 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM013.301 not supported
     Power On
     Boot And Login To Windows
 
@@ -315,7 +315,7 @@ TPM014.101 TPM single bank detection (EDK2 UEFI)
     ...    PCR bank, activates it, then reboots.
     ...    If platform supports only single PCR bank, firmware pop-up is handled.
     ...    After reboot, state of PCR banks in firmware is verified.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM003.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM014.101 not supported
     Variable Should Exist    ${TPM_MULTIPLE_BANK_SUPPORT}
     Power On
     Enter The TCG Configuration Menu
@@ -363,7 +363,7 @@ TPM014.101 TPM single bank detection (EDK2 UEFI)
 TPM001.205 TPM Support (XCP-NG)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the XCP-NG OS.
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM001.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM001.205 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_XCP_NG}
     Verify Presence Of TPM Via Sysfs
@@ -373,7 +373,7 @@ TPM002.205 Verify TPM version (XCP-NG)
     [Documentation]    This test aims to verify that the TPM version is
     ...    correctly recognized by the XCP-NG OS.
     [Tags]    automated    minimal-regression
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM002.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM002.205 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_XCP_NG}
     Verify Presence Of TPM Via Sysfs
@@ -382,7 +382,7 @@ TPM002.205 Verify TPM version (XCP-NG)
 TPM003.205 Check TPM Physical Presence Interface (XCP-NG)
     [Documentation]    This test aims to verify that the TPM Physical Presence
     ...    Interface is correctly recognized by the XCP-NG OS.
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM003.203 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    TPM003.205 not supported
     Power On
     Boot And Login To OS    ${ENV_ID_XCP_NG}
     Verify Presence Of TPM Via Sysfs

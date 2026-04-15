@@ -18,7 +18,7 @@ ${ITERATIONS}=      5
 FBT001.201 Fast Boot Reduces Boot Time (Ubuntu)
     [Documentation]    Check whether the DUT boot time is reduced with
     ...    fast boot enabled.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PLB001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FBT001.201 not supported
     Log To Console    \nMeasuring boot time with Fast Boot\n
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

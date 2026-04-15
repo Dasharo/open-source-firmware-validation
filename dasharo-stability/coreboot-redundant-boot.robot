@@ -24,7 +24,7 @@ ${NVRAM_ATTEMPT_B_FLAG_CLR}=    Disable
 CRB001.201 Boot Slot A After Clearing CMOS (Ubuntu)
     [Documentation]    Check if clearing the CMOS makes the DUT boot from slot A
     ...    which should contain a recovery firmware
-    [Tags]    automated
+    [Tags]    automated    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
 
     IF    ${DUT_HAS_CMOS_RESET}

@@ -30,7 +30,7 @@ ${TEST_BOOT_ENTRY_NAME}=    dasharo-compatibility_efibootmgr-custom-boot-entry
 EBM001.201 Network Boot enable (Ubuntu)
     [Documentation]    Test if enabling network boot entry works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM001.001 not supported
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM001.201 not supported
 
     Set UEFI Option    NetworkBoot    ${FALSE}
 
@@ -49,7 +49,7 @@ EBM001.201 Network Boot enable (Ubuntu)
 EBM002.201 Network Boot disable (Ubuntu)
     [Documentation]    Test if disabling network boot entry works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM002.001 not supported
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM002.201 not supported
 
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
@@ -66,7 +66,7 @@ EBM002.201 Network Boot disable (Ubuntu)
 EBM003.201 Custom Boot Order Add (Ubuntu)
     [Documentation]    Test if adding a custom boot entry works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM003.001 not supported
+    Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM003.201 not supported
 
     Power On
 
@@ -104,7 +104,7 @@ EBM003.201 Custom Boot Order Add (Ubuntu)
 EBM004.201 Custom Boot Order Remove (Ubuntu)
     [Documentation]    Test if removing a custom boot entry works.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
-    Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM004.001 not supported
+    Skip If    not ${CUSTOM_BOOT_ORDER_SUPPORT}    EBM004.201 not supported
 
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
