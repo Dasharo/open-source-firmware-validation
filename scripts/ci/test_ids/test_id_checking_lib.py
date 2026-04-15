@@ -502,7 +502,9 @@ def fix_semiauto_tag_in_file(filepath, test_name):
         header_m = re.match(r"^(\s+\[Tags\]\s+)(.*)", tag_line)
         if header_m:
             kw_prefix = header_m.group(1)
-            existing_tags = [t for t in re.split(r"\s{2,}", header_m.group(2)) if t.strip()]
+            existing_tags = [
+                t for t in re.split(r"\s{2,}", header_m.group(2)) if t.strip()
+            ]
             new_tags = []
             semiauto_placed = False
             for tag in existing_tags:
@@ -850,9 +852,7 @@ def check_suite_sorted():
                 try:
                     suite = builder.build(filepath)
                 except Exception as e:
-                    print(
-                        f"Error building test suite from {filepath}: {e}. Skipping."
-                    )
+                    print(f"Error building test suite from {filepath}: {e}. Skipping.")
                     continue
 
                 if "ORDER_SENSITIVE" in suite.metadata:
@@ -861,9 +861,7 @@ def check_suite_sorted():
                 finder = TestCasesFinder()
                 suite.visit(finder)
                 tests = [
-                    t
-                    for t in finder.tests
-                    if cfg.TEST_CASE_ID_PATTERN.search(t.name)
+                    t for t in finder.tests if cfg.TEST_CASE_ID_PATTERN.search(t.name)
                 ]
 
                 keyed = [(t, _suite_sort_key(t)) for t in tests]

@@ -274,7 +274,9 @@ class TestSemiauto:
         assert "semiauto" in content
         assert "automated" not in content
 
-    def test_fix_preserves_other_tags_when_replacing_automated(self, tmp_path, monkeypatch):
+    def test_fix_preserves_other_tags_when_replacing_automated(
+        self, tmp_path, monkeypatch
+    ):
         robot_file = write_robot(
             tmp_path / "suite.robot",
             (
