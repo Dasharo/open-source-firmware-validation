@@ -181,14 +181,14 @@ CUP170.301 Verifying UUID (Windows)
     Boot And Login To OS    ${ENV_ID_WINDOWS}
     Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
 
-    Log To Console    \n[Before Update] ${ORIGINAL_UUID}
+    Log To Console    \n[Before Update] ${WIN_ORIGINAL_UUID}
     Log To Console    \n[After Update] ${WIN_UPDATED_UUID}
 
     # dmidecode reports `Not Settable` for all zeroes
-    IF    '${ORIGINAL_UUID}' == 'Not Settable'
+    IF    '${WIN_ORIGINAL_UUID}' == 'Not Settable'
         Should Be Equal    ${WIN_UPDATED_UUID}    00000000-0000-0000-0000-000000000000
     ELSE
-        Should Be Equal    ${ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
+        Should Be Equal    ${WIN_ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
     END
 
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
@@ -221,10 +221,10 @@ CUP180.301 Verifying Serial Number (Windows)
         Get Windows System Values    WIN_UPDATED_SERIAL    WIN_UPDATED_UUID
     END
 
-    Log To Console    \n[Before Update] ${ORIGINAL_SERIAL}
+    Log To Console    \n[Before Update] ${WIN_ORIGINAL_SERIAL}
     Log To Console    \n[After Update] ${WIN_UPDATED_SERIAL}
 
-    Should Be Equal    ${ORIGINAL_SERIAL}    ${WIN_UPDATED_SERIAL}
+    Should Be Equal    ${WIN_ORIGINAL_SERIAL}    ${WIN_UPDATED_SERIAL}
 
 CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     [Documentation]    Check if Logo didn't change after Capsule Update.
@@ -668,12 +668,11 @@ Get System Values
         Boot And Login To OS    ${ENV_ID_UBUNTU}
         Switch To Root User
         Get Ubuntu System Values    ORIGINAL_SERIAL    ORIGINAL_UUID    ORIGINAL_LOGO_SHA256
-    ELSE IF    ${TESTS_IN_WINDOWS_SUPPORT}
+    END
+    IF    ${TESTS_IN_WINDOWS_SUPPORT}
         Power On
         Boot And Login To OS    ${ENV_ID_WINDOWS}
-        Get Windows System Values    ORIGINAL_SERIAL    ORIGINAL_UUID
-    ELSE
-        Fail    No Windows nor Ubuntu support available
+        Get Windows System Values    WIN_ORIGINAL_SERIAL    WIN_ORIGINAL_UUID
     END
 
 Get Ubuntu System Values
