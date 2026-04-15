@@ -94,6 +94,8 @@ Flash Firmware
     ...    argument. Keyword fails if file size doesn't match target
     ...    chip size.
     [Arguments]    ${fw_file}
+    IF    '${FLASHING_METHOD}'=='none'    RETURN
+
     ${file_size}=    Run    ls -l ${fw_file} | awk '{print $5}'
     IF    '''${file_size}''' != '''${FLASH_SIZE}'''
         FAIL    Image size doesn't match the flash chip's size!
