@@ -18,11 +18,11 @@ Suite Setup         Run Keywords
 ...                     AND    Skip If    not ${CAPSULE_UPDATE_SUPPORT}    Capsule Update not supported
 ...                     AND    Display Preparation Instructions
 ...                     AND    Ensure Capsule Files Are Present
-...                     AND    DCU Variable Set UEFI Option In File    ${BASE_FW_FILE}    MeMode    Disabled (HAP)
 ...                     AND    Ensure BtG Testing Capsule Is Present
+...                     AND    Run Keyword If    '${FLASHING_METHOD}'!='none'    DCU Variable Set UEFI Option In File    ${BASE_FW_FILE}    MeMode    Disabled (HAP)
 ...                     AND    Prepare For ROMHOLE Persistence Test
-...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT} and '${MANUFACTURER}' != 'QEMU'    Prepare For Logo Persistence Test
-...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT} and '${MANUFACTURER}' != 'QEMU'    Flash Firmware    ${BASE_FW_FILE}
+...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
+...                     AND    Flash Firmware    ${BASE_FW_FILE}
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
 Suite Teardown      Run Keywords
@@ -653,6 +653,9 @@ Display Preparation Instructions
 
 Prepare For Logo Persistence Test
     Log To Console    PREPARE: Logo Persistence Test
+    # Cannot flash a custom logo binary to QEMU
+    IF    '${MANUFACTURER}'=='QEMU'    RETURN
+
     ${name}=    Evaluate    '${CAPSULE_UPDATE_RC0_FW_FILE}'.split("/")[-1]
 
     VAR    ${CUSTOM_LOGO_RC0_FW_FILE}=    dcu/custom_logo_${name}    scope=SUITE
